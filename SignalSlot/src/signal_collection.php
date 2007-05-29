@@ -52,15 +52,28 @@ class ezcSignalCollection
     private static $staticConnectionsHolder = NULL;
 
     /**
+     * Holds the options for this signal collection
+     *
+     * @var ezcSignalCollectionOptions
+     */
+    private $options;
+
+    /**
      * Constructs a new signal collection with the identifier $identifier.
      *
      * The identifier can be used to connect to signals statically using
      * ezcSignalStaticConnections.
      *
+     * Through the associative array options you can specify the options for this class in the
+     * format array( 'optionName' => value ). See the documentation of ezcSignalCollectionOptions
+     * for information on the available options.
+     *
      * @param string $identifier
+     * @param array $options
      */
-    public function __construct( $identifier = "default" )
+    public function __construct( $identifier = "default", array $options = array() )
     {
+        $this->options = new ezcSignalCollectionOptions( $options );
         $this->properties['identifier'] = $identifier;
         $this->signalsBlocked = false;
     }
@@ -103,6 +116,13 @@ class ezcSignalCollection
             case 'identifier':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
                 break;
+            case 'options':
+                if ( !( $value instanceof ezcSignalCollectionOptions ) )
+                {
+                    throw new ezcBaseValueException( 'options', $value, 'instanceof ezcSignalCollectionOptions' );
+                }
+                $this->options = $value;
+                break;
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
                 break;
@@ -125,11 +145,54 @@ class ezcSignalCollection
             case 'identifier':
                 return $this->properties[$name];
                 break;
-
+            case 'options':
+                return $this->options;
+                break;
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
                 break;
         }
+    }
+
+    /**
+     * Sets the options of this class.
+     *
+     * @param ezcSignalCollectionOptions|array(string=>value) $options The options to set
+     *        either as an associative array in the form array(optionName=>value) or a
+     *        ezcSignalCollectionOptions object.
+     *
+     * @throws ezcBaseSettingNotFoundException
+     *         If you tried to set a non-existent option value.
+     * @throws ezcBaseSettingValueException
+     *         If the value is not valid for the desired option.
+     * @throws ezcBaseValueException
+     *         If you submit neither an array nor an instance of
+     *         ezcSignalCollectionOptions.
+     */
+    public function setOptions( $options )
+    {
+        if ( $options instanceof ezcSignalCollectionOptions )
+        {
+            $this->options = $options;
+        }
+        else if ( is_array( $options ) )
+        {
+            $this->options = new ezcSignalCollectionOptions( $options );
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, 'array or instance of ezcSignalCollectionOptions' );
+        }
+    }
+
+    /**
+     * Returns the options for this class.
+     *
+     * @return ezcSignalCollectionOptions
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 
     /**
@@ -139,11 +202,18 @@ class ezcSignalCollection
      * Note: Emitting the signal $signal may still not call any slots if
      * the property signalsBlocked has been set.
      *
+     * @throws ezcSignalSlotException if the signals options has been set and $signal is not in the list of signals.
      * @param string
      * @return bool
      */
     public function isConnected( $signal )
     {
+        // if the the signals option is set we must check if the signal exists
+        if( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
+        {
+            throw new ezcSignalSlotException( "No such signal {$signal}" );
+        }
+
         // static connections
         if ( self::$staticConnectionsHolder == NULL ) // custom static connections class
         {
@@ -176,12 +246,19 @@ class ezcSignalCollection
      *
      * Any additional parameters are sent as parameters to the slot.
      *
+     * @throws ezcSignalSlotException if the signals options has been set and $signal is not in the list of signals.
      * @param string $signal
      * @param ... signal parameters
      * @return void
      */
     public function emit( $signal )
     {
+        // if the the signals option is set we must check if the signal exists
+        if( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
+        {
+            throw new ezcSignalSlotException( "No such signal {$signal}" );
+        }
+
         if ( $this->signalsBlocked )
         {
             return;
@@ -282,6 +359,7 @@ class ezcSignalCollection
      * We reccommend avoiding excessive usage of the $priority parameter
      * since it makes it much harder to track how your program works.
      *
+     * @throws ezcSignalSlotException if the signals options has been set and $signal is not in the list of signals.
      * @param string $signal
      * @param callback $slot
      * @param int priority
@@ -289,6 +367,12 @@ class ezcSignalCollection
      */
     public function connect( $signal, $slot, $priority = 1000 )
     {
+        // if the the signals option is set we must check if the signal exists
+        if( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
+        {
+            throw new ezcSignalSlotException( "No such signal {$signal}" );
+        }
+
         if ( $priority === 1000 ) // default
         {
             $this->defaultConnections[$signal][] = $slot;
@@ -308,6 +392,7 @@ class ezcSignalCollection
      *
      * If no priority is given it will disconnect the matching slot with the lowest priority.
      *
+     * @throws ezcSignalSlotException if the signals options has been set and $signal is not in the list of signals.
      * @param string $signal
      * @param callback $slot
      * @param int priority
@@ -315,6 +400,12 @@ class ezcSignalCollection
      */
     public function disconnect( $signal, $slot, $priority = null )
     {
+        // if the the signals option is set we must check if the signal exists
+        if( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
+        {
+            throw new ezcSignalSlotException( "No such signal {$signal}" );
+        }
+
         if ( $priority === null ) // delete first found, searched from back
         {
             $priorityKeys = array();

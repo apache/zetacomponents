@@ -11,7 +11,7 @@
 require_once( "test_classes.php" );
 
 /**
- * @package PhpGenerator
+ * @package SignalSlot
  * @subpackage Tests
  * @TODO: test slots with params by reference
  * @TODO: test with invalid priority input
