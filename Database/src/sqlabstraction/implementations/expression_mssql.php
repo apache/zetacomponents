@@ -87,7 +87,8 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
      */
     public function now()
     {
-        return "GETDATE()";
+        return "CONVERT( varchar( 19 ), GETDATE(), 120 )"; //120 means that we use ODBC canonical 
+                                                           //format for date output i.e. yyyy-mm-dd hh:mi:ss(24h)
     }
 
     /**

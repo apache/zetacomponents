@@ -434,7 +434,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             case 'ezcDbHandlerMssql':
 
             default:
-                $reference = 'GETDATE()';
+                $reference = 'CONVERT( varchar( 19 ), GETDATE(), 120 )';
                 break;
         }
 
