@@ -1433,30 +1433,6 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         );
     }
 
-    public function testDrawTooLongTextException()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
-
-        try
-        {
-            $this->driver->drawTextBox(
-                'This is very long text which is not supposed to fit in the bounding box.',
-                new ezcGraphCoordinate( 10, 10 ),
-                50,
-                20,
-                ezcGraph::LEFT
-            );
-
-            $this->driver->render( $filename );
-        }
-        catch ( ezcGraphFontRenderingException $e )
-        {
-            return true;
-        }
-
-        $this->fail( 'Expected ezcGraphFontRenderingException.' );
-    }
-
     public function testSvgDriverOptionsPropertyAssumedNumericCharacterWidth()
     {
         $options = new ezcGraphSvgDriverOptions();
@@ -1812,6 +1788,130 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         $chart->render( 500, 200, $filename );
 
         $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testShortenStringFailure()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        try
+        {
+            $this->driver->drawTextBox(
+                'Test string',
+                new ezcGraphCoordinate( 10, 10 ),
+                1,
+                6,
+                ezcGraph::LEFT
+            );
+
+            $this->driver->render( $filename );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphFontRenderingException.' );
+    }
+
+    public function testShortenSingleChar()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawTextBox(
+            'Teststring foo',
+            new ezcGraphCoordinate( 10, 10 ),
+            4,
+            6,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testShortenStringFewChars()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawTextBox(
+            'Teststring foo',
+            new ezcGraphCoordinate( 10, 10 ),
+            8,
+            6,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testShortenStringMoreChars()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawTextBox(
+            'Teststring foo',
+            new ezcGraphCoordinate( 10, 10 ),
+            24,
+            6,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testShortenStringWordSplit()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawTextBox(
+            'Teststring foo',
+            new ezcGraphCoordinate( 10, 10 ),
+            40,
+            6,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testShortenStringManyWordsSplit()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawTextBox(
+            'foo bar foo bar foo bar foo bar',
+            new ezcGraphCoordinate( 10, 10 ),
+            60,
+            6,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );

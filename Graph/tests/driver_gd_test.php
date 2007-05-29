@@ -1934,7 +1934,7 @@ class ezcGraphGdDriverTest extends ezcTestImageCase
             $this->driver->drawTextBox(
                 'This is very long text which is not supposed to fit in the bounding box.',
                 new ezcGraphCoordinate( 10, 10 ),
-                50,
+                1,
                 20,
                 ezcGraph::LEFT
             );
@@ -2218,6 +2218,28 @@ class ezcGraphGdDriverTest extends ezcTestImageCase
         );
 
         $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testShortenStringMoreChars()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawTextBox(
+            'Teststring foo',
+            new ezcGraphCoordinate( 10, 10 ),
+            24,
+            6,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertImageSimilar( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',

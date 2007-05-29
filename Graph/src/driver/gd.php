@@ -426,24 +426,30 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $size = floor( ( $newsize = $size * ( $result ) ) >= $size ? $size - 1 : $newsize );
         }
 
-        if ( is_array( $result ) )
+        if ( !is_array( $result ) )
         {
-            $this->options->font->minimalUsedFont = $size;
+            if ( ( $height >= $this->options->font->minFontSize ) &&
+                 ( $this->options->autoShortenString ) )
+            {
+                $result = $this->tryFitShortenedString( $string, $position, $width, $height, $size = $this->options->font->minFontSize );
+            } 
+            else
+            {
+                throw new ezcGraphFontRenderingException( $string, $this->options->font->minFontSize, $width, $height );
+            }
+        }
 
-            $this->strings[] = array(
-                'text' => $result,
-                'position' => $position,
-                'width' => $width,
-                'height' => $height,
-                'align' => $align,
-                'font' => $this->options->font,
-                'rotation' => $rotation,
-            );
-        }
-        else
-        {
-            throw new ezcGraphFontRenderingException( $string, $this->options->font->minFontSize, $width, $height );
-        }
+        $this->options->font->minimalUsedFont = $size;
+
+        $this->strings[] = array(
+            'text' => $result,
+            'position' => $position,
+            'width' => $width,
+            'height' => $height,
+            'align' => $align,
+            'font' => $this->options->font,
+            'rotation' => $rotation,
+        );
 
         return array(
             clone $position,

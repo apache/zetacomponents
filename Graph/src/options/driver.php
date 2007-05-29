@@ -20,6 +20,10 @@
  *           Percent of font size used for line spacing
  * @property int $font
  *           Font used in the graph.
+ * @property bool $autoShortenString
+ *           Automatically shorten string if it does not fit into a box
+ * @property string $autoShortenStringPostFix
+ *           String to append to shortened strings, if there is enough space
  *
  * @package Graph
  */
@@ -41,6 +45,9 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
         $this->properties['shadeCircularArc'] = .5;
         $this->properties['font'] = new ezcGraphFontOptions();
         $this->properties['font']->color = ezcGraphColor::fromHex( '#000000' );
+
+        $this->properties['autoShortenString'] = true;
+        $this->properties['autoShortenStringPostFix'] = '..';
 
         parent::__construct( $options );
     }
@@ -105,6 +112,19 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphFontOptions' );
                 }
+                break;
+            case 'autoShortenString':
+                if ( is_bool( $propertyValue ) )
+                {
+                    $this->properties['autoShortenString'] = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'boolean' );
+                }
+                break;
+            case 'autoShortenStringPostFix':
+                $this->properties['autoShortenStringPostFix'] = (string) $propertyValue;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );

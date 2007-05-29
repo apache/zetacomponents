@@ -1274,15 +1274,15 @@ class ezcGraphFlashDriverTest extends ezcGraphTestCase
 
     public function testDrawTooLongTextException()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
 
         try
         {
             $this->driver->drawTextBox(
-                'This is very long text which is not supposed to fit in the bounding box.',
+                'Teststring foo',
                 new ezcGraphCoordinate( 10, 10 ),
-                50,
-                20,
+                1,
+                6,
                 ezcGraph::LEFT
             );
 
@@ -1294,6 +1294,26 @@ class ezcGraphFlashDriverTest extends ezcGraphTestCase
         }
 
         $this->fail( 'Expected ezcGraphFontRenderingException.' );
+    }
+
+    public function testShortenStringMoreChars()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $this->driver->drawTextBox(
+            'Teststring foo',
+            new ezcGraphCoordinate( 10, 10 ),
+            24,
+            6,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->swfCompare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
     }
 
     public function testDrawCircleRadialFill()

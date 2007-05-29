@@ -498,6 +498,108 @@ abstract class ezcGraphDriver
     }
 
     /**
+     * If it is allow to shortened the string, this method tries to extract as
+     * many chars as possible to display a decent amount of characters.
+     *
+     * If no complete token (word) does fit, the largest possible amount of 
+     * chars from the first word are taken. If the amount of chars is bigger
+     * then strlen( shortenedStringPostFix ) * 2 the last chars are replace by
+     * the postfix.
+     *
+     * If one complete word fits the box as many words are taken as possible 
+     * including a appended shortenedStringPostFix.
+     * 
+     * @param mixed $string 
+     * @param ezcGraphCoordinate $position 
+     * @param mixed $width 
+     * @param mixed $height 
+     * @param mixed $size 
+     * @access protected
+     * @return void
+     */
+    protected function tryFitShortenedString( $string, ezcGraphCoordinate $position, $width, $height, $size )
+    {
+        $tokens = preg_split( '/\s+/', $string );
+
+        // Try to fit a complete word first
+        $boundings = $this->getTextBoundings( 
+            $size, 
+            $this->options->font, 
+            reset( $tokens ) . ( $postfix = $this->options->autoShortenStringPostFix )
+        );
+
+        if ( $boundings->width > $width )
+        {
+            // Not even one word fits the box
+            $word = reset( $tokens );
+
+            // Test if first character fits the box
+            $boundigs = $this->getTextBoundings(
+                $size,
+                $this->options->font,
+                $hit = $word[0]
+            );
+
+            if ( $boundigs->width > $width )
+            {
+                // That is a really small box.
+                throw new ezcGraphFontRenderingException( $string, $size, $width, $height );
+            }
+
+            // Try to put more charactes in there
+            $postLength = strlen( $postfix );
+            $wordLength = strlen( $word );
+            for ( $i = 2; $i <= $wordLength; ++$i )
+            {
+                $string = substr( $word, 0, $i );
+                if ( strlen( $string ) > ( $postLength << 1 ) )
+                {
+                    $string = substr( $string, 0, -$postLength ) . $postfix;
+                }
+
+                $boundigs = $this->getTextBoundings( $size, $this->options->font, $string );
+
+                if ( $boundigs->width < $width )
+                {
+                    $hit = $string;
+                }
+                else
+                {
+                    // Use last string which fit
+                    break;
+                }
+            }
+        }
+        else
+        {
+            // Try to use as many words as possible
+            $hit = reset( $tokens );
+
+            for ( $i = 2; $i < count( $tokens ); ++$i )
+            {
+                $string = implode( ' ', array_slice( $tokens, 0, $i ) ) . 
+                    $postfix;
+
+                $boundings = $this->getTextBoundings( $size, $this->options->font, $string );
+
+                if ( $boundings->width <= $width )
+                {
+                    $hit .= ' ' . $tokens[$i - 1];
+                }
+                else
+                {
+                    // Use last valid hit
+                    break;
+                }
+            }
+
+            $hit .= $postfix;
+        }
+
+        return array( array( $hit ) );
+    }
+
+    /**
      * Writes text in a box of desired size
      * 
      * @param string $string Text

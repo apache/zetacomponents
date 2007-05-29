@@ -457,7 +457,15 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         
         if ( !is_array( $result ) )
         {
-            throw new ezcGraphFontRenderingException( $string, $this->options->font->minFontSize, $width, $height );
+            if ( ( $height >= $this->options->font->minFontSize ) &&
+                 ( $this->options->autoShortenString ) )
+            {
+                $result = $this->tryFitShortenedString( $string, $position, $width, $height, $size = $this->options->font->minFontSize );
+            } 
+            else
+            {
+                throw new ezcGraphFontRenderingException( $string, $this->options->font->minFontSize, $width, $height );
+            }
         }
 
         $this->options->font->minimalUsedFont = $size;

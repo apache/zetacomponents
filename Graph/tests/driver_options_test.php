@@ -171,6 +171,53 @@ class ezcGraphDriverOptionsTest extends ezcTestImageCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testDriverOptionsPropertyAutoShortenString()
+    {
+        $options = new ezcGraphSvgDriverOptions();
+
+        $this->assertSame(
+            true,
+            $options->autoShortenString,
+            'Wrong default value for property autoShortenString in class ezcGraphDriverOptions'
+        );
+
+        $options->autoShortenString = false;
+        $this->assertSame(
+            false,
+            $options->autoShortenString,
+            'Setting property value did not work for property autoShortenString in class ezcGraphDriverOptions'
+        );
+
+        try
+        {
+            $options->autoShortenString = 42;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testDriverOptionsPropertyAutoShortenStringPostFix()
+    {
+        $options = new ezcGraphSvgDriverOptions();
+
+        $this->assertSame(
+            '..',
+            $options->autoShortenStringPostFix,
+            'Wrong default value for property autoShortenStringPostFix in class ezcGraphDriverOptions'
+        );
+
+        $options->autoShortenStringPostFix = ' ...';
+        $this->assertSame(
+            ' ...',
+            $options->autoShortenStringPostFix,
+            'Setting property value did not work for property autoShortenStringPostFix in class ezcGraphDriverOptions'
+        );
+    }
+
     public function testPropertyNotFoundException()
     {
         $options = new ezcGraphSvgDriverOptions();
