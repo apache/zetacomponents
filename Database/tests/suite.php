@@ -27,6 +27,7 @@ require_once 'sqlabstraction/query_insert_test.php';
 require_once 'sqlabstraction/query_update_test.php';
 require_once 'sqlabstraction/query_delete_test.php';
 require_once 'sqlabstraction/query_subselect_test_impl.php';
+require_once 'sqlabstraction/rdbms_limits.php';
 
 /**
  * @package Database
@@ -54,6 +55,7 @@ class ezcDatabaseSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcQueryUpdateTest::suite() );
         $this->addTest( ezcQueryDeleteTest::suite() );
         $this->addTest( ezcPdoTest::suite() );
+        $this->addTest( ezcRdbmsLimitTest::suite() );
 	}
 
     public static function suite()
