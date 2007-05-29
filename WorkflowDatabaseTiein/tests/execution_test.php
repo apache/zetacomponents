@@ -36,7 +36,7 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
     {
         $this->setUpStartInputEnd();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->setInputVariable( 'variable', 'value' );
         $this->execution->start();
 
@@ -51,7 +51,7 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $this->definition->save( $this->workflow );
         $this->setUpWorkflowWithSubWorkflow( 'StartEnd' );
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertTrue( $this->execution->hasEnded() );
@@ -65,7 +65,7 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $this->definition->save( $this->workflow );
         $this->setUpWorkflowWithSubWorkflow( 'StartInputEnd' );
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->setInputVariableForSubWorkflow( 'variable', 'value' );
         $this->execution->start();
 

@@ -29,7 +29,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpStartEnd();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -42,7 +42,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpStartEndVariableHandler();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -55,7 +55,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpStartInputEnd();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->setInputVariable( 'variable', 'value' );
         $this->execution->start();
 
@@ -69,7 +69,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpStartSetUnsetEnd();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -82,7 +82,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpLoop( 'increment' );
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -95,7 +95,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpLoop( 'decrement' );
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -108,7 +108,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpSetAddSubMulDiv();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -121,7 +121,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpAddVariables();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -134,7 +134,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpParallelSplitSynchronization();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -147,7 +147,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpExclusiveChoiceSimpleMerge();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->setVariables( array( 'condition' => true ) );
         $this->execution->start();
 
@@ -161,7 +161,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpExclusiveChoiceSimpleMerge();
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->setVariables( array( 'condition' => false ) );
         $this->execution->start();
 
@@ -175,7 +175,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpMultiChoice( 'SynchronizingMerge' );
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -188,7 +188,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
     {
         $this->setUpMultiChoice( 'Discriminator' );
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -203,7 +203,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         $this->definition->save( $this->workflow );
         $this->setUpWorkflowWithSubWorkflow( 'StartEnd' );
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
         $this->assertEquals(
@@ -218,7 +218,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         $this->definition->save( $this->workflow );
         $this->setUpWorkflowWithSubWorkflow( 'StartInputEnd' );
         $this->definition->save( $this->workflow );
-        $this->execution->setWorkflow( $this->workflow );
+        $this->execution->workflow = $this->workflow;
         $this->execution->setInputVariableForSubWorkflow( 'variable', 'value' );
         $this->execution->start();
 
