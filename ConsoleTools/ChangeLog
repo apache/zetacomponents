@@ -1,14 +1,15 @@
-1.3rc1 - [RELEASEDATE]
+1.3beta2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #10782: ConsoleTools: Argument mandatoryness applies always. If
-  help option is set, arguments are not checked anymore and old argument
-  checking is used, if arguments are disallowed (to assure this is checked
-  correctly).
 - Fixed issue #10766: ezcConsoleQuestionDialogTypeValidator with TYPE_FLOAT
   does not accept numbers like 4E3.
 - Fixed issue #10767: Class ezcConsoleQuestionDialogRegexValidator described
   in the design document is missing.
+- Fixed issue #10782: ConsoleTools: Argument mandatoryness applies always. If
+  help option is set, arguments are not checked anymore and old argument
+  checking is used, if arguments are disallowed (to assure this is checked
+  correctly).
+
 
 1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
