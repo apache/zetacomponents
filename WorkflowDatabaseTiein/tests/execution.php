@@ -85,21 +85,16 @@ class WorkflowDatabaseTestExecution extends ezcWorkflowDatabaseExecution
     /**
      * Returns a new execution object for a sub workflow.
      *
-     * @param  integer $id
      * @return ezcWorkflowExecution
      */
-    protected function doGetSubExecution( $id = NULL )
+    protected function doGetSubExecution()
     {
+        $execution = parent::doGetSubExecution();
         $execution = new WorkflowDatabaseTestExecution( $this->db );
 
         foreach ( $this->inputVariablesForSubWorkflow as $name => $value )
         {
             $execution->setInputVariable( $name, $value );
-        }
-
-        if ( $id !== NULL )
-        {
-            $execution->resume( $id );
         }
 
         return $execution;
