@@ -264,6 +264,7 @@ abstract class ezcGraphDriver
         );
 
         // We always need radian values..
+        $degAngle = abs( $endAngle - $startAngle );
         $startAngle = deg2rad( $startAngle );
         $endAngle = deg2rad( $endAngle );
 
@@ -300,8 +301,17 @@ abstract class ezcGraphDriver
                  ( $newCenter->y < ( $center->y - $height ) ) ||
                  ( $newCenter->y > ( $center->y + $height ) ) )
         {
-            // Quick bounding box check
-            throw new ezcGraphReducementFailedException();
+            // Quick outer boundings check
+            if ( $degAngle > 180 )
+            {
+                // Use old center for very big angles
+                $newCenter = clone $center;
+            }
+            else
+            {
+                // Do not draw for very small angles
+                throw new ezcGraphReducementFailedException();
+            }
         }
         else
         {
@@ -317,14 +327,23 @@ abstract class ezcGraphDriver
             $angle = $direction->angle( new ezcGraphVector( 0, 1 ) );
 
             $outerPoint = new ezcGraphVector(
-                sin( $angle ) * $width,
-                cos( $angle ) * $height
+                sin( $angle ) * $width / 2,
+                cos( $angle ) * $height / 2
             );
 
             // Point is not in ellipse any more
-            if ( $distance->x > $outerPoint->x )
+            if ( abs( $distance->x ) > abs( $outerPoint->x ) )
             {
-                throw new ezcGraphReducementFailedException();
+                if ( $degAngle > 180 )
+                {
+                    // Use old center for very big angles
+                    $newCenter = clone $center;
+                }
+                else
+                {
+                    // Do not draw for very small angles
+                    throw new ezcGraphReducementFailedException();
+                }
             }
         }
 

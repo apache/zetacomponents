@@ -22,6 +22,7 @@
 - Fixed issue #10852: Fixed radar chart documentation
 - Fixed issue #10830: Automatically shorten labels if not enough space is
   available
+- Fixed issue #10861 Circle sector size reducement failes for very big angles.
 
 1.1beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
