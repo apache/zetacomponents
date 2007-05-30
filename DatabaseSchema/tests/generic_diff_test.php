@@ -236,5 +236,51 @@ class ezcDatabaseSchemaGenericDiffTest extends ezcTestCase
         $sql = file_get_contents( $this->testFilesDir . "bug8900-diff_{$name}.sql" );
         self::assertEquals( $sql, $text );
     }
+
+    // bug #10801
+    public function testAddingAutoIncrementField()
+    {
+        $dbh = $this->db;
+
+        $schema1 = new ezcDbSchema( array(
+            'table10801' => new ezcDbSchemaTable( array(
+                'id' => ezcDbSchemaField::__set_state( array(
+                    'type' => 'integer',
+                    'length' => false,
+                    'notNull' => false,
+                    'default' => 0,
+                    'autoIncrement' => false,
+                    'unsigned' => false,
+                ) ),
+                'text' => new ezcDbSchemaField( 'text' )
+            ) )
+        ) );
+        $schema2 = new ezcDbSchema( array(
+            'table10801' => new ezcDbSchemaTable( array(
+                'id' => ezcDbSchemaField::__set_state( array(
+                    'type' => 'integer',
+                    'length' => false,
+                    'notNull' => true,
+                    'default' => null,
+                    'autoIncrement' => true,
+                    'unsigned' => false,
+                ) ),
+                'text' => new ezcDbSchemaField( 'text' )
+            ) )
+        ) );
+        $schema1->writeToDb( $dbh );
+        $diff = ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 );
+        $diff->applyToDb( $dbh );
+
+        $q = $dbh->createInsertQuery();
+        $stmt = $q->insertInto( $dbh->quoteIdentifier('table10801') )->set( $dbh->quoteIdentifier('text'), $q->bindValue('text') )->prepare();
+        $stmt->execute();
+
+        $q = $dbh->createSelectQuery();
+        $stmt = $q->select( '*' )->from( $dbh->quoteIdentifier('table10801') )->prepare();
+        $stmt->execute();
+        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+        $this->assertEquals( 1, $result[0]['id'] );
+    }
 }
 ?>

@@ -197,7 +197,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                     $db->beginTransaction();
                     try
                     {
-                        preg_match( "/ALTER TABLE (.*) CHANGE (.*) (.*) (.*)/" , $query, $matches );
+                        preg_match( "/ALTER TABLE (.*) CHANGE (.*?) (.*?) (.*)/" , $query, $matches );
                         $tableName = trim( $matches[1], "'" );
                         $changeFieldName = trim( $matches[2], "'" );
                         $changeFieldNewName = trim( $matches[3], "'" );

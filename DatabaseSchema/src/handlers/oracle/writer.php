@@ -174,11 +174,11 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                 {
                     $db->commit();
                     $db->beginTransaction();
-                    if ( preg_match ( "/ALTER TABLE (.*) MODYFY (.*) (.*) AUTO_INCREMENT/" , $query, $matches ) ) 
+                    if ( preg_match ( "/ALTER TABLE (.*) MODIFY (.*?) (.*) AUTO_INCREMENT/" , $query, $matches ) ) 
                     {
-                        $tableName = $matches[1];
-                        $autoIncrementFieldName = $matches[2];
-                        $autoIncrementFieldType = $matches[3];
+                        $tableName = trim( $matches[1], '"' );
+                        $autoIncrementFieldName = trim( $matches[2], '"' );
+                        $autoIncrementFieldType = trim( $matches[3], '"' );
                         $this->addAutoIncrementField( $db, $tableName, $autoIncrementFieldName, $autoIncrementFieldType );
                     }
                 }
@@ -205,11 +205,11 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         // @apichange This code piece would become orphan, with the new 
         // implementation. We still need it to drop the old sequences.
         // Remove until --END-- to not take care of them.
-        $resultArray = $this->db->query( "SELECT   a.column_name AS field, " .    
-                                         "         a.column_id AS field_pos " .
-                                         "FROM     user_tab_columns a " .
-                                         "WHERE    a.table_name = '{$tableName}' AND a.column_name = '{$autoIncrementFieldName}'" .
-                                         "ORDER BY a.column_id" );
+        $resultArray = $db->query( "SELECT   a.column_name AS field, " .    
+                                   "         a.column_id AS field_pos " .
+                                   "FROM     user_tab_columns a " .
+                                   "WHERE    a.table_name = '{$tableName}' AND a.column_name = '{$autoIncrementFieldName}'" .
+                                   "ORDER BY a.column_id" );
         $resultArray->setFetchMode( PDO::FETCH_ASSOC );
 
         if ( count( $resultArray) != 1 )
@@ -217,11 +217,12 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             return;
         }
 
-        $fieldPos = $resultArray[0]['field_pos'];
+        $result = $resultArray->fetch();
+        $fieldPos = $result['field_pos'];
 
         // emulation of autoincrement through adding sequence, trigger and constraint
         $oldName = "{$tableName}_{$fieldPos}";
-        $sequence = $this->db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$oldName}_seq'" )->fetchAll();
+        $sequence = $db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$oldName}_seq'" )->fetchAll();
         if ( count( $sequence) > 0  )
         {
             // assuming that if the seq exists, the trigger exists too
@@ -233,7 +234,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         // New sequence names, using field names
         $newName = "{$tableName}_{$autoIncrementFieldName}";
         // Emulation of autoincrement through adding sequence, trigger and constraint
-        $sequences = $this->db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$newName}_seq'" )->fetchAll();
+        $sequences = $db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$newName}_seq'" )->fetchAll();
         if ( count( $sequences ) > 0  )
         {
             $db->query( "DROP SEQUENCE \"{$newName}_seq\"" );
@@ -246,12 +247,12 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                                   "select \"{$newName}_seq\".nextval into :new.\"{$autoIncrementFieldName}\" from dual; ".
                                   "end;" );
 
-        $constraint = $this->db->query( "SELECT constraint_name FROM user_cons_columns WHERE constraint_name = '{$tableName}_pkey'" )->fetchAll();
+        $constraint = $db->query( "SELECT constraint_name FROM user_cons_columns WHERE constraint_name = '{$tableName}_pkey'" )->fetchAll();
         if ( count( $constraint) > 0  )
         {
             $db->query( "ALTER TABLE \"$tableName\" DROP CONSTRAINT \"{$tableName}_pkey\"" );
         }
-        $db->exec( "ALTER TABLE \"{$tableName}\" ADD CONSTRAINT \"{$tableName}_pkey\" PRIMARY KEY ( \"{$fieldName}\" )" );
+        $db->exec( "ALTER TABLE \"{$tableName}\" ADD CONSTRAINT \"{$tableName}_pkey\" PRIMARY KEY ( \"{$autoIncrementFieldName}\" )" );
         $this->context['skip_primary'] = true;
     }
 
