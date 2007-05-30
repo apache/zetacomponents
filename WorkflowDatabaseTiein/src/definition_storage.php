@@ -282,7 +282,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
             $query = $this->db->createInsertQuery();
 
             $query->insertInto( 'node' )
-                  ->set( 'workflow_id', $workflow->id )
+                  ->set( 'workflow_id', $query->bindValue( $workflow->id ) )
                   ->set( 'node_class', $query->bindValue( get_class( $node ) ) )
                   ->set( 'node_configuration', $query->bindValue(
                     ezcWorkflowDatabaseUtil::serialize( $node->getConfiguration() ) )
