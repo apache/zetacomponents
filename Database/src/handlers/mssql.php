@@ -18,6 +18,14 @@
 class ezcDbHandlerMssql extends ezcDbHandler
 {
     /**
+     * Contains the options that are used to set up handler.
+     *
+     * @var ezcDbMssqlOptions
+     */
+    public $options;
+
+
+    /**
      * Constructs a handler object from the parameters $dbParams.
      *
      * Supported database parameters are:
@@ -65,18 +73,65 @@ class ezcDbHandlerMssql extends ezcDbHandler
 
         if ( isset( $host ) && $host )
         {
-            $dsn .= ";host=$host";
-			 if ( isset( $port ) && $port )
-			{
-				$dsn .= ":$port";
-			}
-	
+            $dsn.= ";host=$host";
+            if ( isset( $port ) && $port )
+            {
+                $dsn = ":$port";
+            }
+    
        }
 
         parent::__construct( $dbParams, $dsn );
+        
+        //setup options 
+        $this->setOptions( new ezcDbMssqlOptions() );
     }
 
-
+    /**
+    * Associates an option object with this handler
+    * and changes settings for opened 
+    * connactions correspondently.
+    *
+    * @param ezcDbMssqlOptions $options
+    */
+    public function setOptions( ezcDbMssqlOptions $options ) 
+    {
+        $this->options = $options;
+        $this->setupConnection();
+    }
+    
+    /**
+    * Sets up opened connection according to options.
+    */    
+    private function setupConnection()
+    {   
+        $requiredMode = $this->options->quoteIdentifier;
+        if ( $requiredMode == ezcDbMssqlOptions::QUOTES_GUESS ) 
+        {
+            $result = parent::query("SELECT sessionproperty('QUOTED_IDENTIFIER')" );
+            $rows = $result->fetchAll();
+            $mode = (int)$rows[0][0];
+            if ( $mode == 0 )
+            {
+                $this->identifierQuoteChars = array( 'start' => '[', 'end' => ']' );
+            }
+            else
+            {
+                $this->identifierQuoteChars = array( 'start' => '"', 'end' => '"' );
+            }
+        }
+        else if ( $requiredMode == ezcDbMssqlOptions::QUOTES_COMPLIANT )
+        {
+            parent::exec( 'SET QUOTED_IDENTIFIER ON' );
+            $this->identifierQuoteChars = array( 'start' => '"', 'end' => '"' );
+        }
+        else if ( $requiredMode == ezcDbMssqlOptions::QUOTES_LEGACY )
+        {
+            parent::exec( 'SET QUOTED_IDENTIFIER OFF' );
+            $this->identifierQuoteChars = array( 'start' => '[', 'end' => ']' );
+        }
+    }
+    
     /**
      * Returns a new ezcQueryExpression derived object with SQL Server implementation specifics.
      *
