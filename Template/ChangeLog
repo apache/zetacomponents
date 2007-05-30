@@ -1,5 +1,7 @@
 - Fixed issue #10870: Return statement does not *immediately* return inside a
  {dynamic_block}.
+- Fixed issue #10075: Invalid cache created when the Customblock or
+CustomFunction produces a PHP error.
 
 1.2beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
