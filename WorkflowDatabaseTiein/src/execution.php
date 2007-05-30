@@ -64,13 +64,13 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $query = $this->db->createInsertQuery();
 
         $query->insertInto( 'execution' )
-              ->set( 'workflow_id',       $query->bindValue( $this->workflow->id ) )
-              ->set( 'execution_parent',  $query->bindValue( $parentId ) )
+              ->set( 'workflow_id',       $query->bindValue( (int)$this->workflow->id ) )
+              ->set( 'execution_parent',  $query->bindValue( (int)$parentId ) )
               ->set( 'execution_started', $query->bindValue( time() ) )
               ->set( 'execution_variables', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->variables ) ) )
               ->set( 'execution_waiting_for', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->waitingFor ) ) )
               ->set( 'execution_threads', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->threads ) ) )
-              ->set( 'execution_next_thread_id', $query->bindValue( $this->nextThreadId ) );
+              ->set( 'execution_next_thread_id', $query->bindValue( (int)$this->nextThreadId ) );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -88,11 +88,11 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $query = $this->db->createUpdateQuery();
 
         $query->update( 'execution' )
-              ->where( $query->expr->eq( 'execution_id', $query->bindValue( $this->id ) ) )
+              ->where( $query->expr->eq( 'execution_id', $query->bindValue( (int)$this->id ) ) )
               ->set( 'execution_variables', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->variables ) ) )
               ->set( 'execution_waiting_for', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->waitingFor ) ) )
               ->set( 'execution_threads', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->threads ) ) )
-              ->set( 'execution_next_thread_id', $query->bindValue( $this->nextThreadId ) );
+              ->set( 'execution_next_thread_id', $query->bindValue( (int)$this->nextThreadId ) );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -102,11 +102,11 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
             $query = $this->db->createInsertQuery();
 
             $query->insertInto( 'execution_state' )
-                  ->set( 'execution_id',        $query->bindValue( $this->id ) )
-                  ->set( 'node_id',             $query->bindValue( $node->getId() ) )
+                  ->set( 'execution_id',        $query->bindValue( (int)$this->id ) )
+                  ->set( 'node_id',             $query->bindValue( (int)$node->getId() ) )
                   ->set( 'node_state',          $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $node->getState() ) ) )
                   ->set( 'node_activated_from', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $node->getActivatedFrom() ) ) )
-                  ->set( 'node_thread_id',      $query->bindValue( $node->getThreadId() ) );
+                  ->set( 'node_thread_id',      $query->bindValue( (int)$node->getThreadId() ) );
 
             $statement = $query->prepare();
             $statement->execute();
@@ -167,7 +167,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $query = $this->db->createDeleteQuery();
 
         $query->deleteFrom( $tableName )
-              ->where( $query->expr->eq( 'execution_id', $query->bindValue( $this->id ) ) );
+              ->where( $query->expr->eq( 'execution_id', $query->bindValue( (int)$this->id ) ) );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -187,7 +187,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
                          execution_next_thread_id, execution_waiting_for' )
               ->from( 'execution' )
               ->where( $query->expr->eq( 'execution_id',
-                                          $query->bindValue( $executionId ) ) );
+                                          $query->bindValue( (int)$executionId ) ) );
 
         $stmt = $query->prepare();
         $stmt->execute();
@@ -218,7 +218,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $query->select( 'node_id, node_state, node_activated_from, node_thread_id' )
               ->from( 'execution_state' )
               ->where( $query->expr->eq( 'execution_id',
-                                          $query->bindValue( $executionId ) ) );
+                                          $query->bindValue( (int)$executionId ) ) );
 
         $stmt = $query->prepare();
         $stmt->execute();
