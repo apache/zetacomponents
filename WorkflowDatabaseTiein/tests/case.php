@@ -36,13 +36,13 @@ abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
             );
 
             $schema->writeToDb( $this->db );
+
+            $this->definition = new ezcWorkflowDatabaseDefinitionStorage( $this->db );
         }
         catch ( Exception $e )
         {
             $this->markTestSkipped( 'No test database has been configured.' );
         }
-
-        $this->definition = new ezcWorkflowDatabaseDefinitionStorage( $this->db );
     }
 
     protected function tearDown()
