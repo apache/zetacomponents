@@ -153,7 +153,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
 
             // Create workflow object and add the node objects to it.
             $workflow = new ezcWorkflow( $workflowName, $startNode, $defaultEndNode );
-            $workflow->definitionHandler = $this;
+            $workflow->definitionStorage = $this;
             $workflow->id = (int)$workflowId;
             $workflow->version = (int)$workflowVersion;
 
@@ -272,7 +272,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         $statement = $query->prepare();
         $statement->execute();
 
-        $workflow->definitionHandler = $this;
+        $workflow->definitionStorage = $this;
         $workflow->id = (int)$this->db->lastInsertId();
         $workflow->version = (int)$workflowVersion;
 

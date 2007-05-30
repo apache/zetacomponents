@@ -48,7 +48,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
             $this->loadExecution( $executionId );
         }
 
-        $this->properties['definitionHandler'] = new ezcWorkflowDatabaseDefinitionStorage( $db );
+        $this->properties['definitionStorage'] = new ezcWorkflowDatabaseDefinitionStorage( $db );
     }
 
     /**
