@@ -726,7 +726,12 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         {
             foreach ( $cells as $col => $cell )
             {
-                $colMaxWidth[$col] = isset( $colMaxWidth[$col] ) ? max( $colMaxWidth[$col], strlen( $cell->content ) ) : strlen( $cell->content );
+                $contentLength = 0;
+                foreach ( explode( PHP_EOL, $cell->content ) as $contentRow )
+                {
+                    $contentLength = max( $contentLength, strlen( $contentRow ) );
+                }
+                $colMaxWidth[$col] = isset( $colMaxWidth[$col] ) ? max( $colMaxWidth[$col], $contentLength ) : $contentLength;
             }
         }
         $colWidth = array();

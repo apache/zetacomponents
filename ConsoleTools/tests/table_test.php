@@ -44,6 +44,11 @@ class ezcConsoleTableTest extends ezcTestCase
         array( 'Short', "Some very very long data here....\n\nand it becomes even much much longer...\n\nand even longer....", 'Short', 'Some very very long data here.... and it becomes even much much longer... and even longer....' ),
     );
 
+    private $tableData5 = array(
+        array( 'Short text', 'More short text' ),
+        array( "Short text\nShort text\nShort text\nShort text\nShort text\nShort text\nShort text\n", "More short text\nMore short text\nMore short text\n     Short text" )
+    );
+
 	public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( "ezcConsoleTableTest" );
@@ -217,6 +222,17 @@ class ezcConsoleTableTest extends ezcTestCase
             array( 'cols' => count( $this->tableData4[0] ), 'width' =>  120 ),
             array( 'lineFormatHead' => 'blue', 'defaultAlign' => ezcConsoleTable::ALIGN_CENTER, 'colWrap' => ezcConsoleTable::WRAP_CUT ),
             array( 0 )
+        );
+    }
+    
+    public function testTable5autowidth()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData5,
+            array( 'cols' => count( $this->tableData4[0] ), 'width' =>  120 ),
+            array( 'widthType' => ezcConsoleTable::WIDTH_MAX ),
+            array()
         );
     }
     

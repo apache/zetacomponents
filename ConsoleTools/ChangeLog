@@ -9,6 +9,8 @@
   help option is set, arguments are not checked anymore and old argument
   checking is used, if arguments are disallowed (to assure this is checked
   correctly).
+- Fixed issue #10864: ezcConsoleTable calculates wrong column length for
+  content including line breaks.
 
 
 1.3beta1 - Monday 07 May 2007
