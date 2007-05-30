@@ -58,12 +58,30 @@ abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
 
     protected function cleanupTables()
     {
-        $this->db->exec( 'DROP TABLE IF EXISTS workflow;' );
-        $this->db->exec( 'DROP TABLE IF EXISTS node;' );
-        $this->db->exec( 'DROP TABLE IF EXISTS node_connection;' );
-        $this->db->exec( 'DROP TABLE IF EXISTS variable_handler;' );
-        $this->db->exec( 'DROP TABLE IF EXISTS execution;' );
-        $this->db->exec( 'DROP TABLE IF EXISTS execution_state;' );
+        switch ( $this->db->getName() )
+        {
+            case 'pgsql':
+            {
+                $tables = $this->db->query( "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'" )->fetchAll();
+                array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
+
+                foreach ( $tables as $tableName )
+                {
+                    $this->db->query( "DROP TABLE \"$tableName\"" );
+                }
+            }
+            break;
+
+            default:
+            {
+                $this->db->exec( 'DROP TABLE IF EXISTS workflow;' );
+                $this->db->exec( 'DROP TABLE IF EXISTS node;' );
+                $this->db->exec( 'DROP TABLE IF EXISTS node_connection;' );
+                $this->db->exec( 'DROP TABLE IF EXISTS variable_handler;' );
+                $this->db->exec( 'DROP TABLE IF EXISTS execution;' );
+                $this->db->exec( 'DROP TABLE IF EXISTS execution_state;' );
+            }
+        }
     }
 }
 ?>
