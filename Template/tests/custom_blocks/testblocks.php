@@ -88,9 +88,19 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 return $def;
 
 
+            case "wrong_block":
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "wrongBlock";
+                return $def;
         }
     }
 
+    public static function wrongBlock()
+    {
+        echo "wrongbLock";
+        exit();
+    }
 
     public static function noParameters()
     {

@@ -612,14 +612,25 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $newStatement[] = $this->_fwriteVariable( "code" ); 
 
         // eval( $code );
+        $retTypeVariable = $this->createVariableNode( self::INTERNAL_PREFIX ."retType" );
         $newStatement[] = new ezcTemplateGenericStatementAstNode( 
-            new ezcTemplateFunctionCallAstNode( "eval", array( $this->createVariableNode( "code" ) ) ) );
+            new ezcTemplateAssignmentOperatorAstNode( $retTypeVariable, new ezcTemplateFunctionCallAstNode( "eval", array( $this->createVariableNode( "code" ) ) ) ) );
 
         // $total .= _ezcTemplate_output
         $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total".$this->cacheLevel ); 
 
         // $ezcTemplate_output = "";
         $newStatement[] = $this->_assignEmptyString( self::INTERNAL_PREFIX . "output" ); 
+
+        $retTypeIf = new ezcTemplateIfAstNode();
+        $retTypeIf->conditions[] = $cb = new ezcTemplateConditionBodyAstNode();
+        $cb->condition = new ezcTemplateNotIdenticalOperatorAstNode( $retTypeVariable, new ezcTemplateLiteralAstNode(null) );
+        $cb->body = new ezcTemplateBodyAstNode();
+        $cb->body->statements = array();
+        $cb->body->statements[] = new ezcTemplateReturnAstNode( new ezcTemplateVariableAstNode( "total".$this->cacheLevel) );
+
+        $newStatement[] = $retTypeIf;
+
 
         $newStatement[] = $this->_comment(" <--- stop {/dynamic}");
 

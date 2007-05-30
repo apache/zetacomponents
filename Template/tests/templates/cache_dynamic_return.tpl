@@ -8,3 +8,6 @@
     {return "One" as $x}
 {/if}
 {/dynamic}
+
+
+Is this ever shown?

@@ -2709,7 +2709,7 @@ updated with id number $id. This signal can be used not only for the cache
 manager but also for e.g. logging.
 
 The *User::signals()* method returns an ezcSignalCollection that belongs to the
-User objects. Everytime a user is read or changed a signal is sent. The
+User objects. A signal is sent everytime a user is read or changed. The
 *signals* method can be implemented as follows::
 
     public static function signals()

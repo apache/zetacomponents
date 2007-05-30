@@ -12,6 +12,7 @@
  * @package Template
  * @subpackage Tests
  */
+include_once ("custom_blocks/testblocks.php");
 
 class ezcTemplateCacheTest extends ezcTestCase
 {
@@ -882,6 +883,9 @@ After: [Bernard Black]
 EOM
 , $out);
     }
+
+  
+
 }
 
 class TestUser
