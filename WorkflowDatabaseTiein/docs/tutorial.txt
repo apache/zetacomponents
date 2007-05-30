@@ -1,0 +1,110 @@
+eZ Components - PersistentObjectDatabaseSchemaTiein
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+
+Introduction
+============
+
+The WorkflowDatabaseTiein component allows you to store workflows in a
+relational database. It also provides a workflow execution environment that
+makes workflow execution states persistent.
+The persistence allows you to resume workflows between different PHP requests.
+
+
+Class overview
+==============
+
+ezcWorkflowDatabaseExecution
+
+  Workflow executer that suspends and resumes workflow execution states 
+  to and from a database.
+
+ezcWorkflowDatabaseDefinitionStorage
+  Workflow definition storage handler that saves and loads workflow
+  definitions to and from a database.
+
+
+Database tables
+===============
+
+This component requires a specific set of tables to exist in your
+database. As a reference of the tables and fields required we have provided a
+schema for MySQL. To ease the installation process we also provide the database
+independent .dba file.
+
+Mysql schema
+------------
+
+This is the reference schema for MySQL 5.
+
+.. include:: ../design/schema_mysql.sql
+   :literal:
+
+
+Database independent schema
+---------------------------
+
+To load the .dba definition into your database you must have the DatabaseSchema
+component installed. Save the file to your harddrive and use the following code
+to load it:
+
+.. include:: load_dba.php
+   :literal:
+
+You may need to extend 'workflow.dba' to contain the proper path to the file.
+
+
+Usage
+=====
+
+Storing a workflow to database
+------------------------------
+
+This example shows how to store a workflow to database. The example assumes
+that the workflow is available in the $workflow variable.
+
+.. include:: example_save_to_database.php
+   :literal:
+
+Loading a workflow from the database
+------------------------------------
+
+This example loads the workflow named 'test' into the variable $workflow.
+
+.. include:: example_load_from_database.php
+   :literal:
+
+Executing a workflow
+--------------------
+
+@todo do you need to save the workflow before executing?
+@todo do you need to save the workflow after executing to store state?
+
+Executing a workflow is done by calling the method start on the execution
+object. This example shows how to execute the workflow test that is stored in
+the database. The id that is returned by the execute method identifies this
+execution thread and can be used later if the workflow must be resumed.
+
+.. include:: example_execute.php
+   :literal:
+
+
+Resuming a workflow
+-------------------
+
+If a workflow is suspended and needs to be resumed the method resume should be
+used. This example shows how to resume a suspended workflow and provide the
+input data 'choice'. The id is the one provided by the original call to execute.
+
+.. include:: example_resume.php
+   :literal:
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
