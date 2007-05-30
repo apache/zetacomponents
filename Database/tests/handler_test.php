@@ -46,13 +46,12 @@ class ezcDatabaseHandlerTest extends ezcTestCase
         $db = ezcDbInstance::get();
         switch ( get_class( $db ) )
         {
-            case "ezcDbHandlerMysql":
-                $quoteChars = array( "`", "`" );
+            case 'ezcDbHandlerMysql':
+                $quoteChars = array( '`', '`' );
                 break;
-            case "ezcDbHandlerOracle":
-            case "ezcDbHandlerPgsql":
-            case "ezcDbHandlerSqlite":
-            case "ezcDbHandlerMssql":
+            case 'ezcDbHandlerOracle':
+            case 'ezcDbHandlerPgsql':
+            case 'ezcDbHandlerSqlite':
                 $quoteChars = array( '"', '"' );
                 break;
                 
@@ -61,8 +60,8 @@ class ezcDatabaseHandlerTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            $quoteChars[0] . "TestIdentifier" . $quoteChars[1],
-            $db->quoteIdentifier( "TestIdentifier" )
+            $quoteChars[0] . 'TestIdentifier' . $quoteChars[1],
+            $db->quoteIdentifier( 'TestIdentifier' )
         );
     }
 
@@ -71,16 +70,16 @@ class ezcDatabaseHandlerTest extends ezcTestCase
         $db = ezcDbInstance::get();
         switch ( get_class( $db ) )
         {
-            case "ezcDbHandlerMysql":
-                $quoteChars = array( "`", "`" );
+            case 'ezcDbHandlerMysql':
+                $quoteChars = array( '`', '`' );
                 break;
-            case "ezcDbHandlerOracle":
-            case "ezcDbHandlerPgsql":
-            case "ezcDbHandlerSqlite":
-            case "ezcDbHandlerMssql":
+            case 'ezcDbHandlerMssql':
+                $db->setOptions( new ezcDbMssqlOptions( array('quoteIdentifier' => ezcDbMssqlOptions::QUOTES_COMPLIANT ) ));
+            case 'ezcDbHandlerOracle':
+            case 'ezcDbHandlerPgsql':
+            case 'ezcDbHandlerSqlite':
                 $quoteChars = array( '"', '"' );
                 break;
-                
             default:
                 $this->markTestSkipped( "No quoting test defined for handler class '{" . get_class( $db ) . "}'" );
         }
@@ -89,6 +88,59 @@ class ezcDatabaseHandlerTest extends ezcTestCase
             $quoteChars[0] . "Test" . $quoteChars[1] . $quoteChars[1] . "Identifier" . $quoteChars[1],
             $db->quoteIdentifier( "Test" . $quoteChars[1] . "Identifier" )
         );
+    }
+
+    public function testMsqlIdentifierQuotingUntouched()
+    {
+        $db = ezcDbInstance::get();
+        if ( get_class( $db ) != 'ezcDbHandlerMssql' ) 
+        {
+            $this->markTestSkipped( 'Test defined for MS SQL handler class only.' );
+        }
+        $db->setOptions( new ezcDbMssqlOptions( array('quoteIdentifier' => ezcDbMssqlOptions::QUOTES_UNTOUCHED ) ));
+        $quoteChars = array( '"', '"' );
+        $this->assertEquals( $quoteChars[0].'ezctesttable'.$quoteChars[1], $db->quoteIdentifier( 'ezctesttable' ));
+    }
+
+    public function testMsqlIdentifierQuotingCompliant()
+    {
+        $db = ezcDbInstance::get();
+        if ( get_class( $db ) != 'ezcDbHandlerMssql' ) 
+        {
+            $this->markTestSkipped( 'Test defined for MS SQL handler class only.' );
+        }
+        $db->setOptions( new ezcDbMssqlOptions( array('quoteIdentifier' => ezcDbMssqlOptions::QUOTES_COMPLIANT ) ));        
+
+        $this->assertEquals( '"ezctesttable"', $db->quoteIdentifier( 'ezctesttable' ));
+    }
+
+    public function testMsqlIdentifierQuotingLegacy()
+    {
+        $db = ezcDbInstance::get();
+        if ( get_class( $db ) != 'ezcDbHandlerMssql' ) 
+        {
+            $this->markTestSkipped( 'Test defined for MS SQL handler class only.' );
+        }
+        $db->setOptions( new ezcDbMssqlOptions( array('quoteIdentifier' => ezcDbMssqlOptions::QUOTES_LEGACY ) ));
+
+        $this->assertEquals( '[ezctesttable]', $db->quoteIdentifier( 'ezctesttable' ));
+    }
+        
+    public function testMsqlIdentifierQuotingImpl(){
+        $db = ezcDbInstance::get();
+        if ( get_class( $db ) != 'ezcDbHandlerMssql' ) 
+        {
+            $this->markTestSkipped( 'Test defined for MS SQL handler class only.' );
+        }
+        $db->setOptions( new ezcDbMssqlOptions( array('quoteIdentifier' => ezcDbMssqlOptions::QUOTES_COMPLIANT ) ));
+        try {
+            $db->query('CREATE TABLE '.$db->quoteIdentifier('group') . ' ( id INT )');
+            $db->query('DROP TABLE '.$db->quoteIdentifier('group') );
+        } 
+        catch ( Exception $ex ) 
+        {
+            $this->fail( "Incorrect identifiers quoting ".$ex->getMessage() );
+        }
     }
 
     public static function suite()
