@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWorkflowDatabaseDefinition class.
+ * File containing the ezcWorkflowDatabaseDefinitionStorage class.
  *
  * @package WorkflowDatabaseTiein
  * @version //autogen//
@@ -15,7 +15,7 @@
  * @package WorkflowDatabaseTiein
  * @version //autogen//
  */
-class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
+class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStorage
 {
     /** 
      * ezcDbHandler instance to be used.
@@ -46,7 +46,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
      * @param  string  $workflowName
      * @param  integer $workflowVersion
      * @return ezcWorkflow
-     * @throws ezcWorkflowDefinitionException
+     * @throws ezcWorkflowDefinitionStorageException
      * @throws ezcDbException
      */
     public function loadById( $workflowId, $workflowName = '', $workflowVersion = 0 )
@@ -73,7 +73,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
             }
             else
             {
-                throw new ezcWorkflowDefinitionException(
+                throw new ezcWorkflowDefinitionStorageException(
                   'Could not load workflow definition.'
                 );
             }
@@ -146,7 +146,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
             }
             else
             {
-                throw new ezcWorkflowDefinitionException(
+                throw new ezcWorkflowDefinitionStorageException(
                     'Could not load workflow definition.'
                 );
             }
@@ -189,7 +189,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         }
         else
         {
-            throw new ezcWorkflowDefinitionException(
+            throw new ezcWorkflowDefinitionStorageException(
               'Could not load workflow definition.'
             );
         }
@@ -201,7 +201,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
      * @param  string  $workflowName
      * @param  integer $workflowVersion
      * @return ezcWorkflow
-     * @throws ezcWorkflowDefinitionException
+     * @throws ezcWorkflowDefinitionStorageException
      * @throws ezcDbException
      */
     public function loadByName( $workflowName, $workflowVersion = 0 )
@@ -238,7 +238,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         }
         else
         {
-            throw new ezcWorkflowDefinitionException(
+            throw new ezcWorkflowDefinitionStorageException(
               'Could not load workflow definition.'
             );
         }
@@ -248,7 +248,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
      * Save a workflow definition to the database.
      *
      * @param  ezcWorkflow $workflow
-     * @throws ezcWorkflowDefinitionException
+     * @throws ezcWorkflowDefinitionStorageException
      * @throws ezcDbException
      */
     public function save( ezcWorkflow $workflow )

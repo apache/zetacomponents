@@ -120,7 +120,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         {
             $this->definition->loadById( 1 );
         }
-        catch ( ezcWorkflowDefinitionException $e )
+        catch ( ezcWorkflowDefinitionStorageException $e )
         {
             return;
         }
@@ -134,7 +134,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         {
             $this->definition->loadByName( 'NotExisting' );
         }
-        catch ( ezcWorkflowDefinitionException $e )
+        catch ( ezcWorkflowDefinitionStorageException $e )
         {
             return;
         }
@@ -151,7 +151,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         {
             $workflow = $this->definition->loadByName( 'StartEnd', 2 );
         }
-        catch ( ezcWorkflowDefinitionException $e )
+        catch ( ezcWorkflowDefinitionStorageException $e )
         {
             return;
         }

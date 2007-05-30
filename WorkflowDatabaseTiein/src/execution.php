@@ -48,7 +48,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
             $this->loadExecution( $executionId );
         }
 
-        $this->properties['definitionHandler'] = new ezcWorkflowDatabaseDefinition( $db );
+        $this->properties['definitionHandler'] = new ezcWorkflowDatabaseDefinitionStorage( $db );
     }
 
     /**
@@ -208,7 +208,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $this->variables = ezcWorkflowDatabaseUtil::unserialize( $result[0]['execution_variables'] );
         $this->waitingFor = ezcWorkflowDatabaseUtil::unserialize( $result[0]['execution_waiting_for'] );
 
-        $definition = new ezcWorkflowDatabaseDefinition( $this->db );
+        $definition = new ezcWorkflowDatabaseDefinitionStorage( $this->db );
 
         $workflowId     = $result[0]['workflow_id'];
         $this->workflow = $definition->loadById( $workflowId );

@@ -10,8 +10,8 @@
  */
 
 return array(
-    'ezcWorkflowDatabaseDefinition' => 'WorkflowDatabaseTiein/definition.php',
-    'ezcWorkflowDatabaseExecution'  => 'WorkflowDatabaseTiein/execution.php',
-    'ezcWorkflowDatabaseUtil'       => 'WorkflowDatabaseTiein/util.php',
+    'ezcWorkflowDatabaseDefinitionStorage' => 'WorkflowDatabaseTiein/definition_storage.php',
+    'ezcWorkflowDatabaseExecution'         => 'WorkflowDatabaseTiein/execution.php',
+    'ezcWorkflowDatabaseUtil'              => 'WorkflowDatabaseTiein/util.php',
 );
 ?>
