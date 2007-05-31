@@ -1,4 +1,4 @@
-1.1beta2 - [RELEASEDATE]
+1.1beta2 - Thursday 31 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #10419: SignalSlot optionally throws an exception if an
