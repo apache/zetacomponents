@@ -492,19 +492,30 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     public function getLabel( $step )
     {
+        return $this->getLabelFromTimestamp( $this->startDate + ( $step * $this->interval ), $step );
+    }
+
+    /**
+     * Get label for timestamp
+     * 
+     * @param int $time 
+     * @return string
+     */
+    protected function getLabelFromTimestamp( $time, $step )
+    {
         if ( $this->properties['labelCallback'] !== null )
         {
             return call_user_func_array(
                 $this->properties['labelCallback'],
                 array(
-                    date( $this->properties['dateFormat'], $this->startDate + ( $step * $this->interval ) ),
+                    date( $this->properties['dateFormat'], $time ),
                     $step,
                 )
             );
         }
         else
         {
-            return date( $this->properties['dateFormat'], $this->startDate + ( $step * $this->interval ) );
+            return date( $this->properties['dateFormat'], $time );
         }
     }
 
@@ -527,7 +538,7 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
             $steps[] = new ezcGraphAxisStep(
                 ( $time - $start ) / $distance,
                 $this->interval / $distance,
-                $this->getLabel( $step++ ),
+                $this->getLabelFromTimestamp( $time, $step++ ),
                 array(),
                 $step === 1,
                 $time >= $end

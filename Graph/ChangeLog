@@ -27,6 +27,7 @@
   angles.
 - Fixed issue #10858: Document on how to embed the SVG graphs in an HTML
   document
+- Fixed issue #10881: Wrong labeling with ezcGraphDateAxis
 
 
 1.1beta1 - Monday 07 May 2007
