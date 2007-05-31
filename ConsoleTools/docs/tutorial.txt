@@ -68,6 +68,19 @@ ezcConsoleTable
   best width for table columns (to make your content fit best), automatically
   wrapping content and aligning the content in the cells as indicated.
 
+ezcConsoleDialog
+  This interface provides a common API for user interaction elements. A console
+  dialog can request information from a user and react on this information
+  interactively. For you as a user of ezcConsoleDialog, a dialog is displayed
+  to the user and returns a result value to you, which was provided by the user
+  of your application in some way. Currently 2 implementations of
+  ezcConsoleDialog exist:
+  ezcConsoleQuestionDialog
+    A dialog for asking a simpley question and retrieving the answer from the
+    user of an application.
+  ezcConsoleMenuDialog
+    Instances of this class display a menu to the user and retrieves his choice
+    of a menu item.
 
 Usage
 =====
@@ -197,6 +210,14 @@ The program would respond by printing the following: ::
 
   Input: /var/www, Output: /tmp
   Arguments: foo, bar
+
+As you can see, this example does not define, which arguments are expected and
+therefore, the program simply accepts any number of arguments and provides them
+through the ezcConsoleInput->getArguments() method. The following example
+shows, how specific arguments can be defined:
+
+.. include:: tutorial_example_05_input_advanced.php
+   :literal:
 
 For further information, please refer to the API documentation of
 ezcConsoleInput.

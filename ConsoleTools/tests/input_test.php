@@ -1112,6 +1112,23 @@ class ezcConsoleInputTest extends ezcTestCase
         $this->assertEquals( null, $this->input->argumentDefinition["file2"]->value );
     }
 
+    // Issue #10873: ezcConsoleArgument default value not working
+    public function testProcessSuccessNewArgumentsOptionalNotAvailableDefault()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+        $this->input->argumentDefinition[1]->default   = "some other file";
+
+        $this->input->process(
+            array( "foo.php", "'some file'" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( "some other file", $this->input->argumentDefinition["file2"]->value );
+    }
+
     public function testProcessFailureNewArgumentsOptionalNotAvailable()
     {
         $this->input->argumentDefinition = new ezcConsoleArguments();

@@ -11,6 +11,7 @@
   correctly).
 - Fixed issue #10864: ezcConsoleTable calculates wrong column length for
   content including line breaks.
+- Fixed issue #10873: ezcConsoleArgument default value not working.
 
 
 1.3beta1 - Monday 07 May 2007

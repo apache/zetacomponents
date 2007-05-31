@@ -1057,7 +1057,9 @@ class ezcConsoleInput
                     // Arguments are optional, if no more left: return.
                     if ( !isset( $args[$i] ) )
                     {
-                        return;
+                        // Optional and no more arguments left, assign default
+                        $arg->value = $arg->default;
+                        continue;
                     }
                 }
 
