@@ -55,4 +55,3 @@ You are logged-in as <b><?php echo $url; ?></b> | <a href="?action=logout">Logou
 <?php
 }
 ?>
-
