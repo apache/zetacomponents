@@ -835,6 +835,47 @@ text in the resulting image, which will sometimes fail slightly.
 .. [1] Abobe SVG plugin: http://www.adobe.com/svg/viewer/install/main.html
 .. [2] Corel SVG plugin: http://www.corel.com/servlet/Satellite?pagename=CorelCom/Layout&c=Content_C1&cid=1152796555406&lc=en
 
+Embedding SVG in HTML
+~~~~~~~~~~~~~~~~~~~~~
+
+If you want to embed SVGs in HTML there are several ways to do so. With XHTML
+you may inline the content of the SVG in your HTML, as both are just XML. You
+need to keep correct namespacing in mind here. Opera and Firefox will support
+this technique.
+
+Another way to reference SVGs in your HTML markup, is to use the object
+element like following example shows.
+
+::
+
+	<object date="path/to/image.svg" type="image/svg+xml">
+		You need a browser capeable of SVG to display this image.
+	</object>
+
+You may optionally specify width and height as attributes in the options
+element. With this standard conform way, the drawback again is, that
+Microsofts Internet Explorer does not support this. With browsers from the 
+Internet Explorer series you may use the proprietary embed element.
+
+::
+
+	<embed src="path/to/image.svg"></embed>
+
+You may not specify an alternative text here, and this will not work with
+Opera and Firefox. If need to support all browsers you may use one of the 
+common switches to distinguish between browsers.
+
+::
+
+	<!--[if IE]>
+		<embed ... />
+	<![endif]-->
+	<![if !IE]-->
+		<object ... />
+	<![endif]-->
+
+Another alternative for embedding SVGs in your HTML would be using iframes.
+
 GD driver
 ---------
 

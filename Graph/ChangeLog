@@ -25,6 +25,8 @@
 - Fixed issue #10852: Fixed radar chart documentation.
 - Fixed issue #10861: Circle sector size reducement failes for very big
   angles.
+- Fixed issue #10858: Document on how to embed the SVG graphs in an HTML
+  document
 
 
 1.1beta1 - Monday 07 May 2007
