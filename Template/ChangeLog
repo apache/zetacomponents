@@ -1,9 +1,13 @@
-- Fixed issue #10870: Return statement does not *immediately* return inside a
- {dynamic_block}.
+1.2beta2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 - Fixed issue #10075: Invalid cache created when the Customblock or
-CustomFunction produces a PHP error.
-- Implemented issue #9972: Caching support for the Template component.
-- Implemented issue #10738: Template: dynamic locations.
+  CustomFunction produces a PHP error.
+- Fixed issue #10870: Return statement does not *immediately* return inside a
+  {dynamic_block}.
+- Implemented issue #9972: Added support for caching.
+- Implemented issue #10738: Added support for dynamic locations.
+
 
 1.2beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

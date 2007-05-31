@@ -13,7 +13,7 @@
   update() do this as well just moments later...).
 - Fixed issue #10726: PersistentObject definition should contain type info on
   the identifier.
-- Fixed issue #10770: PersistentObject: Throws PDOException in some cases.
+- Fixed issue #10770: PersistentObject throws PDOException in some cases.
   Throws correct ezcPersistentQueryException now.
 
 

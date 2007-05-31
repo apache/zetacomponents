@@ -1,9 +1,16 @@
+1.3beta2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed exception messages.
+- Updated documentation for ezcImageThumbnailFilters.
+
+
 1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented feature #8589: JPEG quality transform for ImageConversion. A new
-  option class ezcImageSaveOptions supports setting a quality indicator for JPEG
-  and a compression indicator for PNG images.
+  option class ezcImageSaveOptions supports setting a quality indicator for
+  JPEG and a compression indicator for PNG images.
 - Implemented feature #9564: Watermark (and perhaps other filters) should
   allow image placements from opposite corners. Crop filters support negative
   offsets now, too.

@@ -1,7 +1,9 @@
 1.3beta2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Fixed issue #10803: format of ezcQueryExpressionMssql::now.
-- Fixed issue #10802: Mssql handler misses identifierQuoteChars.
+
+- Fixed issue #10802: MSSql handler misses identifierQuoteChars.
+- Fixed issue #10803: Format of ezcQueryExpressionMssql::now().
+
 
 1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
