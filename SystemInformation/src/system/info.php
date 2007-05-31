@@ -189,13 +189,13 @@ class ezcSystemInfo
             $this->lineSeparator= "\r\n";
             $this->backupFileName = '.bak';
         }
-        else if ( substr( $uname, 0, 3 ) == 'Mac' )
+        else if ( substr( $uname, 0, 6 ) == 'Darwin' )
         {
             $this->systemInfoReader = new ezcSystemInfoMacReader();
             $this->osType = 'mac';
-            $this->osName = 'Mac';
+            $this->osName = 'Mac OS X';
             $this->fileSystemType = 'unix';
-            $this->lineSeparator= "\r";
+            $this->lineSeparator= "\n";
             $this->backupFileName = '~';
         }
         else

@@ -16,6 +16,7 @@ return array(
     'ezcSystemInfoAccelerator'               => 'SystemInformation/system/structs/accelerator_info.php',
     'ezcSystemInfoFreeBsdReader'             => 'SystemInformation/system/readers/info_freebsd.php',
     'ezcSystemInfoLinuxReader'               => 'SystemInformation/system/readers/info_linux.php',
+    'ezcSystemInfoMacReader'                 => 'SystemInformation/system/readers/info_mac.php',
     'ezcSystemInfoWindowsReader'             => 'SystemInformation/system/readers/info_windows.php',
 );
 ?>
