@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * File containing the ezcAuthenticationOpenidFileStoreHelper class.
  *

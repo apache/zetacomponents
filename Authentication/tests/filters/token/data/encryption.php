@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * File containing the EncryptionTest class.
  *

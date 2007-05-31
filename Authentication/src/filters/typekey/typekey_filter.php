@@ -104,7 +104,7 @@
  * <input type="hidden" name="_return" id="_return" value="http://localhost/typekey.php" />
  * <input type="submit" />
  * </form>
- * <?
+ * <?php
  * }
  * else
  * {
