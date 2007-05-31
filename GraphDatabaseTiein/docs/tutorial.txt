@@ -1,0 +1,132 @@
+==================================
+eZ Components - GraphDatabaseTieIn
+==================================
+
+.. contents:: Table of Contents
+   :depth: 2
+
+Introduction
+============
+
+The GraphDatabaseTieIn allows you to directly display results from a database
+query in a graph using ezcGraph. All data represented in PDOStatements, for
+example returned by the database component, can be displayed.
+
+Class overview
+==============
+
+This section gives you an overview of the most important classes.
+
+ezcGraphDatabaseDataSet
+  Extends the ezcGraphDataset to read data from a PDOStatement and prepare it
+  for the usage as a dataset in the graph component.
+
+Setup
+=====
+
+For the examples we expect a simple database setup, so that we are able to
+test our examples. For this we create a table with some statistical data to be
+used in the graphs.
+
+.. include:: tutorial/tutorial_insert_data.php
+   :literal:
+
+We first include the common autoload file to set up the autoload for
+ezcComponents. Then, in line 5, we connect to a SQLite memory database, we
+later fill up with some data representing a random browser statistic. The
+usage idescription of PDO__ and the `database component`__ can be found at 
+the dedicated documentation pages.
+
+__ http://php.net/PDO
+__ introduction_Database.html
+
+Usage
+=====
+
+Default behaviour
+-----------------
+
+To create a simple pie chart we just select the data and add a new dataset,
+created from the resulting statement, to a new chart.
+
+.. include:: tutorial/tutorial_simple.php
+   :literal:
+
+The query builder we use to create the select query in line 8 to 10 is
+described in detail in the `database components documentation`__. In this
+example all values from the columns hits and browser are selected from the
+table browser_hits. The result of the query is available in $statement after
+the query was executed. The $statement object is an instance of the
+PDOStatement class.
+
+__ introduction_Database.html
+
+The creation of charts is described in detail in the `graph components
+documentation`__. In this example we create a simple pie chart, set a title 
+for the chart and add a new dataset. To directly use a PDOStatement as a data
+source an instance of ezcGraphDatabaseDataSet is created with the $statement
+as the first parameter. By default the first column is used as index and the 
+second column as values for the indices. The result is the pie chart we 
+expected.
+
+__ introduction_Graph.html
+
+.. image:: img/tutorial_simple.svg.png
+   :alt:   Simple pie chart example
+
+Single column
+-------------
+
+.. include:: tutorial/tutorial_simple.php
+   :literal:
+
+When only a single column is returned by the select query the values are
+considered as a zero indexed array. This might be useful to display them in
+line or bar charts.
+
+The created data set may be used in the same way like all other data sets, 
+which can be seen in line 20 in the example above, where a average polynomial 
+data set is created from the database data set. More documentation on average
+datasets can be found in the `graph tutorial`__.
+
+__ introduction_Graph.html#average-polynomial-dataset
+
+.. image:: img/tutorial_single.svg.png
+   :alt:   Line chart example
+
+Multiple columns
+----------------
+
+You also may specify which column should be used as a key and which column
+should be used as a value in the created dataset. This is particulary useful
+when dealing with more then two columns.
+
+.. include:: tutorial/tutorial_multiple.php
+   :literal:
+
+In this example all columns from the table are selected using the \*,but the
+array starting in line 21 defines which columns are used for keys and values.
+There are two array keys, which are constants defined in ezcGraph, referencing
+the name of the column to use.
+
+Starting at line 28 we change the renderer and enhance the output a bit. This
+is described in more detail in the `3D renderer section`__ in the graph 
+tutorial.
+
+__ introduction_Graph.html#id2
+
+.. image:: img/tutorial_multiple.svg.png
+   :alt:   Pie chart from multiple columns
+
+More information
+================
+
+For more information, see the ezcGraphDatabaseTieIn API documentation.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
