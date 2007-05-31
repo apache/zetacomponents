@@ -1849,7 +1849,7 @@ class ezcConsoleInputTest extends ezcTestCase
             'Help array was not generated correctly.'
         );
     }
-
+    
     public function testGetHelp2()
     {
         $res = array( 
@@ -1977,6 +1977,100 @@ class ezcConsoleInputTest extends ezcTestCase
         $this->input->argumentDefinition[1]->type = ezcConsoleInput::TYPE_INT;
         $this->input->argumentDefinition[1]->shorthelp = 'A number.';
         $this->input->argumentDefinition[1]->longhelp = 'This argument is a number.';
+
+        $this->assertEquals( 
+            $res,
+            $this->input->getHelp( true ),
+            'Help array was not generated correctly.'
+        );
+        
+    }
+    
+    public function testGetHelp2NewArgsOptional()
+    {
+        $res = array( 
+            array( 
+                '-t / --testing',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-s / --subway',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '--carry',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-v / --visual',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-o / --original',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-b / --build',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-d / --destroy',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-y / --yank',
+                'Some even more stupid, but somewhat longer long describtion.',
+            ),
+            array( 
+                '-c / --console',
+                'Some even more stupid, but somewhat longer long describtion.',
+            ),
+            array( 
+                '-e / --edit',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-n / --new',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array(
+                "Arguments:",
+                "",
+            ),
+            array(
+                '<string:text>',
+                'This argument is a simple text. (optional)',
+            ),
+            array(
+                '<int:number>',
+                "This argument is a number. (optional, default = '23')",
+            ),
+            array(
+                '<string:misc>',
+                "Testing multiple values. (optional, default = 'foo' 'bar' 'baz')",
+            ),
+        );
+
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "text" );
+        $this->input->argumentDefinition[0]->shorthelp = 'A text.';
+        $this->input->argumentDefinition[0]->longhelp  = 'This argument is a simple text.';
+        $this->input->argumentDefinition[0]->mandatory = false;
+
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[1]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1]->shorthelp = 'A number.';
+        $this->input->argumentDefinition[1]->longhelp  = 'This argument is a number.';
+        $this->input->argumentDefinition[1]->mandatory = false;
+        $this->input->argumentDefinition[1]->default   = 23;
+
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "misc" );
+        $this->input->argumentDefinition[2]->shorthelp = 'A misc argument.';
+        $this->input->argumentDefinition[2]->longhelp  = 'Testing multiple values.';
+        $this->input->argumentDefinition[2]->multiple  = true;
+        $this->input->argumentDefinition[2]->mandatory = false;
+        $this->input->argumentDefinition[2]->default   = array( "foo", "bar", "baz" );
 
         $this->assertEquals( 
             $res,

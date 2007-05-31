@@ -655,7 +655,21 @@ class ezcConsoleInput
                         break;
                 }
                 $argSynopsis = sprintf( $argSynopsis, $type, $arg->name );
-                $help[] = ( $long === true ) ? array( $argSynopsis, $arg->longhelp ) : array( $argSynopsis, $arg->shorthelp );
+                $help[] = ( $long === true )
+                        ? array( 
+                            $argSynopsis,
+                            $arg->longhelp . ( $arg->mandatory === false 
+                                               ? ' (optional' . ( $arg->default !== null 
+                                                                  ? ', default = ' . ( is_array( $arg->default ) 
+                                                                                       ? "'" . implode( "' '", $arg->default ) . "'" 
+                                                                                       : "'$arg->default'" 
+                                                                                     )
+                                                                  : '' 
+                                                                ) . ')'
+                                               : ''
+                                             )
+                          )
+                        : array( $argSynopsis, $arg->shorthelp );
             }
         }
         return $help;
