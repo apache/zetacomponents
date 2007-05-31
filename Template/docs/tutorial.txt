@@ -2738,13 +2738,89 @@ method from the cache manager.
 
 Including templates
 ```````````````````
-TODO
+Assume there are two templates: A and B. Template A is cached and
+includes template B. Below is the code of template A: ::
+
+    {cache_template}
+    {include "B"}
+
+Template B prints only: ::
+
+    Hello world
 
 
+After template A is executed a cache file is created. This cache file contains
+the same data as template B. Everything will work fine, until the developer 
+changes template B. 
 
-Discarding unused cache files
-`````````````````````````````
-TODO
+Template B is altered to: ::
+
+    Goodbye world
+
+Template A uses the cache and therefore the modification of template B is
+not checked. Template A will still print "Hello world". 
+
+The cache manager can solve the issue described above with the cost of some
+overhead.
+
+The cache manager implemented in the section `Database fetch`_ should be modified at
+three points: 
+
+1.  The method includeTemplate should be implemented. The includeTemplate is
+    called everytime a cached template includes another template. The following
+    code stores the include template in the cache_values table. ::
+
+        public function includeTemplate( $template, $templatePath )
+        {
+            if ( $this->depth >= 0 )
+            {
+                $db = ezcDbInstance::get();
+                $id = $this->keys[ $this->depth ]["cache_id"];
+            
+                $q = $db->prepare("REPLACE INTO cache_values VALUES(:id, :name, :value)" ); 
+                $q->bindValue( ":id", $id );
+                $q->bindValue( ":name", "include" );
+                $q->bindValue( ":value", $templatePath );
+                $q->execute();
+            }
+        }
+
+
+2.  The *startCaching* method should also store the template currently
+    processed. The following code should be added in the body of the 'else' 
+    statement: ::
+
+        $q = $db->prepare("REPLACE INTO cache_values VALUES(:id, :name, :value)" ); 
+        $q->bindValue( ":id", $id );
+        $q->bindValue( ":name", "include" );
+        $q->bindValue( ":value", $templatePath );
+        $q->execute();
+ 
+    The current template includes 'itself'. This makes it easier to expire the
+    cache.
+
+3.  The *isValid* method should be extended that it also checks all the
+    modification times of the included cache files: ::
+
+        $q = $db->prepare( "SELECT * FROM cache_values WHERE name = 'include' AND cache_id = :id");
+        $q->bindValue( ":id", $r[0]["id"] );
+        $q->execute();
+        
+        $r = $q->fetchAll();
+        foreach ( $r as $a )
+        {
+            if ( filemtime( $a["value"] ) > filemtime( $cacheName ) )
+            {
+                return false;
+            }
+        }
+        return true;
+
+    The code retrieves all the included cache files and checks if an included
+    cache file is newer than the requested cache file.
+
+The complete code of the include mechanism is documented in the cache manager
+interface.
 
 
 More information

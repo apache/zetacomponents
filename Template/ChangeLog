@@ -2,6 +2,8 @@
  {dynamic_block}.
 - Fixed issue #10075: Invalid cache created when the Customblock or
 CustomFunction produces a PHP error.
+- Implemented issue #9972: Caching support for the Template component.
+- Implemented issue #10738: Template: dynamic locations.
 
 1.2beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
