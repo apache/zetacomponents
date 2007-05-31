@@ -230,7 +230,7 @@ difference is, that a ezcGraphRadarChart object is created in line 6. The
 radar charts accept multiple data sets, like bar and line charts. In line 14
 the first element of the data set is reassigned as the last element to close
 the circle. You may also not reassign this value to get a radar chart where
-the tails do join.
+the tails do not join.
 
 .. image:: img/tutorial_radar_chart.svg.png
    :alt:   Simple radar chart
