@@ -1,2 +1,2 @@
-Database: 1.1.4
-Authentication: 1.0beta1
+Database: 1.3beta2
+Authentication: 1.0beta2

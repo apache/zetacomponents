@@ -1,2 +1,2 @@
 Database: 1.1.4
-Workflow: 1.0beta1
+Workflow: 1.0beta2

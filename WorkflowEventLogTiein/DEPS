@@ -1,2 +1,2 @@
-EventLog: 1.0.3
-Workflow: 1.0beta1
+EventLog: 1.1beta2
+Workflow: 1.0beta2
