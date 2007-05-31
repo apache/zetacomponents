@@ -71,6 +71,21 @@ ezcAuthenticationTokenFilter
   callback function.
 
 
+Stores
+------
+
+OpenID uses a store to hold the generated nonces and the associations (in
+"smart" mode). If there is no store specified, then nonces are not checked.
+
+ezcAuthenticationOpenidStore
+  Abstract class from which the different stores inherit.
+
+ezcAuthenticationOpenidFileStore
+  Uses file storage. Nonces are stored in files named after the nonce itself,
+  and associations are stored in files named after the OpenID provider with
+  which the association is made. Currently is the only store implemented.
+
+
 General authentication
 ======================
 
@@ -194,9 +209,58 @@ content.
 OpenID
 ------
 
-The following example shows how to authenticate against OpenID.
+OpenID has 2 modes of operation: *dumb* and *smart*. These modes define the way
+the consumer (the application server, on which the Components run) is
+communicating with the OpenID provider (another server where users authenticate
+with their OpenID username and password; there are many of these and users can
+register on which one they want).
 
-.. include:: tutorial/tutorial_openid.php
+*Dumb mode* (stateless)
+
+In this mode there are 3 http requests:
+
+Discovery
+  The consumer requests the URL which the user entered and finds out the URL of
+  the provider.
+
+openid.checkid_setup
+  The consumer redirects the browser to the provider, so that the user can
+  enter his username and password to the provider. The provider then redirects
+  back to the consumer.
+
+openid.check_authentication
+  The consumer sends to the provider the values received in step 2 and receives
+  the information if the user is authenticated or not.
+
+*Smart mode* (keeping state)
+
+In this mode there are also 3 http requests, but only 2 every time and 1
+request from time to time:
+
+Discovery
+  Same as in dumb mode.
+
+openid.checkid_setup
+  Same as in dumb mode, but the handle associated with the shared secret is
+  sent as well.
+
+The extra request (which is done from time to time) is:
+
+openid.associate
+  The consumer and the provider establish a shared secret, which the consumer
+  uses when it redirects in step 2, and it will use the same secret for all
+  requests to the same provider. Step 3 (openid.check_authentication) is not
+  required anymore. The shared secret has a timeout period, so it must be
+  renewed from time to time.
+
+
+OpenID "dumb" (stateless) mode
+------------------------------
+
+The following example shows how to authenticate against OpenID in "dumb"
+(stateless) mode.
+
+.. include:: tutorial/tutorial_openid_dumb.php
    :literal:
 
 A session filter is created and used to start the PHP session. The OpenID
@@ -227,6 +291,21 @@ by the OpenID specifications).
 If run() returned true (line 75) then the user is logged-in and he can see his
 content. Line 79 contains an example of how to implement a logout option for
 the application.
+
+
+OpenID "smart" (stateful) mode
+------------------------------
+
+The following example shows how to authenticate against OpenID in "smart"
+(stateful) mode.
+
+.. include:: tutorial/tutorial_openid_smart.php
+   :literal:
+
+The only differences between this example and the one in the previous section
+is defining the mode of the OpenID filter, and defining a store (here: a file
+store) which will hold the associations. In addition the store will also hold
+the nonces which are used to prevent replay attacks.
 
 
 Session

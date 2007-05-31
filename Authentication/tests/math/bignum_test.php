@@ -122,6 +122,8 @@ class ezcAuthenticationBignumTest extends ezcAuthenticationTest
                                 array( 437, 123, array( 38, -135, 1 ) ),
                             );
 
+    public static $p = '155172898181473697471232257763715539915724801966915404479707795314057629378541917580651227423698188993727816152646631438561595825688188889951272158842675419950341258706556549803580104870537681476726513255747040765857479291291572334510643245094715007229621094194349783925984760375594985848253359305585439638443';
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( "ezcAuthenticationBignumTest" );
@@ -222,6 +224,45 @@ class ezcAuthenticationBignumTest extends ezcAuthenticationTest
         }
     }
 
+    public function testGmpBtwoc()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gmp' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-gmp.' );
+        }
+
+        $lib = ezcAuthenticationMath::createBignumLibrary( 'gmp' );
+
+        $n = $lib->binToDec( $lib->btwoc( self::$p ) );
+        $this->assertEquals( self::$p, $n );
+    }
+
+    public function testGmpBtwocNegative()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gmp' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-gmp.' );
+        }
+
+        $lib = ezcAuthenticationMath::createBignumLibrary( 'gmp' );
+
+        $n = $lib->btwoc( -1 );
+        $this->assertEquals( null, $n );
+    }
+
+    public function testGmpBtwocZero()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gmp' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-gmp.' );
+        }
+
+        $lib = ezcAuthenticationMath::createBignumLibrary( 'gmp' );
+
+        $n = $lib->btwoc( 0 );
+        $this->assertEquals( "\x00", $n );
+    }
+
     public function testBcmathTables()
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) )
@@ -278,6 +319,45 @@ class ezcAuthenticationBignumTest extends ezcAuthenticationTest
             $message = get_class( $lib ) . ": gcd( {$line[0]}, {$line[1]} ) produced (" . implode( ',', $result ) . "), expected (" . implode( ',', $expected ) . ").";
             $this->assertEquals( $expected, $result, $message );
         }
+    }
+
+    public function testBcmathBtwoc()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --enable-bcmath.' );
+        }
+
+        $lib = ezcAuthenticationMath::createBignumLibrary( 'bcmath' );
+
+        $n = $lib->binToDec( $lib->btwoc( self::$p ) );
+        $this->assertEquals( self::$p, $n );
+    }
+
+    public function testBcmathBtwocNegative()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --enable-bcmath.' );
+        }
+
+        $lib = ezcAuthenticationMath::createBignumLibrary( 'bcmath' );
+
+        $n = $lib->btwoc( -1 );
+        $this->assertEquals( null, $n );
+    }
+
+    public function testBcmathBtwocZero()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --enable-bcmath.' );
+        }
+
+        $lib = ezcAuthenticationMath::createBignumLibrary( 'bcmath' );
+
+        $n = $lib->btwoc( 0 );
+        $this->assertEquals( "\x00", $n );
     }
 }
 ?>

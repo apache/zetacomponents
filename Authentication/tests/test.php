@@ -119,7 +119,7 @@ class ezcAuthenticationTest extends ezcTestCase
     /**
      * Tests assigning an unreadable path to a property.
      *
-     * Expects that an ezcBaseFilePermissionException is raised by the missing
+     * Expects that an ezcBaseFilePermissionException is raised by the unreadable
      * path.
      *
      * This function creates a temporary file and makes it unreadable.
@@ -140,6 +140,7 @@ class ezcAuthenticationTest extends ezcTestCase
         try
         {
             $properties->$property = $path;
+            $this->removeTempDir();
             $this->fail( "Expected exception was not thrown." );
         }
         catch ( ezcBaseFilePermissionException $e )
@@ -147,6 +148,134 @@ class ezcAuthenticationTest extends ezcTestCase
             $this->assertEquals( "The file '{$path}' can not be opened for reading.", $e->getMessage() );
         }
 
+        $this->removeTempDir();
+    }
+
+    /**
+     * Tests assigning an unwritable path to a property.
+     *
+     * Expects that an ezcBaseFilePermissionException is raised by the unwritable
+     * path.
+     *
+     * This function creates a temporary file and makes it unwritable.
+     *
+     * @param object $properties An object which implements properties access
+     * @param string $property The property of the $properties object to test
+     * @param string $value A filename without paths or slashes
+     */
+    protected function unwritableFileTest( $properties, $property, $value )
+    {
+        $tempDir = $this->createTempDir( get_class( $this ) );
+        $path = $tempDir . DIRECTORY_SEPARATOR . $value;
+        $fh = fopen( $path, "wb" );
+        fwrite( $fh, "some values" );
+        fclose( $fh );
+        chmod( $path, 0 );
+
+        try
+        {
+            $properties->$property = $path;
+            $this->removeTempDir();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->assertEquals( "The file '{$path}' can not be opened for writing.", $e->getMessage() );
+        }
+
+        $this->removeTempDir();
+    }
+
+    /**
+     * Tests assigning a non-existent directory to a property.
+     *
+     * Expects that an ezcBaseFileNotFoundException is raised by the missing
+     * directory.
+     *
+     * @param object $properties An object which implements properties access
+     * @param string $property The property of the $properties object to test
+     * @param string $value A directory which does not exist
+     */
+    protected function missingDirTest( $properties, $property, $value )
+    {
+        try
+        {
+            $properties->$property = $value;
+            $this->fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+            $this->assertEquals( "The file '{$value}' could not be found.", $e->getMessage() );
+        }
+    }
+
+    /**
+     * Tests assigning an unreadable directory to a property.
+     *
+     * Expects that an ezcBaseFilePermissionException is raised by the unreadable
+     * path.
+     *
+     * This function creates a temporary directory and makes it unreadable.
+     *
+     * @param object $properties An object which implements properties access
+     * @param string $property The property of the $properties object to test
+     * @param string $value A directory name without paths or slashes
+     */
+    protected function unreadableDirTest( $properties, $property, $value )
+    {
+        $tempDir = $this->createTempDir( get_class( $this ) );
+        $path = $tempDir . DIRECTORY_SEPARATOR . $value;
+        mkdir( $path );
+        chmod( $path, 0 );
+
+        try
+        {
+            $properties->$property = $path;
+            chmod( $path, 0777 );
+            $this->removeTempDir();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->assertEquals( "The file '{$path}' can not be opened for reading.", $e->getMessage() );
+        }
+
+        chmod( $path, 0777 );
+        $this->removeTempDir();
+    }
+
+    /**
+     * Tests assigning an unwritable directory to a property.
+     *
+     * Expects that an ezcBaseFilePermissionException is raised by the unwritable
+     * path.
+     *
+     * This function creates a temporary directory and makes it unwritable.
+     *
+     * @param object $properties An object which implements properties access
+     * @param string $property The property of the $properties object to test
+     * @param string $value A directory name without paths or slashes
+     */
+    protected function unwritableDirTest( $properties, $property, $value )
+    {
+        $tempDir = $this->createTempDir( get_class( $this ) );
+        $path = $tempDir . DIRECTORY_SEPARATOR . $value;
+        mkdir( $path );
+        chmod( $path, 0444 );
+
+        try
+        {
+            $properties->$property = $path;
+            chmod( $path, 0777 );
+            $this->removeTempDir();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->assertEquals( "The file '{$path}' can not be opened for writing.", $e->getMessage() );
+        }
+
+        chmod( $path, 0777 );
         $this->removeTempDir();
     }
 }

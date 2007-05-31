@@ -16,6 +16,7 @@
  * <code>
  * // create an options object
  * $options = new ezcAuthenticationOpenidOptions();
+ * $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
  * $options->timeout = 5;
  * $options->timeoutOpen = 3;
  * $options->requestSource = $_POST;
@@ -28,6 +29,26 @@
  * $filter->setOptions( $options );
  * </code>
  *
+ * @property int $mode
+ *           The OpenID mode to use for authentication. It is either dumb
+ *           (ezcAuthenticationOpenidFilter::MODE_DUMB, default) or smart
+ *           (ezcAuthenticationOpenidFilter::MODE_SMART). In dumb mode
+ *           the OpenID server does most of the work, but an extra check
+ *           is required (check_authentication step). In smart mode the
+ *           server and the OpenIP provider establish a shared secret (with
+ *           an expiry period) that is used to sign the responses, so the
+ *           check_authentication step is not required.
+ * @property ezcAuthenticationOpenidStore $store
+ *           The store to use to hold the nonces and (for MODE_SMART) the
+ *           associations between the server and the OpenID provider. Default
+ *           is null which means nonces are not used. If you enable MODE_SMART
+ *           you have to specify also a valid store.
+ * @property string $nonceKey
+ *           The query key that identifies the nonce value, default 'nonce'.
+ * @property int $nonceLength
+ *           The length of the generated nonces, default 6.
+ * @property int $nonceValidity
+ *           The amount of seconds the nonces are allowed to be valid.
  * @property int $timeout
  *           The amount of seconds allowed as timeout for fetching content
  *           during HTML or Yadis discovery.
@@ -54,6 +75,11 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
      */
     public function __construct( array $options = array() )
     {
+        $this->mode = ezcAuthenticationOpenidFilter::MODE_DUMB; // stateless mode
+        $this->store = null;
+        $this->nonceKey = 'nonce';
+        $this->nonceLength = 6; // characters
+        $this->nonceValidity = 24 * 60 * 60; // seconds
         $this->timeout = 3; // seconds
         $this->timeoutOpen = 3; // seconds
         $this->requestSource = ( $_GET !== null ) ? $_GET : array();
@@ -76,6 +102,36 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
     {
         switch ( $name )
         {
+            case 'mode':
+                $allowedValues = array(
+                                        ezcAuthenticationOpenidFilter::MODE_DUMB,
+                                        ezcAuthenticationOpenidFilter::MODE_SMART
+                                      );
+                if ( !in_array( $value, $allowedValues, true ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, implode( ', ', $allowedValues ) );
+                }
+                $this->properties[$name] = $value;
+                break;
+
+            case 'store':
+                if ( $value !== null && !$value instanceof ezcAuthenticationOpenidStore )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcAuthenticationOpenidStore || null' );
+                }
+                $this->properties[$name] = $value;
+                break;
+
+            case 'nonceKey':
+                if ( !is_string( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'string' );
+                }
+                $this->properties[$name] = $value;
+                break;
+
+            case 'nonceLength':
+            case 'nonceValidity':
             case 'timeout':
             case 'timeoutOpen':
                 if ( !is_numeric( $value ) || ( $value < 1 ) )

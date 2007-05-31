@@ -138,5 +138,65 @@ class ezcAuthenticationOpenidWrapper extends ezcAuthenticationOpenidFilter
     {
         return parent::checkSignature( $provider, $params, $method );
     }
+
+    /**
+     * Checks if $params are correct by signing with the $association.
+     *
+     * The format of the $params array is:
+     * <code>
+     * array(
+     *        'openid.assoc_handle' => urlencode( HANDLE ),
+     *        'openid.signed' => urlencode( SIGNED ),
+     *        'openid.sig' => urlencode( SIG ),
+     *        'openid.mode' => 'check_authentication'
+     *      );
+     * </code>
+     * where HANDLE, SIGNED and SIG are parameters returned from the provider in
+     * the id_res step of OpenID authentication.
+     *
+     * @param ezcAuthenticationOpenidAssociation $association The OpenID association used for signing $params
+     * @param array(string=>string) $params OpenID parameters for check_authentication mode
+     * @return bool
+     */
+	public function checkSignatureSmart( ezcAuthenticationOpenidAssociation $association, array $params )
+    {
+        return parent::checkSignatureSmart( $association, $params );
+    }
+
+    /**
+     * Attempts to establish a shared secret with the OpenID provider and
+     * returns it (for "smart" mode).
+     *
+     * If the shared secret is still in its validity period, then it will be
+     * returned instead of establishing a new one.
+     *
+     * If the shared secret could not be established the null will be returned,
+     * and the OpenID connection will be in "dumb" mode.
+     *
+     * The format of the returned array is:
+     *   array( 'assoc_handle' => assoc_handle_value,
+     *          'mac_key' => mac_key_value
+     *        )
+     *
+     * @param string $provider The OpenID provider (discovered in HTML or Yadis)
+     * @param array(string=>string) $params OpenID parameters for associate mode
+     * @param string $method The method to connect to the provider (default GET)
+     * @return array(string=>mixed)||null
+     */
+    public function associate( $provider, array $params, $method = 'GET' )
+    {
+        return parent::associate( $provider, $params, $method );
+    }
+
+    /**
+     * Generates a new nonce value with the specified length (default 6).
+     *
+     * @param int $length The length of the generated nonce, default 6
+     * @return string
+     */
+    public function generateNonce( $length = 6 )
+    {
+        return parent::generateNonce( $length );
+    }
 }
 ?>

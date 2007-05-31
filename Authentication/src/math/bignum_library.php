@@ -174,5 +174,63 @@ abstract class ezcAuthenticationBignumLibrary
         }
         return $this->__toString( $dec );
     }
+
+    /**
+     * Returns bignum $number in big-endian signed two's complement.
+     *
+     * @param mixed $number The number to convert
+     * @return mixed
+     */
+    public function btwoc( $number )
+    {
+        $cmp = $this->cmp( $number, 0 );
+        if ( $cmp < 0 )
+        {
+            return null;
+        }
+        elseif ( $cmp === 0 )
+        {
+            return "\x00";
+        }
+
+        $bytes = array();
+        while ( $this->cmp( $number, 0 ) > 0 )
+        {
+            array_unshift( $bytes, $this->mod( $number, 256 ) );
+            $number = $this->div( $number, 256 );
+        }
+
+        if ( $bytes && ( $bytes[0] > 127 ) )
+        {
+            array_unshift( $bytes, 0 );
+        }
+
+        $string = '';
+        foreach ( $bytes as $byte )
+        {
+            $string .= pack( 'C', $byte );
+        }
+
+        return $string;
+    }
+
+    /**
+     * Generates a random bignum.
+     *
+     * @param mixed $stop The top limit of the random number
+     * @return mixed
+     */
+    public function rand( $stop )
+    {
+        $num_bytes = strlen( $this->btwoc( $stop ) );
+        $bytes = '';
+        for ( $i = 0; $i < $num_bytes; $i += 4 )
+        {
+            $bytes .= pack( 'L', mt_rand() );
+        }
+        $bytes = "\x00" . substr( $bytes, 0, $num_bytes );
+        $n = $this->binToDec( $bytes );
+        return $this->mod( $n, $stop );
+    }
 }
 ?>

@@ -82,11 +82,11 @@ class ezcAuthenticationHtpasswdFilter extends ezcAuthenticationFilter
      * Creates a new object of this class.
      *
      * @throws ezcBaseValueException
-     *         if $value is not correct for the property $name
+     *         if the value provided is not correct for the property $file
      * @throws ezcBaseFileNotFoundException
-     *         if the $value file does not exist
+     *         if $file does not exist
      * @throws ezcBaseFilePermissionException
-     *         if the $value file cannot be opened for reading
+     *         if $file cannot be opened for reading
      * @param string $file The path and file name of the htpasswd file to use
      * @param ezcAuthenticationHtpasswdOptions $options Options for this class
      */

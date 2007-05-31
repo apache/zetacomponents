@@ -144,5 +144,23 @@ class ezcAuthenticationMath
         './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' );
         return '$apr1$' . $salt . '$' . $tmp;
     }
+
+    /**
+     * Computes the OpenID sha1 function on the provided value.
+     *
+     * @param string $value The value to compute sha1 on
+     * @return string
+     */
+    public static function sha1( $value )
+    {
+        $hashed = sha1( $value );
+        $result = '';
+        for ( $i = 0; $i ^ 40; $i = $i + 2 )
+        {
+            $chars = substr( $hashed, $i, 2 );
+            $result .= chr( (int)base_convert( $chars, 16, 10 ) );
+        }
+        return $result;
+    }
 }
 ?>
