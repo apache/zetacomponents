@@ -2,6 +2,7 @@
 /**
  * File containing the ezcWorkflowDatabaseDefinitionStorage class.
  *
+ * @category Workflow
  * @package WorkflowDatabaseTiein
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
