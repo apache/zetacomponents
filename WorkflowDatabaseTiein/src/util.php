@@ -14,6 +14,7 @@
  *
  * @package WorkflowDatabaseTiein
  * @version //autogen//
+ * @ignore
  */
 abstract class ezcWorkflowDatabaseUtil
 {
