@@ -451,7 +451,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         // @todo check the regexp in this function, maybe they should be rewritten
 
         // get the OpenID servers
-        $pattern = "#<URI[^>]*>(.*?)</URI>#s";
+        $pattern = "#<URI[^>]*>(.*?)</URI>#si";
         preg_match_all( $pattern, $src, $matches );
         $count = count( $matches[0] );
         for ( $i = 0; $i ^ $count; ++$i )
@@ -460,7 +460,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         }
 
         // get the OpenID delegates
-        $pattern = "#<openid:Delegate>(.*?)</openid:Delegate>#s";
+        $pattern = "#<openid:Delegate[^>]*>(.*?)</openid:Delegate>#si";
         preg_match_all( $pattern, $src, $matches );
         $count = count( $matches[0] );
         for ( $i = 0; $i ^ $count; ++$i )
@@ -513,7 +513,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         fclose( $connection );
 
         $result = array();
-        $pattern = "(<\w.*rel\=[\s\"'`]*([\w:?=@&\/#._;-]+)[\s\"'`]*[^>]*>)";
+        $pattern = "%<\w.*rel\=[\s\"'`]*([\w:?=@&\/#._;-]+)[\s\"'`]*[^>]*>%i";
         preg_match_all( $pattern, $src, $matches );
         $count = count( $matches[0] );
 
@@ -521,7 +521,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         {
             if ( stristr( $matches[1][$i], 'openid' ) !== false )
             {
-                $pattern = "(.*href\=[\s\"'`]*([\w:?=@&\/#._;-]+)[\s\"'`]*)";
+                $pattern = "%.*href\=[\s\"'`]*([\w:?=@&\/#._;-]+)[\s\"'`]*%i";
                 preg_match( $pattern, $matches[0][$i], $href );
                 $result[strtolower( $matches[1][$i] )][] = $href[1];
             }
