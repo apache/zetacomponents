@@ -87,8 +87,8 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
      *         if the property $name does not exist
      * @throws ezcBaseValueException
      *         if $value is not correct for the property $name
-     * @param string $name
-     * @param mixed $value
+     * @param string $name The name of the property to set
+     * @param mixed $value The new value of the property
      * @ignore
      */
     public function __set( $name, $value )
@@ -116,7 +116,7 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the property $name does not exist
-     * @param string $name
+     * @param string $name The name of the property for which to return the value
      * @return mixed
      * @ignore
      */
@@ -135,7 +135,7 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
     /**
      * Returns true if the property $name is set, otherwise false.
      *
-     * @param string $name
+     * @param string $name The name of the property to test if it is set
      * @return bool
      * @ignore
      */
