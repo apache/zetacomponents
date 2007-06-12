@@ -2431,41 +2431,41 @@ order:
     *cache_files* database. The following code could be an implementation of
     the *startCaching* method: ::
 
-    public function startCaching( $template, $templatePath, $cachePath, $cacheKeys )
-    {
-        // Get the current database handler.
-        $db = ezcDbInstance::get();
-
-        // Get the current cache ID, if it does exist.
-        $q = $db->prepare( "SELECT id FROM cache_files WHERE cache = :cache" );
-        $q->bindValue( ":cache", $cachePath );
-        $q->execute();
-
-        // One result and make sure the query is terminated.
-        $r = $q->fetchAll();
-
-        if ( sizeof( $r ) > 0 ) // Do we have any results?
+        public function startCaching( $template, $templatePath, $cachePath, $cacheKeys )
         {
-            $id = $r[0]["id"];
+            // Get the current database handler.
+            $db = ezcDbInstance::get();
 
-            // Renew the cache_file.
-            $s = $db->prepare( "UPDATE cache_files SET expired=0 WHERE id = :id" );
-            $s->bindValue( ":id", $id );
-            $s->execute();
-        }
-        else
-        {
-            // Insert the new cache file
-            $q = $db->prepare( "INSERT INTO cache_files VALUES( '', :cache, '', 0)" );
+            // Get the current cache ID, if it does exist.
+            $q = $db->prepare( "SELECT id FROM cache_files WHERE cache = :cache" );
             $q->bindValue( ":cache", $cachePath );
             $q->execute();
-            $id = $db->lastInsertId();
-        }
 
-        // Mark that the template is currently creating a cache.
-        $this->isCaching = true;
-        $this->template_id = $id;
-    }
+            // One result and make sure the query is terminated.
+            $r = $q->fetchAll();
+
+            if ( sizeof( $r ) > 0 ) // Do we have any results?
+            {
+                $id = $r[0]["id"];
+
+                // Renew the cache_file.
+                $s = $db->prepare( "UPDATE cache_files SET expired=0 WHERE id = :id" );
+                $s->bindValue( ":id", $id );
+                $s->execute();
+            }
+            else
+            {
+                // Insert the new cache file
+                $q = $db->prepare( "INSERT INTO cache_files VALUES( '', :cache, '', 0)" );
+                $q->bindValue( ":cache", $cachePath );
+                $q->execute();
+                $id = $db->lastInsertId();
+            }
+
+            // Mark that the template is currently creating a cache.
+            $this->isCaching = true;
+            $this->template_id = $id;
+        }
 
 
 The code checks whether the cache file is already registered. If the cache file
@@ -2488,36 +2488,36 @@ id cache                              expired
     application **during** cache creation. In our example the fetch function
     which returns the user object should call the *register* function. ::
 
-    public static function fetch( $object, $id )
-    {
-        $db = ezcDbInstance::get();
-        $s = $db->createSelectQuery();
-        $s->select( "*" )->from( $object )->where( $s->expr->eq( "id", $id ) );
+        public static function fetch( $object, $id )
+        {
+            $db = ezcDbInstance::get();
+            $s = $db->createSelectQuery();
+            $s->select( "*" )->from( $object )->where( $s->expr->eq( "id", $id ) );
 
-        $statement = $s->prepare();
-        $statement->execute();
+            $statement = $s->prepare();
+            $statement->execute();
 
-        $result = $statement->fetchAll();
+            $result = $statement->fetchAll();
 
-        // Inform the cache manager
-        ezcTemplateConfiguration::getInstance()->cacheManager->register( $object, $result[0]["id"] );
-    }
+            // Inform the cache manager
+            ezcTemplateConfiguration::getInstance()->cacheManager->register( $object, $result[0]["id"] );
+        }
 
 
 An example implementation of the *register* method is as follows: ::
 
-    public function register( $name, $value )
-    {
-        if ( $this->isCaching )
+        public function register( $name, $value )
         {
-            $db = ezcDbInstance::get();
-            $s = $db->prepare( "REPLACE INTO cache_values VALUES ( :id, :name, :value )" );
-            $s->bindValue( ":id", $this->template_id );
-            $s->bindValue( ":name", $name );
-            $s->bindValue( ":value", $value );
-            $s->execute();
+            if ( $this->isCaching )
+            {
+                $db = ezcDbInstance::get();
+                $s = $db->prepare( "REPLACE INTO cache_values VALUES ( :id, :name, :value )" );
+                $s->bindValue( ":id", $this->template_id );
+                $s->bindValue( ":name", $name );
+                $s->bindValue( ":value", $value );
+                $s->execute();
+            }
         }
-    }
 
 
 After registration the *cache_values* table contains something like:
@@ -2538,10 +2538,10 @@ cache file 'compiles/cache/user.ezt-9dsafa0' and it is not expired.
 3.  *stopCaching()*. The method is called when the caching is done. The
     only thing that needs to be done, is to set *isCaching* to *false*. ::
 
-    public function stopCaching()
-    {
-        $this->isCaching = false;
-    }
+        public function stopCaching()
+        {
+            $this->isCaching = false;
+        }
 
 
 Right now, the cache file is created. The database contains the user IDs
@@ -2556,36 +2556,36 @@ change the data of one user.
     value changes that is possibly used inside the templates. The snippet below
     modifies the user name. ::
 
-    public static function updateUser( $id )
-    {
-        $db = ezcDbInstance::get();
-        $q = $db->createUpdateQuery();
+        public static function updateUser( $id )
+        {
+            $db = ezcDbInstance::get();
+            $q = $db->createUpdateQuery();
 
-        $q->update( "user" )->set( "email", $q->bindValue( "bernard@example.com" ) )->where( $q->expr->eq( 'id', $id ) );
-        $st = $q->prepare();
-        $st->execute();
+            $q->update( "user" )->set( "email", $q->bindValue( "bernard@example.com" ) )->where( $q->expr->eq( 'id', $id ) );
+            $st = $q->prepare();
+            $st->execute();
 
-        // Update the users.
-        ezcTemplateConfiguration::getInstance()->cacheManager->update( "user", $id );
-    }
+            // Update the users.
+            ezcTemplateConfiguration::getInstance()->cacheManager->update( "user", $id );
+        }
 
 
 Most important is the last line which updates the user with the ID $id. The
 *CacheManager::update* method can be implemented like: ::
 
-     public function update( $name, $value )
-     {
-         $db = ezcDbInstance::get();
+         public function update( $name, $value )
+         {
+             $db = ezcDbInstance::get();
 
-         $qry = "UPDATE cache_files, cache_values SET cache_files.expired=1 ".
-                "WHERE cache_files.id = cache_values.cache_id AND 
-                cache_values.name = :name AND cache_values.value = :value";
+             $qry = "UPDATE cache_files, cache_values SET cache_files.expired=1 ".
+                    "WHERE cache_files.id = cache_values.cache_id AND 
+                    cache_values.name = :name AND cache_values.value = :value";
 
-         $s = $db->prepare( $qry ); 
-         $s->bindValue( ":name", $name );
-         $s->bindValue( ":value", $value );
-         $s->execute();
-     }
+             $s = $db->prepare( $qry ); 
+             $s->bindValue( ":name", $name );
+             $s->bindValue( ":value", $value );
+             $s->execute();
+         }
 
 This method expires all the cache files that have the matching cache
 values: $name and $value. If we assume that user with ID 1 changes the e-mail
@@ -2616,24 +2616,24 @@ id name    value
     this method to check whether the cache is still valid. See an example
     implementation below::
 
-    public function isValid( $template, $templateName, $cacheName )
-    {
-        $db = ezcDbInstance::get();
-        
-        // Check whether the cache is registered and if it's expired.
-        $q = $db->prepare( "SELECT id, expired FROM cache_files WHERE cache = :cache" );
-        $q->bindValue( ":cache", $cacheName );
-        $q->execute();
-        
-        $r = $q->fetchAll(); // Expect 0 or 1 result
-        
-        if ( count( $r ) == 0 || $r[0]["expired"] == 1 )
+        public function isValid( $template, $templateName, $cacheName )
         {
-            return false;
-        }
+            $db = ezcDbInstance::get();
+            
+            // Check whether the cache is registered and if it's expired.
+            $q = $db->prepare( "SELECT id, expired FROM cache_files WHERE cache = :cache" );
+            $q->bindValue( ":cache", $cacheName );
+            $q->execute();
+            
+            $r = $q->fetchAll(); // Expect 0 or 1 result
+            
+            if ( count( $r ) == 0 || $r[0]["expired"] == 1 )
+            {
+                return false;
+            }
 
-        return true;
-    }
+            return true;
+        }
 
 
 When the cache file does not exist or when the cache file is marked as
@@ -2658,59 +2658,59 @@ calls to the cache manager.
 The previous section uses the following two example functions inside the user
 application to update the cache manager::
 
-    public static function fetch( $object, $id )
-    {
-        $db = ezcDbInstance::get();
-        $s = $db->createSelectQuery();
-        $s->select( "*" )->from( $object )->where( $s->expr->eq( "id", $id ) );
+        public static function fetch( $object, $id )
+        {
+            $db = ezcDbInstance::get();
+            $s = $db->createSelectQuery();
+            $s->select( "*" )->from( $object )->where( $s->expr->eq( "id", $id ) );
 
-        $statement = $s->prepare();
-        $statement->execute();
+            $statement = $s->prepare();
+            $statement->execute();
 
-        $result = $statement->fetchAll();
+            $result = $statement->fetchAll();
 
-        // Inform the cache manager
-        ezcTemplateConfiguration::getInstance()->cacheManager->register( $object, $result[0]["id"] );
-    }
+            // Inform the cache manager
+            ezcTemplateConfiguration::getInstance()->cacheManager->register( $object, $result[0]["id"] );
+        }
 
-    public static function updateUser( $id )
-    {
-        $db = ezcDbInstance::get();
-        $q = $db->createUpdateQuery();
+        public static function updateUser( $id )
+        {
+            $db = ezcDbInstance::get();
+            $q = $db->createUpdateQuery();
 
-        $q->update( "user" )->set( "email", $q->bindValue( "bernard@example.com" ) )->where( $q->expr->eq( 'id', $id ) );
-        $st = $q->prepare();
-        $st->execute();
+            $q->update( "user" )->set( "email", $q->bindValue( "bernard@example.com" ) )->where( $q->expr->eq( 'id', $id ) );
+            $st = $q->prepare();
+            $st->execute();
 
-        // Update the users.
-        ezcTemplateConfiguration::getInstance()->cacheManager->update( "user", $id );
-    }
+            // Update the users.
+            ezcTemplateConfiguration::getInstance()->cacheManager->update( "user", $id );
+        }
 
 
 The call to the *register* and *update* methods are making dependencies with
 the cache manager. These method calls can be replaced with a signal from the
 SignalSlot component. See the following example code::
 
-    public static function fetch( $object, $id )
-    {
-        $db = ezcDbInstance::get();
-        // ...
-        $result = $statement->fetchAll();
-
-        if( $object == "user")
+        public static function fetch( $object, $id )
         {
-            User::signals()->emit( "fetched", "user", $results[0]["id"] );
+            $db = ezcDbInstance::get();
+            // ...
+            $result = $statement->fetchAll();
+
+            if( $object == "user")
+            {
+                User::signals()->emit( "fetched", "user", $results[0]["id"] );
+            }
         }
-    }
 
-    public static function updateUser( $id )
-    {
-        $db = ezcDbInstance::get();
-        // ...
-        $st->execute();
+        public static function updateUser( $id )
+        {
+            $db = ezcDbInstance::get();
+            // ...
+            $st->execute();
 
-        User::signals()->emit( "updated", "user", $id );
-    }
+            User::signals()->emit( "updated", "user", $id );
+        }
 
 
 The emitted signal describes what just has happened. E.g. There is a user
@@ -2721,15 +2721,15 @@ The *User::signals()* method returns an ezcSignalCollection that belongs to the
 User objects. A signal is sent everytime a user is read or changed. The
 *signals* method can be implemented as follows::
 
-    public static function signals()
-    {
-        if( self::$signals == null )
+        public static function signals()
         {
-            self::$signals = new ezcSignalCollection( __CLASS__ );
-        }
+            if( self::$signals == null )
+            {
+                self::$signals = new ezcSignalCollection( __CLASS__ );
+            }
 
-        return self::$signals;
-    }
+            return self::$signals;
+        }
 
 
 The next step is to connect the signals to the cache manager. The connection
@@ -2783,31 +2783,31 @@ modified at three points:
     is called everytime a cached template includes another template. The
     following code stores the include template in the *cache_values* table. ::
 
-    public function includeTemplate( $template, $templatePath )
-    {
-        if ( $this->depth >= 0 )
+        public function includeTemplate( $template, $templatePath )
         {
-            $db = ezcDbInstance::get();
-            $id = $this->keys[$this->depth]["cache_id"];
+            if ( $this->depth >= 0 )
+            {
+                $db = ezcDbInstance::get();
+                $id = $this->keys[$this->depth]["cache_id"];
 
-            $q = $db->prepare( "REPLACE INTO cache_values VALUES(:id, :name, :value)" );
-            $q->bindValue( ":id", $id );
-            $q->bindValue( ":name", "include" );
-            $q->bindValue( ":value", $templatePath );
-            $q->execute();
+                $q = $db->prepare( "REPLACE INTO cache_values VALUES(:id, :name, :value)" );
+                $q->bindValue( ":id", $id );
+                $q->bindValue( ":name", "include" );
+                $q->bindValue( ":value", $templatePath );
+                $q->execute();
+            }
         }
-    }
 
 
 2.  The *startCaching* method should also store the template currently
     processed. The following code should be added in the body of the 'else'
     statement: ::
 
-    $q = $db->prepare( "REPLACE INTO cache_values VALUES(:id, :name, :value)" );
-    $q->bindValue( ":id", $id );
-    $q->bindValue( ":name", "include" );
-    $q->bindValue( ":value", $templatePath );
-    $q->execute();
+        $q = $db->prepare( "REPLACE INTO cache_values VALUES(:id, :name, :value)" );
+        $q->bindValue( ":id", $id );
+        $q->bindValue( ":name", "include" );
+        $q->bindValue( ":value", $templatePath );
+        $q->execute();
 
 
 The current template includes 'itself'. This makes it easier to expire the
@@ -2817,19 +2817,19 @@ cache.
 3.  The *isValid* method should be extended that it also checks all the
     modification times of the included cache files: ::
 
-    $q = $db->prepare( "SELECT * FROM cache_values WHERE name = 'include' AND cache_id = :id" );
-    $q->bindValue( ":id", $r[0]["id"] );
-    $q->execute();
+        $q = $db->prepare( "SELECT * FROM cache_values WHERE name = 'include' AND cache_id = :id" );
+        $q->bindValue( ":id", $r[0]["id"] );
+        $q->execute();
 
-    $r = $q->fetchAll();
-    foreach ( $r as $a )
-    {
-        if ( filemtime( $a["value"] ) > filemtime( $cacheName ) )
+        $r = $q->fetchAll();
+        foreach ( $r as $a )
         {
-            return false;
+            if ( filemtime( $a["value"] ) > filemtime( $cacheName ) )
+            {
+                return false;
+            }
         }
-    }
-    return true;
+        return true;
 
 
 The code retrieves all the included cache files and checks if an included
