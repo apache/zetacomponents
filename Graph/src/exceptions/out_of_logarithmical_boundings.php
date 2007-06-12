@@ -19,7 +19,7 @@ class ezcGraphOutOfLogithmicalBoundingsException extends ezcGraphException
     /**
      * Constructor
      * 
-     * @param int minimum
+     * @param int $minimum
      * @return void
      * @ignore
      */

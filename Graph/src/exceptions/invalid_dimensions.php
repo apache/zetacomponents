@@ -20,7 +20,7 @@ class ezcGraphMatrixInvalidDimensionsException extends ezcGraphException
      * Constructor
      * 
      * @param int $rows
-     * @param int $colums
+     * @param int $columns
      * @param int $dRows
      * @param int $dColumns
      * @return void

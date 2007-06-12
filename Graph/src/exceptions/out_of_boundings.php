@@ -21,8 +21,8 @@ class ezcGraphMatrixOutOfBoundingsException extends ezcGraphException
      * 
      * @param int $rows
      * @param int $columns
-     * @param int $dRows
-     * @param int $dColumns
+     * @param int $rPos
+     * @param int $cPos
      * @return void
      * @ignore
      */
