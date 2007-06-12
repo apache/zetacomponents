@@ -21,9 +21,6 @@ $def->properties['update'] = new ezcPersistentObjectProperty;
 $def->properties['update']->columnName = 'update';
 $def->properties['update']->propertyName = 'update';
 $def->properties['update']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
-$def->properties['update']->defaultValue = 0;
-$def->properties['update']->visibility = ezcPersistentObjectProperty::VISIBILITY_PRIVATE;
-$def->properties['update']->isRequired = false;
 
 return $def;
 

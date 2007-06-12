@@ -14,16 +14,12 @@ $def->idProperty = new ezcPersistentObjectIdProperty;
 $def->idProperty->columnName = 'id';
 $def->idProperty->propertyName = 'id';
 $def->idProperty->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-$def->idProperty->visibility = ezcPersistentObjectProperty::VISIBILITY_PRIVATE;
 $def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentManualGenerator' );
 
 $def->properties['data'] = new ezcPersistentObjectProperty;
 $def->properties['data']->columnName = 'data';
 $def->properties['data']->propertyName = 'data';
 $def->properties['data']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
-$def->properties['data']->defaultValue = 0;
-$def->properties['data']->visibility = ezcPersistentObjectProperty::VISIBILITY_PRIVATE;
-$def->properties['data']->isRequired = false;
 
 $def->relations["Rel1"] = new ezcPersistentOneToManyRelation(
      "main_table",

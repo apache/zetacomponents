@@ -21,9 +21,6 @@ $def->properties['select'] = new ezcPersistentObjectProperty;
 $def->properties['select']->columnName = 'select';
 $def->properties['select']->propertyName = 'select';
 $def->properties['select']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
-$def->properties['select']->defaultValue = 0;
-$def->properties['select']->visibility = ezcPersistentObjectProperty::VISIBILITY_PRIVATE;
-$def->properties['select']->isRequired = false;
 
 $def->relations["Where"] = new ezcPersistentOneToManyRelation(
      "table",
