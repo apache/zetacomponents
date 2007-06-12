@@ -16,6 +16,13 @@
  */
 class ezcGraphGdDriverUnsupportedImageTypeException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param int $type
+     * @return void
+     * @ignore
+     */
     public function __construct( $type )
     {
         $typeName = array(

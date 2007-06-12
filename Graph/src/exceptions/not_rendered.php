@@ -16,6 +16,13 @@
  */
 class ezcGraphToolsNotRenderedException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param ezcGraphChart $chart
+     * @return void
+     * @ignore
+     */
     public function __construct( $chart )
     {
         parent::__construct( "Chart is not yet rendered." );

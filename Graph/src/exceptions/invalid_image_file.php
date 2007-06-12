@@ -15,6 +15,13 @@
  */
 class ezcGraphInvalidImageFileException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param string $image
+     * @return void
+     * @ignore
+     */
     public function __construct( $image )
     {
         parent::__construct( "File '{$image}' is not a valid image." );

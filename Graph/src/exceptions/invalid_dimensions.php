@@ -16,6 +16,16 @@
  */
 class ezcGraphMatrixInvalidDimensionsException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param int $rows
+     * @param int $colums
+     * @param int $dRows
+     * @param int $dColumns
+     * @return void
+     * @ignore
+     */
     public function __construct( $rows, $columns, $dRows, $dColumns )
     {
         parent::__construct( "Matrix '{$dRows}, {$dColumns}' is incompatible with matrix '{$rows}, {$columns}' for requested operation." );

@@ -15,6 +15,14 @@
  */
 class ezcGraphUnknownFontTypeException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param string $file
+     * @param string $extension
+     * @return void
+     * @ignore
+     */
     public function __construct( $file, $extension )
     {
         parent::__construct( "Unknown font type '{$extension}' of file '{$file}'." );

@@ -16,6 +16,14 @@
  */
 class ezcGraphToolsIncompatibleDriverException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param mixed $driver
+     * @param string $accepted
+     * @return void
+     * @ignore
+     */
     public function __construct( $driver, $accepted )
     {
         $driverClass = get_class( $driver );

@@ -15,6 +15,12 @@
  */
 class ezcGraphNoDataException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @return void
+     * @ignore
+     */
     public function __construct()
     {
         parent::__construct( "No data sets assigned to chart." );

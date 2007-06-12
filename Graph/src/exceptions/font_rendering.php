@@ -16,6 +16,16 @@
  */
 class ezcGraphFontRenderingException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param string $string
+     * @param float $size
+     * @param int $width
+     * @param int $height
+     * @return void
+     * @ignore
+     */
     public function __construct( $string, $size, $width, $height )
     {
         parent::__construct( "Could not fit string '{$string}' with font size '{$size}' in box '{$width} * {$height}'.

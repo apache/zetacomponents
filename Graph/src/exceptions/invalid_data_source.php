@@ -16,6 +16,13 @@
  */
 class ezcGraphInvalidArrayDataSourceException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param mixed $value
+     * @return void
+     * @ignore
+     */
     public function __construct( $value )
     {
         $type = gettype( $value );

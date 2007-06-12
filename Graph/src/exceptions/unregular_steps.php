@@ -16,6 +16,12 @@
  */
 class ezcGraphUnregularStepsException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @return void
+     * @ignore
+     */
     public function __construct()
     {
         parent::__construct( "Bar charts do not support axis with unregualr steps sizes." );

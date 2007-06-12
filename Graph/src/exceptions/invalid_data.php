@@ -16,6 +16,13 @@
  */
 class ezcGraphInvalidDataException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param string $message
+     * @return void
+     * @ignore
+     */
     public function __construct( $message )
     {
         parent::__construct( "You provided unusable data: '$message'." );

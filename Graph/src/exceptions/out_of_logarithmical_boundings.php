@@ -16,6 +16,13 @@
  */
 class ezcGraphOutOfLogithmicalBoundingsException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param int minimum
+     * @return void
+     * @ignore
+     */
     public function __construct( $minimum )
     {
         parent::__construct( "Value '$minimum' exceeds displayable values on a logarithmical scaled axis." );

@@ -16,6 +16,12 @@
  */
 class ezcGraphReducementFailedException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @return void
+     * @ignore
+     */
     public function __construct()
     {
         parent::__construct( "Reducement of shape failed, because it was already too small." );

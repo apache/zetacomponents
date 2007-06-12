@@ -16,7 +16,13 @@
  */
 class ezcGraphDatasetAverageInvalidKeysException extends ezcGraphException
 {
-    public function __construct( )
+    /**
+     * Constructor
+     * 
+     * @return void
+     * @ignore
+     */
+    public function __construct()
     {
         parent::__construct( "You can not use non numeric keys with Average datasets." );
     }

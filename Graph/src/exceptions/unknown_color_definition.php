@@ -16,6 +16,13 @@
  */
 class ezcGraphUnknownColorDefinitionException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param mixed $definition
+     * @return void
+     * @ignore
+     */
     public function __construct( $definition )
     {
         parent::__construct( "Unknown color definition '{$definition}'." );

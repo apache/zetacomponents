@@ -15,6 +15,14 @@
  */
 class ezcGraphInvalidFontTypeException extends ezcGraphException
 {
+    /**
+     * Constructor
+     * 
+     * @param int $type
+     * @param string $driver
+     * @return void
+     * @ignore
+     */
     public function __construct( $type, $driver )
     {
         $fontNames = array(
