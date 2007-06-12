@@ -262,14 +262,26 @@ class ezcQueryExpressionTest extends ezcTestCase
 
     public function testInSingle()
     {
-        $reference = "id IN ( '1' )";
+        $reference = "id IN ( 1 )";
         $this->assertEquals( $reference, $this->e->in( 'id', 1 ) );
     }
 
     public function testInMulti()
     {
-        $reference = "id IN ( '1', '2' )";
+        $reference = "id IN ( 1, 2 )";
         $this->assertEquals( $reference, $this->e->in( 'id', 1, 2 ) );
+    }
+    
+    public function testInMultiString()
+    {
+        $reference = "id IN ( 'foo', 'bar' )";
+        $this->assertEquals( $reference, $this->e->in( 'id', 'foo', 'bar' ) );
+    }
+    
+    public function testInMultiNumericString()
+    {
+        $reference = "id IN ( '1', '2' )";
+        $this->assertEquals( $reference, $this->e->in( 'id', '1', '2' ) );
     }
     
     public function testInStringQuoting()

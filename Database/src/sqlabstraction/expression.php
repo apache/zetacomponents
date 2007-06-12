@@ -575,7 +575,16 @@ class ezcQueryExpression
         {
             foreach ( $values as $key => $value )
             {
-                $values[$key] = $this->db->quote( $value );
+                switch ( true )
+                {
+                    case is_int( $value ):
+                    case is_float( $value ):
+                    case $value instanceof ezcQuerySubSelect:
+                        $values[$key] = (string) $value;
+                        break;
+                    default:
+                        $values[$key] = $this->db->quote( $value );
+                }
             }
         }
         

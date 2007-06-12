@@ -111,6 +111,23 @@ class ezcQuerySubSelectTest extends ezcTestCase
 
     }
 
+    public function testSubSelectIn()
+    {
+        $reference = 'SELECT * FROM table WHERE id IN ( ( SELECT column FROM table2 ) )';
+
+        $q2 = $this->q->subSelect();
+        $q2->select( 'column' )->from( 'table2' );
+        $this->q
+            ->select( '*' )
+            ->from( 'table' )
+            ->where( 
+                $this->q->expr->in( 'id', $q2 )
+            );
+
+        $this->assertEquals( $reference, $this->q->getQuery() );
+
+    }
+
     public function testBindAuto()
     {
         $val1 = '';

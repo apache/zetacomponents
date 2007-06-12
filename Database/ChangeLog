@@ -3,6 +3,7 @@
 
 - Fixed issue #10802: MSSql handler misses identifierQuoteChars.
 - Fixed issue #10803: Format of ezcQueryExpressionMssql::now().
+- Fixed issue #10797: Do not quote numbers and subqueries in IN()
 
 
 1.3beta1 - Monday 07 May 2007
