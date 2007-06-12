@@ -1175,20 +1175,14 @@ class ezcPersistentSession
                 switch ( $type )
                 {
                     case ezcPersistentObjectProperty::PHP_TYPE_INT:
-                    {
                         $value = (int) $value;
                         break;
-                    }
                     case ezcPersistentObjectProperty::PHP_TYPE_FLOAT:
-                    {
                         $value = (float) $value;
                         break;
-                    }
                     case ezcPersistentObjectProperty::PHP_TYPE_STRING:
-                    {
                         $value = (string) $value;
                         break;
-                    }
                 }
             }
             $typedState[$name] = $value;
