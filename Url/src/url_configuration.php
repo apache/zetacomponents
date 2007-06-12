@@ -10,7 +10,7 @@
  */
 
 /**
- * ezcUrlConfiguration makes it possible to use a custom url form in your application.
+ * ezcUrlConfiguration makes it possible to use a custom URL form in your application.
  *
  * Example of use:
  * <code>
@@ -32,27 +32,27 @@
  * // define unordered parameters
  * $urlCfg->addUnorderedParameter( 'game', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
  *
- * // create a new ezcUrl object from a string url and use the above $urlCfg
+ * // create a new ezcUrl object from a string URL and use the above $urlCfg
  * $url = new ezcUrl( 'http://www.example.com/mydir/index.php/groups/Games/Adventure/Adult/(game)/Larry/7', $urlCfg );
  *
- * // to get the parameter values from the url use $url->getParam():
+ * // to get the parameter values from the URL use $url->getParam():
  * $section =  $url->getParam( 'section' ); // will be "groups"
  * $group = $url->getParam( 'group' ); // will be "Games"
  * $category = $url->getParam( 'category' ); // will be "Adventure"
  * $subcategory = $url->getParam( 'subcategory' ); // will be "Adult"
  * $game = $url->getParam( 'game' ); // will be array( "Larry", "7" )
  *
- * // to remove parameters from the url configuration $urlCfg
+ * // to remove parameters from the URL configuration $urlCfg
  * $urlCfg->removeOrderedParameter( 'subcategory' );
  * $urlCfg->removeUnorderedParameter( 'game' );
  *
- * // to remove parameters from the url configuration stored in the url
+ * // to remove parameters from the URL configuration stored in the URL
  * $url->configuration->removeOrderedParameter( 'subcategory' );
  * $url->configuration->removeUnorderedParameter( 'game' );
  * </code>
  *
  * @property string $basedir
- *           The part of the url after the first slash. It can be null.
+ *           The part of the URL after the first slash. It can be null.
  *           Example: $basedir = shop in http://www.example.com/shop
  * @property string $script
  *           The default php script, which comes after the basedir. Can be null
@@ -63,13 +63,16 @@
  *           Example: $unorderedDelimiters = array( '(', ')' ) for
  *              url = http://www.example.com/doc/(file)/classtrees_Base.html
  * @property string $orderedParameters
- *           The ordered parameters of the url.
- *           Example: $orderedParameters = array( 'section', 'module', 'view', 'content' );
+ *           The ordered parameters of the URL.
+ *           Example: $orderedParameters = array( 'section' => 0, 'module' => 1, 'view' => 2, 'content' => 3 );
  *              url = http://www.example.com/doc/components/view/trunk
+ *           The numbers in the array represent the indices for each parameter.
  * @property string $unorderedParameters
- *           The unordered parameters of the url.
- *           Example: $unorderedParameters = array( 'file' );
+ *           The unordered parameters of the URL.
+ *           Example: $unorderedParameters = array( 'file' => SINGLE_ARGUMENT );
  *              url = http://www.example.com/doc/(file)/classtrees_Base.html
+ *           The keys of the array represent the parameter names, and the values
+ *           in the array represent the types of the parameters.
  *
  * @package Url
  * @version //autogen//
@@ -102,6 +105,14 @@ class ezcUrlConfiguration
 
     /**
      * Constructs a new ezcUrlConfiguration object.
+     *
+     * The properties of the object get default values, which can be changed by
+     * setting the properties directly, like:
+     * <code>
+     *   $urlCfg = new ezcUrlConfiguration();
+     *   $urlCfg->basedir = 'mydir';
+     *   $urlCfg->script = 'index.php';
+     * </code>
      */
     public function __construct()
     {
@@ -132,8 +143,8 @@ class ezcUrlConfiguration
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the property does not exist.
-     * @param string $name
-     * @param mixed $value
+     * @param string $name The name of the property to set
+     * @param mixed $value The new value of the property
      * @ignore
      */
     public function __set( $name, $value )
@@ -158,7 +169,7 @@ class ezcUrlConfiguration
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the property does not exist.
-     * @param string $name
+     * @param string $name The name of the property for which to return the value
      * @return mixed
      * @ignore
      */
@@ -181,7 +192,7 @@ class ezcUrlConfiguration
     /**
      * Returns true if the property $name is set, otherwise false.
      *
-     * @param string $name
+     * @param string $name The name of the property to test if it is set
      * @return bool
      * @ignore
      */
@@ -202,9 +213,9 @@ class ezcUrlConfiguration
     }
 
     /**
-     * Adds an ordered parameter to the url configuration.
+     * Adds an ordered parameter to the URL configuration.
      *
-     * @param string $name
+     * @param string $name The name of the ordered parameter to add to the configuration
      */
     public function addOrderedParameter( $name )
     {
@@ -212,9 +223,9 @@ class ezcUrlConfiguration
     }
 
     /**
-     * Removes an ordered parameter from the url configuration.
+     * Removes an ordered parameter from the URL configuration.
      *
-     * @param string @name
+     * @param string $name The name of the ordered parameter to remove from the configuration
      */
     public function removeOrderedParameter( $name )
     {
@@ -225,12 +236,14 @@ class ezcUrlConfiguration
     }
 
     /**
-     * Adds an unordered parameter to the url configuration.
+     * Adds an unordered parameter to the URL configuration.
      *
-     * The default type is {@link SINGLE_ARGUMENT}.
+     * The default type of the parameter is {@link SINGLE_ARGUMENT}.
      *
-     * @param string $name
-     * @param int $type
+     * Other valid types are {@link MULTIPLE_ARGUMENTS}.
+     *
+     * @param string $name The name of the unordered parameter to add to the configuration
+     * @param int $type The type of the unordered parameter
      */
     public function addUnorderedParameter( $name, $type = null )
     {
@@ -242,9 +255,9 @@ class ezcUrlConfiguration
     }
 
     /**
-     * Removes an unordered parameter from the url configuration.
+     * Removes an unordered parameter from the URL configuration.
      *
-     * @param string @name
+     * @param string $name The name of the unordered parameter to remove from the configuration
      */
     public function removeUnorderedParameter( $name )
     {

@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Url
  */
@@ -33,10 +33,10 @@
  * // define unordered parameters
  * $urlCfg->addUnorderedParameter( 'game', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
  *
- * // create a new ezcUrl object from a string url and use the above $urlCfg
+ * // create a new ezcUrl object from a string URL and use the above $urlCfg
  * $url = new ezcUrl( 'http://www.example.com/mydir/index.php/groups/Games/Adventure/Adult/(game)/Larry/7', $urlCfg );
  *
- * // to get the parameter values from the url use $url->getParam():
+ * // to get the parameter values from the URL use $url->getParam():
  * $section =  $url->getParam( 'section' ); // will be "groups"
  * $group = $url->getParam( 'group' ); // will be "Games"
  * $category = $url->getParam( 'category' ); // will be "Adventure"
@@ -69,7 +69,7 @@
  * @property string $uparams
  *           Complete unordered parameters as associative array.
  * @property ezcUrlConfiguration $configuration
- *           The url configuration defined for this url, or null.
+ *           The URL configuration defined for this URL, or null.
  *
  * @package Url
  * @version //autogen//
@@ -88,10 +88,10 @@ class ezcUrl
      * Constructs a new ezcUrl object from the string $url.
      *
      * If the $configuration parameter is provided, then it will apply the
-     * configuration to the url by calling {@link applyConfiguration()}.
+     * configuration to the URL by calling {@link applyConfiguration()}.
      *
-     * @param string $url
-     * @param ezcUrlConfiguration $configuration
+     * @param string $url A string URL from which to construct the URL object
+     * @param ezcUrlConfiguration $configuration An optional URL configuration used when parsing and building the URL
      */
     public function __construct( $url = null, ezcUrlConfiguration $configuration = null )
     {
@@ -110,8 +110,8 @@ class ezcUrl
      *         if the property $name does not exist
      * @throws ezcBaseValueException
      *         if $value is not correct for the property $name
-     * @param string $name
-     * @param mixed $value
+     * @param string $name The name of the property to set
+     * @param mixed $value The new value of the property
      * @ignore
      */
     public function __set( $name, $value )
@@ -155,7 +155,7 @@ class ezcUrl
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the property $name does not exist
-     * @param string $name
+     * @param string $name The name of the property for which to return the value
      * @return mixed
      * @ignore
      */
@@ -186,7 +186,7 @@ class ezcUrl
     /**
      * Returns true if the property $name is set, otherwise false.
      *
-     * @param $name
+     * @param string $name The name of the property to test if it is set
      * @return bool
      * @ignore
      */
@@ -227,7 +227,7 @@ class ezcUrl
     /**
      * Parses the string $url and sets the class properties.
      *
-     * @param string $url
+     * @param string $url A string URL to parse
      */
     private function parseUrl( $url = null )
     {
@@ -257,14 +257,14 @@ class ezcUrl
     }
 
     /**
-     * Applies the url configuration $configuration to the current url.
+     * Applies the URL configuration $configuration to the current url.
      *
      * It fills the arrays $basedir, $script, $params and $uparams with values
      * from $path.
      *
      * It also sets the property configuration to the value of $configuration.
      *
-     * @param ezcUrlConfiguration $configuration
+     * @param ezcUrlConfiguration $configuration An URL configuration used in parsing
      */
     public function applyConfiguration( ezcUrlConfiguration $configuration )
     {
@@ -281,8 +281,8 @@ class ezcUrl
      * Returns the first few elements of $this->path matching $config,
      * starting from $index.
      *
-     * @param string $config
-     * @param int $index
+     * @param string $config A string which will be matched against the path part of the URL
+     * @param int $index The index in the URL path part from where to start the matching of $config
      * @return array(string=>mixed)
      */
     private function parsePathElement( $config, $index )
@@ -303,8 +303,8 @@ class ezcUrl
     /**
      * Returns ordered parameters from the $path array.
      *
-     * @param array(int=>string) $config
-     * @param int $index
+     * @param array(string) $config An array of ordered parameters names, from the URL configuration used in parsing
+     * @param int $index The index in the URL path part from where to start the matching of $config
      * @return array(string=>mixed)
      */
     public function parseOrderedParameters( $config, $index )
@@ -328,8 +328,8 @@ class ezcUrl
     /**
      * Returns unordered parameters from the $path array.
      *
-     * @param array(int=>string) $config
-     * @param int $index
+     * @param array(string) $config An array of unordered parameters names, from the URL configuration used in parsing
+     * @param int $index The index in the URL path part from where to start the matching of $config
      * @return array(string=>mixed)
      */
     public function parseUnorderedParameters( $config, $index )
@@ -339,7 +339,7 @@ class ezcUrl
         if ( $pathCount == 0 || ( $pathCount == 1 && trim( $this->path[0] ) === "" ) )
         {
             // special case: a bug? in parse_url() which makes $this->path
-            // be array( "" ) if the provided url is null or empty
+            // be array( "" ) if the provided URL is null or empty
             return $result;
         }
         for ( $i = $index; $i < $pathCount; $i++ )
@@ -455,13 +455,13 @@ class ezcUrl
     }
 
     /**
-     * Returns the specified parameter from the url based on the url configuration.
+     * Returns the specified parameter from the URL based on the URL configuration.
      *
      * @throws ezcUrlNoConfigurationException
-     *         if an url configuration is not defined
+     *         if an URL configuration is not defined
      * @throws ezcUrlInvalidParameterException
-     *         if the specified parameter is not defined in the url configuration
-     * @param string $name
+     *         if the specified parameter is not defined in the URL configuration
+     * @param string $name The name of the parameter for which to return the value
      * @return mixed
      */
     public function getParam( $name )
@@ -503,14 +503,14 @@ class ezcUrl
     }
 
     /**
-     * Sets the specified parameter in the url based on the url configuration.
+     * Sets the specified parameter in the URL based on the URL configuration.
      *
      * @throws ezcUrlNoConfigurationException
-     *         if an url configuration is not defined
+     *         if an URL configuration is not defined
      * @throws ezcUrlInvalidParameterException
-     *         if the specified parameter is not defined in the url configuration
-     * @param string $name
-     * @param string $value
+     *         if the specified parameter is not defined in the URL configuration
+     * @param string $name The name of the parameter to set
+     * @param string $value The new value of the parameter
      */
     public function setParam( $name, $value )
     {
@@ -565,7 +565,7 @@ class ezcUrl
      * and $query = array( 'content' => 'view', 'products' => '10' )
      * then 'http://www.example.com/mydir/shop?content=view&products=10'
      *
-     * @param string $query
+     * @param array(string=>mixed) $query The new value of the query part
      */
     public function setQuery( $query )
     {

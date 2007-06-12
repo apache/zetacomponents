@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Url
  */
@@ -17,14 +17,14 @@
  *
  * Example of use:
  * <code>
- * // register an url under the alias 'map'
+ * // register an URL under the alias 'map'
  * ezcUrlCreator::registerUrl( 'map', '/images/geo/%s?xsize=%d&ysize=%d&zoom=%d' );
  *
- * // retrieve the stored url under the alias 'map' formatted with parameters
+ * // retrieve the stored URL under the alias 'map' formatted with parameters
  * $url = ezcUrlCreator::getUrl( 'map', 'map_norway.gif', 450, 450, 4 );
  *      // will be: "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
  *
- * // retrieve the stored url under the alias 'map' formatted with other parameters
+ * // retrieve the stored URL under the alias 'map' formatted with other parameters
  * $url = ezcUrlCreator::getUrl( 'map', 'map_sweden.gif', 450, 450, 4 );
  *      // will be: "/images/geo/map_sweden.gif?xsize=450&ysize=450&zoom=4"
  * </code>
@@ -42,12 +42,12 @@ class ezcUrlCreator
     private static $urls = array();
 
     /**
-     * Registers $url as $name in the urls list.
+     * Registers $url as $name in the URLs list.
      *
      * If $name is already registered, it will be overwritten.
      *
-     * @param string $name
-     * @param string $url
+     * @param string $name The name associated with the URL
+     * @param string $url The URL to register
      */
     public static function registerUrl( $name, $url )
     {
@@ -55,7 +55,7 @@ class ezcUrlCreator
     }
 
     /**
-     * Returns the url registerd as $name prepended to $suffix.
+     * Returns the URL registerd as $name prepended to $suffix.
      *
      * Example:
      * <code>
@@ -67,8 +67,8 @@ class ezcUrlCreator
      *
      * @throws ezcUrlNotRegisteredException
      *         if $name is not registered
-     * @param string $name
-     * @param string $suffix
+     * @param string $name The name associated with the URL that will be appended with $suffix
+     * @param string $suffix The string which will be appended to the URL
      * @return string
      */
     public static function prependUrl( $name, $suffix )
@@ -84,11 +84,11 @@ class ezcUrlCreator
     }
 
     /**
-     * Returns the url registered as $name.
+     * Returns the URL registered as $name.
      *
      * This function accepts a variable number of arguments like the sprintf()
      * function. If you specify more than 1 arguments when calling this
-     * function, the registered url will be formatted using those arguments
+     * function, the registered URL will be formatted using those arguments
      * similar with the sprintf() function.
      * Example:
      * <code>
@@ -100,8 +100,8 @@ class ezcUrlCreator
      *
      * @throws ezcUrlNotRegisteredException
      *         if $name is not registered
-     * @param string $name
-     * @param ... mixed args
+     * @param string $name The name associated with the URL
+     * @param mixed $args,... Optional values which will be vsprintf-ed in the URL
      * @return string
      */
     public static function getUrl( $name )
