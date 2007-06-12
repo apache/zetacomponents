@@ -10,6 +10,7 @@
 /**
  * Struct to represent the context of a renderer operation
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphContext extends ezcBaseStruct

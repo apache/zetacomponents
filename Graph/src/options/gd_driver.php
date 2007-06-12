@@ -29,6 +29,7 @@
  *           Degree step used to interpolate round image primitives by 
  *           polygons for image maps
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphGdDriverOptions extends ezcGraphDriverOptions

@@ -14,6 +14,7 @@
  * @property float $labelCount
  *           Define count of displayed labels on the axis
  * 
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

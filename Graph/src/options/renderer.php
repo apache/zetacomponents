@@ -52,6 +52,7 @@
  * @property float $pieChartGleamBorder
  *           Do not draw gleam on an outer border of this size.
  * 
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphRendererOptions extends ezcGraphChartOptions

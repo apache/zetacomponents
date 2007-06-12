@@ -22,6 +22,7 @@
  * @property ezcGraphColor $endColor
  *           Ending color of the gradient.
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphLinearGradient extends ezcGraphColor

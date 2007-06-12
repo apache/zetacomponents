@@ -11,6 +11,7 @@
 /**
  * Class creating translation matrices from given movements
  *
+ * @version //autogentag//
  * @package Graph
  * @access private
  */

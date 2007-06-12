@@ -10,6 +10,7 @@
 /**
  * Class for integer properties of datasets
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphDataSetBooleanProperty extends ezcGraphDataSetProperty

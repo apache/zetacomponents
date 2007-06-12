@@ -34,6 +34,7 @@
  * @property int $repeat
  *           Defines how the background image gets repeated
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

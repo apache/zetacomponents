@@ -10,6 +10,7 @@
 /**
  * Dataset class which receives arrays and use them as a base for datasets.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

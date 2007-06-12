@@ -12,6 +12,7 @@
  * Abstract class to transform the basic chart components. To be extended by
  * three- and twodimensional renderers.
  *
+ * @version //autogentag//
  * @package Graph
  */
 abstract class ezcGraphRenderer

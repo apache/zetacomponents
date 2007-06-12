@@ -10,6 +10,7 @@
 /**
  * Light red color pallet for ezcGraph based on red eZ colors
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphPaletteEzRed extends ezcGraphPalette

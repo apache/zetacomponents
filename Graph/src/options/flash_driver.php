@@ -17,6 +17,7 @@
  *           Resolution for circles, until I understand how to draw ellipses
  *           with SWFShape::curveTo()
  * 
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphFlashDriverOptions extends ezcGraphDriverOptions

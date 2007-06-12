@@ -3,7 +3,7 @@
  * File containing the ezcGraphUnknownFontTypeException class
  *
  * @package Graph
- * @version //autogen//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -11,7 +11,7 @@
  * Exception thrown if font type is unknown or not supported.
  *
  * @package Graph
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcGraphUnknownFontTypeException extends ezcGraphException
 {

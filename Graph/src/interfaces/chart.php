@@ -11,6 +11,7 @@
  * Class to represent a complete chart.
  *
  * @package Graph
+ * @version //autogentag//
  */
 abstract class ezcGraphChart
 {
@@ -271,9 +272,12 @@ abstract class ezcGraphChart
      * Creates basic visual chart elements from the chart to be processed by 
      * the renderer.
      * 
+     * @param int $width
+     * @param int $height
+     * @param string $file
      * @return void
      */
-    abstract public function render( $widht, $height, $file = null );
+    abstract public function render( $width, $height, $file = null );
 
     /**
      * Renders this chart to direct output
@@ -281,9 +285,11 @@ abstract class ezcGraphChart
      * Does the same as ezcGraphChart::render(), but renders directly to 
      * output and not into a file.
      * 
+     * @param int $width
+     * @param int $height
      * @return void
      */
-    abstract public function renderToOutput( $widht, $height );
+    abstract public function renderToOutput( $width, $height );
 }
 
 ?>

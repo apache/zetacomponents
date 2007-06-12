@@ -11,6 +11,7 @@
 /**
  * Renders axis labels like known from charts drawn in analysis
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphAxisNoLabelRenderer extends ezcGraphAxisLabelRenderer

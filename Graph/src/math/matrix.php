@@ -11,6 +11,7 @@
 /**
  * Provides a genereic matrix class with basic math operations
  *
+ * @version //autogentag//
  * @package Graph
  * @access private
  */

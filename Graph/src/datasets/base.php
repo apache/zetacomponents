@@ -24,6 +24,7 @@
  * @property string $url
  *           URL associated with datapoint
  *
+ * @version //autogentag//
  * @package Graph
  * @access private
  */

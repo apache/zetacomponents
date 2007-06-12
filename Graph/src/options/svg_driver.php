@@ -52,6 +52,7 @@
  * @property string $linkCursor
  *           CSS value for cursor property used for linked SVG elements
  * 
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions

@@ -10,6 +10,7 @@
 /**
  * Base options class for all eZ components.
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraph

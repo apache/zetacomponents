@@ -16,6 +16,7 @@
  *           crossed by the other axis which would result in an unreadable 
  *           label.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

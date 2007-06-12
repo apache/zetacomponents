@@ -31,6 +31,7 @@
  * @property int $labelPadding
  *           Padding of labels.
  *
+ * @version //autogentag//
  * @package Graph
  */
 abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions

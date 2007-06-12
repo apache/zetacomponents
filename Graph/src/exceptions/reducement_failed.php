@@ -3,7 +3,7 @@
  * File containing the ezcGraphReducementFailedException class
  *
  * @package Graph
- * @version //autogen//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -12,7 +12,7 @@
  * failed because the shape was already too small.
  *
  * @package Graph
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcGraphReducementFailedException extends ezcGraphException
 {

@@ -12,6 +12,7 @@
  * Class defining transformations like scaling and rotation by a 
  * 3x3 transformation matrix for |R^2
  *
+ * @version //autogentag//
  * @package Graph
  * @access private
  */

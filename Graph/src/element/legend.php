@@ -24,6 +24,7 @@
  * @property int $spacing
  *           Space between labels elements in pixel.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

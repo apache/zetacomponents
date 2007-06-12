@@ -11,6 +11,7 @@
 /**
  * Represents two dimensional vectors
  *
+ * @version //autogentag//
  * @package Graph
  * @access private
  */

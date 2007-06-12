@@ -22,6 +22,7 @@
  * @property int $resolution
  *           Steps used to draw line in graph
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

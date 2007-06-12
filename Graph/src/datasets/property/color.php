@@ -10,6 +10,7 @@
 /**
  * Class for color properties of datasets
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphDataSetColorProperty extends ezcGraphDataSetProperty

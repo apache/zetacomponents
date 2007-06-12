@@ -26,6 +26,7 @@
  *           Format of date string
  *           Like http://php.net/date
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

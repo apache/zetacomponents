@@ -46,6 +46,7 @@
  *           Color of text shadow. If false the inverse color of the text 
  *           color will be used.
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphFontOptions extends ezcBaseOptions

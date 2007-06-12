@@ -16,6 +16,7 @@
  * ext/gd. It is possible to use Free Type 2, native TTF and PostScript Type 1 
  * fonts.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

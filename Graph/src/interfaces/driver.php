@@ -10,6 +10,7 @@
 /**
  * Abstract class to be extended for ezcGraph output drivers.
  *
+ * @version //autogentag//
  * @package Graph
  */
 abstract class ezcGraphDriver

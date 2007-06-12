@@ -10,6 +10,7 @@
 /**
  * Represents coordinates in two dimensional catesian coordinate system.
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphCoordinate extends ezcBaseStruct

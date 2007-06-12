@@ -11,6 +11,7 @@
 /**
  * Class to transform chart primitives into image primitives 
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

@@ -25,6 +25,7 @@
  * @property string $autoShortenStringPostFix
  *           String to append to shortened strings, if there is enough space
  *
+ * @version //autogentag//
  * @package Graph
  */
 abstract class ezcGraphDriverOptions extends ezcBaseOptions

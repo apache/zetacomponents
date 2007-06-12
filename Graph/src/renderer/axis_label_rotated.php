@@ -15,6 +15,7 @@
  * @property float $angle
  *           Angle of labels on axis in degrees.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

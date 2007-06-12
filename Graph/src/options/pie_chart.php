@@ -30,6 +30,7 @@
  *           Caption for values summarized because they are lower then the
  *           configured tresh hold.
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphPieChartOptions extends ezcGraphChartOptions

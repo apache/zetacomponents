@@ -16,6 +16,7 @@
  * @property int $resolution
  *           Resolution used to draw line in graph
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

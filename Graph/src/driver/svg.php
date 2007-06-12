@@ -10,6 +10,7 @@
 /**
  * Extension of the basic Driver package to utilize the SVGlib.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

@@ -10,6 +10,7 @@
 /**
  * Abstract class to contain pallet definitions
  * 
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

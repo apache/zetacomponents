@@ -11,6 +11,7 @@
  * Container class for datasets used by the chart classes. Implements usefull
  * interfaces for convenient access to the datasets.
  *
+ * @version //autogentag//
  * @package Graph
  */
 

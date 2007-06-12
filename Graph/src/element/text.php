@@ -13,6 +13,7 @@
  * @property float $maxHeight
  *           Maximum percent of bounding used to display the text.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

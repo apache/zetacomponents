@@ -10,6 +10,7 @@
 /**
  * Represents a single step on the axis
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphAxisStep

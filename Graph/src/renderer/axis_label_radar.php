@@ -14,6 +14,7 @@
  * @property float $lastStep
  *           Position of last step on the axis to calculate the grid.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

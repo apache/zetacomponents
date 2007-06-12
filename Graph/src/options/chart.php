@@ -17,6 +17,7 @@
  * @property int $font
  *           Font used in the graph.
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphChartOptions extends ezcBaseOptions

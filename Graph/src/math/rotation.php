@@ -11,6 +11,7 @@
 /**
  * Class to create rotation matrices from given rotation and center point
  *
+ * @version //autogentag//
  * @package Graph
  * @access private
  */

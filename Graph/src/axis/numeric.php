@@ -24,6 +24,7 @@
  * @property-read float $maxValue
  *                Maximum value to display on this axis.
  *           
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

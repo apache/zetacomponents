@@ -3,7 +3,7 @@
  * File containing the ezcGraphMatrixInvalidDimensionsException class
  *
  * @package Graph
- * @version //autogen//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -12,7 +12,7 @@
  * matrix dimensions.
  *
  * @package Graph
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcGraphMatrixInvalidDimensionsException extends ezcGraphException
 {

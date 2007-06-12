@@ -10,6 +10,7 @@
 /**
  * Abstract class for properties of datasets
  *
+ * @version //autogentag//
  * @package Graph
  */
 abstract class ezcGraphDataSetProperty implements ArrayAccess

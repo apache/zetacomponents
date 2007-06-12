@@ -10,6 +10,7 @@
 /**
  * Class for string properties of datasets
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphDataSetStringProperty extends ezcGraphDataSetProperty

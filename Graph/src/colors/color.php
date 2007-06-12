@@ -24,6 +24,7 @@
  * @property integer $alpha
  *           Alpha RGBA value of color.
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphColor extends ezcBaseOptions

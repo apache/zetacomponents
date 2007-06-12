@@ -52,6 +52,7 @@
  *  $chart->legend->position = ezcGraph::RIGHT;
  * </code>
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

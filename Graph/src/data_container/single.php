@@ -11,6 +11,7 @@
  * Container class for datasets, which ensures, that only one dataset is used.
  * Needed for pie charts which can only display one dataset.
  *
+ * @version //autogentag//
  * @package Graph
  */
 

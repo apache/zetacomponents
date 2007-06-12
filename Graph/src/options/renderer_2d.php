@@ -17,6 +17,7 @@
  * @property float $pieChartShadowColor
  *           Color used for pie chart shadows.
  * 
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphRenderer2dOptions extends ezcGraphRendererOptions

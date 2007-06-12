@@ -26,6 +26,7 @@
  *           If true, it adds lines to highlight the values position on the 
  *           axis.
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphRadarChartOptions extends ezcGraphChartOptions

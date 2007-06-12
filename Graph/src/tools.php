@@ -10,6 +10,7 @@
 /**
  * Toolkit for several operation with graphs
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

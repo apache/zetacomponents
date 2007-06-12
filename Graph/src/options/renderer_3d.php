@@ -37,6 +37,7 @@
  * @property float $barChartGleam
  *           Transparancy for gleam on bar charts
  * 
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphRenderer3dOptions extends ezcGraphRendererOptions

@@ -10,6 +10,7 @@
 /**
  * Provides a class for generic operations on polynoms
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphPolynom

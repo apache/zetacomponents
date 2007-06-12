@@ -12,6 +12,7 @@
  * Renders axis labels centered between two axis steps like normally used for 
  * bar charts.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

@@ -14,6 +14,7 @@
  * Currently only works with plane rectangular boundings, should be enhanced by
  * rotated rectangular boundings.
  *
+ * @version //autogentag//
  * @package Graph
  * @access private
  */

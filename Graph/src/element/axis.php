@@ -43,6 +43,7 @@
  *           reformatted label.
  *              string function( label, step )
  *
+ * @version //autogentag//
  * @package Graph
  */
 abstract class ezcGraphChartElementAxis extends ezcGraphChartElement

@@ -11,6 +11,7 @@
  * Light color pallet for ezcGraph based on Tango style guidelines at
  * http://tango-project.org/Generic_Icon_Theme_Guidelines
  *
+ * @version //autogentag//
  * @package Graph
  */
 class ezcGraphPaletteTango extends ezcGraphPalette

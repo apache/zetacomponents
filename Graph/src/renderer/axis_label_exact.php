@@ -16,6 +16,7 @@
  *           than all other values, to not interfere with the arrow head of 
  *           the axis.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

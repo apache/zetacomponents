@@ -12,6 +12,7 @@
  * Interface which adds the methods required for rendering radar charts to a 
  * renderer
  *
+ * @version //autogentag//
  * @package Graph
  */
 interface ezcGraphRadarRenderer

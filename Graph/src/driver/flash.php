@@ -10,6 +10,7 @@
 /**
  * Driver to create Flash4 (SWF) files as graph output.
  *
+ * @version //autogentag//
  * @package Graph
  * @mainclass
  */

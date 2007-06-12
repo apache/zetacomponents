@@ -40,6 +40,7 @@
  * @property-read ezcGraphBoundings $boundings
  *                Boundings of this elements.
  *
+ * @version //autogentag//
  * @package Graph
  */
 abstract class ezcGraphChartElement extends ezcBaseOptions
