@@ -112,6 +112,12 @@ class ezcTestConstraintSimilarImage extends PHPUnit_Framework_Constraint
         // Wait for process to terminate and store return value
         $return = proc_close( $imageProcess );
 
+        // Some versions output to STDERR
+        if ( empty( $resultString) && !empty( $errorString ) )
+        {
+            $resultString = $errorString;
+        }
+
         // Different versuions of ImageMagick seem to output "dB" or not
         if ( preg_match( '/([\d.,e]+)(\s+dB)?/', $resultString, $match ) )
         {
