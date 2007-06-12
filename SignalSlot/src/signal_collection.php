@@ -81,7 +81,7 @@ class ezcSignalCollection
     /**
      * If set, $holder will be used to fetch static connections instead of ezcSignalStaticConnections.
      *
-     * @param ezcSignalStaticConnectionsBase
+     * @param ezcSignalStaticConnectionsBase $holder
      */
     public static function setStaticConnectionsHolder( ezcSignalStaticConnectionsBase $holder )
     {
@@ -203,7 +203,7 @@ class ezcSignalCollection
      * the property signalsBlocked has been set.
      *
      * @throws ezcSignalSlotException if the signals options has been set and $signal is not in the list of signals.
-     * @param string
+     * @param string $signal
      * @return bool
      */
     public function isConnected( $signal )
@@ -248,7 +248,7 @@ class ezcSignalCollection
      *
      * @throws ezcSignalSlotException if the signals options has been set and $signal is not in the list of signals.
      * @param string $signal
-     * @param ... signal parameters
+     * @param ... $signal_parameters
      * @return void
      */
     public function emit( $signal )
@@ -362,7 +362,7 @@ class ezcSignalCollection
      * @throws ezcSignalSlotException if the signals options has been set and $signal is not in the list of signals.
      * @param string $signal
      * @param callback $slot
-     * @param int priority
+     * @param int $priority
      * @return void
      */
     public function connect( $signal, $slot, $priority = 1000 )
@@ -395,7 +395,7 @@ class ezcSignalCollection
      * @throws ezcSignalSlotException if the signals options has been set and $signal is not in the list of signals.
      * @param string $signal
      * @param callback $slot
-     * @param int priority
+     * @param int $priority
      * @return void
      */
     public function disconnect( $signal, $slot, $priority = null )

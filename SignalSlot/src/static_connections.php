@@ -148,7 +148,7 @@ class ezcSignalStaticConnections implements ezcSignalStaticConnectionsBase
      * @param string $identifier
      * @param string $signal
      * @param callback $slot
-     * @param int priority
+     * @param int $priority
      * @return void
      */
     public function connect( $identifier, $signal, $slot, $priority = 1000 )
@@ -168,7 +168,7 @@ class ezcSignalStaticConnections implements ezcSignalStaticConnectionsBase
      * @param string $identifier
      * @param string $signal
      * @param callback $slot
-     * @param int priority
+     * @param int $priority
      * @return void
      */
     public function disconnect( $identifier, $signal, $slot, $priority = null )
