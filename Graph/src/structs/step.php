@@ -68,7 +68,7 @@ class ezcGraphAxisStep
      * @param bool $isLast 
      * @ignore
      */
-    public function __construct( $position = .0, $width = .0, $label = false, array $childs = array(), $isZero = false, $isLast = false )
+    public function __construct( $position = .0, $width = .0, $label = null, array $childs = array(), $isZero = false, $isLast = false )
     {
         $this->position = (float) $position;
         $this->width = (float) $width;

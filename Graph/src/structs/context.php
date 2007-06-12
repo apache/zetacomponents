@@ -45,7 +45,7 @@ class ezcGraphContext extends ezcBaseStruct
      * @return void
      * @ignore
      */
-    public function __construct( $dataset = false, $datapoint = false, $url = null )
+    public function __construct( $dataset = null, $datapoint = null, $url = null )
     {
         $this->dataset = $dataset;
         $this->datapoint = $datapoint;
