@@ -11,7 +11,8 @@
 /**
  * ezcPhpGeneratorParameter holds information about a function or method parameter.
  *
- * @see ezcPhpGenerator::appendMethodCal(), ezcPhpGenerator::appendFunctionCall()
+ * @see ezcPhpGenerator::appendMethodCal()
+ * @see ezcPhpGenerator::appendFunctionCall()
  *
  * @package PhpGenerator
  * @version //autogentag//
@@ -45,8 +46,8 @@ class ezcPhpGeneratorParameter extends ezcBaseStruct
     /**
      * Constructs a new ezcPhpGeneratorParameter.
      *
+     * @param string $variable Either the name of a variable or variable data.
      * @param int $type Controls if $variable contains the name of a variable or actual data.
-     * $param string $variable Either the name of a variable or variable data.
      */
     public function __construct( $variable = '', $type = ezcPhpGeneratorParameter::VARIABLE )
     {
@@ -64,7 +65,7 @@ class ezcPhpGeneratorParameter extends ezcBaseStruct
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array
      * @return ezcPhpGeneratorParameter
      */
     public static function __set_state( array $array )

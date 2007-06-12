@@ -20,6 +20,9 @@ class ezcPhpGeneratorFlowException extends ezcPhpGeneratorException
      *
      * $expectedFlow is the name of the control structure you expected the end of
      * and $calledFlow is the actual structure received.
+     *
+     * @param string $expectedFlow
+     * @param string $calledFlow
      */
     function __construct( $expectedFlow, $calledFlow )
     {

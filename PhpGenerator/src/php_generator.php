@@ -363,8 +363,8 @@ class ezcPhpGenerator
      * The parameter $caseSensitive determines if the defined variable is case
      * sensitive or not.  Note that $name must start with a letter or
      * underscore, followed by any number of letters, numbers, or underscores.
-     * @see http://php.net/manual/en/language.constants.php for more information.
-     * @see http://php.net/manual/en/function.define.php
+     * @link http://php.net/manual/en/language.constants.php for more information.
+     * @link http://php.net/manual/en/function.define.php
      *
      * Example:
      * <code>
@@ -417,8 +417,8 @@ class ezcPhpGenerator
      *
      * @throws PhpGeneratorException if it was not possible to write the assignment to the output file.
      * @param string $name
-     * @param mixed $value;
-     * @param $assignmentType ezcPhpGenerator:: ASSIGN_NORMAL, ASSIGN_APPEND_TEXT, ASSIGN_ADD,
+     * @param mixed $value
+     * @param int $assignmentType ezcPhpGenerator:: ASSIGN_NORMAL, ASSIGN_APPEND_TEXT, ASSIGN_ADD,
      *                        ASSIGN_SUBTRACT or ASSIGN_ARRAY_APPEND.
      * @return void
      */
@@ -465,8 +465,8 @@ class ezcPhpGenerator
      *
      * @throws PhpGeneratorException if it was not possible to write the assignment to the output file.
      * @param string $name
-     * @param mixed $value;
-     * @param $assignmentType ezcPhpGenerator:: ASSIGN_NORMAL, ASSIGN_APPEND_TEXT, ASSIGN_ADD,
+     * @param mixed $variable
+     * @param int $assignmentType ezcPhpGenerator:: ASSIGN_NORMAL, ASSIGN_APPEND_TEXT, ASSIGN_ADD,
      *                        ASSIGN_SUBTRACT or ASSIGN_ARRAY_APPEND.
      * @return void
      */
@@ -565,6 +565,7 @@ class ezcPhpGenerator
      * </code>
      *
      * @throws PhpGeneratorException if it was not possible to write the empty lines to the output file.
+     * @param int $lines
      * @return void
      */
     public function appendEmptyLines( $lines = 1 )
@@ -590,9 +591,9 @@ class ezcPhpGenerator
      * </code>
      *
      * @throws PhpGeneratorException if it was not possible to write the method call to the output file.
-     * @param string $methodName
-     * @param array(ezcPhpGeneratorParameter) $methodParameters
-     * @param ezcPhpGeneratorReturnData $returnValue
+     * @param string $functionName
+     * @param array(ezcPhpGeneratorParameter) $parameters
+     * @param ezcPhpGeneratorReturnData $returnData
      * @return void
      */
     public function appendFunctionCall( $functionName, array $parameters, ezcPhpGeneratorReturnData $returnData = null )
@@ -621,8 +622,8 @@ class ezcPhpGenerator
      * @throws PhpGeneratorException if it was not possible to write the method call to the output file.
      * @param string $objectName
      * @param string $methodName
-     * @param array(ezcPhpGeneratorParameter) $methodParameters
-     * @param ezcPhpGeneratorReturnData $returnValue
+     * @param array(ezcPhpGeneratorParameter) $parameters
+     * @param ezcPhpGeneratorReturnData $returnData
      * @return void
      */
     public function appendMethodCall( $objectName, $methodName, array $parameters = array(), ezcPhpGeneratorReturnData $returnData = null )
@@ -638,12 +639,14 @@ class ezcPhpGenerator
      * further description of the parameters and examples.
      *
      * @throws PhpGeneratorException if it was not possible to write the method call to the output file.
-     * @param string $methodName
-     * @param array(ezcPhpGeneratorParameter) $methodParameters
-     * @param ezcPhpGeneratorReturnData $returnValue
+     * @param string $functionName
+     * @param array(ezcPhpGeneratorParameter) $parameters
+     * @param ezcPhpGeneratorReturnData $returnData
+     * @param string $objectVariable The variable name containing the object.
      * @return void
      */
-    protected function appendMethodOrFunctionCall( $functionName, array $parameters, $returnData = null, $objectName = false )
+    protected function appendMethodOrFunctionCall( $functionName, array $parameters, $returnData = null,
+                                                   $objectVariable = null )
     {
         // prepare the return part
         $returnString = '';
@@ -675,9 +678,9 @@ class ezcPhpGenerator
 
         // prepare the object string if this is a call to an object
         $objectString = '';
-        if ( $objectName !== false )
+        if ( $objectVariable !== null )
         {
-            $objectString = "\${$objectName}->";
+            $objectString = "\${$objectVariable}->";
         }
 
         // prepare the parameters
@@ -1016,7 +1019,7 @@ class ezcPhpGenerator
      *
      * @throws PhpGeneratorException if it was not possible to write to the output file or if a nesting
      *         error was detected.
-     * @param type One of the flow types FLOW_IF, FLOW_FOREACH, FLOW_WHILE or FLOW_DO.
+     * @param int $type One of the flow types FLOW_IF, FLOW_FOREACH, FLOW_WHILE or FLOW_DO.
      * @return void
      */
     private function appendEnd( $type )
@@ -1038,6 +1041,7 @@ class ezcPhpGenerator
      * Writes $data to $this->fileResource
      *
      * @throws PhpGeneratorException if it was not possible to write to the file.
+     * @param string $data
      * @return void
      */
     protected function write( $data )
