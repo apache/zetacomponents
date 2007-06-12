@@ -48,7 +48,7 @@ interface ezcGraphRadarRenderer
         $symbol = ezcGraph::NO_SYMBOL,
         ezcGraphColor $symbolColor = null,
         ezcGraphColor $fillColor = null,
-        $thickness = 1
+        $thickness = 1.
     );
 }
 

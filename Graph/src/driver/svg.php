@@ -277,7 +277,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      * @param float $thickness Line thickness.
      * @return string Formatstring
      */
-    protected function getStyle( ezcGraphColor $color, $filled = true, $thickness = 1 )
+    protected function getStyle( ezcGraphColor $color, $filled = true, $thickness = 1. )
     {
         if ( $filled )
         {
@@ -325,7 +325,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      * @param float $thickness Line thickness
      * @return void
      */
-    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 )
+    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1. )
     {
         $this->createDocument();
 
@@ -379,7 +379,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      * @param float $thickness Line thickness
      * @return void
      */
-    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 )
+    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1. )
     {
         $this->createDocument();  
         
@@ -905,6 +905,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      * @param float $startAngle Starting angle of circle sector
      * @param float $endAngle Ending angle of circle sector
      * @param ezcGraphColor $color Color of Border
+     * @param bool $filled
      * @return void
      */
     public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )

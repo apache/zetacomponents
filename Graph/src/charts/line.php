@@ -323,6 +323,13 @@ class ezcGraphLineChart extends ezcGraphChart
         return ezcGraph::LINE;
     }
 
+    /**
+     * Renders the basic elements of this chart type
+     * 
+     * @param int $width 
+     * @param int $height 
+     * @return void
+     */
     protected function renderElements( $width, $height )
     {
         if ( !count( $this->data ) )
@@ -430,13 +437,15 @@ class ezcGraphLineChart extends ezcGraphChart
      * Does the same as ezcGraphChart::render(), but renders directly to 
      * output and not into a file.
      *
+     * @param int $width
+     * @param int $height
      * @return void
      */
-    public function renderToOutput( $widht, $height )
+    public function renderToOutput( $width, $height )
     {
         // @TODO: merge this function with render an deprecate ommit of third 
         // argument in render() when API break is possible
-        $this->renderElements( $widht, $height );
+        $this->renderElements( $width, $height );
         $this->renderer->render( null );
     }
 }

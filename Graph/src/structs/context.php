@@ -39,8 +39,9 @@ class ezcGraphContext extends ezcBaseStruct
     /**
      * Simple constructor 
      * 
-     * @param string $dataset Name of dataset
-     * @param string $datapoint Name of datapoint
+     * @param string $dataset
+     * @param string $datapoint
+     * @param string $url
      * @return void
      * @ignore
      */

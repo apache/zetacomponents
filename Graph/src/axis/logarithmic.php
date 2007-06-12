@@ -108,7 +108,7 @@ class ezcGraphChartElementLogarithmicalAxis extends ezcGraphChartElementAxis
     /**
      * Add data for this axis
      * 
-     * @param mixed $value Value which will be displayed on this axis
+     * @param array $values Value which will be displayed on this axis
      * @return void
      */
     public function addData( array $values )
@@ -195,7 +195,6 @@ class ezcGraphChartElementLogarithmicalAxis extends ezcGraphChartElementAxis
     /**
      * Get coordinate for a dedicated value on the chart
      * 
-     * @param ezcGraphBounding $boundings 
      * @param float $value Value to determine position for
      * @return float Position on chart
      */

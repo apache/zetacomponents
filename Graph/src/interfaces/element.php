@@ -243,11 +243,21 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
      * This method receives and returns a part of the canvas where it can be 
      * rendered on.
      * 
-     * @param ezcGraphBoundings $boundings Part of canvase to render element on
+     * @param ezcGraphRenderer $renderer
+     * @param ezcGraphBoundings $boundings
      * @return ezcGraphBoundings Part of canvas, which is still free to draw on
      */
     abstract public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings );
 
+    /**
+     * Returns calculated boundings based on available percentual space of 
+     * given bounding box specified in the elements options and direction of 
+     * the box.
+     * 
+     * @param ezcGraphBoundings $boundings 
+     * @param int $direction 
+     * @return ezcGraphBoundings
+     */
     protected function getTitleSize( ezcGraphBoundings $boundings, $direction = ezcGraph::HORIZONTAL )
     {
         if ( $direction === ezcGraph::HORIZONTAL )

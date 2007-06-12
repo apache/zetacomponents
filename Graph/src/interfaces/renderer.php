@@ -114,7 +114,7 @@ abstract class ezcGraphRenderer
      * @param float $startAngle Start angle
      * @param float $endAngle End angle
      * @param string $label Label of pie segment
-     * @param float $moveOut Move out from middle for hilighting
+     * @param bool $moveOut Move out from middle for hilighting
      * @return void
      */
     abstract public function drawPieSegment(
@@ -186,7 +186,7 @@ abstract class ezcGraphRenderer
         ezcGraphColor $symbolColor = null,
         ezcGraphColor $fillColor = null,
         $axisPosition = 0.,
-        $thickness = 1
+        $thickness = 1.
     );
 
     /**
@@ -204,6 +204,7 @@ abstract class ezcGraphRenderer
      * @param ezcGraphFontOptions $font Font used for highlight string
      * @param string $text Acutual value
      * @param int $size Size of highlight text
+     * @param ezcGraphColor $markLines
      * @return void
      */
     abstract public function drawDataHighlightText(
@@ -225,7 +226,7 @@ abstract class ezcGraphRenderer
      * Will draw a legend in the bounding box
      * 
      * @param ezcGraphBoundings $boundings Bounding of legend
-     * @param ezcGraphChartElementLegend $labels Legend to draw
+     * @param ezcGraphChartElementLegend $legend Legend to draw
      * @param int $type Type of legend: Protrait or landscape
      * @return void
      */
@@ -310,7 +311,7 @@ abstract class ezcGraphRenderer
      * @param ezcGraphCoordinate $start Start point of axis
      * @param ezcGraphCoordinate $end Endpoint of axis
      * @param ezcGraphChartElementAxis $axis Axis to render
-     * @param ezcGraphLabelRenderer $labelClass Used label renderer
+     * @param ezcGraphAxisLabelRenderer $labelClass Used label renderer
      * @return void
      */
     abstract public function drawAxis(

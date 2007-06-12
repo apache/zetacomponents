@@ -144,6 +144,15 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         }
     }
     
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
     public function __get( $propertyName )
     {
         switch ( $propertyName )
@@ -158,7 +167,7 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
     /**
      * Generate legend from several datasets with on entry per dataset
      * 
-     * @param array $datasets 
+     * @param ezcGraphChartDataContainer $datasets 
      * @return void
      */
     public function generateFromDataSets( ezcGraphChartDataContainer $datasets )

@@ -94,7 +94,7 @@ abstract class ezcGraphDriver
      * is a valid simplification, because we do not have any polygones which 
      * have an inner angle >= 180 degrees.
      * 
-     * @param array( ezcGraphCoordinate ) $points 
+     * @param array(ezcGraphCoordinate) $points 
      * @param float $size 
      * @throws ezcGraphReducementFailedException
      * @return array( ezcGraphCoordinate )
@@ -246,9 +246,11 @@ abstract class ezcGraphDriver
      * )
      * 
      * @param ezcGraphCoordinate $center 
-     * @param mixed $startAngle 
-     * @param mixed $endAngle 
-     * @param mixed $size 
+     * @param float $width
+     * @param float $height
+     * @param float $startAngle 
+     * @param float $endAngle 
+     * @param float $size 
      * @throws ezcGraphReducementFailedException
      * @return array
      */
@@ -418,7 +420,7 @@ abstract class ezcGraphDriver
      * @param float $thickness Line thickness
      * @return void
      */
-    abstract public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 );
+    abstract public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1. );
     
     /**
      * Draws a line 
@@ -429,7 +431,7 @@ abstract class ezcGraphDriver
      * @param float $thickness Line thickness
      * @return void
      */
-    abstract public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 );
+    abstract public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1. );
     
     /**
      * Returns boundings of text depending on the available font extension
@@ -656,6 +658,7 @@ abstract class ezcGraphDriver
      * @param float $startAngle Starting angle of circle sector
      * @param float $endAngle Ending angle of circle sector
      * @param ezcGraphColor $color Color of Border
+     * @param bool $filled Fill state
      * @return void
      */
     abstract public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled = true );

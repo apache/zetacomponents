@@ -187,7 +187,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
      * @param float $thickness Line thickness
      * @return void
      */
-    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 )
+    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1. )
     {
         $movie = $this->getDocument();
 
@@ -232,7 +232,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
      * @param float $thickness Line thickness
      * @return void
      */
-    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 )
+    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1. )
     {
         $movie = $this->getDocument();
 
@@ -343,14 +343,15 @@ class ezcGraphFlashDriver extends ezcGraphDriver
     /**
      * Render text depending of font type and available font extensions
      * 
-     * @param resource $image Image resource
-     * @param string $text Text
-     * @param int $type Font type
-     * @param string $path Font path
-     * @param ezcGraphColor $color Font color
-     * @param ezcGraphCoordinate $position Position
-     * @param float $size Textsize
-     * @param ezcGraphRotation $rotation
+     * @param string $id 
+     * @param string $text 
+     * @param string $chars 
+     * @param int $type 
+     * @param string $path 
+     * @param ezcGraphColor $color 
+     * @param ezcGraphCoordinate $position 
+     * @param float $size 
+     * @param float $rotation 
      * @return void
      */
     protected function renderText( $id, $text, $chars, $type, $path, ezcGraphColor $color, ezcGraphCoordinate $position, $size, $rotation = null )
@@ -688,7 +689,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
      * @param mixed $startAngle 
      * @param mixed $endAngle 
      * @param ezcGraphColor $color 
-     * @param mixed $filled 
+     * @param bool $filled 
      * @return string Element id
      */
     protected function simulateCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled )
@@ -765,6 +766,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
      * @param float $startAngle Starting angle of circle sector
      * @param float $endAngle Ending angle of circle sector
      * @param ezcGraphColor $color Color of Border
+     * @param bool $filled
      * @return void
      */
     public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )

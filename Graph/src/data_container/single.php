@@ -20,8 +20,8 @@ class ezcGraphChartSingleDataContainer extends ezcGraphChartDataContainer
     /**
      * Adds a dataset to the charts data
      * 
-     * @param string $name Name of dataset
-     * @param mixed $values Values to create dataset with
+     * @param string $name
+     * @param ezcGraphDataSet $dataSet
      * @throws ezcGraphTooManyDataSetExceptions
      *          If too many datasets are created
      * @return ezcGraphDataSet

@@ -126,6 +126,15 @@ class ezcGraphChartElementBackground extends ezcGraphChartElement
         }
     }
 
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
     public function __get( $propertyName )
     {
         switch ( $propertyName )

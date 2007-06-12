@@ -112,7 +112,7 @@ class ezcGraphRenderer2d
      * @param float $startAngle Start angle
      * @param float $endAngle End angle
      * @param string $label Label of pie segment
-     * @param float $moveOut Move out from middle for hilighting
+     * @param bool $moveOut Move out from middle for hilighting
      * @return void
      */
     public function drawPieSegment(
@@ -563,7 +563,7 @@ class ezcGraphRenderer2d
         ezcGraphColor $symbolColor = null,
         ezcGraphColor $fillColor = null,
         $axisPosition = 0.,
-        $thickness = 1)
+        $thickness = 1. )
     {
         // Perhaps fill up line
         if ( $fillColor !== null &&
@@ -688,6 +688,16 @@ class ezcGraphRenderer2d
         }
     }
 
+    /**
+     * Returns a coordinate in the given bounding box for the given angle
+     * radius with the center as base point.
+     * 
+     * @param ezcGraphBoundings $boundings
+     * @param ezcGraphCoordinate $center
+     * @param float $angle
+     * @param float $radius
+     * @return float
+     */
     protected function getCoordinateFromAngleAndRadius(
         ezcGraphBoundings $boundings,
         ezcGraphCoordinate $center,
@@ -751,7 +761,7 @@ class ezcGraphRenderer2d
         $symbol = ezcGraph::NO_SYMBOL,
         ezcGraphColor $symbolColor = null,
         ezcGraphColor $fillColor = null,
-        $thickness = 1
+        $thickness = 1.
     )
     {
         // Calculate line points from chart coordinates
@@ -823,6 +833,7 @@ class ezcGraphRenderer2d
      * @param ezcGraphFontOptions $font Font used for highlight string
      * @param string $text Acutual value
      * @param int $size Size of highlight text
+     * @param ezcGraphColor $markLines
      * @return void
      */
     public function drawDataHighlightText(
@@ -879,7 +890,7 @@ class ezcGraphRenderer2d
      * Will draw a legend in the bounding box
      * 
      * @param ezcGraphBoundings $boundings Bounding of legend
-     * @param ezcGraphChartElementLegend $labels Legend to draw
+     * @param ezcGraphChartElementLegend $legend Legend to draw;
      * @param int $type Type of legend: Protrait or landscape
      * @return void
      */
@@ -1150,7 +1161,7 @@ class ezcGraphRenderer2d
      * @param ezcGraphCoordinate $start Start point of axis
      * @param ezcGraphCoordinate $end Endpoint of axis
      * @param ezcGraphChartElementAxis $axis Axis to render
-     * @param ezcGraphLabelRenderer $labelClass Used label renderer
+     * @param ezcGraphAxisLabelRenderer $labelClass Used label renderer
      * @return void
      */
     public function drawAxis(

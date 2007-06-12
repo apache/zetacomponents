@@ -160,10 +160,10 @@ class ezcGraphRenderer3d
      * chart.
      * 
      * @param ezcGraphCoordinate $c Coordinate
-     * @param flot $front Distance to front (0 - 1)
+     * @param float $front Distance to front (0 - 1)
      * @return ezcGraphCoordinate Resulting coordinate
      */
-    protected function get3dCoordinate( ezcGraphCoordinate $c, $front = true )
+    protected function get3dCoordinate( ezcGraphCoordinate $c, $front = 1. )
     {
         return new ezcGraphCoordinate(
             ( $c->x - $this->dataBoundings->x0 ) * $this->xDepthFactor + $this->dataBoundings->x0 + $this->depth * $front,
@@ -182,7 +182,7 @@ class ezcGraphRenderer3d
      * @param float $startAngle Start angle
      * @param float $endAngle End angle
      * @param string $label Label of pie segment
-     * @param float $moveOut Move out from middle for hilighting
+     * @param bool $moveOut Move out from middle for hilighting
      * @return void
      */
     public function drawPieSegment(
@@ -1154,7 +1154,7 @@ class ezcGraphRenderer3d
         ezcGraphColor $symbolColor = null,
         ezcGraphColor $fillColor = null,
         $axisPosition = 0.,
-        $thickness = 1 )
+        $thickness = 1. )
     {
         // Calculate line width based on options
         if ( $this->options->seperateLines )
@@ -1330,6 +1330,7 @@ class ezcGraphRenderer3d
      * @param ezcGraphFontOptions $font Font used for highlight string
      * @param string $text Acutual value
      * @param int $size Size of highlight text
+     * @param ezcGraphColor $markLines
      * @return void
      */
     public function drawDataHighlightText(
@@ -1396,7 +1397,7 @@ class ezcGraphRenderer3d
      * Will draw a legend in the bounding box
      * 
      * @param ezcGraphBoundings $boundings Bounding of legend
-     * @param ezcGraphChartElementLegend $labels Legend to draw
+     * @param ezcGraphChartElementLegend $legend Legend to draw;
      * @param int $type Type of legend: Protrait or landscape
      * @return void
      */
@@ -1789,7 +1790,7 @@ class ezcGraphRenderer3d
      * @param ezcGraphCoordinate $start Start point of axis
      * @param ezcGraphCoordinate $end Endpoint of axis
      * @param ezcGraphChartElementAxis $axis Axis to render
-     * @param ezcGraphLabelRenderer $labelClass Used label renderer
+     * @param ezcGraphAxisLabelRenderer $labelClass Used label renderer
      * @return void
      */
     public function drawAxis(

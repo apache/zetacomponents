@@ -57,7 +57,7 @@ class ezcGraphBoundings
      * @param float $y1 Bottom right y coordinate
      * @return ezcGraphBoundings
      */
-    public function __construct( $x0 = 0, $y0 = 0, $x1 = false, $y1 = false )
+    public function __construct( $x0 = 0., $y0 = 0., $x1 = false, $y1 = false )
     {
         $this->x0 = $x0;
         $this->y0 = $y0;

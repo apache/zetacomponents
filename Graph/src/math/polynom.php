@@ -15,6 +15,21 @@
  */
 class ezcGraphPolynom
 {
+    /**
+     * Factors of the polynom
+     *
+     * An example:
+     *  Polynom:
+     *      2 * x^3 + .5 * x - 3
+     *  Array:
+     *      array (
+     *          (int) 3 => (float) 2,
+     *          (int) 1 => (float) .5,
+     *          (int) 0 => (float) -3,
+     *      )
+     * 
+     * @var array
+     */
     protected $values;
 
     // @TODO: Introduce precision option for string output?

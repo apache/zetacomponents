@@ -22,6 +22,13 @@
  */
 class ezcGraphChartOptions extends ezcBaseOptions
 {
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->properties['width'] = null;

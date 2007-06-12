@@ -175,6 +175,27 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
         }
     }
 
+    /**
+     * Checks for the cutting point of two lines.
+     *
+     * The lines are given by a start position and the direction of the line, 
+     * both as instances of ezcGraphCoordinate. If no cutting point could be 
+     * calculated, because the lines are parallel the function will return 
+     * false. Otherwise the factor returned can be used to calculate the 
+     * cutting point using the following equatation:
+     *  point = $aStart + $factor * $aDir;
+     *
+     * We return the factor instead of the resulting point because it can be 
+     * easily determined from the factor if the cutting point is in "behind"
+     * the line starting point, or if the distance to the cutting point is
+     * bigger then the direction vector is long ( $factor > 1 ).
+     * 
+     * @param ezcGraphCoordinate $aStart 
+     * @param ezcGraphCoordinate $aDir 
+     * @param ezcGraphCoordinate $bStart 
+     * @param ezcGraphCoordinate $bDir 
+     * @return mixed
+     */
     public function determineLineCuttingPoint( ezcGraphCoordinate $aStart, ezcGraphCoordinate $aDir, ezcGraphCoordinate $bStart, ezcGraphCoordinate $bDir )
     {
         // Check if lines are parallel

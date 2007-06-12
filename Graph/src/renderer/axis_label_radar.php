@@ -266,6 +266,7 @@ class ezcGraphAxisRadarLabelRenderer extends ezcGraphAxisLabelRenderer
      * @param ezcGraphCoordinate $position Position of step
      * @param ezcGraphCoordinate $direction Direction of axis
      * @param ezcGraphColor $color Color of axis
+     * @param int $stepPosition
      * @return void
      */
     protected function drawGrid( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings, ezcGraphCoordinate $position, ezcGraphCoordinate $direction, ezcGraphColor $color, $stepPosition = null )

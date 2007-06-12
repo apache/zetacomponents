@@ -31,6 +31,13 @@ class ezcGraphChartDataContainer implements ArrayAccess, Iterator, Countable
      */
     protected $chart;
 
+    /**
+     * Constructor
+     * 
+     * @param ezcGraphChart $chart 
+     * @ignore
+     * @return void
+     */
     public function __construct( ezcGraphChart $chart )
     {
         $this->chart = $chart;
@@ -40,6 +47,7 @@ class ezcGraphChartDataContainer implements ArrayAccess, Iterator, Countable
      * Adds a dataset to the charts data
      * 
      * @param string $name Name of dataset
+     * @param ezcGraphDataSet $dataSet
      * @param mixed $values Values to create dataset with
      * @throws ezcGraphTooManyDataSetExceptions
      *          If too many datasets are created
@@ -96,8 +104,8 @@ class ezcGraphChartDataContainer implements ArrayAccess, Iterator, Countable
      * This method is part of the ArrayAccess interface to allow access to the
      * data of this object as if it was an array. 
      * 
-     * @param string $key Identifier of dataset
-     * @param ezcGraphDataSet$value The dataset to assign.
+     * @param string $key
+     * @param ezcGraphDataSet $value
      * @return void
      *
      * @throws ezcBaseValueException
@@ -119,7 +127,7 @@ class ezcGraphChartDataContainer implements ArrayAccess, Iterator, Countable
      * This method is part of the ArrayAccess interface to allow access to the
      * data of this object as if it was an array. 
      * 
-     * @param int $offset The offset to unset the value for.
+     * @param string $key
      * @return void
      */
     public function offsetUnset( $key )

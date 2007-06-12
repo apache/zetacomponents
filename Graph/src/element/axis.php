@@ -328,7 +328,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     /**
      * Add data for this axis
      * 
-     * @param mixed $value Value which will be displayed on this axis
+     * @param array $values
      * @return void
      */
     abstract public function addData( array $values );

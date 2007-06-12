@@ -25,8 +25,6 @@ class ezcGraphTransformation extends ezcGraphMatrix
      * define the initial matrix values. If no array is given an identity 
      * matrix is created.
      * 
-     * @param int $rows
-     * @param int $columns
      * @param array $values
      * @return void
      */

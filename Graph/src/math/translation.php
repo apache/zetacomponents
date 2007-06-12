@@ -17,7 +17,15 @@
  */
 class ezcGraphTranslation extends ezcGraphTransformation
 {
-    public function __construct( $x = 0, $y = 0 )
+    /**
+     * Constructor
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @return void
+     * @ignore
+     */
+    public function __construct( $x = 0., $y = 0. )
     {
         parent::__construct( array( 
             array( 1, 0, $x ),

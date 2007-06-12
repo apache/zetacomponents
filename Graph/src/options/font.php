@@ -51,6 +51,11 @@
  */
 class ezcGraphFontOptions extends ezcBaseOptions
 {
+    /**
+     * Indicates if path already has been checked for correct font
+     * 
+     * @var bool
+     */
     protected $pathChecked = false;
 
     /**

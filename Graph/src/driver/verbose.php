@@ -18,8 +18,20 @@
 
 class ezcGraphVerboseDriver extends ezcGraphDriver
 {
+    /**
+     * Number of call on driver
+     * 
+     * @var int
+     */
     protected $call = 0;
 
+    /**
+     * Constructor
+     * 
+     * @param array $options 
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphSvgDriverOptions( $options );
@@ -29,12 +41,13 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
     /**
      * Draws a single polygon 
      * 
-     * @param mixed $points 
+     * @param array $points 
      * @param ezcGraphColor $color 
-     * @param mixed $filled 
+     * @param bool $filled 
+     * @param float $thickness
      * @return void
      */
-    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 )
+    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1. )
     {
         $pointString = '';
         foreach ( $points as $point )
@@ -55,9 +68,10 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      * @param ezcGraphCoordinate $start 
      * @param ezcGraphCoordinate $end 
      * @param ezcGraphColor $color 
+     * @param float $thickness
      * @return void
      */
-    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 )
+    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1. )
     {
         printf( "% 4d: Draw line from ( %.2f, %.2f ) to ( %.2f, %.2f ) with thickness %d.\n",
             $this->call++,
@@ -89,7 +103,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      * @param ezcGraphCoordinate $position 
      * @param mixed $width 
      * @param mixed $height 
-     * @param ezcGraphColor $color 
+     * @param int $align 
      * @param ezcGraphRotation $rotation
      * @return void
      */
@@ -114,6 +128,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      * @param mixed $startAngle 
      * @param mixed $endAngle 
      * @param ezcGraphColor $color 
+     * @param bool $filled
      * @return void
      */
     public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
@@ -140,6 +155,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      * @param float $startAngle Starting angle of circle sector
      * @param float $endAngle Ending angle of circle sector
      * @param ezcGraphColor $color Color of Border
+     * @param bool $filled
      * @return void
      */
     public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )

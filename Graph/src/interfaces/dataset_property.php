@@ -40,13 +40,18 @@ abstract class ezcGraphDataSetProperty implements ArrayAccess
     /**
      * Abstract method to contain the check for validity of the value
      * 
-     * @param & $value 
-     * @abstract
-     * @access protected
+     * @param mixed $value 
      * @return void
      */
     abstract protected function checkValue( &$value );
 
+    /**
+     * Constructor
+     * 
+     * @param ezcGraphDataSet $dataset 
+     * @ignore
+     * @return void
+     */
     public function __construct( ezcGraphDataSet $dataset )
     {
         $this->dataset = $dataset;

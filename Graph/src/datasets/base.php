@@ -63,7 +63,6 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
     /**
      * Constructor
      * 
-     * @param array $options Default option array
      * @return void
      * @ignore
      */
