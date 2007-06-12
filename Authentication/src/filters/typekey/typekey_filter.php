@@ -198,8 +198,8 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
      *         if the property $name does not exist
      * @throws ezcBaseValueException
      *         if $value is not correct for the property $name
-     * @param string $name
-     * @param mixed $value
+     * @param string $name The name of the property to set
+     * @param mixed $value The new value of the property
      * @ignore
      */
     public function __set( $name, $value )
@@ -227,7 +227,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the property $name does not exist
-     * @param string $name
+     * @param string $name The name of the property for which to return the value
      * @return mixed
      * @ignore
      */
@@ -246,7 +246,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
     /**
      * Returns true if the property $name is set, otherwise false.
      *
-     * @param string $name
+     * @param string $name The name of the property to test if it is set
      * @return bool
      * @ignore
      */
@@ -353,6 +353,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
      *
      * @throws ezcAuthenticationTypekeyException
      *         if the keys from the TypeKey public keys file could not be fetched
+     * @param string $file The public keys file or URL
      * @return array(string=>string)
      */
     protected function fetchPublicKeys( $file )

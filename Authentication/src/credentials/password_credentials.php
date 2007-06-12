@@ -54,7 +54,7 @@ class ezcAuthenticationPasswordCredentials extends ezcAuthenticationCredentials
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array Associative array of data members for this class
      * @return ezcAuthenticationPasswordCredentials
      */
     public static function __set_state( array $array )

@@ -24,7 +24,7 @@ class ezcAuthenticationFilterOptions extends ezcBaseOptions
      *         if $options contains a property not defined
      * @throws ezcBaseValueException
      *         if $options contains a property with a value not allowed
-     * @param array(string=>mixed) $options
+     * @param array(string=>mixed) $options The options for this class
      */
     public function __construct( array $options = array() )
     {
@@ -38,8 +38,8 @@ class ezcAuthenticationFilterOptions extends ezcBaseOptions
      *         if the property $name is not defined
      * @throws ezcBaseValueException
      *         if $value is not correct for the property $name
-     * @param string $name
-     * @param mixed $value
+     * @param string $name The name of the property to set
+     * @param mixed $value The new value of the property
      * @ignore
      */
     public function __set( $name, $value )

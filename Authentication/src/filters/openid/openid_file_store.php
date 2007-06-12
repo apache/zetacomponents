@@ -51,8 +51,8 @@ class ezcAuthenticationOpenidFileStore extends ezcAuthenticationOpenidStore
      *         if the $value file does not exist
      * @throws ezcBaseFilePermissionException
      *         if the $value file cannot be opened for reading and writing
-     * @param string $name
-     * @param mixed $value
+     * @param string $name The name of the property to set
+     * @param mixed $value The new value of the property
      * @ignore
      */
     public function __set( $name, $value )
@@ -93,7 +93,7 @@ class ezcAuthenticationOpenidFileStore extends ezcAuthenticationOpenidStore
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the property $name does not exist
-     * @param string $name
+     * @param string $name The name of the property for which to return the value
      * @return mixed
      * @ignore
      */
@@ -112,7 +112,7 @@ class ezcAuthenticationOpenidFileStore extends ezcAuthenticationOpenidStore
     /**
      * Returns true if the property $name is set, otherwise false.
      *
-     * @param string $name
+     * @param string $name The name of the property to test if it is set
      * @return bool
      * @ignore
      */

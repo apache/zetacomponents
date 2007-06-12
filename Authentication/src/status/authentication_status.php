@@ -27,8 +27,8 @@ class ezcAuthenticationStatus
     /**
      * Adds a new status to the list of statuses.
      *
-     * @param string $class
-     * @param mixed|array(mixed) $status
+     * @param string $class The class name associated with the status
+     * @param mixed|array(mixed) $status A status associated with the class name
      */
     public function append( $class, $status )
     {
