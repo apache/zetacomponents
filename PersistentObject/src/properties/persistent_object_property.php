@@ -12,6 +12,12 @@
  * @see ezcPersisentObjectDefinition
  *
  * @package PersistentObject
+ * @property string $columnName   The name of the database field that stores the
+ *                                value.
+ * @property string $propertyName The name of the PersistentObject property
+ *                                that holds the value in the PHP object.
+ * @property int $propertyType    The type of the PHP property. See class 
+ *                                constants PHP_TYPE_*.
  */
 class ezcPersistentObjectProperty
 {
@@ -22,27 +28,18 @@ class ezcPersistentObjectProperty
     const PHP_TYPE_ARRAY = 4;
     const PHP_TYPE_OBJECT = 5;
 
-    /**
-     * The name of the database field that stores the value.
-     */
-    public $columnName = null;
-
-    /**
-     * The name of the PersistentObject property that holds the value in the PHP object.
-     */
-    public $propertyName = null;
-
-    /**
-     * The type of the PHP property..
-     */
-    public $propertyType = null;
+    private $properties = array(
+        'columnName'   => null,
+        'propertyName' => null,
+        'propertyType' => self::PHP_TYPE_STRING,
+    );
 
     /**
      * Constructs a new PersistentObjectField
      */
-    public function __construct( $columnName   = '',
-                                 $propertyName = '',
-                                 $type         = '' )
+    public function __construct( $columnName   = null,
+                                 $propertyName = null,
+                                 $type         = self::PHP_TYPE_STRING )
     {
         $this->columnName   = $columnName;
         $this->propertyName = $propertyName;
@@ -68,6 +65,83 @@ class ezcPersistentObjectProperty
                                                 $array['propertyName'],
                                                 $array['propertyType'] );
     }
+
+    /**
+     * Property read access.
+     * 
+     * @param string $key Name of the property.
+     * @return mixed Value of the property or null.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the the desired property is not found.
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        if ( $this->__isset( $propertyName ) )
+        {
+            return $this->properties[$propertyName];
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Property write access.
+     * 
+     * @param string $key Name of the property.
+     * @param mixed $val  The value for the property.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     * @throws ezcBaseValueException
+     *         If a the value for a property is out of range.
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'columnName':
+            case 'propertyName':
+                if ( is_string( $propertyValue ) === false && is_null( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'string or null'
+                    );
+                }
+                break;
+            case 'propertyType':
+                if ( is_int( $propertyValue ) === false && is_null( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'int or null'
+                    );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+                break;
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
+
+    /**
+     * Property isset access.
+     * 
+     * @param string $key Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
+    }
+
+
     
     /**
      * @apichange Never used but left for BC reasons. Will be removed on next 

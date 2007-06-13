@@ -14,62 +14,133 @@
  * @see ezcPersisentObjectProperty for descriptions for some the constants used in this class.
  *
  * @package PersistentObject
+ * @property string $columnName   The name of the database field that stores the
+ *                                value.
+ * @property string $propertyName The name of the PersistentObject property
+ *                                that holds the value in the PHP object.
+ * @property int $propertyType    The type of the PHP property. See class 
+ *                                constants ezcPersistentObjectProperty::PHP_TYPE_*.
+ * @property int $visibility      The visibility of the property. This property is deprecated!
+ * @property ezcPersistentGeneratorDefinition $generator
+ *                                The type of generator to use for the identifier.
+ *                                The identifier generator must be an object that extends the
+ *                                abstract class ezcPersistentIdentifierGenerator. The current
+ *                                options that are part of this package are:
+ *                                - ezcPersistentSequenceGenerator
+ *                                - ezcPersistentManualGenerator
+ *                                - ezcPersistentNativeGenerator
  */
-class ezcPersistentObjectIdProperty extends ezcBaseStruct
+class ezcPersistentObjectIdProperty
 {
-    /**
-     * The name of the database field that stores the value.
-     *
-     * @var string
-     */
-    public $columnName;
 
-    /**
-     * The name of the PersistentObject property that holds the value in the PHP object.
-     *
-     * @var string
-     */
-    public $propertyName;
-
-    /**
-     * The type of the PHP property..
-     */
-    public $propertyType = null;
-
-    /**
-     * The visibility of the field. Can be either VISIBILITY_PRIVATE, VISIBILITY_PROTECTED or VISIBILITY_PUBLIC.
-     *
-     * @var int
-     */
-    public $visibility;
-
-    /**
-     * The type of generator to use for the identifier.
-     *
-     * The identifier generator must be an object that extends the
-     * abstract class ezcPersistentIdentifierGenerator. The current
-     * options that are part of this package are:
-     * - ezcPersistentSequenceGenerator
-     * - ezcPersistentManualGenerator
-     *
-     * @var ezcPersistentIdentifierGenerator
-     */
-    public $generator; // sequence
+    private $properties = array(
+        'columnName'   => null,
+        'propertyName' => null,
+        'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_INT,
+        'generator'    => null,
+        'visibility'   => null,
+    );
 
     /**
      * Constructs a new PersistentObjectField
      */
-    public function __construct( $columnName = '',
-                                 $propertyName = '',
-                                 $visibility = '',
+    public function __construct( $columnName = null,
+                                 $propertyName = null,
+                                 $visibility = null,
                                  ezcPersistentGeneratorDefinition $generator = null,
                                  $propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT )
     {
-        $this->columnName = $columnName;
+        $this->columnName   = $columnName;
         $this->propertyName = $propertyName;
-        $this->visibility = $visibility;
-        $this->generator = $generator;
+        $this->visibility   = $visibility;
+        $this->generator    = $generator;
         $this->propertyType = $propertyType;
+    }
+
+    /**
+     * Property read access.
+     * 
+     * @param string $key Name of the property.
+     * @return mixed Value of the property or null.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the the desired property is not found.
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        if ( $this->__isset( $propertyName ) )
+        {
+            return $this->properties[$propertyName];
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Property write access.
+     * 
+     * @param string $key Name of the property.
+     * @param mixed $val  The value for the property.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     * @throws ezcBaseValueException
+     *         If a the value for a property is out of range.
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'columnName':
+            case 'propertyName':
+                if ( is_string( $propertyValue ) === false && is_null( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'string or null'
+                    );
+                }
+                break;
+            case 'propertyType':
+            case 'visibility':
+                if ( is_int( $propertyValue ) === false && is_null( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'int or null'
+                    );
+                }
+                break;
+            case 'generator':
+                if ( ( is_object( $propertyValue ) === false || ( $propertyValue instanceof ezcPersistentGeneratorDefinition ) === false ) && is_null( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'ezcPersistentGeneratorDefinition or null'
+                    );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+                break;
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
+
+    /**
+     * Property isset access.
+     * 
+     * @param string $key Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
     }
 
     /**
