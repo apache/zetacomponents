@@ -14,6 +14,7 @@
  * row and state arrays.
  *
  * @package PersistentObject
+ * @version //autogen//
  * @access private
  */
 class ezcPersistentStateTransformer
@@ -29,7 +30,7 @@ class ezcPersistentStateTransformer
      *
      * @throws ezcPersistentException if a fatal error occured during the transformation
      * @param array $row
-     * @param ezcPersistentDefinition $def
+     * @param ezcPersistentObjectDefinition $def
      * @return array
      */
     public static function rowToStateArray( array $row, ezcPersistentObjectDefinition $def )

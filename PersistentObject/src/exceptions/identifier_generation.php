@@ -18,9 +18,10 @@ class ezcPersistentIdentifierGenerationException extends ezcPersistentObjectExce
 
     /**
      * Constructs a new ezcPersistentIdentifierGenerationException for the class
-     * $class.
+     * $class with the optional message $msg.
      *
      * @param string $class
+     * @param string $msg
      * @return void
      */
     public function __construct( $class, $msg = null )

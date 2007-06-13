@@ -26,6 +26,8 @@
  * </code>
  *
  * @package PersistentObject
+ * @version //autogen//
+ * @mainclass
  */
 class ezcPersistentSessionInstance
 {
@@ -36,7 +38,7 @@ class ezcPersistentSessionInstance
      * @see ezcPersistentSessionInstance::get()
      * @var string
      */
-    static private $defaultInstanceIdentifier = false;
+    static private $defaultInstanceIdentifier = null;
 
     /**
      * Holds the session instances.
@@ -61,9 +63,9 @@ class ezcPersistentSessionInstance
      * @param string $identifier
      * @return ezcPersistentSession
      */
-    public static function get( $identifier = false )
+    public static function get( $identifier = null )
     {
-        if ( $identifier === false && self::$defaultInstanceIdentifier )
+        if ( $identifier === null && self::$defaultInstanceIdentifier )
         {
             $identifier = self::$defaultInstanceIdentifier;
         }
@@ -84,12 +86,12 @@ class ezcPersistentSessionInstance
      * the default instance will be set.
      *
      * @param ezcPersistentSession $session
-     * @param string the identifier of the database handler
+     * @param string $identifier the identifier of the database handler
      * @return void
      */
-    public static function set( ezcPersistentSession $session, $identifier = false )
+    public static function set( ezcPersistentSession $session, $identifier = null )
     {
-        if ( $identifier === false )
+        if ( $identifier === null )
         {
             $identifier = self::$defaultInstanceIdentifier;
         }

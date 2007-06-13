@@ -21,6 +21,7 @@
  *                The persistent definition manager set in the constructor.
  *
  * @package PersistentObject
+ * @version //autogen//
  * @mainclass
  */
 class ezcPersistentSession
@@ -229,7 +230,7 @@ class ezcPersistentSession
         }
     }
 
-    /*
+    /**
      * Returns a delete query for the given persistent object $class.
      *
      * The query is initialized to delete from the correct table and
@@ -258,7 +259,7 @@ class ezcPersistentSession
         return $q;
     }
 
-    /*
+    /**
      * Deletes persistent objects using the query $query.
      *
      * The $query should be created using getDeleteQuery().
@@ -287,7 +288,7 @@ class ezcPersistentSession
         }
     }
 
-    /*
+    /**
      * Returns an update query for the given persistent object $class.
      *
      * The query is initialized to update the correct table and
@@ -309,7 +310,7 @@ class ezcPersistentSession
         return $q;
     }
 
-    /*
+    /**
      * Updates persistent objects using the query $query.
      *
      * The $query should be created using getUpdateQuery().
@@ -717,8 +718,9 @@ class ezcPersistentSession
         $relatedObject->setState( $relatedObjectState );
     }
 
-    /*
-     * Returns the result of the query $query as an object iterator.
+    /**
+     * Returns the result of the query $query for the class $class
+     * as an object iterator.
      *
      * This method is similar to find() but returns an iterator
      * instead of a list of objects. This is useful if you are going
@@ -731,6 +733,7 @@ class ezcPersistentSession
      * @throws ezcPersistentDefinitionNotFoundException if there is no such persistent class.
      * @throws ezcPersistentQueryException if the find query failed
      * @param ezcQuerySelect $query
+     * @param string $class
      * @return Iterator
      */
     public function findIterator( ezcQuerySelect $query, $class )
@@ -903,10 +906,12 @@ class ezcPersistentSession
      * @throws ezcPersistentObjectException if it was not possible to generate a unique identifier for the new object
      * @throws ezcPersistentObjectException if the insert query failed.
      * @param object $pObject
-     * @param boolean $doPersistentCheck
+     * @param bool $doPersistenceCheck
+     * @param ezcPersistentIdentifierGenerator $idGenerator
      * @return void
      */
-    private function saveInternal( $pObject, $doPersistenceCheck = true, $idGenerator = null )
+    private function saveInternal( $pObject, $doPersistenceCheck = true,
+                                   ezcPersistentIdentifierGenerator $idGenerator = null )
     {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) );// propagate exception
         $state = $this->filterAndCastState( $pObject->getState(), $def );
@@ -1038,7 +1043,7 @@ class ezcPersistentSession
      * @throws ezcPersistentObjectNotPersistentException if $pObject is not stored in the database already.
      * @throws ezcPersistentQueryException
      * @param object $pObject
-     * @param boolean $pObject
+     * @param bool $doPersistenceCheck
      * @return void
      */
     private function updateInternal( $pObject, $doPersistenceCheck = true )

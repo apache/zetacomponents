@@ -18,6 +18,7 @@
  * first.
  *
  * @package PersistentObject
+ * @version //autogen//
  */
 class ezcPersistentMultiManager extends ezcPersistentDefinitionManager
 {

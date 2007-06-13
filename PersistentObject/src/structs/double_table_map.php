@@ -10,17 +10,18 @@
 
 /**
  * Class to create {ezcPersistentRelation::$columnMap} properties.
+ *
  * Maps a source table and column and to a destination table and column, to
  * establish a relation between the 2 tables.
- * 
+ *
  * @package PersistentObject
  * @version //autogen//
  */
 class ezcPersistentDoubleTableMap extends ezcBaseStruct
 {
     /**
-     * Column of the first table used for mapping. 
-     * 
+     * Column of the first table used for mapping.
+     *
      * @var string
      */
     public $sourceColumn;
@@ -28,7 +29,7 @@ class ezcPersistentDoubleTableMap extends ezcBaseStruct
     /**
      * Name of the column in the relation table, that maps to the source table
      * column.
-     * 
+     *
      * @var string
      */
     public $relationSourceColumn;
@@ -36,21 +37,21 @@ class ezcPersistentDoubleTableMap extends ezcBaseStruct
     /**
      * Name of the column in the relation table, that maps to the destination
      * table column.
-     * 
+     *
      * @var string
      */
     public $relationDestinationColumn;
 
     /**
-     * Column of the second table, which should be mapped to the first column. 
-     * 
+     * Column of the second table, which should be mapped to the first column.
+     *
      * @var string
      */
     public $destinationColumn;
 
     /**
-     * Create a new ezcPersistentDoubleTableMap. 
-     * 
+     * Create a new ezcPersistentDoubleTableMap.
+     *
      * @param string $sourceColumn              {@link $sourceColumn}
      * @param string $relationSourceColumn      {@link $relationSourceColumn}
      * @param string $relationDestinationColumn {@link $relationDestinationColumn}
@@ -68,6 +69,12 @@ class ezcPersistentDoubleTableMap extends ezcBaseStruct
         $this->destinationColumn            = $destinationColumn;
     }
 
+    /**
+     * Sets the state of this map.
+     *
+     * @param array(key=>value) $state
+     * @ignore
+     */
     public static function __set_state( array $state )
     {
         return new ezcPersistentDoubleTableMap(

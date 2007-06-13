@@ -15,6 +15,7 @@
  * persistent object. The definition is returned in form of a
  * ezcPersistentObjectDefinition structure.
  *
+ * @version //autogen//
  * @package PersistentObject
  */
 abstract class ezcPersistentDefinitionManager
@@ -36,7 +37,7 @@ abstract class ezcPersistentDefinitionManager
      * This method will go through all of the properties in the definition and set up
      * the columns field in the definition.
      *
-     * @param ezcPersistentObjectDefinintion $def The target persistent object definition.
+     * @param ezcPersistentObjectDefinition $def The target persistent object definition.
      * @return ezcPersistentObjectDefinition
      */
     protected static function setupReversePropertyDefinition( ezcPersistentObjectDefinition $def )

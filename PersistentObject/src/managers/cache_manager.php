@@ -15,6 +15,7 @@
  * The cache is typically used to wrap around another ezcPersistentDefinitionManager
  * of your choice.
  *
+ * @version //autogen//
  * @package PersistentObject
  */
 class ezcPersistentCacheManager extends ezcPersistentDefinitionManager

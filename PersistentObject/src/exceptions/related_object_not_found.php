@@ -18,10 +18,10 @@ class ezcPersistentRelatedObjectNotFoundException extends ezcPersistentObjectExc
 {
 
     /**
-     * Constructs a new ezcPersistentRelatedObjectNotFoundException for the class $class
+     * Constructs a new ezcPersistentRelatedObjectNotFoundException for the object $object
      * which does not have a relation for $relatedClass.
      *
-     * @param string $class
+     * @param object $object
      * @param string $relatedClass
      * @return void
      */

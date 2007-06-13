@@ -22,6 +22,7 @@
  * </code>
  *
  * @package PersistentObject
+ * @version //autogen//
  */
 class ezcPersistentNativeGenerator extends ezcPersistentIdentifierGenerator
 {

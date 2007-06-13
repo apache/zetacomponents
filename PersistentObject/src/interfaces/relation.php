@@ -19,15 +19,15 @@
  *           The table mapping this instance reflects.
  * @property bool $reverse
  *           Wether this relation is a reverse of an existing relation.
- * 
+ *
  * @package PersistentObject
  * @version //autogen//
  */
 abstract class ezcPersistentRelation
 {
     /**
-     * Properties array. 
-     * 
+     * Properties array.
+     *
      * @var array
      */
     private $properties = array(
@@ -41,7 +41,7 @@ abstract class ezcPersistentRelation
      * Validates an {@link ezcPersistentRelation::$columnMap} property.
      * Checks is the given array represents a valid $columnMap property. Has
      * to be implemented by all derived classes.
-     * 
+     *
      * @param array $columnMap The column map to check.
      *
      * @throws ezcBaseValueException On an invalid column map.
@@ -49,8 +49,8 @@ abstract class ezcPersistentRelation
     abstract protected function validateColumnMap( array $columnMap );
 
     /**
-     * Create a new relation. 
-     * 
+     * Create a new relation.
+     *
      * @param string $sourceTable      See property $sourceTable
      * @param string $destinationTable See property $destinationTable
      */
@@ -62,8 +62,8 @@ abstract class ezcPersistentRelation
 
     /**
      * Property read access.
-     * 
-     * @param string $key Name of the property.
+     *
+     * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -81,9 +81,9 @@ abstract class ezcPersistentRelation
 
     /**
      * Property write access.
-     * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
+     *
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue  The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
@@ -125,8 +125,8 @@ abstract class ezcPersistentRelation
 
     /**
      * Property isset access.
-     * 
-     * @param string $key Name of the property.
+     *
+     * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
      * @ignore
      */

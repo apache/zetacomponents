@@ -37,7 +37,7 @@
  *  }
  * </code>
  *
- *
+ * @version //autogen//
  * @package PersistentObject
  */
 class ezcPersistentFindIterator implements Iterator
@@ -71,6 +71,8 @@ class ezcPersistentFindIterator implements Iterator
      * The statement $stmt must be executed but not used to retrieve any results yet.
      * The iterator will return objects with they persistent object type provided by
      * $def.
+     * @param PDOStatement $stmt
+     * @param ezcPersistentObjectDefinition $def
      */
     public function __construct( PDOStatement $stmt, ezcPersistentObjectDefinition $def )
     {
@@ -81,9 +83,7 @@ class ezcPersistentFindIterator implements Iterator
     /**
      * Sets the iterator to point to the first object in the result set.
      *
-     * @todo What happens if you call rewind twice?
-     *
-     * @returns void
+     * @return void
      */
     public function rewind()
     {
@@ -98,7 +98,7 @@ class ezcPersistentFindIterator implements Iterator
      *
      * Returns null if there is no current object.
      *
-     * @returns object
+     * @return object
      */
     public function current()
     {
@@ -111,7 +111,7 @@ class ezcPersistentFindIterator implements Iterator
      * Persistent objects do not have a key. Hence, this method always returns
      * null.
      *
-     * @returns null
+     * @return null
      */
     public function key()
     {
@@ -125,7 +125,7 @@ class ezcPersistentFindIterator implements Iterator
      * Returns null and sets the current object to null if there
      * are no more results in the result set.
      *
-     * @returns object
+     * @return object
      */
     public function next()
     {
@@ -157,7 +157,6 @@ class ezcPersistentFindIterator implements Iterator
     }
 
     /**
-     * Checks if the persistence definition contains data. 
      * Checks if the persistence defintion contains at least a table and a
      * class name.
      *
@@ -171,7 +170,7 @@ class ezcPersistentFindIterator implements Iterator
     /**
      * Returns true if there is a current object.
      *
-     * @returns bool
+     * @return bool
      */
     public function valid()
     {

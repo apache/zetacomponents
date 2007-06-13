@@ -18,6 +18,8 @@
  *                                that holds the value in the PHP object.
  * @property int $propertyType    The type of the PHP property. See class 
  *                                constants PHP_TYPE_*.
+ * @package PersistentObject
+ * @version //autogen//
  */
 class ezcPersistentObjectProperty
 {
@@ -28,6 +30,10 @@ class ezcPersistentObjectProperty
     const PHP_TYPE_ARRAY = 4;
     const PHP_TYPE_OBJECT = 5;
 
+    /**
+     * Holds the properties for this class.
+     * @var array
+     */
     private $properties = array(
         'columnName'   => null,
         'propertyName' => null,
@@ -36,6 +42,10 @@ class ezcPersistentObjectProperty
 
     /**
      * Constructs a new PersistentObjectField
+     *
+     * @param string $columnName The name of the column to map to.
+     * @param string $propertyName The name of the class property to map to.
+     * @param int $type The type of the class property.
      */
     public function __construct( $columnName   = null,
                                  $propertyName = null,
@@ -56,7 +66,7 @@ class ezcPersistentObjectProperty
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array
      * @return ezcPersistentObjectProperty
      */
     public static function __set_state( array $array )
@@ -68,8 +78,8 @@ class ezcPersistentObjectProperty
 
     /**
      * Property read access.
-     * 
-     * @param string $key Name of the property.
+     *
+     * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -87,9 +97,9 @@ class ezcPersistentObjectProperty
 
     /**
      * Property write access.
-     * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
+     *
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue  The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
@@ -131,8 +141,8 @@ class ezcPersistentObjectProperty
 
     /**
      * Property isset access.
-     * 
-     * @param string $key Name of the property.
+     *
+     * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
      * @ignore
      */
@@ -142,9 +152,8 @@ class ezcPersistentObjectProperty
     }
 
 
-    
     /**
-     * @apichange Never used but left for BC reasons. Will be removed on next 
+     * @apichange Never used but left for BC reasons. Will be removed on next
      *            major version.
      */
     const VISIBILITY_PRIVATE = 1;

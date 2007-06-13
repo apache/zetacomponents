@@ -17,6 +17,7 @@
  * persistent classes, to ensure they provide all necessary methods.
  *
  * @package PersistentObject
+ * @version //autogen//
  */
 interface ezcPersistentObject
 {

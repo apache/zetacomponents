@@ -25,10 +25,10 @@
  * - sequence - The name of the database sequence keeping track of the ID. This field should be ommited for databases
  *              supporting auto_increment.
  *
- * @package PersistentObject
- *
  * @apichange The usage of this generator for MySQL is deprecated. Use
  *            {@link ezcPersistentNativeGenerator} instead.
+ * @package PersistentObject
+ * @version //autogen//
  */
 class ezcPersistentSequenceGenerator extends ezcPersistentIdentifierGenerator
 {

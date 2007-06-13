@@ -24,13 +24,14 @@
  * The structure of the parameters is array( 'parameter_name' => 'parameter_value' ).
  *
  * @package PersistentObject
+ * @version //autogen//
  * @access private
  */
 abstract class ezcPersistentIdentifierGenerator
 {
 
     /**
-     * Check if the object is persistent already
+     * Returns true if the object is persistent already.
      *
      * Called in the beginning of the save and update methods.
      *
@@ -41,7 +42,8 @@ abstract class ezcPersistentIdentifierGenerator
      * the database or by the implementation of preSave().
      *
      * @param ezcPersistentObjectDefinition $def
-     * @param array(key=>value)
+     * @param ezcDbHandler $db
+     * @param array(key=>value) $state
      * @return void
      */
     public function checkPersistence( ezcPersistentObjectDefinition $def, ezcDbHandler $db, array $state )

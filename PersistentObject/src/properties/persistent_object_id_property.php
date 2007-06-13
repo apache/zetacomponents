@@ -11,7 +11,8 @@
  * The column must be of type int both in PHP and in the database.
  * The default value will always be null.
  *
- * @see ezcPersisentObjectProperty for descriptions for some the constants used in this class.
+ * For descriptions for some the constants used in this class see:
+ * {@link ezcPersisentObjectProperty}
  *
  * @package PersistentObject
  * @property string $columnName   The name of the database field that stores the
@@ -29,10 +30,15 @@
  *                                - ezcPersistentSequenceGenerator
  *                                - ezcPersistentManualGenerator
  *                                - ezcPersistentNativeGenerator
+ * @package PersistentObject
+ * @version //autogen//
  */
 class ezcPersistentObjectIdProperty
 {
-
+    /**
+     * Holds the properties for this class.
+     * @var array
+     */
     private $properties = array(
         'columnName'   => null,
         'propertyName' => null,
@@ -43,6 +49,12 @@ class ezcPersistentObjectIdProperty
 
     /**
      * Constructs a new PersistentObjectField
+     *
+     * @param string $columnName The name of the database field that stores the value.
+     * @param string $propertyName The name of the class member
+     * @param int $visibility See {@link $visibility} for possible values.
+     * @param ezcPersistentGeneratorDefinition $generator Definition of the identifier generator
+     * @param int $propertyType See {@link ezcPersistentObjectProperty} for possible values.
      */
     public function __construct( $columnName = null,
                                  $propertyName = null,
@@ -60,7 +72,7 @@ class ezcPersistentObjectIdProperty
     /**
      * Property read access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -79,8 +91,8 @@ class ezcPersistentObjectIdProperty
     /**
      * Property write access.
      * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue  The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
@@ -134,7 +146,7 @@ class ezcPersistentObjectIdProperty
     /**
      * Property isset access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
      * @ignore
      */
@@ -153,7 +165,7 @@ class ezcPersistentObjectIdProperty
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array
      * @return ezcPersistentObjectIdProperty
      */
     public static function __set_state( array $array )

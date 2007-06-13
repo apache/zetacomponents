@@ -9,8 +9,10 @@
 /**
  * Defines a persistent object id generator.
  *
- * @see ezcPersisentObjectIdProperty for more information on how to use this class.
+ * For more information on how to use this class see
+ * {@link ezcPersisentObjectIdProperty}
  *
+ * @version //autogen//
  * @package PersistentObject
  */
 class ezcPersistentGeneratorDefinition extends ezcBaseStruct
@@ -32,7 +34,12 @@ class ezcPersistentGeneratorDefinition extends ezcBaseStruct
     public $params;
 
     /**
-     * Constructs a new PersistentGeneratorDefinition
+     * Constructs a new PersistentGeneratorDefinition where $class contains
+     * name of the class to load and $params contains a list of parameters
+     * provided to the constructor of that class.
+     *
+     * @param string $class
+     * @param array $params
      */
     public function __construct( $class, array $params = array() )
     {
@@ -50,7 +57,7 @@ class ezcPersistentGeneratorDefinition extends ezcBaseStruct
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array
      * @return ezcPersistentGeneratorDefinition
      */
     public static function __set_state( array $array )

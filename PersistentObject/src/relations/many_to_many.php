@@ -16,11 +16,23 @@
  */
 class ezcPersistentManyToManyRelation extends ezcPersistentRelation
 {
-   
+    /**
+     * Holds the properties for this class.
+     *
+     * @var array
+     */
     private $properties = array(
         "relationTable" => null
     );
 
+    /**
+     * Constructs a new many to many relation from the table $sourceTable to
+     * the table $destinationTable via $relationTable
+     *
+     * @param string $sourceTable
+     * @param string $destinationTable
+     * @param string $relationTable
+     */
     public function __construct( $sourceTable, $destinationTable, $relationTable )
     {
         $this->sourceTable      = $sourceTable;
@@ -65,7 +77,7 @@ class ezcPersistentManyToManyRelation extends ezcPersistentRelation
     /**
      * Property read access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -87,8 +99,8 @@ class ezcPersistentManyToManyRelation extends ezcPersistentRelation
     /**
      * Property write access.
      * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue  The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
@@ -120,7 +132,7 @@ class ezcPersistentManyToManyRelation extends ezcPersistentRelation
     /**
      * Property isset access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
      * @ignore
      */

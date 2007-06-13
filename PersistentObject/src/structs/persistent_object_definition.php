@@ -13,9 +13,10 @@
  * the definition is to provide information about how the database table is structured
  * and how it is mapped to the data object.
  *
- * @see ezcPersistentSession for an elaborate example.
+ * For an elaborate example see {@link ezcPersistentSession}.
  *
  * @package PersistentObject
+ * @version //autogen//
  * @mainclass
  */
 class ezcPersistentObjectDefinition extends ezcBaseStruct
@@ -61,7 +62,7 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
      * Contains the relations of this object. An array indexed by class names
      * of the related object, assigned to a instance of a class derived from
      * ezcPersistentRelation.
-     * 
+     *
      * @var array(string=>ezcPersistentRelation)
      */
     public $relations = array();
@@ -69,8 +70,11 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
     /**
      * Constructs a new PersistentObjectDefinition.
      *
-     * The parameters $key and $incrementKey are not used any more and will be removed
-     * next time we can break backwards compatibility.
+     * @param string $table The name of the database table to map to.
+     * @param string $class The name of the PHP class to map to.
+     * @param array $properties The properties of the class. See {@link $properties}
+     * @param array $relations The relations of the class. See {@link $relations}
+     * @param ezcPersistentObjectIdProperty $idProperty The primary key of the class/table.
      */
     public function __construct( $table = '',
                                  $class = '',
@@ -95,7 +99,7 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array
      * @return ezcPersistentObjectDefinition
      */
     public static function __set_state( array $array )

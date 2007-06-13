@@ -19,10 +19,12 @@ class ezcPersistentObjectException extends ezcBaseException
 {
 
     /**
-     * Constructs a new ezcPersistentObjectException with error message $message and error code $code.
+     * Constructs a new ezcPersistentObjectException with error message $message and reason code $reason.
+     *
+     * Reason can be omitted if not applicable.
      *
      * @param string $message
-     * @param int $code
+     * @param string $reason
      * @return void
      */
     public function __construct( $message, $reason = null )

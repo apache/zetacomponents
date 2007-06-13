@@ -20,7 +20,11 @@
  */
 class ezcPersistentOneToManyRelation extends ezcPersistentRelation
 {
-   
+    /**
+     * Holds the properties for this class.
+     *
+     * @var array
+     */
     private $properties = array(
         "cascade" => false,
     );
@@ -62,7 +66,7 @@ class ezcPersistentOneToManyRelation extends ezcPersistentRelation
     /**
      * Property read access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -84,8 +88,8 @@ class ezcPersistentOneToManyRelation extends ezcPersistentRelation
     /**
      * Property write access.
      * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue  The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
@@ -117,7 +121,7 @@ class ezcPersistentOneToManyRelation extends ezcPersistentRelation
     /**
      * Property isset access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
      * @ignore
      */

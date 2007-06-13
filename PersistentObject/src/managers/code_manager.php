@@ -23,7 +23,8 @@
  * return $definition;
  * ?>
  * </code>
- * @todo should we cache on this level, int the session or in a separate caching manager?
+ *
+ * @version //autogen//
  * @package PersistentObject
  */
 class ezcPersistentCodeManager extends ezcPersistentDefinitionManager

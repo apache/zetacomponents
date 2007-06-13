@@ -11,6 +11,7 @@
 /**
  * This exceptions is used when a database handler could not be found.
  *
+ * @version //autogen//
  * @package PersistentObject
  */
 class ezcPersistentSessionNotFoundException extends ezcPersistentObjectException
@@ -20,6 +21,9 @@ class ezcPersistentSessionNotFoundException extends ezcPersistentObjectException
      *
      * $name specifies the name of the name of the handler to use.
      * $known is a list of the known database handlers.
+     *
+     * @param string $name
+     * @param array $known
      */
     public function __construct( $name, array $known = array() )
     {

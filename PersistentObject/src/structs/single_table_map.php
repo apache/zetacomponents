@@ -45,6 +45,12 @@ class ezcPersistentSingleTableMap extends ezcBaseStruct
         $this->destinationColumn    = $destinationColumn;
     }
 
+    /**
+     * Sets the state of this map.
+     *
+     * @param array(key=>value) $state
+     * @ignore
+     */
     public static function __set_state( array $state )
     {
         return new ezcPersistentSingleTableMap(

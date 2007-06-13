@@ -19,7 +19,10 @@ class ezcPersistentQueryException extends ezcPersistentObjectException
     /**
      * Constructs a new ezcPersistentQueryException with additional information in $msg.
      *
-     * @param string $class
+     * You can also provide the query for debugging purposes.
+     *
+     * @param string $msg
+     * @param string $query
      * @return void
      */
     public function __construct( $msg, $query = null )
