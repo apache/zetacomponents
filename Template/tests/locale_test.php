@@ -1,0 +1,67 @@
+<?php
+/**
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package Template
+ * @subpackage Tests
+ */
+
+/**
+ * @package Template
+ * @subpackage Tests
+ */
+class ezcTemplateLocaleTest extends ezcTestCase
+{
+    protected $originalLocale;
+
+    public static function suite()
+    {
+         return new PHPUnit_Framework_TestSuite( __CLASS__ );
+    }
+
+    protected function setUp()
+    {
+        $this->basePath = $this->createTempDir( "ezcTemplate_" );
+        $this->templatePath = $this->basePath . "/templates";
+        $this->compilePath = $this->basePath . "/compiled";
+
+        mkdir ( $this->templatePath );
+        mkdir ( $this->compilePath );
+
+        $config = ezcTemplateConfiguration::getInstance();
+        $config->templatePath = $this->templatePath;
+        $config->compilePath = $this->compilePath;
+        $config->context = new ezcTemplateNoContext;
+
+        $this->originalLocale = setlocale(LC_ALL, 0);
+    }
+
+    protected function tearDown()
+    {
+        setlocale( LC_ALL, $this->originalLocale );
+    }
+
+    public function testLocale()
+    {
+        setlocale( LC_ALL, 'de_DE' );
+        $a = 3.4;
+        $this->assertEquals("3,4", (string)$a);
+    }
+
+
+    public function testFloats()
+    {
+        setlocale( LC_ALL, 'de_DE' );
+        $template = new ezcTemplate();
+        $file =  "float.ezt";
+        
+        // The number 3.14 should not be translated to 3,14. The array size should be one, not two.
+        file_put_contents( $this->templatePath . "/". $file, "{array_count(array(3.14))}" );
+        $this->assertEquals(1, $template->process( $file), "Number 3.14 is internally translated to 3,14 when the de_DE locale is used.");
+    }
+}
+
+
+?>

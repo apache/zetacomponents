@@ -1908,7 +1908,7 @@ demonstrates a complete custom function implementation::
             switch ($name )
             {
                 case "func":
-                    $def = new ezcTemplateCustomBlockDefinition;
+                    $def = new ezcTemplateCustomFunctionDefinition();
                     $def->class = "MyClass";
                     $def->method = "customFunction";
 
@@ -1942,7 +1942,7 @@ getCustomFunctionDefinition::
 
     interface ezcTemplateCustomFunction
     {
-        public static function getCustomBlockDefinition( $name );
+        public static function getCustomFunctionDefinition( $name );
     }
 
 
@@ -1990,7 +1990,7 @@ The next example adds the custom function *templatePath*::
             switch ($name )
             {
                 case "templatePath":
-                    $def = new ezcTemplateCustomBlockDefinition;
+                    $def = new ezcTemplateCustomFunctionDefinition;
                     $def->class = "MyClass";
                     $def->method = "templatePath";
                     $def->sendTemplateObject = true;

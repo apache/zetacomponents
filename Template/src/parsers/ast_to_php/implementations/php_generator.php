@@ -346,7 +346,6 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         }
         else
         {
-
             $this->write( var_export( $type->value, true ) );
         }
     }
