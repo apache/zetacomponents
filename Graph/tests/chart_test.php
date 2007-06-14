@@ -9,13 +9,16 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . '/test_case.php';
+require_once dirname( __FILE__ ) . '/custom_chart.php';
+
 /**
  * Tests for ezcGraph class.
  * 
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphChartTest extends ezcTestCase
+class ezcGraphChartTest extends ezcGraphTestCase
 {
     protected $testFiles = array(
         'jpeg'          => 'jpeg.jpg',
@@ -23,6 +26,7 @@ class ezcGraphChartTest extends ezcTestCase
         'invalid'       => 'text.txt',
     );
 
+    protected $tempDir;
     protected $basePath;
 
 	public static function suite()
@@ -32,7 +36,18 @@ class ezcGraphChartTest extends ezcTestCase
 
     protected function setUp()
     {
+        static $i = 0;
+
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
+    }
+
+    protected function tearDown()
+    {
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
     }
 
     public function testSetTitle()
@@ -72,7 +87,7 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->assertSame(
             $renderer,
-            $this->getAttribute( $pieChart, 'renderer' )
+            $pieChart->renderer
         );
     }
 
@@ -104,7 +119,7 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->assertSame(
             $driver,
-            $this->getAttribute( $pieChart, 'driver' )
+            $pieChart->driver
         );
     }
 
@@ -147,6 +162,19 @@ class ezcGraphChartTest extends ezcTestCase
         {
             return true;
         }
+    }
+
+    public function testCustomChartClass()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcCustomTestChart();
+        $chart->render( 400, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
     }
 }
 ?>

@@ -10,6 +10,15 @@
 /**
  * Class to represent a complete chart.
  *
+ * @property ezcGraphRenderer $renderer
+ *           Renderer used to render chart
+ * @property ezcGraphDriver $driver
+ *           Output driver used for chart
+ * @property ezcGraphPalette $palette
+ *           Palette used for colorization of chart
+ * @property-read mixed $renderedFile
+ *           Contains the filename of the rendered file, if rendered.
+ *
  * @package Graph
  * @version //autogentag//
  */
@@ -38,25 +47,11 @@ abstract class ezcGraphChart
     protected $data;
 
     /**
-     * Renderer for the chart
+     * Array containing chart properties
      * 
-     * @var ezcGraphRenderer
+     * @var array
      */
-    protected $renderer;
-
-    /**
-     * Driver for the chart
-     * 
-     * @var ezcGraphDriver
-     */
-    protected $driver;
-
-    /**
-     * Palette for default colorization
-     * 
-     * @var ezcGraphPalette
-     */
-    protected $palette;
+    protected $properties;
 
     /**
      * Contains the status wheather an element should be rendered
@@ -64,13 +59,6 @@ abstract class ezcGraphChart
      * @var array
      */
     protected $renderElement;
-
-    /**
-     * Contains the filename of the rendered file, if rendered.
-     * 
-     * @var mixed
-     */
-    protected $renderedFile;
 
     /**
      * Constructor
@@ -81,8 +69,7 @@ abstract class ezcGraphChart
      */
     public function __construct( array $options = array() )
     {
-        $this->__set( 'palette', new ezcGraphPaletteTango() );
-
+        $this->palette = new ezcGraphPaletteTango();
         $this->data = new ezcGraphChartDataContainer( $this );
 
         // Add standard elements
@@ -97,9 +84,12 @@ abstract class ezcGraphChart
         $this->elements['legend']->position = ezcGraph::LEFT;
 
         // Define standard renderer and driver
-        $this->driver = new ezcGraphSvgDriver();
-        $this->renderer = new ezcGraphRenderer2d();
-        $this->renderer->setDriver( $this->driver );
+        $this->properties['driver'] = new ezcGraphSvgDriver();
+        $this->properties['renderer'] = new ezcGraphRenderer2d();
+        $this->properties['renderer']->setDriver( $this->driver );
+
+        // Initialize other properties
+        $this->properties['renderedFile'] = null;
     }
 
     /**
@@ -152,9 +142,9 @@ abstract class ezcGraphChart
             case 'renderer':
                 if ( $propertyValue instanceof ezcGraphRenderer )
                 {
-                    $this->renderer = $propertyValue;
-                    $this->renderer->setDriver( $this->driver );
-                    return $this->renderer;
+                    $this->properties['renderer'] = $propertyValue;
+                    $this->properties['renderer']->setDriver( $this->driver );
+                    return $this->properties['renderer'];
                 }
                 else 
                 {
@@ -164,9 +154,9 @@ abstract class ezcGraphChart
             case 'driver':
                 if ( $propertyValue instanceof ezcGraphDriver )
                 {
-                    $this->driver = $propertyValue;
-                    $this->renderer->setDriver( $this->driver );
-                    return $this->driver;
+                    $this->properties['driver'] = $propertyValue;
+                    $this->properties['renderer']->setDriver( $this->driver );
+                    return $this->properties['driver'];
                 }
                 else 
                 {
@@ -176,15 +166,17 @@ abstract class ezcGraphChart
             case 'palette':
                 if ( $propertyValue instanceof ezcGraphPalette )
                 {
-                    $this->palette = $propertyValue;
+                    $this->properties['palette'] = $propertyValue;
+                    $this->setFromPalette( $this->palette );
                 }
                 else
                 {
                     throw new ezcBaseValueException( "palette", $propertyValue, "instanceof ezcGraphPalette" );
                 }
 
-                $this->setFromPalette( $this->palette );
-
+                break;
+            case 'renderedFile':
+                $this->properties['renderedFile'] = (string) $propertyValue;
                 break;
             case 'options':
                 if ( $propertyValue instanceof ezcGraphChartOptions )
@@ -229,9 +221,9 @@ abstract class ezcGraphChart
      */
     public function __get( $propertyName )
     {
-        if ( isset( $this->$propertyName ) )
+        if ( array_key_exists( $propertyName, $this->properties ) )
         {
-            return $this->$propertyName;
+            return $this->properties[$propertyName];
         }
 
         if ( isset( $this->elements[$propertyName] ) )
@@ -239,9 +231,10 @@ abstract class ezcGraphChart
             return $this->elements[$propertyName];
         }
 
-        if ( $propertyName === 'options' )
+        if ( ( $propertyName === 'options' ) ||
+             ( $propertyName === 'data' ) )
         {
-            return $this->options;
+            return $this->$propertyName;
         }
         else
         {
