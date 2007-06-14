@@ -15,6 +15,13 @@
  */
 class ezcGraphDatabaseStatementNotExecutedException extends ezcGraphDatabaseException
 {
+    /**
+     * Constructor
+     * 
+     * @param PDOStatement $statement
+     * @return void
+     * @ignore
+     */
     public function __construct( $statement )
     {
         parent::__construct( "Empty result set. Execute the statement before using with ezcGraphDatabaseTiein." );

@@ -16,6 +16,13 @@
  */
 class ezcGraphDatabaseTooManyColumnsException extends ezcGraphDatabaseException
 {
+    /**
+     * Constructor
+     * 
+     * @param array $row
+     * @return void
+     * @ignore
+     */
     public function __construct( $row )
     {
         $columnCount = count( $row );

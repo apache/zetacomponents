@@ -11,6 +11,7 @@
  * Class to transform PDO results into ezcGraphDataSets
  *
  * @package GraphDatabaseTiein
+ * @version //autogentag//
  * @mainclass
  */
 class ezcGraphDatabaseDataSet extends ezcGraphDataSet

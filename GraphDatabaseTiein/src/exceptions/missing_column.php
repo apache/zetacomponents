@@ -15,6 +15,13 @@
  */
 class ezcGraphDatabaseMissingColumnException extends ezcGraphDatabaseException
 {
+    /**
+     * Constructor
+     * 
+     * @param string $column
+     * @return void
+     * @ignore
+     */
     public function __construct( $column )
     {
         parent::__construct( "Missing column '{$column}' in result set." );
