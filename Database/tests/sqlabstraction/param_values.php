@@ -14,7 +14,7 @@
  * @package Database
  * @subpackage Tests
  */
-class ezcRdbmsLimitTest extends ezcTestCase
+class ezcParamValuesTest extends ezcTestCase
 {
 
     protected $boolColumn;
@@ -68,7 +68,7 @@ class ezcRdbmsLimitTest extends ezcTestCase
 
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( 'ezcRdbmsLimitTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcParamValuesTest' );
     }
 
     protected function setUp()
