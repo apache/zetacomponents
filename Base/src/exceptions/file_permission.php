@@ -19,7 +19,7 @@ class ezcBaseFilePermissionException extends ezcBaseFileException
     /**
      * Constructs a new ezcPropertyPermissionException for the property $name.
      *
-     * @param string $name The name of the file.
+     * @param string $path The name of the file.
      * @param int    $mode The mode of the property that is allowed
      *               (ezcBaseFileException::READ, ezcBaseFileException::WRITE,
      *               ezcBaseFileException::EXECUTE,

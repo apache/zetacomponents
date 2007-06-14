@@ -19,6 +19,8 @@ class ezcBasePropertyNotFoundException extends ezcBaseException
     /**
      * Constructs a new ezcBasePropertyNotFoundException for the property
      * $name.
+     *
+     * @param string $name The name of the property
      */
     function __construct( $name )
     {

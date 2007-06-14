@@ -21,6 +21,10 @@ class ezcBaseDoubleClassRepositoryPrefixException extends ezcBaseException
      * Constructs a new ezcBaseDoubleClassRepositoryPrefixException for the
      * $prefix that points to $basePath with autoload directory
      * $autoloadDirPath.
+     *
+     * @param string $prefix
+     * @param string $basePath
+     * @param string $autoloadDirPath
      */
     function __construct( $prefix, $basePath, $autoloadDirPath )
     {

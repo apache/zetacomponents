@@ -25,6 +25,6 @@ interface ezcBaseConfigurationInitializer
      *
      * @param array $options
      */
-    static public function configureObject( $object );
+    static public function configureObject( $options );
 }
 ?>

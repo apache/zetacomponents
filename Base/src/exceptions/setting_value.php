@@ -12,6 +12,7 @@
  * configuration option is either of the wrong type, or has a wrong value.
  *
  * @package Base
+ * @version //autogen//
  */
 class ezcBaseSettingValueException extends ezcBaseException
 {

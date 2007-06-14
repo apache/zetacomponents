@@ -19,7 +19,7 @@ class ezcBaseFileIoException extends ezcBaseFileException
     /**
      * Constructs a new ezcBaseFileIoException for the file $path.
      *
-     * @param string $name The name of the file.
+     * @param string $path The name of the file.
      * @param int    $mode The mode of the property that is allowed
      *               (ezcBaseFileException::READ, ezcBaseFileException::WRITE,
      *               ezcBaseFileException::EXECUTE or

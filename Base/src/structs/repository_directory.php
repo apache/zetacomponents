@@ -9,6 +9,8 @@
  */
 
 /**
+ * Struct which defines a repository directory.
+ *
  * @package Base
  * @version //autogentag//
  */
@@ -32,14 +34,14 @@ class ezcBaseRepositoryDirectory extends ezcBaseStruct
     public $type;
 
     /**
-     * The path to the configured repository
+     * The path to the configured repository.
      *
      * @var string
      */
     public $basePath;
 
     /**
-     * The path to the autoload files
+     * The path to the autoload files.
      *
      * @var string
      */
@@ -70,7 +72,7 @@ class ezcBaseRepositoryDirectory extends ezcBaseStruct
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array
      * @return ezcBaseRepositoryDirectory
      */
     static public function __set_state( array $array )

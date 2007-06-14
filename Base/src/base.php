@@ -11,6 +11,7 @@
  * Base class implements the methods needed to use the eZ components.
  *
  * @package Base
+ * @version //autogentag//
  * @mainclass
  */
 class ezcBase
@@ -27,48 +28,57 @@ class ezcBase
     
     /**
      * Indirectly it determines the path where the autoloads are stored.
+     *
+     * @var string
      */
     private static $libraryMode = "devel";
 
     /**
      * Contains the current working directory, which is used when the
      * $libraryMode is set to "custom".
+     *
+     * @var string
      */
     private static $currentWorkingDirectory = null;
 
     /**
-     * @var string  The full path to the autoload directory.
+     * The full path to the autoload directory.
+     *
+     * @var string
      */
     protected static $packageDir;
 
     /**
-     * @var array(string=>array) Stores info with additional paths where
-     *                           autoload files and classes for autoloading
-     *                           could be found.  Each item of $repositoryDirs
-     *                           looks like array( autoloadFileDir, baseDir ).
-     *                           The array key is the prefix belonging to
-     *                           classes within that repository - if provided
-     *                           when calling addClassRepository(), or an
-     *                           autoincrement integer otherwise.
+     * Stores info with additional paths where autoload files and classes for
+     * autoloading could be found. Each item of $repositoryDirs looks like
+     * array( autoloadFileDir, baseDir ). The array key is the prefix belonging
+     * to classes within that repository - if provided when calling
+     * addClassRepository(), or an autoincrement integer otherwise.
+     *
+     * @var array(string=>array)
      */
     protected static $repositoryDirs = array();
 
     /**
-     * @var array  This variable stores all the elements from the autoload
-     *             arrays. When a new autoload file is loaded, their files
-     *             are added to this array.
+     * This variable stores all the elements from the autoload arrays. When a
+     * new autoload file is loaded, their files are added to this array.
+     *
+     * @var array(string=>string)
      */
     protected static $autoloadArray = array();
 
     /**
-     * @var array  This variable stores all the elements from the autoload
-     *             arrays for external repositories. When a new autoload file
-     *             is loaded, their files are added to this array.
+     * This variable stores all the elements from the autoload arrays for
+     * external repositories. When a new autoload file is loaded, their files
+     * are added to this array.
+     *
+     * @var array(string=>string)
      */
     protected static $externalAutoloadArray = array();
 
     /**
-     * Options for the ezcBase class
+     * Options for the ezcBase class.
+     *
      * @var ezcBaseOptions
      */
     static private $options;
@@ -187,6 +197,11 @@ class ezcBase
         return false;
     }
 
+    /**
+     * Sets the current working directory to $directory.
+     *
+     * @param string $directory
+     */
     public static function setWorkingDirectory( $directory )
     {
         self::$libraryMode = 'custom';
@@ -505,8 +520,9 @@ class ezcBase
      * </code>
      * 
      * @throws ezcBaseFileNotFoundException if $autoloadDirPath or $basePath do not exist.
-     * @param string $autoloadDirPath
      * @param string $basePath
+     * @param string $autoloadDirPath
+     * @param string $prefix
      */
     public static function addClassRepository( $basePath, $autoloadDirPath = null, $prefix = null )
     {

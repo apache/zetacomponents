@@ -12,6 +12,7 @@
  * part as the options array to setOptions() for an option that doesn't exist.
  *
  * @package Base
+ * @version //autogen//
  */
 class ezcBaseSettingNotFoundException extends ezcBaseException
 {

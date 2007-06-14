@@ -56,7 +56,7 @@
  * ?>
  * </code>
  *
- * Ofcourse the implementation of this callback class is up to the application
+ * Of course the implementation of this callback class is up to the application
  * developer that uses the component (in this example the Configuration
  * component's class ezcConfigurationManager).
  *
@@ -98,7 +98,7 @@ class ezcBaseInit
      *
      * @param string $identifier
      * @param object $object
-     * @returns mixed
+     * @return mixed
      */
     public static function fetchConfig( $identifier, $object )
     {

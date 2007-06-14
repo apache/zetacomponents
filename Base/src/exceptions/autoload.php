@@ -20,6 +20,10 @@ class ezcBaseAutoloadException extends ezcBaseException
      * Constructs a new ezcBaseAutoloadException for the $className that was
      * searched for in the autoload files $fileNames from the directories
      * specified in $dirs.
+     *
+     * @param string $className
+     * @param array(string) $files
+     * @param array(ezcBaseRepositoryDirectory) $dirs
      */
     function __construct( $className, $files, $dirs )
     {

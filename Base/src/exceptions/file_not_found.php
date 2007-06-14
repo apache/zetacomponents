@@ -19,7 +19,7 @@ class ezcBaseFileNotFoundException extends ezcBaseFileException
     /**
      * Constructs a new ezcBaseFileNotFoundException.
      *
-     * @param string $name The name of the file.
+     * @param string $path The name of the file.
      * @param string $type The type of the file.
      * @param string $message A string with extra information.
      */

@@ -9,6 +9,8 @@
  */
 
 /**
+ * Base class for all struct classes.
+ *
  * @package Base
  * @version //autogentag//
  */

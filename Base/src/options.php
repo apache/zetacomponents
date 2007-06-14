@@ -84,8 +84,8 @@ abstract class ezcBaseOptions implements ArrayAccess
      * Sets an option.
      * This method is called when an option is set.
      * 
-     * @param string $key  The name of the option to set.
-     * @param mixed $value The option value.
+     * @param string $propertyName  The name of the option to set.
+     * @param mixed $propertyValue The option value.
      * @ignore
      */
     abstract public function __set( $propertyName, $propertyValue );
