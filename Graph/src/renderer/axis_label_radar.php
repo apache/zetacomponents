@@ -5,7 +5,6 @@
  * @package Graph
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
-        2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
@@ -56,7 +55,6 @@ class ezcGraphAxisRadarLabelRenderer extends ezcGraphAxisLabelRenderer
                        ( $propertyValue < 0 ) ||
                        ( $propertyValue > 1 ) ) )
                 {
-                    var_dump( $propertyValue );
                     throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
                 }
 
