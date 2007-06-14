@@ -20,9 +20,9 @@ class ezcTemplateFileNotWriteableException extends ezcTemplateException
      * @param string $stream    The stream path to the template file which could not be written.
      * @param string $type      The type of the file that could not be read.
      */
-    public function __construct( $stream, $type = "template file" )
+    public function __construct( $stream, $type = "requested template file" )
     {
-        parent::__construct( "The requested {$type} '{$stream}' is not writeable." );
+        parent::__construct( "The {$type} '{$stream}' is not writeable." );
     }
 }
 ?>

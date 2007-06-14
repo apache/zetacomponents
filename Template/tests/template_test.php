@@ -151,6 +151,56 @@ class ezcTemplateTest extends ezcTestCase
         $this->assertEquals("[\nYes\n]\n", $out);
     }
 
+    public function testTemplateFileNotWriteableException()
+    {
+        file_put_contents( $this->templatePath . "/test.ezt", "Hello world" );
+
+        $template = new ezcTemplate();
+        $conf = ezcTemplateConfiguration::getInstance();
+        $conf->compilePath = $this->basePath . "/not_writable";
+        $out = $template->process( "test.ezt", $conf );
+        self::assertEquals( "Hello world", $out);
+
+        $a = glob($conf->compilePath . "/compiled_templates/xhtml-updqr0/*.php");
+        $path = $a[0];
+        chmod($path, 0500); // Read only.
+        chmod(dirname( $path ), 0500); // Read only.
+        sleep(1);
+        touch ($this->templatePath . "/test.ezt");
+        try
+        {
+            $out = $template->process( "test.ezt", $conf );
+            self::fail("Expected a FileNotWriteableException");
+        }
+        catch( ezcTemplateFileNotWriteableException $e )
+        {
+        }
+
+    }
+
+    public function testTemplateFileNotWriteableException2()
+    {
+        file_put_contents( $this->templatePath . "/test.ezt", "Hello world" );
+        file_put_contents( $this->templatePath . "/test2.ezt", "Hello world" );
+
+        $template = new ezcTemplate();
+        $conf = ezcTemplateConfiguration::getInstance();
+        $conf->compilePath = $this->basePath . "/not_writable";
+        $out = $template->process( "test.ezt", $conf );
+        self::assertEquals( "Hello world", $out);
+        chmod($conf->compilePath . "/compiled_templates/xhtml-updqr0", 555); // Read, Executable only
+
+        try
+        {
+            $out = $template->process( "test2.ezt", $conf );
+            self::fail("Expected a FileNotWriteableException");
+        }
+        catch( ezcTemplateFileNotWriteableException $e )
+        {
+        }
+
+
+    }
 
 }
 

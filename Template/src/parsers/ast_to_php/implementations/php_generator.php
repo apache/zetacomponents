@@ -92,14 +92,14 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         {
             if ( !is_writable( $path ) )
             {
-                throw new ezcTemplateFileNotWritable( $path, "generated PHP file" );
+                throw new ezcTemplateFileNotWriteableException( $path, "generated PHP file" );
             }
         }
 
-        $this->fd = fopen( $path, "w" );
+        $this->fd = @fopen( $path, "w" );
         if ( !$this->fd )
         {
-            throw new ezcTemplateFileNotWritable( $path, "generated PHP file" );
+            throw new ezcTemplateFileNotWriteableException( $path, "generated PHP file" );
         }
 
         $this->indentation = $indentation;
