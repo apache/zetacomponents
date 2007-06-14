@@ -1,0 +1,112 @@
+<?php
+/**
+ * File containing the ezcPersistentObjectProperties class.
+ *
+ * @package PersistentObject
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * ezcPersistentObjectProperties class.
+ * 
+ * @private
+ *
+ * @package PersistentObject
+ * @version //autogen//
+ * @copyright Copyright (C) 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+class ezcPersistentObjectProperties extends ArrayObject
+{
+    /**
+     * Stores the relation objects. 
+     * 
+     * @var array(ezcPersistentObjectProperty)
+     */
+    private $properties;
+
+    /**
+     * Create a new instance.
+     * Implicitly done in constructor of 
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->properties = array();
+        parent::__construct( $this->properties );
+    }
+
+    /**
+     * See SPL interface ArrayAccess.
+     * 
+     * @param string $offset 
+     * @param ezcPersistentObjectProperty $value 
+     * @return void
+     */
+    public function offsetSet( $offset, $value )
+    {
+        if ( ( $value instanceof ezcPersistentObjectProperty ) === false )
+        {
+            throw new ezcBaseValueException( 'value', $value, 'ezcPersistentObjectProperty' );
+        }
+        if ( !is_string( $offset ) || strlen( $offset ) < 1 )
+        {
+            throw new ezcBaseValueException( 'offset', $offset, 'string, length > 0' );
+        }
+        parent::offsetSet( $offset, $value );
+    }
+
+    /**
+     * See SPL class ArrayObject.
+     * Performs additional value checks on the array.
+     * 
+     * @param array(ezcPersistentObjectProperty) $array New properties array.
+     * @return void
+     */
+    public function exchangeArray( $array )
+    {
+        foreach ( $array as $offset => $value )
+        {
+            if ( ( $value instanceof ezcPersistentObjectProperty ) === false )
+            {
+                throw new ezcBaseValueException( 'value', $value, 'ezcPersistentObjectProperty' );
+            }
+            if ( !is_string( $offset ) || strlen( $offset ) < 1 )
+            {
+                throw new ezcBaseValueException( 'offset', $offset, 'string, length > 0' );
+            }
+        }
+        parent::exchangeArray( $array );
+    }
+
+    /**
+     * See SPL class ArrayObject.
+     * Performs check if only 0 is used as a flag.
+     * 
+     * @param int $flags Must be 0.
+     * @return void
+     */
+    public function setFlags( $flags )
+    {
+        if ( $flags !== 0 )
+        {
+            throw new ezcBaseValueException( 'flags', $flags, '0' );
+        }
+    }
+
+    /**
+     * Appending is not supported. 
+     * 
+     * @param mixed $value 
+     * @return void
+     */
+    public function append( $value )
+    {
+        throw new Exception( 'Operation append is not supported by this object.' );
+    }
+}
+
+?>

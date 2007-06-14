@@ -664,11 +664,10 @@ class ezcPersistentSessionTest extends ezcTestCase
         $def = new ezcPersistentObjectDefinition(
             "test table",
             "test class",
-            array( $property ),
+            array( 'test' => $property ),
             array(),
             $idProperty
         );
-
 
         $res = ezcPersistentObjectDefinition::__set_state(array(
            'table' => 'test table',
@@ -689,7 +688,7 @@ class ezcPersistentSessionTest extends ezcTestCase
           )),
            'properties' => 
           array (
-            0 => 
+            'test' => 
             ezcPersistentObjectProperty::__set_state(array(
                'columnName' => 'test column',
                'propertyName' => 'test property',

@@ -81,7 +81,7 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
             throw new ezcPersistentDefinitionNotFoundException( $class,
                                                                 "Searched for '" . realpath( dirname( $path ) ) . "/" . basename( $path ) . "'." );
         }
-        if ( isset( $definition->idProperty ) === false )
+        if ( $definition->idProperty === null )
         {
             throw new ezcPersistentDefinitionMissingIdPropertyException( $class );
         }

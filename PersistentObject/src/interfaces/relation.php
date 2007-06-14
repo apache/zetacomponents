@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentRelation.
+ * File containing the ezcPersistentRelation class.
  *
  * @package PersistentObject
  * @version //autogentag//
