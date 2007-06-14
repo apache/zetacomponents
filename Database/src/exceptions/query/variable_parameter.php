@@ -12,6 +12,7 @@
  * Exception thrown when a method does not receive the variables it requires.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcQueryVariableParameterException extends ezcQueryException
 {

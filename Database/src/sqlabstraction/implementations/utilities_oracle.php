@@ -21,14 +21,23 @@
  * @package Database
  * @todo this class must be renamed
  * @access private
+ * @version //autogentag//
  */
 class ezcDbUtilitiesOracle extends ezcDbUtilities
 {
+    /**
+     * Constructs a new db util using the db handler $db.
+     *
+     * @param ezcDbHandler $db
+     */
     public function __construct( $db )
     {
         parent::__construct( $db );
     }
 
+    /**
+     * Remove all tables from the database.
+     */
     public function cleanup()
     {
         $this->db->beginTransaction();
@@ -61,9 +70,20 @@ class ezcDbUtilitiesOracle extends ezcDbUtilities
 
 
     /**
+     * Creates a new temporary table and returns the name.
+     *
      * @throws ezcDbException::GENERIC_ERROR in case of inability to generate
      *         a unique temporary table name.
      * @see ezcDbHandler::createTemporaryTable()
+     *
+     *
+     * @param   string $tableNamePattern  Name of temporary table user wants
+     *                                    to create.
+     * @param   string $tableDefinition Definition for the table, i.e.
+     *                                  everything that goes between braces after
+     *                                  CREATE TEMPORARY TABLE clause.
+     * @return string                  Table name, that might have been changed
+     *                                  by the handler to guarantee its uniqueness.
      * @todo move out
      */
     public function createTemporaryTable( $tableNamePattern, $tableDefinition )
@@ -97,7 +117,19 @@ class ezcDbUtilitiesOracle extends ezcDbUtilities
         return $tableName;
     }
 
-    // move out
+    /**
+     * Drop specified temporary table
+     * in a portable way.
+     *
+     * Developers should use this method instead of dropping temporary
+     * tables with the appropriate SQL queries
+     * to maintain inter-DBMS portability.
+     *
+     * @see createTemporaryTable()
+     *
+     * @param   string  $tableName Name of temporary table to drop.
+     * @return void
+     */
     public function dropTemporaryTable( $tableName )
     {
         $this->db->exec( "TRUNCATE TABLE $tableName" );

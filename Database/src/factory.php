@@ -39,6 +39,7 @@
  * @see create()
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcDbFactory
 {

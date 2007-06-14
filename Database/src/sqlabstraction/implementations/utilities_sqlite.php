@@ -21,14 +21,23 @@
  * @package Database
  * @todo this class must be renamed
  * @access private
+ * @version //autogentag//
  */
 class ezcDbUtilitiesSqlite extends ezcDbUtilities
 {
+    /**
+     * Constructs a new db util using the db handler $db.
+     *
+     * @param ezcDbHandler $db
+     */
     public function __construct( $db )
     {
         parent::__construct( $db );
     }
 
+    /**
+     * Remove all tables from the database.
+     */
     public function cleanup()
     {
         $this->db->begin();

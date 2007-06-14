@@ -14,6 +14,7 @@
  * This class reimplements the methods that have a different syntax in postgreSQL.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcQueryExpressionPgsql extends ezcQueryExpression
 {
@@ -23,21 +24,22 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
      * @var int
      */
     private $version;
-    
+
     /**
-     * Constructs an empty ezcQueryExpression
+     * Constructs an pgsql expression object using the db $db.
+     *
      * @param PDO $db
      */
     public function __construct( PDO $db )
     {
         parent::__construct( $db );
-        
+
         $version = $db->getAttribute( PDO::ATTR_SERVER_VERSION );
         $this->version = substr( $version, 0, 1 );
     }
 
     /**
-     * Returns the md5 sum of a field.
+     * Returns the md5 sum of the field $column.
      *
      * Note: Not SQL92, but common functionality
      *
@@ -52,6 +54,7 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
      * </code>
      * You should make sure you run this as the postgres user.
      *
+     * @param string $column
      * @return string
      */
     public function md5( $column )
@@ -98,7 +101,7 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
      * must contain an expression or an array with expressions.
      *
      * @throws ezcQueryVariableParameterException if no parameters are provided.
-     * @param string|array(string) strings that will be concatinated.
+     * @param string|array(string) $... strings that will be concatinated.
      * @return string
      */
     public function concat()
@@ -209,7 +212,7 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
     /**
      * Returns the SQL that extracts parts from a timestamp value.
      *
-     * @param string $date
+     * @param string $column
      * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
      * @return string
      */

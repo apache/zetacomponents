@@ -70,7 +70,7 @@ class ezcDbHandlerSqlite extends ezcDbHandler
         $this->sqliteCreateFunction( 'mod', array( 'ezcQuerySqliteFunctions', 'modImpl'), 2 );
         $this->sqliteCreateFunction( 'locate', array( 'ezcQuerySqliteFunctions', 'positionImpl'), 2 );
         $this->sqliteCreateFunction( 'floor', array( 'ezcQuerySqliteFunctions', 'floorImpl'), 1 );
-        $this->sqliteCreateFunction( 'ceil', array( 'ezcQuerySqliteFunctions', 'ceilImpl'), 1 );        
+        $this->sqliteCreateFunction( 'ceil', array( 'ezcQuerySqliteFunctions', 'ceilImpl'), 1 );
         $this->sqliteCreateFunction( 'concat', array( 'ezcQuerySqliteFunctions', 'concatImpl') );
         $this->sqliteCreateFunction( 'now', 'time', 0 );
     }
@@ -86,8 +86,9 @@ class ezcDbHandlerSqlite extends ezcDbHandler
     }
 
     /**
-     * Returns the features supported by SQLite.
+     * Returns true if $feature is supported by this db handler.
      *
+     * @param string $feature
      * @return array(string)
      */
     static public function hasFeature( $feature )

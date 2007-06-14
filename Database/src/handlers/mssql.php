@@ -13,6 +13,7 @@
  *
  * @see ezcDbHandler
  * @package Database
+ * @version //autogentag//
  */
 
 class ezcDbHandlerMssql extends ezcDbHandler
@@ -35,10 +36,10 @@ class ezcDbHandlerMssql extends ezcDbHandler
      * - user|username:   Database user name
      * - pass|password:   Database user password
      *
-     * @param array $dbparams Database connection parameters (key=>value pairs).
+     * @param array $dbParams Database connection parameters (key=>value pairs).
      * @throws ezcDbMissingParameterException if the database name was not specified.
      */
-    public function __construct( $dbParams )
+    public function __construct( array $dbParams )
     {
         $database = null;
         $host     = null;

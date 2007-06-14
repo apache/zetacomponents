@@ -13,6 +13,7 @@
  *
  * @see ezcDbHandler
  * @package Database
+ * @version //autogentag//
  */
 class ezcDbHandlerMysql extends ezcDbHandler
 {
@@ -21,7 +22,7 @@ class ezcDbHandlerMysql extends ezcDbHandler
      * implementation, if different for a specific handler. In some cases the
      * quoting start and end characters differ (e.g. ODBC), but mostly they are
      * the same.
-     * 
+     *
      * @var string
      */
     protected $identifierQuoteChars = array(
@@ -121,9 +122,10 @@ class ezcDbHandlerMysql extends ezcDbHandler
     }
 
     /**
-     * Returns the features supported by MySQL.
+     * Returns true if $feature is supported by MySQL.
      *
-     * @return array(string)
+     * @param array(string) $feature
+     * @return bool
      */
     static public function hasFeature( $feature )
     {

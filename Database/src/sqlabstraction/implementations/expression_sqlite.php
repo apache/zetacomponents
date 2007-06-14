@@ -22,7 +22,7 @@ class ezcQueryExpressionSqlite extends ezcQueryExpression
 {
     /**
      * Contains an interval map from generic intervals to SQLite native intervals.
-     * 
+     *
      * @var array(string=>string)
      */
     protected $intervalMap = array(
@@ -138,7 +138,7 @@ class ezcQueryExpressionSqlite extends ezcQueryExpression
     /**
      * Returns the SQL that extracts parts from a timestamp value.
      *
-     * @param string $date
+     * @param string $column
      * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
      * @return string
      */

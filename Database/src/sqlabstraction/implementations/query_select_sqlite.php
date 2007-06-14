@@ -16,6 +16,7 @@
  *
  * @see ezcQuery
  * @package Database
+ * @version //autogentag//
  */
 class ezcQuerySelectSqlite extends ezcQuerySelect
 {
@@ -39,6 +40,7 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
 
     /**
      * Constructs a new ezcQuerySelectSqlite object.
+     *
      * @param PDO $db
      */
     public function __construct( PDO $db )
@@ -82,7 +84,7 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
      * </code>
      *
      * @throws ezcQueryVariableParameterException if called with no parameters.
-     * @param string|array(string) Either a string with a table name or an array of table names.
+     * @param string|array(string) $... Either a string with a table name or an array of table names.
      * @return a pointer to $this
      */
     public function from()

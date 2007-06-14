@@ -33,6 +33,7 @@
  * </code>
  *
  * @package Database
+ * @version //autogentag//
  * @mainclass
  */
 class ezcQueryDelete extends ezcQuery
@@ -69,6 +70,7 @@ class ezcQueryDelete extends ezcQuery
      *
      * deleteFrom() returns a pointer to $this.
      *
+     * @param string $table
      * @return ezcQueryDelete
      */
     public function deleteFrom( $table )
@@ -93,7 +95,7 @@ class ezcQueryDelete extends ezcQuery
      * </code>
      *
      * @throws ezcQueryVaraibleParameterException if called with no parameters.
-     * @param string|array(string) Either a string with a logical expression name
+     * @param string|array(string) $... Either a string with a logical expression name
      * or an array with logical expressions.
      * @return ezcQueryDelete
      */

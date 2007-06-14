@@ -15,6 +15,7 @@
  * - handling of offset/limit in a datbase independent way
  * - correct recursive handling of transactions
  *
+ * @version //autogentag//
  * @package Database
  * @mainclass
  */

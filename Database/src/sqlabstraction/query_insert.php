@@ -35,6 +35,7 @@
  * </code>
  *
  * @package Database
+ * @version //autogentag//
  * @mainclass
  */
 class ezcQueryInsert extends ezcQuery
@@ -71,6 +72,7 @@ class ezcQueryInsert extends ezcQuery
      *
      * insertInto() returns a pointer to $this.
      *
+     * @param string $table
      * @return ezcQueryInsert
      */
     public function insertInto( $table )

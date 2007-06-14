@@ -12,20 +12,35 @@
  * SQL Server specific implementation of ezcQuery.
  *
  * This class reimplements the LIMIT method in which the
- * SQL Server differs from the standard implementation in ezcQuery. 
+ * SQL Server differs from the standard implementation in ezcQuery.
  *
  * @see ezcQuery
  * @package Database
+ * @version //autogentag//
  */
 class ezcQuerySelectMssql extends ezcQuerySelect
 {
     /**
      * If a limit and/or offset has been set for this query.
+     *
+     * @var bool
      */
     private $hasLimit = false;
+
+    /**
+     * The limit set.
+     *
+     * @var int
+     */
     private $limit = 0;
+
+    /**
+     * The offset set.
+     *
+     * @var int
+     */
     private $offset = 0;
-    
+
     /**
      * Same as ezcQuerySelect::$orderString but inverted
      * for use in the LIMIT functionality.
@@ -55,8 +70,8 @@ class ezcQuerySelectMssql extends ezcQuerySelect
      * $offset controls which row that will be the first in the result
      * set from the total amount of matching rows.
      *
-     * @param $limit integer expression
-     * @param $offset integer expression
+     * @param int $limit integer expression
+     * @param int $offset integer expression
      * @return void
      */
     public function limit( $limit, $offset = 0 )
@@ -70,6 +85,11 @@ class ezcQuerySelectMssql extends ezcQuerySelect
     /**
      * Saves the ordered columns in an internal array so we can invert that order
      * if we need to in the limit() workaround
+     *
+     * @param string $column a column name in the result set
+     * @param string $type if the column should be sorted ascending or descending.
+     *        you can specify this using ezcQuerySelect::ASC or ezcQuerySelect::DESC
+     * @return ezcQuery a pointer to $this
      */
     public function orderBy( $column, $type = self::ASC )
     {
@@ -84,7 +104,7 @@ class ezcQuerySelectMssql extends ezcQuerySelect
         $this->invertedOrderString .= $column . ' ' . ( $type == self::ASC ? self::DESC : self::ASC );
         return parent::orderBy( $column, $type );
     }
-    
+
     /**
      * Transforms the $query to make it only select the $rowCount first rows
      *
@@ -100,8 +120,8 @@ class ezcQuerySelectMssql extends ezcQuerySelect
     /**
      * Transforms the query from the parent to provide LIMIT functionality.
      *
-     * Note: doesn't work exactly like the MySQL equivalent; it will always return 
-     * $limit rows even if $offset + $limit exceeds the total number of rows. 
+     * Note: doesn't work exactly like the MySQL equivalent; it will always return
+     * $limit rows even if $offset + $limit exceeds the total number of rows.
      *
      * @throws ezcQueryInvalidException if offset is used and orderBy is not.
      * @return string

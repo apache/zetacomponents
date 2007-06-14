@@ -13,14 +13,14 @@
  * such as errors parsing database parameters and connecting to the database.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcDbTransactionException extends ezcDbException
 {
     /**
-     * Constructs a new exception.
+     * Constructs a new exception with the message $msg.
      *
-     * $name specifies the name of the name of the handler to use.
-     * $known is a list of the known database handlers.
+     * @param string $msg
      */
     public function __construct( $msg )
     {

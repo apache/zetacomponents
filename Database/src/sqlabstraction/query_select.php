@@ -38,9 +38,9 @@
  *
  * Database independence:
  * TRUE/FALSE, MySQL accepts 0 and 1 as boolean values. PostgreSQL does not, but accepts TRUE/FALSE.
- * @todo introduction needs explanation of security etc.
  * @todo introduction needs examples with clone(), reusing a query and advanced binding.
  * @package Database
+ * @version //autogentag//
  * @mainclass
  */
 class ezcQuerySelect extends ezcQuery
@@ -88,9 +88,9 @@ class ezcQuerySelect extends ezcQuery
 
     /**
      * Stores the HAVING part of SQL
-     * 
+     *
      * @var string
-     */    
+     */
     protected $havingString = null;
 
     /**
@@ -99,7 +99,7 @@ class ezcQuerySelect extends ezcQuery
      * @var string
      */
     protected $orderString = null;
-        
+
     /**
      * Stores the LIMIT part of the SQL.
      *
@@ -118,7 +118,10 @@ class ezcQuerySelect extends ezcQuery
     /**
      * Constructs a new ezcQuery object.
      *
+     * For an introduction to aliases see {@link ezcQuery::__construct()}.
+     *
      * @param PDO $db a pointer to the database object.
+     * @param array(string=>string) $aliases
      */
     public function __construct( PDO $db, array $aliases = array() )
     {
@@ -173,7 +176,7 @@ class ezcQuerySelect extends ezcQuery
      * Each of above code produce SQL clause 'SELECT column1, column2' for the query.
      *
      * @throws ezcQueryVariableParameterException if called with no parameters..
-     * @param string|array(string) Either a string with a column name or an array of column names.
+     * @param string|array(string) $... Either a string with a column name or an array of column names.
      * @return ezcQuery returns a pointer to $this.
      */
     public function select()
@@ -261,7 +264,7 @@ class ezcQuerySelect extends ezcQuery
      *
      * @throws ezcQueryVariableParameterException if called with no parameters..
      * @throws ezcQueryInvalidException if called after select()
-     * @param string|array(string) Either a string with a column name or an array of column names.
+     * @param string|array(string) $... Either a string with a column name or an array of column names.
      * @return ezcQuery returns a pointer to $this.
      */
     public function selectDistinct()
@@ -303,7 +306,7 @@ class ezcQuerySelect extends ezcQuery
      * </code>
      *
      * @throws ezcQueryVariableParameterException if called with no parameters.
-     * @param string|array(string) Either a string with a table name or an array of table names.
+     * @param string|array(string) $... Either a string with a table name or an array of table names.
      * @return ezcQuery a pointer to $this
      */
     public function from()
@@ -334,11 +337,11 @@ class ezcQuerySelect extends ezcQuery
 
     /**
      * Returns the SQL for a join or prepares $fromString for a join.
-     * 
+     *
      * This method could be used in two forms:
      *
      * <b>doJoin( $joinType, 't2', $joinCondition )</b>
-     * 
+     *
      * Takes the join type and two string arguments and returns ezcQuery.
      *
      * The second parameter is the name of the table to join with. The table to
@@ -348,7 +351,7 @@ class ezcQuerySelect extends ezcQuery
      * is returned by an ezcQueryExpression.
      *
      * <b>doJoin( $joinType, 't2', 't1.id', 't2.id' )</b>
-     * 
+     *
      * Takes the join type and three string arguments and returns ezcQuery.
      * This is a simplified form of the three parameter version.  doJoin(
      * 'inner', 't2', 't1.id', 't2.id' ) is equal to doJoin( 'inner', 't2',
@@ -356,7 +359,7 @@ class ezcQuerySelect extends ezcQuery
      *
      * The second parameter is the name of the table to join with. The table to
      * which is joined should have been previously set with the from() method.
-     * 
+     *
      * The third parameter is the name of the column on the table set
      * previously with the from() method and the fourth parameter the name of
      * the column to join with on the table that was specified in the first
@@ -630,7 +633,7 @@ class ezcQuerySelect extends ezcQuery
      * </code>
      *
      * @throws ezcQueryVariableParameterException if called with no parameters.
-     * @param string|array(string) Either a string with a logical expression name
+     * @param string|array(string) $... Either a string with a logical expression name
      * or an array with logical expressions.
      * @return ezcQuerySelect
      */
@@ -680,13 +683,13 @@ class ezcQuerySelect extends ezcQuery
      * databases support it one way or the other and because it is
      * essential.
      *
-     * @param $limit integer expression
-     * @param $offset integer expression
+     * @param string $limit integer expression
+     * @param string $offset integer expression
      * @return ezcQuerySelect
      */
-    public function limit( $limit, $offset = 0 )
+    public function limit( $limit, $offset = '' )
     {
-        if ( $offset == 0 )
+        if ( $offset === '' )
         {
             $this->limitString = "LIMIT {$limit}";
         }
@@ -793,10 +796,10 @@ class ezcQuerySelect extends ezcQuery
      *         if invoked without preceding call to groupBy().
      * @throws ezcQueryVariableParameterException
      *         if called with no parameters.
-     * @param string|array(string) Either a string with a logical expression name
+     * @param string|array(string) $... Either a string with a logical expression name
      *                             or an array with logical expressions.
      * @return ezcQuery a pointer to $this
-     */    
+     */
     public function having()
     {
         // using groupBy()->having() syntax assumed, so check if last call was to groupBy()

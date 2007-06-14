@@ -13,6 +13,7 @@
  * such as errors parsing database parameters and connecting to the database.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcDbException extends ezcBaseException
 {

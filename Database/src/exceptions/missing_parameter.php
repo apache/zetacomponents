@@ -12,6 +12,7 @@
  * This exception is thrown when a database handler misses a required parameter.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcDbMissingParameterException extends ezcDbException
 {

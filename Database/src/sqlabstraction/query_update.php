@@ -38,6 +38,7 @@
  *
  * @package Database
  * @mainclass
+ * @version //autogentag//
  */
 class ezcQueryUpdate extends ezcQuery
 {
@@ -81,6 +82,7 @@ class ezcQueryUpdate extends ezcQuery
      *
      * update() returns a pointer to $this.
      *
+     * @param string $table
      * @return ezcQueryUpdate
      */
     public function update( $table )
@@ -122,7 +124,7 @@ class ezcQueryUpdate extends ezcQuery
      * </code>
      *
      * @throws ezcQueryVariableParameterException if called with no parameters.
-     * @param string|array(string) Either a string with a logical expression name
+     * @param string|array(string) $... Either a string with a logical expression name
      * or an array with logical expressions.
      * @return ezcQueryUpdate
      */

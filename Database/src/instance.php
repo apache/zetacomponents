@@ -44,6 +44,7 @@
  * </code>
  *
  * @package Database
+ * @version //autogentag//
  * @mainclass
  */
 class ezcDbInstance
@@ -123,7 +124,7 @@ class ezcDbInstance
      * retrieved later using the same identifier.
      *
      * @param ezcDbHandler $db
-     * @param string the identifier of the database handler
+     * @param string $identifier the identifier of the database handler
      * @return void
      */
     public static function set( ezcDbHandler $db, $identifier = false )

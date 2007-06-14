@@ -12,6 +12,7 @@
  * Base class for exceptions related to the SQL abstraction.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcQueryInvalidException extends ezcQueryException
 {
@@ -25,7 +26,7 @@ class ezcQueryInvalidException extends ezcQueryException
      * Use $message to specify exactly what went wrong.
      *
      * @param string $type
-     * @param string $additionalInfo
+     * @param string $message
      */
     public function __construct( $type, $message )
     {

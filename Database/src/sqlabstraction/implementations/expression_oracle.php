@@ -14,12 +14,14 @@
  * This class reimplements the methods that have a different syntax in postgreSQL.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcQueryExpressionOracle extends ezcQueryExpression
 {
     /**
      * Constructs an empty ezcQueryExpression
-     * @param PDO $db     
+     *
+     * @param PDO $db
      */
     public function __construct( PDO $db )
     {
@@ -33,7 +35,7 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
      * must contain an expression or an array with expressions.
      *
      * @throws ezcQueryVariableException if no parameters are provided
-     * @param string|array(string) strings that will be concatinated.
+     * @param string|array(string) $... strings that will be concatinated.
      * @return string
      */
     public function concat()
@@ -211,7 +213,7 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
     /**
      * Returns the SQL that extracts parts from a timestamp value.
      *
-     * @param string $date
+     * @param string $column
      * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
      * @return string
      */

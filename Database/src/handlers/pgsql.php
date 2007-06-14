@@ -13,6 +13,7 @@
  *
  * @see ezcDbHandler
  * @package Database
+ * @version //autogentag//
  */
 class ezcDbHandlerPgsql extends ezcDbHandler
 {

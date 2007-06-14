@@ -23,6 +23,7 @@ class ezcQuerySqliteFunctions
     /**
      * Returns the md5 sum of the data that SQLite's md5() function receives.
      *
+     * @param string $data
      * @return string
      */
     static public function md5Impl( $data )
@@ -33,6 +34,8 @@ class ezcQuerySqliteFunctions
     /**
      * Returns the modules of the data that SQLite's mod() function receives.
      *
+     * @param numeric $dividend
+     * @param numeric $divisor
      * @return string
      */
     static public function modImpl( $dividend, $divisor )

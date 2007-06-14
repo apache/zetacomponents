@@ -34,9 +34,15 @@
  * </code>
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcQuerySubSelect extends ezcQuerySelect
 {
+    /**
+     * Holds the outer query.
+     *
+     * @var ezcQuery
+     */
     protected $outerQuery = null;
 
     /**

@@ -12,14 +12,26 @@
 /**
  * Various database methods.
  *
- * @package Database
  * @todo this class must be renamed.. or removed?!?
+ * @package Database
+ * @version //autogentag//
  * @access private
  */
 class ezcDbUtilities
 {
+    /**
+     * Database handler used for the utility.
+     *
+     * @var ezcDbHandler
+     */
     protected $db;
-    public function __construct( $db )
+
+    /**
+     * Constructs a new db util using the db handler $db.
+     *
+     * @param ezcDbHandler $db
+     */
+    public function __construct( ezcDbHandler $db )
     {
         $this->db = $db;
     }
@@ -71,7 +83,7 @@ class ezcDbUtilities
      *
      * @see createTemporaryTable()
      *
-     * @param   string  $table Name of temporary table to drop.
+     * @param   string  $tableName Name of temporary table to drop.
      * @return void
      */
     public function dropTemporaryTable( $tableName )
@@ -99,7 +111,7 @@ class ezcDbUtilities
     }
 
     /**
-     * Remove all objects from the database.
+     * Remove all tables from the database.
      */
     public function cleanup()
     {

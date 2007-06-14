@@ -10,10 +10,11 @@
 /**
  * Class containing the options for MS SQL Server connections
  *
- * @property int $quoteIdentifier 
+ * @property int $quoteIdentifier
  *           Mode of quoting identifiers.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcDbMssqlOptions extends ezcBaseOptions
 {
@@ -23,7 +24,7 @@ class ezcDbMssqlOptions extends ezcBaseOptions
      * and treats double quotes as quoting characters for identifiers.
      *
      * @access public
-     */    
+     */
     const QUOTES_COMPLIANT = 0;
 
     /**
@@ -33,35 +34,37 @@ class ezcDbMssqlOptions extends ezcBaseOptions
      * and treats '[' and ']' as quoting characters for identifiers.
      *
      * @access public
-     */    
+     */
     const QUOTES_LEGACY    = 1;
 
     /**
      * Recommended ( and default ) mode for identifiers quoting.
-     * Gets current QUOTED_IDENTIFIERS value for MS SQL Server 
+     * Gets current QUOTED_IDENTIFIERS value for MS SQL Server
      * connection and changes ezcDbMssqlHandler's quoting identifier characters
      * correspondently if it's necessary. QUOTED_IDENTIFIERS value
      * for connection will not be changed.
-     * 
+     *
      * @access public
-     */    
+     */
     const QUOTES_GUESS     = 2;
 
 
     /**
-     * Constant represents mode of identifiers quoting that not 
-     * touch any settings related to quoting identifiers. 
-     * Could be used for minimizing amount of requests 
+     * Constant represents mode of identifiers quoting that not
+     * touch any settings related to quoting identifiers.
+     * Could be used for minimizing amount of requests
      * to MS SQL Server and for optimization.
-     * 
-     * 
+     *
+     *
      * @access public
-     */    
+     */
     const QUOTES_UNTOUCHED = 3;
 
-    
+
     /**
-     * Creates an ezcDbMssqlOptions objectwhit default option values.
+     * Creates an ezcDbMssqlOptions object with default option values.
+     *
+     * @param array $options
      */
     public function __construct( array $options = array() )
     {
@@ -72,9 +75,9 @@ class ezcDbMssqlOptions extends ezcBaseOptions
 
     /**
      * Set an option value
-     * 
-     * @param string $propertyName 
-     * @param mixed $propertyValue 
+     *
+     * @param string $propertyName
+     * @param mixed $propertyValue
      * @throws ezcBasePropertyNotFoundException
      *          If a property is not defined in this class
      * @throws ezcBaseValueException
@@ -86,7 +89,7 @@ class ezcDbMssqlOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'quoteIdentifier':
-                if ( !is_numeric( $propertyValue )  || 
+                if ( !is_numeric( $propertyValue )  ||
                      ( ( $propertyValue != self::QUOTES_COMPLIANT ) &&
                        ( $propertyValue != self::QUOTES_LEGACY ) &&
                        ( $propertyValue != self::QUOTES_GUESS ) &&
@@ -94,7 +97,7 @@ class ezcDbMssqlOptions extends ezcBaseOptions
                      )
                    )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 
+                    throw new ezcBaseValueException( $propertyName, $propertyValue,
                         'one of ezcDbMssqlOptions::QUOTES_COMPLIANT, QUOTES_LEGACY, QUOTES_GUESS, QUOTES_UNTOUCHED constants' );
                 }
 

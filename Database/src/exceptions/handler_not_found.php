@@ -12,6 +12,7 @@
  * This exceptions is used when a database handler could not be found.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcDbHandlerNotFoundException extends ezcDbException
 {
@@ -20,6 +21,9 @@ class ezcDbHandlerNotFoundException extends ezcDbException
      *
      * $name specifies the name of the name of the handler to use.
      * $known is a list of the known database handlers.
+     *
+     * @param string $name
+     * @param array(string) $known
      */
     public function __construct( $name, array $known = array() )
     {

@@ -19,6 +19,7 @@
  * in PHP and can not be used in method names.
  *
  * @package Database
+ * @version //autogentag//
  * @mainclass
  */
 class ezcQueryExpression
@@ -62,8 +63,9 @@ class ezcQueryExpression
 
     /**
      * Constructs an empty ezcQueryExpression
+     *
      * @param PDO $db
-     * @param array(string=>string) $aliases     
+     * @param array(string=>string) $aliases
      */
     public function __construct( PDO $db, array $aliases = array() )
     {
@@ -133,8 +135,8 @@ class ezcQueryExpression
      *
      * This method is similar to getIdentifier except that it works on an array.
      *
-     * @param array(string) $alias
-     * @returns array(string)
+     * @param array(string) $aliasList
+     * @return array(string)
      */
     protected function getIdentifiers( array $aliasList )
     {
@@ -253,7 +255,7 @@ class ezcQueryExpression
     }
 
     /**
-     * Returns the SQL for a logical not.
+     * Returns the SQL for a logical not, negating the $expression.
      *
      * Example:
      * <code>
@@ -263,6 +265,7 @@ class ezcQueryExpression
      *                  ->where( $e->eq( 'id', $e->not( 'null' ) ) );
      * </code>
      *
+     * @param string $expression
      * @return string a logical expression
      */
     public function not( $expression )
@@ -283,7 +286,7 @@ class ezcQueryExpression
      *
      * @throws ezcDbAbstractionException if called with no parameters.
      * @param string $type the type of operation, can be '+', '-', '*' or '/'.
-     * @param string|array(string)
+     * @param string|array(string) $...
      * @return string an expression
      */
     private function basicMath( $type )
@@ -320,7 +323,7 @@ class ezcQueryExpression
      * </code>
      *
      * @throws ezcDbAbstractionException if called with no parameters.
-     * @param string|array(string)
+     * @param string|array(string) $...
      * @return string an expression
      */
     public function add()
@@ -344,7 +347,7 @@ class ezcQueryExpression
      * </code>
      *
      * @throws ezcDbAbstractionException if called with no parameters.
-     * @param string|array(string)
+     * @param string|array(string) $...
      * @return string an expression
      */
     public function sub()
@@ -368,7 +371,7 @@ class ezcQueryExpression
      * </code>
      *
      * @throws ezcDbAbstractionException if called with no parameters.
-     * @param string|array(string)
+     * @param string|array(string) $...
      * @return string an expression
      */
     public function mul()
@@ -392,7 +395,7 @@ class ezcQueryExpression
      * </code>
      *
      * @throws ezcDbAbstractionException if called with no parameters.
-     * @param string|array(string)
+     * @param string|array(string) $...
      * @return string an expression
      */
     public function div()
@@ -543,15 +546,15 @@ class ezcQueryExpression
      * $q->select( '*' )->from( 'table' )
      *                  ->where( $q->expr->in( 'id', 1, 2, 3 ) );
      * </code>
-     * 
-     * Optimization note: Call setQuotingValues( false ) before using in() with 
-     * big lists of numeric parameters. This avoid redundant quoting of numbers 
-     * in resulting SQL query and saves time of converting strings to 
+     *
+     * Optimization note: Call setQuotingValues( false ) before using in() with
+     * big lists of numeric parameters. This avoid redundant quoting of numbers
+     * in resulting SQL query and saves time of converting strings to
      * numbers inside RDBMS.
      *
      * @throws ezcDbAbstractionException if called with less than two parameters..
      * @param string $column the value that should be matched against
-     * @param string|array(string) values that will be matched against $column
+     * @param string|array(string) $... values that will be matched against $column
      * @return string logical expression
      */
     public function in( $column )
@@ -570,7 +573,7 @@ class ezcQueryExpression
         {
             throw new ezcQueryVariableParameterException( 'in', count( $args ), 2 );
         }
-        
+
         if ( $this->quoteValues )
         {
             foreach ( $values as $key => $value )
@@ -722,10 +725,11 @@ class ezcQueryExpression
     // scalar functions
 
     /**
-     * Returns the md5 sum of a field.
+     * Returns the md5 sum of $column.
      *
      * Note: Not SQL92, but common functionality
      *
+     * @param string $column
      * @return string
      */
     public function md5( $column )
@@ -735,10 +739,9 @@ class ezcQueryExpression
     }
 
     /**
-     * Returns the length of a text field.
+     * Returns the length of text field $column
      *
-     * @param string $expression1
-     * @param string $expression2
+     * @param string $column
      * @return string
      */
     public function length( $column )
@@ -750,8 +753,8 @@ class ezcQueryExpression
     /**
      * Rounds a numeric field to the number of decimals specified.
      *
-     * @param string $expression1
-     * @param string $expression2
+     * @param string $column
+     * @param int $decimals
      * @return string
      */
     public function round( $column, $decimals )
@@ -817,7 +820,7 @@ class ezcQueryExpression
      * concat() accepts an arbitrary number of parameters. Each parameter
      * must contain an expression or an array with expressions.
      *
-     * @param string|array(string) strings that will be concatinated.
+     * @param string|array(string) $... strings that will be concatinated.
      */
     public function concat()
     {
@@ -835,7 +838,7 @@ class ezcQueryExpression
 
     /**
      * Returns the SQL to locate the position of the first occurrence of a substring
-     * 
+     *
      * @param string $substr
      * @param string $value
      * @return string
@@ -848,7 +851,7 @@ class ezcQueryExpression
 
     /**
      * Returns the SQL to change all characters to lowercase
-     * 
+     *
      * @param string $value
      * @return string
      */
@@ -983,7 +986,7 @@ class ezcQueryExpression
     /**
      * Returns the SQL that extracts parts from a timestamp value.
      *
-     * @param string $date
+     * @param string $column The column to operate on
      * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
      * @return string
      */

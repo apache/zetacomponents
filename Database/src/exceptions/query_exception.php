@@ -12,6 +12,7 @@
  * Base class for exceptions related to the SQL abstraction.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcQueryException extends ezcBaseException
 {

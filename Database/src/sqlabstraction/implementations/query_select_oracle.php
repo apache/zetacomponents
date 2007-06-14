@@ -17,6 +17,7 @@
  *
  * @see ezcQuery
  * @package Database
+ * @version //autogentag//
  */
 class ezcQuerySelectOracle extends ezcQuerySelect
 {
@@ -24,11 +25,25 @@ class ezcQuerySelectOracle extends ezcQuerySelect
      * If a limit and/or offset has been set for this query.
      */
     private $hasLimit = false;
+
+    /**
+     * The limit set.
+     *
+     * @var int
+     */
     private $limit = 0;
+
+    /**
+     * The offset set.
+     *
+     * @var int
+     */
     private $offset = 0;
 
     /**
-     * Constructs a new ezcQueryOracle object.
+     * Constructs a new ezcQueryOracle object working on the database $db.
+     *
+     * @param PDO $db
      */
     public function __construct( PDO $db )
     {
@@ -61,6 +76,8 @@ class ezcQuerySelectOracle extends ezcQuerySelect
      *   ->from( $q->aliAs( 'users', 'employees' ) );
      * </code>
      *
+     * @param string $name Old name
+     * @param string $alias Alias
      * @return string the query string "columnname as targetname
      */
     public function alias( $name, $alias )
@@ -95,8 +112,8 @@ class ezcQuerySelectOracle extends ezcQuerySelect
      *
      * Note that you will not get a result if you call buildLimit() when using the oracle database.
      *
-     * @param $limit integer expression
-     * @param $offset integer expression
+     * @param string $limit integer expression
+     * @param string $offset integer expression
      * @return ezcQuerySelect
      */
     public function limit( $limit, $offset = 0 )

@@ -26,6 +26,7 @@
  * Subclasses should provide functionality to build an actual query.
  *
  * @package Database
+ * @version //autogentag//
  */
 abstract class ezcQuery
 {
@@ -145,6 +146,9 @@ abstract class ezcQuery
      * If the alias does not exists in the list of aliases
      * it is returned unchanged.
      *
+     * This can method handles composite identifiers separated by a dot ('.').
+     *
+     * @param string $alias
      * @return string
      */
     protected function getIdentifier( $alias )
@@ -172,8 +176,8 @@ abstract class ezcQuery
      *
      * This method is similar to getIdentifier except that it works on an array.
      *
-     * @param array(string) $alias
-     * @returns array(string)
+     * @param array(string) $aliasList
+     * @return array(string)
      */
     protected function getIdentifiers( array $aliasList )
     {
@@ -198,8 +202,7 @@ abstract class ezcQuery
      * placeholder for you. An automatic placeholder will be of the name
      * 'ezcValue1', 'ezcValue2' etc.
      *
-     * @see http://no.php.net/manual/en/function.pdostatement-bindparam.php
-     * @see doBind()
+     * For more information see {@link http://php.net/pdostatement-bindparam}
      *
      * Example:
      * <code>
@@ -210,6 +213,7 @@ abstract class ezcQuery
      * $stmt->execute(); // executed with 'id = 2'
      * </code>
      *
+     * @see doBind()
      * @param mixed $value
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
      * @return string the placeholder name used.
@@ -236,8 +240,7 @@ abstract class ezcQuery
      * placeholder for you. An automatic placeholder will be of the name
      * 'ezcValue1', 'ezcValue2' etc.
      *
-     * @see http://no.php.net/manual/en/function.pdostatement-bindparam.php
-     * @see doBind()
+     * For more information see {@link http://php.net/pdostatement-bindparam}
      *
      * Example:
      * <code>
@@ -248,6 +251,7 @@ abstract class ezcQuery
      * $stmt->execute(); // executed with 'id = 4'
      * </code>
      *
+     * @see doBind()
      * @param &mixed $param
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
      * @return string the placeholder name used.
@@ -283,7 +287,7 @@ abstract class ezcQuery
      * This method must be called if you have used the bind methods
      * in your query and you build the method yourself using build.
      *
-     * @param PDOStatement
+     * @param PDOStatement $stmt
      * @return void
      */
     public function doBind( PDOStatement $stmt )
@@ -336,6 +340,7 @@ abstract class ezcQuery
      * Returns all the elements in $array as one large single dimensional array.
      *
      * @todo public? Currently this is needed for QueryExpression.
+     * @param array $array
      * @return array
      */
     static public function arrayFlatten( array $array )

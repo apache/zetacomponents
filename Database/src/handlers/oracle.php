@@ -13,6 +13,7 @@
  *
  * @see ezcDbHandler
  * @package Database
+ * @version //autogentag//
  */
 
 class ezcDbHandlerOracle extends ezcDbHandler
@@ -139,6 +140,7 @@ class ezcDbHandlerOracle extends ezcDbHandler
      *
      * Reimplemented from PDO since PDO is broken using Oracle8.
      *
+     * @param string $str
      * @return string
      */
     public function quote( $str )

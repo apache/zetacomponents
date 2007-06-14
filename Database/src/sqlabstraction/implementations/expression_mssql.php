@@ -14,6 +14,7 @@
  * This class reimplements the methods that have a different syntax in SQL Server.
  *
  * @package Database
+ * @version //autogentag//
  */
 class ezcQueryExpressionMssql extends ezcQueryExpression
 {
@@ -47,7 +48,8 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
     }
 
     /**
-     * Returns the md5 sum of a field. 
+     * Returns the md5 sum of a field.
+     *
      * There are two variants of implementation for this feature.
      * Both not ideal though.
      * First don't require additional setup of MS SQL Server
@@ -55,9 +57,10 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
      * to convert result of Transact-SQL HashBytes() function to string.
      *
      * Second one requires the stored procedure
-     * from http://www.thecodeproject.com/database/xp_md5.asp to 
+     * from http://www.thecodeproject.com/database/xp_md5.asp to
      * be installed and wrapped by the user defined function fn_md5.
      *
+     * @param string $column
      * @return string
      */
     public function md5( $column )
@@ -67,7 +70,7 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
         // alternative
         // return "dbo.fn_md5( {$column} )";
     }
-    
+
     /**
      * Returns the length of a text field.
      *
@@ -87,7 +90,7 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
      */
     public function now()
     {
-        return "CONVERT( varchar( 19 ), GETDATE(), 120 )"; //120 means that we use ODBC canonical 
+        return "CONVERT( varchar( 19 ), GETDATE(), 120 )"; //120 means that we use ODBC canonical
                                                            //format for date output i.e. yyyy-mm-dd hh:mi:ss(24h)
     }
 
@@ -98,8 +101,8 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
      *
      * @param string $value the target $value the string or the string column.
      * @param int $from extract from this characeter.
-     * @param int $len extract this amount of characters. If $len is not 
-     *            provided it's assumed to be the number of characters 
+     * @param int $len extract this amount of characters. If $len is not
+     *            provided it's assumed to be the number of characters
      *            to get the whole remainder of the string.
      * @return string sql that extracts part of a string.
      */
@@ -116,14 +119,14 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
             return "SUBSTRING( {$value}, {$from}, {$len} )";
         }
     }
-    
+
     /**
      * Returns a series of strings concatinated
      *
      * concat() accepts an arbitrary number of parameters. Each parameter
      * must contain an expression or an array with expressions.
      *
-     * @param string|array(string) strings that will be concatinated.
+     * @param string|array(string) $... strings that will be concatinated.
      */
     public function concat()
     {
@@ -141,7 +144,7 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
 
     /**
      * Returns the SQL to locate the position of the first occurrence of a substring
-     * 
+     *
      * @param string $substr
      * @param string $value
      * @return string
@@ -209,9 +212,9 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
     }
 
     /**
-     * Returns the SQL that extracts parts from a timestamp value.
+     * Returns the SQL that extracts parts from a timestamp value from a column.
      *
-     * @param string $date
+     * @param string $column
      * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
      * @return string
      */
