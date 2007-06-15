@@ -266,7 +266,7 @@ class ezcTemplate
         $this->properties["astTree"] = false;
         $this->properties["stream"] = $location;
 
-        if ( $location instanceof ezcTemplateLocationInterface)
+        if ( $location instanceof ezcTemplateLocationInterface )
         {
             $this->properties["file"] = $location;
             $this->properties["stream"] = $location->getPath();
@@ -322,7 +322,7 @@ class ezcTemplate
                 $fetchCacheInfo = new ezcTemplateFetchCacheInformation(); 
                 $this->properties["tstTree"]->accept( $fetchCacheInfo );
 
-                $tstToAst = new ezcTemplateTstToAstCachedTransformer ( $parser, $fetchCacheInfo->cacheTst);
+                $tstToAst = new ezcTemplateTstToAstCachedTransformer( $parser, $fetchCacheInfo->cacheTst );
             }
             else
             {
@@ -345,7 +345,7 @@ class ezcTemplate
             // Add to the cache system.
             if ($config->cacheManager !== false )
             {
-                $config->cacheManager->includeTemplate( $this, $this->properties["stream"]);
+                $config->cacheManager->includeTemplate( $this, $this->properties["stream"] );
             }
         }
 

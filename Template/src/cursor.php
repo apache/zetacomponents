@@ -456,7 +456,7 @@ class ezcTemplateCursor
      * @param string $advance If true it will advance the position to after matched text.
      * @return bool  True if the $word matches, otherwise false.
      */
-    public function match( $word, $advance = true)
+    public function match( $word, $advance = true )
     {
         $len = strlen( $word );
         if ( $this->current( $len ) == $word )
