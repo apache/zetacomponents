@@ -54,7 +54,7 @@ Getting the query part
 
 Here is an example of getting the query part of urls:
 
-.. include:: tutorial_get_query.php
+.. include:: tutorial/tutorial_get_query.php
     :literal:
 
 The output would be: ::
@@ -76,7 +76,7 @@ Setting the query part
 
 Here is an example of setting the query part of urls:
 
-.. include:: tutorial_set_query.php
+.. include:: tutorial/tutorial_set_query.php
     :literal:
 
 The output would be as follows (wrapped for clarity): ::
@@ -102,7 +102,7 @@ Creating and using a custom url configuration
 The following example creates a custom url configuration and uses it when
 creating a new url object:
 
-.. include:: tutorial_cfg_create.php
+.. include:: tutorial/tutorial_cfg_create.php
     :literal:
 
 The output would be: ::
@@ -149,7 +149,7 @@ Getting parameters using a url configuration
 The following example uses the custom url configuration from before to get
 the parameters from the provided url:
 
-.. include:: tutorial_get_params.php
+.. include:: tutorial/tutorial_get_params.php
     :literal:
 
 The output would be as follows (wrapped for clarity): ::
@@ -173,7 +173,7 @@ Setting parameters using a url configuration
 The following example uses the custom url configuration from before to set
 the parameters into the provided url:
 
-.. include:: tutorial_set_params.php
+.. include:: tutorial/tutorial_set_params.php
     :literal:
 
 The output would be as follows (wrapped for clarity): ::
@@ -190,7 +190,7 @@ Changing a url configuration dynamically
 The following example uses the custom url configuration from before to set
 the parameters into the provided url:
 
-.. include:: tutorial_cfg_change.php
+.. include:: tutorial/tutorial_cfg_change.php
     :literal:
 
 The output would be: ::
@@ -206,7 +206,7 @@ Appending a suffix to a url
 With the url creator, you can register a url under an alias, then use that
 alias when you want to prepend the url to a file name.
 
-.. include:: tutorial_url_creator.php
+.. include:: tutorial/tutorial_url_creator.php
     :literal:
 
 The output would be: ::
@@ -223,7 +223,7 @@ Using formatting for a url
 With the url creator, you can register a url under an alias, then use that
 alias when you want to apply formatting to a url.
 
-.. include:: tutorial_url_creator_params.php
+.. include:: tutorial/tutorial_url_creator_params.php
     :literal:
 
 The output would be: ::
