@@ -61,6 +61,7 @@
  *
  * @package Template
  * @version //autogen//
+ * @mainclass
  */
 class ezcTemplateCustomBlockDefinition extends ezcTemplateCustomExtension
 {

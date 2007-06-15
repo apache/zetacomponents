@@ -55,6 +55,7 @@
  *
  * @package Template
  * @version //autogen//
+ * @mainclass
  */
 class ezcTemplateCustomFunctionDefinition extends ezcTemplateCustomExtension
 {

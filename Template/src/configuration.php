@@ -60,6 +60,7 @@
  *           Desired charset of literals in the compiled.
  * @package Template
  * @version //autogen//
+ * @mainclass
  */
 class ezcTemplateConfiguration
 {

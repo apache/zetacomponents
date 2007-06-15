@@ -92,6 +92,7 @@
  *                The generated astTree (debug).
  * @package Template
  * @version //autogen//
+ * @mainclass
  */
 class ezcTemplate
 {
