@@ -119,18 +119,11 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     /**
      * Resume workflow execution.
      *
-     * @param integer $executionId  ID of the execution to resume.
      * @throws ezcDbException
      */
-    protected function doResume( $executionId )
+    protected function doResume()
     {
         $this->db->beginTransaction();
-
-        if ( !$this->loaded )
-        {
-            $this->loadExecution( $executionId );
-        }
-
         $this->cleanupTable( 'execution_state' );
     }
 
@@ -150,11 +143,12 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     /**
      * Returns a new execution object for a sub workflow.
      *
+     * @param  int $id
      * @return ezcWorkflowExecution
      */
-    protected function doGetSubExecution()
+    protected function doGetSubExecution( $id = null )
     {
-        return new ezcWorkflowDatabaseExecution( $this->db );
+        return new ezcWorkflowDatabaseExecution( $this->db, $id );
     }
 
     /**
