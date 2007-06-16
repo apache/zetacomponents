@@ -246,12 +246,12 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
 
             if ( isset( $activatedNodes[$nodeId] ) )
             {
-                $this->activate( $node );
-
                 $node->setActivationState( ezcWorkflowNode::WAITING_FOR_EXECUTION );
                 $node->setThreadId( $activatedNodes[$nodeId]['thread_id'] );
                 $node->setState( ezcWorkflowDatabaseUtil::unserialize( $activatedNodes[$nodeId]['state'], null ) );
                 $node->setActivatedFrom( ezcWorkflowDatabaseUtil::unserialize( $activatedNodes[$nodeId]['activated_from'] ) );
+
+                $this->activate( $node, false );
             }
         }
 
