@@ -44,7 +44,7 @@ abstract class ezcPersistentIdentifierGenerator
      * @param ezcPersistentObjectDefinition $def
      * @param ezcDbHandler $db
      * @param array(key=>value) $state
-     * @return void
+     * @return bool True if the object is not persistent, yet.
      */
     public function checkPersistence( ezcPersistentObjectDefinition $def, ezcDbHandler $db, array $state )
     {
