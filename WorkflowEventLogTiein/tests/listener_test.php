@@ -56,8 +56,9 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         $this->setUpStartInputEnd();
         $this->definition->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
-        $this->execution->setInputVariable( 'variable', 'value' );
-        $this->execution->start();
+        $id = $this->execution->start();
+        $this->setUpExecution( $id );
+        $this->execution->resume( array( 'variable' => 'value' ) );
 
         $this->assertEquals(
           $this->readExpected( 'StartInputEnd' ),
@@ -219,8 +220,9 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         $this->setUpWorkflowWithSubWorkflow( 'StartInputEnd' );
         $this->definition->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
-        $this->execution->setInputVariableForSubWorkflow( 'variable', 'value' );
-        $this->execution->start();
+        $id = $this->execution->start();
+        $this->setUpExecution( $id );
+        $this->execution->resume( array( 'variable' => 'value' ) );
 
         $this->assertEquals(
           $this->readExpected( 'InteractiveSubWorkflow' ),

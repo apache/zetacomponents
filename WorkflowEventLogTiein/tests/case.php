@@ -10,7 +10,6 @@
 ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once 'WorkflowDatabaseTiein/tests/case.php';
-require_once 'WorkflowDatabaseTiein/tests/execution.php';
 
 /**
  * @package WorkflowEventLogTiein
@@ -34,8 +33,7 @@ abstract class WorkflowEventLogTieinTestCase extends ezcWorkflowDatabaseTieinTes
         $rule = new ezcLogFilterRule( $filter, $writer, true );
         $mapper->appendRule( $rule ); 
 
-        $this->execution = new WorkflowDatabaseTestExecution( $this->db );
-        $this->execution->addListener( new ezcWorkflowEventLogListener( $this->log ) );
+        $this->setUpExecution();
     }
 
     protected function tearDown()
@@ -43,6 +41,24 @@ abstract class WorkflowEventLogTieinTestCase extends ezcWorkflowDatabaseTieinTes
         parent::tearDown();
 
         @unlink( dirname( __FILE__ ) . '/data/actual.log' );
+    }
+
+    protected function cleanupTimestamps( Array $buffer )
+    {
+        $max = count( $buffer );
+
+        for ( $i = 0; $i < $max; $i++ )
+        {
+            $buffer[$i] = substr_replace( $buffer[$i], 'MMM DD HH:MM:SS', 0, 15 );
+        }
+
+        return implode( '', $buffer );
+    }
+
+    protected function setUpExecution( $id = null )
+    {
+        $this->execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
+        $this->execution->addListener( new ezcWorkflowEventLogListener( $this->log ) );
     }
 
     protected function readActual()
@@ -57,18 +73,6 @@ abstract class WorkflowEventLogTieinTestCase extends ezcWorkflowDatabaseTieinTes
         $expected = file( dirname( __FILE__ ) . '/data/' . $name . '.log' );
 
         return $this->cleanupTimestamps( $expected );
-    }
-
-    protected function cleanupTimestamps( Array $buffer )
-    {
-        $max = count( $buffer );
-
-        for ( $i = 0; $i < $max; $i++ )
-        {
-            $buffer[$i] = substr_replace( $buffer[$i], 'MMM DD HH:MM:SS', 0, 15 );
-        }
-
-        return implode( '', $buffer );
     }
 }
 ?>

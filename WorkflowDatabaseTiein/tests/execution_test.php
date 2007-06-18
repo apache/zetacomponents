@@ -8,7 +8,6 @@
  */
 
 require_once 'case.php';
-require_once 'execution.php';
 
 /**
  * @package WorkflowDatabaseTiein
@@ -16,8 +15,6 @@ require_once 'execution.php';
  */
 class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTestCase
 {
-    protected $execution;
-
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite(
@@ -25,53 +22,67 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         );
     }
 
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->execution = new WorkflowDatabaseTestExecution( $this->db );
-    }
-
     public function testStartInputEnd()
     {
         $this->setUpStartInputEnd();
         $this->definition->save( $this->workflow );
-        $this->execution->workflow = $this->workflow;
-        $this->execution->setInputVariable( 'variable', 'value' );
-        $this->execution->start();
 
-        $this->assertTrue( $this->execution->hasEnded() );
-        $this->assertFalse( $this->execution->isResumed() );
-        $this->assertFalse( $this->execution->isSuspended() );
+        $execution = new ezcWorkflowDatabaseExecution( $this->db );
+        $execution->workflow = $this->workflow;
+
+        $id = $execution->start();
+        $this->assertNotNull( $id );
+        $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertTrue( $execution->isSuspended() );
+
+        $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
+        $execution->resume( array( 'variable' => 'value' ) );
+        $this->assertTrue( $execution->hasEnded() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertFalse( $execution->isSuspended() );
     }
 
     public function testNonInteractiveSubWorkflow()
     {
         $this->setUpStartEnd();
         $this->definition->save( $this->workflow );
+
         $this->setUpWorkflowWithSubWorkflow( 'StartEnd' );
         $this->definition->save( $this->workflow );
-        $this->execution->workflow = $this->workflow;
-        $this->execution->start();
 
-        $this->assertTrue( $this->execution->hasEnded() );
-        $this->assertFalse( $this->execution->isResumed() );
-        $this->assertFalse( $this->execution->isSuspended() );
+        $execution = new ezcWorkflowDatabaseExecution( $this->db );
+        $execution->workflow = $this->workflow;
+
+        $id = $execution->start();
+        $this->assertNull( $id );
+        $this->assertTrue( $execution->hasEnded() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertFalse( $execution->isSuspended() );
     }
 
     public function testInteractiveSubWorkflow()
     {
         $this->setUpStartInputEnd();
         $this->definition->save( $this->workflow );
+
         $this->setUpWorkflowWithSubWorkflow( 'StartInputEnd' );
         $this->definition->save( $this->workflow );
-        $this->execution->workflow = $this->workflow;
-        $this->execution->setInputVariableForSubWorkflow( 'variable', 'value' );
-        $this->execution->start();
 
-        $this->assertTrue( $this->execution->hasEnded() );
-        $this->assertFalse( $this->execution->isResumed() );
-        $this->assertFalse( $this->execution->isSuspended() );
+        $execution = new ezcWorkflowDatabaseExecution( $this->db );
+        $execution->workflow = $this->workflow;
+
+        $id = $execution->start();
+        $this->assertNotNull( $id );
+        $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertTrue( $execution->isSuspended() );
+
+        $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
+        $execution->resume( array( 'variable' => 'value' ) );
+        $this->assertTrue( $execution->hasEnded() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertFalse( $execution->isSuspended() );
     }
 }
 ?>

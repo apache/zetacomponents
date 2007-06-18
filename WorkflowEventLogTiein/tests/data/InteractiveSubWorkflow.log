@@ -9,6 +9,9 @@ MMM DD HH:MM:SS [Debug] [default] [default] Started thread #0 (1 sibling(s)) for
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #2(ezcWorkflowNodeInput) for instance #2 of workflow "StartInputEnd" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #1(ezcWorkflowNodeStart) for instance #2 of workflow "StartInputEnd" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Suspended execution #2 of workflow "StartInputEnd" (version 1).
+MMM DD HH:MM:SS [Info] [default] [default] Suspended execution #1 of workflow "WorkflowWithSubWorkflow" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "variable" to "value" for execution #1 of workflow "WorkflowWithSubWorkflow" (version 1).
+MMM DD HH:MM:SS [Info] [default] [default] Resumed execution #1 of workflow "WorkflowWithSubWorkflow" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Set variable "variable" to "value" for execution #2 of workflow "StartInputEnd" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Resumed execution #2 of workflow "StartInputEnd" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #3(ezcWorkflowNodeEnd) for instance #2 of workflow "StartInputEnd" (version 1).
