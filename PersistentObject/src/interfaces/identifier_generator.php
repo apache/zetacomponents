@@ -25,7 +25,6 @@
  *
  * @package PersistentObject
  * @version //autogen//
- * @access private
  */
 abstract class ezcPersistentIdentifierGenerator
 {
