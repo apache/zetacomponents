@@ -88,6 +88,8 @@ class ezcDbHandlerSqlite extends ezcDbHandler
     /**
      * Returns true if $feature is supported by this db handler.
      *
+     * @apichange Never implemented properly, no good use (See #10937)
+     * @ignore
      * @param string $feature
      * @return array(string)
      */

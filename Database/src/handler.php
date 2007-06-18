@@ -99,6 +99,8 @@ abstract class ezcDbHandler extends PDO
      *
      * This method can be used to choose more optimal query
      * for the given Database.
+     * 
+     * @note This is commented out because it breaks with PHP 5.2.
      *
      * @return string
      */
@@ -110,6 +112,8 @@ abstract class ezcDbHandler extends PDO
      * Derived classes should override this method to report
      * the features they support.
      *
+     * @apichange Never implemented properly, no good use (See #10937)
+     * @ignore
      * @param string $feature
      * @return bool
      */

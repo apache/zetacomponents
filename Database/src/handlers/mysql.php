@@ -124,6 +124,8 @@ class ezcDbHandlerMysql extends ezcDbHandler
     /**
      * Returns true if $feature is supported by MySQL.
      *
+     * @apichange Never implemented properly, no good use (See #10937)
+     * @ignore
      * @param array(string) $feature
      * @return bool
      */
