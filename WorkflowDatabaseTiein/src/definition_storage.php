@@ -274,7 +274,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         $statement->execute();
 
         $workflow->definitionStorage = $this;
-        $workflow->id = (int)$this->db->lastInsertId();
+        $workflow->id = (int)$this->db->lastInsertId( 'workflow_workflow_id_seq' );
         $workflow->version = (int)$workflowVersion;
 
         // Write node table rows.
@@ -292,7 +292,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
             $statement = $query->prepare();
             $statement->execute();
 
-            $node->setId( $this->db->lastInsertId() );
+            $node->setId( $this->db->lastInsertId( 'node_node_id_seq' ) );
         }
 
         // Connect node table rows.

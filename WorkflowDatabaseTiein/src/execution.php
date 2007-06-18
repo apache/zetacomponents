@@ -76,7 +76,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $statement = $query->prepare();
         $statement->execute();
 
-        $this->id = $this->db->lastInsertId();
+        $this->id = $this->db->lastInsertId( 'execution_execution_id_seq' );
     }
 
     /**
