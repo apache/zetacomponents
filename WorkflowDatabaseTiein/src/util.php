@@ -31,10 +31,10 @@ abstract class ezcWorkflowDatabaseUtil
 
         if ( $var == 'a:0:{}' || $var == 'N;' )
         {
-            $var = '';
+            return '';
         }
 
-        return $var;
+        return base64_encode( $var );
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class ezcWorkflowDatabaseUtil
     {
         if ( !empty( $serializedVar ) )
         {
-            return unserialize( $serializedVar );
+            return unserialize( base64_decode( $serializedVar ) );
         }
         else
         {
