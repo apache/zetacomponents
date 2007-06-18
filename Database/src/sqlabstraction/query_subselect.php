@@ -94,9 +94,9 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
      * @return string the placeholder name used.
      */
-    public function bindParam( &$param, $placeHolder = null )
+    public function bindParam( &$param, $placeHolder = null, $type = PDO::PARAM_STR )
     {
-        return $this->outerQuery->bindParam( $param, $placeHolder );
+        return $this->outerQuery->bindParam( $param, $placeHolder, $type );
     }
 
     /**
@@ -134,9 +134,9 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
      * @return string the placeholder name used.
      */
-    public function bindValue( $value, $placeHolder = null )
+    public function bindValue( $value, $placeHolder = null, $type = PDO::PARAM_STR )
     {
-        return $this->outerQuery->bindValue( $value, $placeHolder );
+        return $this->outerQuery->bindValue( $value, $placeHolder, $type );
     }
 
 

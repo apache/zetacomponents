@@ -122,13 +122,14 @@ class ezcRdbmsLimitTest extends ezcTestCase
         // Type depends on DB handler
         switch ( $class = get_class( $db ) )
         {
-            case 'ezcDbHandlerOracle':
+            case 'ezcDbHandlerMysql':
+            case 'ezcDbHandlerPgsql':
                 // Oracle default length for varchar2
                 // Also default length in DatabaseSchema
-                $type = 'varchar2(4000)';
+                $type = 'text';
                 break;
             default:
-                $type = 'text';
+                $type = 'clob';
                 break;
         }
 
@@ -145,7 +146,7 @@ class ezcRdbmsLimitTest extends ezcTestCase
                 $query = $db->createInsertQuery();
                 $query
                     ->insertInto( $db->quoteIdentifier( $table ) )
-                    ->set( $db->quoteIdentifier( $column ), $query->bindValue( $text ) );
+                    ->set( $db->quoteIdentifier( $column ), $query->bindValue( $text, null, PDO::PARAM_STR ) );
                 $query->prepare()->execute();
             }
             catch ( PDOException $e )

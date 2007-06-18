@@ -61,12 +61,26 @@ abstract class ezcQuery
     private $boundParameters = array();
 
     /**
+     * Stores the type of a value which will we used when the value is bound.
+     * 
+     * @var array(string=>int)
+     */
+    private $boundParametersType = array();
+
+    /**
      * Stores the list of values that will be bound with doBind().
      *
      * Format: array( ':name' => mixed )
      * @var array(string=>mixed)
      */
     private $boundValues = array();
+
+    /**
+     * Stores the type of a value which will we used when the value is bound.
+     * 
+     * @var array(string=>int)
+     */
+    private $boundValuesType = array();
 
     /**
      * The expression object for this class.
@@ -218,14 +232,17 @@ abstract class ezcQuery
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
      * @return string the placeholder name used.
      */
-    public function bindValue( $value, $placeHolder = null )
+    public function bindValue( $value, $placeHolder = null, $type = PDO::PARAM_STR )
     {
         if ( $placeHolder === null )
         {
             $this->boundCounter++;
             $placeHolder = ":ezcValue{$this->boundCounter}";
         }
+
         $this->boundValues[$placeHolder] = $value;
+        $this->boundValuesType[$placeHolder] = $type;
+
         return $placeHolder;
     }
 
@@ -256,14 +273,17 @@ abstract class ezcQuery
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
      * @return string the placeholder name used.
      */
-    public function bindParam( &$param, $placeHolder = null )
+    public function bindParam( &$param, $placeHolder = null, $type = PDO::PARAM_STR )
     {
         if ( $placeHolder === null )
         {
             $this->boundCounter++;
             $placeHolder = ":ezcValue{$this->boundCounter}";
         }
+        
         $this->boundParameters[$placeHolder] =& $param;
+        $this->boundParametersType[$placeHolder] = $type;
+
         return $placeHolder;
     }
 
@@ -296,7 +316,7 @@ abstract class ezcQuery
         {
             try
             {
-                $stmt->bindValue( $key, $value );
+                $stmt->bindValue( $key, $value, $this->boundValuesType[$key] );
             }
             catch ( PDOException $e )
             {
@@ -307,7 +327,7 @@ abstract class ezcQuery
         {
             try
             {
-                $stmt->bindParam( $key, $value );
+                $stmt->bindParam( $key, $value, $this->boundParametersType[$key] );
             }
             catch ( PDOException $e )
             {
