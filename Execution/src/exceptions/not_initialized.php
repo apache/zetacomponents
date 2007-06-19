@@ -11,9 +11,15 @@
  * was called.
  * 
  * @package Execution
+ * @version //autogen//
  */
 class ezcExecutionNotInitializedException extends ezcExecutionException
 {
+    /**
+     * Constructs a new ezcExecutionNotInitializedException.
+     *
+     * @return void
+     */
     function __construct()
     {
         parent::__construct( "The Execution mechanism was not initialized." );

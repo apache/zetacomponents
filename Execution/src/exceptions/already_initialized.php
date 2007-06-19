@@ -10,9 +10,15 @@
  * Thrown when the Execution framework was already initialized.
  * 
  * @package Execution
+ * @version //autogen//
  */
 class ezcExecutionAlreadyInitializedException extends ezcExecutionException
 {
+    /**
+     * Constructs a new ezcExecutionAlreadyInitializedException.
+     *
+     * @return void
+     */
     function __construct()
     {
         parent::__construct( "The Execution mechanism is already initialized." );

@@ -15,6 +15,7 @@
  * implement the ezcExecutionErrorHandler interface.
  *
  * @package Execution
+ * @version //autogentag//
  */
 class ezcExecutionBasicErrorHandler implements ezcExecutionErrorHandler
 {

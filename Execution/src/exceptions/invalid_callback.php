@@ -10,9 +10,16 @@
  * Thrown when an non-existend class was passed as callback handler.
  * 
  * @package Execution
+ * @version //autogen//
  */
 class ezcExecutionInvalidCallbackException extends ezcExecutionException
 {
+    /**
+     * Constructs a new ezcExecutionInvalidCallbackException.
+     *
+     * @param string $callbackClassName
+     * @return void
+     */
     function __construct( $callbackClassName )
     {
         parent::__construct( "Class '{$callbackClassName}' does not exist." );

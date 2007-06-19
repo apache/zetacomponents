@@ -11,9 +11,16 @@
  * implements the ezcExecutionErrorHandler interface.
  * 
  * @package Execution
+ * @version //autogen//
  */
 class ezcExecutionWrongClassException extends ezcExecutionException
 {
+    /**
+     * Constructs a new ezcExecutionWrongClassException.
+     *
+     * @param string $callbackClassName
+     * @return void
+     */
     function __construct( $callbackClassName )
     {
         parent::__construct( "The class '{$callbackClassName}' does not implement the 'ezcExecutionErrorHandler' interface." );

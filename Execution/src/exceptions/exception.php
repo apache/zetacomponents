@@ -10,6 +10,7 @@
  * General exception for use in {@link ezcExecution} class.
  *
  * @package Execution
+ * @version //autogen//
  */
 abstract class ezcExecutionException extends ezcBaseException
 {

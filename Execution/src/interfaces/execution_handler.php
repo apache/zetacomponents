@@ -12,8 +12,9 @@
  *
  * This interface describes the methods that an Execution callback handler
  * should implement.
+ * @version //autogentag//
  *
- * @see ezcExecution for an example.
+ * For an example see {@link ezcExecution}.
  *
  * @package Execution
  */
