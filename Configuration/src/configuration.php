@@ -181,8 +181,8 @@ class ezcConfiguration
     /**
      * Returns true if setting $setting exists within the group $group.
      *
-     * @param string $setting
      * @param string $group
+     * @param string $setting
      * @return bool
      */
     public function hasSetting( $group, $setting )
@@ -557,8 +557,8 @@ class ezcConfiguration
      *         exist.
      * @throws ezcConfigurationUnknownSettingException if one or more of the
      *         settings do not exist.
-     * @param array(string) $settings
      * @param string $group
+     * @param array(string) $settings
      * @return void
      */
     public function removeSettings( $group, array $settings )
@@ -620,6 +620,7 @@ class ezcConfiguration
      *
      * @throws ezcConfigurationUnknownGroupException if the group does not
      *         exist.
+     * @param string $group
      * @return array(string)
      */
     public function getSettingNames( $group )

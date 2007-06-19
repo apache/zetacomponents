@@ -17,6 +17,13 @@
  */
 class ezcConfigurationInvalidSuffixException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationInvalidSuffixException.
+     *
+     * @param string $path
+     * @param string $expectedSuffix
+     * @return void
+     */
     function __construct( $path, $expectedSuffix )
     {
         parent::__construct( "The path '{$path}' has an invalid suffix (should be '{$expectedSuffix}')." );

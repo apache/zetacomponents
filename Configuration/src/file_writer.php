@@ -85,9 +85,8 @@ abstract class ezcConfigurationFileWriter extends ezcConfigurationWriter
      *                     compress.gz://site.ini.gz
      * @param ezcConfiguration $config The configuration object which should be
      *                                 stored in an INI file.
-     * @param int $permission The file permission to use on the newly
-     *                            created file, it uses the same values as
-     *                            chmod().
+     * @param int $permissions The file permission to use on the newly created
+     *                         file, it uses the same values as chmod().
      */
     public function __construct( $path = null, ezcConfiguration $config = null, $permissions = 0666 )
     {
@@ -104,7 +103,7 @@ abstract class ezcConfigurationFileWriter extends ezcConfigurationWriter
      *
      * Pass false if you wish to remove the current configuration object.
      *
-     * @param ezcConfiguration
+     * @param ezcConfiguration $config
      * @return void
      */
     public function setConfig( ezcConfiguration $config )
@@ -154,9 +153,6 @@ abstract class ezcConfigurationFileWriter extends ezcConfigurationWriter
      * The name parameter can be the basename for the INI file, so
      * a value of 'site' would create a file with name 'site.ini'.
      *
-     * @param ezcConfiguration $config The current configuration object which
-     *                                 should be serialized by the current
-     *                                 writer.
      * @param string $location The main placement for the configuration. It is
      *                         up to the specific writer to interpret this
      *                         value.
@@ -164,6 +160,9 @@ abstract class ezcConfigurationFileWriter extends ezcConfigurationWriter
      *                     specific writer to interpret this value. For a file writer
      *                     it could be the basename for the INI file, so a value of
      *                     'site' would create a file with name 'site.ini'.
+     * @param ezcConfiguration $config The current configuration object which
+     *                                 should be serialized by the current
+     *                                 writer.
      * @param array $options An associative array of options for the writer.
      *                       Which options to use is determined by the specific
      *                       writer class.
@@ -184,7 +183,7 @@ abstract class ezcConfigurationFileWriter extends ezcConfigurationWriter
      *
      * The file is checked if it contains the correct $suffix.
      *
-     * @see ezcConfigurationFileReader::parseLocationPath() which is the same
+     * ezcConfigurationFileReader::parseLocationPath() has the same
      * code. It is duplicated to prevent complex OO hacks.
      *
      * @throws ezcConfigurationInvalidSuffixExceptionif the configuration file

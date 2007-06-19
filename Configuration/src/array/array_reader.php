@@ -63,8 +63,8 @@
  * }
  * </code>
  *
- * @see ezcConfigurationFileReader for more information on file based
- * configurations.
+ * For more information on file based configurations see {@link
+ * ezcConfigurationFileReader}.
  *
  * This class uses exceptions and will throw them when the conditions for the
  * operation fails somehow.

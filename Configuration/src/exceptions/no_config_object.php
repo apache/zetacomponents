@@ -17,6 +17,11 @@
  */
 class ezcConfigurationNoConfigObjectException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationNoConfigObjectException.
+     *
+     * @return void
+     */
     function __construct()
     {
         parent::__construct( 'There is no config object to save.' );

@@ -17,6 +17,14 @@
  */
 class ezcConfigurationParseErrorException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationParseErrorException.
+     *
+     * @param string $fileName The name of the file with the parse error.
+     * @param int    $lineNr
+     * @param string $description
+     * @return void
+     */
     function __construct( $fileName, $lineNr, $description )
     {
         parent::__construct( "{$description} in '{$fileName}', line '{$lineNr}'." );

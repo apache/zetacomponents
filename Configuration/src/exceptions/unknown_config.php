@@ -16,6 +16,12 @@
  */
 class ezcConfigurationUnknownConfigException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationUnknownConfigException.
+     *
+     * @param string $configurationName
+     * @return void
+     */
     function __construct( $configurationName )
     {
         parent::__construct( "The configuration '{$configurationName}' does not exist." );

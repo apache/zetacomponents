@@ -16,6 +16,11 @@
  */
 class ezcConfigurationManagerNotInitializedException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationManagerNotInitializedException.
+     *
+     * @return void
+     */
     function __construct()
     {
         parent::__construct( "The manager has not been initialized." );

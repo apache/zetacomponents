@@ -17,6 +17,12 @@
  */
 class ezcConfigurationGroupExistsAlreadyException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationGroupExistsAlreadyException for the group $groupName.
+     *
+     * @param string $groupName
+     * @return void
+     */
     function __construct( $groupName )
     {
         parent::__construct( "The settings group '{$groupName}' exists already." );

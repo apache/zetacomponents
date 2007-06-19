@@ -17,6 +17,15 @@
  */
 class ezcConfigurationSettingWrongTypeException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationSettingWrongTypeException.
+     *
+     * @param string $groupName
+     * @param string $settingName
+     * @param string $expectedType
+     * @param string $settingType
+     * @return void
+     */
     function __construct( $groupName, $settingName, $expectedType, $settingType )
     {
         parent::__construct( "The expected type for the setting '{$groupName}', '{$settingName}' is '{$expectedType}'. The setting was of type '{$settingType}'." );

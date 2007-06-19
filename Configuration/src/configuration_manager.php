@@ -35,7 +35,9 @@
  * $color = ezcConfigurationManager::getInstance()->getSetting( 'site', 'Colors', 'Background' );
  * </code>
  *
- * @see ezcConfiguration, ezcConfigurationReader, ezcConfigurationWriter
+ * @see ezcConfiguration
+ * @see ezcConfigurationReader
+ * @see ezcConfigurationWriter
  *
  * @package Configuration
  * @mainclass

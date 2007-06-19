@@ -16,6 +16,13 @@
  */
 class ezcConfigurationUnknownSettingException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationUnknownSettingException.
+     *
+     * @param string $groupName
+     * @param string $settingName
+     * @return void
+     */
     function __construct( $groupName, $settingName )
     {
         parent::__construct( "The setting '{$groupName}', '{$settingName}' does not exist." );

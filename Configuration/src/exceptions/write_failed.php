@@ -16,6 +16,12 @@
  */
 class ezcConfigurationWriteFailedException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationWriteFailedException.
+     *
+     * @param string $path
+     * @return void
+     */
     function __construct( $path )
     {
         parent::__construct( "The file could not be stored in '{$path}'." );

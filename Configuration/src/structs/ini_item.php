@@ -14,6 +14,7 @@
  * INI setting.
  *
  * @package Configuration
+ * @version //autogentag//
  */
 class ezcConfigurationIniItem extends ezcBaseStruct
 {
@@ -95,6 +96,20 @@ class ezcConfigurationIniItem extends ezcBaseStruct
         $this->value = $value;
     }
 
+    /**
+     * Returns a new instance of this class with the data specified by $array.
+     *
+     * $array contains all the data members of this class in the form:
+     * array('member_name'=>value).
+     *
+     * __set_state makes this class exportable with var_export.
+     * var_export() generates code, that calls this method when it
+     * is parsed with PHP.
+     *
+     * @param array(string=>mixed) $array
+     * @return ezcConfigurationIniItem
+     * @ignore
+     */
     static public function __set_state( array $array )
     {
         return new ezcConfigurationIniItem(

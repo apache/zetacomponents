@@ -59,9 +59,6 @@ abstract class ezcConfigurationWriter
      * The name parameter can be the basename for the INI file, so
      * a value of 'site' would create a file with name 'site.ini'.
      *
-     * @param ezcConfiguration $config The current configuration object which
-     *                                 should be serialized by the current
-     *                                 writer.
      * @param string $location The main placement for the configuration. It is
      *                         up to the specific writer to interpret this
      *                         value.
@@ -69,6 +66,9 @@ abstract class ezcConfigurationWriter
      *                     specific writer to interpret this value. For a file writer
      *                     it could be the basename for the INI file, so a value of
      *                     'site' would create a file with name 'site.ini'.
+     * @param ezcConfiguration $config The current configuration object which
+     *                                 should be serialized by the current
+     *                                 writer.
      * @param array $options An associative array of options for the writer.
      *                       Which options to use is determined by the specific
      *                       writer class.
@@ -96,7 +96,7 @@ abstract class ezcConfigurationWriter
      *
      * Pass false if you wish to remove the current configuration object.
      *
-     * @param ezcConfiguration
+     * @param ezcConfiguration $config
      * @return void
      */
     abstract public function setConfig( ezcConfiguration $config );

@@ -16,6 +16,12 @@
  */
 class ezcConfigurationSettingnameNotStringException extends ezcConfigurationException
 {
+    /**
+     * Constructs a new ezcConfigurationSettingnameNotStringException for setting $settingName.
+     *
+     * @param string $settingName
+     * @return void
+     */
     function __construct( $settingName )
     {
         $settingNameType = gettype( $settingName );

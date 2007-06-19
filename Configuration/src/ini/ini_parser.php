@@ -292,7 +292,9 @@ class ezcConfigurationIniParser implements Iterator
     }
 
     /**
-     * Stores a parsed comment into the currentComments array
+     * Stores a the parsed $commentLine into the currentComments array
+     *
+     * @param string $commentLine
      */
     private function storeComment( $commentLine )
     {

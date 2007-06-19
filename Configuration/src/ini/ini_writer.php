@@ -29,8 +29,8 @@
  * $writer->save();
  * </code>
  *
- * @see ezcConfigurationFileWriter for more information on file based
- * configurations.
+ * For more information on file based configurations see {@link
+ * ezcConfigurationFileWriter}.
  *
  * This class uses exceptions and will throw them when the conditions for the
  * operation fails somehow.

@@ -185,7 +185,7 @@ abstract class ezcConfigurationFileReader extends ezcConfigurationReader
      * Parses a the path $path and sets the location and name
      * properties on this object.
      *
-     * @see ezcConfigurationFileWriter::parseLocationPath() which is the same
+     * ezcConfigurationFileWriter::parseLocationPath() has the same
      * code. It is duplicated to prevent complex OO hacks.
      *
      * @throws ezcConfigurationException if the configuration file has the wrong suffix.
