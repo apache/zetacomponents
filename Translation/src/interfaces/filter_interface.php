@@ -32,8 +32,8 @@ interface ezcTranslationFilter
      * context is requested. The method should only modify the "translated"
      * string and not touch the original string or comment.
      *
-     * @see ezcTranslation::$translationMap for a definition of the array
-     * format.
+     * For a definition of the array format see {@link
+     * ezcTranslation::$translationMap}.
      *
      * @param array(ezcTranslationData) $context
      * @return void

@@ -36,7 +36,7 @@ class ezcTranslationTsBackendOptions extends ezcBaseOptions
      *
      * It also sets the default values of the format property
      *
-     * @param array(string=>mixed) $options The initial options to set.
+     * @param array(string=>mixed) $array The initial options to set.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of

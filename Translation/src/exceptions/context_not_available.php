@@ -15,6 +15,12 @@
  */
 class ezcTranslationContextNotAvailableException extends ezcTranslationException
 {
+    /**
+     * Constructs a new ezcTranslationContextNotAvailableException.
+     *
+     * @param string $contextName
+     * @return void
+     */
     function __construct( $contextName )
     {
         parent::__construct( "The context '{$contextName}' does not exist." );

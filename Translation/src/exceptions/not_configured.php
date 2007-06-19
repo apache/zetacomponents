@@ -15,6 +15,12 @@
  */
 class ezcTranslationNotConfiguredException extends ezcTranslationException
 {
+    /**
+     * Constructs a new ezcTranslationNotConfiguredException.
+     *
+     * @param string $location
+     * @return void
+     */
     function __construct( $location )
     {
         parent::__construct( "Location '{$location}' is invalid." );

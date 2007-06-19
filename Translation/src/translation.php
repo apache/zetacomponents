@@ -14,8 +14,7 @@
  * ezcTranslation objects are returned by the ezcTranslationManager for every
  * requested context.
  *
- * Example:
- * @see ezcTranslationManager for an example.
+ * For an example see {@link ezcTranslationManager}.
  *
  * @package Translation
  * @version //autogentag//

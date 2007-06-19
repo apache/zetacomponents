@@ -13,7 +13,7 @@
  * This interface specifies the methods that a backend should implement if it
  * wants to act as a general purpose translation context writer.
  *
- * @see ezcTranslationCacheBackend for an example.
+ * For an example see {@link ezcTranslationCacheBackend}.
  *
  * @package Translation
  * @version //autogentag//

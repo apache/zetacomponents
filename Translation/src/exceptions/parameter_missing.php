@@ -16,6 +16,12 @@
  */
 class ezcTranslationParameterMissingException extends ezcTranslationException
 {
+    /**
+     * Constructs a new ezcTranslationParameterMissingException.
+     *
+     * @param string $parameterName
+     * @return void
+     */
     function __construct( $parameterName )
     {
         parent::__construct( "The parameter '%{$parameterName}' does not exist." );

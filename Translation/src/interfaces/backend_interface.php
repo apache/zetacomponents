@@ -13,8 +13,7 @@
  * This interface describes the methods that a Translation backend should
  * implement.
  *
- * Example:
- * @see ezcTranslationTsBackend for an example.
+ * For an example see {@link ezcTranslationTsBackend}.
  *
  * @package Translation
  * @version //autogentag//
@@ -43,11 +42,11 @@ interface ezcTranslationBackend
      * $locale.
      *
      * This method returns an array describing the map used for translation of text.
-     * @see ezcTranslation::$translationMap for the format.
+     * For the format see {@link ezcTranslation::$translationMap}.
      *
      * @throws TranslationException when a context is not available.
-     * @param string locale
-     * @param string context
+     * @param string $locale
+     * @param string $context
      * @return array
      */
     public function getContext( $locale, $context );

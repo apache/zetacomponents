@@ -15,6 +15,12 @@
  */
 class ezcTranslationMissingTranslationFileException extends ezcTranslationException
 {
+    /**
+     * Constructs a new ezcTranslationMissingTranslationFileException.
+     *
+     * @param string $fileName
+     * @return void
+     */
     function __construct( $fileName )
     {
         parent::__construct( "The translation file '{$fileName}' does not exist." );

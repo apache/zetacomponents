@@ -15,6 +15,12 @@
  */
 class ezcTranslationKeyNotAvailableException extends ezcTranslationException
 {
+    /**
+     * Constructs a new ezcTranslationKeyNotAvailableException.
+     *
+     * @param string $keyName
+     * @return void
+     */
     function __construct( $keyName )
     {
         parent::__construct( "The key '{$keyName}' does not exist in the translation map." );

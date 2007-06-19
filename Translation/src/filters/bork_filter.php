@@ -44,6 +44,12 @@ class ezcTranslationBorkFilter implements ezcTranslationFilter
         return self::$instance; 
     }
 
+    /**
+     * This "borkifies" the $text.
+     *
+     * @param string $text
+     * @return string
+     */
     static private function borkify( $text )
     {
         $textBlocks = preg_split( '/(%[^ ]+)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE );

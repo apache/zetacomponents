@@ -16,6 +16,11 @@
  */
 class ezcTranslationWriterNotInitializedException extends ezcTranslationException
 {
+    /**
+     * Constructs a new ezcTranslationWriterNotInitializedException.
+     *
+     * @return void
+     */
     function __construct()
     {
         parent::__construct( "The writer is not initialized with the initWriter() method." );

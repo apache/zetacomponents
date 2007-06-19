@@ -265,8 +265,8 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
      *         file does not exist.
      * @throws ezcTranslationNotConfiguredException if the option <i>format</i>
      *         is not set before this method is called.
-     * @param $locale string
-     * @param $context string
+     * @param string $locale
+     * @param string $context
      * @return array(ezcTranslationData)
      */
     public function getContext( $locale, $context )

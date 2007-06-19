@@ -84,7 +84,7 @@ class ezcTranslationManager
      * This methods adds the passed filter object to the list of $filters that
      * will be applied on every context before being returned by getContext().
      *
-     * @param ezcTranslationFilterInterface $filter
+     * @param ezcTranslationFilter $filter
      */
     public function addFilter( ezcTranslationFilter $filter )
     {

@@ -43,6 +43,12 @@ class ezcTranslationLeetFilter implements ezcTranslationFilter
         return self::$instance; 
     }
 
+    /**
+     * This "leetify" the $text.
+     *
+     * @param string $text
+     * @return string
+     */
     static private function leetify( $text )
     {
         $searchMap = array( '/to/i', '/for/i', '/ate/i', '/your/i', '/you/i', '/l/i', '/e/i', '/o/i', '/a/i', '/t/i' );

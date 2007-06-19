@@ -16,6 +16,11 @@
  */
 class ezcTranslationReaderNotInitializedException extends ezcTranslationException
 {
+    /**
+     * Constructs a new ezcTranslationReaderNotInitializedException.
+     *
+     * @return void
+     */
     function __construct()
     {
         parent::__construct( "The reader is not initialized with the initReader() method." );
