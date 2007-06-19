@@ -236,5 +236,84 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
             return " EXTRACT( {$type} FROM {$column} ) ";
         }
     }
+
+    /**
+     * Returns the SQL to check if a value is one in a set of
+     * given values..
+     *
+     * in() accepts an arbitrary number of parameters. The first parameter
+     * must always specify the value that should be matched against. Successive
+     * must contain a logical expression or an array with logical expressions.
+     * These expressions will be matched against the first parameter.
+     *
+     * Example:
+     * <code>
+     * $q->select( '*' )->from( 'table' )
+     *                  ->where( $q->expr->in( 'id', 1, 2, 3 ) );
+     * </code>
+     *
+     * Oracle limits the number of values in a single IN() to 1000. This 
+     * implementation creates a list of combined IN() expressions to bypass 
+     * this limitation.
+     *
+     * @throws ezcDbAbstractionException if called with less than two parameters..
+     * @param string $column the value that should be matched against
+     * @param string|array(string) values that will be matched against $column
+     * @return string logical expression
+     */
+    public function in( $column )
+    {
+        $args = func_get_args();
+        if ( count( $args ) < 2 )
+        {
+            throw new ezcQueryVariableParameterException( 'in', count( $args ), 2 );
+        }
+
+        $values = ezcQuerySelect::arrayFlatten( array_slice( $args, 1 ) );
+        $values = $this->getIdentifiers( $values );
+        $column = $this->getIdentifier( $column );
+
+        if ( count( $values ) == 0 )
+        {
+            throw new ezcQueryVariableParameterException( 'in', count( $args ), 2 );
+        }
+        
+        if ( $this->quoteValues )
+        {
+            foreach ( $values as $key => $value )
+            {
+                switch ( true )
+                {
+                    case is_int( $value ):
+                    case is_float( $value ):
+                    case $value instanceof ezcQuerySubSelect:
+                        $values[$key] = (string) $value;
+                        break;
+                    default:
+                        $values[$key] = $this->db->quote( $value );
+                }
+            }
+        }
+        
+        if ( count( $values ) <= 1000 )
+        {
+            return "{$column} IN ( " . join( ', ', $values ) . ' )';
+        }
+        else
+        {
+            $expression = '( ';
+
+            do {
+                $bunch = array_slice( $values, 0, 1000 );
+                $values = array_slice( $values, 1000 );
+
+                $expression .= "{$column} IN ( " . join( ', ', $bunch ) . ' ) OR ';
+            } while ( count( $values ) > 1000 );
+
+            $expression .= "{$column} IN ( " . join( ', ', $values ) . ' ) )';
+
+            return $expression;
+        }
+    }
 }
 ?>

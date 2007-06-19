@@ -45,7 +45,7 @@ class ezcQueryExpression
      *
      * @var boolean
      */
-    private $quoteValues = true;
+    protected $quoteValues = true;
 
     /**
      * Contains an interval map from generic intervals to MySQL native intervals.
