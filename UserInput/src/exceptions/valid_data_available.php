@@ -14,6 +14,12 @@
  */
 class ezcInputFormValidDataAvailableException extends ezcInputFormException
 {
+    /**
+     * Constructs a new ezcInputFormValidDataAvailableException.
+     *
+     * @param string $fieldName
+     * @return void
+     */
     function __construct( $fieldName )
     {
         parent::__construct( "You are not allowed to request RAW data for the '{$fieldName}' field which has valid data." );

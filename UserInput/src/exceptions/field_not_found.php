@@ -14,6 +14,12 @@
  */
 class ezcInputFormFieldNotFoundException extends ezcInputFormException
 {
+    /**
+     * Constructs a new ezcInputFormFieldNotFoundException.
+     *
+     * @param string $fieldName
+     * @return void
+     */
     function __construct( $fieldName )
     {
         parent::__construct( "The field '{$fieldName}' could not be found in the input source." );

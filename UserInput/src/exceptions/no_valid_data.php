@@ -14,6 +14,12 @@
  */
 class ezcInputFormNoValidDataException extends ezcInputFormException
 {
+    /**
+     * Constructs a new ezcInputFormNoValidDataException.
+     *
+     * @param string $fieldName
+     * @return void
+     */
     function __construct( $fieldName )
     {
         parent::__construct( "Invalid field name '{$fieldName}' requested." );

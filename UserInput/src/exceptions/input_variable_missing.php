@@ -14,6 +14,12 @@
  */
 class ezcInputFormVariableMissingException extends ezcInputFormException
 {
+    /**
+     * Constructs a new ezcInputFormVariableMissingException.
+     *
+     * @param string $fieldName
+     * @return void
+     */
     function __construct( $fieldName )
     {
         parent::__construct( "Required input field '{$fieldName}' missing." );

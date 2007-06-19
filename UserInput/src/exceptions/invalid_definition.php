@@ -14,6 +14,12 @@
  */
 class ezcInputFormInvalidDefinitionException extends ezcInputFormException
 {
+    /**
+     * Constructs a new ezcInputFormInvalidDefinitionException.
+     *
+     * @param string $validationMessage
+     * @return void
+     */
     function __construct( $validationMessage )
     {
         parent::__construct( "Invalid definition array: {$validationMessage}." );

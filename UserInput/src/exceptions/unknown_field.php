@@ -14,6 +14,12 @@
  */
 class ezcInputFormUnknownFieldException extends ezcInputFormException
 {
+    /**
+     * Constructs a new ezcInputFormUnknownFieldException.
+     *
+     * @param string $fieldName
+     * @return void
+     */
     function __construct( $fieldName )
     {
         parent::__construct( "The field '{$fieldName}' is not defined." );

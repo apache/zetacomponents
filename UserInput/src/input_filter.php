@@ -32,8 +32,8 @@ class ezcInputFilter
      * Receives a variable for filtering. The filter function is free to modify
      * the variable and should return the modified variable.
      *
-     * @param mixed   The variable's value
-     * @param string  The value's character set
+     * @param mixed  $value        The variable's value
+     * @param string $characterSet The value's character set
      * @return mixed The modified value of the variable that was passed
      */
     static function urlFilter( $value, $characterSet )
