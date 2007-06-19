@@ -15,7 +15,6 @@
  * is not available.
  *
  * @package SystemInformation
- * @author
  * @version //autogen//
  */
 class ezcSystemInfoReaderCantScanOSException extends Exception
@@ -23,7 +22,7 @@ class ezcSystemInfoReaderCantScanOSException extends Exception
     /**
      * Construct a reader can't scan OS exception.
      *
-     * @param string $message
+     * @param string $msg
      */
     function __construct( $msg )
     {

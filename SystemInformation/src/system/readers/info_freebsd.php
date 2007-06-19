@@ -122,7 +122,7 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
      * Scans the OS and fills in the information internally.
      * Returns true if it was able to scan the system or false if it failed.
      *
-     * @param string $dmesgPath path to the source of system information in OS
+     * @param mixed $dmesgPath path to the source of system information in OS
      * @return bool
      */
     private function getOsInfo( $dmesgPath = false )

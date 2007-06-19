@@ -124,8 +124,8 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
      *
      * Returns true if it was able to scan the system or false if it failed.
      *
-     * @param string $cpuinfoPath path to the source of cpu information in system
-     * @param string $meminfoPath path to the source of memory information in system
+     * @param mixed $cpuinfoPath path to the source of cpu information in system
+     * @param mixed $meminfoPath path to the source of memory information in system
      * @return bool
      */
     private function getOsInfo( $cpuinfoPath = false, $meminfoPath = false )

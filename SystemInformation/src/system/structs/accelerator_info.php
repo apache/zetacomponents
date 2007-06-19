@@ -22,6 +22,7 @@
  * @see ezcSystemInfo
  *
  * @package SystemInformation
+ * @version //autogentag//
  */
 class ezcSystemInfoAccelerator extends ezcBaseStruct
 {
