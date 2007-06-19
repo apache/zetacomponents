@@ -38,7 +38,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
      * This constructor is a tie-in.
      *
      * @param ezcDbHandler $db
-     * @param integer $executionId
+     * @param int $executionId
      */
     public function __construct ( ezcDbHandler $db, $executionId = null )
     {
@@ -55,7 +55,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     /**
      * Start workflow execution.
      *
-     * @param  integer $parentId
+     * @param  int $parentId
      * @throws ezcDbException
      */
     protected function doStart( $parentId )
@@ -171,7 +171,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     /**
      * Load execution state.
      *
-     * @param integer $executionId  ID of the execution to load.
+     * @param int $executionId  ID of the execution to load.
      * @throws ezcWorkflowExecutionException
      */
     protected function loadExecution( $executionId )

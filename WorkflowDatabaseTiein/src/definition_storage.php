@@ -43,9 +43,9 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
      * Providing the name of the workflow that is to be loaded as the
      * optional second parameter saves a database query.
      *
-     * @param  integer $workflowId
+     * @param  int $workflowId
      * @param  string  $workflowName
-     * @param  integer $workflowVersion
+     * @param  int $workflowVersion
      * @return ezcWorkflow
      * @throws ezcWorkflowDefinitionStorageException
      * @throws ezcDbException
@@ -200,7 +200,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
      * Load a workflow definition by name.
      *
      * @param  string  $workflowName
-     * @param  integer $workflowVersion
+     * @param  int $workflowVersion
      * @return ezcWorkflow
      * @throws ezcWorkflowDefinitionStorageException
      * @throws ezcDbException
@@ -332,7 +332,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
      * Returns the current version number for a given workflow name.
      *
      * @param  string $workflowName
-     * @return integer
+     * @return int
      * @throws ezcDbException
      */
     protected function getCurrentVersionNumber( $workflowName )
