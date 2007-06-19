@@ -580,9 +580,11 @@ class ezcQueryExpression
             {
                 switch ( true )
                 {
+                    case $value instanceof ezcQuerySubSelect:
+                        $values[$key] = $value->getQuery();  //fix for PHP 5.1.6 because typecasting to string not working there.
+                        break;
                     case is_int( $value ):
                     case is_float( $value ):
-                    case $value instanceof ezcQuerySubSelect:
                         $values[$key] = (string) $value;
                         break;
                     default:
