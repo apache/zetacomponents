@@ -131,8 +131,8 @@ class ezcTranslationCacheBackend implements ezcTranslationBackend, ezcTranslatio
      * information from the cache.
      *
      * @throws ezcTranslationContextNotAvailableException if the context is not available.
-     * @param $locale string
-     * @param $context string
+     * @param string $locale
+     * @param string $context
      * @return array(ezcTranslationData)
      */
     public function getContext( $locale, $context )
