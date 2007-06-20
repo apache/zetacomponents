@@ -488,9 +488,9 @@ class ezcArchiveEntry
         $rdev = $stat["rdev"];
         if ( $rdev == -1 )
         {
-            if( $struct->type == ezcArchiveEntry::IS_BLOCK_DEVICE || $struct->type == ezcArchiveEntry::IS_CHARACTER_DEVICE)
+            if ( $struct->type == ezcArchiveEntry::IS_BLOCK_DEVICE || $struct->type == ezcArchiveEntry::IS_CHARACTER_DEVICE)
             {
-                throw new ezcArchiveException("Cannot add a device to the TAR because the device type cannot be determined. Your system / PHP version does not support 'st_blksize'.");
+                throw new ezcArchiveException( "Cannot add a device to the TAR because the device type cannot be determined. Your system / PHP version does not support 'st_blksize'." );
             }
 
             $rdev = 0;
