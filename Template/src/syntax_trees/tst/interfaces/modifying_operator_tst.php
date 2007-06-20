@@ -22,6 +22,14 @@ abstract class ezcTemplateModifyingOperatorTstNode extends ezcTemplateOperatorTs
 {
     /**
      * Initialize element with source and cursor positions.
+     *
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end
+     * @param int $precedence
+     * @param int $order
+     * @param int $associativity
+     * @param string $symbol
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end,
                                  $precedence, $order, $associativity, $symbol )

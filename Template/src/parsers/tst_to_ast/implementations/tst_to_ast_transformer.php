@@ -117,13 +117,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      */
     protected $declaredVariables = array();
 
-
-    /**
-     *
-     */
-    protected $charset = false;
-
-
     /**
      * Initialize the transformer, after this send this object to the accept() method on a node.
      *
@@ -139,6 +132,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $this->delimCounterVar = new ezcTemplateOutputVariableManager( 0 );
     }
 
+    /**
+     * Destructor
+     */
     public function __destruct()
     {
     }
@@ -258,6 +254,19 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $node;
     }
 
+    /**
+     * Transforsm the astNode tree so that every Node has only 2 children.
+     * See the translation from TST to AST in the example below:
+     * <code>
+     * Template: {a * b * c}
+     * TST: Multiply(a,b,c)
+     * AST: Multiply(a, Multiply(b,c) )
+     * </code>
+     *
+     * @param ezcTemplateOperatorTstNode $type
+     * @param ezcTemplateOperatorAstNode $astNode
+     * @param bool $addParenthesis
+     */
     private function createMultiBinaryOperatorAstNode( $type, ezcTemplateOperatorAstNode $astNode, $addParenthesis = true )
     {
         $this->allowArrayAppend =false; // TODO: check this line.
@@ -287,6 +296,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
 
+    /**
+     * Creates an unary operator.
+     *
+     * @param ezcTemplateOperatorTstNode $type
+     * @param ezcTemplateOperatorAstNode $astNode
+     * @param bool $addParenthesis
+     */
     private function createUnaryOperatorAstNode( $type, ezcTemplateOperatorAstNode $astNode, $addParenthesis = true )
     {
         $astNode->appendParameter( $type->parameters[0]->accept( $this ) );
@@ -462,6 +478,12 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
     }
 
+    /**
+     * Adds recursively the '->' operator.
+     *
+     * @param ezcTemplateOperatorTstNode $type
+     * @param int $currentParameterNumber
+     */
     private function appendReferenceOperatorRecursively( ezcTemplateOperatorTstNode $type, $currentParameterNumber = 0)
     {
         $this->allowArrayAppend = false;
@@ -490,6 +512,15 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $node;
     }
 
+    /**
+     * Adds recursively the function call.
+     *
+     * @param ezcTemplateOperatorTstNode $type
+     * @param string $functionName
+     * @param bool $checkNonArray 
+     * @param int $currentParameterNumber
+     * @return ezcTemplateAstNode
+     */
     private function appendFunctionCallRecursively( ezcTemplateOperatorTstNode $type, $functionName, $checkNonArray = false, $currentParameterNumber = 0)
     {
         $paramAst = array();
@@ -531,6 +562,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     /**
      * Prepare for the program run.
      * Caching uses this method as well.
+     *
+     * @return void
      */
     protected function prepareProgram()
     {
@@ -548,6 +581,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      * Note: This is the first node in the TST tree.
      *
      * @see handleProgramHeader()
+     * @param ezcTemplateProgramTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitProgramTstNode( ezcTemplateProgramTstNode $type )
@@ -582,6 +616,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * Visits the CustomBlockTstNode
+     *
+     * @param ezcTemplateCustomBlockTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitCustomBlockTstNode( ezcTemplateCustomBlockTstNode $type )
@@ -672,35 +709,10 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
     }
 
-    /*
-    public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
-    {
-        if ( $type->type == ezcTemplateCacheTstNode::TYPE_TEMPLATE_CACHE )
-        {
-            // Modify the root node.
-            $this->programNode->cacheTemplate = true;
-
-            foreach ( $type->keys as $key )
-            {
-                // Translate the 'old' variableName to the new name.
-                $k = $key->accept($this);
-                $this->programNode->cacheKeys[] = $k->name;
-            }
-
-            // And translate the ttl.
-            if ( $type->ttl != null ) 
-            {
-                $this->programNode->ttl = $type->ttl->accept($this);
-            }
-
-            return new ezcTemplateNopAstNode();
-        }
-    }
-     */
-
     /**
      * Return NOP.
      *
+     * @param ezcTemplateCacheTstNode $type
      * @return ezcTemplateNopAstNode
      */
     public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
@@ -712,6 +724,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     /**
      * Skips the dynamic block and process the statements inside.
      *
+     * @param ezcTemplateDynamicBlockTstNode $node
      * @return array(ezcTemplateAstNode)
      */
     public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $node )
@@ -723,6 +736,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     /**
      * Skips the cache block and process the statements inside.
      *
+     * @param ezcTemplateCacheBlockTstNode $node
      * @return array(ezcTemplateAstNode)
      */
     public function visitCacheBlockTstNode( ezcTemplateCacheBlockTstNode $node )
@@ -733,6 +747,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
  
 
     /**
+     * visits the cycle
+     *
+     * @param ezcTemplateCycleControlTstNode $cycle
      * @return ezcTemplateAstNode
      */
     public function visitCycleControlTstNode( ezcTemplateCycleControlTstNode $cycle )
@@ -759,6 +776,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitCharsetTstNode
+     *
+     * @param ezcTemplateCharsetTstNode $node
      * @return ezcTemplateNopAstNode
      */
     public function visitCharsetTstNode( ezcTemplateCharsetTstNode $node )
@@ -769,6 +789,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
 
     /**
+     * visitLiteralBlockTstNode
+     *
+     * @param ezcTemplateLiteralBlockTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type )
@@ -777,6 +800,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitEmptyBlockTstNode
+     *
+     * @param ezcTemplateEmptyBlockTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitEmptyBlockTstNode( ezcTemplateEmptyBlockTstNode $type )
@@ -785,6 +811,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitParenthesisTstNode
+     *
+     * @param ezcTemplateParenthesisTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitParenthesisTstNode( ezcTemplateParenthesisTstNode $type )
@@ -796,6 +825,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitOutputBlockTstNode
+     *
+     * @param ezcTemplateOutputBlockTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $type )
@@ -814,6 +846,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitModifyingBlockTstNode
+     *
+     * @param ezcTemplateModifyingBlockTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitModifyingBlockTstNode( ezcTemplateModifyingBlockTstNode $type )
@@ -829,6 +864,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      * {@link ezcTemplateLiteralTstNode::SINGLE_QUOTE single quote} or
      * {@link ezcTemplateLiteralTstNode::DOUBLE_QUOTE double quite}.
      *
+     * @param ezcTemplateLiteralTstNode $type
      * @return ezcTemplateAstNode
      *
      * @see ezcTemplateStringTool::processSingleQuotedEscapes()
@@ -856,6 +892,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitLiteralArrayTstNode
+     *
+     * @param ezcTemplateLiteralArrayTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitLiteralArrayTstNode( ezcTemplateLiteralArrayTstNode $type )
@@ -881,6 +920,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitIdentifierTstNode
+     *
+     * @param ezcTemplateIdentifierTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitIdentifierTstNode( ezcTemplateIdentifierTstNode $type )
@@ -890,6 +932,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitVariableTstNode
+     *
+     * @param ezcTemplateVariableTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitVariableTstNode( ezcTemplateVariableTstNode $type )
@@ -913,6 +958,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitTextBlockTstNode
+     *
+     * @param ezcTemplateTextBlockTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type )
@@ -929,6 +977,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitFunctionCallTstNode
+     *
+     * @param ezcTemplateFunctionCallTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $type )
@@ -971,6 +1022,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitDocCommentTstNode
+     *
+     * @param ezcTemplateDocCommentTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitDocCommentTstNode( ezcTemplateDocCommentTstNode $type )
@@ -979,6 +1033,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitForeachLoopTstNode
+     *
+     * @param ezcTemplateForeachLoopTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitForeachLoopTstNode( ezcTemplateForeachLoopTstNode $type )
@@ -1088,6 +1145,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitDelimiterTstNode
+     *
+     * @param ezcTemplateDelimiterTstNode $type 
      * @return ezcTemplateAstNode
      */
     public function visitDelimiterTstNode( ezcTemplateDelimiterTstNode $type ) 
@@ -1130,6 +1190,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitWhileLoopTstNode
+     *
+     * @param ezcTemplateWhileLoopTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $type )
@@ -1159,6 +1222,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitIfConditionTstNode
+     *
+     * @param ezcTemplateIfConditionTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitIfConditionTstNode( ezcTemplateIfConditionTstNode $type )
@@ -1171,41 +1237,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $astNode->conditions[$i++] = $child->accept( $this );
         }
 
-        // $cb = $type->children[0]->accept( $this );
-        // $astNode->conditions[0] = $cb;
-
-        /*
-
-        // First condition, the 'if'.
-        $if = new ezcTemplateConditionBodyAstNode();
-        $if->condition = null; // $type->condition->accept( $this );
-        $if->body = $this->addOutputNodeIfNeeded( $type->children[0]->accept( $this ) );
-        $astNode->conditions[0] = $if;
-        */
-
-        // Second condition, the 'elseif'.
-        /*
-        if ( count( $type->elements ) == 3 )
-        {
-            $elseif = new ezcTemplateConditionBodyAstNode();
-            $elseif->body = $this->addOutputNodeIfNeeded( $type->elements[1]->accept( $this ) );
-            $astNode->conditions[1] = $else;
-
-        }
-        */
-/*
-        if ( isset( $type->elements[1] ) )
-        {
-            $else = new ezcTemplateConditionBodyAstNode();
-            $else->body = $this->addOutputNodeIfNeeded( $type->elements[1]->accept( $this ) );
-            $astNode->conditions[2] = $else;
-        }
-        */
-
         return $astNode;
     }
 
     /**
+     * visitConditionBodyTstNode
+     *
+     * @param ezcTemplateConditionBodyTstNode $type 
      * @return ezcTemplateAstNode
      */
     public function visitConditionBodyTstNode( ezcTemplateConditionBodyTstNode $type ) 
@@ -1217,6 +1255,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitLoopTstNode
+     *
+     * @param ezcTemplateLoopTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitLoopTstNode( ezcTemplateLoopTstNode $type )
@@ -1244,6 +1285,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitPropertyFetchOperatorTstNode
+     *
+     * @param ezcTemplatePropertyFetchOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitPropertyFetchOperatorTstNode( ezcTemplatePropertyFetchOperatorTstNode $type )
@@ -1253,6 +1297,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
 
     /**
+     * visitArrayFetchOperatorTstNode
+     *
+     * @param ezcTemplateArrayFetchOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitArrayFetchOperatorTstNode( ezcTemplateArrayFetchOperatorTstNode $type )
@@ -1275,6 +1322,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitArrayAppendOperatorTstNode
+     *
+     * @param ezcTemplateArrayAppendOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitArrayAppendOperatorTstNode( ezcTemplateArrayAppendOperatorTstNode $type )
@@ -1288,6 +1338,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitPlusOperatorTstNode
+     *
+     * @param ezcTemplatePlusOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitPlusOperatorTstNode( ezcTemplatePlusOperatorTstNode $type )
@@ -1296,6 +1349,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitMinusOperatorTstNode
+     *
+     * @param ezcTemplateMinusOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitMinusOperatorTstNode( ezcTemplateMinusOperatorTstNode $type )
@@ -1304,6 +1360,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitConcatOperatorTstNode
+     *
+     * @param ezcTemplateConcatOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitConcatOperatorTstNode( ezcTemplateConcatOperatorTstNode $type )
@@ -1312,6 +1371,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitMultiplicationOperatorTstNode
+     *
+     * @param ezcTemplateMultiplicationOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitMultiplicationOperatorTstNode( ezcTemplateMultiplicationOperatorTstNode $type )
@@ -1320,6 +1382,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitDivisionOperatorTstNode
+     *
+     * @param ezcTemplateDivisionOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitDivisionOperatorTstNode( ezcTemplateDivisionOperatorTstNode $type )
@@ -1328,6 +1393,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitModuloOperatorTstNode
+     *
+     * @param ezcTemplateModuloOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitModuloOperatorTstNode( ezcTemplateModuloOperatorTstNode $type )
@@ -1336,6 +1404,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitEqualOperatorTstNode
+     *
+     * @param ezcTemplateEqualOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitEqualOperatorTstNode( ezcTemplateEqualOperatorTstNode $type )
@@ -1344,6 +1415,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitNotEqualOperatorTstNode
+     *
+     * @param ezcTemplateNotEqualOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitNotEqualOperatorTstNode( ezcTemplateNotEqualOperatorTstNode $type )
@@ -1352,6 +1426,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitIdenticalOperatorTstNode
+     *
+     * @param ezcTemplateIdenticalOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitIdenticalOperatorTstNode( ezcTemplateIdenticalOperatorTstNode $type )
@@ -1360,6 +1437,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitNotIdenticalOperatorTstNode
+     *
+     * @param ezcTemplateNotIdenticalOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitNotIdenticalOperatorTstNode( ezcTemplateNotIdenticalOperatorTstNode $type )
@@ -1368,6 +1448,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitLessThanOperatorTstNode
+     *
+     * @param ezcTemplateLessThanOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitLessThanOperatorTstNode( ezcTemplateLessThanOperatorTstNode $type )
@@ -1376,6 +1459,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitGreaterThanOperatorTstNode
+     *
+     * @param ezcTemplateGreaterThanOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitGreaterThanOperatorTstNode( ezcTemplateGreaterThanOperatorTstNode $type )
@@ -1384,6 +1470,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitLessEqualOperatorTstNode
+     *
+     * @param ezcTemplateLessEqualOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitLessEqualOperatorTstNode( ezcTemplateLessEqualOperatorTstNode $type )
@@ -1392,6 +1481,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitGreaterEqualOperatorTstNode
+     *
+     * @param ezcTemplateGreaterEqualOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitGreaterEqualOperatorTstNode( ezcTemplateGreaterEqualOperatorTstNode $type )
@@ -1400,6 +1492,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitLogicalAndOperatorTstNode
+     *
+     * @param ezcTemplateLogicalAndOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitLogicalAndOperatorTstNode( ezcTemplateLogicalAndOperatorTstNode $type )
@@ -1408,6 +1503,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitLogicalOrOperatorTstNode
+     *
+     * @param ezcTemplateLogicalOrOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitLogicalOrOperatorTstNode( ezcTemplateLogicalOrOperatorTstNode $type )
@@ -1416,6 +1514,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitAssignmentOperatorTstNode
+     *
+     * @param ezcTemplateAssignmentOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitAssignmentOperatorTstNode( ezcTemplateAssignmentOperatorTstNode $type )
@@ -1454,6 +1555,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitPlusAssignmentOperatorTstNode
+     *
+     * @param ezcTemplatePlusAssignmentOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitPlusAssignmentOperatorTstNode( ezcTemplatePlusAssignmentOperatorTstNode $type )
@@ -1469,6 +1573,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitMinusAssignmentOperatorTstNode
+     *
+     * @param ezcTemplateMinusAssignmentOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentOperatorTstNode $type )
@@ -1484,6 +1591,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitMultiplicationAssignmentOperatorTstNode
+     *
+     * @param ezcTemplateMultiplicationAssignmentOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitMultiplicationAssignmentOperatorTstNode( ezcTemplateMultiplicationAssignmentOperatorTstNode $type )
@@ -1499,6 +1609,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitDivisionAssignmentOperatorTstNode
+     *
+     * @param ezcTemplateDivisionAssignmentOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitDivisionAssignmentOperatorTstNode( ezcTemplateDivisionAssignmentOperatorTstNode $type )
@@ -1514,6 +1627,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitConcatAssignmentOperatorTstNode
+     *
+     * @param ezcTemplateConcatAssignmentOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitConcatAssignmentOperatorTstNode( ezcTemplateConcatAssignmentOperatorTstNode $type )
@@ -1529,6 +1645,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitModuloAssignmentOperatorTstNode
+     *
+     * @param ezcTemplateModuloAssignmentOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitModuloAssignmentOperatorTstNode( ezcTemplateModuloAssignmentOperatorTstNode $type )
@@ -1544,6 +1663,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitPreIncrementOperatorTstNode
+     *
+     * @param ezcTemplatePreIncrementOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitPreIncrementOperatorTstNode( ezcTemplatePreIncrementOperatorTstNode $type )
@@ -1553,6 +1675,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitPreDecrementOperatorTstNode
+     *
+     * @param ezcTemplatePreDecrementOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitPreDecrementOperatorTstNode( ezcTemplatePreDecrementOperatorTstNode $type )
@@ -1562,6 +1687,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitPostIncrementOperatorTstNode
+     *
+     * @param ezcTemplatePostIncrementOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitPostIncrementOperatorTstNode( ezcTemplatePostIncrementOperatorTstNode $type )
@@ -1571,6 +1699,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitPostDecrementOperatorTstNode
+     *
+     * @param ezcTemplatePostDecrementOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitPostDecrementOperatorTstNode( ezcTemplatePostDecrementOperatorTstNode $type )
@@ -1580,6 +1711,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitNegateOperatorTstNode
+     *
+     * @param ezcTemplateNegateOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitNegateOperatorTstNode( ezcTemplateNegateOperatorTstNode $type )
@@ -1589,6 +1723,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitLogicalNegateOperatorTstNode
+     *
+     * @param ezcTemplateLogicalNegateOperatorTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitLogicalNegateOperatorTstNode( ezcTemplateLogicalNegateOperatorTstNode $type )
@@ -1597,6 +1734,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitBlockCommentTstNode
+     *
+     * @param ezcTemplateBlockCommentTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitBlockCommentTstNode( ezcTemplateBlockCommentTstNode $type )
@@ -1605,6 +1745,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitEolCommentTstNode
+     *
+     * @param ezcTemplateEolCommentTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitEolCommentTstNode( ezcTemplateEolCommentTstNode $type )
@@ -1613,6 +1756,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitBlockTstNode
+     *
+     * @param ezcTemplateBlockTstNode $type 
      * @return ezcTemplateAstNode
      */
     public function visitBlockTstNode( ezcTemplateBlockTstNode $type ) 
@@ -1622,6 +1768,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitDeclarationTstNode
+     *
+     * @param ezcTemplateDeclarationTstNode $type 
      * @return ezcTemplateAstNode
      */
     public function visitDeclarationTstNode( ezcTemplateDeclarationTstNode $type ) 
@@ -1673,6 +1822,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitSwitchTstNode
+     *
+     * @param ezcTemplateSwitchTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitSwitchTstNode( ezcTemplateSwitchTstNode $type )
@@ -1700,6 +1852,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitCaseTstNode
+     *
+     * @param ezcTemplateCaseTstNode $type 
      * @return ezcTemplateAstNode
      */
     public function visitCaseTstNode( ezcTemplateCaseTstNode $type ) 
@@ -1731,6 +1886,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitIncludeTstNode
+     *
+     * @param ezcTemplateIncludeTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitIncludeTstNode( ezcTemplateIncludeTstNode $type )
@@ -1813,6 +1971,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitReturnTstNode
+     *
+     * @param ezcTemplateReturnTstNode $type
      * @return ezcTemplateAstNode
      */
     public function visitReturnTstNode( ezcTemplateReturnTstNode $type )
@@ -1848,6 +2009,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
     /**
+     * visitArrayRangeOperatorTstNode
+     *
+     * @param ezcTemplateArrayRangeOperatorTstNode $type 
      * @return ezcTemplateAstNode
      */
     public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $type ) 

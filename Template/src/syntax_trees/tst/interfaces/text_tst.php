@@ -56,6 +56,11 @@ abstract class ezcTemplateTextTstNode extends ezcTemplateCodeTstNode
     protected $startColumn;
 
     /**
+     * Constructs a new ezcTemplateTextTstNode
+     *
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end 
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
@@ -66,6 +71,11 @@ abstract class ezcTemplateTextTstNode extends ezcTemplateCodeTstNode
         $this->lines             = array();
     }
 
+    /**
+     * Returns the tree properties of this object.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'text' => $this->text );
@@ -74,7 +84,8 @@ abstract class ezcTemplateTextTstNode extends ezcTemplateCodeTstNode
     /**
      * Returns true since text elements can always be children of blocks.
      *
-     * @return true
+     * @param ezcTemplateBlockTstNode $block
+     * @return bool
      */
     public function canBeChildOf( ezcTemplateBlockTstNode $block )
     {
