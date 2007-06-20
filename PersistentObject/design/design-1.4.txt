@@ -1,0 +1,141 @@
+eZ component: PersistentObject, Design, 1.4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Frederik Holljen
+:Revision: $Rev: 3576 $
+:Date: $Date: 2006-09-25 13:44:15 +0400 (Mon, 25 Sep 2006) $
+:Status: Draft
+
+.. contents::
+
+Scope
+=====
+
+The scope of this document is to describe the proposed enhancements for the
+PersistentObject component version 1.4.
+
+The general goal for this version is to implement various features
+described by these issues in our issue tracker:
+
+- #8963  [PersistentObject] Support for composite IDs
+- #10151  Improved Database and PersistentObject datatype support (especially
+  #binary data)
+- #10373  Several relations to the same table for PersistentObject
+
+Each of the issues and their proposed solutions are explained in a seperate
+chapter in this document.
+
+Support for composite IDs [#8963]
+=================================
+
+Background
+----------
+
+
+Several relations to the same table for PersistentObject [#10373]
+=================================================================
+
+Background
+----------
+Since version 1.2 PersistentObject supports relations. The definition of a
+relation will typically look something like:
+
+::
+    $def->relations["Address"] = new ezcPersistentManyToManyRelation(
+         "persons",
+         "addresses",
+         "persons_addresses"
+    );
+    $def->relations["Address"]->columnMap = array(
+         new ezcPersistentDoubleTableMap( "id", "person_id", "address_id", "id" )
+    );
+
+The method to fetch a relation with this definition will typically look
+something like:
+
+::
+    // signature getRelatedObjects( object $relationObject, string $className )
+    $addresses = $session->getRelatedObjects( $person, "Address" );
+
+Basically we can see that both the definition and the fetching of related
+objects is bound to the related class type. This means that a class can only
+have one relation type to another class. Usually this is sufficient. However,
+sometimes it is necessary to have more than one relation to the same class
+e.g. a Person class with the relations "mother" and "father" to the very same
+Person class.
+
+
+PersistentSession design
+------------------------
+The proposed solution is to add an optional name for relations. This way it is
+possible to use the name to specify the exact relation you want to fetch if
+there are more than one. All methods used to fetch and store relations will
+have the optional parameter appended to them. The affected methods and their
+new signatures are:
+
+::
+    ezcPersistentSession::getRelatedObject( object $object, string $className,
+                                            string $relationName = null )
+
+    ezcPersistentSession::getRelatedObjects( object $object, string $className,
+                                             string $relationName = null )
+
+    ezcPersistentSession::addRelatedObject( object $object, 
+                                            object $relationObject,
+                                            string $relationName = null );
+
+    ezcPersistentSession::removeRelatedObject( object $object, 
+                                               object $relationObject,
+                                               string $relationName = null );
+
+The new parameter makes it possible to reach one new exceptional state:
+
+- ezcPersistentUnderministicRelationException is thrown when several relations
+  to one class is defined but no relation name is used.
+
+Definition Design
+-----------------
+
+Similar to the changes to PersistentSession we need to change the persistent
+object definition to store the relation name for classes that have more than
+one relation to another class.
+
+To do this we want to introduce a wrapper struct that can hold several named
+relations:
+
+::
+   class ezcPersistentRelationCollection
+   {
+      public $namedRelations = array();
+   }
+
+An implementation of the example with persons would then look something like:
+
+::
+   $personRelations = new ezcPersistentRelationCollection;
+   $def->relations[Person] = $personRelations;
+
+   $personRelations['mother'] = new ezcPersistentOneToOneRelation( "persons",
+                                                                   "persons" );
+   $personRelations['mother']->columnMap = array( 
+                                           new ezcPersistentSingleTableMap(
+                                               "id",
+                                               "mother_id" ) );
+
+   $personRelations['father'] = new ezcPersistentOneToOneRelation( "persons",
+                                                                   "persons" );
+   $personRelations['father']->columnMap = array( 
+                                           new ezcPersistentSingleTableMap(
+                                               "id",
+                                               "father_id" ) );
+
+The changes do not break BC and require changes in PersistentSession to
+work. An extra if will have to be introduced to check for the existence of
+named relations. This will not harm performance in a significant way.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
