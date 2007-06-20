@@ -199,7 +199,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
             {
                 $points = $this->reducePolygonSize( $points, $thickness / 2 );
             }
-            catch( ezcGraphReducementFailedException $e )
+            catch ( ezcGraphReducementFailedException $e )
             {
                 return false;
             }
@@ -636,7 +636,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
             {
                 $reduced = $this->reduceEllipseSize( $center, $width, $height, $startAngle, $endAngle, .5 );
             }
-            catch( ezcGraphReducementFailedException $e )
+            catch ( ezcGraphReducementFailedException $e )
             {
                 return false;
             }

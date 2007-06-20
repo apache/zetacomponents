@@ -336,7 +336,8 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             try
             {
                 $points = $this->reducePolygonSize( $points, $thickness / 2 );
-            } catch ( ezcGraphReducementFailedException $e )
+            }
+            catch ( ezcGraphReducementFailedException $e )
             {
                 return false;
             }
@@ -863,7 +864,8 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             try
             {
                 $reduced = $this->reduceEllipseSize( $center, $width * 2, $height * 2, $startAngle, $endAngle, .5 );
-            } catch ( ezcGraphReducementFailedException $e )
+            }
+            catch ( ezcGraphReducementFailedException $e )
             {
                 return false;
             }
