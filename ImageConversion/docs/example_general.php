@@ -62,5 +62,5 @@ $converter->createTransformation( 'thumbnail', $filters, $mimeTypes );
 // Transform an image.
 $converter->transform( 'thumbnail', dirname( __FILE__ ). '/jpeg.jpg', dirname( __FILE__ ). '/jpeg_thumb.jpg' );
 
-echo 'Succesfully converted <'. dirname( __FILE__ ). '/jpeg.jpg> to <'.dirname(__FILE__). '/jpeg_thumb.jpg'.">\n";
+echo 'Succesfully converted <'. dirname( __FILE__ ). '/jpeg.jpg> to <'.dirname( __FILE__ ). '/jpeg_thumb.jpg'.">\n";
 ?>

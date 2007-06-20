@@ -326,7 +326,7 @@ class ezcImageTransformation
         {
             if ( !$filter instanceof ezcImageFilter )
             {
-                throw new ezcBaseSettingValueException( 'filters', 'array( int => ' . get_class( $filter ) . ' )', 'array( int => ezcImageFilter )');
+                throw new ezcBaseSettingValueException( 'filters', 'array( int => ' . get_class( $filter ) . ' )', 'array( int => ezcImageFilter )' );
             }
             if ( !$this->converter->hasFilter( $filter->name ) )
             {
