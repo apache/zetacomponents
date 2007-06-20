@@ -189,7 +189,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
 
         $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-        if ( $result === false )
+        if ( $result === false || empty( $result ) )
         {
             throw new ezcWorkflowExecutionException(
               'Could not load execution state.'
@@ -218,25 +218,15 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $stmt = $query->prepare();
         $stmt->execute();
 
-        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
-
+        $result         = $stmt->fetchAll( PDO::FETCH_ASSOC );
         $activatedNodes = array();
 
-        if ( $result !== false )
+        foreach ( $result as $row )
         {
-            foreach ( $result as $row )
-            {
-                $activatedNodes[$row['node_id']] = array(
-                  'state' => $row['node_state'],
-                  'activated_from' => $row['node_activated_from'],
-                  'thread_id' => $row['node_thread_id']
-                );
-            }
-        }
-        else
-        {
-            throw new ezcWorkflowExecutionException(
-              'Could not load execution state.'
+            $activatedNodes[$row['node_id']] = array(
+              'state' => $row['node_state'],
+              'activated_from' => $row['node_activated_from'],
+              'thread_id' => $row['node_thread_id']
             );
         }
 
