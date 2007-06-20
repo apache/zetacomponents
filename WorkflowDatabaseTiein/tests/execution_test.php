@@ -84,5 +84,19 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $this->assertFalse( $execution->isResumed() );
         $this->assertFalse( $execution->isSuspended() );
     }
+
+    public function testNotExistingExecutionThrowsException()
+    {
+        try
+        {
+            $execution = new ezcWorkflowDatabaseExecution( $this->db, 1 );
+        }
+        catch ( ezcWorkflowExecutionException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
 }
 ?>
