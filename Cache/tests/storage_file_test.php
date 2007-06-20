@@ -191,7 +191,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
         }
 
         // Restore
-        foreach( $keys as $key )
+        foreach ( $keys as $key )
         {
             $this->assertEquals(
                 $cache->restore( $id, array( 0 => $key, 1 => "en" ), false ),
