@@ -230,7 +230,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
                                 'openid.assoc_type' => 'HMAC-SHA1',
 
                                 // @todo add support for DH-SHA1 (is it needed if the connection is SSL?)
-                                //'openid.session_type' => 'DH-SHA1', // not supported yet
+                                // 'openid.session_type' => 'DH-SHA1', // not supported yet
                                 'openid.dh_modulus' => urlencode( base64_encode( $lib->btwoc( $p ) ) ),
                                 'openid.dh_gen' => 2, urlencode( base64_encode( $lib->btwoc( $q ) ) ),
                                 'openid.dh_consumer_public' => urlencode( base64_encode( $lib->btwoc( $public ) ) )

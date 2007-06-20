@@ -720,7 +720,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $params = array(
             'openid.mode' => 'associate',
             'openid.assoc_type' => 'HMAC-SHA1',
-            //'openid.session_type' => 'DH-SHA1',
+            // 'openid.session_type' => 'DH-SHA1',
             'openid.dh_modulus' => urlencode( base64_encode( $lib->btwoc( self::$p ) ) ),
             'openid.dh_gen' => 2, urlencode( base64_encode( $lib->btwoc( self::$q ) ) ),
             'openid.dh_consumer_public' => urlencode( base64_encode( $lib->btwoc( $public ) ) )
@@ -749,7 +749,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $params = array(
             'openid.mode' => 'associate',
             'openid.assoc_type' => 'HMAC-SHA1',
-            //'openid.session_type' => 'DH-SHA1',
+            // 'openid.session_type' => 'DH-SHA1',
             'openid.dh_modulus' => urlencode( base64_encode( $lib->btwoc( self::$p ) ) ),
             'openid.dh_gen' => 2, urlencode( base64_encode( $lib->btwoc( self::$q ) ) ),
             'openid.dh_consumer_public' => urlencode( base64_encode( $lib->btwoc( $public ) ) )

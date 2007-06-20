@@ -6,7 +6,7 @@ $captcha = isset( $_POST['captcha'] ) ? $_POST['captcha'] : null;
 $credentials = new ezcAuthenticationIdCredentials( $captcha );
 $authentication = new ezcAuthentication( $credentials );
 $authentication->addFilter( new ezcAuthenticationTokenFilter( $token, 'sha1' ) );
-if ( !authentication->run() )
+if ( !$authentication->run() )
 {
     // CAPTCHA was incorrect, so inform the user to try again, eventually
     // by generating another token and CAPTCHA image
