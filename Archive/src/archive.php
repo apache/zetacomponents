@@ -53,6 +53,7 @@
  *
  * @package Archive
  * @version //autogentag//
+ * @mainclass
  */ 
 abstract class ezcArchive implements Iterator
 {
@@ -95,7 +96,6 @@ abstract class ezcArchive implements Iterator
      * BZIP2 compression format.
      */
     const BZIP2      = 30;
-
 
     /**
      * The entry or file number to which the iterator points. 
@@ -168,7 +168,7 @@ abstract class ezcArchive implements Iterator
      * 
      * @return ezcArchive
      */
-    public static function open( $archiveName, $forceType = null)
+    public static function open( $archiveName, $forceType = null )
     {
         if ( !ezcArchiveFile::fileExists( $archiveName ) && $forceType === null )
         {
@@ -217,6 +217,7 @@ abstract class ezcArchive implements Iterator
      * @param string $name
      * @param mixed $value
      * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -232,12 +233,12 @@ abstract class ezcArchive implements Iterator
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
         throw new ezcBasePropertyNotFoundException( $name );
     }
-
 
     /**
      * Returns the algorithm that is used currently. 
@@ -255,7 +256,6 @@ abstract class ezcArchive implements Iterator
      * @return bool
      */
     public abstract function algorithmCanWrite();
-
 
     /**
      * Returns an instance of the archive with the given type.
@@ -284,16 +284,16 @@ abstract class ezcArchive implements Iterator
         $af = new ezcArchiveBlockFile( $archiveName, true ); 
         return self::getTarInstance( $af, $type ); 
     }
- 
+
     /**
-     * Open a tar instance. 
+     * Open a tar instance.
      *
      * This method is made public for testing purposes, and should not be used.
      *
-     * @param ezcArchiveBlockFile $blockFile 
-     * @param int    $type         
-     *        algorithm. Possible values are: 
-     *        {@link ezcArchive::TAR}, {@link ezcArchive::TAR_V7}, {@link ezcArchive::TAR_USTAR}, 
+     * @param ezcArchiveBlockFile $blockFile
+     * @param int    $type
+     *        The algorithm type. Possible values are:
+     *        {@link ezcArchive::TAR}, {@link ezcArchive::TAR_V7}, {@link ezcArchive::TAR_USTAR},
      *        {@link ezcArchive::TAR_PAX}, {@link ezcArchive::TAR_GNU}. 
      *        TAR will use the TAR_USTAR algorithm by default.
      *
@@ -302,21 +302,30 @@ abstract class ezcArchive implements Iterator
      *                     {@link ezcArchiveGnuTar}, or {@link ezcArchiveUstar}.
      * @access private
      */
-    public static function getTarInstance( ezcArchiveBlockFile $blockFile, $type) 
+    public static function getTarInstance( ezcArchiveBlockFile $blockFile, $type ) 
     {
         switch ( $type )
         {
-            case self::TAR_V7:     return new ezcArchiveV7Tar( $blockFile );
-            case self::TAR_USTAR:  return new ezcArchiveUstarTar( $blockFile );
-            case self::TAR_PAX:    return new ezcArchivePaxTar( $blockFile );
-            case self::TAR_GNU:    return new ezcArchiveGnuTar( $blockFile );
-            case self::TAR:        return new ezcArchiveUstarTar( $blockFile ); // Default type.
+            case self::TAR_V7:
+                return new ezcArchiveV7Tar( $blockFile );
+
+            case self::TAR_USTAR:
+                return new ezcArchiveUstarTar( $blockFile );
+
+            case self::TAR_PAX:
+                return new ezcArchivePaxTar( $blockFile );
+
+            case self::TAR_GNU:
+                return new ezcArchiveGnuTar( $blockFile );
+
+            case self::TAR:
+                return new ezcArchiveUstarTar( $blockFile ); // Default type.
         }
 
         return null;
     }
 
-     /**
+    /**
      * Open a zip instance. This method is made public for testing purposes, and
      * should not be used.
      *
@@ -329,7 +338,7 @@ abstract class ezcArchive implements Iterator
     {
         return new ezcArchiveZip( $charFile );
     }
-     
+
     /**
      * Returns true if the iterator points to a valid entry, otherwise false.
      *
@@ -339,7 +348,6 @@ abstract class ezcArchive implements Iterator
     {
         return ( $this->fileNumber >= 0 && $this->fileNumber < $this->entriesRead );
     }
-    
 
     /**
      * Rewinds the iterator to the first entry. 
@@ -353,12 +361,12 @@ abstract class ezcArchive implements Iterator
 
     /**
      * Returns the current ezcArchiveEntry if it is valid, otherwise false is returned.
-     * 
+     *
      * @return ezcArchiveEntry
      */ 
     public function current()
     {
-        return ( $this->valid() ? $this->entries[ $this->fileNumber ] : false );
+        return ( $this->valid() ? $this->entries[$this->fileNumber] : false );
     }
 
     /**
@@ -370,7 +378,6 @@ abstract class ezcArchive implements Iterator
     {
         return ( $this->valid() ? $this->fileNumber : false );
     }
-
 
     /**
      * Forwards the iterator to the next entry. 
@@ -387,7 +394,10 @@ abstract class ezcArchive implements Iterator
         if ( $this->valid() )
         {
             $this->fileNumber++;
-            if ( $this->valid() ) return $this->current();
+            if ( $this->valid() )
+            {
+                return $this->current();
+            }
 
             if ( !$this->completed )
             {
@@ -409,20 +419,23 @@ abstract class ezcArchive implements Iterator
      *
      * True if the file is extracted correctly, otherwise false.
      *
-     * @param string $target  
+     * @param string $target
      *        The full path to which the target should be extracted.
-     * @param bool $keepExisting  
+     * @param bool $keepExisting
      *        True if the file shouldn't be overwritten if they already exist.
      *        For the opposite behaviour, false should be given.
      *
      * @throws ezcArchiveValueException     if the archive contains invalid values.
      * @throws ezcBaseFileNotFoundException if the link cannot be found.
      *
-     * @return bool  
+     * @return bool
      */
     public function extractCurrent( $target, $keepExisting = false )
     {
-        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null )
+        {
+            throw new ezcArchiveException( "The archive is closed" );
+        }
 
         if ( !$this->valid() )
         {
@@ -433,7 +446,7 @@ abstract class ezcArchive implements Iterator
         $entry = $this->current();
         $type = $entry->getType();
         $fileName = $target ."/". $entry->getPath(); 
-        
+
         if ( $type == ezcArchiveEntry::IS_LINK )
         {
             $linkName = $target ."/".$entry->getLink();
@@ -451,7 +464,7 @@ abstract class ezcArchive implements Iterator
             {
                 unlink ( $fileName );
             }
-                
+
             if ( !file_exists( $fileName ) ) // For example, directories are not removed.
             {
                 switch ( $type )
@@ -466,6 +479,7 @@ abstract class ezcArchive implements Iterator
                             throw new ezcArchiveValueException( $type );
                         }
                         break;
+
                     case ezcArchiveEntry::IS_BLOCK_DEVICE:
                         if ( ezcBaseFeatures::hasFunction( 'posix_mknod' ) )
                         {
@@ -476,6 +490,7 @@ abstract class ezcArchive implements Iterator
                             throw new ezcArchiveValueException( $type );
                         }
                         break;
+
                     case ezcArchiveEntry::IS_FIFO:              
                         if ( ezcBaseFeatures::hasFunction( 'posix_mknod' ) ) 
                         {
@@ -486,6 +501,7 @@ abstract class ezcArchive implements Iterator
                             throw new ezcArchiveValueException( $type );
                         }
                         break;
+
                     case ezcArchiveEntry::IS_SYMBOLIC_LINK:
                         if ( $isWindows )
                         {
@@ -500,6 +516,7 @@ abstract class ezcArchive implements Iterator
                             symlink( $entry->getLink(), $fileName );
                         }
                         break;
+
                     case ezcArchiveEntry::IS_LINK:  
                         if ( $isWindows )
                         {
@@ -510,6 +527,7 @@ abstract class ezcArchive implements Iterator
                             link( $target ."/". $entry->getLink(), $fileName );
                         }
                         break;
+
                     case ezcArchiveEntry::IS_DIRECTORY:
                         $permissions = $entry->getPermissions();
 
@@ -519,9 +537,11 @@ abstract class ezcArchive implements Iterator
                         }
                         mkdir( $fileName, octdec( $permissions ), true );
                         break;
+
                     case ezcArchiveEntry::IS_FILE:
                         $this->writeCurrentDataToFile( $fileName );
                         break;
+
                     default:
                         throw new ezcArchiveValueException( $type );
                 }
@@ -533,13 +553,16 @@ abstract class ezcArchive implements Iterator
                     @chgrp( $fileName, $entry->getGroupId() );
                     @chown( $fileName, $entry->getUserId() );
 
-                    if ( $entry->getPermissions() !== false ) chmod( $fileName, octdec( $entry->getPermissions() ) );
+                    if ( $entry->getPermissions() !== false )
+                    {
+                        chmod( $fileName, octdec( $entry->getPermissions() ) );
+                    }
 
                     touch( $fileName, $entry->getModificationTime() );
                 }
             }
 
-            return true; 
+            return true;
         }
 
         return false;
@@ -547,77 +570,102 @@ abstract class ezcArchive implements Iterator
 
     /**
      * Search for the entry number. 
-     * 
+     *
      * The two parameters here are the same as the PHP {@link http://www.php.net/fseek fseek()} method.
-     * The internal iterator position will be set by $offset added to $whence iterations forward. 
+     * The internal iterator position will be set by $offset added to $whence iterations forward.
      * Where $whence is:
-     * - SEEK_SET, Set the position equal to $offset. 
-     * - SEEK_CUR, Set the current position plus $offset. 
-     * - SEEK_END, Set the last file in archive position plus $offset. 
+     * - SEEK_SET, Set the position equal to $offset.
+     * - SEEK_CUR, Set the current position plus $offset.
+     * - SEEK_END, Set the last file in archive position plus $offset.
      *
      * This method returns true if the new position is valid, otherwise false.
      *
-     * @param int    $offset    
-     * @param int    $whence    
-
-     * @return bool 
+     * @throws ezcArchiveException
+     *         if the archive is closed
+     * @param int    $offset
+     * @param int    $whence
+     * @return bool
      */
     public function seek( $offset, $whence = SEEK_SET )
     {
-        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
-        
+        if ( $this->file === null )
+        {
+            throw new ezcArchiveException( "The archive is closed" );
+        }
+
         // Cannot trust the current position if the current position is invalid.
-        if ( $whence == SEEK_CUR && $this->valid() == false ) 
+        if ( $whence == SEEK_CUR && $this->valid() == false )
+        {
             return false;
-         
+        }
+
         if ( $whence == SEEK_END && !$this->completed )
         {
             // read the entire archive.
              $this->fileNumber = $this->entriesRead;
-             while ( $this->readCurrentFromArchive() ) $this->fileNumber++;
+             while ( $this->readCurrentFromArchive() )
+             {
+                 $this->fileNumber++;
+             }
         }
 
         switch ( $whence )
         {
-            case SEEK_SET: $requestedFileNumber = $offset; break;
-            case SEEK_CUR: $requestedFileNumber = $offset + $this->fileNumber; break;
-            case SEEK_END: $requestedFileNumber = $offset + $this->entriesRead - 1; break;
-            default: return false; // Invalid whence.
+            case SEEK_SET:
+                $requestedFileNumber = $offset;
+                break;
+
+            case SEEK_CUR:
+                $requestedFileNumber = $offset + $this->fileNumber;
+                break;
+
+            case SEEK_END:
+                $requestedFileNumber = $offset + $this->entriesRead - 1;
+                break;
+
+            default:
+                return false; // Invalid whence.
         }
 
-         $this->fileNumber = $requestedFileNumber;
-         if ( $this->valid() ) return true;
+        $this->fileNumber = $requestedFileNumber;
+        if ( $this->valid() )
+        {
+            return true;
+        }
 
-         if ( !$this->completed )
-         {
-             $this->fileNumber = $this->entriesRead - 1;
+        if ( !$this->completed )
+        {
+            $this->fileNumber = $this->entriesRead - 1;
 
-             while ( $this->fileNumber != $requestedFileNumber )
-             {
+            while ( $this->fileNumber != $requestedFileNumber )
+            {
                 $this->fileNumber++;
-                if ( !$this->readCurrentFromArchive() ) break;
-             } 
+                if ( !$this->readCurrentFromArchive() )
+                {
+                    break;
+                }
+            } 
 
-             return $this->valid();
-         }
+            return $this->valid();
+        }
 
-         return false;
+        return false;
     }
 
     /**
      * Creates all the directories needed to create the file $file.
-     * 
+     *
      * @param string $file  Path to a file, where all the base directory names will be created.
      */
     protected function createDefaultDirectory( $file )
     {
         // Does the directory exist?
         $dirName = dirname( $file );
-        
+
         if ( !file_exists( $dirName ) )
         {
             // Try to create the directory.
-            if ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' ) 
+            if ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' )
             {
                 // make all slashes to be '/'
                 $dirName = str_replace( '/', '\\', $dirName );
@@ -627,7 +675,7 @@ abstract class ezcArchive implements Iterator
     }
 
     /**
-     * Appends a file to the archive after the current entry. 
+     * Appends a file to the archive after the current entry.
      *
      * One or multiple files can be added directly after the current file.
      * The remaining entries after the current are removed from the archive!
@@ -647,32 +695,43 @@ abstract class ezcArchive implements Iterator
      * $tar->appendToCurrent( array( "/home/rb/file1.txt", "/home/rb/file2.txt" ), "/home/rb/" );
      * </code>
      *
-     * When multiple files are added to the archive at the same time, thus using an array, does not 
-     * necessarily produce the same archive as repeatively adding one file to the archive. 
+     * When multiple files are added to the archive at the same time, thus using an array, does not
+     * necessarily produce the same archive as repeatively adding one file to the archive.
      * For example, the Tar archive format, can detect that files hardlink to each other and will store
      * it in a more efficient way.
-     * 
+     *
      * @throws ezcArchiveWriteException  if one of the files cannot be written to the archive.
      * @throws ezcFileReadException      if one of the files cannot be read from the local filesystem.
      *
      * @param string|array(string) $files  Array or a single path to a file. 
      * @param string $prefix               First part of the path used in $files. 
-     *
-     * @return void 
+     * @return bool
      */
     public abstract function appendToCurrent( $files, $prefix );
 
+    /**
+     * Appends a file or directory to the end of the archive. Multiple files or directory can
+     * be added to the archive when an array is used as input parameter.
+     *
+     * @see appendToCurrent()
+     *
+     * @throws ezcArchiveWriteException  if one of the files cannot be written to the archive.
+     * @throws ezcFileReadException      if one of the files cannot be read from the local filesystem.
+     *
+     * @param string|array(string) $files  Array or a single path to a file.
+     * @param string $prefix               First part of the path used in $files.
+     * @return bool
+     */
     public abstract function append( $files, $prefix );
 
     /**
-     * Truncate the archive to $fileNumber of files.
+     * Truncates the archive to $fileNumber of files.
      *
      * The $fileNumber parameter specifies the amount of files that should remain.
      * If the default value, zero, is used then the entire archive file is cleared.
      *
      * @param int $fileNumber
-     *
-     * @return void
+     * @return bool
      */
     public abstract function truncate( $fileNumber = 0 );
 
@@ -686,16 +745,21 @@ abstract class ezcArchive implements Iterator
 
     /**
      * Returns an array that lists the content of the archive.
-     * 
+     *
      * Use the getArchiveEntry method to get more information about an entry.
      *
      * @see __toString()
-     * 
+     *
+     * @throws ezcArchiveException
+     *         if the archive is closed
      * @return array(string)
      */
     public function getListing()
     {
-        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null )
+        {
+            throw new ezcArchiveException( "The archive is closed" );
+        }
 
         $result = array();
         $this->rewind();
@@ -704,20 +768,24 @@ abstract class ezcArchive implements Iterator
         {
             $entry = $this->current();
             $result[] = rtrim( $entry->__toString(), "\n" ); // remove newline.
-        }
-        while ( $this->next() );
+        } while ( $this->next() );
 
         return $result; 
-    } 
+    }
 
     /**
      * Returns a string which represents all the entries from the archive.
      *
+     * @throws ezcArchiveException
+     *         if the archive is closed
      * @return string
      */
     public function __toString()
     {
-        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null )
+        {
+            throw new ezcArchiveException( "The archive is closed" );
+        }
 
         $result = "";
         $this->rewind();
@@ -728,7 +796,7 @@ abstract class ezcArchive implements Iterator
             $this->next();
         }
 
-        return $result; 
+        return $result;
     }
 
     /**
@@ -740,16 +808,20 @@ abstract class ezcArchive implements Iterator
      *
      * @see extractCurrent()
      *
-     * @throws ezcArchiveReadException  if an entry cannot be extracted from the archive.
-     **
+     * @throws ezcArchiveException
+     *         if the archive is closed
+     * @throws ezcArchiveEmptyException
+     *         if the archive is invalid
      * @param string $target     Absolute or relative path of the directory.
      * @param bool $keepExisting If set to true then the file will be overwritten, otherwise not.
-     * 
      * @return void
      */
     public function extract( $target, $keepExisting = false )
     {
-        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null )
+        {
+            throw new ezcArchiveException( "The archive is closed" );
+        }
 
         $this->rewind();
         if ( !$this->valid() ) 
@@ -764,8 +836,8 @@ abstract class ezcArchive implements Iterator
         }
     }
 
-    /** 
-     * Append a file or directory to the end of the archive. Multiple files or directory can 
+    /**
+     * Append a file or directory to the end of the archive. Multiple files or directory can
      * be added to the archive when an array is used as input parameter.
      *
      * @see appendToCurrent()
@@ -789,7 +861,7 @@ abstract class ezcArchive implements Iterator
 //     }
 
     /**
-     * Returns true if the current archive is empty, otherwise false. 
+     * Returns true if the current archive is empty, otherwise false.
      *
      * @return bool
      */
@@ -798,9 +870,13 @@ abstract class ezcArchive implements Iterator
         return ( $this->entriesRead == 0 );
     }
 
-
-    /** 
-     *  Get the file entries.
+    /**
+     * Get the file entries from the archive.
+     *
+     * @param string|array(string) $files  Array or a single path to a file.
+     * @param string $prefix               First part of the path used in $files.
+     *
+     * @return ezcArchiveEntry
      */
     protected function getEntries( $files, $prefix )
     {
@@ -818,9 +894,8 @@ abstract class ezcArchive implements Iterator
             }
         }
 
-        // Search for all the entries, because otherwise hardlinked files show up as an ordinary file. 
+        // Search for all the entries, because otherwise hardlinked files show up as an ordinary file.
         return ezcArchiveEntry::getEntryFromFile( $files, $prefix );
     }
 }
-
 ?>

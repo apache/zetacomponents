@@ -74,7 +74,7 @@ class ezcArchiveCentralDirectoryEndHeader
      * If the ezcArchiveCharacterFile $file is null then the header will be empty. 
      * When an ezcArchiveCharacterFile is given, the file position should be directly after the 
      * signature of the header. This header will be read from the file and initialized in this class. 
-     * 
+     *
      * @param ezcArchiveCharacterFile $file
      */
     public function __construct( ezcArchiveCharacterFile $file = null )
@@ -110,35 +110,49 @@ class ezcArchiveCentralDirectoryEndHeader
      * Sets the property $name to $value.
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyReadOnlyException if the property is read-only
      * @param string $name
      * @param mixed $value
      * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
         switch ( $name )
         {
-            case "diskNumber": 
-            case "centralDirectoryDisk": 
-            case "totalCentralDirectoryEntriesOnDisk":  throw new ezcBasePropertyReadOnlyException( $name ); break;
+            case "diskNumber":
+            case "centralDirectoryDisk":
+            case "totalCentralDirectoryEntriesOnDisk":
+                throw new ezcBasePropertyReadOnlyException( $name );
 
-            case "totalCentralDirectoryEntries": $this->setTotalDirectoryEntries( $value ); 
-            case "centralDirectorySize": 
-            case "centralDirectoryStart": $this->properties[$name] = $value; break;
+            case "totalCentralDirectoryEntries":
+                $this->setTotalDirectoryEntries( $value );
+                // @todo check if intentionally no "break;"
 
-            case "commentLength": throw new ezcBasePropertyReadOnlyException( $name ); break;
-            case "comment": $this->setComment( $value ); break;
+            case "centralDirectorySize":
+            case "centralDirectoryStart":
+                $this->properties[$name] = $value;
+                break;
 
-            default: throw new ezcBasePropertyNotFoundException( $name ); break; 
+            case "commentLength":
+                throw new ezcBasePropertyReadOnlyException( $name );
+
+            case "comment":
+                $this->setComment( $value );
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
         }
     }
 
     /**
-     * Returns the property $name.
+     * Returns the value of the property $name.
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
@@ -151,15 +165,17 @@ class ezcArchiveCentralDirectoryEndHeader
             case "centralDirectorySize": 
             case "centralDirectoryStart": 
             case "commentLength": 
-            case "comment": return $this->properties[$name]; break;
+            case "comment":
+                return $this->properties[$name];
 
-            default: throw new ezcBasePropertyNotFoundException( $name ); break; 
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
         }
     }
 
-    /** 
+    /**
      * Sets the comment and comment length in the header from the string $comment.
-     * 
+     *
      * @param string $comment
      * @return void
      */
@@ -169,12 +185,12 @@ class ezcArchiveCentralDirectoryEndHeader
         $this->properties["commentLength"] = strlen( $comment );
     }
 
-    /** 
+    /**
      * Sets the total directory entries to the int $numberOfEntries.
      *
      * The properties: diskNumber and centralDirectory will be set to 0. 
      * The properties: totalCentralDirectoryEntriesOnDisk and totalCentralDirectoryEntries are set to the $numberOfEntries.
-     * 
+     *
      * @param int $numberOfEntries
      * @return void
      */
@@ -188,7 +204,7 @@ class ezcArchiveCentralDirectoryEndHeader
 
     /**
      * Serializes this header and appends it to the given ezcArchiveCharacterFile $archiveFile.
-     * 
+     *
      * @param ezcArchiveCharacterFile $archiveFile
      * @return void
      */
@@ -205,11 +221,12 @@ class ezcArchiveCentralDirectoryEndHeader
             $this->properties["commentLength"] );
 
         $archiveFile->write( $enc . $this->properties["comment"] );
-    } 
+    }
 
     /**
      * Returns true if the given string $string matches with the current signature.
      *
+     * @param string $string
      * @return void
      */
     public static function isSignature( $string )
@@ -217,5 +234,4 @@ class ezcArchiveCentralDirectoryEndHeader
         return $string == pack( "V", self::magic );
     }
 }
-
 ?>

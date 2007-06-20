@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcArchiveValueException class
+ * File containing the ezcArchiveBlockSizeException class.
  * 
  * @package Archive
  * @version //autogen//
@@ -9,15 +9,20 @@
  */
 
 /**
- * Exception will be thrown when the prefix given to the file that should be appended, is incorrect. 
+ * Exception will be thrown when the block-size of an archive is invalid.
  *
  * @package Archive
- * @author
  * @version //autogen//
  */
 class ezcArchiveBlockSizeException extends ezcArchiveException
 {
-    function __construct( $archiveName, $msg = null )
+    /**
+     * Constructs a new block-size exception for the specified archive.
+     *
+     * @param string $archiveName
+     * @param string $msg
+     */
+    public function __construct( $archiveName, $msg = null )
     {
         $default = "The archive '$archiveName' has an invalid block size.";
 

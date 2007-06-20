@@ -10,7 +10,6 @@
  */
 
 /** 
- *  
  * The ezcArchiveCentralDirectoryHeader class represents the Zip central directory header.
  * 
  * ezcArchiveCentralDirectoryHeader can read the header from an ezcArchiveCharacterFile or ezcArchiveEntry. 
@@ -134,7 +133,16 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
     }
 
  
-    // Documentation is inherited.
+    /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist
+     * @throws ezcBasePropertyReadOnlyException if the property is read-only
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     * @ignore
+     */
     public function __set( $name, $value )
     {
         switch ( $name )
@@ -152,20 +160,32 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
             case "internalFileAttributes":
             case "externalFileAttributes":  
             case "fileName":  
-            case "relativeHeaderOffset": $this->properties[ $name ] = $value; break;
+            case "relativeHeaderOffset":
+                $this->properties[$name] = $value;
+                break;
 
-            case "comment":  $this->setComment( $value ); break;
+            case "comment":
+                $this->setComment( $value );
+                break;
 
             case "fileNameLength":
             case "extraFieldLength":
-            case "fileCommentLength": throw new ezcBasePropertyReadOnlyException( $name ); break;
+            case "fileCommentLength":
+                throw new ezcBasePropertyReadOnlyException( $name );
 
-
-            default: throw new ezcBasePropertyNotFoundException( $name ); break; 
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
         }
     }
 
-    // Documentation is inherited.
+    /**
+     * Returns the value of the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @return mixed
+     * @ignore
+     */
     public function __get( $name )
     {
         switch ( $name )
@@ -185,17 +205,19 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
             case "relativeHeaderOffset":
             case "fileNameLength":
             case "extraFieldLength":
-            case "fileCommentLength": 
-            case "fileName":  
-            case "comment":  return $this->properties[ $name ]; break;
+            case "fileCommentLength":
+            case "fileName":
+            case "comment":
+                return $this->properties[$name];
 
-            default: throw new ezcBasePropertyNotFoundException( $name ); break; 
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
         }
     }
 
     /**
      * Sets the comment to string $comment and updates the comment length.
-     * 
+     *
      * @param string $comment
      * @return void
      */
@@ -211,7 +233,9 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
      * The type is a constant from the {@link ezcArchiveEntry}. For example: 
      * ezcArchiveEntry::IS_FIFO.
      * The property externalFileAttributes will be changed to reflect the $type.
-     * 
+     *
+     * @throws ezcArchiveException
+     *         if $type is unknown
      * @param int $type
      * @return void
      */
@@ -220,17 +244,38 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
         $ext = 0;
         switch ( $type )
         {
-            case ezcArchiveEntry::IS_FIFO:              $ext = ezcArchiveStatMode::S_IFIFO;  break; 
-            case ezcArchiveEntry::IS_CHARACTER_DEVICE:  $ext = ezcArchiveStatMode::S_IFCHR;  break; 
-            case ezcArchiveEntry::IS_DIRECTORY:         $ext = ezcArchiveStatMode::S_IFDIR;  break; 
-            case ezcArchiveEntry::IS_BLOCK_DEVICE:      $ext = ezcArchiveStatMode::S_IFBLK;  break; 
-            case ezcArchiveEntry::IS_FILE:              $ext = ezcArchiveStatMode::S_IFREG;  break; 
-            case ezcArchiveEntry::IS_SYMBOLIC_LINK:     $ext = ezcArchiveStatMode::S_IFLNK;  break; 
+            case ezcArchiveEntry::IS_FIFO:
+                $ext = ezcArchiveStatMode::S_IFIFO;
+                break;
 
-            default: throw new ezcArchiveException( "Unknown type" );
+            case ezcArchiveEntry::IS_CHARACTER_DEVICE:
+                $ext = ezcArchiveStatMode::S_IFCHR;
+                break;
+
+            case ezcArchiveEntry::IS_DIRECTORY:
+                $ext = ezcArchiveStatMode::S_IFDIR;
+                break;
+
+            case ezcArchiveEntry::IS_BLOCK_DEVICE:
+                $ext = ezcArchiveStatMode::S_IFBLK;
+                break;
+
+            case ezcArchiveEntry::IS_FILE:
+                $ext = ezcArchiveStatMode::S_IFREG;
+                break;
+
+            case ezcArchiveEntry::IS_SYMBOLIC_LINK:
+                $ext = ezcArchiveStatMode::S_IFLNK;
+                break;
+
+            default:
+                throw new ezcArchiveException( "Unknown type" );
         }
 
-        if ( !isset( $this->properties["externalFileAttributes"] ) ) $this->properties["externalFileAttributes"] = 0;
+        if ( !isset( $this->properties["externalFileAttributes"] ) )
+        {
+            $this->properties["externalFileAttributes"] = 0;
+        }
 
         $ext <<= 16;
         $clear = ( $this->properties["externalFileAttributes"] & ezcArchiveStatMode::S_IFMT << 16 );
@@ -238,7 +283,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
         $this->properties["externalFileAttributes"] ^= $clear; // Remove the bits from S_IFMT, because we XOR with self.
         $this->properties["externalFileAttributes"] |= $ext; // And add the ext bits.
     }
-    
+
     /**
      * Returns the type of the file.
      *
@@ -252,12 +297,23 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
 
         switch ( $extAttrib & ezcArchiveStatMode::S_IFMT )
         {
-            case ezcArchiveStatMode::S_IFIFO: return ezcArchiveEntry::IS_FIFO; break; 
-            case ezcArchiveStatMode::S_IFCHR: return ezcArchiveEntry::IS_CHARACTER_DEVICE; break; 
-            case ezcArchiveStatMode::S_IFDIR: return ezcArchiveEntry::IS_DIRECTORY; break; 
-            case ezcArchiveStatMode::S_IFBLK: return ezcArchiveEntry::IS_BLOCK_DEVICE; break; 
-            case ezcArchiveStatMode::S_IFREG: return ezcArchiveEntry::IS_FILE; break; 
-            case ezcArchiveStatMode::S_IFLNK: return ezcArchiveEntry::IS_SYMBOLIC_LINK; break; 
+            case ezcArchiveStatMode::S_IFIFO:
+                return ezcArchiveEntry::IS_FIFO;
+
+            case ezcArchiveStatMode::S_IFCHR:
+                return ezcArchiveEntry::IS_CHARACTER_DEVICE;
+
+            case ezcArchiveStatMode::S_IFDIR:
+                return ezcArchiveEntry::IS_DIRECTORY;
+
+            case ezcArchiveStatMode::S_IFBLK:
+                return ezcArchiveEntry::IS_BLOCK_DEVICE;
+
+            case ezcArchiveStatMode::S_IFREG:
+                return ezcArchiveEntry::IS_FILE;
+
+            case ezcArchiveStatMode::S_IFLNK:
+                return ezcArchiveEntry::IS_SYMBOLIC_LINK;
 
             default:
                 if ( substr( $this->properties["fileName"], -1) == "/" )
@@ -276,7 +332,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
      *
      * The type is read and translated from the externalFileAttributes property.
      *
-     * @return int 
+     * @return int
      */
     public function getPermissions()
     {
@@ -292,14 +348,17 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
      *
      * The externalFileAttributes property will be changed.
      *
-     * @return int 
+     * @param int $permissions
      */
     public function setPermissions( $permissions )
     {
         $perm = octdec( $permissions );
         $perm <<= 16;
 
-        if ( !isset( $this->properties["externalFileAttributes"] ) ) $this->properties["externalFileAttributes"] = 0;
+        if ( !isset( $this->properties["externalFileAttributes"] ) )
+        {
+            $this->properties["externalFileAttributes"] = 0;
+        }
 
         $clear = ( $this->properties["externalFileAttributes"] & ezcArchiveStatMode::S_PERM_MASK << 16 );
         $this->properties["externalFileAttributes"] ^= $clear; // Remove the bits from S_PERM_MASK, because we XOR with self.
@@ -311,20 +370,39 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
      *
      * If bool $override is false, this method will not overwrite the values from the ezcArchiveFileStructure $struct.
      * The values that can be set in the archiveFileStructure are: path, mode, type, size.
-     * 
-     * @param ezcArchiveFileStructure $struct
+     *
+     * @param ezcArchiveFileStructure &$struct
      * @param bool $override
      * @return void
      */
-    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false)
+    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false )
     {
-        if ( !isset( $struct->path ) || $override ) $struct->path = $this->fileName;
-        if ( !isset( $struct->mode ) || $override ) $struct->mode = ( $this->getPermissions() == 0 ? false : $this->getPermissions() ) ;
-        if ( !isset( $struct->type ) || $override ) $struct->type = $this->getType();
-        if ( !isset( $struct->size ) || $override ) $struct->size = $this->uncompressedSize;
+        if ( !isset( $struct->path ) || $override )
+        {
+            $struct->path = $this->fileName;
+        }
+
+        if ( !isset( $struct->mode ) || $override )
+        {
+            $struct->mode = ( $this->getPermissions() == 0 ? false : $this->getPermissions() );
+        }
+
+        if ( !isset( $struct->type ) || $override )
+        {
+            $struct->type = $this->getType();
+        }
+
+        if ( !isset( $struct->size ) || $override )
+        {
+            $struct->size = $this->uncompressedSize;
+        }
     }
 
-    // Inherited the documentation.
+    /**
+     * Returns the total size of this header.
+     *
+     * @return int
+     */
     public function getHeaderSize()
     {
         return 46 + $this->properties["fileNameLength"] + $this->properties["extraFieldLength"] + $this->properties["fileCommentLength"];
@@ -336,9 +414,8 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
      * The properties that are set: versionNeededToExtract, bitFlag, compressionMethod, 
      * lastModFileTime, lastModFileDate, crc, compressedSize, uncompressedSize, fileNameLength,
      * and fileName.
-     * 
-     * @param ezcArchiveFileStructure $struct
-     * @param bool $override
+     *
+     * @param ezcArchiveLocalFileHeader $localFileHeader
      * @return void
      */
     public function setHeaderFromLocalFileHeader( ezcArchiveLocalFileHeader $localFileHeader )
@@ -355,7 +432,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
         $this->properties["fileName"] = $localFileHeader->fileName;
     }
 
-    /** 
+    /**
      * Sets this header with the values from the ezcArchiveEntry $entry.
      *
      * The values that are possible to set from the ezcArchiveEntry $entry are set in this header.
@@ -375,7 +452,12 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
         $this->properties["mtime"] = $entry->getModificationTime();
     }
 
-    // Documentation is inherited.
+    /**
+     * Serializes this header and appends it to the given ezcArchiveCharacterFile $archiveFile.
+     * 
+     * @param ezcArchiveCharacterFile $archiveFile
+     * @return void
+     */
     public function writeEncodedHeader( $archiveFile )
     {
         $this->properties["extraFieldLength" ] = 13; // 9 + 4. 
@@ -406,11 +488,15 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
          $archiveFile->write( $enc . $this->fileName . $time . $unix2 . $this->comment );
     }
 
-    // Documentation is inherited.
+    /**
+     * Returns true if the given string $string matches with the current signature.
+     *
+     * @param string $string
+     * @return bool
+     */
     public static function isSignature( $string )
     {
         return $string == pack( "V", self::magic );
     }
 }
-
 ?>

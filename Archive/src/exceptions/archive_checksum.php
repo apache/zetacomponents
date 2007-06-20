@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcArchiveValueException class
+ * File containing the ezcArchiveChecksumException class.
  * 
  * @package Archive
  * @version //autogen//
@@ -12,12 +12,16 @@
  * Exception will be thrown when the checksum of the file is invalid.
  *
  * @package Archive
- * @author
  * @version //autogen//
  */
 class ezcArchiveChecksumException extends ezcArchiveException
 {
-    function __construct( $file )
+    /**
+     * Constructs a new checksum exception for the specified file.
+     *
+     * @param string $file
+     */
+    public function __construct( $file )
     {
         parent::__construct( "The checksum of the file '$file' is invalid." );
     }

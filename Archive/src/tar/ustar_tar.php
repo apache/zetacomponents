@@ -27,30 +27,57 @@
  */ 
 class ezcArchiveUstarTar extends ezcArchiveV7Tar implements Iterator
 {
-    // Documentation is inherited.
-    public function __construct( ezcArchiveBlockFile $blockFile, $blockFactor = 20 ) 
+    /**
+     * Initializes the Tar and tries to read the first entry from the archive.
+     *
+     * At initialization it sets the blockFactor to $blockFactor. Each tar archive
+     * has always $blockFactor of blocks ( 0, $blockFactor, 2 * $blockFactor, etc ).
+     * 
+     * The Tar archive works with blocks, so therefore the first parameter expects
+     * the archive as a blockFile. 
+     * 
+     * @param ezcArchiveBlockFile $blockFile
+     * @param int $blockFactor
+     */
+    public function __construct( ezcArchiveBlockFile $blockFile, $blockFactor = 20 )
     {
         parent::__construct( $blockFile, $blockFactor );
     }
 
-    // Documentation is inherited.
+    /**
+     * Returns the value which specifies a TAR_USTAR algorithm.
+     *
+     * @return int
+     */
     public function getAlgorithm()
     {
         return self::TAR_USTAR;
     }
 
-    // Documentation is inherited.
+    /**
+     * Returns true because the TAR_USTAR algorithm can write.
+     *
+     * @see isWritable()
+     *
+     * @return bool
+     */
     public function algorithmCanWrite()
     {
         return true;
     }
  
-    // Documentation is inherited.
+    /**
+     * Creates the a new ustar tar header for this class.
+     * 
+     * This method expects an {@link ezcArchiveBlockFile} that points to the header that should be
+     * read (and created). If null is given as  block file, an empty header will be created.
+     *
+     * @param string|null $file
+     * @return ezcArchiveUstarHeader
+     */
     protected function createTarHeader( $file = null)
     {
         return new ezcArchiveUstarHeader( $file );
     }
-
-    
 }
 ?>

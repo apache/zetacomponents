@@ -31,30 +31,39 @@
  */ 
 class ezcArchiveGnuHeader extends ezcArchiveUstarHeader
 {
-    // Inherited the documentation
+    /**
+     * Creates and initializes a new header.
+     *
+     * If the ezcArchiveBlockFile $file is null then the header will be empty. 
+     * When an ezcArchiveBlockFile is given, the block position should point to the header block.
+     * This header block will be read from the file and initialized in this class. 
+     * 
+     * @param ezcArchiveBlockFile $file
+     */
     public function __construct( ezcArchiveBlockFile $file = null )
     {
         if ( !is_null( $file ) )
         {
-
             // FIXME  Assumed a while.. check the gnu tar source file.
             // FIXME  Check long links, really large files, etc.
             $extensions = array();
 
-            do  
+            do
             {
                 parent::__construct( $file );
 
                 switch ( $this->type )
                 {
-                    case "L":  $extensions["fileName"] = $this->readExtension( $file ); break;
-                    case "K":  $extensions["linkName"] = $this->readExtension( $file ); break;
+                    case "L":
+                        $extensions["fileName"] = $this->readExtension( $file );
+                        break;
+
+                    case "K":
+                        $extensions["linkName"] = $this->readExtension( $file );
+                        break;
 
                 }
-                
-
-            } 
-            while ( $this->type < 0 || $this->type > 9 );
+            } while ( $this->type < 0 || $this->type > 9 );
 
             parent::__construct( $file );
 
@@ -62,8 +71,14 @@ class ezcArchiveGnuHeader extends ezcArchiveUstarHeader
             {
                 switch ( $key )
                 {
-                    case "fileName": $this->fileName = $extensions["fileName"]; $this->filePrefix = "";  break;
-                    case "linkName": $this->linkName = $extensions["linkName"]; break;
+                    case "fileName":
+                        $this->fileName = $extensions["fileName"];
+                        $this->filePrefix = "";
+                        break;
+
+                    case "linkName":
+                        $this->linkName = $extensions["linkName"];
+                        break;
                 }
             }
         }
@@ -84,8 +99,10 @@ class ezcArchiveGnuHeader extends ezcArchiveUstarHeader
         $rest = ( $this->fileSize % self::BLOCK_SIZE );
 
         $data  = "";
-        for( $i = 0; $i < $completeBlocks; $i++ )
+        for ( $i = 0; $i < $completeBlocks; $i++ )
+        {
             $data .=  $file->next();
+        }
 
         $data .= substr( $file->next(), 0, $rest );
 

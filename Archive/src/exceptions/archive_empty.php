@@ -1,32 +1,27 @@
 <?php
 /**
- * File containing the ezcArchiveValueException class
+ * File containing the ezcArchiveEmptyException class.
  * 
  * @package Archive
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
- * Archive is empty.
+ * Exception for when an archive is empty.
  * 
  * @package Archive
- * @author
  * @version //autogen//
  */
 class ezcArchiveEmptyException extends ezcArchiveException
 {
     /**
-     * Construct an archive is empty exception.
-     *
-     * @param string $message
-     * @param int $code
+     * Constructs a new exception for empty archive.
      */
-    function __construct(  )
+    public function __construct()
     {
-        $msg = "The archive is empty.";
-
-        parent::__construct( $msg );
+        parent::__construct( "The archive is empty." );
     }
 }
 ?>

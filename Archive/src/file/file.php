@@ -91,20 +91,47 @@ abstract class ezcArchiveFile implements Iterator
      */
     protected $isValid = false;
 
-
-
+    /**
+     * Read-mode for the archive file.
+     */
     const SWITCH_READ = 0;
+
+    /**
+     * Append-mode for the archive file.
+     */
     const SWITCH_APPEND = 1;
 
     /**
-     *  
+     * Switch for read-mode and append-mode.
+     *
+     * @var int
      */
     protected $readAppendSwitch;
 
+    /**
+     * Is the file new.
+     *
+     * @var bool
+     */
     protected $isNew;
 
+    /**
+     * Is the file modified.
+     *
+     * @var bool
+     */
     protected $isModified;
 
+    /**
+     * Opens the specified archive.
+     *
+     * If $createIfNotExist is true, then the file will be created if it does
+     * not exist.
+     *
+     * @param string $fileName
+     * @param bool $createIfNotExist
+     * @return bool
+     */
     protected function openFile( $fileName, $createIfNotExist )
     {
         if ( $createIfNotExist && !self::fileExists( $fileName ) )
@@ -222,8 +249,8 @@ abstract class ezcArchiveFile implements Iterator
         return $this->fileName;
     }
 
-    /** 
-     *  Switch to write mode.
+    /**
+     * Switch to write mode.
      */
     public function switchWriteMode()
     {
@@ -240,7 +267,12 @@ abstract class ezcArchiveFile implements Iterator
         }
     }
 
-    public function switchReadMode( $pos = 0)
+    /**
+     * Switch to read mode.
+     *
+     * @param int $pos Position to seek to; not used
+     */
+    public function switchReadMode( $pos = 0 )
     {
         // Switch only when we are in write (only) mode.
         if ( $this->fileAccess == self::READ_APPEND && $this->readAppendSwitch == self::SWITCH_APPEND )
@@ -266,6 +298,11 @@ abstract class ezcArchiveFile implements Iterator
         }
     }
 
+    /**
+     * Returns if the file access is in append mode.
+     *
+     * @return bool
+     */
     public function isReadOnlyWriteOnlyStream()
     {
         return $this->fileAccess == self::READ_APPEND; 
@@ -274,21 +311,34 @@ abstract class ezcArchiveFile implements Iterator
 
 
     /**
+     * Touches the specified file (sets the access and modification time).
+     *
      * PHP system touch doesn't work correctly with the compress.zlib file.
-     * 
+     *
+     * @param string $fileName
+     * @return bool
      */
     public static function touch( $fileName )
     {
         return touch( self::getPureFileName( $fileName ) );
     }
 
+    /**
+     * Returns if the specified file exists.
+     *
+     * @param string $fileName
+     * @return bool
+     */
     public static function fileExists( $fileName )
     {
         return file_exists( self::getPureFileName( $fileName ) );
     }
 
     /**
-     *  Return the file name without any filters or compression stream.
+     * Returns the specified file name without any filters or compression stream.
+     *
+     * @param string $fileName
+     * @return string
      */
     private static function getPureFileName( $fileName )
     {
@@ -334,23 +384,45 @@ abstract class ezcArchiveFile implements Iterator
         }
     }
 
-    protected function positionSeek( $pos, $whence = SEEK_SET)
+    /**
+     * Seeks in the file to/by the specified position.
+     *
+     * Ways of seeking ($whence):
+     * - SEEK_SET - $pos is absolute, seek to that position in the file
+     * - SEEK_CUR - $pos is relative, seek by $pos bytes from the current position
+     *
+     * @throws ezcArchiveException
+     *         if trying to use SEEK_END for $whence
+     * @param int $pos
+     * @param int $whence
+     * @return int If seek was successful or not
+     */
+    protected function positionSeek( $pos, $whence = SEEK_SET )
     {
         // Seek the end of the file in a write only file always succeeds.
-        if ( $this->fileAccess == self::WRITE_ONLY && $pos == 0 && $whence == SEEK_END ) return true; 
+        if ( $this->fileAccess == self::WRITE_ONLY && $pos == 0 && $whence == SEEK_END )
+        {
+            return true;
+        }
 
         if ( $this->fileMetaData["seekable"] )
         {
-          return fseek( $this->fp, $pos, $whence );
+            return fseek( $this->fp, $pos, $whence );
         }
         else
         {
             switch ( $whence )
             {
-                case SEEK_SET: $transPos = $pos; break;
-                case SEEK_CUR: $transPos = $pos + ftell( $this->fp ); break;
+                case SEEK_SET:
+                    $transPos = $pos;
+                    break;
+
+                case SEEK_CUR:
+                    $transPos = $pos + ftell( $this->fp );
+                    break;
+
                 case SEEK_END: 
-                    throw new Exception( "SEEK_END in a non-seekable file is not supported (yet)." );
+                    throw new ezcArchiveException( "SEEK_END in a non-seekable file is not supported (yet)." );
                     /*
                     $st = fstat( $this->fp );
                     $transPos = $pos + $st["size"]; 
@@ -368,36 +440,62 @@ abstract class ezcArchiveFile implements Iterator
                 $cur = 0;
             }
             
-            for( $i = $cur; $i < $transPos; $i++)
+            for ( $i = $cur; $i < $transPos; $i++ )
             {
                 $c = fgetc( $this->fp );
-                if ( $c === false ) return -1;
+                if ( $c === false )
+                {
+                    return -1;
+                }
             }
 
             return 0;
         }
     }
 
+    /**
+     * Returns the current file access mode.
+     *
+     * @var int
+     */
     public function getFileAccess()
     {
         return $this->fileAccess;
     }
 
+    /**
+     * Returns if the file is in read-only mode.
+     *
+     * @var bool
+     */
     public function isReadOnly()
     {
         return $this->fileAccess == self::READ_ONLY;
     }
 
-    public function isNew() 
+    /**
+     * Returns if the file is new.
+     *
+     * @var bool
+     */
+    public function isNew()
     {
         return $this->isNew;
     }
 
+    /**
+     * Returns if the file is modified.
+     *
+     * @var bool
+     */
     public function isModified()
     {
         return $this->isModified;
     }
 
+    /**
+     * Closes the file.
+     */
     public function close()
     {
         if ( is_resource( $this->fp ) ) 
@@ -407,6 +505,4 @@ abstract class ezcArchiveFile implements Iterator
         }
     }
 }
-
-
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcArchiveValueException class
+ * File containing the ezcArchiveIoException class.
  * 
  * @package Archive
  * @version //autogen//
@@ -9,15 +9,19 @@
  */
 
 /**
- * Exception will be thrown when the prefix given to the file that should be appended, is incorrect. 
+ * Exception thrown when an IO error occurs.
  *
  * @package Archive
- * @author
  * @version //autogen//
  */
 class ezcArchiveIoException extends ezcArchiveException
 {
-    function __construct( $message )
+    /**
+     * Constructs a new IO exception.
+     *
+     * @param string $message
+     */
+    public function __construct( $message )
     {
         parent::__construct( $message );
     }

@@ -213,9 +213,9 @@ class ezcArchiveEntry
      * The path without the prefix is returned. 
      * If the prefix doesn't match with the complete path, the whole path is returned.
      *
-     * @param    $completePath
-     * @param    $prefix
-     * @return  string 
+     * @param string $completePath
+     * @param string $prefix
+     * @return string 
      */
     private function getPathWithoutPrefix( $completePath, $prefix )
     {
@@ -225,7 +225,10 @@ class ezcArchiveEntry
         {
             $i = 0;
             // Check next character
-            while ( $completePath[$i + $prefixLength] == "/" ) $i++;
+            while ( $completePath[$i + $prefixLength] == "/" )
+            {
+                $i++;
+            }
 
             $result = substr( $completePath, $prefixLength + $i );
             return $result;
@@ -341,7 +344,13 @@ class ezcArchiveEntry
         return $this->fileStructure->minor;
     }
 
-    // FIXME DEPRECATED? 
+    /**
+     * Returns the device.
+     *
+     * FIXME DEPRECATED? 
+     *
+     * @return int
+     */
     public function getDevice()
     {
         return $this->fileStructure->device;
@@ -361,18 +370,36 @@ class ezcArchiveEntry
         
         $perm = octdec( $this->getPermissions() );
 
-        for( $i = 6; $i >= 0; $i -= 3 )
+        for ( $i = 6; $i >= 0; $i -= 3 )
         {
             $part = ( $perm >> $i );
 
-            if ( $part & 4 ) $out .= "r";
-            else $out .= "-";
+            if ( $part & 4 )
+            {
+                $out .= "r";
+            }
+            else
+            {
+                $out .= "-";
+            }
 
-            if ( $part & 2 ) $out .= "w";
-            else $out .= "-";
+            if ( $part & 2 )
+            {
+                $out .= "w";
+            }
+            else
+            {
+                $out .= "-";
+            }
             
-            if ( $part & 1 ) $out .= "x";
-            else $out .= "-";
+            if ( $part & 1 )
+            {
+                $out .= "x";
+            }
+            else
+            {
+                $out .= "-";
+            }
         }
         return $out;
     }
@@ -392,16 +419,24 @@ class ezcArchiveEntry
     {
         switch ( $this->fileStructure->type )
         {
-            case self::IS_DIRECTORY : return "d";
-            case self::IS_FILE: return "-";
-            case self::IS_SYMBOLIC_LINK: return "l"; 
-            case self::IS_LINK: return "h";
+            case self::IS_DIRECTORY:
+                return "d";
 
-            default: return "Z"; 
+            case self::IS_FILE:
+                return "-";
+
+            case self::IS_SYMBOLIC_LINK:
+                return "l";
+
+            case self::IS_LINK:
+                return "h";
+
+            default:
+                return "Z"; 
         }
     }
 
-    /** 
+    /**
      * Sets the prefix.
      *
      * @param string $prefix
@@ -421,7 +456,6 @@ class ezcArchiveEntry
         return $this->prefix;
     }
 
- 
     /**
      * Returns a string representing the current entry.
      *
@@ -444,8 +478,7 @@ class ezcArchiveEntry
         return $out;
     }
 
-
-    /** 
+    /**
      * Create a file structure from a $file in the file system.
      *
      * @param string $file
@@ -478,8 +511,7 @@ class ezcArchiveEntry
         {
             $struct->size = 0;
         }
-       
-       
+
         if ( $struct->type == ezcArchiveEntry::IS_SYMBOLIC_LINK )
         {
             $struct->link = readlink( $file );
@@ -498,7 +530,6 @@ class ezcArchiveEntry
 
         $struct->major = ( int ) ( $rdev / 256 );
         $struct->minor = ( int ) ( $rdev % 256 );
-
 
         return $struct;
     }
@@ -582,14 +613,26 @@ class ezcArchiveEntry
     {
         switch ( $stat["mode"] & ezcArchiveStatMode::S_IFMT )
         {
-            case ezcArchiveStatMode::S_IFIFO: return ezcArchiveEntry::IS_FIFO;
-            case ezcArchiveStatMode::S_IFCHR: return ezcArchiveEntry::IS_CHARACTER_DEVICE;
-            case ezcArchiveStatMode::S_IFDIR: return ezcArchiveEntry::IS_DIRECTORY;
-            case ezcArchiveStatMode::S_IFBLK: return ezcArchiveEntry::IS_BLOCK_DEVICE;
-            case ezcArchiveStatMode::S_IFREG: return ezcArchiveEntry::IS_FILE;
-            case ezcArchiveStatMode::S_IFLNK: return ezcArchiveEntry::IS_SYMBOLIC_LINK;
+            case ezcArchiveStatMode::S_IFIFO:
+                return ezcArchiveEntry::IS_FIFO;
+
+            case ezcArchiveStatMode::S_IFCHR:
+                return ezcArchiveEntry::IS_CHARACTER_DEVICE;
+
+            case ezcArchiveStatMode::S_IFDIR:
+                return ezcArchiveEntry::IS_DIRECTORY;
+
+            case ezcArchiveStatMode::S_IFBLK:
+                return ezcArchiveEntry::IS_BLOCK_DEVICE;
+
+            case ezcArchiveStatMode::S_IFREG:
+                return ezcArchiveEntry::IS_FILE;
+
+            case ezcArchiveStatMode::S_IFLNK:
+                return ezcArchiveEntry::IS_SYMBOLIC_LINK;
+
             // Hardlinks are not resolved here. FIXME?
-        } 
+        }
 
         return false;
     }

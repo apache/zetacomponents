@@ -1,5 +1,4 @@
 <?php
-
 /**
  * File contains the ezcArchiveCharacterFile class.
  *
@@ -10,7 +9,7 @@
  * @access private
  */
 
-/** 
+/**
  * The ezcArchiveCharacterFile class provides an interface for reading from and writing to a file.
  *
  * The file is opened via in constructor and closed via the destructor.
@@ -27,18 +26,20 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     /**
      * The current character.
      *
+     * @todo FIXME
+     *
      * @var string  
      */
-    private $character; // FIXME.
+    private $character;
 
     /**
-     * The current character position
+     * The current character position.
      *
      * @var int
      */
     private $position;
 
-   /**
+    /**
      * Sets the property $name to $value.
      * 
      * Because there are no properties available, this method will always 
@@ -48,6 +49,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      * @param string $name
      * @param mixed $value
      * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -63,6 +65,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
@@ -81,10 +84,9 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      * @throws ezcArchiveException if the file cannot be found or opened for any reason.
      *
      * @param string $fileName 
-     * @param bool
-     * @param int $blockSize
+     * @param bool $createIfNotExist
      */
-    public function __construct( $fileName, $createIfNotExist = false)
+    public function __construct( $fileName, $createIfNotExist = false )
     {
         $this->openFile( $fileName, $createIfNotExist );
         $this->rewind();
@@ -101,8 +103,8 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         }
     }
 
-   /**
-     * Rewind the current file. 
+    /**
+     * Rewinds the current file. 
      *
      * @return void
      */
@@ -114,7 +116,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     }
 
     /**
-     * Return the current character if available. 
+     * Returns the current character if available. 
      *
      * If the character is not available, the value false is returned.
      *
@@ -126,8 +128,8 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     }
 
     /**
-     * Iterate to the next character.
-     * 
+     * Iterates to the next character.
+     *
      * Returns the next character if it exists; otherwise returns false.
      *
      * @return string  
@@ -165,7 +167,8 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
 
     /**
      * Returns the file-pointer position.
-     * FIXME Is this or the key() function needed?
+     *
+     * @todo FIXME Is this or the key() function needed?
      *
      * return int
      */
@@ -198,8 +201,10 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      */
     public function append( $data )
     {
-        if ( $this->fileAccess == self::READ_ONLY ) 
+        if ( $this->fileAccess == self::READ_ONLY )
+        {
             throw new ezcBaseFilePermissionException( $this->fileName, ezcBaseFilePermissionException::WRITE, "The archive is opened in a read-only mode." );
+        }
         
         $pos = ftell( $this->fp );
         ftruncate( $this->fp, $pos );
@@ -222,7 +227,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     }
 
     /**
-     * Write the given string $data to the current file.
+     * Writes the given string $data to the current file.
      *
      * This method tries to write the $data to the file. Upon failure, this method
      * will retry, until no progress is made anymore. And eventually it will throw
@@ -230,13 +235,16 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      *
      * @throws ezcBaseFileIoException if it is not possible to write to the file.
      * 
-     * @param string data
+     * @param string $data
      * @return void
      */
     protected function writeBytes( $data )
     {
         $dl = strlen( $data );
-        if ( $dl == 0 ) return; // No bytes to write.
+        if ( $dl == 0 )
+        {
+            return; // No bytes to write.
+        }
         
         $wl = fwrite( $this->fp, $data );
 
@@ -259,13 +267,13 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     }
 
     /**
-     * Truncate the current file to the number of characters $position.
+     * Truncates the current file to the number of characters $position.
      * 
      * If $position is zero, the entire block file will be truncated. After the file is truncated,
      * make sure the current block position is valid. So, do a rewind() after
      * truncating the entire block file.
      *
-     * @param int $blocks 
+     * @param int $position
      * @return void
      */
     public function truncate( $position = 0 )
@@ -282,7 +290,6 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
             $this->isValid = false;
         }
     }
-    
 
     /**
      * Sets the current character position. 
@@ -297,7 +304,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      *
      * The blockOffset can be negative.
      *
-     * @param int $blockOffset 
+     * @param int $offset 
      * @param int $whence
      * @return void
      */
@@ -309,12 +316,15 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         /*
         if ( $whence == SEEK_END || $whence == SEEK_CUR )
         {
-            if ( !$this->isEmpty() ) $pos -= 1;
+            if ( !$this->isEmpty() )
+            {
+                $pos -= 1;
+            }
         }
          */
 
 
-        if (  $this->positionSeek( $pos, $whence ) == -1 )
+        if ( $this->positionSeek( $pos, $whence ) == -1 )
         {
             $this->isValid = false;
         }
@@ -333,15 +343,20 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         return $this->isEmpty;
     }
 
-/**
- * FIXME 
- * Read current character plus extra. Forward the current pointer.
- * 
- * 
- */
+    /**
+     * Reads current character plus extra. Forward the current pointer.
+     *
+     * @todo FIXME
+     * 
+     * @param int $bytes
+     * @return string
+     */
     public function read( $bytes )
     {
-        if ( $bytes < 1 ) return false;
+        if ( $bytes < 1 )
+        {
+            return false;
+        }
 
         $data = $this->character;
         if ( $bytes == 1 )
@@ -367,14 +382,23 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     }
 
     /**
+     * Writes the specified data and returns the length of the written data.
+     *
      * FIXME, maybe valid() when at the eof.
      * FIXME. Write current character plus extra.
      * FIXME.. slow.
+     *
+     * @throws ezcBaseFilePermissionException
+     *         if the file access is read-only
+     * @param string $data
+     * @return int
      */
     public function write( $data )
     {
-        if ( $this->fileAccess == self::READ_ONLY ) 
+        if ( $this->fileAccess == self::READ_ONLY )
+        {
             throw new ezcBaseFilePermissionException( $this->fileName, ezcBaseFilePermissionException::WRITE, "The archive is opened in a read-only mode." );
+        }
        
         $pos = ftell( $this->fp );
         if ( $this->valid() )
@@ -391,6 +415,5 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
 
         return $length;
     }
-
 }
 ?>

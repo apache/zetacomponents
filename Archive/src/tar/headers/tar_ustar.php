@@ -59,7 +59,15 @@
  */ 
 class ezcArchiveUstarHeader extends ezcArchiveV7Header
 {
-    // Inherited the documentation.
+    /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     * @ignore
+     */
     public function __set( $name, $value )
     {
         switch ( $name )
@@ -70,13 +78,21 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
             case "groupName":
             case "deviceMajorNumber":
             case "deviceMinorNumber":
-            case "filePrefix": return $this->properties[ $name ] = $value; break;
+            case "filePrefix":
+                return $this->properties[ $name ] = $value;
         }
 
         return parent::__set( $name, $value );
     }
 
-    // Inherited the documentation.
+    /**
+     * Returns the value of the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @return mixed
+     * @ignore
+     */
     public function __get( $name )
     {
         switch ( $name )
@@ -87,14 +103,23 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
             case "groupName":
             case "deviceMajorNumber":
             case "deviceMinorNumber":
-            case "filePrefix":  return $this->properties[ $name ]; break;
+            case "filePrefix":
+                return $this->properties[ $name ];
         }
 
         return parent::__get( $name );
     }
 
 
-    // Inherited the documentation.
+    /**
+     * Creates and initializes a new header.
+     *
+     * If the ezcArchiveBlockFile $file is null then the header will be empty. 
+     * When an ezcArchiveBlockFile is given, the block position should point to the header block.
+     * This header block will be read from the file and initialized in this class. 
+     * 
+     * @param ezcArchiveBlockFile $file
+     */
     public function __construct( ezcArchiveBlockFile $file = null )
     {
        // Offset | Field size |  Description
@@ -129,7 +154,16 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
          }
     }
 
-    // Inherited the documentation.
+    /**
+     * Sets this header with the values from the ezcArchiveEntry $entry.
+     *
+     * The values that are possible to set from the ezcArchiveEntry $entry are set in this header.
+     * The properties that may change are: fileName, fileMode, userId, groupId, fileSize, modificationTime, 
+     * linkName, and type.
+     *
+     * @param ezcArchiveEntry $entry
+     * @return void
+     */
     public function setHeaderFromArchiveEntry( ezcArchiveEntry $entry )
     {
         $this->splitFilePrefix( $entry->getPath( false ), $file,  $filePrefix );
@@ -145,24 +179,45 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
 
         switch ( $entry->getType() )
         {
-            case ezcArchiveEntry::IS_FILE: $this->type = 0; break; 
-            case ezcArchiveEntry::IS_LINK: $this->type = 1; break;
-            case ezcArchiveEntry::IS_SYMBOLIC_LINK: $this->type = 2; break;
-            case ezcArchiveEntry::IS_CHARACTER_DEVICE: $this->type = 3; break;
-            case ezcArchiveEntry::IS_BLOCK_DEVICE: $this->type = 4; break;
-            case ezcArchiveEntry::IS_DIRECTORY: $this->type = 5; break;
-            case ezcArchiveEntry::IS_FIFO: $this->type = 6; break;
+            case ezcArchiveEntry::IS_FILE:
+                $this->type = 0;
+                break; 
 
-                // Devices, etc are set to \0.
-            default: $this->type = ""; break; // ends up as a \0 character.
+            case ezcArchiveEntry::IS_LINK:
+                $this->type = 1;
+                break;
+
+            case ezcArchiveEntry::IS_SYMBOLIC_LINK:
+                $this->type = 2;
+                break;
+
+            case ezcArchiveEntry::IS_CHARACTER_DEVICE:
+                $this->type = 3;
+                break;
+
+            case ezcArchiveEntry::IS_BLOCK_DEVICE:
+                $this->type = 4;
+                break;
+
+            case ezcArchiveEntry::IS_DIRECTORY:
+                $this->type = 5;
+                break;
+
+            case ezcArchiveEntry::IS_FIFO:
+                $this->type = 6;
+                break;
+
+            // Devices, etc are set to \0.
+            default:
+                $this->type = "";
+                break; // ends up as a \0 character.
         }
 
         $this->deviceMajorNumber = $entry->getMajor();
         $this->deviceMinorNumber = $entry->getMinor();
-        
-        
+
         $length = strlen( $this->fileName );
-        
+
         if ( $entry->getType() == ezcArchiveEntry::IS_DIRECTORY )
         {
            // Make sure that the filename ends with a slash.
@@ -189,8 +244,8 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
      * 
      * @throws ezcArchiveIoException if the file name cannot be written to the archive.
      * @param string $path
-     * @param string $file
-     * @param string filePrefix
+     * @param string &$file
+     * @param string &$filePrefix
      * @return void
      */
     protected function splitFilePrefix( $path, &$file, &$filePrefix )
@@ -212,7 +267,12 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         }
     }
 
-    // Inherited the documentation.
+    /**
+     * Serializes this header and appends it to the given ezcArchiveBlockFile $archiveFile.
+     * 
+     * @param ezcArchiveBlockFile $archiveFile
+     * @return void
+     */
     public function writeEncodedHeader( ezcArchiveBlockFile $archiveFile )
     {
         // Offset | Field size |  Description
@@ -269,8 +329,19 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         $archiveFile->append( $enc );
     }
 
-    // Inherited the documentation.
-    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false)
+    /**
+     * Updates the given ezcArchiveFileStructure $struct with the values from this header.
+     *
+     * If bool $override is false, this method will not overwrite the values from the ezcArchiveFileStructure $struct.
+     * The values that can be set in the archiveFileStructure are: path, gid, uid, type, link, mtime, mode, and size.
+     *
+     * @throws ezcArchiveValueException
+     *         if trying to set the structure type to the reserved type
+     * @param ezcArchiveFileStructure &$struct
+     * @param bool $override
+     * @return void
+     */
+    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false )
     {
         parent::setArchiveFileStructure( $struct );
 
@@ -285,22 +356,43 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         switch ( $this->type )
         {
             case "\0":
-            case 0: $struct->type = ezcArchiveEntry::IS_FILE; break;
-            case 1: $struct->type = ezcArchiveEntry::IS_LINK; break;
-            case 2: $struct->type = ezcArchiveEntry::IS_SYMBOLIC_LINK; break;
-            case 3: $struct->type = ezcArchiveEntry::IS_CHARACTER_DEVICE; break;
-            case 4: $struct->type = ezcArchiveEntry::IS_BLOCK_DEVICE; break;
-            case 5: $struct->type = ezcArchiveEntry::IS_DIRECTORY; break;
-            case 6: $struct->type = ezcArchiveEntry::IS_FIFO; break;
-            case 7: $struct->type = ezcArchiveEntry::IS_RESERVED; break;
+            case 0:
+                $struct->type = ezcArchiveEntry::IS_FILE;
+                break;
+
+            case 1:
+                $struct->type = ezcArchiveEntry::IS_LINK;
+                break;
+
+            case 2:
+                $struct->type = ezcArchiveEntry::IS_SYMBOLIC_LINK;
+                break;
+
+            case 3:
+                $struct->type = ezcArchiveEntry::IS_CHARACTER_DEVICE;
+                break;
+
+            case 4:
+                $struct->type = ezcArchiveEntry::IS_BLOCK_DEVICE;
+                break;
+
+            case 5:
+                $struct->type = ezcArchiveEntry::IS_DIRECTORY;
+                break;
+
+            case 6:
+                $struct->type = ezcArchiveEntry::IS_FIFO;
+                break;
+
+            case 7:
+                $struct->type = ezcArchiveEntry::IS_RESERVED;
+                break;
         }
 
         if ( $struct->type == ezcArchiveEntry::IS_RESERVED )
         {
             throw new ezcArchiveValueException( $struct->type, " < " . ezcArchiveEntry::IS_RESERVED );
         }
-
     }
 }
-
 ?>

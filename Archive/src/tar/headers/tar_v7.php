@@ -94,6 +94,7 @@ class ezcArchiveV7Header
      * @param string $name
      * @param mixed $value
      * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -107,18 +108,22 @@ class ezcArchiveV7Header
             case "modificationTime":
             case "checksum":
             case "type":
-            case "linkName": $this->properties[ $name ] = $value; break;
+            case "linkName":
+                $this->properties[$name] = $value;
+                break;
 
-            default: throw new ezcBasePropertyNotFoundException( $name ); break; 
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
         }
     }
 
     /**
-     * Returns the property $name.
+     * Returns the value of the property $name.
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
@@ -132,9 +137,11 @@ class ezcArchiveV7Header
             case "modificationTime":
             case "checksum":
             case "type":
-            case "linkName": return $this->properties[ $name ]; break;
+            case "linkName":
+                return $this->properties[ $name ];
 
-            default: throw new ezcBasePropertyNotFoundException( $name ); break; 
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
         }
     }
 
@@ -144,7 +151,9 @@ class ezcArchiveV7Header
      * If the ezcArchiveBlockFile $file is null then the header will be empty. 
      * When an ezcArchiveBlockFile is given, the block position should point to the header block.
      * This header block will be read from the file and initialized in this class. 
-     * 
+     *
+     * @throws ezcArchiveChecksumException
+     *         if the checksum from the file did not match the calculated one
      * @param ezcArchiveBlockFile $file
      */
     public function __construct( ezcArchiveBlockFile $file = null )
@@ -169,14 +178,14 @@ class ezcArchiveV7Header
         if ( !is_null( $file ) )
         {
             $this->properties = unpack ( "a100fileName/".
-                               "a8fileMode/".
-                               "a8userId/".
-                               "a8groupId/".
-                               "a12fileSize/".
-                               "a12modificationTime/".
-                               "a8checksum/".
-                               "a1type/".
-                               "a100linkName", $file->current() );
+                                         "a8fileMode/".
+                                         "a8userId/".
+                                         "a8groupId/".
+                                         "a12fileSize/".
+                                         "a12modificationTime/".
+                                         "a8checksum/".
+                                         "a1type/".
+                                         "a100linkName", $file->current() );
 
             $this->properties["userId"]   = octdec( $this->properties["userId"] );
             $this->properties["groupId"]  = octdec( $this->properties["groupId"] );
@@ -198,7 +207,7 @@ class ezcArchiveV7Header
      * 
      * @param  int    $checksum
      * @param  string $rawHeader
-     * @return bool 
+     * @return bool
      */
     protected function checksum( $checksum, $rawHeader )
     {
@@ -234,7 +243,7 @@ class ezcArchiveV7Header
     }
 
 
-    /** 
+    /**
      * Sets this header with the values from the ezcArchiveEntry $entry.
      *
      * The values that are possible to set from the ezcArchiveEntry $entry are set in this header.
@@ -256,14 +265,26 @@ class ezcArchiveV7Header
 
         switch ( $entry->getType() )
         {
-            case ezcArchiveEntry::IS_FILE: $this->type = ""; break; // ends up as a \0 character.
-            case ezcArchiveEntry::IS_LINK: $this->type = 1; break;
-            case ezcArchiveEntry::IS_SYMBOLIC_LINK: $this->type = 2; break;
+            case ezcArchiveEntry::IS_FILE:
+                $this->type = "";
+                break; // ends up as a \0 character.
 
-            case ezcArchiveEntry::IS_DIRECTORY: $this->type = 5; break; 
+            case ezcArchiveEntry::IS_LINK:
+                $this->type = 1;
+                break;
 
-                // Devices, etc are set to \0.
-            default: $this->type = ""; break; // ends up as a \0 character.
+            case ezcArchiveEntry::IS_SYMBOLIC_LINK:
+                $this->type = 2;
+                break;
+
+            case ezcArchiveEntry::IS_DIRECTORY:
+                $this->type = 5;
+                break; 
+
+            // Devices, etc are set to \0.
+            default:
+                $this->type = "";
+                break; // ends up as a \0 character.
         }
 
 
@@ -330,41 +351,78 @@ class ezcArchiveV7Header
         $enc = $this->setChecksum( $enc );
         $archiveFile->append( $enc );
     } 
-    
+
     /**
      * Updates the given ezcArchiveFileStructure $struct with the values from this header.
      *
      * If bool $override is false, this method will not overwrite the values from the ezcArchiveFileStructure $struct.
      * The values that can be set in the archiveFileStructure are: path, gid, uid, type, link, mtime, mode, and size.
      * 
-     * @param ezcArchiveFileStructure $struct
+     * @param ezcArchiveFileStructure &$struct
      * @param bool $override
      * @return void
      */
-    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false)
+    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false )
     {
-        if ( !isset( $struct->path ) || $override ) $struct->path = $this->fileName;
-        if ( !isset( $struct->gid ) || $override ) $struct->gid = $this->groupId;
-        if ( !isset( $struct->uid ) || $override ) $struct->uid = $this->userId;
+        if ( !isset( $struct->path ) || $override )
+        {
+            $struct->path = $this->fileName;
+        }
+
+        if ( !isset( $struct->gid ) || $override )
+        {
+            $struct->gid = $this->groupId;
+        }
+
+        if ( !isset( $struct->uid ) || $override )
+        {
+            $struct->uid = $this->userId;
+        }
 
         if ( !isset( $this->type ) || $override )
         {
             switch ( $this->type )
             {
                 case "\0":
-                case 0: $struct->type = ezcArchiveEntry::IS_FILE; break;
-                case 1: $struct->type = ezcArchiveEntry::IS_LINK; break;
-                case 2: $struct->type = ezcArchiveEntry::IS_SYMBOLIC_LINK; break;
+                case 0:
+                    $struct->type = ezcArchiveEntry::IS_FILE;
+                    break;
+
+                case 1:
+                    $struct->type = ezcArchiveEntry::IS_LINK;
+                    break;
+
+                case 2:
+                    $struct->type = ezcArchiveEntry::IS_SYMBOLIC_LINK;
+                    break;
             }
 
             // trailing slash means directory
-            if ( $this->fileName[ strlen( $this->fileName ) - 1 ] == '/' ) $struct->type = ezcArchiveEntry::IS_DIRECTORY;
+            if ( $this->fileName[ strlen( $this->fileName ) - 1 ] == '/' )
+            {
+                $struct->type = ezcArchiveEntry::IS_DIRECTORY;
+            }
         }
        
-        if ( !isset( $struct->link ) || $override ) $struct->link = $this->linkName;
-        if ( !isset( $struct->mtime ) || $override ) $struct->mtime = $this->modificationTime;
-        if ( !isset( $struct->mode ) || $override ) $struct->mode = $this->fileMode;
-        if ( !isset( $struct->size ) || $override ) $struct->size = $this->fileSize;
+        if ( !isset( $struct->link ) || $override )
+        {
+            $struct->link = $this->linkName;
+        }
+
+        if ( !isset( $struct->mtime ) || $override )
+        {
+            $struct->mtime = $this->modificationTime;
+        }
+
+        if ( !isset( $struct->mode ) || $override )
+        {
+            $struct->mode = $this->fileMode;
+        }
+
+        if ( !isset( $struct->size ) || $override )
+        {
+            $struct->size = $this->fileSize;
+        }
     }
 }
 

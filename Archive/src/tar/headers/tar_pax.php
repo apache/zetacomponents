@@ -31,23 +31,38 @@
  */ 
 class ezcArchivePaxHeader extends ezcArchiveUstarHeader
 {
-    // Inherited the documentation.
+    /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     * @ignore
+     */
     public function __set( $name, $value )
     {
         return parent::__set( $name, $value );
     }
 
-    // Inherited the documentation.
+    /**
+     * Returns the value of the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @return mixed
+     * @ignore
+     */
     public function __get( $name )
     {
         return parent::__get( $name );
     }
 
-
     /**
      * Returns an array with pax header information.
      *
-     * This method reads an extended set of data from the ezcArchiveBlockFile $file and returns the values in an array.
+     * This method reads an extended set of data from the ezcArchiveBlockFile
+     * $file and returns the values in an array.
      *
      * @param ezcArchiveBlockFile $file
      * @return array(string=>string)
@@ -83,7 +98,15 @@ class ezcArchivePaxHeader extends ezcArchiveUstarHeader
     }
 
 
-    // Inherited the documentation.
+    /**
+     * Creates and initializes a new header.
+     *
+     * If the ezcArchiveBlockFile $file is null then the header will be empty.
+     * When an ezcArchiveBlockFile is given, the block position should point to the header block.
+     * This header block will be read from the file and initialized in this class.
+     *
+     * @param ezcArchiveBlockFile $file
+     */
     public function __construct( ezcArchiveBlockFile $file = null )
     {
         if ( !is_null( $file ) )
@@ -103,16 +126,29 @@ class ezcArchivePaxHeader extends ezcArchiveUstarHeader
             {
                 switch ( $key )
                 {
-                    case "gid": $this->groupId = $value;  break;  // For group IDs larger than 2097151.
-                    case "linkpath": $this->linkName = $value;  break;  // Long link names?
-                    case "path": $this->fileName = $value; $this->filePrefix = ""; break; // Really long file names.
-                    case "size": $this->size = $value;  break;  // For files with a size greater than 8589934591 bytes.
-                    case "uid": $this->userId = $value; break;  // For user IDs larger than 2097151. 
+                    case "gid":
+                        $this->groupId = $value;
+                        break;  // For group IDs larger than 2097151.
+
+                    case "linkpath":
+                        $this->linkName = $value;
+                        break;  // Long link names?
+
+                    case "path":
+                        $this->fileName = $value;
+                        $this->filePrefix = "";
+                        break; // Really long file names.
+
+                    case "size":
+                        $this->size = $value;
+                        break;  // For files with a size greater than 8589934591 bytes.
+
+                    case "uid":
+                        $this->userId = $value;
+                        break;  // For user IDs larger than 2097151. 
                 }
             }
-         }
+        }
     }
-
 }
-
 ?>

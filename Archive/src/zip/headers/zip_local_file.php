@@ -166,54 +166,89 @@ class ezcArchiveLocalFileHeader
      */
     const EF_TIME    = 0x5455;  
 
-    /** Minimal UT field contains Flags byte */
+    /**
+     * Minimal UT field contains Flags byte
+     */
     const EB_UT_MINLEN = 1;     
 
-    /** Byte offset of Flags field */
+    /**
+     * Byte offset of Flags field
+     */
     const EB_UT_FLAGS  = 0;     
 
-    /** Byte offset of 1st time value */
+    /**
+     * Byte offset of 1st time value
+     */
     const EB_UT_TIME1  = 1;     
 
-    /** mtime present */
+    /**
+     * mtime present
+     */
     const EB_UT_FL_MTIME = 1;   
 
-    /** atime present */
+    /**
+     * atime present
+     */
     const EB_UT_FL_ATIME = 2;   
 
-    /** ctime present */
+    /**
+     * ctime present
+     */
     const EB_UT_FL_CTIME = 4;   
 
-    /** UT field length. */
+    /**
+     * UT field length.
+     */
     const EB_UT_FL_LEN = 4;     
 
-    /** Minimal "UX" field contains atime, mtime */
+    /**
+     * Minimal "UX" field contains atime, mtime
+     */
     const EB_UX_MINLEN = 8;
 
-    /** Offset of atime in "UX" extra field data */
+    /**
+     * Offset of atime in "UX" extra field data
+     */
     const EB_UX_ATIME  = 0;
 
-    /** Offset of mtime in "UX" extra field data */
+    /**
+     * Offset of mtime in "UX" extra field data
+     */
     const EB_UX_MTIME  = 4;
 
-    /** Full "UX" field ( atime, mtime, uid, gid ) */
+    /**
+     * Full "UX" field ( atime, mtime, uid, gid )
+     */
     const EB_UX_FULLSIZE = 12;
 
-    /** Byte offset of UID in "UX" field data */
+    /**
+     * Byte offset of UID in "UX" field data
+     */
     const EB_UX_UID = 8;
     
-    /** Byte offset of GID in "UX" field data */
+    /**
+     * Byte offset of GID in "UX" field data
+     */
     const EB_UX_GID = 10;
 
-    /** Minimal Ux field contains UID/GID */
+    /**
+     * Minimal Ux field contains UID/GID
+     */
     const EB_UX2_MINLEN = 4;
 
-    /** Byte offset of UID in "Ux" field data */
+    /**
+     * Byte offset of UID in "Ux" field data
+     */
     const EB_UX2_UID = 0;
 
-    /** Byte offset of GID in "Ux" field data */
+    /**
+     * Byte offset of GID in "Ux" field data
+     */
     const EB_UX2_GID = 2;
 
+    /**
+     * Byte offset of valid in "Ux" field data
+     */
     const EB_UX2_VALID =  256;  
 
     /**
@@ -225,40 +260,39 @@ class ezcArchiveLocalFileHeader
 
     /**
      * Holds the user ID and is false if not set.
-     * 
+     *
      * @var int
      */
     protected $userId = false;
 
     /**
      * Holds the group ID and is false if not set.
-     * 
+     *
      * @var int
      */
     protected $groupId = false;
 
-     /**
+    /**
      * Holds the modification time as a timestamp and is false if not set.
-     * 
+     *
      * @var int
      */
     protected $mtime = false;
 
     /**
      * Holds the modification time as a timestamp and is false if not set.
-     * 
+     *
      * @var int
      */
     protected $atime = false;
 
     /**
      * Holds the creation time as a timestamp and is false if not set.
-     * 
+     *
      * @var int
      */
     protected $ctime = false;
 
-    
     /** 
      * Creates and initializes a new header.
      *
@@ -304,7 +338,7 @@ class ezcArchiveLocalFileHeader
 
             // Append extra field information.
             $this->setExtraFieldData( $extraField );  
-           
+
             // Skip the file.
             $file->seek( $this->compressedSize, SEEK_CUR );
         }
@@ -337,16 +371,17 @@ class ezcArchiveLocalFileHeader
         $unix2 = pack( "vvvv", self::EF_IZUNIX2, 4, $this->userId, $this->groupId );
 
         $archiveFile->write( $enc . $this->fileName . $time . $unix2 );
-    } 
+    }
 
- 
     /**
      * Sets the property $name to $value.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyNotFoundException if the property does not exist
+     * @throws ezcBasePropertyReadOnlyException if the property is read-only
      * @param string $name
      * @param mixed $value
      * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -358,22 +393,27 @@ class ezcArchiveLocalFileHeader
              case "crc":
              case "compressedSize":
              case "uncompressedSize":
-             case "extraFieldLength": $this->properties[ $name ] = $value; break;
+             case "extraFieldLength":
+                $this->properties[$name] = $value;
+                break;
 
              case "lastModFileTime":
              case "lastModFileDate": 
-             case "fileNameLength": throw new ezcBasePropertyReadOnlyException( $name ); break; 
+             case "fileNameLength":
+                throw new ezcBasePropertyReadOnlyException( $name );
 
-             default: throw new ezcBasePropertyNotFoundException( $name ); break; 
+             default:
+                throw new ezcBasePropertyNotFoundException( $name );
         }
     }
 
     /**
-     * Returns the property $name.
+     * Returns the value of the property $name.
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
@@ -390,15 +430,16 @@ class ezcArchiveLocalFileHeader
             case "extraFieldLength": 
             case "fileNameLength":
             case "fileName":
-                return $this->properties[ $name ]; break;
+                return $this->properties[ $name ];
 
-            default: throw new ezcBasePropertyNotFoundException( $name ); break; 
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
         }
     }
 
     /**
      * Returns the modification timestamp.
-     * 
+     *
      * The timestamp from the extra fields is returned if it is available.
      * If it cannot be found, the ZIP time is converted to a timestamp.
      *
@@ -410,7 +451,7 @@ class ezcArchiveLocalFileHeader
     }
 
     /**
-     * Sets the modification time to the int $timestamp. 
+     * Sets the modification time to the int $timestamp.
      *
      * The properties lastModFileTime and lastModFileDate properties will be set. 
      *
@@ -425,11 +466,14 @@ class ezcArchiveLocalFileHeader
 
     /**
      * Returns an two element array with, respectively, the dos time and dos date, which are converted from 
-     * the given int $timestamp. 
-     * 
+     * the given int $timestamp.
+     *
      * The DOS time and date format are described here: {@link http://www.vsft.com/hal/dostime.htm}.
      *
      * @see http://www.vsft.com/hal/dostime.htm
+     *
+     * @param int $timestamp
+     * @return array(int)
      */
     public static function timestampToDosFormat( $timestamp )
     {
@@ -451,16 +495,16 @@ class ezcArchiveLocalFileHeader
     }
 
     /**
-     * Expects an array with two elements.
-     *
-     * @see http://www.vsft.com/hal/dostime.htm
-     */
-    /**
      * Returns the timestamp which is converted from an array with, respectively, the dos time and dos date.
+     *
+     * Expects an array with two elements.
      * 
      * The DOS time and date format are described here: {@link http://www.vsft.com/hal/dostime.htm}.
      *
      * @see http://www.vsft.com/hal/dostime.htm
+     *
+     * @param array(int) $array
+     * @return int
      */
     public static function dosFormatToTimestamp( array $array )
     {
@@ -482,6 +526,8 @@ class ezcArchiveLocalFileHeader
      * Sets the filename in the header.
      *
      * The properties fileName and file length are changed.
+     *
+     * @param string $name
      */
     public function setFileName( $name )
     {
@@ -490,10 +536,12 @@ class ezcArchiveLocalFileHeader
     }
 
     /**
-     * Sets the compression. (TODO)
+     * Sets the compression.
+     *
+     * @todo for now only decompressed
      *
      * @param int $compressionMethod
-     * @param int $compressionSize
+     * @param int $compressedSize
      * @return void
      */
     public function setCompression( $compressionMethod, $compressedSize )
@@ -509,23 +557,45 @@ class ezcArchiveLocalFileHeader
      *
      * If bool $override is false, this method will not overwrite the values from the ezcArchiveFileStructure $struct.
      * The values that can be set in the archiveFileStructure are: path, gid, uid, mtime, and size.
-     * 
-     * @param ezcArchiveFileStructure $struct
+     *
+     * @param ezcArchiveFileStructure &$struct
      * @param bool $override
      * @return void
      */
-    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false)
+    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false )
     {
-        if ( !isset( $struct->path ) || $override ) $struct->path = $this->fileName;
-        if ( !isset( $struct->size ) || $override ) $struct->size = $this->uncompressedSize;
+        if ( !isset( $struct->path ) || $override )
+        {
+            $struct->path = $this->fileName;
+        }
 
-        if ( $this->groupId && ( !isset( $struct->size )  || $override ) ) $struct->gid   = $this->groupId;
-        if ( $this->userId &&  ( !isset( $struct->size )  || $override ) ) $struct->uid   = $this->userId;
-        if ( $this->mtime &&   ( !isset( $struct->mtime ) || $override ) ) $struct->mtime = $this->mtime;
-        if ( $this->atime &&   ( !isset( $struct->atime ) || $override ) ) $struct->atime = $this->atime;
+        if ( !isset( $struct->size ) || $override )
+        {
+            $struct->size = $this->uncompressedSize;
+        }
+
+        if ( $this->groupId && ( !isset( $struct->size )  || $override ) )
+        {
+            $struct->gid   = $this->groupId;
+        }
+
+        if ( $this->userId &&  ( !isset( $struct->size )  || $override ) )
+        {
+            $struct->uid   = $this->userId;
+        }
+
+        if ( $this->mtime &&   ( !isset( $struct->mtime ) || $override ) )
+        {
+            $struct->mtime = $this->mtime;
+        }
+
+        if ( $this->atime &&   ( !isset( $struct->atime ) || $override ) )
+        {
+            $struct->atime = $this->atime;
+        }
     }
 
-    /** 
+    /**
      * Sets this header with the values from the ezcArchiveEntry $entry.
      *
      * The values that are possible to set from the ezcArchiveEntry $entry are set in this header.
@@ -556,7 +626,6 @@ class ezcArchiveLocalFileHeader
             $this->crc = ezcArchiveChecksums::getCrc32FromFile( $entry->getPath() );
         }
 
-
         $this->setFileName( $entry->getPath( false ) );
     }
 
@@ -586,16 +655,23 @@ class ezcArchiveLocalFileHeader
         while ( $offset < $dataLength )
         {
             // Read header.
-            $dec = unpack( "vid/vlength", substr( $data, $offset, 4 ) ); 
+            $dec = unpack( "vid/vlength", substr( $data, $offset, 4 ) );
             $offset += 4;
 
             switch ( $dec["id"] )
             {
-                case self::EF_IZUNIX2: $raw[ "EF_IZUNIX2" ] =  $this->getNewInfoZipExtraField( substr( $data, $offset, $dec["length"] ), $dec["length"]  ); break;
-                case self::EF_IZUNIX: $raw[ "EF_IZUNIX" ] =  $this->getOldInfoZipExtraField( substr( $data, $offset, $dec["length"] ), $dec["length"]  ); break;
-                case self::EF_TIME: $raw[ "EF_TIME" ] =  $this->getUniversalTimestampField( substr( $data, $offset, $dec["length"] ), $dec["length"]  ); break;
-            }
+                case self::EF_IZUNIX2:
+                    $raw[ "EF_IZUNIX2" ] = $this->getNewInfoZipExtraField( substr( $data, $offset, $dec["length"] ), $dec["length"]  );
+                    break;
 
+                case self::EF_IZUNIX:
+                    $raw[ "EF_IZUNIX" ] = $this->getOldInfoZipExtraField( substr( $data, $offset, $dec["length"] ), $dec["length"]  );
+                    break;
+
+                case self::EF_TIME:
+                    $raw[ "EF_TIME" ] = $this->getUniversalTimestampField( substr( $data, $offset, $dec["length"] ), $dec["length"]  );
+                    break;
+            }
 
             $offset += $dec["length"];
         }
@@ -603,27 +679,60 @@ class ezcArchiveLocalFileHeader
         $result = array();
 
         // The order is important.
-        if ( isset( $raw["EF_TIME"]["mtime"] ) ) $this->mtime = $raw["EF_TIME"]["mtime"]; 
-        if ( isset( $raw["EF_TIME"]["atime"] ) ) $this->atime = $raw["EF_TIME"]["atime"];
-        if ( isset( $raw["EF_TIME"]["ctime"] ) ) $this->ctime = $raw["EF_TIME"]["ctime"];
+        if ( isset( $raw["EF_TIME"]["mtime"] ) )
+        {
+            $this->mtime = $raw["EF_TIME"]["mtime"];
+        }
 
-        if ( isset( $raw["EF_IZUNIX"]["mtime"] ) ) $this->mtime = $raw["EF_IZUNIX"]["mtime"]; 
-        if ( isset( $raw["EF_IZUNIX"]["atime"] ) ) $this->atime = $raw["EF_IZUNIX"]["atime"];
-        if ( isset( $raw["EF_IZUNIX"]["gid"] ) ) $this->groupId = $raw["EF_IZUNIX"]["gid"]; 
-        if ( isset( $raw["EF_IZUNIX"]["uid"] ) ) $this->userId = $raw["EF_IZUNIX"]["uid"];
+        if ( isset( $raw["EF_TIME"]["atime"] ) )
+        {
+            $this->atime = $raw["EF_TIME"]["atime"];
+        }
 
-        if ( isset( $raw["EF_IZUNIX2"]["gid"] ) ) $this->groupId = $raw["EF_IZUNIX2"]["gid"]; 
-        if ( isset( $raw["EF_IZUNIX2"]["uid"] ) ) $this->userId = $raw["EF_IZUNIX2"]["uid"];
-        
+        if ( isset( $raw["EF_TIME"]["ctime"] ) )
+        {
+            $this->ctime = $raw["EF_TIME"]["ctime"];
+        }
+
+        if ( isset( $raw["EF_IZUNIX"]["mtime"] ) )
+        {
+            $this->mtime = $raw["EF_IZUNIX"]["mtime"];
+        }
+
+        if ( isset( $raw["EF_IZUNIX"]["atime"] ) )
+        {
+            $this->atime = $raw["EF_IZUNIX"]["atime"];
+        }
+
+        if ( isset( $raw["EF_IZUNIX"]["gid"] ) )
+        {
+            $this->groupId = $raw["EF_IZUNIX"]["gid"];
+        }
+
+        if ( isset( $raw["EF_IZUNIX"]["uid"] ) )
+        {
+            $this->userId = $raw["EF_IZUNIX"]["uid"];
+        }
+
+        if ( isset( $raw["EF_IZUNIX2"]["gid"] ) )
+        {
+            $this->groupId = $raw["EF_IZUNIX2"]["gid"];
+        }
+
+        if ( isset( $raw["EF_IZUNIX2"]["uid"] ) )
+        {
+            $this->userId = $raw["EF_IZUNIX2"]["uid"];
+        }
+
         return $result;
     }
 
     /**
-     * Returns an array with the decoded 'new Info-Zip' data. 
+     * Returns an array with the decoded 'new Info-Zip' data.
      *
      * @param string $field
      * @param int $length
-     * @return void
+     * @return array(string)
      */
     protected function getNewInfoZipExtraField( $field, $length )
     {
@@ -638,11 +747,11 @@ class ezcArchiveLocalFileHeader
     }
 
     /**
-     * Returns an array with the decoded 'old Info-Zip' data. 
+     * Returns an array with the decoded 'old Info-Zip' data.
      *
      * @param string $field
      * @param int $length
-     * @return void
+     * @return array(string)
      */
     protected function getOldInfoZipExtraField( $field, $length )
     {
@@ -659,11 +768,11 @@ class ezcArchiveLocalFileHeader
     }
 
     /**
-     * Returns an array with the decoded 'universal timestamp' data. 
+     * Returns an array with the decoded 'universal timestamp' data.
      *
      * @param string $field
      * @param int $length
-     * @return void
+     * @return array(string)
      */
     protected function getUniversalTimestampField( $field, $length )
     {
@@ -696,16 +805,16 @@ class ezcArchiveLocalFileHeader
 
         return $result;
     }
-   
+
     /**
      * Returns true if the given string $string matches with the current signature.
      *
-     * @return void
+     * @param string $string
+     * @return bool
      */
     public static function isSignature( $string )
     {
         return $string == pack( "V", self::magic );
     }
 }
-
 ?>

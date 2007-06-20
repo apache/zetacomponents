@@ -1,5 +1,6 @@
 <?php
 /**
+ * File containing the abstract ezcArchiveMime class.
  *
  * @package Archive
  * @version //autogentag//
@@ -37,20 +38,49 @@ class ezcArchiveMime
     public static function detect( $fileName )
     {
         $fp = fopen( $fileName, "r" );
-        if ( $fp === false ) return false;
+        if ( $fp === false )
+        {
+            return false;
+        }
 
-        $data = fread( $fp, 512 ); 
+        $data = fread( $fp, 512 );
         fclose( $fp );
 
-        if ( self::isGzip( $data ) ) return ezcArchive::GZIP;
-        if ( self::isBzip2( $data ) ) return ezcArchive::BZIP2;
-        if ( self::isZip( $data ) ) return ezcArchive::ZIP;
+        if ( self::isGzip( $data ) )
+        {
+            return ezcArchive::GZIP;
+        }
+
+        if ( self::isBzip2( $data ) )
+        {
+            return ezcArchive::BZIP2;
+        }
+
+        if ( self::isZip( $data ) )
+        {
+            return ezcArchive::ZIP;
+        }
 
         // Order is important.
-        if ( self::isPaxTar( $data ) ) return ezcArchive::TAR_PAX;
-        if ( self::isV7Tar( $data ) ) return ezcArchive::TAR_V7;
-        if ( self::isUstarTar( $data ) ) return ezcArchive::TAR_USTAR;
-        if ( self::isGnuTar( $data ) ) return ezcArchive::TAR_GNU;
+        if ( self::isPaxTar( $data ) )
+        {
+            return ezcArchive::TAR_PAX;
+        }
+
+        if ( self::isV7Tar( $data ) )
+        {
+            return ezcArchive::TAR_V7;
+        }
+
+        if ( self::isUstarTar( $data ) )
+        {
+            return ezcArchive::TAR_USTAR;
+        }
+
+        if ( self::isGnuTar( $data ) )
+        {
+            return ezcArchive::TAR_GNU;
+        }
 
         return false;
     }
@@ -66,7 +96,10 @@ class ezcArchiveMime
      */
     public static function isBzip2( $data )
     {
-        if ( ord( $data[0] ) == 0x42 && ord( $data[1] ) == 0x5a  ) return true;
+        if ( ord( $data[0] ) == 0x42 && ord( $data[1] ) == 0x5a )
+        {
+            return true;
+        }
         return false;
     }
 
@@ -82,7 +115,10 @@ class ezcArchiveMime
     public static function isGzip( $data )
     {
         $h = unpack( "Cid1/Cid2", $data[0] . $data[1] );
-        if ( $h["id1"] == 0x1f && $h["id2"] == 0x8b ) return true;
+        if ( $h["id1"] == 0x1f && $h["id2"] == 0x8b )
+        {
+            return true;
+        }
 
         return false;
     }
@@ -98,7 +134,11 @@ class ezcArchiveMime
      */
     public static function isZip( $data )
     {
-        if ( $data[0] . $data[1] == pack( "v",  0x4b50 ) ) return true;
+        if ( $data[0] . $data[1] == pack( "v",  0x4b50 ) )
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -113,9 +153,12 @@ class ezcArchiveMime
      */
      public static function isV7Tar( $data )
      {
-        if ( strcmp( substr( $data, 257, 5), "\0\0\0\0\0" ) == 0 && strcmp( substr( $data, 263, 2 ), "\0\0" ) == 0 )
+        if ( strcmp( substr( $data, 257, 5 ), "\0\0\0\0\0" ) == 0 && strcmp( substr( $data, 263, 2 ), "\0\0" ) == 0 )
         {
-            if ( self::tarContainsFileName( $data ) ) return true;
+            if ( self::tarContainsFileName( $data ) )
+            {
+                return true;
+            }
         }
 
         return false;
@@ -132,9 +175,12 @@ class ezcArchiveMime
      */
     public static function isUstarTar( $data )
     {
-        if ( strcmp( substr( $data, 257, 5), "ustar" ) == 0 && strcmp( substr( $data, 263, 2 ), "00" ) == 0 )
+        if ( strcmp( substr( $data, 257, 5 ), "ustar" ) == 0 && strcmp( substr( $data, 263, 2 ), "00" ) == 0 )
         {
-            if ( self::tarContainsFileName( $data ) ) return true;
+            if ( self::tarContainsFileName( $data ) )
+            {
+                return true;
+            }
         }
 
         return false;
@@ -151,12 +197,15 @@ class ezcArchiveMime
      */
     public static function isPaxTar( $data )
     {
-        if ( strcmp( substr( $data, 257, 5), "ustar" ) == 0 && strcmp( substr( $data, 263, 2 ), "00" ) == 0 )
+        if ( strcmp( substr( $data, 257, 5 ), "ustar" ) == 0 && strcmp( substr( $data, 263, 2 ), "00" ) == 0 )
         {
             $type = substr( $data, 156, 1 );
             if ( $type == "x" || $type == "g" ) 
             {
-                if ( self::tarContainsFileName( $data ) ) return true;
+                if ( self::tarContainsFileName( $data ) )
+                {
+                    return true;
+                }
             }
         }
 
@@ -174,9 +223,12 @@ class ezcArchiveMime
      */
     public static function isGnuTar( $data )
     {
-        if ( strcmp( substr( $data, 257, 5), "ustar" ) == 0 && strcmp( substr( $data, 263, 2 ), " \0" ) == 0 )
+        if ( strcmp( substr( $data, 257, 5 ), "ustar" ) == 0 && strcmp( substr( $data, 263, 2 ), " \0" ) == 0 )
         {
-            if ( self::tarContainsFileName( $data ) ) return true;
+            if ( self::tarContainsFileName( $data ) )
+            {
+                return true;
+            }
         }
 
         return false;
@@ -195,10 +247,12 @@ class ezcArchiveMime
     {
        $rest = trim( substr( $data, 0, 100 ), "a..zA..Z0..9/_.\0" );
 
-       if ( strlen( $rest ) == 0 ) return true;
+       if ( strlen( $rest ) == 0 )
+       {
+           return true;
+       }
 
        return false;
     }
-
 }
 ?>

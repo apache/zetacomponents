@@ -1,17 +1,17 @@
 <?php
 /**
- * File containing the ezcArchiveValueException class
+ * File containing the ezcArchiveValueException class.
  * 
  * @package Archive
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
- * Archive value is wrong.
+ * Exception thrown when encountering a wrong archive value.
  * 
  * @package Archive
- * @author
  * @version //autogen//
  */
 class ezcArchiveValueException extends ezcArchiveException
@@ -19,10 +19,13 @@ class ezcArchiveValueException extends ezcArchiveException
     /**
      * Construct an archive exception.
      *
-     * @param string $message
-     * @param int $code
+     * If $expectedValue is provided then it will be included in the exception
+     * message thrown.
+     *
+     * @param mixed $value
+     * @param mixed $expectedValue
      */
-    function __construct( $value, $expectedValue = null )
+    public function __construct( $value, $expectedValue = null )
     {
         $type = gettype( $value );
         if ( in_array( $type, array( 'array', 'object', 'resource' ) ) )

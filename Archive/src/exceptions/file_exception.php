@@ -1,12 +1,13 @@
 <?php
 /**
- * File containing the ezcArchiveFileException class
+ * File containing the ezcArchiveFileException class.
  *
  * @package Archive
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license BSD {@link http://ez.no/licenses/bsd}
  */
+
 /**
  * This class provides an exception for errors occuring while accessing file
  * based archives.
@@ -21,10 +22,10 @@
  * @package Archive
  * @version //autogen//
  */
-class ezcArchiveFileException extends Exception
+class ezcArchiveFileException extends ezcBaseException
 {
     /**
-     * The  file could not be found on the filesystem.
+     * The file could not be found on the filesystem.
      */
     const FILE_NOT_FOUND = 1;
 
@@ -44,14 +45,13 @@ class ezcArchiveFileException extends Exception
      */
     const FILE_NOT_SUITABLE = 4;
 
-
-
     /**
-     * Constructs a file exception
+     * Constructs a new archive file exception.
      *
      * Creates the exceptions with one of the class constants as error code.
      * The error message will be generated automatically from the code.
      *
+     * @param string $message The message to throw
      * @param int $code The error code which is taken from one of the class
      *            constants.
      */

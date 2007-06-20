@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcArchiveValueException class
+ * File containing the ezcArchiveUnknownTypeException class.
  * 
  * @package Archive
  * @version //autogen//
@@ -9,15 +9,19 @@
  */
 
 /**
- * Exception will be thrown when the prefix given to the file that should be appended, is incorrect. 
+ * Exception thrown when encountering an archive of an unknow type.
  *
  * @package Archive
- * @author
  * @version //autogen//
  */
 class ezcArchiveUnknownTypeException extends ezcArchiveException
 {
-    function __construct( $archiveName )
+    /**
+     * Constructs a new unknown type exception for the specified archive.
+     *
+     * @param string $archiveName
+     */
+    public function __construct( $archiveName )
     {
         parent::__construct( "The type of the archive '$archiveName' cannot be determined." );
     }

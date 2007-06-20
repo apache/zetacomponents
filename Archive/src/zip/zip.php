@@ -74,7 +74,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
      *
      * The constructor opens the archive as a {@link ezcArchiveCharacterFile character file}.
      *
-     * @param ezcArchiveCharacterFile
+     * @param ezcArchiveCharacterFile $file
      */
     public function __construct( ezcArchiveCharacterFile $file )
     {
@@ -84,25 +84,37 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         $this->fileNumber = 0;
         $this->entriesRead = 0;
 
-        if ( !$this->file->isEmpty() ) $this->readCentralHeaders();
+        if ( !$this->file->isEmpty() )
+        {
+            $this->readCentralHeaders();
+        }
 
         $this->completed = true;
     }
 
-    // Documentation is inherited.
+    /**
+     * Returns the value which specifies a ZIP algorithm.
+     *
+     * @return int
+     */
     public function getAlgorithm()
     {
         return self::ZIP;
     }
 
-    // Documentation is inherited.
+    /**
+     * Returns true because the ZIP algorithm can write.
+     *
+     * @see isWritable()
+     *
+     * @return bool
+     */
     public function algorithmCanWrite()
     {
         return true;
     }
- 
 
-    /** 
+    /**
      * Reads the entire archive and creates all the entries.
      * 
      * To find the central directory structure we need to read all the headers.
@@ -112,6 +124,10 @@ class ezcArchiveZip extends ezcArchive implements Iterator
      * The central directory structure gives us extra information about the 
      * stored file like: symlinks and permissions.
      *
+     * @throws ezcArchiveException
+     *         if the comment length is different than 0
+     *         or if the signature from the file is invalid
+     *         or if the directory central header or size are missing
      * @return void
      */
     protected function readCentralHeaders()
@@ -129,7 +145,6 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         if ( ezcArchiveCentralDirectoryEndHeader::isSignature( $sig ) )
         {
             $this->endRecord = new ezcArchiveCentralDirectoryEndHeader( $this->file );
-
 
             if ( $this->endRecord->commentLength != 0 )
             {
@@ -197,7 +212,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         // Create the entries and check for symlinks.
         $this->entriesRead = $i;
 
-        for( $i = 0; $i < $this->entriesRead; $i++ )
+        for ( $i = 0; $i < $this->entriesRead; $i++ )
         {
             $struct = new ezcArchiveFileStructure(); 
             
@@ -220,10 +235,18 @@ class ezcArchiveZip extends ezcArchive implements Iterator
     }
 
 
-    // Documentation is inherited.
+    /**
+     * Writes the file data from the current entry to the given file.
+     *
+     * @param string $targetPath  The absolute or relative path of the target file.
+     * @return bool
+     */
     protected function writeCurrentDataToFile( $targetPath )
     {
-        if ( !$this->valid() ) return false;
+        if ( !$this->valid() )
+        {
+            return false;
+        }
 
         $this->writeFile( $this->key(), $targetPath );
 
@@ -248,14 +271,20 @@ class ezcArchiveZip extends ezcArchive implements Iterator
 
         $newPos = $pos + $header->getHeaderSize(); 
         $this->file->seek( $newPos );
-        
+
         // Read all the data.
         return $this->file->read( $header->compressedSize );
     }
 
+    /**
+     * Returns the local header of the specified file number.
+     *
+     * @throws ezcArchiveException
+     *         if the signature from the file is invalid
+     * @param int $fileNumber
+     */
     public function getLocalHeader( $fileNumber )
     {
-
         if ( !isset( $this->localHeaders[$fileNumber] ) )
         {
             // Read the local header
@@ -294,9 +323,10 @@ class ezcArchiveZip extends ezcArchive implements Iterator
 
         // FIXME.. don't write the entire stuff to memory.
         $this->file->seek( $pos );
-/*
-// Part: 1/2
-// Append the stream filter.
+
+        /*
+        // Part: 1/2
+        // Append the stream filter.
         switch ( $header->compressionMethod )
         {
             case 8:  $this->file->appendStreamFilter( "zlib.inflate" ); break;   
@@ -305,41 +335,79 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         */
         
         $data = $this->file->read( $header->compressedSize );
-/*
-Part: 2/2
-// And remove the stream filter.
-// Then we can write the file directly from the archive without copying it entirely to memory.
-// Unfortunately, this method segfaults for me.
+
+        /*
+        Part: 2/2
+        // And remove the stream filter.
+        // Then we can write the file directly from the archive without copying it entirely to memory.
+        // Unfortunately, this method segfaults for me.
 
         if ( $header->compressionMethod == 8  || $header->compressionMethod == 12)
         {
             $this->file->removeStreamFilter();
         }
         */
-       
+
         if ( $data )
         {
             switch ( $header->compressionMethod )
             {
-                case 8:  $data = gzinflate( $data ); break;    // Evil, memory consuming.
-                case 12: $data = bzdecompress( $data ); break; 
+                case 8:
+                    $data = gzinflate( $data );
+                    break;    // Evil, memory consuming.
+
+                case 12:
+                    $data = bzdecompress( $data );
+                    break; 
             }
         }
-        
-        
-        if ( strcmp( sprintf("%u", crc32( $data )) ,sprintf("%u", $header->crc)) == 0 )
+
+        if ( strcmp( sprintf( "%u", crc32( $data ) ), sprintf( "%u", $header->crc ) ) == 0 )
         {
-           $newFile = new ezcArchiveCharacterFile( $writeTo, true );
-           $newFile->write( $data );
-           unset( $newFile );
+            $newFile = new ezcArchiveCharacterFile( $writeTo, true );
+            $newFile->write( $data );
+            unset( $newFile );
         }
         else
         {
             throw new ezcArchiveChecksumException( $writeTo );
         }
     }
- 
-    // Documentation is inherited.
+
+    /**
+     * Appends a file to the archive after the current entry. 
+     *
+     * One or multiple files can be added directly after the current file.
+     * The remaining entries after the current are removed from the archive!
+     *
+     * The $files can either be a string or an array of strings. Which, respectively, represents a
+     * single file or multiple files.
+     *
+     * $prefix specifies the begin part of the $files path that should not be included in the archive.
+     * The files in the archive are always stored relatively.
+     *
+     * Example:
+     * <code>
+     * $tar = ezcArchive( "/tmp/my_archive.tar", ezcArchive::TAR );
+     *
+     * // Append two files to the end of the archive.
+     * $tar->seek( 0, SEEK_END );
+     * $tar->appendToCurrent( array( "/home/rb/file1.txt", "/home/rb/file2.txt" ), "/home/rb/" );
+     * </code>
+     *
+     * When multiple files are added to the archive at the same time, thus using an array, does not 
+     * necessarily produce the same archive as repeatively adding one file to the archive. 
+     * For example, the Tar archive format, can detect that files hardlink to each other and will store
+     * it in a more efficient way.
+     * 
+     * @throws ezcArchiveException            if the archive is closed or read-only
+     * @throws ezcBaseFileNotFoundException   if one of the specified files is missing
+     * @throws ezcBaseFilePermissionException if the archive is not writable
+     *
+     * @param string|array(string) $files  Array or a single path to a file. 
+     * @param string $prefix               First part of the path used in $files. 
+     * @return bool
+     */
     public function appendToCurrent( $files, $prefix )
     {
         if ( !$this->isWritable() )
@@ -348,9 +416,15 @@ Part: 2/2
         }
         
         // Current position valid?
-        if ( !$this->isEmpty() && !$this->valid() ) return false;
+        if ( !$this->isEmpty() && !$this->valid() )
+        {
+            return false;
+        }
 
-        if ( !is_array( $files ) ) $files = array( $files );
+        if ( !is_array( $files ) )
+        {
+            $files = array( $files );
+        }
 
         // Check whether the files are correct.
         foreach ( $files as $file )
@@ -420,7 +494,7 @@ Part: 2/2
             $this->entries[ $cur ] = $entry;
         }
 
-        for( $i = 0; $i <= $cur; $i++) 
+        for ( $i = 0; $i <= $cur; $i++ )
         {
             // Write the headers.
             $this->centralHeaderPositions[ $i ] = $this->file->getPosition();
@@ -446,7 +520,20 @@ Part: 2/2
         $this->endRecord->totalCentralDirectoryEntries = $cur + 1;
         $this->endRecord->writeEncodedHeader( $this->file );
     } 
-    
+
+    /**
+     * Appends a file or directory to the end of the archive. Multiple files or directory can 
+     * be added to the archive when an array is used as input parameter.
+     *
+     * @see appendToCurrent()
+     *
+     * @throws ezcArchiveException  if one of the files cannot be written to the archive.
+     *
+     * @param string|array(string) $files  Array or a single path to a file.
+     * @param string $prefix               First part of the path used in $files.
+     *
+     * @return bool
+     */
     public function append( $files, $prefix )
     {
         if ( !$this->isWritable() )
@@ -458,8 +545,18 @@ Part: 2/2
         $this->appendToCurrent( $files, $prefix ); 
      }
 
-
-    // Documentation is inherited.
+    /**
+     * Truncates the archive to $fileNumber of files.
+     *
+     * The $fileNumber parameter specifies the amount of files that should remain.
+     * If the default value, zero, is used then the entire archive file is cleared.
+     *
+     * @throws ezcBaseFilePermissionException
+     *         if the file is read-only
+     *         or if the current algorithm cannot write
+     * @param int $fileNumber
+     * @return bool
+     */
     public function truncate( $fileNumber = 0 )
     {
         if ( !$this->isWritable() )
@@ -484,21 +581,24 @@ Part: 2/2
         else
         {
             $this->fileNumber = $fileNumber;
-            if ( !$this->valid() ) return false;
+            if ( !$this->valid() )
+            {
+                return false;
+            }
 
             // Truncate the file.
             $pos = $this->localHeaderPositions[ $fileNumber - 1 ];
             $this->file->truncate( $pos );
             $this->file->seek( $pos );
 
-            for( $i = 0; $i < $fileNumber; $i++) 
+            for ( $i = 0; $i < $fileNumber; $i++ )
             {
                 // Write the headers.
-                $this->centralHeaders[ $i ]->writeEncodedHeader( $this->file );
+                $this->centralHeaders[$i]->writeEncodedHeader( $this->file );
             }
 
             // Clean up some headers.
-            for( $i = $fileNumber; $i < $this->entriesRead; $i++ )
+            for ( $i = $fileNumber; $i < $this->entriesRead; $i++ )
             {
                 unset( $this->localHeaderPositions[$i] );
                 unset( $this->centralHeaderPositions[$i] );
@@ -510,12 +610,12 @@ Part: 2/2
 
             $this->setEndRecord(); 
             $this->endRecord->writeEncodedHeader( $this->file ); 
-            
+
             $this->fileNumber = $originalFileNumber; 
             return $this->valid();
         }
     }
-        
+
     /**
      * Returns true if it is possible to write to the archive, otherwise false.
      *
@@ -524,21 +624,26 @@ Part: 2/2
      *
      * @see algorithmCanWrite()
      *
+     * @throws ezcArchiveException
+     *         if the archive is closed
      * @return bool
      */
     public function isWritable()
     {
-        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null )
+        {
+            throw new ezcArchiveException( "The archive is closed" );
+        }
 
         return ( !$this->file->isReadOnly() && $this->algorithmCanWrite() );
     }
-
 
     /**
      * Creates and sets a new {@link ezcArchiveCentralDirectoryEndHeader}.
      *
      * The new {@link ezcArchiveCentralDirectoryEndHeader} is based on the current file position, 
      * the centralHeaderPositions, and the number of entries read.
+     *
      * @return void
      */
     protected function setEndRecord()
@@ -550,5 +655,4 @@ Part: 2/2
         $this->endRecord->totalCentralDirectoryEntries = $this->entriesRead;
     }
 }
-
 ?>

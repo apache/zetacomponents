@@ -69,6 +69,11 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      */
     private $blockData;
 
+    /**
+     * Holds the last block number.
+     *
+     * @var int
+     */
     private $lastBlock = -1;
 
     /**
@@ -81,6 +86,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      * @param string $name
      * @param mixed $value
      * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -95,12 +101,14 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
         switch ( $name )
         {
-            case "blockSize": return $this->blockSize;
+            case "blockSize":
+                return $this->blockSize;
         }
 
         throw new ezcBasePropertyNotFoundException( $name );
@@ -120,7 +128,6 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      * @param string $fileName
      * @param bool $createIfNotExist
      * @param int $blockSize 
-     *
      */
     public function __construct( $fileName, $createIfNotExist = false, $blockSize = 512 )
     {
@@ -170,7 +177,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      * 
      * Returns the data of the next block if it exists; otherwise returns false.
      *
-     * @return string  
+     * @return string
      */
     public function next()
     {
@@ -237,10 +244,12 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     {
         if ( $this->isValid )
         {
-            for( $i = 0; $i < $this->blockSize; $i++ )
+            for ( $i = 0; $i < $this->blockSize; $i++ )
             {
                 if ( ord( $this->blockData[$i] ) != 0 )
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -248,6 +257,9 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         return false;
     }
 
+    /**
+     * Appends with truncate.
+     */
     private function appendTruncate()
     {
         if ( $this->fileAccess == self::READ_ONLY ) 
@@ -308,8 +320,6 @@ class ezcArchiveBlockFile extends ezcArchiveFile
             }
         }
     }
-
-
 
     /**
      * Appends the string $data after the current block.
@@ -386,7 +396,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         $localFile = @fopen( $fileName, "rb" );
         if ( !$localFile ) 
         {
-            throw new ezcArchiveException( "Cannot open the file: <$fileName> for reading." );
+            throw new ezcArchiveException( "Cannot open the file '$fileName' for reading." );
         }
 
         $addedBlocks = 0;
@@ -399,7 +409,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
 
         if ( ( $mod = ( $length % $this->blockSize ) ) > 0 )
         {
-            $this->writeBytes( pack( "a". ( $this->blockSize  - $mod ), "") );
+            $this->writeBytes( pack( "a". ( $this->blockSize  - $mod ), "" ) );
         }
 
         fclose( $localFile );
@@ -427,13 +437,16 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      *
      * @throws ezcBaseFileIoException if it is not possible to write to the file.
      * 
-     * @param string data
+     * @param string $data
      * @return void
      */
     protected function writeBytes( $data )
     {
         $dl = strlen( $data );
-        if ( $dl == 0 ) return; // No bytes to write.
+        if ( $dl == 0 )
+        {
+            return; // No bytes to write.
+        }
         
         $wl = fwrite( $this->fp, $data );
 
@@ -459,15 +472,15 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      * Appends one block with only NUL characters to the file.
      *
      * @throws ezcBaseFilePermissionException if the file is opened in read-only mode.
-     * 
+     * @todo rename to appendNullBlocks
+     *
+     * @param int $amount
      * @return void
      */
-    // XXX rename to appendNullBlocks
     public function appendNullBlock( $amount = 1 )
     {
         $this->append( pack( "a". ( $amount * $this->blockSize ), "" ) );
     }
- 
 
     /**
      * Truncate the current block file to $block blocks. 
@@ -482,7 +495,10 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     public function truncate( $blocks = 0 )
     {
         // Empty files don't need to be truncated.
-        if ( $this->isEmpty() ) return true;
+        if ( $this->isEmpty() )
+        {
+            return true;
+        }
 
         if ( $this->fileAccess !== self::READ_APPEND )
         {
@@ -494,7 +510,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
             {
                 $this->isEmpty = true;
             }
-            
+
             if ( $this->blockNumber >= $blocks )
             {
                 $this->isValid = false;
@@ -503,8 +519,8 @@ class ezcArchiveBlockFile extends ezcArchiveFile
             $this->lastBlock = $blocks - 1;
 
             return true;
-       }
-        
+        }
+
         // Truncate at the end?
         if ( !$this->isValid )
         {
@@ -512,7 +528,10 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         }
 
         // XXX check this, can be done via getLastBlockNumber() ? 
-        while ( $this->isValid && $blocks > $this->blockNumber ) $this->next();
+        while ( $this->isValid && $blocks > $this->blockNumber )
+        {
+            $this->next();
+        }
 
         if ( $this->isValid )
         {
@@ -521,7 +540,6 @@ class ezcArchiveBlockFile extends ezcArchiveFile
 
         return true;
     }
-    
 
     /**
      * Sets the current block position. 
@@ -542,14 +560,17 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      */
     public function seek( $blockOffset, $whence = SEEK_SET )
     {
-        if ( $this->fileAccess == self::WRITE_ONLY && $blockOffset == 0 && $whence == SEEK_END ) return true;
-
-        if ( ftell( $this->fp ) === false || $this->fileAccess == self::READ_APPEND)
+        if ( $this->fileAccess == self::WRITE_ONLY && $blockOffset == 0 && $whence == SEEK_END )
         {
-            // Okay, cannot tell the current file position. 
-            // This happens with some compression streams. 
+            return true;
+        }
 
-            if ( !$this->isValid ) 
+        if ( ftell( $this->fp ) === false || $this->fileAccess == self::READ_APPEND )
+        {
+            // Okay, cannot tell the current file position.
+            // This happens with some compression streams.
+
+            if ( !$this->isValid )
             {
                 if ( $whence == SEEK_CUR )
                 {
@@ -567,9 +588,17 @@ class ezcArchiveBlockFile extends ezcArchiveFile
 
             switch ( $whence )
             {
-                case SEEK_CUR:  $searchBlock = $this->blockNumber += $blockOffset; break;
-                case SEEK_END:  $searchBlock = $this->lastBlock += $blockOffset; break;
-                case SEEK_SET:  $searchBlock = $blockOffset; break;
+                case SEEK_CUR:
+                    $searchBlock = $this->blockNumber += $blockOffset;
+                    break;
+
+                case SEEK_END:
+                    $searchBlock = $this->lastBlock += $blockOffset;
+                    break;
+
+                case SEEK_SET:
+                    $searchBlock = $blockOffset;
+                    break;
             }
 
             if ( $searchBlock < $this->blockNumber )
@@ -577,7 +606,10 @@ class ezcArchiveBlockFile extends ezcArchiveFile
                 $this->rewind();
             }
 
-            while ( $this->isValid && $this->blockNumber < $searchBlock ) $this->next();
+            while ( $this->isValid && $this->blockNumber < $searchBlock )
+            {
+                $this->next();
+            }
 
             return ( $this->blockNumber == $searchBlock );
         }
@@ -621,7 +653,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     }
 
     /**
-     *  Returns true if the blockfile is empty, otherwise false.
+     * Returns true if the blockfile is empty, otherwise false.
      *
      * @return bool
      */
@@ -630,6 +662,11 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         return $this->isEmpty;
     }
 
+    /**
+     * Returns the last block number.
+     *
+     * @return int
+     */
     public function getLastBlockNumber()
     {
         return $this->lastBlock;
