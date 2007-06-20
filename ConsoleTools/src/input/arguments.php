@@ -46,7 +46,7 @@ class ezcConsoleArguments implements ArrayAccess, Iterator, Countable
      */
     public function offsetExists( $offset )
     {
-        switch( gettype( $offset ) )
+        switch ( gettype( $offset ) )
         {
             case "string":
                 return array_key_exists( $offset, $this->named );
@@ -72,7 +72,7 @@ class ezcConsoleArguments implements ArrayAccess, Iterator, Countable
      */
     public function offsetGet( $offset )
     {
-        switch( gettype( $offset ) )
+        switch ( gettype( $offset ) )
         {
             case "string":
                 if ( isset( $this[$offset] ) )

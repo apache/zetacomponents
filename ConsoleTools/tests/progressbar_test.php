@@ -259,7 +259,7 @@ class ezcConsoleProgressbarTest extends ezcTestCase
 
         $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . __FUNCTION__ . '.dat';
         // Use the following line to regenerate test reference files
-        //file_put_contents( $refFile, implode( PHP_EOL, $res ) );
+        // file_put_contents( $refFile, implode( PHP_EOL, $res ) );
         $this->assertEquals(
             file_get_contents( $refFile ),
             implode( PHP_EOL, $res ),
@@ -338,7 +338,7 @@ class ezcConsoleProgressbarTest extends ezcTestCase
 
         $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . $refFile . '.dat';
         // Use the following line to regenerate test reference files
-        //file_put_contents( $refFile, implode( PHP_EOL, $res ) );
+        // file_put_contents( $refFile, implode( PHP_EOL, $res ) );
         $this->assertEquals(
             file_get_contents( $refFile ),
             implode( PHP_EOL, $res ),

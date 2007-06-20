@@ -284,7 +284,7 @@ class ezcConsoleInputTest extends ezcTestCase
         }
 
         // test itself
-        foreach( $this->input->getOptions() as $option )
+        foreach ( $this->input->getOptions() as $option )
         {
             $this->input->unregisterOption( $option );
             $exceptionThrown = false;
@@ -292,7 +292,7 @@ class ezcConsoleInputTest extends ezcTestCase
             {
                 $this->input->getOption( isset( $option->short ) ? $option->short : $option->long );
             }
-            catch( ezcConsoleOptionNotExistsException $e )
+            catch ( ezcConsoleOptionNotExistsException $e )
             {
                 $exceptionThrown = true;
             }

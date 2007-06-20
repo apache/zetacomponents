@@ -18,7 +18,7 @@ $menu->options->validator = new ezcConsoleMenuDialogDefaultValidator(
 
 while ( ( $choice = ezcConsoleDialogViewer::displayDialog( $menu ) ) != 0 )
 {
-    switch( $choice )
+    switch ( $choice )
     {
         case 1:
             echo "Performing some more actions...\n";

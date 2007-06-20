@@ -369,7 +369,7 @@ EOT;
         {
             $output->restorePos();
         }
-        catch( ezcConsoleNoPositionStoredException $e )
+        catch ( ezcConsoleNoPositionStoredException $e )
         {
             return;
         }

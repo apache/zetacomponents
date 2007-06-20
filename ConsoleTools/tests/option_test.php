@@ -411,7 +411,7 @@ class ezcConsoleOptionTest extends ezcTestCase
         {
             $foo = $option->dependencies;
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return;
         }
@@ -426,7 +426,7 @@ class ezcConsoleOptionTest extends ezcTestCase
         {
             $foo = $option->exclusions;
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return;
         }
@@ -441,7 +441,7 @@ class ezcConsoleOptionTest extends ezcTestCase
         {
             $foo = $option->nonExisting;
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return;
         }

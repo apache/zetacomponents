@@ -824,7 +824,7 @@ class ezcConsoleInput
      */
     public function __set( $propertyName, $propertyValue )
     {
-        switch( $propertyName )
+        switch ( $propertyName )
         {
             case "argumentDefinition":
                 if ( ( $propertyValue instanceof ezcConsoleArguments ) === false && $propertyValue !== null )
@@ -924,7 +924,7 @@ class ezcConsoleInput
     {
         $mandatory = true;
         $synopsises = array();
-        foreach( $this->argumentDefinition as $arg )
+        foreach ( $this->argumentDefinition as $arg )
         {
             $argSynopsis = "";
             if ( $arg->mandatory === false )
@@ -1050,7 +1050,7 @@ class ezcConsoleInput
         else
         {
             $mandatory = true;
-            foreach( $this->argumentDefinition as $arg )
+            foreach ( $this->argumentDefinition as $arg )
             {
                 // Check if all followinga arguments are optional
                 if ( $arg->mandatory === false )

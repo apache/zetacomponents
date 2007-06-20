@@ -54,7 +54,7 @@ class ezcConsoleProgressMonitorTest extends ezcTestCase
             "Formated statusbar not generated correctly."
         );
         // To prepare test files use this:
-        //file_put_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor1.dat', $res );
+        // file_put_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor1.dat', $res );
     }
     
     public function testProgressMonitor2()

@@ -45,7 +45,7 @@ class ezcConsoleArgumentsTest extends ezcTestCase
         $refNames = array( 0 => "arg 0", 2 => "arg 2",  4 => "arg 4", 5 => "arg 5", 6 => "arg 6" );
         reset( $refNames );
 
-        foreach( $args as $name => $arg )
+        foreach ( $args as $name => $arg )
         {
             $this->assertEquals( key( $refNames ), $name, "Name not correctly returned as key." );
             $this->assertEquals( current( $refNames ), $arg->name, "Arg not correctly returned." );
