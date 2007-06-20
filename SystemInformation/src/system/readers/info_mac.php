@@ -128,8 +128,8 @@ class ezcSystemInfoMacReader extends ezcSystemInfoReader
      */
     private function getOsInfo()
     {
-        //System profiler does not have all of these options for older releases than 10.4 of Mac OS X, so we only go forward if we have
-        //version 10.4.x and up.
+        // System profiler does not have all of these options for older releases than 10.4 of Mac OS X, so we only go forward if we have
+        // version 10.4.x and up.
         $macOSXInfo = shell_exec( "defaults read /System/Library/CoreServices/SystemVersion 'ProductVersion'" );
         $versionArray  = explode( ".", $macOSXInfo );
         $compatibleVersion = ( $versionArray[0] == 10 and $versionArray[1] >= 4 );
@@ -194,7 +194,7 @@ class ezcSystemInfoMacReader extends ezcSystemInfoReader
         $speedUnit = strtolower( $matches[3] );
         unset( $matches );
         
-        //We are displaying in MHz
+        // We are displaying in MHz
         if ( $speedUnit == 'mhz' )
         {
             $cpuSpeed *= 1;
