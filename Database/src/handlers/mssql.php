@@ -84,7 +84,7 @@ class ezcDbHandlerMssql extends ezcDbHandler
 
         parent::__construct( $dbParams, $dsn );
         
-        //setup options 
+        // setup options 
         $this->setOptions( new ezcDbMssqlOptions() );
     }
 
@@ -109,7 +109,7 @@ class ezcDbHandlerMssql extends ezcDbHandler
         $requiredMode = $this->options->quoteIdentifier;
         if ( $requiredMode == ezcDbMssqlOptions::QUOTES_GUESS ) 
         {
-            $result = parent::query("SELECT sessionproperty('QUOTED_IDENTIFIER')" );
+            $result = parent::query( "SELECT sessionproperty('QUOTED_IDENTIFIER')" );
             $rows = $result->fetchAll();
             $mode = (int)$rows[0][0];
             if ( $mode == 0 )

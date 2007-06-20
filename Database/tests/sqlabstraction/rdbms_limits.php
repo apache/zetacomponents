@@ -63,7 +63,7 @@ class ezcRdbmsLimitTest extends ezcTestCase
                     $db->quoteIdentifier( $table )
                 );
             }
-            catch( PDOException $e )
+            catch ( PDOException $e )
             {
                 $this->fail( "Failed to use table name with length $i: " . $e->getMessage() );
             }
@@ -101,7 +101,7 @@ class ezcRdbmsLimitTest extends ezcTestCase
                     $db->quoteIdentifier( $table )
                 );
             }
-            catch( PDOException $e )
+            catch ( PDOException $e )
             {
                 $this->fail( "Failed to use column name with length $i: " . $e->getMessage() );
             }

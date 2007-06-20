@@ -228,7 +228,7 @@ class ezcQueryInsertTest extends ezcTestCase
             $db->exec( "CREATE SEQUENCE query_test_id_seq START 1" );
         }
 
-        //row 1
+        // row 1
         $q->insertInto( 'query_test' )
             ->set( 'id', 'nextval(\'query_test_id_seq\')' )
             ->set( 'company', $q->bindParam( $company ) )
@@ -238,7 +238,7 @@ class ezcQueryInsertTest extends ezcTestCase
         $stmt = $q->prepare();
         $stmt->execute();
 
-        //row 2
+        // row 2
         $q->insertInto( 'query_test' )
             ->set( 'id', 'nextval(\'query_test_id_seq\')' )
             ->set( 'company',  $q->bindParam( $company ) )

@@ -55,7 +55,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             $this->db->exec( 'CREATE TABLE query_test ( id int, company VARCHAR(255), section VARCHAR(255), employees int NULL, somedate TIMESTAMP )' );
         }
 
-        if( $this->db->getName() === 'oracle' )
+        if ( $this->db->getName() === 'oracle' )
         {
             $this->db->exec( "ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS'" ); // set the timestamp format
         }
