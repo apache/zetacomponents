@@ -25,6 +25,8 @@ class ezcTemplateBodyAstNode extends ezcTemplateAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param array(ezcTemplateStatementAstNode) $statements
      */
     public function __construct( Array $statements = null )
     {

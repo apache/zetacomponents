@@ -18,6 +18,7 @@
 abstract class ezcTemplateStatementAstNode extends ezcTemplateAstNode
 {
     /**
+     * Constructs a ezcTemplateStatementAstNode
      */
     public function __construct()
     {

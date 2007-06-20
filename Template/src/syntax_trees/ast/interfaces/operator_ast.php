@@ -63,6 +63,8 @@ abstract class ezcTemplateOperatorAstNode extends ezcTemplateParameterizedAstNod
     public $preOperator;
 
     /**
+     * Constructs a new ezcTemplateOperatorAstNode
+     *  
      * @param int $parameterCount The number of parameters the operator must have.
      * @param bool $preOperator Controls whether unary operators are placed before or after operand.
      */
@@ -85,9 +87,14 @@ abstract class ezcTemplateOperatorAstNode extends ezcTemplateParameterizedAstNod
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if the visitor object is accepted and if so calls the appropriate
+     * visitor method in it.
+     *
      * Calls visitUnaryOperator if it has one parameter, visitBinaryOperator() if it has two and visitTernaryOperator() if it has three.
      * All part of the ezcTemplateBasicAstNodeVisitor interface.
+     *
+     * @param ezcTemplateAstNodeVisitor $visitor
+     * @return ezcTemplateAstNode
      */
     public function accept( ezcTemplateAstNodeVisitor $visitor )
     {
@@ -112,6 +119,7 @@ abstract class ezcTemplateOperatorAstNode extends ezcTemplateParameterizedAstNod
 
     /**
      * Returns a text string representing the PHP operator.
+     *
      * @return string
      */
     abstract public function getOperatorPHPSymbol();

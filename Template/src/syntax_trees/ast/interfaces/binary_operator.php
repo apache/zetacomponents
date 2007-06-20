@@ -10,11 +10,20 @@
  */
 
 /**
+ * This node represents a binary operator.
+ *
  * @package Template
+ * @version //autogen//
  * @access private
  */
 abstract class ezcTemplateBinaryOperatorAstNode extends ezcTemplateOperatorAstNode
 {
+    /**
+     * Constructs a new ezcTemplateBinaryOperatorAstNode
+     *
+     * @param ezcTemplateAstNode $parameter1
+     * @param ezcTemplateAstNode $parameter2
+     */
     public function __construct( $parameter1 = null, $parameter2 = null )
     {
         parent::__construct( self::OPERATOR_TYPE_BINARY );

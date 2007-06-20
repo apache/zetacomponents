@@ -52,10 +52,6 @@ class ezcTemplateSourceToTstParserException extends ezcTemplateException
      * Initialises the exception with the failing elements, parser, source code
      * and error messages.
      *
-     * @param array $elements An array of elements which contains the start and
-     *                        end cursor for the errors, needs at least one
-     *                        element entry.
-     *
      * @param ezcTemplateSourceToTstParser $parser  The parser which was used when error occured, can be null.
      * @param ezcTemplateCursor $cursor             The cursor pointing to the error.
      * @param string $errorMessage                  The error message.

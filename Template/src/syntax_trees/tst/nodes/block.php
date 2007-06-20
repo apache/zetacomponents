@@ -80,6 +80,11 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     public $closingCursor;
 
     /**
+     * Constructs a new ezcTemplateBlockTstNode
+     *
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end  
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
@@ -94,6 +99,11 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
         $this->minimumWhitespace = null;
     }
 
+    /**
+     * Returns the current tree properties
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'name'           => $this->name,
@@ -179,6 +189,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     /**
      * Returns true if the block is not meant to start a new nesting level.
      *
+     * @param ezcTemplateBlockTstNode $block
      * @return bool
      */
     public function canBeChildOf( ezcTemplateBlockTstNode $block )
@@ -226,9 +237,16 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
         return false;
     }
 
+    /**
+     * Empty function
+     *
+     * @todo Can be removed?
+     *
+     * @param mixed $parentElement
+     * @return void
+     */
     public function canAttachToParent( $parentElement )
     {
-        // echo ("Checking whether ". get_class( $this ) . " can be attached to: " . get_class( $parentElement ) . "\n" );
     }
 
     /**

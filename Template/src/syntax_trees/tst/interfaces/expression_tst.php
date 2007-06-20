@@ -18,6 +18,11 @@
 abstract class ezcTemplateExpressionTstNode extends ezcTemplateTstNode
 {
     /**
+     * Constructs a new ezcTemplateExpressionTstNode
+     *
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
@@ -27,6 +32,7 @@ abstract class ezcTemplateExpressionTstNode extends ezcTemplateTstNode
     /**
      * Returns false since expression nodes can never be children of blocks.
      *
+     * @param ezcTemplateBlockTstNode $block
      * @return true
      */
     public function canBeChildOf( ezcTemplateBlockTstNode $block )

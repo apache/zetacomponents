@@ -9,6 +9,8 @@
  */
 
 /**
+ * ezcTemplateOutdatedCompilationException is thrown internally to signal that
+ * the current template is expired. 
  *
  * @package Template
  * @version //autogen//

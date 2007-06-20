@@ -215,7 +215,8 @@ abstract class ezcTemplateSourceToTstParser
     /**
      * Set all cursors to the position of $cursor. This means all parsing starts
      * from this position.
-     * @param ezcTemplateParser $cursor The cursor position to use.
+     *
+     * @param ezcTemplateCursor $cursor The cursor position to use.
      * @return void
      */
     public function setAllCursors( ezcTemplateCursor $cursor )

@@ -51,6 +51,10 @@ abstract class ezcTemplateTstNode
 
     /**
      * Initialize with the source code and start/stop cursors.
+     *
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
@@ -121,6 +125,7 @@ abstract class ezcTemplateTstNode
     /**
      * Returns the text portion from the original source code which is in the
      * area defined by the start and end cursor.
+     *
      * @return string
      */
     public function text()
@@ -143,7 +148,7 @@ abstract class ezcTemplateTstNode
      * Checks if the current element can be added as child of block object $block,
      * returns true if it can and false if not.
      *
-     * @param ezcTemplateBlock $block The block object which should be the parent.
+     * @param ezcTemplateBlockTstNode $block The block object which should be the parent.
      * @return bool
      */
     abstract public function canBeChildOf( ezcTemplateBlockTstNode $block );
@@ -162,6 +167,7 @@ abstract class ezcTemplateTstNode
      *
      * Note: The default implementation returns false.
      *
+     * @param ezcTemplateTstNode $element
      * @return bool
      */
     public function handleElement( ezcTemplateTstNode $element )
@@ -188,6 +194,7 @@ abstract class ezcTemplateTstNode
      * If the current object is: ezcTemplateOutputBlockTstNode then
      * the method: $visitor->visitOutputBlockTstNode( $this ) will be called.
      *
+     * @param ezcTemplateTstNodeVisitor $visitor
      * @return ezcTemplateTstNode The result of the visit method on the visitor.
      */
     public function accept( ezcTemplateTstNodeVisitor $visitor  )

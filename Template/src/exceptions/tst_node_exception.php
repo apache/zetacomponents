@@ -38,14 +38,14 @@ class ezcTemplateTstNodeException extends ezcTemplateException
      * @param int $type The type of element error.
      * @param string $comment Optional comment for the error, depends on $type.
      */
-    public function __construct( $type, $comment = false )
+    public function __construct( $type )
     {
         switch ( $type )
         {
             case self::NO_FIRST_CHILD:
                 $message = "Element has no children, cannot get first child.";
                 break;
-            case self::NO_FIRST_CHILD:
+            case self::NO_LAST_CHILD:
                 $message = "Element has no children, cannot get last child.";
                 break;
         }

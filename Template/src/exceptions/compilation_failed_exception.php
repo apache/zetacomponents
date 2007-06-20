@@ -9,6 +9,8 @@
  */
 
 /**
+ * ezcTemplateCompilationFailedException is thrown when a template could
+ * not be compiled.
  *
  * @package Template
  * @version //autogen//

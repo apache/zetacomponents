@@ -23,6 +23,11 @@
 abstract class ezcTemplateCodeTstNode extends ezcTemplateTstNode
 {
     /**
+     * Constructs a new ezcTemplateCodeTstNode
+     * 
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {

@@ -9,6 +9,8 @@
  */
 
 /**
+ * ezcTemplateCustomBlock exception is thrown when an error occurs while
+ * processing a Custom Block.
  *
  * @package Template
  * @version //autogen//

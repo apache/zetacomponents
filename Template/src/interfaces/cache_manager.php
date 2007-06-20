@@ -120,6 +120,9 @@
  *
  * Another table can also store the cache keys that belong to the cache. The structure
  * of this table is similar to the 'cache_values' table.
+ *
+ * @package Template
+ * @version //autogen//
  */
 interface ezcTemplateCacheManager
 {
@@ -197,8 +200,8 @@ interface ezcTemplateCacheManager
      *
      *
      * @param ezcTemplate $template
-     * @param string $templatepath
-     * @param string $cachepath
+     * @param string $templatePath
+     * @param string $cachePath
      * @param array(string=>string) $cacheKeys
      * @return void
      */
@@ -324,8 +327,8 @@ interface ezcTemplateCacheManager
      * $s->execute();
      * </code>
      *
-     * @param string name 
-     * @param string value 
+     * @param string $name 
+     * @param string $value 
      * @return void
      */
     public function update( $name, $value );

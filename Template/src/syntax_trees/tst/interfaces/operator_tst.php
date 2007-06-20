@@ -59,7 +59,11 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      * set to this object.
      *
      * @var array(ezcTemplateTstNode)
-     * @see prependParameter(), appendParameter(), getLastParameter(), setLastParameter(), mergeParameters()
+     * @see prependParameter() 
+     * @see appendParameter()
+     * @see getLastParameter()
+     * @see setLastParameter()
+     * @see mergeParameters()
      */
     public $parameters;
 
@@ -88,6 +92,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      *
      * This determines the correct precedence for operators having the exact
      * same precedence level.
+     * @var int
      */
     public $order;
 
@@ -98,13 +103,15 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      * - NON_ASSOCIATIVE - The order is not significant.
      * - LEFT_ASSOCIATIVE - The order is left to right.
      * - RIGHT_ASSOCIATIVE - The order is right to left.
+     * @var int
      */
     public $associativity;
 
     /**
      * Controls the maximum number of parameters the operator can handle.
      * This is either an integer or false which means there is no limit (the default).
-     * @var int/false
+     *
+     * @var int|false
      */
     public $maxParameterCount;
 
@@ -112,6 +119,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      * The symbol representing this operator.
      *
      * Note: This is a read-only property.
+     *
      * @access public
      * @var string
      */
@@ -119,6 +127,14 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Initialize element with source and cursor positions.
+     *
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end
+     * @param int $precedence
+     * @param int $order
+     * @param int $associativity 
+     * @param string|bool $symbol
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end,
                                  $precedence, $order, $associativity, $symbol = false )
@@ -134,6 +150,11 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
         $this->maxParameterCount = false;
     }
 
+    /**
+     * Returns the tree properties of this node.
+     *
+     * @return array(string=>mixed) 
+     */
     public function getTreeProperties()
     {
         return array( 'symbol' => $this->symbol,
@@ -142,6 +163,9 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Property get
+     *
+     * @param string $name
+     * @return mixed
      */
     public function __get( $name )
     {
@@ -156,6 +180,10 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Property set
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return void
      */
     public function __set( $name, $value )
     {
@@ -170,6 +198,9 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Property isset
+     * 
+     * @param string $name
+     * $return bool
      */
     public function __isset( $name )
     {
@@ -184,7 +215,9 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Prepends the element $element as a parameter to the current operator.
-     * @param ezcTemplateTstNode
+     *
+     * @param ezcTemplateTstNode $element
+     * @return void
      */
     public function prependParameter( $element )
     {
@@ -196,7 +229,9 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Appends the element $element as a parameter to the current operator.
-     * @param ezcTemplateTstNode
+     *
+     * @param ezcTemplateTstNode $element
+     * @return void
      */
     public function appendParameter( $element )
     {
@@ -207,6 +242,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Returns the last parameter (if set) object of the current operator.
+     *
      * @return ezcTemplateTstNode
      */
     public function getLastParameter()
@@ -218,6 +254,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Returns the number of parameters the operator has.
+     *
      * @return int
      */
     public function getParameterCount()
@@ -228,6 +265,9 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
     /**
      * Overwrites the last parameter for the current operator to point to $element.
      * If there are no parameters it is simply appended to the list.
+     *
+     * @param ezcTemplateTstNode $parameter
+     * @return void
      */
     public function setLastParameter( ezcTemplateTstNode $parameter )
     {
@@ -239,6 +279,8 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Removes the last parameter from the parameter list.
+     *
+     * @return void
      */
     public function removeLastParameter()
     {
@@ -250,6 +292,9 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      * Copies all parameters from operator $operator into the parameter list
      * for the current operator.
      * @see canMergeParameters()
+     *
+     * @param ezcTemplateOperatorTstNode $operator
+     * @return void
      */
     public function mergeParameters( ezcTemplateOperatorTstNode $operator )
     {
@@ -284,6 +329,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      * are no more parent operators.
      *
      * Note: If the current operator is the top-most operator $this is returned.
+     *
      * @return ezcTemplateOperatorTstNode
      */
     public function getRoot()

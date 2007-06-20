@@ -9,6 +9,8 @@
  */
 
 /**
+ * ezcTemplateInternalException is thrown when the Template engine comes into
+ * an unstable state.
  *
  * @package Template
  * @version //autogen//

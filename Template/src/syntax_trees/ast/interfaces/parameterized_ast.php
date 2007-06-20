@@ -43,6 +43,8 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
     public $maxParameterCount;
 
     /**
+     * Constructs the ezcTemplateParameterizedAstNode.
+     *
      * @param int $minParameterCount The minimum parameters the operator can have, set to false to remove limit.
      * @param int $maxParameterCount The maximum parameters the operator can have, set to false to remove limit.
      */
@@ -68,6 +70,7 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
 
     /**
      * Appends the code element $code as a parameter to the current code element.
+     *
      * @param ezcTemplateAstNode $code The code element to append.
      */
     public function appendParameter( ezcTemplateAstNode $code )
@@ -85,6 +88,9 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
     }
 
        
+    /**
+     * Checks the typehints from the children and sets the typeHint of *this* node.
+     */
     public function checkAndSetTypeHint()
     {
         $first = true;

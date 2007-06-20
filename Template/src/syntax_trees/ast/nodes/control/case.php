@@ -31,6 +31,9 @@ class ezcTemplateCaseAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param ezcTemplateAstNode $match 
+     * @param ezcTemplateBodyAstNode $body
      */
     public function __construct( ezcTemplateAstNode $match = null, ezcTemplateBodyAstNode $body = null )
     {

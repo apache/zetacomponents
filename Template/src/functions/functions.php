@@ -38,6 +38,8 @@ class ezcTemplateFunctions
     private $parser = null;
 
     /**
+     * Constructs a new ezcTemplateFunctions
+     *
      * @param ezcTemplateParser $parser
      */
     public function __construct( ezcTemplateParser $parser )
@@ -372,6 +374,15 @@ class ezcTemplateFunctions
     }
 
 
+    /**
+     * Checks if the definition is correct. It returns nothing if it's correct, and
+     * throws an exception otherwise.
+     *
+     * @param ezcTemplateCustomFunctionDefintion $definition
+     * @param ReflectionParameters $reflectionParameters
+     * @throws ezcTemplateException if the given definition is incorrect.
+     * @return void
+     */
     protected function checkDefinition( $definition, $reflectionParameters )
     {
         // A bug in the Reflection classes again.
@@ -413,6 +424,13 @@ class ezcTemplateFunctions
         }
     }
 
+    /**
+     * Counts how many parameters are required.
+     *
+     * @param ezcTemplateCustomFunctionDefintion $definition
+     * @param ReflectionParameters $reflectionParameters
+     * @return int 
+     */
     protected function countRequiredParameters( $definition, $reflectionParameters )
     {
         $requiredParameters = 0;
@@ -442,6 +460,13 @@ class ezcTemplateFunctions
         }
     }
 
+    /**
+     * Counts the total amount of parameters.
+     *
+     * @param ezcTemplateCustomFunctionDefintion $definition
+     * @param ReflectionParameters $reflectionParameters
+     * @return int 
+     */
     protected function countTotalParameters($definition, $reflectionParameters)
     {
         if ( version_compare( PHP_VERSION, "5.2", "<") )
@@ -459,7 +484,15 @@ class ezcTemplateFunctions
         }
     }
 
-
+    /**
+     * Checks the given parameters.
+     *
+     * @param ezcTemplateCustomFunctionDefintion $definition
+     * @param ReflectionParameters $reflectionParameters
+     * @param array(ezcTemplateAstNode) $parameters 
+     * @param string $functionName
+     * @return int 
+     */
     protected function checkGivenParameters( $definition, $reflectionParameters, $parameters, $functionName )
     {
         $givenParameters = sizeof($parameters);
@@ -475,6 +508,14 @@ class ezcTemplateFunctions
         }
     }
 
+    /**
+     * Orders the parameters.
+     *
+     * @param ReflectionParameters $reflectionParameters
+     * @param array(ezcTemplateAstNode) $parameters 
+     * @param string $functionName
+     * @return array(ezcTemplateAstNode)
+     */
     protected function orderParameters($reflectionParameters, $parameters, $functionName)
     {
         // First assign the named parameters, thereafter fill in the rest.
@@ -546,6 +587,12 @@ class ezcTemplateFunctions
         return $newParameters;
     }
 
+    /**
+     * Returns the reflection parameters.
+     *
+     * @param ezcTemplateCustomFunctionDefintion $definition
+     * @return ReflectionParameters
+     */
     protected function getReflectionParameters( $definition )
     {
         if ( !isset($definition->class) || $definition->class  === false )

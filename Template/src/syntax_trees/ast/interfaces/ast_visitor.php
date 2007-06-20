@@ -108,9 +108,9 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
     public function visitBodyAstNode( ezcTemplateBodyAstNode $node );
 
     /**
-     * Visits the node $node containing an output.
+     * Visits the node $node containing output.
      *
-     * @param ezcTemplateBodyAstNode 
+     * @param ezcTemplateOutputAstNode $node
      * @return void
      */
     public function visitOutputAstNode( ezcTemplateOutputAstNode $node );

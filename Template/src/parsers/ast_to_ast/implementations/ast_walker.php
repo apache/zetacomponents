@@ -41,15 +41,24 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
      */
     public $offset = array();
 
+    /**
+     * Constructs a new ezcTemplateAstWalker
+     */
     public function __construct( )
     {
     }
 
+    /**
+     * Destructor
+     */
     public function __destruct()
     {
     }
 
     /**
+     * visitLiteralAstNode
+     *
+     * @param ezcTemplateLiteralAstNode  $type
      * @return void
      */
     public function visitLiteralAstNode( ezcTemplateLiteralAstNode $type )
@@ -57,6 +66,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitLiteralArrayAstNode
+     *
+     * @param ezcTemplateLiteralArrayAstNode  $type
      * @return void
      */
     public function visitLiteralArrayAstNode( ezcTemplateLiteralArrayAstNode $type )
@@ -65,6 +77,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
 
 
     /**
+     * visitOutputAstNode
+     *
+     * @param ezcTemplateOutputAstNode  $type
      * @return void
      */
     public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
@@ -77,6 +92,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitTypeCastAstNode
+     *
+     * @param ezcTemplateTypeCastAstNode  $node
      * @return void
      */
     public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node )
@@ -87,6 +105,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitConstantAstNode
+     *
+     * @param ezcTemplateConstantAstNode  $type
      * @return void
      */
     public function visitConstantAstNode( ezcTemplateConstantAstNode $type )
@@ -94,6 +115,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitEolCommentAstNode
+     *
+     * @param ezcTemplateEolCommentAstNode  $comment
      * @return void
      */
     public function visitEolCommentAstNode( ezcTemplateEolCommentAstNode $comment )
@@ -101,6 +125,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitBlockCommentAstNode
+     *
+     * @param ezcTemplateBlockCommentAstNode  $comment
      * @return void
      */
     public function visitBlockCommentAstNode( ezcTemplateBlockCommentAstNode $comment )
@@ -108,6 +135,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitVariableAstNode
+     *
+     * @param ezcTemplateVariableAstNode  $var
      * @return void
      */
     public function visitVariableAstNode( ezcTemplateVariableAstNode $var )
@@ -115,6 +145,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitDynamicVariableAstNode
+     *
+     * @param ezcTemplateDynamicVariableAstNode  $var
      * @return void
      */
     public function visitDynamicVariableAstNode( ezcTemplateDynamicVariableAstNode $var )
@@ -125,6 +158,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitDynamicStringAstNode
+     *
+     * @param ezcTemplateDynamicStringAstNode  $dynamic
      * @return void
      */
     public function visitDynamicStringAstNode( ezcTemplateDynamicStringAstNode $dynamic )
@@ -143,6 +179,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitArrayFetchOperatorAstNode
+     *
+     * @param ezcTemplateArrayFetchOperatorAstNode  $operator
      * @return void
      */
     public function visitArrayFetchOperatorAstNode( ezcTemplateArrayFetchOperatorAstNode $operator )
@@ -158,6 +197,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitUnaryOperatorAstNode
+     *
+     * @param ezcTemplateOperatorAstNode  $operator
      * @return void
      */
     public function visitUnaryOperatorAstNode( ezcTemplateOperatorAstNode $operator )
@@ -177,6 +219,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitBinaryOperatorAstNode
+     *
+     * @param ezcTemplateOperatorAstNode  $operator
      * @return void
      */
     public function visitBinaryOperatorAstNode( ezcTemplateOperatorAstNode $operator )
@@ -194,9 +239,12 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * visitFunctionCallAstNode
+     *
+     * @param ezcTemplateFunctionCallAstNode  $fcall
      * @return void
      */
-public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall )
+    public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall )
     {
         array_unshift( $this->nodePath, $fcall );
         foreach ( $fcall->getParameters() as $i => $parameter )
@@ -207,6 +255,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitBodyAstNode
+     *
+     * @param ezcTemplateBodyAstNode  $body
      * @return void
      */
     public function visitBodyAstNode( ezcTemplateBodyAstNode $body )
@@ -231,6 +282,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitRootAstNode
+     *
+     * @param ezcTemplateRootAstNode $body
      * @return void
      */
     public function visitRootAstNode( ezcTemplateRootAstNode &$body )
@@ -257,6 +311,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
 
 
     /**
+     * visitGenericStatementAstNode
+     *
+     * @param ezcTemplateGenericStatementAstNode  $statement
      * @return void
      */
     public function visitGenericStatementAstNode( ezcTemplateGenericStatementAstNode $statement )
@@ -269,6 +326,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitIfAstNode
+     *
+     * @param ezcTemplateIfAstNode  $if
      * @return void
      */
     public function visitIfAstNode( ezcTemplateIfAstNode $if )
@@ -289,6 +349,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitDynamicBlockAstNode
+     *
+     * @param ezcTemplateDynamicBlockAstNode  $statement
      * @return void
      */
     public function visitDynamicBlockAstNode( ezcTemplateDynamicBlockAstNode $statement )
@@ -319,6 +382,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitForeachAstNode
+     *
+     * @param ezcTemplateForeachAstNode  $foreach
      * @return void
      */
     public function visitForeachAstNode( ezcTemplateForeachAstNode $foreach )
@@ -339,6 +405,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitBreakAstNode
+     *
+     * @param ezcTemplateBreakAstNode  $break
      * @return void
      */
     public function visitBreakAstNode( ezcTemplateBreakAstNode $break )
@@ -346,6 +415,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitContinueAstNode
+     *
+     * @param ezcTemplateContinueAstNode  $continue
      * @return void
      */
     public function visitContinueAstNode( ezcTemplateContinueAstNode $continue )
@@ -353,6 +425,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitReturnAstNode
+     *
+     * @param ezcTemplateReturnAstNode  $return
      * @return void
      */
     public function visitReturnAstNode( ezcTemplateReturnAstNode $return )
@@ -360,6 +435,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitRequireAstNode
+     *
+     * @param ezcTemplateRequireAstNode  $require
      * @return void
      */
     public function visitRequireAstNode( ezcTemplateRequireAstNode $require )
@@ -367,6 +445,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitRequireOnceAstNode
+     *
+     * @param ezcTemplateRequireOnceAstNode  $require
      * @return void
      */
     public function visitRequireOnceAstNode( ezcTemplateRequireOnceAstNode $require )
@@ -374,6 +455,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitIncludeAstNode
+     *
+     * @param ezcTemplateIncludeAstNode  $include
      * @return void
      */
     public function visitIncludeAstNode( ezcTemplateIncludeAstNode $include )
@@ -381,6 +465,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitIncludeOnceAstNode
+     *
+     * @param ezcTemplateIncludeOnceAstNode  $include
      * @return void
      */
     public function visitIncludeOnceAstNode( ezcTemplateIncludeOnceAstNode $include )
@@ -388,6 +475,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitSwitchAstNode
+     *
+     * @param ezcTemplateSwitchAstNode  $switch
      * @return void
      */
     public function visitSwitchAstNode( ezcTemplateSwitchAstNode $switch )
@@ -404,6 +494,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitCaseAstNode
+     *
+     * @param ezcTemplateCaseAstNode  $case
      * @return void
      */
     public function visitCaseAstNode( ezcTemplateCaseAstNode $case )
@@ -415,6 +508,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitDefaultAstNode
+     *
+     * @param ezcTemplateDefaultAstNode  $default
      * @return void
      */
     public function visitDefaultAstNode( ezcTemplateDefaultAstNode $default )
@@ -425,6 +521,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitConditionBodyAstNode
+     *
+     * @param ezcTemplateConditionBodyAstNode  $cond
      * @return void
      */
     public function visitConditionBodyAstNode( ezcTemplateConditionBodyAstNode $cond )
@@ -432,6 +531,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitTryAstNode
+     *
+     * @param ezcTemplateTryAstNode  $try
      * @return void
      */
     public function visitTryAstNode( ezcTemplateTryAstNode $try )
@@ -448,6 +550,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitCatchAstNode
+     *
+     * @param ezcTemplateCatchAstNode  $catch
      * @return void
      */
     public function visitCatchAstNode( ezcTemplateCatchAstNode $catch )
@@ -461,6 +566,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitEchoAstNode
+     *
+     * @param ezcTemplateEchoAstNode  $echo
      * @return void
      */
     public function visitEchoAstNode( ezcTemplateEchoAstNode $echo )
@@ -475,6 +583,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitPrintAstNode
+     *
+     * @param ezcTemplatePrintAstNode  $print
      * @return void
      */
     public function visitPrintAstNode( ezcTemplatePrintAstNode $print )
@@ -485,6 +596,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitIssetAstNode
+     *
+     * @param ezcTemplateIssetAstNode  $isset
      * @return void
      */
     public function visitIssetAstNode( ezcTemplateIssetAstNode $isset )
@@ -492,6 +606,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitUnsetAstNode
+     *
+     * @param ezcTemplateUnsetAstNode  $unset
      * @return void
      */
     public function visitUnsetAstNode( ezcTemplateUnsetAstNode $unset )
@@ -499,6 +616,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitEmptyAstNode
+     *
+     * @param ezcTemplateEmptyAstNode  $empty
      * @return void
      */
     public function visitEmptyAstNode( ezcTemplateEmptyAstNode $empty )
@@ -509,6 +629,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitParenthesisAstNode
+     *
+     * @param ezcTemplateParenthesisAstNode  $parenthesis
      * @return void
      */
     public function visitParenthesisAstNode( ezcTemplateParenthesisAstNode $parenthesis )
@@ -519,6 +642,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitCurlyBracesAstNode
+     *
+     * @param ezcTemplateCurlyBracesAstNode  $curly
      * @return void
      */
     public function visitCurlyBracesAstNode( ezcTemplateCurlyBracesAstNode $curly )
@@ -529,6 +655,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitIdentifierAstNode
+     *
+     * @param ezcTemplateIdentifierAstNode  $node
      * @return void
      */
     public function visitIdentifierAstNode( ezcTemplateIdentifierAstNode $node )
@@ -536,6 +665,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitNewAstNode
+     *
+     * @param ezcTemplateNewAstNode  $node
      * @return void
      */
     public function visitNewAstNode( ezcTemplateNewAstNode $node )
@@ -543,6 +675,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitCloneAstNode
+     *
+     * @param ezcTemplateCloneAstNode  $node
      * @return void
      */
     public function visitCloneAstNode( ezcTemplateCloneAstNode $node )
@@ -550,6 +685,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitPhpCodeAstNode
+     *
+     * @param ezcTemplatePhpCodeAstNode  $node
      * @return void
      */
     public function visitPhpCodeAstNode( ezcTemplatePhpCodeAstNode $node )
@@ -557,6 +695,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * visitThrowExceptionAstNode
+     *
+     * @param ezcTemplateThrowExceptionAstNode  $node
      * @return void
      */
     public function visitThrowExceptionAstNode( ezcTemplateThrowExceptionAstNode $node )
@@ -568,6 +709,9 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
 
 
     /**
+     * visitNopAstNode
+     *
+     * @param ezcTemplateNopAstNode  $node
      * @return void
      */
     public function visitNopAstNode( ezcTemplateNopAstNode $node )
@@ -575,6 +719,8 @@ public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall 
     }
 
     /**
+     * Internal function called to  call the accept function and change the given node.
+     *
      * @param ezcTemplateAstNode $node  Notice that the parameter will be changed.
      * @return void
      */

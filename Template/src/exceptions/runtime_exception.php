@@ -9,6 +9,9 @@
  */
 
 /**
+ * ezcTemplateRuntimeException is thrown when an error occurs while executing 
+ * a template. For example when a {use} variable without a default value is 
+ * not given.
  *
  * @package Template
  * @version //autogen//

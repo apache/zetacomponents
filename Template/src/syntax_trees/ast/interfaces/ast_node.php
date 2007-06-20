@@ -20,9 +20,25 @@ abstract class ezcTemplateAstNode
     const TYPE_ARRAY = 1;
     const TYPE_VALUE = 2;
 
+    /**
+     * Keep track if the statement returns an Array, a value, or both. 
+     * Both is returned when it's not certain what the statement will return.
+     *
+     * The typeHint information is used to do extra compile time checking.
+     * For example, the following template should give a compile time exception:
+     * <code>
+     * {$a = 2}
+     * {foreach $a => $b}
+     * {$b}
+     * {/foreach}
+     * </code>
+     *
+     * @var int
+     */
     public $typeHint = null;
 
     /**
+     * Constructs a new AstNode.
      */
     public function __construct()
     {
@@ -37,8 +53,9 @@ abstract class ezcTemplateAstNode
      * If the current object is: ezcTemplateVariableAstNode then
      * the method: $visitor->visitVariableTstNode( $this ) will be called.
      *
-     * @param ezcTemplateBasicAstNodeVisitor $visitor
+     * @param ezcTemplateAstNodeVisitor $visitor
      *        The visitor object which can visit the current code element.
+     * @return ezcTemplateAstNode
      */
     public function accept( ezcTemplateAstNodeVisitor $visitor )
     {
