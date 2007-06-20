@@ -68,7 +68,7 @@ class ezcPersistentMultiManager extends ezcPersistentDefinitionManager
             {
                 $def = $man->fetchDefinition( $class );
             }
-            catch (ezcPersistentDefinitionNotFoundException $e)
+            catch ( ezcPersistentDefinitionNotFoundException $e )
             {
                 $errors = $e->getMessage() . "\n";
             }

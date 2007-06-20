@@ -73,7 +73,7 @@ class PersistentTestObject
     {
         $db = ezcDbInstance::get();
         // Load schema
-        if( $autoIncrement == true )
+        if ( $autoIncrement == true )
         {
             $schema = ezcDbSchema::createFromFile( 'array', dirname( __FILE__ ) . '/persistent_test_object.dba' );
         }

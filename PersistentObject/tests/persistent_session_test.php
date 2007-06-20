@@ -560,7 +560,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $session->database = $db;
             $this->fail( "Did not get exception when expected" );
         }
-        catch( ezcBasePropertyPermissionException $e )
+        catch ( ezcBasePropertyPermissionException $e )
         {
         }
     }
@@ -576,7 +576,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $session->definitionManager = $manager;
             $this->fail( "Did not get exception when expected" );
         }
-        catch( ezcBasePropertyPermissionException $e )
+        catch ( ezcBasePropertyPermissionException $e )
         {
         }
     }
