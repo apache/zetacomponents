@@ -83,7 +83,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
     public function load( $file, $mime = null )
     {
         $this->checkFileName( $file );
-        $ref = $this->loadCommon( $file, isset( $mime ) ? $mime : null );
+        $ref = $this->loadCommon( $file, $mime );
 
         // Atomic file operation
         // @todo We should invent a destructor, which cleans up this temp files, 
@@ -124,7 +124,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         {
             $this->checkFileName( $newFile );
         }
-        $this->saveCommon( $image, isset( $newFile ) ? $newFile : null, isset( $mime ) ? $mime : null );
+        $this->saveCommon( $image, $newFile, $mime );
         
         switch ( $this->getReferenceData( $image, 'mime' ) )
         {
