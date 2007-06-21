@@ -125,6 +125,43 @@ The above code will output: ::
     Class 'erMyClass2'
     Class 'erYourClass1'
 
+Lazy initilization
+------------------
+
+Lazy initialization means a mechanism to load and configure a component, only 
+when it is really used in your application. This mechanism saves time for 
+parsing the classes and configuration, when the component is not used at all
+during one request. The implementation in ezcBaseInit may be reused by other
+applications and components, like the following example will show.
+
+.. include:: tutorial_lazy_initialization.php
+   :literal:
+
+The example shows a random class implmenting the singleton pattern, which may
+be some database connection handler, or anything similar in your case. The
+getInstance() method shows a typical PHP 5 implemenatation except the
+additional line 14, which checks, if a configuration callback was provided 
+earlier and configures the newly created instance. If no configuration
+callback was provided, nothing will happen. The customKey is used to receive 
+the right callback from ezcBaseInit and needs to be known by the user, who
+wants to define a configuration callback for your class.
+
+In line 32 the class used to configure your instance on creation is defined. 
+The first parameter is the key used earlier in the getInstance method, to 
+reference the right class, and the second parameter is the name of your 
+configuration class.
+
+The configuration class beginning in line 22 just needs to implement one
+method: configureObject(). This method will be called with the object to
+configure as a single parameter. In the example, a new public property on the
+customSingleton instance is created, which will be echo'd later to show the 
+success of the configuration.
+
+The configuration itself will not happen before the actual instance is created
+in line 35 performing the static call on customSingleton::getInstance(). The
+var_dump() in the following line shows, that the property value is set and
+contains the earlier set value (int) 42.
+
 
 ..
    Local Variables:
