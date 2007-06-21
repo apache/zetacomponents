@@ -122,6 +122,42 @@ injection' below.
 
 .. _documentation: http://www.php.net/pdo
 
+Lazy initialization
+-------------------
+
+Lazy initialisation means a mechanism to load and configure a component, only 
+when it is really used in your application. This mechanism saves time for 
+parsing the classes and configuration, when the component is not used at all
+during one request. You can find a description how you can use it for your 
+own components and how it works in the `ezcBase tutorial`__. The keyword for
+the database component is *ezcInitDatabaseInstance*.
+
+__ introduction_Base.html#lazy-initilization
+
+.. include:: tutorial_lazy_initialization.php
+	:literal:
+
+ezcBaseInit::setCallback accepts as a first parameter a component specifc key,
+which let the component later request the right configuration callback. The
+second parameter is the name of the class to perform the static callback on.
+Each components lazy initialization calls the static method configureObject()
+on the referenced class.
+
+This example shows a way to configure multiple database handlers, only when
+they are really requested in your application. The example does basicaly the
+same like the first example in this tutorial, but creates the connection not
+before it is really required.
+
+In line 24 the default database handler is first requested in this example,
+which does not exist yet, so that the configuration class earlier referenced
+through the setCallback() call will be asked for a new instance for the
+current instance name, which is (bool) false for the default instance.
+
+In the configureObject() method in line 8 we switch on the instance name and
+create and return the right newly created database handler. Line 27 shows,
+that this will also work with multiple database instances, creating an
+additional sqlite connection.
+
 Query abstraction usage
 =======================
 
