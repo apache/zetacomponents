@@ -140,6 +140,37 @@ The output would be: ::
       }
     }
 
+Lazy initialization
+-------------------
+
+Lazy initialisation means a mechanism to load and configure a component, only 
+when it is really used in your application. This mechanism saves time for 
+parsing the classes and configuration, when the component is not used at all
+during one request. You can find a description how you can use it for your 
+own components and how it works in the `ezcBase tutorial`__. The keyword for
+the configuration component is *ezcUrlConfiguration*.
+
+__ introduction_Base.html#lazy-initilization
+
+.. include:: tutorial/tutorial_lazy_initialization.php
+	:literal:
+
+This examples configures the URL component exactly like the example before.
+The main difference is, that we roll out the configuration to an own class, 
+and define a callback using ezcBaseInit::setCallback to this class, which 
+will be called with a url configuration instance as the first parameter on
+the first call on ezcUrlConfiguration::getInstance().
+
+ezcBaseInit::setCallback accepts as a first parameter a component specifc key,
+which let the component later request the right configuration callback. The
+second parameter is the name of the class to perform the static callback on.
+Each components lazy initialization calls the static method configureObject()
+on the referenced class.
+
+When the URL is really parsed in your application, like shown in line 35 of
+the example, a new ezcUrlConfiguration is instatiated an automatically
+configured by the configureObject() method.
+
 Working with parameters
 =======================
 
