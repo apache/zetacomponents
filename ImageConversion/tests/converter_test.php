@@ -35,6 +35,10 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
                 "image/xpm"  => "image/jpeg",
                 "image/wbmp" => "image/jpeg",
             );
+            if ( ezcBaseFeatures::os() === 'Windows' )
+            {
+                unset( $conversionsIn["image/xpm"] );
+            }
             $settings = new ezcImageConverterSettings(
                 array( new ezcImageHandlerSettings( "GD", "ezcImageGdHandler" ) ),
                 $conversionsIn
@@ -61,6 +65,10 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
             "image/xpm"  => "image/jpeg",
             "image/wbmp" => "image/jpeg",
         );
+        if ( ezcBaseFeatures::os() === 'Windows' )
+        {
+            unset( $conversionsIn["image/xpm"] );
+        }
         try
         {
             $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( "GD", "ezcImageGdHandler" ) ),
