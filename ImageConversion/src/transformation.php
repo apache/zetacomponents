@@ -205,7 +205,7 @@ class ezcImageTransformation
         }
         
         // Start atomic file operation
-        $fileTmp = tempnam( dirname( $fileOut ) . DIRECTORY_SEPARATOR, '.'.basename( $fileOut ) );
+        $fileTmp = tempnam( dirname( $fileOut ) . DIRECTORY_SEPARATOR, '.'. basename( $fileOut ) );
         copy( $fileIn, $fileTmp );
 
         try
@@ -299,12 +299,27 @@ class ezcImageTransformation
             // Rethrow
             throw new ezcImageTransformationException( $e );
         }
-
-        // Finalize atomic file operation
-        rename( $fileTmp, $fileOut );
-
+        
         // Cleanup
         $this->lastHandler = null;
+
+        // Finalize atomic file operation
+        if ( ezcBaseFeatures::os() === 'Windows' && file_exists( $fileOut ) )
+        {
+            // Windows does not allows overwriting files using rename,
+            // therefore the file is unlinked here first.
+            if ( unlink( $fileOut ) === false )
+            {
+                // Cleanup
+                unlink( $fileTmp );
+                throw new ezcImageFileNotProcessableException( $fileOut, 'The file exists and could not be unlinked.' );
+            }
+        }
+        if ( rename( $fileTmp, $fileOut ) === false )
+        {
+            unlink( $fileTmp );
+            throw new ezcImageFileNotProcessableException( $fileOut, "The temporary file {$fileTmp} could not be renamed to {$fileOut}." );
+        }
     }
 
     /**
