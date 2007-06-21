@@ -10,7 +10,6 @@
 
 
 require_once dirname( __FILE__ ) . "/test_case.php";
-require_once dirname( __FILE__ ) . "/test_case.php";
 
 /**
  * Test suite for ImageTransformation class.
