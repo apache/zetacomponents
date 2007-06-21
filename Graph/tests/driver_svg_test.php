@@ -1827,6 +1827,9 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
 
     public function testSvgWithDifferentLocales()
     {
+        // backup locale
+        $oldLocale = setlocale( LC_NUMERIC, null );
+
         setlocale( LC_NUMERIC, 'de_DE' );
 
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
@@ -1852,6 +1855,9 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         $chart->renderer->options->legendSymbolGleam = .5;
 
         $chart->render( 500, 200, $filename );
+
+        // restore locale
+        setlocale( LC_NUMERIC, $oldLocale );
 
         $this->compare(
             $filename,
