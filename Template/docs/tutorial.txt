@@ -127,6 +127,38 @@ given as second parameter in the process method, or use the 'default'
 getInstance configuration.
 
 
+Lazy initialization
+-------------------
+
+Lazy initialisation means a mechanism to load and configure a component, only 
+when it is really used in your application. This mechanism saves time for 
+parsing the classes and configuration, when the component is not used at all
+during one request. You can find a description how you can use it for your 
+own components and how it works in the `ezcBase tutorial`__. The keyword for
+the configuration component is *ezcInitTemplateConfiguration*.
+
+__ introduction_Base.html#lazy-initilization
+
+.. include:: tutorial_lazy_initialization.php
+	:literal:
+
+This examples shows how to configure the template component like shown in the
+first example. The main difference is, that we roll out the configuration to 
+an own class, and define a callback using ezcBaseInit::setCallback to this 
+class, which will be called with a template configuration object as first 
+parameter on the first instantiation of the template component.
+
+ezcBaseInit::setCallback accepts as a first parameter a component specifc key,
+which let the component later request the right configuration callback. The
+second parameter is the name of the class to perform the static callback on.
+Each components lazy initialization calls the static method configureObject()
+on the referenced class.
+
+When the template component is finally instantiated in line 19 of the example
+the configureObject() method will be called with an ezcTemplateConfiguration 
+instance used by the template engine, which can be modified by the method.
+
+
 Send and receive template variables
 -----------------------------------
 More often than not a PHP application sends variables to the Template engine.
