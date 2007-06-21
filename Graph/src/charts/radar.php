@@ -8,8 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class for line charts. Can make use of an unlimited amount of datasets and 
- * will display them as lines by default.
+ * Class for radar charts.
+ * Can make use of an unlimited amount of datasets and will display them as
+ * lines by default.
  * Rotation axis:
  *  - Labeled axis
  *  - Centered axis label renderer
@@ -18,7 +19,7 @@
  *  - radar axis label renderer
  *
  * <code>
- *  // Create a new line chart
+ *  // Create a new radar chart
  *  $chart = new ezcGraphRadarChart();
  *
  *  // Add data to line chart
@@ -108,15 +109,15 @@ class ezcGraphRadarChart extends ezcGraphChart
     }
 
     /**
-     * Options write access
+     * Property write access
      * 
      * @throws ezcBasePropertyNotFoundException
      *          If Option could not be found
      * @throws ezcBaseValueException
      *          If value is out of range
-     * @param mixed $propertyName   Option name
-     * @param mixed $propertyValue  Option value;
-     * @return mixed
+     * @param string $propertyName Option name
+     * @param mixed $propertyValue Option value;
+     * @return void
      * @ignore
      */
     public function __set( $propertyName, $propertyValue ) 
