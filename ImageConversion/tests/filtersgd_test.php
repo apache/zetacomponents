@@ -458,7 +458,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            150
+            10000
         );
     }
 
@@ -615,7 +615,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            60
+            500
         );
     }
     
@@ -639,7 +639,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             strtr( $this->getReferencePath(), array( "NegativeOffset" =>  "" ) ),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            60
+            750
         );
     }
     
@@ -663,7 +663,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            20
+            450
         );
     }
     
