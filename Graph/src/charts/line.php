@@ -417,6 +417,7 @@ class ezcGraphLineChart extends ezcGraphChart
      * @param int $width Image width
      * @param int $height Image height
      * @param string $file Output file
+     * @apichange
      * @return void
      */
     public function render( $width, $height, $file = null )
@@ -439,6 +440,7 @@ class ezcGraphLineChart extends ezcGraphChart
      *
      * @param int $width
      * @param int $height
+     * @apichange
      * @return void
      */
     public function renderToOutput( $width, $height )
