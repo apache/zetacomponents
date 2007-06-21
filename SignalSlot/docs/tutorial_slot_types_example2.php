@@ -1,4 +1,6 @@
 <?php
+require_once 'tutorial_autoload.php';
+
 class HelloClass
 {
     public function hello()

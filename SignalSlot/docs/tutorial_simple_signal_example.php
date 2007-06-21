@@ -1,4 +1,6 @@
 <?php
+require_once 'tutorial_autoload.php';
+
 function hello()
 {
     echo "Hello world\n";
