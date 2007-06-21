@@ -9,7 +9,7 @@
  */
 
 /**
- * Thrown if a specified handler class is not available.
+ * Thrown if a file could not be processed by a handler.
  *
  * @package ImageConversion
  * @version //autogen//
@@ -23,7 +23,7 @@ class ezcImageFileNotProcessableException extends ezcImageException
         {
             $reasonPart = " $reason";
         }
-        parent::__construct( "Handler class '{$handlerClass}' not found.{$reasonPart}" );
+        parent::__construct( "File '{$file}' could not be processed.{$reasonPart}" );
     }
 }
 
