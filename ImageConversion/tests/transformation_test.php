@@ -712,6 +712,19 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             2000
         );
     }
+    
+    // Test for bug #10949: rename php error if file allread exists
+    public function testDoubleTransform()
+    {
+        $mimeOut = array( "image/jpeg" );
+        $trans = new ezcImageTransformation( $this->converter, "test", $this->testFiltersSuccess[0], $mimeOut );
+
+        $resFile = $this->getTempPath( "jpeg" );
+        $trans->transform( $this->testFiles["jpeg"], $resFile );
+        $trans->transform( $this->testFiles["jpeg"], $resFile );
+        
+        // Should not fail or produce a notice
+    }
 
     public function testTransformQualityLow()
     {
