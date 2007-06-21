@@ -1,6 +1,6 @@
 <?php
 // no headers should be sent before calling $session->start()
-$session = new ezcAuthenticationSessionFilter();
+$session = new ezcAuthenticationSession();
 $session->start();
 
 // $token is used as a key in the session to store the authenticated state between requests
@@ -21,8 +21,8 @@ if ( !$authentication->run() )
     $err = array(
              ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_INCORRECT => 'Signature returned by TypeKey is incorrect',
              ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_EXPIRED => 'The signature returned by TypeKey expired',
-             ezcAuthenticationSessionFilter::STATUS_EMPTY => '',
-             ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
+             ezcAuthenticationSession::STATUS_EMPTY => '',
+             ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
              );
     for ( $i = 0; $i < count( $status ); $i++ )
     {

@@ -27,7 +27,7 @@
  * <code>
  * $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'b1b3773a05c0ed0176787a4f1574ff0075f7521e' );
  * $authentication = new ezcAuthentication( $credentials );
- * $authentication->session = new ezcAuthenticationSessionFilter();
+ * $authentication->session = new ezcAuthenticationSession();
  * $authentication->addFilter( new ezcAuthenticationHtpasswdFilter( '/etc/htpasswd' ) );
  * // add other filters if needed
  * if ( !$authentication->run() )
@@ -114,13 +114,13 @@ class ezcAuthentication
         switch ( $name )
         {
             case 'session':
-                if ( $value instanceof ezcAuthenticationSessionFilter )
+                if ( $value instanceof ezcAuthenticationSession )
                 {
                     $this->properties[$name] = $value;
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $name, $value, 'ezcAuthenticationSessionFilter' );
+                    throw new ezcBaseValueException( $name, $value, 'ezcAuthenticationSession' );
                 }
                 break;
 
@@ -228,7 +228,7 @@ class ezcAuthentication
             $code = $this->session->run( $this->credentials );
             $this->status->append( get_class( $this->session ), $code );
         }
-        if ( !isset( $this->session ) || $code === ezcAuthenticationSessionFilter::STATUS_EMPTY )
+        if ( !isset( $this->session ) || $code === ezcAuthenticationSession::STATUS_EMPTY )
         {
             foreach ( $this->filters as $filter )
             {
@@ -255,7 +255,7 @@ class ezcAuthentication
                 }
             }
         }
-        elseif ( $code === ezcAuthenticationSessionFilter::STATUS_EXPIRED )
+        elseif ( $code === ezcAuthenticationSession::STATUS_EXPIRED )
         {
             return false;
         }
@@ -293,7 +293,7 @@ class ezcAuthentication
      * Example:
      * <code>
      * array(
-     * 'ezcAuthenticationSessionFilter' => ezcAuthenticationSessionFilter::STATUS_EMPTY,
+     * 'ezcAuthenticationSession' => ezcAuthenticationSession::STATUS_EMPTY,
      * 'ezcAuthenticationDatabaseFilter' => ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT
      *      );
      * </code>

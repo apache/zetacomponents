@@ -87,7 +87,7 @@ class ezcAuthenticationGeneralTest extends ezcAuthenticationTest
         $authentication = new ezcAuthentication( $credentials );
 
         $this->invalidPropertyTest( $authentication, 'credentials', 'wrong value', 'ezcAuthenticationCredentials' );
-        $this->invalidPropertyTest( $authentication, 'session', 'wrong value', 'ezcAuthenticationSessionFilter' );
+        $this->invalidPropertyTest( $authentication, 'session', 'wrong value', 'ezcAuthenticationSession' );
         $this->invalidPropertyTest( $authentication, 'status', 'wrong value', 'ezcAuthenticationStatus' );
         $this->missingPropertyTest( $authentication, 'no_such_property' );
     }

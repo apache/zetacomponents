@@ -33,6 +33,9 @@ ezcAuthenticationCredentials
   (ezcAuthenticationIdCredentials) and id + password credentials
   (ezcAuthenticationPasswordCredentials).
 
+ezcAuthenticationSession
+  Used to store the authenticated username and the timestamp between requests.
+
 
 Authentication filters
 ----------------------
@@ -61,10 +64,6 @@ ezcAuthenticationOpenidFilter
   Filter to authenticate against OpenID. For now the OpenID version 1.1 is
   supported.
 
-ezcAuthenticationSessionFilter
-  Special filter used to store the authenticated username and the timestamp
-  between requests.
-
 ezcAuthenticationTokenFilter
   Filter used to implement CAPTCHA tests. It basically compares the server
   generated token with the value entered by the user, using a specified hashing
@@ -88,6 +87,9 @@ ezcAuthenticationOpenidFileStore
 
 General authentication
 ======================
+
+Stateless authentication
+------------------------
 
 The general template for authentication is:
 
@@ -117,6 +119,34 @@ in the status returned must be cycled through and for each value a response is
 created for the user ("Username incorrect", "Password incorrect").
 
 If run() returned true (line 33) then the user is logged-in and he can see his
+content.
+
+
+Using session
+-------------
+
+The following example shows how to use the session class to store
+authentication information (username and timestamp) between requests.
+
+.. include:: tutorial/tutorial_session.php
+   :literal:
+
+A session class is created and used to start the PHP session. The username and
+password (provided by the user through a POST form) are fetched and used to
+create a credentials object.
+
+An authentication object is created using the credentials object, and the
+session class is added to the authentication object. In addition an htpasswd
+filter (using the /etc/htpasswd file) is added to the authentication object.
+
+After running the authentication (line 12), if the username and the password do
+not pass through the session class or the htpasswd filter, then the credentials
+are incorrect and the user must be informed. The getStatus() method is used for
+this. The values in the status returned must be cycled through and for each
+value a response is created for the user ("Username incorrect", "Password
+incorrect", "Session expired").
+
+If run() returned true (line 47) then the user is logged-in and he can see his
 content.
 
 
@@ -255,7 +285,7 @@ openid.associate
 
 
 OpenID "dumb" (stateless) mode
-------------------------------
+``````````````````````````````
 
 The following example shows how to authenticate against OpenID in "dumb"
 (stateless) mode.
@@ -263,7 +293,7 @@ The following example shows how to authenticate against OpenID in "dumb"
 .. include:: tutorial/tutorial_openid_dumb.php
    :literal:
 
-A session filter is created and used to start the PHP session. The OpenID
+A session class is created and used to start the PHP session. The OpenID
 identifier (provided by the user through a GET form) is fetched and used to
 create a credentials object. On subsequent requests to the page, the token is
 loaded from session instead of the GET form. OpenID specifications recommend
@@ -272,7 +302,7 @@ their OpenID identifier (so that browser can prefill the field if user chooses
 this).
 
 An authentication object is created using the credentials object, and the
-session filter is added to it.
+session handler is added to it.
 
 If the user is at logout (line 13), then the session is destroyed, which means
 the user will see the login form.
@@ -294,7 +324,7 @@ the application.
 
 
 OpenID "smart" (stateful) mode
-------------------------------
+``````````````````````````````
 
 The following example shows how to authenticate against OpenID in "smart"
 (stateful) mode.
@@ -306,34 +336,6 @@ The only differences between this example and the one in the previous section
 is defining the mode of the OpenID filter, and defining a store (here: a file
 store) which will hold the associations. In addition the store will also hold
 the nonces which are used to prevent replay attacks.
-
-
-Session
--------
-
-The following example shows how to use the session filter to store
-authentication information (username and timestamp) between requests.
-
-.. include:: tutorial/tutorial_session.php
-   :literal:
-
-A session filter is created and used to start the PHP session. The username and
-password (provided by the user through a POST form) are fetched and used to
-create a credentials object.
-
-An authentication object is created using the credentials object, and the
-session filter is added to the authentication object. In addition an htpasswd
-filter (using the /etc/htpasswd file) is added to the authentication object.
-
-After running the authentication (line 12), if the username and the password do
-not pass through the session or the htpasswd filter, then the credentials are
-incorrect and the user must be informed. The getStatus() method is used for
-this. The values in the status returned must be cycled through and for each
-value a response is created for the user ("Username incorrect", "Password
-incorrect", "Session expired").
-
-If run() returned true (line 47) then the user is logged-in and he can see his
-content.
 
 
 Token
@@ -383,13 +385,13 @@ The following example shows how to authenticate against TypeKey.
 .. include:: tutorial/tutorial_typekey.php
    :literal:
 
-A session filter is created and used to start the PHP session. The TypeKey
+A session class is created and used to start the PHP session. The TypeKey
 token (provided by the user through a GET form) is fetched and used to
 create a credentials object. On subsequent requests to the page, the token is
 loaded from session instead of the GET form.
 
 An authentication object is created using the credentials object, and a
-TypeKey filter is added to it, along with the session filter.
+TypeKey filter is added to it, along with the session class.
 
 After running the authentication (line 19), if the TypeKey server did not
 authorize the token, then the credentials are incorrect and the user must be

@@ -43,7 +43,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationSessionOptions();
         $options->validity = 3;
-        $authentication->session = new ezcAuthenticationSessionFilter( $options );
+        $authentication->session = new ezcAuthenticationSession( $options );
         $this->assertEquals( false, $authentication->run() );
     }
 
@@ -54,7 +54,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationSessionOptions();
         $options->validity = 1;
-        $authentication->session = new ezcAuthenticationSessionFilter( $options );
+        $authentication->session = new ezcAuthenticationSession( $options );
         $this->assertEquals( false, $authentication->run() );
     }
 
@@ -66,7 +66,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationSessionOptions();
         $options->validity = 3;
-        $authentication->session = new ezcAuthenticationSessionFilter( $options );
+        $authentication->session = new ezcAuthenticationSession( $options );
         $this->assertEquals( true, $authentication->run() );
     }
 
@@ -78,7 +78,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationSessionOptions();
         $options->validity = 1;
-        $authentication->session = new ezcAuthenticationSessionFilter( $options );
+        $authentication->session = new ezcAuthenticationSession( $options );
         $this->assertEquals( true, isset( $_SESSION[self::$timestampKey] ) );
         $this->assertEquals( true, isset( $_SESSION[self::$idKey] ) );
         $this->assertEquals( false, $authentication->run() );
@@ -101,7 +101,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
     {
         $options = new ezcAuthenticationSessionOptions();
 
-        $filter = new ezcAuthenticationSessionFilter();
+        $filter = new ezcAuthenticationSession();
         $filter->setOptions( $options );
         $this->assertEquals( $options, $filter->getOptions() );
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcAuthenticationSessionFilter class.
+ * File containing the ezcAuthenticationSession class.
  *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -25,7 +25,7 @@
  * Example of use (combined with the Htpasswd filter):
  * <code>
  * // no headers should be sent before calling $session->start()
- * $session = new ezcAuthenticationSessionFilter();
+ * $session = new ezcAuthenticationSession();
  * $session->start();
  *
  * // retrieve the POST request information
@@ -43,8 +43,8 @@
  *     $err = array(
  *              ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
  *              ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password',
- *              ezcAuthenticationSessionFilter::STATUS_EMPTY => '',
- *              ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
+ *              ezcAuthenticationSession::STATUS_EMPTY => '',
+ *              ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
  *              );
  *     for ( $i = 0; $i < count( $status ); $i++ )
  *     {
@@ -62,8 +62,15 @@
  * @version //autogen//
  * @mainclass
  */
-class ezcAuthenticationSessionFilter extends ezcAuthenticationFilter implements ezcAuthenticationSession
+class ezcAuthenticationSession
 {
+    /**
+     * Successful authentication; normal behaviour is to skip the other filters.
+     *
+     * This should be the same value as ezcAuthenticationFilter::STATUS_OK.
+     */
+    const STATUS_OK = 0;
+
     /**
      * The session is empty; normal behaviour is to continue with the other filters.
      */
@@ -73,6 +80,13 @@ class ezcAuthenticationSessionFilter extends ezcAuthenticationFilter implements 
      * The session expired; normal behaviour is to regenerate the session ID.
      */
     const STATUS_EXPIRED = 2;
+
+    /**
+     * Options for authentication filters.
+     * 
+     * @var ezcAuthenticationFilterOptions
+     */
+    protected $options;
 
     /**
      * Creates a new object of this class.
@@ -85,7 +99,7 @@ class ezcAuthenticationSessionFilter extends ezcAuthenticationFilter implements 
     }
 
     /**
-     * Runs the filter and returns a status code when finished.
+     * Runs through the session and returns a status code when finished.
      *
      * @param ezcAuthenticationCredentials $credentials Authentication credentials
      * @return int
@@ -163,6 +177,26 @@ class ezcAuthenticationSessionFilter extends ezcAuthenticationFilter implements 
             // session_destroy();
             session_regenerate_id();
         }
+    }
+
+    /**
+     * Sets the options of this class to $options.
+     *
+     * @param ezcAuthenticationSessionOptions $options Options for this class
+     */
+    public function setOptions( ezcAuthenticationSessionOptions $options )
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * Returns the options of this class.
+     *
+     * @return ezcAuthenticationSessionOptions
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 }
 ?>

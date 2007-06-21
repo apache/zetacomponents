@@ -50,7 +50,7 @@ class ezcAuthenticationStatus
      * Example:
      * <code>
      * array(
-     * 'ezcAuthenticationSessionFilter' => ezcAuthenticationSessionFilter::STATUS_EMPTY,
+     * 'ezcAuthenticationSession' => ezcAuthenticationSession::STATUS_EMPTY,
      * 'ezcAuthenticationDatabaseFilter' => ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT
      *      );
      * </code>

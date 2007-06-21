@@ -10,7 +10,7 @@
  */
 
 /**
- * Class containing the options for the session authentication filter.
+ * Class containing the options for the authentication session.
  *
  * Example of use:
  * <code>
@@ -21,10 +21,10 @@
  * $options->timestampKey = 'yyy';
  *
  * // use the options object when creating a new Session filter
- * $filter = new ezcAuthenticationSessionFilter( $options );
+ * $filter = new ezcAuthenticationSession( $options );
  *
  * // alternatively, you can set the options to an existing filter
- * $filter = new ezcAuthenticationSessionFilter();
+ * $filter = new ezcAuthenticationSession();
  * $filter->setOptions( $options );
  * </code>
  *
@@ -39,7 +39,7 @@
  * @package Authentication
  * @version //autogen//
  */
-class ezcAuthenticationSessionOptions extends ezcAuthenticationFilterOptions
+class ezcAuthenticationSessionOptions extends ezcBaseOptions
 {
     /**
      * Constructs an object with the specified values.
@@ -92,7 +92,7 @@ class ezcAuthenticationSessionOptions extends ezcAuthenticationFilterOptions
                 break;
 
             default:
-                parent::__set( $name, $value );
+                throw new ezcBasePropertyNotFoundException( $name );
         }
     }
 }

@@ -30,7 +30,7 @@
  * Example of use (authentication code + login form + logout support):
  * <code>
  * // no headers should be sent before calling $session->start()
- * $session = new ezcAuthenticationSessionFilter();
+ * $session = new ezcAuthenticationSession();
  * $session->start();
  *
  * $url = isset( $_GET['openid_identifier'] ) ? $_GET['openid_identifier'] : $session->load();
@@ -59,8 +59,8 @@
  *              ezcAuthenticationOpenidFilter::STATUS_NONCE_INCORRECT => 'The nonce returned by the server is incorrect, probably a replay attack',
  *              ezcAuthenticationOpenidFilter::STATUS_CANCELLED => 'The OpenID authentication was cancelled',
  *              ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT => 'The identifier you provided is invalid',
- *              ezcAuthenticationSessionFilter::STATUS_EMPTY => '',
- *              ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
+ *              ezcAuthenticationSession::STATUS_EMPTY => '',
+ *              ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
  *              );
  *     for ( $i = 0; $i < count( $status ); $i++ )
  *     {

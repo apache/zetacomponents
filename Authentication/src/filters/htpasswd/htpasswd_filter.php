@@ -29,7 +29,7 @@
  * <code>
  * $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'b1b3773a05c0ed0176787a4f1574ff0075f7521e' );
  * $authentication = new ezcAuthentication( $credentials );
- * $authentication->session = new ezcAuthenticationSessionFilter();
+ * $authentication->session = new ezcAuthenticationSession();
  * $authentication->addFilter( new ezcAuthenticationHtpasswdFilter( '/etc/htpasswd' ) );
  * // add other filters if needed
  * if ( !$authentication->run() )

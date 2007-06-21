@@ -1,6 +1,6 @@
 <?php
 // no headers should be sent before calling $session->start()
-$session = new ezcAuthenticationSessionFilter();
+$session = new ezcAuthenticationSession();
 $session->start();
 
 $url = isset( $_GET['openid_identifier'] ) ? $_GET['openid_identifier'] : $session->load();
@@ -28,8 +28,8 @@ if ( !$authentication->run() )
              ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT => 'OpenID said the provided identifier was incorrect',
              ezcAuthenticationOpenidFilter::STATUS_CANCELLED => 'The OpenID authentication was cancelled',
              ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT => 'The identifier you provided is invalid',
-             ezcAuthenticationSessionFilter::STATUS_EMPTY => '',
-             ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
+             ezcAuthenticationSession::STATUS_EMPTY => '',
+             ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
              );
     for ( $i = 0; $i < count( $status ); $i++ )
     {

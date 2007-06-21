@@ -25,7 +25,7 @@
  * $filter = new ezcAuthenticationOpenidFilter( $options );
  *
  * // alternatively, you can set the options to an existing filter
- * $filter = new ezcAuthenticationSessionFilter();
+ * $filter = new ezcAuthenticationSession();
  * $filter->setOptions( $options );
  * </code>
  *
