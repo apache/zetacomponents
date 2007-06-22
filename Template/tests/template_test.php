@@ -161,7 +161,8 @@ class ezcTemplateTest extends ezcTestCase
         $out = $template->process( "test.ezt", $conf );
         self::assertEquals( "Hello world", $out);
 
-        $a = glob($conf->compilePath . "/compiled_templates/xhtml-updqr0/*.php");
+
+        $a = glob($conf->compilePath . "/compiled_templates/xhtml-*/*.php");
         $path = $a[0];
         chmod($path, 0500); // Read only.
         chmod(dirname( $path ), 0500); // Read only.
@@ -188,7 +189,9 @@ class ezcTemplateTest extends ezcTestCase
         $conf->compilePath = $this->basePath . "/not_writable";
         $out = $template->process( "test.ezt", $conf );
         self::assertEquals( "Hello world", $out);
-        chmod($conf->compilePath . "/compiled_templates/xhtml-updqr0", 555); // Read, Executable only
+        $d = glob($conf->compilePath . "/compiled_templates/xhtml-*"); // Read, Executable only
+        $dir = $d[0];
+        chmod($dir, 555); // Read, Executable only
 
         try
         {
