@@ -287,6 +287,7 @@ class ezcUrl
      */
     private function parsePathElement( $config, $index )
     {
+        $config = trim( $config, '/' );
         $paramParts = explode( '/', $config );
         $pathElement = array();
         foreach ( $paramParts as $part )

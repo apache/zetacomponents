@@ -466,6 +466,85 @@ class ezcUrlTest extends ezcTestCase
         }
     }
 
+    public function testBuildUrlWithBasedirAppendedSlash()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = 'mydir/shop/';
+        $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/mydir/shop/doc/components/view/trunk';
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+
+    public function testBuildUrlWithAbsoluteBasedir()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = '/mydir/shop';
+        $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/mydir/shop/doc/components/view/trunk';
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+
+    public function testBuildUrlWithAbsoluteBasedirAppendedSlash()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = '/mydir/shop/';
+        $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/mydir/shop/doc/components/view/trunk';
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+ 
+    public function testGetOrderedParameterBasedir()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = 'mydir/';
+        $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'branch' );
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/index.php/doc/components/view/trunk', $urlCfg );
+        $this->assertEquals( 'doc', $url->getParam( 'section' ) );
+        $this->assertEquals( 'components', $url->getParam( 'module' ) );
+        $this->assertEquals( 'view', $url->getParam( 'view' ) );
+        $this->assertEquals( 'trunk', $url->getParam( 'branch' ) );
+    }
+
+    public function testGetOrderedParameterAbsoluteBasedir()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = '/mydir/';
+        $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'branch' );
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/index.php/doc/components/view/trunk', $urlCfg );
+        $this->assertEquals( 'doc', $url->getParam( 'section' ) );
+        $this->assertEquals( 'components', $url->getParam( 'module' ) );
+        $this->assertEquals( 'view', $url->getParam( 'view' ) );
+        $this->assertEquals( 'trunk', $url->getParam( 'branch' ) );
+    }
+
     public function testIsSet()
     {
         $url = new ezcUrl( 'http://www.example.com' );
