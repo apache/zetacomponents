@@ -1,5 +1,5 @@
-eZ Components - Authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eZ Components - AuthenticationDatabaseTiein
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
 
@@ -9,24 +9,27 @@ Introduction
 Description
 -----------
 
-The purpose of the Authentication component is to provide support for different
-means of identification and authentication of users using different providers and
-protocols.
+The purpose of the `Authentication`_ component is to provide support for
+different means of identification and authentication of users using different
+providers and protocols.
+
+AuthenticationDatabaseTiein provides a Database filter for the
+`Authentication`_ component by using the `Database`_ component.
 
 
 Class overview
 ==============
 
-An overview of the most important classes in the Authentication component.
+An overview of the most important classes in the `Authentication`_ component.
 
 
 Base classes
 ------------
 
 ezcAuthentication
-  Main class of Authentication. It is a container for authentication filters,
-  which will be run in sequence. The method run() returns true or false
-  depending on the success of the authentication filters.
+  Main class of `Authentication`_. It is a container for authentication
+  filters, which will be run in sequence. The method run() returns true or
+  false depending on the success of the authentication filters.
 
 ezcAuthenticationCredentials
   Structure which holds user credentials. Types are id credentials
@@ -39,7 +42,7 @@ Authentication filters
 
 ezcAuthenticationDatabaseFilter
   Filter to authenticate against a database. Uses a database instance provided
-  by the Database component (via the ezcDbInstance::get() function).
+  by the `Database`_ component (via the ezcDbInstance::get() function).
 
 
 Authentication filters
@@ -61,14 +64,28 @@ Database filter is added to it. The $database structure specifies the database
 instance (ezcDbInstance::get()), the table name ('users') and the username and
 password fields in the table ('user', 'password').
 
-After running the authentication (line 7), if the username and the password do
+After running the authentication (line 8), if the username and the password do
 not pass through the Database filter, then the credentials are incorrect and
 the user must be informed. The getStatus() method is used for this. The values
 in the status returned must be cycled through and for each value a response is
 created for the user ("Username incorrect", "Password incorrect").
 
-If run() returned true (line 34) then the user is logged-in and he can see his
+If run() returned true (line 24) then the user is logged-in and he can see his
 content.
+
+
+Securing applications
+=====================
+
+`Securing applications`_ - A guide to improve the security of online
+applications. It is not exhaustive, but it provides solutions against common
+attacks.
+
+.. _Securing applications: Authentication_security.html
+
+
+.. _Authentication: introduction_Authentication.html
+.. _Database: introduction_Database.html
 
 
 ..
