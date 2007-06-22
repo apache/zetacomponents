@@ -34,15 +34,15 @@ ezcAuthenticationCredentials
   A structure which holds basic information to authenticate the user.
   Developers can extend this class to include additional credentials.
 
+ezcAuthenticationSession
+  Support for storing authentication information in the session.
+
 
 Authentication filters
 ----------------------
 
 A list of supported authentication filters (plug-ins). This list can be
 extended by developers or by us in future releases:
-
-ezcAuthenticationSessionFilter
-  Support for storing authentication information in the session.
 
 ezcAuthenticationGroupFilter
   Container filter for 2 or more filters. Depending on configuration, at least
@@ -114,20 +114,8 @@ status
   ezcAuthenticationLdapFilter::STATUS_PASSWORD_INCORRECT).
 
 
-ezcAuthenticationFilter
------------------------
-
-Abstract class which is a base class for all authentication filters. It can
-be extended to create new filters. It contains these abstract methods:
-
-run()
-  Executes the filter authentication. Can return different statuses which are
-  used by the ezcAuthentication object to decide if the next filter is needed
-  to run or if the authentication process failed at the current filter.
-
-
-ezcAuthenticationSessionFilter
-------------------------------
+ezcAuthenticationSession
+------------------------
 
 Support for storing authentication information in the session. Uses a specified
 key in the session to store if the user is authenticated or not. Cases:
@@ -147,6 +135,18 @@ Login by using an existing session
 Login by using another session ID than the one stored
   Probably an attack. It will warn about the conflict, generate a new ID and
   initiate the authentication using the other defined filters.
+
+
+ezcAuthenticationFilter
+-----------------------
+
+Abstract class which is a base class for all authentication filters. It can
+be extended to create new filters. It contains these abstract methods:
+
+run()
+  Executes the filter authentication. Can return different statuses which are
+  used by the ezcAuthentication object to decide if the next filter is needed
+  to run or if the authentication process failed at the current filter.
 
 
 ezcAuthenticationDatabaseFilter
@@ -212,7 +212,7 @@ session to cache the authentication between requests: ::
     // get $user and $password from POST variables or from session
     $credentials = new ezcAuthenticationPasswordCredentials( $user, $password );
     $authentication = new ezcAuthentication( $credentials );
-    $authentication->session = new ezcAuthenticationSessionFilter();
+    $authentication->session = new ezcAuthenticationSession();
 
     $db = new ezcAuthenticationDatabaseInfo( ezcDbInstance::get(),
         'users', array( 'user', 'password' ) );

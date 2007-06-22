@@ -87,12 +87,6 @@ Authentication filters
 A list of filters which are to be supported in the initial release of the
 component (this list might be changed later):
 
-Session
-  Uses the PHP session to make information about the authenticated user
-  persistent across requests. This information includes if the user is
-  authenticated and authentication timestamp (to be used to expire the
-  session).
-
 Group
   A generic filter which is used to group two or more filters. Depending on
   configuration, at least one filter needs to succeed in order for the group
@@ -131,6 +125,14 @@ LDAP (Lightweight Directory Access Protocol)
   Protocol for querying and updating directory services. Compatible with
   other protocols (Novell eDirectory, Oracle Internet Directory, Windows Server
   2003 Active Directory). RFC: http://www.faqs.org/rfcs/rfc4510.html
+
+
+Session support
+---------------
+
+Uses the PHP session to make information about the authenticated user
+persistent across requests. This information includes if the user is
+authenticated and authentication timestamp (to be used to expire the session).
 
 
 Design goals
@@ -206,14 +208,15 @@ the authentication process to continue.
 Session
 -------
 
-The use of a Session filter is optional (but enabled by default). Developers can
-specify the provided Session filter or their own class.
+The use of a Session object is optional (but enabled by default). Developers can
+specify the provided Session class or extend it to implement their desired
+functionality.
 
-If the Session filter is enabled, then it will be checked before the
+If a Session object is specified, then it will be checked before the
 authentication process, and it will save the authentication information for
 future requests, after the process.
 
-The Session filter is responsible for:
+The Session class is responsible for:
  - saving and checking the timestamp (based on options)
  - starting and ending the PHP session
  - regenerating the session ID
