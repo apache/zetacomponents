@@ -31,6 +31,62 @@ Background
 ----------
 
 
+Improved datatype support (especially binary data) [#10151]
+===========================================================
+
+Background
+----------
+PDO uses several different ways of binding parameters to queries. Currently
+these are:
+
+- PDO::PARAM_BOOL
+- PDO::PARAM_NULL
+- PDO::PARAM_INT
+- PDO::PARAM_LOB
+- PDO::PARAM_STR (default)
+- PDO::PARAM_INPUT_OUTPUT Currently unsported by PDO. Used for in/out 
+  parameters of a stored procedure.
+
+Currently only the default paramter PARAM_STR is supported by persistent
+object. This does not mean that you can not store integers and booleans as the
+database drivers will figure this out themselves.
+
+However, for some field types especially you are required to use parameters. An
+example of this is binary data which can contain '\0'. If you use the default
+parameter PDO::PARAM_STR the remaining data will simply be ignored since the
+end of the string has already been encountered.
+
+The support for PDO PARAM_ types was recently added to the Database component
+as a fix for issue `#010943`_.
+
+.. _`#010943`: http://issues.ez.no/IssueView.php?Id=10943
+
+
+Design
+------
+The proposed solution is to add a columnType property for all definitions where
+a column is defined. The columnType can be one of the PDO PARAM_ type
+parameters and directly defines the parameter type provided to PDO when
+building the queries.
+
+This currently affects:
+- ezcPersistentObjectIdProperty
+- ezcPersistentObjectProperty
+
+
+Open questions
+--------------
+It would be nice to make large binary data available as a resource both for
+writing and reading. PDO::PARAM_LOB can handle this if used together with 
+PDO::FETCH_BOUND. Should we, and how do we make this available to the user?
+Write support will most probably work out of the box. If the value is a
+resource the whole file will be read automatically by PDO as long as PARAM_LOB
+is used.
+
+Should we use the PDO::PARAM_BOOL/INT by default? That is do we actually
+want to require to use this for anything else than PARAM_LOB since ints/bools
+etc. actually work fine already. What does using these parameters gain us.
+
 Several relations to the same table for PersistentObject [#10373]
 =================================================================
 
