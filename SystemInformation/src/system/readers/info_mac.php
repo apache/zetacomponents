@@ -186,7 +186,7 @@ class ezcSystemInfoMacReader extends ezcSystemInfoReader
         $this->cpuType[] = $macInfo['cpu_type'];
         $this->validProperties['cpu_type'] = $this->cpuType;
         
-        $this->cpuCount = $macInfo['packages'];
+        $this->cpuCount = (int)$macInfo['packages'];
         $this->validProperties['cpu_count'] = $this->cpuCount;
         
         preg_match( "#^([0-9]+([\.|,][0-9]*)?) *([a-zA-Z]+)#", $macInfo['current_processor_speed'], $matches );
