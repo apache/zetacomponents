@@ -15,6 +15,8 @@
  * The filter deals with the validation of information returned by the TypeKey
  * server in response to a login command.
  *
+ * Specifications: {@link http://www.sixapart.com/typekey/api}
+ *
  * In order to access a protected page, user logs in by using a request like:
  *   https://www.typekey.com/t/typekey/login?
  *     t=391jbj25WAQANzJrKvb5&_return=http://example.com/login.php
@@ -63,20 +65,20 @@
  * For more information on the login request and the TypeKey response link see
  * {@link http://www.sixapart.com/typekey/api}.
  *
- * Example:
+ * Example of use (authentication + input form):
  * <code>
  * <?php
  * // no headers should be sent before calling $session->start()
  * $session = new ezcAuthenticationSession();
  * $session->start();
- * 
+ *
  * // $token is used as a key in the session to store the authenticated state between requests
  * $token = isset( $_GET['token'] ) ? $_GET['token'] : $session->load();
- * 
+ *
  * $credentials = new ezcAuthenticationIdCredentials( $token );
  * $authentication = new ezcAuthentication( $credentials );
  * $authentication->session = $session;
- * 
+ *
  * $filter = new ezcAuthenticationTypekeyFilter();
  * $authentication->addFilter( $filter );
  * // add other filters if needed
@@ -86,15 +88,19 @@
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
  *     $err = array(
- *              ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_INCORRECT => 'Signature returned by TypeKey is incorrect',
- *              ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_EXPIRED => 'The signature returned by TypeKey expired',
- *              ezcAuthenticationSession::STATUS_EMPTY => '',
- *              ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
+ *              'ezcAuthenticationTypekeyFilter' => array(
+ *                  ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_INCORRECT => 'Signature returned by TypeKey is incorrect',
+ *                  ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_EXPIRED => 'The signature returned by TypeKey expired'
+ *                  ),
+ *              'ezcAuthenticationSession' => array(
+ *                  ezcAuthenticationSession::STATUS_EMPTY => '',
+ *                  ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
+ *                  )
  *              );
- *     for ( $i = 0; $i < count( $status ); $i++ )
+ *     foreach ( $status as $line )
  *     {
- *         list( $key, $value ) = each( $status[$i] );
- *         echo $err[$value];
+ *         list( $key, $value ) = each( $line );
+ *         echo $err[$key][$value] . "\n";
  *     }
  * ?>
  * <!-- OnSubmit hack to append the value of t to the _return value, to pass

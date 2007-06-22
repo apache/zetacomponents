@@ -43,8 +43,8 @@ Authentication filters
 ezcAuthenticationDatabaseFilter
   Filter to authenticate against a database. Uses a database instance provided
   by the Database component (via the ezcDbInstance::get() function). It depends
-  on the Database and DatabaseSchema components, so it is implemented in the
-  AuthenticationDatabaseTiein component.
+  on the Database component, so it is implemented in the the tie-in component
+  `AuthenticationDatabaseTiein`_.
 
 ezcAuthenticationGroupFilter
   Container filter for 2 or more filters. Depending on configuration, at least
@@ -112,13 +112,13 @@ First, a credentials object is created with username jan.modaal and password
 An authentication object is created using the credentials object, and a
 htpasswd filter (using the /etc/htpasswd file) is added to it.
 
-After running the authentication (line 6), if the username and the password do
+After running the authentication (line 8), if the username and the password do
 not pass through the htpasswd filter, then the credentials are incorrect and
 the user must be informed. The getStatus() method is used for this. The values
 in the status returned must be cycled through and for each value a response is
 created for the user ("Username incorrect", "Password incorrect").
 
-If run() returned true (line 33) then the user is logged-in and he can see his
+If run() returned true (line 24) then the user is logged-in and he can see his
 content.
 
 
@@ -139,14 +139,14 @@ An authentication object is created using the credentials object, and the
 session class is added to the authentication object. In addition an htpasswd
 filter (using the /etc/htpasswd file) is added to the authentication object.
 
-After running the authentication (line 12), if the username and the password do
+After running the authentication (line 14), if the username and the password do
 not pass through the session class or the htpasswd filter, then the credentials
 are incorrect and the user must be informed. The getStatus() method is used for
 this. The values in the status returned must be cycled through and for each
 value a response is created for the user ("Username incorrect", "Password
 incorrect", "Session expired").
 
-If run() returned true (line 47) then the user is logged-in and he can see his
+If run() returned true (line 34) then the user is logged-in and he can see his
 content.
 
 
@@ -156,7 +156,7 @@ Authentication filters
 Database
 --------
 
-See the AuthenticationDatabaseTiein component.
+See the `AuthenticationDatabaseTiein`_ component.
 
 
 Group
@@ -174,14 +174,14 @@ First, a credentials object is created with username 'jan.modaal' and password
 An authentication object is created using the credentials object. A group
 filter is added to it, consisting of a Database filter and an LDAP filter.
 
-After running the authentication (line 17), if the username and the password do
+After running the authentication (line 19), if the username and the password do
 not pass through any of the filters in the group, then the credentials are
 incorrect and the user must be informed. The getStatus() method is used for
 this. The values in the status returned must be cycled through and for each
 value a response is created for the user ("Username incorrect", "Password
 incorrect").
 
-If run() returned true (line 55) then the user is logged-in and he can see his
+If run() returned true (line 39) then the user is logged-in and he can see his
 content.
 
 
@@ -199,13 +199,13 @@ First, a credentials object is created with username jan.modaal and password
 An authentication object is created using the credentials object, and a
 htpasswd filter (using the /etc/htpasswd file) is added to it.
 
-After running the authentication (line 7), if the username and the password do
+After running the authentication (line 9), if the username and the password do
 not pass through the htpasswd filter, then the credentials are incorrect and
 the user must be informed. The getStatus() method is used for this. The values
 in the status returned must be cycled through and for each value a response is
 created for the user ("Username incorrect", "Password incorrect").
 
-If run() returned true (line 34) then the user is logged-in and he can see his
+If run() returned true (line 25) then the user is logged-in and he can see his
 content.
 
 
@@ -304,22 +304,22 @@ this).
 An authentication object is created using the credentials object, and the
 session handler is added to it.
 
-If the user is at logout (line 13), then the session is destroyed, which means
+If the user is at logout (line 15), then the session is destroyed, which means
 the user will see the login form.
 
-If the user is not at logout (line 17), then an OpenID filter is created with
+If the user is not at logout (line 19), then an OpenID filter is created with
 the credentials object.
 
-After running the authentication (line 23), if the OpenID server did not
+After running the authentication (line 25), if the OpenID server did not
 authorize the identifier, then the credentials are incorrect and the user must
 be informed. The getStatus() method is used for this. The values in the status
 returned must be cycled through and for each value a response is created for
-the user ("Signature incorrect", "Session expired"). At line 53 a simple HTML
+the user ("Signature incorrect", "Session expired"). At line 46 a simple HTML
 form is displayed, as example. The form displays the OpenID logo (as suggested
 by the OpenID specifications).
 
-If run() returned true (line 75) then the user is logged-in and he can see his
-content. Line 79 contains an example of how to implement a logout option for
+If run() returned true (line 55) then the user is logged-in and he can see his
+content. Line 59 contains an example of how to implement a logout option for
 the application.
 
 
@@ -341,7 +341,10 @@ the nonces which are used to prevent replay attacks.
 Token
 -----
 
-The following example shows how to create a CAPTCHA test.
+The following example shows how to create a CAPTCHA test. The example is
+divided into 2 parts: the initial request (where the user sees the CAPTCHA
+image and enters the characters he sees in a form) and the follow-up
+request (after the user submits the form).
 
 On the initial request:
 
@@ -349,8 +352,8 @@ On the initial request:
    :literal:
 
 A 6 characters random token is created and encrypted using sha1(). The token
-must be saved somewhere for the follow-up request to be able to use it. An
-image must be generated from the unencrypted token to be displayed to the user.
+is saved in the session to be available in the follow-up request. An image
+must be generated from the unencrypted token to be displayed to the user.
 
 
 On the follow-up request:
@@ -358,22 +361,22 @@ On the follow-up request:
 .. include:: tutorial/tutorial_token2.php
    :literal:
 
-The token generated on the initial request is fetched from the POST form, and
-the CAPTCHA value entered by the user is fetched as well.
+The token generated on the initial request is fetched from the session, and
+the CAPTCHA value entered by the user is fetched from the POST request.
 
 A credentials object is created from the CAPTCHA value, and it is used to
 create an authentication object.
 
-A Token filter is created from the token value, and it is added to the
-authentication object. The second argument of the Token constructor indicates
-that the CAPTCHA value will be hashed with sha1() before comparing it with the
-token value.
+A Token filter is created from the stored encrypted token value, and it is
+added to the authentication object. The second argument of the Token
+constructor indicates that the CAPTCHA value will be hashed with sha1() before
+comparing it with the token value.
 
-After calling run() on the authentication object (line 9), if the token and
+After calling run() on the authentication object (line 14), if the token and
 CAPTCHA values don't match, then the CAPTCHA test was incorrect. The developer
 decides how to handle this situation (user tries again, user is banned, etc).
 
-If the values match (line 14) then it means the user passed the CAPTCHA test
+If the values match (line 19) then it means the user passed the CAPTCHA test
 (or the bots managed to OCR the image).
 
 
@@ -397,11 +400,11 @@ After running the authentication (line 19), if the TypeKey server did not
 authorize the token, then the credentials are incorrect and the user must be
 informed. The getStatus() method is used for this. The values in the status
 returned must be cycled through and for each value a response is created for
-the user ("Signature incorrect", "Session expired"). At line 53 an HTML form is
+the user ("Signature incorrect", "Session expired"). At line 39 an HTML form is
 displayed, as example on how to attach the TypeKey token to the _return hidded
 field which will be sent to the TypeKey server.
 
-If run() returned true (line 60) then the user is logged-in and he can see his
+If run() returned true (line 46) then the user is logged-in and he can see his
 content.
 
 
@@ -413,6 +416,8 @@ applications. It is not exhaustive, but it provides solutions against common
 attacks.
 
 .. _Securing applications: Authentication_security.html
+
+.. _AuthenticationDatabaseTiein: introduction_AuthenticationDatabaseTiein.html
 
 
 

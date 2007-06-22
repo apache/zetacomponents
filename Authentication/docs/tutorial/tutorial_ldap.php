@@ -1,4 +1,6 @@
 <?php
+require_once 'tutorial_autoload.php';
+
 $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
 $ldap = new ezcAuthenticationLdapInfo( 'localhost', 'uid=%id%', 'dc=example,dc=com', 389 );
 $authentication = new ezcAuthentication( $credentials );
@@ -9,13 +11,15 @@ if ( !$authentication->run() )
     // authentication did not succeed, so inform the user
     $status = $authentication->getStatus();
     $err = array(
-             ezcAuthenticationLdapFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
-             ezcAuthenticationLdapFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
-             );
-    for ( $i = 0; $i < count( $status ); $i++ )
+            'ezcAuthenticationLdapFilter' => array(
+                ezcAuthenticationLdapFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+                ezcAuthenticationLdapFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
+                )
+            );
+    foreach ( $status as $line )
     {
-        list( $key, $value ) = each( $status[$i] );
-        echo $err[$value];
+        list( $key, $value ) = each( $line );
+        echo $err[$key][$value] . "\n";
     }
 }
 else

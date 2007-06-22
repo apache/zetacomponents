@@ -1,4 +1,6 @@
 <?php
+require_once 'tutorial_autoload.php';
+
 // no headers should be sent before calling $session->start()
 $session = new ezcAuthenticationSession();
 $session->start();
@@ -25,16 +27,20 @@ if ( !$authentication->run() )
     // authentication did not succeed, so inform the user
     $status = $authentication->getStatus();
     $err = array(
-             ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT => 'OpenID said the provided identifier was incorrect',
-             ezcAuthenticationOpenidFilter::STATUS_CANCELLED => 'The OpenID authentication was cancelled',
-             ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT => 'The identifier you provided is invalid',
-             ezcAuthenticationSession::STATUS_EMPTY => '',
-             ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
+             'ezcAuthenticationOpenidFilter' => array(
+                 ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT => 'OpenID said the provided identifier was incorrect',
+                 ezcAuthenticationOpenidFilter::STATUS_CANCELLED => 'The OpenID authentication was cancelled',
+                 ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT => 'The identifier you provided is invalid'
+                 ),
+             'ezcAuthenticationSession' => array(
+                 ezcAuthenticationSession::STATUS_EMPTY => '',
+                 ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
+                 )
              );
-    for ( $i = 0; $i < count( $status ); $i++ )
+    foreach ( $status as $line )
     {
-        list( $key, $value ) = each( $status[$i] );
-        echo $err[$value];
+        list( $key, $value ) = each( $line );
+        echo $err[$key][$value] . "\n";
     }
 ?>
 Please login with your OpenID identifier (an URL, eg. www.example.com or http://www.example.com):

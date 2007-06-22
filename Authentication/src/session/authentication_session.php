@@ -41,15 +41,19 @@
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
  *     $err = array(
- *              ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
- *              ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password',
- *              ezcAuthenticationSession::STATUS_EMPTY => '',
- *              ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
- *              );
- *     for ( $i = 0; $i < count( $status ); $i++ )
+ *             'ezcAuthenticationHtpasswdFilter' => array(
+ *                 ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+ *                 ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
+ *                 ),
+ *             'ezcAuthenticationSession' => array(
+ *                 ezcAuthenticationSession::STATUS_EMPTY => '',
+ *                 ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
+ *                 )
+ *             );
+ *     foreach ( $status as $line )
  *     {
- *         list( $key, $value ) = each( $status[$i] );
- *         echo $err[$value];
+ *         list( $key, $value ) = each( $line );
+ *         echo $err[$key][$value] . "\n";
  *     }
  * }
  * else
@@ -57,6 +61,9 @@
  *     // authentication succeeded, so allow the user to see his content
  * }
  * </code>
+ *
+ * See {@link ezcAuthenticationSessionOptions} for options you can set to
+ * session objects.
  *
  * @package Authentication
  * @version //autogen//
@@ -91,7 +98,7 @@ class ezcAuthenticationSession
     /**
      * Creates a new object of this class.
      *
-     * @param ezcAuthenticationSessionOptions $options Options for the authentication filter
+     * @param ezcAuthenticationSessionOptions $options Options for this class
      */
     public function __construct( ezcAuthenticationSessionOptions $options = null )
     {

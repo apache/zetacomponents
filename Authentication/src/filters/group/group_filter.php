@@ -53,15 +53,19 @@
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
  *     $err = array(
- *              ezcAuthenticationLdapFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
- *              ezcAuthenticationLdapFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password',
- *              ezcAuthenticationDatabaseFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
- *              ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
- *              );
- *     for ( $i = 0; $i < count( $status ); $i++ )
+ *             'ezcAuthenticationLdapFilter' => array(
+ *                 ezcAuthenticationLdapFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+ *                 ezcAuthenticationLdapFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
+ *                 ),
+ *             'ezcAuthenticationDatabaseFilter' => array(
+ *                 ezcAuthenticationDatabaseFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+ *                 ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
+ *                 )
+ *             );
+ *     foreach ( $status as $line )
  *     {
- *         list( $key, $value ) = each( $status[$i] );
- *         echo $err[$value];
+ *         list( $key, $value ) = each( $line );
+ *         echo $err[$key][$value] . "\n";
  *     }
  * }
  * else

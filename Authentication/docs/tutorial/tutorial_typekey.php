@@ -1,4 +1,6 @@
 <?php
+require_once 'tutorial_autoload.php';
+
 // no headers should be sent before calling $session->start()
 $session = new ezcAuthenticationSession();
 $session->start();
@@ -19,15 +21,19 @@ if ( !$authentication->run() )
     // authentication did not succeed, so inform the user
     $status = $authentication->getStatus();
     $err = array(
-             ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_INCORRECT => 'Signature returned by TypeKey is incorrect',
-             ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_EXPIRED => 'The signature returned by TypeKey expired',
-             ezcAuthenticationSession::STATUS_EMPTY => '',
-             ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
+             'ezcAuthenticationTypekeyFilter' => array(
+                 ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_INCORRECT => 'Signature returned by TypeKey is incorrect',
+                 ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_EXPIRED => 'The signature returned by TypeKey expired'
+                 ),
+             'ezcAuthenticationSession' => array(
+                 ezcAuthenticationSession::STATUS_EMPTY => '',
+                 ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
+                 )
              );
-    for ( $i = 0; $i < count( $status ); $i++ )
+    foreach ( $status as $line )
     {
-        list( $key, $value ) = each( $status[$i] );
-        echo $err[$value];
+        list( $key, $value ) = each( $line );
+        echo $err[$key][$value] . "\n";
     }
 ?>
 <form method="GET" action="https://www.typekey.com/t/typekey/login" onsubmit="document.getElementById('_return').value += '?token=' + document.getElementById('t').value;">

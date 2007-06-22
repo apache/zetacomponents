@@ -20,10 +20,10 @@
  * $options->idKey = 'xxx';
  * $options->timestampKey = 'yyy';
  *
- * // use the options object when creating a new Session filter
+ * // use the options object when creating a new Session object
  * $filter = new ezcAuthenticationSession( $options );
  *
- * // alternatively, you can set the options to an existing filter
+ * // alternatively, you can set the options to an existing object
  * $filter = new ezcAuthenticationSession();
  * $filter->setOptions( $options );
  * </code>

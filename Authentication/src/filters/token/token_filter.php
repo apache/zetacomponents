@@ -16,13 +16,13 @@
  *  - CAPTCHA tests
  *  - security token devices (as used by banks)
  *
- * CAPTCHA example:
- * - on the initial request
+ * The following example shows how to create a CAPTCHA test. The example is
+ * divided into 2 parts: the initial request (where the user sees the CAPTCHA
+ * image and enters the characters he sees in a form) and the follow-up
+ * request (after the user submits the form).
+ * - on the initial request:
  * <code>
- * // generate a token and save it in the session or in a file/database or in
- * // the html source code in a hidden form field.
- * // this is just an example to generate a token, the developers can use any
- * // function they want instead of this
+ * // generate a token and save it in the session or in a file/database
  * $pattern = "1234567890abcdefghijklmnopqrstuvwxyz";
  * $token  = "";
  * for( $i = 1; $i <= 6 ; $i++ )
@@ -30,20 +30,27 @@
  *     $token .= $pattern{rand( 0, 36 )};
  * }
  * $encryptedToken = sha1( $token );
- * // save the $encryptedToken, for example in a hidden form field in the html source code
+ *
+ * // save the $encryptedToken in the session
+ * session_start();
+ * $_SESSION['encryptedToken'] = $encryptedToken;
+ *
  * // also generate a distorted image which contains the symbols from $token and use it
  * </code>
  *
- * - on the follow-up request
+ * - on the follow-up request:
  * <code>
- * // load the $token as it was generated on the previous request
- * $token = isset( $_POST['token'] ) ? $_POST['token'] : null;
+ * // load the $encryptedToken as it was generated on a previous request
+ * session_start();
+ * $encryptedToken = isset( $_SESSION['encryptedToken'] ) ? $_SESSION['encryptedToken'] : null;
+ *
  * // also load the value entered by the user in response to the CAPTCHA image
  * $captcha = isset( $_POST['captcha'] ) ? $_POST['captcha'] : null;
+ *
  * $credentials = new ezcAuthenticationIdCredentials( $captcha );
  * $authentication = new ezcAuthentication( $credentials );
- * $authentication->addFilter( new ezcAuthenticationTokenFilter( $token, 'sha1' ) );
- * if ( !authentication->run() )
+ * $authentication->addFilter( new ezcAuthenticationTokenFilter( $encryptedToken, 'sha1' ) );
+ * if ( !$authentication->run() )
  * {
  *     // CAPTCHA was incorrect, so inform the user to try again, eventually
  *     // by generating another token and CAPTCHA image
@@ -57,7 +64,8 @@
  * @property string $token
  *           The token to check against.
  * @property callback $function
- *           The encryption function to use when comparing tokens.
+ *           The encryption function to use on the user credentials in order to
+ *           compare it with the stored token.
  *
  * @package Authentication
  * @version //autogen//

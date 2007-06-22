@@ -13,11 +13,11 @@
  * Filter to authenticate against OpenID. Currently supporting OpenID 1.1.
  *
  * The filter takes an identifier (URL) as credentials, and performs these steps:
- *  1. Normalize the identifier - partially implemented
+ *  1. Normalize the identifier
  *  2. Discover the provider and delegate by requesting the URL
  *       - first using the Yadis discovery protocol
  *       - if Yadis fails then discover by parsing the HTML page source at URL
- *  3. (Optional) OpenID associate request - not implemented yet.
+ *  3. (Optional) OpenID associate request - for the so-called 'smart' (stateful) mode.
  *  4. OpenID checkid_setup request. This step redirects the browser to the OpenID
  *     provider discovered in step 2. After user enters his OpenID username and
  *     password at this page and accepts the originating site, the browser is
@@ -27,7 +27,13 @@
  *     in an extra request against the provider. The provider responds with is_valid
  *     true or false.
  *
- * Example of use (authentication code + login form + logout support):
+ * Specifications:
+ *  - OpenID 1.0: {@link http://openid.net/specs/openid-simple-registration-extension-1_0.html}
+ *  - OpenID 1.1: {@link http://openid.net/specs/openid-authentication-1_1.html}
+ *  - OpenID 2.0: {@link http://openid.net/specs/openid-authentication-2_0-11.html}
+ *  - Yadis  1.0: {@link http://yadis.org}
+ *
+ * Example of use (authentication code + login form + logout support) - stateless ('dumb'):
  * <code>
  * // no headers should be sent before calling $session->start()
  * $session = new ezcAuthenticationSession();
@@ -55,17 +61,20 @@
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
  *     $err = array(
- *              ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT => 'OpenID said the provided identifier was incorrect',
- *              ezcAuthenticationOpenidFilter::STATUS_NONCE_INCORRECT => 'The nonce returned by the server is incorrect, probably a replay attack',
- *              ezcAuthenticationOpenidFilter::STATUS_CANCELLED => 'The OpenID authentication was cancelled',
- *              ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT => 'The identifier you provided is invalid',
- *              ezcAuthenticationSession::STATUS_EMPTY => '',
- *              ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
+ *              'ezcAuthenticationOpenidFilter' => array(
+ *                  ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT => 'OpenID said the provided identifier was incorrect',
+ *                  ezcAuthenticationOpenidFilter::STATUS_CANCELLED => 'The OpenID authentication was cancelled',
+ *                  ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT => 'The identifier you provided is invalid'
+ *                  ),
+ *              'ezcAuthenticationSession' => array(
+ *                  ezcAuthenticationSession::STATUS_EMPTY => '',
+ *                  ezcAuthenticationSession::STATUS_EXPIRED => 'Session expired'
+ *                  )
  *              );
- *     for ( $i = 0; $i < count( $status ); $i++ )
+ *     foreach ( $status as $line )
  *     {
- *         list( $key, $value ) = each( $status[$i] );
- *         echo $err[$value];
+ *         list( $key, $value ) = each( $line );
+ *         echo $err[$key][$value] . "\n";
  *     }
  * ?>
  * Please login with your OpenID identifier (an URL, eg. www.example.com or http://www.example.com):
@@ -88,11 +97,24 @@
  * ?>
  * </code>
  *
- * Specifications:
- *  - OpenID 1.0: {@link http://openid.net/specs/openid-simple-registration-extension-1_0.html}
- *  - OpenID 1.1: {@link http://openid.net/specs/openid-authentication-1_1.html}
- *  - OpenID 2.0: {@link http://openid.net/specs/openid-authentication-2_0-11.html}
- *  - Yadis  1.0: {@link http://yadis.org}
+ * To use stateful ('smart') mode, the only changes to the above example are in
+ * the else branch of the "if ( $action === 'logout' )":
+ * <code>
+ * // ...
+ * if ( $action === 'logout' )
+ * {
+ *     $session->destroy();
+ * }
+ * else
+ * {
+ *     $options = new ezcAuthenticationOpenidOptions();
+ *     $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
+ *     $options->store = new ezcAuthenticationOpenidFileStore( '/tmp/store' );
+ *     $filter = new ezcAuthenticationOpenidFilter( $options );
+ *     $authentication->addFilter( $filter );
+ * }
+ * // ...
+ * </code>
  *
  * @todo add support for multiple URLs in each category at discovery
  * @todo add support for OpenID 2.0 (openid.ns=http://specs.openid.net/auth/2.0),
@@ -157,11 +179,15 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
      * The default value for p used in the Diffie-Hellman exchange.
      *
      * It is a confirmed prime number.
+     *
+     * @ignore
      */
     const DEFAULT_P = '155172898181473697471232257763715539915724801966915404479707795314057629378541917580651227423698188993727816152646631438561595825688188889951272158842675419950341258706556549803580104870537681476726513255747040765857479291291572334510643245094715007229621094194349783925984760375594985848253359305585439638443';
 
     /**
      * The default value for q used in the Diffie-Hellman exchange.
+     *
+     * @ignore
      */
     const DEFAULT_Q = '2';
 

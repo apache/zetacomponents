@@ -13,10 +13,10 @@
  * Filter to authenticate against an Unix htpasswd file.
  *
  * It supports files created with the htpasswd command options
- *   -m (MD5 encryption - different than the PHP md5() function)
- *   -d (CRYPT encryption)
- *   -s (SHA encryption)
- *   -p (plain text)
+ *  -m (MD5 encryption - different than the PHP md5() function)
+ *  -d (CRYPT encryption)
+ *  -s (SHA encryption)
+ *  -p (plain text)
  *
  * The encryption used for the password field in the file will be detected
  * automatically.
@@ -37,13 +37,15 @@
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
  *     $err = array(
- *              ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
- *              ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
- *              );
- *     for ( $i = 0; $i < count( $status ); $i++ )
+ *             'ezcAuthenticationHtpasswdFilter' => array(
+ *                 ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+ *                 ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
+ *                 )
+ *             );
+ *     foreach ( $status as $line )
  *     {
- *         list( $key, $value ) = each( $status[$i] );
- *         echo $err[$value];
+ *         list( $key, $value ) = each( $line );
+ *         echo $err[$key][$value] . "\n";
  *     }
  * }
  * else

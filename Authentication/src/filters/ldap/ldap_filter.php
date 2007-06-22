@@ -15,6 +15,8 @@
  * This filter depends on the PHP ldap extension. If this extension is not
  * installed then the constructor will throw an ezcExtensionNotFoundException.
  *
+ * RFC: {@link http://www.faqs.org/rfcs/rfc4510.html}
+ *
  * Example:
  * <code>
  * $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
@@ -27,13 +29,15 @@
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
  *     $err = array(
- *              ezcAuthenticationLdapFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
- *              ezcAuthenticationLdapFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
- *              );
- *     for ( $i = 0; $i < count( $status ); $i++ )
+ *             'ezcAuthenticationLdapFilter' => array(
+ *                 ezcAuthenticationLdapFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+ *                 ezcAuthenticationLdapFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
+ *                 )
+ *             );
+ *     foreach ( $status as $line )
  *     {
- *         list( $key, $value ) = each( $status[$i] );
- *         echo $err[$value];
+ *         list( $key, $value ) = each( $line );
+ *         echo $err[$key][$value] . "\n";
  *     }
  * }
  * else
@@ -41,10 +45,6 @@
  *     // authentication succeeded, so allow the user to see his content
  * }
  * </code>
- *
- * RFC: {@link http://www.faqs.org/rfcs/rfc4510.html}
- *
- * @todo Encoded passwords (for now passwords can only be sent to LDAP in plain text)
  *
  * @property ezcAuthenticationLdapInfo $ldap
  *           Structure which holds the LDAP server hostname, entry format and base,
