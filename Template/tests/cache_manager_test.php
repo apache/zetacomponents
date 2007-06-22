@@ -29,8 +29,18 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
 
     protected function setUp()
     {
+        // Get the DB instance
+        try
+        {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped( 'No database handler defined' );
+        }
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
 
+        // Setup the template engine
         $config = ezcTemplateConfiguration::getInstance();
         $this->tempDir = $config->compilePath =  $this->createTempDir( "ezcTemplate_" );
         $config->templatePath = $this->basePath . 'templates/';
@@ -40,9 +50,6 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
 
         // Create tables.
         //
-
-        $db = ezcDbInstance::get();
-
         try
         {
             $db->exec( 'DROP TABLE user' );
