@@ -45,7 +45,7 @@ class ezcTemplateLocaleTest extends ezcTestCase
 
     public function testLocale()
     {
-        setlocale( LC_ALL, 'de_DE' );
+        setlocale( LC_ALL, 'de_DE', 'de_DE.UTF-8', 'deu', 'german' );
         $a = 3.4;
         $this->assertEquals("3,4", (string)$a);
     }
