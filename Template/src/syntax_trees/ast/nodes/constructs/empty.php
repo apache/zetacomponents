@@ -25,6 +25,8 @@ class ezcTemplateEmptyAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param ezcTemplateAstNode $expression
      */
     public function __construct( ezcTemplateAstNode $expression = null )
     {
@@ -36,6 +38,7 @@ class ezcTemplateEmptyAstNode extends ezcTemplateStatementAstNode
      * Validates the expression against its constraints.
      *
      * @throws ezcTemplateInternalException if the constraints are not met.
+     * @return void
      */
     public function validate()
     {

@@ -9,6 +9,7 @@
  * @access private
  */
 /**
+ * This node represents an identifier. 
  *
  * @package Template
  * @version //autogen//
@@ -18,10 +19,14 @@ class ezcTemplateIdentifierAstNode extends ezcTemplateAstNode
 {
     /**
      * The name of the identifier.
+     *
+     * @var string
      */
     public $name;
 
     /**
+     * Constructs a new ezcTemplateIdentifierAstNode
+     *
      * @param string $name The name of the variable.
      */
     public function __construct( $name )

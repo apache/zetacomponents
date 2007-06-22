@@ -9,6 +9,7 @@
  * @access private
  */
 /**
+ * The ezcTemplateArrayAppendOperatorTstNode
  *
  * @package Template
  * @version //autogen//
@@ -17,8 +18,9 @@
 class ezcTemplateArrayAppendOperatorTstNode extends ezcTemplateOperatorTstNode
 {
     /**
+     * Constructs a new ezcTemplateArrayAppendOperatorTstNode
      *
-     * @param ezcTemplateSource $source
+     * @param ezcTemplateSourceCode $source
      * @param ezcTemplateCursor $start
      * @param ezcTemplateCursor $end
      */

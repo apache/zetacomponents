@@ -19,6 +19,7 @@ class ezcTemplateBitwiseNegationOperatorAstNode extends ezcTemplateOperatorAstNo
 {
     /**
      * Initialize operator code constructor with 1 parameter (unary) and flag as pre-operator.
+     *
      * @param ezcTemplateAstNode $parameter The code element to use as first parameter.
      */
     public function __construct( ezcTemplateAstNode $parameter = null )
@@ -32,6 +33,7 @@ class ezcTemplateBitwiseNegationOperatorAstNode extends ezcTemplateOperatorAstNo
 
     /**
      * Returns a text string representing the PHP operator.
+     *
      * @return string
      */
     public function getOperatorPHPSymbol()

@@ -25,6 +25,8 @@ class ezcTemplateUnsetAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param array(ezcTemplateAstNode) $expressions
      */
     public function __construct( Array $expressions = null )
     {
@@ -48,6 +50,7 @@ class ezcTemplateUnsetAstNode extends ezcTemplateStatementAstNode
      * Appends the expression to be checked for existance.
      *
      * @param ezcTemplateAstNode $expression Expression to check.
+     * @return void
      */
     public function appendExpression( ezcTemplateAstNode $expression )
     {
@@ -67,6 +70,7 @@ class ezcTemplateUnsetAstNode extends ezcTemplateStatementAstNode
      * Validates the expressions against their constraints.
      *
      * @throws ezcTemplateInternalException if the constraints are not met.
+     * @return void
      */
     public function validate()
     {

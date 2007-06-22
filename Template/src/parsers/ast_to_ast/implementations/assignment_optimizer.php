@@ -55,7 +55,7 @@ class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
     /**
      * Returns an optimized AST body from the original AST body $body. 
      *
-     * @param ezcTemplateAstNode $element
+     * @param ezcTemplateBodyAstNode $body
      * @return bool
      */
     public function visitBodyAstNode( ezcTemplateBodyAstNode $body )

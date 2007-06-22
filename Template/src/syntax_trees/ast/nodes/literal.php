@@ -42,15 +42,24 @@ class ezcTemplateLiteralAstNode extends ezcTemplateAstNode
 {
     /**
      * The constant value for the type.
+     *
+     * @var mixed
      */
     public $value;
 
+    /**
+     * Checks and sets the type hint.
+     *
+     * @return void
+     */
     public function checkAndSetTypeHint()
     {
         $this->typeHint = is_array( $this->value ) ? ezcTemplateAstNode::TYPE_ARRAY : ezcTemplateAstNode::TYPE_VALUE;
     }
 
     /**
+     * Constructs a new Literal
+     *
      * @param mixed $value The value of PHP type to be stored in code element.
      */
     public function __construct( $value )

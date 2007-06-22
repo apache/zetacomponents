@@ -18,10 +18,17 @@
 class ezcTemplateNewAstNode extends ezcTemplateParameterizedAstNode
 {
     /**
+     * The class name to create.
+     *
+     * @var string
      */
     public $class;
 
     /**
+     * Constructs a 'new' class element.
+     *
+     * @param string $class 
+     * @param array(ezcTemplateAstNode) $functionArguments
      */
     public function __construct( $class = null, array $functionArguments = null )
     {
@@ -39,6 +46,8 @@ class ezcTemplateNewAstNode extends ezcTemplateParameterizedAstNode
 
     /**
      * Validates the output parameters against their constraints.
+     *
+     * @return void
      */
     public function validate()
     {

@@ -9,7 +9,6 @@
  * @access private
  */
 /**
- *
  * This class adds 'context' information to the AST tree. 
  * For example, the output nodes are escaped.
  *
@@ -26,11 +25,19 @@ class ezcTemplateAstToAstContextAppender extends ezcTemplateAstWalker
      */
     private $context;
 
+    /**
+     * Constructs a new  ezcTemplateAstToAstContextAppender
+     *
+     * @param ezcTemplateOutputContext $context
+     */ 
     public function __construct( ezcTemplateOutputContext $context )
     {
         $this->context = $context;
     }
 
+    /**
+     * Empty destructor
+     */
     public function __destruct()
     {
     }
@@ -38,6 +45,7 @@ class ezcTemplateAstToAstContextAppender extends ezcTemplateAstWalker
     /**
      * Returns a contextized, usually escaped, output node.
      *
+     * @param ezcTemplateOutputAstNode $type
      * @return ezcTemplateOutputAstNode
      */
     public function visitOutputAstNode( ezcTemplateOutputAstNode $type )

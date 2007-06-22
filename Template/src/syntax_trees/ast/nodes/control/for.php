@@ -47,6 +47,11 @@ class ezcTemplateForAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param ezcTemplateAstNode $initial
+     * @param ezcTemplateAstNode $condition
+     * @param ezcTemplateAstNode $iteration
+     * @param ezcTemplateBodyAstNode $body
      */
     public function __construct( ezcTemplateAstNode $initial = null, ezcTemplateAstNode $condition = null, ezcTemplateAstNode $iteration = null,
                                  ezcTemplateBodyAstNode $body = null )

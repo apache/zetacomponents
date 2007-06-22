@@ -69,6 +69,8 @@ class ezcTemplateEolCommentAstNode extends ezcTemplateStatementAstNode
     public $type;
 
     /**
+     * Constructs a new ezcTemplateEolCommentAstNode
+     *
      * @param string $text         Text for comment.
      * @param bool   $hasSeparator Use spacing separator or not?
      * @param int    $type         Type of EOL comment, see {@link self::$type}.
@@ -86,8 +88,7 @@ class ezcTemplateEolCommentAstNode extends ezcTemplateStatementAstNode
     }
 
     /**
-     * Creates the text representation of the marker {@link self::$type type}
-     * and returns it.
+     * Returns the text representation of the marker {@link self::$type type}.
      *
      * @return string
      */

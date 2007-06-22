@@ -33,6 +33,9 @@ class ezcTemplateGenericStatementAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param ezcTemplateAstNode $expression
+     * @param bool $terminateStatement
      */
     public function __construct( ezcTemplateAstNode $expression = null, $terminateStatement = true )
     {

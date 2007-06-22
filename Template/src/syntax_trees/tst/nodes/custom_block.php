@@ -25,18 +25,38 @@ class ezcTemplateCustomBlockTstNode extends ezcTemplateBlockTstNode
      */
     public $customParameters;
 
+    /**
+     * The definition block.
+     * 
+     * @var ezcTemplateCustomBlockDefinition
+     */
     public $definition;
 
+    /**
+     * The named parameters.
+     *
+     * @var array
+     */
     public $namedParameters = array();
 
     /**
+     * Constructs a new custom block
+     *
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end );
         $this->customParameters = array();
     }
-
+    
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'name'             => $this->name,

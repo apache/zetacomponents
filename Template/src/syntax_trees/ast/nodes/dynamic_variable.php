@@ -39,7 +39,9 @@ class ezcTemplateDynamicVariableAstNode extends ezcTemplateAstNode
     public $nameExpression;
 
     /**
-     * @param ezcTemplateAstNode $expression The code element which will evaluate to the name of the variable.
+     * Constructs a new ezcTemplateDynamicVariableAstNode
+     *
+     * @param ezcTemplateAstNode $nameExpression The code element which will evaluate to the name of the variable.
      */
     public function __construct( ezcTemplateAstNode $nameExpression = null )
     {

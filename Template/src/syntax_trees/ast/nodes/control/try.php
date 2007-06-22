@@ -31,6 +31,9 @@ class ezcTemplateTryAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param ezcTemplateBodyAstNode $body
+     * @param array(ezcTemplateCatchAstNode) $catches
      */
     public function __construct( ezcTemplateBodyAstNode $body = null, Array $catches = null )
     {

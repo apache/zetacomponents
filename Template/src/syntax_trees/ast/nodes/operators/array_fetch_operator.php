@@ -19,6 +19,9 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
 {
     /**
      * Initialize operator code constructor with 2 parameters (binary).
+     *
+     * @param ezcTemplateAstNode $array
+     * @param array(ezcTemplateAstNode) $fetches
      */
     public function __construct( ezcTemplateAstNode $array = null, Array $fetches = null )
     {
@@ -42,6 +45,7 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
 
     /**
      * Returns a text string representing the PHP operator.
+     *
      * @return string
      */
     public function getOperatorPHPSymbol()
@@ -49,6 +53,12 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
         return '[..]';
     }
 
+    /**
+     * Checks and sets the type hint.
+     *
+     * @throws ezcTemplateTypeHintException when the type is wrong.
+     * @return void
+     */
     public function checkAndSetTypeHint()
     {
         if ( $this->parameters[0]->typeHint & self::TYPE_ARRAY && $this->parameters[1]->typeHint & self::TYPE_VALUE )
@@ -73,8 +83,11 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
  
 
     /**
-     * {@inheritdoc}
      * Calls visitArrayFetchOperator() of the ezcTemplateBasicAstNodeVisitor interface.
+     *
+     * @param ezcTemplateAstNodeVisitor $visitor 
+     *        The visitor object which can visit the current code element.
+     * @return ezcTemplateAstNode
      */
     public function accept( ezcTemplateAstNodeVisitor $visitor )
     {

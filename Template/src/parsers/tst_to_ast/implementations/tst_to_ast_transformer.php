@@ -625,6 +625,16 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         $def = $type->definition;
 
+        if ( !isset($def->class) || $def->class  === false )
+        {
+            $class = "";
+        }
+        else
+        {
+            $class = $def->class . "::";
+        }
+
+
         $params = new ezcTemplateLiteralArrayAstNode();
         foreach ( $type->namedParameters as $key => $value )
         {
@@ -671,7 +681,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
             $result[] = new ezcTemplateGenericStatementAstNode( 
                 new ezcTemplateConcatAssignmentOperatorAstNode( $this->outputVariable->getAst(), 
-                   new ezcTemplateFunctionCallAstNode( $def->class . "::".$def->method, 
+                   new ezcTemplateFunctionCallAstNode( $class . $def->method, 
                    array( $params, $customBlockOutput ) ) ) ); 
 
             return $result;
@@ -696,7 +706,14 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 }
 
                 // call the method.
-                $r = call_user_func_array( array($def->class, $def->method), array($p) );
+                if ( !isset($def->class) || $def->class  === false )
+                {
+                    $r = call_user_func_array( $def->method, array($p) );
+                }
+                else
+                {
+                    $r = call_user_func_array( array($def->class, $def->method), array($p) );
+                }
 
                 // And assign it to the output.
                 return $this->assignToOutput( new ezcTemplateLiteralAstNode($r) );
@@ -704,7 +721,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
          
             return new ezcTemplateGenericStatementAstNode( 
                 new ezcTemplateConcatAssignmentOperatorAstNode( $this->outputVariable->getAst(), 
-                   new ezcTemplateFunctionCallAstNode( $def->class . "::".$def->method, 
+                   new ezcTemplateFunctionCallAstNode( $class .$def->method, 
                    array( $params ) ) ) ); 
         }
     }

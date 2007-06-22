@@ -19,10 +19,16 @@
 class ezcTemplateCloneAstNode extends ezcTemplateStatementAstNode
 {
     /**
+     * Object to clone.
+     *
+     * @var ezcTemplateAstNode
      */
     public $object;
 
     /**
+     * Constructs a new ezcTemplateCloneAstNode
+     *
+     * @param ezcTemplateAstNode $object
      */
     public function __construct( $object = null )
     {
@@ -32,6 +38,8 @@ class ezcTemplateCloneAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Validates the output parameters against their constraints.
+     *
+     * @return void
      */
     public function validate()
     {

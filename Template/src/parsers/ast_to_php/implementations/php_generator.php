@@ -77,13 +77,31 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     private $escapeSingleQuote = false;
 
 
+    /**
+     * The character set defined in the template. 
+     * If set to false, it uses the $sourceCharset. 
+     * @var string|bool
+     */
     private $charsetInTemplate = false;
+
+    /**
+     * The source character set.
+     * @var string
+     */
     private $sourceCharset;
+
+    /**
+     * Transform to the target character set.
+     * @var string
+     */
     private $targetCharset;
 
 
     /**
+     * Constructs a new ezcTemplateAstToPhpGenerator
+     *
      * @param string $path File path for the file which should be generated.
+     * @param ezcTemplateConfiguration $configuration The template configuration.
      * @param int $indentation The default indentation to use when increasing it.
      */
     public function __construct( $path, $configuration, $indentation = 4 )
@@ -272,6 +290,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
 
     /**
      * Generates code for construct elements which looks like function calls.
+     *
      * @param string $name The name of the construct to place in code.
      * @param ezcTemplateAstNode $construct The construct element.
      * @param array(ezcTemplateAstNode) $parameters
@@ -351,6 +370,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * Writes an php array.
+     *
+     * @param ezcTemplateLiteralArrayAstNode $type
      * @return void
      */
     public function visitLiteralArrayAstNode( ezcTemplateLiteralArrayAstNode $type )
@@ -380,6 +402,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
 
 
     /**
+     * Writes an output node.
+     *
+     * @param ezcTemplateOutputAstNode $type
      * @return void
      */
     public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
@@ -391,7 +416,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     /**
      * Casts the value to the type.
      *
-     * @param ezcTemplateTypeAstNode $node
+     * @param ezcTemplateTypeCastAstNode $node
      * @return void
      */
     public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node )
@@ -478,7 +503,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     /**
      * Visits a code element containing a dynamic string.
      *
-     * @param ezcTemplateDynamicStringAstNode #dynamic The code element containing the dynamic string.
+     * @param ezcTemplateDynamicStringAstNode $dynamic The code element containing the dynamic string.
      * @return void
      */
     public function visitDynamicStringAstNode( ezcTemplateDynamicStringAstNode $dynamic )
@@ -644,7 +669,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing a body of statements.
      * A body consists of a series of statements in sequence.
      *
-     * @param ezcTemplateBodyAstNode $body The code element containing the body.
+     * @param ezcTemplateRootAstNode $body The code element containing the body.
      * @return void
      */
     public function visitRootAstNode( ezcTemplateRootAstNode $body )
@@ -717,6 +742,10 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * Pretends to write the dynamic block. The only thing it does is calling 
+     * the children with the escapeSingleQuote switched on.
+     *
+     * @param ezcTemplateDynamicBlockAstNode $statement
      * @return void
      */
     public function visitDynamicBlockAstNode( ezcTemplateDynamicBlockAstNode $statement )
@@ -1023,6 +1052,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * Writes parenthesis.
+     *
+     * @param ezcTemplateParenthesisAstNode $parenthesis
      * @return void
      */
     public function visitParenthesisAstNode( ezcTemplateParenthesisAstNode $parenthesis )
@@ -1033,6 +1065,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * Writes curly braces. 
+     *
+     * @param ezcTemplateCurlyBracesAstNode $curly
      * @return void
      */
     public function visitCurlyBracesAstNode( ezcTemplateCurlyBracesAstNode $curly )
@@ -1043,6 +1078,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * Writes a new class.
+     *
+     * @param ezcTemplateNewAstNode $new
      * @return void
      */
     public function visitNewAstNode( ezcTemplateNewAstNode $new )
@@ -1060,6 +1098,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * Writes the clone statement.
+     *
+     * @param ezcTemplateCloneAstNode $clone
      * @return void
      */
     public function visitCloneAstNode( ezcTemplateCloneAstNode $clone )
@@ -1070,6 +1111,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
 
 
     /**
+     * Writes raw PHP code.
+     *
+     * @param ezcTemplatePhpCodeAstNode $code
      * @return void
      */
     public function visitPhpCodeAstNode( ezcTemplatePhpCodeAstNode $code )
@@ -1078,6 +1122,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * Writes a new runtime exception.
+     *
+     * @param ezcTemplateThrowExceptionAstNode $exception
      * @return void
      */
     public function visitThrowExceptionAstNode( ezcTemplateThrowExceptionAstNode $exception )
@@ -1088,7 +1135,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * Writes an identifier.
      *
+     * @param ezcTemplateIdentifierAstNode $node
      * @return void
      */
     public function visitIdentifierAstNode( ezcTemplateIdentifierAstNode $node )

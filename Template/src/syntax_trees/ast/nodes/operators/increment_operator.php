@@ -19,6 +19,7 @@ class ezcTemplateIncrementOperatorAstNode extends ezcTemplateOperatorAstNode
 {
     /**
      * Initialize operator code constructor with 1 parameters (unary).
+     *
      * @param bool $preOperator Controls whether this operator is placed in front or after an operand.
      * @param ezcTemplateAstNode $parameter The code element to use as first parameter.
      */

@@ -18,6 +18,7 @@
 class ezcTemplateConcatAssignmentOperatorTstNode extends ezcTemplateModifyingOperatorTstNode
 {
     /**
+     * Constructs a new concat assignment operator.
      *
      * @param ezcTemplateSource $source
      * @param ezcTemplateCursor $start

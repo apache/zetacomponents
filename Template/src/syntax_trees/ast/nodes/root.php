@@ -17,15 +17,46 @@
  */
 class ezcTemplateRootAstNode extends ezcTemplateBodyAstNode
 {
+    /**
+     * Whether or not the template uses the cache.
+     * 
+     * @var bool
+     */
     public $cacheTemplate = false;
+
+    /**
+     * The cache keys in this template
+     *
+     * @var array(ezcTemplateAstNode)
+     */
     public $cacheKeys = array();
+
+    /**
+     * The time to live of the cache.
+     * 
+     * @var ezcTemplateAstNode
+     */
     public $ttl = null;
+
+    /**
+     * Is this template the start of the program.
+     * 
+     * @var bool
+     */
     public $startProgram = true;
 
+    /**
+     * The character set that the template uses.
+     *
+     * @var string
+     */
     public $charset = false;
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param array(ezcTemplateAstNode) $statements
+     * @param bool $startProgram
      */
     public function __construct( Array $statements = null, $startProgram = true )
     {

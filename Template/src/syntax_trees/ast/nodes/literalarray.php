@@ -9,7 +9,7 @@
  * @access private
  */
 /**
- *
+ * This node represents an array.
  *
  * @package Template
  * @version //autogen//
@@ -18,18 +18,34 @@
 class ezcTemplateLiteralArrayAstNode extends ezcTemplateAstNode
 {
     /**
-     * The constant value for the type.
+     * An array containing all the values of the array. 
+     * Those values can be expressions.
+     *
+     * @var array(ezcTemplateAstNode)
      */
     public $value = array();
+
+    /**
+     * An array containing all the keys of the array. 
+     * Those key values can be expressions.
+     *
+     * @var array(ezcTemplateAstNode)
+     */
     public $key = array();
 
+
+    /**
+     * Checks and set the type hints.
+     *
+     * @return void
+     */
     public function checkAndSetTypeHint()
     {
         $this->typeHint = ezcTemplateAstNode::TYPE_ARRAY;
     }
 
     /**
-     * @param mixed $value The value of PHP type to be stored in code element.
+     * Constructs a new ezcTemplate Literal array.
      */
     public function __construct( )
     {

@@ -43,6 +43,11 @@ class ezcTemplateForeachAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param ezcTemplateAstNode $array
+     * @param ezcTemplateVariableAstNode $key
+     * @param ezcTemplateVariableAstNode $value
+     * @param ezcTemplateBodyAstNode $body
      */
     public function __construct( ezcTemplateAstNode $array = null,
                                  ezcTemplateVariableAstNode $key = null, ezcTemplateVariableAstNode $value = null,

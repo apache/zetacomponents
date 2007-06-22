@@ -50,6 +50,8 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
 
     /**
      * The name of the block.
+     *
+     * @var string
      */
     public $name;
 

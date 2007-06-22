@@ -19,6 +19,7 @@ class ezcTemplateArithmeticNegationOperatorAstNode extends ezcTemplateOperatorAs
 {
     /**
      * Initialize operator code constructor with 1 parameter (binary) and mark as pre-operator.
+     *
      * @param ezcTemplateAstNode $parameter The code element to use as first parameter.
      */
     public function __construct( ezcTemplateAstNode $parameter = null )

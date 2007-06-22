@@ -25,6 +25,8 @@ class ezcTemplateIssetAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param array(ezcTemplateAstNode) $expressions
      */
     public function __construct( Array $expressions = null )
     {

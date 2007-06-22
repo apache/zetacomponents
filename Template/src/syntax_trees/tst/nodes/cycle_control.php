@@ -15,11 +15,22 @@
  */
 class ezcTemplateCycleControlTstNode extends ezcTemplateBlockTstNode
 {
+    /**
+     * The name of the cycle.
+     *
+     * @var string
+     */
     public $name;
 
+    /**
+     * The variables.
+     *
+     * @var array(ezcTemplateAstNode)
+     */
     public $variables;
 
     /**
+     * Constructs a new ezcTemplateCycleControlTstNode.
      *
      * @param ezcTemplateSource $source
      * @param ezcTemplateCursor $start
@@ -34,6 +45,11 @@ class ezcTemplateCycleControlTstNode extends ezcTemplateBlockTstNode
         $this->isNestingBlock = false;
     }
 
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'name'       => $this->name,

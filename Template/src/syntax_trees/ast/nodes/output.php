@@ -9,6 +9,7 @@
  * @access private
  */
 /**
+ * Represents a node that should be sent to the output.
  *
  * @package Template
  * @version //autogen//
@@ -16,10 +17,25 @@
  */
 class ezcTemplateOutputAstNode extends ezcTemplateAstNode
 {
+    /**
+     * The expression that should be output. 
+     *
+     * @var ezcTemplateAstNode
+     */
     public $expression;
 
+    /**
+     * Whether the output should be sent as raw (no context escaping).
+     *
+     * @var bool
+     */
     public $isRaw;
 
+    /**
+     * Constructs a new output node.
+     *
+     * @param ezcTemplateAstNode $expression
+     */
     public function __construct( ezcTemplateAstNode $expression = null )
     {
         parent::__construct();

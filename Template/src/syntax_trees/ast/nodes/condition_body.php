@@ -34,6 +34,9 @@ class ezcTemplateConditionBodyAstNode extends ezcTemplateAstNode
 
     /**
      * Initialize with condition and body statement.
+     *
+     * @param ezcTemplateAstNode $condition
+     * @param ezcTemplateBodyAstNode $body
      */
     public function __construct( ezcTemplateAstNode $condition = null, ezcTemplateBodyAstNode $body = null )
     {

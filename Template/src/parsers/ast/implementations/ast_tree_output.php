@@ -46,6 +46,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitLiteralAstNode
+     *
+     * @param ezcTemplateLiteralAstNode $node
      * @return void
      */
     public function visitLiteralAstNode( ezcTemplateLiteralAstNode $node )
@@ -54,6 +57,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitConstantAstNode
+     *
+     * @param ezcTemplateConstantAstNode $node
      * @return void
      */
     public function visitConstantAstNode( ezcTemplateConstantAstNode $node )
@@ -62,6 +68,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitEolCommentAstNode
+     *
+     * @param ezcTemplateEolCommentAstNode $node
      * @return void
      */
     public function visitEolCommentAstNode( ezcTemplateEolCommentAstNode $node )
@@ -70,6 +79,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitBlockCommentAstNode
+     *
+     * @param ezcTemplateBlockCommentAstNode $node
      * @return void
      */
     public function visitBlockCommentAstNode( ezcTemplateBlockCommentAstNode $node )
@@ -78,6 +90,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitVariableAstNode
+     *
+     * @param ezcTemplateVariableAstNode $node
      * @return void
      */
     public function visitVariableAstNode( ezcTemplateVariableAstNode $node )
@@ -86,6 +101,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitDynamicVariableAstNode
+     *
+     * @param ezcTemplateDynamicVariableAstNode $node
      * @return void
      */
     public function visitDynamicVariableAstNode( ezcTemplateDynamicVariableAstNode $node )
@@ -94,6 +112,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitDynamicStringAstNode
+     *
+     * @param ezcTemplateDynamicStringAstNode $node
      * @return void
      */
     public function visitDynamicStringAstNode( ezcTemplateDynamicStringAstNode $node )
@@ -102,6 +123,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitArrayFetchOperatorAstNode
+     *
+     * @param ezcTemplateArrayFetchOperatorAstNode $node
      * @return void
      */
     public function visitArrayFetchOperatorAstNode( ezcTemplateArrayFetchOperatorAstNode $node )
@@ -110,6 +134,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitUnaryOperatorAstNode
+     *
+     * @param ezcTemplateOperatorAstNode $node
      * @return void
      */
     public function visitUnaryOperatorAstNode( ezcTemplateOperatorAstNode $node )
@@ -118,6 +145,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitBinaryOperatorAstNode
+     *
+     * @param ezcTemplateOperatorAstNode $node
      * @return void
      */
     public function visitBinaryOperatorAstNode( ezcTemplateOperatorAstNode $node )
@@ -126,6 +156,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitFunctionCallAstNode
+     *
+     * @param ezcTemplateFunctionCallAstNode $node
      * @return void
      */
     public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $node )
@@ -134,6 +167,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitBodyAstNode
+     *
+     * @param ezcTemplateBodyAstNode $node
      * @return void
      */
     public function visitBodyAstNode( ezcTemplateBodyAstNode $node )
@@ -142,6 +178,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitRootAstNode
+     *
+     * @param ezcTemplateBodyAstNode $node
      * @return void
      */
     public function visitRootAstNode( ezcTemplateBodyAstNode $node )
@@ -150,6 +189,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitGenericStatementAstNode
+     *
+     * @param ezcTemplateGenericStatementAstNode $node
      * @return void
      */
     public function visitGenericStatementAstNode( ezcTemplateGenericStatementAstNode $node )
@@ -158,6 +200,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitIfAstNode
+     *
+     * @param ezcTemplateIfAstNode $node
      * @return void
      */
     public function visitIfAstNode( ezcTemplateIfAstNode $node )
@@ -166,6 +211,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitDynamicBlockAstNode
+     *
+     * @param ezcTemplateDynamicBlockAstNode $node
      * @return void
      */
     public function visitDynamicBlockAstNode( ezcTemplateDynamicBlockAstNode $node )
@@ -175,6 +223,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
 
 
     /**
+     * visitWhileAstNode
+     *
+     * @param ezcTemplateWhileAstNode $node
      * @return void
      */
     public function visitWhileAstNode( ezcTemplateWhileAstNode $node )
@@ -183,6 +234,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitDoWhileAstNode
+     *
+     * @param ezcTemplateDoWhileAstNode $node
      * @return void
      */
     public function visitDoWhileAstNode( ezcTemplateDoWhileAstNode $node )
@@ -191,6 +245,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitForAstNode
+     *
+     * @param ezcTemplateForAstNode $node
      * @return void
      */
     public function visitForAstNode( ezcTemplateForAstNode $node )
@@ -199,6 +256,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitForeachAstNode
+     *
+     * @param ezcTemplateForeachAstNode $node
      * @return void
      */
     public function visitForeachAstNode( ezcTemplateForeachAstNode $node )
@@ -207,6 +267,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitBreakAstNode
+     *
+     * @param ezcTemplateBreakAstNode $node
      * @return void
      */
     public function visitBreakAstNode( ezcTemplateBreakAstNode $node )
@@ -215,6 +278,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitContinueAstNode
+     *
+     * @param ezcTemplateContinueAstNode $node
      * @return void
      */
     public function visitContinueAstNode( ezcTemplateContinueAstNode $node )
@@ -223,6 +289,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitReturnAstNode
+     *
+     * @param ezcTemplateReturnAstNode $node
      * @return void
      */
     public function visitReturnAstNode( ezcTemplateReturnAstNode $node )
@@ -231,6 +300,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitRequireAstNode
+     *
+     * @param ezcTemplateRequireAstNode $node
      * @return void
      */
     public function visitRequireAstNode( ezcTemplateRequireAstNode $node )
@@ -239,6 +311,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitRequireOnceAstNode
+     *
+     * @param ezcTemplateRequireOnceAstNode $node
      * @return void
      */
     public function visitRequireOnceAstNode( ezcTemplateRequireOnceAstNode $node )
@@ -247,6 +322,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitIncludeAstNode
+     *
+     * @param ezcTemplateIncludeAstNode $node
      * @return void
      */
     public function visitIncludeAstNode( ezcTemplateIncludeAstNode $node )
@@ -255,6 +333,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitIncludeOnceAstNode
+     *
+     * @param ezcTemplateIncludeOnceAstNode $node
      * @return void
      */
     public function visitIncludeOnceAstNode( ezcTemplateIncludeOnceAstNode $node )
@@ -263,6 +344,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitSwitchAstNode
+     *
+     * @param ezcTemplateSwitchAstNode $node
      * @return void
      */
     public function visitSwitchAstNode( ezcTemplateSwitchAstNode $node )
@@ -271,6 +355,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitCaseAstNode
+     *
+     * @param ezcTemplateCaseAstNode $node
      * @return void
      */
     public function visitCaseAstNode( ezcTemplateCaseAstNode $node )
@@ -279,6 +366,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitDefaultAstNode
+     *
+     * @param ezcTemplateDefaultAstNode $node
      * @return void
      */
     public function visitDefaultAstNode( ezcTemplateDefaultAstNode $node )
@@ -287,6 +377,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitConditionBodyAstNode
+     *
+     * @param ezcTemplateConditionBodyAstNode $node
      * @return void
      */
     public function visitConditionBodyAstNode( ezcTemplateConditionBodyAstNode $node )
@@ -295,6 +388,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitOutputAstNode
+     *
+     * @param ezcTemplateOutputAstNode $node
      * @return void
      */
     public function visitOutputAstNode( ezcTemplateOutputAstNode $node )
@@ -303,6 +399,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitTryAstNode
+     *
+     * @param ezcTemplateTryAstNode $node
      * @return void
      */
     public function visitTryAstNode( ezcTemplateTryAstNode $node )
@@ -311,6 +410,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitCatchAstNode
+     *
+     * @param ezcTemplateCatchAstNode $node
      * @return void
      */
     public function visitCatchAstNode( ezcTemplateCatchAstNode $node )
@@ -319,6 +421,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitEchoAstNode
+     *
+     * @param ezcTemplateEchoAstNode $node
      * @return void
      */
     public function visitEchoAstNode( ezcTemplateEchoAstNode $node )
@@ -327,6 +432,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitPrintAstNode
+     *
+     * @param ezcTemplatePrintAstNode $node
      * @return void
      */
     public function visitPrintAstNode( ezcTemplatePrintAstNode $node )
@@ -335,6 +443,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitIssetAstNode
+     *
+     * @param ezcTemplateIssetAstNode $node
      * @return void
      */
     public function visitIssetAstNode( ezcTemplateIssetAstNode $node )
@@ -343,6 +454,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitUnsetAstNode
+     *
+     * @param ezcTemplateUnsetAstNode $node
      * @return void
      */
     public function visitUnsetAstNode( ezcTemplateUnsetAstNode $node )
@@ -351,6 +465,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitEmptyAstNode
+     *
+     * @param ezcTemplateEmptyAstNode $node
      * @return void
      */
     public function visitEmptyAstNode( ezcTemplateEmptyAstNode $node )
@@ -359,6 +476,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitParenthesisAstNode
+     *
+     * @param ezcTemplateParenthesisAstNode $node
      * @return void
      */
     public function visitParenthesisAstNode( ezcTemplateParenthesisAstNode $node )
@@ -367,6 +487,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitCurlyBracesAstNode
+     *
+     * @param ezcTemplateCurlyBracesAstNode $node
      * @return void
      */
     public function visitCurlyBracesAstNode( ezcTemplateCurlyBracesAstNode $node )
@@ -375,6 +498,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitTypeCastAstNode
+     *
+     * @param ezcTemplateTypeCastAstNode $node
      * @return void
      */
     public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node )
@@ -383,6 +509,9 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     /**
+     * visitNopAstNode
+     *
+     * @param ezcTemplateNopAstNode $node
      * @return void
      */
     public function visitNopAstNode( ezcTemplateNopAstNode $node )

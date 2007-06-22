@@ -9,7 +9,7 @@
  * @access private
  */
 /**
- * Represents the PHP reference eperator '->'
+ * Represents the PHP reference operator '->'
  *
  * @package Template
  * @version //autogen//
@@ -17,7 +17,12 @@
  */
 class ezcTemplateReferenceOperatorAstNode extends ezcTemplateBinaryOperatorAstNode
 {
-
+    /**
+     * Constructs a new reference operator.
+     *
+     * @param ezcTemplateAstNode $parameter1
+     * @param ezcTemplateAstNode $parameter2
+     */
     public function __construct( $parameter1 = null, $parameter2 = null)
     {
         parent::__construct( $parameter1, $parameter2 );

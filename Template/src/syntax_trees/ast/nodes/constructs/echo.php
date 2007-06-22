@@ -24,6 +24,9 @@ class ezcTemplateEchoAstNode extends ezcTemplateStatementAstNode
     public $outputList;
 
     /**
+     * Constructs a new ezcTemplateEchoAstNode
+     *
+     * @param array(ezcTemplateAstNode) $outputList
      */
     public function __construct( Array $outputList = null )
     {
@@ -41,6 +44,9 @@ class ezcTemplateEchoAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Append a new output element to the current list.
+     *
+     * @param ezcTemplateAstNode $output
+     * @return void
      */
     public function appendOutput( ezcTemplateAstNode $output )
     {
@@ -60,6 +66,7 @@ class ezcTemplateEchoAstNode extends ezcTemplateStatementAstNode
      * Validates the output parameters against their constraints.
      *
      * @throws ezcTemplateInternalException if the constraints are not met.
+     * @return void
      */
     public function validate()
     {

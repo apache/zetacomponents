@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateIfConditionTstNode class
+ * File containing the ezcTemplateConditionBodyTstNode class
  *
  * @package Template
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Control structure: if.
+ * The condition body.
  *
  * @package Template
  * @version //autogen//
@@ -18,14 +18,15 @@
  */
 class ezcTemplateConditionBodyTstNode extends ezcTemplateBlockTstNode
 {
+    /**
+     * The conditions.
+     * @var ezcTemplateAstNode
+     */
     public $condition;
 
-    /*
-    // Array.
-    public $body;
-    */
-
     /**
+     * Constructs a new ezcTemplateConditionBodyTstNode.
+     *
      * @param ezcTemplateSource $source
      * @param ezcTemplateCursor $start
      * @param ezcTemplateCursor $end
@@ -38,12 +39,23 @@ class ezcTemplateConditionBodyTstNode extends ezcTemplateBlockTstNode
         $this->isNestingBlock = false;
     }
 
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'condition' => $this->condition,
                       'children'  => $this->children );
     }
 
+    /**
+     * Checks if the given element can be attached to its parent.
+     *
+     * @throws ezcTemplateParserException if the element cannot be attached.
+     * @return void
+     */
     public function canAttachToParent( $parentElement )
     {
         if ( !$parentElement instanceof ezcTemplateIfConditionTstNode )

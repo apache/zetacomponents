@@ -9,25 +9,31 @@
  * @access private
  */
 /**
+ * The nodes under the cacheBlock are supposed to be cached.
  *
  * @package Template
  * @version //autogen//
  * @access private
  */
-
 class ezcTemplateCacheBlockAstNode extends ezcTemplateStatementAstNode
 {
+    /**
+     * The body node inside this cache block.
+     *
+     * @var ezcTemplateBodyAstNode
+     */
     public $body;
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param ezcTemplateBodyAstNode $body
      */
     public function __construct( ezcTemplateBodyAstNode $body = null )
     {
         parent::__construct();
         $this->body = $body;
     }
-
 }
 
 ?>

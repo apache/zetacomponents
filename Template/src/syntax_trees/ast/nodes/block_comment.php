@@ -46,6 +46,8 @@ class ezcTemplateBlockCommentAstNode extends ezcTemplateStatementAstNode
     public $hasSeparator;
 
     /**
+     * Constructs a new ezcTemplateBlockCommentAstNode
+     *
      * @param string $text         Text for comment.
      * @param bool   $hasSeparator Use spacing separator or not?
      */

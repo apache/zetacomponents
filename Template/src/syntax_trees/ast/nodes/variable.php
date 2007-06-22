@@ -31,10 +31,14 @@ class ezcTemplateVariableAstNode extends ezcTemplateAstNode
 {
     /**
      * The name of the variable.
+     *
+     * @var string
      */
     public $name;
 
     /**
+     * Constructs a new variable.
+     *
      * @param string $name The name of the variable.
      */
     public function __construct( $name )

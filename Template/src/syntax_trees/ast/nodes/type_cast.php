@@ -9,6 +9,7 @@
  * @access private
  */
 /**
+ * This node represents a type cast.
  *
  * @package Template
  * @version //autogen//
@@ -18,12 +19,23 @@ class ezcTemplateTypeCastAstNode extends ezcTemplateAstNode
 {
     /**
      * The constant type.
+     *
+     * @var string
      */
     public $type;
 
+    /**
+     * The original value that needs to be cast.
+     *
+     * @var ezcTemplateAstNode
+     */
     public $value;
 
     /**
+     * Construct a new type cast.
+     *
+     * @param string $castToType
+     * @param ezcTemplateAstNode $value
      */
     public function __construct( $castToType, $value )
     {

@@ -9,6 +9,7 @@
  * @access private
  */
 /**
+ * This node represents a throw Runtime exception.
  *
  * @package Template
  * @version //autogen//
@@ -18,11 +19,15 @@ class ezcTemplateThrowExceptionAstNode extends ezcTemplateStatementAstNode
 {
     /**
      * The constant value for the type.
+     *
+     * @var string
      */
     public $message;
 
     /**
-     * @param mixed $value The value of PHP type to be stored in code element.
+     * Constructs a new exception.
+     *
+     * @param string $message The value of PHP type to be stored in code element.
      */
     public function __construct( $message )
     {

@@ -37,6 +37,10 @@ class ezcTemplateCatchAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param string $className
+     * @param ezcTemplateVariableAstNode $var
+     * @param ezcTemplateBodyAstNode $body
      */
     public function __construct( $className, ezcTemplateVariableAstNode $var, ezcTemplateBodyAstNode $body = null )
     {

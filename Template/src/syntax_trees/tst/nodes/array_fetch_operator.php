@@ -32,8 +32,9 @@ class ezcTemplateArrayFetchOperatorTstNode extends ezcTemplateOperatorTstNode
     public $arrayKeys;
 
     /**
+     * Constructs a new ezcTemplateArrayFetchOperatorTstNode
      *
-     * @param ezcTemplateSource $source
+     * @param ezcTemplateSourceCode $source
      * @param ezcTemplateCursor $start
      * @param ezcTemplateCursor $end
      */
@@ -46,6 +47,11 @@ class ezcTemplateArrayFetchOperatorTstNode extends ezcTemplateOperatorTstNode
         $this->arrayKeys = array();
     }
 
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed) 
+     */
     public function getTreeProperties()
     {
         return array( 'symbol'         => $this->symbol,
@@ -53,6 +59,12 @@ class ezcTemplateArrayFetchOperatorTstNode extends ezcTemplateOperatorTstNode
                       'arrayKeys'      => $this->arrayKeys );
     }
 
+    /**
+     * Appends a parameter to this node.
+     *
+     * @param ezcTemplateTstNode $element
+     * @return void
+     */
     public function appendParameter( $element )
     {
         if ( $this->sourceOperand === null )

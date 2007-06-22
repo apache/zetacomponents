@@ -23,6 +23,11 @@ class ezcTemplateFunctionCallAstNode extends ezcTemplateParameterizedAstNode
      */
     public $name;
 
+    /**
+     * Checks and sets the type hint.
+     *
+     * @return void
+     */
     public function checkAndSetTypeHint()
     {
         $this->typeHint = self::TYPE_ARRAY | self::TYPE_VALUE; 
@@ -30,6 +35,9 @@ class ezcTemplateFunctionCallAstNode extends ezcTemplateParameterizedAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param string $name
+     * @param array(ezcTemplateAstNode) $functionArguments
      */
     public function __construct( $name, Array $functionArguments = null )
     {

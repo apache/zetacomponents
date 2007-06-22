@@ -27,6 +27,8 @@ class ezcTemplateIfAstNode extends ezcTemplateStatementAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param ezcTemplateConditionBodyAstNode $conditionBody
      */
     public function __construct( ezcTemplateConditionBodyAstNode $conditionBody = null )
     {

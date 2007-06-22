@@ -9,18 +9,37 @@
  * @access private
  */
 /**
+ * Declares a new variable.
+ *
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateDeclarationTstNode extends ezcTemplateBlockTstNode
 {
+    /**
+     * The type of the variable.
+     *
+     * @var int
+     */
     public $type;
+
+    /**
+     * The variable itself.
+     *
+     * @var ezcTemplateVariableTstNode
+     */
     public $variable;
 
+    /**
+     * The expression assigned to the variable.
+     *
+     * @var ezcTemplateTstNode
+     */
     public $expression;
 
     /**
+     * Constructs a new ezcTemplateDeclarationTstNode.
      *
      * @param ezcTemplateSource $source
      * @param ezcTemplateCursor $start
@@ -34,6 +53,11 @@ class ezcTemplateDeclarationTstNode extends ezcTemplateBlockTstNode
         $this->expression = null;
     }
 
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'type'       => $this->type,

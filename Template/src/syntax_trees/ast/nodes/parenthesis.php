@@ -25,6 +25,8 @@ class ezcTemplateParenthesisAstNode extends ezcTemplateAstNode
 
     /**
      * Initialize with function name code and optional arguments
+     *
+     * @param ezcTemplateAstNode $expression
      */
     public function __construct( ezcTemplateAstNode $expression = null )
     {

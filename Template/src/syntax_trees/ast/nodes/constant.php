@@ -31,6 +31,8 @@ class ezcTemplateConstantAstNode extends ezcTemplateAstNode
     public $value;
 
     /**
+     * Constructs a new ezcTemplateConstantAstNode
+     *
      * @param mixed $value The value of constant.
      */
     public function __construct( $value )
