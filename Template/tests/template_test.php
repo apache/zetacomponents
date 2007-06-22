@@ -191,7 +191,7 @@ class ezcTemplateTest extends ezcTestCase
         self::assertEquals( "Hello world", $out);
         $d = glob($conf->compilePath . "/compiled_templates/xhtml-*"); // Read, Executable only
         $dir = $d[0];
-        chmod($dir, 555); // Read, Executable only
+        chmod($dir, 0555); // Read, Executable only
 
         try
         {
