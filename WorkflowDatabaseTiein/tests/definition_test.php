@@ -75,7 +75,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->definition->save( $this->workflow );
         $workflow = $this->definition->loadByName( 'IncrementingLoop' );
 
-        $this->assertEquals( $this->workflow, $workflow );
+        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
     }
 
     public function testSaveAndLoadDecrementingLoop()
@@ -84,7 +84,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->definition->save( $this->workflow );
         $workflow = $this->definition->loadByName( 'DecrementingLoop' );
 
-        $this->assertEquals( $this->workflow, $workflow );
+        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
     }
 
     public function testSaveAndLoadSetAddSubMulDiv()
@@ -102,7 +102,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->definition->save( $this->workflow );
         $workflow = $this->definition->loadByName( 'ParallelSplitSynchronization' );
 
-        $this->assertEquals( $this->workflow, $workflow );
+        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
     }
 
     public function testSaveAndLoadExclusiveChoiceBranchSimpleMerge()
@@ -111,7 +111,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->definition->save( $this->workflow );
         $workflow = $this->definition->loadByName( 'ExclusiveChoiceSimpleMerge' );
 
-        $this->assertEquals( $this->workflow, $workflow );
+        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
     }
 
     public function testExceptionWhenLoadingNotExistingWorkflow()
