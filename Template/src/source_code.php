@@ -54,15 +54,15 @@
  *
  * To check if any source code has been loaded or set use hasCode().
  *
- * @property string stream  
+ * @property string $stream  
  *              The PHP stream path for the template source file.
- * @property string resource 
+ * @property string $resource 
  *              The resource string which requested this template.
- * @property string code
+ * @property string $code
  *              The original template code taken from the template file or
  *              other resource. Contains a string with the source code or
  *              false if no code is read yet.
- * @property ezcTemplateOutputContext context 
+ * @property ezcTemplateOutputContext $context 
  *              The current context for the template code. Will be used for
  *              parsing and run-time behaviour.
  *

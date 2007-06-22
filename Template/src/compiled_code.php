@@ -18,14 +18,14 @@
  * If you are unsure where the compiled file resides you can use the static
  * methods findCurrent() and findAll() to get those identifiers.
  *
- * @property-read string identifier 
+ * @property-read string $identifier 
  *              The unique identifier for the compiled file.
- * @property-read string path       
+ * @property-read string $path       
  *              The complete (but relative) path to the compiled file. Will
  *              be set even if it does not exist.
- * @property ezcTemplateOutputContext context  
+ * @property ezcTemplateOutputContext $context  
  *              The context used for the currently compiled file.
- * @property ezcTemplate template  
+ * @property ezcTemplate $template  
  *              The template which is used when executing the template code.
  *
  * @package Template
