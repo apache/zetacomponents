@@ -20,7 +20,7 @@ class ezcTemplateDivisionOperatorTstNode extends ezcTemplateOperatorTstNode
     /**
      * Initialise operator with source and cursor positions.
      *
-     * @param ezcTemplateSource $source
+     * @param ezcTemplateSourceCode $source
      * @param ezcTemplateCursor $start
      * @param ezcTemplateCursor $end
      */

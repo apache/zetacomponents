@@ -19,10 +19,13 @@ class ezcTemplateDocCommentTstNode extends ezcTemplateBlockTstNode
 {
     /**
      * The parsed comment text without the start and end markers.
+     *
+     * @var string
      */
     public $commentText;
 
     /**
+     * Constructs a new ezcTemplateDocCommentTstNode.
      *
      * @param ezcTemplateSource $source
      * @param ezcTemplateCursor $start
@@ -35,6 +38,11 @@ class ezcTemplateDocCommentTstNode extends ezcTemplateBlockTstNode
         $this->isNestingBlock = false;
     }
 
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'name'        => $this->name,
@@ -55,8 +63,9 @@ class ezcTemplateDocCommentTstNode extends ezcTemplateBlockTstNode
     */
 
     /**
-     * {@inheritdoc}
      * Returns the column of the starting cursor.
+     *
+     * @return int
      */
     public function minimumWhitespaceColumn()
     {

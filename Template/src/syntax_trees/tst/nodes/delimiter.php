@@ -9,7 +9,7 @@
  * @access private
  */
 /**
- * Control structure: foreach.
+ * Creates a delimiter
  *
  * @package Template
  * @version //autogen//
@@ -17,10 +17,23 @@
  */
 class ezcTemplateDelimiterTstNode extends ezcTemplateBlockTstNode
 {
+    /**
+     * The modulo value.
+     *
+     * @var ezcTemplateExpressionTstNode
+     */
     public $modulo;
+
+
+    /**
+     * The remainder.
+     *
+     * @var ezcTemplateExpressionTstNode
+     */
     public $rest;
 
     /**
+     * Constructs a new ezcTemplateDelimiterTstNode.
      *
      * @param ezcTemplateSource $source
      * @param ezcTemplateCursor $start
@@ -34,6 +47,11 @@ class ezcTemplateDelimiterTstNode extends ezcTemplateBlockTstNode
         $this->name = 'delimiter';
     }
 
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'name'             => $this->name,
@@ -44,11 +62,24 @@ class ezcTemplateDelimiterTstNode extends ezcTemplateBlockTstNode
                       'children'         => $this->children );
     }
 
+    /**
+     * Handle the given element.
+     *
+     * @param ezcTemplateTstNode $element
+     * @return void
+     */
     public function handleElement( ezcTemplateTstNode $element )
     {
         parent::handleElement( $element );
     }
 
+    /**
+     * Checks if the given node can be attached to its parent.
+     *
+     * @throws ezcTemplateParserException if the node cannot be attached.
+     * @param ezcTemplateTstNode $parentElement
+     * @return void
+     */
     public function canAttachToParent( $parentElement )
     {
         // Process the lot.

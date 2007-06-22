@@ -18,6 +18,7 @@
 class ezcTemplateEmptyBlockTstNode extends ezcTemplateBlockTstNode
 {
     /**
+     * Constructs a new ezcTemplateEmptyBlockTstNode.
      *
      * @param ezcTemplateSource $source
      * @param ezcTemplateCursor $start
@@ -29,6 +30,11 @@ class ezcTemplateEmptyBlockTstNode extends ezcTemplateBlockTstNode
         $this->isNestingBlock = false;
     }
 
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array();
@@ -48,8 +54,9 @@ class ezcTemplateEmptyBlockTstNode extends ezcTemplateBlockTstNode
     */
 
     /**
-     * {@inheritdoc}
      * Returns the column of the starting cursor.
+     *
+     * @return int
      */
     public function minimumWhitespaceColumn()
     {

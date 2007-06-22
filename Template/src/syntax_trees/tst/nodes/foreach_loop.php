@@ -17,17 +17,65 @@
  */
 class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
 {
+    /**
+     * The array that should be iterated over.
+     *
+     * @var ezcTemplateExpressionTstNode
+     */
     public $array;
+
+    /**
+     * The key variable.
+     *
+     * @var ezcTemplateVariableTstNode
+     */
     public $keyVariableName;
+
+    /**
+     * The item variable.
+     *
+     * @var ezcTemplateVariableTstNode
+     */
     public $itemVariableName;
+
+    /**
+     * Unknown.
+     * TODO: It is used, but why?
+     *
+     * @var mixed
+     */
     public $value;
 
+    /**
+     * The increment statement.
+     *
+     * @var ezcTemplateVariableTstNode
+     */
     public $increment;
+
+    /**
+     * The decrement statement.
+     *
+     * @var ezcTemplateVariableTstNode
+     */
     public $decrement;
+
+    /**
+     * The offset
+     *
+     * @var ezcTemplateExpressionTstNode
+     */
     public $offset;
+
+    /**
+     * The limit
+     *
+     * @var ezcTemplateExpressionTstNode
+     */
     public $limit;
 
     /**
+     * Constructs a new ezcTemplateForeachLoopTstNode.
      *
      * @param ezcTemplateSource $source
      * @param ezcTemplateCursor $start
@@ -45,6 +93,11 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
         $this->offset = $this->limit = null;
     }
 
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'name'             => $this->name,
@@ -59,12 +112,24 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
                       'children'         => $this->children );
     }
 
+    /**
+     * Returns true if the given element can be handled.
+     *
+     * @param ezcTEmplateTstNode $element
+     * @return bool
+     */
     public function canHandleElement( ezcTemplateTstNode $element )
     {
         // return ( $element instanceof ezcTemplateLoopTstNode && $element->name != 'delimiter' );
         return false;
     }
 
+    /**
+     * Handle the element.
+     *
+     * @param ezcTemplateTstNode $element
+     * @return void
+     */
     public function handleElement( ezcTemplateTstNode $element )
     {
         // Also accept the Delimiter TSTNode.

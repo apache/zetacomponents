@@ -18,6 +18,7 @@
 class ezcTemplateDivisionAssignmentOperatorTstNode extends ezcTemplateModifyingOperatorTstNode
 {
     /**
+     * Constructs a new ezcTemplateDivisionAssignmentOperatorTstNode.
      *
      * @param ezcTemplateSource $source
      * @param ezcTemplateCursor $start

@@ -19,10 +19,17 @@ class ezcTemplateEolCommentTstNode extends ezcTemplateExpressionTstNode
 {
     /**
      * The parsed comment text without the start marker.
+     *
+     * @var string
      */
     public $commentText;
 
     /**
+     * Constructs a new ezcTemplateEolCommentTstNode.
+     *
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
@@ -30,6 +37,11 @@ class ezcTemplateEolCommentTstNode extends ezcTemplateExpressionTstNode
         $this->commentText = null;
     }
 
+    /**
+     * Returns the tree properties.
+     *
+     * @return array(string=>mixed)
+     */
     public function getTreeProperties()
     {
         return array( 'commentText' => $this->commentText );
