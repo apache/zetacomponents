@@ -1,4 +1,4 @@
-1.3rc1 - [RELEASEDATE]
+1.3rc1 - Monday 25 June 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #10884: Database: Limit in Oracle only works with 1000 elements
