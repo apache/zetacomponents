@@ -362,7 +362,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
             }
         }
 
-        if ( strcmp( sprintf( "%u", crc32( $data ) ), sprintf( "%u", $header->crc ) ) == 0 )
+        if ( strcmp( sprintf( "%u", crc32( $data ) ), sprintf( "%u", $header->crc & 0xffffffff ) ) == 0 )
         {
             $newFile = new ezcArchiveCharacterFile( $writeTo, true );
             $newFile->write( $data );
