@@ -5,8 +5,8 @@
   reflected in definition file names.
 - Fixed issue #10769: PersistentObjectDatabaseSchemaTiein: Generated
   getState() expects parameter.
-- Fixed issue #10804: Adding auto increment to field fails with oracle and
-  sqlite.
+- Fixed issue #10804: Adding auto increment to field fails with Oracle and
+  SQLite.
 
 
 1.2beta1 - Monday 07 May 2007

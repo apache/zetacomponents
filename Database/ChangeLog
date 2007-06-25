@@ -1,12 +1,14 @@
-1.3RC1 - [RELEASEDATE]
+1.3rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #10884: Database: Limit in Oracle only works with 1000 elements
+  at maximum.
 - Fixed issue #10937: ezcDbHandler::hasFeature() is not implemented properly
   anywhere.
 - Fixed issue #10943: Add parameter to specify type of value in bindValue() 
-  and bindParam()
-- Fixed issue #10884: Database: Limit in Oracle only works with 1000 elements
-  at maximum.
-- Fixed issue #10986: in() expression test for subselects fails in PHP 5.1.6
+  and bindParam().
+- Fixed issue #10986: in() expression test for sub selects fails in PHP 5.1.6.
+- Documentation fixes and updates.
 
 
 1.3beta2 - Thursday 31 May 2007

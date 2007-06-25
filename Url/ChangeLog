@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #11012: basedir can be now specified as an absolute path also.
+- Documentation updates and fixes.
 
 
 1.1beta1 - Monday 07 May 2007
