@@ -1,4 +1,4 @@
-1.0rc1 - [RELEASEDATE]
+1.0rc1 - Monday 25 June 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #10902: Workflow nodes are not activated correctly when loading.
