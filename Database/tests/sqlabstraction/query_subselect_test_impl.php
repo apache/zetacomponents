@@ -96,8 +96,13 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $this->assertEquals( 'Germany', $result[1]['section'] );
     }
 
-    public function testInnerDistinctSubSelectBindParam()
+    public function testInnerDistinctSubSelectBindParamMySQL()
     {
+        $db = ezcDbInstance::get();
+        if ( get_class( $db ) !== 'ezcDbHandlerMysql' ) 
+        {
+            $this->markTestSkipped( 'Test defined for MySQL handler class only.' );
+        }
         $name = 'IBM';
         $name2 = 'company';
         $q = new ezcQuerySelect( ezcDbInstance::get() );
@@ -113,7 +118,8 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
 
         $q->selectDistinct( 'company' )
             ->from( 'query_test2' )
-            ->where( $q->expr->in( 'section', $q2->getQuery() ) );
+            ->where( $q->expr->in( 'section', $q2->getQuery() ) )
+            ->orderBy( 'company', ezcQuerySelect::ASC );
         $stmt = $q->prepare();
         $stmt->execute();
 
@@ -121,6 +127,41 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
 
         $this->assertEquals( 'eZ systems', $result[0]['company'] );
         $this->assertEquals( 'IBM', $result[1]['company'] );
+
+        $this->assertSame( 2, count( $result ) );
+    }
+
+    public function testInnerDistinctSubSelectBindParamGeneric()
+    {
+        $db = ezcDbInstance::get();
+        if ( get_class( $db ) === 'ezcDbHandlerMysql' ) 
+        {
+            $this->markTestSkipped( 'Test defined for non-MySQL handler class only.' );
+        }
+        $name = 'IBM';
+        $name2 = 'company';
+        $q = new ezcQuerySelect( ezcDbInstance::get() );
+
+        // subselect
+        $q2 = $q->subSelect();
+        $q->expr->setValuesQuoting( false );
+
+        // bind values
+        $q2->selectDistinct( 'section' )
+                ->from( 'query_test' )
+                ->where( ' id = 1 OR id = 2 ');
+
+        $q->selectDistinct( 'company' )
+            ->from( 'query_test2' )
+            ->where( $q->expr->in( 'section', $q2->getQuery() ) )
+            ->orderBy( 'company', ezcQuerySelect::ASC );
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        $this->assertEquals( 'eZ systems', $result[1]['company'] );
+        $this->assertEquals( 'IBM', $result[0]['company'] );
 
         $this->assertSame( 2, count( $result ) );
     }
