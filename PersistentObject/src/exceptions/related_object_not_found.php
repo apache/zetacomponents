@@ -9,7 +9,7 @@
  */
 
 /**
- * Exception thrown, if the given relation class ćould not be found.
+ * Exception thrown, if the given relation class could not be found.
  *
  * @package PersistentObject
  * @version //autogen//
