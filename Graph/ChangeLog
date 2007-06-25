@@ -1,4 +1,4 @@
-1.1rc1 - [RELEASEDATE]
+1.1rc1 - Monday 25 June 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #10828: PHP error when overwriting renderer in extended
