@@ -157,11 +157,11 @@ class ezcConsoleQuestionDialogRegexValidatorTest extends ezcTestCase
     {
         $validator = new ezcConsoleQuestionDialogRegexValidator( "//" );
 
-        $this->assertEquals( "(match // )", $validator->getResultString() );
+        $this->assertEquals( "(match //)", $validator->getResultString() );
 
         $validator->default = "foo";
 
-        $this->assertEquals( "(match // ) [foo]", $validator->getResultString() );
+        $this->assertEquals( "(match //) [foo]", $validator->getResultString() );
 
         $validator->pattern = "/^[0-9]+\.[a-z]+$/";
         $validator->default = null;
