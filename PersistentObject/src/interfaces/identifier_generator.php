@@ -10,7 +10,8 @@
  */
 
 /**
- * This interface between the class that generates unique identifiers when creating new objects and the session.
+ * The interface between the class that generates unique identifiers when creating new objects
+ * and the session.
  *
  * Implement this interface if you want a new strategy for generating unique identifier.
  * This interface is not intended to be exposed to the application.
