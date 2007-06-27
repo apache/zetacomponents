@@ -8,8 +8,8 @@ $definition = array(
     ),
     'age' => new ezcInputFormDefinitionElement(
         ezcInputFormDefinitionElement::REQUIRED, 'int',
-        array( 'min_range' => 1, 'max_range' => 99,
-               'flags' => FILTER_FLAG_ALLOW_HEX )
+        array( 'min_range' => 1, 'max_range' => 99 ),
+        FILTER_FLAG_ALLOW_HEX
     ),
     'email' => new ezcInputFormDefinitionElement(
         ezcInputFormDefinitionElement::REQUIRED, 'validate_email'

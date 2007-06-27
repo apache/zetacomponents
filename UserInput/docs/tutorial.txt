@@ -44,7 +44,7 @@ ezcInputFormDefinitionElement::REQUIRED for fields that *must* be submitted
 (although they can be empty) or ezcInputFormDefinitionElement::OPTIONAL for
 optional fields. The second parameter is the filter to use for the input
 field. The filters are defined in PHP's filter_ extension, and can also be
-retrieved by the PHP function input_filters_list(). The third optional
+retrieved by the PHP function filter_list(). The third optional
 parameter contains flags to the filter. Those are documented in the 
 `filter documentation`_.
 
@@ -95,7 +95,7 @@ The filters and their parameters are documented in the
 `filter documentation`_.
 
 .. _filter: http://pecl.php.net/filter
-.. _`filter documentation`: http://files.derickrethans.nl/filter_extension.html
+.. _`filter documentation`: http://php.net/filter
 .. _htmlspecialchars: http://php.net/htmlspecialchars
 
 
