@@ -1,0 +1,50 @@
+eZ component: Webdav, Design, 1.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Kore Nordmann, Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+Scope
+=====
+
+The scope of this document is to describe the initial design of a component
+that provides a webdav server and a webdav client, which work with all major
+other implementations of the WebDAV_ protocol.
+
+.. _WebDAV_: http://en.wikipedia.org/wiki/WebDAV
+
+The client part of the component is not part of the initial design and will
+therefore be added in a future version.
+
+Design overview
+===============
+
+Because of the variaty of buggy and incomplete implementations of WebDAV, this
+component will provide an abstraction to suite the different needs. Beside
+that, an abstract interface to the backend used for file operations will be
+provided.
+
+The main class of this component will provide a fully `RFC 2518`_ compliant
+implementation of a WebDAV_ server. An instance of this class retrieves an
+instance of a handler class, which takes care for performing the requested
+operations on a backend (for example the filesystem).
+
+.. _`RFC 2518`: http://tools.ietf.org/html/rfc2518
+
+Additionally, a collection of classes, which inherit the main class will be
+provided. Each of this classes will provide a compatibility layer on top of the
+RFC implementation, which works correctly with one or more "buggy" WebDAV
+clients. A factory pattern implementation will be provided, which takes
+automatically care of creating the correct server instance for a client.
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
