@@ -95,7 +95,7 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'ldap' ) )
         {
-            throw new ezcBaseExtensionNotFoundException( 'ldap', null, "PHP not configured --with-ldap." );
+            throw new ezcBaseExtensionNotFoundException( 'ldap', null, "PHP not configured with --with-ldap." );
         }
 
         $this->ldap = $ldap;
@@ -192,11 +192,11 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
             return self::STATUS_PASSWORD_INCORRECT;
         }
 
-        $connection = ldap_connect( $this->ldap->host, $this->ldap->port );
+        $connection = $this->ldapConnect( $this->ldap->host, $this->ldap->port );
         if ( !$connection )
         {
             // OpenLDAP 2.x.x will not throw an exception because $connection is always a resource
-            throw new ezcAuthenticationLdapException( "Could not connect to host '{$protocol}{$this->ldap->host}'." );
+            throw new ezcAuthenticationLdapException( "Could not connect to host '{$protocol}{$this->ldap->host}:{$this->ldap->port}'." );
         }
 
         // without using version 3, TLS and other stuff won't work
@@ -204,15 +204,15 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
         ldap_set_option( $connection, LDAP_OPT_REFERRALS, 0 );
 
         // try to use a TLS connection
-        if ( $this->ldap->protocol === self::PROTOCOL_TLS )
+        if ( $this->options->protocol === self::PROTOCOL_TLS || $this->ldap->protocol === self::PROTOCOL_TLS )
         {
-            if ( @ldap_start_tls( $connection ) )
+            if ( $this->ldapStartTls( $connection ) )
             {
                 // using TLS, so continue
             }
             else
             {
-                throw new ezcAuthenticationLdapException( "Could not connect to host '{$protocol}{$this->ldap->host}:{$this->ldap->port}'.", ldap_errno( $connection ) );
+                throw new ezcAuthenticationLdapException( "Could not connect to host '{$protocol}{$this->ldap->host}:{$this->ldap->port}'." );
             }
         }
 
@@ -253,6 +253,34 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
         }
 
         return self::STATUS_PASSWORD_INCORRECT;
+    }
+
+    /**
+     * Wraps around the ldap_connect() function.
+     *
+     * Returns the connection as a resource if it was successful.
+     *
+     * @param string $host The LDAP hostname
+     * @param int $port The LDAP port to connect to $host, default 389
+     * @return mixed
+     */
+    protected function ldapConnect( $host, $port = 389 )
+    {
+        return ldap_connect( $host, $port );
+    }
+
+    /**
+     * Wraps around the ldap_start_tls() function.
+     *
+     * Returns true if it was possible to start a TLS connection on the provided
+     * $connection.
+     *
+     * @param mixed $connection An established LDAP connection
+     * @return bool
+     */
+    protected function ldapStartTls( $connection )
+    {
+        return @ldap_start_tls( $connection );
     }
 }
 ?>

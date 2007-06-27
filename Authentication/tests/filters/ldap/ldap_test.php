@@ -64,6 +64,17 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
         $this->assertEquals( true, $authentication->run() );
     }
 
+    public function testLdapTLSOptions()
+    {
+        $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
+        $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
+        $options = new ezcAuthenticationLdapOptions();
+        $options->protocol = ezcAuthenticationLdapFilter::PROTOCOL_TLS;
+        $authentication = new ezcAuthentication( $credentials );
+        $authentication->addFilter( new ezcAuthenticationLdapFilter( $ldap, $options ) );
+        $this->assertEquals( true, $authentication->run() );
+    }
+
     public function testLdapWrongServer()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john', 'foobar' );
@@ -222,6 +233,46 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
         $authentication = new ezcAuthentication( $credentials );
         $authentication->addFilter( new ezcAuthenticationLdapFilter( $ldap ) );
         $this->assertEquals( false, $authentication->run() );
+    }
+
+    public function testLdapMockConnectFail()
+    {
+        $credentials = new ezcAuthenticationPasswordCredentials( 'hans.mustermann', 'wrong password' );
+        $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
+        $filter = $this->getMock( 'ezcAuthenticationLdapFilter', array( 'ldapConnect' ), array( $ldap ) );
+        $filter->expects( $this->any() )
+               ->method( 'ldapConnect' )
+               ->will( $this->returnValue( false ) );
+
+        try
+        {
+            $result = $filter->run( $credentials );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcAuthenticationLdapException $e )
+        {
+            $this->assertEquals( "Could not connect to host 'ldap://" . self::$host . ':' . self::$port . "'.", $e->getMessage() );
+        }
+    }
+
+    public function testLdapMockStartTlsFail()
+    {
+        $credentials = new ezcAuthenticationPasswordCredentials( 'hans.mustermann', 'wrong password' );
+        $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port, ezcAuthenticationLdapFilter::PROTOCOL_TLS );
+        $filter = $this->getMock( 'ezcAuthenticationLdapFilter', array( 'ldapStartTls' ), array( $ldap ) );
+        $filter->expects( $this->any() )
+               ->method( 'ldapStartTls' )
+               ->will( $this->returnValue( false ) );
+
+        try
+        {
+            $result = $filter->run( $credentials );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcAuthenticationLdapException $e )
+        {
+            $this->assertEquals( "Could not connect to host 'ldap://" . self::$host . ':' . self::$port . "'.", $e->getMessage() );
+        }
     }
 
     public function testLdapInfo()

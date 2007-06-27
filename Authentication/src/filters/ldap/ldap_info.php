@@ -56,10 +56,11 @@ class ezcAuthenticationLdapInfo extends ezcBaseStruct
      * Protocol to use to connect to LDAP.
      *
      * One of these values:
-     *   - ezcAuthenticationLdapFilter::PROTOCOL_PLAIN (default)
-     *   - ezcAuthenticationLdapFilter::PROTOCOL_TLS
+     *  - ezcAuthenticationLdapFilter::PROTOCOL_PLAIN (default)
+     *  - ezcAuthenticationLdapFilter::PROTOCOL_TLS
      *
      * @var int
+     * @apichange Remove this as it is used already as an option
      */
     public $protocol;
 

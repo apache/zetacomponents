@@ -71,7 +71,7 @@ class ezcAuthenticationMath
             case 'bcmath':
                 if ( !ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) )
                 {
-                    throw new ezcBaseExtensionNotFoundException( 'bcmath', null, "PHP not compiled with --enable--bcmath." );
+                    throw new ezcBaseExtensionNotFoundException( 'bcmath', null, "PHP not compiled with --enable-bcmath." );
                 }
                 $library = new ezcAuthenticationBcmathLibrary();
                 break;
