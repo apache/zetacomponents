@@ -12,7 +12,10 @@ class ezcBaseTestOptions extends ezcBaseOptions
         {
             $this->properties[$propertyName] = $propertyValue;
         }
-        throw new ezcBasePropertyNotFoundException( $propertyName );
+        else
+        {
+            throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
     }
 }
 
