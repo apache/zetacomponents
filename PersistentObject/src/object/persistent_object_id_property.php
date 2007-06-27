@@ -14,7 +14,6 @@
  * For descriptions for some the constants used in this class see:
  * {@link ezcPersisentObjectProperty}
  *
- * @package PersistentObject
  * @property string $columnName   The name of the database field that stores the
  *                                value.
  * @property string $propertyName The name of the PersistentObject property
