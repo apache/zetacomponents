@@ -1,0 +1,73 @@
+eZ component: DatabaseSchema, Design, 1.3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Frederik Holljen
+:Revision: $Rev: $
+:Date: $Date: $
+:Status: Draft
+
+.. contents::
+
+Introduction
+============
+
+Version 1.4 of DatabaseSchema will include a script that supports writing and
+saving schemas to file or database. The corresponding issue in the issue
+tracker to this design document is #010534.
+
+Design description
+==================
+
+Ther implementation will consist of two scripts. One for loading schemas into
+the database and one for saving schemas from database to file.
+The scripts will be based on the ConsoleTools component for input handling. 
+
+Saving a database schema
+------------------------
+
+The script will have the following parameters and options:
+
+dbschemasave SRC
+
+SRC is the full URI of the database to read from.
+
+ -f, --format=FORMAT     One of xml[default], php or sql.
+ -t, --target-file=FILE  Path to filename to write output to.
+
+By default it will write the output to stdout in the XML format. If the user
+has added additional formats they to can be used with -f.
+
+TODO: sql format is broken since you would like to save as mysql/sqlite etc.
+
+Loading a database schema
+-------------------------
+
+The script will have the following parameters and options:
+
+dbschemaload TARGET
+
+TARGET is the full URI of the database to write to.
+
+ -f, --format=FORMAT     One of xml[default] or php.
+ -t, --target-file=FILE  Path to filename to read from.
+
+By default it will load the input from stdin. If -t is used the tool will try
+to guess the format based on the file extension. The format can always be
+overriden with -f. If the user has added additional formats they to can be 
+used with -f.
+
+
+Open question
+-------------
+Should we include a diff tool as well? To compare different databases and
+output the differences? What about applying diffs to databases?
+Also a tool performing validation on existing schemas could be nice. 
+
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
