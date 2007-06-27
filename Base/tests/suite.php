@@ -22,8 +22,6 @@ class ezcBaseSuite extends PHPUnit_Framework_TestSuite
 	{
 		parent::__construct();
         $this->setName("Base");
-        
-        ezcTestRunner::addFileToFilter( 'Translation' );
 
         $this->addTest( ezcBaseTest::suite() );
         $this->addTest( ezcBaseInitTest::suite() );
