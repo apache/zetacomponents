@@ -27,32 +27,32 @@
 class ezcDbSchemaComparator
 {
     /**
-     * Returns a ezcDbSchemaDiff object containing the differences between the schemas $schema1 and $schema2.
+     * Returns a ezcDbSchemaDiff object containing the differences between the schemas $fromSchema and $toSchema.
      *
      * The returned diferences are returned in such a way that they contain the
-     * operations to change the schema stored in $schema1 to the schema that is
-     * stored in $schema2.
+     * operations to change the schema stored in $fromSchema to the schema that is
+     * stored in $toSchema.
      *
-     * @param ezcDbSchema $schema1
-     * @param ezcDbSchema $schema2
+     * @param ezcDbSchema $fromSchema
+     * @param ezcDbSchema $toSchema
      *
      * @return ezcDbSchemaDiff
      */
-    public static final function compareSchemas( ezcDbSchema $schema1, ezcDbSchema $schema2 )
+    public static final function compareSchemas( ezcDbSchema $fromSchema, ezcDbSchema $toSchema )
     {
         $diff = new ezcDbSchemaDiff();
-        $schema1 = $schema1->getSchema();
-        $schema2 = $schema2->getSchema();
+        $fromSchema = $fromSchema->getSchema();
+        $toSchema = $toSchema->getSchema();
 
-        foreach ( $schema2 as $tableName => $tableDefinition )
+        foreach ( $toSchema as $tableName => $tableDefinition )
         {
-            if ( !isset( $schema1[$tableName] ) )
+            if ( !isset( $fromSchema[$tableName] ) )
             {
                 $diff->newTables[$tableName] = $tableDefinition;
             }
             else
             {
-                $tableDifferences = ezcDbSchemaComparator::diffTable( $schema1[$tableName], $tableDefinition );
+                $tableDifferences = ezcDbSchemaComparator::diffTable( $fromSchema[$tableName], $tableDefinition );
                 if ( $tableDifferences !== false )
                 {
                     $diff->changedTables[$tableName] = $tableDifferences;
@@ -61,9 +61,9 @@ class ezcDbSchemaComparator
         }
 
         /* Check if there are tables removed */
-        foreach ( $schema1 as $tableName => $tableDefinition )
+        foreach ( $fromSchema as $tableName => $tableDefinition )
         {
-            if ( !isset( $schema2[$tableName] ) )
+            if ( !isset( $toSchema[$tableName] ) )
             {
                 $diff->removedTables[$tableName] = true;
             }
@@ -77,8 +77,8 @@ class ezcDbSchemaComparator
      *
      * If there are no differences this method returns the boolean false.
      *
-     * @param ezcDbSchemaTable $index1
-     * @param ezcDbSchemaTable $index2
+     * @param ezcDbSchemaTable $table1
+     * @param ezcDbSchemaTable $table2
      *
      * @return bool|ezcDbSchemaTableDiff
      */
