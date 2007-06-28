@@ -982,6 +982,42 @@ pie chart in your generated bitmap`__.
 
 __ img/tutorial_reference_gd.html
 
+SVG to bitmap conversion
+------------------------
+
+If you want to benefit from the more beautiful SVG output you may convert the
+vector graphics to a bitmap format, like PNG or JPEG, on the server side.
+There are several tools capable to do so, but for each you need the
+possibility to execute commands using the exec() function family.
+
+- librsvg
+  Small memory footprint and advanced SVG support, including filters (which
+  are not used by ezcGraph, though). Example command to convert an image:
+
+  ::
+
+  	rsvg input.svg output.png
+
+- imagemagick
+  Installed on most servers out there, but has some issues with transparent
+  backgrounds in SVG documents. Example command with image magick:
+
+  ::
+
+  	convert -background none input.svg output.png
+
+- Inkscape
+  Not available on most servers, but perfect for modifying SVG documents on
+  unix and windows. Requires X to install, but can be run on CLI, too:
+
+  ::
+
+  	inkscape input.svg -e output.png
+
+All three converts can also export to PDF or postscript, and resize the
+document, if wanted. For further details please read the documentation of the
+respective tool.
+
 Direct output
 =============
 
