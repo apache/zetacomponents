@@ -1,8 +1,8 @@
 eZ component: DatabaseSchema, Design, 1.3
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :Author: Frederik Holljen
-:Revision: $Rev: $
-:Date: $Date: $
+:Revision: $Rev:$
+:Date: $Date:$
 :Status: Draft
 
 .. contents::
@@ -28,15 +28,15 @@ The script will have the following parameters and options:
 
 dbschemasave SRC
 
-SRC is the full URI of the database to read from.
+SRC is the full DSN of the database to read from.
 
- -f, --format=FORMAT     One of xml[default], php or sql.
- -t, --target-file=FILE  Path to filename to write output to.
+ -f, --format=FORMAT          One of xml[default], php.
+ -n, --native-format=FORMAT   Overrides -f, one of db handler names.
+ -t, --target-file=FILE       Path to filename to write output to.
 
 By default it will write the output to stdout in the XML format. If the user
 has added additional formats they to can be used with -f.
 
-TODO: sql format is broken since you would like to save as mysql/sqlite etc.
 
 Loading a database schema
 -------------------------
@@ -45,7 +45,7 @@ The script will have the following parameters and options:
 
 dbschemaload TARGET
 
-TARGET is the full URI of the database to write to.
+TARGET is the full DSN of the database to write to.
 
  -f, --format=FORMAT     One of xml[default] or php.
  -t, --target-file=FILE  Path to filename to read from.
@@ -56,12 +56,48 @@ overriden with -f. If the user has added additional formats they to can be
 used with -f.
 
 
-Open question
+Saving a diff
 -------------
-Should we include a diff tool as well? To compare different databases and
-output the differences? What about applying diffs to databases?
-Also a tool performing validation on existing schemas could be nice. 
 
+The script will have the following parameters and options:
+
+dbchemadiff FROM TO
+
+ -f, --format=FORMAT     One of xml[default] or php.
+ -t, --target-file=FILE  Path to filename to write output to
+
+FROM and TO can both be DSN's specifying databases to read from
+or they can be paths to files containing db schema definitions.
+By default it will write the output to stdout in the XML format. If the user
+has added additional formats they to can be used with -f.
+
+Applying a diff
+--------------
+
+The script will have the following parameters and options:
+
+dbschemadiffapply TARGET
+
+ -f, --format=FORMAT     One of xml[default] or php.
+ -t, --target-file=FILE  Path to filename to write output to
+
+TARGET is the DSN to the database that should have the diff applied. By default
+the script will load the diff from stdin. This can be overriden with -t.
+
+Since this script can be potentially harmful to your database I wonder if we
+should issue a warning by default and ask if the user is sure he/she wants to
+continue. This could be surpressed with a parameter.
+
+
+Validating a schema
+-------------------
+
+The script will have the following parameters and options:
+
+dbschemavalidate
+
+ -f, --format=FORMAT     One of xml[default] or php.
+ -t, --target-file=FILE  Path or DSN to validate.
 
 
 
