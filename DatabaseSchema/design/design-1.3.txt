@@ -65,6 +65,7 @@ dbchemadiff FROM TO
 
  -f, --format=FORMAT     One of xml[default] or php.
  -t, --target-file=FILE  Path to filename to write output to
+ -n, --native-format=FORMAT   Overrides -f, one of db handler names.
 
 FROM and TO can both be DSN's specifying databases to read from
 or they can be paths to files containing db schema definitions.
@@ -86,7 +87,7 @@ the script will load the diff from stdin. This can be overriden with -t.
 
 Since this script can be potentially harmful to your database I wonder if we
 should issue a warning by default and ask if the user is sure he/she wants to
-continue. This could be surpressed with a parameter.
+continue. This could be surpressed with an optional parameter.
 
 
 Validating a schema
