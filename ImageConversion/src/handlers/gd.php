@@ -476,7 +476,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
         }
 
         $watermarkPosX = (int) round( $imgWidth * $posX / 100 );
-        $watermarkPosY = (int) round( $imgWidth * $posY / 100 );
+        $watermarkPosY = (int) round( $imgHeight * $posY / 100 );
 
         $this->watermarkAbsolute( $image, $watermarkPosX, $watermarkPosY, $watermarkWidth, $watermarkHeight );
     }

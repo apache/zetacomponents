@@ -645,7 +645,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
     
     public function testWatermarkPercentNoScale()
     {
-        $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 10, 20 );
+        $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 10, 90 );
         $this->handler->save( $this->imageReference, $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -657,7 +657,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
     
     public function testWatermarkPercentScale()
     {
-        $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 20, 20, 60, 60 );
+        $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 80, 80, 20 );
         $this->handler->save( $this->imageReference, $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
