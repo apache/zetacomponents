@@ -93,8 +93,34 @@ We will not support webdav extensions like distributed authoring and
 versioning defined in `RFC 3253`__ in the first stage, but keep these ideas in
 mind during the design phase.
 
-__ http://www.ietf.org/rfc/rfc2518.txt
-__ http://www.ietf.org/rfc/rfc3253.txt
+__ http://tools.ietf.org/rfc/rfc2518
+__ http://tools.ietf.org/rfc/rfc3253
+
+Other webdav related RFCs
+
+- `RFC 2291`__ - Requirements for a Distributed Authoring and Versioning 
+  Protocol for the World Wide Web
+- `RFC 2518`__ - HTTP Extensions for Distributed Authoring - WEBDAV
+- `RFC 3253`__ - Versioning Extensions to WebDAV
+- `RFC 3648`__ - Web Distributed Authoring and Versioning (WebDAV) Order
+  Collections Protocol
+- `RFC 3744`__ - Web Distributed Authoring and Versioning (WebDAV) Access
+  Control Protocol
+- `RFC 4316`__ - Datatypes for Web Distributed Authoring and Versioning
+  (WebDAV) Properties
+- `RFC 4331`__ - Quota and Size Properties for Distributed Authoring and
+  Versioning (DAV) Collections
+- `RFC 4437`__ - Web Distributed Authoring and Versioning (WebDAV) Redirect
+  Reference Resources
+
+__ http://tools.ietf.org/rfc/rfc2291
+__ http://tools.ietf.org/rfc/rfc2518
+__ http://tools.ietf.org/rfc/rfc3253
+__ http://tools.ietf.org/rfc/rfc3648
+__ http://tools.ietf.org/rfc/rfc3744
+__ http://tools.ietf.org/rfc/rfc4316
+__ http://tools.ietf.org/rfc/rfc4331
+__ http://tools.ietf.org/rfc/rfc4437
 
 
 ..
