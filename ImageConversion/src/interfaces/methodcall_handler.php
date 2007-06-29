@@ -30,6 +30,7 @@
  * @see ezcImageFilters
  *
  * @package ImageConversion
+ * @version //autogentag//
  * @access private
  */
 abstract class ezcImageMethodcallHandler extends ezcImageHandler
@@ -97,6 +98,11 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
         parent::__construct( $settings );
     }
 
+    /**
+     * Destroyes the handler and closes all open references correctly.
+     * 
+     * @return void
+     */
     public function __destruct()
     {
         foreach ( $this->references as $id => $data )

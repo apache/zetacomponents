@@ -18,6 +18,7 @@
  * @see ezcImageTransformation
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 class ezcImageFilter extends ezcBaseStruct
 {

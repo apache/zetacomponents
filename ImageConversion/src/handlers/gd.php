@@ -7,7 +7,6 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
- * @access private
  */
 
 /**
@@ -19,6 +18,7 @@
  * @see ezcImageHandler
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 class ezcImageGdHandler extends ezcImageGdBaseHandler
                         implements ezcImageGeometryFilters,
@@ -432,10 +432,10 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
      * of the destination image, 10% of its size away from its borders. If
      * $size is ommitted, the watermark image will not be resized.
      *
-     * @param string $image The image file to use as the watermark
-     * @param int $posX     X position in the destination image in percent.
-     * @param int $posY     Y position in the destination image in percent.
-     * @param int $size     Percentage size of the watermark.
+     * @param string $image  The image file to use as the watermark
+     * @param int $posX      X position in the destination image in percent.
+     * @param int $posY      Y position in the destination image in percent.
+     * @param int|bool $size Percentage size of the watermark, false for none.
      * @return void
      *
      * @throws ezcImageInvalidReferenceException
@@ -489,10 +489,11 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
      * with a size of $size pixel. If $size is ommitted, the watermark image
      * will not be resized.
      *
-     * @param string $image The image file to use as the watermark
-     * @param int $posX     X position in the destination image in pixel.
-     * @param int $posY     Y position in the destination image in pixel.
-     * @param int $size     Pixel size of the watermark.
+     * @param string $image    The image file to use as the watermark
+     * @param int $posX        X position in the destination image in pixel.
+     * @param int $posY        Y position in the destination image in pixel.
+     * @param int|bool $width  Pixel size of the watermark, false to keep size.
+     * @param int|bool $height Pixel size of the watermark, false to keep size.
      * @return void
      *
      * @throws ezcImageInvalidReferenceException
@@ -804,7 +805,8 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
      * converts it to a true color based resource. Do not forget, to replace
      * the actual resource in the handler, if you use this ,method!
      *
-     * @param resource(GD) $resource The image resource to convert
+     * @param resource(GD) $resource         The image resource to convert
+     * @param array(string=>int) $dimensions X and Y dimensions.
      * @return resource(GD) The converted resource.
      */
     protected function paletteToTruecolor( $resource, $dimensions )
@@ -849,7 +851,8 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
     /**
      * General scaling method to perform actual scale to new dimensions.
      *
-     * @param array $dimensions Dimensions as array('x' => <int>, 'y' => <int>).
+     * @param int $width  Width.
+     * @param int $height Height.
      * @return void
      *
      * @throws ezcImageInvalidReferenceException

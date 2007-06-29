@@ -16,6 +16,13 @@
  */
 class ezcImageMimeTypeUnsupportedException extends ezcImageException
 {
+    /**
+     * Creates a new ezcImageMimeTypeUnsupportedException.
+     * 
+     * @param string $mimeType  Affected mime type.
+     * @param string $direction "input" or "output".
+     * @return void
+     */
     function __construct( $mimeType, $direction )
     {
         parent::__construct( "Converter does not support MIME type '{$mimeType}' for '{$direction}'." );

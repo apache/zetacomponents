@@ -17,6 +17,7 @@
  * @see ezcImageConverter
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 class ezcImageConverterSettings extends ezcBaseStruct
 {

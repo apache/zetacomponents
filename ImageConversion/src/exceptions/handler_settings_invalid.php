@@ -17,9 +17,14 @@
  */
 class ezcImageHandlerSettingsInvalidException extends ezcImageException
 {
-    function __construct( $name )
+    /**
+     * Creates a new ezcImageHandlerSettingsInvalidException.
+     * 
+     * @return void
+     */
+    function __construct()
     {
-        parent::__construct( "Transformation '{$name}' does not exists." );
+        parent::__construct( "Invalid handler settings." );
     }
 }
 

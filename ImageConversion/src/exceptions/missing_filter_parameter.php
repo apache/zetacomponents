@@ -16,6 +16,13 @@
  */
 class ezcImageMissingFilterParameterException extends ezcImageException
 {
+    /**
+     * Creates a new ezcImageMissingFilterParameterException.
+     * 
+     * @param string $filterName    Affected filter.
+     * @param string $parameterName Affected parameter.
+     * @return void
+     */
     function __construct( $filterName, $parameterName )
     {
         parent::__construct( "The filter '{$filterName}' expects a parameter called '{$parameterName}' which was not submitted." );

@@ -18,6 +18,7 @@
  * @see ezcImageFiltersInterface
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 interface ezcImageWatermarkFilters
 {
@@ -31,10 +32,10 @@ interface ezcImageWatermarkFilters
      * of the destination image, 10% of its size away from its borders. If
      * $size is ommitted, the watermark image will not be resized.
      *
-     * @param string $image The image file to use as the watermark
-     * @param int $posX     X position in the destination image in percent.
-     * @param int $posY     Y position in the destination image in percent.
-     * @param int $size     Percentage size of the watermark.
+     * @param string $image  The image file to use as the watermark
+     * @param int $posX      X position in the destination image in percent.
+     * @param int $posY      Y position in the destination image in percent.
+     * @param int|bool $size Percentage size of the watermark, false for none.
      * @return void
      *
      * @throws ezcImageInvalidReferenceException
@@ -54,10 +55,11 @@ interface ezcImageWatermarkFilters
      * with a size of $size pixel. If $size is ommitted, the watermark image
      * will not be resized.
      *
-     * @param string $image The image file to use as the watermark
-     * @param int $posX     X position in the destination image in pixel.
-     * @param int $posY     Y position in the destination image in pixel.
-     * @param int $size     Pixel size of the watermark.
+     * @param string $image    The image file to use as the watermark
+     * @param int $posX        X position in the destination image in pixel.
+     * @param int $posY        Y position in the destination image in pixel.
+     * @param int|bool $width  Pixel size of the watermark, false to keep size.
+     * @param int|bool $height Pixel size of the watermark, false to keep size.
      * @return void
      *
      * @throws ezcImageInvalidReferenceException

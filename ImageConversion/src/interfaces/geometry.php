@@ -18,6 +18,7 @@
  * @see ezcImageFiltersInterface
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 interface ezcImageGeometryFilters
 {

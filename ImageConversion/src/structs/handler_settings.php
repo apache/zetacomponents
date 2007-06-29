@@ -18,6 +18,7 @@
  * @see ezcImageHandler
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 class ezcImageHandlerSettings extends ezcBaseStruct
 {
@@ -73,7 +74,7 @@ class ezcImageHandlerSettings extends ezcBaseStruct
      * @param string $className
      *        The name of the handler class to instantiate, e.g.
      *        'ezcImageGdHandler' or 'ezcImageImagemagickHandler'
-     * @param array  $settings
+     * @param array  $options
      *        Associative array of settings for the handler.
      */
     public function __construct( $referenceName, $className, array $options = array() )

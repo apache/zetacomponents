@@ -16,6 +16,15 @@
  */
 class ezcImageInvalidFilterParameterException extends ezcImageException
 {
+    /**
+     * Creates a new ezcImageInvalidFilterParameterException.
+     * 
+     * @param string $filterName    Name of the filter.
+     * @param string $parameterName Affected parameter.
+     * @param string $actualValue   Received value.
+     * @param string $expectedRange Expected value range.
+     * @return void
+     */
     function __construct( $filterName, $parameterName, $actualValue, $expectedRange = null )
     {
         $actualValue = var_export( $actualValue, true );

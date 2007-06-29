@@ -58,6 +58,7 @@
  * @see ezcImageConverter
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 class ezcImageTransformation
 {
@@ -107,10 +108,11 @@ class ezcImageTransformation
     /**
      * Initialize transformation.
      *
-     * @param ezcImageConverter     $converter The global converter.
-     * @param string                $name      Name for the transformation.
+     * @param ezcImageConverter $converter     The global converter.
+     * @param string $name                     Name for the transformation.
      * @param array(ezcImageFilter) $filters   Filters to apply.
-     * @param array(string)         $mimeOut   Output MIME types.
+     * @param array(string) $mimeOut           Output MIME types.
+     * @param ezcImageSaveOptions $saveOptions Options for saving images.
      *
      * @throws ezcImageFiltersException 
      *         On invalid filter or filter settings error.
@@ -380,7 +382,7 @@ class ezcImageTransformation
      *
      * {@link ezcImageSaveOptions}
      * 
-     * @param mixed $options Save options.
+     * @param ezcImageSaveOptions $options Save options.
      * @return void
      */
     public function setSaveOptions( ezcImageSaveOptions $options )

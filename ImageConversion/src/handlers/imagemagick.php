@@ -7,7 +7,6 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
- * @access private
  */
 
 /**
@@ -17,6 +16,7 @@
  * @see ezcImageHandler
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
                                  implements ezcImageGeometryFilters,
@@ -495,10 +495,10 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
      * of the destination image, 10% of its size away from its borders. If
      * $size is ommitted, the watermark image will not be resized.
      *
-     * @param string $image The image file to use as the watermark
-     * @param int $posX     X position in the destination image in percent.
-     * @param int $posY     Y position in the destination image in percent.
-     * @param int $size     Percentage size of the watermark.
+     * @param string $image  The image file to use as the watermark
+     * @param int $posX      X position in the destination image in percent.
+     * @param int $posY      Y position in the destination image in percent.
+     * @param int|bool $size Percentage size of the watermark, false for none.
      * @return void
      *
      * @throws ezcImageInvalidReferenceException
@@ -556,10 +556,11 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
      * with a size of $size pixel. If $size is ommitted, the watermark image
      * will not be resized.
      *
-     * @param string $image The image file to use as the watermark
-     * @param int $posX     X position in the destination image in pixel.
-     * @param int $posY     Y position in the destination image in pixel.
-     * @param int $size     Pixel size of the watermark.
+     * @param string $image    The image file to use as the watermark
+     * @param int $posX        X position in the destination image in pixel.
+     * @param int $posY        Y position in the destination image in pixel.
+     * @param int|bool $width  Pixel size of the watermark, false to keep size.
+     * @param int|bool $height Pixel size of the watermark, false to keep size.
      * @return void
      *
      * @throws ezcImageInvalidReferenceException

@@ -25,16 +25,36 @@
  * @see ezcImageHandler
  *
  * @package ImageConversion
- * @access private
+ * @version //autogentag//
  */
 class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler 
 {
+    /**
+     * Path to the convert binary.
+     * 
+     * @var string
+     */
     private $binary;
 
+    /**
+     * Map of MIME types to convert tags.
+     * 
+     * @var array(string=>string)
+     */
     private $tagMap = array();
 
+    /**
+     * Filter options per reference.
+     * 
+     * @var array(string=>array)
+     */
     private $filterOptions = array();
 
+    /**
+     * Composite image setting per reference.
+     * 
+     * @var array(string=>bool)
+     */
     private $compositeImages = array();
 
     /**
@@ -101,9 +121,10 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
      *
      * @see ezcImageHandler::load()
      *
-     * @param string $image   File reference created through load().
-     * @param string $newFile Filename to save the image to.
-     * @param string $mime    New MIME type, if differs from initial one.
+     * @param string $image                File reference created through load().
+     * @param string $newFile              Filename to save the image to.
+     * @param string $mime                 New MIME type, if differs from initial one.
+     * @param ezcImageSaveOptions $options Save options.
      * @return void
      *
      * @throws ezcBaseFilePermissionException
@@ -303,7 +324,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
     /**
      * Checks for ImageMagick on the system.
      *
-     * @param ezcImageHandlerSettings The settings object of the current handler instance.
+     * @param ezcImageHandlerSettings $settings The settings object of the current handler instance.
      * @return void
      *
      * @throws ezcImageHandlerNotAvailableException

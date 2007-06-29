@@ -16,6 +16,13 @@
  */
 class ezcImageFilterFailedException extends ezcImageException
 {
+    /**
+     * Creates a new ezcImageFilterFailedException.
+     * 
+     * @param string $filterName The failed filter.
+     * @param string $reason     The reason why the filter failed.
+     * @return void
+     */
     function __construct( $filterName, $reason = null )
     {
         $reasonPart = "";

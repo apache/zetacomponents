@@ -17,6 +17,12 @@
  */
 class ezcImageInvalidReferenceException extends ezcImageException
 {
+    /**
+     * Creates a new ezcImageInvalidReferenceException.
+     * 
+     * @param string $reason The reason.
+     * @return void
+     */
     function __construct( $reason = null )
     {
         $reasonPart = "";

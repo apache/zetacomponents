@@ -17,6 +17,7 @@
  * @see ezcImageConverter
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 abstract class ezcImageHandler
 {
@@ -163,7 +164,7 @@ abstract class ezcImageHandler
      *
      * @see ezcImageHandler::load()
      * @see ezcImageHandler::save()
-     * @param string $image The image reference.
+     * @param string $reference The image reference.
      * @return void
      */
     abstract public function close( $reference );

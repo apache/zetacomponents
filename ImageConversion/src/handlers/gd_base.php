@@ -24,6 +24,7 @@
  * @see ezcImageHandler
  *
  * @package ImageConversion
+ * @version //autogentag//
  * @access private
  */
 class ezcImageGdBaseHandler extends ezcImageMethodcallHandler 
@@ -89,9 +90,10 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
      *
      * @see ezcImageHandler::load()
      *
-     * @param string $image   File reference created through load().
-     * @param string $newFile Filename to save the image to.
-     * @param string $mime    New MIME type, if differs from initial one.
+     * @param string $image                File reference created through load().
+     * @param string $newFile              Filename to save the image to.
+     * @param string $mime                 New MIME type, if differs from initial one.
+     * @param ezcImageSaveOptions $options Save options.
      * @return void
      *
      * @throws ezcImageFileNotProcessableException

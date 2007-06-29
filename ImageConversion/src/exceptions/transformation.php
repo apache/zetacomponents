@@ -20,6 +20,7 @@
  * @see ezcImageTransformation
  *
  * @package ImageConversion
+ * @version //autogentag//
  */
 class ezcImageTransformationException extends ezcImageException
 {

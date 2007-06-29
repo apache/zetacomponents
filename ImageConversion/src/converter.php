@@ -167,6 +167,7 @@
  * @see ezcImageTransformation
  *
  * @package ImageConversion
+ * @version //autogentag//
  * @mainclass
  */
 class ezcImageConverter
