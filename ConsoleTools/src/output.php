@@ -450,8 +450,6 @@ class ezcConsoleOutput
      * Restores the cursor position last saved using {@link
      * ezcConsoleOutput::storePos()}.
      *
-     * @todo Gnome terminal does not recognize this codes. Solution??
-     *
      * @throws ezcConsoleNoPositionStoredException 
      *         If no position is saved.
      * @return void
