@@ -1,13 +1,18 @@
 <?php
+/**
+ * File containing the ezcConsoleDialogViewer class.
+ *
+ * @package ConsoleTools
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ */
 
 /**
- * Manager class to work with ezcConsoleDialog objects.
  * 
- * @package Framework
+ * @package ConsoleTools
  * @version //autogen//
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
- * @author  
- * @license http://ez.no/licenses/new_bsd New BSD License
  */
 class ezcConsoleDialogViewer
 {

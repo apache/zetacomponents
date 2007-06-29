@@ -12,9 +12,8 @@
 /**
  * Dialog class to ask a simple question.
  * 
- * @package Framework
+ * @package ConsoleTools
  * @version //autogen//
- * @author  
  *
  * @property ezcConsoleQuestionDialogOptions $options
  *           Options for the dialog.
