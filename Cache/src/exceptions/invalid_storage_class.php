@@ -20,6 +20,12 @@
  */
 class ezcCacheInvalidStorageClassException extends ezcCacheException
 {
+    /**
+     * Creates a new ezcCacheInvalidStorageClassException
+     * 
+     * @param string $storageClass The invalid storage class.
+     * @return void
+     */
     function __construct( $storageClass )
     {
         parent::__construct( "'{$storageClass}' is not a valid storage class. Storage classes must extend ezcCacheStorage." );

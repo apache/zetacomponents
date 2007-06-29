@@ -30,9 +30,48 @@
  * - ezcCacheStorageFilePlain
  * 
  * @package Cache
+ * @version //autogentag//
  */
 abstract class ezcCacheStorageFile extends ezcCacheStorage
 {
+    /**
+     * Creates a new cache storage in the given location.
+     * Creates a new cache storage for a given location. The location in case
+     * of this storage class is a valid file system directory.
+     *
+     * Options can contain the 'ttl' ( Time-To-Life ). This is per default set
+     * to 1 day. The option 'permissions' can be used to define the file
+     * permissions of created cache items. Specific ezcCacheStorageFile
+     * implementations can have additional options.
+     *
+     * For details about the options see {@link ezcCacheStorageFileOptions}.
+     * 
+     * @param string $location               Path to the cache location
+     * @param array(string=>string) $options Options for the cache.
+     *
+     * @throws ezcBaseFileNotFoundException
+     *         If the storage location does not exist. This should usually not 
+     *         happen, since {@link ezcCacheManager::createCache()} already
+     *         performs sanity checks for the cache location. In case this 
+     *         exception is thrown, your cache location has been corrupted 
+     *         after the cache was configured.
+     * @throws ezcBaseFileNotFoundException
+     *         If the storage location is not a directory. This should usually 
+     *         not happen, since {@link ezcCacheManager::createCache()} already
+     *         performs sanity checks for the cache location. In case this 
+     *         exception is thrown, your cache location has been corrupted 
+     *         after the cache was configured.
+     * @throws ezcBaseFilePermissionException
+     *         If the storage location is not writeable. This should usually not 
+     *         happen, since {@link ezcCacheManager::createCache()} already
+     *         performs sanity checks for the cache location. In case this 
+     *         exception is thrown, your cache location has been corrupted 
+     *         after the cache was configured.
+     * @throws ezcBasePropertyNotFoundException
+     *         If you tried to set a non-existent option value. The accpeted 
+     *         options depend on th ezcCacheStorage implementation and my 
+     *         vary.
+     */
     public function __construct( $location, $options = array() )
     {
         parent::__construct( $location, $options );
@@ -155,6 +194,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      * @param string $id                         The item ID to restore.
      * @param array(string=>string) $attributes  Attributes describing the 
      *                                           data to restore.
+     * @param bool $search                       Wheather to search for items
+     *                                           if not found directly.
      * 
      * @return mixed|bool The cached data on success, otherwise false.
      *
@@ -207,6 +248,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      * @param string $id                         The item ID to purge.
      * @param array(string=>string) $attributes  Attributes describing the 
      *                                           data to restore.
+     * @param bool $search                       Wheather to search for items
+     *                                           if not found directly.
      * @return void
      *
      * @throws ezcBaseFilePermissionException
@@ -278,8 +321,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      * @param string $id                         An item ID.
      * @param array(string=>string) $attributes  Attributes describing the 
      *                                           data to restore.
-     * @return void
-     * @TODO fix return doc!
+     * @return array(int=>string) Found cache items.
      */
     private function search( $id = null, $attributes = array() )
     {

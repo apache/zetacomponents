@@ -26,6 +26,13 @@
  */
 class ezcCacheInvalidDataException extends ezcCacheException
 {
+    /**
+     * Creates a new ezcCacheInvalidDataException.
+     * 
+     * @param mixed $actualType    Type of data received.
+     * @param array $expectedTypes Expected data types.
+     * @return void
+     */
     function __construct( $actualType, array $expectedTypes )
     {
         parent::__construct( "The given data was of type '{$actualType}', which can not be stored. Expecting: '" . implode( ', ', $expectedTypes ) . "'." );

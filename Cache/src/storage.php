@@ -40,6 +40,7 @@
  *
  * 
  * @package Cache
+ * @version //autogentag//
  */
 abstract class ezcCacheStorage 
 {
@@ -158,6 +159,8 @@ abstract class ezcCacheStorage
      * @param string $id                        The item ID.
      * @param array(string=>string) $attributes Attributes that describe the 
      *                                          cached data.
+     * @param bool $search                       Wheather to search for items
+     *                                           if not found directly.
      * 
      * @return mixed The cached data on success, otherwise false.
      *
@@ -184,6 +187,8 @@ abstract class ezcCacheStorage
      * @param string $id                        The item ID.
      * @param array(string=>string) $attributes Attributes that describe the 
      *                                          cached data.
+     * @param bool $search                       Wheather to search for items
+     *                                           if not found directly.
      *
      * @throws ezcBaseFilePermissionException
      *         If an already existsing cache file could not be unlinked. 

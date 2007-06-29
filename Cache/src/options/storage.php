@@ -17,6 +17,7 @@
  * @property string $extension The (file) extension to use for the storage items.
  *
  * @package Cache
+ * @version //autogentag//
  */
 class ezcCacheStorageOptions extends ezcBaseOptions
 {
@@ -32,11 +33,11 @@ class ezcCacheStorageOptions extends ezcBaseOptions
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
      */
-    public function __construct( $array = array() )
+    public function __construct( $options = array() )
     {
         $this->properties['ttl'] = 86400;
         $this->properties['extension'] = '.cache';
-        parent::__construct( $array );
+        parent::__construct( $options );
     }
 
     /**

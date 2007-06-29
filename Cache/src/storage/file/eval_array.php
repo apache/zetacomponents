@@ -37,6 +37,7 @@
  * - ezcCacheStorageFilePlain
  * 
  * @package Cache
+ * @version //autogentag//
  */
 class ezcCacheStorageFileEvalArray extends ezcCacheStorageFile
 {

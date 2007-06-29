@@ -18,6 +18,7 @@
  * @property int    $permissions     Permissions to create a file with (Posix only).
  *
  * @package Cache
+ * @version //autogentag//
  */
 class ezcCacheStorageFileOptions extends ezcBaseOptions
 {
@@ -40,11 +41,11 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
      */
-    public function __construct( $array = array() )
+    public function __construct( $options = array() )
     {
         $this->properties["permissions"] = 0644;
         $this->storageOptions = new ezcCacheStorageOptions();
-        parent::__construct( $array );
+        parent::__construct( $options );
     }
 
     /**
@@ -79,7 +80,7 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
      * 
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
-     * @param string $propertyName The name of the option to get.
+     * @param string $key The name of the option to get.
      * @return mixed The option value.
      * @ignore
      */
@@ -96,7 +97,7 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
     /**
      * Returns if a option exists.
      * 
-     * @param string $propertyName Option name to check for.
+     * @param string $key Option name to check for.
      * @return void
      * @ignore
      */
