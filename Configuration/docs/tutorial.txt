@@ -331,14 +331,14 @@ The # element in line 25 contains the comment for the group 'db' (line 23).
 Lazy initialization
 ===================
 
-Lazy initialisation means a mechanism to load and configure a component, only 
+Lazy initialization is a mechanism to load and configure a component, only 
 when it is really used in your application. This mechanism saves time for 
 parsing the classes and configuration, when the component is not used at all
 during one request. You can find a description how you can use it for your 
 own components and how it works in the `ezcBase tutorial`__. The keyword for
 the configuration component is *ezcInitConfigurationManager*.
 
-__ introduction_Base.html#lazy-initilization
+__ introduction_Base.html#lazy-initialization
 
 .. include:: tutorial_lazy_initialization.php
 	:literal:
@@ -347,12 +347,12 @@ This example shows reading the database password like the first example in
 this chapter. The main difference is, that we roll out the configuration to an
 own class, and define a callback using ezcBaseInit::setCallback to this class,
 which will be called with the configuration manager instance on the first
-request for a yet unintilized configuration manager.
+request for a yet uninitialized configuration manager.
 
-ezcBaseInit::setCallback accepts as a first parameter a component specifc key,
-which let the component later request the right configuration callback. The
+ezcBaseInit::setCallback accepts as a first parameter a component specific key,
+which lets the component later request the right configuration callback. The
 second parameter is the name of the class to perform the static callback on.
-Each components lazy initialization calls the static method configureObject()
+Each component's lazy initialization calls the static method configureObject()
 on the referenced class.
 
 When the configuration manager is really required in the application, like
