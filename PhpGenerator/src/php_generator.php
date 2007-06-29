@@ -180,7 +180,7 @@ class ezcPhpGenerator
      * want to run the generated code using eval() later. $niceIndentation controls if the PHP output
      * should be indented correctly. This option is useful if you want to debug the generated code.
      *
-     * @throws ezcBaseFileNotFounException if $filename does not contain a valid path.
+     * @throws ezcBaseFileNotFoundException if $filename does not contain a valid path.
      * @throws ezcBaseFilePermissionException if the path specified by $filename is not writeable.
      * @param string $filename
      * @param bool $includeStartEndTags
@@ -363,8 +363,8 @@ class ezcPhpGenerator
      * The parameter $caseSensitive determines if the defined variable is case
      * sensitive or not.  Note that $name must start with a letter or
      * underscore, followed by any number of letters, numbers, or underscores.
-     * @link http://php.net/manual/en/language.constants.php for more information.
-     * @link http://php.net/manual/en/function.define.php
+     * {@link http://php.net/manual/en/language.constants.php} for more information.
+     * {@link http://php.net/manual/en/function.define.php}
      *
      * Example:
      * <code>
@@ -378,7 +378,7 @@ class ezcPhpGenerator
      * </code>
      *
      *
-     * @throws PhpGeneratorException if it was not possible to write the define to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the define to the output file.
      * @param string $name
      * @param string $value
      * @param bool $caseInsensitive
@@ -415,7 +415,7 @@ class ezcPhpGenerator
      * $ProducedArray = array( 1, 2, 3 );
      * </code>
      *
-     * @throws PhpGeneratorException if it was not possible to write the assignment to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the assignment to the output file.
      * @param string $name
      * @param mixed $value
      * @param int $assignmentType ezcPhpGenerator:: ASSIGN_NORMAL, ASSIGN_APPEND_TEXT, ASSIGN_ADD,
@@ -463,7 +463,7 @@ class ezcPhpGenerator
      * $ProducedArray = $otherVar;
      * </code>
      *
-     * @throws PhpGeneratorException if it was not possible to write the assignment to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the assignment to the output file.
      * @param string $name
      * @param mixed $variable
      * @param int $assignmentType ezcPhpGenerator:: ASSIGN_NORMAL, ASSIGN_APPEND_TEXT, ASSIGN_ADD,
@@ -509,7 +509,7 @@ class ezcPhpGenerator
      * unset( $offset );
      * </code>
      *
-     * @throws PhpGeneratorException if it was not possible to write the unset to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the unset to the output file.
      * @param string $name
      * @return void
      */
@@ -533,7 +533,7 @@ class ezcPhpGenerator
 
      * @see http://php.net/manual/en/function.unset.php
      *
-     * @throws PhpGeneratorException if it was not possible to write the unset to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the unset to the output file.
      * @param array $list Array of variable names.
      * @return void
      */
@@ -564,7 +564,7 @@ class ezcPhpGenerator
      * $php->addSpace( 1 );
      * </code>
      *
-     * @throws PhpGeneratorException if it was not possible to write the empty lines to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the empty lines to the output file.
      * @param int $lines
      * @return void
      */
@@ -590,7 +590,7 @@ class ezcPhpGenerator
      * $var = str_repeat( $repeat, 4 );
      * </code>
      *
-     * @throws PhpGeneratorException if it was not possible to write the method call to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the method call to the output file.
      * @param string $functionName
      * @param array(ezcPhpGeneratorParameter) $parameters
      * @param ezcPhpGeneratorReturnData $returnData
@@ -619,7 +619,7 @@ class ezcPhpGenerator
      * $result = $node->name();
      * </code>
      *
-     * @throws PhpGeneratorException if it was not possible to write the method call to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the method call to the output file.
      * @param string $objectName
      * @param string $methodName
      * @param array(ezcPhpGeneratorParameter) $parameters
@@ -638,7 +638,7 @@ class ezcPhpGenerator
      * method is a helper method for appendFunctionCall and appendMethodCall. See their description for
      * further description of the parameters and examples.
      *
-     * @throws PhpGeneratorException if it was not possible to write the method call to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the method call to the output file.
      * @param string $functionName
      * @param array(ezcPhpGeneratorParameter) $parameters
      * @param ezcPhpGeneratorReturnData $returnData
@@ -727,7 +727,7 @@ class ezcPhpGenerator
      * }
      * </code>
      *
-     * @throws PhpGeneratorException if it was not possible to write the custom code to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the custom code to the output file.
      * @param string $code
      * @return void
      */
@@ -751,7 +751,7 @@ class ezcPhpGenerator
      * // This file is auto generated. Do not edit!
      * </code>
      *
-     * @throws PhpGeneratorException if it was not possible to write the comment to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the comment to the output file.
      * @param string $comment
      * @return void
      */
@@ -782,7 +782,7 @@ class ezcPhpGenerator
      *
      * @see $ezcPhpGenerator::appendElse()
      * @see $ezcPhpGenerator::appendEndIf()
-     * @throws PhpGeneratorException if it was not possible to write the if statement to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the if statement to the output file.
      * @param string $condition
      * @return void
      */
@@ -798,7 +798,7 @@ class ezcPhpGenerator
      *
      * @see $ezcPhpGenerator::appendIf()
      *
-     * @throws PhpGeneratorException if it was not possible to write to the output file
+     * @throws ezcPhpGeneratorException if it was not possible to write to the output file
      *         or if the method was not properly nested with an appendIf.
      * @return void
      */
@@ -838,7 +838,7 @@ class ezcPhpGenerator
      * @see $ezcPhpGenerator::appendIf()
      * @see $ezcPhpGenerator::appendEndIf()
      *
-     * @throws PhpGeneratorException if it was not possible to write the if statement to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the if statement to the output file.
      * @param string $condition
      * @return void
      */
@@ -886,9 +886,9 @@ class ezcPhpGenerator
      * </code>
      *
      * @see $ezcPhpGenerator::appendEndForeach()
+     * @throws ezcPhpGeneratorException if it was not possible to write the foreach statement to the output file.
      * @param string $condition
      * @return void
-     * @throws PhpGeneratorException if it was not possible to write the foreach statement to the output file.
      */
     public function appendForeach( $condition )
     {
@@ -902,7 +902,7 @@ class ezcPhpGenerator
      *
      * @see $ezcPhpGenerator::appendForeach()
      *
-     * @throws PhpGeneratorException if it was not possible to write to the output file
+     * @throws ezcPhpGeneratorException if it was not possible to write to the output file
      *         or if the method was not properly nested with an appendForeach.
      * @return void
      */
@@ -932,7 +932,7 @@ class ezcPhpGenerator
      *
      * @see $ezcPhpGenerator::appendEndWhile()
      *
-     * @throws PhpGeneratorException if it was not possible to write the while statement to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write the while statement to the output file.
      * @param string $condition
      * @return void
      */
@@ -948,7 +948,7 @@ class ezcPhpGenerator
      *
      * @see $ezcPhpGenerator::appendWhile()
      *
-     * @throws PhpGeneratorException if it was not possible to write to the output file
+     * @throws ezcPhpGeneratorException if it was not possible to write to the output file
      *         or if the method was not properly nested with an appendWhile.
      * @return void
      */
@@ -977,7 +977,7 @@ class ezcPhpGenerator
      *
      * @see $ezcPhpGenerator::appendEndDo()
      *
-     * @throws PhpGeneratorException if it was not possible to write to the output file.
+     * @throws ezcPhpGeneratorException if it was not possible to write to the output file.
      * @return void
      */
     public function appendDo()
@@ -994,7 +994,7 @@ class ezcPhpGenerator
      *
      * @see $ezcPhpGenerator::appendDo()
      *
-     * @throws PhpGeneratorException if it was not possible to write the do statement to the output file
+     * @throws ezcPhpGeneratorException if it was not possible to write the do statement to the output file
      *         or if the method was not properly nested with an appendDo.
      * @param string $condition
      * @return void
@@ -1017,7 +1017,7 @@ class ezcPhpGenerator
     /**
      * Checks that the end call is properly nested using $type and the flow stack.
      *
-     * @throws PhpGeneratorException if it was not possible to write to the output file or if a nesting
+     * @throws ezcPhpGeneratorException if it was not possible to write to the output file or if a nesting
      *         error was detected.
      * @param int $type One of the flow types FLOW_IF, FLOW_FOREACH, FLOW_WHILE or FLOW_DO.
      * @return void
@@ -1040,7 +1040,7 @@ class ezcPhpGenerator
     /**
      * Writes $data to $this->fileResource
      *
-     * @throws PhpGeneratorException if it was not possible to write to the file.
+     * @throws ezcPhpGeneratorException if it was not possible to write to the file.
      * @param string $data
      * @return void
      */

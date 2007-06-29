@@ -15,12 +15,10 @@
  */
 class ezcPhpGeneratorException extends ezcBaseException
 {
-
     /**
      * Constructs a new ezcPhpGeneratorException with error message $message.
      *
      * @param string $message
-     * @param int $code
      * @return void
      */
     public function __construct( $message )
