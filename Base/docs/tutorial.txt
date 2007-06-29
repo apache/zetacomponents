@@ -125,10 +125,10 @@ The above code will output: ::
     Class 'erMyClass2'
     Class 'erYourClass1'
 
-Lazy initilization
-------------------
+Lazy initialization
+-------------------
 
-Lazy initialization means a mechanism to load and configure a component, only 
+Lazy initialization is a mechanism to load and configure a component, only 
 when it is really used in your application. This mechanism saves time for 
 parsing the classes and configuration, when the component is not used at all
 during one request. The implementation in ezcBaseInit may be reused by other
@@ -137,9 +137,9 @@ applications and components, like the following example will show.
 .. include:: tutorial_lazy_initialization.php
    :literal:
 
-The example shows a random class implmenting the singleton pattern, which may
+The example shows a random class implementing the singleton pattern, which may
 be some database connection handler, or anything similar in your case. The
-getInstance() method shows a typical PHP 5 implemenatation except the
+getInstance() method shows a typical PHP 5 implementation except the
 additional line 14, which checks, if a configuration callback was provided 
 earlier and configures the newly created instance. If no configuration
 callback was provided, nothing will happen. The customKey is used to receive 
