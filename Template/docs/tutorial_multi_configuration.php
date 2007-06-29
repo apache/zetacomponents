@@ -14,25 +14,25 @@ $c->templatePath = "html";                 // ./html directory.
 
 
 // And another way to configure your template engine.
-$pdfConf = new ezcTemplateConfiguration("pdf", ".", new ezcTemplateNoContext() );
+$pdfConf = new ezcTemplateConfiguration( "pdf", ".", new ezcTemplateNoContext() );
 
 
 try
 {
     // Uses the default configuration.
-    $t->process( "hello_world.ezt" ); 
-} 
-catch( Exception $e )
+    $t->process( "hello_world.ezt" );
+}
+catch ( Exception $e )
 {
     echo $e->getMessage() . "\n\n";
 }
 
 try
 {
-    // Uses the printer configuration 
-    $t->process( "hello_world.ezt", ezcTemplateConfiguration::getInstance( "printer" ) ); 
-} 
-catch( Exception $e )
+    // Uses the printer configuration
+    $t->process( "hello_world.ezt", ezcTemplateConfiguration::getInstance( "printer" ) );
+}
+catch ( Exception $e )
 {
     echo $e->getMessage() . "\n\n";
 }
@@ -41,9 +41,9 @@ try
 {
     // Uses the PDF configuration.
     $t->configuration = $pdfConf;
-    $t->process( "hello_world.ezt" ); 
-} 
-catch( Exception $e )
+    $t->process( "hello_world.ezt" );
+}
+catch ( Exception $e )
 {
     echo $e->getMessage() . "\n\n";
 }

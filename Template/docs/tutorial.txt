@@ -13,7 +13,7 @@ data are the template files.
 
 The separation of application logic and presentation data is easier to
 maintain and allows different people to work on separate parts. Another
-advantage is that the template language is more suitable for non programmers and 
+advantage is that the Template language is more suitable for non programmers and 
 web designers. The language is designed to be easier to use and contains more
 expressive constructs for repetitive tasks in the presentation data.
 
@@ -130,14 +130,14 @@ getInstance configuration.
 Lazy initialization
 -------------------
 
-Lazy initialisation means a mechanism to load and configure a component, only 
+Lazy initialization is a mechanism to load and configure a component, only 
 when it is really used in your application. This mechanism saves time for 
 parsing the classes and configuration, when the component is not used at all
 during one request. You can find a description how you can use it for your 
 own components and how it works in the `ezcBase tutorial`__. The keyword for
-the configuration component is *ezcInitTemplateConfiguration*.
+the template component is *ezcInitTemplateConfiguration*.
 
-__ introduction_Base.html#lazy-initilization
+__ introduction_Base.html#lazy-initialization
 
 .. include:: tutorial_lazy_initialization.php
 	:literal:
@@ -148,15 +148,15 @@ an own class, and define a callback using ezcBaseInit::setCallback to this
 class, which will be called with a template configuration object as first 
 parameter on the first instantiation of the template component.
 
-ezcBaseInit::setCallback accepts as a first parameter a component specifc key,
-which let the component later request the right configuration callback. The
+ezcBaseInit::setCallback accepts as a first parameter a component specific key,
+which lets the component later request the right configuration callback. The
 second parameter is the name of the class to perform the static callback on.
-Each components lazy initialization calls the static method configureObject()
+Each component's lazy initialization calls the static method configureObject()
 on the referenced class.
 
-When the template component is finally instantiated in line 19 of the example
+When the template component is finally instantiated in line 19 of the example,
 the configureObject() method will be called with an ezcTemplateConfiguration 
-instance used by the template engine, which can be modified by the method.
+instance used by the Template engine, which can be modified by the method.
 
 
 Send and receive template variables
@@ -353,7 +353,7 @@ statement the value 4 to variable *$a*.
 Primitive types
 ---------------
 
-The template language supports several primitive types:
+The Template language supports several primitive types:
 
 :Boolean: Expresses the truth value, which is either 'true' or 'false'.
 :Integer: Is a number of the set: { .., -1, 0, 1, .. }
@@ -536,7 +536,7 @@ The Foreach_ section describes this loop in more detail.
 Object
 ``````
 Objects are only available when they are sent from the user application. It is
-not possible to create an object inside the template language. The template
+not possible to create an object inside the Template language. The template
 language restricts the accessibilities from the object only to its properties;
 thus function calls are not permitted.  The next example is a part of an user
 application that sends an object to a template::
@@ -606,7 +606,7 @@ numbers, or underscores::
   {var $dumb&dumber *}
 
 
-The template language has three types of variable declaration: *var*, *use* and
+The Template language has three types of variable declaration: *var*, *use* and
 *cycle*. *Var* declares a local variable as used in the previous
 example, *use* imports an external variable, and *cycle* declares a cycle 
 variable. 
@@ -953,7 +953,7 @@ Examples::
 
 Functions
 ---------
-The template language has lots of build-in functions. These
+The Template language has lots of build-in functions. These
 functions are categorized in a few groups: String, Array, Regular expression,
 Type information, and Arithmetic (math) functions. The functions are explained
 in the appendix.
@@ -1216,7 +1216,7 @@ This switch converts the weekday number to a name.
 
 Foreach
 ```````
-A very important construct in the template language is the *foreach*. The
+A very important construct in the Template language is the *foreach*. The
 foreach is a loop structure that iterates over an array. Since this loop
 is used so often in the templates, it has several convenience tags build in.
 First we'll show the basic syntax::
@@ -1551,9 +1551,9 @@ This template outputs::
 Extensions
 ==========
 
-This section explains how you can extend your template language. Extending the
-template language gives you the opportunity to add more application specific
-functionality. Some examples of template language extensions are:
+This section explains how you can extend your Template language. Extending the
+Template language gives you the opportunity to add more application specific
+functionality. Some examples of Template language extensions are:
 
 - Adding a method to fetch information from a data structure. This data
   structure could be a single or a group of objects, a database, an array, etc.
@@ -1576,9 +1576,9 @@ custom block can be used. The sections thereafter discuss how to add a new
 custom block.
 
 
-Custom blocks in the template language
+Custom blocks in the Template language
 ``````````````````````````````````````
-Custom blocks add specific behavior to the template language. The most basic
+Custom blocks add specific behavior to the Template language. The most basic
 structure of a custom block - without any parameters - is::
 
     '{' <name> '}'
@@ -1875,7 +1875,7 @@ This section explains how the custom function can be implemented. Custom
 blocks and custom functions are very similar.
 
 
-Custom functions in the template language
+Custom functions in the Template language
 `````````````````````````````````````````
 Custom functions are extra functions that can be used in the Template 
 expressions. Some examples are::
@@ -2064,10 +2064,10 @@ file needs to be regenerated too often, the template is probably processed
 quicker without caching at all. The same applies for small, non-time consuming
 templates.
 
-Another issue the developer should keep in mind is that the cache
-needs to be expired and renewed in time. Usually a template cache is valid for
-a limited time. This can be a time out (e.g. after 2 hours) or a trigger (an
-object changes) that expires the cache. The triggers and time outs need to be
+Another issue the developer should keep in mind is that the cache needs to be
+expired and renewed in time. Usually a template cache is valid for a limited
+time. This can be a timeout (e.g. after 2 hours) or a trigger (an object
+changes) that expires the cache. The triggers and timeouts need to be
 available in the template.
 
 The last issue is that unused cache files need to be discarded. Without a
@@ -2097,7 +2097,7 @@ The next code demonstrates an example configuration: ::
 
     $config = ezcTemplateConfiguration::getInstance();
     $config->templatePath = '/mydir/templates/';
-    $config->compilePath = "'/mydir/templates_bin/';
+    $config->compilePath = '/mydir/templates_bin/';
     $config->cachedTemplatesPath = "CACHE";
     $config->disableCache = false;
 
