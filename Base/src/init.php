@@ -22,7 +22,7 @@
  *     if ( is_null( self::$instance ) )
  *     {
  *         self::$instance = new ezcConfigurationmanager();
- *         ezcBaseInit::fetchConfig( 'ConfigurationManagerConfig', self::$instance );
+ *         ezcBaseInit::fetchConfig( 'ezcInitConfigurationManager', self::$instance );
  *     }
  *     return self::$instance;
  * }
@@ -32,11 +32,11 @@
  * You will also need to configure which callback class to call. This you do
  * with the ezcBaseInit::setCallback() method. The following examples sets the
  * callback classname for the configuration identifier
- * 'ConfigurationManagerConfig' to 'cfgConfigurationManager':
+ * 'ezcInitConfigurationManager' to 'cfgConfigurationManager':
  *
  * <code>
  * <?php
- * ezcBaseInit::setCallback( 'ConfigurationManagerConfig', 'cfgConfigurationManager' );
+ * ezcBaseInit::setCallback( 'ezcInitConfigurationManager', 'cfgConfigurationManager' );
  * ?>
  * </code>
  *
