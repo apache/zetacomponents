@@ -10,7 +10,9 @@
  */
 
 /**
- * Validator class for ezcConsoleQuestionDialog objects that validates a certain datatype.
+ * Validator class to validate against a set of valid results.
+ * This validator class, for {@link ezcConsoleQuestionDialog} objects,
+ * validates a given result against a set of predefined values.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -26,7 +28,7 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
 {
 
     /**
-     * Collection for verification. 
+     * Properties.
      * 
      * @var array
      */
@@ -37,10 +39,17 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
     );
 
     /**
-     * Create a new question dialog collection validator. 
+     * Creates a new question dialog collection validator. 
+     * Creates a new question dialog collection validator, which validates the
+     * result specified by the user against an array of valid results
+     * ($collection). If not value is provided by the user a possibly set
+     * $default value is used instead. The $conversion parameter can optionally
+     * define a conversion to be performed on the result before validating it.
+     * Valid conversions are defined by the CONVERT_* constants in this class.
      * 
-     * @param array $collection The collection to validate against.
-     * @param int $conversion   One of ezcConsoleQuestionDialogCollectionValidator::CONVERT_*.
+     * @param array $collection The collection of valid results.
+     * @param mixed $default    Optional default value.
+     * @param int $conversion   CONVERT_* constant.
      * @return void
      */
     public function __construct( array $collection, $default = null, $conversion = self::CONVERT_NONE )
@@ -51,11 +60,11 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
     }
 
     /**
-     * Returns if the result is in the collection.
-     * Returns if the result is in the collection or if it is empty and a default is set.
+     * Returns if the given result is valid. 
+     * Returns if the result is in the $collection array.
      * 
-     * @param mixed $result The result to check.
-     * @return bool True if the result is valid. Otherwise false.
+     * @param mixed $result The received result.
+     * @return bool If the result is valid.
      */
     public function validate( $result )
     {
@@ -64,10 +73,10 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
 
     /**
      * Returns a fixed version of the result, if possible.
-     * If the result was empty and a default is set, this one is returned. Else the
-     * configured conversion (if any) is performed.
+     * Converts the given result according to the conversion defined in the
+     * $conversion property.
      * 
-     * @param mixed $result The result received.
+     * @param mixed $result The received result.
      * @return mixed The manipulated result.
      */
     public function fixup( $result )
@@ -88,8 +97,8 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
     }
 
     /**
-     * Returns a string that indicates valid results.
-     * Returns the string that can will be displayed with the question to
+     * Returns a string representing valid results.
+     * Returns the string that will be displayed with the question to
      * indicate valid results to the user and a possibly set default, if
      * available.
      * 
@@ -103,7 +112,7 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
     /**
      * Property read access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -122,8 +131,8 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
     /**
      * Property write access.
      * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
@@ -162,7 +171,7 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
     /**
      * Property isset access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
      * @ignore
      */

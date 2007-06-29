@@ -11,12 +11,19 @@
 
 /**
  * Default validator for ezcConsoleMenuDialog.
+ * This dialog contains a set of menu entries, defined in the $elements
+ * property. The result, provided by the user, is checked against the keys of
+ * this array. A conversion can be specified to relax the rules for validation
+ * (like coverting the result to lower case first). For possibly conversions
+ * see the CONVERT_* constants in this class If the user does not provide an
+ * answer, a possibly set default value is used.
  * 
  * @package ConsoleTools
  * @version //autogen//
  *
  * @property array $elements The elements of the menu.
  * @property string $default The default value.
+ * @property int $conversion A conversion to perform on the result.
  */
 class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValidator
 {
@@ -32,10 +39,18 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
     );
 
     /**
-     * Creates a new validator. 
+     * Creates a new menu default validator. 
+     * Creates a validator specified by the given parameters. The $elements
+     * array specifies the possible menu items to select from. The item
+     * identifier (the key of the array) is used to validate the result. The
+     * assigned text is displayed as the menu item text. If no result is
+     * provided and an optionally provided default value is used. The
+     * $conversion parameter can be used to get a conversion applied to the
+     * result before validating it.
      * 
      * @param array $elements The elements of the menu.
      * @param mixed $default  The default value.
+     * @param int $conversion The conversion to apply.
      * @return void
      */
     public function __construct( array $elements = array(), $default = null, $conversion = self::CONVERT_NONE )
@@ -47,6 +62,7 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
 
     /**
      * Returns if the given result is valid. 
+     * Checks if the given result is a valid key in the $elements property.
      * 
      * @param mixed $result The received result.
      * @return bool If the result is valid.
@@ -58,11 +74,8 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
 
     /**
      * Returns a fixed version of the result, if possible.
-     * This method tries to repair the submitted result, if it is not valid,
-     * yet. Fixing can be done in different ways, like casting into a certain
-     * datatype, string manipulation, creating an object. A result returned
-     * by fixup must not necessarily be valid, so a dialog should call validate
-     * after trying to fix the result.
+     * Converts the given result according to the conversion defined in the
+     * $conversion property.
      * 
      * @param mixed $result The received result.
      * @return mixed The manipulated result.
@@ -87,9 +100,9 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
     }
 
     /**
-     * Returns a string of possible results to be displayed with the question. 
-     * For example "(y/n) [y]" to indicate "y" and "n" are valid values and "y" is
-     * preselected.
+     * Returns a string representing the default value.
+     * For example "[y]" to indicate that "y" is the preselected result and
+     * will be chosen if no result is provided.
      *
      * @return string The result string.
      */
@@ -111,7 +124,7 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
     /**
      * Property read access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -130,8 +143,8 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
     /**
      * Property write access.
      * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
@@ -170,7 +183,7 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
     /**
      * Property isset access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
      * @ignore
      */

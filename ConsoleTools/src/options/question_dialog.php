@@ -1,4 +1,13 @@
 <?php
+/**
+ * File containing the ezcConsoleQuestionDialogOptions class.
+ *
+ * @package ConsoleTools
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ */
 
 /**
  * Basic options class for ezcConsoleDialog implementations.
@@ -14,7 +23,7 @@
  *           The validator to use with this dialog.
  * @property bool $showResults
  *           Wether to display the possible results and the default selection.
- * @property string format
+ * @property string $format
  *           The output format for the dialog.
  */
 class ezcConsoleQuestionDialogOptions extends ezcConsoleDialogOptions
@@ -41,12 +50,16 @@ class ezcConsoleQuestionDialogOptions extends ezcConsoleDialogOptions
     }
 
     /**
-     * Property set access.
+     * Property write access.
      * 
-     * @param string $propertyName 
-     * @param string $propertyValue 
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue The value for the property.
+     *
+     * @throws ezcBasePropertyPermissionException
+     *         If the property you try to access is read-only.
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
      * @ignore
-     * @return void
      */
     public function __set( $propertyName, $propertyValue )
     {

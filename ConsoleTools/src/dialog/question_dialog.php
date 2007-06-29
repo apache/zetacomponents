@@ -11,6 +11,12 @@
 
 /**
  * Dialog class to ask a simple question.
+ * This dialog outputs a certain string to the user and requests a line of
+ * input. This is commonly used to ask questions like "Do you want to proceed?"
+ * and retrieve an answer like "y" for yes or "n" for no.
+ *
+ * The behaviour of this dialog is defined by an instance of
+ * {@link ezcConsoleQuestionDialogOptions}.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -23,17 +29,31 @@
 class ezcConsoleQuestionDialog implements ezcConsoleDialog
 {
 
+    /**
+     * Dialog result 
+     * 
+     * @var mixed
+     */
     protected $result;
 
+    /**
+     * Properties 
+     * 
+     * @var array
+     */
     protected $properties = array(
         "options"   => null,
         "output"    => null,
     );
 
     /**
-     * Create a new question dialog.
+     * Creates a new question dialog.
+     * Creates a new menu dialog to be displayed to the user. All behaviour is
+     * defined through the $options parameter. The $output parameter is used to
+     * display the dialog in the {@link display()} method.
      * 
-     * @param ezcConsoleOutput $output Output object.
+     * @param ezcConsoleOutput $output                 Output object.
+     * @param ezcConsoleQuestionDialogOptions $options Options.
      * @return void
      */
     public function __construct( ezcConsoleOutput $output, ezcConsoleQuestionDialogOptions $options = null )
@@ -44,7 +64,8 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
 
     /**
      * Returns if the dialog retrieved a valid result.
-     * Dialogs are displayed in a loop until they return true here.
+     * If a valid result has already been received, this method returns true,
+     * otherwise false.
      * 
      * @return bool If a valid result was retrieved.
      */
@@ -58,7 +79,14 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
      * If no valid result was retreived, yet, this method should throw an
      * ezcConsoleNoValidDialogResultException.
      * 
+     * If no valid result was retreived, yet, this method throws an
+     * ezcConsoleNoValidDialogResultException. Use {@link hasValidResult()} to
+     * avoid this.
+     * 
      * @return mixed The retreived result.
+     *
+     * @throws ezcConsoleNoValidDialogResultException
+     *         if no valid result was retreived, yet.
      */
     public function getResult()
     {
@@ -70,8 +98,11 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
     }
 
     /**
-     * Show the dialog.
-     * Display the dialog and retreive the desired answer from the user.
+     * Displays the dialog and retreives a value from the user.
+     * Displays the dialog and retreives the desired answer from the user. If
+     * the a valid result is retrieved, it can be obtained using 
+     * {@link getResult()}. The method {hasValidResult()} can be used to check
+     * if a valid result is available.
      * 
      * @return void
      */
@@ -89,7 +120,10 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
     }
 
     /**
-     * Reset the result in this question.
+     * Reset the dialog.
+     * Resets a possibly received result and all changes made to the dialog
+     * during {@link display()}. After that, the dialog can be re-used. All
+     * option values are kept.
      * 
      * @return void
      */
@@ -131,10 +165,13 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
     }
 
     /**
-     * Property get access.
+     * Property read access.
+     *
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
      * 
-     * @param string $propertyName 
-     * @return void
+     * @param string $propertyName Name of the property.
+     * @return mixed Value of the property or null.
      * @ignore
      */
     public function __get( $propertyName )
@@ -147,11 +184,15 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
     }
 
     /**
-     * Property get access.
+     * Property write access.
      * 
-     * @param string $propertyName  Name of the property to set.
-     * @param string $propertyValue Value to set.
-     * @return void
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue The value for the property.
+     *
+     * @throws ezcBasePropertyPermissionException
+     *         If the property you try to access is read-only.
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
      * @ignore
      */
     public function __set( $propertyName, $propertyValue )
@@ -188,7 +229,7 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
      * Property isset access.
      * 
      * @param string $propertyName Name of the property to check.
-     * @return void
+     * @return bool If the property exists or not.
      * @ignore
      */
     public function __isset( $propertyName )

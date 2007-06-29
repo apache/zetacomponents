@@ -11,10 +11,13 @@
 
 /**
  * The ezcConsoleArgument class represents an argument on the console.
+ * This class is the container to store information about an argument submitted
+ * to a shell application. It is used to define the appearance of an argument
+ * before parsing the parameter string and contains the received value
+ * afterwards. Argument objects are stored in an instance of the set class
+ * {@link ezcConsoleArguments} which is stored in
+ * {ezcConsoleInput::$argumentDefinition}.
  * 
- * @package ConsoleTools
- * @version //autogen//
- *
  * @property string $name      The name for the argument. Must be unique.
  * @property int $type         The value type. 
  * @property string $shorthelp A short help text. 
@@ -24,9 +27,16 @@
  * @property bool $multiple    Whether the argument accepts multiple values.
  * @property-read mixed $value The value parsed from the parameter string, using
  *                             {@link ezcConsoleInput::process()}.
+ * @package ConsoleTools
+ * @version //autogen//
  */
 class ezcConsoleArgument
 {
+    /**
+     * Properties 
+     * 
+     * @var array
+     */
     protected $properties = array(
         "name"      => null,
         "type"      => ezcConsoleInput::TYPE_STRING,
@@ -54,8 +64,8 @@ class ezcConsoleArgument
      * @param string $shorthelp A short help text. 
      * @param string $longhelp  A long help text-
      * @param bool $mandatory   Whether the argument is mandatory.
-     * @param mixed $default    A default value, if not mandatory.
      * @param bool $multiple    Whether the argument accepts multiple values.
+     * @param mixed $default    A default value, if not mandatory.
      * @return void
      */
     public function __construct(
@@ -85,10 +95,10 @@ class ezcConsoleArgument
     /**
      * Property set access.
      * 
-     * @param string $propertyName 
-     * @param string $propertyValue 
-     * @ignore
+     * @param string $propertyName  Name of the property.
+     * @param string $propertyValue Valze for the property.
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {

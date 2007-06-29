@@ -198,7 +198,8 @@ class ezcConsoleOption
         $this->__set( "isHelpOption", $isHelpOption !== null ? $isHelpOption : false );
     }
 
-    /* Add a new dependency for a parameter.
+    /**
+     * Add a new dependency for a parameter.
      * This registeres a new dependency rule with the parameter. If you try
      * to add an already registered rule it will simply be ignored. Else,
      * the submitted rule will be added to the parameter as a dependency.
@@ -258,11 +259,11 @@ class ezcConsoleOption
     }
     
     /**
-     * Returns if a given dependency rule is registered with the parameter.
-     * Returns true if the given rule is registered with this parameter,
+     * Returns if a dependency to the given option exists.
+     * Returns true if a dependency rule to the given option is registered,
      * otherwise false.
      * 
-     * @param ezcConsoleOptionRule $rule The rule to be removed.
+     * @param ezcConsoleOption $param The param to check if a dependency exists to.
      * @return bool True if rule is registered, otherwise false.
      */
     public function hasDependency( ezcConsoleOption $param )
@@ -290,7 +291,7 @@ class ezcConsoleOption
      * );
      * </code>
      * 
-     * @return array Dependency definition as described or an empty array.
+     * @return array(int=>ezcConsoleOptionRule) Dependency definition.
      */
     public function getDependencies()
     {
@@ -299,7 +300,7 @@ class ezcConsoleOption
 
     /**
      * Reset existing dependency rules.
-     * Deletes all registered dependency rules from the parameter definition.
+     * Deletes all registered dependency rules from the option definition.
      * 
      * @return void
      */
@@ -308,10 +309,11 @@ class ezcConsoleOption
         $this->dependencies = array();
     }
 
-    /* Add a new exclusion for a parameter.
-     * This registeres a new exclusion rule with the parameter. If you try
+    /**
+     * Add a new exclusion for an option.
+     * This registeres a new exclusion rule with the option. If you try
      * to add an already registered rule it will simply be ignored. Else,
-     * the submitted rule will be added to the parameter as a exclusion.
+     * the submitted rule will be added to the option as a exclusion.
      *
      * @param ezcConsoleOptionRule $rule The rule to add.
      * @return void
@@ -329,9 +331,9 @@ class ezcConsoleOption
     }
     
     /**
-     * Remove a exclusion rule from a parameter.
-     * This removes a given rule from a parameter, if it exists. If the rule is
-     * not registered with the parameter, the method call will simply be ignored.
+     * Remove a exclusion rule from a option.
+     * This removes a given rule from a option, if it exists. If the rule is
+     * not registered with the option, the method call will simply be ignored.
      * 
      * @param ezcConsoleOptionRule $rule The rule to be removed.
      * @return void
@@ -348,12 +350,12 @@ class ezcConsoleOption
     }
     
     /**
-     * Remove all exclusion rule referring to a parameter.
-     * This removes all exclusion rules from a parameter, that refer to as specific 
-     * parameter. If no rule is registered with this parameter as reference, the 
+     * Remove all exclusion rule referring to a option.
+     * This removes all exclusion rules from a option, that refer to as specific 
+     * option. If no rule is registered with this option as reference, the 
      * method call will simply be ignored.
      * 
-     * @param ezcConsoleOption $param The param to be check for rules.
+     * @param ezcConsoleOption $param The option to remove rule for.
      * @return void
      */
     public function removeAllExclusions( ezcConsoleOption $param )
@@ -368,11 +370,11 @@ class ezcConsoleOption
     }
     
     /**
-     * Returns if a given exclusion rule is registered with the parameter.
-     * Returns true if the given rule is registered with this parameter,
+     * Returns if a given exclusion rule is registered with the option.
+     * Returns true if a exclusion rule to the given option is registered,
      * otherwise false.
      * 
-     * @param ezcConsoleOptionRule $rule The rule to be removed.
+     * @param ezcConsoleOption $param The param to check if exclusions exist for.
      * @return bool True if rule is registered, otherwise false.
      */
     public function hasExclusion( ezcConsoleOption $param )
@@ -400,7 +402,7 @@ class ezcConsoleOption
      * );
      * </code>
      * 
-     * @return array Exclusion definition as described or an empty array.
+     * @return array(int=>ezcConsoleOptionRule) Exclusions definition.
      */
     public function getExclusions()
     {
@@ -409,7 +411,7 @@ class ezcConsoleOption
 
     /**
      * Reset existing exclusion rules.
-     * Deletes all registered exclusion rules from the parameter definition.
+     * Deletes all registered exclusion rules from the option definition.
      *
      * @return void
      */
@@ -455,6 +457,8 @@ class ezcConsoleOption
      *
      * @throws ezcBasePropertyPermissionException
      *         If the property you try to access is read-only.
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
      * @ignore
      */
     public function __set( $key, $val )

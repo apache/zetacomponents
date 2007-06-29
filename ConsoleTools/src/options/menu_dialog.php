@@ -1,4 +1,13 @@
 <?php
+/**
+ * File containing the ezcConsoleMenuDialogOptions class.
+ *
+ * @package ConsoleTools
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ */
 
 /**
  * Basic options class for ezcConsoleDialog implementations.
@@ -15,9 +24,9 @@
  * @property string $selectText
  *           The test to display after the menu to indicate the user that he
  *           should select an item.
- * @property ezcConsoleMenuDialogDefaultValidator $validator
+ * @property ezcConsoleMenuDialogValidator $validator
  *           The validator to use with this menu.
- * @property string format
+ * @property string $format
  *           The output format for the dialog.
  */
 class ezcConsoleMenuDialogOptions extends ezcConsoleDialogOptions
@@ -45,12 +54,16 @@ class ezcConsoleMenuDialogOptions extends ezcConsoleDialogOptions
     }
 
     /**
-     * Property set access.
+     * Property write access.
      * 
-     * @param string $propertyName 
-     * @param string $propertyValue 
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue The value for the property.
+     *
+     * @throws ezcBasePropertyPermissionException
+     *         If the property you try to access is read-only.
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
      * @ignore
-     * @return void
      */
     public function __set( $propertyName, $propertyValue )
     {

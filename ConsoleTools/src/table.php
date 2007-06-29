@@ -295,8 +295,8 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * This method is part of the ArrayAccess interface to allow access to the
      * data of this object as if it was an array. 
      * 
-     * @param int $offset         The offset to assign an item to.
-     * @param ezcConsoleTableCell The row to assign.
+     * @param int $offset               The offset to assign an item to.
+     * @param ezcConsoleTableRow $value The row to assign.
      * @return void
      *
      * @throws ezcBaseValueException
@@ -534,6 +534,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * Generate top/bottom borders of rows. 
      * 
      * @param array(int=>int) $colWidth Array of column width.
+     * @param string $format            Format name.
      * @return string The Border string.
      */
     private function generateBorder( $colWidth, $format )
@@ -555,6 +556,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * 
      * @param array(int=>string) $cells Cells of the row.
      * @param array(int=>int) $colWidth Calculated columns widths.
+     * @param ezcConsoleTableRow $row   The row to generate.
      * @return string The row.
      */
     private function generateRow( $cells, $colWidth, $row )
@@ -589,8 +591,8 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * ezcConsoleTable::ALIGN_DEFAULT). If not, checks the row for an 
      * alignment setting and uses the default alignment if not found.
      * 
-     * @param ezcConsoleTableRow $row   The row this cell belongs to.
-     * @param ezcConsoleTableCell $cellId Index of the desired cell.
+     * @param ezcConsoleTableRow $row The row this cell belongs to.
+     * @param int $cellId             Index of the desired cell.
      * @return int An alignement constant (ezcConsoleTable::ALIGN_*).
      */
     private function determineAlign( $row, $cellId = 0 )
@@ -611,8 +613,8 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * from 'default'). If not, checks the row for a format setting and 
      * uses the default format if not found.
      * 
-     * @param ezcConsoleTableRow $row   The row this cell belongs to.
-     * @param ezcConsoleTableCell $cell Index of the desired cell.
+     * @param ezcConsoleTableRow $row The row this cell belongs to.
+     * @param int $cellId             Index of the desired cell.
      * @return string A format name.
      */
     private function determineFormat( $row, $cellId )

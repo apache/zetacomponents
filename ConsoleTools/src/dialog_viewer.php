@@ -10,6 +10,18 @@
  */
 
 /**
+ * Utility class for ezcConsoleDialog implementations.
+ * This class contains utility methods for working with {@link
+ * ezcConsoleDialog} implementations.
+ *
+ * To display a dialog in a loop until a valid result is received do:
+ * <code>
+ * // Instatiate dialog in $dialog ...
+ * ezcConsoleDialogViewer::displayDialog( $dialog );
+ * </code>
+ *
+ * For implementing a custom dialog, the method {@see readLine()} method can be
+ * used to read a line of input from the user.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -21,7 +33,7 @@ class ezcConsoleDialogViewer
      * This methods displays a dialog in a loop, until it received a valid
      * result from it and returns this result.
      * 
-     * @param ezcConsoleDialogDialog $dialog The dialog to display.
+     * @param ezcConsoleDialog $dialog The dialog to display.
      * @return mixed The result from this dialog.
      */
     public static function displayDialog( ezcConsoleDialog $dialog )

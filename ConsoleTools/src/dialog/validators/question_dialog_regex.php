@@ -18,8 +18,8 @@
  * @version //autogen//
  *
  * @property string $pattern
- *                  The pattern to use for validation. Delimiters and modifiers
- *                  included.
+ *           The pattern to use for validation. Delimiters and modifiers
+ *           included.
  * @property mixed $default
  *           A default value if no (an empty string) result given.
  */
@@ -37,11 +37,15 @@ class ezcConsoleQuestionDialogRegexValidator implements ezcConsoleQuestionDialog
     );
 
     /**
-     * Create a new question dialog type validator. 
+     * Create a new question dialog regex validator.
+     * Create a new question dialog regex validator, which validates the result
+     * specified against a given regular expression. The delimiters and
+     * eventual modifiers must be included in the pattern. If not value is
+     * provided by the user a possibly set $default value is used instead.
+     *
      * 
-     * @param string $pattern Pattern to validate against. Delimiters and
-     *                        modifiers included.
-     * @param mixed $default  Default value according to $type.
+     * @param string $pattern Pattern to validate against.
+     * @param mixed $default  Default value.
      * @return void
      */
     public function __construct( $pattern, $default = null )
@@ -51,11 +55,11 @@ class ezcConsoleQuestionDialogRegexValidator implements ezcConsoleQuestionDialog
     }
 
     /**
-     * Returns if the result is of the given type.
-     * Returns if the result is of the given type or empty and a default value is set.
+     * Returns if the given result is valid. 
+     * Returns if the result matches the regular expression.
      * 
-     * @param mixed $result The result to check.
-     * @return bool True if the result is valid. Otherwise false.
+     * @param mixed $result The received result.
+     * @return bool If the result is valid.
      */
     public function validate( $result )
     {
@@ -67,11 +71,11 @@ class ezcConsoleQuestionDialogRegexValidator implements ezcConsoleQuestionDialog
     }
 
     /**
-     * Returns the manipulated value.
-     * Returns the value casted into the correct type or the default value, if
-     * it exists and the result is empty.
+     * Returns a fixed version of the result, if possible.
+     * If no result was provided by the user, the default value will be
+     * returned, if set.
      * 
-     * @param mixed $result The result received.
+     * @param mixed $result The received result.
      * @return mixed The manipulated result.
      */
     public function fixup( $result )
@@ -84,8 +88,8 @@ class ezcConsoleQuestionDialogRegexValidator implements ezcConsoleQuestionDialog
     }
 
     /**
-     * Returns a string that indicates valid results.
-     * Returns the string that can will be displayed with the question to
+     * Returns a string representing valid results.
+     * Returns the string that will be displayed with the question to
      * indicate valid results to the user and a possibly set default, if
      * available.
      * 
@@ -99,7 +103,7 @@ class ezcConsoleQuestionDialogRegexValidator implements ezcConsoleQuestionDialog
     /**
      * Property read access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -118,8 +122,8 @@ class ezcConsoleQuestionDialogRegexValidator implements ezcConsoleQuestionDialog
     /**
      * Property write access.
      * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
@@ -152,7 +156,7 @@ class ezcConsoleQuestionDialogRegexValidator implements ezcConsoleQuestionDialog
     /**
      * Property isset access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
      * @ignore
      */

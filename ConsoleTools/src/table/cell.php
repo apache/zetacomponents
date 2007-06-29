@@ -46,9 +46,10 @@ class ezcConsoleTableCell
      * Creates a new ezcConsoleProgressbarCell. You can either submit the cell
      * data through the constructor or set them as properties.
      * 
-     * @param int $verboseLevel Verbosity of the output to show.
-     * @param int $autobreak    Auto wrap lines after num chars (0 = unlimited)
-     * @param bool $useFormats  Whether to enable formated output
+     * @param string $content Content of the cell.
+     * @param string $format  Format to display the cell with.
+     * @param mixed $align    Alignment of the content in the cell.
+     * @return void
      */
     public function __construct( $content = '', $format = 'default', $align = ezcConsoleTable::ALIGN_DEFAULT )
     {

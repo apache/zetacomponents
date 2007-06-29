@@ -13,6 +13,10 @@
 /**
  * Basic options class for ezcConsoleDialog implementations.
  * 
+ * @property ezcConsoleDialogValidator $validator
+ *           The validator to use with this dialog.
+ * @property string $format
+ *           The output format for the dialog.
  * @package ConsoleTools
  * @version //autogen//
  */
@@ -29,12 +33,16 @@ class ezcConsoleDialogOptions extends ezcBaseOptions
     );
 
     /**
-     * Property set access.
+     * Property write access.
      * 
-     * @param string $propertyName 
-     * @param string $propertyValue 
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue The value for the property.
+     *
+     * @throws ezcBasePropertyPermissionException
+     *         If the property you try to access is read-only.
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
      * @ignore
-     * @return void
      */
     public function __set( $propertyName, $propertyValue )
     {

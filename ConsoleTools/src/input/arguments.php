@@ -64,8 +64,8 @@ class ezcConsoleArguments implements ArrayAccess, Iterator, Countable
      * strings. If an integer is used, it refers to the position in the command
      * line. A string refers to the arguments name property.
      * 
-     * @param mixed $offset The offset to check.
-     * @return ezcConsoleTableCell
+     * @param string|integer $offset The offset to check.
+     * @return ezcConsoleArgument
      *
      * @throws ezcBaseValueException
      *         If the provided offset is neither an integer, nor a string.
@@ -99,8 +99,8 @@ class ezcConsoleArguments implements ArrayAccess, Iterator, Countable
      * ArrayAccess implementations of this class, this method allows only integer
      * keys.
      * 
-     * @param int $offset        The offset to assign an item to.
-     * @param ezcConsoleArgument The argument object to register.
+     * @param int $offset               The offset to assign an item to.
+     * @param ezcConsoleArgument $value The argument object to register.
      * @return void
      *
      * @throws ezcBaseValueException

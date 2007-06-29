@@ -29,7 +29,7 @@
 class ezcConsoleOptionRule
 {
     /**
-     * Property array containing this class' properties.
+     * Properties.
      *
      * @var array
      */
@@ -39,26 +39,26 @@ class ezcConsoleOptionRule
     );
 
     /**
-     * Creates a new parameter rule.
+     * Creates a new option rule.
      *
-     * Creates a new parameter rule. Per default the $values parameter
-     * is an empty array, which determines that the parameter may accept any
-     * value. To indicate that a parameter may only have certain values,
-     * place them inside tha $values array. For example to indicate a parameter
+     * Creates a new option rule. Per default the $values parameter
+     * is an empty array, which determines that the option may accept any
+     * value. To indicate that a option may only have certain values,
+     * place them inside tha $values array. For example to indicate an option
      * may have the values 'a', 'b' and 'c' use:
      * <code>
      * $rule = new ezcConsoleOptionRule( $option, array( 'a', 'b', 'c' ) );
      * </code>
-     * If you want to allow only 1 specific value for a parameter, you do not
+     * If you want to allow only 1 specific value for an option, you do not
      * need to wrap this into an array, when creating the rule. Simply use
      * <code>
      * $rule = new ezcConsoleOptionRule( $option, 'a' );
      * </code>
-     * to create a rule, that allows the desired parameter only to accept the
+     * to create a rule, that allows the desired option only to accept the
      * value 'a'.
      *
-     * @param ezcConsoleOption $option The parameter to refer to.
-     * @param mixed $values The values $option may have assigned.
+     * @param ezcConsoleOption $option The option to refer to.
+     * @param mixed $values            The affected values.
      */
     public function __construct( ezcConsoleOption $option, array $values = array() )
     {
@@ -67,14 +67,14 @@ class ezcConsoleOptionRule
     }
     
     /**
-     * Property read access overloading.
-     * Gain read access to properties.
+     * Property read access.
      *
-     * @throws ezcBasePropertyNotFoundException
-     *         If the property tried to access does not exist.
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
      * 
-     * @param string $propertyName Name of the property to access.
-     * @return mixed Value of the property.
+     * @param string $propertyName Name of the property.
+     * @return mixed Value of the property or null.
+     * @ignore
      */
     public function __get( $propertyName ) 
     {
@@ -89,34 +89,34 @@ class ezcConsoleOptionRule
     }
     
     /**
-     * Property read access overloading.
-     * Gain read access to properties.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If the property tried to access does not exist.
-     * @throws ezcBaseValueException
-     *         If the value for a property is not in the correct range.
+     * Property write access.
      * 
-     * @param string $propertyName Name of the property to access.
-     * @return void
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue The value for the property.
+     *
+     * @throws ezcBasePropertyPermissionException
+     *         If the property you try to access is read-only.
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
+     * @ignore
      */
-    public function __set( $propertyName, $val ) 
+    public function __set( $propertyName, $propertyValue ) 
     {
         switch ( $propertyName )
         {
             case 'option':
-                if ( !( $val instanceof ezcConsoleOption ) )
+                if ( !( $propertyValue instanceof ezcConsoleOption ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $val, 'ezcConsoleOption' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcConsoleOption' );
                 }
-                $this->properties['option'] = $val;
+                $this->properties['option'] = $propertyValue;
                 return;
             case 'values':
-                if ( !is_array( $val ) )
+                if ( !is_array( $propertyValue ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $val, 'array' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array' );
                 }
-                $this->properties['values'] = $val;
+                $this->properties['values'] = $propertyValue;
                 return;
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
@@ -125,8 +125,9 @@ class ezcConsoleOptionRule
     /**
      * Property isset access.
      * 
-     * @param string $propertyName Name of the property.
-     * @return bool True is the property is set, otherwise false.
+     * @param string $propertyName Name of the property to check.
+     * @return bool If the property exists or not.
+     * @ignore
      */
     public function __isset( $propertyName )
     {

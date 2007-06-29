@@ -311,7 +311,7 @@ class ezcConsoleProgressbar
      * using the {@link ezcConsoleProgressbar::output()} method.
      *
      * @param bool  $redraw Whether to redraw the bar immediately.
-     * @param float $steps  How far the progress bar should advance on this call.
+     * @param int $step     How many steps to advance.
      * @return void
      */
     public function advance( $redraw = true, $step = 1 ) 

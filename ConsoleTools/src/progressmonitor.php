@@ -65,10 +65,14 @@ class ezcConsoleProgressMonitor
 
     /**
      * Creates a new progress monitor.
+     * The $outputHandler parameter will be used to display the progress
+     * monitor. $max is the number of monitor items to expect. $options can be
+     * used to define the behaviour of the monitor
+     * {@link ezcConsoleProgressMonitorOptions}.
      *
-     * @param ezcConsoleOutput $outHandler Handler to utilize for output
-     * @param int $max                     Number of items to expect
-     * @param array(string=>string)        Options.
+     * @param ezcConsoleOutput $outHandler   Handler to utilize for output
+     * @param int $max                       Number of items to expect
+     * @param array(string=>string) $options Options.
      *
      * @see ezcConsoleProgressMonitor::$options
      */

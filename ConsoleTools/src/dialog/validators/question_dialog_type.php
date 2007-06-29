@@ -10,7 +10,9 @@
  */
 
 /**
- * Validator class for ezcConsoleQuestionDialog objects that validates a certain datatype.
+ * Validator class to validate a certain data type.
+ * Validator class for ezcConsoleQuestionDialog objects that validates a
+ * certain datatype.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -23,15 +25,28 @@
  */
 class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogValidator
 {
+    /**
+     * Data type string. 
+     */
     const TYPE_STRING = 0;
+    /**
+     * Data type int. 
+     */
     const TYPE_INT    = 1;
+    /**
+     * Data type float. 
+     */
     const TYPE_FLOAT  = 2;
+    /**
+     * Data type bool. 
+     * The results 1 and "true" will be cased to true, 0 and "false" to false.
+     */
     const TYPE_BOOL   = 3;
 
     /**
-     * Type to be validated (ezcConsoleQuestionDialogValidator::TYPE_*).
+     * Properties.
      * 
-     * @var int
+     * @var array
      */
     protected $properties = array(
         "type"      => self::TYPE_STRING,
@@ -39,7 +54,11 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
     );
 
     /**
-     * Create a new question dialog type validator. 
+     * Creates a new question dialog type validator.
+     * Creates a new question dialog type validator, which validates the result
+     * specified to be of a certaon type. The $type must be one of the TYPE_*
+     * constants in this class. If no value is provided by the user a possibly
+     * set $default value is used instead.
      * 
      * @param int $type      One of ezcConsoleQuestionDialogTypeValidator::TYPE_*.
      * @param mixed $default Default value according to $type.
@@ -52,8 +71,8 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
     }
 
     /**
+     * Returns if the given result is valid. 
      * Returns if the result is of the given type.
-     * Returns if the result is of the given type or empty and a default value is set.
      * 
      * @param mixed $result The result to check.
      * @return bool True if the result is valid. Otherwise false.
@@ -79,7 +98,7 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
     }
 
     /**
-     * Returns the manipulated value.
+     * Returns a fixed version of the result, if possible.
      * Returns the value casted into the correct type or the default value, if
      * it exists and the result is empty.
      * 
@@ -115,7 +134,7 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
     }
 
     /**
-     * Returns a string that indicates valid results.
+     * Returns a string representing valid results.
      * Returns the string that can will be displayed with the question to
      * indicate valid results to the user and a possibly set default, if
      * available.
@@ -142,7 +161,7 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
     /**
      * Property read access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -161,8 +180,8 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
     /**
      * Property write access.
      * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
@@ -195,7 +214,7 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
     /**
      * Property isset access.
      * 
-     * @param string $key Name of the property.
+     * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
      * @ignore
      */

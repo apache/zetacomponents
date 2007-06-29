@@ -1,4 +1,13 @@
 <?php
+/**
+ * File containing the ezcConsoleQuestionDialogValidator class.
+ *
+ * @package ConsoleTools
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ */
 
 interface ezcConsoleQuestionDialogValidator extends ezcConsoleDialogValidator
 {

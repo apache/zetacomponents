@@ -158,8 +158,8 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess
      * This method is part of the ArrayAccess interface to allow access to the
      * data of this object as if it was an array. 
      * 
-     * @param int $offset         The offset to assign an item to.
-     * @param ezcConsoleTableCell The cell to assign.
+     * @param int $offset                The offset to assign an item to.
+     * @param ezcConsoleTableCell $value The cell to assign.
      * @return void
      *
      * @throws ezcBaseValueException
