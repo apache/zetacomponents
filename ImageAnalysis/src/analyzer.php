@@ -128,6 +128,11 @@ class ezcImageAnalyzer
         'ezcImageAnalyzerImagemagickHandler' => array(),
     );
 
+    /**
+     * Available handler classes and their options.
+     *
+     * @var array
+     */
     protected static $availableHandlers;
 
     /**

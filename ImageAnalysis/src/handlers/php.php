@@ -185,8 +185,8 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
      * result in self::exif. In addition it fills in extra properties from
      * the EXIF data for easy and uniform access.
      *
-     * @param string $file         The file to analyze.
-     * @param ezcImageAnalyzerData The data struct to fill.
+     * @param string $file                     The file to analyze.
+     * @param ezcImageAnalyzerData $dataStruct The data struct to fill.
      * @return ezcImageAnalyzerData The filled data struct.
      */
     private function analyzeExif( $file, ezcImageAnalyzerData $dataStruct )
@@ -244,8 +244,8 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
      *         If image file could not be read.
      * @throws ezcImageAnalyzerFileNotProcessableException
      *         If image file can not be processed.
-     * @param string $file         The file to analyze.
-     * @param ezcImageAnalyzerData The data struct to fill.
+     * @param string $file                     The file to analyze.
+     * @param ezcImageAnalyzerData $dataStruct The data struct to fill.
      * @return ezcImageAnalyzerData The filled data struct.
      */
     private function analyzeGif( $file, ezcImageAnalyzerData $dataStruct )

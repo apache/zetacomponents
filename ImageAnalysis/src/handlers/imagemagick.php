@@ -549,6 +549,11 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         return $this->isAvailable;
     }
 
+    /**
+     * Checks the availability of ImageMagick on the system.
+     * 
+     * @return bool
+     */
     protected function checkImagemagick()
     {
         if ( !isset( $this->options['binary'] ) )

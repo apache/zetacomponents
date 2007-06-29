@@ -16,6 +16,13 @@
  */
 class ezcImageAnalyzerFileNotProcessableException extends ezcImageAnalyzerException
 {
+    /**
+     * Creates a new ezcImageAnalyzerFileNotProcessableException.
+     * 
+     * @param string $file   Not processable file.
+     * @param string $reason Reason that the file is not processable.
+     * @return void
+     */
     function __construct( $file, $reason = null )
     {
         $reasonPart = '';
