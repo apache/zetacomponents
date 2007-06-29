@@ -1,4 +1,12 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package WorkflowDatabaseTiein
+ * @ignore
+ */
 require_once '../../../trunk/Base/src/base.php';
 
 function __autoload( $className )
