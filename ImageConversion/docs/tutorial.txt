@@ -43,7 +43,7 @@ Converting MIME types
 The following example creates a very simple transformation to convert any other
 image type into JPEG:
 
-.. include:: tutorial_example_01.php
+.. include:: tutorial_example_01_simpleconvert.php
    :literal:
 
 First, the settings for ezcImageConverter are defined (lines 7 to 12) using
@@ -88,7 +88,7 @@ Simple filtering
 The next example shows a transformation that, in addition to the converting to
 JPEG, uses a filter to scale images:
 
-.. include:: tutorial_example_02.php
+.. include:: tutorial_example_02_simpletrans.php
    :literal:
 
 After instantiating ezcImageConverter, we define the filters to apply. We apply
@@ -138,14 +138,12 @@ Converted image (320x175)
 .. image:: img/imageconversion_example_02_after.jpg
    :alt: Converted JPEG image.
 
-.. _`source EPS`: img/imageconversion_example_02.eps
-
 Complex transformations
 -----------------------
 
 The next example shows a more advanced transformation and some other features:
 
-.. include:: tutorial_example_03.php
+.. include:: tutorial_example_03_complextrans.php
    :literal:
 
 In this example, there is a second parameter to the constructor of
@@ -179,10 +177,62 @@ Converted image (330x250):
 
 .. _`downloaded here`: img/imageconversion_example_03.bmp
 
-More information
-================
+Adding watermarks
+-----------------
 
-For more information, see the ezcImageConverter API documentation.
+A very convenient filter is the watermark filter, which allows you to place a
+your personal sign onto an image to ensure your copyright being kept:
+
+.. include:: tutorial_example_04_watermark.php
+   :literal:
+
+This code snippet creates a simple transformation to place the watermark. The
+'image' parameter contains the path to the watermark image, while posX and posY
+define, where the watermark will be placed on the converted image. The
+positions are defined from the bottom left corner, so in this case therer will
+be 10 pixel left between the watermark and the image border.
+
+Original image (without watermark):
++++++++++++++++++++++++++++++++++++
+
+.. image:: img/imageconversion_example_04_before.jpg
+   :alt: Original JPEG image without watermark.
+
+Converted image (with watermark):
++++++++++++++++++++++++++++++++++
+
+.. image:: img/imageconversion_example_04_after.jpg
+   :alt: Converted JPEG image with watermark.
+
+It is also possible to get the size of the watermark image adjusted on the fly
+and a second filter is available, which allows to define all values as
+percentage values, in respect to the destination image.
+
+Creating thumbnails
+-------------------
+
+The following example shows how to create a thumbnail from an image very
+easily:
+
+.. include:: tutorial_example_05_thumbnail.php
+   :literal:
+
+While there is also a 'croppedThumbnail' filter available, which croppes
+overhead from the scaled image, this filter fills the overhead from scaling
+with the given fill color. The image is automatically scaled down to fit the
+given thumbnail size.
+
+Original image (original size):
++++++++++++++++++++++++++++++++
+
+.. image:: img/imageconversion_example_05_before.jpg
+   :alt: Original JPEG image without watermark.
+
+Converted image (thumbnail):
+++++++++++++++++++++++++++++
+
+.. image:: img/imageconversion_example_05_after.jpg
+   :alt: Converted JPEG image with watermark.
 
 
 ..
