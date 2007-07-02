@@ -1,7 +1,7 @@
 <?php
 require_once 'tutorial_autoload.php';
 
-class customLazyDatabaseConfiguration
+class customLazyDatabaseConfiguration implements ezcBaseConfigurationInitializer
 {
     public static function configureObject( $instance )
     {
