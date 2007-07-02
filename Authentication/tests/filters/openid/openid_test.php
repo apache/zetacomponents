@@ -354,6 +354,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidCaseNullSmartModeFileStore()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $credentials = new ezcAuthenticationIdCredentials( self::$url );
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationOpenidOptions();
