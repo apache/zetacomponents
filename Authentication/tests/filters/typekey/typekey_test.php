@@ -22,6 +22,7 @@ class ezcAuthenticationTypekeyTest extends ezcAuthenticationTest
     public static $keysFile = 'http://www.typekey.com/extras/regkeys.txt';
     public static $keysFileMissing = '/tmp/this file cannot possibly exist';
     public static $keysFileUrlMissing = 'http://localhost/this file cannot possibly exist';
+    public static $keysFileUrlUnconnectable = 'http://localhost.nothere/this file cannot possibly exist';
 
     public static $response = array(
         'name' => 'ezc',
@@ -245,7 +246,16 @@ class ezcAuthenticationTypekeyTest extends ezcAuthenticationTest
     {
         $options = new ezcAuthenticationTypekeyOptions();
 
+        
         $this->missingFileTest( $options, 'keysFile', self::$keysFileUrlMissing );
+    }
+
+    public function testTypekeyPublicKeysFileUrlUnconnectable()
+    {
+        $options = new ezcAuthenticationTypekeyOptions();
+
+        
+        $this->missingFileTest( $options, 'keysFile', self::$keysFileUrlUnconnectable );
     }
 
     public function testTypekeyPublicKeysFileNoPermission()

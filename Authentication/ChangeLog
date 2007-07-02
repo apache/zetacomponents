@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Renamed ezcAuthenticationSessionFilter to ezcAuthenticationSession.
+- Fixed issue #011060: TypeKey filter does not fail when using an URL which
+  does not exist and does not return 404 as a public keys file.
 
 
 1.0beta2 - Thursday 31 May 2007

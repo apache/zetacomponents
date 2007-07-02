@@ -123,7 +123,7 @@ class ezcAuthenticationTypekeyOptions extends ezcAuthenticationFilterOptions
                 {
                     // if $value is an URL
                     $headers = @get_headers( $value );
-                    if ( strpos( $headers[0], '404 Not Found' ) !== false )
+                    if ( $headers === false || strpos( $headers[0], '404 Not Found' ) !== false )
                     {
                         throw new ezcBaseFileNotFoundException( $value );
                     }
