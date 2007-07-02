@@ -284,7 +284,7 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $type = ezcTestSettings::getInstance()->db->phptype;
         $dsn = ezcTestSettings::getInstance()->db->dsn;
 
-        if ( $dsn === null || $type === null )
+        if ( $dsn === null || $type === null || $type === 'sqlite' )
         {
             $this->markTestSkipped( "DSN or database type not set" );
         }
