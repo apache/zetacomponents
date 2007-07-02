@@ -352,6 +352,7 @@ request for a yet uninitialized configuration manager.
 ezcBaseInit::setCallback accepts as a first parameter a component specific key,
 which lets the component later request the right configuration callback. The
 second parameter is the name of the class to perform the static callback on.
+This class must implement the ezcBaseConfigurationInitializer class.
 Each component's lazy initialization calls the static method configureObject()
 on the referenced class.
 
