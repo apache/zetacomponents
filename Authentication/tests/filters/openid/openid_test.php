@@ -289,6 +289,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperCheckSignature()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $filter = new ezcAuthenticationOpenidWrapper();
         $result = $filter->checkSignature( self::$provider, self::$requestCheckAuthentication );
         $this->assertEquals( false, $result );
@@ -296,6 +301,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperCheckSignaturePost()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $filter = new ezcAuthenticationOpenidWrapper();
         $result = $filter->checkSignature( self::$provider, self::$requestCheckAuthentication, 'POST' );
 
@@ -383,6 +393,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidCaseNullSmartModeFileStoreExistent()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $params = array(
             'openid.mode' => 'associate',
             'openid.assoc_type' => 'HMAC-SHA1',
@@ -439,6 +454,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperRunModeIdRes()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $_GET = self::$requestCheckAuthenticationGet;
         $_GET['openid_mode'] = 'id_res';
         $credentials = new ezcAuthenticationIdCredentials( self::$url );
@@ -449,6 +469,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperRunModeIdResSmartModeFileStore()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $_GET = self::$requestCheckAuthenticationGet;
         $_GET['openid_mode'] = 'id_res';
         $credentials = new ezcAuthenticationIdCredentials( self::$url );
@@ -468,6 +493,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperRunModeIdResSmartModeFileStoreExistent()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $params = array(
             'openid.mode' => 'associate',
             'openid.assoc_type' => 'HMAC-SHA1',
@@ -502,6 +532,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperRunModeIdResSmartModeFileStoreExistentCorrect()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $association = self::$association;
         $_GET = self::$requestSmartGet;
         $credentials = new ezcAuthenticationIdCredentials( self::$url );
@@ -526,6 +561,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperRunModeIdResFileStore()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $_GET = self::$requestCheckAuthenticationGet;
         $_GET['openid_mode'] = 'id_res';
         $credentials = new ezcAuthenticationIdCredentials( self::$url );
@@ -544,6 +584,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperRunModeIdResFileStoreExistent()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $_GET = self::$requestCheckAuthenticationGet;
         $_GET['openid_mode'] = 'id_res';
         $credentials = new ezcAuthenticationIdCredentials( self::$url );
@@ -562,6 +607,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperRunModeIdResFileStoreNonceValid()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $_GET = self::$requestCheckAuthenticationGet;
         $_GET['openid_mode'] = 'id_res';
         $nonce = '123456';
@@ -606,6 +656,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperRunModeIdResNoEndPoint()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $_GET = self::$requestCheckAuthenticationGetNoEndPoint;
         $_GET['openid_mode'] = 'id_res';
         $credentials = new ezcAuthenticationIdCredentials( self::$url );
@@ -679,6 +734,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperAssociatePlainText()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $params = array(
             'openid.mode' => 'associate',
             'openid.assoc_type' => 'HMAC-SHA1',
@@ -693,6 +753,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperAssociatePlainTextPost()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         $params = array(
             'openid.mode' => 'associate',
             'openid.assoc_type' => 'HMAC-SHA1',
@@ -709,6 +774,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperAssociateDhSha1Bcmath()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         if ( !ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) )
         {
             $this->markTestSkipped( 'PHP must be compiled with --enable-bcmath.' );
@@ -738,6 +808,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidWrapperAssociateDhSha1Gmp()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
         if ( !ezcBaseFeatures::hasExtensionSupport( 'gmp' ) )
         {
             $this->markTestSkipped( 'PHP must be compiled with --with-gmp.' );
