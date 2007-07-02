@@ -97,7 +97,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         self::$association = new ezcAuthenticationOpenidAssociation( '{HMAC-SHA1}{465d8eb9}{NQN84Q==}',
                                                                      'foz3UXCxQJ5lKvau78Oqen9dTUc=',
                                                                      1180536597,
-                                                                     '1209600',
+                                                                     time() - 1180536597 + 604800, // valid 1 week from current time
                                                                      'HMAC-SHA1' );
 
         return new PHPUnit_Framework_TestSuite( "ezcAuthenticationOpenidTest" );
@@ -557,11 +557,9 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $filter = new ezcAuthenticationOpenidWrapper( $options );
         $result = $filter->run( $credentials );
 
-        $this->markTestSkipped( "Skip this test until figuring out why it fails." );
+        $this->removeTempDir();
 
         $this->assertEquals( ezcAuthenticationOpenidFilter::STATUS_OK, $result );
-
-        $this->removeTempDir();
     }
 
     public function testOpenidWrapperRunModeIdResFileStore()
