@@ -1,7 +1,6 @@
 1.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
 - Fixed issue #11059: PersistentObjectDatabaseSchemaTiein: Boolean fields not
   recognized correctly.
 - Documentation updates.
