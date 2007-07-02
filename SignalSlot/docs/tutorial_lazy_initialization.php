@@ -1,7 +1,7 @@
 <?php
 require_once 'tutorial_autoload.php';
 
-class customLazySignalConfiguration
+class customLazySignalConfiguration implements ezcBaseConfigurationInitializer
 {
     public static function configureObject( $signal )
     {

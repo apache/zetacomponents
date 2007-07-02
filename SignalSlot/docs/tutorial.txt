@@ -203,6 +203,7 @@ first request for a yet uninitialized signal connection.
 
 ezcBaseInit::setCallback accepts as a first parameter a component specific 
 key, which lets the component later request the right configuration callback. 
+This class must implement the ezcBaseConfigurationInitializer class.
 The second parameter is the name of the class to perform the static callback 
 on. Each component's lazy initialization calls the static method 
 configureObject() on the referenced class.
