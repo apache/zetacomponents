@@ -19,7 +19,7 @@ class customSingleton
 }
 
 // Implement your configuration class
-class customSingletonConfiguration
+class customSingletonConfiguration implements ezcBaseConfigurationInitializer
 {
     public static function configureObject( customSingleton $object )
     {

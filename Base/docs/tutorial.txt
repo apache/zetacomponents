@@ -151,7 +151,8 @@ The first parameter is the key used earlier in the getInstance method, to
 reference the right class, and the second parameter is the name of your 
 configuration class.
 
-The configuration class beginning in line 22 just needs to implement one
+The configuration class beginning in line 22 just needs to implement the
+ezcBaseConfigurationInitializer interface, which defines one
 method: configureObject(). This method will be called with the object to
 configure as a single parameter. In the example, a new public property on the
 customSingleton instance is created, which will be echo'd later to show the 
