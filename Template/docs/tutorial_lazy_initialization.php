@@ -1,7 +1,7 @@
 <?php
 require_once 'tutorial_autoload.php';
 
-class customLazyTemplateConfiguration
+class customLazyTemplateConfiguration implements ezcBaseConfigurationInitializer
 {
     public static function configureObject( $cfg )
     {
