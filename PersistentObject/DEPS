@@ -1,1 +1,1 @@
-Database: 1.3beta2
+Database: 1.3

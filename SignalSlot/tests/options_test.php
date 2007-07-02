@@ -64,7 +64,7 @@ class ezcSignalSlotCollectionOptionsTest extends ezcTestCase
         {
             $this->assertFalse( $this->giver->signals->isConnected( 'NoSuchSignal' ) );
         }
-        catch( ezcSignalSlotException $e ){
+        catch ( ezcSignalSlotException $e ){
             return;
         }
         $this->fail( "Did not get exception when using non existent signal" );
@@ -83,7 +83,7 @@ class ezcSignalSlotCollectionOptionsTest extends ezcTestCase
         {
             $this->giver->signals->emit( 'NoSuchSignal' );
         }
-        catch( ezcSignalSlotException $e ){
+        catch ( ezcSignalSlotException $e ){
             return;
         }
         $this->fail( "Did not get exception when using non existent signal" );
@@ -103,7 +103,7 @@ class ezcSignalSlotCollectionOptionsTest extends ezcTestCase
         {
             $this->giver->signals->connect( "noSuchSignal", array( $this->receiver, "slotSingleParam" ) );
         }
-        catch( ezcSignalSlotException $e ){
+        catch ( ezcSignalSlotException $e ){
             return;
         }
         $this->fail( "Did not get exception when using non existent signal" );
@@ -122,7 +122,7 @@ class ezcSignalSlotCollectionOptionsTest extends ezcTestCase
         {
             $this->giver->signals->disconnect( "noSuchSignal", array( $this->receiver, "slotSingleParam" ) );
         }
-        catch( ezcSignalSlotException $e ){
+        catch ( ezcSignalSlotException $e ){
             return;
         }
         $this->fail( "Did not get exception when using non existent signal" );

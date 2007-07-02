@@ -61,7 +61,7 @@ class ezcSignalCollectionOptions extends ezcBaseOptions
         switch ( $key )
         {
             case "signals":
-                if( $value != null && !is_array( $value ) )
+                if ( $value != null && !is_array( $value ) )
                 {
                     throw new ezcBaseSettingValueException( $key, $value, 'null, array(string)' );
                 }

@@ -209,7 +209,7 @@ class ezcSignalCollection
     public function isConnected( $signal )
     {
         // if the the signals option is set we must check if the signal exists
-        if( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
+        if ( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
         {
             throw new ezcSignalSlotException( "No such signal {$signal}" );
         }
@@ -254,7 +254,7 @@ class ezcSignalCollection
     public function emit( $signal )
     {
         // if the the signals option is set we must check if the signal exists
-        if( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
+        if ( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
         {
             throw new ezcSignalSlotException( "No such signal {$signal}" );
         }
@@ -368,7 +368,7 @@ class ezcSignalCollection
     public function connect( $signal, $slot, $priority = 1000 )
     {
         // if the the signals option is set we must check if the signal exists
-        if( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
+        if ( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
         {
             throw new ezcSignalSlotException( "No such signal {$signal}" );
         }
@@ -401,7 +401,7 @@ class ezcSignalCollection
     public function disconnect( $signal, $slot, $priority = null )
     {
         // if the the signals option is set we must check if the signal exists
-        if( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
+        if ( $this->options->signals != null && !in_array( $signal, $this->options->signals ) )
         {
             throw new ezcSignalSlotException( "No such signal {$signal}" );
         }
