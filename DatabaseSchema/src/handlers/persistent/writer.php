@@ -139,6 +139,7 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
         {
             case 'integer':
             case 'timestamp':
+            case 'boolean':
                 return 'ezcPersistentObjectProperty::PHP_TYPE_INT';
             case 'float':
             case 'decimal':

@@ -14,7 +14,7 @@ $def->properties['category_id']->propertyType = ezcPersistentObjectProperty::PHP
 $def->properties['is_shadow']               = new ezcPersistentObjectProperty();
 $def->properties['is_shadow']->columnName   = 'is_shadow';
 $def->properties['is_shadow']->propertyName = 'is_shadow';
-$def->properties['is_shadow']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+$def->properties['is_shadow']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
 
 $def->properties['message_id']               = new ezcPersistentObjectProperty();
