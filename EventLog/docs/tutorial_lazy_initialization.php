@@ -1,7 +1,7 @@
 <?php
 require_once 'tutorial_autoload.php';
 
-class customLazyLogConfiguration
+class customLazyLogConfiguration implements ezcBaseConfigurationInitializer
 {
     public static function configureObject( $log )
     {
