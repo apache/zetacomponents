@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /*
  * Holds the definition for PersistentTestObject
  * This definition is used by the code manager for

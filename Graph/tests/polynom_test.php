@@ -39,7 +39,7 @@ class ezcGraphPolynomTest extends ezcTestCase
 
         $this->assertEquals(
             array( 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0 ),
-            $this->getAttribute( $polynom, 'values' ),
+            $this->readAttribute( $polynom, 'values' ),
             'Values array not properly initialized.'
         );
     }

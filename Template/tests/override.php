@@ -1,7 +1,4 @@
 <?php
-
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 class OverrideCustomFunction implements ezcTemplateCustomFunction
 {
     public static function getCustomFunctionDefinition( $name )

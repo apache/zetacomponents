@@ -9,8 +9,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * Require generic test class for ezcConsoleDialog implementations.
  */

@@ -8,8 +8,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * This class represents the structure of all the database settings.
  * 

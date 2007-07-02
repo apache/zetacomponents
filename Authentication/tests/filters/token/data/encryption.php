@@ -10,8 +10,6 @@
  * @subpackage Tests
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * Class which contain some test functions for the Token filter.
  *

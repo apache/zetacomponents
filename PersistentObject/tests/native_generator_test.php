@@ -7,7 +7,6 @@
  * @package PersistentObject
  * @subpackage Tests
  */
-ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once "data/native_generator_test.php";
 

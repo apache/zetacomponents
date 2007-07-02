@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 $v = new ezcTemplateVariableCollection();
 $v->text = "Text for SHA1";
 

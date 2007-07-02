@@ -24,8 +24,6 @@ file_put_contents(
   str_replace(
     '<?php return array (',
     '<?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 return array (',
     file_get_contents('../tests/workflow.dba')
   )

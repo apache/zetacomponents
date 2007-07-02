@@ -179,7 +179,7 @@ class ezcGraphPieChartTest extends ezcGraphTestCase
         $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
         $chart->render( 500, 200 );
         
-        $legend = $this->getAttribute( $chart->legend, 'labels' );
+        $legend = $this->readAttribute( $chart->legend, 'labels' );
 
         $this->assertEquals(
             5,

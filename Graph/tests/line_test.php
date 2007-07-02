@@ -246,7 +246,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         $this->addSampleData( $chart );
         $chart->render( 500, 200 );
         
-        $legend = $this->getAttribute( $chart->legend, 'labels' );
+        $legend = $this->readAttribute( $chart->legend, 'labels' );
 
         $this->assertEquals(
             3,

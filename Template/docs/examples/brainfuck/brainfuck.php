@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  *   PHP Brainf*ck compiler
  *   (c) Kristian Hole 2006

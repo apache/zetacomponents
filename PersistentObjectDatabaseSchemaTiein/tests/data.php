@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 $res["testUnusualCall"] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m
 [0m[31;1mError while processing your options: Argument with name \'def dir\' is mandatory

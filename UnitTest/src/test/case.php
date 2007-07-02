@@ -1,8 +1,6 @@
 <?php
 require_once 'PHPUnit/Framework/TestCase.php';
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 abstract class ezcTestCase extends PHPUnit_Framework_TestCase
 {
     /**
@@ -148,25 +146,5 @@ abstract class ezcTestCase extends PHPUnit_Framework_TestCase
             $this->fail( "Setting property $propertyName to $value did not fail." );
         }
     }
-
-    /**
-     * BC Wrapper for getAttribute() (PHPUnit 3.0) / readAttribute() (PHPUnit 3.1)
-     */
-    public static function getAttribute( $classOrObject, $attributeName )
-    {
-        if ( is_callable( array( 'PHPUnit_Framework_Assert','readAttribute' ) ) )
-        {
-            return PHPUnit_Framework_Assert::readAttribute( $classOrObject, $attributeName );
-        }
-        else
-        {
-            return PHPUnit_Framework_Assert::getAttribute( $classOrObject, $attributeName );
-        }
-    }
-
-    /*
-     * @todo recheck this later, as this might change again.
-     */
-    // public static abstract function suite();
 }
 ?>

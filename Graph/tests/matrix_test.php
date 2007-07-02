@@ -32,7 +32,7 @@ class ezcGraphMatrixTest extends ezcTestCase
                 array( 0, 1, 0 ),
                 array( 0, 0, 1 ),
             ),
-            $this->getAttribute( $matrix, 'matrix' )
+            $this->readAttribute( $matrix, 'matrix' )
         );
     }
 
@@ -45,7 +45,7 @@ class ezcGraphMatrixTest extends ezcTestCase
                 array( 1, 0, 0, 0 ),
                 array( 0, 1, 0, 0 ),
             ),
-            $this->getAttribute( $matrix, 'matrix' )
+            $this->readAttribute( $matrix, 'matrix' )
         );
     }
 
@@ -58,7 +58,7 @@ class ezcGraphMatrixTest extends ezcTestCase
                 array( 1, 0, 5, 0 ),
                 array( 6, -1, -3, .5 ),
             ),
-            $this->getAttribute( $matrix, 'matrix' )
+            $this->readAttribute( $matrix, 'matrix' )
         );
     }
 
@@ -127,7 +127,7 @@ class ezcGraphMatrixTest extends ezcTestCase
                 array( 0, 2, 0 ),
                 array( 0, 0, 2 ),
             ),
-            $this->getAttribute( $matrix, 'matrix' )
+            $this->readAttribute( $matrix, 'matrix' )
         );
     }
 
@@ -142,7 +142,7 @@ class ezcGraphMatrixTest extends ezcTestCase
                 array( 0, 0, 0 ),
                 array( 0, 0, 0 ),
             ),
-            $this->getAttribute( $matrix, 'matrix' )
+            $this->readAttribute( $matrix, 'matrix' )
         );
     }
 
@@ -205,7 +205,7 @@ class ezcGraphMatrixTest extends ezcTestCase
                 array( 0, -.5, 0 ),
                 array( 0, 0, -.5 ),
             ),
-            $this->getAttribute( $matrix, 'matrix' )
+            $this->readAttribute( $matrix, 'matrix' )
         );
     }
 
@@ -228,7 +228,7 @@ class ezcGraphMatrixTest extends ezcTestCase
                 array( 12, -6 ),
                 array( 39, -12 ),
             ),
-            $this->getAttribute( $c, 'matrix' )
+            $this->readAttribute( $c, 'matrix' )
         );
     }
 
@@ -294,7 +294,7 @@ class ezcGraphMatrixTest extends ezcTestCase
                 array( 2, 5 ),
                 array( 3, 6 ),
             ),
-            $this->getAttribute( $matrix, 'matrix' )
+            $this->readAttribute( $matrix, 'matrix' )
         );
     }
 

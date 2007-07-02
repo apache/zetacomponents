@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /*
  * Holds the definition for Table
  * This definition is used by the keywords test.

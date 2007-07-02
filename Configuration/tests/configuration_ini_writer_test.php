@@ -125,7 +125,7 @@ class ezcConfigurationIniWriterTest extends ezcTestCase
         $backend = new ezcConfigurationIniWriter( 'files/write_basic.ini', new ezcConfiguration() );
         $this->assertEquals( 'files', $backend->getLocation() );
         $this->assertEquals( 'write_basic', $backend->getName() );
-        $this->assertSame( 0666, $this->getAttribute( $backend, 'permissions' ) );
+        $this->assertSame( 0666, $this->readAttribute( $backend, 'permissions' ) );
     }
 
     public function testInitCtor2()
@@ -133,7 +133,7 @@ class ezcConfigurationIniWriterTest extends ezcTestCase
         $backend = new ezcConfigurationIniWriter( 'files.foo/write_basic.ini', new ezcConfiguration(), 0660 );
         $this->assertEquals( 'files.foo', $backend->getLocation() );
         $this->assertEquals( 'write_basic', $backend->getName() );
-        $this->assertSame( 0660, $this->getAttribute( $backend, 'permissions' ) );
+        $this->assertSame( 0660, $this->readAttribute( $backend, 'permissions' ) );
     }
 
     public function testInitCtor3()

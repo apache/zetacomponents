@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 class ezcArchiveTestData
 {
     protected $tempDir;

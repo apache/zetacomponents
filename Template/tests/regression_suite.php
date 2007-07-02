@@ -53,8 +53,6 @@ class ezcTemplateTestRegressionSuite extends PHPUnit_Framework_TestSuite
             throw new InvalidArgumentException;
         }
 
-        PHPUnit_Util_Filter::addFileToFilter( realpath( $theClass->getFilename() ), 'TESTS' );
-
         if ( $name != '' )
         {
             $this->setName( $name );

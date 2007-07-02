@@ -7,7 +7,6 @@
  * @package PersistentObject
  * @subpackage Tests
  */
-ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once "data/keywordtest/table_class.php";
 require_once "data/keywordtest/where_class.php";

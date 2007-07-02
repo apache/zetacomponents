@@ -27,7 +27,7 @@ class ezcGraphDataSetTest extends ezcTestCase
         $chart = new ezcGraphPieChart();
         $chart->data['humanoids'] = new ezcGraphArrayDataSet( array( 'monkey' => 54, 'ape' => 37, 'human' => 9 ) );
 
-        $datasets = $this->getAttribute( $chart, 'data' );
+        $datasets = $this->readAttribute( $chart, 'data' );
         $this->assertTrue(
             $datasets['humanoids'] instanceof ezcGraphDataSet,
             'No ezcGraphDataSet was created.'
@@ -50,7 +50,7 @@ class ezcGraphDataSetTest extends ezcTestCase
         $chart = new ezcGraphPieChart();
         $chart->data['example'] = new ezcGraphArrayDataSet( array( 'monkey' => 54, 2001 => 37 ) );
 
-        $data = $this->getAttribute( $chart->data['example'], 'data' );
+        $data = $this->readAttribute( $chart->data['example'], 'data' );
 
         $this->assertSame( 
             54,
@@ -67,7 +67,7 @@ class ezcGraphDataSetTest extends ezcTestCase
         $chart = new ezcGraphPieChart();
         $chart->data['example'] = new ezcGraphArrayDataSet( array( 'monkey' => 'alive', 2001 => 'year' ) );
 
-        $data = $this->getAttribute( $chart->data['example'], 'data' );
+        $data = $this->readAttribute( $chart->data['example'], 'data' );
 
         $this->assertSame( 
             'alive',
@@ -85,7 +85,7 @@ class ezcGraphDataSetTest extends ezcTestCase
         $chart->data['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
         $chart->data['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
 
-        $datasets = $this->getAttribute( $chart, 'data' );
+        $datasets = $this->readAttribute( $chart, 'data' );
         $this->assertTrue(
             $datasets['income'] instanceof ezcGraphDataSet,
             'No ezcGraphDataSet was created.'

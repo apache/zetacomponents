@@ -28,8 +28,8 @@ class ezcGraphTransformationTest extends ezcTestCase
         $matrix = new ezcGraphMatrix( 3, 3 );
 
         $this->assertEquals(
-            $this->getAttribute( $matrix, 'matrix' ),
-            $this->getAttribute( $transformation, 'matrix' ),
+            $this->readAttribute( $matrix, 'matrix' ),
+            $this->readAttribute( $transformation, 'matrix' ),
             'Transformation matrices are not aequivalent',
             .0001
         );
@@ -54,8 +54,8 @@ class ezcGraphTransformationTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            $this->getAttribute( $matrix, 'matrix' ),
-            $this->getAttribute( $transformation, 'matrix' ),
+            $this->readAttribute( $matrix, 'matrix' ),
+            $this->readAttribute( $transformation, 'matrix' ),
             'Transformation matrices are not aequivalent',
             .0001
         );
@@ -74,8 +74,8 @@ class ezcGraphTransformationTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            $this->getAttribute( $matrix, 'matrix' ),
-            $this->getAttribute( $transformation, 'matrix' ),
+            $this->readAttribute( $matrix, 'matrix' ),
+            $this->readAttribute( $transformation, 'matrix' ),
             'Transformation matrices are not aequivalent',
             .0001
         );
@@ -129,8 +129,8 @@ class ezcGraphTransformationTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            $this->getAttribute( $matrix, 'matrix' ),
-            $this->getAttribute( $transformation, 'matrix' ),
+            $this->readAttribute( $matrix, 'matrix' ),
+            $this->readAttribute( $transformation, 'matrix' ),
             'Transformation matrices are not aequivalent',
             .0001
         );

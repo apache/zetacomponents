@@ -8,8 +8,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * This object stores the settings from the TestRunner. Every TestCase can get
  * the instance of this object, and access the settings. 

@@ -10,8 +10,6 @@
  * @subpackage Tests
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * Class which exposes the protected methods from the TypeKey filter.
  *

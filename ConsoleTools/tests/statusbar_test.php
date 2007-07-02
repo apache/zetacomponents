@@ -9,8 +9,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * Test suite for ezcConsoleStatusbar class.
  * 
@@ -266,12 +264,12 @@ class ezcConsoleStatusbarTest extends ezcTestCase
         }
         ob_end_clean();
 
-        $counter = $this->getAttribute( $status, "counter" );
+        $counter = $this->readAttribute( $status, "counter" );
         $this->assertEquals( 14, $counter[true], "Success values not counted correctly." );
         $this->assertEquals( 11, $counter[false], "Failure values not counted correctly." );
         
         $status->reset();
-        $counter = $this->getAttribute( $status, "counter" );
+        $counter = $this->readAttribute( $status, "counter" );
         $this->assertEquals( 0, $counter[true], "Success values not reset correctly." );
         $this->assertEquals( 0, $counter[false], "Failure values not reset correctly." );
     }

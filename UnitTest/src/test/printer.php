@@ -1,8 +1,6 @@
 <?php
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
 {
     public function __construct( $verbose = false )

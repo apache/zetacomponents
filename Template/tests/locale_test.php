@@ -14,8 +14,6 @@
  */
 class ezcTemplateLocaleTest extends ezcTestCase
 {
-    protected $originalLocale;
-
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( __CLASS__ );
@@ -34,18 +32,12 @@ class ezcTemplateLocaleTest extends ezcTestCase
         $config->templatePath = $this->templatePath;
         $config->compilePath = $this->compilePath;
         $config->context = new ezcTemplateNoContext;
-
-        $this->originalLocale = setlocale(LC_ALL, 0);
-    }
-
-    protected function tearDown()
-    {
-        setlocale( LC_ALL, $this->originalLocale );
     }
 
     public function testLocale()
     {
-        setlocale( LC_ALL, 'de_DE', 'de_DE.UTF-8', 'deu', 'german' );
+        $this->setLocale( LC_ALL, 'de_DE', 'de_DE.UTF-8', 'deu', 'german' );
+
         $a = 3.4;
         $this->assertEquals("3,4", (string)$a);
     }
@@ -53,7 +45,8 @@ class ezcTemplateLocaleTest extends ezcTestCase
 
     public function testFloats()
     {
-        setlocale( LC_ALL, 'de_DE' );
+        $this->setLocale( LC_ALL, 'de_DE' );
+
         $template = new ezcTemplate();
         $file =  "float.ezt";
         
@@ -62,6 +55,4 @@ class ezcTemplateLocaleTest extends ezcTestCase
         $this->assertEquals(1, $template->process( $file), "Number 3.14 is internally translated to 3,14 when the de_DE locale is used.");
     }
 }
-
-
 ?>

@@ -80,8 +80,8 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
             $this->markTestSkipped();
         }
 
-        $handlers = $this->getAttribute( $converter, "handlers" );
-        $settings = $this->getAttribute( $converter, "settings" );
+        $handlers = $this->readAttribute( $converter, "handlers" );
+        $settings = $this->readAttribute( $converter, "settings" );
 
         $this->assertType(
             "ezcImageGdHandler",

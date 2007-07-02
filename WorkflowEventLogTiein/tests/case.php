@@ -7,8 +7,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 require_once 'WorkflowDatabaseTiein/tests/case.php';
 
 /**

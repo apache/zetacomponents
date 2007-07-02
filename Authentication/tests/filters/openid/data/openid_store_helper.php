@@ -10,8 +10,6 @@
  * @subpackage Tests
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * Class which exposes the protected functions from ezcAuthenticationOpenidFileStore
  * and contains other needed methods for OpenID file store tests.

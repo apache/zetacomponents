@@ -36,9 +36,9 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $config = ezcConfigurationManager::getInstance();
         $config->init( 'ezcConfigurationIniReader', 'files', array() );
 
-        $this->assertSame( 'ezcConfigurationIniReader', $this->getAttribute( $config, 'readerClass' ) );
-        $this->assertSame( 'files', $this->getAttribute( $config, 'location' ) );
-        $this->assertSame( array(), $this->getAttribute( $config, 'options' ) );
+        $this->assertSame( 'ezcConfigurationIniReader', $this->readAttribute( $config, 'readerClass' ) );
+        $this->assertSame( 'files', $this->readAttribute( $config, 'location' ) );
+        $this->assertSame( array(), $this->readAttribute( $config, 'options' ) );
     }
 
     public function testReset()
@@ -47,9 +47,9 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $config->init( 'ezcConfigurationIniReader', 'files', array() );
         $config->reset();
 
-        $this->assertSame( null, $this->getAttribute( $config, 'readerClass' ) );
-        $this->assertSame( null, $this->getAttribute( $config, 'location' ) );
-        $this->assertSame( array(), $this->getAttribute( $config, 'options' ) );
+        $this->assertSame( null, $this->readAttribute( $config, 'readerClass' ) );
+        $this->assertSame( null, $this->readAttribute( $config, 'location' ) );
+        $this->assertSame( array(), $this->readAttribute( $config, 'options' ) );
     }
 
     public function testInitClassWrongInterface()

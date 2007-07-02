@@ -10,8 +10,6 @@
 
 require_once dirname( __FILE__ ) . "/test_case.php";
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * Test suite for ImageHandler class.
  * This class contains all tests that are common between backend handlers.

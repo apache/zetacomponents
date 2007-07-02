@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
 {
     public static function getCustomFunctionDefinition( $name )

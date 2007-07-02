@@ -1,8 +1,6 @@
 <?php
 require_once 'PHPUnit/Framework/TestCase.php';
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 abstract class ezcTestImageCase extends ezcTestCase
 {
     /**

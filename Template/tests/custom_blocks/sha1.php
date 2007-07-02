@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 class Sha1CustomBlock implements ezcTemplateCustomFunction
 {
     public static function getCustomFunctionDefinition($name)

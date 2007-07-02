@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 $def = new ezcPersistentObjectDefinition();
 $def->table = "PO_persons";
 $def->class = "RelationTestSecondPerson";

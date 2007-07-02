@@ -8,8 +8,6 @@
  * @subpackage Tests
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * Wrapper of normal static connection class. This is because we can't reset it to NULL after it has been set in SignalCollection
  */

@@ -8,6 +8,14 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
     public static function main()
     {
+        $version = PHPUnit_Runner_Version::id();
+
+        if ( version_compare( $version, '3.1.0' ) == -1 && $version !== '@package_version@' )
+        {
+            echo "You need PHPUnit 3.1 (or later) to run this testsuite.\n";
+            die();
+        }
+
         $tr = new ezcTestRunner();
         $tr->runFromArguments();
     }
@@ -109,13 +117,12 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         $this->printCredits();
 
-        print( '[Preparing tests]:' );
-        $params = array();
+        $params    = array();
+        $whitelist = false;
 
         // Set the release. Default is trunk. 
         $release = $consoleInput->getOption( 'release' )->value;
 
-        $allSuites = $this->prepareTests( $consoleInput->getArguments(),  $release );
         $logfile   = $consoleInput->getOption( 'log-xml' )->value;
         $reportDir = $consoleInput->getOption( 'report-dir' )->value;
 
@@ -127,6 +134,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         if ( $reportDir )
         {
             $params['reportDirectory'] = $reportDir;
+            $whitelist                 = true;
         }
 
         if ( $consoleInput->getOption( "verbose" )->value )
@@ -137,6 +145,8 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         {
             $params['verbose'] = false;
         }
+
+        $allSuites = $this->prepareTests( $consoleInput->getArguments(), $release, $whitelist );
 
         $printer = new ezcTestPrinter( $params['verbose'] );
         $this->setPrinter( $printer );
@@ -149,8 +159,10 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         print( "ezcUnitTest uses the PHPUnit " . PHPUnit_Runner_Version::id() . " framework from Sebastian Bergmann.\n\n" );
     }
 
-    protected function prepareTests( $packages, $release )
+    protected function prepareTests( $packages, $release, $whitelist )
     {
+        print( '[Preparing tests]:' );
+
         $directory = getcwd();
 
         $allSuites = new PHPUnit_Framework_TestSuite;
@@ -163,6 +175,8 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         foreach ( $packages as $package )
         {
+            $added = false;
+
             $slashCount = substr_count( $package, '/' );
             if ( ( $release == 'trunk' && $slashCount !== 0 ) || ( $release == 'stable' && $slashCount > 1 ) )
             {
@@ -174,6 +188,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
                     if ( $class !== false )
                     {
                         $allSuites->addTest( call_user_func( array( $class, 'suite' ) ) );
+                        $added = true;
                     }
                     else
                     {
@@ -188,6 +203,22 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
                 if ( !is_null( $suite ) )
                 {
                     $allSuites->addTest( $suite );
+                    $added = true;
+                }
+            }
+
+            if ( $whitelist && $added )
+            {
+                foreach ( glob( $directory . '/' . $package . '/src/*_autoload.php' ) as $autoloadFile )
+                {
+                    $autoloadArray = include $autoloadFile;
+
+                    foreach ( $autoloadArray as $className => $fileName )
+                    {
+                        PHPUnit_Util_Filter::addFileToWhitelist(
+                          $directory . '/' . str_replace( $package, $package . '/src', $fileName )
+                        );
+                    }
                 }
             }
         }
@@ -335,12 +366,5 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             die( $e->getMessage() );
         }
     }
-
-    public static function addFileToFilter( $filename, $group = 'DEFAULT' )
-    {
-        PHPUnit_Util_Filter::addFileToFilter( $filename, $group );
-    }
 }
-
-ezcTestRunner::addFileToFilter( __FILE__ );
 ?>

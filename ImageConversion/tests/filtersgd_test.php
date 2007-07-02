@@ -41,8 +41,8 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         $att = $obj->getProperty( "activeReference" );
         echo "\n--- Handler reflection attribute object for activeReference ---\n";
         var_dump( $att );
-        $activeReference = $this->getAttribute( $this->handler, "activeReference" );
-        $references = $this->getAttribute( $this->handler, "references" );
+        $activeReference = $this->readAttribute( $this->handler, "activeReference" );
+        $references = $this->readAttribute( $this->handler, "references" );
         */
         $handlerArr = ( array) $this->handler;
         $reference = $handlerArr["\0ezcImageMethodcallHandler\0activeReference"];

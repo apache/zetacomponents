@@ -1,7 +1,4 @@
 <?php
-
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 class ezcBaseTestOptions extends ezcBaseOptions
 {
     protected $properties = array( "foo" => "bar" );
@@ -18,5 +15,4 @@ class ezcBaseTestOptions extends ezcBaseOptions
         }
     }
 }
-
 ?>

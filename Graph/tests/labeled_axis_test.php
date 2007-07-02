@@ -66,7 +66,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
                 '2002',
                 '2003',
             ),
-            $this->getAttribute( $chart->xAxis, 'labels' )
+            $this->readAttribute( $chart->xAxis, 'labels' )
         );
     }
 
@@ -86,7 +86,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
                 '2004',
                 '2005',
             ),
-            $this->getAttribute( $chart->xAxis, 'labels' )
+            $this->readAttribute( $chart->xAxis, 'labels' )
         );
     }
 
@@ -99,7 +99,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
 
         $this->assertEquals(
             array( 0, 1, 2, 3, 4, 5, 6, 7, 8 ),
-            $this->getAttribute( $chart->xAxis, 'labels' )
+            $this->readAttribute( $chart->xAxis, 'labels' )
         );
     }
 
@@ -120,7 +120,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
                 '2005',
                 '2006',
             ),
-            $this->getAttribute( $chart->xAxis, 'labels' )
+            $this->readAttribute( $chart->xAxis, 'labels' )
         );
     }
 
@@ -313,7 +313,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
                 2018,
                 2021,
             ),
-            $this->getAttribute( $chart->xAxis, 'displayedLabels' )
+            $this->readAttribute( $chart->xAxis, 'displayedLabels' )
         );
     }
 
@@ -347,7 +347,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
                 2027,
                 2030,
             ),
-            $this->getAttribute( $chart->xAxis, 'displayedLabels' )
+            $this->readAttribute( $chart->xAxis, 'displayedLabels' )
         );
     }
 
@@ -380,7 +380,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
                 2028,
                 2031,
             ),
-            $this->getAttribute( $chart->xAxis, 'displayedLabels' )
+            $this->readAttribute( $chart->xAxis, 'displayedLabels' )
         );
     }
 
@@ -408,7 +408,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
                 2123,
                 2164,
             ),
-            $this->getAttribute( $chart->xAxis, 'displayedLabels' )
+            $this->readAttribute( $chart->xAxis, 'displayedLabels' )
         );
     }
 

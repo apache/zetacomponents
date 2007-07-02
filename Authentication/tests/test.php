@@ -8,8 +8,6 @@
  * @subpackage Tests
  */
 
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 /**
  * @package Authentication
  * @version //autogen//

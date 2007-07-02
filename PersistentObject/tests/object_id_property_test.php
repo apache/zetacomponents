@@ -7,7 +7,6 @@
  * @package PersistentObject
  * @subpackage Tests
  */
-ezcTestRunner::addFileToFilter( __FILE__ );
 
 /**
  * Tests the ezcPersistentObjectIdProperty class.

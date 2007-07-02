@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 $v = new ezcTemplateVariableCollection();
 $v->a = 5;
 $v->b = 6;

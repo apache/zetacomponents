@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 class LinksCustomBlock implements ezcTemplateCustomFunction, ezcTemplateCustomBlock
 {
     public static function getCustomFunctionDefinition($name)

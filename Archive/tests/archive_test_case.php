@@ -1,6 +1,4 @@
 <?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
 abstract class ezcArchiveTestCase extends ezcTestCase
 {
     public function compareDirectories( $expectedDir, $testDir )

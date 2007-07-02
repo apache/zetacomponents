@@ -24,6 +24,5 @@ function __autoload( $className )
     ezcBase::autoload( $className );
 }
 
-ezcTestRunner::addFileToFilter( __FILE__ );
 ezcTestRunner::main();
 ?>
