@@ -59,22 +59,10 @@ class ezcGraphTestCase extends ezcTestImageCase
      */
     protected function compare( $generated, $compare )
     {
-        $this->assertTrue(
-            file_exists( $generated ),
-            'No image file has been created.'
+        $this->assertXmlFileEqualsXmlFile(
+            $generated,
+            $compare
         );
-
-        $this->assertTrue(
-            file_exists( $compare ),
-            'Comparision image does not exist.'
-        );
-
-        if ( md5_file( $generated ) !== md5_file( $compare ) )
-        {
-            // Adding a diff makes no sense here, because created XML uses
-            // only two lines
-            $this->fail( 'Rendered image is not correct.');
-        }
     }
 }
 
