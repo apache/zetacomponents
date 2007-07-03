@@ -78,7 +78,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
     protected static function displayHelp( $consoleInput )
     {
-        echo $consoleInput->getHelpText( 'eZ components test runner' );
+        echo $consoleInput->getHelpText( 'eZ Components Test Runner' );
     }
 
     public function runFromArguments()
@@ -166,7 +166,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $directory = getcwd();
 
         $allSuites = new PHPUnit_Framework_TestSuite;
-        $allSuites->setName( "eZ components" );
+        $allSuites->setName( "eZ Components" );
 
         if ( sizeof( $packages ) == 0 )
         {
