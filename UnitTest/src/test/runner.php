@@ -10,9 +10,9 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
     {
         $version = PHPUnit_Runner_Version::id();
 
-        if ( version_compare( $version, '3.1.0' ) == -1 && $version !== '@package_version@' )
+        if ( version_compare( $version, '3.1.2' ) == -1 && $version !== '@package_version@' )
         {
-            echo "You need PHPUnit 3.1 (or later) to run this testsuite.\n";
+            echo "You need PHPUnit 3.1.2 (or later) to run this testsuite.\n";
             die();
         }
 
