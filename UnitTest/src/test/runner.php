@@ -189,6 +189,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
                     {
                         $allSuites->addTest( call_user_func( array( $class, 'suite' ) ) );
                         $added = true;
+                        $package = substr($package, 0, strpos($package, '/'));
                     }
                     else
                     {
