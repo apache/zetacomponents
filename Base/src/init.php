@@ -86,6 +86,21 @@ class ezcBaseInit
         }
         else
         {
+            // Check if the passed classname actually exists
+            if ( !ezcBaseFeatures::classExists( $callbackClassname, true ) )
+            {
+                throw new ezcBaseInitInvalidCallbackClassException( $callbackClassname );
+            }
+
+            // Check if the passed classname actually implements the interface. We
+            // have to do that with reflection here unfortunately
+            $interfaceClass = new ReflectionClass( 'ezcBaseConfigurationInitializer' );
+            $handlerClass = new ReflectionClass( $callbackClassname );
+            if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+            {
+                throw new ezcBaseInitInvalidCallbackClassException( $callbackClassname );
+            }
+
             self::$callbackMap[$identifier] = $callbackClassname;
         }
     }

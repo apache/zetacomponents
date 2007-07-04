@@ -17,6 +17,32 @@ class ezcBaseInitTest extends ezcTestCase
         testBaseInitClass::$instance = null;
     }
 
+    public function testCallbackWithClassThatDoesNotExists()
+    {
+        try
+        {
+            ezcBaseInit::setCallback( 'testBaseInit', 'classDoesNotExist' );
+            $this->fail( "Expected exception not thrown." );
+        }
+        catch ( ezcBaseInitInvalidCallbackClassException $e )
+        {
+            $this->assertEquals( "Class 'classDoesNotExist' does not exist, or does not implement the 'ezcBaseConfigurationInitializer' interface.", $e->getMessage() );
+        }
+    }
+
+    public function testCallbackWithClassThatDoesNotImplementTheInterface()
+    {
+        try
+        {
+            ezcBaseInit::setCallback( 'testBaseInit', 'ezcBaseFeatures' );
+            $this->fail( "Expected exception not thrown." );
+        }
+        catch ( ezcBaseInitInvalidCallbackClassException $e )
+        {
+            $this->assertEquals( "Class 'ezcBaseFeatures' does not exist, or does not implement the 'ezcBaseConfigurationInitializer' interface.", $e->getMessage() );
+        }
+    }
+
     public function testCallback1()
     {
         $obj = testBaseInitClass::getInstance();
