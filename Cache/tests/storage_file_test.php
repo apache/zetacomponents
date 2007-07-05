@@ -108,7 +108,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
 
         $file = $cache->generateIdentifier( 0, $data['attributes'] );
         // Fake mtime and atime
-        touch( $file, time() - 90000, time() - 90000 );
+        touch( $cache->getLocation() . '/' . $file, time() - 90000, time() - 90000 );
         
         $this->assertNotEquals( false, $cache->restore( 0 ) );
 
