@@ -12,6 +12,6 @@
 return array(
     'ezcAuthenticationDatabaseFilter'  => 'AuthenticationDatabaseTiein/filters/database/database_filter.php',
     'ezcAuthenticationDatabaseInfo'    => 'AuthenticationDatabaseTiein/filters/database/database_info.php',
-    'ezcAuthenticationDatabaseOptions' => 'AuthenticationDatabaseTiein/filters/database/database_options.php',
+    'ezcAuthenticationDatabaseOptions' => 'AuthenticationDatabaseTiein/options/database_options.php',
 );
 ?>
