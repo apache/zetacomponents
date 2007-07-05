@@ -1,0 +1,77 @@
+eZ component: Graph: Interactive data points, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Description
+-----------
+
+Interactive data points describe a feature in charts, that the viewer of the
+chart can interactively get more information about data, when viewing the
+chart, or moving his mouse pointer over points of interest in the chart.
+
+Requirements
+============
+
+There are two major sets of features to implement
+
+Value indication
+----------------
+
+The value indication means, that at the position of the mouse pointer lines
+are drawn, depeding on the chart type, to indicate the current data value at
+this poistion in the chart. In a line chart this would mean a horizontal and a
+vertical line to the axis and some coordinate information at the current
+position of the mouse pointer, while in radar chart a line to the center of
+the chart and an ellipse, indicating the value on the y axis, needs to be
+drawn.
+
+SVG
+	No real problem.
+
+GD / Cairo / IMagick
+	Not possible without large effort.
+
+Flash
+	Evaluation required. Possible with flash, stutus in ext/ming yet unclear.
+
+Additional data point information
+---------------------------------
+
+When hovering or clicking on a data point or a legenda ite, a box with 
+additional information should be displayed. The box should contain text or
+user defined content.
+
+SVG
+	With only user defined inlined SVGs or Text in a box no big deal.
+
+GD / Cairo / IMagick
+	With a tool script generating HTML and javascript to use with the image
+	map, it should be possible to use HTML and text in boxes. This is similar
+	to the currently used mechanism to create image maps.
+
+Flash
+	Evaluation required. Possible with flash, stutus in ext/ming yet unclear.
+
+Special consideration
+=====================
+
+It is impossible to implement natively more then simple text in a box for the
+additional information in highlighted data points, because this would require
+a complete redering model like HTML uses.
+
+Formats
+=======
+
+The integration of HTML, Flash or SVG documents should be possible, but would
+be a non driver generic mechanism. It seems not easily possible to convert
+user defined Flash, HTML and SVG to the respective other format.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
