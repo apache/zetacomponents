@@ -1,7 +1,7 @@
 eZ component: Graph: Multiple axis, Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Author:   Kore Nordmann
+:Author:   $Author:$
 :Revision: $Rev:$
 :Date:     $Date:$
 
