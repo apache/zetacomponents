@@ -1,7 +1,7 @@
 eZ component: Graph: Interactive data points, Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Author:   Kore Nordmann
+:Author:   $Author:$
 :Revision: $Rev:$
 :Date:     $Date:$
 
