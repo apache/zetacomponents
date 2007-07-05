@@ -1,0 +1,56 @@
+eZ component: Graph: Multiple axis, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Description
+-----------
+
+Multiple axis are used in two different cases.
+
+- In stock chart, for example, they are used to show a different meaning of 
+  the displayed data, for example the value of a single stock option and the
+  value sum of the complete company.
+
+- Another case multiple axis may be used, is displaying relating data in one
+  chart which has completely different scalings or units, like the used RAM 
+  and the load on a machine.
+
+A third case multiple axis could be used for, are named separators to 
+highlight data borders in your chart. In this case the step labels should be
+at least optional.
+
+Requirements
+============
+
+To act as additional axis and seperators it is required, that additional axis
+can be placed at any position in the chart, especially at the very end and
+beginning of the charts data.
+
+It should be possible to associate a data set with a non default axis, to
+calculate the position of its data points based on a diffenrent scaling, then
+the default one.
+
+It should also be possible to add axis not depending on any data set and 
+define the scaling manually. Those axis can be placed at any position in the
+chart, and if no scaling was explicitely given and no data set is associated,
+those axis will omit drawing steps or step labeling and just display a single
+line with the (optional) axis label.
+
+Special consideration
+=====================
+
+An API for assigning data sets to axis other then the default one will be
+defined in the design document. The calculation of the poistion of a data
+point in a chart is completely done in the chart classes, so it will be no
+problem to use another axis for this. No changes or additions in the renderers
+will be required.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
