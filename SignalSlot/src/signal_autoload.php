@@ -10,11 +10,11 @@
  */
 
 return array(
-    'ezcSignalCollection'            => 'SignalSlot/signal_collection.php',
-    'ezcSignalStaticConnections'     => 'SignalSlot/static_connections.php',
-    'ezcSignalCallbackComparer'      => 'SignalSlot/internal/callback_comparer.php',
+    'ezcSignalSlotException'         => 'SignalSlot/exceptions/signalslot_exception.php',
     'ezcSignalStaticConnectionsBase' => 'SignalSlot/interfaces/static_connections_base.php',
-    'ezcSignalCollectionOptions'     => 'SignalSlot/options.php',
-    'ezcSignalSlotException'         => 'SignalSlot/exceptions/signalslot_exception.php'
+    'ezcSignalCallbackComparer'      => 'SignalSlot/internal/callback_comparer.php',
+    'ezcSignalCollection'            => 'SignalSlot/signal_collection.php',
+    'ezcSignalCollectionOptions'     => 'SignalSlot/options/options.php',
+    'ezcSignalStaticConnections'     => 'SignalSlot/static_connections.php',
 );
 ?>
