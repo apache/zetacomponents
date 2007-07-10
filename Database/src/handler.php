@@ -128,7 +128,8 @@ abstract class ezcDbHandler extends PDO
      * This method executes a begin transaction query unless a
      * transaction has already been started (transaction nesting level > 0 )
      *
-     * Each call to begin() must have a corresponding commit() or rollback() call.
+     * Each call to beginTransaction() must have a corresponding commit() or
+     * rollback() call.
      *
      * @see commit()
      * @see rollback()
@@ -151,14 +152,14 @@ abstract class ezcDbHandler extends PDO
      * Commits a transaction.
      *
      * If this this call to commit corresponds to the outermost call to
-     * begin() and all queries within this transaction were successful,
-     * a commit query is executed. If one of the queries
-     * returned with an error, a rollback query is executed instead.
+     * beginTransaction() and all queries within this transaction were
+     * successful, a commit query is executed. If one of the queries returned
+     * with an error, a rollback query is executed instead.
      *
      * This method returns true if the transaction was successful. If the
      * transaction failed and rollback was called, false is returned.
      *
-     * @see begin()
+     * @see beginTransaction()
      * @see rollback()
      * @return bool
      */
@@ -195,13 +196,13 @@ abstract class ezcDbHandler extends PDO
      * Rollback a transaction.
      *
      * If this this call to rollback corresponds to the outermost call to
-     * begin(), a rollback query is executed. If this is an inner transaction
-     * (nesting level > 1) the error flag is set, leaving the rollback to the
-     * outermost transaction.
+     * beginTransaction(), a rollback query is executed. If this is an inner
+     * transaction (nesting level > 1) the error flag is set, leaving the
+     * rollback to the outermost transaction.
      *
      * This method always returns true.
      *
-     * @see begin()
+     * @see beginTransaction()
      * @see commit()
      * @return bool
      */
