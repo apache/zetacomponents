@@ -1,9 +1,9 @@
 eZ component: Graph: Interactive data points, Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Author:   $Author:$
-:Revision: $Rev:$
-:Date:     $Date:$
+:Author:   $Author$
+:Revision: $Rev$
+:Date:     $Date$
 
 Introduction
 ============
@@ -38,7 +38,7 @@ GD / Cairo / IMagick
 	Not possible without large effort.
 
 Flash
-	Evaluation required. Possible with flash, stutus in ext/ming yet unclear.
+	No really big deal with flash and ext/ming.
 
 Additional data point information
 ---------------------------------
@@ -56,7 +56,7 @@ GD / Cairo / IMagick
 	to the currently used mechanism to create image maps.
 
 Flash
-	Evaluation required. Possible with flash, stutus in ext/ming yet unclear.
+	Possible with user provided SWFMovies or shapes.
 
 Special consideration
 =====================
