@@ -8,9 +8,15 @@ Introduction
 
 The Configuration component allows you to read settings from configuration
 files. Those settings can come from any backend in theory, but currently there
-are two reader classes: ezcConfigurationIniReader for reading plain configuration files and
-ezcConfigurationArrayReader for reading parsed configuration files in the form of
-a PHP array.
+are two reader classes: ezcConfigurationIniReader for reading plain
+configuration files and ezcConfigurationArrayReader for reading parsed
+configuration files in the form of a PHP array.
+
+The Configuration component also allows you to modify settings in configuration
+files and write those changes back to disk. There are two writer classes:
+ezcConfigurationIniWriter for writing plain configuration files and
+ezcConfigurationArrayWriter for writing parsed configuration files in the form
+of a PHP array.
 
 The format for the plain configuration files can be found in the section 
 `File format`_.
