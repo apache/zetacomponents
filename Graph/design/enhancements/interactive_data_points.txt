@@ -1,0 +1,165 @@
+eZ component: Graph: Interactive data points, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author:   $Author:$
+:Revision: $Rev:$
+:Date:     $Date:$
+
+Introduction
+============
+
+Description
+-----------
+
+Interactive data points describe a feature in charts, that the viewer of the
+chart can interactively get more information about data, when viewing the
+chart, or moving his mouse pointer over points of interest in the chart.
+
+Requirements
+============
+
+There are two major sets of features to implement
+
+Value indication
+----------------
+
+The value indication means, that at the position of the mouse pointer lines
+are drawn, depeding on the chart type, to indicate the current data value at
+this poistion in the chart. In a line chart this would mean a horizontal and a
+vertical line to the axis and some coordinate information at the current
+position of the mouse pointer, while in radar chart a line to the center of
+the chart and an ellipse, indicating the value on the y axis, needs to be
+drawn.
+
+To enable this an option will be added to the driver option classes for the
+drivers, which are capeable of drawing this. The value indication will be off
+by default and can be enabled like this:
+
+::
+
+	$chart->driver->options->valueIndication = true;
+
+This option will be defined in the driver classes for the drivers implementing
+the ezcGraphDriverValueIndication interface. We cannot add those options to
+ezcGraphDriverOptions, because not all drivers will support this new feature,
+and implementing an interface in the driver optoin class makes no sense, as no
+methods, but only properties, will be added.
+
+Driver support
+^^^^^^^^^^^^^^
+
+The driver itself needs to implement a new interface which defines the methods
+required to add the interactive elements to the resulting image. The renderer
+will call those methods on the driver if it implements the interface.
+
+::
+	interface ezcGraphDriverValueIndication
+	{
+		/***
+		 * Add value indication for a cartesian coordinate system
+		 *
+		 * The graph data is rendered in the bounding box, the x values to
+		 * indicate start with $xStart up to $xEnd, and the y values start
+		 * with $yStart, up to $yEnd.
+		 *
+		 * http://en.wikipedia.org/wiki/Cartesian_coordinate
+		 *
+		 * @param ezcGraphBoundings $box
+		 * @param float $xStart
+		 * @param float $xEnd
+		 * @param float $yStart
+		 * @param float $yEnd
+		 * return void
+		 */
+		public function cartesianValueIndication(
+			ezcGraphBoundings $box, 
+			$xStart, 
+			$xEnd, 
+			$yStart, 
+			$yEnd
+		);
+
+		/***
+		 * Add value indication for a polar coordinate system
+		 *
+		 * The graph data is rendered in the bounding box, the x values to
+		 * indicate start with $xStart up to $xEnd, and the y values start
+		 * with $yStart, up to $yEnd. The middle point of the polar coordinate
+		 * system is always the center point of the bounding box. The zero
+		 * angle may be rotated, depending on the graph rotation.
+		 *
+		 * http://en.wikipedia.org/wiki/Polar_coordinate
+		 *
+		 * @param ezcGraphBoundings $box
+		 * @param float $xStart
+		 * @param float $xEnd
+		 * @param float $yStart
+		 * @param float $yEnd
+		 * return void
+		 */
+		public function polarValueIndication(
+			ezcGraphBoundings $box, 
+			$xStart, 
+			$xEnd, 
+			$yStart, 
+			$yEnd
+		);
+	}
+
+Additional data point information
+---------------------------------
+
+When hovering or clicking on a data point or a legenda item, a box with 
+additional information should be displayed. The box should contain text or
+user defined content.
+
+The data will be associated with the data point the same way we now associate
+URLs, by an additional option, so that you can optionally add information when
+creating your chart. This will consume nearly no memory if this feature is not
+used.
+
+::
+
+	$chart->data['data'] = new DataSet();
+	$chart->data['data']->informationBox['key'] = $object;
+
+You may of course set the informationBox property without specifying a special
+data set key to set it for all data points of a data set, even it may not make 
+sense semantically.
+
+The value defined in the informationBox property will be passed to the driver.
+The driver classes do not need to implement additional public methods for
+this, but may optionally use an extended version of the ezcGraphContext 
+structure, which is already used to pass semantical context of rendered image 
+primitives to the driver. This struct will be extended by the additional
+optional property $informationBox.
+
+The type of $object cannot be checked before the graph is actually rendered,
+or the scripts for the data point information are created, because it
+rigorously depends on the driver, which values are accepted here.
+
+- The ming driver accepts SWFMovie, SWFSprite and SWFShape objects.
+- The SVG driver accepts XML, which should be valid SVG, which we won't check
+  for performance reasons.
+- The GD driver will use enhanced imagemaps with JavaScript, so it will accept
+  IDs of HTML elements of the document the image will be embedded in. The
+  element may contain arbitrary content and will get an absolut poistion and
+  moved in front of the chart image.
+
+The driver classes do not need to implement additional public methods to make
+use of the new informationBox property, but can just check the context struct,
+if it is available and render it properly then.
+
+The gd driver can of course not natively support this, because bitmaps may not
+contain any active content. An additional method createInteractiveImageMap()
+will be added to the ezcGraphTools class. This may be called, or the user can
+implement the JavaScript itself, to not infere with his own scripting
+mechanisms.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
