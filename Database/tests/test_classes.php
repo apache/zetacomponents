@@ -1,5 +1,5 @@
 <?php
-class testDelayedInitDatabaseInstance
+class testDelayedInitDatabaseInstance implements ezcBaseConfigurationInitializer
 {
     static function configureObject( $identifier )
     {

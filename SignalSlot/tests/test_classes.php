@@ -107,7 +107,8 @@ function slotFunction()
     TheReceiver::$globalFunctionRun = "brain damage";
 }
 
-class testDelayedInitSignalStaticConnections {
+class testDelayedInitSignalStaticConnections implements ezcBaseConfigurationInitializer
+{
     static function configureObject( $object )
     {
         $object->connect( 'TheDelayed', 'signal', 'one' );

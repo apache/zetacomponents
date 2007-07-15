@@ -1,5 +1,5 @@
 <?php
-class testDelayedInitConfigurationManager
+class testDelayedInitConfigurationManager implements ezcBaseConfigurationInitializer
 {
     static function configureObject( $object )
     {

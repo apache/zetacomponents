@@ -111,7 +111,7 @@ class ezcUrlConfigurationTest extends ezcTestCase
     }
 }
 
-class testDelayedInitUrlConfiguration
+class testDelayedInitUrlConfiguration implements ezcBaseConfigurationInitializer
 {
     static function configureObject( $object )
     {
