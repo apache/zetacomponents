@@ -58,6 +58,16 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $xml->shorthelp = "Log test execution in XML format to file.";
         $consoleInput->registerOption( $xml );
 
+        // Test Database (DSN) option
+        $testDbDsn = new ezcConsoleOption( '', 'test-db-dsn', ezcConsoleInput::TYPE_STRING );
+        $testDbDsn->shorthelp = 'DSN for the test database.';
+        $consoleInput->registerOption( $testDbDsn );
+
+        // Test Database (SVN Revision) option
+        $testDbRev = new ezcConsoleOption( '', 'test-db-svnrev', ezcConsoleInput::TYPE_INT );
+        $testDbRev->shorthelp = 'Revision information for database logging.';
+        $consoleInput->registerOption( $testDbRev );
+
         // Verbose option
         $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
         $verbose->shorthelp = "Output more verbose information.";
@@ -125,6 +135,8 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         $logfile   = $consoleInput->getOption( 'log-xml' )->value;
         $reportDir = $consoleInput->getOption( 'report-dir' )->value;
+        $testDbDsn = $consoleInput->getOption( 'test-db-dsn' )->value;
+        $testDbRev = $consoleInput->getOption( 'test-db-svnrev' )->value;
 
         if ( $logfile )
         {
@@ -135,6 +147,13 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         {
             $params['reportDirectory'] = $reportDir;
             $whitelist                 = true;
+        }
+
+        if ( $testDbDsn && $testDbRev )
+        {
+            $params['testDatabaseDSN']         = $testDbDsn;
+            $params['testDatabaseLogRevision'] = $testDbRev;
+            $whitelist                         = true;
         }
 
         if ( $consoleInput->getOption( "verbose" )->value )
