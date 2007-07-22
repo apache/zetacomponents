@@ -1,6 +1,6 @@
 <?php
 /**
-x * File containing the ezcLogWriterException class.
+ * File containing the ezcLogWriterException class.
  *
  * @package EventLog
  * @version //autogen//
