@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcLogWriterException class.
+x * File containing the ezcLogWriterException class.
  *
  * @package EventLog
  * @version //autogen//
@@ -14,12 +14,18 @@
  *
  * This exception is a container, containing any kind of exception.
  *
+ * @apichange Remove the wrapping of exceptions.
  * @package EventLog
  * @version //autogen//
  */
 class ezcLogWriterException extends ezcBaseException
 {
-    public $exception; 
+    /**
+     * The wrapped exception.
+     *
+     * @var Exception
+     */
+    public $exception;
 
     /**
      * Constructs a new ezcLogWriterException with the original exception $e.

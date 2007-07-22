@@ -20,6 +20,7 @@ return array(
     'ezcLogFilterRule'      => 'EventLog/mapper/filter_rule.php',
     'ezcLogFilterSet'       => 'EventLog/mapper/filterset.php',
     'ezcLogMessage'         => 'EventLog/log_message.php',
+    'ezcLogSyslogWriter'    => 'EventLog/writers/writer_syslog.php',
     'ezcLogUnixFileWriter'  => 'EventLog/writers/writer_unix_file.php',
 );
 ?>
