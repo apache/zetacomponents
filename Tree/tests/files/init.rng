@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns:etd="http://components.ez.no/Tree/data" ns="http://components.ez.no/Tree" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <start>
+    <element name="tree">
+      <ref name="node"/>
+    </element>
+  </start>
+  <define name="node">
+    <element name="node">
+      <attribute name="id">
+        <data type="integer"/>
+      </attribute>
+      <optional>
+        <element name="etd:data">
+          <text/>
+        </element>
+      </optional>
+      <zeroOrMore>
+        <ref name="node"/>
+      </zeroOrMore>
+    </element>
+  </define>
+</grammar>

@@ -1,0 +1,10 @@
+default namespace = "http://components.ez.no/Tree"
+namespace etd = "http://components.ez.no/Tree/data"
+
+start = element tree { node }
+node =
+  element node {
+    attribute id { xsd:integer },
+	element etd:data { text }?,
+    (node)*
+  }

@@ -1,0 +1,463 @@
+eZ Component: Tree, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Derick Rethans
+:Revision: $Revision$
+:Date: $Date$
+
+.. contents:: Contents
+
+Design description
+==================
+
+The design of the component allows to be flexible in where the tree structure
+information is stored (called backends) and where the data that is associated
+with the tree structure is stored (called DataStore). The backends provide
+methods to operate on the tree and fetch nodes. All different data stores
+can theoretically be used through any backend. All database related backends
+and data stores will reside in the TreeDatabaseTiein component, and the
+persistent object related data store in the TreePersistentObjectTiein component.
+
+
+Utility Classes
+---------------
+
+ezcTreeNode
+```````````
+
+A small class containing the node ID and data belonging to the node. Objects
+of this class are the main interface to nodes. The data in the node can be
+either pre-fetched or fetch on demand. That depends whether pre-fetching is
+turned on, and whether a data store supports it. Operations can be done on tree
+nodes as well, such as checking whether it has children, fetching a sub tree.
+Those methods will call corresponding methods on the tree object to actually
+perform the check/action.
+
+Example::
+
+    <?php
+    $node2 = $tree->fetchById( 2 );
+    $node1 = $tree->fetchById( 1 );
+    $node2->isChildOf( $node1 );
+
+    $node2->hasChildren();
+    $subTree = $node1->fetchSubtree();
+    ?>
+
+It is possible to change the ezcTreeNode type to a class of your own, by
+setting the nodeClassName property of the Tree object. The user defined class
+should inherit the ezcTreeNode class though.
+
+
+ezcTreeNodeList
+```````````````
+
+Contains a list of ezcTreeNode nodes that can also be accessed (read-only) like
+an array. Example::
+
+    <?php
+    $list = new ezcTreeNodeList;
+    $list->addNode( new ezcTreeNode( $this, $nodeId ) );
+    ?>
+
+ezcTreeNodeListIterator
+```````````````````````
+
+Implements an iterator over a ezcTreeNodeList and fetches data on-demand in case
+it was not prefetched yet. Example::
+
+    <?php
+    foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $id => $data )
+    {
+        self::assertSame( "Node $id", $data );
+    }
+    ?>
+
+
+Backends
+--------
+
+ezcTree
+```````
+
+An abstract class from which all the other backends extend. It provides
+functionality to access the datastore and creating a new tree node. It will
+also define the methods that operate on whole trees, such as `Topological
+Sorting`_.
+
+This class also defines all the methods that provide operations on nodes and
+trees. Below a list of those abstract methods that have to be implemented in
+the backends.
+
+Fetching nodes
+______________
+
+public function fetchNodeById( $id );
+    Returns the node associated with the ID $id.
+public function fetchChildren( $id );
+    Returns all the children of the node with ID $id.
+public function fetchPath( $id );
+    Returns all the nodes in the path from the root node to the node with ID
+    $id, including those two nodes.
+public function fetchSubtree( $id );
+	Alias for fetchSubtreeDepthFirst().
+public function fetchSubtreeBreadthFirst( $id );
+	Returns the node with ID $id and all its children, sorted according to the
+	`Breadth-first sorting`_ algorithm.
+public function fetchSubtreeDepthFirst( $id );
+	Returns the node with ID $id and all its children, sorted according to the
+	`Depth-first sorting`_ algorithm.
+public function fetchSubtreeTopological( $id );
+	Returns the node with ID $id and all its children, sorted according to the
+	`Topological sorting`_ algorithm.
+
+
+Information querying methods
+____________________________
+
+public function getChildCount( $id );
+    Returns the number of direct children of the node with ID $id
+public function getChildCountRecursive( $id );
+    Returns the number of children of the node with ID $id, recursively
+public function getPathLength( $id );
+    Returns the distance from the root node to the node with ID $id
+public function hasChildNodes( $id );
+    Returns whether the node with ID $id has children
+public function isChildOf( $childId, $parentId );
+    Returns whether the node with ID $childId is a direct child of the node
+    with ID $parentId
+public function isDecendantOf( $childId, $parentId );
+    Returns whether the node with ID $childId is a direct or indirect child of
+    the node with ID $parentId
+public function isSiblingOf( $child1Id, $child2Id );
+    Returns whether the nodes with IDs $child1Id and $child2Id are siblings (ie,
+    the share the same parent)
+public function nodeExists( $id );
+    Returns whether the node with ID $id exists
+
+Tree modification methods
+_________________________
+
+public function createNode( $id, $data );
+    Creates a new tree node, which you can append to the tree by calling
+    appendChild() on the ezcTreeNode_ object
+public function setRootNode( ezcTreeNode $node );
+    Sets a new node as root node, this wipes also out the whole tree
+public function delete( $id );
+    Deletes the node with ID $id from the tree, including all its children
+public function move( $id, $targetParentId );
+    Moves the node with ID $id as child to the node with ID $targetParentId
+
+Transaction methods (implemented in ezcTree)
+____________________________________________
+
+- public function beginTransaction();
+- public function commit();
+- public function rollback();
+
+ezcTreeDb
+`````````
+
+This abstract class is the base class for all backends that work on databases.
+It implements the ezcTreeBackend interface that defines which operations are
+possible on the tree structure (such as fetchChildren(), fetchPath() etc). It
+can also offer some of the generic functions that all the database backends
+will have in common (such as checking if a node exists f.e.).
+
+ezcTreeDbParentChild
+````````````````````
+
+Is one of the implementations of a Database backend. This one models the tree
+structure as a simple parent-child node ID list. The backend implements
+all the necessary operations which can not be shared between the different
+algorithms of storing trees. Example::
+
+    <?php
+        $tree = new ezcTreeDbParentChild(                                            
+            ezcDbInstance::get(),
+            'parent_child',
+            $store
+        );
+    ?>
+
+The table schema looks like::
+
+    CREATE TABLE 'parent_child' (
+        'id' integer NOT NULL,
+        'parent_id' integer
+    );
+    CREATE UNIQUE INDEX 'parent_child_pri' ON 'parent_child' ( 'id' );
+
+The root node is the only node that has 'parent_id' set to NULL.  If for
+performance reasons more fields are useful (such as level), they will be added
+as well. The backend also works if the data types for 'id' and 'parent_id' are
+varchars, and not integers - however, this has an impact on performance. It is
+also possible to add more fields that can be filled in through `callbacks`_.
+
+
+ezcTreeDbSerializedPath
+```````````````````````
+
+Is an implementation of a Serialized/`Materialized path`_ algorithm for 
+storing tree structures in a database. The table schema looks like::
+
+    CREATE TABLE 'serialized_path' (
+        'id' integer NOT NULL,
+        'path' varchar(255) not null
+    );
+    CREATE UNIQUE INDEX 'serialized_path_pri' on 'serialized_path' ( 'id' );
+    CREATE UNIQUE INDEX 'serialized_path_path' on 'serialized_path' ( 'path' );
+
+The backend also works if the data type for 'id' is a varchar, and not an
+integer - however, this has an impact on performance. The size of the 'path'
+field is the limiting factor for the depth of the tree; the component will not
+check whether the stored paths will fit in the field. It is possible to create
+a schema that defines a larger field here, but that might have performance
+issues depending on the database being used. It is also possible to add more
+fields that can be filled in through `callbacks`_.
+
+ezcTreeDbNestedSet
+``````````````````
+
+Is another implementation of a Database backend, where the tree information
+is kept like a `nested set`_. The table schema looks like::
+
+    CREATE TABLE nested_set (
+        'id' integer NOT NULL,
+        'left' integer NOT NULL,
+        'right' integer NOT NULL
+    );
+    CREATE UNIQUE INDEX 'nested_set_pri' on 'nested_set' ( 'id' );
+    CREATE UNIQUE INDEX 'nested_set_left' on 'nested_set' ( 'left' );
+    CREATE UNIQUE INDEX 'nested_set_right' on 'nested_set' ( 'right' );
+
+The backend also works if the data type for 'id' is a varchar, and not an
+integer - however, this has an impact on performance. It is also possible
+to add more fields that can be filled in through `callbacks`_.
+
+ezcTreeXml
+``````````
+
+This class implements the tree structure in an XML file. The structure of
+this XML file is simply a nested set of nodes. See below for a
+Relax NG-C version of the structure::
+
+    default namespace = "http://components.ez.no/Tree"
+    namespace etd = "http://components.ez.no/Tree/data"
+
+    start = element tree { node }
+    node =
+      element node {
+      attribute id { xsd:integer },
+      element etd:data { text }?,
+      (node)*
+    }
+
+
+Data Stores
+-----------
+
+ezcTreeDataStore
+````````````````
+
+Interface that defines the methods that all data stores should implement, such
+as retrieving data for a node, or a list of nodes, storing data for a node etc.
+Stores are simple to implement, as the interfaces only consists of a few types.
+The component will contain the example data stores
+`ezcTreeDbExternalTableDataStore`_ and `ezcTreePersistentObjectDataStore`_
+(through a Tiein). An overview of the methods:
+
+- public function fetchDataForNode( ezcTreeNode $node );
+- public function fetchDataForNodes( ezcTreeNodeList $nodeList );
+- public function storeDataForNode( ezcTreeNode $node );
+
+Callbacks
+_________
+
+To allow for meta data to be set, it is possible to configure callbacks for
+storing node data. This you do by setting the 'onStoreCallback' property of the
+data store to a callback method.
+
+ezcTreeDbDataStore
+``````````````````
+
+Abstract base class that implements some methods that can be shared by all the
+different database related backends - such as nodeExists().
+
+ezcTreeDbExternalTableDataStore
+```````````````````````````````
+
+A data store that implements storing of data in table different from the table
+that defines the tree structure. Example::
+
+    <?php
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh );
+        // table name, ID field, data field
+        $store->setDataTable( 'data', 'id', 'data' );
+    ?>
+
+ezcTreePersistentObjectDataStore
+````````````````````````````````
+
+Uses eZ Component's PersistentObject as a place to store data that is associated
+in a tree structure.
+
+
+
+Algorithms
+==========
+
+Examples
+--------
+
+Below a few examples on how to use the tree component.
+
+Creating a tree
+```````````````
+
+Code::
+
+    <?php
+        $tree = ezcTreeXml::create(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+
+        $node = $tree->createNode( 1, "Root Node" );
+        $tree->setRootNode( $node );
+
+        $node2 = $tree->createNode( 2, "Node 2" );
+        $node->addChild( $node2 );
+
+        $node->addChild( $node3 = $tree->createNode( 3, "Node 3" ) );
+        $node3->addChild( $tree->createNode( 4, "Node 3.4" ) );
+    ?>
+
+The example creates the following tree structure::
+
+    1 - Root Node
+      |
+      + 2 - Node 2
+      |
+      + 3 - Node 3
+          |
+          + 4 - Node 3.4
+
+Querying the tree
+`````````````````
+
+The following example makes use of the follow structure (in XML)::
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <!DOCTYPE tree PUBLIC "" "">
+    <tree xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data">
+        <node id="id1">
+            <etd:data>Node 1</etd:data>
+            <node id="id2">
+                <etd:data>Node 2</etd:data>
+            </node>
+            <node id="id3">
+                <etd:data>Node 3</etd:data>
+            </node>
+            <node id="id4">
+                <etd:data>Node 4</etd:data>
+                <node id="id6">
+                    <etd:data>Node 6</etd:data>
+                    <node id="id7">
+                        <etd:data>Node 7</etd:data>
+                    </node>
+                    <node id="id8">
+                        <etd:data>Node 8</etd:data>
+                    </node>
+                </node>
+            </node>
+            <node id="id5">
+                <etd:data>Node 5</etd:data>
+                <node id="id9">
+                    <etd:data>Node 9</etd:data>
+                </node>
+            </node>
+        </node>
+    </tree>
+
+Code::
+
+    <?php
+    // checking if a node exists:
+    $node1Exists = $tree->nodeExists( '1' );
+
+    // fetching a node:
+    $node8 = $tree->fetchNodeById( '8' );
+
+    // checking whether a node is a child of another node:
+    $tree->fetchNodeById( '2' )->isChildOf( $tree->fetchNodeById( '1' ) );
+    $tree->isChildOf( '2', '1' );
+
+    // checking whether a node has children, and how many:
+    $tree->fetchNodeById( '1' )->hasChildNodes();
+    $tree->fetchNodeById( '1' )->getChildCount();
+    $tree->hasChildNodes( '3' );
+    $tree->getChildCount( '3' );
+
+    // fetching a subtree:
+    $tree->fetchNodeById( '4' )->fetchSubtree();
+    $nodeList = $tree->fetchSubtree( '4' );
+
+    // iterating over a node list:
+    foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $id => $data )
+    {
+        echo "Node $id has data:\n";
+        var_dump( $data );
+    }
+    ?>
+
+
+_`Materialized Path`
+--------------------
+
+An algorithm that stores parent-child relations in the form of paths. For an
+overview of how this works, see `Trees in SQL
+<http://www.dbazine.com/oracle/or-articles/tropashko4>`_
+
+
+_`Nested Set`
+-------------
+
+An algorithm that stores parent-child relations with the help of left-right
+integers. For an overview of how this works, see `Trees in SQL
+<http://www.dbazine.com/oracle/or-articles/tropashko4>`_
+
+Sorting
+-------
+
+The component supports a few different methods of sorting subtrees. Those
+algoritms can be used with the fetchSubtree() method (specified in the 2nd
+parameter).
+
+Breadth-first sorting
+~~~~~~~~~~~~~~~~~~~~~
+
+Returns the subtree in the order of distance to the root node.  See
+`Breadth-first search <http://en.wikipedia.org/wiki/Breadth-first_search>`_ for
+more information on the algorithm.
+
+Depth-first sorting
+~~~~~~~~~~~~~~~~~~~
+
+Returns the subtree by returning the nodes in level 0, then level 1... etc. See
+`Depth-first search <http://en.wikipedia.org/wiki/Depth-first_search>`_ for
+more information on the algorithm.
+
+Topological Sorting
+~~~~~~~~~~~~~~~~~~~
+
+A sorting method that can sort the information in a tree in such a way that the
+leaf nodes are on top. See: http://en.wikipedia.org/wiki/Topological_sorting
+
+
+Data Structures
+===============
+
+Node IDs
+    All node IDs can be strings, but their charaters are restricted to what
+    you can put into a PHP array key and XML attribute string.
+

@@ -1,0 +1,157 @@
+eZ Component: Tree, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: Derick Rethans (Based on draft by Thomas Koch)
+:Revision: $Revision$ 
+:Date: $Date$
+
+Introduction
+============
+
+Description
+-----------
+
+The Tree component handles the creating, manipulating and querying of tree
+structures.  The component supports different storage algorithms for optimal
+application specific performance.
+
+Use Cases
+---------
+
+* ACL as PHPGACL: http://phpgacl.sourceforge.net
+* Holding a file directory
+* Content structure for CMS
+
+Requirements
+============
+
+The component should handle the representation of tree structures in
+database tables. There are different algorithms for representing tree
+structures in a relational model and they can all be the fastest for a
+specific application. Therefore we need to implement a backend mechanism
+with multiple backends for each specific optimized algorithm.
+
+Besides the database backends there could be other places on where to
+store tree structures - for example simply on the file system, in a file
+containing a PHP array or in an XML file. The backend mechanism should support
+this as well. 
+
+The following operations should be possible on the trees:
+
+- Fetching operations: subtree, children
+- Analytic operations to check whether there are children, how many children,
+  what the length to the root node is, if a node is a child or decendent of
+  another, etc.
+- Path operations: retrieving paths, iterate over paths
+- Normal tree operations: adding, moving, deleting - multiple operations
+  should be done in one "transaction" if a backend can support that.
+- Sorting operations: by deepness of subtree, `topological sort`_
+- Iterating over subtrees
+- Conversion between backends (import/export to an internal structure)
+
+Of course there can be data associated with each of the leaves in the
+tree. The place where the data is stored should be configurable, so that
+it is possible to store the data belonging to a tree node in different
+places. This should also allow to use a different retrieval mechanism,
+such as retrieving the data as persistent objects through the
+PersistentObject_ component.
+
+.. _`topological sort`: http://en.wikipedia.org/wiki/Topological_sort
+.. _PersistentObject: http://components.ez.no/doc/PersistentObject
+
+Design goals
+============
+
+It's desirable to have an OO API to handle the nodes like the DOM
+extension, e.g. Node->appendChild(). On the other hand it's an advantage
+not be obliged to extend an abstract node class when working with the
+content of the leaves. The contents should be disconnected from the tree
+node itself, for example through a property.
+
+Special considerations
+======================
+
+- Use simple IDs even for the nested set. Usually you have related objects 
+  that refer to the ID.
+- The use of Database and PersistentObject should be optional.
+
+Format
+======
+
+This section lists the backends that should be supported. Conversion between
+backends should also be possible.
+
+Parent - child relations
+
+  Very cheap when updating data, with additional root node reference in
+  child nodes cheap to read (useful for forums, etc.) complete trees.
+  Very expensive for reading subtrees.
+
+Serialized/Materialized path
+
+  This technique is an extension to the parent-child relations algorithm
+  as the path to a node is saved in the node's row like '1/2/5'. 
+
+  eZ Publish currently uses a serialized path to define the location of
+  a node. A select for a subtree would look like::
+ 
+    SELECT ... WHERE path LIKE '/1/5/23/%'
+
+  This is cheap on writing, but not really cheap on reading. Support may
+  be DBMS depending. Nevertheless, moving a subtree is expansive, as the
+  serialized path in every subtree's leave has to be modified.
+
+Nested sets
+
+  Nice tree data structure for retrieving subtrees, cheap reading, but
+  quite expensive when adding nodes. Has been first introduced by Joe
+  Celko. [1]_ [2]_ An easy PHP tutorial can be found at sitepoint. [3]_
+
+Nested Intervals
+
+  This algorithm wants to solve the problem of expensive inserts in the nested
+  sets algorithm. While the left and right values of nested sets allow only a 
+  finite number of children between them, the nested intervals algorithm uses
+  dense domains for a theoretically unlimited number of children inside an
+  interval. [4]_ [5]_
+
+  Since 2004 there has been proposed different encodings to save the path in
+  the node. The first attempt was to use dyadic rational encoding, but has the
+  back draw of a very limited scalability as it utilizes "domain of integer
+  numbers rather uneconomically"[6]_. [7]_ helps to understand binary encoding.
+  The following encodings, farey fractions and continued fractions[6]_ makes
+  use of highly complicate algebra and needs intensive studying for
+  implementation.  Both encodings are still in a very experimental stage and no
+  practical implementations and experiences have been found so far.
+
+  As the field of nested intervals encodings is still developing, the component
+  should allow later addition of different algorithms/encodings.
+
+Additional Information
+======================
+
+- Linklist: http://troels.arvin.dk/db/rdbms/links/#hierarchical
+- Pear: http://pear.php.net/package-info.php?package=Tree
+- Pear: DB_NestedSet http://pear.php.net/package-info.php?pacid=187
+
+References
+==========
+
+.. [1] Joe Celko: `Trees in SQL <http://www.intelligententerprise.com/001020/celko.jhtml?_requestid=697912>`_
+.. [2] Joe Celko: `Trees and Hierarchies in SQL for Smarties.  <http://www.celko.com/books.htm>`_ Publicly available chapters: 
+    Chapter 1: `Graphs, Trees, and Hierarchies <http://www.dbazine.com/ofinterest/oi-articles/celko24>`_ is available at 
+    dbazine.com.  Chapter 2: `Adjacency List Model <http://www.sqlsummit.com/AdjacencyList.htm>`_ is available at SQLSummit.
+.. [3] Gijs Van Tuider: `Storing Hierarchical Data in a Database <http://www.sitepoint.com/article/hierarchical-data-database>`_
+.. [4] Vadim Tropashko: `SQL Design Patterns <http://www.rampant-books.com/book_2006_1_sql_coding_styles.htm>`_
+.. [5] Vadim Tropashko: `Nested Intervals Tree Encoding in SQL <http://www.sigmod.org/sigmod/record/issues/0506/p47-article-tropashko.pdf>`_
+.. [6] Vadim Tropashko: `Nested Intervals Tree Encoding with Continued Fractions <http://arxiv.org/abs/cs/0402051v2>`_
+.. [7] Michael ? `Static Hierarchies and Binary Fractions in PostgreSQL <http://www.grzm.com/fornow/archives/2004/07/10/static_hierarchies>`_
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
