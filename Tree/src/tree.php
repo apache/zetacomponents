@@ -6,16 +6,14 @@ abstract class ezcTree
      *
      * @var array(string=>mixed)
      */
-    protected $properties = array();
+    protected $properties = array( 'prefetch' => false, 'nodeClassName' => 'ezcTreeNode' );
 
     protected $inTransaction = false;
     protected $inTransactionCommit = false;
     private $transactionList = array();
 
-    public function __construct()
+    protected function __construct()
     {
-        $this->properties['prefetch'] = false;
-        $this->properties['nodeClassName'] = 'ezcTreeNode';
     }
 
     /**
@@ -60,29 +58,29 @@ abstract class ezcTree
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
             case 'nodeClassName':
-                if ( !is_string( $propertyValue ) )
+                if ( !is_string( $value ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string that contains a class name' );
+                    throw new ezcBaseValueException( $name, $value, 'string that contains a class name' );
                 }
 
                 // Check if the passed classname actually implements the
                 // correct parent class. We have to do that with reflection
                 // here unfortunately
                 $parentClass = new ReflectionClass( 'ezcTreeNode' );
-                $handlerClass = new ReflectionClass( $propertyValue );
-                if ( 'ezcTreeNode' !== $propertyValue && !$handlerClass->isSubclassOf( $parentClass ) )
+                $handlerClass = new ReflectionClass( $value );
+                if ( 'ezcTreeNode' !== $value && !$handlerClass->isSubclassOf( $parentClass ) )
                 {
-                    throw new ezcBaseInvalidParentClassException( 'ezcTreeNode', $propertyValue );
+                    throw new ezcBaseInvalidParentClassException( 'ezcTreeNode', $value );
                 }
-                $this->properties[$propertyName] = $propertyValue;
+                $this->properties[$name] = $value;
                 break;
 
             case 'prefetch':
-                if ( !is_bool( $propertyValue ) )
+                if ( !is_bool( $value ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'boolean' );
+                    throw new ezcBaseValueException( $name, $value, 'boolean' );
                 }
-                $this->properties[$propertyName] = $propertyValue;
+                $this->properties[$name] = $value;
                 break;
 
             default:

@@ -114,7 +114,7 @@ class ezcTreeNodeList implements ArrayAccess
      *
      * This method is part of the SPL ArrayAccess interface.
      * 
-     * @throws ezcTreeNotATreeNodeExecption if the data to be set as array
+     * @throws ezcTreeInvalidClassException if the data to be set as array
      *         element is not an instance of ezcTreeNode
      * @throws ezcTreeIdsDoNotMatchException if the array index $id does not
      *         match the tree node's ID that is stored in the $data object
@@ -126,11 +126,11 @@ class ezcTreeNodeList implements ArrayAccess
     {
         if ( !$data instanceof ezcTreeNode )
         {
-            throw new ezcTreeNotATreeNodeExecption( $data );
+            throw new ezcTreeInvalidClassException( 'ezcTreeNode', get_class( $data ) );
         }
         if ( $data->id !== $id )
         {
-            throw new ezcTreeIdsDoNotMatchException( $id, $data->id );
+            throw new ezcTreeIdsDoNotMatchException( $data->id, $id );
         }
         $this->addNode( $data );
     }

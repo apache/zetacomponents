@@ -9,9 +9,18 @@
  */
 
 /**
+ * Require the test classes file
+ */
+require 'files/test_classes.php';
+
+/**
  * Require the tests
  */
 require_once 'tree.php';
+require_once 'tree_node.php';
+require_once 'tree_node_list.php';
+require_once 'tree_node_list_iterator.php';
+require_once 'memory_tree.php';
 require_once 'xml_tree.php';
 require_once 'db_parent_child_tree.php';
 
@@ -26,6 +35,10 @@ class ezcTreeSuite extends PHPUnit_Framework_TestSuite
         parent::__construct();
         $this->setName("Tree");
 
+        $this->addTest( ezcTreeNodeTest::suite() );
+        $this->addTest( ezcTreeNodeListTest::suite() );
+        $this->addTest( ezcTreeNodeListIteratorTest::suite() );
+        $this->addTest( ezcTreeMemoryTest::suite() );
         $this->addTest( ezcTreeXmlTest::suite() );
         $this->addTest( ezcTreeDbParentChildTest::suite() );
     }

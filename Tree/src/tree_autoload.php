@@ -11,6 +11,8 @@
 
 return array(
     'ezcTreeException'                => 'Tree/exceptions/exception.php',
+    'ezcTreeIdsDoNotMatchException'   => 'Tree/exceptions/ids_do_not_match.php',
+    'ezcTreeInvalidClassException'    => 'Tree/exceptions/invalid_class.php',
     'ezcTreeInvalidIdException'       => 'Tree/exceptions/invalid_id.php',
     'ezcTree'                         => 'Tree/tree.php',
     'ezcTreeBackend'                  => 'Tree/interfaces/backend.php',
@@ -20,6 +22,9 @@ return array(
     'ezcTreeXmlDataStore'             => 'Tree/stores/xml.php',
     'ezcTreeDbExternalTableDataStore' => 'Tree/stores/db_external.php',
     'ezcTreeDbParentChild'            => 'Tree/backends/db_parent_child.php',
+    'ezcTreeMemory'                   => 'Tree/backends/memory.php',
+    'ezcTreeMemoryDataStore'          => 'Tree/stores/memory.php',
+    'ezcTreeMemoryNode'               => 'Tree/structs/memory_node.php',
     'ezcTreeNode'                     => 'Tree/tree_node.php',
     'ezcTreeNodeList'                 => 'Tree/tree_node_list.php',
     'ezcTreeNodeListIterator'         => 'Tree/tree_node_list_iterator.php',

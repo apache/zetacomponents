@@ -53,7 +53,14 @@ class ezcTreeNodeListIterator implements Iterator
     public function rewind()
     {
         reset( $this->nodeList );
-        $this->valid = true;
+        if ( count( $this->nodeList ) )
+        {
+            $this->valid = true;
+        }
+        else 
+        {
+            $this->valid = false;
+        }
     }
 
     /**

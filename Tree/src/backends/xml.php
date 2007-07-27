@@ -54,7 +54,6 @@ class ezcTreeXml extends ezcTree implements ezcTreeBackend
      */
     public function __construct( $xmlFile, ezcTreeXmlDataStore $store )
     {
-        parent::__construct();
         $dom = new DomDocument();
         $dom->load( $xmlFile );
         $dom->relaxNGValidateSource( self::relaxNG );
