@@ -23,7 +23,7 @@ implementations required you to derive from the Signal class in order to have
 signals or slots. This is acceptable for languages that support multiple
 inheritance. Newer implemtentations circumvent this problem by representing signals
 through one instance of the Signal class. In other words, a class that has two
-signals will have member two variables holding instances of the Signals class.
+signals will have two member variables holding instances of the Signals class.
 This approach can lead to the creation of a lot of signal objects, which can be
 especially problematic for scripting languages. As a result, our signal class
 can represent several signals. 
