@@ -41,6 +41,12 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         $this->properties['store'] = $store;
     }
 
+    /**
+     * A factory method that creates a new empty tree using the data store $store
+     *
+     * @param ezcTreeMemoryDataStore $store
+     * @returns ezcTreeMemory
+     */
     public static function create( ezcTreeMemoryDataStore $store )
     {
         $newTree = new ezcTreeMemory( $store );
@@ -49,11 +55,36 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         return $newTree;
     }
 
+    /**
+     * Returns whether the node with ID $id exists
+     *
+     * @param string $id
+     * @return bool
+     */
     public function nodeExists( $id )
     {
         return isset( $this->nodeList[$id] );
     }
 
+    /**
+     * Returns the node identified by the ID $id
+     *
+     * @param string $id
+     * @throws ezcTreeInvalidIdException if there is no node with ID $id
+     * @return ezcTreeNode
+     */
+    public function fetchNodeById( $id )
+    {
+        return $this->getNodeById($id)->node;
+    }
+
+    /**
+     * Returns the node container for node $id
+     *
+     * @param string $id
+     * @throws ezcTreeInvalidIdException if there is no node with ID $id
+     * @return ezcTreeMemoryNode
+     */
     private function getNodeById( $id )
     {
         if ( !$this->nodeExists($id) )
@@ -63,9 +94,14 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         return $this->nodeList[$id];
     }
 
+    /**
+     * Returns all the children of the node with ID $id.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchChildren( $id )
     {
-        $className = $this->properties['nodeClassName'];
         $treeNode = $this->getNodeById( $id );
         $list = new ezcTreeNodeList;
         foreach ( $treeNode->children as $id => $child )
@@ -75,98 +111,169 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         return $list;
     }
 
+    /**
+     * Returns all the nodes in the path from the root node to the node with ID
+     * $id, including those two nodes.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchPath( $id )
     {
-        $className = $this->properties['nodeClassName'];
         $list = new ezcTreeNodeList;
-        $list->addNode( new $className( $this, $id ) );
 
         $memoryNode = $this->getNodeById( $id );
+        $list->addNode( $memoryNode->node );
+
         $memoryNode = $memoryNode->parent;
 
         while ( $memoryNode !== null )
         {
-            $id = $memoryNode->node->id;
-            $list->addNode( new $className( $this, $id ) );
+            $list->addNode( $memoryNode->node );
             $memoryNode = $memoryNode->parent;
         }
         return $list;
     }
 
-    private function addChildNodes( $list, $nodeId )
+    private function addChildNodes( $list, ezcTreeMemoryNode $memoryNode )
     {
-        $className = $this->properties['nodeClassName'];
-        $memoryNode = $this->getNodeById( $id );
-
         foreach ( $memoryNode->children as $id => $childMemoryNode )
         {
-            $list->addNode( new $className( $this, $id ) );
-            $this->addChildNodes( $list, $record['id'] );
+            $list->addNode( $childMemoryNode->node );
+            $this->addChildNodes( $list, $childMemoryNode );
         }
     }
 
+    /**
+     * Alias for fetchSubtreeDepthFirst().
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchSubtree( $nodeId )
     {
         return $this->fetchSubtreeDepthFirst( $nodeId );
     }
 
+    /**
+     * Returns the node with ID $id and all its children, sorted accoring to
+     * the `Breadth-first sorting`_ algorithm.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchSubtreeBreadthFirst( $nodeId )
     {
     }
 
+    /**
+     * Returns the node with ID $id and all its children, sorted accoring to
+     * the `Depth-first sorting`_ algorithm.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchSubtreeDepthFirst( $nodeId )
     {
-        $className = $this->properties['nodeClassName'];
         $list = new ezcTreeNodeList;
-        $list->addNode( new $className( $this, $nodeId ) );
-        $this->addChildNodes( $list, $nodeId );
+        $memoryNode = $this->getNodeById( $nodeId );
+        $list->addNode( $memoryNode->node );
+        $this->addChildNodes( $list, $memoryNode );
         return $list;
     }
 
+    /**
+     * Returns the node with ID $id and all its children, sorted accoring to
+     * the `Topological sorting`_ algorithm.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchSubtreeTopological( $nodeId )
     {
     }
 
 
 
+    /**
+     * Returns the number of direct children of the node with ID $id
+     *
+     * @param string $id
+     * @return int
+     */
     public function getChildCount( $id )
     {
         return count( $this->getNodeById( $id )->children );
     }
 
-    private function countChildNodes( &$count, $nodeId )
+    /**
+     * Helper method that iterates recursively over the children of $node to
+     * count the number of children.
+     *
+     * @param integer &$count
+     * @param ezcTreeMemoryNode $node
+     */
+    private function countChildNodes( &$count, ezcTreeMemoryNode $node )
     {
-        $count += $this->getChildCount( $nodeId );
+        foreach ( $node->children as $id => $node )
+        {
+            $count++;
+            $this->countChildNodes( $count, $node );
+        }
     }
 
+    /**
+     * Returns the number of children of the node with ID $id, recursively
+     *
+     * @param string $id
+     * @return int
+     */
     public function getChildCountRecursive( $id )
     {
         $count = 0;
-        $this->countChildNodes( $count, $id );
+        $node = $this->getNodeById( $id );
+        $this->countChildNodes( $count, $node );
         return $count;
     }
 
+    /**
+     * Returns the distance from the root node to the node with ID $id
+     *
+     * @param string $id
+     * @return int
+     */
     public function getPathLength( $id )
     {
-        /*
-        $elem = $this->getNodeById( $id );
-        $elem = $elem->parentNode;
+        $childNode = $this->getNodeById( $id );
         $length = -1;
 
-        while ( $elem !== null && $elem->nodeType == XML_ELEMENT_NODE )
+        while ( $childNode !== null )
         {
-            $elem = $elem->parentNode;
+            $childNode = $childNode->parent;
             $length++;
         }
         return $length;
-        */
     }
 
+    /**
+     * Returns whether the node with ID $id has children
+     *
+     * @param string $id
+     * @return bool
+     */
     public function hasChildNodes( $id )
     {
         return count( $this->getNodeById( $id )->children ) > 0;
     }
 
+    /**
+     * Returns whether the node with ID $childId is a direct child of the node
+     * with ID $parentId
+     *
+     * @param string $childId
+     * @param string $parentId
+     * @return bool
+     */
     public function isChildOf( $childId, $parentId )
     {
         $childNode = $this->getNodeById( $childId );
@@ -179,25 +286,43 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         return false;
     }
 
+    /**
+     * Returns whether the node with ID $childId is a direct or indirect child
+     * of the node with ID $parentId
+     *
+     * @param string $childId
+     * @param string $parentId
+     * @return bool
+     */
     public function isDecendantOf( $childId, $parentId )
     {
-        /*
-        $elem = $this->getNodeById( $childId );
-        $elem = $elem->parentNode;
+        $childNode = $this->getNodeById( $childId );
+        $parentNode = $this->getNodeById( $parentId );
 
-        while ( $elem !== null && $elem->nodeType == XML_ELEMENT_NODE )
+        if ( $childNode === $parentNode )
         {
-            $id = $elem->getAttribute( 'id' );
-            if ( $id === "id$parentId" )
+            return false;
+        }
+
+        while ( $childNode !== null )
+        {
+            if ( $childNode->node === $parentNode->node )
             {
                     return true;
             }
-            $elem = $elem->parentNode;
+            $childNode = $childNode->parent;
         }
         return false;
-        */
     }
 
+    /**
+     * Returns whether the nodes with IDs $child1Id and $child2Id are siblings
+     * (ie, the share the same parent)
+     *
+     * @param string $child1Id
+     * @param string $child2Id
+     * @return bool
+     */
     public function isSiblingOf( $child1Id, $child2Id )
     {
         $elem1 = $this->getNodeById( $child1Id );
@@ -208,6 +333,11 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         );
     }
 
+    /**
+     * Sets a new node as root node, this wipes also out the whole tree
+     *
+     * @param ezcTreeNode $node
+     */
     public function setRootNode( ezcTreeNode $node )
     {
         // wipe nodelist
@@ -221,8 +351,20 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         $this->nodeList[$node->id] = $newObj;
     }
 
+    /**
+     * Adds the node $childNode as child of the node with ID $parentId
+     *
+     * @param string $parentId
+     * @paran ezcTreeNode $childNode
+     */
     public function addChild( $parentId, ezcTreeNode $childNode )
     {
+        if ( $this->inTransaction )
+        {
+            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::ADD, $childNode, null, $parentId ) );
+            return;
+        }
+
         // locate parent node
         $parentMemoryNode = $this->getNodeById( $parentId );
 
@@ -236,8 +378,19 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         $this->nodeList[$childNode->id] = $newObj;
     }
 
+    /**
+     * Deletes the node with ID $id from the tree, including all its children
+     *
+     * @param string $id
+     */
     public function delete( $id )
     {
+        if ( $this->inTransaction )
+        {
+            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::DELETE, null, $id ) );
+            return;
+        }
+
         // locate node to move
         $nodeToDelete = $this->getNodeById( $id );
 
@@ -248,8 +401,20 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         unset( $this->nodeList[$childNode->id] );
     }
 
+    /**
+     * Moves the node with ID $id as child to the node with ID $targetParentId
+     *
+     * @param string $id
+     * @param string $targetParentId
+     */
     public function move( $id, $targetParentId )
     {
+        if ( $this->inTransaction )
+        {
+            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::MOVE, null, $id, $targetParentId ) );
+            return;
+        }
+
         // locate node to move
         $nodeToMove = $this->getNodeById( $id );
 
@@ -260,10 +425,14 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         $newParent->children[$id] = $nodeToMove;
 
         // remove old location from previous parent
-        unset( $nodeToMode->parent->children[$id] );
+        unset( $nodeToMove->parent->children[$id] );
 
         // update parent attribute of the node
-        $nodeToMode->parent = $newParent;
+        $nodeToMove->parent = $newParent;
+    }
+
+    public function fixateTransaction()
+    {
     }
 }
 ?>

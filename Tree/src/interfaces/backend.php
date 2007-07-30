@@ -168,6 +168,14 @@ interface ezcTreeBackend
     public function setRootNode( ezcTreeNode $node );
 
     /**
+     * Adds the node $childNode as child of the node with ID $parentId
+     *
+     * @param string $parentId
+     * @paran ezcTreeNode $childNode
+     */
+    public function addChild( $parentId, ezcTreeNode $childNode );
+
+    /**
      * Deletes the node with ID $id from the tree, including all its children
      *
      * @param string $id

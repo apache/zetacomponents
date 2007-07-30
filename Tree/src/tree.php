@@ -110,6 +110,7 @@ abstract class ezcTree
      * Returns the node identified by the ID $id
      *
      * @param string $id
+     * @throws ezcTreeInvalidIdException if there is no node with ID $id
      * @return ezcTreeNode
      */
     public function fetchNodeById( $id )
