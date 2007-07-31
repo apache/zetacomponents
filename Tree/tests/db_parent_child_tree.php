@@ -107,6 +107,20 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
         self::assertSame( true, $tree->nodeExists( '3' ) );
     }
 
+    public function testMultipleDataFields()
+    {
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id' );
+        $tree = new ezcTreeDbParentChild(
+            $this->dbh,
+            'parent_child',
+            $store
+        );
+        $node8 = $tree->fetchNodeById( 8 ); // returns 8
+        self::assertType( 'ezcTreeNode', $node8 );
+        self::assertSame( '8', $node8->id );
+        self::assertSame( array( 'data' => 'Node 8', 0 => 'Node 8', 'id' => '8', 1 => '8' ), $node8->data );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeDbParentChildTest" );

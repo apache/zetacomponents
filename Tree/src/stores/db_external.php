@@ -95,14 +95,10 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
      */
     public function fetchDataForNode( ezcTreeNode $node )
     {
-        $id = $node->id;
-        if ( $this->table === null || $this->idField === null )
-        {
-            throw new Exception( "Not initialized" );
-        }
         $db = $this->dbHandler;
         $q = $db->createSelectQuery();
 
+        $id = $node->id;
         $q->select( '*' )
           ->from( $db->quoteIdentifier( $this->table ) )
           ->where( $q->expr->eq( $db->quoteIdentifier( $this->idField ), $id ) );
