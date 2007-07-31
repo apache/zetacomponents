@@ -285,7 +285,11 @@ class ezcTreeXml extends ezcTree implements ezcTreeBackend
         // remove old root node(s)
         foreach ( $document->childNodes as $child )
         {
-            echo $child->tagName, "\n";
+            if ( $child->nodeType == XML_ELEMENT_NODE && $child->tagName === 'node' )
+            {
+                $id = substr( $child->getAttribute( 'id' ), 2 );
+                $this->delete( $id );
+            }
         }
 
         // Create new root node

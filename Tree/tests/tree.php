@@ -543,6 +543,24 @@ class ezcTreeTest extends ezcTestCase
             self::assertSame( "Node $id", $data );
         }
     }
+
+    public function testSetRootNode()
+    {
+        $tree = $this->setUpTestTree();
+
+        for ( $i = 1; $i < 10; ++$i )
+        {
+            self::assertSame( true, $tree->nodeExists( $i ) );
+        }
+
+        $tree->setRootNode( $root = $tree->createNode( 42, 'New Node' ) );
+
+        for ( $i = 1; $i < 10; ++$i )
+        {
+            self::assertSame( false, $tree->nodeExists( $i ) );
+        }
+        self::assertSame( true, $tree->nodeExists( '42' ) );
+    }
 }
 
 ?>
