@@ -556,6 +556,52 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( 8, $tree->getChildCountRecursive( '1' ) );
     }
 
+    public function testTreeTransactionDoubleStart()
+    {
+        $tree = $this->setUpTestTree();
+
+        $tree->beginTransaction();
+        try
+        {
+            $tree->beginTransaction();
+            self::fail( "Expected exception not thrown" );
+        }
+        catch ( ezcTreeTransactionAlreadyStartedException $e )
+        {
+            self::assertSame( "A transaction has already been started.", $e->getMessage() );
+        }
+    }
+
+    public function testTreeTransactionCommitWithoutBegin()
+    {
+        $tree = $this->setUpTestTree();
+
+        try
+        {
+            $tree->commit();
+            self::fail( "Expected exception not thrown" );
+        }
+        catch ( ezcTreeTransactionNotStartedException $e )
+        {
+            self::assertSame( "A transaction is not active.", $e->getMessage() );
+        }
+    }
+
+    public function testTreeTransactionRollbackWithoutBegin()
+    {
+        $tree = $this->setUpTestTree();
+
+        try
+        {
+            $tree->rollback();
+            self::fail( "Expected exception not thrown" );
+        }
+        catch ( ezcTreeTransactionNotStartedException $e )
+        {
+            self::assertSame( "A transaction is not active.", $e->getMessage() );
+        }
+    }
+
     public function testTreeNodeListIterator()
     {
         $tree = $this->setUpTestTree();

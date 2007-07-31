@@ -305,6 +305,10 @@ abstract class ezcTree
      */
     public function commit()
     {
+        if ( !$this->inTransaction )
+        {
+            throw new ezcTreeTransactionNotStartedException;
+        }
         $this->inTransaction = false;
         $this->inTransactionCommit = true;
         foreach ( $this->transactionList as $transactionItem )
@@ -335,10 +339,6 @@ abstract class ezcTree
      */
     protected function addTransactionItem( ezcTreeTransactionItem $item )
     {
-        if ( !$this->inTransaction )
-        {
-            throw new ezcTreeTransactionNotStartedException;
-        }
         $this->transactionList[] = $item;
     }
 
@@ -347,6 +347,10 @@ abstract class ezcTree
      */
     public function rollback()
     {
+        if ( !$this->inTransaction )
+        {
+            throw new ezcTreeTransactionNotStartedException;
+        }
         $this->inTransaction = false;
         $this->transactionList = array();
     }
