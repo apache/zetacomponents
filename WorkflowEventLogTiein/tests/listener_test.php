@@ -172,6 +172,34 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         );
     }
 
+    public function testLogExclusiveChoiceWithUnconditionalOutNodeSimpleMerge()
+    {
+        $this->setUpExclusiveChoiceWithUnconditionalOutNodeSimpleMerge();
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->setVariables( array( 'condition' => false ) );
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'ExclusiveChoiceWithUnconditionalOutNodeSimpleMerge' ),
+          $this->readActual()
+        );
+    }
+
+    public function testLogExclusiveChoiceWithUnconditionalOutNodeSimpleMerge2()
+    {
+        $this->setUpExclusiveChoiceWithUnconditionalOutNodeSimpleMerge();
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->setVariables( array( 'condition' => true ) );
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'ExclusiveChoiceWithUnconditionalOutNodeSimpleMerge2' ),
+          $this->readActual()
+        );
+    }
+
     public function testLogNestedExclusiveChoiceSimpleMerge()
     {
         $this->setUpNestedExclusiveChoiceSimpleMerge();
