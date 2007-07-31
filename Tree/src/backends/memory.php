@@ -135,7 +135,14 @@ class ezcTreeMemory extends ezcTree
         return $list;
     }
 
-    private function addChildNodes( $list, ezcTreeMemoryNode $memoryNode )
+    /**
+     * Adds the children nodes of the node $memoryNode to the
+     * ezcTreeNodeList $list.
+     *
+     * @param ezcTreeNodeList $list
+     * @param string          $nodeId
+     */
+    private function addChildNodes( ezcTreeNodeList $list, ezcTreeMemoryNode $memoryNode )
     {
         foreach ( $memoryNode->children as $id => $childMemoryNode )
         {

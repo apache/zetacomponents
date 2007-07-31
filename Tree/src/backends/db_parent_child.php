@@ -101,7 +101,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
      * @param ezcTreeNodeList $list
      * @param string          $nodeId
      */
-    private function addChildNodes( $list, $nodeId )
+    private function addChildNodes( ezcTreeNodeList $list, $nodeId )
     {
         $className = $this->properties['nodeClassName'];
         foreach ( $this->fetchChildRecords( $nodeId ) as $record )
@@ -221,7 +221,8 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Adds the number of children with for the node with ID $nodeId nodes to $count recursively.
+     * Adds the number of children with for the node with ID $nodeId nodes to
+     * $count recursively.
      *
      * @param int &$count
      * @param string $nodeId

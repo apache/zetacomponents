@@ -19,6 +19,11 @@
  */
 class ezcTreeXml extends ezcTree
 {
+    /**
+     * Contains the relax-NG schema to validate the tree XML
+     *
+     * @const string relaxNG
+     */
     const relaxNG = '<?xml version="1.0" encoding="UTF-8"?>
 <grammar xmlns:etd="http://components.ez.no/Tree/data" ns="http://components.ez.no/Tree" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <start>
@@ -45,12 +50,30 @@ class ezcTreeXml extends ezcTree
   </define>
 </grammar>';
 
+    /**
+     * Contains the DOM Tree that all operations will be done on.
+     *
+     * When the tree object is constructed the XML is parsed with DOM and
+     * stored into this member variable. When the tree is modified the changes
+     * are then flushed to disk with the saveFile() method.
+     *
+     * @var DOMDocument $dom
+     */
     private $dom;
 
+    /**
+     * The file name that contains the tree as XML string
+     *
+     * @var string $xmlFile
+     */
     private $xmlFile;
 
     /**
-     * Constructs a new ezcTreeXml object
+     * Constructs a new ezcTreeXml object from the XML data in $xmlFile and using
+     * the $store to retrieve data from.
+     *
+     * @param string $xmlFile
+     * @param ezcTreeXmlDataStore $store
      */
     public function __construct( $xmlFile, ezcTreeXmlDataStore $store )
     {
@@ -65,6 +88,13 @@ class ezcTreeXml extends ezcTree
         $this->properties['store'] = $store;
     }
 
+    /**
+     * Creates a new XML tree in the file $xmlFile using $store as data store
+     *
+     * @param string $xmlFile
+     * @param ezcTreeXmlDataStore $store
+     * @return ezcTreeXml
+     */
     public static function create( $xmlFile, ezcTreeXmlDataStore $store )
     {
         $dom = new DomDocument( '1.0', 'utf-8' );
@@ -79,17 +109,32 @@ class ezcTreeXml extends ezcTree
         return new ezcTreeXml( $xmlFile, $store );
     }
 
+    /**
+     * Saves the internal DOM representation of the tree back to disk
+     */
     private function saveFile()
     {
         $this->dom->save( $this->xmlFile );
     }
 
+    /**
+     * Returns whether the node with ID $id exists
+     *
+     * @param string $id
+     * @return bool
+     */
     public function nodeExists( $id )
     {
         $elem = $this->dom->getElementById( "id$id" );
         return ( $elem !== NULL ) ? true : false;
     }
 
+    /**
+     * Retrieves a DOMElement containing the node with node ID $id
+     *
+     * @param string $id
+     * @return DOMElement
+     */
     private function getNodeById( $id )
     {
         $node = $this->dom->getElementById( "id$id" );
@@ -100,17 +145,52 @@ class ezcTreeXml extends ezcTree
         return $node;
     }
 
+    /**
+     * Fetches all the child "node" DOM elements of the node with ID $nodeId.
+     *
+     * @param $nodeId
+     * @return array(string)
+     */
+    private function fetchChildIds( $nodeId )
+    {
+        $childNodes = array();
+        $elem = $this->getNodeById( $nodeId );
+        $children = $elem->childNodes;
+        foreach ( $children as $child )
+        {
+            if ( $child->nodeType === XML_ELEMENT_NODE && $child->tagName == "node" )
+            {
+                $id = $child->getAttribute( 'id' );
+                $childNodes[] = substr( $id, 2 );
+            }
+        }
+        return $childNodes;
+    }
+
+    /**
+     * Returns all the children of the node with ID $id.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchChildren( $id )
     {
         $className = $this->properties['nodeClassName'];
         $list = new ezcTreeNodeList;
-        foreach ( $this->fetchChildRecords( $id ) as $record )
+        foreach ( $this->fetchChildIds( $id ) as $childId )
         {
-            $list->addNode( new $className( $this, $record['id'] ) );
+            $list->addNode( new $className( $this, $childId ) );
         }
         return $list;
     }
 
+    /**
+     * Returns all the nodes in the path from the root node to the node with ID
+     * $id, including those two nodes.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchPath( $id )
     {
         $className = $this->properties['nodeClassName'];
@@ -129,42 +209,52 @@ class ezcTreeXml extends ezcTree
         return $list;
     }
 
-
-    private function fetchChildRecords( $nodeId )
-    {
-        $childNodes = array();
-        $elem = $this->getNodeById( $nodeId );
-        $children = $elem->childNodes;
-        foreach ( $children as $child )
-        {
-            if ( $child->nodeType === XML_ELEMENT_NODE && $child->tagName == "node" )
-            {
-                $id = $child->getAttribute( 'id' );
-                $childNodes[] = array( 'id' => substr( $id, 2 ) );
-            }
-        }
-        return $childNodes;
-    }
-
-    private function addChildNodes( $list, $nodeId )
+    /**
+     * Adds the children nodes of the node with ID $nodeId to the
+     * ezcTreeNodeList $list.
+     *
+     * @param ezcTreeNodeList $list
+     * @param string          $nodeId
+     */
+    private function addChildNodes( ezcTreeNodeList $list, $nodeId )
     {
         $className = $this->properties['nodeClassName'];
-        foreach ( $this->fetchChildRecords( $nodeId ) as $record )
+        foreach ( $this->fetchChildIds( $nodeId ) as $childId )
         {
-            $list->addNode( new $className( $this, $record['id'] ) );
-            $this->addChildNodes( $list, $record['id'] );
+            $list->addNode( new $className( $this, $childId ) );
+            $this->addChildNodes( $list, $childId );
         }
     }
 
+    /**
+     * Alias for fetchSubtreeDepthFirst().
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchSubtree( $nodeId )
     {
         return $this->fetchSubtreeDepthFirst( $nodeId );
     }
 
+    /**
+     * Returns the node with ID $id and all its children, sorted accoring to
+     * the `Breadth-first sorting`_ algorithm.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchSubtreeBreadthFirst( $nodeId )
     {
     }
 
+    /**
+     * Returns the node with ID $id and all its children, sorted accoring to
+     * the `Depth-first sorting`_ algorithm.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchSubtreeDepthFirst( $nodeId )
     {
         $className = $this->properties['nodeClassName'];
@@ -174,12 +264,23 @@ class ezcTreeXml extends ezcTree
         return $list;
     }
 
+    /**
+     * Returns the node with ID $id and all its children, sorted accoring to
+     * the `Topological sorting`_ algorithm.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
     public function fetchSubtreeTopological( $nodeId )
     {
     }
 
-
-
+    /**
+     * Returns the number of direct children of the node with ID $id
+     *
+     * @param string $id
+     * @return int
+     */
     public function getChildCount( $id )
     {
         $count = 0;
@@ -195,15 +296,28 @@ class ezcTreeXml extends ezcTree
         return $count;
     }
 
+    /**
+     * Adds the number of children with for the node with ID $nodeId nodes to
+     * $count recursively.
+     *
+     * @param int &$count
+     * @param string $nodeId
+     */
     private function countChildNodes( &$count, $nodeId )
     {
-        foreach ( $this->fetchChildRecords( $nodeId ) as $record )
+        foreach ( $this->fetchChildIds( $nodeId ) as $childId )
         {
             $count++;
-            $this->countChildNodes( $count, $record['id'] );
+            $this->countChildNodes( $count, $childId );
         }
     }
 
+    /**
+     * Returns the number of children of the node with ID $id, recursively
+     *
+     * @param string $id
+     * @return int
+     */
     public function getChildCountRecursive( $id )
     {
         $count = 0;
@@ -211,6 +325,12 @@ class ezcTreeXml extends ezcTree
         return $count;
     }
 
+    /**
+     * Returns the distance from the root node to the node with ID $id
+     *
+     * @param string $id
+     * @return int
+     */
     public function getPathLength( $id )
     {
         $elem = $this->getNodeById( $id );
@@ -225,6 +345,12 @@ class ezcTreeXml extends ezcTree
         return $length;
     }
 
+    /**
+     * Returns whether the node with ID $id has children
+     *
+     * @param string $id
+     * @return bool
+     */
     public function hasChildNodes( $id )
     {
         $elem = $this->getNodeById( $id );
@@ -239,6 +365,14 @@ class ezcTreeXml extends ezcTree
         return false;
     }
 
+    /**
+     * Returns whether the node with ID $childId is a direct child of the node
+     * with ID $parentId
+     *
+     * @param string $childId
+     * @param string $parentId
+     * @return bool
+     */
     public function isChildOf( $childId, $parentId )
     {
         $elem = $this->getNodeById( $childId );
@@ -251,6 +385,14 @@ class ezcTreeXml extends ezcTree
         return false;
     }
 
+    /**
+     * Returns whether the node with ID $childId is a direct or indirect child
+     * of the node with ID $parentId
+     *
+     * @param string $childId
+     * @param string $parentId
+     * @return bool
+     */
     public function isDecendantOf( $childId, $parentId )
     {
         $elem = $this->getNodeById( $childId );
@@ -268,6 +410,14 @@ class ezcTreeXml extends ezcTree
         return false;
     }
 
+    /**
+     * Returns whether the nodes with IDs $child1Id and $child2Id are siblings
+     * (ie, the share the same parent)
+     *
+     * @param string $child1Id
+     * @param string $child2Id
+     * @return bool
+     */
     public function isSiblingOf( $child1Id, $child2Id )
     {
         $elem1 = $this->getNodeById( $child1Id );
@@ -278,6 +428,11 @@ class ezcTreeXml extends ezcTree
         );
     }
 
+    /**
+     * Sets a new node as root node, this wipes also out the whole tree
+     *
+     * @param ezcTreeNode $node
+     */
     public function setRootNode( ezcTreeNode $node )
     {
         $document = $this->dom->documentElement;
@@ -301,6 +456,12 @@ class ezcTreeXml extends ezcTree
         $this->saveFile();
     }
 
+    /**
+     * Adds the node $childNode as child of the node with ID $parentId
+     *
+     * @param string $parentId
+     * @paran ezcTreeNode $childNode
+     */
     public function addChild( $parentId, ezcTreeNode $childNode )
     {
         if ( $this->inTransaction )
@@ -327,6 +488,11 @@ class ezcTreeXml extends ezcTree
         }
     }
 
+    /**
+     * Deletes the node with ID $id from the tree, including all its children
+     *
+     * @param string $id
+     */
     public function delete( $id )
     {
         if ( $this->inTransaction )
@@ -357,6 +523,12 @@ class ezcTreeXml extends ezcTree
         }
     }
 
+    /**
+     * Moves the node with ID $id as child to the node with ID $targetParentId
+     *
+     * @param string $id
+     * @param string $targetParentId
+     */
     public function move( $id, $targetParentId )
     {
         if ( $this->inTransaction )
