@@ -9,11 +9,6 @@
  */
 
 /**
- * Require the test classes file
- */
-require 'files/test_classes.php';
-
-/**
  * Require the tests
  */
 require_once 'tree.php';

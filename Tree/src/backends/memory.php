@@ -394,11 +394,17 @@ class ezcTreeMemory extends ezcTree implements ezcTreeBackend
         // locate node to move
         $nodeToDelete = $this->getNodeById( $id );
 
+        // fetch the whole subtree
+        $children = $nodeToDelete->node->fetchSubtree();
+
         // Use the parent to remove the child
         unset( $nodeToDelete->parent->children[$id] );
 
-        // Remove from node list
-        unset( $this->nodeList[$childNode->id] );
+        // Remove the node and all its children
+        foreach( new ezcTreeNodeListIterator( $this, $children ) as $id => $data )
+        {
+            unset( $this->nodeList[$id] );
+        }
     }
 
     /**

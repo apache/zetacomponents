@@ -335,6 +335,16 @@ class ezcTreeXml extends ezcTree implements ezcTreeBackend
         $nodeToDelete = $this->getNodeById( $id );
 
         // Use the parent to remove the child
+        $nodeToDelete->removeAttribute( "id" );
+
+        // Remove the ID on all children by hand as this would crash in PHP <= 5.2.3
+        $children = $nodeToDelete->getElementsByTagName( 'node' );
+        foreach ( $children as $child )
+        {
+            $child->removeAttribute( "id" );
+        }
+
+        // Remove the node itself
         $nodeToDelete->parentNode->removeChild( $nodeToDelete );
 
         if ( !$this->inTransactionCommit )

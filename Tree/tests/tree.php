@@ -9,6 +9,11 @@
  */
 
 /**
+ * Require the test classes file
+ */
+require_once 'files/test_classes.php';
+
+/**
  * @package Tree
  * @subpackage Tests
  */
@@ -483,7 +488,6 @@ class ezcTreeTest extends ezcTestCase
 
     public function testTreeDeleteNode()
     {
-        $this->markTestSkipped( "Crashes PHP" );
         $tree = $this->setUpTestTree();
 
         self::assertSame( true, $tree->nodeExists( 5 ) );
@@ -504,7 +508,6 @@ class ezcTreeTest extends ezcTestCase
 
     public function testTreeDeleteNodeWithTransaction()
     {
-        $this->markTestSkipped( "Crashes PHP" );
         $tree = $this->setUpTestTree();
 
         self::assertSame( true, $tree->nodeExists( 5 ) );
