@@ -11,6 +11,7 @@
 
 return array(
     'ezcTreeException'                          => 'Tree/exceptions/exception.php',
+    'ezcTreeDataStoreMissingDataException'      => 'Tree/exceptions/missing_data.php',
     'ezcTreeIdsDoNotMatchException'             => 'Tree/exceptions/ids_do_not_match.php',
     'ezcTreeInvalidClassException'              => 'Tree/exceptions/invalid_class.php',
     'ezcTreeInvalidIdException'                 => 'Tree/exceptions/invalid_id.php',

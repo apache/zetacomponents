@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+require_once 'tree.php';
+
 /**
  * @package Tree
  * @subpackage Tests
@@ -115,6 +117,27 @@ class ezcTreeNodeTest extends ezcTestCase
         $children = $nodeNe->fetchChildren();
         self::assertSame( 'ezcTreeNodeList', get_class( $children ) );
         self::assertSame( 2, $children->size );
+    }
+
+    public function testFetch()
+    {
+        $tree = ezcTreeMemory::create( new TestTranslateDataStore() );
+        $node = new ezcTreeNode( $tree, 'Al' );
+        self::assertSame( 'Al', $node->id );
+        self::assertSame( false, $node->dataFetched );
+        self::assertSame( 'Aluminium', $node->data );
+        self::assertSame( true, $node->dataFetched );
+    }
+
+    public function testPrefetch()
+    {
+        $tree = ezcTreeMemory::create( new TestTranslateDataStore() );
+        $tree->prefetch = true;
+        $node = new ezcTreeNode( $tree, 'Al' );
+        self::assertSame( 'Al', $node->id );
+        self::assertSame( true, $node->dataFetched );
+        self::assertSame( 'Aluminium', $node->data );
+        self::assertSame( true, $node->dataFetched );
     }
 
     public static function suite()

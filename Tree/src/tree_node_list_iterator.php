@@ -44,6 +44,10 @@ class ezcTreeNodeListIterator implements Iterator
     public function __construct( ezcTree $tree, ezcTreeNodeList $nodeList )
     {
         $this->tree = $tree;
+        if ( $tree->prefetch )
+        {
+            $this->tree->store->fetchDataForNodes( $nodeList );
+        }
         $this->nodeList = $nodeList->getNodes();
     }
 
@@ -82,12 +86,6 @@ class ezcTreeNodeListIterator implements Iterator
     public function current()
     {
         $node = current( $this->nodeList );
-
-        if ( $node->data === null )
-        {
-            // fetch the data on the fly
-            $this->tree->store->fetchDataForNode( $node );
-        }
         return $node->data;
     }
 

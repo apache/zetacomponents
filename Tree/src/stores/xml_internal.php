@@ -38,6 +38,13 @@ class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
      */
     public function fetchDataForNodes( ezcTreeNodeList $nodeList )
     {
+        foreach ( $nodeList->getNodes() as $node )
+        {
+            if ( $node->dataFetched === false )
+            {
+                $this->fetchDataForNode( $node );
+            }
+        }
     }
 
     /**

@@ -71,15 +71,14 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
     }
 
     /**
-     * Takes the data from the executed query in $s and uses the $dataField 
+     * Takes the data from the executed query and uses the $dataField 
      * property to filter out the wanted data for this node.
      *
-     * @param PDOStatement $s
+     * @param array $data
      * @return mixed
      */
-    private function filterDataFromResult( PDOStatement $s )
+    private function filterDataFromResult( array $data )
     {
-        $data = $s->fetch();
         if ( $this->dataField === null )
         {
             return $data;
@@ -105,17 +104,45 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
         $s = $q->prepare();
         $s->execute();
 
-        $node->data = $this->filterDataFromResult( $s );
+        $result = $s->fetch( PDO::FETCH_ASSOC );
+        if ( !$result )
+        {
+            throw new ezcTreeDataStoreMissingDataException( $node->id );
+        }
+        $node->data = $this->filterDataFromResult( $result );
     }
 
     /**
-     * Retrieves the data for all the nodes in the node list $nodeList and
-     * assigns this data to the nodes' 'data' properties.
+     * This method *tries* to fetch the data for all the nodes in the node list
+     * $nodeList and assigns this data to the nodes' 'data' properties.
      *
      * @param ezcTreeNodeList $nodeList
      */
     public function fetchDataForNodes( ezcTreeNodeList $nodeList )
     {
+        $nodeIdsToFetch = array();
+        foreach ( $nodeList->getNodes() as $node )
+        {
+            if ( $node->dataFetched === false )
+            {
+                $nodeIdsToFetch[] = $node->id;
+            }
+        }
+
+        $db = $this->dbHandler;
+        $q = $db->createSelectQuery();
+
+        $id = $node->id;
+        $q->select( '*' )
+          ->from( $db->quoteIdentifier( $this->table ) )
+          ->where( $q->expr->in( $db->quoteIdentifier( $this->idField ), $nodeIdsToFetch ) );
+        $s = $q->prepare();
+        $s->execute();
+
+        foreach ( $s as $result )
+        {
+            $nodeList[$result['id']]->data = $this->filterDataFromResult( $result );
+        }
     }
 
     /**
@@ -125,6 +152,45 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
      */
     public function storeDataForNode( ezcTreeNode $node )
     {
+        $db = $this->dbHandler;
+
+        // first we check if there is data for this node
+        $id = $node->id;
+        $q = $db->createSelectQuery();
+        $q->select( 'id' )
+          ->from( $db->quoteIdentifier( $this->table ) )
+          ->where( $q->expr->eq( $db->quoteIdentifier( $this->idField ), $id ) );
+        $s = $q->prepare();
+        $s->execute();
+
+        $update = $s->fetch();
+        if ( !$update ) // we don't have data yet, create an insert query
+        {
+            $q = $db->createInsertQuery();
+            $q->insertInto( $db->quoteIdentifier( $this->table ) )
+              ->set( $db->quoteIdentifier( $this->idField ), $q->bindValue( $node->id ) );
+        }
+        else // we have data, so use update
+        {
+            $q = $db->createUpdateQuery();
+            $q->update( $db->quoteIdentifier( $this->table ) );
+        }
+
+        // Add set statements
+        if ( $this->dataField === null )
+        {
+        }
+        else
+        {
+            $q->set( $db->quoteIdentifier( $this->dataField ), $q->bindValue( $node->data ) );
+        }
+
+        if ( $update ) // add where clause if we're updating
+        {
+            $q->where( $q->expr->eq( $db->quoteIdentifier( $this->idField ), $q->bindValue( $id ) ) );
+        }
+        $s = $q->prepare();
+        $s->execute();
     }
 }
 ?>

@@ -615,6 +615,46 @@ class ezcTreeTest extends ezcTestCase
         }
     }
 
+    public function testTreeNodeListIteratorPrefetch()
+    {
+        $tree = $this->setUpTestTree();
+
+        $nodeList = $tree->fetchNodeById( 4 )->fetchSubtree();
+        self::assertSame( 4, $nodeList->size );
+        self::assertSame( 'Node 4', $nodeList['4']->data );
+
+        $tree->prefetch = true;
+        foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $id => $data )
+        {
+            self::assertSame( "Node $id", $data );
+        }
+    }
+
+    public function testPrefetchData()
+    {
+        $tree = $this->setUpTestTree();
+
+        // the memory backend has prefetching always enabled
+        if ( get_class( $this ) !== 'ezcTreeMemoryTest' )
+        {
+            $nodeList = $tree->fetchNodeById( 4 )->fetchSubtree();
+            self::assertSame( 4, $nodeList->size );
+            foreach ( $nodeList->getNodes() as $node )
+            {
+                self::assertSame( false, $node->dataFetched );
+            }
+
+            $tree->prefetch = true;
+        }
+
+        $nodeList = $tree->fetchNodeById( 4 )->fetchSubtree();
+        self::assertSame( 4, $nodeList->size );
+        foreach ( $nodeList->getNodes() as $node )
+        {
+            self::assertSame( true, $node->dataFetched );
+        }
+    }
+
     public function testSetRootNode()
     {
         $tree = $this->setUpTestTree();

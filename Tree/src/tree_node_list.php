@@ -33,7 +33,7 @@ class ezcTreeNodeList implements ArrayAccess
      *
      * @var array(string=>mixed)
      */
-    private $properties = array();
+    //private $properties = array();
 
     /**
      * Constructs a new ezcTreeNode object

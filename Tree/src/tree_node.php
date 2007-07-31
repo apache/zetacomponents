@@ -14,8 +14,10 @@
  * isSiblingOf) are all marshalled to calls on the tree (that is stored in the
  * $tree private variable) itself.
  *
- * @property-read string $id   The ID that uniquely identifies a node
- * @property      mixed  $data The data belonging to a node
+ * @property-read string $id          The ID that uniquely identifies a node
+ * @property      mixed  $data        The data belonging to a node
+ * @property-read bool   $dataFetched Whether the data for this node has been
+ *                                    fetched.
  *
  * @package Tree
  * @version //autogentag//
@@ -44,11 +46,26 @@ class ezcTreeNode
      * @param string  $id
      * @param mixed   $data
      */
-    public function __construct( ezcTree $tree, $id, $data = null )
+    public function __construct( ezcTree $tree, $id )
     {
         $this->tree = $tree;
         $this->properties['id'] = (string) $id;
-        $this->properties['data'] = $data;
+
+        if ( func_num_args() === 2 )
+        {
+            $this->properties['data'] = null;
+            $this->properties['dataFetched'] = false;
+
+            if ( $tree->prefetch )
+            {
+                $tree->store->fetchDataForNode( $this );
+            }
+        }
+        else
+        {
+            $this->properties['data'] = func_get_arg( 2 );
+            $this->properties['dataFetched'] = true;
+        }
     }
 
     /**
@@ -63,15 +80,15 @@ class ezcTreeNode
     {
         switch ( $name )
         {
-
             case 'data':
-                if ( $this->properties['data'] === null )
+                if ( $this->properties['dataFetched'] === false )
                 {
                     // fetch the data on the fly
                     $this->tree->store->fetchDataForNode( $this );
                 }
                 // break intentionally missing
             case 'id':
+            case 'dataFetched':
                 return $this->properties[$name];
 
         }
@@ -93,10 +110,12 @@ class ezcTreeNode
         switch ( $name )
         {
             case 'id':
+            case 'dataFetched':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
             case 'data':
                 $this->properties[$name] = $value;
+                $this->properties['dataFetched'] = true;
                 return;
 
             default:

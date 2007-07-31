@@ -11,6 +11,10 @@ class TestTranslateDataStore extends ezcTreeMemoryDataStore implements ezcTreeDa
         {
             $node->data = 'Beryllium';
         }
+        if ( $node->id == 'Al' )
+        {
+            $node->data = 'Aluminium';
+        }
     }
 
     public function fetchDataForNodes( ezcTreeNodeList $nodeList )
