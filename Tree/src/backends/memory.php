@@ -17,7 +17,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcTreeMemory extends ezcTree implements ezcTreeBackend
+class ezcTreeMemory extends ezcTree
 {
     /**
      * Contains a list of all nodes, indexed by node ID that link directly to the create node so that they can be looked up quickly.

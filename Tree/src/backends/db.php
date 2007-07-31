@@ -17,7 +17,7 @@
  * @version //autogentag//
  * @mainclass
  */
-abstract class ezcTreeDb extends ezcTree implements ezcTreeBackend
+abstract class ezcTreeDb extends ezcTree
 {
     protected $dbh;
 

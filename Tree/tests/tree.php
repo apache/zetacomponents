@@ -531,6 +531,31 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( 2, $tree->getChildCount( '1' ) );
     }
 
+    public function testTreeDeleteNodeWithTransactionRollback()
+    {
+        $tree = $this->setUpTestTree();
+
+        self::assertSame( true, $tree->nodeExists( 5 ) );
+
+        $tree->beginTransaction();
+        $tree->delete( '5' );
+        $tree->delete( '4' );
+
+        self::assertSame( true, $tree->nodeExists( '4' ) );
+        self::assertSame( true, $tree->nodeExists( '6' ) );
+        self::assertSame( true, $tree->nodeExists( '8' ) );
+        self::assertSame( 4, $tree->getChildCount( '1' ) );
+
+        $tree->rollback();
+
+        self::assertSame( true, $tree->nodeExists( '4' ) );
+        self::assertSame( true, $tree->nodeExists( '5' ) );
+        self::assertSame( true, $tree->nodeExists( '6' ) );
+        self::assertSame( true, $tree->nodeExists( '7' ) );
+        self::assertSame( true, $tree->nodeExists( '8' ) );
+        self::assertSame( 8, $tree->getChildCountRecursive( '1' ) );
+    }
+
     public function testTreeNodeListIterator()
     {
         $tree = $this->setUpTestTree();

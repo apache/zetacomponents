@@ -15,7 +15,6 @@ return array(
     'ezcTreeInvalidClassException'    => 'Tree/exceptions/invalid_class.php',
     'ezcTreeInvalidIdException'       => 'Tree/exceptions/invalid_id.php',
     'ezcTree'                         => 'Tree/tree.php',
-    'ezcTreeBackend'                  => 'Tree/interfaces/backend.php',
     'ezcTreeDataStore'                => 'Tree/interfaces/data_store.php',
     'ezcTreeDb'                       => 'Tree/backends/db.php',
     'ezcTreeDbDataStore'              => 'Tree/stores/db.php',

@@ -17,7 +17,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcTreeXml extends ezcTree implements ezcTreeBackend
+class ezcTreeXml extends ezcTree
 {
     const relaxNG = '<?xml version="1.0" encoding="UTF-8"?>
 <grammar xmlns:etd="http://components.ez.no/Tree/data" ns="http://components.ez.no/Tree" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
