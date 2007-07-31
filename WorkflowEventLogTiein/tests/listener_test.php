@@ -296,5 +296,18 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
           $this->readActual()
         );
     }
+
+    public function testLogNestedLoops()
+    {
+        $this->setUpNestedLoops();
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'NestedLoops' ),
+          $this->readActual()
+        );
+    }
 }
 ?>
