@@ -172,6 +172,45 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         );
     }
 
+    public function testLogNestedExclusiveChoiceSimpleMerge()
+    {
+        $this->setUpNestedExclusiveChoiceSimpleMerge();
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'NestedExclusiveChoiceSimpleMerge' ),
+          $this->readActual()
+        );
+    }
+
+    public function testLogNestedExclusiveChoiceSimpleMerge2()
+    {
+        $this->setUpNestedExclusiveChoiceSimpleMerge( true, false );
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'NestedExclusiveChoiceSimpleMerge2' ),
+          $this->readActual()
+        );
+    }
+
+    public function testLogNestedExclusiveChoiceSimpleMerge3()
+    {
+        $this->setUpNestedExclusiveChoiceSimpleMerge( false );
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'NestedExclusiveChoiceSimpleMerge3' ),
+          $this->readActual()
+        );
+    }
+
     public function testLogMultiChoiceSynchronizingMerge()
     {
         $this->setUpMultiChoice( 'SynchronizingMerge' );
