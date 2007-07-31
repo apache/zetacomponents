@@ -94,106 +94,88 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
         $nodes  = array();
 
-        if ( $result !== false )
+        // Create node objects.
+        foreach ( $result as $node )
         {
-            // Create node objects.
-            foreach ( $result as $node )
+            $nodes[$node['node_id']] = new $node['node_class'](
+              ezcWorkflowDatabaseUtil::unserialize( $node['node_configuration'], '' )
+            );
+
+            $nodes[$node['node_id']]->setId( $node['node_id'] );
+
+            if ( $node['node_class'] == 'ezcWorkflowNodeStart' )
             {
-                $nodes[$node['node_id']] = new $node['node_class'](
-                  ezcWorkflowDatabaseUtil::unserialize( $node['node_configuration'], '' )
-                );
-
-                $nodes[$node['node_id']]->setId( $node['node_id'] );
-
-                if ( $node['node_class'] == 'ezcWorkflowNodeStart' )
-                {
-                    $startNode = $nodes[$node['node_id']];
-                }
-
-                else if ( $node['node_class'] == 'ezcWorkflowNodeEnd' &&
-                          !isset( $defaultEndNode ) )
-                {
-                    $defaultEndNode = $nodes[$node['node_id']];
-                }
+                $startNode = $nodes[$node['node_id']];
             }
 
-            // Connect node objects.
-            $query = $this->db->createSelectQuery();
-
-            $query->select( $query->alias( 'node_connection.incoming_node_id',
-                                           'incoming_node_id' ) )
-                  ->select( $query->alias( 'node_connection.outgoing_node_id',
-                                           'outgoing_node_id' ) )
-                  ->from( $query->innerJoin( 'node_connection',
-                                             'node',
-                                             'node_connection.incoming_node_id',
-                                             'node.node_id' ) )
-                  ->where( $query->expr->eq( 'node.workflow_id',
-                                              $query->bindValue( (int)$workflowId ) ) );
-
-            $stmt = $query->prepare();
-            $stmt->execute();
-
-            $connections = $stmt->fetchAll( PDO::FETCH_ASSOC );
-
-            if ( $connections !== false )
+            else if ( $node['node_class'] == 'ezcWorkflowNodeEnd' &&
+                      !isset( $defaultEndNode ) )
             {
-                foreach ( $connections as $connection )
-                {
-                    $nodes[$connection['incoming_node_id']]->addOutNode(
-                        $nodes[$connection['outgoing_node_id']]
-                    );
-                }
+                $defaultEndNode = $nodes[$node['node_id']];
             }
-            else
-            {
-                throw new ezcWorkflowDefinitionStorageException(
-                    'Could not load workflow definition.'
-                );
-            }
-
-            // Create workflow object and add the node objects to it.
-            $workflow = new ezcWorkflow( $workflowName, $startNode, $defaultEndNode );
-            $workflow->definitionStorage = $this;
-            $workflow->id = (int)$workflowId;
-            $workflow->version = (int)$workflowVersion;
-
-            // Query the database for the variable handlers.
-            $query = $this->db->createSelectQuery();
-
-            $query->select( 'variable, class' )
-                  ->from( 'variable_handler' )
-                  ->where( $query->expr->eq( 'workflow_id',
-                                              $query->bindValue( (int)$workflowId ) ) );
-
-            $stmt = $query->prepare();
-            $stmt->execute();
-
-            $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
-            $nodes  = array();
-
-            if ( $result !== false )
-            {
-                foreach ( $result as $variableHandler )
-                {
-                    $workflow->addVariableHandler(
-                      $variableHandler['variable'],
-                      $variableHandler['class']
-                    );
-                }
-            }
-
-            // Verify the loaded workflow.
-            $workflow->verify();
-
-            return $workflow;
         }
-        else
+
+        // Connect node objects.
+        $query = $this->db->createSelectQuery();
+
+        $query->select( $query->alias( 'node_connection.incoming_node_id',
+                                       'incoming_node_id' ) )
+              ->select( $query->alias( 'node_connection.outgoing_node_id',
+                                       'outgoing_node_id' ) )
+              ->from( $query->innerJoin( 'node_connection',
+                                         'node',
+                                         'node_connection.incoming_node_id',
+                                         'node.node_id' ) )
+              ->where( $query->expr->eq( 'node.workflow_id',
+                                         $query->bindValue( (int)$workflowId ) ) );
+
+        $stmt = $query->prepare();
+        $stmt->execute();
+
+        $connections = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        foreach ( $connections as $connection )
         {
-            throw new ezcWorkflowDefinitionStorageException(
-              'Could not load workflow definition.'
+            $nodes[$connection['incoming_node_id']]->addOutNode(
+              $nodes[$connection['outgoing_node_id']]
             );
         }
+
+        // Create workflow object and add the node objects to it.
+        $workflow = new ezcWorkflow( $workflowName, $startNode, $defaultEndNode );
+        $workflow->definitionStorage = $this;
+        $workflow->id = (int)$workflowId;
+        $workflow->version = (int)$workflowVersion;
+
+        // Query the database for the variable handlers.
+        $query = $this->db->createSelectQuery();
+
+        $query->select( 'variable, class' )
+              ->from( 'variable_handler' )
+              ->where( $query->expr->eq( 'workflow_id',
+                                         $query->bindValue( (int)$workflowId ) ) );
+
+        $stmt = $query->prepare();
+        $stmt->execute();
+
+        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+        $nodes  = array();
+
+        if ( $result !== false )
+        {
+            foreach ( $result as $variableHandler )
+            {
+                $workflow->addVariableHandler(
+                  $variableHandler['variable'],
+                  $variableHandler['class']
+                );
+            }
+        }
+
+        // Verify the loaded workflow.
+        $workflow->verify();
+
+        return $workflow;
     }
 
     /**
