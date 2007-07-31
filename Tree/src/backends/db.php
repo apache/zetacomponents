@@ -8,32 +8,63 @@
  */
 
 /**
- * ezcTreeXml is an implementation of a tree backend that operates on
- * an XML file.
+ * ezcTreeDb contains common methods for the different database tree backends.
  *
  * @property-read ezcTreeXmlDataStore $store
+ *                The data store that is used for retrieving/storing data.
+ * @property      bool                $prefetch
+ *                Whether data pre-fetching is enabled.
+ * @property      string              $nodeClassName
+ *                Which class is used as tree node - this class *must* inherit
+ *                the ezcTreeNode class.
  *
  * @package Tree
  * @version //autogentag//
- * @mainclass
  */
 abstract class ezcTreeDb extends ezcTree
 {
+    /**
+     * Contains the database connection handler
+     *
+     * @var ezcDbHandler
+     */
     protected $dbh;
 
+    /**
+     * Contains the name of the table to retrieve the relational data from.
+     *
+     * @var string
+     */
     protected $indexTableName;
 
     /**
-     * Constructs a new ezcTreeXml object
+     * Constructs a new ezcTreeDb object
+     *
+     * The different arguments to the constructor configure which database
+     * connection ($dbh) is used to access the database and the $indexTableName
+     * argument which table is used to retrieve the relation data from. The
+     * $store argument configure which data store is used with this tree.
+     *
+     * All database backends require the index table to atleast define the
+     * field 'id', which can either be a string or an integer field.
+     * 
+     * @param ezcDbHandler       $dbh
+     * @param string             $indexTableName
+     * @param ezcTreeDbDataStore $store
      */
     public function __construct( ezcDbHandler $dbh, $indexTableName, ezcTreeDbDataStore $store )
     {
-        parent::__construct();
         $this->dbh = $dbh;
         $this->indexTableName = $indexTableName;
         $this->properties['store'] = $store;
     }
 
+    /**
+     * Returns whether the node with ID $id exists as tree node
+     *
+     * @param string $id
+     * @return bool
+     */
     public function nodeExists( $id )
     {
         $db = $this->dbh;

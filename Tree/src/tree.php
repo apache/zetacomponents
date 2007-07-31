@@ -1,4 +1,27 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package Tree
+ */
+
+/**
+ * ezcTree is an abstract class from which all the tree implementations
+ * inherit.
+ *
+ * @property-read ezcTreeXmlDataStore $store
+ *                The data store that is used for retrieving/storing data.
+ * @property      bool                $prefetch
+ *                Whether data pre-fetching is enabled.
+ * @property      string              $nodeClassName
+ *                Which class is used as tree node - this class *must* inherit
+ *                the ezcTreeNode class.
+ *
+ * @package Tree
+ * @version //autogentag//
+ */
 abstract class ezcTree
 {
     /**
@@ -8,13 +31,26 @@ abstract class ezcTree
      */
     protected $properties = array( 'prefetch' => false, 'nodeClassName' => 'ezcTreeNode' );
 
+    /**
+     * Contains whether a transaction has been started.
+     *
+     * @var bool
+     */
     protected $inTransaction = false;
-    protected $inTransactionCommit = false;
-    private $transactionList = array();
 
-    protected function __construct()
-    {
-    }
+    /**
+     * Contains whether we are in a transaction commit stage.
+     *
+     * @var bool
+     */
+    protected $inTransactionCommit = false;
+
+    /**
+     * Contains a list of transaction items.
+     *
+     * @var array(ezcTreeTransactionItem)
+     */
+    private $transactionList = array();
 
     /**
      * Returns the value of the property $name.
@@ -107,6 +143,14 @@ abstract class ezcTree
     }
 
     /**
+     * Returns whether the node with ID $id exists
+     *
+     * @param string $id
+     * @return bool
+     */
+    abstract public function nodeExists( $id );
+
+    /**
      * Returns the node identified by the ID $id
      *
      * @param string $id
@@ -182,7 +226,6 @@ abstract class ezcTree
      */
     abstract public function fetchSubtreeTopological( $id );
 
-
     /**
      * Returns the number of direct children of the node with ID $id
      *
@@ -207,7 +250,6 @@ abstract class ezcTree
      */
     abstract public function getPathLength( $id );
 
-
     /**
      * Returns whether the node with ID $id has children
      *
@@ -215,7 +257,6 @@ abstract class ezcTree
      * @return bool
      */
     abstract public function hasChildNodes( $id );
-
 
     /**
      * Returns whether the node with ID $childId is a direct child of the node
@@ -247,15 +288,6 @@ abstract class ezcTree
      */
     abstract public function isSiblingOf( $child1Id, $child2Id );
 
-
-    /**
-     * Returns whether the node with ID $id exists
-     *
-     * @param string $id
-     * @return bool
-     */
-    abstract public function nodeExists( $id );
-
     /**
      * Sets a new node as root node, this wipes also out the whole tree
      *
@@ -285,6 +317,7 @@ abstract class ezcTree
      * @param string $targetParentId
      */
     abstract public function move( $id, $targetParentId );
+
     /**
      * Starts an transaction in which all tree modifications are queued until 
      * the transaction is committed with the commit() method.
