@@ -357,11 +357,6 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 $gridDirection
             );
 
-            $cuttingPoint = new ezcGraphCoordinate(
-                $boundingLine['start']->x + $cuttingPosition * $boundingLine['dir']->x,
-                $boundingLine['start']->y + $cuttingPosition * $boundingLine['dir']->y
-            );
-
             if ( $cuttingPosition === false )
             {
                 continue;
