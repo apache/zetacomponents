@@ -580,6 +580,32 @@ for all available axis label renderers, but here is an overview:
   between two labels. This helps to recognize which bars belong together.
   Labels are rendered centered between two steps on the axis.
 
+Rotatad labels on axis
+~~~~~~~~~~~~~~~~~~~~~~
+
+There is one more new axis label renderer since version 1.1 of ezcGraph - the
+ezcGraphAxisRotatedLabelRenderer which enables you to render rotated labels on
+an axis.
+
+.. include:: tutorial/tutorial_rotated_labels.php
+   :literal:
+
+In line 9 a custom renderer is defined used for the labeled x axis. You can
+assign custom axis label renderers on the property $axisLabelRenderer for
+ezcGraphChartAxisElement objects.
+
+The renderer used in this example has custom properties like the rotation of
+the labels, which is set in degree, while the rotation direction depends on
+the direction of the axis.
+
+It makes sense to define more vertical space below the the axis for the
+rotated labels like done in line 11 of the above example.
+
+.. image:: img/tutorial_rotated_labels.svg.png
+   :alt:   Date axis example
+
+The results conatins rotated labels, which enables you to pack a lot more
+labels on one axis.
 
 Datasets
 ========
