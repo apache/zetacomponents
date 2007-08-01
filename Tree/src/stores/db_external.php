@@ -200,7 +200,7 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
         $q = $db->createSelectQuery();
         $q->select( 'id' )
           ->from( $db->quoteIdentifier( $this->table ) )
-          ->where( $q->expr->eq( $db->quoteIdentifier( $this->idField ), $id ) );
+          ->where( $q->expr->eq( $db->quoteIdentifier( $this->idField ), $q->bindValue( $id ) ) );
         $s = $q->prepare();
         $s->execute();
 
