@@ -5,6 +5,7 @@
   chart
 - Fixed bug #11207: Missing URL property for legend, or missing legend, may
   cause PHP notice
+- Fixed bug #11157: Wrong display of single record with labeled axis
 
 1.1 - Monday 02 July 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

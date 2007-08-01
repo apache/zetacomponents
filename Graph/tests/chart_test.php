@@ -155,13 +155,47 @@ class ezcGraphChartTest extends ezcGraphTestCase
     {
         try
         {
-            $pieChart = new ezcGraphPieChart();
-            $pieChart->render( 400, 200 );
+            $barChart = new ezcGraphBarChart();
+            $barChart->render( 400, 200 );
         }
         catch ( ezcGraphNoDataException $e )
         {
             return true;
         }
+    }
+
+    public function testBarChartWithSingleDataPoint()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $barChart = new ezcGraphBarChart();
+        $barChart->data['test'] = new ezcGraphArrayDataSet(
+            array( 23 )
+        );
+        $barChart->render( 400, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testBarChartWithSingleDataPointNumericAxis()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $barChart = new ezcGraphBarChart();
+        $barChart->xAxis = new ezcGraphChartElementNumericAxis();
+
+        $barChart->data['test'] = new ezcGraphArrayDataSet(
+            array( 23 )
+        );
+        $barChart->render( 400, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
     }
 
     public function testCustomChartClass()

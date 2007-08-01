@@ -187,6 +187,18 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
 
         if ( $labelCount === 0 )
         {
+            // Create single only step
+            $this->steps = array(
+                new ezcGraphAxisStep(
+                    0,
+                    1,
+                    reset( $this->labels ),
+                    array(),
+                    true,
+                    true
+                ),
+            );
+
             return true;
         }
 
