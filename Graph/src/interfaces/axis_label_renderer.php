@@ -199,10 +199,10 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
     public function determineLineCuttingPoint( ezcGraphCoordinate $aStart, ezcGraphCoordinate $aDir, ezcGraphCoordinate $bStart, ezcGraphCoordinate $bDir )
     {
         // Check if lines are parallel
-        if ( ( ( $aDir->x == 0 ) && ( $bDir->x == 0 ) ) ||
-             ( ( $aDir->y == 0 ) && ( $bDir->y == 0 ) ) || 
-             ( ( $aDir->x * $bDir->x * $aDir->y * $bDir->y != 0 ) && 
-               ( ( $aDir->x / $aDir->y ) == ( $bDir->x / $bDir->y ) ) 
+        if ( ( ( abs( $aDir->x ) < .000001 ) && ( abs( $bDir->x ) < .000001 ) ) ||
+             ( ( abs( $aDir->y ) < .000001 ) && ( abs( $bDir->y ) < .000001 ) ) || 
+             ( ( abs( $aDir->x * $bDir->x * $aDir->y * $bDir->y ) > .000001 ) && 
+               ( abs( ( $aDir->x / $aDir->y ) - ( $bDir->x / $bDir->y ) ) < .000001 )
              )
            )
         {
@@ -211,26 +211,26 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
 
         // Use ? : to prevent division by zero
         $denominator = 
-            ( $aDir->y != 0 ? $bDir->y / $aDir->y : 0 ) - 
-            ( $aDir->x != 0 ? $bDir->x / $aDir->x : 0 );
+            ( abs( $aDir->y ) > .000001 ? $bDir->y / $aDir->y : .0 ) - 
+            ( abs( $aDir->x ) > .000001 ? $bDir->x / $aDir->x : .0 );
 
         // Solve equatation
-        if ( $denominator == 0 )
+        if ( abs( $denominator ) < .000001 )
         {
             return - ( 
-                ( $aDir->y != 0 ? $bStart->y / $aDir->y : 0 ) -
-                ( $aDir->y != 0 ? $aStart->y / $aDir->y : 0 ) -
-                ( $aDir->x != 0 ? $bStart->x / $aDir->x : 0 ) +
-                ( $aDir->x != 0 ? $aStart->x / $aDir->x : 0 )
-                );
+                ( abs( $aDir->y ) > .000001 ? $bStart->y / $aDir->y : .0 ) -
+                ( abs( $aDir->y ) > .000001 ? $aStart->y / $aDir->y : .0 ) -
+                ( abs( $aDir->x ) > .000001 ? $bStart->x / $aDir->x : .0 ) +
+                ( abs( $aDir->x ) > .000001 ? $aStart->x / $aDir->x : .0 )
+            );
         }
         else 
         {
             return - ( 
-                ( $aDir->y != 0 ? $bStart->y / $aDir->y : 0 ) -
-                ( $aDir->y != 0 ? $aStart->y / $aDir->y : 0 ) -
-                ( $aDir->x != 0 ? $bStart->x / $aDir->x : 0 ) +
-                ( $aDir->x != 0 ? $aStart->x / $aDir->x : 0 )
+                ( abs( $aDir->y ) > .000001 ? $bStart->y / $aDir->y : .0 ) -
+                ( abs( $aDir->y ) > .000001 ? $aStart->y / $aDir->y : .0 ) -
+                ( abs( $aDir->x ) > .000001 ? $bStart->x / $aDir->x : .0 ) +
+                ( abs( $aDir->x ) > .000001 ? $aStart->x / $aDir->x : .0 )
             ) / $denominator;
         }
     }
@@ -345,11 +345,11 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 ),
             ) as $boundingLine )
         {
-            // Test for cutting points with bounding lines, where cutting 
+            // Test for cutting points with bounding lines, where cutting
             // position is between 0 and 1, which means, that the line is hit
             // on the bounding box rectangle. Use these points as a start and
-            // ending point for the grid lines. There should *always* be two
-            // points returned.
+            // ending point for the grid lines. There should *always* be
+            // exactly two points returned.
             $cuttingPosition = $this->determineLineCuttingPoint(
                 $boundingLine['start'],
                 $boundingLine['dir'],
@@ -357,10 +357,16 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 $gridDirection
             );
 
+            $cuttingPoint = new ezcGraphCoordinate(
+                $boundingLine['start']->x + $cuttingPosition * $boundingLine['dir']->x,
+                $boundingLine['start']->y + $cuttingPosition * $boundingLine['dir']->y
+            );
+
             if ( $cuttingPosition === false )
             {
                 continue;
             }
+
             // Round to prevent minor float incorectnesses
             $cuttingPosition = abs( round( $cuttingPosition, 2 ) );
 
@@ -376,6 +382,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
 
         if ( count( $cuttingPoints ) < 2 )
         {
+            // This should not happpen
             return false;
         }
 

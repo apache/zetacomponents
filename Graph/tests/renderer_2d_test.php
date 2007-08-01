@@ -2047,6 +2047,26 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         );
     }
 
+    public function testBug11107_MissingGridWithBottomLegend()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        
+        $graph = new ezcGraphLineChart();
+        $graph->palette = new ezcGraphPaletteBlack();
+        $graph->legend->position = ezcGraph::BOTTOM;
+
+        $graph->data['sample'] = new ezcGraphArrayDataSet(
+            array( 1, 4, 6, 8, 2 )
+        );
+
+        $graph->render( 560, 250, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRendererOptionsPropertyMaxLabelHeight()
     {
         $options = new ezcGraphRendererOptions();
