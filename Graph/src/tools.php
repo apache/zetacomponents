@@ -46,28 +46,31 @@ class ezcGraphTools
         $imageMap = sprintf( "<map name=\"%s\">\n", $name );
 
         // Iterate over legends elements
-        foreach ( $elements['legend'] as $objectName => $polygones )
+        if ( isset( $elements['legend'] ) )
         {
-            $url = $elements['legend_url'][$objectName];
-
-            if ( empty( $url ) )
+            foreach ( $elements['legend'] as $objectName => $polygones )
             {
-                continue;
-            }
+                $url = $elements['legend_url'][$objectName];
 
-            foreach ( $polygones as $shape => $polygone )
-            {
-                $coordinateString = '';
-                foreach ( $polygone as $coordinate )
+                if ( empty( $url ) )
                 {
-                    $coordinateString .= sprintf( '%d,%d,', $coordinate->x, $coordinate->y );
+                    continue;
                 }
 
-                $imageMap .= sprintf( "\t<area shape=\"poly\" coords=\"%s\" href=\"%s\" alt=\"%s\" />\n",
-                    substr( $coordinateString, 0, -1 ),
-                    $url,
-                    $objectName
-                );
+                foreach ( $polygones as $shape => $polygone )
+                {
+                    $coordinateString = '';
+                    foreach ( $polygone as $coordinate )
+                    {
+                        $coordinateString .= sprintf( '%d,%d,', $coordinate->x, $coordinate->y );
+                    }
+
+                    $imageMap .= sprintf( "\t<area shape=\"poly\" coords=\"%s\" href=\"%s\" alt=\"%s\" />\n",
+                        substr( $coordinateString, 0, -1 ),
+                        $url,
+                        $objectName
+                    );
+                }
             }
         }
 
@@ -152,21 +155,24 @@ class ezcGraphTools
         }
 
         // Link legend elements
-        foreach ( $elements['legend'] as $objectName => $ids )
+        if ( isset( $elements['legend'] ) )
         {
-            $url = $elements['legend_url'][$objectName];
-
-            if ( empty( $url ) )
+            foreach ( $elements['legend'] as $objectName => $ids )
             {
-                continue;
-            }
+                $url = $elements['legend_url'][$objectName];
 
-            foreach ( $ids as $id )
-            {
-                $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
+                if ( empty( $url ) )
+                {
+                    continue;
+                }
 
-                $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: ' . $chart->driver->options->linkCursor . ';' );
-                $element->setAttribute( 'onclick', "top.location = '{$url}'" );
+                foreach ( $ids as $id )
+                {
+                    $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
+
+                    $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: ' . $chart->driver->options->linkCursor . ';' );
+                    $element->setAttribute( 'onclick', "top.location = '{$url}'" );
+                }
             }
         }
 

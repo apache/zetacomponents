@@ -129,6 +129,61 @@ class ezcGraphToolsTest extends ezcGraphTestCase
         );
     }
 
+    public function testLineChartImageMapOnlyDataPoint()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $htmlFilename = $this->tempDir . __FUNCTION__ . '.html';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+        $chart->options->fillLines = 200;
+
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+
+        $chart->data['Line 2']->url['sample 3'] = 'http://example.org/line_2/sample_3';
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font->path = $this->basePath . 'font.ttf';
+
+        $chart->render( 500, 200, $filename );
+
+        file_put_contents( $htmlFilename, ezcGraphTools::createImageMap( $chart ) );
+
+        $this->compare(
+            $htmlFilename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.html'
+        );
+    }
+
+    public function testLineChartImageMapNoLegend()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $htmlFilename = $this->tempDir . __FUNCTION__ . '.html';
+
+        $chart = new ezcGraphLineChart();
+        $chart->legend = false;
+        $chart->palette = new ezcGraphPaletteBlack();
+        $chart->options->fillLines = 200;
+
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+
+        $chart->data['Line 2']->url['sample 3'] = 'http://example.org/line_2/sample_3';
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font->path = $this->basePath . 'font.ttf';
+
+        $chart->render( 500, 200, $filename );
+
+        file_put_contents( $htmlFilename, ezcGraphTools::createImageMap( $chart ) );
+
+        $this->compare(
+            $htmlFilename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.html'
+        );
+    }
+
     public function testImageMapWithWrongDriver()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
@@ -183,6 +238,58 @@ class ezcGraphToolsTest extends ezcGraphTestCase
         ) );
 
         $chart->data['sample']->url = 'http://example.org/browsers';
+        $chart->data['sample']->url['Mozilla'] = 'http://example.org/browsers/mozilla';
+        $chart->data['sample']->highlight['Opera'] = true;
+
+        $chart->render( 500, 200, $filename );
+
+        ezcGraphTools::linkSvgElements( $chart );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testPieChartSvgLinkingOnlyDataPoint()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->url['Mozilla'] = 'http://example.org/browsers/mozilla';
+
+        $chart->render( 500, 200, $filename );
+
+        ezcGraphTools::linkSvgElements( $chart );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testPieChartSvgLinkingNoLegend()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->legend = false;
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
         $chart->data['sample']->url['Mozilla'] = 'http://example.org/browsers/mozilla';
         $chart->data['sample']->highlight['Opera'] = true;
 
