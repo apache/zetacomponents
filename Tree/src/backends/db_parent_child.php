@@ -345,6 +345,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
         $q->deleteFrom( $db->quoteIdentifier( $this->indexTableName ) );
         $s = $q->prepare();
         $s->execute();
+        $this->store->deleteDataForAllNodes();
 
         $q = $db->createInsertQuery();
         $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) )
@@ -382,18 +383,15 @@ class ezcTreeDbParentChild extends ezcTreeDb
         $this->store->storeDataForNode( $childNode, $childNode->data );
     }
 
-    private function deleteChildNodes( $nodeId )
+    private function deleteNodes( ezcTreeNodeList $list )
     {
         $db = $this->dbh;
         $q = $db->createDeleteQuery();
+        $q->deleteFrom( $db->quoteIdentifier( $this->indexTableName ) );
 
-        foreach ( $this->fetchChildRecords( $nodeId ) as $record )
-        {
-            $this->deleteChildNodes( $record['id'] );
-        }
+        $idList = array_keys( $list->getNodes() );
 
-        $q->deleteFrom( $db->quoteIdentifier( $this->indexTableName ) )
-          ->where( $q->expr->eq( 'id', $q->bindValue( $nodeId ) ) );
+        $q->where( $q->expr->in( 'id', $idList ) );
         $s = $q->prepare();
         $s->execute();
     }
@@ -411,7 +409,9 @@ class ezcTreeDbParentChild extends ezcTreeDb
             return;
         }
 
-        $this->deleteChildNodes( $id );
+        $nodeList = $this->fetchSubtree( $id );
+        $this->deleteNodes( $nodeList );
+        $this->store->deleteDataForNodes( $nodeList );
     }
 
     /**

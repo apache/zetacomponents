@@ -140,6 +140,56 @@ class ezcTreeNodeTest extends ezcTestCase
         self::assertSame( true, $node->dataFetched );
     }
 
+    public function testSetDataFetchedNotBool()
+    {
+        $node = new ezcTreeNode( $this->tree, 'Si', 'Silicon' );
+        
+        try
+        {
+            $node->dataFetched = 42;
+            self::fail( "Expected exception not thrown" );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertSame( "The value '42' that you were trying to assign to setting 'dataFetched' is invalid. Allowed values are: boolean.", $e->getMessage() );
+        }
+    }
+
+    public function testSetDataStoredNotBool()
+    {
+        $node = new ezcTreeNode( $this->tree, 'P', 'Phosphorus' );
+        
+        try
+        {
+            $node->dataStored = "oops!";
+            self::fail( "Expected exception not thrown" );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertSame( "The value 'oops!' that you were trying to assign to setting 'dataStored' is invalid. Allowed values are: boolean.", $e->getMessage() );
+        }
+    }
+
+    public function testSetDataFetched()
+    {
+        $node = new ezcTreeNode( $this->tree, 'S', 'Sulfur' );
+        
+        $node->dataFetched = true;
+        self::assertSame( true, $node->dataFetched );
+        $node->dataFetched = false;
+        self::assertSame( false, $node->dataFetched );
+    }
+
+    public function testSetDataStored()
+    {
+        $node = new ezcTreeNode( $this->tree, 'Cl', 'Chlorine' );
+        
+        $node->dataStored = true;
+        self::assertSame( true, $node->dataStored );
+        $node->dataStored = false;
+        self::assertSame( false, $node->dataStored );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeNodeTest" );

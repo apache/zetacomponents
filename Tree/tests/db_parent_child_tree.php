@@ -184,8 +184,53 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
         }
     }
 
+    public function testStoreUpdatedData()
+    {
+        $this->emptyTables();
+
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
+        $tree = ezcTreeDbParentChild::create(
+            $this->dbh,
+            'parent_child',
+            $store
+        );
+
+        $root = $tree->createNode( 1, "Camelinae" );
+        $tree->setRootNode( $root );
+
+        $root->addChild( $tree->createNode( 2, "Lama" ) );
+        $root->addChild( $tree->createNode( 3, "Vicugna" ) );
+        $root->addChild( $tree->createNode( 4, "Camelus" ) );
+
+        // start over
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
+        $tree = new ezcTreeDbParentChild(
+            $this->dbh,
+            'parent_child',
+            $store
+        );
+
+        $camelus = $tree->fetchNodeById( 4 );
+        self::assertSame( "Camelus", $camelus->data );
+        $camelus->data = "Something Wrong";
+        $camelus->data = "Camels";
+
+        // start over
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
+        $tree = new ezcTreeDbParentChild(
+            $this->dbh,
+            'parent_child',
+            $store
+        );
+
+        $camelus = $tree->fetchNodeById( 4 );
+        self::assertSame( "Camels", $camelus->data );
+    }
+
     public function testCreateDbTreeWithTransaction()
     {
+        $this->emptyTables();
+
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
         $tree = ezcTreeDbParentChild::create(
             $this->dbh,

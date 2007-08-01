@@ -556,6 +556,19 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( 8, $tree->getChildCountRecursive( '1' ) );
     }
 
+    public function testTreeDeleteNodeAndAddNew()
+    {
+        $tree = $this->setUpTestTree();
+
+        $tree->delete( '5' );
+        self::assertSame( false, $tree->nodeExists( '5' ) );
+        self::assertSame( false, $tree->nodeExists( '9' ) );
+
+        $node1  = $tree->fetchNodeById( 1 );
+        $cervus = $tree->createNode( 9, 'Cervus' );
+        $node1->addChild( $cervus );
+    }
+
     public function testTreeTransactionDoubleStart()
     {
         $tree = $this->setUpTestTree();
@@ -671,6 +684,26 @@ class ezcTreeTest extends ezcTestCase
             self::assertSame( false, $tree->nodeExists( $i ) );
         }
         self::assertSame( true, $tree->nodeExists( '42' ) );
+    }
+
+    public function testMissingDataException()
+    {
+        // not applicable from memory store as that always has data
+        if ( get_class( $this ) !== 'ezcTreeMemoryTest' )
+        {
+            $tree = $this->setUpTestTree();
+
+            $node = $tree->fetchNodeById( 9 );
+            try
+            {
+                $data = $node->data;
+                self::fail( "Expected exception not thrown." );
+            }
+            catch ( ezcTreeDataStoreMissingDataException $e )
+            {
+                self::assertSame( "The data store does not have data stored for the node with ID '9'.", $e->getMessage() );
+            }
+        }
     }
 }
 

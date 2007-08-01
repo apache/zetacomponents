@@ -71,6 +71,45 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
     }
 
     /**
+     * Deletes the data for the node $node from the data store.
+     *
+     * @param ezcTreeNode $node
+     */
+    public function deleteDataForNode( ezcTreeNode $node )
+    {
+    }
+
+    /**
+     * Deletes the data for all the nodes in the node list $nodeList.
+     *
+     * @param ezcTreeNodeList $nodeList
+     */
+    public function deleteDataForNodes( ezcTreeNodeList $nodeList )
+    {
+        $nodeIdsToDelete = array_keys( $nodeList->getNodes() );
+
+        $db = $this->dbHandler;
+        $q = $db->createDeleteQuery();
+        $q->deleteFrom( $db->quoteIdentifier( $this->table ) )
+          ->where( $q->expr->in( $db->quoteIdentifier( $this->idField ), $nodeIdsToDelete ) );
+        $s = $q->prepare();
+        $s->execute();
+    }
+
+    /**
+     * Deletes the data for all the nodes in the store.
+     */
+    public function deleteDataForAllNodes()
+    {
+        $db = $this->dbHandler;
+        $q = $db->createDeleteQuery();
+
+        $q->deleteFrom( $db->quoteIdentifier( $this->table ) );
+        $s = $q->prepare();
+        $s->execute();
+    }
+
+    /**
      * Takes the data from the executed query and uses the $dataField 
      * property to filter out the wanted data for this node.
      *
@@ -110,6 +149,7 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
             throw new ezcTreeDataStoreMissingDataException( $node->id );
         }
         $node->data = $this->filterDataFromResult( $result );
+        $node->dataFetched = true;
     }
 
     /**
@@ -142,6 +182,7 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
         foreach ( $s as $result )
         {
             $nodeList[$result['id']]->data = $this->filterDataFromResult( $result );
+            $nodeList[$result['id']]->dataFetched = true;
         }
     }
 
@@ -191,6 +232,7 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
         }
         $s = $q->prepare();
         $s->execute();
+        $node->dataStored = true;
     }
 }
 ?>

@@ -347,8 +347,9 @@ class ezcTreeMemory extends ezcTree
      */
     public function setRootNode( ezcTreeNode $node )
     {
-        // wipe nodelist
+        // wipe nodelist and data
         $this->nodeList = array();
+        $this->store->deleteDataForAllNodes();
 
         // replace root node
         $newObj = new ezcTreeMemoryNode( $node, array() );
@@ -401,8 +402,9 @@ class ezcTreeMemory extends ezcTree
         // locate node to move
         $nodeToDelete = $this->getNodeById( $id );
 
-        // fetch the whole subtree
+        // fetch the whole subtree and delete all the associated data
         $children = $nodeToDelete->node->fetchSubtree();
+        $this->store->deleteDataForNodes( $children );
 
         // Use the parent to remove the child
         unset( $nodeToDelete->parent->children[$id] );

@@ -17,6 +17,34 @@
 class ezcTreeMemoryDataStore implements ezcTreeDataStore
 {
     /**
+     * Deletes the data for the node $node from the data store.
+     *
+     * @param ezcTreeNode $node
+     */
+    public function deleteDataForNode( ezcTreeNode $node )
+    {
+        /* This is a no-op as the data is part of the node */
+    }
+
+    /**
+     * Deletes the data for all the nodes in the node list $nodeList.
+     *
+     * @param ezcTreeNodeList $nodeList
+     */
+    public function deleteDataForNodes( ezcTreeNodeList $nodeList )
+    {
+        /* This is a no-op as the data is part of the node */
+    }
+
+    /**
+     * Deletes the data for all the nodes in the store.
+     */
+    public function deleteDataForAllNodes()
+    {
+        /* This is a no-op as the data is part of the node */
+    }
+
+    /**
      * Retrieves the data for the node $node from the data store and assigns it
      * to the node's 'data' property.
      *

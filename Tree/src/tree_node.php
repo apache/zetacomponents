@@ -14,10 +14,15 @@
  * isSiblingOf) are all marshalled to calls on the tree (that is stored in the
  * $tree private variable) itself.
  *
- * @property-read string $id          The ID that uniquely identifies a node
- * @property      mixed  $data        The data belonging to a node
- * @property-read bool   $dataFetched Whether the data for this node has been
- *                                    fetched.
+ * @property-read string  $id          The ID that uniquely identifies a node
+ * @property-read ezcTree $tree        The tree object that this node belongs to
+ * @property      mixed   $data        The data belonging to a node
+ * @property      bool    $dataFetched Whether the data for this node has been
+ *                                     fetched. Should *only* be modified by
+ *                                     data store implementations.
+ * @property      bool    $dataStored  Whether the data for this node has been
+ *                                     stored. Should *only* be modified by
+ *                                     data store implementations.
  *
  * @package Tree
  * @version //autogentag//
@@ -33,13 +38,6 @@ class ezcTreeNode
     private $properties = array();
 
     /**
-     * Holds a link to the tree that this node is part of
-     *
-     * @var ezcTree
-     */
-    private $tree;
-
-    /**
      * Constructs a new ezcTreeNode object with ID $id on tree $tree
      *
      * @param ezcTree $tree
@@ -48,13 +46,14 @@ class ezcTreeNode
      */
     public function __construct( ezcTree $tree, $id )
     {
-        $this->tree = $tree;
         $this->properties['id'] = (string) $id;
+        $this->properties['tree'] = $tree;
 
         if ( func_num_args() === 2 )
         {
             $this->properties['data'] = null;
             $this->properties['dataFetched'] = false;
+            $this->properties['dataStored'] = true;
 
             if ( $tree->prefetch )
             {
@@ -65,6 +64,7 @@ class ezcTreeNode
         {
             $this->properties['data'] = func_get_arg( 2 );
             $this->properties['dataFetched'] = true;
+            $this->properties['dataStored'] = false;
         }
     }
 
@@ -89,6 +89,8 @@ class ezcTreeNode
                 // break intentionally missing
             case 'id':
             case 'dataFetched':
+            case 'dataStored':
+            case 'tree':
                 return $this->properties[$name];
 
         }
@@ -110,13 +112,27 @@ class ezcTreeNode
         switch ( $name )
         {
             case 'id':
-            case 'dataFetched':
+            case 'tree':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
             case 'data':
                 $this->properties[$name] = $value;
+                $this->properties['dataStored'] = false;
+                if ( $this->properties['dataFetched'] )
+                {
+                    $this->tree->store->storeDataForNode( $this );
+                }
                 $this->properties['dataFetched'] = true;
                 return;
+
+            case 'dataFetched':
+            case 'dataStored':
+                if ( !is_bool( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'boolean' );
+                }
+                $this->properties[$name] = $value;
+                break;
 
             default:
                 throw new ezcBasePropertyNotFoundException( $name );

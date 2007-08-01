@@ -51,7 +51,7 @@ class ezcDbTreeTest extends ezcTreeTest
             }
 
             // add data
-            for ( $i = 1; $i <= 9; $i++ )
+            for ( $i = 1; $i <= 8; $i++ )
             {
                 $this->dbh->exec( "INSERT INTO data(id, data) values ( $i, 'Node $i' )" );
             }

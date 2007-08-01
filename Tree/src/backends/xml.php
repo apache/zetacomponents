@@ -112,7 +112,7 @@ class ezcTreeXml extends ezcTree
     /**
      * Saves the internal DOM representation of the tree back to disk
      */
-    private function saveFile()
+    public function saveFile()
     {
         $this->dom->save( $this->xmlFile );
     }
@@ -446,6 +446,7 @@ class ezcTreeXml extends ezcTree
                 $this->delete( $id );
             }
         }
+        $this->store->deleteDataForAllNodes();
 
         // Create new root node
         $root = $this->dom->createElement( 'node' );
@@ -501,20 +502,23 @@ class ezcTreeXml extends ezcTree
             return;
         }
 
+        // Delete all the associated data
+        $nodeList = $this->fetchSubtree( $id );
+        $this->store->deleteDataForNodes( $nodeList );
+
         // locate node to move
         $nodeToDelete = $this->getNodeById( $id );
 
-        // Use the parent to remove the child
+        // Remove the ID on all children by hand as this would crash in PHP <= 5.2.3
         $nodeToDelete->removeAttribute( "id" );
 
-        // Remove the ID on all children by hand as this would crash in PHP <= 5.2.3
         $children = $nodeToDelete->getElementsByTagName( 'node' );
         foreach ( $children as $child )
         {
             $child->removeAttribute( "id" );
         }
 
-        // Remove the node itself
+        // Use the parent to remove the child
         $nodeToDelete->parentNode->removeChild( $nodeToDelete );
 
         if ( !$this->inTransactionCommit )

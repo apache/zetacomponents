@@ -95,6 +95,41 @@ class ezcTreeXmlTest extends ezcTreeTest
         );
     }
 
+    public function testStoreUpdatedData()
+    {
+        $tree = ezcTreeXml::create(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+
+        $root = $tree->createNode( 1, "Camelinae" );
+        $tree->setRootNode( $root );
+
+        $root->addChild( $tree->createNode( 2, "Lama" ) );
+        $root->addChild( $tree->createNode( 3, "Vicugna" ) );
+        $root->addChild( $tree->createNode( 4, "Camelus" ) );
+
+        // start over
+        $tree = new ezcTreeXml(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+
+        $camelus = $tree->fetchNodeById( 4 );
+        self::assertSame( "Camelus", $camelus->data );
+        $camelus->data = "Something Wrong";
+        $camelus->data = "Camels";
+
+        // start over
+        $tree = new ezcTreeXml(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+
+        $camelus = $tree->fetchNodeById( 4 );
+        self::assertSame( "Camels", $camelus->data );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeXmlTest" );

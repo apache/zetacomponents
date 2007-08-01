@@ -23,9 +23,7 @@
         </node>
         <node id="id5">
             <etd:data>Node 5</etd:data>
-            <node id="id9">
-                <etd:data>Node 9</etd:data>
-            </node>
+            <node id="id9"/>
         </node>
     </node>
 </tree>

@@ -18,6 +18,33 @@
 class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
 {
     /**
+     * Deletes the data for the node $node from the data store.
+     *
+     * @param ezcTreeNode $node
+     */
+    public function deleteDataForNode( ezcTreeNode $node )
+    {
+    }
+
+    /**
+     * Deletes the data for all the nodes in the node list $nodeList.
+     *
+     * @param ezcTreeNodeList $nodeList
+     */
+    public function deleteDataForNodes( ezcTreeNodeList $nodeList )
+    {
+        /* This is a no-op as the data is part of the node */
+    }
+
+    /**
+     * Deletes the data for all the nodes in the store.
+     */
+    public function deleteDataForAllNodes()
+    {
+        /* This is a no-op as the data is part of the node */
+    }
+
+    /**
      * Retrieves the data for the node $node from the data store and assigns it
      * to the node's 'data' property.
      *
@@ -27,7 +54,13 @@ class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
     {
         $id = $node->id;
         $elem = $this->dom->getElementById( "id$id" );
-        $node->data = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item(0)->firstChild->data;
+        $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item(0);
+        if ( $dataElem === null )
+        {
+            throw new ezcTreeDataStoreMissingDataException( $node->id );
+        }
+        $node->data = $dataElem->firstChild->data;
+        $node->dataFetched = true;
     }
 
     /**
@@ -54,10 +87,22 @@ class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
      */
     public function storeDataForNode( ezcTreeNode $node )
     {
+        // Locate the element
         $id = $node->id;
         $elem = $this->dom->getElementById( "id$id" );
-        $dataNode = $elem->ownerDocument->createElement( 'etd:data', $node->data );
+
+        // Locate the data element, and remove it
+        $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item(0);
+        if ( $dataElem !== null )
+        {
+            $dataElem->parentNode->removeChild( $dataElem );
+        }
+
+        // Create the new data element and add it
+        $dataNode = $elem->ownerDocument->createElementNS( 'http://components.ez.no/Tree/data', 'etd:data', $node->data );
         $elem->appendChild( $dataNode );
+        $node->dataStored = true;
+        $node->tree->saveFile();
     }
 }
 ?>
