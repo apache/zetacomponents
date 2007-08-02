@@ -20,8 +20,8 @@ interface ezcTreeDataStore
      * Deletes the data for the node $node from the data store.
      *
      * @param ezcTreeNode $node
-     */
     public function deleteDataForNode( ezcTreeNode $node );
+     */
 
     /**
      * Deletes the data for all the nodes in the node list $nodeList.

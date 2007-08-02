@@ -21,10 +21,10 @@ class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
      * Deletes the data for the node $node from the data store.
      *
      * @param ezcTreeNode $node
-     */
     public function deleteDataForNode( ezcTreeNode $node )
     {
     }
+     */
 
     /**
      * Deletes the data for all the nodes in the node list $nodeList.
@@ -33,7 +33,7 @@ class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
      */
     public function deleteDataForNodes( ezcTreeNodeList $nodeList )
     {
-        /* This is a no-op as the data is part of the node */
+        // This is a no-op as the data is part of the nodes
     }
 
     /**
@@ -41,7 +41,7 @@ class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
      */
     public function deleteDataForAllNodes()
     {
-        /* This is a no-op as the data is part of the node */
+        // This is a no-op as the data is part of the nodes
     }
 
     /**
