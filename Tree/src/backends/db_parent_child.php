@@ -101,13 +101,13 @@ class ezcTreeDbParentChild extends ezcTreeDb
      * @param ezcTreeNodeList $list
      * @param string          $nodeId
      */
-    private function addChildNodes( ezcTreeNodeList $list, $nodeId )
+    private function addChildNodesDepthFirst( ezcTreeNodeList $list, $nodeId )
     {
         $className = $this->properties['nodeClassName'];
         foreach ( $this->fetchChildRecords( $nodeId ) as $record )
         {
             $list->addNode( new $className( $this, $record['id'] ) );
-            $this->addChildNodes( $list, $record['id'] );
+            $this->addChildNodesDepthFirst( $list, $record['id'] );
         }
     }
 
@@ -152,28 +152,6 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Alias for fetchSubtreeDepthFirst().
-     *
-     * @param string $id
-     * @return ezcTreeNodeList
-     */
-    public function fetchSubtree( $nodeId )
-    {
-        return $this->fetchSubtreeDepthFirst( $nodeId );
-    }
-
-    /**
-     * Returns the node with ID $id and all its children, sorted accoring to
-     * the `Breadth-first sorting`_ algorithm.
-     *
-     * @param string $id
-     * @return ezcTreeNodeList
-     */
-    public function fetchSubtreeBreadthFirst( $nodeId )
-    {
-    }
-
-    /**
      * Returns the node with ID $id and all its children, sorted accoring to
      * the `Depth-first sorting`_ algorithm.
      *
@@ -185,7 +163,55 @@ class ezcTreeDbParentChild extends ezcTreeDb
         $className = $this->properties['nodeClassName'];
         $list = new ezcTreeNodeList;
         $list->addNode( new $className( $this, $nodeId ) );
-        $this->addChildNodes( $list, $nodeId );
+        $this->addChildNodesDepthFirst( $list, $nodeId );
+        return $list;
+    }
+
+    /**
+     * Alias for fetchSubtreeDepthFirst().
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
+    public function fetchSubtree( $nodeId )
+    {
+        return $this->fetchSubtreeDepthFirst( $nodeId );
+    }
+
+    /**
+     * Adds the children nodes of the node with ID $nodeId to the
+     * ezcTreeNodeList $list.
+     *
+     * @param ezcTreeNodeList $list
+     * @param string          $nodeId
+     */
+    private function addChildNodesBreadthFirst( ezcTreeNodeList $list, $nodeId )
+    {
+        $className = $this->properties['nodeClassName'];
+        $childRecords = $this->fetchChildRecords( $nodeId )->fetchAll();
+        foreach ( $childRecords as $record )
+        {
+            $list->addNode( new $className( $this, $record['id'] ) );
+        }
+        foreach ( $childRecords as $record )
+        {
+            $this->addChildNodesBreadthFirst( $list, $record['id'] );
+        }
+    }
+
+    /**
+     * Returns the node with ID $id and all its children, sorted accoring to
+     * the `Breadth-first sorting`_ algorithm.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
+    public function fetchSubtreeBreadthFirst( $nodeId )
+    {
+        $className = $this->properties['nodeClassName'];
+        $list = new ezcTreeNodeList;
+        $list->addNode( new $className( $this, $nodeId ) );
+        $this->addChildNodesBreadthFirst( $list, $nodeId );
         return $list;
     }
 

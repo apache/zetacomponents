@@ -18,9 +18,15 @@ class ezcTreeMemoryTest extends ezcTreeTest
 {
     private $tempDir;
 
-    protected function setUpTestTree()
+    protected function setUpEmptyTestTree()
     {
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+        return $tree;
+    }
+
+    protected function setUpTestTree()
+    {
+        $tree = $this->setUpEmptyTestTree();
         $tree->setRootNode( $root = $tree->createNode( 1, 'Node 1' ) );
 
         $root->addChild( $node2 = $tree->createNode( 2, 'Node 2' ) );

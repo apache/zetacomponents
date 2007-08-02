@@ -28,6 +28,15 @@ class ezcTreeXmlTest extends ezcTreeTest
         $this->removeTempDir();
     }
 
+    protected function setUpEmptyTestTree()
+    {
+        $tree = ezcTreeXml::create( 
+            $this->tempDir . '/test.xml',
+            new ezcTreeXmlInternalDataStore()
+        );
+        return $tree;
+    }
+
     protected function setUpTestTree()
     {
         copy( dirname( __FILE__ ) . '/files/init.xml', $this->tempDir . '/test.xml' );

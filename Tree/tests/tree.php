@@ -384,6 +384,54 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( '8', $nodeList[8]->id );
     }
 
+    public function testTreeFetchSubtreeBreadthFirstOnNode()
+    {
+        $tree = $this->setUpTestTree();
+
+        $nodeList = $tree->fetchNodeById( 4 )->fetchSubtreeBreadthFirst();
+        self::assertSame( 4, $nodeList->size );
+        self::assertSame( '4', $nodeList[4]->id );
+        self::assertSame( '6', $nodeList[6]->id );
+        self::assertSame( '7', $nodeList[7]->id );
+        self::assertSame( '8', $nodeList[8]->id );
+    }
+
+    public function testTreeFetchSubtreeBreadthFirstOnTree()
+    {
+        $tree = $this->setUpTestTree();
+
+        $nodeList = $tree->fetchSubtreeBreadthFirst( 4 );
+        self::assertSame( 4, $nodeList->size );
+        self::assertSame( '4', $nodeList[4]->id );
+        self::assertSame( '6', $nodeList[6]->id );
+        self::assertSame( '7', $nodeList[7]->id );
+        self::assertSame( '8', $nodeList[8]->id );
+    }
+
+    public function testTreeFetchSubtreeDepthFirstOnNode()
+    {
+        $tree = $this->setUpTestTree();
+
+        $nodeList = $tree->fetchNodeById( 4 )->fetchSubtreeDepthFirst();
+        self::assertSame( 4, $nodeList->size );
+        self::assertSame( '4', $nodeList[4]->id );
+        self::assertSame( '6', $nodeList[6]->id );
+        self::assertSame( '7', $nodeList[7]->id );
+        self::assertSame( '8', $nodeList[8]->id );
+    }
+
+    public function testTreeFetchSubtreeDepthFirstOnTree()
+    {
+        $tree = $this->setUpTestTree();
+
+        $nodeList = $tree->fetchSubtreeDepthFirst( 4 );
+        self::assertSame( 4, $nodeList->size );
+        self::assertSame( '4', $nodeList[4]->id );
+        self::assertSame( '6', $nodeList[6]->id );
+        self::assertSame( '7', $nodeList[7]->id );
+        self::assertSame( '8', $nodeList[8]->id );
+    }
+
     public function testTreeFetchChildrenOnNode()
     {
         $tree = $this->setUpTestTree();
@@ -703,6 +751,162 @@ class ezcTreeTest extends ezcTestCase
             {
                 self::assertSame( "The data store does not have data stored for the node with ID '9'.", $e->getMessage() );
             }
+        }
+    }
+
+    private function addTestData( $tree )
+    {
+        $primates = array(
+            'Hominoidea' => array(
+                'Hylobatidae' => array(
+                    'Hylobates' => array(
+                        'Lar Gibbon',
+                        'Agile Gibbon',
+                        'Müller\'s Bornean Gibbon',
+                        'Silvery Gibbon',
+                        'Pileated Gibbon',
+                        'Kloss\'s Gibbon',
+                    ),
+                    'Hoolock' => array(
+                        'Western Hoolock Gibbon',
+                        'Eastern Hoolock Gibbon',
+                    ),
+                    'Symphalangus' => array(),
+                    'Nomascus' => array(
+                        'Black Crested Gibbon',
+                        'Eastern Black Crested Gibbon',
+                        'White-cheecked Crested Gibbon',
+                        'Yellow-cheecked Gibbon',
+                    ),
+                ),
+                'Hominidae' => array(
+                    'Pongo' => array(
+                        'Bornean Orangutan',
+                        'Sumatran Orangutan',
+                    ), 
+                    'Gorilla' => array(
+                        'Western Gorilla' => array(
+                            'Western Lowland Gorilla',
+                            'Cross River Gorilla',
+                        ),
+                        'Eastern Gorilla' => array(
+                            'Mountain Gorilla',
+                            'Eastern Lowland Gorilla',
+                        ),
+                    ), 
+                    'Homo' => array(
+                        'Homo Sapiens' => array(
+                            'Homo Sapiens Sapiens'
+                        ),
+                    ),
+                    'Pan' => array(
+                        'Common Chimpanzee',
+                        'Bonobo',
+                    ),
+                ),
+            ),
+        );
+
+        $root = $tree->createNode( 'Hominoidea', 'Hominoidea' );
+        $tree->setRootNode( $root );
+
+        $this->addChildren( $root, $primates['Hominoidea'] );
+    }
+
+    private function addChildren( ezcTreeNode $node, array $children )
+    {
+        foreach( $children as $name => $child )
+        {
+            if ( is_array( $child ) )
+            {
+                $newNode = $node->tree->createNode( $name, $name );
+                $node->addChild( $newNode );
+                $this->addChildren( $newNode, $child );
+            }
+            else
+            {
+                $newNode = $node->tree->createNode( $child, $child );
+                $node->addChild( $newNode );
+            }
+        }
+    }
+
+    public function testTreeCreateExtensive()
+    {
+        $tree = $this->setUpEmptyTestTree();
+        self::assertSame( false, $tree->nodeExists( '1' ) );
+        $this->addTestData( $tree );
+
+        self::assertSame( true, $tree->nodeExists( 'Homo Sapiens Sapiens' ) );
+        self::assertSame( true, $tree->isDecendantOf( 'Common Chimpanzee', 'Hominoidea' ) );
+        self::assertSame( 4, $tree->getChildCount( 'Hominidae' ) );
+        self::assertSame( 16, $tree->getChildCountRecursive( 'Hominidae' ) );
+        self::assertSame( true, $tree->isSiblingOf( 'Gorilla', 'Homo' ) );
+    }
+
+    public function testTreeFetchSubtreeDepthFirst()
+    {
+        $tree = $this->setUpEmptyTestTree();
+        $this->addTestData( $tree );
+
+        $expected = array(
+            'Gorilla', 'Western Gorilla', 'Western Lowland Gorilla', 
+            'Cross River Gorilla', 'Eastern Gorilla', 'Mountain Gorilla', 
+            'Eastern Lowland Gorilla' 
+        );
+        $list = $tree->fetchSubtreeDepthFirst( 'Gorilla' );
+        $nodes = $list->getNodes();
+        self::assertSame( 7, $list->size );
+        self::assertSame( 7, count( $nodes ) );
+
+        // test with fetched nodes as base
+        reset( $expected );
+        foreach ( $nodes as $key => $item )
+        {
+            self::assertSame( current( $expected ), $key );
+            next( $expected );
+        }
+
+        // test with expected array as base
+        reset( $nodes );
+        foreach( $expected as $key )
+        {
+            self::assertType( 'ezcTreeNode', current( $nodes ) );
+            self::assertSame( current( $nodes )->id, $key );
+            next( $nodes );
+        }
+    }
+
+    public function testTreeFetchSubtreeBreadthFirst()
+    {
+        $tree = $this->setUpEmptyTestTree();
+        $this->addTestData( $tree );
+
+        $expected = array( 
+            'Gorilla', 'Western Gorilla', 'Eastern Gorilla', 
+            'Western Lowland Gorilla', 'Cross River Gorilla', 
+            'Mountain Gorilla', 'Eastern Lowland Gorilla'
+        );
+        $list = $tree->fetchSubtreeBreadthFirst( 'Gorilla' );
+        $nodes = $list->getNodes();
+        self::assertSame( 7, $list->size );
+        self::assertSame( 7, count( $nodes ) );
+
+        // test with fetched nodes as base
+        reset( $expected );
+        foreach ( $nodes as $key => $item )
+        {
+            self::assertSame( current( $expected ), $key );
+            next( $expected );
+        }
+
+        // test with expected array as base
+        reset( $nodes );
+        foreach( $expected as $key )
+        {
+            self::assertType( 'ezcTreeNode', current( $nodes ) );
+            self::assertSame( current( $nodes )->id, $key );
+            next( $nodes );
         }
     }
 }

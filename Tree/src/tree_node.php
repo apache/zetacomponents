@@ -170,6 +170,17 @@ class ezcTreeNode
     }
 
     /**
+     * Returns this node and all its children, sorted accoring to the
+     * Depth-first sorting algorithm.
+     *
+     * @return ezcTreeNodeList
+     */
+    public function fetchSubtreeDepthFirst()
+    {
+        return $this->tree->fetchSubtreeDepthFirst( $this->id );
+    }
+
+    /**
 	 * Alias for fetchSubtreeDepthFirst().
      *
      * @see fetchSubtreeDepthFirst
@@ -189,17 +200,6 @@ class ezcTreeNode
     public function fetchSubtreeBreadthFirst()
     {
         return $this->tree->fetchSubtreeBreadthFirst( $this->id );
-    }
-
-    /**
-     * Returns this node and all its children, sorted accoring to the
-     * Depth-first sorting algorithm.
-     *
-     * @return ezcTreeNodeList
-     */
-    public function fetchSubtreeDepthFirst()
-    {
-        return $this->tree->fetchSubtreeDepthFirst( $this->id );
     }
 
     /**

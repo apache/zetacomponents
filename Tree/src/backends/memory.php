@@ -142,35 +142,13 @@ class ezcTreeMemory extends ezcTree
      * @param ezcTreeNodeList $list
      * @param string          $nodeId
      */
-    private function addChildNodes( ezcTreeNodeList $list, ezcTreeMemoryNode $memoryNode )
+    private function addChildNodesDepthFirst( ezcTreeNodeList $list, ezcTreeMemoryNode $memoryNode )
     {
         foreach ( $memoryNode->children as $id => $childMemoryNode )
         {
             $list->addNode( $childMemoryNode->node );
-            $this->addChildNodes( $list, $childMemoryNode );
+            $this->addChildNodesDepthFirst( $list, $childMemoryNode );
         }
-    }
-
-    /**
-     * Alias for fetchSubtreeDepthFirst().
-     *
-     * @param string $id
-     * @return ezcTreeNodeList
-     */
-    public function fetchSubtree( $nodeId )
-    {
-        return $this->fetchSubtreeDepthFirst( $nodeId );
-    }
-
-    /**
-     * Returns the node with ID $id and all its children, sorted accoring to
-     * the `Breadth-first sorting`_ algorithm.
-     *
-     * @param string $id
-     * @return ezcTreeNodeList
-     */
-    public function fetchSubtreeBreadthFirst( $nodeId )
-    {
     }
 
     /**
@@ -185,7 +163,53 @@ class ezcTreeMemory extends ezcTree
         $list = new ezcTreeNodeList;
         $memoryNode = $this->getNodeById( $nodeId );
         $list->addNode( $memoryNode->node );
-        $this->addChildNodes( $list, $memoryNode );
+        $this->addChildNodesDepthFirst( $list, $memoryNode );
+        return $list;
+    }
+
+    /**
+     * Alias for fetchSubtreeDepthFirst().
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
+    public function fetchSubtree( $nodeId )
+    {
+        return $this->fetchSubtreeDepthFirst( $nodeId );
+    }
+
+    /**
+     * Adds the children nodes of the node $memoryNode to the
+     * ezcTreeNodeList $list.
+     *
+     * @param ezcTreeNodeList $list
+     * @param string          $nodeId
+     */
+    private function addChildNodesBreadthFirst( ezcTreeNodeList $list, ezcTreeMemoryNode $memoryNode )
+    {
+        foreach ( $memoryNode->children as $id => $childMemoryNode )
+        {
+            $list->addNode( $childMemoryNode->node );
+        }
+        foreach ( $memoryNode->children as $id => $childMemoryNode )
+        {
+            $this->addChildNodesBreadthFirst( $list, $childMemoryNode );
+        }
+    }
+
+    /**
+     * Returns the node with ID $id and all its children, sorted accoring to
+     * the `Breadth-first sorting`_ algorithm.
+     *
+     * @param string $id
+     * @return ezcTreeNodeList
+     */
+    public function fetchSubtreeBreadthFirst( $nodeId )
+    {
+        $list = new ezcTreeNodeList;
+        $memoryNode = $this->getNodeById( $nodeId );
+        $list->addNode( $memoryNode->node );
+        $this->addChildNodesBreadthFirst( $list, $memoryNode );
         return $list;
     }
 

@@ -28,6 +28,18 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
     {
     }
 
+    protected function setUpEmptyTestTree()
+    {
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
+        $tree = new ezcTreeDbParentChild(
+            $this->dbh,
+            'parent_child',
+            $store
+        );
+        $this->emptyTables();
+        return $tree;
+    }
+
     protected function setUpTestTree()
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
