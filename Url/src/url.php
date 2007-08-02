@@ -368,7 +368,11 @@ class ezcUrl
      * encodes the query in a similar way to urlencode().
      *
      * If $includeScriptName is true, then the script name (eg. 'index.php')
-     * will be included in the result. By default the script name is hidden.
+     * will be included in the result. By default the script name is hidden (to
+     * ensure backwards compatibility).
+     *
+     * @apichange The default value for $includeScriptName might be changed to
+     *            true in future versions
      *
      * @param bool $includeScriptName
      * @return string
