@@ -19,260 +19,63 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
 {
     private $tempDir;
 
-    protected function setUp()
-    {
-        parent::setUp();
-    }
+    protected $tables  = array( 'parent_child', 'data', 'datam' );
+    protected $schemaName = 'parent_child.dba';
 
-    protected function tearDown()
+    public function insertData()
     {
-    }
-
-    protected function setUpEmptyTestTree()
-    {
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = new ezcTreeDbParentChild(
-            $this->dbh,
-            'parent_child',
-            $store
+        // insert test data
+        $data = array(
+            // child -> parent
+            1 => 'null',
+            2 => 1,
+            3 => 1,
+            4 => 1,
+            6 => 4,
+            7 => 6,
+            8 => 6,
+            5 => 1,
+            9 => 5
         );
-        $this->emptyTables();
-        return $tree;
-    }
-
-    protected function setUpTestTree()
-    {
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = new ezcTreeDbParentChild(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
-        return $tree;
-    }
-
-    protected function emptyTables()
-    {
-        $db = $this->dbh;
-
-        $q = $db->createDeleteQuery();
-        $q->deleteFrom( 'parent_child' );
-        $s = $q->prepare();
-        $s->execute();
-
-        $q = $db->createDeleteQuery();
-        $q->deleteFrom( 'data' );
-        $s = $q->prepare();
-        $s->execute();
-    }
-
-    public function testCreateDbTree()
-    {
-        $this->emptyTables();
-
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = ezcTreeDbParentChild::create(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
-        self::assertSame( false, $tree->nodeExists( '1' ) );
-        self::assertSame( false, $tree->nodeExists( '3' ) );
-
-        $node = $tree->createNode( 1, "Root Node" );
-        self::assertType( 'ezcTreeNode', $node );
-        self::assertSame( '1', $node->id );
-        $tree->setRootNode( $node );
-        self::assertSame( true, $tree->nodeExists( '1' ) );
-
-        $node2 = $tree->createNode( 2, "Node 2" );
-        $node->addChild( $node2 );
-        self::assertSame( true, $tree->nodeExists( '2' ) );
-
-        $node->addChild( $node3 = $tree->createNode( 3, "Node 3" ) );
-        $node3->addChild( $tree->createNode( 4, "Node 3.4" ) );
-        self::assertSame( true, $tree->nodeExists( '3' ) );
-        self::assertSame( true, $tree->nodeExists( '4' ) );
-    }
-
-    public function testCreateDbTreeStoreData()
-    {
-        $this->emptyTables();
-
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = ezcTreeDbParentChild::create(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
-
-        $root = $tree->createNode( 1, "Pantherinae" );
-        $tree->setRootNode( $root );
-
-        $root->addChild( $panthera = $tree->createNode( 2, "Panthera" ) );
-        $root->addChild( $neofelis = $tree->createNode( 3, "Neofelis" ) );
-        $root->addChild( $uncia = $tree->createNode( 4, "Uncia" ) );
-
-        $panthera->addChild( $tree->createNode( 5, "Lion" ) );
-        $panthera->addChild( $tree->createNode( 6, "Jaguar" ) );
-        $panthera->addChild( $tree->createNode( 7, "Leopard" ) );
-        $panthera->addChild( $tree->createNode( 8, "Tiger" ) );
-
-        $neofelis->addChild( $tree->createNode( 9, "Clouded Leopard" ) );
-        $neofelis->addChild( $tree->createNode( 10, "Bornean Clouded Leopard" ) );
-
-        $uncia->addChild( $tree->createNode( 11, "Snow Leopard" ) );
-
-        // start over
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = new ezcTreeDbParentChild(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
-
-        self::assertSame( true, $tree->nodeExists( '1' ) );
-        self::assertSame( true, $tree->nodeExists( '2' ) );
-        self::assertSame( true, $tree->nodeExists( '3' ) );
-        self::assertSame( true, $tree->nodeExists( '4' ) );
-        self::assertSame( "Snow Leopard", $tree->fetchNodeById( '11' )->data );
-    }
-
-    public function testCreateDbTreeStoreDataPrefetch()
-    {
-        $this->emptyTables();
-
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = ezcTreeDbParentChild::create(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
-
-        $root = $tree->createNode( 1, "Pantherinae" );
-        $tree->setRootNode( $root );
-
-        $root->addChild( $panthera = $tree->createNode( 2, "Panthera" ) );
-        $root->addChild( $neofelis = $tree->createNode( 3, "Neofelis" ) );
-        $root->addChild( $uncia = $tree->createNode( 4, "Uncia" ) );
-
-        $panthera->addChild( $tree->createNode( 5, "Lion" ) );
-        $panthera->addChild( $tree->createNode( 6, "Jaguar" ) );
-        $panthera->addChild( $tree->createNode( 7, "Leopard" ) );
-        $panthera->addChild( $tree->createNode( 8, "Tiger" ) );
-
-        $neofelis->addChild( $tree->createNode( 9, "Clouded Leopard" ) );
-        $neofelis->addChild( $tree->createNode( 10, "Bornean Clouded Leopard" ) );
-
-        $uncia->addChild( $tree->createNode( 11, "Snow Leopard" ) );
-
-        // start over
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = new ezcTreeDbParentChild(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
-
-        $nodeList = $tree->fetchSubtree( '3' );
-
-        $tree->prefetch = true;
-        $expected = "something's wrong";
-        foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $id => $data )
+        foreach( $data as $childId => $parentId )
         {
-            switch ( $id )
-            {
-                case 3:
-                    $expected = "Neofelis";
-                    break;
-                case 9:
-                    $expected = "Clouded Leopard";
-                    break;
-                case 10:
-                    $expected = "Bornean Clouded Leopard";
-                    break;
-            }
-            self::assertSame( $expected, $data );
+            $this->dbh->exec( "INSERT INTO parent_child(id, parent_id) VALUES( $childId, $parentId )" );
+        }
+
+        // add data
+        for ( $i = 1; $i <= 8; $i++ )
+        {
+            $this->dbh->exec( "INSERT INTO data(id, data) values ( $i, 'Node $i' )" );
         }
     }
 
-    public function testStoreUpdatedData()
+    protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data' )
     {
-        $this->emptyTables();
-
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
         $tree = ezcTreeDbParentChild::create(
             $this->dbh,
             'parent_child',
             $store
         );
-
-        $root = $tree->createNode( 1, "Camelinae" );
-        $tree->setRootNode( $root );
-
-        $root->addChild( $tree->createNode( 2, "Lama" ) );
-        $root->addChild( $tree->createNode( 3, "Vicugna" ) );
-        $root->addChild( $tree->createNode( 4, "Camelus" ) );
-
-        // start over
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = new ezcTreeDbParentChild(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
-
-        $camelus = $tree->fetchNodeById( 4 );
-        self::assertSame( "Camelus", $camelus->data );
-        $camelus->data = "Something Wrong";
-        $camelus->data = "Camels";
-
-        // start over
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = new ezcTreeDbParentChild(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
-
-        $camelus = $tree->fetchNodeById( 4 );
-        self::assertSame( "Camels", $camelus->data );
+        $this->emptyTables();
+        return $tree;
     }
 
-    public function testCreateDbTreeWithTransaction()
+    protected function setUpTestTree( $dataTable = 'data', $dataField = 'data' )
     {
-        $this->emptyTables();
-
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
-        $tree = ezcTreeDbParentChild::create(
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
+        $tree = new ezcTreeDbParentChild(
             $this->dbh,
             'parent_child',
             $store
         );
-
-        $tree->setRootNode( $node = $tree->createNode( 1, "Root Node" ) );
-        self::assertSame( true, $tree->nodeExists( '1' ) );
-
-        $tree->beginTransaction();
-        $node->addChild( $tree->createNode( 2, "Node 2" ) );
-        $node->addChild( $node3 = $tree->createNode( 3, "Node 3" ) );
-        $node3->addChild( $tree->createNode( 4, "Node 3.4" ) );
-
-        self::assertSame( false, $tree->nodeExists( '3' ) );
-        
-        $tree->commit();
-        
-        self::assertSame( true, $tree->nodeExists( '3' ) );
+        return $tree;
     }
 
     public function testMultipleDataFields()
     {
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id' );
-        $tree = new ezcTreeDbParentChild(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
+        $tree = $this->setUpTestTree( 'data', null );
+
         $node8 = $tree->fetchNodeById( 8 ); // returns 8
         self::assertType( 'ezcTreeNode', $node8 );
         self::assertSame( '8', $node8->id );
@@ -281,14 +84,7 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
 
     public function testStoreUpdatedDataMultipleDataFields()
     {
-        $this->emptyTables();
-
-        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'datam', 'id' );
-        $tree = ezcTreeDbParentChild::create(
-            $this->dbh,
-            'parent_child',
-            $store
-        );
+        $tree = $this->setUpEmptyTestTree( 'datam', null );
 
         $root = $tree->createNode( 1, array( 'name' => 'Harald V', 'born' => '1937' ) );
         $tree->setRootNode( $root );
