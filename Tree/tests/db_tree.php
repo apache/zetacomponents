@@ -69,6 +69,7 @@ class ezcDbTreeTest extends ezcTreeTest
         {
             $this->dbh->exec( 'DROP TABLE parent_child' );
             $this->dbh->exec( 'DROP TABLE data' );
+            $this->dbh->exec( 'DROP TABLE datam' );
         }
         catch ( Exception $e )
         {

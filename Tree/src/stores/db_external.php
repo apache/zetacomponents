@@ -120,6 +120,7 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
     {
         if ( $this->dataField === null )
         {
+            unset( $data[$this->idField] );
             return $data;
         }
         return $data[$this->dataField];
@@ -220,6 +221,10 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
         // Add set statements
         if ( $this->dataField === null )
         {
+            foreach( $node->data as $field => $value )
+            {
+               $q->set( $db->quoteIdentifier( $field ), $q->bindValue( $value ) );
+            }
         }
         else
         {

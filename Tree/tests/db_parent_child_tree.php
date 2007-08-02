@@ -276,7 +276,49 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
         $node8 = $tree->fetchNodeById( 8 ); // returns 8
         self::assertType( 'ezcTreeNode', $node8 );
         self::assertSame( '8', $node8->id );
-        self::assertSame( array( 'data' => 'Node 8', 'id' => '8' ), $node8->data );
+        self::assertSame( array( 'data' => 'Node 8' ), $node8->data );
+    }
+
+    public function testStoreUpdatedDataMultipleDataFields()
+    {
+        $this->emptyTables();
+
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'datam', 'id' );
+        $tree = ezcTreeDbParentChild::create(
+            $this->dbh,
+            'parent_child',
+            $store
+        );
+
+        $root = $tree->createNode( 1, array( 'name' => 'Harald V', 'born' => '1937' ) );
+        $tree->setRootNode( $root );
+
+        $root->addChild( $tree->createNode( 2, array( 'name' => 'Haakon', 'born' => '1973' ) ) );
+        $root->addChild( $tree->createNode( 3, array( 'name' => 'Märtha Louise', 'born' => '1971' ) ) );
+
+        // start over
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'datam', 'id' );
+        $tree = new ezcTreeDbParentChild(
+            $this->dbh,
+            'parent_child',
+            $store
+        );
+
+        $haakon = $tree->fetchNodeById( 2 );
+        self::assertEquals( array( 'name' => 'Haakon', 'born' => '1973' ), $haakon->data );
+        $haakon->data = array( 'name' => 'Haakon', 'born' => 1981 );
+        $haakon->data = array( 'name' => 'Haakon', 'born' => 1983 );
+
+        // start over
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'datam', 'id' );
+        $tree = new ezcTreeDbParentChild(
+            $this->dbh,
+            'parent_child',
+            $store
+        );
+
+        $haakon = $tree->fetchNodeById( 2 );
+        self::assertEquals( array( 'name' => 'Haakon', 'born' => '1983' ), $haakon->data );
     }
 
     public static function suite()

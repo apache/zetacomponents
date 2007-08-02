@@ -80,6 +80,54 @@ return array (
         )),
       ),
     )),
+    'datam' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'name' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'born' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 5,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+      'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+          'indexFields' => 
+          array (
+            'id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+          'primary' => true,
+          'unique' => true,
+        )),
+      ),
+    )),
   ),
   1 =>
   array(
