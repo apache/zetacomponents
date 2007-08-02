@@ -367,9 +367,13 @@ class ezcUrl
      * The query part of the URL is build with http_build_query() which
      * encodes the query in a similar way to urlencode().
      *
+     * If $includeScriptName is true, then the script name (eg. 'index.php')
+     * will be included in the result. By default the script name is hidden.
+     *
+     * @param bool $includeScriptName
      * @return string
      */
-    public function buildUrl()
+    public function buildUrl( $includeScriptName = false )
     {
         $url = '';
 
@@ -404,6 +408,14 @@ class ezcUrl
                 if ( !( count( $this->basedir ) == 0 || trim( $this->basedir[0] ) === "" ) )
                 {
                     $url .= '/' . implode( '/', $this->basedir );
+                }
+            }
+
+            if ( $includeScriptName && $this->script )
+            {
+                if ( !( count( $this->script ) == 0 || trim( $this->script[0] ) === "" ) )
+                {
+                    $url .= '/' . implode( '/', $this->script );
                 }
             }
 

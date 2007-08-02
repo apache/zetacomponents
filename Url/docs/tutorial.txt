@@ -42,9 +42,10 @@ Using url configurations
 
 By using the ezcUrlConfiguration class, you can specify a custom configuration
 that can be used to parse urls. The properties you can set in objects of this
-class are the default base directory, default script name (which will be
-hidden when building the url), delimiters for unordered parameter names
-and names for accepted parameters.
+class are the default base directory, default script name (eg. index.php)
+(which will be hidden when building the url by default, but can be displayed
+by calling buildUrl( true )), delimiters for unordered parameter names and
+names for accepted parameters.
 
 Working with the query part
 ===========================
@@ -198,6 +199,8 @@ The output would be as follows (wrapped for clarity): ::
     }
     string(72) "http://www.example.com/mydir/groups/Games/Adventure/Adult/
     (game)/Larry/7"
+    string(82) "http://www.example.com/mydir/index.php/groups/Games/Adventure/
+    Adult/(game)/Larry/7"
 
 Setting parameters using a url configuration
 --------------------------------------------

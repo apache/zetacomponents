@@ -33,4 +33,6 @@ var_dump( $url->getParam( 'game' ) );
 // output the url (index.php will not be there)
 var_dump( $url->buildUrl() );
 
+// output the url (with index.php included)
+var_dump( $url->buildUrl( true ) );
 ?>

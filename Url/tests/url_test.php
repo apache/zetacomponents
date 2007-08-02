@@ -545,6 +545,49 @@ class ezcUrlTest extends ezcTestCase
         $this->assertEquals( 'trunk', $url->getParam( 'branch' ) );
     }
 
+    public function testBuildUrlWithScriptName()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = '/mydir/shop';
+        $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/mydir/shop/index.php/doc/components/view/trunk';
+        $this->assertEquals( $expected, $url->buildUrl( true ) );
+    }
+
+    public function testBuildUrlWithScriptNameWithoutBasedir()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
+
+        $url = new ezcUrl( 'http://www.example.com/index.php/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/index.php/doc/components/view/trunk';
+        $this->assertEquals( $expected, $url->buildUrl( true ) );
+    }
+
+    public function testBuildUrlWithScriptNameMissingScript()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = '/mydir/shop';
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/mydir/shop/doc/components/view/trunk';
+        $this->assertEquals( $expected, $url->buildUrl( true ) );
+    }
+
     public function testIsSet()
     {
         $url = new ezcUrl( 'http://www.example.com' );
