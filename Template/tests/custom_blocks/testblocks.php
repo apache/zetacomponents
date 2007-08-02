@@ -345,6 +345,27 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def->hasCloseTag = true;
                 $def->requiredParameters = array("variable");
                 return $def;
+
+
+           case "template_object_no_close":
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "templateObject";
+                $def->hasCloseTag = false;
+                $def->requiredParameters = array("required");
+                $def->sendTemplateObject = true;
+                return $def;
+
+
+           case "template_object_close":
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "templateObject";
+                $def->hasCloseTag = true;
+                $def->requiredParameters = array("required");
+                $def->sendTemplateObject = true;
+                return $def;
+
         }
     }
 
@@ -359,6 +380,14 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
         var_dump($parameters);
         var_dump($source);
             
+    }
+
+    public static function templateObject( $template, $parameters, $source = null)
+    {
+        $out = get_class($template->usedConfiguration) . "\n";
+        $out .= print_r( $parameters, true ) . "\n";
+        $out .= $source;
+        return $out;
     }
 }
 

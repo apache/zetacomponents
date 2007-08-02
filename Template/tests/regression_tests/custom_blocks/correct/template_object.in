@@ -1,0 +1,6 @@
+{template_object_no_close required="hello"}
+
+
+{template_object_close required="world"}
+Hi
+{/template_object_close}

@@ -679,10 +679,16 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $customBlockOutput = $this->outputVariable->getAst();
             $this->outputVariable->pop();
 
+            $functionParameters = array( $params, $customBlockOutput );
+            if ( isset($def->sendTemplateObject) && $def->sendTemplateObject )
+            {
+                array_unshift ( $functionParameters, new ezcTemplateVariableAstNode("this->template"));
+            }
+
             $result[] = new ezcTemplateGenericStatementAstNode( 
                 new ezcTemplateConcatAssignmentOperatorAstNode( $this->outputVariable->getAst(), 
                    new ezcTemplateFunctionCallAstNode( $class . $def->method, 
-                   array( $params, $customBlockOutput ) ) ) ); 
+                    $functionParameters ) ) ); 
 
             return $result;
         }
@@ -718,11 +724,18 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 // And assign it to the output.
                 return $this->assignToOutput( new ezcTemplateLiteralAstNode($r) );
             }
+
+
+            $functionParameters = array( $params );
+            if ( isset($def->sendTemplateObject) && $def->sendTemplateObject )
+            {
+                array_unshift ( $functionParameters, new ezcTemplateVariableAstNode("this->template"));
+            }
          
             return new ezcTemplateGenericStatementAstNode( 
                 new ezcTemplateConcatAssignmentOperatorAstNode( $this->outputVariable->getAst(), 
                    new ezcTemplateFunctionCallAstNode( $class .$def->method, 
-                   array( $params ) ) ) ); 
+                   $functionParameters ) ) ); 
         }
     }
 

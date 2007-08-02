@@ -1,0 +1,15 @@
+ezcTemplateConfiguration
+Array
+(
+    [required] => hello
+)
+
+
+
+ezcTemplateConfiguration
+Array
+(
+    [required] => world
+)
+
+Hi

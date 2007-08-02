@@ -113,5 +113,13 @@ class ezcTemplateCustomBlockDefinition extends ezcTemplateCustomExtension
 
 
     public $isStatic = false;
+
+    /**
+     * Whether or not the Template object is available in the custom block.
+     *
+     * @var bool
+     */
+    public $sendTemplateObject = false;
+
 }
 ?>
