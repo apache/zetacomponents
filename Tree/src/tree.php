@@ -218,15 +218,6 @@ abstract class ezcTree
     abstract public function fetchSubtreeDepthFirst( $id );
 
     /**
-     * Returns the node with ID $id and all its children, sorted accoring to
-     * the `Topological sorting`_ algorithm.
-     *
-     * @param string $id
-     * @return ezcTreeNodeList
-     */
-    abstract public function fetchSubtreeTopological( $id );
-
-    /**
      * Returns the number of direct children of the node with ID $id
      *
      * @param string $id

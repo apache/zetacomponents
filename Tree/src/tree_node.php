@@ -203,17 +203,6 @@ class ezcTreeNode
     }
 
     /**
-     * Returns this node and all its children, sorted accoring to the
-     * Toplological sorting algorithm.
-     *
-     * @return ezcTreeNodeList
-     */
-    public function fetchSubtreeTopological()
-    {
-        return $this->tree->fetchSubtreeTopological( $this->id );
-    }
-
-    /**
      * Returns the number of direct children of this node
      *
      * @return int
