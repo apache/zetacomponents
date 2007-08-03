@@ -654,7 +654,7 @@ class ezcUrlTest extends ezcTestCase
         $this->assertEquals( array( 'y' ), $url->getParam( 'param2' ) );
     }
 
-    public function testGetUnorderedParametersMultipleValuesTypeAggregate()
+    public function testGetUnorderedParametersMultipleValuesTypeAggregateSingleMultiple()
     {
         $urlCfg = new ezcUrlConfiguration();
         $urlCfg->addOrderedParameter( 'section' );
@@ -676,7 +676,7 @@ class ezcUrlTest extends ezcTestCase
         $this->assertEquals( array( 'x', 'y', 'z' ), $url->getParam( 'param2' ) );
     }
 
-    public function testGetUnorderedParametersMultipleValuesTypeAggregateSingle()
+    public function testGetUnorderedParametersMultipleValuesTypeAggregateSingleSingle()
     {
         $urlCfg = new ezcUrlConfiguration();
         $urlCfg->addOrderedParameter( 'section' );
@@ -696,6 +696,28 @@ class ezcUrlTest extends ezcTestCase
         $this->assertEquals( 'trunk', $url->getParam( 'content' ) );
         $this->assertEquals( 'a', $url->getParam( 'param1' ) );
         $this->assertEquals( array( 'x', 'y' ), $url->getParam( 'param2' ) );
+    }
+
+    public function testGetUnorderedParametersMultipleValuesTypeAggregateMultipleSingle()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
+        $urlCfg->addUnorderedParameter( 'param1' );
+        $urlCfg->addUnorderedParameter( 'param2', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
+
+        $url = new ezcUrl( "http://www.example.com/doc/components/view/trunk/(param1)/a/(param2)/x/y/(param2)/z", $urlCfg );
+        $expected = 'http://www.example.com/doc/components/view/trunk/(param1)/a/(param2)/x/y/(param2)/z';
+        $this->assertEquals( $expected, $url->buildUrl() );
+
+        $this->assertEquals( 'doc', $url->getParam( 'section' ) );
+        $this->assertEquals( 'components', $url->getParam( 'module' ) );
+        $this->assertEquals( 'view', $url->getParam( 'view' ) );
+        $this->assertEquals( 'trunk', $url->getParam( 'content' ) );
+        $this->assertEquals( 'a', $url->getParam( 'param1' ) );
+        $this->assertEquals( array( 'x', 'y', 'z' ), $url->getParam( 'param2' ) );
     }
 
     public function testIsSet()

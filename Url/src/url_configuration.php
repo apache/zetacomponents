@@ -103,8 +103,10 @@ class ezcUrlConfiguration
      * Flag for specifying aggregation for unordered parameter values if the
      * parameter name appears more than once in the URL.
      *
-     * For example, if the URL is 'http://www.example.com/(param1)/x/(param2)/y',
-     * then both values will be considered for the parameter param1.
+     * For example, if the URL is 'http://www.example.com/(param1)/x/(param1)/y/z',
+     * then all values will be considered for the parameter param1. So
+     * $url->getParam( 'param1' ) will return array( "x", "y", "z" ), if $url is
+     * an ezcUrl object created from the above URL.
      */
     const AGGREGATE_ARGUMENTS = 4;
 
