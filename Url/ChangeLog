@@ -3,6 +3,8 @@
 
 - Implemented feature request #11000: Added ability to include script name
   when building an URL through a buildUrl() parameter.
+- Implemented feature request #10896: Allow aggregation of unordered parameter
+  values if the parameter names appear more than once.
 
 
 1.1 - Monday 02 July 2007

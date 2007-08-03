@@ -202,6 +202,40 @@ The output would be as follows (wrapped for clarity): ::
     string(82) "http://www.example.com/mydir/index.php/groups/Games/Adventure/
     Adult/(game)/Larry/7"
 
+Getting parameters by aggregating values for unordered parameters
+-----------------------------------------------------------------
+
+If the URL contains multiple appearances of an unordered parameter (for example
+'http://www.example.com/(param1)/x/(param1)/y/z'), then by default only the last
+encountered values are returned when calling getParam().
+
+To return all the values (to aggregate values), use
+ezcUrlConfiguration::AGGREGATE_ARGUMENTS as the second parameter when calling
+addUnorderedParameter(), like in the example:
+
+.. include:: tutorial/tutorial_get_params_aggregate.php
+    :literal:
+
+The output will be: ::
+
+    string(1) "y"
+    array(2) {
+      [0]=>
+      string(1) "y"
+      [1]=>
+      string(1) "z"
+    }
+    array(3) {
+      [0]=>
+      string(1) "x"
+      [1]=>
+      string(1) "y"
+      [2]=>
+      string(1) "z"
+    }
+    string(46) "http://www.example.com/(param1)/x/(param1)/y/z"
+
+
 Setting parameters using a url configuration
 --------------------------------------------
 

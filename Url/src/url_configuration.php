@@ -51,6 +51,16 @@
  * $url->configuration->removeUnorderedParameter( 'game' );
  * </code>
  *
+ * Example of aggregating values for unordered parameters:
+ * <code>
+ * $urlCfg = new ezcUrlConfiguration();
+ *
+ * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
+ * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y', $urlCfg );
+ *
+ * $param1 = $url->getParam( 'param1' ); // will be array( "x", "y" )
+ * </code>
+ *
  * @property string $basedir
  *           The part of the URL after the first slash. It can be null.
  *           Example: $basedir = shop in http://www.example.com/shop
@@ -88,6 +98,15 @@ class ezcUrlConfiguration
      * Flag for specifying multiple arguments for unordered parameters.
      */
     const MULTIPLE_ARGUMENTS = 2;
+
+    /**
+     * Flag for specifying aggregation for unordered parameter values if the
+     * parameter name appears more than once in the URL.
+     *
+     * For example, if the URL is 'http://www.example.com/(param1)/x/(param2)/y',
+     * then both values will be considered for the parameter param1.
+     */
+    const AGGREGATE_ARGUMENTS = 4;
 
     /**
      * Holds the properties of this class.
@@ -238,9 +257,35 @@ class ezcUrlConfiguration
     /**
      * Adds an unordered parameter to the URL configuration.
      *
-     * The default type of the parameter is {@link SINGLE_ARGUMENT}.
+     * The possible values for the $type parameter are:
+     *  - {@link ezcUrlConfiguration::SINGLE_ARGUMENT} (default): the getParam()
+     *    method in ezcUrl will return a string containing the value of the
+     *    parameter $name
+     *  - {@link ezcUrlConfiguration::MULTIPLE_ARGUMENTS}: the getParam() method
+     *    will return an array containing the last encountered values of the
+     *    parameter $name
+     *  - {@link ezcUrlConfiguration::AGGREGATE_ARGUMENTS}: the getParam() method
+     *    will return an array with all encountered values for the parameter $name
      *
-     * Other valid types are {@link MULTIPLE_ARGUMENTS}.
+     * Examples:
+     * <code>
+     * $urlCfg = new ezcUrlConfiguration();
+     *
+     * // single parameter value
+     * $urlCfg->addUnorderedParameter( 'param1' );
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return "x"
+     *
+     * // multiple parameter values
+     * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/y', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return array( "x", "y" )
+     *
+     * // multiple parameter values with aggregation
+     * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return array( "x", "y" )
+     * </code>
      *
      * @param string $name The name of the unordered parameter to add to the configuration
      * @param int $type The type of the unordered parameter

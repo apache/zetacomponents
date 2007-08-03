@@ -329,6 +329,45 @@ class ezcUrl
     /**
      * Returns unordered parameters from the $path array.
      *
+     * The format of the returned array is:
+     * <code>
+     * array( param_name1 => array( 0 => array( value1, value2, ... ),
+     *                              1 => array( value1, value2, ... ) ),
+     *        param_name2 = array( 0 => array( value1, value2, ... ),
+     *                              1 => array( value1, value2, ... ) ), ... )
+     * </code>
+     * where 0, 1, etc are numbers meaning the nth encounter of each param_name
+     * in the url.
+     *
+     * For example, if the URL is 'http://www.example.com/(param1)/a/(param2)/x/(param2)/y/z'
+     * then the result of this function will be:
+     * <code>
+     *   array( 'param1' => array( 0 => array( 'a' ) ),
+     *          'param2' => array( 0 => array( 'x' ),
+     *                             1 => array( 'y', 'z' ) ) );
+     * </code>
+     *
+     * For the URL 'http://www.example.com/(param1)/x/(param1)/y/z', these
+     * methods can be employed to get the values of param1:
+     * <code>
+     * $urlCfg = new ezcUrlConfiguration();
+     *
+     * // single parameter value
+     * $urlCfg->addUnorderedParameter( 'param1' );
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return "y"
+     *
+     * // multiple parameter values
+     * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return array( "y", "z" )
+     *
+     * // multiple parameter values with aggregation
+     * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return array( "x", "y", "z" )
+     * </code>
+     *
      * @param array(string) $config An array of unordered parameters names, from the URL configuration used in parsing
      * @param int $index The index in the URL path part from where to start the matching of $config
      * @return array(string=>mixed)
@@ -336,6 +375,13 @@ class ezcUrl
     public function parseUnorderedParameters( $config, $index )
     {
         $result = array();
+
+        // holds how many times a parameter name is encountered in the URL.
+        // for example, for '/(param1)/a/(param2)/x/(param2)/y',
+        // $encounters = array( 'param1' => 1, 'param2' => 2 );
+        $encounters = array();
+
+        $urlCfg = $this->configuration;
         $pathCount = count( $this->path );
         if ( $pathCount == 0 || ( $pathCount == 1 && trim( $this->path[0] ) === "" ) )
         {
@@ -346,14 +392,22 @@ class ezcUrl
         for ( $i = $index; $i < $pathCount; $i++ )
         {
             $param = $this->path[$i];
-            if ( $param{0} == $this->configuration->unorderedDelimiters[0] )
+            if ( $param{0} == $urlCfg->unorderedDelimiters[0] )
             {
-                $param = trim( trim( $param, $this->configuration->unorderedDelimiters[0] ), $this->configuration->unorderedDelimiters[1] );
-                $result[$param] = array();
-                $j = 1;
-                while ( ( $i + $j ) < $pathCount && $this->path[$i + $j]{0} != $this->configuration->unorderedDelimiters[0] )
+                $param = trim( trim( $param, $urlCfg->unorderedDelimiters[0] ), $urlCfg->unorderedDelimiters[1] );
+                if ( isset( $encounters[$param] ) )
                 {
-                    $result[$param][] = trim( trim( $this->path[$i + $j], $this->configuration->unorderedDelimiters[0] ), $this->configuration->unorderedDelimiters[1] );
+                    $encounters[$param]++;
+                }
+                else
+                {
+                    $encounters[$param] = 0;
+                }
+                $result[$param][$encounters[$param]] = array();
+                $j = 1;
+                while ( ( $i + $j ) < $pathCount && $this->path[$i + $j]{0} != $urlCfg->unorderedDelimiters[0] )
+                {
+                    $result[$param][$encounters[$param]][] = trim( trim( $this->path[$i + $j], $urlCfg->unorderedDelimiters[0] ), $urlCfg->unorderedDelimiters[1] );
                     $j++;
                 }
             }
@@ -430,9 +484,12 @@ class ezcUrl
 
             if ( $this->uparams && count( $this->uparams ) != 0 )
             {
-                foreach ( $this->properties['uparams'] as $key => $values )
+                foreach ( $this->properties['uparams'] as $key => $encounters )
                 {
-                    $url .= '/(' . $key . ')/' . implode( '/', $values );
+                    foreach ( $encounters as $encounter => $values )
+                    {
+                        $url .= '/(' . $key . ')/' . implode( '/', $values );
+                    }
                 }
             }
         }
@@ -472,7 +529,39 @@ class ezcUrl
     }
 
     /**
-     * Returns the specified parameter from the URL based on the URL configuration.
+     * Returns the value of the specified parameter from the URL based on the
+     * active URL configuration.
+     *
+     * Unordered parameter examples:
+     * <code>
+     * $urlCfg = new ezcUrlConfiguration();
+     *
+     * // single parameter value
+     * $urlCfg->addUnorderedParameter( 'param1' );
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return "y"
+     *
+     * // multiple parameter values
+     * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return array( "y", "z" )
+     *
+     * // multiple parameter values with aggregation
+     * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return array( "x", "y", "z" )
+     * </code>
+     *
+     * Ordered parameter examples:
+     * <code>
+     * $urlCfg = new ezcUrlConfiguration();
+     *
+     * $urlCfg->addOrderedParameter( 'param1' );
+     * $urlCfg->addOrderedParameter( 'param2' );
+     * $url = new ezcUrl( 'http://www.example.com/x/y', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return "x"
+     * $param2 = $url->getParam( 'param2' ); // will return "y"
+     * </code>
      *
      * @throws ezcUrlNoConfigurationException
      *         if an URL configuration is not defined
@@ -483,40 +572,60 @@ class ezcUrl
      */
     public function getParam( $name )
     {
-        if ( $this->configuration != null )
+        $urlCfg = $this->configuration;
+        if ( $urlCfg != null )
         {
-            if ( !( isset( $this->configuration->orderedParameters[$name] ) ||
-                    isset( $this->configuration->unorderedParameters[$name] ) ) )
+            if ( !( isset( $urlCfg->orderedParameters[$name] ) ||
+                    isset( $urlCfg->unorderedParameters[$name] ) ) )
             {
                 throw new ezcUrlInvalidParameterException( $name );
             }
 
             $params = $this->params;
             $uparams = $this->uparams;
-            if ( isset( $this->configuration->orderedParameters[$name] ) &&
-                 isset( $params[$this->configuration->orderedParameters[$name]] ) )
+            if ( isset( $urlCfg->orderedParameters[$name] ) &&
+                 isset( $params[$urlCfg->orderedParameters[$name]] ) )
             {
-                return $params[$this->configuration->orderedParameters[$name]];
+                return $params[$urlCfg->orderedParameters[$name]];
             }
 
-            if ( isset( $this->configuration->unorderedParameters[$name] ) &&
-                 isset( $uparams[$name] ) )
+            if ( isset( $urlCfg->unorderedParameters[$name] ) &&
+                 isset( $uparams[$name][0] ) )
             {
-                if ( $this->configuration->unorderedParameters[$name] == ezcUrlConfiguration::SINGLE_ARGUMENT )
+                if ( $urlCfg->unorderedParameters[$name] === ezcUrlConfiguration::SINGLE_ARGUMENT )
                 {
-                    if ( count( $uparams[$name] ) > 0 )
+                    if ( count( $uparams[$name][0] ) > 0 )
                     {
-                        return $uparams[$name][0];
+                        return $uparams[$name][count( $uparams[$name] ) - 1][0];
+                    }
+                    else
+                    {
+                        return null;
                     }
                 }
                 else
                 {
-                    return $uparams[$name];
+                    if ( $urlCfg->unorderedParameters[$name] === ezcUrlConfiguration::AGGREGATE_ARGUMENTS )
+                    {
+                        $result = array();
+                        foreach ( $uparams[$name] as $encounter => $values )
+                        {
+                            $result = array_merge( $result, $uparams[$name][$encounter] );
+                        }
+                        return $result;
+                    }
+                    else
+                    {
+                        return $uparams[$name][count( $uparams[$name] ) - 1];
+                    }
                 }
             }
             return null;
         }
-        throw new ezcUrlNoConfigurationException( $name );
+        else
+        {
+            throw new ezcUrlNoConfigurationException( $name );
+        }
     }
 
     /**
@@ -531,33 +640,42 @@ class ezcUrl
      */
     public function setParam( $name, $value )
     {
-        if ( $this->configuration != null )
+        $urlCfg = $this->configuration;
+        if ( $urlCfg != null )
         {
-            if ( !( isset( $this->configuration->orderedParameters[$name] ) ||
-                    isset( $this->configuration->unorderedParameters[$name] ) ) )
+            if ( !( isset( $urlCfg->orderedParameters[$name] ) ||
+                    isset( $urlCfg->unorderedParameters[$name] ) ) )
             {
                 throw new ezcUrlInvalidParameterException( $name );
             }
 
-            if ( isset( $this->configuration->orderedParameters[$name] ) )
+            if ( isset( $urlCfg->orderedParameters[$name] ) )
             {
-                $this->properties['params'][$this->configuration->orderedParameters[$name]] = $value;
+                $this->properties['params'][$urlCfg->orderedParameters[$name]] = $value;
                 return;
             }
-            if ( isset( $this->configuration->unorderedParameters[$name] ) )
+            if ( isset( $urlCfg->unorderedParameters[$name] ) )
             {
+                if ( !isset( $this->properties['uparams'][$name] ) )
+                {
+                    $this->properties['uparams'][$name] = array();
+                }
+                    
                 if ( is_array( $value ) )
                 {
-                    $this->properties['uparams'][$name] = $value;
+                    $this->properties['uparams'][$name][count( $this->properties['uparams'][$name] ) - 1] = $value;
                 }
                 else
                 {
-                    $this->properties['uparams'][$name] = array( $value );
+                    $this->properties['uparams'][$name][count( $this->properties['uparams'][$name] ) - 1] = array( $value );
                 }
             }
             return;
         }
-        throw new ezcUrlNoConfigurationException( $name );
+        else
+        {
+            throw new ezcUrlNoConfigurationException( $name );
+        }
     }
 
     /**
