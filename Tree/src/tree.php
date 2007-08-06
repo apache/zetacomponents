@@ -22,7 +22,7 @@
  * @package Tree
  * @version //autogentag//
  */
-abstract class ezcTree
+abstract class ezcTree implements ezcTreeVisitable
 {
     /**
      * Holds the properties of this class.
@@ -143,6 +143,17 @@ abstract class ezcTree
     }
 
     /**
+     * Implements the accept method for visitation
+     *
+     * @param ezcTreeVisitor $visitor
+     */
+    public function accept( ezcTreeVisitor $visitor )
+    {
+        $visitor->visit( $this );
+        $this->getRootNode()->accept( $visitor );
+    }
+
+    /**
      * Returns whether the node with ID $id exists
      *
      * @param string $id
@@ -181,6 +192,14 @@ abstract class ezcTree
      * @return ezcTreeNodeList
      */
     abstract public function fetchChildren( $id );
+
+    /**
+     * Returns the parent node of the node with ID $id.
+     *
+     * @param string $id
+     * @return ezcTreeNode
+     */
+    abstract public function fetchParent( $id );
 
     /**
      * Returns all the nodes in the path from the root node to the node with ID
@@ -285,6 +304,13 @@ abstract class ezcTree
      * @param ezcTreeNode $node
      */
     abstract public function setRootNode( ezcTreeNode $node );
+
+    /**
+     * Returns the root node
+     *
+     * @return ezcTreenode
+     */
+    abstract public function getRootNode();
 
     /**
      * Adds the node $childNode as child of the node with ID $parentId

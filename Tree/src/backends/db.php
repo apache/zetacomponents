@@ -79,5 +79,70 @@ abstract class ezcTreeDb extends ezcTree
 
         return count( $s->fetchAll() ) ? true : false;
     }
+
+    /**
+     * Returns the ID of parent of the node with ID $childId
+     *
+     * @param string $childId
+     * @return string
+     */
+    protected function getParentId( $childId )
+    {
+        $db = $this->dbh;
+        $q = $db->createSelectQuery();
+
+        $q->select( 'id, parent_id' )
+          ->from( $db->quoteIdentifier( $this->indexTableName ) )
+          ->where( $q->expr->eq( 'id', $q->bindValue( $childId ) ) );
+
+        $s = $q->prepare();
+        $s->execute();
+        $row = $s->fetch();
+        return $row['parent_id'];
+    }
+
+    /**
+     * Returns the parent node of the node with ID $id.
+     *
+     * This method returns null if there is no parent node.
+     *
+     * @param string $id
+     * @return ezcTreeNode
+     */
+    public function fetchParent( $id )
+    {
+        $className = $this->properties['nodeClassName'];
+        $parentId = $this->getParentId( $id );
+        return $parentId !== NULL ? new $className( $this, $parentId ) : NULL;
+    }
+
+    /**
+     * Returns the root node
+     *
+     * This methods returns null if there is no root node.
+     *
+     * @return ezcTreeNode
+     */
+    public function getRootNode()
+    {
+        $className = $this->properties['nodeClassName'];
+        $db = $this->dbh;
+
+        // SELECT id
+        // FROM indexTable
+        // WHERE id IS null
+        $q = $db->createSelectQuery();
+        $q->select( 'id' )
+          ->from( $db->quoteIdentifier( $this->indexTableName ) )
+          ->where( $q->expr->isNull( 'parent_id' ) );
+        $s = $q->prepare();
+        $s->execute();
+        $r = $s->fetchAll( PDO::FETCH_ASSOC );
+        if ( count( $r ) )
+        {
+            return new $className( $this, $r[0]['id'] );
+        }
+        return null;
+    }
 }
 ?>

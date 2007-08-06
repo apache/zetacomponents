@@ -52,28 +52,6 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns the ID of parent of the node with ID $childId
-     *
-     * @param string $childId
-     * @return string
-     */
-    private function getParentId( $childId )
-    {
-        $db = $this->dbh;
-        $q = $db->createSelectQuery();
-
-        $q->select( 'id, parent_id' )
-          ->from( $db->quoteIdentifier( $this->indexTableName ) )
-          ->where( $q->expr->eq( 'id', $q->bindValue( $childId ) ) );
-
-        $s = $q->prepare();
-        $s->execute();
-        $row = $s->fetch();
-        return $row['parent_id'];
-    }
-
-
-    /**
      * Runs SQL to get all the children of the node with ID $nodeId as a PDO
      * result set
      *

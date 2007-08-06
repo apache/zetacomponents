@@ -21,6 +21,7 @@ return array(
     'ezcTreeDataStore'                          => 'Tree/interfaces/data_store.php',
     'ezcTreeDb'                                 => 'Tree/backends/db.php',
     'ezcTreeDbDataStore'                        => 'Tree/stores/db.php',
+    'ezcTreeVisitor'                            => 'Tree/interfaces/visitor.php',
     'ezcTreeXmlDataStore'                       => 'Tree/stores/xml.php',
     'ezcTreeDbExternalTableDataStore'           => 'Tree/stores/db_external.php',
     'ezcTreeDbNestedSet'                        => 'Tree/backends/db_nested_set.php',
@@ -32,6 +33,8 @@ return array(
     'ezcTreeNodeList'                           => 'Tree/tree_node_list.php',
     'ezcTreeNodeListIterator'                   => 'Tree/tree_node_list_iterator.php',
     'ezcTreeTransactionItem'                    => 'Tree/structs/transaction_item.php',
+    'ezcTreeVisitable'                          => 'Tree/interfaces/visitable.php',
+    'ezcTreeVisitorVisualization'               => 'Tree/visitors/visualization.php',
     'ezcTreeXml'                                => 'Tree/backends/xml.php',
     'ezcTreeXmlInternalDataStore'               => 'Tree/stores/xml_internal.php',
 );

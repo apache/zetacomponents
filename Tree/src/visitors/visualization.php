@@ -1,0 +1,111 @@
+<?php
+/**
+ * File containing the ezcTreeVisitorVisualization class.
+ *
+ * @package Tree
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * An implementation of the ezcTreeVisitor interface that
+ * generates GraphViz/dot markup for a tree structure.
+ *
+ * <code>
+ *  $visitor = new ezcTreeVisitorVisualization;
+ *  $tree->accept( $visitor );
+ *  echo (string)$visitor; // print the plot
+ * </code>
+ *
+ * @package Tree
+ * @version //autogen//
+ */
+class ezcTreeVisitorVisualization implements ezcTreeVisitor
+{
+    /**
+     * Holds the displayed strings for each of the nodes.
+     *
+     * @var array(string => string)
+     */
+    protected $nodes = array();
+
+    /**
+     * Holds all the edges of the graph.
+     *
+     * @var array( id => array( ezcTreeNode ) )
+     */
+    protected $edges = array();
+
+    private function createId( ezcTreeNode $node )
+    {
+        return preg_replace( '/[^A-Za-z0-9_]/', '', $node->id ) . '_'. base_convert( sprintf( '%u', crc32( $node->id ) ), 16, 36 );
+    }
+
+    /**
+     * Visits the node and sets the the member variables according to the node
+     * type and contents.
+     *
+     * @param ezcTreeVisitable $visitable
+     * @return boolean
+     */
+    public function visit( ezcTreeVisitable $visitable )
+    {
+        if ( $visitable instanceof ezcTree )
+        {
+        }
+
+        if ( $visitable instanceof ezcTreeNode )
+        {
+            $id = $this->createId( $visitable );
+            $this->nodes[$id] = $visitable->id;
+
+            $parent = $visitable->fetchParent();
+            if ( $parent )
+            {
+                $parentId = $this->createId( $parent );
+                $this->edges[$parentId][] = $id;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns a the contents of a graphviz .dot file.
+     *
+     * @return boolean
+     * @ignore
+     */
+    public function __toString()
+    {
+        $dot = "digraph Tree {\n";
+
+        foreach ( $this->nodes as $key => $value )
+        {
+            $dot .= sprintf(
+              "node%s [label=\"%s\"]\n",
+              $key,
+              $value
+            );
+        }
+
+        $dot .= "\n";
+
+        foreach ( $this->edges as $fromNode => $toNodes )
+        {
+            foreach ( $toNodes as $toNode )
+            {
+                $dot .= sprintf(
+                  "node%s -> node%s\n",
+
+                  $fromNode,
+                  $toNode
+                );
+            }
+        }
+
+        return $dot . "}\n";
+    }
+}
+?>

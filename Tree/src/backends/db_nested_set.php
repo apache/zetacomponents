@@ -53,30 +53,6 @@ class ezcTreeDbNestedSet extends ezcTreeDb
         return new ezcTreeDbNestedSet( $dbh, $indexTableName, $store );
     }
 
-    /**
-     * Returns the ID of parent of the node with ID $id
-     *
-     * @param string $id
-     * @return string
-     */
-    protected function getParentId( $id )
-    {
-        $db = $this->dbh;
-        $q = $db->createSelectQuery();
-
-        // SELECT id, parent_id
-        // FROM indexTable
-        // WHERE id = $id
-        $q->select( 'id, parent_id' )
-          ->from( $db->quoteIdentifier( $this->indexTableName ) )
-          ->where( $q->expr->eq( 'id', $q->bindValue( $id ) ) );
-
-        $s = $q->prepare();
-        $s->execute();
-        $row = $s->fetch();
-        return $row['parent_id'];
-    }
-
 
     /**
      * Runs SQL to get all the children of the node with ID $nodeId as a PDO

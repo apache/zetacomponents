@@ -19,6 +19,23 @@ require_once 'files/test_classes.php';
  */
 class ezcTreeTest extends ezcTestCase
 {
+    public function testGetRootNode1()
+    {
+        $tree = $this->setUpTestTree();
+
+        $node = $tree->getRootNode();
+        self::assertType( 'ezcTreeNode', $node );
+        self::assertSame( '1', $node->id );
+        self::assertSame( 'Node 1', $node->data );
+    }
+
+    public function testGetRootNode2()
+    {
+        $tree = $this->setUpEmptyTestTree();
+        $node = $tree->getRootNode();
+        self::assertSame( null, $node );
+    }
+
     public function testTreeFetchById()
     {
         $tree = $this->setUpTestTree();
@@ -464,6 +481,37 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( 2, $nodeList->size );
         self::assertSame( '7', $nodeList['7']->id );
         self::assertSame( '8', $nodeList['8']->id );
+    }
+
+    public function testTreeFetchParentOnNode()
+    {
+        $tree = $this->setUpTestTree();
+
+        $node = $tree->fetchParent( '3' );
+        self::assertType( 'ezcTreeNode', $node );
+        self::assertSame( '1', $node->id );
+        self::assertSame( 'Node 1', $node->data );
+
+        $node = $tree->fetchParent( '1' );
+        self::assertSame( null, $node );
+
+        $node = $tree->fetchParent( '8' );
+        self::assertSame( '6', $node->id );
+    }
+
+    public function testTreeFetchParentOnTree()
+    {
+        $tree = $this->setUpTestTree();
+        $node = $tree->fetchNodeById( '3' )->fetchParent();
+        self::assertType( 'ezcTreeNode', $node );
+        self::assertSame( '1', $node->id );
+        self::assertSame( 'Node 1', $node->data );
+
+        $node = $tree->fetchNodeById( '1' )->fetchParent();
+        self::assertSame( null, $node );
+
+        $node = $tree->fetchNodeById( '8' )->fetchParent();
+        self::assertSame( '6', $node->id );
     }
 
     public function testTreeFetchPathOnNode()

@@ -185,6 +185,27 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
+     * Returns the parent node of the node with ID $id.
+     *
+     * This method returns null if there is no parent node.
+     *
+     * @param string $id
+     * @return ezcTreeNode
+     */
+    public function fetchParent( $id )
+    {
+        $className = $this->properties['nodeClassName'];
+        $elem = $this->dom->getElementById( "id$id" );
+        $elem = $elem->parentNode;
+        $parentId = $elem !== null ? substr( $elem->getAttribute( 'id' ), 2 ) : null;
+        if ( $parentId === false )
+        {
+            return null;
+        }
+        return new $className( $this, $parentId );
+    }
+
+    /**
      * Returns all the nodes in the path from the root node to the node with ID
      * $id, including those two nodes.
      *
@@ -470,6 +491,29 @@ class ezcTreeXml extends ezcTree
         $document->appendChild( $root );
         $this->store->storeDataForNode( $node, $node->data );
         $this->saveFile();
+    }
+
+    /**
+     * Returns the root node
+     *
+     * This methods returns null if there is no root node.
+     *
+     * @return ezcTreeNode
+     */
+    public function getRootNode()
+    {
+        $className = $this->properties['nodeClassName'];
+        $document = $this->dom->documentElement;
+
+        foreach ( $document->childNodes as $childNode )
+        {
+            if ( $childNode->nodeType == XML_ELEMENT_NODE && $childNode->tagName == 'node' )
+            {
+                $id = substr( $childNode->getAttribute( 'id' ), 2 );
+                return new $className( $this, $id );
+            }
+        }
+        return null;
     }
 
     /**

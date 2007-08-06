@@ -112,6 +112,21 @@ class ezcTreeMemory extends ezcTree
     }
 
     /**
+     * Returns the parent node of the node with ID $id.
+     *
+     * This method returns null if there is no parent node.
+     *
+     * @param string $id
+     * @return ezcTreeNode
+     */
+    public function fetchParent( $id )
+    {
+        $treeNode = $this->getNodeById( $id );
+        $parentNode = $treeNode->parent;
+        return $parentNode !== null ? $parentNode->node : null;
+    }
+
+    /**
      * Returns all the nodes in the path from the root node to the node with ID
      * $id, including those two nodes.
      *
@@ -371,6 +386,22 @@ class ezcTreeMemory extends ezcTree
     }
 
     /**
+     * Returns the root node
+     *
+     * This methods returns null if there is no root node.
+     *
+     * @return ezcTreeNode
+     */
+    public function getRootNode()
+    {
+        if ( $this->rootNode )
+        {
+            return $this->rootNode->node;
+        }
+        return null;
+    }
+
+    /**
      * Adds the node $childNode as child of the node with ID $parentId
      *
      * @param string $parentId
@@ -384,7 +415,7 @@ class ezcTreeMemory extends ezcTree
             return;
         }
 
-        // locate parent node
+        // Locate parent node
         $parentMemoryNode = $this->getNodeById( $parentId );
 
         // Create new node

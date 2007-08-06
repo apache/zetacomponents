@@ -28,7 +28,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcTreeNode
+class ezcTreeNode implements ezcTreeVisitable
 {
     /**
      * Holds the properties of this class.
@@ -140,6 +140,20 @@ class ezcTreeNode
     }
 
     /**
+     * Implements the accept method for visitation
+     *
+     * @param ezcTreeVisitor $visitor
+     */
+    public function accept( ezcTreeVisitor $visitor )
+    {
+        $visitor->visit( $this );
+        foreach ( $this->fetchChildren()->getNodes() as $childNode )
+        {
+            $childNode->accept( $visitor );
+        }
+    }
+
+    /**
      * Adds the node $node as child of the current node to the tree
      *
      * @param ezcTreeNode $node
@@ -167,6 +181,17 @@ class ezcTreeNode
     public function fetchPath()
     {
         return $this->tree->fetchPath( $this->id );
+    }
+
+    /**
+     * Returns the parent node of this node
+     *
+     * @param string $id
+     * @return ezcTreeNode
+     */
+    public function fetchParent()
+    {
+        return $this->tree->fetchParent( $this->id );
     }
 
     /**
