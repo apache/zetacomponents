@@ -23,6 +23,7 @@ return array(
     'ezcTreeDbDataStore'                        => 'Tree/stores/db.php',
     'ezcTreeXmlDataStore'                       => 'Tree/stores/xml.php',
     'ezcTreeDbExternalTableDataStore'           => 'Tree/stores/db_external.php',
+    'ezcTreeDbNestedSet'                        => 'Tree/backends/db_nested_set.php',
     'ezcTreeDbParentChild'                      => 'Tree/backends/db_parent_child.php',
     'ezcTreeMemory'                             => 'Tree/backends/memory.php',
     'ezcTreeMemoryDataStore'                    => 'Tree/stores/memory.php',

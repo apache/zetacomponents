@@ -18,6 +18,7 @@ require_once 'tree_node_list_iterator.php';
 require_once 'memory_tree.php';
 require_once 'xml_tree.php';
 require_once 'db_parent_child_tree.php';
+require_once 'db_nested_set_tree.php';
 
 /**
  * @package Tree
@@ -36,6 +37,7 @@ class ezcTreeSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcTreeMemoryTest::suite() );
         $this->addTest( ezcTreeXmlTest::suite() );
         $this->addTest( ezcTreeDbParentChildTest::suite() );
+        $this->addTest( ezcTreeDbNestedSetTest::suite() );
     }
 
     public static function suite()

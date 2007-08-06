@@ -498,14 +498,13 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( '8', $nodeList['8']->id );
     }
 
-    public function testTreeMoveNode()
+    public function testTreeMoveNode1()
     {
         $tree = $this->setUpTestTree();
 
         self::assertSame( false, $tree->fetchNodeById( 4 )->isChildOf( $tree->fetchNodeById( 5 ) ) );
 
         $tree->move( '4', '5' ); // makes node 4 a child of node 5
-
         self::assertSame( true, $tree->isChildOf( 4, 5 ) );
 
         $nodeList = $tree->fetchNodeById( 8 )->fetchPath();
@@ -516,6 +515,26 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( '6', $nodeList[6]->id );
         self::assertSame( '8', $nodeList[8]->id );
         self::assertSame( true, $tree->fetchNodeById( 4 )->isSiblingOf( $tree->fetchNodeById( 9 ) ) );
+    }
+
+    public function testTreeMoveNode2()
+    {
+        $tree = $this->setUpTestTree();
+
+        self::assertSame( false, $tree->fetchNodeById( 4 )->isChildOf( $tree->fetchNodeById( 5 ) ) );
+
+        $tree->move( '4', '9' ); // makes node 4 a child of node 5
+        self::assertSame( true, $tree->isChildOf( 4, 9 ) );
+
+        $nodeList = $tree->fetchNodeById( 8 )->fetchPath();
+        self::assertSame( 6, $nodeList->size );
+        self::assertSame( '1', $nodeList[1]->id );
+        self::assertSame( '5', $nodeList[5]->id );
+        self::assertSame( '9', $nodeList[9]->id );
+        self::assertSame( '4', $nodeList[4]->id );
+        self::assertSame( '6', $nodeList[6]->id );
+        self::assertSame( '8', $nodeList[8]->id );
+        self::assertSame( false, $tree->fetchNodeById( 4 )->isSiblingOf( $tree->fetchNodeById( 9 ) ) );
     }
 
     public function testTreeMoveNodeWithTransaction()
@@ -534,7 +553,7 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( true, $tree->fetchNodeById( 4 )->isSiblingOf( $tree->fetchNodeById( 9 ) ) );
     }
 
-    public function testTreeDeleteNode()
+    public function testTreeDeleteNode1()
     {
         $tree = $this->setUpTestTree();
 
@@ -546,12 +565,19 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( true, $tree->nodeExists( '4' ) );
         self::assertSame( true, $tree->nodeExists( '6' ) );
         self::assertSame( true, $tree->nodeExists( '8' ) );
+    }
+
+    public function testTreeDeleteNode2()
+    {
+        $tree = $this->setUpTestTree();
+
+        self::assertSame( true, $tree->nodeExists( '4' ) );
         $tree->delete( '4' );
         self::assertSame( false, $tree->nodeExists( '4' ) );
         self::assertSame( false, $tree->nodeExists( '6' ) );
         self::assertSame( false, $tree->nodeExists( '7' ) );
         self::assertSame( false, $tree->nodeExists( '8' ) );
-        self::assertSame( 2, $tree->fetchNodeById( '1' )->getChildCount() );
+        self::assertSame( 3, $tree->fetchNodeById( '1' )->getChildCount() );
     }
 
     public function testTreeDeleteNodeWithTransaction()
@@ -796,7 +822,8 @@ class ezcTreeTest extends ezcTestCase
                     ), 
                     'Homo' => array(
                         'Homo Sapiens' => array(
-                            'Homo Sapiens Sapiens'
+                            'Homo Sapiens Sapiens',
+                            'Homo Superior'
                         ),
                     ),
                     'Pan' => array(
@@ -840,7 +867,7 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( true, $tree->nodeExists( 'Homo Sapiens Sapiens' ) );
         self::assertSame( true, $tree->isDecendantOf( 'Common Chimpanzee', 'Hominoidea' ) );
         self::assertSame( 4, $tree->getChildCount( 'Hominidae' ) );
-        self::assertSame( 16, $tree->getChildCountRecursive( 'Hominidae' ) );
+        self::assertSame( 17, $tree->getChildCountRecursive( 'Hominidae' ) );
         self::assertSame( true, $tree->isSiblingOf( 'Gorilla', 'Homo' ) );
     }
 
