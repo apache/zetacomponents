@@ -906,6 +906,80 @@ class ezcUrlTest extends ezcTestCase
         }
     }
 
+    public function testGetUnorderedParametersUnknownNoOrdered()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+
+        $url = new ezcUrl( 'http://www.example.com/Software/PHP/Version/5.2/Extension/XDebug/Extension/openssl', $urlCfg );
+        $this->assertEquals( array( 'Software', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' ), $url->getParams() );
+    }
+
+    public function testGetUnorderedParametersUnknownBasedir()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = '/mydir/shop';
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/Software/PHP/Version/5.2/Extension/XDebug/Extension/openssl', $urlCfg );
+        $this->assertEquals( array( 'Software', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' ), $url->getParams() );
+    }
+
+    public function testGetUnorderedParametersUnknownScript()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->script = 'index.php';
+
+        $url = new ezcUrl( 'http://www.example.com/index.php/Software/PHP/Version/5.2/Extension/XDebug/Extension/openssl', $urlCfg );
+        $this->assertEquals( array( 'Software', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' ), $url->getParams() );
+    }
+
+    public function testGetUnorderedParametersUnknownBasedirScript()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = '/mydir/shop';
+        $urlCfg->script = 'index.php';
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/Software/PHP/Version/5.2/Extension/XDebug/Extension/openssl', $urlCfg );
+        $this->assertEquals( array( 'Software', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' ), $url->getParams() );
+    }
+
+    public function testGetUnorderedParametersUnknownOrdered()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addOrderedParameter( 'module' );
+
+        $url = new ezcUrl( 'http://www.example.com/order/Software/PHP/Version/5.2/Extension/XDebug/Extension/openssl', $urlCfg );
+        $this->assertEquals( array( 'Software', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' ), $url->getParams() );
+    }
+
+    public function testGetUnorderedParametersUnknownBasedirScriptOrdered()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = '/mydir/shop';
+        $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'module' );
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/order/Software/PHP/Version/5.2/Extension/XDebug/Extension/openssl', $urlCfg );
+        $this->assertEquals( 'order', $url->getParam( 'module' ) );
+        $this->assertEquals( array( 'Software', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' ), $url->getParams() );
+        $this->assertEquals( 'order', $url->getParam( 'module' ) );
+    }
+
+    public function testGetUnorderedParametersUnknownBasedirScriptOrderedUnordered()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = '/mydir/shop';
+        $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addUnorderedParameter( 'Software' );
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/order/(Software)/PHP/Version/5.2/Extension/XDebug/Extension/openssl', $urlCfg );
+        $this->assertEquals( 'order', $url->getParam( 'module' ) );
+        $this->assertEquals( 'PHP', $url->getParam( 'Software' ) );
+        $this->assertEquals( array( '(Software)', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' ), $url->getParams() );
+        $this->assertEquals( 'PHP', $url->getParam( 'Software' ) );
+        $this->assertEquals( 'order', $url->getParam( 'module' ) );
+    }
+
     public function testIsSet()
     {
         $url = new ezcUrl( 'http://www.example.com' );

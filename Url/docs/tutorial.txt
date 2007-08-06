@@ -242,6 +242,48 @@ The output will be: ::
     }
     string(46) "http://www.example.com/(param1)/x/(param1)/y/z"
 
+Getting unordered parameters without name delimiters
+----------------------------------------------------
+
+If the URL doesn't contain delimiters for unordered parameter names, then you
+can use the getParams() method to return the values after the basedir, script
+and ordered parameters as a flat array. This array can be parsed later by your
+application to make it an associative array.
+
+Example:
+
+.. include:: tutorial/tutorial_get_params_no_delimiters.php
+    :literal:
+
+The output will be: ::
+
+    array(8) {
+      [0]=>
+      string(8) "Software"
+      [1]=>
+      string(3) "PHP"
+      [2]=>
+      string(7) "Version"
+      [3]=>
+      string(3) "5.2"
+      [4]=>
+      string(9) "Extension"
+      [5]=>
+      string(6) "XDebug"
+      [6]=>
+      string(9) "Extension"
+      [7]=>
+      string(7) "openssl"
+    }
+
+This array can then be translated by your application to this form (if needed):
+    ::
+
+    array( "Software" => array( "PHP" ),
+           "Version" => array( "5.2" ),
+           "Extension" => array( "XDebug", "openssl" )
+         );
+
 Setting parameters using a url configuration
 --------------------------------------------
 

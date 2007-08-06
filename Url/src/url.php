@@ -54,6 +54,19 @@
  * $param1 = $url->getParam( 'param1' ); // will be array( array( "x" ), array( "y", "z" ) )
  * </code>
  *
+ * Unordered parameters can also be fetched as a flat array (useful if the
+ * URL doesn't have delimiters for the unordered parameter names). Example:
+ * <code>
+ * $urlCfg = new ezcUrlConfiguration();
+ * $urlCfg->basedir = '/mydir/shop';
+ * $urlCfg->script = 'index.php';
+ * $urlCfg->addOrderedParameter( 'module' );
+ *
+ * $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/order/Software/PHP/Version/5.2/Extension/XDebug/Extension/openssl', $urlCfg );
+ *
+ * $params = $url->getParams(); // will be array( 'Software', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' ) 
+ * </code>
+ *
  * @property string $host
  *           Hostname or null
  * @property string $path
@@ -736,6 +749,33 @@ class ezcUrl
         {
             throw new ezcUrlNoConfigurationException( $name );
         }
+    }
+
+    /**
+     * Returns the unordered parameters from the URL as a flat array.
+     *
+     * It takes into account the basedir, script and ordered parameters.
+     *
+     * It can be used for URLs which don't have delimiters for the unordered
+     * parameters.
+     *
+     * Example:
+     * <code>
+     * $urlCfg = new ezcUrlConfiguration();
+     * $urlCfg->basedir = '/mydir/shop';
+     * $urlCfg->script = 'index.php';
+     * $urlCfg->addOrderedParameter( 'module' );
+     *
+     * $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/order/Software/PHP/Version/5.2/Extension/XDebug/Extension/openssl', $urlCfg );
+     *
+     * $params = $url->getParams(); // will be array( 'Software', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' )
+     * </code>
+     *
+     * @return array(string)
+     */
+    public function getParams()
+    {
+        return array_slice( $this->path, count( $this->basedir ) + count( $this->script ) + count( $this->params ) );
     }
 
     /**
