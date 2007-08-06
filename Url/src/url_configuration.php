@@ -56,9 +56,9 @@
  * $urlCfg = new ezcUrlConfiguration();
  *
  * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
- * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y', $urlCfg );
+ * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
  *
- * $param1 = $url->getParam( 'param1' ); // will be array( "x", "y" )
+ * $param1 = $url->getParam( 'param1' ); // will be array( array( "x" ), array( "y", "z" ) )
  * </code>
  *
  * @property string $basedir
@@ -105,8 +105,8 @@ class ezcUrlConfiguration
      *
      * For example, if the URL is 'http://www.example.com/(param1)/x/(param1)/y/z',
      * then all values will be considered for the parameter param1. So
-     * $url->getParam( 'param1' ) will return array( "x", "y", "z" ), if $url is
-     * an ezcUrl object created from the above URL.
+     * $url->getParam( 'param1' ) will return array( array( "x" ), array( "y", "z" ) ),
+     * if $url is an ezcUrl object created from the above URL.
      */
     const AGGREGATE_ARGUMENTS = 4;
 
@@ -274,7 +274,7 @@ class ezcUrlConfiguration
      * $urlCfg = new ezcUrlConfiguration();
      *
      * // single parameter value
-     * $urlCfg->addUnorderedParameter( 'param1' );
+     * $urlCfg->addUnorderedParameter( 'param1' ); // type is SINGLE_ARGUMENT by default
      * $url = new ezcUrl( 'http://www.example.com/(param1)/x', $urlCfg );
      * $param1 = $url->getParam( 'param1' ); // will return "x"
      *
@@ -285,8 +285,8 @@ class ezcUrlConfiguration
      *
      * // multiple parameter values with aggregation
      * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
-     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y', $urlCfg );
-     * $param1 = $url->getParam( 'param1' ); // will return array( "x", "y" )
+     * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
+     * $param1 = $url->getParam( 'param1' ); // will return array( array( "x" ), array( "y", "z" ) )
      * </code>
      *
      * @param string $name The name of the unordered parameter to add to the configuration

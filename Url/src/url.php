@@ -44,6 +44,16 @@
  * $game = $url->getParam( 'game' ); // will be array( "Larry", "7" )
  * </code>
  *
+ * Example of aggregating values for unordered parameters:
+ * <code>
+ * $urlCfg = new ezcUrlConfiguration();
+ *
+ * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
+ * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
+ *
+ * $param1 = $url->getParam( 'param1' ); // will be array( array( "x" ), array( "y", "z" ) )
+ * </code>
+ *
  * @property string $host
  *           Hostname or null
  * @property string $path
@@ -353,7 +363,7 @@ class ezcUrl
      * $urlCfg = new ezcUrlConfiguration();
      *
      * // single parameter value
-     * $urlCfg->addUnorderedParameter( 'param1' );
+     * $urlCfg->addUnorderedParameter( 'param1' ); // type is SINGLE_ARGUMENT by default
      * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
      * $param1 = $url->getParam( 'param1' ); // will return "y"
      *
@@ -365,7 +375,7 @@ class ezcUrl
      * // multiple parameter values with aggregation
      * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
      * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
-     * $param1 = $url->getParam( 'param1' ); // will return array( "x", "y", "z" )
+     * $param1 = $url->getParam( 'param1' ); // will return array( array( "x" ), array( "y", "z" ) )
      * </code>
      *
      * @param array(string) $config An array of unordered parameters names, from the URL configuration used in parsing
@@ -537,7 +547,7 @@ class ezcUrl
      * $urlCfg = new ezcUrlConfiguration();
      *
      * // single parameter value
-     * $urlCfg->addUnorderedParameter( 'param1' );
+     * $urlCfg->addUnorderedParameter( 'param1' ); // type is SINGLE_ARGUMENT by default
      * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
      * $param1 = $url->getParam( 'param1' ); // will return "y"
      *
@@ -549,7 +559,7 @@ class ezcUrl
      * // multiple parameter values with aggregation
      * $urlCfg->addUnorderedParameter( 'param1', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
      * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
-     * $param1 = $url->getParam( 'param1' ); // will return array( "x", "y", "z" )
+     * $param1 = $url->getParam( 'param1' ); // will return array( array( "x" ), array( "y", "z" ) )
      * </code>
      *
      * Ordered parameter examples:
@@ -607,11 +617,7 @@ class ezcUrl
                 {
                     if ( $urlCfg->unorderedParameters[$name] === ezcUrlConfiguration::AGGREGATE_ARGUMENTS )
                     {
-                        $result = array();
-                        foreach ( $uparams[$name] as $encounter => $values )
-                        {
-                            $result = array_merge( $result, $uparams[$name][$encounter] );
-                        }
+                        $result = $uparams[$name];
                         return $result;
                     }
                     else
@@ -631,12 +637,45 @@ class ezcUrl
     /**
      * Sets the specified parameter in the URL based on the URL configuration.
      *
+     * For ordered parameters, the value cannot be an array, otherwise an
+     * ezcBaseValueException will be thrown.
+     *
+     * For unordered parameters, the value can be one of:
+     *  - string
+     *  - array(string)
+     *  - array(array(string))
+     *
+     * Any of these values can be assigned to an unordered parameter, whatever the
+     * parameter type (SINGLE_ARGUMENT, MULTIPLE_ARGUMENTS, AGGREGATE_ARGUMENTS).
+     *
+     * If there are ordered and unordered parameters with the same name, only the
+     * ordered parameter value will be set.
+     *
+     * Examples:
+     * <code>
+     * $urlCfg = new ezcUrlConfiguration();
+     * $urlCfg->addUnorderedParameter( 'param1' );
+     *
+     * $url = new ezcUrl( 'http://www.example.com' );
+     *
+     * $url->setParam( 'param1', 'x' );
+     * echo $url->buildUrl(); // will output http://www.example.com/(param1)/x
+     *
+     * $url->setParam( 'param1', array( 'x', 'y' ) );
+     * echo $url->buildUrl(); // will output http://www.example.com/(param1)/x/y
+     *
+     * $url->setParam( 'param1', array( array( 'x' ), array( 'y', 'z' ) ) );
+     * echo $url->buildUrl(); // will output http://www.example.com/(param1)/x/(param1)/y/z
+     * </code>
+     *
+     * @throws ezcBaseValueException
+     *         if trying to assign an array value to an ordered parameter
      * @throws ezcUrlNoConfigurationException
      *         if an URL configuration is not defined
      * @throws ezcUrlInvalidParameterException
      *         if the specified parameter is not defined in the URL configuration
      * @param string $name The name of the parameter to set
-     * @param string $value The new value of the parameter
+     * @param string|array(string=>mixed) $value The new value of the parameter
      */
     public function setParam( $name, $value )
     {
@@ -651,9 +690,17 @@ class ezcUrl
 
             if ( isset( $urlCfg->orderedParameters[$name] ) )
             {
-                $this->properties['params'][$urlCfg->orderedParameters[$name]] = $value;
+                if ( !is_array( $value ) )
+                {
+                    $this->properties['params'][$urlCfg->orderedParameters[$name]] = $value;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $name, $value, 'string' );
+                }
                 return;
             }
+
             if ( isset( $urlCfg->unorderedParameters[$name] ) )
             {
                 if ( !isset( $this->properties['uparams'][$name] ) )
@@ -663,7 +710,20 @@ class ezcUrl
                     
                 if ( is_array( $value ) )
                 {
-                    $this->properties['uparams'][$name][count( $this->properties['uparams'][$name] ) - 1] = $value;
+                    $multiple = false;
+                    foreach ( $value as $part )
+                    {
+                        if ( is_array( $part ) )
+                        {
+                            $this->properties['uparams'][$name] = $value;
+                            $multiple = true;
+                            break;
+                        }
+                    }
+                    if ( !$multiple )
+                    {
+                        $this->properties['uparams'][$name][count( $this->properties['uparams'][$name] ) - 1] = $value;
+                    }
                 }
                 else
                 {

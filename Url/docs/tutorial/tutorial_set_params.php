@@ -19,6 +19,7 @@ $urlCfg->addOrderedParameter( 'subcategory' );
 
 // define unordered parameters
 $urlCfg->addUnorderedParameter( 'game', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
+$urlCfg->addUnorderedParameter( 'patches', ezcUrlConfiguration::AGGREGATE_ARGUMENTS );
 
 // create a new ezcUrl object from a string url and use the above $urlCfg
 $url = new ezcUrl( 'http://www.example.com/mydir/index.php/groups/Games/Adventure/Adult/(game)/Larry/7', $urlCfg );
@@ -29,4 +30,6 @@ $url->setParam( 'subcategory', 'Kids' );
 $url->setParam( 'game', array( 'Monkey_Island', '3' ) );
 var_dump( $url->buildUrl() );
 
+$url->setParam( 'patches', array( array( 'beta1' ), array( 'rc1', 'rc2' ) ) );
+var_dump( $url->buildUrl() );
 ?>

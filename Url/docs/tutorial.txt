@@ -209,9 +209,10 @@ If the URL contains multiple appearances of an unordered parameter (for example
 'http://www.example.com/(param1)/x/(param1)/y/z'), then by default only the last
 encountered values are returned when calling getParam().
 
-To return all the values (to aggregate values), use
+To return all the values (to aggregate values) as an array of arrays (for
+example, array( array( 'x' ), array( 'y', 'z' ) ) for the above URL), use
 ezcUrlConfiguration::AGGREGATE_ARGUMENTS as the second parameter when calling
-addUnorderedParameter(), like in the example:
+addUnorderedParameter(), like in this example:
 
 .. include:: tutorial/tutorial_get_params_aggregate.php
     :literal:
@@ -225,16 +226,21 @@ The output will be: ::
       [1]=>
       string(1) "z"
     }
-    array(3) {
+    array(2) {
       [0]=>
-      string(1) "x"
+      array(1) {
+        [0]=>
+        string(1) "x"
+      }
       [1]=>
-      string(1) "y"
-      [2]=>
-      string(1) "z"
+      array(2) {
+        [0]=>
+        string(1) "y"
+        [1]=>
+        string(1) "z"
+      }
     }
     string(46) "http://www.example.com/(param1)/x/(param1)/y/z"
-
 
 Setting parameters using a url configuration
 --------------------------------------------
@@ -252,6 +258,9 @@ The output would be as follows (wrapped for clarity): ::
 
     string(79) "http://www.example.com/mydir/groups/Games/Adventure/Kids/
     (game)/Monkey_Island/3"
+
+    string(113) "http://www.example.com/mydir/groups/Games/Adventure/Kids/
+    (game)/Monkey_Island/3/(patches)/beta1/(patches)/rc1/rc2"
 
 Changing a url configuration dynamically
 ----------------------------------------
