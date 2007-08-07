@@ -31,7 +31,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcTreeDbNestedSet extends ezcTreeDb
+class ezcTreeDbNestedSet extends ezcTreeDbParentChild
 {
     /**
      * Creates a new ezcTreeDbNestedSet object.
@@ -51,48 +51,6 @@ class ezcTreeDbNestedSet extends ezcTreeDb
     public static function create( ezcDbHandler $dbh, $indexTableName, ezcTreeDbDataStore $store )
     {
         return new ezcTreeDbNestedSet( $dbh, $indexTableName, $store );
-    }
-
-
-    /**
-     * Runs SQL to get all the children of the node with ID $nodeId as a PDO
-     * result set
-     *
-     * @param string $nodeId
-     * @return PDOStatement
-     */
-    protected function fetchChildRecords( $nodeId )
-    {
-        $db = $this->dbh;
-        $q = $db->createSelectQuery();
-
-        // SELECT id, parent_id
-        // FROM indexTable
-        // WHERE parent_id = $nodeId
-        $q->select( 'id, parent_id' )
-          ->from( $db->quoteIdentifier( $this->indexTableName ) )
-          ->where( $q->expr->eq( 'parent_id', $q->bindValue( $nodeId ) ) );
-
-        $s = $q->prepare();
-        $s->execute();
-        return $s;
-    }
-
-    /**
-     * Returns all the children of the node with ID $id.
-     *
-     * @param string $id
-     * @return ezcTreeNodeList
-     */
-    public function fetchChildren( $id )
-    {
-        $className = $this->properties['nodeClassName'];
-        $list = new ezcTreeNodeList;
-        foreach ( $this->fetchChildRecords( $id ) as $record )
-        {
-            $list->addNode( new $className( $this, $record['id'] ) );
-        }
-        return $list;
     }
 
     /**
@@ -174,106 +132,6 @@ class ezcTreeDbNestedSet extends ezcTreeDb
     }
 
     /**
-     * Alias for fetchSubtreeDepthFirst().
-     *
-     * @param string $id
-     * @return ezcTreeNodeList
-     */
-    public function fetchSubtree( $nodeId )
-    {
-        return $this->fetchSubtreeDepthFirst( $nodeId );
-    }
-
-    /**
-     * Adds the children nodes of the node with ID $nodeId to the
-     * ezcTreeNodeList $list.
-     *
-     * @param ezcTreeNodeList $list
-     * @param string          $nodeId
-     */
-    protected function addChildNodesBreadthFirst( ezcTreeNodeList $list, $nodeId )
-    {
-        $className = $this->properties['nodeClassName'];
-        $childRecords = $this->fetchChildRecords( $nodeId )->fetchAll();
-        foreach ( $childRecords as $record )
-        {
-            $list->addNode( new $className( $this, $record['id'] ) );
-        }
-        foreach ( $childRecords as $record )
-        {
-            $this->addChildNodesBreadthFirst( $list, $record['id'] );
-        }
-    }
-
-    /**
-     * Returns the node with ID $id and all its children, sorted accoring to
-     * the `Breadth-first sorting`_ algorithm.
-     *
-     * @param string $id
-     * @return ezcTreeNodeList
-     */
-    public function fetchSubtreeBreadthFirst( $nodeId )
-    {
-        $className = $this->properties['nodeClassName'];
-        $list = new ezcTreeNodeList;
-        $list->addNode( new $className( $this, $nodeId ) );
-        $this->addChildNodesBreadthFirst( $list, $nodeId );
-        return $list;
-    }
-
-    /**
-     * Returns the number of direct children of the node with ID $id
-     *
-     * @param string $id
-     * @return int
-     */
-    public function getChildCount( $nodeId )
-    {
-        $db = $this->dbh;
-        $q = $db->createSelectQuery();
-
-        // SELECT count(id)
-        // FROM indexTable
-        // WHERE parent_id = $nodeId
-        $q->select( 'count(id)' )
-          ->from( $db->quoteIdentifier( $this->indexTableName ) )
-          ->where( $q->expr->eq( 'parent_id', $q->bindValue( $nodeId ) ) );
-
-        $s = $q->prepare();
-        $s->execute();
-        return (int) $s->fetchColumn(0);
-    }
-
-    /**
-     * Adds the number of children with for the node with ID $nodeId nodes to
-     * $count recursively.
-     *
-     * @param int &$count
-     * @param string $nodeId
-     */
-    protected function countChildNodes( &$count, $nodeId )
-    {
-        foreach ( $this->fetchChildRecords( $nodeId ) as $record )
-        {
-            $count++;
-            $this->countChildNodes( $count, $record['id'] );
-        }
-    }
-
-    /**
-     * Returns the number of children of the node with ID $id, recursively
-     *
-     * @param string $id
-     * @return int
-     */
-    public function getChildCountRecursive( $id )
-    {
-        $count = 0;
-        $this->countChildNodes( $count, $id );
-        return $count;
-    }
-
-    /**
      * Returns the distance from the root node to the node with ID $id
      *
      * @param string $id
@@ -281,6 +139,7 @@ class ezcTreeDbNestedSet extends ezcTreeDb
      */
     public function getPathLength( $id )
     {
+        // TODO
         $id = $this->getParentId( $id );
         $length = 0;
 
@@ -293,32 +152,6 @@ class ezcTreeDbNestedSet extends ezcTreeDb
     }
 
     /**
-     * Returns whether the node with ID $id has children
-     *
-     * @param string $id
-     * @return bool
-     */
-    public function hasChildNodes( $nodeId )
-    {
-        return $this->getChildCount( $nodeId ) > 0;
-    }
-
-    /**
-     * Returns whether the node with ID $childId is a direct child of the node
-     * with ID $parentId
-     *
-     * @param string $childId
-     * @param string $parentId
-     * @return bool
-     */
-    public function isChildOf( $childId, $parentId )
-    {
-        $id = $this->getParentId( $childId );
-        $parentId = (string) $parentId;
-        return $parentId === $id;
-    }
-
-    /**
      * Returns whether the node with ID $childId is a direct or indirect child
      * of the node with ID $parentId
      *
@@ -328,6 +161,7 @@ class ezcTreeDbNestedSet extends ezcTreeDb
      */
     public function isDecendantOf( $childId, $parentId )
     {
+        // TODO
         $parentId = (string) $parentId;
         $id = $childId;
         do
@@ -339,21 +173,6 @@ class ezcTreeDbNestedSet extends ezcTreeDb
             }
         } while ( $id !== null );
         return false;
-    }
-
-    /**
-     * Returns whether the nodes with IDs $child1Id and $child2Id are siblings
-     * (ie, the share the same parent)
-     *
-     * @param string $child1Id
-     * @param string $child2Id
-     * @return bool
-     */
-    public function isSiblingOf( $child1Id, $child2Id )
-    {
-        $id1 = $this->getParentId( $child1Id );
-        $id2 = $this->getParentId( $child2Id );
-        return $id1 === $id2 && (string) $child1Id !== (string) $child2Id;
     }
 
     /**
@@ -653,10 +472,6 @@ class ezcTreeDbNestedSet extends ezcTreeDb
           ->set( 'lft', $q->expr->add( 'lft', $adjust ) )
           ->where( $q->expr->in( 'id', $ids ) );
         $q->prepare()->execute();
-    }
-
-    public function fixateTransaction()
-    {
     }
 }
 ?>

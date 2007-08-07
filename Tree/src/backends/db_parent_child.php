@@ -58,11 +58,14 @@ class ezcTreeDbParentChild extends ezcTreeDb
      * @param string $nodeId
      * @return PDOStatement
      */
-    private function fetchChildRecords( $nodeId )
+    protected function fetchChildRecords( $nodeId )
     {
         $db = $this->dbh;
         $q = $db->createSelectQuery();
 
+        // SELECT id, parent_id
+        // FROM indexTable
+        // WHERE parent_id = $nodeId
         $q->select( 'id, parent_id' )
           ->from( $db->quoteIdentifier( $this->indexTableName ) )
           ->where( $q->expr->eq( 'parent_id', $q->bindValue( $nodeId ) ) );
@@ -163,7 +166,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
      * @param ezcTreeNodeList $list
      * @param string          $nodeId
      */
-    private function addChildNodesBreadthFirst( ezcTreeNodeList $list, $nodeId )
+    protected function addChildNodesBreadthFirst( ezcTreeNodeList $list, $nodeId )
     {
         $className = $this->properties['nodeClassName'];
         $childRecords = $this->fetchChildRecords( $nodeId )->fetchAll();
@@ -204,6 +207,9 @@ class ezcTreeDbParentChild extends ezcTreeDb
         $db = $this->dbh;
         $q = $db->createSelectQuery();
 
+        // SELECT count(id)
+        // FROM indexTable
+        // WHERE parent_id = $nodeId
         $q->select( 'count(id)' )
           ->from( $db->quoteIdentifier( $this->indexTableName ) )
           ->where( $q->expr->eq( 'parent_id', $q->bindValue( $nodeId ) ) );
@@ -220,7 +226,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
      * @param int &$count
      * @param string $nodeId
      */
-    private function countChildNodes( &$count, $nodeId )
+    protected function countChildNodes( &$count, $nodeId )
     {
         foreach ( $this->fetchChildRecords( $nodeId ) as $record )
         {
@@ -376,14 +382,20 @@ class ezcTreeDbParentChild extends ezcTreeDb
         $this->store->storeDataForNode( $childNode, $childNode->data );
     }
 
+    /**
+     * Deletes all nodes in the node list $list
+     *
+     * @param ezcTreeNodeList $list
+     */
     private function deleteNodes( ezcTreeNodeList $list )
     {
         $db = $this->dbh;
         $q = $db->createDeleteQuery();
-        $q->deleteFrom( $db->quoteIdentifier( $this->indexTableName ) );
-
         $idList = array_keys( $list->getNodes() );
 
+        // DELETE FROM indexTable
+        // WHERE id in ( $list );
+        $q->deleteFrom( $db->quoteIdentifier( $this->indexTableName ) );
         $q->where( $q->expr->in( 'id', $idList ) );
         $s = $q->prepare();
         $s->execute();
