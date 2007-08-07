@@ -19,11 +19,11 @@
  * fields "lft" and "rgt" will store the left and right values that the
  * algorithm requires. These two fields should be of an integer type.
  *
- * @property-read ezcTreeXmlDataStore $store
+ * @property-read ezcTreeDbDataStore $store
  *                The data store that is used for retrieving/storing data.
- * @property      bool                $prefetch
+ * @property      bool $prefetch
  *                Whether data pre-fetching is enabled.
- * @property      string              $nodeClassName
+ * @property      string $nodeClassName
  *                Which class is used as tree node - this class *must* inherit
  *                the ezcTreeNode class.
  *
