@@ -158,6 +158,17 @@ abstract class ezcGraphPalette
     }
 
     /**
+     * Manually reset the color counter to use the first color again
+     * 
+     * @access public
+     */
+    public function resetColorCounter()
+    {
+        $this->colorIndex = -1;
+        $this->symbolIndex = -1;
+    }
+
+    /**
      * Returns the requested property
      * 
      * @param string $propertyName Name of property

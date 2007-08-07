@@ -37,6 +37,9 @@ class ezcGraphChartSingleDataContainer extends ezcGraphChartDataContainer
         {
             parent::addDataSet( $name, $dataSet );
 
+            // Resette palette color counter
+            $this->chart->palette->resetColorCounter();
+
             // Colorize each data element
             foreach ( $this->data[$name] as $label => $value )
             {
