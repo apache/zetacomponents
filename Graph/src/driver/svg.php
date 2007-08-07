@@ -949,7 +949,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         if ( $filled === true )
         {
             $arc = $this->dom->createElement( 'path' );
-            $arc->setAttribute( 'd', sprintf( 'M %.2F,%.2F A %.2F,%.2F 0 %d,0 %.2F,%.2F L %.2F,%.2F A %.2F,%2f 0 %d,1 %.2F,%.2F z',
+            $arc->setAttribute( 'd', sprintf( 'M %.2F,%.2F A %.2F,%.2F 0 %d,0 %.2F,%.2F L %.2F,%.2F A %.2F,%2F 0 %d,1 %.2F,%.2F z',
                 // Endpoint low
                 $Xend, $Yend + $size,
                 // Radius
