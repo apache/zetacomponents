@@ -391,7 +391,12 @@ class ezcTreeDbParentChild extends ezcTreeDb
     {
         $db = $this->dbh;
         $q = $db->createDeleteQuery();
-        $idList = array_keys( $list->getNodes() );
+
+        $idList = array();
+        foreach ( array_keys( $list->getNodes() ) as $id )
+        {
+            $idList[] = (string) $id;
+        }
 
         // DELETE FROM indexTable
         // WHERE id in ( $list );

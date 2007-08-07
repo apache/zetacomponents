@@ -8,8 +8,8 @@ return array (
       array (
         'id' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'integer',
-           'length' => 0,
+           'type' => 'text',
+           'length' => 128,
            'notNull' => true,
            'default' => NULL,
            'autoIncrement' => false,
@@ -17,8 +17,8 @@ return array (
         )),
         'parent_id' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'integer',
-           'length' => 0,
+           'type' => 'text',
+           'length' => 128,
            'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,
@@ -27,7 +27,7 @@ return array (
         'path' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'text',
-           'length' => 4000,
+           'length' => 1000,
            'notNull' => true,
            'default' => NULL,
            'autoIncrement' => false,
@@ -68,8 +68,8 @@ return array (
       array (
         'id' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'integer',
-           'length' => 0,
+           'type' => 'text',
+           'length' => 128,
            'notNull' => true,
            'default' => NULL,
            'autoIncrement' => false,
@@ -107,8 +107,8 @@ return array (
       array (
         'id' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'integer',
-           'length' => 0,
+           'type' => 'text',
+           'length' => 128,
            'notNull' => true,
            'default' => NULL,
            'autoIncrement' => false,

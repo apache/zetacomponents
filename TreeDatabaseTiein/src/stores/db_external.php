@@ -86,7 +86,11 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
      */
     public function deleteDataForNodes( ezcTreeNodeList $nodeList )
     {
-        $nodeIdsToDelete = array_keys( $nodeList->getNodes() );
+        $nodeIdsToDelete = array();
+        foreach ( array_keys( $nodeList->getNodes() ) as $id )
+        {
+            $nodeIdsToDelete[] = (string) $id;
+        }
 
         $db = $this->dbHandler;
         $q = $db->createDeleteQuery();
