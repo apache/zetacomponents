@@ -55,8 +55,8 @@
         )),
         'timestamp' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'text',
-           'length' => 32,
+           'type' => 'integer',
+           'length' => 0,
            'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,

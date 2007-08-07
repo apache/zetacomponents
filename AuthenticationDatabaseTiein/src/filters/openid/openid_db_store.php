@@ -175,7 +175,7 @@ class ezcAuthenticationOpenidDbStore extends ezcAuthenticationOpenidStore
         if ( count( $rows ) > 0 )
         {
             $rows = $rows[0];
-            $lastModified = $rows[$table['fields']['timestamp']];
+            $lastModified = (int) $rows[$table['fields']['timestamp']];
 
             $this->removeNonce( $nonce );
 

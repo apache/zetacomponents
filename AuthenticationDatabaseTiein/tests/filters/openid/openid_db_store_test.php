@@ -97,7 +97,7 @@ class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinT
 
         catch ( Exception $e )
         {
-            $this->markTestSkipped( "You must provide a database to runtests.php." );
+            $this->markTestSkipped( "You must provide a database to runtests.php: " . $e->getMessage() );
         }
 
     }
@@ -146,7 +146,7 @@ class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinT
         $this->assertEquals( true, in_array( $nonce, ezcAuthenticationOpenidDbStoreHelper::getNonces( $this->db ) ) );
 
         $ret = $store->useNonce( $nonce );
-        $this->assertEquals( true, $ret );
+        $this->assertSame( time(), $ret );
         $this->assertEquals( false, in_array( $nonce, ezcAuthenticationOpenidDbStoreHelper::getNonces( $this->db ) ) );
     }
 
