@@ -188,7 +188,7 @@ manually setting the amount of steps on the x axis.
 	// Output graph ...
 	?>
 
-This works because all datasets implemnt the interface Countable. If you want
+This works because all datasets implement the interface Countable. If you want
 to use it for more then one dataset you could do the following:
 
 	<?php
