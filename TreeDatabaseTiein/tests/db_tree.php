@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require_once 'tree.php';
+require_once 'Tree/tests/tree.php';
 
 /**
  * @package Tree

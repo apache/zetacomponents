@@ -8,38 +8,39 @@
  * @subpackage Tests
  */
 
-require_once 'tree.php';
+require_once 'Tree/tests/tree.php';
 require_once 'db_tree.php';
 
 /**
  * @package Tree
  * @subpackage Tests
  */
-class ezcTreeDbParentChildTest extends ezcDbTreeTest
+class ezcTreeDbNestedSetTest extends ezcDbTreeTest
 {
     private $tempDir;
 
-    protected $tables  = array( 'parent_child', 'data', 'datam' );
-    protected $schemaName = 'parent_child.dba';
+    protected $tables  = array( 'nested_set', 'data', 'datam' );
+    protected $schemaName = 'nested_set.dba';
 
     public function insertData()
     {
         // insert test data
         $data = array(
             // child -> parent
-            1 => 'null',
-            2 => 1,
-            3 => 1,
-            4 => 1,
-            6 => 4,
-            7 => 6,
-            8 => 6,
-            5 => 1,
-            9 => 5
+            1 => array( 'null',  1, 18 ),
+            2 => array(      1,  2,  3 ),
+            3 => array(      1,  4,  5 ),
+            4 => array(      1,  6, 13 ),
+            6 => array(      4,  7, 12 ),
+            7 => array(      6,  8,  9 ),
+            8 => array(      6, 10, 11 ),
+            5 => array(      1, 14, 17 ),
+            9 => array(      5, 15, 16 ),
         );
-        foreach( $data as $childId => $parentId )
+        foreach( $data as $childId => $details )
         {
-            $this->dbh->exec( "INSERT INTO parent_child(id, parent_id) VALUES( $childId, $parentId )" );
+            list( $parentId, $left, $right ) = $details;
+            $this->dbh->exec( "INSERT INTO nested_set(id, parent_id, lft, rgt) VALUES( $childId, $parentId, $left, $right )" );
         }
 
         // add data
@@ -52,9 +53,9 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
     protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
-        $tree = ezcTreeDbParentChild::create(
+        $tree = ezcTreeDbNestedSet::create(
             $this->dbh,
-            'parent_child',
+            'nested_set',
             $store
         );
         $this->emptyTables();
@@ -64,9 +65,9 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
     protected function setUpTestTree( $dataTable = 'data', $dataField = 'data' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
-        $tree = new ezcTreeDbParentChild(
+        $tree = new ezcTreeDbNestedSet(
             $this->dbh,
-            'parent_child',
+            'nested_set',
             $store
         );
         return $tree;
@@ -74,7 +75,7 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
 
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite( "ezcTreeDbParentChildTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTreeDbNestedSetTest" );
     }
 }
 

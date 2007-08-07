@@ -8,39 +8,39 @@
  * @subpackage Tests
  */
 
-require_once 'tree.php';
+require_once 'Tree/tests/tree.php';
 require_once 'db_tree.php';
 
 /**
  * @package Tree
  * @subpackage Tests
  */
-class ezcTreeDbNestedSetTest extends ezcDbTreeTest
+class ezcTreeDbMaterializedPathTest extends ezcDbTreeTest
 {
     private $tempDir;
 
-    protected $tables  = array( 'nested_set', 'data', 'datam' );
-    protected $schemaName = 'nested_set.dba';
+    protected $tables  = array( 'materialized_path', 'data', 'datam' );
+    protected $schemaName = 'materialized_path.dba';
 
     public function insertData()
     {
         // insert test data
         $data = array(
             // child -> parent
-            1 => array( 'null',  1, 18 ),
-            2 => array(      1,  2,  3 ),
-            3 => array(      1,  4,  5 ),
-            4 => array(      1,  6, 13 ),
-            6 => array(      4,  7, 12 ),
-            7 => array(      6,  8,  9 ),
-            8 => array(      6, 10, 11 ),
-            5 => array(      1, 14, 17 ),
-            9 => array(      5, 15, 16 ),
+            1 => array( 'null', '/1' ),
+            2 => array(      1, '/1/2' ),
+            3 => array(      1, '/1/3' ),
+            4 => array(      1, '/1/4' ),
+            6 => array(      4, '/1/4/6' ),
+            7 => array(      6, '/1/4/6/7' ),
+            8 => array(      6, '/1/4/6/8' ),
+            5 => array(      1, '/1/5' ),
+            9 => array(      5, '/1/5/9' ),
         );
         foreach( $data as $childId => $details )
         {
-            list( $parentId, $left, $right ) = $details;
-            $this->dbh->exec( "INSERT INTO nested_set(id, parent_id, lft, rgt) VALUES( $childId, $parentId, $left, $right )" );
+            list( $parentId, $path ) = $details;
+            $this->dbh->exec( "INSERT INTO materialized_path(id, parent_id, path) VALUES( $childId, $parentId, '$path' )" );
         }
 
         // add data
@@ -53,9 +53,9 @@ class ezcTreeDbNestedSetTest extends ezcDbTreeTest
     protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
-        $tree = ezcTreeDbNestedSet::create(
+        $tree = ezcTreeDbMaterializedPath::create(
             $this->dbh,
-            'nested_set',
+            'materialized_path',
             $store
         );
         $this->emptyTables();
@@ -65,9 +65,9 @@ class ezcTreeDbNestedSetTest extends ezcDbTreeTest
     protected function setUpTestTree( $dataTable = 'data', $dataField = 'data' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
-        $tree = new ezcTreeDbNestedSet(
+        $tree = new ezcTreeDbMaterializedPath(
             $this->dbh,
-            'nested_set',
+            'materialized_path',
             $store
         );
         return $tree;
@@ -75,7 +75,7 @@ class ezcTreeDbNestedSetTest extends ezcDbTreeTest
 
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite( "ezcTreeDbNestedSetTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTreeDbMaterializedPathTest" );
     }
 }
 

@@ -8,39 +8,38 @@
  * @subpackage Tests
  */
 
-require_once 'tree.php';
+require_once 'Tree/tests/tree.php';
 require_once 'db_tree.php';
 
 /**
  * @package Tree
  * @subpackage Tests
  */
-class ezcTreeDbMaterializedPathTest extends ezcDbTreeTest
+class ezcTreeDbParentChildTest extends ezcDbTreeTest
 {
     private $tempDir;
 
-    protected $tables  = array( 'materialized_path', 'data', 'datam' );
-    protected $schemaName = 'materialized_path.dba';
+    protected $tables  = array( 'parent_child', 'data', 'datam' );
+    protected $schemaName = 'parent_child.dba';
 
     public function insertData()
     {
         // insert test data
         $data = array(
             // child -> parent
-            1 => array( 'null', '/1' ),
-            2 => array(      1, '/1/2' ),
-            3 => array(      1, '/1/3' ),
-            4 => array(      1, '/1/4' ),
-            6 => array(      4, '/1/4/6' ),
-            7 => array(      6, '/1/4/6/7' ),
-            8 => array(      6, '/1/4/6/8' ),
-            5 => array(      1, '/1/5' ),
-            9 => array(      5, '/1/5/9' ),
+            1 => 'null',
+            2 => 1,
+            3 => 1,
+            4 => 1,
+            6 => 4,
+            7 => 6,
+            8 => 6,
+            5 => 1,
+            9 => 5
         );
-        foreach( $data as $childId => $details )
+        foreach( $data as $childId => $parentId )
         {
-            list( $parentId, $path ) = $details;
-            $this->dbh->exec( "INSERT INTO materialized_path(id, parent_id, path) VALUES( $childId, $parentId, '$path' )" );
+            $this->dbh->exec( "INSERT INTO parent_child(id, parent_id) VALUES( $childId, $parentId )" );
         }
 
         // add data
@@ -53,9 +52,9 @@ class ezcTreeDbMaterializedPathTest extends ezcDbTreeTest
     protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
-        $tree = ezcTreeDbMaterializedPath::create(
+        $tree = ezcTreeDbParentChild::create(
             $this->dbh,
-            'materialized_path',
+            'parent_child',
             $store
         );
         $this->emptyTables();
@@ -65,9 +64,9 @@ class ezcTreeDbMaterializedPathTest extends ezcDbTreeTest
     protected function setUpTestTree( $dataTable = 'data', $dataField = 'data' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
-        $tree = new ezcTreeDbMaterializedPath(
+        $tree = new ezcTreeDbParentChild(
             $this->dbh,
-            'materialized_path',
+            'parent_child',
             $store
         );
         return $tree;
@@ -75,7 +74,7 @@ class ezcTreeDbMaterializedPathTest extends ezcDbTreeTest
 
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite( "ezcTreeDbMaterializedPathTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTreeDbParentChildTest" );
     }
 }
 
