@@ -193,7 +193,9 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
     {
         $filter = new ezcAuthenticationOpenidWrapper();
         $result = $filter->discoverHtml( self::$url );
-        $expected = array( 'openid.server' => array( 0 => 'http://www.myopenid.com/server' ) );
+        $expected = array( 
+            'openid.server' => array( 0 => 'http://www.myopenid.com/server' ),
+            'openid2.provider' => array( 0 => 'http://www.myopenid.com/server' ) );
         $this->assertEquals( $expected, $result );
     }
 
@@ -201,7 +203,9 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
     {
         $filter = new ezcAuthenticationOpenidWrapper();
         $result = $filter->discoverHtml( self::$urlIncomplete );
-        $expected = array( 'openid.server' => array( 0 => 'http://www.myopenid.com/server' ) );
+        $expected = array( 
+            'openid.server' => array( 0 => 'http://www.myopenid.com/server' ),
+            'openid2.provider' => array( 0 => 'http://www.myopenid.com/server' ) );
         $this->assertEquals( $expected, $result );
     }
 

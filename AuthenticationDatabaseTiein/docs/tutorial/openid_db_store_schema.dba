@@ -1,0 +1,86 @@
+<?php return array (
+  0 => 
+  array (
+    'openid_associations' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'association' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 2048,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'url' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'url' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'url' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => false,
+           'unique' => false,
+        )),
+      ),
+    )),
+    'openid_nonces' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'nonce' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 32,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'timestamp' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 32,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'nonce' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'nonce' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => false,
+           'unique' => false,
+        )),
+      ),
+    )),
+  ),
+  1 => 
+  array (
+  ),
+); ?>

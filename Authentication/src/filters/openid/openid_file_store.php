@@ -12,6 +12,23 @@
 /**
  * Class providing file storage for OpenID authentication.
  *
+ * Example of use:
+ * <code>
+ * // create an OpenID options object
+ * $options = new ezcAuthenticationOpenidOptions();
+ * $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
+ *
+ * // define a file store
+ * $options->store = new ezcAuthenticationOpenidFileStore( '/tmp/store' );
+ *
+ * // create an OpenID filter based on the options object
+ * $filter = new ezcAuthenticationOpenidFilter( $options );
+ * </code>
+ *
+ * @property string $path
+ *           The path where the files will be kept. It must exist and it must
+ *           be writable.
+ *
  * @package Authentication
  * @version //autogen//
  */

@@ -14,6 +14,7 @@
  * Including the tests
  */
 require_once( "filters/database/database_test.php" );
+require_once( "filters/openid/openid_db_store_test.php" );
 
 /**
  * @package AuthenticationDatabaseTiein
@@ -28,6 +29,7 @@ class ezcAuthenticationDatabaseTieinSuite extends PHPUnit_Framework_TestSuite
         $this->setName( "AuthenticationDatabaseTiein" );
         
         $this->addTest( ezcAuthenticationDatabaseTest::suite() );
+        $this->addTest( ezcAuthenticationOpenidDbStoreTest::suite() );
     }
 
     public static function suite()

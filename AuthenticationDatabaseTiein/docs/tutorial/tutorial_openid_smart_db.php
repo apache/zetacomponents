@@ -21,8 +21,8 @@ else
     $options = new ezcAuthenticationOpenidOptions();
     $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
 
-    // define a file store
-    $options->store = new ezcAuthenticationOpenidFileStore( '/tmp/store' );
+    // define a database store by specifying a database instance
+    $options->store = new ezcAuthenticationOpenidDbStore( ezcDbInstance::get() );
 
     $filter = new ezcAuthenticationOpenidFilter( $options );
     $authentication->addFilter( $filter );

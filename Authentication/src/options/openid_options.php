@@ -17,6 +17,7 @@
  * // create an options object
  * $options = new ezcAuthenticationOpenidOptions();
  * $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
+ * $options->store = new ezcAuthenticationOpenidFileStore( '/tmp/store' );
  * $options->timeout = 5;
  * $options->timeoutOpen = 3;
  * $options->requestSource = $_POST;

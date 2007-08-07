@@ -14,13 +14,15 @@ different means of identification and authentication of users using different
 providers and protocols.
 
 AuthenticationDatabaseTiein provides a Database filter for the
-`Authentication`_ component by using the `Database`_ component.
+`Authentication`_ component by using the `Database`_ component, and an
+implementation of a database store (backend) for OpenID authentication.
 
 
 Class overview
 ==============
 
-An overview of the most important classes in the `Authentication`_ component.
+An overview of the most important classes in the `Authentication`_ component
+and this component.
 
 
 Base classes
@@ -29,12 +31,13 @@ Base classes
 ezcAuthentication
   Main class of `Authentication`_. It is a container for authentication
   filters, which will be run in sequence. The method run() returns true or
-  false depending on the success of the authentication filters.
+  false depending on the success of the authentication filters. Implemented
+  in `Authentication`_.
 
 ezcAuthenticationCredentials
   Structure which holds user credentials. Types are id credentials
   (ezcAuthenticationIdCredentials) and id + password credentials
-  (ezcAuthenticationPasswordCredentials).
+  (ezcAuthenticationPasswordCredentials).  Implemented in `Authentication`_.
 
 
 Authentication filters
@@ -43,6 +46,26 @@ Authentication filters
 ezcAuthenticationDatabaseFilter
   Filter to authenticate against a database. Uses a database instance provided
   by the `Database`_ component (via the ezcDbInstance::get() function).
+
+
+Stores
+------
+
+OpenID uses a store to hold the generated nonces and the associations (in
+"smart" mode). If there is no store specified, then nonces are not checked.
+
+ezcAuthenticationOpenidStore
+  Abstract class from which the different stores inherit.  Implemented in
+  `Authentication`_.
+
+ezcAuthenticationOpenidFileStore
+  Uses file storage. Nonces are stored in files named after the nonce itself,
+  and associations are stored in files named after the OpenID provider with
+  which the association is made. Implemented in `Authentication`_.
+
+ezcAuthenticationOpenidDbStore
+  Database storage. Nonces and associations are stored in two tables, with
+  names defined as options in ezcAuthenticationOpenidDbStoreOptions.
 
 
 Authentication filters
@@ -72,6 +95,29 @@ created for the user ("Username incorrect", "Password incorrect").
 
 If run() returned true (line 24) then the user is logged-in and he can see his
 content.
+
+
+OpenID
+------
+
+OpenID "smart" (stateful) mode
+``````````````````````````````
+
+The following example shows how to authenticate against OpenID in "smart"
+(stateful) mode, using a database store.
+
+.. include:: tutorial/tutorial_openid_smart_db.php
+   :literal:
+
+A database store is defined at line 25. This store will also hold the nonces
+which are used to prevent replay attacks.
+
+The database store requires that certain tables are present in the database. To
+load the .dba definition for these tables into your database you must have the
+DatabaseSchema component installed. Use the following code to load the schema:
+
+.. include:: tutorial/load_openid_db_store_schema.php
+   :literal:
 
 
 Securing applications

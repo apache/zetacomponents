@@ -82,7 +82,12 @@ ezcAuthenticationOpenidStore
 ezcAuthenticationOpenidFileStore
   Uses file storage. Nonces are stored in files named after the nonce itself,
   and associations are stored in files named after the OpenID provider with
-  which the association is made. Currently is the only store implemented.
+  which the association is made.
+
+ezcAuthenticationOpenidDbStore
+  Database storage. Nonces and associations are stored in two tables, with
+  names defined as options in ezcAuthenticationOpenidDbStoreOptions.
+  Implemented in `AuthenticationDatabaseTiein`_.
 
 
 General authentication
@@ -333,9 +338,10 @@ The following example shows how to authenticate against OpenID in "smart"
    :literal:
 
 The only differences between this example and the one in the previous section
-is defining the mode of the OpenID filter, and defining a store (here: a file
-store) which will hold the associations. In addition the store will also hold
-the nonces which are used to prevent replay attacks.
+is defining the mode of the OpenID filter, and defining a store (file store in
+this example or database store as shown in the OpenID example in
+`AuthenticationDatabaseTiein`_) which will hold the associations. In addition
+the store will also hold the nonces which are used to prevent replay attacks.
 
 
 Token
