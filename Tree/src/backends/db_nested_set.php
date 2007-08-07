@@ -139,16 +139,8 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
      */
     public function getPathLength( $id )
     {
-        // TODO
-        $id = $this->getParentId( $id );
-        $length = 0;
-
-        while ( $id !== null )
-        {
-            $id = $this->getParentId( $id );
-            $length++;
-        }
-        return $length;
+        $path = $this->fetchPath( $id );
+        return count( $path->getNodes() ) - 1;
     }
 
     /**
@@ -161,17 +153,12 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
      */
     public function isDecendantOf( $childId, $parentId )
     {
-        // TODO
-        $parentId = (string) $parentId;
-        $id = $childId;
-        do
+        $path = $this->fetchPath( $childId );
+
+        if ( isset( $path[$parentId] ) && ( $childId !== $parentId ) )
         {
-            $id = $this->getParentId( $id );
-            if ( $parentId === $id )
-            {
-                return true;
-            }
-        } while ( $id !== null );
+            return true;
+        }
         return false;
     }
 
