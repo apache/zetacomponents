@@ -297,6 +297,26 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         );
     }
 
+    public function testLoadWorkflowWithSubWorkflowAndVariablePassing()
+    {
+        $definition = new ezcWorkflowDefinitionStorageXml(
+          dirname( dirname( dirname( __FILE__ ) ) ) . '/Workflow/tests/data/'
+        );
+
+        $workflow = $definition->loadByName( 'IncrementVariable' );
+        $this->definition->save( $workflow );
+
+        $this->setUpWorkflowWithSubWorkflowAndVariablePassing();
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'WorkflowWithSubWorkflowAndVariablePassing' ),
+          $this->readActual()
+        );
+    }
+
     public function testLogNestedLoops()
     {
         $this->setUpNestedLoops();
