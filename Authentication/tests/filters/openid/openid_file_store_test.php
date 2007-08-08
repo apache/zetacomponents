@@ -97,7 +97,7 @@ class ezcAuthenticationOpenidFileStoreTest extends ezcAuthenticationTest
         $nonce = self::$nonce1;
         $store->storeNonce( $nonce );
         $ret = $store->useNonce( $nonce );
-        $this->assertSame( time(), $ret );
+        $this->assertEquals( true, abs( time() - $ret ) < 10 ); // to allow for delays in the program
         $this->assertEquals( false, in_array( $nonce, ezcAuthenticationOpenidFileStoreHelper::getFiles( $path ) ) );
     }
 
