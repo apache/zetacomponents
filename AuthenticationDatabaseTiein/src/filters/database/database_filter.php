@@ -43,6 +43,23 @@
  * }
  * </code>
  *
+ * Extra data can be fetched from the database during the authentication process,
+ * by registering the data to be fetched before calling run(). Example:
+ * <code>
+ * // $filter is an ezcAuthenticationDatabaseFilter object
+ * $filter->registerFetchData( array( 'name', 'country' ) );
+ *
+ * // after run()
+ * $data = $filter->fetchData();
+ * </code>
+ *
+ * The $data array will be something like:
+ * <code>
+ * array( 'name' => array( 'John Doe' ),
+ *        'country' => array( 'US' )
+ *      );
+ * </code>
+ *
  * @property ezcAuthenticationDatabaseInfo $database
  *           Structure which holds a database instance, table name and fields
  *           which are used for authentication.
@@ -51,7 +68,7 @@
  * @version //autogen//
  * @mainclass
  */
-class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
+class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter implements ezcAuthenticationDataFetch
 {
     /**
      * Username is not found in the database.
@@ -62,6 +79,33 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
      * Password is incorrect.
      */
     const STATUS_PASSWORD_INCORRECT = 2;
+
+    /**
+     * Holds the attributes which will be requested during the authentication
+     * process.
+     *
+     * Usually it has this structure:
+     * <code>
+     * array( 'fullname', 'gender', 'country', 'language' );
+     * </code>
+     *
+     * @var array(string)
+     */
+    protected $requestedData = array();
+
+    /**
+     * Holds the extra data fetched during the authentication process.
+     *
+     * Usually it has this structure:
+     * <code>
+     * array( 'name' => array( 'John Doe' ),
+     *        'country' => array( 'US' )
+     *      );
+     * </code>
+     *
+     * @var array(string=>mixed)
+     */
+    protected $data = array();
 
     /**
      * Holds the properties of this class.
@@ -196,7 +240,62 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
             return self::STATUS_PASSWORD_INCORRECT;
         }
 
+        if ( count( $this->requestedData ) > 0 )
+        {
+            // fetch extra data from the database
+            $query = new ezcQuerySelect( $db->instance );
+            $e = $query->expr;
+            $query->select( implode( ',', $this->requestedData ) )
+                  ->from( $db->instance->quoteIdentifier( $db->table ) )
+                  ->where( $e->lAnd(
+                      $e->eq( $db->instance->quoteIdentifier( $db->fields[0] ), $query->bindValue( $credentials->id ) ),
+                      $e->eq( $db->instance->quoteIdentifier( $db->fields[1] ), $query->bindValue( $credentials->password ) )
+                         ) );
+            $rows = $query->prepare();
+            $rows->execute();
+            $data = $rows->fetchAll();
+            $data = $data[0];
+
+            foreach ( $this->requestedData as $attribute )
+            {
+                $this->data[$attribute] = array( $data[$attribute] );
+            }
+        }
+
         return self::STATUS_OK;
+    }
+
+    /**
+     * Registers the extra data which will be fetched by the filter during the
+     * authentication process.
+     *
+     * The input $data should be an array of attributes, for example:
+     * <code>
+     * array( 'name', 'country' );
+     * </code>
+     *
+     * @param array(string) $data The extra data to fetch during authentication
+     */
+    public function registerFetchData( array $data = array() )
+    {
+        $this->requestedData = $data;
+    }
+
+    /**
+     * Returns the extra data which was fetched during the authentication process.
+     *
+     * Example of returned array:
+     * <code>
+     * array( 'name' => array( 'John Doe' ),
+     *        'country' => array( 'US' )
+     *      );
+     * </code>
+     *
+     * @return array(string=>mixed)
+     */
+    public function fetchData()
+    {
+        return $this->data;
     }
 }
 ?>

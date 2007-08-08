@@ -97,6 +97,28 @@ If run() returned true (line 24) then the user is logged-in and he can see his
 content.
 
 
+Fetch extra data during Database authentication
+```````````````````````````````````````````````
+
+Any value from the table which holds the users can be fetched. The exact column
+names must be specified. Example: ::
+
+    // $filter is an ezcAuthenticationDatabaseFilter object
+    $filter->registerFetchData( array( 'name', 'country' ) );
+
+After the authentication process is finished (after run()), retrieve the extra
+data: ::
+
+    // $filter is an ezcAuthenticationDatabaseFilter object
+    $data = $filter->fetchData();
+
+For the previous example, the $data array will be something like this: ::
+
+    array( 'name' => array( 'John Doe' ),
+           'country' => array( 'US' )
+         );
+
+
 OpenID
 ------
 

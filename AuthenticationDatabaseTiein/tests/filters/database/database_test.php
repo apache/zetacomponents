@@ -21,7 +21,8 @@ class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
     public static $fieldId = 'uniqueid';
     public static $fieldUser = 'username';
     public static $fieldPassword = 'pass';
-    
+    public static $fieldName = 'name';
+    public static $fieldCountry = 'country';
 
     public static function suite()
     {
@@ -43,6 +44,8 @@ class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
                                     self::$fieldId       => new ezcDbSchemaField( 'integer', false, true, null, true ),
                                     self::$fieldUser     => new ezcDbSchemaField( 'text', 32, true ),
                                     self::$fieldPassword => new ezcDbSchemaField( 'text', 64, true ),
+                                    self::$fieldName  => new ezcDbSchemaField( 'text', 64, true ),
+                                    self::$fieldCountry  => new ezcDbSchemaField( 'text', 32, true )
                                 ),
                                 array (
                                     self::$fieldUser => new ezcDbSchemaIndex( array ( self::$fieldUser => new ezcDbSchemaIndexField() ), false, false ),
@@ -67,7 +70,9 @@ class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
             $query->insertInto( $this->db->quoteIdentifier( self::$table ) )
                   ->set( $this->db->quoteIdentifier( self::$fieldId ), $query->bindValue( '1' ) )
                   ->set( $this->db->quoteIdentifier( self::$fieldUser ), $query->bindValue( 'jan.modaal' ) )
-                  ->set( $this->db->quoteIdentifier( self::$fieldPassword ), $query->bindValue( sha1( 'qwerty' ) ) );
+                  ->set( $this->db->quoteIdentifier( self::$fieldPassword ), $query->bindValue( sha1( 'qwerty' ) ) )
+                  ->set( $this->db->quoteIdentifier( self::$fieldName ), $query->bindValue( 'Jan Modaal' ) )
+                  ->set( $this->db->quoteIdentifier( self::$fieldCountry ), $query->bindValue( 'NL' ) );
             $stmt = $query->prepare();
             $stmt->execute();
 
@@ -75,7 +80,9 @@ class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
             $query->insertInto( $this->db->quoteIdentifier( self::$table ) )
                   ->set( $this->db->quoteIdentifier( self::$fieldId ), $query->bindValue( '2' ) )
                   ->set( $this->db->quoteIdentifier( self::$fieldUser ), $query->bindValue( 'john.doe' ) )
-                  ->set( $this->db->quoteIdentifier( self::$fieldPassword ), $query->bindValue( crypt( 'foobar', 'jo' ) ) );
+                  ->set( $this->db->quoteIdentifier( self::$fieldPassword ), $query->bindValue( crypt( 'foobar', 'jo' ) ) )
+                  ->set( $this->db->quoteIdentifier( self::$fieldName ), $query->bindValue( 'John Doe' ) )
+                  ->set( $this->db->quoteIdentifier( self::$fieldCountry ), $query->bindValue( 'US' ) );
             $stmt = $query->prepare();
             $stmt->execute();
 
@@ -83,7 +90,9 @@ class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
             $query->insertInto( $this->db->quoteIdentifier( self::$table ) )
                   ->set( $this->db->quoteIdentifier( self::$fieldId ), $query->bindValue( '3' ) )
                   ->set( $this->db->quoteIdentifier( self::$fieldUser ), $query->bindValue( 'zhang.san' ) )
-                  ->set( $this->db->quoteIdentifier( self::$fieldPassword ), $query->bindValue( md5( 'asdfgh' ) ) );
+                  ->set( $this->db->quoteIdentifier( self::$fieldPassword ), $query->bindValue( md5( 'asdfgh' ) ) )
+                  ->set( $this->db->quoteIdentifier( self::$fieldName ), $query->bindValue( 'Zhang San' ) )
+                  ->set( $this->db->quoteIdentifier( self::$fieldCountry ), $query->bindValue( 'CN' ) );
             $stmt = $query->prepare();
             $stmt->execute();
 
@@ -91,7 +100,10 @@ class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
             $query->insertInto( $this->db->quoteIdentifier( self::$table ) )
                   ->set( $this->db->quoteIdentifier( self::$fieldId ), $query->bindValue( '4' ) )
                   ->set( $this->db->quoteIdentifier( self::$fieldUser ), $query->bindValue( 'hans.mustermann' ) )
-                  ->set( $this->db->quoteIdentifier( self::$fieldPassword ), $query->bindValue( 'abcdef' ) );
+                  ->set( $this->db->quoteIdentifier( self::$fieldPassword ), $query->bindValue( 'abcdef' ) )
+                  ->set( $this->db->quoteIdentifier( self::$fieldName ), $query->bindValue( 'Hans Mustermann' ) )
+                  ->set( $this->db->quoteIdentifier( self::$fieldCountry ), $query->bindValue( 'DE' ) );
+
             $stmt = $query->prepare();
             $stmt->execute();
 
@@ -195,6 +207,24 @@ class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
         $authentication = new ezcAuthentication( $credentials );
         $authentication->addFilter( new ezcAuthenticationDatabaseFilter( $database ) );
         $this->assertEquals( false, $authentication->run() );
+    }
+
+    public function testDatabaseFetchData()
+    {
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'joB9EZ4O1cXDk' );
+        $database = new ezcAuthenticationDatabaseInfo( $this->db, self::$table, array( self::$fieldUser, self::$fieldPassword ) );
+        $authentication = new ezcAuthentication( $credentials );
+
+        $filter = new ezcAuthenticationDatabaseFilter( $database );
+        $filter->registerFetchData( array( 'name', 'country' ) );
+
+        $authentication->addFilter( $filter );
+        $this->assertEquals( true, $authentication->run() );
+
+        $expected = array( 'name' => array( 'John Doe' ),
+                           'country' => array( 'US' )
+                         );
+        $this->assertEquals( $expected, $filter->fetchData() );
     }
 
     public function testDatabaseInfo()

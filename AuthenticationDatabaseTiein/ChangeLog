@@ -3,6 +3,8 @@
 
 - Implemented feature request #10998: Added a Database backend for OpenID
   authentication.
+- Implemented feature request #10971: Added the possibility to fetch extra
+  data during authentication for Database, LDAP, OpenID and TypeKey filters.
 
 
 1.0 - Monday 02 July 2007
