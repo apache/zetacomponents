@@ -1,9 +1,9 @@
 eZ component: Graph: Multiple axis, Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Author:   $Author:$
-:Revision: $Rev:$
-:Date:     $Date:$
+:Author:   $Author$
+:Revision: $Rev$
+:Date:     $Date$
 
 Introduction
 ============
@@ -11,7 +11,7 @@ Introduction
 Description
 -----------
 
-Multiple axis are used in two different cases.
+Multiple axis are used in three different cases.
 
 - In stock chart, for example, they are used to show a different meaning of 
   the displayed data, for example the value of a single stock option and the
@@ -21,9 +21,9 @@ Multiple axis are used in two different cases.
   chart which has completely different scalings or units, like the used RAM 
   and the load on a machine.
 
-A third case multiple axis could be used for, are named separators to 
-highlight data borders in your chart. In this case the step labels should be
-at least optional.
+- A third case multiple axis could be used for, are named separators to
+  highlight data borders in your chart. In this case the step labels should be
+  at least optional.
 
 Requirements
 ============
