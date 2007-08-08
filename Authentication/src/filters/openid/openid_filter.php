@@ -10,7 +10,7 @@
  */
 
 /**
- * Filter to authenticate against OpenID. Currently supporting OpenID 1.1.
+ * Filter to authenticate against OpenID. Currently supporting OpenID 1.0 and 1.1.
  *
  * The filter takes an identifier (URL) as credentials, and performs these steps:
  *  1. Normalize the identifier
@@ -116,12 +116,48 @@
  * // ...
  * </code>
  *
+ * Extra data can be fetched from the OpenID provider during the authentication
+ * process, by registering the data to be fetched before calling run(). Example:
+ * <code>
+ * // $filter is an ezcAuthenticationOpenidFilter object
+ * $filter->registerFetchData( array( 'fullname', 'gender', 'country', 'language' ) );
+ *
+ * // after run()
+ * $data = $filter->fetchData();
+ * </code>
+ *
+ * The $data array will be something like:
+ * <code>
+ * array( 'fullname' => array( 'John Doe' ),
+ *        'gender' => array( 'M' ),
+ *        'country' => array( 'US' ),
+ *        'language' => array( 'FR' )
+ *      );
+ * </code>
+ *
+ * The extra data which is possible to be fetched during the authentication
+ * process is:
+ *  - nickname - the user's nickname (short name, alias)
+ *  - email - the user's email address
+ *  - fullname - the user's full name
+ *  - dob - the user's date of birth as YYYY-MM-DD. Any component value whose
+ *    representation uses fewer than the specified number of digits should
+ *    be zero-padded (eg. 02 for February). If the user does not want to
+ *    reveal any particular component of this value, it should be zero
+ *    (eg. "1980-00-00" if the user is born in 1980 but does not want to
+ *    specify his month and day of birth)
+ *  - gender - the user's gender, "M" for male, "F" for female
+ *  - postcode - the user's postal code
+ *  - country - the user's country as an ISO3166 string, (eg. "US")
+ *  - language - the user's preferred language as an ISO639 string (eg. "FR")
+ *  - timezone - the user's timezone, for example "Europe/Paris"
+ *
+ * @todo add support for fetching extra data as in OpenID attribute exchange?
+ *       (if needed) - {@link http://openid.net/specs.bml}
  * @todo add support for multiple URLs in each category at discovery
  * @todo add support for OpenID 2.0 (openid.ns=http://specs.openid.net/auth/2.0),
  *       and add support for XRI identifiers and discovery
  *       Question: is 2.0 already out or is it still a draft?
- * @todo make OpenID 1.0 support better.
- *       Question: is 1.0 still used?
  * @todo add support for checkid_immediate
  * @todo check if the nonce handling is correct (openid.response_nonce?)
  *
@@ -129,7 +165,7 @@
  * @version //autogen//
  * @mainclass
  */
-class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
+class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements ezcAuthenticationDataFetch
 {
     /**
      * The OpenID provider did not authorize the provided URL.
@@ -190,6 +226,35 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
      * @ignore
      */
     const DEFAULT_Q = '2';
+
+    /**
+     * Holds the attributes which will be requested during the authentication
+     * process.
+     *
+     * Usually it has this structure:
+     * <code>
+     * array( 'fullname', 'gender', 'country', 'language' );
+     * </code>
+     *
+     * @var array(string)
+     */
+    protected $requestedData = array();
+
+    /**
+     * Holds the extra data fetched during the authentication process.
+     *
+     * Usually it has this structure:
+     * <code>
+     * array( 'fullname' => array( 'John Doe' ),
+     *        'gender' => array( 'M' ),
+     *        'country' => array( 'NO' ),
+     *        'language' => array( 'FR' )
+     *      );
+     * </code>
+     *
+     * @var array(string=>mixed)
+     */
+    protected $data = array();
 
     /**
      * Creates a new object of this class.
@@ -287,8 +352,13 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
                     'openid.return_to' => urlencode( $returnTo ),
                     'openid.trust_root' => urlencode( $trustRoot ),
                     'openid.identity' => urlencode( $identity ),
-                    'openid.mode' => 'checkid_setup'
+                    'openid.mode' => 'checkid_setup',
                     );
+
+                if ( count( $this->requestedData ) > 0 )
+                {
+                    $params['openid.sreg.optional'] = implode( ',', $this->requestedData );
+                }
 
                 if ( $this->options->mode === self::MODE_SMART )
                 {
@@ -337,9 +407,13 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         		$signed = explode( ',', $signed );
                 for ( $i = 0; $i < count( $signed ); $i++ )
                 {
-                    $s = str_replace( 'sreg_', 'sreg.', $signed[$i] );
-                    $c = $source['openid_' . $signed[$i]];
-                    $params['openid.' . $s] = isset( $params['openid.' . $s] ) ? $params['openid.' . $s] : $c;
+                    $s = str_replace( 'sreg.', 'sreg_', $signed[$i] );
+                    $c = $source['openid_' . $s];
+                    $params['openid.' . $signed[$i]] = isset( $params['openid.' . $s] ) ? $params['openid.' . $s] : $c;
+                    if ( strpos( $s, 'sreg_' ) !== false )
+                    {
+                        $this->data[str_replace( 'sreg_', '', $s )] = array( $c );
+                    }
                 }
 
                 if ( isset( $source['openid_op_endpoint'] ) )
@@ -815,6 +889,57 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         }
 
         return $result;
+    }
+
+    /**
+     * Registers which extra data to fetch during the authentication process.
+     *
+     * The extra data which is possible to be fetched during the authentication
+     * process is:
+     *  - nickname - the user's nickname (short name, alias)
+     *  - email - the user's email address
+     *  - fullname - the user's full name
+     *  - dob - the user's date of birth as YYYY-MM-DD. Any component value whose
+     *    representation uses fewer than the specified number of digits should
+     *    be zero-padded (eg. 02 for February). If the user does not want to
+     *    reveal any particular component of this value, it should be zero
+     *    (eg. "1980-00-00" if the user is born in 1980 but does not want to
+     *    specify his month and day of birth)
+     *  - gender - the user's gender, "M" for male, "F" for female
+     *  - postcode - the user's postal code
+     *  - country - the user's country as an ISO3166 string, (eg. "US")
+     *  - language - the user's preferred language as an ISO639 string (eg. "FR")
+     *  - timezone - the user's timezone, for example "Europe/Paris"
+     *
+     * The input $data should be an array of attributes to request, for example:
+     * <code>
+     * array( 'fullname', 'gender', 'country', 'language' );
+     * </code>
+     *
+     * @param array(string) A list of attributes to fetch during authentication
+     */
+    public function registerFetchData( array $data = array() )
+    {
+        $this->requestedData = $data;
+    }
+
+    /**
+     * Returns the extra data fetched during the authentication process.
+     *
+     * The return is something like:
+     * <code>
+     * array( 'fullname' => array( 'John Doe' ),
+     *        'gender' => array( 'M' ),
+     *        'country' => array( 'US' ),
+     *        'language' => array( 'FR' )
+     *      );
+     * </code>
+     *
+     * @param array(string=>mixed)
+     */
+    public function fetchData()
+    {
+        return $this->data;
     }
 }
 ?>

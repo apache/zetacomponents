@@ -241,6 +241,30 @@ If run() returned true (line 34) then the user is logged-in and he can see his
 content.
 
 
+Fetch extra data during LDAP authentication
+```````````````````````````````````````````
+
+Any data that is defined for an acount can be fetched. Before running the
+authentication process (before calling run(), register which data needs to be
+fetched. Example: ::
+
+    // $filter is an ezcAuthenticationLdapFilter object
+    $filter->registerFetchData( array( 'name', 'company', 'mobile' ) );
+
+After the authentication process is finished (after run()), retrieve the data
+that was registered: ::
+
+    // $filter is an ezcAuthenticationLdapFilter object
+    $data = $filter->fetchData();
+
+For the previous example, the $data array will be something like this: ::
+
+    array( 'name' => array( 'Dr. No' ),
+           'company' => array( 'SPECTRE' ),
+           'mobile' => array( '555-7732873' )
+         );
+
+
 OpenID
 ------
 
@@ -344,6 +368,36 @@ this example or database store as shown in the OpenID example in
 the store will also hold the nonces which are used to prevent replay attacks.
 
 
+    // $filter is an ezcAuthenticationLdapFilter object
+    $filter->registerFetchData( array( 'name', 'company', 'mobile' ) );
+
+
+Fetch extra data during OpenID authentication
+`````````````````````````````````````````````
+
+Any data that is defined for an acount can be fetched. Before running the
+authentication process (before calling run(), register which data needs to be
+fetched. Example: ::
+
+    // $filter is an ezcAuthenticationOpenidFilter object
+    $filter->registerFetchData( array( 'fullname', 'gender', 'country',
+    'language' ) );
+
+After the authentication process is finished (after run()), retrieve the data
+that was registered: ::
+
+    // $filter is an ezcAuthenticationOpenidFilter object
+    $data = $filter->fetchData();
+
+For the previous example, the $data array will be something like this: ::
+
+    array( 'fullname' => array( 'John Doe' ),
+           'gender' => array( 'M' ),
+           'country' => array( 'US' ),
+           'language' => array( 'FR' )
+         );
+
+
 Token
 -----
 
@@ -412,6 +466,31 @@ field which will be sent to the TypeKey server.
 
 If run() returned true (line 46) then the user is logged-in and he can see his
 content.
+
+
+Fetch extra data during TypeKey authentication
+``````````````````````````````````````````````
+
+The extra data that can be fetched is name (the TypeKey username), nick (the
+TypeKey display name) and email (the user email address). The email address can
+only be fetched if need_email was included in the initial request to the
+TypeKey server with a value other than 0, and if the user allowed the sharing
+of his email address. Example: ::
+
+    https://www.typekey.com/t/typekey/login?t=<token>&_return=<url>&need_email=1
+
+After the authentication process is finished (after run()), retrieve the extra
+data: ::
+
+    // $filter is an ezcAuthenticationTypekeyFilter object
+    $data = $filter->fetchData();
+
+The $data array will be something like this: ::
+
+    array( 'name' => array( 'john' ),
+           'nick' => array( 'John Doe' ),
+           'email' => array( 'john.doe@example.com' ) // or not set
+         );
 
 
 Securing applications

@@ -32,6 +32,14 @@ class ezcAuthenticationTypekeyTest extends ezcAuthenticationTest
         'sig' => 'RaJ5rx U6tKZvs1dbOGktNxPmzA=:aSNNjdE/ZAuk/GQ7mTiQZe83a6E='
         );
 
+    public static $responseWithEmail = array(
+        'name' => 'ezc',
+        'nick' => 'ezctest',
+        'email' => 'alex.stanoi@gmail.com',
+        'ts' => '1186560659',
+        'sig' => 'iJxr041JbZ9jWNo84QPT3EuRjxg=:V4YOiYh7FeTFzRgwDSYLqcE4wKA='
+        );
+
     public static $responseEmpty = array(
         'name' => '',
         'nick' => '',
@@ -263,6 +271,42 @@ class ezcAuthenticationTypekeyTest extends ezcAuthenticationTest
         $options = new ezcAuthenticationTypekeyOptions();
 
         $this->unreadableFileTest( $options, 'keysFile', 'keys_unreadable.txt' );
+    }
+
+    public function testTypeKeyFetchExtraData()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gmp' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-gmp.' );
+        }
+        $_GET = self::$response;
+        $credentials = new ezcAuthenticationIdCredentials( self::$token );
+        $authentication = new ezcAuthentication( $credentials );
+        $filter = new ezcAuthenticationTypekeyFilter();
+        $filter->lib = ezcAuthenticationMath::createBignumLibrary( 'gmp' );
+        $authentication->addFilter( $filter );
+        $this->assertEquals( true, $authentication->run() );
+
+        $expected = array( 'name' => array( 'ezc' ), 'nick' => array( 'ezctest' ) );
+        $this->assertEquals( $expected, $filter->fetchData() );
+    }
+
+    public function testTypeKeyFetchExtraDataWithEmail()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gmp' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-gmp.' );
+        }
+        $_GET = self::$responseWithEmail;
+        $credentials = new ezcAuthenticationIdCredentials( self::$token );
+        $authentication = new ezcAuthentication( $credentials );
+        $filter = new ezcAuthenticationTypekeyFilter();
+        $filter->lib = ezcAuthenticationMath::createBignumLibrary( 'gmp' );
+        $authentication->addFilter( $filter );
+        $this->assertEquals( true, $authentication->run() );
+
+        $expected = array( 'name' => array( 'ezc' ), 'nick' => array( 'ezctest' ), 'email' => array( 'alex.stanoi@gmail.com' ) );
+        $this->assertEquals( $expected, $filter->fetchData() );
     }
 
     public function testTypekeyOptions()

@@ -46,6 +46,24 @@
  * }
  * </code>
  *
+ * Extra data can be fetched from the LDAP server during the authentication
+ * process, by registering the data to be fetched before calling run(). Example:
+ * <code>
+ * // $filter is an ezcAuthenticationLdapFilter object
+ * $filter->registerFetchData( array( 'name', 'company', 'mobile' ) );
+ *
+ * // after run()
+ * $data = $filter->fetchData();
+ * </code>
+ *
+ * The $data array will be something like:
+ * <code>
+ * array( 'name' = > array( 'Dr. No' ),
+ *        'company' => array( 'SPECTRE' ),
+ *        'mobile' => array( '555-7732873' )
+ *      );
+ * </code>
+ *
  * @property ezcAuthenticationLdapInfo $ldap
  *           Structure which holds the LDAP server hostname, entry format and base,
  *           and port.
@@ -54,7 +72,7 @@
  * @version //autogen//
  * @mainclass
  */
-class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
+class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezcAuthenticationDataFetch
 {
     /**
      * Username is not found in the database.
@@ -75,6 +93,34 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
      * Use plain-text password and TLS connection.
      */
     const PROTOCOL_TLS = 2;
+
+    /**
+     * Holds the attributes which will be requested during the authentication
+     * process.
+     *
+     * Usually it has this structure:
+     * <code>
+     * array( 'name', 'company', 'mobile' );
+     * </code>
+     *
+     * @var array(string)
+     */
+    protected $requestedData = array();
+
+    /**
+     * Holds the extra data fetched during the authentication process.
+     *
+     * Usually it has this structure:
+     * <code>
+     * array( 'name' = > array( 'Dr. No' ),
+     *        'company' => array( 'SPECTRE' ),
+     *        'mobile' => array( '555-7732873' )
+     *      );
+     * </code>
+     *
+     * @var array(string=>mixed)
+     */
+    protected $data = array();
 
     /**
      * Holds the properties of this class.
@@ -219,7 +265,7 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
         // bind anonymously to see if username exists in the directory
         if ( @ldap_bind( $connection ) )
         {
-            $search = ldap_list( $connection, $this->ldap->base, str_replace( '%id%', $credentials->id, $this->ldap->format ) );
+            $search = ldap_list( $connection, $this->ldap->base, str_replace( '%id%', $credentials->id, $this->ldap->format ), $this->requestedData );
             if ( ldap_count_entries( $connection, $search ) === 0 )
             {
                 ldap_close( $connection );
@@ -229,6 +275,21 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
             // username exists, so check if we can bind with the provided password
             if ( @ldap_bind( $connection, str_replace( '%id%', $credentials->id, $this->ldap->format ) . ',' . $this->ldap->base, $credentials->password ) )
             {
+                if ( count( $this->requestedData ) > 0 )
+                {
+                    $entries = ldap_get_entries( $connection, $search );
+                    $entry = $entries[0];
+
+
+                    foreach ( $this->requestedData as $attribute )
+                    {
+                        for ( $i = 0; $i < $entry[$attribute]['count']; $i++ )
+                        {
+                            $this->data[$attribute][] = $entry[$attribute][$i];
+                        }
+                    }
+                }
+
                 ldap_close( $connection );
                 return self::STATUS_OK;
             }
@@ -281,6 +342,39 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
     protected function ldapStartTls( $connection )
     {
         return @ldap_start_tls( $connection );
+    }
+
+    /**
+     * Registers which extra data to fetch during the authentication process.
+     *
+     * The input $data is an array of attributes to request, for example:
+     * <code>
+     * array( 'name', 'company', 'mobile' );
+     * </code>
+     *
+     * @param array(string) A list of attributes to fetch during authentication
+     */
+    public function registerFetchData( array $data = array() )
+    {
+        $this->requestedData = $data;
+    }
+
+    /**
+     * Returns the extra data fetched during the authentication process.
+     *
+     * The return is something like:
+     * <code>
+     * array( 'name' = > array( 'Dr. No' ),
+     *        'company' => array( 'SPECTRE' ),
+     *        'mobile' => array( '555-7732873' )
+     *      );
+     * </code>
+     *
+     * @param array(string=>mixed)
+     */
+    public function fetchData()
+    {
+        return $this->data;
     }
 }
 ?>

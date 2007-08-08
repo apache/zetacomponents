@@ -44,7 +44,21 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         'openid_return_to' => 'http://localhost',
         'openid_identity' => 'http://ezc.myopenid.com',
         'openid_op_endpoint' => 'http://www.myopenid.com/server',
+        'openid_mode' => 'check_authentication'
+        );
+
+    public static $requestCheckAuthenticationGetExtraData = array(
+        'openid_assoc_handle' => '{HMAC-SHA1}{4640581a}{3X/rrw==}',
+        'openid_signed' => 'return_to,mode,identity,sreg.fullname,sreg.gender,sreg.country,sreg.language',
+        'openid_sig' => 'SkaCB2FA9EysKoDkybyBD46zb0E=',
+        'openid_return_to' => 'http://localhost',
+        'openid_identity' => 'http://ezc.myopenid.com',
+        'openid_op_endpoint' => 'http://www.myopenid.com/server',
         'openid_mode' => 'check_authentication',
+        'openid_sreg_fullname' => 'John Doe',
+        'openid_sreg_gender' => 'M',
+        'openid_sreg_country' => 'US',
+        'openid_sreg_language' => 'FR'
         );
 
     public static $requestCheckAuthenticationGetNoEndPoint = array(
@@ -145,6 +159,29 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         {
             $result = $e->getMessage();
             $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
+            $this->assertEquals( substr( $expected, 0, 192 ), substr( $result, 0, 192 ) );
+            $this->assertEquals( substr( $expected, 198 ), substr( $result, 198 ) );
+        }
+    }
+
+    public function testOpenidCliExceptionRegisterFetchData()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+        $authentication = new ezcAuthentication( $credentials );
+        $filter = new ezcAuthenticationOpenidFilter();
+        $filter->registerFetchData( array( 'fullname', 'gender', 'country', 'language' ) );
+        $authentication->addFilter( $filter );
+
+        try
+        {
+            $authentication->run();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcAuthenticationOpenidException $e )
+        {
+            $result = $e->getMessage();
+            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup&openid.sreg.optional=fullname,gender,country,language'. Most probably your browser does not support redirection or JavaScript.";
+            //$expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
             $this->assertEquals( substr( $expected, 0, 192 ), substr( $result, 0, 192 ) );
             $this->assertEquals( substr( $expected, 198 ), substr( $result, 198 ) );
         }
@@ -637,6 +674,44 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $this->assertEquals( ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT, $result );
 
         $this->removeTempDir();
+    }
+
+    public function testOpenidWrapperRunModeIdResFileStoreNonceValidFetchExtraData()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
+        $_GET = self::$requestCheckAuthenticationGetExtraData;
+        $_GET['openid_mode'] = 'id_res';
+        $nonce = '123456';
+        $_GET['openid_return_to'] = ezcAuthenticationUrl::appendQuery( $_GET['openid_return_to'], 'nonce', $nonce );
+
+        $path = $this->createTempDir( get_class( $this ) );
+
+        $options = new ezcAuthenticationOpenidOptions();
+        $options->store = new ezcAuthenticationOpenidFileStore( $path );
+        $options->store->storeNonce( $nonce );
+
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+
+        $filter = new ezcAuthenticationOpenidWrapper( $options );
+
+        // not necessary at this step (id_res), would have been necessary at the previous step (login)
+        $filter->registerFetchData( array( 'fullname', 'gender', 'country', 'language' ) );
+
+        $result = $filter->run( $credentials );
+        $this->assertEquals( ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT, $result );
+
+        $this->removeTempDir();
+
+        $expected = array( 'fullname' => array( 'John Doe' ),
+                           'gender' => array( 'M' ),
+                           'country' => array( 'US' ),
+                           'language' => array( 'FR' )
+                         );
+        $this->assertEquals( $expected, $filter->fetchData() );
     }
 
     public function testOpenidWrapperRunModeIdResFileStoreNonceInvalid()

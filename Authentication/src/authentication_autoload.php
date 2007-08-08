@@ -16,6 +16,7 @@ return array(
     'ezcAuthenticationTypekeyException'       => 'Authentication/exceptions/typekey_exception.php',
     'ezcAuthenticationBignumLibrary'          => 'Authentication/math/bignum_library.php',
     'ezcAuthenticationCredentials'            => 'Authentication/credentials/credentials.php',
+    'ezcAuthenticationDataFetch'              => 'Authentication/interfaces/data_fetch.php',
     'ezcAuthenticationFilter'                 => 'Authentication/filters/authentication_filter.php',
     'ezcAuthenticationFilterOptions'          => 'Authentication/options/filter_options.php',
     'ezcAuthenticationOpenidStore'            => 'Authentication/filters/openid/openid_store.php',

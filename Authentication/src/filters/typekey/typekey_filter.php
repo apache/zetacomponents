@@ -33,7 +33,10 @@
  *
  * The login link can also contain these 2 optional values:
  *   v = TypeKey version to use. Default is 1.
- *   need_email = the mail address which was used to register with TypeKey.
+ *   need_email = the mail address which was used to register with TypeKey. It
+ *                needs to be set to a value different than 0 in order to get
+ *                the email address of the user when calling fetchData() after
+ *                the authentication process has been completed.
  *
  * So the TypeKey authentication filter will run in the _return page and will
  * verify the signature and the other information in the URL.
@@ -151,6 +154,35 @@
  * ?>
  * </code>
  *
+ * Extra data can be fetched from the TypeKey server during the authentication
+ * process. Different from the other filters, for TypeKey there is no registration
+ * needed for fetching the extra data, because all the possible extra data is
+ * available in the response sent by the TypeKey server.
+ *
+ * To be able to get the email address of the user, need_email must be set
+ * to a value different than 0 in the initial request sent to the TypeKey
+ * server (along with the t and _return values). Example:
+ * <code>
+ * https://www.typekey.com/t/typekey/login?t=<token>&_return=<url>&need_email=1
+ * </code>
+ *
+ * Example of fetching the extra data after the initial request has been sent:
+ * <code>
+ * // after run()
+ * // $filter is an ezcAuthenticationTypekeyFilter object
+ * $data = $filter->fetchData();
+ * </code>
+ *
+ * The $data array contains name (TypeKey username), nick (TypeKey display name)
+ * and optionally email (if the user allowed the sharing of his email address
+ * in the TypeKey profile page; otherwise it is not set).
+ * <code>
+ * array( 'name' => array( 'john' ),
+ *        'nick' => array( 'John Doe' ),
+ *        'email' => array( 'john.doe@example.com' ) // or not set
+ *      );
+ * </code>
+ *
  * @property ezcAuthenticationBignumLibrary $lib
  *           The wrapper for the PHP extension to use for big number operations.
  *           This will be autodetected in the constructor, but you can specify
@@ -160,7 +192,7 @@
  * @version //autogen//
  * @mainclass
  */
-class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
+class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter implements ezcAuthenticationDataFetch
 {
     /**
      * The request does not contain the needed information (like $_GET['sig']).
@@ -176,6 +208,25 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
      * Login is outside of the timeframe.
      */
     const STATUS_SIGNATURE_EXPIRED = 3;
+
+    /**
+     * Holds the extra data fetched during the authentication process.
+     *
+     * Contains name (TypeKey username), nick (TypeKey display name) and
+     * optionally email (if the user allowed the sharing of his email address
+     * in the TypeKey profile page; otherwise it is not set).
+     *
+     * Usually it has this structure:
+     * <code>
+     * array( 'name' => array( 'john' ),
+     *        'nick' => array( 'John Doe' ),
+     *        'email' => array( 'john.doe@example.com' ) // or not set
+     *      );
+     * </code>
+     *
+     * @var array(string=>mixed)
+     */
+    protected $data = array();
 
     /**
      * Holds the properties of this class.
@@ -287,6 +338,14 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
             $nick = isset( $source['nick'] ) ? $source['nick'] : null;
             $timestamp = isset( $source['ts'] ) ? $source['ts'] : null;
             $signature = isset( $source['sig'] ) ? $source['sig'] : null;
+
+            // extra data which will be returned by fetchData()
+            $this->data['name'] = array( $id );
+            $this->data['nick'] = array( $nick );
+            if ( strpos( $mail, '@' ) !== false )
+            {
+                $this->data['email'] = array( $mail );
+            }
         }
         else
         {
@@ -380,6 +439,48 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
             $keys[$val[0]] = $val[1];
         }
         return $keys;
+    }
+
+    /**
+     * Registers the extra data which will be fetched by the filter during the
+     * authentication process.
+     *
+     * For TypeKey there is no registration needed, because all the possible
+     * extra data is available in the response sent by the TypeKey server. So
+     * a call to this function is not needed.
+     *
+     * To be able to get the email address of the user, need_email must be set
+     * to a value different than 0 in the initial request sent to the TypeKey
+     * server (along with the t and _return values).
+     *
+     * @param array(string) $data A list of attributes to fetch during authentication
+     */
+    public function registerFetchData( array $data = array() )
+    {
+    }
+
+    /**
+     * Returns the extra data which was fetched during the authentication process.
+     *
+     * The TypeKey extra data is an array containing the values for name (the
+     * TypeKey username), nick (the TypeKey display name) and email (the email
+     * address of the user, fetched only if the initial request to the TypeKey
+     * server contains need_email, and the user allowed the sharing of his email
+     * address).
+     *
+     * Example of returned array:
+     * <code>
+     * array( 'name' => array( 'john' ),
+     *        'nick' => array( 'John Doe' ),
+     *        'email' => array( 'john.doe@example.com' ) // or not set
+     *      );
+     * </code>
+     *
+     * @return array(string=>mixed)
+     */
+    public function fetchData()
+    {
+        return $this->data;
     }
 }
 ?>

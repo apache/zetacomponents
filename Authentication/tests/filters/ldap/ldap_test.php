@@ -275,6 +275,36 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
         }
     }
 
+    public function testLdapFetchExtraData()
+    {
+        $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
+        $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
+        $authentication = new ezcAuthentication( $credentials );
+        $filter = new ezcAuthenticationLdapFilter( $ldap );
+        $filter->registerFetchData( array( 'uid' ) );
+        $authentication->addFilter( $filter );
+        $this->assertEquals( true, $authentication->run() );
+
+        $expected = array( 'uid' => array( 'jan.modaal' ) );
+        $this->assertEquals( $expected, $filter->fetchData() );
+    }
+
+    public function testLdapFetchExtraDataObjectClass()
+    {
+        $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
+        $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
+        $authentication = new ezcAuthentication( $credentials );
+        $filter = new ezcAuthenticationLdapFilter( $ldap );
+        $filter->registerFetchData( array( 'uid', 'objectclass' ) );
+        $authentication->addFilter( $filter );
+        $this->assertEquals( true, $authentication->run() );
+
+        $expected = array( 'uid' => array( 'jan.modaal' ),
+                           'objectclass' => array( 'account', 'simpleSecurityObject', 'top' )
+                         );
+        $this->assertEquals( $expected, $filter->fetchData() );
+    }
+
     public function testLdapInfo()
     {
         $ldap = ezcAuthenticationLdapInfo::__set_state( array( 'host' => self::$host, 'format' => self::$format, 'base' => self::$base, 'port' => self::$port, 'protocol' => ezcAuthenticationLdapFilter::PROTOCOL_TLS ) );
