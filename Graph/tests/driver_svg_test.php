@@ -524,7 +524,7 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         );
         
         $this->assertEquals(
-            'ezcGraphCircularArc_1',
+            'ezcGraphCircularArc_2',
             $return,
             'Expected xml id as return value.'
         );

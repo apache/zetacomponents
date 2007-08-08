@@ -1034,6 +1034,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 'style', 
                 $this->getStyle( $gradient, $filled )
             );
+            $arc->setAttribute( 'id', $id = ( $this->options->idPrefix . 'CircularArc_' . ++$this->elementID ) );
 
             $this->elements->appendChild( $arc );
         }

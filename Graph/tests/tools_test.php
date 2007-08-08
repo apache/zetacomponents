@@ -356,6 +356,36 @@ class ezcGraphToolsTest extends ezcGraphTestCase
         );
     }
 
+    public function test3dBarChartSvgLinking()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphBarChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+        $chart->options->fillLines = 200;
+        $chart->renderer = new ezcGraphRenderer3d();
+
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+
+        $chart->data['sampleData']->url = 'http://example.com/sampleData';
+        $chart->data['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart->data['moreData']->url = 'http://example.com/moreData';
+        $chart->data['moreData']->symbol = ezcGraph::CIRCLE;
+        $chart->data['evenMoreData']->url = 'http://example.com/evenMoreData';
+        $chart->data['evenMoreData']->symbol = ezcGraph::BULLET;
+
+        $chart->render( 500, 200, $filename );
+
+        ezcGraphTools::linkSvgElements( $chart );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testSvgLinkingWithWrongDriver()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
