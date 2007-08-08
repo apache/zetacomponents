@@ -1,0 +1,97 @@
+eZ component: Graph: Multiple axis, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author:   $Author$
+:Revision: $Revision$
+:Date:     $Date$
+
+Introduction
+============
+
+Description
+-----------
+
+Multiple axis are used in three different cases.
+
+- In stock chart, for example, they are used to show a different meaning of 
+  the displayed data, for example the value of a single stock option and the
+  value sum of the complete company.
+
+- Another case multiple axis may be used, is displaying relating data in one
+  chart which has completely different scalings or units, like the used RAM 
+  and the load on a machine.
+
+- A third case multiple axis could be used for, are named separators to
+  highlight data borders in your chart. In this case the step labels should be
+  at least optional.
+
+Requirements
+============
+
+From an implementation point of view the feature seperates into two different
+APIs we need to define.
+
+Adding additional axis
+^^^^^^^^^^^^^^^^^^^^^^
+
+When adding additional axis we want to support a finite number of marker axis,
+at every possible position in the chart.
+
+::
+
+	$marker = new ezcGraphChartElementLabeledAxis();
+	$marker->position = ezcGraph::LEFT;
+	$marker->chartPosition = .4;
+
+	$chart->additionalAxis[] = $marker;
+
+The property $position is already used by ezcGraphChartElement to indicate the
+overall position and accepts bitmasks of LEFT, RIGHT, BOTTOM and TOP. For Axis
+this indicates the base point of the axis and for additional axis it will
+define wheather the new axis is an X or Y axis in the cartesian coordinate
+system of bar and line charts.
+
+As the property $position is already used the property $chartPosition
+indicates the position of the axis in the charts data section. A value of 1
+will place the axis at the very end, and a value of 0 at the very beginning of
+the data.
+
+In the example above ezcGraph::LEFT means that the axis is drawn from the left
+to the right, so it is an additional x axis, and the $chartPosition indicates
+the position at 40% of the chart data bounding height.
+
+Adding data for additional axis
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Data may be added explicitely on one of the additional axis to use different
+scaling und units for this dataset. The axis values are received from the data
+sets when rendering the charts, so that we are able to define the usage of an
+additional axis at any point before rendering.
+
+::
+
+	$chart->data['foo'] = new ezcGraphArrayDataSet( ... );
+	$chart->data['foo']->xAxis = $marker; // See last example
+	$chart->data['foo']->yAxis = $chart->yAxis; // Redundant
+
+The assignement of additional axis is optional and if none was defined the
+original common chart axis will be used. You may define custom axis for one or
+both axis.
+
+Special consideration
+=====================
+
+You may of course define custom scaling, custom axis types and custom axis
+label rendering algorithms for each of the used axis.
+
+If no data set has been assigned to a axis it will not render any labels by
+using the ezcGraphAxisNoLabelRenderer. Otherwise the assigned data will be
+used the common way to calculate some default step sizes.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
