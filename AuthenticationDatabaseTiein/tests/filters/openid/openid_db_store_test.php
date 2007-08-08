@@ -146,7 +146,7 @@ class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinT
         $this->assertEquals( true, in_array( $nonce, ezcAuthenticationOpenidDbStoreHelper::getNonces( $this->db ) ) );
 
         $ret = $store->useNonce( $nonce );
-        $this->assertSame( time(), $ret );
+        $this->assertEquals( true, abs( time() - $ret ) < 10 ); // to allow for delays in the program
         $this->assertEquals( false, in_array( $nonce, ezcAuthenticationOpenidDbStoreHelper::getNonces( $this->db ) ) );
     }
 
