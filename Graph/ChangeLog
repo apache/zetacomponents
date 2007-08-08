@@ -10,6 +10,8 @@
   with index 1 and not zero in pie charts
 - Fixed bug #11233: Path for circular arcs in SVG driver may break because of
   locale settings
+- Fixed bug #11236: Legend is not properly linked in interactive 3d line and
+  bar charts.
 
 1.1 - Monday 02 July 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

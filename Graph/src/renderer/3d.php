@@ -1432,6 +1432,8 @@ class ezcGraphRenderer3d
         $labelPosition = new ezcGraphCoordinate( $boundings->x0, $boundings->y0 );
         foreach ( $labels as $label )
         {
+            $this->elements['legend_url'][$label['label']] = $label['url'];
+
             $this->elements['legend'][$label['label']]['symbol'] = $this->drawSymbol(
                 new ezcGraphBoundings(
                     $labelPosition->x + $legend->padding,

@@ -58,6 +58,8 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
         $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
 
+        $chart->data['sampleData']->url = 'http://example.com/';
+
         $chart->render( 500, 200, $filename );
         
         $reference = $chart->renderer->getElementReferences();
@@ -73,6 +75,11 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
         $this->assertSame( 2, count( $reference['legend']['moreData'] ), '2 elements for legend item expected.' );
         $this->assertSame( 'ezcGraphCircle_6', $reference['legend']['moreData']['symbol'], 'ezcGraphCircle expected as legend symbol.' );
         $this->assertSame( 'ezcGraphTextBox_7', $reference['legend']['moreData']['text'], 'ezcGraphTextBox expected for legend text.' );
+        
+        // Check for legend URLs
+        $this->assertSame( 3, count( $reference['legend_url'] ), '3 legend url items expected.' );
+        $this->assertSame( null, $reference['legend_url']['moreData'], 'No link expected for "moreData".' );
+        $this->assertSame( 'http://example.com/', $reference['legend_url']['sampleData'], 'Link expected for "sampleData".' );
     }
 
     public function testReturnFrom2dSvgPieChart()
@@ -107,6 +114,10 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
         $this->assertSame( 2, count( $reference['legend']['IE'] ), '2 elements for legend item expected.' );
         $this->assertSame( 'ezcGraphPolygon_5', $reference['legend']['IE']['symbol'], 'ezcGraphPolygon expected as legend symbol.' );
         $this->assertSame( 'ezcGraphTextBox_6', $reference['legend']['IE']['text'], 'ezcGraphTextBox expected for legend text.' );
+        
+        // Check for legend URLs
+        $this->assertSame( 5, count( $reference['legend_url'] ), '5 legend url items expected.' );
+        $this->assertSame( null, $reference['legend_url']['Mozilla'], 'No link expected for "moreData".' );
     }
 
     public function testReturnFrom2dGdLineChart()
@@ -121,6 +132,8 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
         $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+
+        $chart->data['sampleData']->url = 'http://example.com/';
 
         $chart->render( 500, 200, $filename );
         
@@ -151,6 +164,11 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
             $reference['legend']['moreData']['text'][2] instanceof ezcGraphCoordinate,
             'Expected ezcGraphCoordinate objects.'
         );
+        
+        // Check for legend URLs
+        $this->assertSame( 3, count( $reference['legend_url'] ), '3 legend url items expected.' );
+        $this->assertSame( null, $reference['legend_url']['moreData'], 'No link expected for "moreData".' );
+        $this->assertSame( 'http://example.com/', $reference['legend_url']['sampleData'], 'Link expected for "sampleData".' );
     }
 
     public function testReturnFrom3dSvgLineChart()
@@ -164,6 +182,8 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
         $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+
+        $chart->data['sampleData']->url = 'http://example.com/';
 
         $chart->render( 500, 200, $filename );
         
@@ -180,6 +200,11 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
         $this->assertSame( 2, count( $reference['legend']['moreData'] ), '2 elements for legend item expected.' );
         $this->assertSame( 'ezcGraphCircle_6', $reference['legend']['moreData']['symbol'], 'ezcGraphCircle expected as legend symbol.' );
         $this->assertSame( 'ezcGraphTextBox_7', $reference['legend']['moreData']['text'], 'ezcGraphTextBox expected for legend text.' );
+        
+        // Check for legend URLs
+        $this->assertSame( 3, count( $reference['legend_url'] ), '3 legend url items expected.' );
+        $this->assertSame( null, $reference['legend_url']['moreData'], 'No link expected for "moreData".' );
+        $this->assertSame( 'http://example.com/', $reference['legend_url']['sampleData'], 'Link expected for "sampleData".' );
     }
 
     public function testReturnFrom3dSvgPieChart()
@@ -214,6 +239,10 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
         $this->assertSame( 2, count( $reference['legend']['IE'] ), '2 elements for legend item expected.' );
         $this->assertSame( 'ezcGraphCircle_6', $reference['legend']['IE']['symbol'], 'ezcGraphCircle expected as legend symbol.' );
         $this->assertSame( 'ezcGraphTextBox_7', $reference['legend']['IE']['text'], 'ezcGraphTextBox expected for legend text.' );
+        
+        // Check for legend URLs
+        $this->assertSame( 5, count( $reference['legend_url'] ), '5 legend url items expected.' );
+        $this->assertSame( null, $reference['legend_url']['Mozilla'], 'No link expected for "moreData".' );
     }
 
     public function testReturnFrom2dSvgPieChartWithGleam()
@@ -249,6 +278,10 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
         $this->assertSame( 2, count( $reference['legend']['IE'] ), '2 elements for legend item expected.' );
         $this->assertSame( 'ezcGraphPolygon_5', $reference['legend']['IE']['symbol'], 'ezcGraphPolygon expected as legend symbol.' );
         $this->assertSame( 'ezcGraphTextBox_6', $reference['legend']['IE']['text'], 'ezcGraphTextBox expected for legend text.' );
+        
+        // Check for legend URLs
+        $this->assertSame( 5, count( $reference['legend_url'] ), '5 legend url items expected.' );
+        $this->assertSame( null, $reference['legend_url']['Mozilla'], 'No link expected for "moreData".' );
     }
 
     public function testReturnFrom3dSvgPieChartWithGleam()
@@ -284,6 +317,10 @@ class ezcGraphImageMapTest extends ezcGraphTestCase
         $this->assertSame( 2, count( $reference['legend']['IE'] ), '2 elements for legend item expected.' );
         $this->assertSame( 'ezcGraphPolygon_5', $reference['legend']['IE']['symbol'], 'ezcGraphPolygon expected as legend symbol.' );
         $this->assertSame( 'ezcGraphTextBox_6', $reference['legend']['IE']['text'], 'ezcGraphTextBox expected for legend text.' );
+        
+        // Check for legend URLs
+        $this->assertSame( 5, count( $reference['legend_url'] ), '5 legend url items expected.' );
+        $this->assertSame( null, $reference['legend_url']['Mozilla'], 'No link expected for "moreData".' );
     }
 }
 
