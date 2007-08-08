@@ -42,8 +42,10 @@ by default and can be enabled like this:
 This option will be defined in the driver classes for the drivers implementing
 the ezcGraphDriverValueIndication interface. We cannot add those options to
 ezcGraphDriverOptions, because not all drivers will support this new feature,
-and implementing an interface in the driver optoin class makes no sense, as no
-methods, but only properties, will be added.
+and implementing an interface in the driver option class makes no sense, as no
+methods, but only properties, will be added. The configure options will be
+delegated to an option class ezcGraphDriverValueIndicationOptions to have a
+central unique place to maintain those options.
 
 Driver support
 ^^^^^^^^^^^^^^
