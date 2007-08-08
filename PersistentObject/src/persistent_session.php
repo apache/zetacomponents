@@ -262,7 +262,7 @@ class ezcPersistentSession
     /**
      * Deletes persistent objects using the query $query.
      *
-     * The $query should be created using getDeleteQuery().
+     * The $query should be created using createDeleteQuery().
      *
      * Currently this method only executes the provided query. Future
      * releases PersistentSession may introduce caching of persistent objects.
@@ -313,7 +313,7 @@ class ezcPersistentSession
     /**
      * Updates persistent objects using the query $query.
      *
-     * The $query should be created using getUpdateQuery().
+     * The $query should be created using createUpdateQuery().
      *
      * Currently this method only executes the provided query. Future
      * releases PersistentSession may introduce caching of persistent objects.
