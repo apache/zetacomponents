@@ -14,7 +14,7 @@
  *           Width of the chart.
  * @property int $height
  *           Height of the chart.
- * @property int $font
+ * @property ezcGraphFontOptions $font
  *           Font used in the graph.
  *
  * @version //autogentag//
