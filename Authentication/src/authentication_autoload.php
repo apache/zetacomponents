@@ -17,7 +17,7 @@ return array(
     'ezcAuthenticationBignumLibrary'          => 'Authentication/math/bignum_library.php',
     'ezcAuthenticationCredentials'            => 'Authentication/credentials/credentials.php',
     'ezcAuthenticationDataFetch'              => 'Authentication/interfaces/data_fetch.php',
-    'ezcAuthenticationFilter'                 => 'Authentication/filters/authentication_filter.php',
+    'ezcAuthenticationFilter'                 => 'Authentication/interfaces/authentication_filter.php',
     'ezcAuthenticationFilterOptions'          => 'Authentication/options/filter_options.php',
     'ezcAuthenticationOpenidStore'            => 'Authentication/filters/openid/openid_store.php',
     'ezcAuthenticationOpenidStoreOptions'     => 'Authentication/options/openid_store_options.php',
