@@ -381,7 +381,13 @@ class ezcPersistentSession
      *
      * Example:
      * <code>
+     * $q = $session->createFindQuery( 'Person' );
+     * $objects = $session->findIterator( $q, 'Person' );
      *
+     * foreach( $objects as $object )
+     * {
+     *     // ...
+     * }
      * </code>
      *
      * @throws ezcPersistentDefinitionNotFoundException if there is no such persistent class.
@@ -1104,7 +1110,7 @@ class ezcPersistentSession
      * If it is not possible to meet the requirements an exception is thrown.
      *
      * @param array $row
-     * @param ezcPersistentDefinition $def
+     * @param ezcPersistentObjectDefinition $def
      * @return void
      */
 //    protected function meetRequirements( array &$state, ezcPersistentObjectDefinition $def )

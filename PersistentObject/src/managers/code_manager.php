@@ -38,9 +38,9 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
 
     /**
      * Holds the loaded persistent object classes as an array of the format:
-     * array('class_name_lower_case' => ezcPersistentDefinition )
+     * array('class_name_lower_case' => ezcPersistentObjectDefinition )
      *
-     * @var array(string=>ezcPersistentDefinition)
+     * @var array(string=>ezcPersistentObjectDefinition)
      */
 //    private $definitions = array();
 
@@ -66,7 +66,7 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
      * @throws ezcPersistentDefinitionMissingIdPropertyException
      *         if the definition does not have an "idProperty" attribute.
      * @param string $class
-     * @return ezcPersistentDefinition
+     * @return ezcPersistentObjectDefinition
      */
     public function fetchDefinition( $class )
     {

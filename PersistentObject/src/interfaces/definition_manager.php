@@ -25,11 +25,11 @@ abstract class ezcPersistentDefinitionManager
      *
      * @throws ezcPersistentDefinitionNotFoundException if no such definition can be found.
      * @param string $class
-     * @return ezcPersistentDefinition
+     * @return ezcPersistentObjectDefinition
      */
     public abstract function fetchDefinition( $class );
 
-    // public function storeDefinition( ezcPersistentDefinition $def );
+    // public function storeDefinition( ezcPersistentObjectDefinition $def );
 
     /**
      * Returns the definition $def with the reverse relations field correctly set up.
