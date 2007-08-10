@@ -15,6 +15,8 @@ return array(
     'ezcTreeIdsDoNotMatchException'             => 'Tree/exceptions/ids_do_not_match.php',
     'ezcTreeInvalidClassException'              => 'Tree/exceptions/invalid_class.php',
     'ezcTreeInvalidIdException'                 => 'Tree/exceptions/invalid_id.php',
+    'ezcTreeInvalidXmlException'                => 'Tree/exceptions/invalid_xml.php',
+    'ezcTreeInvalidXmlFormatException'          => 'Tree/exceptions/invalid_xml_format.php',
     'ezcTreeTransactionAlreadyStartedException' => 'Tree/exceptions/transaction_already_started.php',
     'ezcTreeTransactionNotStartedException'     => 'Tree/exceptions/transaction_not_started.php',
     'ezcTreeDataStore'                          => 'Tree/interfaces/data_store.php',

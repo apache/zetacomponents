@@ -47,6 +47,54 @@ class ezcTreeXmlTest extends ezcTreeTest
         return $tree;
     }
 
+    public function testOpenInvalidFormatXmlTree()
+    {
+        $dirname = dirname( __FILE__ );
+        try
+        {
+            $tree = new ezcTreeXml( 
+                "$dirname/files/invalid-structure.xml",
+                new ezcTreeXmlInternalDataStore()
+            );
+        }
+        catch ( ezcTreeInvalidXmlFormatException $e )
+        {
+            self::assertSame( "The XML file '$dirname/files/invalid-structure.xml' does not validate according to the expected schema:\n$dirname/files/invalid-structure.xml:12:0: Did not expect element foo there\n", $e->getMessage() );
+        }
+    }
+
+    public function testOpenInvalidXmlTree()
+    {
+        $dirname = dirname( __FILE__ );
+        try
+        {
+            $tree = new ezcTreeXml( 
+                "$dirname/files/invalid-xml.xml",
+                new ezcTreeXmlInternalDataStore()
+            );
+        }
+        catch ( ezcTreeInvalidXmlException $e )
+        {
+            self::assertSame( "The XML file '$dirname/files/invalid-xml.xml' is not well-formed:\n$dirname/files/invalid-xml.xml:28:8: Opening and ending tag mismatch: node line 4 and tree\n$dirname/files/invalid-xml.xml:29:1: Premature end of data in tag tree line 3\n", $e->getMessage() );
+        }
+    }
+
+    public function testOpenNonExistingXmlTree()
+    {
+        $dirname = dirname( __FILE__ );
+        try
+        {
+            $tree = new ezcTreeXml( 
+                "$dirname/files/does-not-exist.xml",
+                new ezcTreeXmlInternalDataStore()
+            );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+            self::assertSame( "The XML file '$dirname/files/does-not-exist.xml' could not be found.", $e->getMessage() );
+        }
+    }
+
     public function testCreateXmlTree()
     {
         $tree = ezcTreeXml::create(

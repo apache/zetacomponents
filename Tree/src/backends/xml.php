@@ -96,9 +96,31 @@ class ezcTreeXml extends ezcTree
      */
     public function __construct( $xmlFile, ezcTreeXmlDataStore $store )
     {
+        if ( !file_exists( $xmlFile ) )
+        {
+            throw new ezcBaseFileNotFoundException( $xmlFile, "XML" );
+        }
+
+        $previous = libxml_use_internal_errors( true );
+
         $dom = new DomDocument();
         $dom->load( $xmlFile );
-        $dom->relaxNGValidateSource( self::relaxNG );
+        $errors = libxml_get_errors();
+        libxml_clear_errors();
+        if ( count( $errors ) )
+        {
+            throw new ezcTreeInvalidXmlException( $xmlFile, $errors );
+        }
+
+        $valid = $dom->relaxNGValidateSource( self::relaxNG );
+        if ( !$valid )
+        {
+            $errors = libxml_get_errors();
+            libxml_clear_errors();
+            throw new ezcTreeInvalidXmlFormatException( $xmlFile, $errors );
+        }
+
+        libxml_use_internal_errors( $previous );
 
         $store->setDomTree( $dom );
 
