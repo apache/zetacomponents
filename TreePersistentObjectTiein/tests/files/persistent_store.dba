@@ -1,0 +1,156 @@
+<?php
+return array (
+  0 => 
+  array (
+    'nested_set' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 128,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'parent_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 128,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'lft' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'rgt' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+      'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+          'indexFields' => 
+          array (
+            'id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+          'primary' => true,
+          'unique' => true,
+        )),
+        'lft' => 
+        ezcDbSchemaIndex::__set_state(array(
+          'indexFields' => 
+          array (
+            'lft' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+          'primary' => false,
+          'unique' => false,
+        )),
+        'rgt' => 
+        ezcDbSchemaIndex::__set_state(array(
+          'indexFields' => 
+          array (
+            'rgt' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+          'primary' => false,
+          'unique' => false,
+        )),
+      ),
+    )),
+    'fileentry' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'fid' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 128,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'name' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'type' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 11,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'size' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 11,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'extra' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+      'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+          'indexFields' => 
+          array (
+            'fid' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+          'primary' => true,
+          'unique' => true,
+        )),
+      ),
+    )),
+  ),
+  1 =>
+  array(
+  ),
+); ?>
