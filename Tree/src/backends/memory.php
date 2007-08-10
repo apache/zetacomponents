@@ -9,7 +9,8 @@
 
 /**
  * ezcTreeMemory is an implementation of a tree backend that operates on
- * an in-memory tree structure.
+ * an in-memory tree structure. Meta-information is kept in objects of the
+ * ezcTreeMemoryNode class.
  *
  * @property-read ezcTreeXmlDataStore $store
  *

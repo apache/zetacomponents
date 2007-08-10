@@ -8,8 +8,8 @@
  */
 
 /**
- * ezcTreeXml is an implementation of a tree backend that operates on
- * an XML file.
+ * ezcTreeDbExternalTableDataStore is an implementation of a tree node
+ * data store that uses an external table to store data in.
  *
  * @package Tree
  * @version //autogentag//

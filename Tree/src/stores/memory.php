@@ -9,7 +9,8 @@
 
 /**
  * ezcTreeMemoryDataStore implements storing of node data as part of the node
- * itself.
+ * itself. It stores this node information in objects of the ezcTreeMemoryNode
+ * class.
  *
  * @package Tree
  * @version //autogentag//

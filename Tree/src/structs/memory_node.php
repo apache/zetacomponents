@@ -8,7 +8,8 @@
  */
 
 /**
- * A container to store one memory tree node with meta data
+ * A container to store one memory tree node with meta data, for use with
+ * the ezcTreeMemory backend.
  *
  * @package Tree
  * @version //autogentag//
