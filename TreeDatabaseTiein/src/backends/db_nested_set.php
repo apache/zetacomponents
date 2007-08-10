@@ -265,7 +265,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
         list( $left, $right, $width ) = $this->fetchNodeInformation( $parentId );
 
         // Update left and right values to account for new subtree
-        $this->updateNestedValuesForSubtreeAddition( $right, $width );
+        $this->updateNestedValuesForSubtreeAddition( $right, 2 );
 
         // Add new node
         if ( $width == 2 )

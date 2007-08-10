@@ -73,6 +73,96 @@ class ezcTreeDbNestedSetTest extends ezcDbTreeTest
         return $tree;
     }
 
+    public function testVerifyLeftRightValues1()
+    {
+        $tree = $this->setUpEmptyTestTree();
+
+        $node = $tree->createNode( 1, "één" );
+        $tree->setRootNode( $node );
+        $this->assertLeftRight( 1, 1, 2 );
+
+        $node->addChild( $node2 = $tree->createNode( 2, "twee" ) );
+        $this->assertLeftRight( 1, 1, 4 );
+        $this->assertLeftRight( 2, 2, 3 );
+
+        $node->addChild( $node3 = $tree->createNode( 3, "drie" ) );
+        $this->assertLeftRight( 1, 1, 6 );
+        $this->assertLeftRight( 2, 2, 3 );
+        $this->assertLeftRight( 3, 4, 5 );
+
+        $node3->addChild( $node4 = $tree->createNode( 4, "vier" ) );
+        $this->assertLeftRight( 1, 1, 8 );
+        $this->assertLeftRight( 2, 2, 3 );
+        $this->assertLeftRight( 3, 4, 7 );
+        $this->assertLeftRight( 4, 5, 6 );
+
+        $node4->addChild( $tree->createNode( 5, "vijf" ) );
+        $this->assertLeftRight( 1, 1, 10 );
+        $this->assertLeftRight( 2, 2,  3 );
+        $this->assertLeftRight( 3, 4,  9 );
+        $this->assertLeftRight( 4, 5,  8 );
+        $this->assertLeftRight( 5, 6,  7 );
+
+        $node4->addChild( $tree->createNode( 6, "zes" ) );
+        $this->assertLeftRight( 1, 1, 12 );
+        $this->assertLeftRight( 2, 2,  3 );
+        $this->assertLeftRight( 3, 4, 11 );
+        $this->assertLeftRight( 4, 5, 10 );
+        $this->assertLeftRight( 5, 6,  7 );
+        $this->assertLeftRight( 6, 8,  9 );
+
+        $node->addChild( $node7 = $tree->createNode( 7, "zeven" ) );
+        $this->assertLeftRight( 1,  1, 14 );
+        $this->assertLeftRight( 2,  2,  3 );
+        $this->assertLeftRight( 3,  4, 11 );
+        $this->assertLeftRight( 4,  5, 10 );
+        $this->assertLeftRight( 5,  6,  7 );
+        $this->assertLeftRight( 6,  8,  9 );
+        $this->assertLeftRight( 7, 12, 13 );
+
+        $node7->addChild( $node8 = $tree->createNode( 8, "acht" ) );
+        $this->assertLeftRight( 1,  1, 16 );
+        $this->assertLeftRight( 2,  2,  3 );
+        $this->assertLeftRight( 3,  4, 11 );
+        $this->assertLeftRight( 4,  5, 10 );
+        $this->assertLeftRight( 5,  6,  7 );
+        $this->assertLeftRight( 6,  8,  9 );
+        $this->assertLeftRight( 7, 12, 15 );
+        $this->assertLeftRight( 8, 13, 14 );
+
+        $node8->addChild( $tree->createNode( 9, "negen" ) );
+        $this->assertLeftRight( 1,  1, 18 );
+        $this->assertLeftRight( 2,  2,  3 );
+        $this->assertLeftRight( 3,  4, 11 );
+        $this->assertLeftRight( 4,  5, 10 );
+        $this->assertLeftRight( 5,  6,  7 );
+        $this->assertLeftRight( 6,  8,  9 );
+        $this->assertLeftRight( 7, 12, 17 );
+        $this->assertLeftRight( 8, 13, 16 );
+        $this->assertLeftRight( 9, 14, 15 );
+    }
+
+    private function assertLeftRight( $id, $left, $right )
+    {
+        $q = $this->dbh->createSelectQuery();
+        $q->select( 'lft', 'rgt' )
+          ->from( 'nested_set' )
+          ->where( $q->expr->eq( 'id', $q->bindValue( $id ) ) );
+        $s = $q->prepare();
+        $s->execute();
+
+        $r = $s->fetch( PDO::FETCH_ASSOC );
+        if ( $r['lft'] != $left )
+        {
+            $this->fail( "Expected left value for node '$id' was not '$left', but '{$r['lft']}'." );
+        }
+        if ( $r['rgt'] != $right )
+        {
+            $this->fail( "Expected right value for node '$id' was not '$right', but '{$r['rgt']}'." );
+        }
+
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeDbNestedSetTest" );
