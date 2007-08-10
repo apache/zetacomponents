@@ -82,70 +82,70 @@ class ezcTreeNodeList implements ArrayAccess
     }
 
     /**
-     * Returns whether a node with the ID $id exists in the list
+     * Returns whether a node with the ID $nodeId exists in the list
      *
      * This method is part of the SPL ArrayAccess interface.
      *
-     * @param  string $id
+     * @param  string $nodeId
      * @return bool
      * @ignore
      */
-    public function offsetExists( $id )
+    public function offsetExists( $nodeId )
     {
-        return array_key_exists( $id, $this->nodes );
+        return array_key_exists( $nodeId, $this->nodes );
     }
 
     /**
-     * Returns the node with the ID $id
+     * Returns the node with the ID $nodeId
      *
      * This method is part of the SPL ArrayAccess interface.
      *
-     * @param  string $id
+     * @param  string $nodeId
      * @return ezcTreeNode
      * @ignore
      */
-    public function offsetGet( $id )
+    public function offsetGet( $nodeId )
     {
-        return $this->nodes[$id];
+        return $this->nodes[$nodeId];
     }
 
     /**
-     * Adds a new node with node ID $id to the list.
+     * Adds a new node with node ID $nodeId to the list.
      *
      * This method is part of the SPL ArrayAccess interface.
      * 
      * @throws ezcTreeInvalidClassException if the data to be set as array
      *         element is not an instance of ezcTreeNode
-     * @throws ezcTreeIdsDoNotMatchException if the array index $id does not
+     * @throws ezcTreeIdsDoNotMatchException if the array index $nodeId does not
      *         match the tree node's ID that is stored in the $data object
-     * @param  string      $id
+     * @param  string      $nodeId
      * @param  ezcTreeNode $data
      * @ignore
      */
-    public function offsetSet( $id, $data )
+    public function offsetSet( $nodeId, $data )
     {
         if ( !$data instanceof ezcTreeNode )
         {
             throw new ezcTreeInvalidClassException( 'ezcTreeNode', get_class( $data ) );
         }
-        if ( $data->id !== $id )
+        if ( $data->id !== $nodeId )
         {
-            throw new ezcTreeIdsDoNotMatchException( $data->id, $id );
+            throw new ezcTreeIdsDoNotMatchException( $data->id, $nodeId );
         }
         $this->addNode( $data );
     }
 
     /**
-     * Removes the node with ID $id from the list.
+     * Removes the node with ID $nodeId from the list.
      *
      * This method is part of the SPL ArrayAccess interface.
      *
-     * @param string $id
+     * @param string $nodeId
      * @ignore
      */
-    public function offsetUnset( $id )
+    public function offsetUnset( $nodeId )
     {
-        unset( $this->nodes[$id] );
+        unset( $this->nodes[$nodeId] );
     }
 
 

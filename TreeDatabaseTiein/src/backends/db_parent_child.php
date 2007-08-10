@@ -93,16 +93,16 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns all the children of the node with ID $id.
+     * Returns all the children of the node with ID $nodeId.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
-    public function fetchChildren( $id )
+    public function fetchChildren( $nodeId )
     {
         $className = $this->properties['nodeClassName'];
         $list = new ezcTreeNodeList;
-        foreach ( $this->fetchChildRecords( $id ) as $record )
+        foreach ( $this->fetchChildRecords( $nodeId ) as $record )
         {
             $list->addNode( new $className( $this, $record['id'] ) );
         }
@@ -111,32 +111,32 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
     /**
      * Returns all the nodes in the path from the root node to the node with ID
-     * $id, including those two nodes.
+     * $nodeId, including those two nodes.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
-    public function fetchPath( $id )
+    public function fetchPath( $nodeId )
     {
         $className = $this->properties['nodeClassName'];
         $list = new ezcTreeNodeList;
-        $list->addNode( new $className( $this, $id ) );
+        $list->addNode( new $className( $this, $nodeId ) );
 
-        $id = $this->getParentId( $id );
+        $nodeId = $this->getParentId( $nodeId );
 
-        while ( $id != null )
+        while ( $nodeId != null )
         {
-            $list->addNode( new $className( $this, $id ) );
-            $id = $this->getParentId( $id );
+            $list->addNode( new $className( $this, $nodeId ) );
+            $nodeId = $this->getParentId( $nodeId );
         }
         return $list;
     }
 
     /**
-     * Returns the node with ID $id and all its children, sorted accoring to
+     * Returns the node with ID $nodeId and all its children, sorted accoring to
      * the `Depth-first sorting`_ algorithm.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
     public function fetchSubtreeDepthFirst( $nodeId )
@@ -151,7 +151,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     /**
      * Alias for fetchSubtreeDepthFirst().
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
     public function fetchSubtree( $nodeId )
@@ -181,10 +181,10 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns the node with ID $id and all its children, sorted accoring to
+     * Returns the node with ID $nodeId and all its children, sorted accoring to
      * the `Breadth-first sorting`_ algorithm.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
     public function fetchSubtreeBreadthFirst( $nodeId )
@@ -197,9 +197,9 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns the number of direct children of the node with ID $id
+     * Returns the number of direct children of the node with ID $nodeId
      *
-     * @param string $id
+     * @param string $nodeId
      * @return int
      */
     public function getChildCount( $nodeId )
@@ -223,7 +223,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
      * Adds the number of children with for the node with ID $nodeId nodes to
      * $count recursively.
      *
-     * @param int &$count
+     * @param int $count
      * @param string $nodeId
      */
     protected function countChildNodes( &$count, $nodeId )
@@ -236,41 +236,41 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns the number of children of the node with ID $id, recursively
+     * Returns the number of children of the node with ID $nodeId, recursively
      *
-     * @param string $id
+     * @param string $nodeId
      * @return int
      */
-    public function getChildCountRecursive( $id )
+    public function getChildCountRecursive( $nodeId )
     {
         $count = 0;
-        $this->countChildNodes( $count, $id );
+        $this->countChildNodes( $count, $nodeId );
         return $count;
     }
 
     /**
-     * Returns the distance from the root node to the node with ID $id
+     * Returns the distance from the root node to the node with ID $nodeId
      *
-     * @param string $id
+     * @param string $nodeId
      * @return int
      */
-    public function getPathLength( $id )
+    public function getPathLength( $nodeId )
     {
-        $id = $this->getParentId( $id );
+        $nodeId = $this->getParentId( $nodeId );
         $length = 0;
 
-        while ( $id !== null )
+        while ( $nodeId !== null )
         {
-            $id = $this->getParentId( $id );
+            $nodeId = $this->getParentId( $nodeId );
             $length++;
         }
         return $length;
     }
 
     /**
-     * Returns whether the node with ID $id has children
+     * Returns whether the node with ID $nodeId has children
      *
-     * @param string $id
+     * @param string $nodeId
      * @return bool
      */
     public function hasChildNodes( $nodeId )
@@ -288,9 +288,9 @@ class ezcTreeDbParentChild extends ezcTreeDb
      */
     public function isChildOf( $childId, $parentId )
     {
-        $id = $this->getParentId( $childId );
+        $nodeId = $this->getParentId( $childId );
         $parentId = (string) $parentId;
-        return $parentId === $id;
+        return $parentId === $nodeId;
     }
 
     /**
@@ -304,15 +304,15 @@ class ezcTreeDbParentChild extends ezcTreeDb
     public function isDecendantOf( $childId, $parentId )
     {
         $parentId = (string) $parentId;
-        $id = $childId;
+        $nodeId = $childId;
         do
         {
-            $id = $this->getParentId( $id );
-            if ( $parentId === $id )
+            $nodeId = $this->getParentId( $nodeId );
+            if ( $parentId === $nodeId )
             {
                 return true;
             }
-        } while ( $id !== null );
+        } while ( $nodeId !== null );
         return false;
     }
 
@@ -326,9 +326,9 @@ class ezcTreeDbParentChild extends ezcTreeDb
      */
     public function isSiblingOf( $child1Id, $child2Id )
     {
-        $id1 = $this->getParentId( $child1Id );
-        $id2 = $this->getParentId( $child2Id );
-        return $id1 === $id2 && (string) $child1Id !== (string) $child2Id;
+        $nodeId1 = $this->getParentId( $child1Id );
+        $nodeId2 = $this->getParentId( $child2Id );
+        return $nodeId1 === $nodeId2 && (string) $child1Id !== (string) $child2Id;
     }
 
     /**
@@ -360,7 +360,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
      * Adds the node $childNode as child of the node with ID $parentId
      *
      * @param string $parentId
-     * @paran ezcTreeNode $childNode
+     * @param ezcTreeNode $childNode
      */
     public function addChild( $parentId, ezcTreeNode $childNode )
     {
@@ -392,49 +392,49 @@ class ezcTreeDbParentChild extends ezcTreeDb
         $db = $this->dbh;
         $q = $db->createDeleteQuery();
 
-        $idList = array();
-        foreach ( array_keys( $list->getNodes() ) as $id )
+        $nodeIdList = array();
+        foreach ( array_keys( $list->getNodes() ) as $nodeId )
         {
-            $idList[] = (string) $id;
+            $nodeIdList[] = (string) $nodeId;
         }
 
         // DELETE FROM indexTable
         // WHERE id in ( $list );
         $q->deleteFrom( $db->quoteIdentifier( $this->indexTableName ) );
-        $q->where( $q->expr->in( 'id', $idList ) );
+        $q->where( $q->expr->in( 'id', $nodeIdList ) );
         $s = $q->prepare();
         $s->execute();
     }
 
     /**
-     * Deletes the node with ID $id from the tree, including all its children
+     * Deletes the node with ID $nodeId from the tree, including all its children
      *
-     * @param string $id
+     * @param string $nodeId
      */
-    public function delete( $id )
+    public function delete( $nodeId )
     {
         if ( $this->inTransaction )
         {
-            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::DELETE, null, $id ) );
+            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::DELETE, null, $nodeId ) );
             return;
         }
 
-        $nodeList = $this->fetchSubtree( $id );
+        $nodeList = $this->fetchSubtree( $nodeId );
         $this->deleteNodes( $nodeList );
         $this->store->deleteDataForNodes( $nodeList );
     }
 
     /**
-     * Moves the node with ID $id as child to the node with ID $targetParentId
+     * Moves the node with ID $nodeId as child to the node with ID $targetParentId
      *
-     * @param string $id
+     * @param string $nodeId
      * @param string $targetParentId
      */
-    public function move( $id, $targetParentId )
+    public function move( $nodeId, $targetParentId )
     {
         if ( $this->inTransaction )
         {
-            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::MOVE, null, $id, $targetParentId ) );
+            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::MOVE, null, $nodeId, $targetParentId ) );
             return;
         }
 
@@ -443,7 +443,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
         $q->update( $db->quoteIdentifier( $this->indexTableName ) )
           ->set( 'parent_id', $q->bindValue( $targetParentId ) )
-          ->where( $q->expr->eq( 'id', $q->bindValue( $id ) ) );
+          ->where( $q->expr->eq( 'id', $q->bindValue( $nodeId ) ) );
 
         $s = $q->prepare();
         $s->execute();

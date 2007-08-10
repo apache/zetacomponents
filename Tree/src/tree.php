@@ -125,21 +125,21 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
-     * Creates a new tree node with node ID $id and $data
+     * Creates a new tree node with node ID $nodeId and $data
      *
      * This method returns by default an object of the ezcTreeNode class, 
      * however if a replacement is configured through the nodeClassName property
      * an object of that class is returned instead. This object is guaranteed
      * to inherit from ezcTreeNode.
      *
-     * @param string $id
+     * @param string $nodeId
      * @param mixed  $data
      * @return instanceof(ezcTreeNode)
      */
-    public function createNode( $id, $data )
+    public function createNode( $nodeId, $data )
     {
         $className = $this->properties['nodeClassName'];
-        return new $className( $this, $id, $data );
+        return new $className( $this, $nodeId, $data );
     }
 
     /**
@@ -154,28 +154,28 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
-     * Returns whether the node with ID $id exists
+     * Returns whether the node with ID $nodeId exists
      *
-     * @param string $id
+     * @param string $nodeId
      * @return bool
      */
-    abstract public function nodeExists( $id );
+    abstract public function nodeExists( $nodeId );
 
     /**
-     * Returns the node identified by the ID $id
+     * Returns the node identified by the ID $nodeId
      *
-     * @param string $id
-     * @throws ezcTreeInvalidIdException if there is no node with ID $id
+     * @param string $nodeId
+     * @throws ezcTreeInvalidIdException if there is no node with ID $nodeId
      * @return ezcTreeNode
      */
-    public function fetchNodeById( $id )
+    public function fetchNodeById( $nodeId )
     {
-        if ( !$this->nodeExists( $id ) )
+        if ( !$this->nodeExists( $nodeId ) )
         {
-            throw new ezcTreeInvalidIdException( $id );
+            throw new ezcTreeInvalidIdException( $nodeId );
         }
         $className = $this->properties['nodeClassName'];
-        $node = new $className( $this, $id );
+        $node = new $className( $this, $nodeId );
 
         // Obtain data from the store if prefetch is enabled
         if ( $this->prefetch )
@@ -186,87 +186,87 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
-     * Returns all the children of the node with ID $id.
+     * Returns all the children of the node with ID $nodeId.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
-    abstract public function fetchChildren( $id );
+    abstract public function fetchChildren( $nodeId );
 
     /**
-     * Returns the parent node of the node with ID $id.
+     * Returns the parent node of the node with ID $nodeId.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNode
      */
-    abstract public function fetchParent( $id );
+    abstract public function fetchParent( $nodeId );
 
     /**
      * Returns all the nodes in the path from the root node to the node with ID
-     * $id, including those two nodes.
+     * $nodeId, including those two nodes.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
-    abstract public function fetchPath( $id );
+    abstract public function fetchPath( $nodeId );
 
     /**
      * Alias for fetchSubtreeDepthFirst().
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
-    abstract public function fetchSubtree( $id );
+    abstract public function fetchSubtree( $nodeId );
 
     /**
-     * Returns the node with ID $id and all its children, sorted accoring to
+     * Returns the node with ID $nodeId and all its children, sorted accoring to
      * the `Breadth-first sorting`_ algorithm.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
-    abstract public function fetchSubtreeBreadthFirst( $id );
+    abstract public function fetchSubtreeBreadthFirst( $nodeId );
 
     /**
-     * Returns the node with ID $id and all its children, sorted accoring to
+     * Returns the node with ID $nodeId and all its children, sorted accoring to
      * the `Depth-first sorting`_ algorithm.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
-    abstract public function fetchSubtreeDepthFirst( $id );
+    abstract public function fetchSubtreeDepthFirst( $nodeId );
 
     /**
-     * Returns the number of direct children of the node with ID $id
+     * Returns the number of direct children of the node with ID $nodeId
      *
-     * @param string $id
+     * @param string $nodeId
      * @return int
      */
-    abstract public function getChildCount( $id );
+    abstract public function getChildCount( $nodeId );
 
     /**
-     * Returns the number of children of the node with ID $id, recursively
+     * Returns the number of children of the node with ID $nodeId, recursively
      *
-     * @param string $id
+     * @param string $nodeId
      * @return int
      */
-    abstract public function getChildCountRecursive( $id );
+    abstract public function getChildCountRecursive( $nodeId );
 
     /**
-     * Returns the distance from the root node to the node with ID $id
+     * Returns the distance from the root node to the node with ID $nodeId
      *
-     * @param string $id
+     * @param string $nodeId
      * @return int
      */
-    abstract public function getPathLength( $id );
+    abstract public function getPathLength( $nodeId );
 
     /**
-     * Returns whether the node with ID $id has children
+     * Returns whether the node with ID $nodeId has children
      *
-     * @param string $id
+     * @param string $nodeId
      * @return bool
      */
-    abstract public function hasChildNodes( $id );
+    abstract public function hasChildNodes( $nodeId );
 
     /**
      * Returns whether the node with ID $childId is a direct child of the node
@@ -316,24 +316,24 @@ abstract class ezcTree implements ezcTreeVisitable
      * Adds the node $childNode as child of the node with ID $parentId
      *
      * @param string $parentId
-     * @paran ezcTreeNode $childNode
+     * @param ezcTreeNode $childNode
      */
     abstract public function addChild( $parentId, ezcTreeNode $childNode );
 
     /**
-     * Deletes the node with ID $id from the tree, including all its children
+     * Deletes the node with ID $nodeId from the tree, including all its children
      *
-     * @param string $id
+     * @param string $nodeId
      */
-    abstract public function delete( $id );
+    abstract public function delete( $nodeId );
 
     /**
-     * Moves the node with ID $id as child to the node with ID $targetParentId
+     * Moves the node with ID $nodeId as child to the node with ID $targetParentId
      *
-     * @param string $id
+     * @param string $nodeId
      * @param string $targetParentId
      */
-    abstract public function move( $id, $targetParentId );
+    abstract public function move( $nodeId, $targetParentId );
 
     /**
      * Starts an transaction in which all tree modifications are queued until 

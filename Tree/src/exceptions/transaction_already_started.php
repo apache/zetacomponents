@@ -20,7 +20,6 @@ class ezcTreeTransactionAlreadyStartedException extends ezcTreeException
     /**
      * Constructs a new ezcTreeTransactionAlreadyStartedException.
      *
-     * @param string $id
      * @return void
      */
     function __construct()

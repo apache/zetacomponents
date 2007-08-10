@@ -55,12 +55,12 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
 
     /**
      * Returns all the nodes in the path from the root node to the node with ID
-     * $id, including those two nodes.
+     * $nodeId, including those two nodes.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
-    public function fetchPath( $id )
+    public function fetchPath( $nodeId )
     {
         $className = $this->properties['nodeClassName'];
         $list = new ezcTreeNodeList;
@@ -74,14 +74,14 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
         // WHERE
         //     node.lft BETWEEN parent.lft AND parent.rgt
         //     AND
-        //     node.if = $id
+        //     node.if = $nodeId
         // ORDER BY parent.lft
         $q->select( 'parent.id' )
           ->from( $db->quoteIdentifier( $this->indexTableName ) . " as node" )
           ->from( $db->quoteIdentifier( $this->indexTableName ) . " as parent" )
           ->where( $q->expr->lAnd(
               $q->expr->between( 'node.lft', 'parent.lft', 'parent.rgt' ),
-              $q->expr->eq( 'node.id', $q->bindValue( $id ) )
+              $q->expr->eq( 'node.id', $q->bindValue( $nodeId ) )
             ))
           ->orderBy( 'parent.lft' );
 
@@ -96,10 +96,10 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Returns the node with ID $id and all its children, sorted accoring to
+     * Returns the node with ID $nodeId and all its children, sorted accoring to
      * the `Depth-first sorting`_ algorithm.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return ezcTreeNodeList
      */
     public function fetchSubtreeDepthFirst( $nodeId )
@@ -132,14 +132,14 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Returns the distance from the root node to the node with ID $id
+     * Returns the distance from the root node to the node with ID $nodeId
      *
-     * @param string $id
+     * @param string $nodeId
      * @return int
      */
-    public function getPathLength( $id )
+    public function getPathLength( $nodeId )
     {
-        $path = $this->fetchPath( $id );
+        $path = $this->fetchPath( $nodeId );
         return count( $path->getNodes() ) - 1;
     }
 
@@ -249,7 +249,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
      * Adds the node $childNode as child of the node with ID $parentId
      *
      * @param string $parentId
-     * @paran ezcTreeNode $childNode
+     * @param ezcTreeNode $childNode
      */
     public function addChild( $parentId, ezcTreeNode $childNode )
     {
@@ -298,7 +298,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Returns the left, right and width values for the node with ID $id as an
+     * Returns the left, right and width values for the node with ID $nodeId as an
      * array.
      *
      * The format of the array is:
@@ -306,20 +306,20 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
      * - 1: right value
      * - 2: width value (right - left + 1)
      *
-     * @param string $id
+     * @param string $nodeId
      * @return array(int)
      */
-    protected function fetchNodeInformation( $id )
+    protected function fetchNodeInformation( $nodeId )
     {
         $db = $this->dbh;
 
         // SELECT lft, rgt, rft-lft+1 as width
         // FROM indexTable
-        // WHERE id = $id
+        // WHERE id = $nodeId
         $q = $db->createSelectQuery();
         $q->select( 'lft, rgt, rgt - lft + 1 as width' )
           ->from( $db->quoteIdentifier( $this->indexTableName ) )
-          ->where( $q->expr->eq( 'id', $q->bindValue( $id ) ) );
+          ->where( $q->expr->eq( 'id', $q->bindValue( $nodeId ) ) );
         $s = $q->prepare();
         $s->execute();
         $r = $s->fetchAll( PDO::FETCH_NUM );
@@ -360,24 +360,24 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Deletes the node with ID $id from the tree, including all its children
+     * Deletes the node with ID $nodeId from the tree, including all its children
      *
-     * @param string $id
+     * @param string $nodeId
      */
-    public function delete( $id )
+    public function delete( $nodeId )
     {
         if ( $this->inTransaction )
         {
-            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::DELETE, null, $id ) );
+            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::DELETE, null, $nodeId ) );
             return;
         }
 
         // Delete all data for the deleted nodes
-        $nodeList = $this->fetchSubtree( $id );
+        $nodeList = $this->fetchSubtree( $nodeId );
         $this->store->deleteDataForNodes( $nodeList );
 
         // Fetch node information
-        list( $left, $right, $width ) = $this->fetchNodeInformation( $id );
+        list( $left, $right, $width ) = $this->fetchNodeInformation( $nodeId );
 
         // DELETE FROM indexTable
         // WHERE lft BETWEEN $left and $right
@@ -393,42 +393,42 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Moves the node with ID $id as child to the node with ID $targetParentId
+     * Moves the node with ID $nodeId as child to the node with ID $targetParentId
      *
-     * @param string $id
+     * @param string $nodeId
      * @param string $targetParentId
      */
-    public function move( $id, $targetParentId )
+    public function move( $nodeId, $targetParentId )
     {
         if ( $this->inTransaction )
         {
-            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::MOVE, null, $id, $targetParentId ) );
+            $this->addTransactionItem( new ezcTreeTransactionItem( ezcTreeTransactionItem::MOVE, null, $nodeId, $targetParentId ) );
             return;
         }
 
         $db = $this->dbh;
 
         // Get the nodes that are gonne be moved in the subtree
-        $ids = array();
-        foreach( $this->fetchSubtreeDepthFirst( $id )->getNodes() as $node )
+        $nodeIds = array();
+        foreach( $this->fetchSubtreeDepthFirst( $nodeId )->getNodes() as $node )
         {
-            $ids[] = $node->id;
+            $nodeIds[] = $node->id;
         }
 
         // Update parent ID for the node
         //   UPDATE indexTable
         //   SET parent_id = $targetParentId
-        //   WHERE id = $id
+        //   WHERE id = $nodeId
         $q = $db->createUpdateQuery();
         $q->update( $db->quoteIdentifier( $this->indexTableName ) )
           ->set( 'parent_id', $q->bindValue( $targetParentId ) )
-          ->where( $q->expr->eq( 'id', $q->bindValue( $id ) ) );
+          ->where( $q->expr->eq( 'id', $q->bindValue( $nodeId ) ) );
 
         $s = $q->prepare();
         $s->execute();
 
         // Fetch node information
-        list( $origLeft, $origRight, $origWidth ) = $this->fetchNodeInformation( $id );
+        list( $origLeft, $origRight, $origWidth ) = $this->fetchNodeInformation( $nodeId );
 
         // Update the nested values to account for the moved subtree (delete part)
         $this->updateNestedValuesForSubtreeDeletion( $origRight, $origWidth );
@@ -437,27 +437,27 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
         list( $targetParentLeft, $targetParentRight, $targerParentWidth ) = $this->fetchNodeInformation( $targetParentId );
 
         // Update the nested values to account for the moved subtree (addition part)
-        $this->updateNestedValuesForSubtreeAddition( $targetParentRight, $origWidth, $ids );
+        $this->updateNestedValuesForSubtreeAddition( $targetParentRight, $origWidth, $nodeIds );
 
         // Update nodes in moved subtree
         $adjust = $targetParentRight - $origLeft;
 
         // UPDATE indexTable
         // SET rgt = rgt + $adjust
-        // WHERE id in $ids
+        // WHERE id in $nodeIds
         $q = $db->createUpdateQuery();
         $q->update( $db->quoteIdentifier( $this->indexTableName ) )
           ->set( 'rgt', $q->expr->add( 'rgt', $adjust ) )
-          ->where( $q->expr->in( 'id', $ids ) );
+          ->where( $q->expr->in( 'id', $nodeIds ) );
         $q->prepare()->execute();
 
         // UPDATE indexTable
         // SET lft = lft + $adjust
-        // WHERE id in $ids
+        // WHERE id in $nodeIds
         $q = $db->createUpdateQuery();
         $q->update( $db->quoteIdentifier( $this->indexTableName ) )
           ->set( 'lft', $q->expr->add( 'lft', $adjust ) )
-          ->where( $q->expr->in( 'id', $ids ) );
+          ->where( $q->expr->in( 'id', $nodeIds ) );
         $q->prepare()->execute();
     }
 }

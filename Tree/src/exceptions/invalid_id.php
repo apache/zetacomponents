@@ -18,14 +18,14 @@
 class ezcTreeInvalidIdException extends ezcTreeException
 {
     /**
-     * Constructs a new ezcTreeInvalidIdException for the ID $id.
+     * Constructs a new ezcTreeInvalidIdException for the ID $nodeId.
      *
-     * @param string $id
+     * @param string $nodeId
      * @return void
      */
-    function __construct( $id )
+    function __construct( $nodeId )
     {
-        parent::__construct( "The node with ID '{$id}' could not be found." );
+        parent::__construct( "The node with ID '{$nodeId}' could not be found." );
     }
 }
 ?>

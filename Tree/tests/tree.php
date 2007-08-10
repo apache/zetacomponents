@@ -744,9 +744,9 @@ class ezcTreeTest extends ezcTestCase
         $nodeList = $tree->fetchNodeById( 4 )->fetchSubtree();
         self::assertSame( 4, $nodeList->size );
 
-        foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $id => $data )
+        foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $nodeId => $data )
         {
-            self::assertSame( "Node $id", $data );
+            self::assertSame( "Node $nodeId", $data );
         }
     }
 
@@ -759,9 +759,9 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( 'Node 4', $nodeList['4']->data );
 
         $tree->prefetch = true;
-        foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $id => $data )
+        foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $nodeId => $data )
         {
-            self::assertSame( "Node $id", $data );
+            self::assertSame( "Node $nodeId", $data );
         }
     }
 

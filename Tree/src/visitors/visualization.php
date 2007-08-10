@@ -37,6 +37,12 @@ class ezcTreeVisitorVisualization implements ezcTreeVisitor
      */
     protected $edges = array();
 
+    /**
+     * Creates a graphviz compliant ID out of the ID identifying $node
+     *
+     * @param ezcTreeNode $node
+     * @return string
+     */
     private function createId( ezcTreeNode $node )
     {
         return preg_replace( '/[^A-Za-z0-9_]/', '', $node->id ) . '_'. base_convert( sprintf( '%u', crc32( $node->id ) ), 16, 36 );

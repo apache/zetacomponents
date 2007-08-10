@@ -27,9 +27,9 @@ abstract class ezcTreeXmlDataStore implements ezcTreeDataStore
      * Associates the DOM tree for which this data store stores data for with
      * this store.
      *
-     * @param DomDocument $dom
+     * @param DOMDocument $dom
      */
-    public function setDomTree( DomDocument $dom )
+    public function setDomTree( DOMDocument $dom )
     {
         $this->dom = $dom;
     }

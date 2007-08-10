@@ -38,15 +38,15 @@ class ezcTreeNode implements ezcTreeVisitable
     private $properties = array();
 
     /**
-     * Constructs a new ezcTreeNode object with ID $id on tree $tree
+     * Constructs a new ezcTreeNode object with ID $nodeId on tree $tree
      *
      * @param ezcTree $tree
-     * @param string  $id
+     * @param string  $nodeId
      * @param mixed   $data
      */
-    public function __construct( ezcTree $tree, $id )
+    public function __construct( ezcTree $tree, $nodeId )
     {
-        $this->properties['id'] = (string) $id;
+        $this->properties['id'] = (string) $nodeId;
         $this->properties['tree'] = $tree;
 
         if ( func_num_args() === 2 )
@@ -186,7 +186,6 @@ class ezcTreeNode implements ezcTreeVisitable
     /**
      * Returns the parent node of this node
      *
-     * @param string $id
      * @return ezcTreeNode
      */
     public function fetchParent()
@@ -271,6 +270,8 @@ class ezcTreeNode implements ezcTreeVisitable
     /**
      * Returns whether this node is a direct child of the $parentNode node
      *
+     * @param ezcTreeNode $parentNode
+     *
      * @return bool
      */
     public function isChildOf( ezcTreeNode $parentNode )
@@ -282,6 +283,8 @@ class ezcTreeNode implements ezcTreeVisitable
      * Returns whether this node is a direct or indirect child of the
      * $parentNode node
      *
+     * @param ezcTreeNode $parentNode
+     *
      * @return bool
      */
     public function isDecendantOf( ezcTreeNode $parentNode )
@@ -292,6 +295,8 @@ class ezcTreeNode implements ezcTreeVisitable
     /**
      * Returns whether this node, and the $child2Node node are are siblings
      * (ie, the share the same parent)
+     *
+     * @param ezcTreeNode $child2Node
      *
      * @return bool
      */
