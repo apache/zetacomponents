@@ -8,7 +8,12 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Renders axis labels centered below the axis steps.
+ * Renders axis labels and grid optimized for radar charts. May cause
+ * unexpected results when used with other chart types.
+ *
+ * <code>
+ *   $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRadarLabelRenderer();
+ * </code>
  *
  * @property float $lastStep
  *           Position of last step on the axis to calculate the grid.

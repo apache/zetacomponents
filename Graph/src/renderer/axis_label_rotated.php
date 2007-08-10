@@ -9,8 +9,19 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Renders axis labels centered between two axis steps like normally used for 
- * bar charts.
+ * Can render axis labels rotated, so that more axis labels fir on one axis.
+ * Produces best results if the axis space was increased, so that more spcae is
+ * available below the axis.
+ *
+ * <code>
+ *   $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+ *
+ *   // Define angle manually in degree
+ *   $chart->xAxis->axisLabelRenderer->angle = 45;
+ *
+ *   // Increase axis space
+ *   $chart->xAxis->axisSpace = .2;
+ * </code>
  *
  * @property float $angle
  *           Angle of labels on axis in degrees.

@@ -49,6 +49,10 @@
  * The type of the axis may be changed and all elements can be configured by
  * accessing them as properties of the chart:
  *
+ * The chart itself also offers several options to configure the appearance.
+ * The extended configure options are available in ezcGraphRadarChartOptions
+ * extending the ezcGraphChartOptions.
+ *
  * <code>
  *  $chart->legend->position = ezcGraph::RIGHT;
  * </code>

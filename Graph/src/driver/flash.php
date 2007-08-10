@@ -8,7 +8,31 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Driver to create Flash4 (SWF) files as graph output.
+ * Driver to create Flash4 (SWF) files as graph output. The options of this
+ * class are defined in The options of this class are defined in the option
+ * class ezcGraphFlashDriverOptions extending the basic ezcGraphDriverOptions.
+ *
+ * <code>
+ *   $graph = new ezcGraphPieChart();
+ *   $graph->title = 'Access statistics';
+ *   $graph->legend = false;
+ *   
+ *   $graph->driver = new ezcGraphFlashDriver();
+ *   $graph->options->font = 'tutorial_font.fdb';
+ *   
+ *   $graph->driver->options->compression = 7;
+ *   
+ *   $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
+ *       'Mozilla' => 19113,
+ *       'Explorer' => 10917,
+ *       'Opera' => 1464,
+ *       'Safari' => 652,
+ *       'Konqueror' => 474,
+ *   ) );
+ *   
+ *   $graph->render( 400, 200, 'tutorial_driver_flash.swf' );
+ * </code>
+ *
  *
  * @version //autogentag//
  * @package Graph

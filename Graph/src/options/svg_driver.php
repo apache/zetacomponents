@@ -8,7 +8,28 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the basic options for charts
+ * Class containing the extended options for the SVG driver.
+ *
+ * <code>
+ *   $graph = new ezcGraphPieChart();
+ *   $graph->background->color = '#FFFFFFFF';
+ *   $graph->title = 'Access statistics';
+ *   $graph->legend = false;
+ *   
+ *   $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
+ *       'Mozilla' => 19113,
+ *       'Explorer' => 10917,
+ *       'Opera' => 1464,
+ *       'Safari' => 652,
+ *       'Konqueror' => 474,
+ *   ) );
+ *   
+ *   $graph->driver->options->templateDocument = dirname( __FILE__ ) . '/template.svg';
+ *   $graph->driver->options->graphOffset = new ezcGraphCoordinate( 25, 40 );
+ *   $graph->driver->options->insertIntoGroup = 'ezcGraph';
+ *   
+ *   $graph->render( 400, 200, 'tutorial_driver_svg.svg' );
+ * </code>
  *
  * @property string $encoding
  *           Encoding of the SVG XML document

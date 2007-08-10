@@ -43,6 +43,10 @@
  *  $chart->legend->position = ezcGraph::RIGHT;
  * </code>
  *
+ * The chart itself also offers several options to configure the appearance.
+ * The extended configure options are available in ezcGraphPieChartOptions
+ * extending the ezcGraphChartOptions.
+ *
  * @version //autogentag//
  * @package Graph
  * @mainclass

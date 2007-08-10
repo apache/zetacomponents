@@ -9,7 +9,8 @@
  * @access private
  */
 /**
- * Extension of the basic Driver package to utilize the SVGlib.
+ * Simple output driver for debuggin purposes. Just outputs shapes as text on
+ * CLI.
  *
  * @version //autogentag//
  * @package Graph

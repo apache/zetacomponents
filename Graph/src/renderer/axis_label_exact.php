@@ -11,6 +11,10 @@
 /**
  * Renders axis labels like known from charts drawn in analysis
  *
+ * <code>
+ *   $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+ * </code>
+ *
  * @property bool $showLastValue
  *           Show the last value on the axis, which will be aligned different 
  *           than all other values, to not interfere with the arrow head of 

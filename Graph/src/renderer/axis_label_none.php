@@ -9,7 +9,11 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Renders axis labels like known from charts drawn in analysis
+ * Omits axis labels, steps and grid.
+ *
+ * <code>
+ *   $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
+ * </code>
  *
  * @version //autogentag//
  * @package Graph

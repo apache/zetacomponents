@@ -8,7 +8,32 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the basic options for charts
+ * Class containing the basic options for charts.
+ *
+ * <code>
+ *   $graph = new ezcGraphPieChart();
+ *   $graph->palette = new ezcGraphPaletteEzBlue();
+ *   $graph->title = 'Access statistics';
+ *   
+ *   // Global font options
+ *   $graph->options->font->name = 'serif';
+ *   
+ *   // Special font options for sub elements
+ *   $graph->title->background = '#EEEEEC';
+ *   $graph->title->font->name = 'sans-serif';
+ *   
+ *   $graph->options->font->maxFontSize = 8;
+ *   
+ *   $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
+ *       'Mozilla' => 19113,
+ *       'Explorer' => 10917,
+ *       'Opera' => 1464,
+ *       'Safari' => 652,
+ *       'Konqueror' => 474,
+ *   ) );
+ *   
+ *   $graph->render( 400, 150, 'tutorial_chart_title.svg' );
+ * </code>
  *
  * @property int $width
  *           Width of the chart.

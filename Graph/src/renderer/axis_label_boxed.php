@@ -9,8 +9,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Renders axis labels centered between two axis steps like normally used for 
- * bar charts.
+ * Renders axis labels centered between two axis steps like normally used for
+ * bar charts. Used with other chart types this axis label renderer may cause
+ * unexpected results. You may use this renderer by assigning it to one of the
+ * charts axis.
+ *
+ * <code>
+ *   $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
+ * </code>
  *
  * @version //autogentag//
  * @package Graph

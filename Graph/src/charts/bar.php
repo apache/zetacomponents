@@ -52,6 +52,10 @@
  *  $chart->legend->position = ezcGraph::RIGHT;
  * </code>
  *
+ * The chart itself also offers several options to configure the appearance. As
+ * bar charts extend line charts the the extended configure options are
+ * available in ezcGraphLineChartOptions extending the ezcGraphChartOptions.
+ *
  * @version //autogentag//
  * @package Graph
  * @mainclass

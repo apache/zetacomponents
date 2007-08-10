@@ -8,7 +8,30 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the basic options for charts
+ * Class containing the extended configuration options for the flash driver.
+ *
+ * <code>
+ *   $graph = new ezcGraphPieChart();
+ *   $graph->title = 'Access statistics';
+ *   $graph->legend = false;
+ *   
+ *   $graph->driver = new ezcGraphFlashDriver();
+ *   $graph->driver->options->compresion = 0;
+ *
+ *   $graph->options->font = 'tutorial_font.fdb';
+ *   
+ *   $graph->driver->options->compression = 7;
+ *   
+ *   $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
+ *       'Mozilla' => 19113,
+ *       'Explorer' => 10917,
+ *       'Opera' => 1464,
+ *       'Safari' => 652,
+ *       'Konqueror' => 474,
+ *   ) );
+ *   
+ *   $graph->render( 400, 200, 'tutorial_driver_flash.swf' );
+ * </code>
  *
  * @property int $compression
  *           Compression level used for generated flash file

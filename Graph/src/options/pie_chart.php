@@ -8,7 +8,28 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the basic options for pie charts
+ * Class containing the basic options for pie charts.
+ *
+ * <code>
+ *   $graph = new ezcGraphPieChart();
+ *   $graph->palette = new ezcGraphPaletteEzRed();
+ *   $graph->title = 'Access statistics';
+ *   $graph->legend = false;
+ *
+ *   $graph->options->label = '%1$s (%3$.1f)';
+ *   $graph->options->percentThreshold = .05;
+ *   
+ *   $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
+ *       'Mozilla' => 19113,
+ *       'Explorer' => 10917,
+ *       'Opera' => 1464,
+ *       'Safari' => 652,
+ *       'Konqueror' => 474,
+ *   ) );
+ *   $graph->data['Access statistics']->highlight['Explorer'] = true;
+ *   
+ *   $graph->render( 400, 150, 'tutorial_pie_chart_options.svg' );
+ * </code>
  *
  * @property string $label
  *           String used to label pies

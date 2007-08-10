@@ -8,7 +8,23 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the basic options for line charts
+ * Class containing the basic options for line charts.
+ *
+ * <code>
+ *   $graph = new ezcGraphLineChart();
+ *   $graph->title = 'Wikipedia articles';
+ *
+ *   $graph->options->fillLines = 220;
+ *   $graph->options->lineThickness = 3;
+ *   
+ *   // Add data
+ *   foreach ( $wikidata as $language => $data )
+ *   {
+ *       $graph->data[$language] = new ezcGraphArrayDataSet( $data );
+ *   }
+ *   
+ *   $graph->render( 400, 150, 'tutorial_line_chart.svg' );
+ * </code>
  *
  * @property float $lineThickness
  *           Theickness of chart lines

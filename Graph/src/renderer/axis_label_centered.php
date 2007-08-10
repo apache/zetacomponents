@@ -11,6 +11,10 @@
 /**
  * Renders axis labels centered below the axis steps.
  *
+ * <code>
+ *   $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
+ * </code>
+ *
  * @property bool $showZeroValue
  *           Show the value at the zero point of an axis. This value might be 
  *           crossed by the other axis which would result in an unreadable 

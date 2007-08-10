@@ -8,13 +8,41 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the basic options for charts
+ * Class containing the options for font configuration.
+ *
+ * Global font settings will only affect the font settings of chart elements
+ * until they were modified once. Form then on the font configuration of one
+ * chart element has been copied and can only be configured independently.
+ *
+ * <code>
+ *   $graph = new ezcGraphPieChart();
+ *   $graph->palette = new ezcGraphPaletteEzBlue();
+ *   $graph->title = 'Access statistics';
+ *   
+ *   $graph->options->font->name = 'serif';
+ *   $graph->options->font->maxFontSize = 12;
+ *   
+ *   $graph->title->background = '#EEEEEC';
+ *   $graph->title->font->name = 'sans-serif';
+ *   
+ *   $graph->options->font->maxFontSize = 8;
+ *   
+ *   $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
+ *       'Mozilla' => 19113,
+ *       'Explorer' => 10917,
+ *       'Opera' => 1464,
+ *       'Safari' => 652,
+ *       'Konqueror' => 474,
+ *   ) );
+ *   
+ *   $graph->render( 400, 150, 'tutorial_chart_title.svg' );
+ * </code>
  *
  * @property string $name
  *           Name of font.
  * @property string $path
  *           Path to font file.
- * @property string $type
+ * @property int $type
  *           Type of used font. May be one of the following:
  *            - TTF_FONT    Native TTF fonts
  *            - PS_FONT     PostScript Type1 fonts

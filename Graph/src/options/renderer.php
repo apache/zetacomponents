@@ -8,7 +8,29 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the basic options for pie charts
+ * Class containing the basic options for renderers.
+ *
+ * <code>
+ *   $wikidata = include 'tutorial_wikipedia_data.php';
+ *   
+ *   $graph = new ezcGraphBarChart();
+ *   $graph->title = 'Wikipedia articles';
+ *   
+ *   // Add data
+ *   foreach ( $wikidata as $language => $data )
+ *   {
+ *       $graph->data[$language] = new ezcGraphArrayDataSet( $data );
+ *   }
+ *   
+ *   // $graph->renderer = new ezcGraphRenderer2d();
+ *   
+ *   $graph->renderer->options->barMargin = .2;
+ *   $graph->renderer->options->barPadding = .2;
+ *   
+ *   $graph->renderer->options->dataBorder = 0;
+ *   
+ *   $graph->render( 400, 150, 'tutorial_bar_chart_options.svg' );
+ * </code>
  *
  * @property float $maxLabelHeight
  *           Percent of chart height used as maximum height for pie chart 
