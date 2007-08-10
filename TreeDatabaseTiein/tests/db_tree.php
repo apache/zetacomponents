@@ -155,9 +155,8 @@ abstract class ezcDbTreeTest extends ezcTreeTest
 
         $nodeList = $tree->fetchSubtree( '3' );
 
-        $tree->prefetch = true;
         $expected = "something's wrong";
-        foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $id => $data )
+        foreach ( new ezcTreeNodeListIterator( $tree, $nodeList, true ) as $id => $data )
         {
             switch ( $id )
             {

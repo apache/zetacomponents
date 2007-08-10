@@ -9,13 +9,15 @@
  */
 
 /**
- * An implementation of the ezcTreeVisitor interface that
- * generates GraphViz/dot markup for a tree structure.
+ * An implementation of the ezcTreeVisitor interface that generates
+ * GraphViz/dot markup for a tree structure.
  *
  * <code>
- *  $visitor = new ezcTreeVisitorVisualization;
- *  $tree->accept( $visitor );
- *  echo (string)$visitor; // print the plot
+ * <?php
+ *     $visitor = new ezcTreeVisitorVisualization;
+ *     $tree->accept( $visitor );
+ *     echo (string) $visitor; // print the plot
+ * ?>
  * </code>
  *
  * @package Tree

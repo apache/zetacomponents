@@ -54,11 +54,6 @@ class ezcTreeNode implements ezcTreeVisitable
             $this->properties['data'] = null;
             $this->properties['dataFetched'] = false;
             $this->properties['dataStored'] = true;
-
-            if ( $tree->prefetch )
-            {
-                $tree->store->fetchDataForNode( $this );
-            }
         }
         else
         {

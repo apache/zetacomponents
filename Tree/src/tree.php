@@ -13,8 +13,6 @@
  *
  * @property-read ezcTreeXmlDataStore $store
  *                The data store that is used for retrieving/storing data.
- * @property      bool                $prefetch
- *                Whether data pre-fetching is enabled.
  * @property      string              $nodeClassName
  *                Which class is used as tree node - this class *must* inherit
  *                the ezcTreeNode class.
@@ -29,7 +27,7 @@ abstract class ezcTree implements ezcTreeVisitable
      *
      * @var array(string=>mixed)
      */
-    protected $properties = array( 'prefetch' => false, 'nodeClassName' => 'ezcTreeNode' );
+    protected $properties = array( 'nodeClassName' => 'ezcTreeNode' );
 
     /**
      * Contains whether a transaction has been started.
@@ -65,7 +63,6 @@ abstract class ezcTree implements ezcTreeVisitable
         {
             case 'store':
             case 'nodeClassName':
-            case 'prefetch':
                 return $this->properties[$name];
         }
         throw new ezcBasePropertyNotFoundException( $name );
@@ -107,14 +104,6 @@ abstract class ezcTree implements ezcTreeVisitable
                 if ( 'ezcTreeNode' !== $value && !$handlerClass->isSubclassOf( $parentClass ) )
                 {
                     throw new ezcBaseInvalidParentClassException( 'ezcTreeNode', $value );
-                }
-                $this->properties[$name] = $value;
-                break;
-
-            case 'prefetch':
-                if ( !is_bool( $value ) )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'boolean' );
                 }
                 $this->properties[$name] = $value;
                 break;
@@ -177,11 +166,6 @@ abstract class ezcTree implements ezcTreeVisitable
         $className = $this->properties['nodeClassName'];
         $node = new $className( $this, $nodeId );
 
-        // Obtain data from the store if prefetch is enabled
-        if ( $this->prefetch )
-        {
-            $this->properties['store']->fetchDataForNode( $node );
-        }
         return $node;
     }
 

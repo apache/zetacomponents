@@ -208,8 +208,7 @@ class ezcTreePersistentObjectStore extends ezcTestCase
         $tree = $this->setUpTestTree();
 
         $list = $tree->fetchSubtree( '1' );
-        $tree->prefetch = true;
-        foreach ( new ezcTreeNodeListIterator( $tree, $list ) as $elem )
+        foreach ( new ezcTreeNodeListIterator( $tree, $list, $tree ) as $elem )
         {
         }
         self::assertSame( '/boot/httpd/pw-admin', $elem->name );

@@ -10,6 +10,43 @@
 /**
  * ezcTreeNodeListIterator implements an iterator over a ezcTreeNodeList
  *
+ * The iterator is instantiated with both an implementation ezcTree and
+ * a ezcTreeNodeList object. It can be used to iterate over all the nodes
+ * in a list.
+ *
+ * Example:
+ * <code>
+ * <?php
+ *     // fetch all the nodes in a subtree as an ezcNodeList
+ *     $nodeList = $tree->fetchSubtree( 'pan' );
+ *     foreach ( new ezcTreeNodeListIterator( $tree, $nodeList ) as $nodeId => $data )
+ *     {
+ *         // do something with the node ID and data - data is fetched on
+ *         // demand
+ *     }
+ * ?>
+ * </code>
+ *
+ * Data for the nodes in the node lists is fetched on demand, unless
+ * the "prefetch" argument is set to true. In that case the iterator will
+ * fetch the data when the iterator is instantiated. This reduces the number
+ * of queries made for database and persistent object based data stores, but
+ * increases memory usage.
+ *
+ * Example:
+ * <code>
+ * <?php
+ *     // fetch all the nodes in a subtree as an ezcNodeList
+ *     $nodeList = $tree->fetchSubtree( 'Uranus' );
+ *     // instantiate an iterator with pre-fetching enabled
+ *     foreach ( new ezcTreeNodeListIterator( $tree, $nodeList, true ) as $nodeId => $data )
+ *     {
+ *         // do something with the node ID and data - data is fetched when
+ *         // the iterator is instatiated.
+ *     }
+ * ?>
+ * </code>
+ *
  * @package Tree
  * @version //autogentag//
  * @mainclass
@@ -40,11 +77,12 @@ class ezcTreeNodeListIterator implements Iterator
      *
      * @param ezcTree         $tree
      * @param ezcTreeNodeList $nodeList
+     * @param bool            $prefetch
      */
-    public function __construct( ezcTree $tree, ezcTreeNodeList $nodeList )
+    public function __construct( ezcTree $tree, ezcTreeNodeList $nodeList, $prefetch = false )
     {
         $this->tree = $tree;
-        if ( $tree->prefetch )
+        if ( $prefetch )
         {
             $this->tree->store->fetchDataForNodes( $nodeList );
         }
