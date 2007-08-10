@@ -140,7 +140,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     public function getPathLength( $nodeId )
     {
         $path = $this->fetchPath( $nodeId );
-        return count( $path->getNodes() ) - 1;
+        return count( $path->nodes ) - 1;
     }
 
     /**
@@ -410,7 +410,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
 
         // Get the nodes that are gonne be moved in the subtree
         $nodeIds = array();
-        foreach( $this->fetchSubtreeDepthFirst( $nodeId )->getNodes() as $node )
+        foreach( $this->fetchSubtreeDepthFirst( $nodeId )->nodes as $node )
         {
             $nodeIds[] = $node->id;
         }

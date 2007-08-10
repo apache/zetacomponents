@@ -423,7 +423,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         $q = $db->createDeleteQuery();
 
         $nodeIdList = array();
-        foreach ( array_keys( $list->getNodes() ) as $nodeId )
+        foreach ( array_keys( $list->nodes ) as $nodeId )
         {
             $nodeIdList[] = (string) $nodeId;
         }

@@ -14,16 +14,6 @@
  * isSiblingOf) are all marshalled to calls on the tree (that is stored in the
  * $tree private variable) itself. 
  *
- * @property-read string  $id          The ID that uniquely identifies a node
- * @property-read ezcTree $tree        The tree object that this node belongs to
- * @property      mixed   $data        The data belonging to a node
- * @property      bool    $dataFetched Whether the data for this node has been
- *                                     fetched. Should *only* be modified by
- *                                     data store implementations.
- * @property      bool    $dataStored  Whether the data for this node has been
- *                                     stored. Should *only* be modified by
- *                                     data store implementations.
- *
  * Example:
  * <code>
  * <?php
@@ -34,6 +24,16 @@
  *     $parentNode->addChild( $node );
  * ?>
  * </code>
+ *
+ * @property-read string  $id          The ID that uniquely identifies a node
+ * @property-read ezcTree $tree        The tree object that this node belongs to
+ * @property      mixed   $data        The data belonging to a node
+ * @property      bool    $dataFetched Whether the data for this node has been
+ *                                     fetched. Should *only* be modified by
+ *                                     data store implementations.
+ * @property      bool    $dataStored  Whether the data for this node has been
+ *                                     stored. Should *only* be modified by
+ *                                     data store implementations.
  *
  * @package Tree
  * @version //autogentag//
@@ -153,7 +153,7 @@ class ezcTreeNode implements ezcTreeVisitable
     public function accept( ezcTreeVisitor $visitor )
     {
         $visitor->visit( $this );
-        foreach ( $this->fetchChildren()->getNodes() as $childNode )
+        foreach ( $this->fetchChildren()->nodes as $childNode )
         {
             $childNode->accept( $visitor );
         }

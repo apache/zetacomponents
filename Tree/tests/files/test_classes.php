@@ -28,7 +28,7 @@ class TestTranslateDataStore extends ezcTreeMemoryDataStore implements ezcTreeDa
 
     public function fetchDataForNodes( ezcTreeNodeList $nodeList )
     {
-        foreach( $nodeList->getNodes() as $node )
+        foreach( $nodeList->nodes as $node )
         {
             $this->fetchDataForNode( $node );
         }

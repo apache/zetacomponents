@@ -89,7 +89,7 @@ class ezcTreePersistentObjectDataStore extends ezcTreeDbDataStore
         $session = $this->session;
 
         $nodeIdsToDelete = array();
-        foreach ( array_keys( $nodeList->getNodes() ) as $id )
+        foreach ( array_keys( $nodeList->nodes ) as $id )
         {
             $nodeIdsToDelete[] = (string) $id;
         }
@@ -144,7 +144,7 @@ class ezcTreePersistentObjectDataStore extends ezcTreeDbDataStore
         $session = $this->session;
 
         $nodeIdsToFetch = array();
-        foreach ( $nodeList->getNodes() as $node )
+        foreach ( $nodeList->nodes as $node )
         {
             if ( $node->dataFetched === false )
             {

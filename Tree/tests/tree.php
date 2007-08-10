@@ -878,7 +878,7 @@ class ezcTreeTest extends ezcTestCase
             'Eastern Lowland Gorilla' 
         );
         $list = $tree->fetchSubtreeDepthFirst( 'Gorilla' );
-        $nodes = $list->getNodes();
+        $nodes = $list->nodes;
         self::assertSame( 7, $list->size );
         self::assertSame( 7, count( $nodes ) );
 
@@ -911,7 +911,7 @@ class ezcTreeTest extends ezcTestCase
             'Mountain Gorilla', 'Eastern Lowland Gorilla'
         );
         $list = $tree->fetchSubtreeBreadthFirst( 'Gorilla' );
-        $nodes = $list->getNodes();
+        $nodes = $list->nodes;
         self::assertSame( 7, $list->size );
         self::assertSame( 7, count( $nodes ) );
 

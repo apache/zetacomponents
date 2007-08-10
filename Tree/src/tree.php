@@ -11,12 +11,6 @@
  * ezcTree is an abstract class from which all the tree implementations
  * inherit.
  *
- * @property-read ezcTreeXmlDataStore $store
- *                The data store that is used for retrieving/storing data.
- * @property      string              $nodeClassName
- *                Which class is used as tree node - this class *must* inherit
- *                the ezcTreeNode class.
- *
  * Example:
  * <code>
  * <?php
@@ -46,6 +40,12 @@
  *     $tree->isSiblingOf( 'Lion', 'Leopard' );
  * ?>
  * </code>
+ *
+ * @property-read ezcTreeXmlDataStore $store
+ *                The data store that is used for retrieving/storing data.
+ * @property      string              $nodeClassName
+ *                Which class is used as tree node - this class *must* inherit
+ *                the ezcTreeNode class.
  * 
  * @package Tree
  * @version //autogentag//

@@ -47,7 +47,10 @@
  *
  * @see ezcTreeNodeListIterator
  *
- * @property-read string $size The number of nodes in the list.
+ * @property-read string $size
+ *                The number of nodes in the list.
+ * @property-read array(string=>ezcTreeNode) $nodes
+ *                The nodes belonging to this list.
  *
  * @package Tree
  * @version //autogentag//
@@ -60,13 +63,6 @@ class ezcTreeNodeList implements ArrayAccess
      * @var array(ezcTreeNode)
      */
     private $nodes;
-
-    /**
-     * Holds the properties of this class.
-     *
-     * @var array(string=>mixed)
-     */
-    //private $properties = array();
 
     /**
      * Constructs a new ezcTreeNode object
@@ -86,6 +82,9 @@ class ezcTreeNodeList implements ArrayAccess
     {
         switch ( $name )
         {
+            case 'nodes':
+                return $this->nodes;
+
             case 'size':
                 return count( $this->nodes );
 
@@ -106,6 +105,7 @@ class ezcTreeNodeList implements ArrayAccess
     {
         switch ( $name )
         {
+            case 'nodes':
             case 'size':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
@@ -190,16 +190,6 @@ class ezcTreeNodeList implements ArrayAccess
     public function addNode( ezcTreeNode $node )
     {
         $this->nodes[$node->id] = $node;
-    }
-
-    /**
-     * Returns all nodes in the list
-     *
-     * @return array(string=>ezcTreeNode)
-     */
-    public function getNodes()
-    {
-        return $this->nodes;
     }
 
     /**

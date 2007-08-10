@@ -86,7 +86,7 @@ class ezcTreeNodeListIterator implements Iterator
         {
             $this->tree->store->fetchDataForNodes( $nodeList );
         }
-        $this->nodeList = $nodeList->getNodes();
+        $this->nodeList = $nodeList->nodes;
     }
 
     /**

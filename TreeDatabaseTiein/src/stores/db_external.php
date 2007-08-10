@@ -87,7 +87,7 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
     public function deleteDataForNodes( ezcTreeNodeList $nodeList )
     {
         $nodeIdsToDelete = array();
-        foreach ( array_keys( $nodeList->getNodes() ) as $id )
+        foreach ( array_keys( $nodeList->nodes ) as $id )
         {
             $nodeIdsToDelete[] = (string) $id;
         }
@@ -166,7 +166,7 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
     public function fetchDataForNodes( ezcTreeNodeList $nodeList )
     {
         $nodeIdsToFetch = array();
-        foreach ( $nodeList->getNodes() as $node )
+        foreach ( $nodeList->nodes as $node )
         {
             if ( $node->dataFetched === false )
             {

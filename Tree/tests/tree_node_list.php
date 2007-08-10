@@ -33,7 +33,7 @@ class ezcTreeNodeListTest extends ezcTestCase
         $node42->data = 'tweeenveertig';
         $list->addNode( $node42 );
 
-        self::assertSame( array( '5' => $node5, '42' => $node42 ), $list->getNodes() );
+        self::assertSame( array( '5' => $node5, '42' => $node42 ), $list->nodes );
     }
 
     public function testGetSize()
@@ -190,14 +190,14 @@ class ezcTreeNodeListTest extends ezcTestCase
         $list->addNode( $node = new ezcTreeNode( $tree, 'Taurus' ) );
         $list->addNode( $node = new ezcTreeNode( $tree, 'Gemini' ) );
         $list->addNode( $node = new ezcTreeNode( $tree, 'Cancer' ) );
-        foreach( $list->getNodes() as $node )
+        foreach( $list->nodes as $node )
         {
             self::assertSame( false, $node->dataFetched );
         }
 
         $list->fetchDataForNodes();
 
-        foreach( $list->getNodes() as $node )
+        foreach( $list->nodes as $node )
         {
             self::assertSame( true, $node->dataFetched );
         }
