@@ -5,6 +5,8 @@
   authentication.
 - Implemented feature request #10971: Added the possibility to fetch extra
   data during authentication for Database, LDAP, OpenID and TypeKey filters.
+- Implemented feature request #11001: Added multiple credentials support in
+  the Group filter.
 
 
 1.0 - Monday 02 July 2007

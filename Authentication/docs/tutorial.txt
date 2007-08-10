@@ -31,7 +31,9 @@ ezcAuthentication
 ezcAuthenticationCredentials
   Structure which holds user credentials. Types are id credentials
   (ezcAuthenticationIdCredentials) and id + password credentials
-  (ezcAuthenticationPasswordCredentials).
+  (ezcAuthenticationPasswordCredentials). Usually there is only one credentials
+  object in the application. Multiple credentials can be used via the
+  ezcAuthenticationGroupFilter class.
 
 ezcAuthenticationSession
   Used to store the authenticated username and the timestamp between requests.
@@ -188,6 +190,46 @@ incorrect").
 
 If run() returned true (line 39) then the user is logged-in and he can see his
 content.
+
+
+Multiple credentials
+````````````````````
+
+To be able to use multiple credentials for authentication (each filter with its
+own credentials), you must enable the multipleCredentials option for
+ezcAuthenticationGroupFilter.
+
+The following example demonstrates how to use multiple credentials.
+
+.. include:: tutorial/tutorial_multiple_credentials.php
+   :literal:
+
+First, two credentials objects are created.
+
+A Group filter is created with the multipleCredentials option enabled.
+
+Two Htpasswd filters are added to the Group filter, each with their own
+credentials.
+
+An Authentication object is created with a default credentials (which would
+have been used for other filters outside the Group filter, and to save the
+authenticated state in the session).
+
+The Group filter is then added to the Authentication object.
+
+After running the authentication (line 19), if the usernames and the passwords
+do not pass through the htpasswd filters, then the credentials are incorrect and
+the user must be informed. The getStatus() method is used for this. The values
+in the status returned must be cycled through and for each value a response is
+created for the user ("Username incorrect john.doe", "Password incorrect for
+john.doe", etc).
+
+If run() returned true (line 44) then the user is logged-in and he can see his
+content.
+
+The above example will output: ::
+
+    Incorrect password for jan.modaal
 
 
 Htpasswd

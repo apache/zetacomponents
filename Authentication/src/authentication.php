@@ -225,21 +225,29 @@ class ezcAuthentication
     public function run()
     {
         $code = ezcAuthenticationFilter::STATUS_OK;
+
+        $credentials = $this->credentials;
+
         if ( isset( $this->session ) )
         {
-            $code = $this->session->run( $this->credentials );
+            $code = $this->session->run( $credentials );
             $this->status->append( get_class( $this->session ), $code );
         }
+
         if ( !isset( $this->session ) || $code === ezcAuthenticationSession::STATUS_EMPTY )
         {
             foreach ( $this->filters as $filter )
             {
-                $code = $filter[0]->run( $this->credentials );
+                $code = $filter[0]->run( $credentials );
                 if ( $filter[0] instanceof ezcAuthenticationGroupFilter )
                 {
                     $statuses = $filter[0]->status->get();
-                    foreach ( $statuses as $key => $value )
+
+                    // append the statuses from the filters in the group to the
+                    // status of the Authentication object
+                    foreach ( $statuses as $status )
                     {
+                        list( $key, $value ) = each( $status );
                         $this->status->append( $key, $value );
                     }
                 }
@@ -247,10 +255,12 @@ class ezcAuthentication
                 {
                     $this->status->append( get_class( $filter[0] ), $code );
                 }
+
                 if ( ( $filter[1] === true && $code !== ezcAuthenticationFilter::STATUS_OK ) )
                 {
                     return false;
                 }
+
                 if ( $filter[1] === true && $code === ezcAuthenticationFilter::STATUS_OK )
                 {
                     break;
@@ -261,14 +271,17 @@ class ezcAuthentication
         {
             return false;
         }
+
         if ( $code !== ezcAuthenticationFilter::STATUS_OK )
         {
             return false;
         }
+
         if ( isset( $this->session ) )
         {
-            $this->session->save( $this->credentials->__toString() );
+            $this->session->save( $credentials->__toString() );
         }
+
         return true;
     }
 
@@ -290,13 +303,13 @@ class ezcAuthentication
     /**
      * Returns the status of authentication.
      *
-     * The format of the returned array is array( class => code ).
+     * The format of the returned array is array( array( class => code ) ).
      *
      * Example:
      * <code>
      * array(
-     * 'ezcAuthenticationSession' => ezcAuthenticationSession::STATUS_EMPTY,
-     * 'ezcAuthenticationDatabaseFilter' => ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT
+     *        array( 'ezcAuthenticationSession' => ezcAuthenticationSession::STATUS_EMPTY ),
+     *        array( 'ezcAuthenticationDatabaseFilter' => ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT )
      *      );
      * </code>
      * 

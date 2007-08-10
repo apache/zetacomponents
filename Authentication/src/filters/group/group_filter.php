@@ -53,19 +53,72 @@
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
  *     $err = array(
- *             'ezcAuthenticationLdapFilter' => array(
+ *             array( 'ezcAuthenticationLdapFilter' => array(
  *                 ezcAuthenticationLdapFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
  *                 ezcAuthenticationLdapFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
- *                 ),
- *             'ezcAuthenticationDatabaseFilter' => array(
+ *                 ) ),
+ *             array( 'ezcAuthenticationDatabaseFilter' => array(
  *                 ezcAuthenticationDatabaseFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
  *                 ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
- *                 )
+ *                 ) )
  *             );
- *     foreach ( $status as $line )
+ *     foreach ( $status as $line => $error )
  *     {
- *         list( $key, $value ) = each( $line );
- *         echo $err[$key][$value] . "\n";
+ *         list( $key, $value ) = each( $error );
+ *         echo $err[$line][$key][$value] . "\n";
+ *     }
+ * }
+ * else
+ * {
+ *     // authentication succeeded, so allow the user to see his content
+ * }
+ * </code>
+ *
+ * It is possible to use multiple credentials when grouping filters together, by
+ * enabling the option multipleCredentials for the Group filter object. When this
+ * option is enabled, each filter added to the group must have a credentials
+ * object passed along with it.
+ *
+ * Example of using the Group filter to handle multiple credentials:
+ * <code>
+ * $credentials1 = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'b1b3773a05c0ed0176787a4f1574ff0075f7521e' ); // incorrect password
+ * $credentials2 = new ezcAuthenticationPasswordCredentials( 'john.doe', 'wpeE20wyWHnLE' ); // correct username + password
+ *
+ * $options = new ezcAuthenticationGroupOptions();
+ * $options->multipleCredentials = true;
+ * $options->mode = ezcAuthenticationGroupFilter::MODE_AND;
+ * $group = new ezcAuthenticationGroupFilter( array(), $options );
+ *
+ * $group->addFilter( new ezcAuthenticationHtpasswdFilter( '../../tests/filters/htpasswd/data/htpasswd' ), $credentials1 );
+ * $group->addFilter( new ezcAuthenticationHtpasswdFilter( '../../tests/filters/htpasswd/data/htpasswd' ), $credentials2 );
+ *
+ * $authentication = new ezcAuthentication( $credentials1 );
+ * $authentication->addFilter( $group );
+ * // add more filters if needed
+ *
+ * if ( !$authentication->run() )
+ * {
+ *     // authentication did not succeed, so inform the user
+ *     $status = $authentication->getStatus();
+ *
+ *     $err = array(
+ *                 array( 'ezcAuthenticationHtpasswdFilter' => array(
+ *                         ezcAuthenticationHtpasswdFilter::STATUS_OK => '',
+ *                         ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username ' . $credentials1->id,
+ *                         ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password for ' . $credentials1->id
+ *                         ) ),
+ *
+ *                 array( 'ezcAuthenticationHtpasswdFilter' => array(
+ *                         ezcAuthenticationHtpasswdFilter::STATUS_OK => '',
+ *                         ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username ' . $credentials2->id,
+ *                         ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password for ' . $credentials2->id
+ *                         ) )
+ *                 );
+ *
+ *     foreach ( $status as $line => $error )
+ *     {
+ *         list( $key, $value ) = each( $error );
+ *         echo $err[$line][$key][$value] . "\n";
  *     }
  * }
  * else
@@ -116,14 +169,60 @@ class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
     /**
      * Creates a new object of this class.
      *
-     * @param array(ezcAuthenticationFilter) $filters Authentication filters
+     * The filters can be specified as an array of filter objects, or as an
+     * array of array(fiter,credentials) when the multipleCredentials option is
+     * enabled.
+     *
+     * Example of using multipleCredentials:
+     * <code>
+     * $credentials1 = new ezcAuthenticationPasswordCredentials( 'john.doe', '1234' );
+     * $credentials1 = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
+     *
+     * $filter1 = new ezcAuthenticationHtpasswdFilter( '/etc/htpasswd1' );
+     * $filter2 = new ezcAuthenticationHtpasswdFilter( '/etc/htpasswd2' );
+     *
+     * // enable multiple credentials
+     * $options = new ezcAuthenticationGroupOptions();
+     * $options->multipleCredentials = true;
+     *
+     * // add the filters to the group with the constructor
+     * $group = new ezcAuthenticationGroupFilter( array(
+     *              array( $filter1, $credentials1 ),
+     *              array( $filter2, $credentials2 ) ), $options );
+     *
+     * // the filters can also be added to the group with addFilter()
+     * </code>
+     *
+     * @throws ezcAuthenticationException
+     *         if the multipleCredentials option is enabled and a credentials
+     *         object was not specified
+     * @param array(ezcAuthenticationFilter|mixed) $filters Authentication filters
      * @param ezcAuthenticationGroupOptions $options Options for this class
      */
     public function __construct( array $filters, ezcAuthenticationGroupOptions $options = null )
     {
-        $this->filters = $filters;
-        $this->status = new ezcAuthenticationStatus();
         $this->options = ( $options === null ) ? new ezcAuthenticationGroupOptions() : $options;
+
+        foreach ( $filters as $filter )
+        {
+            if ( is_array( $filter ) )
+            {
+                if ( count( $filter ) > 1 )
+                {
+                    $this->addFilter( $filter[0], $filter[1] );
+                }
+                else
+                {
+                    $this->addFilter( $filter[0] );
+                }
+            }
+            else
+            {
+                $this->addFilter( $filter );
+            }
+        }
+
+        $this->status = new ezcAuthenticationStatus();
     }
 
     /**
@@ -217,8 +316,11 @@ class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
             $success = false;
             foreach ( $this->filters as $filter )
             {
-                $code = $filter->run( $credentials );
-                $this->status->append( get_class( $filter ), $code );
+                $credentials = ( $this->options->multipleCredentials === true ) ? $filter[1] :
+                                                                                  $credentials;
+
+                $code = $filter[0]->run( $credentials );
+                $this->status->append( get_class( $filter[0] ), $code );
                 if ( $code === self::STATUS_OK )
                 {
                     $success = true;
@@ -231,8 +333,11 @@ class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
             $success = true;
             foreach ( $this->filters as $filter )
             {
-                $code = $filter->run( $credentials );
-                $this->status->append( get_class( $filter ), $code );
+                $credentials = ( $this->options->multipleCredentials === true ) ? $filter[1] :
+                                                                                  $credentials;
+
+                $code = $filter[0]->run( $credentials );
+                $this->status->append( get_class( $filter[0] ), $code );
                 if ( $code !== self::STATUS_OK )
                 {
                     $success = false;
@@ -250,11 +355,50 @@ class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
     /**
      * Adds an authentication filter at the end of the filter list.
      *
+     *
+     * Example of using multipleCredentials:
+     * <code>
+     * $credentials1 = new ezcAuthenticationPasswordCredentials( 'john.doe', '1234' );
+     * $credentials1 = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
+     *
+     * $filter1 = new ezcAuthenticationHtpasswdFilter( '/etc/htpasswd1' );
+     * $filter2 = new ezcAuthenticationHtpasswdFilter( '/etc/htpasswd2' );
+     *
+     * // enable multiple credentials
+     * $options = new ezcAuthenticationGroupOptions();
+     * $options->multipleCredentials = true;
+     *
+     * // add the filters to the group with addFilter()
+     * $group = new ezcAuthenticationGroupFilter( array(), $options );
+     * $group->addFilter( $filter1, $credentials1 );
+     * $group->addFilter( $filter2, $credentials2 );
+     *
+     * // the filters can also be added to the group with the constructor
+     * </code>
+     *
+     * @throws ezcAuthenticationException
+     *         if the multipleCredentials option is enabled and a credentials
+     *         object was not specified
      * @param ezcAuthenticationFilter $filter The authentication filter to add
+     * @param ezcAuthenticationCredentials $credentials Credentials object associated
+     *                                                  with $filter if the multipleCredentials
+     *                                                  option is enabled
      */
-    public function addFilter( ezcAuthenticationFilter $filter )
+    public function addFilter( ezcAuthenticationFilter $filter, ezcAuthenticationCredentials $credentials = null )
     {
-        $this->filters[] = $filter;
+        if ( $this->options->multipleCredentials === true )
+        {
+            if ( $credentials === null )
+            {
+                throw new ezcAuthenticationException( 'A credentials object must be specified for each filter when the multipleCredentials option is enabled.' );
+            }
+
+            $this->filters[] = array( $filter, $credentials );
+        }
+        else
+        {
+            $this->filters[] = array( $filter );
+        }
     }
 }
 ?>

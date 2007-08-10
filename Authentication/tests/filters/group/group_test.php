@@ -306,6 +306,25 @@ class ezcAuthenticationGroupTest extends ezcAuthenticationTest
         $this->assertEquals( false, $authentication->run() );
     }
 
+    public function testGroupConstructorArrayArrayFilters()
+    {
+        $optionsGroup = new ezcAuthenticationGroupOptions();
+        $optionsGroup->mode = ezcAuthenticationGroupFilter::MODE_AND;
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationHtpasswdOptions();
+        $options->plain = true;
+        $authentication->addFilter(
+            new ezcAuthenticationGroupFilter(
+                array(
+                    array( new ezcAuthenticationHtpasswdFilter( self::$empty, $options ) ),
+                    array( new ezcAuthenticationHtpasswdFilter( self::$empty, $options ) )
+                    ), $optionsGroup
+                )
+            );
+        $this->assertEquals( false, $authentication->run() );
+    }
+
     public function testGroupOptions()
     {
         $options = new ezcAuthenticationGroupOptions();
@@ -313,6 +332,7 @@ class ezcAuthenticationGroupTest extends ezcAuthenticationTest
         $this->invalidPropertyTest( $options, 'mode', 'wrong value', '1, 2' );
         $this->invalidPropertyTest( $options, 'mode', '1', '1, 2' );
         $this->invalidPropertyTest( $options, 'mode', 1000, '1, 2' );
+        $this->invalidPropertyTest( $options, 'multipleCredentials', 'wrong value', 'bool' );
         $this->missingPropertyTest( $options, 'no_such_option' );
     }
 

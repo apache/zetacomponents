@@ -16,6 +16,7 @@
  * <code>
  * $options = new ezcAuthenticationGroupOptions();
  * $options->mode = ezcAuthenticationGroupFilter::MODE_AND;
+ * $options->mode->multipleCredentials = false;
  *
  * // $filter1 and $filter2 are authentication filters which need all to succeed
  * // in order for the group to succeed
@@ -29,6 +30,11 @@
  *              succeed.
  *            - ezcAuthenticationGroupFilter::MODE_AND: all filters in the group
  *              need to succeed in order for the group to succeed.
+ * @property bool $multipleCredentials
+ *           If enabled (set to true), each filter must be added to the group
+ *           along with a credentials object (through the constructor or with
+ *           addFilter()). By default is false (the credentials from the
+ *           ezcAuthentication object are used for all filters in the group).
  *
  * @package Authentication
  * @version //autogen//
@@ -47,6 +53,7 @@ class ezcAuthenticationGroupOptions extends ezcAuthenticationFilterOptions
     public function __construct( array $options = array() )
     {
         $this->mode = ezcAuthenticationGroupFilter::MODE_OR;
+        $this->multipleCredentials = false;
 
         parent::__construct( $options );
     }
@@ -74,6 +81,14 @@ class ezcAuthenticationGroupOptions extends ezcAuthenticationFilterOptions
                 if ( !in_array( $value, $modes, true ) )
                 {
                     throw new ezcBaseValueException( $name, $value, implode( ', ', $modes ) );
+                }
+                $this->properties[$name] = $value;
+                break;
+
+            case 'multipleCredentials':
+                if ( !is_bool( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'bool' );
                 }
                 $this->properties[$name] = $value;
                 break;
