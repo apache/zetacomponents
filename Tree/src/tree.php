@@ -17,6 +17,36 @@
  *                Which class is used as tree node - this class *must* inherit
  *                the ezcTreeNode class.
  *
+ * Example:
+ * <code>
+ * <?php
+ *     // Instantiating an existing tree, and creating a new tree is done through
+ *     // the inherited classes
+ *     
+ *     // Creating a new in-memory tree
+ *     $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+ * 
+ *     // Opening an existing tree in an XML file
+ *     $tree = new ezcTreeXml( 'test.xml', new ezcTreeXmlInternalDataStore() );
+ * 
+ *     // Opening an existing tree from a database, using a nested set backend
+ *     // - This retrieves data from the ezcTreeDbExternalTableDataStore store
+ *     //   using $this->dbh as database handle, $dataTable as table where to fetch
+ *     //   data from using 'id' as ID field.
+ *     $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id' );
+ *     // - It uses the 'nested_set' table for keeping the tree structure
+ *     $tree = new ezcTreeDbNestedSet( $this->dbh, 'nested_set', $store );
+ * 
+ *     // Fetching nodes and subtrees
+ *     $node = $tree->fetchNodeById( 'He' );
+ *     $nodeList = $tree->fetchSubtree( 'Pantherinae' );
+ * 
+ *     // Checking for relations between nodes
+ *     $tree->isDecendantOf( 'Tiger', 'Panthera' );
+ *     $tree->isSiblingOf( 'Lion', 'Leopard' );
+ * ?>
+ * </code>
+ * 
  * @package Tree
  * @version //autogentag//
  */
