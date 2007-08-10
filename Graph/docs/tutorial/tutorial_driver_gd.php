@@ -10,6 +10,8 @@ $graph->legend = false;
 $graph->driver = new ezcGraphGdDriver();
 $graph->options->font = 'tutorial_font.ttf';
 
+// Generate a Jpeg with lower quality. The default settings result in a better
+// quality image
 $graph->driver->options->supersampling = 1;
 $graph->driver->options->jpegQuality = 100;
 $graph->driver->options->imageFormat = IMG_JPEG;
