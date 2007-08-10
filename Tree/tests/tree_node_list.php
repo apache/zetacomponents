@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+require_once 'tree.php';
+
 /**
  * @package Tree
  * @subpackage Tests
@@ -170,6 +172,40 @@ class ezcTreeNodeListTest extends ezcTestCase
         self::assertSame( true, isset( $list['78'] ) );
         unset( $list['78'] );
         self::assertSame( false, isset( $list['78'] ) );
+    }
+
+    public function testFetchAllDataEmptyList()
+    {
+        $list = new ezcTreeNodeList;
+        $list->fetchDataForNodes();
+        self::assertSame( 0, $list->size );
+    }
+
+    public function testFetchAllData()
+    {
+        $tree = ezcTreeMemory::create( new TestTranslateDataStore() );
+
+        $list = new ezcTreeNodeList;
+        $list->addNode( $node = new ezcTreeNode( $tree, 'Aries' ) );
+        $list->addNode( $node = new ezcTreeNode( $tree, 'Taurus' ) );
+        $list->addNode( $node = new ezcTreeNode( $tree, 'Gemini' ) );
+        $list->addNode( $node = new ezcTreeNode( $tree, 'Cancer' ) );
+        foreach( $list->getNodes() as $node )
+        {
+            self::assertSame( false, $node->dataFetched );
+        }
+
+        $list->fetchDataForNodes();
+
+        foreach( $list->getNodes() as $node )
+        {
+            self::assertSame( true, $node->dataFetched );
+        }
+        self::assertSame( '♋', $list['Cancer']->data );
+    }
+
+    public function testSame()
+    {
     }
 
     public static function suite()

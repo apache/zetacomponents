@@ -15,11 +15,23 @@ class TestTranslateDataStore extends ezcTreeMemoryDataStore implements ezcTreeDa
         {
             $node->data = 'Aluminium';
         }
+
+        switch( $node->id )
+        {
+            case 'Aries':  $node->data = '♈'; break;
+            case 'Taurus': $node->data = '♉'; break;
+            case 'Gemini': $node->data = '♊'; break;
+            case 'Cancer': $node->data = '♋'; break;
+        }
+        $node->dataFetched = true;
     }
 
     public function fetchDataForNodes( ezcTreeNodeList $nodeList )
     {
-        /* This is a no-op as the data is already in the $node */
+        foreach( $nodeList->getNodes() as $node )
+        {
+            $this->fetchDataForNode( $node );
+        }
     }
 
     public function storeDataForNode( ezcTreeNode $node )

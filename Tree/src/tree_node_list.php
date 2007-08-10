@@ -168,5 +168,27 @@ class ezcTreeNodeList implements ArrayAccess
     {
         return $this->nodes;
     }
+
+    /**
+     * Fetches data for all nodes in the node list
+     *
+     * @param ezcTreeNodeList $nodeList
+     */
+    public function fetchDataForNodes()
+    {
+        // We need to use a little trick to get to the tree object. We can do
+        // that through ezcTreeNode objects that are part of this list. We
+        // can't do that when the list is empty. In that case we just return.
+        if ( count( $this->nodes ) === 0 )
+        {
+            return;
+        }
+        // Find a node in the list
+        reset( $this->nodes );
+        $node = current( $this->nodes );
+        // Grab the tree and use it to fetch data for all nodes from the store
+        $tree = $node->tree;
+        $tree->store->fetchDataForNodes( $this );
+    }
 }
 ?>
