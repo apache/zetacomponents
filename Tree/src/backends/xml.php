@@ -31,6 +31,10 @@
  * See {@link ezcTree} for examples on how to operate on the tree.
  *
  * @property-read ezcTreeXmlDataStore $store
+ *                The data store that is used for retrieving/storing data.
+ * @property      string              $nodeClassName
+ *                Which class is used as tree node - this class *must* inherit
+ *                the ezcTreeNode class.
  *
  * @package Tree
  * @version //autogentag//
