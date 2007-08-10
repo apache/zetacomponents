@@ -12,6 +12,18 @@
  * an in-memory tree structure. Meta-information is kept in objects of the
  * ezcTreeMemoryNode class.
  *
+ * Example:
+ * <code>
+ * <?php
+ *     // Create a new tree
+ *     $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+ *     // or
+ *     $tree = new ezcTreeMemory( new ezcTreeMemoryDataStore() );
+ * ?>
+ * </code>
+ *
+ * See {@link ezcTree} for examples on how to operate on the tree.
+ *
  * @property-read ezcTreeXmlDataStore $store
  *
  * @package Tree

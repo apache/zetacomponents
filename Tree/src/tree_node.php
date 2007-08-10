@@ -12,7 +12,7 @@
  *
  * The methods that operate on nodes (fetchChildren, fetchPath, ...,
  * isSiblingOf) are all marshalled to calls on the tree (that is stored in the
- * $tree private variable) itself.
+ * $tree private variable) itself. 
  *
  * @property-read string  $id          The ID that uniquely identifies a node
  * @property-read ezcTree $tree        The tree object that this node belongs to
@@ -23,6 +23,17 @@
  * @property      bool    $dataStored  Whether the data for this node has been
  *                                     stored. Should *only* be modified by
  *                                     data store implementations.
+ *
+ * Example:
+ * <code>
+ * <?php
+ *     // Creates a new node with ID 'O' and as data 'Oxygen'
+ *     $node = new ezcTreeNode( $this->tree, 'O', 'Oxygen' );
+ * 
+ *     // Adds a node as child element to another already create node in a tree
+ *     $parentNode->addChild( $node );
+ * ?>
+ * </code>
  *
  * @package Tree
  * @version //autogentag//

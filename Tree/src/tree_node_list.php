@@ -14,6 +14,39 @@
  * implements the ArrayAccess SPL interface. The array is indexed based on the
  * the node's ID.
  *
+ * Example:
+ * <code>
+ * <?php
+ *     // Create a list with two elements
+ *     $list = new ezcTreeNodeList;
+ *     $list->addNode( new ezcTreeNode( $tree, 'Leo' ) );
+ *     $list->addNode( new ezcTreeNode( $tree, 'Virgo' ) );
+ * 
+ *     // Retrieve the list's size
+ *     echo $list->size, "\n"; // prints 2
+ * 
+ *     // Find a node in the list
+ *     $node = $list['Virgo'];
+ * 
+ *     // Add nodes in an alternative way
+ *     $list['Libra'] = new ezcTreeNode( $tree, 'Libra' );
+ * 
+ *     // Remove a node from the list
+ *     unset( $list['Leo'] );
+ * 
+ *     // Checking if a node exists
+ *     if ( isset( $list['Scorpius'] ) )
+ *     {
+ *         // do something if it exists
+ *     }
+ * 
+ *     // Use the associated data store to fetch the data for all nodes at once
+ *     $list->fetchDataForNodes();
+ * ?>
+ * </code>
+ *
+ * @see ezcTreeNodeListIterator
+ *
  * @property-read string $size The number of nodes in the list.
  *
  * @package Tree

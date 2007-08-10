@@ -11,6 +11,25 @@
  * ezcTreeXml is an implementation of a tree backend that operates on
  * an XML file.
  *
+ * Example:
+ * <code>
+ * <?php
+ *     // Create a new tree in a new XML file
+ *     $tree = ezcTreeXml::create(
+ *         'new-tree.xml', 
+ *         new ezcTreeXmlInternalDataStore()
+ *     );
+ * 
+ *     // Open an existing XML file containing a tree structure
+ *     $tree = new ezcTreeXml(  
+ *         'existing-tree.xml',
+ *         new ezcTreeXmlInternalDataStore()
+ *     );
+ * ?>
+ * </code>
+ *
+ * See {@link ezcTree} for examples on how to operate on the tree.
+ *
  * @property-read ezcTreeXmlDataStore $store
  *
  * @package Tree

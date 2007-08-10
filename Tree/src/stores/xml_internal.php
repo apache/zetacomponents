@@ -14,7 +14,6 @@
  *
  * @package Tree
  * @version //autogentag//
- * @mainclass
  */
 class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
 {
