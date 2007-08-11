@@ -15,6 +15,11 @@ class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
 
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
+        if ( isset( $this->numberOfTests ) && empty( $this->numberOfTests ) )
+        {
+            $this->numberOfTests[0] = 0;
+        }
+
         parent::write( "\n" );
 
         $name    = $suite->getName() == '' ? '[No name given]' : $suite->getName(); 
@@ -25,7 +30,10 @@ class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
 
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        $this->depth--;
+        if ( isset( $this->depth ) )
+        {
+            $this->depth--;
+        }
     }
 
     /** 
