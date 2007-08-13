@@ -505,8 +505,8 @@ class ezcPersistentSessionTest extends ezcTestCase
         catch ( ezcPersistentQueryException $e )
         {
             $this->assertEquals(
-                "A query failed internally in Persistent Object: SQLSTATE[HY000]: General error: 1 no such column: foobar Query: 'DELETE FROM \"PO_test\" WHERE foobar <> 0'",
-                $e->getMessage()
+                "A query failed internally in Persistent Object",
+                substr( $e->getMessage(), 0, 46 )
             );
         }
     }
