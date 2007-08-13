@@ -2270,7 +2270,7 @@ creates a new version of the cache but does not remove any cache files.
 
 The next example creates a cache block that is valid for two hours::
 
-    {cache_block TTL 2*60*60}
+    {cache_block ttl 2*60*60}
         News that changes not too often.
     {/cache_block}
 
@@ -2278,7 +2278,7 @@ The next example creates a cache block that is valid for two hours::
 Via a custom function the TTL can be used to renew the cache at certain
 predefined timestamps: ::
 
-    {cache_block TTL getRemainingTime(minute=0, hour=6)}
+    {cache_block ttl getRemainingTime(minute=0, hour=6)}
         Updated each morning at 6 o'clock
     {/cache_block}
 
