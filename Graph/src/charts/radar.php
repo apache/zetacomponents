@@ -40,11 +40,11 @@
  * Each chart consists of several chart elements which represents logical 
  * parts of the chart and can be formatted independently. The line chart
  * consists of:
- *  - title ( ezcGraphChartElementText )
- *  - legend ( ezcGraphChartElementLegend )
- *  - background ( ezcGraphChartElementBackground )
- *  - axis ( ezcGraphChartElementNumericAxis )
- *  - ratation axis ( ezcGraphChartElementLabeledAxis )
+ *  - title ( {@link ezcGraphChartElementText} )
+ *  - legend ( {@link ezcGraphChartElementLegend} )
+ *  - background ( {@link ezcGraphChartElementBackground} )
+ *  - axis ( {@link ezcGraphChartElementNumericAxis} )
+ *  - ratation axis ( {@link ezcGraphChartElementLabeledAxis} )
  *
  * The type of the axis may be changed and all elements can be configured by
  * accessing them as properties of the chart:

@@ -39,11 +39,11 @@
  * Each chart consists of several chart elements which represents logical 
  * parts of the chart and can be formatted independently. The bar chart
  * consists of:
- *  - title ( ezcGraphChartElementText )
- *  - legend ( ezcGraphChartElementLegend )
- *  - background ( ezcGraphChartElementBackground )
- *  - xAxis ( ezcGraphChartElementLabeledAxis )
- *  - yAxis ( ezcGraphChartElementNumericAxis )
+ *  - title ( {@link ezcGraphChartElementText} )
+ *  - legend ( {@link ezcGraphChartElementLegend} )
+ *  - background ( {@link ezcGraphChartElementBackground} )
+ *  - xAxis ( {@link ezcGraphChartElementLabeledAxis} )
+ *  - yAxis ( {@link ezcGraphChartElementNumericAxis} )
  *
  * The type of the axis may be changed and all elements can be configured by
  * accessing them as properties of the chart:
