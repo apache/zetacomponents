@@ -104,7 +104,7 @@ class ezcTreeVisitorTest extends ezcTestCase
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
         $this->addTestData( $tree );
 
-        $visitor = new ezcTreeVisitorVisualization;
+        $visitor = new ezcTreeVisitorGraphViz;
         $tree->accept( $visitor );
         self::assertSame( 'c422c6271ff3c9a213156e660a1ba8b2', md5( (string) $visitor ) );
     }

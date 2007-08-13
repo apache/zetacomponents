@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTreeVisitorVisualization class.
+ * File containing the ezcTreeVisitorGraphViz class.
  *
  * @package Tree
  * @version //autogen//
@@ -14,7 +14,7 @@
  *
  * <code>
  * <?php
- *     $visitor = new ezcTreeVisitorVisualization;
+ *     $visitor = new ezcTreeVisitorGraphViz;
  *     $tree->accept( $visitor );
  *     echo (string) $visitor; // print the plot
  * ?>
@@ -23,7 +23,7 @@
  * @package Tree
  * @version //autogen//
  */
-class ezcTreeVisitorVisualization implements ezcTreeVisitor
+class ezcTreeVisitorGraphViz implements ezcTreeVisitor
 {
     /**
      * Holds the displayed strings for each of the nodes.

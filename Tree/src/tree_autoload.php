@@ -31,7 +31,7 @@ return array(
     'ezcTreeNodeList'                           => 'Tree/tree_node_list.php',
     'ezcTreeNodeListIterator'                   => 'Tree/tree_node_list_iterator.php',
     'ezcTreeTransactionItem'                    => 'Tree/structs/transaction_item.php',
-    'ezcTreeVisitorVisualization'               => 'Tree/visitors/visualization.php',
+    'ezcTreeVisitorGraphViz'                    => 'Tree/visitors/graphviz.php',
     'ezcTreeXml'                                => 'Tree/backends/xml.php',
     'ezcTreeXmlInternalDataStore'               => 'Tree/stores/xml_internal.php',
 );
