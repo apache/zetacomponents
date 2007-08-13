@@ -33,6 +33,7 @@ return array(
     'ezcBaseAutoloadOptions'                      => 'Base/options/autoload.php',
     'ezcBaseConfigurationInitializer'             => 'Base/interfaces/configuration_initializer.php',
     'ezcBaseFeatures'                             => 'Base/features.php',
+    'ezcBaseFile'                                 => 'Base/file.php',
     'ezcBaseInit'                                 => 'Base/init.php',
     'ezcBaseRepositoryDirectory'                  => 'Base/structs/repository_directory.php',
 );
