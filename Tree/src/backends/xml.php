@@ -43,9 +43,7 @@
 class ezcTreeXml extends ezcTree
 {
     /**
-     * Contains the relax-NG schema to validate the tree XML
-     *
-     * @const string relaxNG
+     * Contains the relax-NG schema to validate the tree XML.
      */
     const relaxNG = '<?xml version="1.0" encoding="UTF-8"?>
 <grammar xmlns:etd="http://components.ez.no/Tree/data" ns="http://components.ez.no/Tree" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">

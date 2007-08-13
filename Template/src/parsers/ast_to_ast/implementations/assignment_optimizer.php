@@ -28,7 +28,7 @@
 class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
 {
     /**
-     * Returns true if the given element consists of <var> = <static value>, otherwise false.
+     * Returns true if the given element consists of &lt;var> = &lt;static value>, otherwise false.
      *
      * @param ezcTemplateAstNode $element
      * @return bool

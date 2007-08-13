@@ -12,7 +12,7 @@
  * information in a simple table containing the node's ID and its parent's ID.
  *
  * The table that stores the index (configured using the $indexTableName argument
- * of the {@see __construct} method) should contain atleast two fields. The
+ * of the {@link __construct} method) should contain atleast two fields. The
  * first one 'id' will contain the node's ID, the second one 'parent_id' the ID
  * of the node's parent. Both fields should be of the same database field type.
  * Supported field types are either integer or a string type.

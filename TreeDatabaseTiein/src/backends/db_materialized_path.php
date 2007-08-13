@@ -12,7 +12,7 @@
  * information in a path like string (such as /1/4/6/8).
  *
  * The table that stores the index (configured using the $indexTableName argument
- * of the {@see __construct} method) should contain atleast three fields. The
+ * of the {@link __construct} method) should contain atleast three fields. The
  * first one 'id' will contain the node's ID, the second one 'parent_id' the ID
  * of the node's parent. Both fields should be of the same database field type.
  * Supported field types are either integer or a string type. The third field
