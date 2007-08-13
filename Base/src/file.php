@@ -221,7 +221,7 @@ class ezcBaseFile
      *
      * @param string $path
      * @param string $os
-     * @returns bool
+     * @return bool
      */
     public static function isAbsolutePath( $path, $os = null )
     {
