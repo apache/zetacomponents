@@ -680,15 +680,15 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $this->outputVariable->pop();
 
             $functionParameters = array( $params, $customBlockOutput );
-            if ( isset($def->sendTemplateObject) && $def->sendTemplateObject )
+            if ( isset( $def->sendTemplateObject ) && $def->sendTemplateObject )
             {
-                array_unshift ( $functionParameters, new ezcTemplateVariableAstNode("this->template"));
+                array_unshift( $functionParameters, new ezcTemplateVariableAstNode("this->template"));
             }
 
             $result[] = new ezcTemplateGenericStatementAstNode( 
                 new ezcTemplateConcatAssignmentOperatorAstNode( $this->outputVariable->getAst(), 
                    new ezcTemplateFunctionCallAstNode( $class . $def->method, 
-                    $functionParameters ) ) ); 
+                   $functionParameters ) ) ); 
 
             return $result;
         }
@@ -700,11 +700,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 $p = array();
                 
                 // Check whether all values are static.
-                for( $i = 0; $i < sizeof( $params->value ); $i++)
+                for ( $i = 0; $i < sizeof( $params->value ); $i++ )
                 {
-                    if ( !($params->value[$i] instanceof ezcTemplateLiteralAstNode ) )
+                    if ( !( $params->value[$i] instanceof ezcTemplateLiteralAstNode ) )
                     {
-                        throw new ezcTemplateParserException($type->source, $type->startCursor, $type->startCursor, "The *static* CustomBlock needs static parameters.");
+                        throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, "The *static* CustomBlock needs static parameters." );
                     }
 
                     $p[$params->keys[$i]->value] = $params->value[$i]->value;
@@ -712,29 +712,29 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 }
 
                 // call the method.
-                if ( !isset($def->class) || $def->class  === false )
+                if ( !isset( $def->class ) || $def->class  === false )
                 {
-                    $r = call_user_func_array( $def->method, array($p) );
+                    $r = call_user_func_array( $def->method, array( $p ) );
                 }
                 else
                 {
-                    $r = call_user_func_array( array($def->class, $def->method), array($p) );
+                    $r = call_user_func_array( array( $def->class, $def->method ), array( $p ) );
                 }
 
                 // And assign it to the output.
-                return $this->assignToOutput( new ezcTemplateLiteralAstNode($r) );
+                return $this->assignToOutput( new ezcTemplateLiteralAstNode( $r ) );
             }
 
 
             $functionParameters = array( $params );
-            if ( isset($def->sendTemplateObject) && $def->sendTemplateObject )
+            if ( isset( $def->sendTemplateObject ) && $def->sendTemplateObject )
             {
-                array_unshift ( $functionParameters, new ezcTemplateVariableAstNode("this->template"));
+                array_unshift( $functionParameters, new ezcTemplateVariableAstNode( "this->template" ) );
             }
          
             return new ezcTemplateGenericStatementAstNode( 
                 new ezcTemplateConcatAssignmentOperatorAstNode( $this->outputVariable->getAst(), 
-                   new ezcTemplateFunctionCallAstNode( $class .$def->method, 
+                   new ezcTemplateFunctionCallAstNode( $class . $def->method, 
                    $functionParameters ) ) ); 
         }
     }

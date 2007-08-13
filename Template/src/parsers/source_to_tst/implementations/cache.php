@@ -68,7 +68,7 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
             $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
             $cacheNode->type = ezcTemplateCacheTstNode::TYPE_CACHE_TEMPLATE;
         }
-        // //////// HERE 
+        // // // //// HERE 
         elseif ($cursor->match( "cache_block" ) )
         {
             $this->parser->hasCacheBlocks = true;
@@ -90,7 +90,7 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
                 return true;
             }
         }
-        // ///////// ENDHERE
+        // // // ///// ENDHERE
         else
         {
             return false;

@@ -29,7 +29,7 @@
  * {
  *     public static function getCustomFunctionDefinition( $name )
  *     {
- *          if( $name === "dynloc" )
+ *          if ( $name === "dynloc" )
  *          {
  *             $def = new ezcTemplateCustomFunctionDefinition();
  *             $def->class = __CLASS__;

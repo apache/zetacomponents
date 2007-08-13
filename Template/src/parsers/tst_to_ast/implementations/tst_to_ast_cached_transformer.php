@@ -84,7 +84,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function _fopenCacheFileWriteMode()
     {
-        //return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->getFp(), new ezcTemplateFunctionCallAstNode( "fopen", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ), new ezcTemplateLiteralAstNode( "w")  )) ) );
+        // return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->getFp(), new ezcTemplateFunctionCallAstNode( "fopen", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ), new ezcTemplateLiteralAstNode( "w")  )) ) );
         return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->getFp(), new ezcTemplateLiteralAstNode("")));
     }
 
@@ -94,7 +94,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     protected function _fwritePhpOpen()
     {
         return new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( $this->getFp(),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode('<'), new ezcTemplateLiteralAstNode("?php\n" ) ) ) );
-        //return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->getFp(),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode('<'), new ezcTemplateLiteralAstNode("?php\n" ) ) ) ) );
+        // return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->getFp(),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode('<'), new ezcTemplateLiteralAstNode("?php\n" ) ) ) ) );
     }
 
     /**
@@ -128,7 +128,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     protected function _fwriteLiteral( $literalValue )
     {
         return new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( $this->getFp(), new ezcTemplateLiteralAstNode( $literalValue ) ) );  
-        //return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->getFp(), new ezcTemplateLiteralAstNode( $literalValue ) ) ) );  
+        // return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->getFp(), new ezcTemplateLiteralAstNode( $literalValue ) ) ) );  
 
     }
 
@@ -138,7 +138,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     protected function _fwriteVariable( $variableName )
     {
         return new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( $this->getFp(), $this->createVariableNode( $variableName ) ) );  
-        //return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->getFp(), $this->createVariableNode( $variableName ) ) ) );  
+        // return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->getFp(), $this->createVariableNode( $variableName ) ) ) );  
     }
 
 
@@ -389,7 +389,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         for( $i = 0; $i < $elemLen; $i++)
         {
             $element = $type->elements[$i];
-            if( $element instanceof ezcTemplateCacheTstNode )
+            if ( $element instanceof ezcTemplateCacheTstNode )
             {
                 break;
             }
