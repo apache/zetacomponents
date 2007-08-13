@@ -9,9 +9,9 @@
  */
 
 /**
- * Class representing linear gradient fills. For drivers which cannot draw 
- * gradients it falls back to a native ezcGraphColor. In this case the start
- * color of the gradient will be used.
+ * Class representing linear gradient fills. For drivers which cannot draw
+ * gradients it falls back to a native {@link ezcGraphColor}. In this case the
+ * start color of the gradient will be used.
  *
  * @property ezcGraphCoordinate $startPoint
  *           Starting point of the gradient.

@@ -12,8 +12,8 @@
  * Class to transform chart primitives into image primitives. This renderer
  * renders the charts in a isometric three dimensional view.
  *
- * The class options are defined in the class ezcGraphRenderer3dOptions
- * extending the basic renderer options in ezcGraphRendererOptions.
+ * The class options are defined in the class {@link ezcGraphRenderer3dOptions}
+ * extending the basic renderer options in {@link ezcGraphRendererOptions}.
  *
  * <code>
  *   $graph = new ezcGraphPieChart();

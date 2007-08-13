@@ -16,7 +16,7 @@
 abstract class ezcGraphDriver
 {
     /**
-     * Drveroptions
+     * Driveroptions
      * 
      * @var ezcDriverOptions
      */

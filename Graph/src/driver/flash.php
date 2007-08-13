@@ -10,7 +10,8 @@
 /**
  * Driver to create Flash4 (SWF) files as graph output. The options of this
  * class are defined in The options of this class are defined in the option
- * class ezcGraphFlashDriverOptions extending the basic ezcGraphDriverOptions.
+ * class {@link ezcGraphFlashDriverOptions} extending the basic
+ * {@link ezcGraphDriverOptions}.
  *
  * <code>
  *   $graph = new ezcGraphPieChart();

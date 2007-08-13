@@ -16,8 +16,8 @@
  * ext/gd. It is possible to use Free Type 2, native TTF and PostScript Type 1 
  * fonts.
  *
- * The options of this driver are configured in ezcGraphGdDriverOptions
- * extending the basic driver options class ezcGraphDriverOptions.
+ * The options of this driver are configured in {@link ezcGraphGdDriverOptions}
+ * extending the basic driver options class {@link ezcGraphDriverOptions}.
  *
  * <code>
  *   $graph = new ezcGraphPieChart();

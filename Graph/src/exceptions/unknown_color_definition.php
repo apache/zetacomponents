@@ -9,7 +9,7 @@
  */
 /**
  * Exception thrown, when a given value could not be interpreted as a color by
- * ezcGraphColor.
+ * {@link ezcGraphColor}.
  *
  * @package Graph
  * @version //autogentag//

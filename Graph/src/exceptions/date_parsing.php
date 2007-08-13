@@ -8,8 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Exception thrown when a date assigned to the ezcGraphChartElementDateAxis
- * could not be parsed.
+ * Exception thrown when a date assigned to the 
+ * {@link ezcGraphChartElementDateAxis} could not be parsed.
  *
  * @package Graph
  * @version //autogentag//

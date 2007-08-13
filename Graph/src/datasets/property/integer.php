@@ -16,7 +16,7 @@
 class ezcGraphDataSetIntProperty extends ezcGraphDataSetProperty
 {
     /**
-     * Converts value to an ezcGraphColor object
+     * Converts value to an {@link ezcGraphColor} object
      * 
      * @param & $value 
      * @return void

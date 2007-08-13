@@ -10,8 +10,9 @@
 /**
  * Extension of the basic Driver package to utilize the SVGlib.
  *
- * This drivers options are defined in the class ezcGraphSvgDriverOptions
- * extending the basic driver options class ezcGraphDriverOptions. 
+ * This drivers options are defined in the class 
+ * {@link ezcGraphSvgDriverOptions} extending the basic driver options class
+ * {@link ezcGraphDriverOptions}. 
  *
  * As this is the default driver you do not need to explicitely set anything to
  * use it, but may use some of its advanced features.

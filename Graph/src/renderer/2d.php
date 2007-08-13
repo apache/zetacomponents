@@ -12,8 +12,8 @@
  * Class to transform chart primitives into image primitives. Renders charts in
  * a two dimensional view.
  *
- * The class options are defined in the class ezcGraphRenderer2dOptions
- * extending the basic renderer options in ezcGraphRendererOptions.
+ * The class options are defined in the class {@link ezcGraphRenderer2dOptions}
+ * extending the basic renderer options in {@link ezcGraphRendererOptions}.
  *
  * <code>
  *   $graph = new ezcGraphPieChart();

@@ -179,9 +179,9 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
      * Checks for the cutting point of two lines.
      *
      * The lines are given by a start position and the direction of the line, 
-     * both as instances of ezcGraphCoordinate. If no cutting point could be 
-     * calculated, because the lines are parallel the function will return 
-     * false. Otherwise the factor returned can be used to calculate the 
+     * both as instances of {@link ezcGraphCoordinate}. If no cutting point
+     * could be calculated, because the lines are parallel the function will
+     * return false. Otherwise the factor returned can be used to calculate the
      * cutting point using the following equatation:
      *  point = $aStart + $factor * $aDir;
      *
