@@ -1646,7 +1646,7 @@ block to the Template engine which is implemented in MyClass::
     $config = ezcTemplateConfiguration::getInstance();
     $config->addExtension( "MyClass" );
     
-The custom block class should implement the ezcTemplateCustomExtension interface.
+The custom block class should implement the ezcTemplateCustomBlock interface.
 This interface has only one method getCustomBlockDefinition(). The class
 implementing this method should return an ezcTemplateCustomBlockDefinition
 object from a given block name, if possible.
@@ -1896,14 +1896,14 @@ Adding a new custom function
 ````````````````````````````
 As with the custom block, custom functions are added to the Template engine
 by the ezcTemplateConfiguration::addExtension() method. The class name given to
-this method should implement the ezcTemplateCustomFunctionDefinition. Notice
+this method should implement the ezcTemplateCustomFunction interface. Notice
 that this is the same as adding a custom block.  ::
     
     $config = ezcTemplateConfiguration::getInstance();
     $config->addExtension( "MyClass" );
  
 The example above adds *MyClass* to the ezcTemplateConfiguration. MyClass
-implements the ezcTemplateCustomFunctionDefinition::
+extends the ezcTemplateCustomFunctionDefinition class::
 
     class ezcTemplateCustomFunctionDefinition extends ezcTemplateCustomExtension
     {
@@ -1970,8 +1970,8 @@ customFunction implementation should have three parameters.  The last parameter
 in the parameter definition is specified as optional, so should the last
 parameter in customFunction be optional.
 
-The interface of the ezcTemplateCustomFunction requires to implement
-getCustomFunctionDefinition::
+The interface of the ezcTemplateCustomFunction requires to implement the
+getCustomFunctionDefinition() method::
 
     interface ezcTemplateCustomFunction
     {
