@@ -1903,7 +1903,8 @@ that this is the same as adding a custom block.  ::
     $config->addExtension( "MyClass" );
  
 The example above adds *MyClass* to the ezcTemplateConfiguration. MyClass
-extends the ezcTemplateCustomFunctionDefinition class::
+implements the getCustomFunctionDefinition() from the ezcTemplateCustomFunction 
+interface. This function returns an ezcTemplateCustomFunctionDefinition object::
 
     class ezcTemplateCustomFunctionDefinition extends ezcTemplateCustomExtension
     {
