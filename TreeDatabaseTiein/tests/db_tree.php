@@ -4,14 +4,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Tree
+ * @package TreeDatabaseTiein
  * @subpackage Tests
  */
 
 require_once 'Tree/tests/tree.php';
 
 /**
- * @package Tree
+ * @package TreeDatabaseTiein
  * @subpackage Tests
  */
 abstract class ezcDbTreeTest extends ezcTreeTest

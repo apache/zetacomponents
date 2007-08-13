@@ -4,14 +4,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Tree
+ * @package TreeDatabaseTiein
  */
 
 /**
  * ezcTreeDbExternalTableDataStore is an implementation of a tree node
  * data store that uses an external table to store data in.
  *
- * @package Tree
+ * @package TreeDatabaseTiein
  * @version //autogentag//
  * @mainclass
  */

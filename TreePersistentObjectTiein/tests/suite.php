@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Tree
+ * @package TreePersistentObjectTiein
  * @subpackage Tests
  */
 
@@ -15,7 +15,7 @@ require_once 'Tree/tests/tree.php';
 require_once 'po_store.php';
 
 /**
- * @package Tree
+ * @package TreePersistentObjectTiein
  * @subpackage Tests
  */
 class ezcTreePersistentObjectTieinSuite extends PHPUnit_Framework_TestSuite

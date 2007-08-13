@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Tree
+ * @package TreeDatabaseTiein
  */
 
 /**
@@ -16,7 +16,7 @@
  *                Which class is used as tree node - this class *must* inherit
  *                the ezcTreeNode class.
  *
- * @package Tree
+ * @package TreeDatabaseTiein
  * @version //autogentag//
  */
 abstract class ezcTreeDb extends ezcTree

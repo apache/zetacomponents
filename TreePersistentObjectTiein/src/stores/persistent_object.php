@@ -4,14 +4,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Tree
+ * @package TreePersistentObjectTiein
  */
 
 /**
  * ezcTreePersistentObjectDataStore is a tree data store that stores persistent
  * objects.
  *
- * @package Tree
+ * @package TreePersistentObjectTiein
  * @version //autogentag//
  * @mainclass
  */

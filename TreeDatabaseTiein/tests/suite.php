@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Tree
+ * @package TreeDatabaseTiein
  * @subpackage Tests
  */
 
@@ -17,7 +17,7 @@ require_once 'db_nested_set_tree.php';
 require_once 'db_parent_child_tree.php';
 
 /**
- * @package Tree
+ * @package TreeDatabaseTiein
  * @subpackage Tests
  */
 class ezcTreeDatabaseTieinSuite extends PHPUnit_Framework_TestSuite

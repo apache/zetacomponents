@@ -6,7 +6,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package TreeDatabaseTiein
+ * @package TreeDatabaseTieinDatabaseTiein
  */
 
 return array(
