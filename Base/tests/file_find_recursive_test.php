@@ -4,15 +4,15 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package File
+ * @package Base
  * @subpackage Tests
  */
 
 /**
- * @package File
+ * @package Base
  * @subpackage Tests
  */
-class ezcFileFindRecursiveTest extends ezcTestCase
+class ezcBaseFileFindRecursiveTest extends ezcTestCase
 {
     public function testRecursive1()
     {
@@ -33,7 +33,7 @@ class ezcFileFindRecursiveTest extends ezcTestCase
             13 => 'File/tests/file_remove_recursive_test.php',
             14 => 'File/tests/suite.php',
         );
-        self::assertEquals( $expected, ezcFile::findRecursive( "File", array(), array( '@/docs/@', '@svn@', '@\.swp$@' ) ) );
+        self::assertEquals( $expected, ezcBaseFile::findRecursive( "File", array(), array( '@/docs/@', '@svn@', '@\.swp$@' ) ) );
     }
 
     public function testRecursive2()
@@ -55,7 +55,7 @@ class ezcFileFindRecursiveTest extends ezcTestCase
             13 => './File/tests/file_remove_recursive_test.php',
             14 => './File/tests/suite.php',
         );
-        self::assertEquals( $expected, ezcFile::findRecursive( ".", array( '@^\./File/@' ), array( '@/docs/@', '@\.svn@', '@\.swp$@' ) ) );
+        self::assertEquals( $expected, ezcBaseFile::findRecursive( ".", array( '@^\./File/@' ), array( '@/docs/@', '@\.svn@', '@\.swp$@' ) ) );
     }
 
     public function testRecursive3()
@@ -65,7 +65,7 @@ class ezcFileFindRecursiveTest extends ezcTestCase
             1 => 'File/design/file_operations.png',
             2 => 'File/design/md5.png',
         );
-        self::assertEquals( $expected, ezcFile::findRecursive( "File", array( '@\.png$@' ), array( '@\.svn@' ) ) );
+        self::assertEquals( $expected, ezcBaseFile::findRecursive( "File", array( '@\.png$@' ), array( '@\.svn@' ) ) );
     }
 
     public function testRecursive4()
@@ -78,7 +78,7 @@ class ezcFileFindRecursiveTest extends ezcTestCase
             4 => 'File/design/md5.png',
             5 => 'File/design/requirements.txt',
         );
-        self::assertEquals( $expected, ezcFile::findRecursive( "File", array( '@/design/@' ), array( '@\.svn@' ) ) );
+        self::assertEquals( $expected, ezcBaseFile::findRecursive( "File", array( '@/design/@' ), array( '@\.svn@' ) ) );
     }
 
     public function testRecursive5()
@@ -93,13 +93,13 @@ class ezcFileFindRecursiveTest extends ezcTestCase
             6 => 'File/tests/file_remove_recursive_test.php',
             7 => 'File/tests/suite.php',
         );
-        self::assertEquals( $expected, ezcFile::findRecursive( "File", array( '@\.(php|txt)$@' ), array( '@/docs/@', '@\.svn@' ) ) );
+        self::assertEquals( $expected, ezcBaseFile::findRecursive( "File", array( '@\.(php|txt)$@' ), array( '@/docs/@', '@\.svn@' ) ) );
     }
 
     public function testRecursive6()
     {
         $expected = array();
-        self::assertEquals( $expected, ezcFile::findRecursive( "File", array( '@xxx@' ) ) );
+        self::assertEquals( $expected, ezcBaseFile::findRecursive( "File", array( '@xxx@' ) ) );
     }
 
     public function testNonExistingDirectory()
@@ -107,7 +107,7 @@ class ezcFileFindRecursiveTest extends ezcTestCase
         $expected = array();
         try
         {
-            ezcFile::findRecursive( "NotHere", array( '@xxx@' ) );
+            ezcBaseFile::findRecursive( "NotHere", array( '@xxx@' ) );
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
@@ -117,7 +117,7 @@ class ezcFileFindRecursiveTest extends ezcTestCase
 
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite( "ezcFileFindRecursiveTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcBaseFileFindRecursiveTest" );
     }
 }
 ?>
