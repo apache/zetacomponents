@@ -2,18 +2,19 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #11107: Floating point inaccuracies caused missing grid in line
-  chart
-- Fixed issue #11207: Missing URL property for legend, or missing legend, may
-  cause PHP notice
-- Fixed issue #11157: Wrong display of single record with labeled axis
+  chart.
+- Fixed issue #11157: Wrong display of single record with labeled axis.
 - Fixed issue #11180: Color Palette: $dataSetColor in ezcGraphPalette starts
-  with index 1 and not zero in pie charts
+  with index 1 and not zero in pie charts.
+- Fixed issue #11207: Missing URL property for legend, or missing legend, may
+  cause PHP notice.
 - Fixed issue #11233: Path for circular arcs in SVG driver may break because
-  of locale settings
-- Fixed issue #11236: Legend is not properly linked in interactive 3d line and
-  bar charts.
-- Fixed issue #11235: In interactive 3d bar charts circle and bullet bars are
+  of locale settings.
+- Fixed issue #11235: In interactive 3D bar charts circle and bullet bars are
   not linked.
+- Fixed issue #11236: Legend is not properly linked in interactive 3D line and
+  bar charts.
+
 
 1.1 - Monday 02 July 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
