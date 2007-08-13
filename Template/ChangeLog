@@ -1,5 +1,6 @@
 - Made the TemplateObject available in CustomBlocks. Thanks to Felix Weis for 
   the patch.
+- Fixed issue #11228: Cannot supply an absolute Win32-Path to $t->process().
 
 1.2 - Monday 02 July 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

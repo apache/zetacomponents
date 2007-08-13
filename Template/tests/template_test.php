@@ -205,6 +205,34 @@ class ezcTemplateTest extends ezcTestCase
 
     }
 
+    public function testBla()
+    {
+        file_put_contents( $this->templatePath . "/test.ezt", "Hello world" );
+        file_put_contents( $this->templatePath . "/test2.ezt", "Hello world2" );
+
+        $absPath = $this->templatePath;
+
+        $conf = ezcTemplateConfiguration::getInstance();
+        $conf->templatePath = $absPath;
+
+        $template = new ezcTemplate();
+        self::assertEquals( "Hello world",  $template->process( "test.ezt", $conf ) );
+
+        $conf->templatePath = "/this/is/wrong";
+        self::assertEquals( "Hello world2",  $template->process( $absPath  . DIRECTORY_SEPARATOR . "test2.ezt", $conf ) );
+        
+
+        try
+        {
+            self::assertEquals( "Hello world2",  $template->process( "test2.ezt", $conf ) );
+            self::fail("Expected an exception");
+        } catch( ezcTemplateException $e)
+        {
+            self::assertEquals("The requested template file '/this/is/wrong/test2.ezt' does not exist.", $e->getMessage() );
+
+        }
+    }
+
 }
 
 
