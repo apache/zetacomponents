@@ -651,7 +651,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
      *  @param ezcTemplateTstNode $lhs
      *  @param ezcTemplateTstNode $op
      *  @param ezcTemplateCursor $cursor
-     *  @throw ezcTemplateParserException if the check fails.
+     *  @throws ezcTemplateParserException if the check fails.
      *  @return void
      */
     private function checkForValidOperator( $lhs, $op, $cursor )
