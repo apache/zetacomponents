@@ -1,3 +1,12 @@
+1.2alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Moved the ezcFile class to Base/ezcBaseFile. That means that the ezcFile
+  class is now deprecated. As this is the only class in this component, the
+  whole component is now deprecated. Backwards compatibility is kept by making
+  the ezcFile class extend ezcBaseFile - So long and thanks for all the fish.
+
+
 1.1.1 - Monday 25 June 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
