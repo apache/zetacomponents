@@ -50,12 +50,16 @@
  * accessing them as properties of the chart:
  *
  * The chart itself also offers several options to configure the appearance.
- * The extended configure options are available in ezcGraphRadarChartOptions
- * extending the ezcGraphChartOptions.
+ * The extended configure options are available in 
+ * {@link ezcGraphRadarChartOptions} extending the 
+ * {@link ezcGraphChartOptions}.
  *
  * <code>
  *  $chart->legend->position = ezcGraph::RIGHT;
  * </code>
+ *
+ * @property ezcGraphRadarChartOptions $options
+ *           Chart options class
  *
  * @version //autogentag//
  * @package Graph

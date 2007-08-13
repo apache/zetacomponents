@@ -53,8 +53,11 @@
  * </code>
  *
  * The chart itself also offers several options to configure the appearance.
- * The extended configure options are available in ezcGraphLineChartOptions
- * extending the ezcGraphChartOptions.
+ * The extended configure options are available in 
+ * {@link ezcGraphLineChartOptions} extending the {@link ezcGraphChartOptions}.
+ *
+ * @property ezcGraphLineChartOptions $options
+ *           Chart options class
  *
  * @version //autogentag//
  * @package Graph

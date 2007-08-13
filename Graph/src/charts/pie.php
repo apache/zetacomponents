@@ -44,8 +44,11 @@
  * </code>
  *
  * The chart itself also offers several options to configure the appearance.
- * The extended configure options are available in ezcGraphPieChartOptions
- * extending the ezcGraphChartOptions.
+ * The extended configure options are available in 
+ * {@link ezcGraphPieChartOptions} extending the {@link ezcGraphChartOptions}.
+ *
+ * @property ezcGraphPieChartOptions $options
+ *           Chart options class
  *
  * @version //autogentag//
  * @package Graph
