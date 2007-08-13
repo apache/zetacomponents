@@ -210,5 +210,57 @@ class ezcBaseFile
 
         return $result;
     }
+
+    /**
+     * Returns whether the passed $path is an absolute path, giving the current $os.
+     *
+     * With the $os parameter you can tell this function to use the semantics
+     * for a different operating system to determine whether a path is
+     * absolute. The $os argument defaults to the OS that the script is running
+     * on.
+     *
+     * @param string $path
+     * @param string $os
+     * @returns bool
+     */
+    public static function isAbsolutePath( $path, $os = null )
+    {
+        if ( $os === null )
+        {
+            $os = ezcBaseFeatures::os();
+        }
+
+        switch ( $os )
+        {
+            case 'Windows':
+                // Sanitize the paths to use the correct directory separator for the platform
+                $path = strtr( $path, '\\/', '\\\\' );
+
+                // Absolute paths with drive letter: X:\
+                if ( preg_match( '@^[A-Z]:\\\\@i', $path ) )
+                {
+                    return true;
+                }
+ 
+                // Absolute paths with network paths: \\server\share\
+                if ( preg_match( '@^\\\\\\\\[A-Z]+\\\\[^\\\\]@i', $path ) )
+                {
+                    return true;
+                }
+                break;
+            case 'Mac':
+            case 'Linux':
+            case 'FreeBSD':
+            default:
+                // Sanitize the paths to use the correct directory separator for the platform
+                $path = strtr( $path, '\\/', '//' );
+
+                if ( $path[0] == '/' )
+                {
+                    return true;
+                }
+        }
+        return false;
+    }
 }
 ?>

@@ -1,3 +1,11 @@
+1.4alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added the ezcBaseFile class, which was moved from the File component.
+- Added the ezcBaseFile::isAbsolutePath() method, which returns whether a path
+  is absolute or relative.
+
+
 1.3.1 - Monday 30 July 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

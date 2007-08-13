@@ -13,6 +13,7 @@ require_once( "features_test.php");
 require_once( "base_options_test.php");
 require_once( "struct_test.php");
 require_once 'file_find_recursive_test.php';
+require_once 'file_is_absolute_path.php';
 require_once 'file_remove_recursive_test.php';
 require_once 'file_calculate_relative_path_test.php';
 
@@ -34,6 +35,7 @@ class ezcBaseSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcBaseStructTest::suite() );
         $this->addTest( ezcBaseFileCalculateRelativePathTest::suite() );
         $this->addTest( ezcBaseFileFindRecursiveTest::suite() );
+        $this->addTest( ezcBaseFileIsAbsoluteTest::suite() );
         $this->addTest( ezcBaseFileRemoveRecursiveTest::suite() );
     }
 

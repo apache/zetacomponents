@@ -218,6 +218,11 @@ class ezcBaseFeatures
     /**
      * Returns the operating system on which PHP is running.
      *
+     * This method returns a sanitized form of the OS name, example
+     * return values are "Windows", "Mac", "Linux" and "FreeBSD". In
+     * all other cases it returns the value of the internal PHP constant
+     * PHP_OS.
+     *
      * @return string
      */
     public static function os()
