@@ -351,7 +351,7 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
                     new ezcGraphCoordinate( 197.5, 0. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                $this->equalTo( 1 )
+                $this->equalTo( true )
             );
 
         $this->renderer->drawBar( 
