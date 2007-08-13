@@ -95,7 +95,7 @@ class ezcConsoleOutputFormat
      * @param string $color             Name of a color value.
      * @param array(int=>string) $style Names of style values.
      * @param string $bgcolor           Name of a bgcolor value.
-     * @param string $target            Target output stream. {@link
+     * @param string $target            Target output stream.
      */
     public function __construct( $color = 'default', array $style = null, $bgcolor = 'default', $target = ezcConsoleOutput::TARGET_OUTPUT )
     {
