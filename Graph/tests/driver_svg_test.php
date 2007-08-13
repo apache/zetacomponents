@@ -1827,7 +1827,7 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
 
     public function testSvgWithDifferentLocales()
     {
-        $this->setLocale( LC_NUMERIC, 'de_DE' );
+        $this->setLocale( LC_NUMERIC, 'de_DE', 'de_DE.UTF-8', 'de_DE.UTF8', 'deu_deu', 'de', 'ge', 'deutsch', 'de_DE@euro' );
 
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
