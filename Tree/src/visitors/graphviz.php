@@ -80,9 +80,9 @@ class ezcTreeVisitorGraphViz implements ezcTreeVisitor
     }
 
     /**
-     * Returns a the contents of a graphviz .dot file.
+     * Returns the contents as a graphviz .dot file.
      *
-     * @return boolean
+     * @return string
      * @ignore
      */
     public function __toString()
