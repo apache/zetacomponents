@@ -62,6 +62,14 @@ class ezcInputFormDefinitionElement extends ezcBaseStruct
     public $flags = false;
 
     /**
+     * A short hint to be shown to the user about the constraint of an input element, e.g.
+     * 'between 0 and 100', 'valid email' or 'no specialchars'
+     *
+     * @var string
+     */
+    public $hint = '';
+
+    /**
      * Constructs a definition item.
      *
      * Constructs the definition item with all its options and flags.
@@ -70,13 +78,15 @@ class ezcInputFormDefinitionElement extends ezcBaseStruct
      * @param string $filterName
      * @param mixed $options
      * @param int $flags
+     * @param string $hint
      */
-    public function __construct( $type = ezcInputFormDefinitionElement::OPTIONAL, $filterName = 'string', $options = null, $flags = null )
+    public function __construct( $type = ezcInputFormDefinitionElement::OPTIONAL, $filterName = 'string', $options = null, $flags = null, $hint = '' )
     {
         $this->type = $type;
         $this->filterName = $filterName;
         $this->options = $options;
         $this->flags = $flags;
+        $this->hint = $hint;
     }
 
     /**
@@ -95,7 +105,7 @@ class ezcInputFormDefinitionElement extends ezcBaseStruct
      */
     public static function __set_state( array $array )
     {
-        return new ezcInputFormDefinitionElement( $array['type'], $array['filterName'], $array['options'], $array['flags'] );
+        return new ezcInputFormDefinitionElement( $array['type'], $array['filterName'], $array['options'], $array['flags'], $array['hint'] );
     }
 }
 ?>
