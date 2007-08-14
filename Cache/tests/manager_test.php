@@ -9,6 +9,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once 'test_classes.php';
+
 /**
  * Test suite for ezcCacheManager class. 
  * 
@@ -140,6 +142,26 @@ class ezcCacheManagerTest extends ezcTestCase
             return;
         }
         $this->fail( 'ezcCacheInvalidIdException not thrown on invalid ID.' );
+    }
+
+    public function testGetCacheDelayedInit1()
+    {
+        try
+        {
+            $cache = ezcCacheManager::getCache( 'simple' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcCacheInvalidIdException $e )
+        {
+            self::assertSame( "No cache or cache configuration known with ID 'simple'.", $e->getMessage() );
+        }
+    }
+
+    public function testGetCacheDelayedInit2()
+    {
+        ezcBaseInit::setCallback( 'ezcInitCacheManager', 'testDelayedInitCacheManager' );
+        $cache = ezcCacheManager::getCache( 'simple' );
+        self::assertSame( '.cache', $cache->options->extension );
     }
 }
 ?>

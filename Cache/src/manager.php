@@ -57,16 +57,22 @@
  * // instance will be reused.
  * $cache = ezcCacheManager::getCache( 'content' );
  *
+ * Instead of using the createCache()/getCache() mechanism you can also create
+ * cache on-demand with delayed initialization. You can find information on how
+ * to use that in the {@link ../introduction_Cache.html tutorial}.
+ *
  * // Specify any number of attributes to identify the cache item you want
  * // to store. This attributes can be used later to perform operations
  * // on a set of cache items, that share a common attribute.
  * $attributes = array( 'node' => 2, 'area' => 'admin', 'lang' => 'en-GB' );
+ *
  * // This function is not part of the Cache package. You have to define
  * // unique IDs for your cache items yourself.
  * $id = getUniqueId();
  *
  * // Initialize the data variable you want to restore
  * $data = '';
+ *
  * // Check if data is available in the cache. The restore method returns
  * // the cached data, if available, or bool false.
  * if ( ( $data = $cache->restore( $id, $attributes ) ) === false )
@@ -259,7 +265,14 @@ class ezcCacheManager
         // Look for already existing cache object
         if ( !isset( self::$caches[$id] ) ) 
         {
-            // Failed, look for configuration
+            // Failed, look for configuration, and if it does not exist, use
+            // delayed initialization.
+            if ( !isset( self::$configurations[$id] ) )
+            {
+                ezcBaseInit::fetchConfig( 'ezcInitCacheManager', $id );
+            }
+            // Check whether delayed initialization actually worked, if not,
+            // throw an exception
             if ( !isset( self::$configurations[$id] ) )
             {
                 throw new ezcCacheInvalidIdException( $id );

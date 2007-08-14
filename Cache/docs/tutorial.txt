@@ -111,6 +111,31 @@ data, so you can follow how it's cached for 30 seconds by running the
 example multiple times in a short time frame. After 30 seconds, the cache data
 will become invalid and will be regenerated.
 
+Delayed initialization
+----------------------
+
+Instead of calling the ezcCacheManager::getCache() method yourself it is also
+possible to use delayed initialization. When using this it is not required to
+configure all the caches first by calling the ezcCacheManager::createCache()
+method. Instead it would allow you to configure/create caches on demand, this
+is called lazy, or delayed initialization. You can find a description how you
+can use it for your own components and how it works in the `ezcBase
+tutorial`__. The keyword for the cache component is
+*ezcInitConfigurationManager*.
+
+__ introduction_Base.html#lazy-initialization
+
+.. include:: tutorial_lazy_initialization.php
+	:literal:
+
+Differences with the previous example can be seen in lines 5 to 23. In lines 20
+to 23 you tell the delayed initialization mechanism to use the
+customLazyCacheConfiguration as lazy initialization provider for the
+*ezcInitConfigurationManager* context. The customLazyCacheConfiguration class
+implements the configureObject() method that will automatically be called when
+ezcCacheManager::getCache() is called with a cache identifier that has not been
+created yet through ezcCacheManager::createCache(), as you can see in line 14.
+
 Using multiple caches
 ---------------------
 
