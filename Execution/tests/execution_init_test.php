@@ -19,20 +19,6 @@ require 'test_classes/test_classes.php';
  */
 class ezcExecutionInitDefinition extends ezcTestCase
 {
-    public function testCleanExitNotInitialized()
-    {
-        ezcExecution::reset();
-        try
-        {
-            ezcExecution::cleanExit();
-            $this->fail( "Expected exception was not thrown" );
-        }
-        catch ( ezcExecutionNotInitializedException $e )
-        {
-            $this->assertEquals( "The Execution mechanism was not initialized.", $e->getMessage() );
-        }
-    }
-
     public function testCallbackExists()
     {
         ezcExecution::reset();

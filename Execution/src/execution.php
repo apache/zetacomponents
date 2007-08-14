@@ -165,10 +165,6 @@ class ezcExecution
      */
     static public function cleanExit()
     {
-        if ( self::$isInitialized == false )
-        {
-            throw new ezcExecutionNotInitializedException();
-        }
         self::$cleanExit = true;        
     }
 

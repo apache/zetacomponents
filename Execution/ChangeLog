@@ -1,3 +1,10 @@
+1.1alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented change #10677: Removed the throwing of an exception of the
+  execution mechamisn was not initialized.
+
+
 1.0.4 - Monday 25 June 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
