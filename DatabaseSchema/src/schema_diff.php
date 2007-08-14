@@ -144,15 +144,25 @@ class ezcDbSchemaDiff
     /**
      * Returns the $db specific SQL queries that would update the database $db
      *
+     * The database type can be given as both a database handler (instanceof
+     * ezcDbHandler) or the name of the database as string as retrieved through
+     * calling getName() on the database handler object.
+     *
+     * @see ezcDbHandler::getName()
+     *
      * @throws ezcDbSchemaInvalidWriterClassException if the handler associated
      *         with the $format is not a database schema writer.
      *
-     * @param ezcDbHandler $db
+     * @param string|ezcDbHandler $db
      * @return array(string)
      */
-    public function convertToDDL( ezcDbHandler $db )
+    public function convertToDDL( $db )
     {
-        $className = ezcDbSchemaHandlerManager::getDiffWriterByFormat( $db->getName() );
+        if ( $db instanceof ezcDbHandler )
+        {
+            $db = $db->getName();
+        }
+        $className = ezcDbSchemaHandlerManager::getDiffWriterByFormat( $db );
         $writer = new $className();
         self::checkSchemaDiffWriter( $writer, ezcDbSchema::DATABASE );
         return $writer->convertDiffToDDL( $this );

@@ -80,6 +80,63 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
         self::assertEquals( $newDDL1, $newDDL2 );
     }
 
+    public function testXmlRoundTripWithDbName()
+    {
+        $fileNameOrig = realpath( $this->testFilesDir . 'webbuilder.schema.xml' );
+        $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
+        $schema->writeToDb( $this->db );
+        
+        $newSchema = ezcDbSchema::createFromDb( $this->db );
+        $newDDL1 = $newSchema->convertToDDL( $this->db->getName() );
+
+        // setup an empty schema to wipe out the db
+        $emptySchema = new ezcDbSchema( array() );
+        $diffToEmptySchema = ezcDbSchemaComparator::compareSchemas( $newSchema, $emptySchema );
+        $diffToEmptySchema->applyToDb( $this->db );
+
+        $newSchema->writeToDb( $this->db );
+        $newSchema = ezcDbSchema::createFromDb( $this->db );
+        $newDDL2 = $newSchema->convertToDDL( $this->db->getName() );
+
+        self::assertEquals( $newDDL1, $newDDL2 );
+    }
+
+    public function testConvertToDDLWithUnknownDbName()
+    {
+        $fileNameOrig = realpath( $this->testFilesDir . 'webbuilder.schema.xml' );
+        $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
+        $schema->writeToDb( $this->db );
+        
+        $newSchema = ezcDbSchema::createFromDb( $this->db );
+        try
+        {
+            $newDDL1 = $newSchema->convertToDDL( 'hottentottententententoonstellingsterrijnen' );
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcDbSchemaUnknownFormatException $e )
+        {
+            self::assertEquals( "There is no 'difference write' handler available for the 'hottentottententententoonstellingsterrijnen' format.", $e->getMessage() );
+        }
+    }
+
+    public function testConvertToDDLWithBrokenDbName()
+    {
+        $fileNameOrig = realpath( $this->testFilesDir . 'webbuilder.schema.xml' );
+        $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
+        $schema->writeToDb( $this->db );
+        
+        $newSchema = ezcDbSchema::createFromDb( $this->db );
+        try
+        {
+            $newDDL1 = $newSchema->convertToDDL( 42);
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcDbSchemaUnknownFormatException $e )
+        {
+            self::assertEquals( "There is no 'difference write' handler available for the '42' format.", $e->getMessage() );
+        }
+    }
+
     public function testXmlInternal1()
     {
         $fileNameOrig = realpath( $this->testFilesDir . 'webbuilder.schema.xml' );

@@ -204,6 +204,42 @@ class ezcDatabaseSchemaGenericDiffTest extends ezcTestCase
         self::assertEquals( $this->getDiffExpectations2(), $ddl );
     }
 
+    public function testWrite2WithDbName()
+    {
+        $schema = self::getSchemaDiff2();
+        $ddl = $schema->convertToDDL( $this->db->getName() );
+
+        self::assertEquals( $this->getDiffExpectations2(), $ddl );
+    }
+
+    public function testWrite2WithUnknownDbName()
+    {
+        $schema = self::getSchemaDiff2();
+        try
+        {
+            $ddl = $schema->convertToDDL( 'hottentottententententoonstellingsterrijnen' );
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcDbSchemaUnknownFormatException $e )
+        {
+            self::assertEquals( "There is no 'difference write' handler available for the 'hottentottententententoonstellingsterrijnen' format.", $e->getMessage() );
+        }
+    }
+
+    public function testWrite2WithBrokenDbName()
+    {
+        $schema = self::getSchemaDiff2();
+        try
+        {
+            $ddl = $schema->convertToDDL( 42 );
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcDbSchemaUnknownFormatException $e )
+        {
+            self::assertEquals( "There is no 'difference write' handler available for the '42' format.", $e->getMessage() );
+        }
+    }
+
     public function testApply2()
     {
         $schema1 = self::getSchema3();
