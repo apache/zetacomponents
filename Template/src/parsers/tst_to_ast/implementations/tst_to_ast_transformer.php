@@ -289,6 +289,10 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         } 
         catch ( Exception $e )
         {
+            if ($e instanceof ezcTemplateParserException )
+            {
+                throw $e;
+            }
             throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_TYPEHINT_FAILURE );
         }
 

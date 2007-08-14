@@ -1,0 +1,4 @@
+mock:1:5: Unknown function call: 'does_not_exist'
+
+{if does_not_exist() && true || fa
+    ^
