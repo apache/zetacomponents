@@ -109,6 +109,109 @@ class ezcTreeVisitorTest extends ezcTestCase
         self::assertSame( 'c422c6271ff3c9a213156e660a1ba8b2', md5( (string) $visitor ) );
     }
 
+    public function testVisitor2()
+    {
+        $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+        $this->addTestData( $tree );
+
+        $expected = <<<END
+Hominoidea
+├─Hylobatidae
+│ ├─Hylobates
+│ │ ├─Lar Gibbon
+│ │ ├─Agile Gibbon
+│ │ ├─Müller's Bornean Gibbon
+│ │ ├─Silvery Gibbon
+│ │ ├─Pileated Gibbon
+│ │ └─Kloss's Gibbon
+│ ├─Hoolock
+│ │ ├─Western Hoolock Gibbon
+│ │ └─Eastern Hoolock Gibbon
+│ ├─Symphalangus
+│ └─Nomascus
+│   ├─Black Crested Gibbon
+│   ├─Eastern Black Crested Gibbon
+│   ├─White-cheecked Crested Gibbon
+│   └─Yellow-cheecked Gibbon
+└─Hominidae
+  ├─Pongo
+  │ ├─Bornean Orangutan
+  │ └─Sumatran Orangutan
+  ├─Gorilla
+  │ ├─Western Gorilla
+  │ │ ├─Western Lowland Gorilla
+  │ │ └─Cross River Gorilla
+  │ └─Eastern Gorilla
+  │   ├─Mountain Gorilla
+  │   └─Eastern Lowland Gorilla
+  ├─Homo
+  │ └─Homo Sapiens
+  │   ├─Homo Sapiens Sapiens
+  │   └─Homo Superior
+  └─Pan
+    ├─Common Chimpanzee
+    └─Bonobo
+
+END;
+
+        $visitor = new ezcTreeVisitorPlainText;
+        $tree->accept( $visitor );
+        self::assertSame( $expected, (string) $visitor );
+
+        $visitor = new ezcTreeVisitorPlainText( ezcTreeVisitorPlainText::SYMBOL_UTF8 );
+        $tree->accept( $visitor );
+        self::assertSame( $expected, (string) $visitor );
+    }
+
+    public function testVisitor3()
+    {
+        $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+        $this->addTestData( $tree );
+
+        $visitor = new ezcTreeVisitorPlainText( ezcTreeVisitorPlainText::SYMBOL_ASCII );
+        $tree->accept( $visitor );
+        $expected = <<<END
+Hominoidea
++-Hylobatidae
+| +-Hylobates
+| | +-Lar Gibbon
+| | +-Agile Gibbon
+| | +-Müller's Bornean Gibbon
+| | +-Silvery Gibbon
+| | +-Pileated Gibbon
+| | +-Kloss's Gibbon
+| +-Hoolock
+| | +-Western Hoolock Gibbon
+| | +-Eastern Hoolock Gibbon
+| +-Symphalangus
+| +-Nomascus
+|   +-Black Crested Gibbon
+|   +-Eastern Black Crested Gibbon
+|   +-White-cheecked Crested Gibbon
+|   +-Yellow-cheecked Gibbon
++-Hominidae
+  +-Pongo
+  | +-Bornean Orangutan
+  | +-Sumatran Orangutan
+  +-Gorilla
+  | +-Western Gorilla
+  | | +-Western Lowland Gorilla
+  | | +-Cross River Gorilla
+  | +-Eastern Gorilla
+  |   +-Mountain Gorilla
+  |   +-Eastern Lowland Gorilla
+  +-Homo
+  | +-Homo Sapiens
+  |   +-Homo Sapiens Sapiens
+  |   +-Homo Superior
+  +-Pan
+    +-Common Chimpanzee
+    +-Bonobo
+
+END;
+        self::assertSame( $expected, (string) $visitor );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeVisitorTest" );
