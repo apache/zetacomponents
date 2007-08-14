@@ -57,9 +57,10 @@
  * // instance will be reused.
  * $cache = ezcCacheManager::getCache( 'content' );
  *
- * Instead of using the createCache()/getCache() mechanism you can also create
- * cache on-demand with delayed initialization. You can find information on how
- * to use that in the {@link ../introduction_Cache.html tutorial}.
+ * // Instead of using the createCache()/getCache() mechanism you can also
+ * // create cache on-demand with delayed initialization. You can find
+ * // information on how to use that in the
+ * // {@link ../introduction_Cache.html tutorial}.
  *
  * // Specify any number of attributes to identify the cache item you want
  * // to store. This attributes can be used later to perform operations
