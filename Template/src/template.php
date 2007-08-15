@@ -270,8 +270,12 @@ class ezcTemplate
         {
             $this->properties["file"] = $location;
             $this->properties["stream"] = $location->getPath();
+        } 
+        elseif ( $config->locator )
+        {
+            $this->properties["stream"] = $config->locator->translatePath($this->properties["stream"]);
         }
-
+        
         if ( strlen( $this->properties["stream"] ) > 0 && !ezcBaseFile::isAbsolutepath($this->properties["stream"]) ) // Is it a relative path?
         {
             $this->properties["stream"] = $config->templatePath . DIRECTORY_SEPARATOR . $this->properties["stream"];

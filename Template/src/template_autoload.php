@@ -192,6 +192,7 @@ return array(
     'ezcTemplateLiteralBlockTstNode'                     => 'Template/syntax_trees/tst/nodes/literal_block.php',
     'ezcTemplateLiteralTstNode'                          => 'Template/syntax_trees/tst/nodes/literal.php',
     'ezcTemplateLocationInterface'                       => 'Template/interfaces/location.php',
+    'ezcTemplateLocator'                                 => 'Template/interfaces/locator.php',
     'ezcTemplateLogicalAndOperatorAstNode'               => 'Template/syntax_trees/ast/nodes/operators/logical_and_operator.php',
     'ezcTemplateLogicalAndOperatorTstNode'               => 'Template/syntax_trees/tst/nodes/logical_and_operator.php',
     'ezcTemplateLogicalLiteralAndOperatorAstNode'        => 'Template/syntax_trees/ast/nodes/operators/logical_literal_and_operator.php',

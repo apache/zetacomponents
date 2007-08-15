@@ -82,6 +82,7 @@ class ezcTemplateConfiguration
      private $properties = array( 'context' => false,
                                   'cacheManager' => false,
                                   'disableCache' => false,
+                                  'locator' => false,
                                   'templatePath' => ".",
                                   'compilePath' => ".",
                                   'cachedTemplatesPath' => null,
@@ -109,6 +110,7 @@ class ezcTemplateConfiguration
         {
             case 'context': 
             case 'cacheManager':
+            case 'locator':
             case 'disableCache':
             case 'templatePath': 
             case 'compilePath': 
@@ -166,6 +168,16 @@ class ezcTemplateConfiguration
 
                 $this->properties[$name] = $value;
                 break;
+
+            case 'locator': 
+                if ( !($value instanceof ezcTemplateLocator) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcTemplateLocator' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
 
             case 'templatePath': 
             case 'compilePath': 
