@@ -502,6 +502,8 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( '4', $nodeList['4']->id );
         self::assertSame( '6', $nodeList['6']->id );
         self::assertSame( '8', $nodeList['8']->id );
+
+        self::assertSame( array( 1, 4, 6, 8 ), array_keys( $nodeList->nodes ) );
     }
 
     public function testTreeFetchPathOnTree()
@@ -518,6 +520,8 @@ class ezcTreeTest extends ezcTestCase
         self::assertSame( '4', $nodeList['4']->id );
         self::assertSame( '6', $nodeList['6']->id );
         self::assertSame( '8', $nodeList['8']->id );
+
+        self::assertSame( array( 1, 4, 6, 8 ), array_keys( $nodeList->nodes ) );
     }
 
     public function testTreeMoveNode1()

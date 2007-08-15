@@ -130,7 +130,6 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
     {
         $className = $this->properties['nodeClassName'];
         $list = new ezcTreeNodeList;
-        $list->addNode( new $className( $this, $nodeId ) );
 
         // Fetch node information
         list( $parentId, $path ) = $this->fetchNodeInformation( $nodeId );
@@ -138,11 +137,13 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         $parts = split( '/', $path );
         array_shift( $parts );
 
-        foreach ( $parts as $nodeId )
+        foreach ( $parts as $pathNodeId )
         {
-            $list->addNode( new $className( $this, $nodeId ) );
-            $nodeId = $this->getParentId( $nodeId );
+            $list->addNode( new $className( $this, $pathNodeId ) );
+            $pathNodeId = $this->getParentId( $pathNodeId );
         }
+
+        $list->addNode( new $className( $this, $nodeId ) );
         return $list;
     }
 

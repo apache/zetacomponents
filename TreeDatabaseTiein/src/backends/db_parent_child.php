@@ -117,15 +117,22 @@ class ezcTreeDbParentChild extends ezcTreeDb
     public function fetchPath( $nodeId )
     {
         $className = $this->properties['nodeClassName'];
-        $list = new ezcTreeNodeList;
-        $list->addNode( new $className( $this, $nodeId ) );
+
+        $nodes = array();
+        $nodes[] = new $className( $this, $nodeId );
 
         $nodeId = $this->getParentId( $nodeId );
 
         while ( $nodeId != null )
         {
-            $list->addNode( new $className( $this, $nodeId ) );
+            $nodes[] = new $className( $this, $nodeId );
             $nodeId = $this->getParentId( $nodeId );
+        }
+
+        $list = new ezcTreeNodeList;
+        foreach ( array_reverse( $nodes ) as $node )
+        {
+            $list->addNode( $node );
         }
         return $list;
     }

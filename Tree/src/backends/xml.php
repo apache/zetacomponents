@@ -258,8 +258,9 @@ class ezcTreeXml extends ezcTree
     public function fetchPath( $nodeId )
     {
         $className = $this->properties['nodeClassName'];
-        $list = new ezcTreeNodeList;
-        $list->addNode( new $className( $this, $nodeId ) );
+
+        $nodes = array();
+        $nodes[] = new $className( $this, $nodeId );
 
         $elem = $this->dom->getElementById( "id$nodeId" );
         $elem = $elem->parentNode;
@@ -267,8 +268,14 @@ class ezcTreeXml extends ezcTree
         while ( $elem !== null && $elem->nodeType == XML_ELEMENT_NODE && $elem->tagName == 'node' )
         {
             $id = substr( $elem->getAttribute( 'id' ), 2 );
-            $list->addNode( new $className( $this, $id ) );
+            $nodes[] = new $className( $this, $id );
             $elem = $elem->parentNode;
+        }
+
+        $list = new ezcTreeNodeList;
+        foreach ( array_reverse( $nodes ) as $node )
+        {
+            $list->addNode( $node );
         }
         return $list;
     }

@@ -158,16 +158,23 @@ class ezcTreeMemory extends ezcTree
     public function fetchPath( $nodeId )
     {
         $list = new ezcTreeNodeList;
-
         $memoryNode = $this->getNodeById( $nodeId );
-        $list->addNode( $memoryNode->node );
+
+        $nodes = array();
+        $nodes[] = $memoryNode->node;
 
         $memoryNode = $memoryNode->parent;
 
         while ( $memoryNode !== null )
         {
-            $list->addNode( $memoryNode->node );
+            $nodes[] =  $memoryNode->node;
             $memoryNode = $memoryNode->parent;
+        }
+
+        $list = new ezcTreeNodeList;
+        foreach ( array_reverse( $nodes ) as $node )
+        {
+            $list->addNode( $node );
         }
         return $list;
     }
