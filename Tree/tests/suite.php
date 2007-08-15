@@ -19,6 +19,7 @@ require_once 'memory_store.php';
 require_once 'visitor.php';
 require_once 'memory_tree.php';
 require_once 'xml_tree.php';
+require_once 'copy_tree.php';
 
 /**
  * @package Tree
@@ -38,6 +39,7 @@ class ezcTreeSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcTreeVisitorTest::suite() );
         $this->addTest( ezcTreeMemoryTest::suite() );
         $this->addTest( ezcTreeXmlTest::suite() );
+        $this->addTest( ezcTreeCopyTest::suite() );
     }
 
     public static function suite()

@@ -15,6 +15,7 @@ require_once 'Tree/tests/tree.php';
 require_once 'db_materialized_path_tree.php';
 require_once 'db_nested_set_tree.php';
 require_once 'db_parent_child_tree.php';
+require_once 'copy_tree.php';
 
 /**
  * @package TreeDatabaseTiein
@@ -30,6 +31,7 @@ class ezcTreeDatabaseTieinSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcTreeDbMaterializedPathTest::suite() );
         $this->addTest( ezcTreeDbNestedSetTest::suite() );
         $this->addTest( ezcTreeDbParentChildTest::suite() );
+        $this->addTest( ezcTreeDbCopyTest::suite() );
     }
 
     public static function suite()

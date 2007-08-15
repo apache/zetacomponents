@@ -107,6 +107,8 @@ class ezcTreeXml extends ezcTree
 
         $dom = new DomDocument();
         $dom->load( $xmlFile );
+        $dom->formatOutput = true;
+
         $errors = libxml_get_errors();
         libxml_clear_errors();
         if ( count( $errors ) )
@@ -141,6 +143,7 @@ class ezcTreeXml extends ezcTree
     public static function create( $xmlFile, ezcTreeXmlDataStore $store )
     {
         $dom = new DomDocument( '1.0', 'utf-8' );
+        $dom->formatOutput = true;
 
         $element = $dom->createElement( 'tree' );
         $element->setAttributeNode( new DOMAttr( 'xmlns', 'http://components.ez.no/Tree' ) );

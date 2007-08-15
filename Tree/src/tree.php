@@ -350,6 +350,52 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function move( $nodeId, $targetParentId );
 
     /**
+     * Copies all the children of node $fromNode to node $toNode recursively.
+     *
+     * This method copies all children recursively from $fromNode to $toNode.
+     * The $fromNode belongs to the $from tree and the $toNode to the $to tree.
+     * Data associated with the nodes is copied as well from the store
+     * associated with the $from tree to the $to tree.
+     *
+     * @param ezcTree $from
+     * @param ezcTree $to
+     * @param ezcTreeNode $fromNode
+     * @param ezcTreeNode $toNode
+     */
+    private static function copyChildren( ezcTree $from, ezcTree $to, ezcTreeNode $fromNode, ezcTreeNode $toNode )
+    {
+        $children = $fromNode->fetchChildren();
+        foreach( new ezcTreeNodeListIterator( $from, $children, true ) as $childNodeKey => $childNodeData )
+        {
+            $fromChildNode = $from->fetchNodeById( $childNodeKey );
+            $toChildNode = new ezcTreeNode( $to, $childNodeKey, $childNodeData );
+            $toNode->addChild( $toChildNode );
+            self::copyChildren( $from, $to, $fromChildNode, $toChildNode );
+        }
+    }
+
+    /**
+     * Copies the tree in $from to the empty tree in $to.
+     *
+     * This method copies all the nodes, including associated data from the
+     * used data store, from the tree $from to the tree $to.  Because this
+     * function uses internally setRootNode() the target tree will be cleared
+     * out automatically.  The method will not check whether the $from and $to
+     * trees share the same database table or data store, so make sure they are
+     * different to prevent unexpected behavior.
+     *
+     * @param ezcTree $from
+     * @param ezcTree $to
+     */
+    public static function copy( ezcTree $from, ezcTree $to )
+    {
+        $fromRootNode = $from->getRootNode();
+        $to->setRootNode( new ezcTreeNode( $to, $fromRootNode->id, $fromRootNode->data ) );
+        $toRootNode = $to->getRootNode();
+        self::copyChildren( $from, $to, $fromRootNode, $toRootNode );
+    }
+
+    /**
      * Starts an transaction in which all tree modifications are queued until 
      * the transaction is committed with the commit() method.
      */

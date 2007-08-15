@@ -15,7 +15,7 @@
  * @version //autogentag//
  * @access private
  */
-class XMLWriter
+class XMLWriterX
 {
     private $elementStack;
     private $uriFs = false;
