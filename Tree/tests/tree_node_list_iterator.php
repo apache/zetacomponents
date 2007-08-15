@@ -29,6 +29,16 @@ class ezcTreeNodeListIteratorTest extends ezcTestCase
         }
     }
 
+    public function testEmptyListPreFetch()
+    {
+        $list = new ezcTreeNodeList;
+
+        foreach ( new ezcTreeNodeListIterator( $this->tree, $list, true ) as $key => $node )
+        {
+            self::fail( "The list is not empty." );
+        }
+    }
+
     public function testOneItem()
     {
         $list = new ezcTreeNodeList;

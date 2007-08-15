@@ -144,7 +144,7 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
         $id = $node->id;
         $q->select( '*' )
           ->from( $db->quoteIdentifier( $this->table ) )
-          ->where( $q->expr->eq( $db->quoteIdentifier( $this->idField ), $id ) );
+          ->where( $q->expr->eq( $db->quoteIdentifier( $this->idField ), $q->bindValue( $id ) ) );
         $s = $q->prepare();
         $s->execute();
 
@@ -173,11 +173,14 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
                 $nodeIdsToFetch[] = $node->id;
             }
         }
+        if ( count( $nodeIdsToFetch ) === 0 )
+        {
+            return;
+        }
 
         $db = $this->dbHandler;
         $q = $db->createSelectQuery();
 
-        $id = $node->id;
         $q->select( '*' )
           ->from( $db->quoteIdentifier( $this->table ) )
           ->where( $q->expr->in( $db->quoteIdentifier( $this->idField ), $nodeIdsToFetch ) );

@@ -253,6 +253,17 @@ abstract class ezcDbTreeTest extends ezcTreeTest
         $haakon = $tree->fetchNodeById( 2 );
         self::assertEquals( array( 'name' => 'Haakon', 'born' => '1983' ), $haakon->data );
     }
+
+    public function testNodeListIteratorEmptyList()
+    {
+        $tree = $this->setUpEmptyTestTree();
+        $list = new ezcTreeNodeList;
+
+        foreach ( new ezcTreeNodeListIterator( $tree, $list, true ) as $key => $node )
+        {
+            self::fail( "The list is not empty." );
+        }
+    }
 }
 
 ?>
