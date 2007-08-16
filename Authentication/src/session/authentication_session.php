@@ -129,6 +129,69 @@ class ezcAuthenticationSession
     }
 
     /**
+     * Runs through the session and returns true if the session is correct.
+     *
+     * When using the session, it is often desirable to take advantage of the
+     * fact that the authenticated state of the user is kept in the session and
+     * not create and initialize the other filters (which might slow things
+     * down on every request).
+     *
+     * The application can be structured like this:
+     * <code>
+     * $session = new ezcAuthenticationSession();
+     * $session->start();
+     *
+     * $credentials = new ezcAuthenticationPasswordCredentials( $user, $pass );
+     *
+     * $authenticated = false;
+     * if ( !$session->isValid( $credentials ) )
+     * {
+     *     // create the authentication object
+     *     $authentication = new ezcAuthentication( $credentials );
+     *     $authentication->session = $session;
+     *
+     *     // create filters and add them to the authentication object
+     *     $authentication->addFilter( new ezcAuthenticationOpenidFilter() );
+     *
+     *     // run the authentication object
+     *     if ( !$authentication->run() )
+     *     {
+     *         $status = $authentication->getStatus();
+     *         // build an error message based on $status
+     *     }
+     *     else
+     *     {
+     *         $authenticated = true;
+     *     }
+     * }
+     * else
+     * {
+     *     $authenticated = true;
+     * }
+     *
+     * if ( $authenticated )
+     * {
+     *     // the authentication succeeded and the user can see his content
+     * }
+     * else
+     * {
+     *     // inform the user that the authentication failed (with the error
+     *     // message that was created earlier)
+     * }
+     * </code>
+     *
+     * In this way, the creation and initialization of the authentication
+     * filters is not performed if the credentials are stored in the session.
+     *
+     * @param ezcAuthenticationCredentials $credentials Authentication credentials
+     * @return bool
+     */
+    public function isValid( $credentials )
+    {
+        return ( $this->run( $credentials ) === self::STATUS_OK );
+    }
+
+    /**
      * Starts the session.
      *
      * This function must be called before sending any headers to the client.

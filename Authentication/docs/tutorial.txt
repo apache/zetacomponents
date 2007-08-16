@@ -157,6 +157,61 @@ If run() returned true (line 34) then the user is logged-in and he can see his
 content.
 
 
+Improving authentication performance when using the session
+```````````````````````````````````````````````````````````
+
+When using the session, it is often desirable to take advantage of the fact
+that the authenticated state of the user is kept in the session and not create
+and initialize the other filters (which might slow things down on every
+request).
+
+The application can be structured like this: ::
+
+    $session = new ezcAuthenticationSession();
+    $session->start();
+
+    $credentials = new ezcAuthenticationPasswordCredentials( $user, $pass );
+
+    $authenticated = false;
+    if ( !$session->isValid( $credentials ) )
+    {
+        // create the authentication object
+        $authentication = new ezcAuthentication( $credentials );
+        $authentication->session = $session;
+
+        // create filters and add them to the authentication object
+        $authentication->addFilter( new ezcAuthenticationOpenidFilter() );
+
+        // run the authentication object
+        if ( !$authentication->run() )
+        {
+            $status = $authentication->getStatus();
+            // build an error message based on $status
+        }
+        else
+        {
+            $authenticated = true;
+        }
+    }
+    else
+    {
+        $authenticated = true;
+    }
+
+    if ( $authenticated )
+    {
+        // the authentication succeeded and the user can see his content
+    }
+    else
+    {
+        // inform the user that the authentication failed (with the error
+        // message that was created earlier)
+    }
+
+In this way, the creation and initialization of the authentication filters is
+not performed if the credentials are stored in the session.
+
+
 Authentication filters
 ======================
 

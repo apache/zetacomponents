@@ -36,7 +36,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
 
     }
 
-    public function testSessionEmpty()
+    public function testSessionRunEmpty()
     {
         $_SESSION[self::$timestampKey] = time();
         $credentials = new ezcAuthenticationIdCredentials( self::$id );
@@ -47,7 +47,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
         $this->assertEquals( false, $authentication->run() );
     }
 
-    public function testSessionEmptyExpired()
+    public function testSessionRunEmptyExpired()
     {
         $_SESSION[self::$timestampKey] = time() - 5;
         $credentials = new ezcAuthenticationIdCredentials( self::$id );
@@ -58,7 +58,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
         $this->assertEquals( false, $authentication->run() );
     }
 
-    public function testSessionValid()
+    public function testSessionRunValid()
     {
         $_SESSION[self::$timestampKey] = time();
         $_SESSION[self::$idKey] = self::$id;
@@ -70,7 +70,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
         $this->assertEquals( true, $authentication->run() );
     }
 
-    public function testSessionValidExpired()
+    public function testSessionRunValidExpired()
     {
         $_SESSION[self::$timestampKey] = time() - 5;
         $_SESSION[self::$idKey] = self::$id;
@@ -82,6 +82,56 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
         $this->assertEquals( true, isset( $_SESSION[self::$timestampKey] ) );
         $this->assertEquals( true, isset( $_SESSION[self::$idKey] ) );
         $this->assertEquals( false, $authentication->run() );
+        $this->assertEquals( false, isset( $_SESSION[self::$timestampKey] ) );
+        $this->assertEquals( false, isset( $_SESSION[self::$idKey] ) );
+    }
+
+    public function testSessionIsValidEmpty()
+    {
+        $_SESSION[self::$timestampKey] = time();
+        $credentials = new ezcAuthenticationIdCredentials( self::$id );
+
+        $options = new ezcAuthenticationSessionOptions();
+        $options->validity = 3;
+        $session = new ezcAuthenticationSession( $options );
+        $this->assertEquals( false, $session->isValid( $credentials ) );
+    }
+
+    public function testSessionIsValidEmptyExpired()
+    {
+        $_SESSION[self::$timestampKey] = time() - 5;
+        $credentials = new ezcAuthenticationIdCredentials( self::$id );
+
+        $options = new ezcAuthenticationSessionOptions();
+        $options->validity = 1;
+        $session = new ezcAuthenticationSession( $options );
+        $this->assertEquals( false, $session->isValid( $credentials ) );
+    }
+
+    public function testSessionIsValidValid()
+    {
+        $_SESSION[self::$timestampKey] = time();
+        $_SESSION[self::$idKey] = self::$id;
+        $credentials = new ezcAuthenticationIdCredentials( self::$id );
+
+        $options = new ezcAuthenticationSessionOptions();
+        $options->validity = 3;
+        $session = new ezcAuthenticationSession( $options );
+        $this->assertEquals( true, $session->isValid( $credentials ) );
+    }
+
+    public function testSessionIsValidValidExpired()
+    {
+        $_SESSION[self::$timestampKey] = time() - 5;
+        $_SESSION[self::$idKey] = self::$id;
+        $credentials = new ezcAuthenticationIdCredentials( self::$id );
+
+        $options = new ezcAuthenticationSessionOptions();
+        $options->validity = 1;
+        $session = new ezcAuthenticationSession( $options );
+        $this->assertEquals( true, isset( $_SESSION[self::$timestampKey] ) );
+        $this->assertEquals( true, isset( $_SESSION[self::$idKey] ) );
+        $this->assertEquals( false, $session->isValid( $credentials ) );
         $this->assertEquals( false, isset( $_SESSION[self::$timestampKey] ) );
         $this->assertEquals( false, isset( $_SESSION[self::$idKey] ) );
     }
