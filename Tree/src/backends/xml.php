@@ -482,7 +482,7 @@ class ezcTreeXml extends ezcTree
      * @param string $parentId
      * @return bool
      */
-    public function isDecendantOf( $childId, $parentId )
+    public function isDescendantOf( $childId, $parentId )
     {
         $elem = $this->getNodeById( $childId );
         $elem = $elem->parentNode;

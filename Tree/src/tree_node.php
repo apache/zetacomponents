@@ -293,9 +293,9 @@ class ezcTreeNode implements ezcTreeVisitable
      *
      * @return bool
      */
-    public function isDecendantOf( ezcTreeNode $parentNode )
+    public function isDescendantOf( ezcTreeNode $parentNode )
     {
-        return $this->tree->isDecendantOf( $this->id, $parentNode->id );
+        return $this->tree->isDescendantOf( $this->id, $parentNode->id );
     }
 
     /**

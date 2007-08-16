@@ -36,7 +36,7 @@
  *     $nodeList = $tree->fetchSubtree( 'Pantherinae' );
  * 
  *     // Checking for relations between nodes
- *     $tree->isDecendantOf( 'Tiger', 'Panthera' );
+ *     $tree->isDescendantOf( 'Tiger', 'Panthera' );
  *     $tree->isSiblingOf( 'Lion', 'Leopard' );
  * ?>
  * </code>
@@ -300,7 +300,7 @@ abstract class ezcTree implements ezcTreeVisitable
      * @param string $parentId
      * @return bool
      */
-    abstract public function isDecendantOf( $childId, $parentId );
+    abstract public function isDescendantOf( $childId, $parentId );
 
     /**
      * Returns whether the nodes with IDs $child1Id and $child2Id are siblings

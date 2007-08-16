@@ -329,7 +329,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
      * @param string $parentId
      * @return bool
      */
-    public function isDecendantOf( $childId, $parentId )
+    public function isDescendantOf( $childId, $parentId )
     {
         // Fetch node information
         list( $dummyParentId, $path ) = $this->fetchNodeInformation( $childId );

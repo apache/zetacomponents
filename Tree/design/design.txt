@@ -125,7 +125,7 @@ public function hasChildNodes( $id );
 public function isChildOf( $childId, $parentId );
     Returns whether the node with ID $childId is a direct child of the node
     with ID $parentId
-public function isDecendantOf( $childId, $parentId );
+public function isDescendantOf( $childId, $parentId );
     Returns whether the node with ID $childId is a direct or indirect child of
     the node with ID $parentId
 public function isSiblingOf( $child1Id, $child2Id );

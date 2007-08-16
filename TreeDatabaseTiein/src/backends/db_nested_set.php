@@ -149,7 +149,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
      * @param string $parentId
      * @return bool
      */
-    public function isDecendantOf( $childId, $parentId )
+    public function isDescendantOf( $childId, $parentId )
     {
         $path = $this->fetchPath( $childId );
 

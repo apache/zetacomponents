@@ -211,30 +211,30 @@ class ezcTreeTest extends ezcTestCase
     {
         $tree = $this->setUpTestTree();
 
-        self::assertSame( true, $tree->fetchNodeById( 2 )->isDecendantOf( $tree->fetchNodeById( 1 ) ) );
-        self::assertSame( false, $tree->fetchNodeById( 6 )->isDecendantOf( $tree->fetchNodeById( 2 ) ) );
-        self::assertSame( false, $tree->fetchNodeById( 8 )->isDecendantOf( $tree->fetchNodeById( 2 ) ) );
-        self::assertSame( true, $tree->fetchNodeById( 8 )->isDecendantOf( $tree->fetchNodeById( 4 ) ) );
-        self::assertSame( true, $tree->fetchNodeById( 6 )->isDecendantOf( $tree->fetchNodeById( 4 ) ) );
-        self::assertSame( true, $tree->fetchNodeById( 7 )->isDecendantOf( $tree->fetchNodeById( 6 ) ) );
-        self::assertSame( true, $tree->fetchNodeById( 8 )->isDecendantOf( $tree->fetchNodeById( 6 ) ) );
-        self::assertSame( false, $tree->fetchNodeById( 7 )->isDecendantOf( $tree->fetchNodeById( 7 ) ) );
-        self::assertSame( false, $tree->fetchNodeById( 7 )->isDecendantOf( $tree->fetchNodeById( 8 ) ) );
+        self::assertSame( true, $tree->fetchNodeById( 2 )->isDescendantOf( $tree->fetchNodeById( 1 ) ) );
+        self::assertSame( false, $tree->fetchNodeById( 6 )->isDescendantOf( $tree->fetchNodeById( 2 ) ) );
+        self::assertSame( false, $tree->fetchNodeById( 8 )->isDescendantOf( $tree->fetchNodeById( 2 ) ) );
+        self::assertSame( true, $tree->fetchNodeById( 8 )->isDescendantOf( $tree->fetchNodeById( 4 ) ) );
+        self::assertSame( true, $tree->fetchNodeById( 6 )->isDescendantOf( $tree->fetchNodeById( 4 ) ) );
+        self::assertSame( true, $tree->fetchNodeById( 7 )->isDescendantOf( $tree->fetchNodeById( 6 ) ) );
+        self::assertSame( true, $tree->fetchNodeById( 8 )->isDescendantOf( $tree->fetchNodeById( 6 ) ) );
+        self::assertSame( false, $tree->fetchNodeById( 7 )->isDescendantOf( $tree->fetchNodeById( 7 ) ) );
+        self::assertSame( false, $tree->fetchNodeById( 7 )->isDescendantOf( $tree->fetchNodeById( 8 ) ) );
     }
 
     public function testTreeIsDecendantOfOnTree()
     {
         $tree = $this->setUpTestTree();
 
-        self::assertSame( true, $tree->isDecendantOf( 2, 1 ) );
-        self::assertSame( false, $tree->isDecendantOf( 6, 2 ) );
-        self::assertSame( false, $tree->isDecendantOf( 8, 2 ) );
-        self::assertSame( true, $tree->isDecendantOf( 6, 4 ) );
-        self::assertSame( true, $tree->isDecendantOf( 8, 4 ) );
-        self::assertSame( true, $tree->isDecendantOf( 7, 6 ) );
-        self::assertSame( true, $tree->isDecendantOf( 8, 6 ) );
-        self::assertSame( false, $tree->isDecendantOf( 7, 7 ) );
-        self::assertSame( false, $tree->isDecendantOf( 7, 8 ) );
+        self::assertSame( true, $tree->isDescendantOf( 2, 1 ) );
+        self::assertSame( false, $tree->isDescendantOf( 6, 2 ) );
+        self::assertSame( false, $tree->isDescendantOf( 8, 2 ) );
+        self::assertSame( true, $tree->isDescendantOf( 6, 4 ) );
+        self::assertSame( true, $tree->isDescendantOf( 8, 4 ) );
+        self::assertSame( true, $tree->isDescendantOf( 7, 6 ) );
+        self::assertSame( true, $tree->isDescendantOf( 8, 6 ) );
+        self::assertSame( false, $tree->isDescendantOf( 7, 7 ) );
+        self::assertSame( false, $tree->isDescendantOf( 7, 8 ) );
     }
 
     public function testTreeIsSiblingOfOnNode()
@@ -865,7 +865,7 @@ class ezcTreeTest extends ezcTestCase
         $this->addTestData( $tree );
 
         self::assertSame( true, $tree->nodeExists( 'Homo Sapiens Sapiens' ) );
-        self::assertSame( true, $tree->isDecendantOf( 'Common Chimpanzee', 'Hominoidea' ) );
+        self::assertSame( true, $tree->isDescendantOf( 'Common Chimpanzee', 'Hominoidea' ) );
         self::assertSame( 4, $tree->getChildCount( 'Hominidae' ) );
         self::assertSame( 17, $tree->getChildCountRecursive( 'Hominidae' ) );
         self::assertSame( true, $tree->isSiblingOf( 'Gorilla', 'Homo' ) );
