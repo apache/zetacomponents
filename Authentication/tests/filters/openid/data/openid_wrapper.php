@@ -110,6 +110,32 @@ class ezcAuthenticationOpenidWrapper extends ezcAuthenticationOpenidFilter
     }
 
     /**
+     * Connects to $provider (checkid_immediate OpenID request) and returns an
+     * URL (setup URL) which can be used by the application in a pop-up window.
+     *
+     * The format of the check_authentication $params array is:
+     * <code>
+     * array(
+     *        'openid.return_to' => urlencode( URL ),
+     *        'openid.trust_root' => urlencode( URL ),
+     *        'openid.identity' => urlencode( URL ),
+     *        'openid.mode' => 'checkid_immediate'
+     *      );
+     * </code>
+     *
+     * @throws ezcAuthenticationOpenidException
+     *         if connection to the OpenID provider could not be opened
+     * @param string $provider The OpenID provider (discovered in HTML or Yadis)
+     * @param array(string=>string) $params OpenID parameters for checkid_immediate mode
+     * @param string $method The method to connect to the provider (default GET)
+     * @return bool
+     */
+	public function checkImmediate( $provider, array $params, $method = 'GET' )
+    {
+        return parent::checkImmediate( $provider, $params, $method );
+    }
+
+    /**
      * Opens a connection with the OpenID provider and checks if $params are
      * correct.
      *

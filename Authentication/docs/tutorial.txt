@@ -63,8 +63,8 @@ ezcAuthenticationLdapFilter
   only in plain text. It depends on the PHP ldap extension.
 
 ezcAuthenticationOpenidFilter
-  Filter to authenticate against OpenID. For now the OpenID version 1.1 is
-  supported.
+  Filter to authenticate against OpenID. For now the OpenID versions 1.0 and 1.1
+  are supported.
 
 ezcAuthenticationTokenFilter
   Filter used to implement CAPTCHA tests. It basically compares the server
@@ -327,7 +327,9 @@ Discovery
 openid.checkid_setup
   The consumer redirects the browser to the provider, so that the user can
   enter his username and password to the provider. The provider then redirects
-  back to the consumer.
+  back to the consumer. The checkid_immediate mode is supported as well, for
+  authentication in a pop-up window or iframe (or similar techniques). See
+  below the section `OpenID immediate mode`_ for details.
 
 openid.check_authentication
   The consumer sends to the provider the values received in step 2 and receives
@@ -410,8 +412,88 @@ this example or database store as shown in the OpenID example in
 the store will also hold the nonces which are used to prevent replay attacks.
 
 
-    // $filter is an ezcAuthenticationLdapFilter object
-    $filter->registerFetchData( array( 'name', 'company', 'mobile' ) );
+OpenID immediate mode
+`````````````````````
+
+The OpenID request checkid_immediate is supported, which allows for user
+authentication in a pop-up window or iframe (or similar techniques). Instead of
+redirecting the user agent as in the checkid_setup step, the developer has the
+possibility to open a pop-up/iframe for the user to authenticate with the
+OpenID provider.
+
+A more detailed description of the process: when using checkid_immediate, the
+OpenID provider is asked if the user can be authenticated on the spot, with no
+redirection of the user agent. If the user cannot be authenticated, the provider
+sends back a setup URL, which the application can use in a pop-up window or
+iframe to display to the user so that he can authenticate himself to the OpenID
+provider. After user enters his OpenID username and password at this page and
+accepts the originating site, the pop-up window or iframe is redirected to the
+return URL value (which should be a different page than the page which opens the
+pop-up window). The return URL page will then inform the main page of success or
+failure through JavaScript, and the main page can do the action that it needs to
+perform based on the outcome in the pop-up page.
+
+The checkid_immediate mode is enabled by setting the option immediate to true.
+
+Note: retrieval of extra data during authentication (fullname, email, etc) is
+not possible at the moment when using the immediate mode.
+
+For example, this is one simple way of implementing checkid_immediate:
+
+- the main page contains the OpenID login form (where the user types in his
+  OpenID identifier). This page contains also a hidded form value which
+  specifies to which page to return to in the pop-up window. The Enter key
+  and the submit button should be disabled on the form. When user clicks on
+  the Login button, the main page should employ AJAX to request the return
+  URL. When the return URL finishes loading, the main page will read from the
+  return URL page the setup URL and it will open it in a pop-up/iframe.
+
+- the return URL page enables the option immediate to the OpenID filter, and
+  runs the filter. It gets back the setup URL and it echoes it to be picked-up
+  by the main page once the return URL page will finish loading. The setup URL
+  should be the only thing that the return URL page is echoing, to not interfere
+  with the main page.
+
+- in the pop-up/iframe the setup URL will load, which basically depends on
+  the OpenID provider how it is handled by the user. After the user enters
+  his credentials on the setup URL page, he will be redirected to the return URL,
+  which should detect this, and which should inform the main page that the
+  user was authenticated to the OpenID provider.
+
+A rudimentary source code example is provided below. It does not contain code
+to inform the user that the session expired or the errors experienced during
+the authentication process. The code has been tested on some browsers (Firefox
+1.5, Konqueror 3.5, Internet Explorer 6.0), but it is possible that some
+browsers might have issues with the JavaScript code.
+
+The main page:
+
+.. include:: tutorial/tutorial_openid_ajax.php
+   :literal:
+
+This page handles the session, and contains JavaScript code to read from the
+return URL page the setup URL, and to open a pop-up page with that setup URL.
+
+The pop-up page (also return URL):
+
+.. include:: tutorial/tutorial_openid_immediate.php
+   :literal:
+
+This page also contains code to handle the session, in addition to handling the
+OpenID authentication. It will be called 2 times:
+
+- first by the main page, with the immediate=true query parameter. A
+  connection to the OpenID provider is created, and a setup URL is fetched,
+  which will be echoed to be picked up by the main page. The main page then
+  opens the setup URL in a pop-up window.
+
+- second, by the setup URL, as the openid.return_to query parameter is set to
+  redirect back to this page. The OpenID filter is called again, this time to
+  check the signature in the return URL, and if it authenticates
+  successfully, the main page is informed of this (line 80) and the pop-up
+  window is closed. Other methods can be employed to inform the main page,
+  and the main page can do other actions instead of just displaying a
+  message.
 
 
 Fetch extra data during OpenID authentication
@@ -438,6 +520,9 @@ For the previous example, the $data array will be something like this: ::
            'country' => array( 'US' ),
            'language' => array( 'FR' )
          );
+
+Note: when using the immediate OpenID mode (by setting the option immediate to
+true), extra data cannot be fetched during authentication.
 
 
 Token

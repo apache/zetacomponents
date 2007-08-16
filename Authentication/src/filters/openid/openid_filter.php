@@ -12,7 +12,8 @@
 /**
  * Filter to authenticate against OpenID. Currently supporting OpenID 1.0 and 1.1.
  *
- * The filter takes an identifier (URL) as credentials, and performs these steps:
+ * The filter takes an identifier (URL) as credentials, and performs these steps
+ * (by default, with redirection of the user agent to the OpenID provider):
  *  1. Normalize the identifier
  *  2. Discover the provider and delegate by requesting the URL
  *       - first using the Yadis discovery protocol
@@ -26,6 +27,47 @@
  *     to the originating site, the values provided by the provider must be checked
  *     in an extra request against the provider. The provider responds with is_valid
  *     true or false.
+ *
+ * The OpenID request checkid_immediate is supported, which allows for user
+ * authentication in a pop-up window or iframe (or similar techniques). The steps
+ * of the authentication process are the same as above, but step 4 changes as
+ * follows:
+ *  4. OpenID checkid_immediate request. This step asks the OpenID provider if the
+ *     user can be authenticated on the spot, with no redirection. If the user
+ *     cannot be authenticated, the provider sends back a setup URL, which the
+ *     application can use in a pop-up window or iframe to display to the user
+ *     so that he can authenticate himself to the OpenID provider. After user
+ *     enters his OpenID username and password at this page and accepts the
+ *     originating site, the pop-up window or iframe is redirected to the
+ *     return URL value (which should be a different page than the page which
+ *     opens the pop-up window). The return URL page will then inform the
+ *     main page of success or failure through JavaScript, and the main page
+ *     can do the action that it needs to perform based on the outcome in the
+ *     pop-up page. The checkid_immediate mode is enabled by setting the
+ *     option immediate to true.
+ *
+ * For example, this is one simple way of implementing checkid_immediate:
+ *  - the main page contains the OpenID login form (where the user types in his
+ *    OpenID identifier). This page contains also a hidded form value which
+ *    specifies to which page to return to in the pop-up window. The Enter key
+ *    and the submit button should be disabled on the form. When user clicks on
+ *    the Login button, the main page should employ AJAX to request the return
+ *    URL. When the return URL finishes loading, the main page will read from the
+ *    return URL page the setup URL and it will open it in a pop-up/iframe.
+ *  - the return URL page enables the option immediate to the OpenID filter, and
+ *    runs the filter. It gets back the setup URL and it echoes it to be picked-up
+ *    by the main page once the return URL page will finish loading. The setup URL
+ *    should be the only thing that the return URL page is echoing, to not interfere
+ *    with the main page.
+ *  - in the pop-up/iframe the setup URL will load, which basically depends on
+ *    the OpenID provider how it is handled by the user. After the user enters
+ *    his credentials on the setup URL page, he will be redirected to the return URL,
+ *    which should detect this, and which should inform the main page that the
+ *    user was authenticated to the OpenID provider.
+ *
+ * As this mode required advanced JavaScript techniques and AJAX, no example
+ * source code will be provided here as it is out of the scope of this
+ * documentation. A rudimentary example is provided in the tutorial.
  *
  * Specifications:
  *  - OpenID 1.0: {@link http://openid.net/specs/openid-simple-registration-extension-1_0.html}
@@ -152,13 +194,15 @@
  *  - language - the user's preferred language as an ISO639 string (eg. "FR")
  *  - timezone - the user's timezone, for example "Europe/Paris"
  *
+ * Note: if using the checkid_immediate mode (by setting the option immediate to
+ * true), then retrieval of extra data is not possible.
+ *
  * @todo add support for fetching extra data as in OpenID attribute exchange?
  *       (if needed) - {@link http://openid.net/specs.bml}
  * @todo add support for multiple URLs in each category at discovery
  * @todo add support for OpenID 2.0 (openid.ns=http://specs.openid.net/auth/2.0),
  *       and add support for XRI identifiers and discovery
  *       Question: is 2.0 already out or is it still a draft?
- * @todo add support for checkid_immediate
  * @todo check if the nonce handling is correct (openid.response_nonce?)
  *
  * @package Authentication
@@ -189,6 +233,12 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      * @todo remove and return STATUS_SIGNATURE_INCORRECT instead?
      */
     const STATUS_URL_INCORRECT = 4;
+
+    /**
+     * The OpenID server returned a setup URL after a checkid_immediate request,
+     * which is available by calling the getSetupUrl() method.
+     */
+    const STATUS_SETUP_URL = 5;
 
     /**
      * OpenID authentication mode where the OpenID provider generates a secret
@@ -257,6 +307,16 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
     protected $data = array();
 
     /**
+     * Holds the setup URL retrieved during the checkid_immediate OpenID request.
+     *
+     * This URL can be used by the application to authenticate the user in a
+     * pop-up window or iframe (or similar techniques).
+     *
+     * @var string
+     */
+    protected $setupUrl = false;
+
+    /**
      * Creates a new object of this class.
      *
      * @param ezcAuthenticationOpenidOptions $options Options for this class
@@ -297,7 +357,6 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                 // if a delegate is found, it is used instead of the credentials
                 $identity = isset( $providers['openid.delegate'][0] ) ? $providers['openid.delegate'][0] :
                                                                         $credentials->id;
-
                 $host = isset( $_SERVER["HTTP_HOST"] ) ? $_SERVER["HTTP_HOST"] : null;
                 $path = isset( $_SERVER["REQUEST_URI"] ) ? $_SERVER["REQUEST_URI"] : null;
 
@@ -351,8 +410,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                 $params = array(
                     'openid.return_to' => urlencode( $returnTo ),
                     'openid.trust_root' => urlencode( $trustRoot ),
-                    'openid.identity' => urlencode( $identity ),
-                    'openid.mode' => 'checkid_setup',
+                    'openid.identity' => urlencode( $identity )
                     );
 
                 if ( count( $this->requestedData ) > 0 )
@@ -374,7 +432,26 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                     }
                 }
 
-                $this->redirectToOpenidProvider( $provider, $params );
+                if ( $this->options->immediate === true )
+                {
+                    $params['openid.mode'] = 'checkid_immediate';
+                    $response = $this->checkImmediate( $provider, $params );
+
+                    if ( $response !== false )
+                    {
+                        $this->setupUrl = $response;
+                        return self::STATUS_SETUP_URL;
+                    }
+                    else
+                    {
+                        return self::STATUS_URL_INCORRECT;
+                    }
+                }
+                else
+                {
+                    $params['openid.mode'] = 'checkid_setup';
+                    $this->redirectToOpenidProvider( $provider, $params );
+                }
                 break;
 
             case 'id_res':
@@ -669,6 +746,99 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
     }
 
     /**
+     * Connects to $provider (checkid_immediate OpenID request) and returns an
+     * URL (setup URL) which can be used by the application in a pop-up window.
+     *
+     * The format of the check_authentication $params array is:
+     * <code>
+     * array(
+     *        'openid.return_to' => urlencode( URL ),
+     *        'openid.trust_root' => urlencode( URL ),
+     *        'openid.identity' => urlencode( URL ),
+     *        'openid.mode' => 'checkid_immediate'
+     *      );
+     * </code>
+     *
+     * @throws ezcAuthenticationOpenidException
+     *         if connection to the OpenID provider could not be opened
+     * @param string $provider The OpenID provider (discovered in HTML or Yadis)
+     * @param array(string=>string) $params OpenID parameters for checkid_immediate mode
+     * @param string $method The method to connect to the provider (default GET)
+     * @return bool
+     */
+	protected function checkImmediate( $provider, array $params, $method = 'GET' )
+    {
+        $parts = parse_url( $provider );
+        $path = isset( $parts['path'] ) ? $parts['path'] : '/';
+        $host = isset( $parts['host'] ) ? $parts['host'] : null;
+        $port = 80;
+
+        $connection = @fsockopen( $host, $port, $errno, $errstr, $this->options->timeoutOpen );
+        if ( !$connection )
+        {
+            throw new ezcAuthenticationOpenidException( "Could not connect to host {$host}:{$port}: {$errstr}." );
+		}
+        else
+        {
+            stream_set_timeout( $connection, $this->options->timeout );
+            $url = $path . '?' . urldecode( http_build_query( $params ) );
+            $headers = array( "{$method} {$url} HTTP/1.0", "Host: {$host}", "Connection: close" );
+            fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
+
+            $src = '';
+            while ( !feof( $connection ) )
+            {
+                $src .= fgets( $connection, 1024 );
+            }
+            fclose( $connection );
+
+            $pattern = "/Location:\s(.*)/";
+            if ( preg_match( $pattern, $src, $matches ) > 0 )
+            {
+                $returnUrl = trim( $matches[1] );
+
+                // get the query parameters from the response URL
+                $query = parse_url( $returnUrl, PHP_URL_QUERY );
+                parse_str( $query, $vars );
+
+                // get the openid.user_setup_url value from the response URL
+                $setupUrl = isset( $vars['openid_user_setup_url'] ) ? $vars['openid_user_setup_url'] : false;
+
+                if ( $setupUrl !== false )
+                {
+                    // the next call to OpenID will be check_authentication
+                    $vars['openid_mode'] = 'check_authentication';
+
+                    // get the query parameters from the openid.user_setup_url in $setupParams
+                    // and the other parts of the URL in $parts
+                    $parts = parse_url( $setupUrl );
+                    $query = isset( $parts['query'] ) ? $parts['query'] : false;
+                    parse_str( $query, $setupParams );
+
+                    // merge the setup_url query parameters with all the other query parameters
+                    $vars = array_merge( $vars, $setupParams );
+
+                    // need to do this as parse_str() transforms the dots into underscores
+                    $params = array();
+                    foreach ( $vars as $key => $value )
+                    {
+                        $params[str_replace( 'openid_', 'openid.', $key )] = $value;
+                    }
+
+                    // return the setup URL combined with the rest of the query parameters
+                    $parts['query'] = $params;
+                    $setupUrl = ezcAuthenticationUrl::buildUrl( $parts );
+                }
+
+                return $setupUrl;
+            }
+        }
+
+        // the response from the OpenID server did not contain setup_url
+        return false;
+    }
+
+    /**
      * Opens a connection with the OpenID provider and checks if $params are
      * correct (check_authentication OpenID request).
      *
@@ -940,6 +1110,11 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
     public function fetchData()
     {
         return $this->data;
+    }
+
+    public function getSetupUrl()
+    {
+        return $this->setupUrl;
     }
 }
 ?>

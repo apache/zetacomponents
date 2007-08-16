@@ -27,6 +27,13 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public static $provider = "http://www.myopenid.com/server";
 
+    public static $requestCheckImmediate = array(
+        'openid.return_to' => 'http://localhost',
+        'openid.trust_root' => 'http://ezc.myopenid.com',
+        'openid.identity' => 'http://ezc.myopenid.com',
+        'openid.mode' => 'checkid_immediate',
+        );
+
     public static $requestCheckAuthentication = array(
         'openid.assoc_handle' => '%7BHMAC-SHA1%7D%7B4640581a%7D%7B3X%2Frrw%3D%3D%7D',
         'openid.signed' => 'return_to%2Cmode%2Cidentity',
@@ -180,8 +187,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         catch ( ezcAuthenticationOpenidException $e )
         {
             $result = $e->getMessage();
-            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup&openid.sreg.optional=fullname,gender,country,language'. Most probably your browser does not support redirection or JavaScript.";
-            //$expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
+            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.sreg.optional=fullname,gender,country,language&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
             $this->assertEquals( substr( $expected, 0, 192 ), substr( $result, 0, 192 ) );
             $this->assertEquals( substr( $expected, 198 ), substr( $result, 198 ) );
         }
@@ -437,6 +443,42 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $this->removeTempDir();
     }
 
+    public function testOpenidCaseNullSmartModeFileStoreFailHostInaccessible()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationOpenidOptions();
+        $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
+
+        $path = $this->createTempDir( get_class( $this ) );
+        $options->store = new ezcAuthenticationOpenidFileStore( $path );
+
+        $filter = $this->getMock( 'ezcAuthenticationOpenidFilter', array( 'discover' ), array( $options ) );
+        $filter->expects( $this->any() )
+               ->method( 'discover' )
+               ->will( $this->returnValue( array( 'openid.server' => array( '' ) ) ) );
+
+        $authentication->addFilter( $filter );
+
+        try
+        {
+            $authentication->run();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcAuthenticationOpenidException $e )
+        {
+            $result = $e->getMessage();
+            $expected = "Could not connect to host :443: .";
+            $this->assertEquals( $expected, $result );
+        }
+        $this->removeTempDir();
+    }
+
     public function testOpenidCaseNullSmartModeFileStoreExistent()
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
@@ -498,6 +540,178 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $this->removeTempDir();
     }
 
+    public function testOpenidImmediateCaseNullUrlNonexistent()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$urlNonexistent );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationOpenidOptions();
+
+        $options->immediate = true;
+
+        $filter = new ezcAuthenticationOpenidFilter( $options );
+
+        $authentication->addFilter( $filter );
+
+        try
+        {
+            $authentication->run();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcAuthenticationOpenidException $e )
+        {
+            $result = $e->getMessage();
+            $expected = "Could not connect to host xxx:80: .";
+            $this->assertEquals( $expected, $result );
+        }
+    }
+
+    public function testOpenidWrapperImmediateCheckImmediateUrlNoOpenid()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$urlNoOpenid );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationOpenidOptions();
+
+        $options->immediate = true;
+
+        $filter = new ezcAuthenticationOpenidWrapper( $options );
+
+        $setupUrl = $filter->checkImmediate( self::$provider, self::$requestCheckImmediate );
+
+        $setupUrl = $filter->getSetupUrl();
+        $this->assertEquals( false, $setupUrl );
+        $this->assertEquals( true, is_bool( $setupUrl ) );
+    }
+
+    public function testOpenidWrapperImmediateNoSetupUrl()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationOpenidOptions();
+
+        $options->immediate = true;
+
+        $filter = $this->getMock( 'ezcAuthenticationOpenidFilter', array( 'generateNonce', 'discover' ), array( $options ) );
+        $filter->expects( $this->any() )
+               ->method( 'generateNonce' )
+               ->will( $this->returnValue( '123456' ) );
+
+        $filter->expects( $this->any() )
+               ->method( 'discover' )
+               ->will( $this->returnValue( array( 'openid.server' => array( 'http://www.google.com/' ) ) ) );
+
+        $result = $filter->run( $credentials );
+
+        $this->assertEquals( ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT, $result );
+
+        $setupUrl = $filter->getSetupUrl();
+        $this->assertEquals( false, $setupUrl );
+        $this->assertEquals( true, is_bool( $setupUrl ) );
+    }
+
+    public function testOpenidMockImmediateCaseNull()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationOpenidOptions();
+
+        $options->immediate = true;
+
+        $filter = $this->getMock( 'ezcAuthenticationOpenidFilter', array( 'generateNonce' ), array( $options ) );
+        $filter->expects( $this->any() )
+               ->method( 'generateNonce' )
+               ->will( $this->returnValue( '123456' ) );
+
+        $authentication->addFilter( $filter );
+
+        $authentication->run();
+        $setupUrl = $filter->getSetupUrl();
+        $expected = "http://www.myopenid.com/server?action=login&openid.identifier=http%3A%2F%2Fezc.myopenid.com&nonce=123456&openid.assoc_handle=%7BHMAC-SHA1%7D%7B46c3086c%7D%7B%2F3r4xA%3D%3D%7D&openid.mode=checkid_setup&openid.sig=miZkmdlb3%2BPDCASwZzAqxQfZqn4%3D&openid.signed=assoc_handle%2Cmode%2Csigned%2Cuser_setup_url&openid.user_setup_url=http%3A%2F%2Fwww.myopenid.com%2Fserver%3Fopenid.claimed_id%3Dhttp%253A%252F%252Fezc.myopenid.com%252F%26openid.identity%3Dhttp%253A%252F%252Fezc.myopenid.com%252F%26openid.mode%3Dcheckid_setup%26openid.ns%3Dhttp%253A%252F%252Fspecs.openid.net%252Fauth%252F2.0%26openid.realm%3Dhttp%253A%252F%252Flocalhost%26openid.return_to%3Dhttp%253A%252F%252Flocalhost%252Fopenid.php%253Faction%253Dlogin%2526openid_identifier%253Dhttp%25253A%25252F%25252Fezc.myopenid.com%2526nonce%253D123456&openid.claimed_id=http%3A%2F%2Fezc.myopenid.com%2F&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.realm=http%3A%2F%2Flocalhost&openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D123456";
+        $this->assertEquals( substr( $expected, 0, 138 ), substr( $setupUrl, 0, 138 ) );
+        $this->assertEquals( substr( $expected, strpos( $expected, 'openid.signed' ) ), substr( $setupUrl, strpos( $setupUrl, 'openid.signed' ) ) );
+    }
+
+    public function testOpenidMockImmediateCaseNullFailHostInaccessible()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationOpenidOptions();
+
+        $options->immediate = true;
+
+        $filter = $this->getMock( 'ezcAuthenticationOpenidFilter', array( 'generateNonce', 'discover' ), array( $options ) );
+        $filter->expects( $this->any() )
+               ->method( 'generateNonce' )
+               ->will( $this->returnValue( '123456' ) );
+
+        $filter->expects( $this->any() )
+               ->method( 'discover' )
+               ->will( $this->returnValue( array( 'openid.server' => array( '' ) ) ) );
+
+        $authentication->addFilter( $filter );
+
+        try
+        {
+            $authentication->run();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcAuthenticationOpenidException $e )
+        {
+            $result = $e->getMessage();
+            $expected = "Could not connect to host :80: .";
+            $this->assertEquals( $expected, $result );
+        }
+    }
+
+    public function testOpenidMockImmediateCaseNullSmartModeNoStore()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationOpenidOptions();
+        $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
+
+        $options->immediate = true;
+
+        $filter = $this->getMock( 'ezcAuthenticationOpenidFilter', array( 'generateNonce' ), array( $options ) );
+        $filter->expects( $this->any() )
+               ->method( 'generateNonce' )
+               ->will( $this->returnValue( '123456' ) );
+
+        $authentication->addFilter( $filter );
+
+        $authentication->run();
+        $setupUrl = $filter->getSetupUrl();
+        $expected = "http://www.myopenid.com/server?action=login&openid.identifier=http%3A%2F%2Fezc.myopenid.com&nonce=123456&openid.assoc_handle=%7BHMAC-SHA1%7D%7B46c3086c%7D%7B%2F3r4xA%3D%3D%7D&openid.mode=checkid_setup&openid.sig=miZkmdlb3%2BPDCASwZzAqxQfZqn4%3D&openid.signed=assoc_handle%2Cmode%2Csigned%2Cuser_setup_url&openid.user_setup_url=http%3A%2F%2Fwww.myopenid.com%2Fserver%3Fopenid.claimed_id%3Dhttp%253A%252F%252Fezc.myopenid.com%252F%26openid.identity%3Dhttp%253A%252F%252Fezc.myopenid.com%252F%26openid.mode%3Dcheckid_setup%26openid.ns%3Dhttp%253A%252F%252Fspecs.openid.net%252Fauth%252F2.0%26openid.realm%3Dhttp%253A%252F%252Flocalhost%26openid.return_to%3Dhttp%253A%252F%252Flocalhost%252Fopenid.php%253Faction%253Dlogin%2526openid_identifier%253Dhttp%25253A%25252F%25252Fezc.myopenid.com%2526nonce%253D123456&openid.claimed_id=http%3A%2F%2Fezc.myopenid.com%2F&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.realm=http%3A%2F%2Flocalhost&openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D123456";
+        $this->assertEquals( substr( $expected, 0, 138 ), substr( $setupUrl, 0, 138 ) );
+        $this->assertEquals( substr( $expected, strpos( $expected, 'openid.signed' ) ), substr( $setupUrl, strpos( $setupUrl, 'openid.signed' ) ) );
+    }
+
+    public function testOpenidMockImmediateCaseNullSmartModeFileStore()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationOpenidOptions();
+        $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
+        $path = $this->createTempDir( get_class( $this ) );
+        $options->store = new ezcAuthenticationOpenidFileStore( $path );
+
+        $options->immediate = true;
+
+        $filter = $this->getMock( 'ezcAuthenticationOpenidFilter', array( 'generateNonce' ), array( $options ) );
+        $filter->expects( $this->any() )
+               ->method( 'generateNonce' )
+               ->will( $this->returnValue( '123456' ) );
+
+        $authentication->addFilter( $filter );
+
+        $authentication->run();
+        $this->removeTempDir();
+
+        $setupUrl = $filter->getSetupUrl();
+        $expected = "http://www.myopenid.com/server?action=login&openid.identifier=http%3A%2F%2Fezc.myopenid.com&nonce=123456&openid.assoc_handle=%7BHMAC-SHA1%7D%7B46c3086c%7D%7B%2F3r4xA%3D%3D%7D&openid.mode=checkid_setup&openid.sig=miZkmdlb3%2BPDCASwZzAqxQfZqn4%3D&openid.signed=assoc_handle%2Cmode%2Csigned%2Cuser_setup_url&openid.user_setup_url=http%3A%2F%2Fwww.myopenid.com%2Fserver%3Fopenid.claimed_id%3Dhttp%253A%252F%252Fezc.myopenid.com%252F%26openid.identity%3Dhttp%253A%252F%252Fezc.myopenid.com%252F%26openid.mode%3Dcheckid_setup%26openid.ns%3Dhttp%253A%252F%252Fspecs.openid.net%252Fauth%252F2.0%26openid.realm%3Dhttp%253A%252F%252Flocalhost%26openid.return_to%3Dhttp%253A%252F%252Flocalhost%252Fopenid.php%253Faction%253Dlogin%2526openid_identifier%253Dhttp%25253A%25252F%25252Fezc.myopenid.com%2526nonce%253D123456&openid.claimed_id=http%3A%2F%2Fezc.myopenid.com%2F&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.realm=http%3A%2F%2Flocalhost&openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D123456";
+        $this->assertEquals( substr( $expected, 0, 138 ), substr( $setupUrl, 0, 138 ) );
+        $this->assertEquals( substr( $expected, strpos( $expected, 'openid.claimed_id' ) ), substr( $setupUrl, strpos( $setupUrl, 'openid.claimed_id' ) ) );
+    }
+
     public function testOpenidWrapperRunModeIdRes()
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
@@ -511,6 +725,33 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $filter = new ezcAuthenticationOpenidWrapper();
         $result = $filter->run( $credentials );
         $this->assertEquals( ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT, $result );
+    }
+
+    public function testOpenidWrapperRunModeIdResFailHostInaccessible()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
+        }
+
+        $_GET = self::$requestCheckAuthenticationGet;
+        $_GET['openid_mode'] = 'id_res';
+        $_GET['openid_op_endpoint'] = '';
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+
+        $filter = new ezcAuthenticationOpenidWrapper();
+
+        try
+        {
+            $filter->run( $credentials );
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcAuthenticationOpenidException $e )
+        {
+            $result = $e->getMessage();
+            $expected = "Could not connect to host :443: .";
+            $this->assertEquals( $expected, $result );
+        }
     }
 
     public function testOpenidWrapperRunModeIdResSmartModeFileStore()
@@ -940,6 +1181,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $this->invalidPropertyTest( $options, 'timeoutOpen', 'wrong value', 'int >= 1' );
         $this->invalidPropertyTest( $options, 'timeoutOpen', 0, 'int >= 1' );
         $this->invalidPropertyTest( $options, 'requestSource', null, 'array' );
+        $this->invalidPropertyTest( $options, 'immediate', 'wrong value', 'bool' );
         $this->missingPropertyTest( $options, 'no_such_option' );
     }
 

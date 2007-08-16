@@ -7,6 +7,8 @@
   data during authentication for Database, LDAP, OpenID and TypeKey filters.
 - Implemented feature request #11001: Added multiple credentials support in
   the Group filter.
+- Implemented feature request #10997: Added support for OpenID check_immediate
+  mode.
 
 
 1.0 - Monday 02 July 2007
