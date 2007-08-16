@@ -1,0 +1,4 @@
+mock:1:9: The symbol <$a> is not declared
+
+{capture $a}
+        ^

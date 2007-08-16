@@ -821,6 +821,40 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return new ezcTemplateNopAstNode();
     }
 
+    public function visitCaptureTstNode( ezcTemplateCaptureTstNode $node )
+    {
+        // TODO GET the variable AST node.
+        $var = $node->variable->accept($this);
+        $this->outputVariable->push( $var->name, $var );
+
+        $result = array(); // Will contain an array with AST nodes.
+
+        // Set the output to "".
+        $result[] = $this->outputVariable->getInitializationAst();
+
+        // execute all the 'children' in the custom block.
+        foreach ( $node->elements as $element )
+        {
+            $r = $element->accept( $this );
+            if ( is_array( $r ) )
+            {
+                foreach ($r as $a ) 
+                {
+                    $result[] = $a; 
+                }
+            }
+            else
+            {
+                $result[]  = $r;
+            }
+        }
+
+ 
+        $this->outputVariable->pop();
+
+        return $result;
+    }
+
 
     /**
      * visitLiteralBlockTstNode

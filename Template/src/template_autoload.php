@@ -97,6 +97,8 @@ return array(
     'ezcTemplateCatchAstNode'                            => 'Template/syntax_trees/ast/nodes/control/catch.php',
     'ezcTemplateCharsetSourceToTstParser'                => 'Template/parsers/source_to_tst/implementations/charset.php',
     'ezcTemplateCharsetTstNode'                          => 'Template/syntax_trees/tst/nodes/charset.php',
+    'ezcTemplateCaptureSourceToTstParser'                => 'Template/parsers/source_to_tst/implementations/capture.php',
+    'ezcTemplateCaptureTstNode'                          => 'Template/syntax_trees/tst/nodes/capture.php',
     'ezcTemplateCloneAstNode'                            => 'Template/syntax_trees/ast/nodes/constructs/clone.php',
     'ezcTemplateCompiledCode'                            => 'Template/compiled_code.php',
     'ezcTemplateConcatAssignmentOperatorAstNode'         => 'Template/syntax_trees/ast/nodes/operators/concat_assignment_operator.php',
