@@ -502,7 +502,7 @@ class ezcTemplateFunctions
             throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $definition->parameters[$givenParameters]));
         }
 
-        if ( $givenParameters > $this->countTotalParameters($definition, $reflectionParameters) )
+        if ( !$definition->variableArgumentList && $givenParameters > $this->countTotalParameters($definition, $reflectionParameters) )
         {
             throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName ) );
         }

@@ -86,11 +86,13 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 return $def;
 
 
-            case "wrong_block":
+            case "variable_argument_list":
                 $def = new ezcTemplateCustomFunctionDefinition();
                 $def->class = __CLASS__;
-                $def->method = "wrongBlock";
+                $def->method = "varArgList";
+                $def->variableArgumentList = true;
                 return $def;
+
         }
     }
 
@@ -128,6 +130,11 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
     public static function templateParameter( $template, $p1, $p2 = "p2")
     {
         return get_class($template->usedConfiguration) . " ". $p1." ".$p2;
+    }
+
+    public static function varArgList($a, $b=2)
+    {
+        return var_export(func_get_args(), true);
     }
  
     public static function getCustomBlockDefinition( $name )

@@ -90,5 +90,15 @@ class ezcTemplateCustomFunctionDefinition extends ezcTemplateCustomExtension
      * @var bool
      */
     public $sendTemplateObject = false;
+
+
+    /**
+     * Whether or not the custom function can have an undefined amount of parameters.
+     * The maximum amount of parameters check will be omitted. The custom function
+     * implementation will most probably use PHP function: func_get_args() or simular.
+     *
+     * @var bool
+     */
+    public $variableArgumentList = false;
 }
 ?>
