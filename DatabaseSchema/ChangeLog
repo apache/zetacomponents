@@ -7,6 +7,8 @@
   the notnull, autoincrement and unsigned fields.
 - Fixed bug #11282: DatabaseSchema's SQLite reader doesn't understand the
   float and varchar data types.
+- Fixed bug #11283: DatabaseSchema's PersistentObject definition writer
+  generates a sequence generater even when the field is not auto-increment.
 
 
 1.2 - Monday 02 July 2007

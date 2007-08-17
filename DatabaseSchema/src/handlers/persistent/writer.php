@@ -107,7 +107,14 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
             fwrite( $file, "\$def->idProperty               = new ezcPersistentObjectIdProperty();\n" );
             fwrite( $file, "\$def->idProperty->columnName   = '$fieldName';\n" );
             fwrite( $file, "\$def->idProperty->propertyName = '$fieldName';\n" );
-            fwrite( $file, "\$def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );\n" );
+            if ( $field->autoIncrement )
+            {
+                fwrite( $file, "\$def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );\n" );
+            }
+            else
+            {
+                fwrite( $file, "\$def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentManualGenerator' );\n" );
+            }
         }
         else
         {
@@ -241,8 +248,8 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
      * This method extracts the names of all primary keys from the index
      * defintions of a table.
      * 
-     * @param array( string => ezcDbSchemaIndex ) $indexes Indices.
-     * @return array( string => bool ) The primary keys.
+     * @param array(string=>ezcDbSchemaIndex) $indexes Indices.
+     * @return array(string=>bool) The primary keys.
      */
     private function determinePrimaries( $indexes )
     {
