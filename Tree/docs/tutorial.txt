@@ -25,9 +25,9 @@ Backend                         Data Stores
 =============================== ===========================================================================
 ezcTreeMemory                   ezcTreeMemoryDataStore
 ezcTreeXml                      ezcTreeXmlInternalDataStore
-ezcTreeDbMaterializedPath[1]_   ezcTreeDbExternalTableDataStore [1]_, ezcTreePersistentObjectDataStore [2]_
-ezcTreeDbNestedSet[1]_          ezcTreeDbExternalTableDataStore [1]_, ezcTreePersistentObjectDataStore [2]_
-ezcTreeDbParentChild[1]_        ezcTreeDbExternalTableDataStore [1]_, ezcTreePersistentObjectDataStore [2]_
+ezcTreeDbMaterializedPath [1]_  ezcTreeDbExternalTableDataStore [1]_, ezcTreePersistentObjectDataStore [2]_
+ezcTreeDbNestedSet [1]_         ezcTreeDbExternalTableDataStore [1]_, ezcTreePersistentObjectDataStore [2]_
+ezcTreeDbParentChild [1]_       ezcTreeDbExternalTableDataStore [1]_, ezcTreePersistentObjectDataStore [2]_
 =============================== ===========================================================================
 
 .. [1] Available through the TreeDatabaseTiein_ component
