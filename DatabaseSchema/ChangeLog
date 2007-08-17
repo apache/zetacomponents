@@ -3,6 +3,8 @@
 
 - Implemented feature #11047: Make ConvertToDDL() methods accept the database
   name instead of only the database handler.
+- Fixed bug #11281: DatabaseSchema's XML reader does not understand '1' for
+  the notnull, autoincrement and unsigned fields.
 
 
 1.2 - Monday 02 July 2007
