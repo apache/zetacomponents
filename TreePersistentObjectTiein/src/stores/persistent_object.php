@@ -175,9 +175,10 @@ class ezcTreePersistentObjectDataStore extends ezcTreeDbDataStore
         $idProperty = $this->idProperty;
 
         // if the object's ID property is null, populate it with the node's ID
-        if ( $node->data->$idProperty === null )
+        $currentState = $node->data->getState();
+        if ( $currentState[$idProperty] === null )
         {
-            $node->data->$idProperty = $node->id;
+            $node->data->setState( array( $idProperty => $node->id ) );
         }
         $session->saveOrUpdate( $node->data );
 
