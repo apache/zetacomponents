@@ -5,6 +5,8 @@
   name instead of only the database handler.
 - Fixed bug #11281: DatabaseSchema's XML reader does not understand '1' for
   the notnull, autoincrement and unsigned fields.
+- Fixed bug #11282: DatabaseSchema's SQLite reader doesn't understand the
+  float and varchar data types.
 
 
 1.2 - Monday 02 July 2007
