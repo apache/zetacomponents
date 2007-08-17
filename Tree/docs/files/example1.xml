@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tree xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data">
+  <node id="idElements">
+    <etd:data>Elements</etd:data>
+    <node id="idNonMetals">
+      <etd:data>Non-Metals</etd:data>
+      <node id="idH">
+        <etd:data>Hydrogen</etd:data>
+      </node>
+      <node id="idC">
+        <etd:data>Carbon</etd:data>
+      </node>
+      <node id="idN">
+        <etd:data>Nitrogen</etd:data>
+      </node>
+      <node id="idO">
+        <etd:data>Oxygen</etd:data>
+      </node>
+      <node id="idP">
+        <etd:data>Phosphorus</etd:data>
+      </node>
+      <node id="idS">
+        <etd:data>Sulfur</etd:data>
+      </node>
+      <node id="idSe">
+        <etd:data>Selenium</etd:data>
+      </node>
+    </node>
+    <node id="idNobleGasses">
+      <etd:data>Noble Gasses</etd:data>
+      <node id="idF">
+        <etd:data>Fluorine</etd:data>
+      </node>
+      <node id="idCl">
+        <etd:data>Chlorine</etd:data>
+      </node>
+      <node id="idBr">
+        <etd:data>Bromine</etd:data>
+      </node>
+      <node id="idI">
+        <etd:data>Iodine</etd:data>
+      </node>
+    </node>
+  </node>
+</tree>

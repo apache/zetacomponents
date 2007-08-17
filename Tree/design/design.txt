@@ -223,12 +223,13 @@ is kept like a `nested set`_. The table schema looks like::
 
     CREATE TABLE nested_set (
         'id' integer NOT NULL,
-        'left' integer NOT NULL,
-        'right' integer NOT NULL
+        'parent_id' integer,
+        'lft' integer NOT NULL,
+        'rgt' integer NOT NULL
     );
     CREATE UNIQUE INDEX 'nested_set_pri' on 'nested_set' ( 'id' );
-    CREATE UNIQUE INDEX 'nested_set_left' on 'nested_set' ( 'left' );
-    CREATE UNIQUE INDEX 'nested_set_right' on 'nested_set' ( 'right' );
+    CREATE INDEX 'nested_set_left' on 'nested_set' ( 'left' );
+    CREATE INDEX 'nested_set_right' on 'nested_set' ( 'right' );
 
 The backend also works if the data type for 'id' is a varchar, and not an
 integer - however, this has an impact on performance. It is also possible

@@ -1,0 +1,422 @@
+eZ Components - Tree
+~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The Tree component is all about tree structures. It allows you to maintain a
+hierarchical relation between nodes. The component provides many operations on
+trees, and the node in the trees as well. Because there are different
+algorithms for storing tree structures in a relational database—each with
+different properties—the component supports multiple backends. The Tree
+component itself comes with a memory (ezcTreeMemory) and XML (ezcTreeXml)
+backend. The TreeDatabaseTiein component provides three backends that store
+the tree structure in a database table. 
+
+Besides storing the hierarchical data itself, the component also allows you to
+associate data with those tree nodes. The data is store through a data store.
+Depending on backends different data stores are available as you can see in the
+following table:
+
+=============================== ===========================================================================
+Backend                         Data Stores
+=============================== ===========================================================================
+ezcTreeMemory                   ezcTreeMemoryDataStore
+ezcTreeXml                      ezcTreeXmlInternalDataStore
+ezcTreeDbMaterializedPath[1]_   ezcTreeDbExternalTableDataStore [1]_, ezcTreePersistentObjectDataStore [2]_
+ezcTreeDbNestedSet[1]_          ezcTreeDbExternalTableDataStore [1]_, ezcTreePersistentObjectDataStore [2]_
+ezcTreeDbParentChild[1]_        ezcTreeDbExternalTableDataStore [1]_, ezcTreePersistentObjectDataStore [2]_
+=============================== ===========================================================================
+
+.. [1] Available through the TreeDatabaseTiein_ component
+.. [2] Available through the TreePersistentObjectTiein_ component
+
+Dependencies
+============
+
+From the table and comments above it becomes apparent that there are a few
+optional dependencies. Through the TreeDatabaseTiein_ and
+TreePersistentObjectTiein_ components additional functionality becomes
+available.
+
+Class overview
+==============
+
+ezcTreeMemory, ezcTreeXml
+  Two classes available without installing Tieins that implement the storing of
+  tree data in-memory, or in an XML file. There is a matching data store for
+  each of those two classes (ezcTreeMemoryDataStore and
+  ezcTreeXmlInternalDataStore respectively).
+
+ezcTreeDbMaterializedPath, ezcTreeDbNestedSet, ezcTreeDbParentChild
+  Three backends that are made available through the TreeDatabaseTiein_
+  component. Each of them implements a different strategy for storing the
+  relations between nodes. Depending on the application a specific backend
+  should be chosen. More about that in the section Backends_.
+
+ezcTreeNode
+  Represents one node of the tree. Objects of this class can be added to the
+  tree. The object stores both the ID and data belonging to the node. Data is
+  always fetched on-demand, unless a ezcTreeNodeListIterator is used with the
+  prefetch option.
+
+ezcTreeNodeListIterator
+  This class can be used to iterate over an ezcTreeNodeList which is returned
+  by many of the node fetching operations (see the ezcTree documentation for
+  which operations are supported). It is advised to use this class to iterate
+  over the nodes and not simply use foreach() on a returned ezcTreeNodeList
+  because this class also supports pre-fetching of associated data, which can
+  drastically reduce the amount of queries being run in case a database based
+  data store is used (such as ezcTreeDbExternalTableDataStore or
+  ezcTreePersistentObjectDataStore).
+  
+
+Basic usage
+===========
+
+To use a tree, you will need both a tree backend (a class inherited from
+ezcTree), and a data store (implementation of the ezcTreeDataStore interface).
+The following example shows you how to instantiate a new tree object making use
+of the ezcTreeXml backend and the ezcTreeXmlInternalDataStore data store:
+
+.. include:: tutorial_example_basic.php
+   :literal:
+
+Line 4 and 5 define the data store and the tree. The parameters to ezcTree's
+constructor specify which file to use, and which data store. After opening the
+tree lines 7 and 8 demonstrate how to fetch a node from the tree by using the
+node ID, and then access the data that belongs to the node. IDs can be either
+integer numbers or strings. There are a few restrictions to using strings as
+IDs however. The string IDs needs to:
+
+#. be a valid PHP array key
+#. consist of XML NameChar_ characters only
+
+.. _NameChar: http://www.w3.org/TR/2000/WD-xml-2e-20000814#NT-NameChar
+
+Memory trees can never be instantiated, because there is no permanent storage
+available. They will always have to be created from scratch or created from
+another tree by using the ezcTree::copy() method.
+
+Operations on trees
+-------------------
+
+Besides fetching nodes, it is of course possible to run many operations on the
+trees and nodes. In the following example you can see two different ways of
+operations, on the tree, or on nodes.
+
+.. include:: tutorial_example_treeops.php
+   :literal:
+
+Lines 7 to 11 show how to figure out whether a node is a descendant of another
+node.  Most of the operations can also be done directly on the tree by using
+the node IDs. You can see that in lines 13 to 16. All operations are
+implemented on the tree level, so using the syntax in lines 13 to 16 will
+result in slightly higher performance. Lines 18 to 23 demonstrate another tree
+operation, fetching a sub-tree. All operations that can return more than one
+node, do so as an ezcTreeNodeList. 
+
+Please refer to the ezcTreeNode documentation for a full list of supported
+operations.
+
+
+Iterating over a node list
+--------------------------
+
+When you iterate over a node list manually such as the previous examples showed
+will fetch the associated data on-demand - at the moment the ->data property of
+a node is requested. If you have a large node list as result this could cause
+many database queries if you are using a database based backend and data store.
+In such cases you might want to fetch all data in on go - with one query. The
+ezcTreeNodeListIterator class allows you to do this:
+
+.. include:: tutorial_example_iterator.php
+   :literal:
+
+In line 7 we use the ezcTree->fetchChildren() method to find all the direct
+children of the node with ID "NobleGasses". Then in lines 10 to 13 we create a
+ezcTreeNodeListIterator over the returned ezcTreeNodeList $noble. The first
+parameter is the tree, the second one the node list and the third parameter
+whether data should be prefixed or not.
+
+
+Creating and modifying a tree
+-----------------------------
+
+If you want to create a new tree, then instead of instantiating a tree you use
+the overloaded ezcTree::create() factory method. Once a tree and associated
+store are created you can proceed to fill the tree with nodes. The example
+below demonstrates that:
+
+.. include:: tutorial_example_create.php
+   :literal:
+
+In line 5 we create a new tree by using the ezcTreeXml::create() factory
+method. The name of the file is the first argument and the data store the
+second argument again. This will create a totally empty tree without nodes or
+even a root node. In lines 7 and 8 we then create a new node with the
+ezcTree->createNode() method which accepts the node ID and node data value as
+arguments. The ezcTreeDbExternalTableDataStore data store also supports
+compound data values, as you can see in the documentation of
+ezcTreeDbExternalTableDataStore->__construct().  Lines 10 to 13 proceed to add
+two new nodes to the $rootNode and lines 15-26 the add further nodes to the
+$nonMetal and $nobleGasses nodes.
+
+This example creates the XML file that is used in the other examples in this
+tutorial.
+
+Backends
+========
+
+Non-database backends
+---------------------
+
+The Tree component comes with two generic backends, one that stores the tree
+structure in an XML file, and another one that only keeps a tree structure in
+memory. The XML backend uses PHP's DOM functionality to parse the tree and thus
+will the whole tree structure be loaded into memory when an ezcTreeXml object
+is instantiated.
+
+The ezcTreeMemory backend has to be created from scratch when it used, however
+it is also possible to copy an ezcTreeXml based tree to a memory based one. The
+example below shows that:
+
+.. include:: tutorial_example_copy_tree.php
+   :literal:
+
+Operations on tree based on ezcTreeMemory are of course faster than operations
+on trees based on ezcTreeDb or ezcTreeXml.
+
+Database based backends
+-----------------------
+
+By installing the TreeDatabaseTiein_ and TreePersistentObjectTiein_ components
+a few more backends and data stores are available. There are three new
+backends:
+
+#. ezcTreeDbParentChild - Uses the ID of the parent to keep track of the
+   structure only.
+#. ezcTreeDbNestedSet - Uses left/right values in addition to the parent ID
+   that the ezcTreeDbParentChild backend uses to keep track of the tree structure.
+#. ezcTreeDbMaterializedPath - Uses /1/2/4/6/19/24 style paths to store the
+   tree structure.
+
+Each of those three backends have different performance related properties
+depending on which operation is run. The following table tries to summarize
+some of the properties of each algorithm:
+
++----------------------------+-----------------------------------------------------------------------+
+| Operation                  | Backends                                                              |
+|                            +----------------------+-------------------------+----------------------+
+|                            | Parent Child         | Nested set              | Materialized Path    |
++============================+======================+=========================+======================+
+| addChild()                 | *Simple operation.*  | Possible long, as on    | *Simple operation.*  |
+|                            |                      | average the left and    |                      |
+|                            |                      | right values of half of |                      |
+|                            |                      | the nodes in the tree   |                      |
+|                            |                      | have to be updated.     |                      |
++----------------------------+----------------------+-------------------------+----------------------+
+| delete()                   | Recursive operation  | *Simple operation.*     | *Simple operation.*  |
+|                            | to find a whole      |                         | but query has to     |
+|                            | tree.                |                         | use LIKE.            |
++----------------------------+----------------------+-------------------------+----------------------+
+| fetchChildren()            | *Simple operation.*  | *Simple operation.*     | *Simple operation.*  |
++----------------------------+----------------------+-------------------------+----------------------+
+| fetchNodeById()            | *Simple operation.*  | *Simple operation.*     | *Simple operation.*  |
++----------------------------+----------------------+-------------------------+----------------------+
+| fetchParent()              | *Simple operation.*  | *Simple operation.*     | *Simple operation.*  |
++----------------------------+----------------------+-------------------------+----------------------+
+| fetchPath()                | Recursive operation  | *Simple operation.*     | *Simple operation.*  |
+|                            | to iterate over the  |                         |                      |
+|                            | parents all the way  |                         |                      |
+|                            | to the root node.    |                         |                      |
+|                            |                      |                         |                      |
++----------------------------+----------------------+-------------------------+----------------------+
+| fetchSubtreeBreadthFirst() | Recursive operation  | Recursive operation to  | Recursive operation  |
+|                            | to find the whole    | find the whole subtree  | to find the whole    |
+|                            | subtree - order of   | - order of nodes for    | subtree - order of   |
+|                            | nodes for each level | each level is not       | nodes for each level |
+|                            | is not guaranteed.   | guaranteed.             | is not guaranteed.   |
++----------------------------+----------------------+-------------------------+----------------------+
+| fetchSubtreeDepthFirst()   | Recursive operation  | Simple operation -      | *Simple operation.*  |
+|                            | to find the whole    | order of nodes is the   | but query has to use |
+|                            | subtree - order of   | same order as in they   | LIKE - order of      |
+|                            | nodes is not         | were added.             | nodes is not         |
+|                            | guaranteed.          |                         | guaranteed.          |
++----------------------------+----------------------+-------------------------+----------------------+
+| getChildCount()            | *Simple operation.*  | *Simple operation.*     | *Simple operation.*  |
++----------------------------+----------------------+-------------------------+----------------------+
+| getChildCountRecursive()   | Recursive operation  | *Simple operation.*     | *Simple operation.*  |
+|                            | to find the nodes in |                         | but query has to use |
+|                            | the whole subtree.   |                         | LIKE.                |
+|                            |                      |                         |                      |
+|                            |                      |                         |                      |
++----------------------------+----------------------+-------------------------+----------------------+
+| getPathLength()            | Recursive operation  | *Simple operation.*     | *Simple operation.*  |
+|                            | to iterate over the  |                         |                      |
+|                            | parents all the way  |                         |                      |
+|                            | to the root node.    |                         |                      |
++----------------------------+----------------------+-------------------------+----------------------+
+| hasChildNodes()            | *Simple operation.*  | *Simple operation.*     | *Simple operation.*  |
++----------------------------+----------------------+-------------------------+----------------------+
+| isChildOf()                | *Simple operation.*  | *Simple operation.*     | *Simple operation.*  |
++----------------------------+----------------------+-------------------------+----------------------+
+| isDescendantOf()           | Recursive operation  | *Simple operation.*     | *Simple operation.*  |
+|                            | to iterate over the  |                         |                      |
+|                            | parents until either |                         |                      |
+|                            | the root node or     |                         |                      |
+|                            | when the node is     |                         |                      |
+|                            | found.               |                         |                      |
++----------------------------+----------------------+-------------------------+----------------------+
+| isSiblingOf()              | *Simple operation.*  | *Simple operation.*     | *Simple operation.*  |
++----------------------------+----------------------+-------------------------+----------------------+
+| move()                     | *Simple operation.*  | Possible long, as on    | All the nodes in the |
+|                            |                      | average the left and    | subtree that is      |
+|                            |                      | the right values of     | moved need to be     |
+|                            |                      | half of the nodes need  | updated - this is    |
+|                            |                      | to be updated - twice.  | done with string     |
+|                            |                      |                         | operations.          |
++----------------------------+----------------------+-------------------------+----------------------+
+| nodeExists()               | *Simple operation.*  | *Simple operation.*     | *Simple operation.*  |
++----------------------------+----------------------+-------------------------+----------------------+
+| setRootNode()              | *Simple operation.*  | *Simple operation.*     | *Simple operation.*  |
++----------------------------+----------------------+-------------------------+----------------------+
+
+
+
+Data stores
+```````````
+
+The database backends that the TreeDatabaseTiein_ component provide also
+support two different data stores. One of them,
+ezcTreeDbExternalTableDataStore, comes with the TreeDatabaseTiein_ component.
+Another one, ezcTreePersistentObjectDataStore is provided through the
+TreePersistentObjectTiein_ component.
+
+Database table
+++++++++++++++
+
+The ezcTreeDbExternalTableDataStore can be used in two different modes. In the
+first you specify a database field that is matched against the node's ID, and
+another field that is used for the "data" property belonging to a node. The next
+example shows that:
+
+.. include:: tutorial_example_database_one_field.php
+   :literal:
+
+In this example lines 4 to 22 set up the database and database tables. Please
+refer to the specific database backend's documentation for full information on
+what the different tables should look like. In this case I have to point out,
+that for the data store we only create two fields though: node_id and
+data_field. We can see that back in line 24, where we instantiate the store
+object. We specify the database object, the name of the data table ('data'),
+the field that is matched against the node ID ('node_id') and which field to
+use for data ('data_field'). In lines 27 to 30 we then insert some sample nodes
+and line 32 demonstrates the retrieval of data.
+
+In the second mode, we do not specify a field to use to fetch data from:
+
+.. include:: tutorial_example_database_multi_field.php
+   :literal:
+
+Differences with the previous example are the data table definition in lines
+17 to 21. Instead of defining a specific data field to use there are now
+multiple fields ('melting_temp_k' and 'boiling_temp_k'). The instantiation of
+the data store in line 27 now misses the fourth argument as well. The data that
+is specified when creating a node now consists of an array describing all the
+fields in the database table, except for the 'node_id' as that one is implicit.
+When fetching the data the whole table record is returned, minus the 'node_id'
+field.
+
+Persistent Object
++++++++++++++++++
+
+The ezcTreePersistentObjectDataStore brings multiple data fields even further
+and extends the Tree to use persistent objects as data for the tree nodes.
+
+.. include:: tutorial_example_persistent_object.php
+   :literal:
+
+The database tables are setup just like the previous example in lines 5 to 24.
+Lines 26 to 32 then continue to use the DatabaseSchema_ component to write
+persistent definition files and class stubs. The store is setup in lines 35 and
+36. The ezcTreePersistentObjectDataStore uses the ezcPersistentSession as the
+first argument and then the object's class and object's ID property as second
+and third arguments. Unlike the previous example you should specify the class
+and property names of the persistent objects that you are storing, and *not*
+the table name and ID field. Lines 39 to 48 then show how data is inserted into
+the tree, and how it is retrieved. You will most likely have to tune the
+classes that are generated for you in a real life situation, as the generated
+classes (line 29 and 31) only have private properties and the getState() and
+setState() methods that persistent objects are required to have. Please refer
+to the PersistentObject_ documentation for more information.
+
+Visualization
+=============
+
+Sometimes it's useful to visualize a tree structure. The Tree component has
+some functionality for this in the form of different visualizers. There are
+currently two possibilities.
+
+Text based visualization
+------------------------
+
+The ezcTreeVisitorPlainText class implements a visitor pattern to render a tree
+for the console. Both latin1 and utf-8 are supported as character sets, where
+the utf-8 version looks much better. The following example shows how to
+generated a text based representation of the tree from the first example in
+this tutorial:
+
+.. include:: tutorial_example_text_tree.php
+   :literal:
+
+The output is::
+
+    Elements
+    ├─NonMetals
+    │ ├─H
+    │ ├─C
+    │ ├─N
+    │ ├─O
+    │ ├─P
+    │ ├─S
+    │ └─Se
+    └─NobleGasses
+      ├─F
+      ├─Cl
+      ├─Br
+      └─I
+
+
+GraphViz based visualization
+----------------------------
+
+In case you are not on the console, it is also possible to render the tree as a
+GraphViz .dot file that then can be used to generate an image - for example a
+PNG image. The next example shows the use of the ezcTreeVisitorGraphViz class:
+
+.. include:: tutorial_example_graphviz.php
+   :literal:
+
+The generated .dot file can be converted to an image by running the following command::
+
+    dot -Tpng -o img/graphviz.png files/graphviz.dot
+
+The result of that is (scaled):
+
+.. figure:: img/graphviz.png
+
+
+.. _DatabaseSchema: introduction_DatabaseSchema.html
+.. _PersistentObject: introduction_PersistentObject.html
+.. _TreeDatabaseTiein: introduction_TreeDatabaseTiein.html
+.. _TreePersistentObjectTiein: introduction_TreePersistentObjectTiein.html
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79 spell

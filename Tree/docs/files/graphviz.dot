@@ -1,0 +1,30 @@
+digraph Tree {
+nodeElements_2pkuejip [label="Elements"]
+nodeNonMetals_1bnzyvck [label="NonMetals"]
+nodeH_27k2bl2t [label="H"]
+nodeC_vzujtyb [label="C"]
+nodeN_xwz3j7q [label="N"]
+nodeO_gpolmko [label="O"]
+nodeP_2ot2rcw1 [label="P"]
+nodeS_ads54qv [label="S"]
+nodeSe_35hynij5 [label="Se"]
+nodeNobleGasses_27x3ahz6 [label="NobleGasses"]
+nodeF_11iqgz2q [label="F"]
+nodeCl_30wxuazc [label="Cl"]
+nodeBr_vyrn0bo [label="Br"]
+nodeI_30ksqkh1 [label="I"]
+
+nodeElements_2pkuejip -> nodeNonMetals_1bnzyvck
+nodeElements_2pkuejip -> nodeNobleGasses_27x3ahz6
+nodeNonMetals_1bnzyvck -> nodeH_27k2bl2t
+nodeNonMetals_1bnzyvck -> nodeC_vzujtyb
+nodeNonMetals_1bnzyvck -> nodeN_xwz3j7q
+nodeNonMetals_1bnzyvck -> nodeO_gpolmko
+nodeNonMetals_1bnzyvck -> nodeP_2ot2rcw1
+nodeNonMetals_1bnzyvck -> nodeS_ads54qv
+nodeNonMetals_1bnzyvck -> nodeSe_35hynij5
+nodeNobleGasses_27x3ahz6 -> nodeF_11iqgz2q
+nodeNobleGasses_27x3ahz6 -> nodeCl_30wxuazc
+nodeNobleGasses_27x3ahz6 -> nodeBr_vyrn0bo
+nodeNobleGasses_27x3ahz6 -> nodeI_30ksqkh1
+}
