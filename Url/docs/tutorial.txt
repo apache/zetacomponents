@@ -276,13 +276,13 @@ The output will be: ::
       string(7) "openssl"
     }
 
-This array can then be translated by your application to this form (if needed):
-    ::
+This array can then be translated by your application to this form (if
+needed)::
 
     array( "Software" => array( "PHP" ),
-           "Version" => array( "5.2" ),
-           "Extension" => array( "XDebug", "openssl" )
-         );
+        "Version" => array( "5.2" ),
+        "Extension" => array( "XDebug", "openssl" )
+    );
 
 Setting parameters using a url configuration
 --------------------------------------------
