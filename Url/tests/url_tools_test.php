@@ -46,6 +46,9 @@ class ezcUrlToolsTest extends ezcTestCase
 
         array( 'fo.o=bar',                      array( 'fo_o'   => 'bar' ),                                   'fo_o=bar' ),
         array( 'fo.o[]=bar',                    array( 'fo_o'   => array( 'bar' ) ),                          'fo_o[0]=bar' ),
+        array( 'fo_o=bar',                      array( 'fo_o'   => 'bar' ),                                   'fo_o=bar' ),
+        array( 'f._o=bar',                      array( 'f__o'   => 'bar' ),                                   'f__o=bar' ),
+        array( 'fo_o[]=bar',                    array( 'fo_o'   => array( 'bar' ) ),                          'fo_o[0]=bar' ),
         array( 'fo:o=bar',                      array( 'fo:o'   => 'bar' ),                                   'fo:o=bar' ),
         array( 'fo;o=bar',                      array( 'fo;o'   => 'bar' ),                                   'fo;o=bar' ),
         array( 'foo()=bar',                     array( 'foo()'  => 'bar' ),                                   'foo()=bar' ),
@@ -115,6 +118,9 @@ class ezcUrlToolsTest extends ezcTestCase
 
         array( 'fo.o=bar',                      array( 'fo.o'   => 'bar' ),                                   'fo.o=bar' ),
         array( 'fo.o[]=bar',                    array( 'fo.o'   => array( 'bar' ) ),                          'fo.o[0]=bar' ),
+        array( 'fo_o=bar',                      array( 'fo_o'   => 'bar' ),                                   'fo_o=bar' ),
+        array( 'f._o=bar',                      array( 'f._o'   => 'bar' ),                                   'f._o=bar' ),
+        array( 'fo_o[]=bar',                    array( 'fo_o'   => array( 'bar' ) ),                          'fo_o[0]=bar' ),
         array( 'fo:o=bar',                      array( 'fo:o'   => 'bar' ),                                   'fo:o=bar' ),
         array( 'fo;o=bar',                      array( 'fo;o'   => 'bar' ),                                   'fo;o=bar' ),
         array( 'foo()=bar',                     array( 'foo()'  => 'bar' ),                                   'foo()=bar' ),
