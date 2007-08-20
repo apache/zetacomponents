@@ -12,6 +12,8 @@
 - Implemented feature request #11006: Added the isValid() method in the
   ezcAuthenticationSession class which can be used to avoid creating the
   authentication filters if the credentials are already stored in the session.
+- Fixed the OpenID filter so that it no longer converts dots to underscores in
+  URLs.
 
 
 1.0 - Monday 02 July 2007

@@ -799,31 +799,24 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
 
                 // get the query parameters from the response URL
                 $query = parse_url( $returnUrl, PHP_URL_QUERY );
-                parse_str( $query, $vars );
+                $vars = ezcAuthenticationUrl::parseQueryString( $query );
 
                 // get the openid.user_setup_url value from the response URL
-                $setupUrl = isset( $vars['openid_user_setup_url'] ) ? $vars['openid_user_setup_url'] : false;
+                $setupUrl = isset( $vars['openid.user_setup_url'] ) ? $vars['openid.user_setup_url'] : false;
 
                 if ( $setupUrl !== false )
                 {
                     // the next call to OpenID will be check_authentication
-                    $vars['openid_mode'] = 'check_authentication';
+                    $vars['openid.mode'] = 'check_authentication';
 
                     // get the query parameters from the openid.user_setup_url in $setupParams
                     // and the other parts of the URL in $parts
                     $parts = parse_url( $setupUrl );
                     $query = isset( $parts['query'] ) ? $parts['query'] : false;
-                    parse_str( $query, $setupParams );
+                    $setupParams = ezcAuthenticationUrl::parseQueryString( $query );
 
                     // merge the setup_url query parameters with all the other query parameters
-                    $vars = array_merge( $vars, $setupParams );
-
-                    // need to do this as parse_str() transforms the dots into underscores
-                    $params = array();
-                    foreach ( $vars as $key => $value )
-                    {
-                        $params[str_replace( 'openid_', 'openid.', $key )] = $value;
-                    }
+                    $params = array_merge( $vars, $setupParams );
 
                     // return the setup URL combined with the rest of the query parameters
                     $parts['query'] = $params;
