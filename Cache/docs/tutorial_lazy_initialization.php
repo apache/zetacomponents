@@ -11,7 +11,7 @@ class customLazyCacheConfiguration implements ezcBaseConfigurationInitializer
         switch ( $id )
         {
             case 'simple':
-                ezccCacheManager::createCache( 'simple', '/tmp/cache/plain', 'ezcCacheStorageFilePlain', $options );
+                ezcCacheManager::createCache( 'simple', '/tmp/cache/plain', 'ezcCacheStorageFilePlain', $options );
                 break;
         }
     }
