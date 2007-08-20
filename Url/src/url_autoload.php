@@ -17,5 +17,6 @@ return array(
     'ezcUrl'                          => 'Url/url.php',
     'ezcUrlConfiguration'             => 'Url/url_configuration.php',
     'ezcUrlCreator'                   => 'Url/url_creator.php',
+    'ezcUrlTools'                     => 'Url/url_tools.php',
 );
 ?>

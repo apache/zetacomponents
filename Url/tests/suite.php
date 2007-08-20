@@ -14,6 +14,7 @@
 require_once( "url_test.php" );
 require_once( "url_configuration_test.php" );
 require_once( "url_creator_test.php" );
+require_once( "url_tools_test.php" );
 
 /**
  * @package Url
@@ -24,11 +25,12 @@ class ezcUrlSuite extends PHPUnit_Framework_TestSuite
     public function __construct()
     {
         parent::__construct();
-        $this->setName("Url");
+        $this->setName( "Url" );
 
         $this->addTest( ezcUrlTest::suite() );
         $this->addTest( ezcUrlConfigurationTest::suite() );
         $this->addTest( ezcUrlCreatorTest::suite() );
+        $this->addTest( ezcUrlToolsTest::suite() );
     }
 
     public static function suite()

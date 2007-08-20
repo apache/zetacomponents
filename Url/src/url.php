@@ -271,7 +271,7 @@ class ezcUrl
 
         if ( isset( $urlArray['query'] ) )
         {
-            parse_str( $urlArray['query'] , $this->properties['query'] );
+            $this->properties['query'] = ezcUrlTools::parseQueryString( $urlArray['query'] );
         }
         else
         {

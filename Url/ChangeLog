@@ -8,6 +8,8 @@
 - Implemented feature request #10897: Added the getParams() method in ezcUrl
   which fetches the unordered parameters as a flat array, useful for working
   with URLs without delimiters for parameter names.
+- Fixed issue #11277: The dots in the query string parameter names are not
+  converted to underscores.
 
 
 1.1 - Monday 02 July 2007

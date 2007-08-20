@@ -99,6 +99,10 @@ class ezcUrlTest extends ezcTestCase
         $urlStrings[] = 'http://user:password@www.example.com:82/mydir/index.php/other/stuff#cat';
         $urlStrings[] = 'http://user:password@www.example.com:82/mydir/index.php/other/stuff?me=you&arr[0]=yes&arr[1]=no#cat';
 
+        // the dot would have been converted to underscore if using parse_str() to
+        // parse the query part. ezcUrlTools::parseQueryString() is used instead
+        $urlStrings[] = 'http://www.example.com/stuff?openid.nonce=123456';
+        
         foreach ( $urlStrings as $urlString )
         {
             $url = new ezcUrl( $urlString );
