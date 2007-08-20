@@ -5,9 +5,6 @@ class customLazyUrlConfiguration implements ezcBaseConfigurationInitializer
 {
     public static function configureObject( $urlCfg )
     {
-        // create an ezcUrlConfiguration object
-        $urlCfg = new ezcUrlConfiguration();
-
         // set the basedir and script values
         $urlCfg->basedir = 'mydir';
         $urlCfg->script = 'index.php';
