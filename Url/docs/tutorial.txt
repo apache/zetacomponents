@@ -26,6 +26,13 @@ ezcUrlCreator
   alias to generate another url suffixed with a value, or to create urls
   formatted using the syntax of the PHP function sprintf().
 
+ezcUrlTools
+  This utility class contains useful functions for handling urls, like
+  getCurrentUrl() which builds the current url from the $_SERVER array or
+  another array source, and parseQueryString() which has the same functionality
+  as the PHP function parse_str(), but without converting the dots to
+  underscores in query parameter names.
+
 Notes
 =====
 
@@ -351,6 +358,61 @@ The output would be: ::
     string(53) "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
 
     string(53) "/images/geo/map_sweden.gif?xsize=450&ysize=450&zoom=4"
+
+Other url functions
+===================
+
+In the class ezcUrlTools there are some useful functions for handling urls.
+
+getCurrentUrl
+-------------
+
+This function builds the current url from the $_SERVER array or another
+array source. The $_SERVER array is used by default, but another array source
+can be specified as a parameter when calling the function.
+
+For example, if the $_SERVER array has these fields: ::
+
+    $_SERVER = array(
+        'HTTPS' => '1',
+        'HTTP_HOST' => 'www.example.com',
+        'SERVER_PORT' => 80,
+        'REQUEST_URI' => '/index.php'
+        );
+
+    $url = ezcUrlTools::getCurrentUrl();
+
+Then $url will be: ::
+
+    http://www.example.com/index.php
+
+parseQueryString
+----------------
+
+This function has the same functionality as the PHP function parse_str(), but
+without converting the dots to underscores in query parameter names.
+
+Example: ::
+
+    $params = ezcUrlTools::parseQueryString(
+        'openid.nonce=123456&foo[]=bar&foo[]=baz' );
+
+Then $params will be: ::
+
+    array(2) {
+      ["openid.nonce"]=>
+      string(6) "123456"
+      ["foo"]=>
+      array(2) {
+        [0]=>
+        string(3) "bar"
+        [1]=>
+        string(3) "baz"
+      }
+    }
+
+By calling parse_str() on the same string, instead of 'openid.nonce' as a key
+in $params there would have been 'openid_nonce'.
 
 
 ..

@@ -158,6 +158,38 @@ class ezcUrlToolsTest extends ezcTestCase
         array( 'fo[0]o=bar',                    array( 'fo'     => array( 'bar' ) ),                          'fo[0]=bar' ),
         );
 
+    protected static $serverValues = array( // HTTPS, HTTP_HOST, SERVER_PORT, REQUEST_URI, constructed URL
+        array( null, 'www.example.com', 80,   '/index.php',               'http://www.example.com/index.php' ),
+        array( '1',  'www.example.com', 80,   '/index.php',               'https://www.example.com/index.php' ),
+        array( 'on', 'www.example.com', 80,   '/index.php',               'https://www.example.com/index.php' ),
+
+        array( null, 'www.example.com', 443,  '/index.php',               'http://www.example.com:443/index.php' ),
+        array( '1',  'www.example.com', 443,  '/index.php',               'https://www.example.com:443/index.php' ),
+        array( 'on', 'www.example.com', 443,  '/index.php',               'https://www.example.com:443/index.php' ),
+
+        array( null, 'www.example.com', 80,   '',                         'http://www.example.com' ),
+        array( null, 'www.example.com', 80,   '/',                        'http://www.example.com/' ),
+        array( null, 'www.example.com', 80,   '/mydir/index.php',         'http://www.example.com/mydir/index.php' ),
+        array( null, 'www.example.com', 80,   '/mydir/index.php/content', 'http://www.example.com/mydir/index.php/content' ),
+
+        array( null, 'www.example.com', 80,   '/index.php?',              'http://www.example.com/index.php?' ),
+        array( null, 'www.example.com', 80,   '/index.php?foo=bar',       'http://www.example.com/index.php?foo=bar' ),
+        array( null, 'www.example.com', 80,   '/index.php?foo=bar#p1',    'http://www.example.com/index.php?foo=bar#p1' ),
+
+        array( null, null,              null, null,                       'http://' ),
+        array( 'on', null,              null, null,                       'https://' ),
+        array( null, 'www.example.com', null, null,                       'http://www.example.com' ),
+        array( null, 'www.example.com', 81,   null,                       'http://www.example.com:81' ),
+        array( null, null,              81,   null,                       'http://:81' ),
+        array( null, null,              81,   '/',                        'http://:81/' ),
+        array( null, null,              null, '/',                        'http:///' ),
+        array( null, null,              80,   '/',                        'http:///' ),
+        array( true, null,              80,   '/',                        'http:///' ),
+        );
+
+    // the order of fields in self::$serverValues
+    protected static $serverMapping = array( 'HTTPS', 'HTTP_HOST', 'SERVER_PORT', 'REQUEST_URI' );
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
@@ -182,6 +214,49 @@ class ezcUrlToolsTest extends ezcTestCase
 
             $this->assertEquals( $query[1], $params, "Failed parsing '{$query[0]}'" );
             $this->assertEquals( $query[2], urldecode( http_build_query( $params ) ), "Failed building back the query '{$query[0]}' to '{$query[2]}'" );
+        }
+    }
+
+    public function testGetCurrentUrlServer()
+    {
+    $params = ezcUrlTools::parseQueryString(
+        'openid.id=123456&foo[]=bar&foo[]=baz' );
+    var_dump( $params );
+        foreach ( self::$serverValues as $data )
+        {
+            $_SERVER = array();
+
+            foreach ( self::$serverMapping as $key => $mapping )
+            {
+                if ( $data[$key] !== null )
+                {
+                    $_SERVER[$mapping] = $data[$key];
+                }
+            }
+
+            $expected = $data[4];
+
+            $this->assertEquals( $expected, ezcUrlTools::getCurrentUrl(), "Failed building URL " . $data[4] );
+        }
+    }
+
+    public function testGetCurrentUrlOtherSource()
+    {
+        foreach ( self::$serverValues as $data )
+        {
+            $source = array();
+
+            foreach ( self::$serverMapping as $key => $mapping )
+            {
+                if ( $data[$key] !== null )
+                {
+                    $source[$mapping] = $data[$key];
+                }
+            }
+
+            $expected = $data[4];
+
+            $this->assertEquals( $expected, ezcUrlTools::getCurrentUrl( $source ), "Failed building URL " . $data[4] );
         }
     }
 }

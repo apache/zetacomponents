@@ -98,5 +98,70 @@ class ezcUrlTools
 
         return $params;
     }
+
+    /**
+     * Returns the current URL as a string from the array $source
+     * (by default $_SERVER).
+     *
+     * The following fields are used in building the URL:
+     *  - HTTPS - determines the scheme ('http' or 'https'). 'https' only if
+     *    the 'HTTPS' field is set or if it is 'on' or '1'
+     *  - HTTP_HOST
+     *  - SERVER_PORT - determines if port is default (80 = do not include port)
+     *    or not default (other than 80 = include port)
+     *  - REQUEST_URI
+     *
+     * For example, if $_SERVER has these fields:
+     * <code>
+     * $_SERVER = array(
+     *     'HTTPS' => '1',
+     *     'HTTP_HOST' => 'www.example.com',
+     *     'SERVER_PORT' => 80,
+     *     'REQUEST_URI' => '/index.php'
+     * );
+     * </code>
+     *
+     * Then by calling this function (with no parameters), this URL will be
+     * returned: 'http://www.example.com/index.php'.
+     *
+     * The source of the URL parts can be changed to be other than $_SERVER by
+     * specifying an array parameter when calling this function.
+     *
+     * @todo check if REQUEST_URI works in Windows + IIS.
+     *        - Use PHP_SELF instead?
+     *        - Or use SCRIPT_NAME + QUERY_STRING?
+     *        - Or even use an ISAPI filter?
+     * @todo check for proxy servers
+     *        - Use $_SERVER['HTTP_X_FORWARDED_SERVER']?
+     *
+     * @param array(string=>mixed) $source The default array source, default $_SERVER
+     * @return string
+     */
+    public static function getCurrentUrl( array $source = null )
+    {
+        if ( $source === null )
+        {
+            $source = $_SERVER;
+        }
+
+        $url = '';
+        if ( isset( $source['HTTPS'] ) && 
+             ( strtolower( $source['HTTPS'] ) === 'on' || $source['HTTPS'] === '1' ) )
+        {
+            $url .= 'https://';
+        }
+        else
+        {
+            $url .= 'http://';
+        }
+
+        $url .= isset( $source['HTTP_HOST'] ) ? $source['HTTP_HOST'] : null;
+        if ( isset( $source['SERVER_PORT'] ) && $source['SERVER_PORT'] != 80 )
+        {
+            $url .= ":{$source['SERVER_PORT']}";
+        }
+        $url .= isset( $source['REQUEST_URI'] ) ? $source['REQUEST_URI'] : null;
+        return $url;
+    }
 }
 ?>
