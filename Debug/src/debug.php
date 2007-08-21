@@ -294,22 +294,23 @@ class ezcDebug
      * <code>
      * function debugHandler( $a, $b, $c, $d )
      * {
-     *    ezcDebug::debugHandler( $a, $b, $c, $d );
+     *     ezcDebug::debugHandler( $a, $b, $c, $d );
      * }
      *
      * set_error_handler( "debugHandler" );
      * </code>
      *
-     * Use trigger_error to log warning, error, etc:
+     * Use trigger_error() to log warning, error, etc:
      *
      * <code>
      * trigger_error( "[Paynet, templates] Cannot load template", E_USER_WARNING );
      * </code>
      *
-     * See the PHP documentation of trigger_error for more information.
+     * See the PHP documentation of
+     * {@link http://php.net/trigger_error trigger_error} for more information.
      *
      * @param int $errno
-     * @param int $erstr
+     * @param string $errstr
      * @param string $errfile
      * @param int $errline
      * @return void
