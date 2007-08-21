@@ -1875,7 +1875,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             {
                 if ( sizeof($this->parser->template->streamStack) >= 2)
                 {
-                    $msg = $this->parser->template->streamStack[sizeof($this->parser->template->streamStack) - 1];
+                    $msg = $this->parser->template->streamStack[sizeof($this->parser->template->streamStack) - 2];
                 }
                 else
                 {
