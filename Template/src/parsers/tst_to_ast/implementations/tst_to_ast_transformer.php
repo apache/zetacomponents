@@ -1873,15 +1873,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
             if ( $type->expression === null )
             {
-                if ( sizeof($this->parser->template->streamStack) >= 2)
-                {
-                    $msg = $this->parser->template->streamStack[sizeof($this->parser->template->streamStack) - 2];
-                }
-                else
-                {
-                    $msg = "the application code";
-                }
-                $cb->body = new ezcTemplateGenericStatementAstNode( new ezcTemplateThrowExceptionAstNode( new ezcTemplateLiteralAstNode( sprintf( ezcTemplateSourceToTstErrorMessages::RT_IMPORT_VALUE_MISSING, $type->variable->name, $this->parser->template->stream, $msg ) ) ) );
+                $cb->body = new ezcTemplatePhpCodeAstNode("
+throw new ezcTemplateRuntimeException( sprintf(\"". ezcTemplateSourceToTstErrorMessages::RT_IMPORT_VALUE_MISSING ."\", '".$type->variable->name."',  \$this->template->stream,  ( sizeof(\$this->template->streamStack) >= 2 ? \$this->template->streamStack[sizeof(\$this->template->streamStack) - 2] : 'the application code') ) );\n");
             }
             else
             {
