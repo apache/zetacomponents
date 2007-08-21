@@ -8,30 +8,20 @@
  */
 
 /**
- * ezcTreeXmlDataStore is an abstract class defining and implementing common
- * methods for XML based data stores.
+ * ezcTreeXmlDataStore is an interface defining common methods for XML based
+ * data stores.
  *
  * @package Tree
  * @version //autogentag//
  */
-abstract class ezcTreeXmlDataStore implements ezcTreeDataStore
+interface ezcTreeXmlDataStore extends ezcTreeDataStore
 {
-    /**
-     * Contains the DOM representing this tree this data store stores data for.
-     *
-     * @var DomDocument
-     */
-    protected $dom;
-
     /**
      * Associates the DOM tree for which this data store stores data for with
      * this store.
      *
      * @param DOMDocument $dom
      */
-    public function setDomTree( DOMDocument $dom )
-    {
-        $this->dom = $dom;
-    }
+    public function setDomTree( DOMDocument $dom );
 }
 ?>

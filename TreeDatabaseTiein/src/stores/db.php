@@ -14,7 +14,7 @@
  * @package TreeDatabaseTiein
  * @version //autogentag//
  */
-abstract class ezcTreeDbDataStore implements ezcTreeDataStore
+interface ezcTreeDbDataStore extends ezcTreeDataStore
 {
 }
 ?>

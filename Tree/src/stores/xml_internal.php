@@ -15,8 +15,26 @@
  * @package Tree
  * @version //autogentag//
  */
-class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
+class ezcTreeXmlInternalDataStore implements ezcTreeXmlDataStore
 {
+    /**
+     * Contains the DOM representing this tree this data store stores data for.
+     *
+     * @var DomDocument
+     */
+    protected $dom;
+
+    /**
+     * Associates the DOM tree for which this data store stores data for with
+     * this store.
+     *
+     * @param DOMDocument $dom
+     */
+    public function setDomTree( DOMDocument $dom )
+    {
+        $this->dom = $dom;
+    }
+
     /**
      * Deletes the data for the node $node from the data store.
      *
@@ -53,7 +71,7 @@ class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
     public function fetchDataForNode( ezcTreeNode $node )
     {
         $id = $node->id;
-        $elem = $this->dom->getElementById( "id$id" );
+        $elem = $this->dom->getElementById( "{$node->tree->prefix}{$id}" );
         $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item(0);
         if ( $dataElem === null )
         {
@@ -89,7 +107,7 @@ class ezcTreeXmlInternalDataStore extends ezcTreeXmlDataStore
     {
         // Locate the element
         $id = $node->id;
-        $elem = $this->dom->getElementById( "id$id" );
+        $elem = $this->dom->getElementById( "{$node->tree->prefix}{$id}" );
 
         // Locate the data element, and remove it
         $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item(0);

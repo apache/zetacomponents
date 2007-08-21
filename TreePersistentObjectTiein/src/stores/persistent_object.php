@@ -15,7 +15,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcTreePersistentObjectDataStore extends ezcTreeDbDataStore
+class ezcTreePersistentObjectDataStore implements ezcTreeXmlDataStore, ezcTreeDbDataStore
 {
     /**
      * Contains the persistent session object
@@ -44,6 +44,13 @@ class ezcTreePersistentObjectDataStore extends ezcTreeDbDataStore
      * @var string
      */
     private $idProperty = null;
+
+    /**
+     * Contains the DOM representing this tree this data store stores data for.
+     *
+     * @var DomDocument
+     */
+    protected $dom;
 
     /**
      * Constructs a new storage backend that stores objects through persistent
@@ -183,6 +190,21 @@ class ezcTreePersistentObjectDataStore extends ezcTreeDbDataStore
         $session->saveOrUpdate( $node->data );
 
         $node->dataStored = true;
+    }
+
+    /**
+     * Associates the DOM tree for which this data store stores data for with
+     * this store.
+     *
+     * This method is only needed for when a data store is used
+     * with an XML based tree backend. XML based tree backends call this method
+     * to associate the DOM tree with the store. This is not needed for this
+     * data store so the method is a no-op.
+     *
+     * @param DOMDocument $dom
+     */
+    public function setDomTree( DOMDocument $dom )
+    {
     }
 }
 ?>

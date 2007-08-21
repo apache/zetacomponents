@@ -32,6 +32,8 @@
  *
  * @property-read ezcTreeXmlDataStore $store
  *                The data store that is used for retrieving/storing data.
+ * @property-read string              $prefix
+ *                The prefix that is used to prefix node IDs with in the tree.
  * @property      string              $nodeClassName
  *                Which class is used as tree node - this class *must* inherit
  *                the ezcTreeNode class.
@@ -49,6 +51,11 @@ class ezcTreeXml extends ezcTree
 <grammar xmlns:etd="http://components.ez.no/Tree/data" ns="http://components.ez.no/Tree" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <start>
     <element name="tree">
+      <optional>
+        <attribute name="prefix">
+          <data type="ID"/>
+        </attribute>
+      </optional>
       <optional>
         <ref name="node"/>
       </optional>
@@ -126,21 +133,50 @@ class ezcTreeXml extends ezcTree
 
         libxml_use_internal_errors( $previous );
 
+        // Associate the DOM tree with the data store
         $store->setDomTree( $dom );
 
+        // Figure out the prefix - which is the "prefix" attribute on the root node.
+        $document = $dom->documentElement;
+        $prefix = $document->getAttribute( 'prefix' );
+
+        // Set member variables
         $this->dom = $dom;
         $this->xmlFile = $xmlFile;
         $this->properties['store'] = $store;
+        $this->properties['prefix'] = $prefix;
+    }
+
+    /**
+     * Returns the value of the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        switch ( $name )
+        {
+            case 'prefix':
+                return $this->properties[$name];
+        }
+        return parent::__get( $name );
     }
 
     /**
      * Creates a new XML tree in the file $xmlFile using $store as data store
      *
+     * The $prefix option can be used to change the prefix that is used for IDs
+     * in the created tree. By default this is set to "id" so that numerical
+     * node IDs are not a problem.
+     *
      * @param string $xmlFile
      * @param ezcTreeXmlDataStore $store
+     * @param string $prefix
      * @return ezcTreeXml
      */
-    public static function create( $xmlFile, ezcTreeXmlDataStore $store )
+    public static function create( $xmlFile, ezcTreeXmlDataStore $store, $prefix = 'id' )
     {
         $dom = new DomDocument( '1.0', 'utf-8' );
         $dom->formatOutput = true;
@@ -148,11 +184,15 @@ class ezcTreeXml extends ezcTree
         $element = $dom->createElement( 'tree' );
         $element->setAttributeNode( new DOMAttr( 'xmlns', 'http://components.ez.no/Tree' ) );
         $element->setAttributeNode( new DOMAttr( 'xmlns:etd', 'http://components.ez.no/Tree/data' ) );
+        if ( $prefix !== null )
+        {
+            $element->setAttributeNode( new DOMAttr( 'prefix', $prefix ) );
+        }
 
         $dom->appendChild($element);
 
         $dom->save( $xmlFile );
-        return new ezcTreeXml( $xmlFile, $store );
+        return new ezcTreeXml( $xmlFile, $store, $prefix );
     }
 
     /**
@@ -171,7 +211,7 @@ class ezcTreeXml extends ezcTree
      */
     public function nodeExists( $nodeId )
     {
-        $elem = $this->dom->getElementById( "id$nodeId" );
+        $elem = $this->dom->getElementById( "{$this->properties['prefix']}$nodeId" );
         return ( $elem !== NULL ) ? true : false;
     }
 
@@ -183,7 +223,7 @@ class ezcTreeXml extends ezcTree
      */
     private function getNodeById( $nodeId )
     {
-        $node = $this->dom->getElementById( "id$nodeId" );
+        $node = $this->dom->getElementById( "{$this->properties['prefix']}$nodeId" );
         if ( !$node )
         {
             throw new ezcTreeInvalidIdException( $nodeId );
@@ -241,7 +281,7 @@ class ezcTreeXml extends ezcTree
     public function fetchParent( $nodeId )
     {
         $className = $this->properties['nodeClassName'];
-        $elem = $this->dom->getElementById( "id$nodeId" );
+        $elem = $this->dom->getElementById( "{$this->properties['prefix']}$nodeId" );
         $elem = $elem->parentNode;
         $parentId = $elem !== null ? substr( $elem->getAttribute( 'id' ), 2 ) : null;
         if ( $parentId === false )
@@ -265,7 +305,7 @@ class ezcTreeXml extends ezcTree
         $nodes = array();
         $nodes[] = new $className( $this, $nodeId );
 
-        $elem = $this->dom->getElementById( "id$nodeId" );
+        $elem = $this->dom->getElementById( "{$this->properties['prefix']}$nodeId" );
         $elem = $elem->parentNode;
 
         while ( $elem !== null && $elem->nodeType == XML_ELEMENT_NODE && $elem->tagName == 'node' )
@@ -467,7 +507,7 @@ class ezcTreeXml extends ezcTree
         $elem = $this->getNodeById( $childId );
         $parentElem = $elem->parentNode;
         $nodeId = $parentElem->getAttribute( 'id' );
-        if ( $nodeId === "id$parentId" )
+        if ( $nodeId === "{$this->properties['prefix']}$parentId" )
         {
             return true;
         }
@@ -490,7 +530,7 @@ class ezcTreeXml extends ezcTree
         while ( $elem !== null && $elem->nodeType == XML_ELEMENT_NODE )
         {
             $nodeId = $elem->getAttribute( 'id' );
-            if ( $nodeId === "id$parentId" )
+            if ( $nodeId === "{$this->properties['prefix']}$parentId" )
             {
                     return true;
             }
@@ -539,7 +579,7 @@ class ezcTreeXml extends ezcTree
 
         // Create new root node
         $root = $this->dom->createElement( 'node' );
-        $root->setAttributeNode( new DOMAttr( 'id', "id{$node->id}" ) );
+        $root->setAttributeNode( new DOMAttr( 'id', "{$this->properties['prefix']}{$node->id}" ) );
         $root->setIdAttribute( 'id', true );
         $document->appendChild( $root );
         $this->store->storeDataForNode( $node, $node->data );
@@ -588,7 +628,7 @@ class ezcTreeXml extends ezcTree
 
         // Create new DOM node
         $child = $this->dom->createElement( 'node' );
-        $child->setAttributeNode( new DOMAttr( 'id', "id{$childNode->id}" ) );
+        $child->setAttributeNode( new DOMAttr( 'id', "{$this->properties['prefix']}{$childNode->id}" ) );
         $child->setIdAttribute( 'id', true );
 
         // Append to parent node

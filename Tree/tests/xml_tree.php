@@ -125,6 +125,37 @@ class ezcTreeXmlTest extends ezcTreeTest
         );
     }
 
+    public function testCreateXmlTreeWithPrefix()
+    {
+        $tree = ezcTreeXml::create(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore(),
+            'ezc'
+        );
+        self::assertSame( false, $tree->nodeExists( '1' ) );
+        self::assertSame( false, $tree->nodeExists( '3' ) );
+
+        $node = $tree->createNode( 1, "Root Node" );
+        self::assertType( 'ezcTreeNode', $node );
+        self::assertSame( '1', $node->id );
+        $tree->setRootNode( $node );
+        self::assertSame( true, $tree->nodeExists( '1' ) );
+
+        $node2 = $tree->createNode( 2, "Node 2" );
+        $node->addChild( $node2 );
+        self::assertSame( true, $tree->nodeExists( '2' ) );
+
+        $node->addChild( $node3 = $tree->createNode( 3, "Node 3" ) );
+        $node3->addChild( $tree->createNode( 4, "Node 3.4" ) );
+        self::assertSame( true, $tree->nodeExists( '3' ) );
+        self::assertSame( true, $tree->nodeExists( '4' ) );
+
+        self::assertXmlFileEqualsXmlFile(
+            dirname( __FILE__ ) . '/files/create-test-prefix.xml', 
+            $this->tempDir . '/new-tree.xml'
+        );
+    }
+
     public function testCreateXmlTreeWithTransaction()
     {
         $tree = ezcTreeXml::create(

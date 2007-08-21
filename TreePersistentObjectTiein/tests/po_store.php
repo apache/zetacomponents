@@ -51,6 +51,8 @@ class ezcTreePersistentObjectStore extends ezcTestCase
 
     protected function setUp()
     {
+        $this->tempDir = $this->createTempDir( __CLASS__ ) . '/';
+
         $this->session = new ezcPersistentSession(
             ezcDbInstance::get(),
             new ezcPersistentCacheManager( new ezcPersistentCodeManager( dirname( __FILE__ ) . '/files/defs' ) )
@@ -65,6 +67,11 @@ class ezcTreePersistentObjectStore extends ezcTestCase
         {
             $this->markTestSkipped( $e->getMessage() );
         }
+    }
+
+    public function teardown()
+    {
+        $this->removeTempDir();
     }
 
     private function loadSchema()
@@ -166,6 +173,25 @@ class ezcTreePersistentObjectStore extends ezcTestCase
 
         // start over
         $tree = $this->setUpTestTree();
+
+        $node = $tree->fetchNodeById( '3' );
+        self::assertSame( 3, (int) $node->data->id );
+        self::assertSame( FileEntry::PARTITION, (int) $node->data->type );
+
+        $node = $tree->fetchNodeById( 'grubby' );
+        self::assertSame( 'grubby', $node->data->id );
+        self::assertSame( 172, (int) $node->data->size );
+    }
+
+    public function testFetchDataXmlTree()
+    {
+        $store = new ezcTreePersistentObjectDataStore( $this->session, 'FileEntry', 'id' );
+        $tree = ezcTreeXml::create( $this->tempDir . 'test-xml.xml', $store, 'ezc' );
+        $this->emptyTables();
+        $this->addStandardData( $tree );
+
+        // start over
+        $tree = new ezcTreeXml( $this->tempDir . 'test-xml.xml', $store, 'ezc' );
 
         $node = $tree->fetchNodeById( '3' );
         self::assertSame( 3, (int) $node->data->id );

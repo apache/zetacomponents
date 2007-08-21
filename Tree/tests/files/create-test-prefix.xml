@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<tree prefix="id" xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data">
-  <node id="id1">
+<tree prefix="ezc" xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data">
+  <node id="ezc1">
     <etd:data>Root Node</etd:data>
-    <node id="id2">
+    <node id="ezc2">
       <etd:data>Node 2</etd:data>
     </node>
-    <node id="id3">
+    <node id="ezc3">
       <etd:data>Node 3</etd:data>
-      <node id="id4">
+      <node id="ezc4">
         <etd:data>Node 3.4</etd:data>
       </node>
     </node>

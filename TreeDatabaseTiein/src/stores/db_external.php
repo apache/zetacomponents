@@ -15,7 +15,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
+class ezcTreeDbExternalTableDataStore implements ezcTreeDbDataStore, ezcTreeXmlDataStore
 {
     /**
      * Contains the database connection handler
@@ -46,6 +46,13 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
      * @var string
      */
     private $dataField = null;
+
+    /**
+     * Contains the DOM representing this tree this data store stores data for.
+     *
+     * @var DomDocument
+     */
+    protected $dom;
 
     /**
      * Constructs a new storage backend that stores data in a table external
@@ -189,8 +196,8 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
 
         foreach ( $s as $result )
         {
-            $nodeList[$result['id']]->data = $this->filterDataFromResult( $result );
-            $nodeList[$result['id']]->dataFetched = true;
+            $nodeList[$result[$this->idField]]->data = $this->filterDataFromResult( $result );
+            $nodeList[$result[$this->idField]]->dataFetched = true;
         }
     }
 
@@ -206,7 +213,7 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
         // first we check if there is data for this node
         $id = $node->id;
         $q = $db->createSelectQuery();
-        $q->select( 'id' )
+        $q->select( $db->quoteIdentifier( $this->idField ) )
           ->from( $db->quoteIdentifier( $this->table ) )
           ->where( $q->expr->eq( $db->quoteIdentifier( $this->idField ), $q->bindValue( $id ) ) );
         $s = $q->prepare();
@@ -245,6 +252,21 @@ class ezcTreeDbExternalTableDataStore extends ezcTreeDbDataStore
         $s = $q->prepare();
         $s->execute();
         $node->dataStored = true;
+    }
+
+    /**
+     * Associates the DOM tree for which this data store stores data for with
+     * this store.
+     *
+     * This method is only needed for when a data store is used
+     * with an XML based tree backend. XML based tree backends call this method
+     * to associate the DOM tree with the store. This is not needed for this
+     * data store so the method is a no-op.
+     *
+     * @param DOMDocument $dom
+     */
+    public function setDomTree( DOMDocument $dom )
+    {
     }
 }
 ?>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE tree PUBLIC "" "">
-<tree xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data">
+<tree prefix="id" xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data">
     <node id="id1">
         <etd:data>Node 1</etd:data>
         <node id="id2">
