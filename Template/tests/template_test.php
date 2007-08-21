@@ -201,11 +201,9 @@ class ezcTemplateTest extends ezcTestCase
         catch( ezcTemplateFileNotWriteableException $e )
         {
         }
-
-
     }
 
-    public function testBla()
+    public function testRelativeAndAbsolutePath()
     {
         file_put_contents( $this->templatePath . "/test.ezt", "Hello world" );
         file_put_contents( $this->templatePath . "/test2.ezt", "Hello world2" );
@@ -232,6 +230,41 @@ class ezcTemplateTest extends ezcTestCase
 
         }
     }
+
+    public function testMissingUseVariable()
+    {
+        file_put_contents( $this->templatePath . "/test.ezt", '{use $test}{$test}' );
+        $template = new ezcTemplate();
+        try
+        {
+            $out = $template->process("test.ezt");
+            self::fail("Expected an exception");
+        }
+        catch( ezcTemplateException $e)
+        {
+            self::assertEquals("The external (use) variable", substr($e->getMessage(), 0, 27) );
+            self::assertEquals("the application code", substr($e->getMessage(), -20) );
+
+        }
+    }
+
+    public function testMissingUseVariableWithInclude()
+    {
+        file_put_contents( $this->templatePath . "/test.ezt", '{include "test2.ezt"}' );
+        file_put_contents( $this->templatePath . "/test2.ezt", '{use $test}{$test}' );
+        $template = new ezcTemplate();
+        try
+        {
+            $out = $template->process("test.ezt");
+            self::fail("Expected an exception");
+        }
+        catch( ezcTemplateException $e)
+        {
+            self::assertEquals("The external (use) variable", substr($e->getMessage(), 0, 27) );
+            self::assertNotEquals("the application code", substr($e->getMessage(), -20) );
+        }
+    }
+
 
 }
 

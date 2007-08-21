@@ -1,3 +1,0 @@
-{use $user}
-
-{$user->name}

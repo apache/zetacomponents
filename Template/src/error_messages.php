@@ -128,7 +128,7 @@ class ezcTemplateSourceToTstErrorMessages
 
 
     // Runtime errors
-    const RT_IMPORT_VALUE_MISSING               = "The use variable '%s' is not set."; 
+    const RT_IMPORT_VALUE_MISSING               = "The external (use) variable '%s' is not set in template: %s and called from %s" ; 
     
     
 

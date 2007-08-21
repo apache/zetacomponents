@@ -109,6 +109,7 @@ class ezcTemplate
                                  'tstTree' => false,
                                  'astTree' =>  false,
                                  'stream'  => false,
+                                 'streamStack' => false,
                                  'output' => "",
                                );
 
@@ -129,6 +130,7 @@ class ezcTemplate
             case 'tstTree':
             case 'astTree':
             case 'stream':
+            case 'streamStack':
             case 'compiledTemplatePath':
             case 'usedConfiguration':
 
@@ -171,6 +173,7 @@ class ezcTemplate
             case 'tstTree':
             case 'astTree':
             case 'stream':
+            case 'streamStack':
             case 'output':
                 return isset( $this->properties[$name] );
             default:
@@ -212,6 +215,7 @@ class ezcTemplate
             case 'compiledTemplatePath':
             case 'output':
             case 'stream':
+            case 'streamStack':
             case 'receive':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
@@ -261,7 +265,6 @@ class ezcTemplate
         }
 
         $this->properties["usedConfiguration"] = $config;
-
         $this->properties["tstTree"] = false;
         $this->properties["astTree"] = false;
         $this->properties["stream"] = $location;
@@ -280,6 +283,7 @@ class ezcTemplate
         {
             $this->properties["stream"] = $config->templatePath . DIRECTORY_SEPARATOR . $this->properties["stream"];
         }
+        $this->properties["streamStack"][] = $this->properties["stream"];
 
         // lookup compiled code here
         $compiled = ezcTemplateCompiledCode::findCompiled( $this->properties["stream"], $config->context, $this );
