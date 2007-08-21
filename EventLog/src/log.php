@@ -534,7 +534,7 @@ class ezcLog
      * The following example creates manually an error handler and forwards the 
      * ERROR, WARNING and NOTICE severities. 
      * <code>
-     * public function myLogHandler($errno, $errstr, $errfile, $errline)
+     * function myLogHandler($errno, $errstr, $errfile, $errline)
      * {
      *     switch ($errno)
      *     {
