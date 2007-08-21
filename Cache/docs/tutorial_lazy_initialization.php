@@ -18,7 +18,7 @@ class customLazyCacheConfiguration implements ezcBaseConfigurationInitializer
 }
 
 ezcBaseInit::setCallback( 
-    'ezcInitConfigurationManager', 
+    'ezcInitCacheManager', 
     'customLazyCacheConfiguration'
 );
 
