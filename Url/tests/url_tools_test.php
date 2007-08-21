@@ -219,9 +219,6 @@ class ezcUrlToolsTest extends ezcTestCase
 
     public function testGetCurrentUrlServer()
     {
-    $params = ezcUrlTools::parseQueryString(
-        'openid.id=123456&foo[]=bar&foo[]=baz' );
-    var_dump( $params );
         foreach ( self::$serverValues as $data )
         {
             $_SERVER = array();
