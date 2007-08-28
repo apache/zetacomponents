@@ -246,8 +246,8 @@ class ezcTreeXml extends ezcTree
         {
             if ( $child->nodeType === XML_ELEMENT_NODE && $child->tagName == "node" )
             {
-                $nodeId = $child->getAttribute( 'id' );
-                $childNodes[] = substr( $nodeId, 2 );
+                $nodeId = substr( $child->getAttribute( 'id' ), strlen( $this->properties['prefix'] ) );
+                $childNodes[] = $nodeId;
             }
         }
         return $childNodes;
@@ -281,9 +281,9 @@ class ezcTreeXml extends ezcTree
     public function fetchParent( $nodeId )
     {
         $className = $this->properties['nodeClassName'];
-        $elem = $this->dom->getElementById( "{$this->properties['prefix']}$nodeId" );
+        $elem = $this->getNodeById( $nodeId );
         $elem = $elem->parentNode;
-        $parentId = $elem !== null ? substr( $elem->getAttribute( 'id' ), 2 ) : null;
+        $parentId = $elem !== null ? substr( $elem->getAttribute( 'id' ), strlen( $this->properties['prefix'] ) ) : null;
         if ( $parentId === false )
         {
             return null;
@@ -305,12 +305,12 @@ class ezcTreeXml extends ezcTree
         $nodes = array();
         $nodes[] = new $className( $this, $nodeId );
 
-        $elem = $this->dom->getElementById( "{$this->properties['prefix']}$nodeId" );
+        $elem = $this->getNodeById( $nodeId );
         $elem = $elem->parentNode;
 
         while ( $elem !== null && $elem->nodeType == XML_ELEMENT_NODE && $elem->tagName == 'node' )
         {
-            $id = substr( $elem->getAttribute( 'id' ), 2 );
+            $id = substr( $elem->getAttribute( 'id' ), strlen( $this->properties['prefix'] ) );
             $nodes[] = new $className( $this, $id );
             $elem = $elem->parentNode;
         }
@@ -567,11 +567,11 @@ class ezcTreeXml extends ezcTree
         $document = $this->dom->documentElement;
 
         // remove old root node(s)
-        foreach ( $document->childNodes as $child )
+        foreach ( $document->childNodes as $childNode )
         {
-            if ( $child->nodeType == XML_ELEMENT_NODE && $child->tagName === 'node' )
+            if ( $childNode->nodeType == XML_ELEMENT_NODE && $childNode->tagName === 'node' )
             {
-                $nodeId = substr( $child->getAttribute( 'id' ), 2 );
+                $nodeId = substr( $childNode->getAttribute( 'id' ), strlen( $this->properties['prefix'] ) );
                 $this->delete( $nodeId );
             }
         }
@@ -602,7 +602,7 @@ class ezcTreeXml extends ezcTree
         {
             if ( $childNode->nodeType == XML_ELEMENT_NODE && $childNode->tagName == 'node' )
             {
-                $nodeId = substr( $childNode->getAttribute( 'id' ), 2 );
+                $nodeId = substr( $childNode->getAttribute( 'id' ), strlen( $this->properties['prefix'] ) );
                 return new $className( $this, $nodeId );
             }
         }

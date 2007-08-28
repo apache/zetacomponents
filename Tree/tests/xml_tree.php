@@ -140,6 +140,7 @@ class ezcTreeXmlTest extends ezcTreeTest
         self::assertSame( '1', $node->id );
         $tree->setRootNode( $node );
         self::assertSame( true, $tree->nodeExists( '1' ) );
+        self::assertSame( '1', $tree->getRootNode()->id );
 
         $node2 = $tree->createNode( 2, "Node 2" );
         $node->addChild( $node2 );
