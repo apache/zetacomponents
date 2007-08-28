@@ -33,6 +33,8 @@ return array(
     'ezcTreeTransactionItem'                    => 'Tree/structs/transaction_item.php',
     'ezcTreeVisitorGraphViz'                    => 'Tree/visitors/graphviz.php',
     'ezcTreeVisitorPlainText'                   => 'Tree/visitors/plain_text.php',
+    'ezcTreeVisitorXHTML'                       => 'Tree/visitors/xhtml.php',
+    'ezcTreeVisitorXHTMLOptions'                => 'Tree/options/visitor_xhtml.php',
     'ezcTreeXml'                                => 'Tree/backends/xml.php',
     'ezcTreeXmlInternalDataStore'               => 'Tree/stores/xml_internal.php',
 );

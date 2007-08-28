@@ -310,5 +310,10 @@ class ezcTreeNode implements ezcTreeVisitable
     {
         return $this->tree->isSiblingOf( $this->id, $child2Node->id );
     }
+
+    public function __toString()
+    {
+        return $this->id;
+    }
 }
 ?>

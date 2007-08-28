@@ -17,6 +17,7 @@ require_once 'tree_node_list.php';
 require_once 'tree_node_list_iterator.php';
 require_once 'memory_store.php';
 require_once 'visitor.php';
+require_once 'visitor_options.php';
 require_once 'memory_tree.php';
 require_once 'xml_tree.php';
 require_once 'copy_tree.php';
@@ -37,6 +38,7 @@ class ezcTreeSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcTreeNodeListIteratorTest::suite() );
         $this->addTest( ezcTreeMemoryStoreTest::suite() );
         $this->addTest( ezcTreeVisitorTest::suite() );
+        $this->addTest( ezcTreeVisitorOptionsTest::suite() );
         $this->addTest( ezcTreeMemoryTest::suite() );
         $this->addTest( ezcTreeXmlTest::suite() );
         $this->addTest( ezcTreeCopyTest::suite() );
