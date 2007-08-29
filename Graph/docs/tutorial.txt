@@ -109,7 +109,7 @@ Pie chart options
 There are several pie chart specific configuration options available. In
 eZ Components, options are always accessed via public properties. For a full
 list of all available options, see the documentation for the
-ezcGraphPieChartOption class.
+ezcGraphPieChartOptions class.
 
 .. include:: tutorial/tutorial_pie_options.php
    :literal:
