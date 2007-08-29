@@ -53,10 +53,25 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $report->shorthelp = "Directory to store test reports and code coverage reports in.";
         $consoleInput->registerOption( $report );
 
-        // XML Logfile option
+        // Logfile XML option
         $xml = new ezcConsoleOption( 'x', 'log-xml', ezcConsoleInput::TYPE_STRING );
         $xml->shorthelp = "Log test execution in XML format to file.";
         $consoleInput->registerOption( $xml );
+
+        // Coverage XML option
+        $coverage = new ezcConsoleOption( '', 'coverage-xml', ezcConsoleInput::TYPE_STRING );
+        $coverage->shorthelp = "Write code coverage information in XML format.";
+        $consoleInput->registerOption( $coverage );
+
+        // Metrics XML option
+        $metrics = new ezcConsoleOption( '', 'log-metrics', ezcConsoleInput::TYPE_STRING );
+        $metrics->shorthelp = "Write metrics report in XML format.";
+        $consoleInput->registerOption( $metrics );
+
+        // Project Mess Detector (PMD) XML option
+        $pmd = new ezcConsoleOption( '', 'log-pmd', ezcConsoleInput::TYPE_STRING );
+        $pmd->shorthelp = "Write violations report in PMD XML format.";
+        $consoleInput->registerOption( $pmd );
 
         // Test Database (DSN) option
         $testDbDsn = new ezcConsoleOption( '', 'test-db-dsn', ezcConsoleInput::TYPE_STRING );
@@ -134,6 +149,9 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $release = $consoleInput->getOption( 'release' )->value;
 
         $logfile   = $consoleInput->getOption( 'log-xml' )->value;
+        $coverage  = $consoleInput->getOption( 'coverage-xml' )->value;
+        $metrics   = $consoleInput->getOption( 'log-metrics' )->value;
+        $pmd       = $consoleInput->getOption( 'log-pmd' )->value;
         $reportDir = $consoleInput->getOption( 'report-dir' )->value;
         $testDbDsn = $consoleInput->getOption( 'test-db-dsn' )->value;
         $testDbRev = $consoleInput->getOption( 'test-db-svnrev' )->value;
@@ -141,6 +159,24 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         if ( $logfile )
         {
             $params['xmlLogfile'] = $logfile;
+        }
+
+        if ( $coverage )
+        {
+            $params['coverageXML'] = $coverage;
+            $whitelist             = true;
+        }
+
+        if ( $metrics )
+        {
+            $params['metricsXML'] = $metrics;
+            $whitelist            = true;
+        }
+
+        if ( $pmd )
+        {
+            $params['pmdXML'] = $pmd;
+            $whitelist        = true;
         }
 
         if ( $reportDir )
