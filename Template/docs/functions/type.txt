@@ -133,6 +133,34 @@ Returns the class name of the given object::
 Outputs the class name.
 
 
+string _`cast_string` ( mixed *$val* )
+``````````````````````````````````````
+Casts the input value to a string::
+
+    {cast_string(123)}
+
+Returns "123".
+
+
+int _`cast_int` ( mixed *$val* )
+````````````````````````````````
+Casts the input value to a integer::
+
+    {cast_int("456")}
+
+Returns 456.
+
+
+float _`cast_float` ( mixed *$val* )
+````````````````````````````````````
+Casts the input value to a float::
+
+    {cast_float("7.8")}
+
+Returns 7.8.
+
+
+
 
 ..
    Local Variables:
