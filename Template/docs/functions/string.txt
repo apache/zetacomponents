@@ -362,7 +362,7 @@ Outputs::
 See also str_left_ (), str_mid_ (), str_right_ ().
 
 
-string _`str_ord` ( int *$char* )
+string _`str_chr` ( int *$char* )
 `````````````````````````````````
 Returns one character string with the ASCII value *$char*::
 
@@ -371,6 +371,16 @@ Returns one character string with the ASCII value *$char*::
 Outputs::
 
     A
+
+string _`str_ord` ( string *$char* )
+````````````````````````````````````
+Returns the ASCII value from the character *$char*::
+
+    {str_ord( 'A' )}
+
+Outputs::
+
+    65 
 
 
 string _`str_number` ( float *$number*, int *$decimals*, string *$decimal_sep*, string *$thousands_sep* )
