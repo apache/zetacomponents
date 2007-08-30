@@ -13,6 +13,9 @@ is_float:
 is_int:
 1
 
+is_bool:
+1
+
 is_numeric:
 1
 

@@ -57,6 +57,12 @@ class ezcTemplateTypeFunctions extends ezcTemplateFunctions
             // is_int( $v )
             case "is_int": return array( array( "%var" ), 
                     self::functionCall( "is_int", array( "%var" ) ) );
+                    
+            // is_bool( $v )::
+            // is_bool( $v )
+            case "is_bool": return array( array( "%var" ), 
+                    self::functionCall( "is_bool", array( "%var" ) ) );
+
 
             // is_numeric( $v )::
             // is_numeric( $v )
