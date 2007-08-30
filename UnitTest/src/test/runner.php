@@ -206,7 +206,19 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $printer = new ezcTestPrinter( $params['verbose'] );
         $this->setPrinter( $printer );
 
-        $this->doRun( $allSuites, $params );
+        $result = $this->doRun( $allSuites, $params );
+
+        if ( $result->errorCount() > 0 )
+        {
+            exit( PHPUnit_TextUI_TestRunner::EXCEPTION_EXIT );
+        }
+
+        if ( $result->failureCount() > 0 )
+        {
+            exit( PHPUnit_TextUI_TestRunner::FAILURE_EXIT );
+        }
+
+        exit( PHPUnit_TextUI_TestRunner::SUCCESS_EXIT );
     }
 
     protected function printCredits()
