@@ -80,6 +80,30 @@ class ezcTemplateTest extends ezcTestCase
         self::assertEquals( $res, $res2, "Expected the same output" );
     }
 
+    public function testReExecuteTemplateKeepSendVariables()
+    {
+        file_put_contents( $this->templatePath . "/sendVar.ezt", "{use \$a}\n{\$a}" );
+
+        $template = new ezcTemplate();
+        $template->send->a = 1;
+        $res = $template->process( "sendVar.ezt" );
+        self::assertEquals("1", $res);
+
+        $res = $template->process( "sendVar.ezt" ); # Run again, send->a == 1 (implicitly set from the previous run)
+        self::assertEquals("1", $res);
+
+        $template->send = new ezcTemplateVariableCollection();
+        try
+        {
+            $res = $template->process( "sendVar.ezt" ); # Run again, send->a is not set.
+            $this->fail( "Expected an ezcTemplateRuntimeException");
+        }
+        catch( ezcTemplateRuntimeException $e)
+        {
+        }
+    }
+
+
     public function testReCompileTemplate()
     {
         file_put_contents( $this->templatePath . "/reexecute_template.ezt", "Hello world" );
