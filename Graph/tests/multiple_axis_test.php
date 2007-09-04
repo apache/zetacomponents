@@ -68,6 +68,31 @@ class ezcGraphMultipleAxisTest extends ezcTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testAxisContainerIterator()
+    {
+        $options = new ezcGraphLineChartOptions();
+
+        $axis = array();
+
+        $options->additionalAxis[] = $axis[] = new ezcGraphChartElementNumericAxis();
+        $options->additionalAxis[] = $axis[] = new ezcGraphChartElementNumericAxis();
+        $options->additionalAxis['foo'] = $axis['foo'] = new ezcGraphChartElementLabeledAxis();
+
+        foreach ( $options->additionalAxis as $key => $value )
+        {
+            $this->assertTrue(
+                array_key_exists( $key, $axis ),
+                "Expecteded key '$key' in both arrays."
+            );
+
+            $this->assertSame(
+                $axis[$key],
+                $value,
+                "Value should be the same for key '$key'."
+            );
+        }
+    }
+
     public function testAddAdditionalAxisToChart()
     {
         $chart = new ezcGraphLineChart();
