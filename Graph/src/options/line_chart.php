@@ -41,6 +41,8 @@
  * @property bool $highlightLines
  *           If true, it adds lines to highlight the values position on the 
  *           axis.
+ * @property ezcGraphAxisContainer $additionalAxis
+ *           Contains additional axis besides the basic axis.
  *
  * @version //autogentag//
  * @package Graph
@@ -63,6 +65,7 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
         $this->properties['highlightFontCloned'] = false;
         $this->properties['highlightSize'] = 14;
         $this->properties['highlightLines'] = false;
+        $this->properties['additionalAxis'] = new ezcGraphAxisContainer();
     
         parent::__construct( $options );
     }
@@ -134,6 +137,14 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
                 }
 
                 $this->properties['highlightLines'] = $propertyValue;
+                break;
+            case 'additionalAxis':
+                if ( ! $propertyValue instanceof ezcGraphAxisContainer )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphAxisContainer' );
+                }
+
+                $this->properties['additionalAxis'] = $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
