@@ -135,5 +135,72 @@ class ezcGraphMultipleAxisTest extends ezcTestCase
 
         $this->fail( 'Expected ezcBaseValueException.' );
     }
+
+    public function testDatasetAxisAssignement()
+    {
+        $chart = new ezcGraphLineChart();
+
+        $chart->options->additionalAxis['marker'] = new ezcGraphChartElementNumericAxis();
+        $chart->options->additionalAxis['new base'] = new ezcGraphChartElementLabeledAxis();
+
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['sampleData']->yAxis = $chart->options->additionalAxis['marker'];
+        $chart->data['sampleData']->xAxis = $chart->options->additionalAxis['new base'];
+        
+        $this->assertEquals(
+            new ezcGraphChartElementNumericAxis(),
+            $chart->data['sampleData']->yAxis->default,
+            'yAxis property should point to a ezcGraphChartElementNumericAxis.'
+        );
+
+        $this->assertEquals(
+            new ezcGraphChartElementLabeledAxis(),
+            $chart->data['sampleData']->xAxis->default,
+            'xAxis property should point to a ezcGraphChartElementLabeledAxis.'
+        );
+
+        try
+        {
+            $chart->data['sampleData']->yAxis['sample 1'] = $chart->options->additionalAxis['marker'];
+        }
+        catch ( ezcGraphInvalidAssignementException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphInvalidAssignementException.' );
+    }
+
+    public function testDatasetAxisAssignementWithoutRegistration()
+    {
+        $chart = new ezcGraphLineChart();
+
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['sampleData']->yAxis = new ezcGraphChartElementNumericAxis();
+        $chart->data['sampleData']->xAxis = new ezcGraphChartElementLabeledAxis();
+        
+        $this->assertEquals(
+            new ezcGraphChartElementNumericAxis(),
+            $chart->data['sampleData']->yAxis->default,
+            'yAxis property should point to a ezcGraphChartElementNumericAxis.'
+        );
+
+        $this->assertEquals(
+            new ezcGraphChartElementLabeledAxis(),
+            $chart->data['sampleData']->xAxis->default,
+            'xAxis property should point to a ezcGraphChartElementLabeledAxis.'
+        );
+
+        try
+        {
+            $chart->data['sampleData']->xAxis[100] = new ezcGraphChartElementLabeledAxis();
+        }
+        catch ( ezcGraphInvalidAssignementException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphInvalidAssignementException.' );
+    }
 }
 ?>

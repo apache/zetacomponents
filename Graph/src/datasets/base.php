@@ -23,6 +23,10 @@
  *           Display type of chart data
  * @property string $url
  *           URL associated with datapoint
+ * @property ezcGraphChartElementAxis $xAxis
+ *           Associate dataset with a different X axis then the default one
+ * @property ezcGraphChartElementAxis $yAxis
+ *           Associate dataset with a different Y axis then the default one
  *
  * @version //autogentag//
  * @package Graph
@@ -75,6 +79,9 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
         $this->properties['displayType'] = new ezcGraphDataSetIntProperty( $this );
         $this->properties['url'] = new ezcGraphDataSetStringProperty( $this );
 
+        $this->properties['xAxis'] = new ezcGraphDataSetAxisProperty( $this );
+        $this->properties['yAxis'] = new ezcGraphDataSetAxisProperty( $this );
+
         $this->properties['highlight']->default = false;
     }
 
@@ -102,6 +109,8 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
             case 'symbol':
             case 'highlight':
             case 'displayType':
+            case 'xAxis':
+            case 'yAxis':
                 $this->properties[$propertyName]->default = $propertyValue;
                 break;
 

@@ -138,7 +138,7 @@ abstract class ezcGraphDataSetProperty implements ArrayAccess
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
      */
-    final public function offsetSet( $key, $value )
+    public function offsetSet( $key, $value )
     {
         if ( isset( $this->dataset[$key] ) &&
              $this->checkValue( $value ) )
