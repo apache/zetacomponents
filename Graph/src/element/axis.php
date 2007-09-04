@@ -42,6 +42,9 @@
  *           Function will receive two parameters and should return a 
  *           reformatted label.
  *              string function( label, step )
+ * @property float $chartPosition
+ *           Position of the axis in the chart. Only useful for additional
+ *           axis. The basic chart axis will be automatically positioned.
  *
  * @version //autogentag//
  * @package Graph
@@ -77,6 +80,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $this->properties['minArrowHeadSize'] = 4;
         $this->properties['maxArrowHeadSize'] = 8;
         $this->properties['labelCallback'] = null;
+        $this->properties['chartPosition'] = null;
 
         parent::__construct( $options );
 
@@ -214,6 +218,16 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'callback function' );
                 }
+                break;
+            case 'chartPosition':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties['chartPosition'] = (float) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

@@ -68,6 +68,35 @@ class ezcGraphMultipleAxisTest extends ezcTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testAxisPropertyChartPosition()
+    {
+        $options = new ezcGraphChartElementNumericAxis();
+
+        $this->assertEquals(
+            null,
+            $options->chartPosition,
+            'Wrong default value for property chartPosition in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->chartPosition = .3;
+        $this->assertSame(
+            .3,
+            $options->chartPosition,
+            'Setting property value did not work for property chartPosition in class ezcGraphChartElementNumericAxis'
+        );
+
+        try
+        {
+            $options->chartPosition = 15;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testAxisContainerIterator()
     {
         $options = new ezcGraphLineChartOptions();
