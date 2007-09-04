@@ -67,7 +67,7 @@
  *     }
  * 
  *     // Checking optional fields
- *     foreach ( $form->getOptionalProperties as $property )
+ *     foreach ( $form->getOptionalProperties() as $property )
  *     {
  *         $name = "property_{$property}";
  *         if ( $form->hasValidData( $property ) )
