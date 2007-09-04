@@ -26,7 +26,7 @@
  *                            ezcInputFormDefinitionElement::REQUIRED, 'filtername'
  *                        ),
  *        'textfield'  => new ezcInputFormDefinitionElement(
- *                            ezcInputFormDefinitionElement::OPTIONAL, 'string',
+ *                            ezcInputFormDefinitionElement::OPTIONAL, 'string'
  *                        ),
  *        'integer1'   => new ezcInputFormDefinitionElement(
  *                            ezcInputFormDefinitionElement::REQUIRED, 'int',
