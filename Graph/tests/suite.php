@@ -35,6 +35,7 @@ require_once 'legend_test.php';
 require_once 'line_test.php';
 require_once 'logarithmical_axis_test.php';
 require_once 'matrix_test.php';
+require_once 'multiple_axis_test.php';
 require_once 'numeric_axis_test.php';
 require_once 'palette_test.php';
 require_once 'pie_test.php';
@@ -83,6 +84,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphLineChartTest::suite() );
         $this->addTest( ezcGraphLogarithmicalAxisTest::suite() );
         $this->addTest( ezcGraphMatrixTest::suite() );
+        $this->addTest( ezcGraphMultipleAxisTest::suite() );
         $this->addTest( ezcGraphNumericAxisTest::suite() );
         $this->addTest( ezcGraphNumericDataSetTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );
