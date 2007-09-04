@@ -155,6 +155,8 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
             }
         }
         ksort( $this->labels );
+
+        $this->properties['initialized'] = true;
     }
 
     /**

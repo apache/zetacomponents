@@ -45,6 +45,9 @@
  * @property float $chartPosition
  *           Position of the axis in the chart. Only useful for additional
  *           axis. The basic chart axis will be automatically positioned.
+ * @property-read bool $initialized
+ *           Property indicating if some values were associated with axis, or a
+ *           scaling has been set manually.
  *
  * @version //autogentag//
  * @package Graph
@@ -81,6 +84,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $this->properties['maxArrowHeadSize'] = 8;
         $this->properties['labelCallback'] = null;
         $this->properties['chartPosition'] = null;
+        $this->properties['initialized'] = false;
 
         parent::__construct( $options );
 

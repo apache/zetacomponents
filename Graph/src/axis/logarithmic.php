@@ -86,6 +86,7 @@ class ezcGraphChartElementLogarithmicalAxis extends ezcGraphChartElementAxis
                 }
 
                 $this->properties[$propertyName] = (float) $propertyValue;
+                $this->properties['initialized'] = true;
                 break;
             case 'base':
                 if ( !is_numeric( $propertyValue ) ||
@@ -127,6 +128,8 @@ class ezcGraphChartElementLogarithmicalAxis extends ezcGraphChartElementAxis
                 $this->properties['maxValue'] = $value;
             }
         }
+
+        $this->properties['initialized'] = true;
     }
 
     /**

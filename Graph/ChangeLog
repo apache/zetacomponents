@@ -1,3 +1,9 @@
+1.2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented features #10322, #10565: Support for multiple x, y axis,
+  vertical and horizontal lines in line and bar charts.
+
 1.1.1 - Monday 13 August 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

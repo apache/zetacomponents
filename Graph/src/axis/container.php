@@ -22,11 +22,30 @@ class ezcGraphAxisContainer
         Iterator
 {
     /**
+     * Chart the container is used with
+     * 
+     * @var ezcGraphLineChart
+     */
+    protected $chart;
+
+    /**
      * Contains the data of a chart
      * 
      * @var array(ezcGraphChartElementAxis)
      */
     protected $data = array();
+
+    /**
+     * Construct container with corresponding chart.
+     * 
+     * @param ezcGraphLineChart $chart 
+     * @return void
+     * @ignore
+     */
+    public function __construct( ezcGraphLineChart $chart )
+    {
+        $this->chart = $chart;
+    }
 
     /**
      * Returns if the given offset exists.
@@ -89,7 +108,12 @@ class ezcGraphAxisContainer
             $key = count( $this->data );
         }
 
-        return $this->data[$key] = $value;
+        // Add axis and configure it with current font and palette
+        $this->data[$key] = $value;
+        $value->font = $this->chart->options->font;
+        $value->setFromPalette( $this->chart->palette );
+
+        return $value;
     }
 
     /**

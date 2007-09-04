@@ -138,6 +138,7 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
                 break;
             case 'interval':
                 $this->properties['interval'] = (int) $propertyValue;
+                $this->properties['initialized'] = true;
                 break;
             case 'dateFormat':
                 $this->properties['dateFormat'] = (string) $propertyValue;
@@ -195,6 +196,8 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
                 $this->maxValue = $value;
             }
         }
+
+        $this->properties['initialized'] = true;
     }
 
     /**

@@ -83,6 +83,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
                 }
 
                 $this->properties['min'] = (float) $propertyValue;
+                $this->properties['initialized'] = true;
                 break;
             case 'max':
                 if ( !is_numeric( $propertyValue ) )
@@ -91,6 +92,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
                 }
 
                 $this->properties['max'] = (float) $propertyValue;
+                $this->properties['initialized'] = true;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );
@@ -216,6 +218,8 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
                 $this->properties['maxValue'] = $value;
             }
         }
+
+        $this->properties['initialized'] = true;
     }
 
     /**

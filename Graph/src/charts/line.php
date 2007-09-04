@@ -65,7 +65,13 @@
  */
 class ezcGraphLineChart extends ezcGraphChart
 {
- 
+    /**
+     * Array with additional axis for the chart
+     * 
+     * @var ezcGraphAxisContainer
+     */
+    protected $additionalAxis;
+
     /**
      * Constructor
      * 
@@ -75,6 +81,8 @@ class ezcGraphLineChart extends ezcGraphChart
      */
     public function __construct( array $options = array() )
     {
+        $this->additionalAxis = new ezcGraphAxisContainer( $this );
+
         $this->options = new ezcGraphLineChartOptions( $options );
         $this->options->highlightFont = $this->options->font;
 
@@ -85,6 +93,26 @@ class ezcGraphLineChart extends ezcGraphChart
 
         $this->addElement( 'yAxis', new ezcGraphChartElementNumericAxis() );
         $this->elements['yAxis']->position = ezcGraph::BOTTOM;
+    }
+
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'additionalAxis':
+                return $this->additionalAxis;
+        }
+
+        return parent::__get( $propertyName );
     }
 
     /**
@@ -127,6 +155,22 @@ class ezcGraphLineChart extends ezcGraphChart
             default:
                 parent::__set( $propertyName, $propertyValue );
         }
+    }
+
+    /**
+     * Set colors and border for this element
+     * 
+     * @param ezcGraphPalette $palette Palette
+     * @return void
+     */
+    public function setFromPalette( ezcGraphPalette $palette )
+    {
+        foreach ( $this->additionalAxis as $element )
+        {
+            $element->setFromPalette( $palette );
+        }
+
+        parent::setFromPalette( $palette );
     }
 
     /**
@@ -176,6 +220,12 @@ class ezcGraphLineChart extends ezcGraphChart
         foreach ( $this->data as $datasetName => $data )
         {
             --$nr[$data->displayType->default];
+
+            // Check which axis should be used
+            $xAxis = ( $data->xAxis->default ? $data->xAxis->default: $this->elements['xAxis'] );
+            $yAxis = ( $data->yAxis->default ? $data->yAxis->default: $this->elements['yAxis'] );
+
+            // Render depending on display type of dataset
             switch ( $data->displayType->default )
             {
                 case ezcGraph::LINE:
@@ -194,11 +244,11 @@ class ezcGraphLineChart extends ezcGraphChart
                     $lastPoint = false;
                     foreach ( $data as $key => $value )
                     {
-                        $point = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
-                            $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
+                        $point = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
+                            $yAxis->axisLabelRenderer->modifyChartDataPosition(
                                 new ezcGraphCoordinate( 
-                                    $this->elements['xAxis']->getCoordinate( $key ),
-                                    $this->elements['yAxis']->getCoordinate( $value )
+                                    $xAxis->getCoordinate( $key ),
+                                    $yAxis->getCoordinate( $value )
                                 )
                             )
                         );
@@ -239,7 +289,7 @@ class ezcGraphLineChart extends ezcGraphChart
                 case ezcGraph::BAR:
                     if ( $checkedRegularSteps === false )
                     {
-                        $steps = $this->elements['xAxis']->getSteps();
+                        $steps = $xAxis->getSteps();
 
                         $stepWidth = null;
                         foreach ( $steps as $step )
@@ -258,13 +308,13 @@ class ezcGraphLineChart extends ezcGraphChart
                         if ( count( $step->childs ) )
                         {
                             // Keep this for BC reasons
-                            $barCount = ( $this->elements['xAxis']->getMajorStepCount() + 1 ) * ( $this->elements['xAxis']->getMinorStepCount() - 1 );
+                            $barCount = ( $xAxis->getMajorStepCount() + 1 ) * ( $xAxis->getMinorStepCount() - 1 );
                             $stepWidth = 1 / $barCount;
                         }
 
                         $checkedRegularSteps = true;
-                        $width = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
-                            $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
+                        $width = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
+                            $yAxis->axisLabelRenderer->modifyChartDataPosition(
                                 new ezcGraphCoordinate(
                                     ( $boundings->x1 - $boundings->x0 ) * $stepWidth,
                                     0 
@@ -276,16 +326,16 @@ class ezcGraphLineChart extends ezcGraphChart
                     foreach ( $data as $key => $value )
                     {
                         $point = new ezcGraphCoordinate( 
-                            $this->elements['xAxis']->getCoordinate( $key ),
-                            $this->elements['yAxis']->getCoordinate( $value )
+                            $xAxis->getCoordinate( $key ),
+                            $yAxis->getCoordinate( $value )
                         );
 
                         $renderer->drawBar(
                             $boundings,
                             new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
                             $data->color->default,
-                            $point = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
-                                $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
+                            $point = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
+                                $yAxis->axisLabelRenderer->modifyChartDataPosition(
                                     $point
                                 )
                             ),
@@ -359,10 +409,35 @@ class ezcGraphLineChart extends ezcGraphChart
                 $values[] = $value;
             }
 
-            $this->elements['xAxis']->addData( $labels );
-            $this->elements['yAxis']->addData( $values );
+            // Check if data has been associated with another custom axis, use
+            // default axis otherwise.
+            if ( $dataset->xAxis->default )
+            {
+                $dataset->xAxis->default->addData( $labels );
+            }
+            else
+            {
+                $this->elements['xAxis']->addData( $labels );
+            }
+
+            if ( $dataset->yAxis->default )
+            {
+                $dataset->yAxis->default->addData( $values );
+            }
+            else
+            {
+                $this->elements['yAxis']->addData( $values );
+            }
         }
 
+        // There should always be something assigned to the main x and y axis.
+        if ( !$this->elements['xAxis']->initialized ||
+             !$this->elements['yAxis']->initialized )
+        {
+            throw new ezcGraphNoDataException();
+        }
+
+        // Calculate boundings from assigned data
         $this->elements['xAxis']->calculateAxisBoundings();
         $this->elements['yAxis']->calculateAxisBoundings();
 
@@ -407,6 +482,27 @@ class ezcGraphLineChart extends ezcGraphChart
             }
 
             $this->driver->options->font = $element->font;
+            $boundings = $element->render( $this->renderer, $boundings );
+        }
+
+        // Render additional axis
+        foreach ( $this->additionalAxis as $element )
+        {
+            if ( $element->initialized )
+            {
+                // Calculate all required step sizes if values has been
+                // assigned to axis.
+                $element->calculateAxisBoundings();
+            }
+            else
+            {
+                // Do not render any axis labels, if no values were assigned
+                // and no step sizes were defined.
+                $element->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
+            }
+
+            $this->driver->options->font = $element->font;
+            $element->nullPosition = $element->chartPosition;
             $boundings = $element->render( $this->renderer, $boundings );
         }
 
