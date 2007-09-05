@@ -225,25 +225,66 @@ class ezcGraphLineChart extends ezcGraphChart
             $xAxis = ( $data->xAxis->default ? $data->xAxis->default: $this->elements['xAxis'] );
             $yAxis = ( $data->yAxis->default ? $data->yAxis->default: $this->elements['yAxis'] );
 
-            // Render depending on display type of dataset
-            switch ( $data->displayType->default )
+            // Determine fill color for dataset
+            if ( $this->options->fillLines !== false )
             {
-                case ezcGraph::LINE:
-                    // Determine fill color for dataset
-                    if ( $this->options->fillLines !== false )
-                    {
-                        $fillColor = clone $data->color->default;
-                        $fillColor->alpha = (int) round( ( 255 - $fillColor->alpha ) * ( $this->options->fillLines / 255 ) );
-                    }
-                    else
-                    {
-                        $fillColor = null;
-                    }
+                $fillColor = clone $data->color->default;
+                $fillColor->alpha = (int) round( ( 255 - $fillColor->alpha ) * ( $this->options->fillLines / 255 ) );
+            }
+            else
+            {
+                $fillColor = null;
+            }
 
-                    // Draw lines for dataset
-                    $lastPoint = false;
-                    foreach ( $data as $key => $value )
+            // Ensure regular steps on axis when used with bar charts and
+            // precalculate some values use to render bar charts
+            //
+            // Called only once and only when bars should be rendered
+            if ( ( $checkedRegularSteps === false ) &&
+                 ( $data->displayType->default === ezcGraph::BAR ) )
+            {
+                $steps = $xAxis->getSteps();
+
+                $stepWidth = null;
+                foreach ( $steps as $step )
+                {
+                    if ( $stepWidth === null )
                     {
+                        $stepWidth = $step->width;
+                    } 
+                    elseif ( $step->width !== $stepWidth )
+                    {
+                        throw new ezcGraphUnregularStepsException();
+                    }
+                }
+
+                $step = reset( $steps );
+                if ( count( $step->childs ) )
+                {
+                    // Keep this for BC reasons
+                    $barCount = ( $xAxis->getMajorStepCount() + 1 ) * ( $xAxis->getMinorStepCount() - 1 );
+                    $stepWidth = 1 / $barCount;
+                }
+
+                $checkedRegularSteps = true;
+                $width = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
+                    $yAxis->axisLabelRenderer->modifyChartDataPosition(
+                        new ezcGraphCoordinate(
+                            ( $boundings->x1 - $boundings->x0 ) * $stepWidth,
+                            0 
+                        )
+                    )
+                )->x;
+            }
+
+            // Draw lines for dataset
+            $lastPoint = false;
+            foreach ( $data as $key => $value )
+            {
+                // Render depending on display type of dataset
+                switch ( $data->displayType->default )
+                {
+                    case ezcGraph::LINE:
                         $point = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
                             $yAxis->axisLabelRenderer->modifyChartDataPosition(
                                 new ezcGraphCoordinate( 
@@ -266,65 +307,8 @@ class ezcGraphLineChart extends ezcGraphChart
                             $fillColor,
                             $yAxisNullPosition
                         );
-
-                        if ( $data->highlight[$key] )
-                        {
-                            $renderer->drawDataHighlightText(
-                                $boundings,
-                                new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
-                                $point,
-                                $yAxisNullPosition,
-                                $nr[$data->displayType->default],
-                                $count[$data->displayType->default],
-                                $this->options->highlightFont,
-                                ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
-                                $this->options->highlightSize,
-                                ( $this->options->highlightLines ? $data->color[$key] : null )
-                            );
-                        }
-    
-                        $lastPoint = $point;
-                    }
-                    break;
-                case ezcGraph::BAR:
-                    if ( $checkedRegularSteps === false )
-                    {
-                        $steps = $xAxis->getSteps();
-
-                        $stepWidth = null;
-                        foreach ( $steps as $step )
-                        {
-                            if ( $stepWidth === null )
-                            {
-                                $stepWidth = $step->width;
-                            } 
-                            elseif ( $step->width !== $stepWidth )
-                            {
-                                throw new ezcGraphUnregularStepsException();
-                            }
-                        }
-
-                        $step = reset( $steps );
-                        if ( count( $step->childs ) )
-                        {
-                            // Keep this for BC reasons
-                            $barCount = ( $xAxis->getMajorStepCount() + 1 ) * ( $xAxis->getMinorStepCount() - 1 );
-                            $stepWidth = 1 / $barCount;
-                        }
-
-                        $checkedRegularSteps = true;
-                        $width = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
-                            $yAxis->axisLabelRenderer->modifyChartDataPosition(
-                                new ezcGraphCoordinate(
-                                    ( $boundings->x1 - $boundings->x0 ) * $stepWidth,
-                                    0 
-                                )
-                            )
-                        )->x;
-                    }
-
-                    foreach ( $data as $key => $value )
-                    {
+                        break;
+                    case ezcGraph::BAR:
                         $point = new ezcGraphCoordinate( 
                             $xAxis->getCoordinate( $key ),
                             $yAxis->getCoordinate( $value )
@@ -345,27 +329,31 @@ class ezcGraphLineChart extends ezcGraphChart
                             $data->symbol[$key],
                             $yAxisNullPosition
                         );
+                        break;
+                    default:
+                        throw new ezcGraphInvalidDisplayTypeException( $data->displayType->default );
+                        break;
+                }
 
-                        if ( $data->highlight[$key] )
-                        {
-                            $renderer->drawDataHighlightText(
-                                $boundings,
-                                new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
-                                $point,
-                                $yAxisNullPosition,
-                                $nr[$data->displayType->default],
-                                $count[$data->displayType->default],
-                                $this->options->highlightFont,
-                                ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
-                                $this->options->highlightSize,
-                                ( $this->options->highlightLines ? $data->color[$key] : null )
-                            );
-                        }
-                    }
-                    break;
-                default:
-                    throw new ezcGraphInvalidDisplayTypeException( $data->displayType->default );
-                    break;
+                // Render highlight string if requested
+                if ( $data->highlight[$key] )
+                {
+                    $renderer->drawDataHighlightText(
+                        $boundings,
+                        new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
+                        $point,
+                        $yAxisNullPosition,
+                        $nr[$data->displayType->default],
+                        $count[$data->displayType->default],
+                        $this->options->highlightFont,
+                        ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
+                        $this->options->highlightSize,
+                        ( $this->options->highlightLines ? $data->color[$key] : null )
+                    );
+                }
+    
+                // Store last point, used to connect lines in line chart.
+                $lastPoint = $point;
             }
         }
     }
