@@ -1,6 +1,8 @@
 1.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Implemented feature #11325: Allow values of 0 to be added to pie charts, to
+  be included in the legend and not rendered in the actual pie.
 - Implemented feature #11247: Custom highlight values in line and bar charts.
   Thanks to Elger Thiele for the basic patch.
 - Implemented features #10322, #10565: Support for multiple x, y axis,

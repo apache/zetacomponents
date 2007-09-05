@@ -394,12 +394,12 @@ class ezcGraphPieChartTest extends ezcGraphTestCase
         $chart->render( 400, 200 );
     }
 
-    public function testInavlidValues()
+    public function testInvalidValues()
     {
         try
         {
             $chart = new ezcGraphPieChart();
-            $chart->data['Skien'] = new ezcGraphArrayDataSet( array() );
+            $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 3, -1, 2 ) );
             $chart->render( 500, 200 );
         }
         catch ( ezcGraphInvalidDataException $e )
@@ -410,12 +410,12 @@ class ezcGraphPieChartTest extends ezcGraphTestCase
         $this->fail( 'Expected ezcGraphInvalidDataException.' );
     }
 
-    public function testInvalidValues()
+    public function testInvalidValueSum()
     {
         try
         {
             $chart = new ezcGraphPieChart();
-            $chart->data['Skien'] = new ezcGraphArrayDataSet( array() );
+            $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 0, 0 ) );
             $chart->render( 500, 200 );
         }
         catch ( ezcGraphInvalidDataException $e )
@@ -472,6 +472,22 @@ class ezcGraphPieChartTest extends ezcGraphTestCase
         // Suppress header already sent warning
         @$chart->renderToOutput( 500, 200 );
         file_put_contents( $filename, ob_get_clean() );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderPieChartWithZeroValues()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 0, 'Brazilian' => 1, 'Venezuelan' => 0, 'Japanese' => 1, 'Czech' => 0, 'Hungarian' => 1, 'Romanian' => 1 ) );
+        $chart->data['Skien']->highlight['Norwegian'] = true;
+
+        $chart->render( 500, 200, $filename );
 
         $this->compare(
             $filename,

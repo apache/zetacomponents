@@ -96,9 +96,9 @@ class ezcGraphPieChart extends ezcGraphChart
         $sum = 0;
         foreach ( $dataset as $name => $value )
         {
-            if ( $value <= 0 )
+            if ( $value < 0 )
             {
-                throw new ezcGraphInvalidDataException( "Values > 0 required, '$name' => '$value'." );
+                throw new ezcGraphInvalidDataException( "Values >= 0 required, '$name' => '$value'." );
             }
 
             $sum += $value;
@@ -116,6 +116,12 @@ class ezcGraphPieChart extends ezcGraphChart
         $angle = 0;
         foreach ( $dataset as $label => $value )
         {
+            // Skip rendering values which equals 0
+            if ( $value <= 0 )
+            {
+                continue;
+            }
+
             switch ( $dataset->displayType->default )
             {
                 case ezcGraph::PIE:
