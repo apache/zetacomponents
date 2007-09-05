@@ -1,6 +1,8 @@
 1.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Implemented feature #11247: Custom highlight values in line and bar charts.
+  Thanks to Elger Thiele for the basic patch.
 - Implemented features #10322, #10565: Support for multiple x, y axis,
   vertical and horizontal lines in line and bar charts.
 

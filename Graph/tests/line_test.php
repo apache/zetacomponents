@@ -9,13 +9,15 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . '/test_case.php';
+
 /**
  * Tests for ezcGraph class.
  * 
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphLineChartTest extends ezcTestCase
+class ezcGraphLineChartTest extends ezcGraphTestCase
 {
     protected $basePath;
 
@@ -39,7 +41,10 @@ class ezcGraphLineChartTest extends ezcTestCase
 
     protected function tearDown()
     {
-        $this->removeTempDir();
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
     }
 
     protected function addSampleData( ezcGraphChart $chart )
@@ -759,6 +764,58 @@ class ezcGraphLineChartTest extends ezcTestCase
         }
 
         $this->fail( 'Expected ezcGraphNoDataException.' );
+    }
+
+    public function testLineChartHighlightValue()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->highlight = true;
+        $chart->data['sample']->highlightValue['Opera'] = 'Opera!';
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testBarChartHighlightValue()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphBarChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->highlight = true;
+        $chart->data['sample']->highlight['IE'] = false;
+        $chart->data['sample']->highlightValue = 'foo';
+        $chart->data['sample']->highlightValue['Opera'] = 'Opera!';
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
     }
 }
 ?>

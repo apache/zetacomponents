@@ -277,7 +277,7 @@ class ezcGraphLineChart extends ezcGraphChart
                                 $nr[$data->displayType->default],
                                 $count[$data->displayType->default],
                                 $this->options->highlightFont,
-                                $value,
+                                ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
                                 $this->options->highlightSize,
                                 ( $this->options->highlightLines ? $data->color[$key] : null )
                             );
@@ -356,7 +356,7 @@ class ezcGraphLineChart extends ezcGraphChart
                                 $nr[$data->displayType->default],
                                 $count[$data->displayType->default],
                                 $this->options->highlightFont,
-                                $value,
+                                ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
                                 $this->options->highlightSize,
                                 ( $this->options->highlightLines ? $data->color[$key] : null )
                             );

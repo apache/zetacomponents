@@ -175,6 +175,40 @@ class ezcGraphDataSetTest extends ezcTestCase
         );
     }
 
+    public function testDataSetSetHighlightValue()
+    {
+        $chart = new ezcGraphPieChart();
+        $chart->data['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
+        $chart->data['income']->highlightValue = 'Test';
+        $chart->data['income']->highlightValue[2001] = 'TestString';
+
+        $this->assertEquals(
+            'Test',
+            $chart->data['income']->highlightValue->default
+        );
+
+        $this->assertEquals(
+            'TestString',
+            $chart->data['income']->highlightValue[2001]
+        );
+    }
+
+    public function testDataSetGetHighlightValue()
+    {
+        $chart = new ezcGraphPieChart();
+        $chart->data['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
+
+        $this->assertEquals(
+            false,
+            $chart->data['income']->highlightValue[2001]
+        );
+
+        $this->assertEquals(
+            false,
+            $chart->data['income']->highlightValue->default
+        );
+    }
+
     public function testDataSetSetHighlightSingle()
     {
         $chart = new ezcGraphPieChart();
