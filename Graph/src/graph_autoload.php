@@ -56,6 +56,7 @@ return array(
     'ezcGraphRadarRenderer'                         => 'Graph/interfaces/radar_renderer.php',
     'ezcGraphRenderer'                              => 'Graph/interfaces/renderer.php',
     'ezcGraphRendererOptions'                       => 'Graph/options/renderer.php',
+    'ezcGraphStackedBarsRenderer'                   => 'Graph/interfaces/stacked_bar_renderer.php',
     'ezcGraphTransformation'                        => 'Graph/math/transformation.php',
     'ezcGraph'                                      => 'Graph/graph.php',
     'ezcGraphArrayDataSet'                          => 'Graph/datasets/array.php',

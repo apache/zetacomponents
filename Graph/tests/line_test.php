@@ -548,6 +548,97 @@ class ezcGraphLineChartTest extends ezcGraphTestCase
         $chart->render( 500, 200 );
     }
 
+    public function testRenderChartStackedBars()
+    {
+        $chart = new ezcGraphBarChart();
+
+        $chart->options->stackBars = true;
+
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => -324, 'sample 4' => 120, 'sample 5' => -16 ) );
+        $chart->data['sampleData']->color = '#CC0000';
+        $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 220, 'sample 5' => -34 ) );
+        $chart->data['moreData']->color = '#0000CC';
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawStackedBar',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawStackedBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( new ezcGraphContext( 'sampleData', 'sample 1' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .1, .5 ), .05 ),
+                $this->equalTo( new ezcGraphCoordinate( .1, .266 ), .05 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 4 ) )
+            ->method( 'drawStackedBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( new ezcGraphContext( 'sampleData', 'sample 5' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .9, .5 ), .05 ),
+                $this->equalTo( new ezcGraphCoordinate( .9, .516 ), .05 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 5 ) )
+            ->method( 'drawStackedBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( new ezcGraphContext( 'moreData', 'sample 1' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#0000CC' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .1, .266 ), .05 ),
+                $this->equalTo( new ezcGraphCoordinate( .1, .032 ), .05 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 6 ) )
+            ->method( 'drawStackedBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( new ezcGraphContext( 'moreData', 'sample 2' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#0000CC' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .3, .5 ), .05 ),
+                $this->equalTo( new ezcGraphCoordinate( .3, .521 ), .05 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 7 ) )
+            ->method( 'drawStackedBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( new ezcGraphContext( 'moreData', 'sample 3' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#0000CC' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .5, .5 ), .05 ),
+                $this->equalTo( new ezcGraphCoordinate( .5, .176 ), .05 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 8 ) )
+            ->method( 'drawStackedBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( new ezcGraphContext( 'moreData', 'sample 4' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#0000CC' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .7, .38 ), .05 ),
+                $this->equalTo( new ezcGraphCoordinate( .7, .16 ), .05 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 9 ) )
+            ->method( 'drawStackedBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( new ezcGraphContext( 'moreData', 'sample 5' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#0000CC' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .9, .516 ), .05 ),
+                $this->equalTo( new ezcGraphCoordinate( .9, .55 ), .05 )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
     public function testRenderChartFilledLines()
     {
         $chart = new ezcGraphLineChart();
@@ -810,6 +901,87 @@ class ezcGraphLineChartTest extends ezcGraphTestCase
         $chart->data['sample']->highlightValue['Opera'] = 'Opera!';
 
         $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testStackedBarChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphBarChart();
+
+        $chart->options->stackBars = true;
+
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample 2'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4352,
+            'IE' => 745,
+            'Opera' => 204,
+            'wget' => 2231,
+            'Safari' => 487,
+        ) );
+
+        $chart->data['sample 3'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 234,
+            'IE' => 100,
+            'Opera' => 0,
+            'wget' => -934,
+            'Safari' => 2043,
+        ) );
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testStackedBarChart3d()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphBarChart();
+
+        $chart->options->stackBars = true;
+
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample 2'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4352,
+            'IE' => 745,
+            'Opera' => 204,
+            'wget' => 2231,
+            'Safari' => 487,
+        ) );
+
+        $chart->data['sample 3'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 234,
+            'IE' => 100,
+            'Opera' => 0,
+            'wget' => -934,
+            'Safari' => 2043,
+        ) );
+
+        $chart->renderer = new ezcGraphRenderer3d();
         $chart->render( 500, 200, $filename );
 
         $this->compare(

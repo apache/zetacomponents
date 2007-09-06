@@ -366,6 +366,46 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         );
     }
 
+    public function testRenderStackedBar()
+    {
+        $this->driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 155, 40. ),
+                    new ezcGraphCoordinate( 155, 120. ),
+                    new ezcGraphCoordinate( 245, 120. ),
+                    new ezcGraphCoordinate( 245, 40. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( true )
+            );
+        $this->driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 155, 40. ),
+                    new ezcGraphCoordinate( 155, 120. ),
+                    new ezcGraphCoordinate( 245, 120. ),
+                    new ezcGraphCoordinate( 245, 40. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#800000' ) ),
+                $this->equalTo( false )
+            );
+
+        $this->renderer->drawStackedBar( 
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
+            ezcGraphColor::fromHex( '#FF0000' ), 
+            new ezcGraphCoordinate( .5, .2 ),
+            new ezcGraphCoordinate( .5, .6 ),
+            100,
+            0
+        );
+    }
+
     public function testRenderDataLine()
     {
         $this->driver

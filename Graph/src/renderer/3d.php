@@ -59,7 +59,10 @@
  * @mainclass
  */
 class ezcGraphRenderer3d 
-    extends ezcGraphRenderer
+    extends 
+        ezcGraphRenderer
+    implements
+        ezcGraphStackedBarsRenderer
 {
 
     /**
@@ -824,7 +827,7 @@ class ezcGraphRenderer3d
 
         // Draw right bar side
         $this->barPostProcessing[] = array(
-            'index' => $barPolygonArray[2]->x,
+            'index' => $barPolygonArray[2]->x + ( 1 - $position->y ),
             'method' => 'drawPolygon',
             'context' => $context,
             'parameters' => array(
@@ -841,7 +844,7 @@ class ezcGraphRenderer3d
 
         // Draw top side
         $this->barPostProcessing[] = array(
-            'index' => $barPolygonArray[1]->x,
+            'index' => $barPolygonArray[1]->x + ( 1 - $position->y ),
             'method' => 'drawPolygon',
             'context' => $context,
             'parameters' => array(
@@ -868,7 +871,7 @@ class ezcGraphRenderer3d
         if ( $this->options->barChartGleam !== false )
         {
             $this->barPostProcessing[] = array(
-                'index' => $barPolygonArray[1]->x + 1,
+                'index' => $barPolygonArray[1]->x + 1 + ( 1 - $position->y ),
                 'method' => 'drawPolygon',
                 'context' => $context,
                 'parameters' => array(
@@ -905,7 +908,7 @@ class ezcGraphRenderer3d
 
         // Draw front side
         $this->barPostProcessing[] = array(
-            'index' => $barPolygonArray[1]->x,
+            'index' => $barPolygonArray[1]->x + ( 1 - $position->y ),
             'method' => 'drawPolygon',
             'context' => $context,
             'parameters' => array(
@@ -924,7 +927,7 @@ class ezcGraphRenderer3d
         if ( $this->options->barChartGleam !== false )
         {
             $this->barPostProcessing[] = array(
-                'index' => $barPolygonArray[1]->x + 1,
+                'index' => $barPolygonArray[1]->x + 1 + ( 1 - $position->y ),
                 'method' => 'drawPolygon',
                 'context' => $context,
                 'parameters' => array(
@@ -1199,6 +1202,9 @@ class ezcGraphRenderer3d
         switch ( $symbol )
         {
             case ezcGraph::NO_SYMBOL:
+            case ezcGraph::DIAMOND:
+            case ezcGraph::BULLET:
+            case ezcGraph::CIRCLE:
                 $this->drawRectangularBar(
                     $context,
                     $color,
@@ -1211,6 +1217,65 @@ class ezcGraphRenderer3d
                     $endDepth
                 );
                 break;
+        }
+    }
+ 
+    /**
+     * Draw stacked bar
+     *
+     * Draws a stacked bar part as a data element in a line chart
+     * 
+     * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
+     * @param ezcGraphColor $color Color of line
+     * @param ezcGraphCoordinate $start
+     * @param ezcGraphCoordinate $position
+     * @param float $stepSize Space which can be used for bars
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
+     * @param int $symbol Symbol to draw for line
+     * @param float $axisPosition Position of axis for drawing filled lines
+     * @return void
+     */
+    public function drawStackedBar(
+        ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
+        ezcGraphColor $color,
+        ezcGraphCoordinate $start,
+        ezcGraphCoordinate $position,
+        $stepSize,
+        $symbol = ezcGraph::NO_SYMBOL,
+        $axisPosition = 0. )
+    {
+        // Apply margin
+        $margin = $stepSize * $this->options->barMargin;
+        $barWidth = $stepSize - $margin;
+        $offset = - $stepSize / 2 + $margin / 2;
+
+        if ( $barWidth < 0 )
+        {
+            $offset -= $barWidth = abs( $barWidth );
+        }
+
+        $startDepth = $this->options->barMargin;
+        $midDepth = .5;
+        $endDepth = 1 - $this->options->barMargin;
+
+        switch ( $symbol )
+        {
+            case ezcGraph::NO_SYMBOL:
+                $this->drawRectangularBar(
+                    $context,
+                    $color,
+                    $position,
+                    $barWidth,
+                    $offset,
+                    $start->y,
+                    $startDepth,
+                    $midDepth,
+                    $endDepth
+                );
+                break;
             case ezcGraph::DIAMOND:
                 $this->drawDiamondBar(
                     $context,
@@ -1218,7 +1283,7 @@ class ezcGraphRenderer3d
                     $position,
                     $barWidth,
                     $offset,
-                    $axisPosition,
+                    $start->y,
                     $startDepth,
                     $midDepth,
                     $endDepth
@@ -1232,7 +1297,7 @@ class ezcGraphRenderer3d
                     $position,
                     $barWidth,
                     $offset,
-                    $axisPosition,
+                    $start->y,
                     $startDepth,
                     $midDepth,
                     $endDepth,
@@ -1241,7 +1306,7 @@ class ezcGraphRenderer3d
                 break;
         }
     }
- 
+
     /**
      * Draw all collected bar elements
      *

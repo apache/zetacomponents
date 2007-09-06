@@ -57,8 +57,11 @@
  * @mainclass
  */
 class ezcGraphRenderer2d 
-    extends ezcGraphRenderer
-    implements ezcGraphRadarRenderer
+    extends
+        ezcGraphRenderer
+    implements
+        ezcGraphRadarRenderer,
+        ezcGraphStackedBarsRenderer
 {
 
     /**
@@ -549,6 +552,78 @@ class ezcGraphRenderer2d
             new ezcGraphCoordinate(
                 $boundings->x0 + ( $boundings->width ) * $position->x + $offset + $barWidth,
                 $boundings->y0 + ( $boundings->height ) * $axisPosition
+            ),
+        );
+
+        $this->addElementReference(
+            $context,
+            $this->driver->drawPolygon(
+                $barPointArray,
+                $color,
+                true
+            )
+        );
+
+        if ( $this->options->dataBorder > 0 )
+        {
+            $darkened = $color->darken( $this->options->dataBorder );
+            $this->driver->drawPolygon(
+                $barPointArray,
+                $darkened,
+                false,
+                1
+            );
+        }
+    }
+
+    /**
+     * Draw stacked bar
+     *
+     * Draws a stacked bar part as a data element in a line chart
+     * 
+     * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
+     * @param ezcGraphColor $color Color of line
+     * @param ezcGraphCoordinate $start
+     * @param ezcGraphCoordinate $end
+     * @param float $stepSize Space which can be used for bars
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
+     * @param int $symbol Symbol to draw for line
+     * @param float $axisPosition Position of axis for drawing filled lines
+     * @return void
+     */
+    public function drawStackedBar(
+        ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
+        ezcGraphColor $color,
+        ezcGraphCoordinate $start,
+        ezcGraphCoordinate $position,
+        $stepSize,
+        $symbol = ezcGraph::NO_SYMBOL,
+        $axisPosition = 0. )
+    {
+        // Apply margin
+        $margin = $stepSize * $this->options->barMargin;
+        $barWidth = $stepSize - $margin;
+        $offset = - $stepSize / 2 + $margin / 2;
+
+        $barPointArray = array(
+            new ezcGraphCoordinate(
+                $boundings->x0 + ( $boundings->width ) * $position->x + $offset,
+                $boundings->y0 + ( $boundings->height ) * $start->y
+            ),
+            new ezcGraphCoordinate(
+                $boundings->x0 + ( $boundings->width ) * $position->x + $offset,
+                $boundings->y0 + ( $boundings->height ) * $position->y
+            ),
+            new ezcGraphCoordinate(
+                $boundings->x0 + ( $boundings->width ) * $position->x + $offset + $barWidth,
+                $boundings->y0 + ( $boundings->height ) * $position->y
+            ),
+            new ezcGraphCoordinate(
+                $boundings->x0 + ( $boundings->width ) * $position->x + $offset + $barWidth,
+                $boundings->y0 + ( $boundings->height ) * $start->y
             ),
         );
 

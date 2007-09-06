@@ -281,19 +281,20 @@ class ezcGraphLineChart extends ezcGraphChart
             $lastPoint = false;
             foreach ( $data as $key => $value )
             {
-                // Render depending on display type of dataset
-                switch ( $data->displayType->default )
-                {
-                    case ezcGraph::LINE:
-                        $point = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
-                            $yAxis->axisLabelRenderer->modifyChartDataPosition(
-                                new ezcGraphCoordinate( 
-                                    $xAxis->getCoordinate( $key ),
-                                    $yAxis->getCoordinate( $value )
-                                )
-                            )
-                        );
+                // Calculate point in chart
+                $point = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
+                    $yAxis->axisLabelRenderer->modifyChartDataPosition(
+                        new ezcGraphCoordinate( 
+                            $xAxis->getCoordinate( $key ),
+                            $yAxis->getCoordinate( $value )
+                        )
+                    )
+                );
 
+                // Render depending on display type of dataset
+                switch ( true )
+                {
+                    case $data->displayType->default === ezcGraph::LINE:
                         $renderer->drawDataLine(
                             $boundings,
                             new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
@@ -308,21 +309,65 @@ class ezcGraphLineChart extends ezcGraphChart
                             $yAxisNullPosition
                         );
                         break;
-                    case ezcGraph::BAR:
-                        $point = new ezcGraphCoordinate( 
-                            $xAxis->getCoordinate( $key ),
-                            $yAxis->getCoordinate( $value )
-                        );
+                    case ( $data->displayType->default === ezcGraph::BAR ) &&
+                         $this->options->stackBars :
+                        // Check if a bar has already been stacked
+                        if ( !isset( $stackedValue[(int) ( $point->x * 10000 )][(int) $value > 0] ) )
+                        {
+                            $start = new ezcGraphCoordinate(
+                                $point->x,
+                                $yAxisNullPosition
+                            );
 
+                            $stackedValue[(int) ( $point->x * 10000 )][(int) $value > 0] = $value;
+                        }
+                        else
+                        {
+                            $start = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
+                                $yAxis->axisLabelRenderer->modifyChartDataPosition(
+                                    new ezcGraphCoordinate( 
+                                        $xAxis->getCoordinate( $key ),
+                                        $yAxis->getCoordinate( $stackedValue[(int) ( $point->x * 10000 )][(int) $value > 0] )
+                                    )
+                                )
+                            );
+
+                            $point = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
+                                $yAxis->axisLabelRenderer->modifyChartDataPosition(
+                                    new ezcGraphCoordinate( 
+                                        $xAxis->getCoordinate( $key ),
+                                        $yAxis->getCoordinate( $stackedValue[(int) ( $point->x * 10000 )][(int) $value > 0] += $value )
+                                    )
+                                )
+                            );
+                        }
+
+                        // Force one symbol for each stacked bar
+                        if ( !isset( $stackedSymbol[(int) ( $point->x * 10000 )] ) )
+                        {
+                            $stackedSymbol[(int) ( $point->x * 10000 )] = $data->symbol[$key];
+                        }
+
+                        // Store stacked value for next iteration
+                        $stacked[(int) ( $point->x * 10000 )][$point->y / abs( $point->y )] = $point;
+
+                        $renderer->drawStackedBar(
+                            $boundings,
+                            new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
+                            $data->color->default,
+                            $start,
+                            $point,
+                            $width,
+                            $stackedSymbol[(int) ( $point->x * 10000 )],
+                            $yAxisNullPosition
+                        );
+                        break;
+                    case $data->displayType->default === ezcGraph::BAR:
                         $renderer->drawBar(
                             $boundings,
                             new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
                             $data->color->default,
-                            $point = $xAxis->axisLabelRenderer->modifyChartDataPosition( 
-                                $yAxis->axisLabelRenderer->modifyChartDataPosition(
-                                    $point
-                                )
-                            ),
+                            $point,
                             $width,
                             $nr[$data->displayType->default],
                             $count[$data->displayType->default],
@@ -369,32 +414,60 @@ class ezcGraphLineChart extends ezcGraphChart
     }
 
     /**
-     * Renders the basic elements of this chart type
+     * Check if renderer supports features requested by some special chart
+     * options.
      * 
-     * @param int $width 
-     * @param int $height 
+     * @throw ezcBaseValueException
+     *        If some feature is not supported
+     *
      * @return void
      */
-    protected function renderElements( $width, $height )
+    protected function checkRenderer()
     {
-        if ( !count( $this->data ) )
+        // When stacked bars are enabled, check if renderer supports them
+        if ( $this->options->stackBars )
         {
-            throw new ezcGraphNoDataException();
+            if ( !$this->renderer instanceof ezcGraphStackedBarsRenderer )
+            {
+                throw new ezcBaseValueException( 'renderer', $this->renderer, 'ezcGraphStackedBarsRenderer' );
+            }
         }
+    }
 
-        // Set image properties in driver
-        $this->driver->options->width = $width;
-        $this->driver->options->height = $height;
+    /**
+     * Aggregate and calculate value boundings on axis.
+     * 
+     * @return void
+     */
+    protected function setAxisValues()
+    {
+        // Virtual data set build for agrregated values sums for bar charts
+        $virtualBarSumDataSet = array( array(), array() );
 
         // Calculate axis scaling and labeling
         foreach ( $this->data as $dataset )
         {
+            $nr = 0;
             $labels = array();
             $values = array();
             foreach ( $dataset as $label => $value )
             {
                 $labels[] = $label;
                 $values[] = $value;
+
+                // Build sum of all bars
+                if ( $this->options->stackBars &&
+                     ( $dataset->displayType->default === ezcGraph::BAR ) )
+                {
+                    if ( !isset( $virtualBarSumDataSet[(int) $value >= 0][$nr] ) )
+                    {
+                        $virtualBarSumDataSet[(int) $value >= 0][$nr++] = $value;
+                    }
+                    else
+                    {
+                        $virtualBarSumDataSet[(int) $value >= 0][$nr++] += $value;
+                    }
+                }
             }
 
             // Check if data has been associated with another custom axis, use
@@ -418,6 +491,14 @@ class ezcGraphLineChart extends ezcGraphChart
             }
         }
 
+        // Also use stacked bar values as base for y axis value span
+        // calculation
+        if ( $this->options->stackBars )
+        {
+            $this->elements['yAxis']->addData( $virtualBarSumDataSet[0] );
+            $this->elements['yAxis']->addData( $virtualBarSumDataSet[1] );
+        }
+
         // There should always be something assigned to the main x and y axis.
         if ( !$this->elements['xAxis']->initialized ||
              !$this->elements['yAxis']->initialized )
@@ -428,6 +509,27 @@ class ezcGraphLineChart extends ezcGraphChart
         // Calculate boundings from assigned data
         $this->elements['xAxis']->calculateAxisBoundings();
         $this->elements['yAxis']->calculateAxisBoundings();
+    }
+
+    /**
+     * Renders the basic elements of this chart type
+     * 
+     * @param int $width 
+     * @param int $height 
+     * @return void
+     */
+    protected function renderElements( $width, $height )
+    {
+        if ( !count( $this->data ) )
+        {
+            throw new ezcGraphNoDataException();
+        }
+
+        // Check if renderer supports requested features
+        $this->checkRenderer();
+
+        // Set values form datasets on axis to calculate correct spans
+        $this->setAxisValues();
 
         // Generate legend
         $this->elements['legend']->generateFromDataSets( $this->data );
@@ -435,6 +537,10 @@ class ezcGraphLineChart extends ezcGraphChart
         // Get boundings from parameters
         $this->options->width = $width;
         $this->options->height = $height;
+
+        // Set image properties in driver
+        $this->driver->options->width = $width;
+        $this->driver->options->height = $height;
 
         // Render subelements
         $boundings = new ezcGraphBoundings();

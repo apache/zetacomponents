@@ -41,6 +41,8 @@
  * @property bool $highlightLines
  *           If true, it adds lines to highlight the values position on the 
  *           axis.
+ * @property true $stackBars
+ *           Stack bars
  *
  * @version //autogentag//
  * @package Graph
@@ -63,6 +65,7 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
         $this->properties['highlightFontCloned'] = false;
         $this->properties['highlightSize'] = 14;
         $this->properties['highlightLines'] = false;
+        $this->properties['stackBars'] = false;
     
         parent::__construct( $options );
     }
@@ -134,6 +137,14 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
                 }
 
                 $this->properties['highlightLines'] = $propertyValue;
+                break;
+            case 'stackBars':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
+                $this->properties['stackBars'] = $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
