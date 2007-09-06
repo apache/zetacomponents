@@ -304,6 +304,12 @@ class ezcTemplate
                   filemtime( $this->properties["stream"] ) <= filemtime( $compiled->path ) ) ) 
             {
 
+                if( !$config->executeTemplate )
+                {
+                    $this->properties["output"] = "";
+                    return "";
+                }
+
                 try
                 {
                     // execute compiled code here

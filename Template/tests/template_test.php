@@ -289,6 +289,23 @@ class ezcTemplateTest extends ezcTestCase
         }
     }
 
+    public function testCompileOnly()
+    {
+        file_put_contents( $this->templatePath . "/test.ezt", '{use $myVar}{$myVar}' );
+        $tc = ezcTemplateConfiguration::getInstance();
+        $tc->executeTemplate = false;
+
+        self::assertEquals(0, count(glob($tc->compilePath . "/compiled_templates/xhtml-*/*.php")) );
+
+        $template = new ezcTemplate();
+        $out = $template->process("test.ezt");
+
+        // Should work, because we compile the template only.
+        $template->process("test.ezt");
+
+        self::assertEquals(1, count(glob($tc->compilePath . "/compiled_templates/xhtml-*/*.php")) );
+    }
+
 
 }
 

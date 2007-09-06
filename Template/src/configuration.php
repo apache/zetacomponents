@@ -42,6 +42,8 @@
  *           Base path where the compiled templates are stored.
  * @property bool                                       $checkModifiedTemplates
  *           Set to true, to recompile outdated compiled templates.
+ * @property bool                                       $executeTemplate
+ *           False to only compile the template without executing it.
  * @property string                                     $cachedTemplatesPath
  *           Relative path from the compilePath.
  * @property string                                     $compiledTemplatesPath
@@ -50,7 +52,7 @@
  *           The currently registered custom blocks.
  * @property array(ezcTemplateCustomFunctionDefinition) $customFunctions
  *           The currently registered custom functions.
- * @property ezcTemplateCacheManager                    $chacheManager
+ * @property ezcTemplateCacheManager                    $cacheManager
  *           The object to use for caching of compile templates.
  * @property bool                                       $disableCache
  *           Disable caching for development purposes.
@@ -88,6 +90,7 @@ class ezcTemplateConfiguration
                                   'cachedTemplatesPath' => null,
                                   'compiledTemplatesPath' => null,
                                   'checkModifiedTemplates' => true,
+                                  'executeTemplate' => true,
                                   'customBlocks' => array(),
                                   'customFunctions' => array(),
 
@@ -119,6 +122,7 @@ class ezcTemplateConfiguration
             case 'sourceCharset':
             case 'targetCharset':
             case 'checkModifiedTemplates':
+            case 'executeTemplate':
                 return $this->properties[$name];
             case 'customBlocks':
             case 'customFunctions':
@@ -187,6 +191,7 @@ class ezcTemplateConfiguration
             case 'targetCharset':
             // case 'cacheSystem':
             case 'checkModifiedTemplates': 
+            case 'executeTemplate':
             case 'customBlocks': 
             case 'customFunctions': 
             case 'disableCache':
@@ -222,6 +227,7 @@ class ezcTemplateConfiguration
             case 'compiledTemplatesPath':
             // case 'cacheSystem':
             case 'checkModifiedTemplates':
+            case 'executeTemplate':
                 return isset( $this->properties[$name] );
 
             default:
