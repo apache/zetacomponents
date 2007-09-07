@@ -94,7 +94,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * Returns if a option exists.
      * 
      * @param string $propertyName Option name to check for.
-     * @return void
+     * @return bool Whether the option exists.
      * @ignore
      */
     public function __isset( $propertyName )
