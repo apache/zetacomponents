@@ -165,7 +165,7 @@ class ezcTemplateConfiguration
                 break;
 
             case 'cacheManager': 
-                if ( !($value instanceof ezcTemplateCacheManager) )
+                if ( !($value instanceof ezcTemplateCacheManager) && $value !== false )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcTemplateCacheManager' );
                 }
@@ -174,7 +174,7 @@ class ezcTemplateConfiguration
                 break;
 
             case 'locator': 
-                if ( !($value instanceof ezcTemplateLocator) )
+                if ( !($value instanceof ezcTemplateLocator) && $value !== false )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcTemplateLocator' );
                 }
