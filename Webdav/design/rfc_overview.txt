@@ -1,0 +1,1167 @@
+General
+~~~~~~~
+
+This section contains information that is generally valid for any or, at least,
+a certain set of opertaions. Operation specific information can be found in the
+next section.
+
+==========
+Properties
+==========
+
+Properties are meta-data for a resource. Each property consists of a name (the
+tag name actually) and a value (the contents of the tag). In requests and
+responses, they are defined using the <prop> tag, which can contain any number
+of properties.
+
+Live properties
+===============
+
+Live properties must be supported by every DAV resource and the server is
+responsible for validating their values. Beside that, a server must support
+"dead properties", which it simply needs to store, but it does not need to take
+care about validation.
+
+<!ELEMENT creationdate (#PCDATA) >
+  The creattion date of the resource.
+  The #PCDATA in this tag must accord to ISO 8601 Date and Time Profile.
+  Example: ::
+    <creationdate>2007-08-29T11:35:01Z</creationdate>
+
+<!ELEMENT displayname (#PCDATA) >
+  A name for the resource that is suitable to be displayed to the user (e.g.
+  the filename).
+  Example: ::
+    <displayname>test.gif</displayname>
+
+<!ELEMENT getcontentlanguage (#PCDATA) >
+  Contains language information as provided by the HTTP Content-Language
+  header.
+  Example: ::
+    <getcontentlanguage>de, en</getcontentlanguage>
+
+<!ELEMENT getcontentlength (#PCDATA) >
+  Contains information about the content size as provided by the HTTP
+  Content-Length header.
+  Example: ::
+    <getcontentlength>123456</getcontentlength>
+
+<!ELEMENT getcontenttype (#PCDATA) >
+  Contains information about the content type as provided by the HTTP
+  Content-Type header.
+  Example: ::
+    <getcontenttype>text/html; charset=ISO-8859-4</getcontenttype>
+
+<!ELEMENT getetag (#PCDATA) >
+  Contains the etag (indicator of change) for the resource as provided by the
+  HTTP ETag header.
+  Example: ::
+    <getetag>...</getetag>
+
+<!ELEMENT getlastmodified (#PCDATA) >
+  Contains the last modification date of the resource as provided by the
+  Last-Modified header.
+  Example: ::
+     <getlastmodified>Sun, 06 Nov 1994 08:49:37 GMT</getlastmodified>
+
+
+<!ELEMENT lockdiscovery (activelock)* >
+  Returns a list of lock information for the resource, including information on
+  who has a lock, the type of the lock, expiration time and type of the timeout
+  as well as the associated lock token.
+  Example: ::
+    <D:lockdiscovery>
+         <D:activelock>
+              <D:locktype><D:write/></D:locktype>
+              <D:lockscope><D:exclusive/></D:lockscope>
+              <D:depth>0</D:depth>
+              <D:owner>Jane Smith</D:owner>
+              <D:timeout>Infinite</D:timeout>
+              <D:locktoken>
+                   <D:href>
+    opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76
+                   </D:href>
+              </D:locktoken>
+         </D:activelock>
+    </D:lockdiscovery>
+
+<!ELEMENT resourcetype ANY >
+  Defines the type of the resource. Not further speicified how this must look
+  like. Default is empty, but the tag must be present. 
+  Example: ::
+  <resourcetype />
+
+<!ELEMENT source (link)* >
+  Specifies resources where the source files of a processed resource can be
+  found. This is used, if a desired resource is processed by the server in some
+  way, before being delivered. Using this property, the client can get hold of
+  the un-processed sources of the resource.
+  Example: ::
+    <D:source>
+          <D:link>
+               <D:src>http://foo.bar/program</D:src>
+               <D:dst>http://foo.bar/src/main.c</D:dst>
+          </D:link>
+          <D:link>
+               <D:src>http://foo.bar/program</D:src>
+               <D:dst>http://foo.bar/src/main.lib</D:dst>
+          </D:link>
+          <D:link>
+               <D:src>http://foo.bar/program</D:src>
+               <D:dst>http://foo.bar/src/makefile</D:dst>
+          </D:link>
+     </D:source>
+
+<!ELEMENT supportedlock (lockentry)* >
+  Returns a list of supported lock types and scopes of a resource.
+  Example: ::
+    <D:supportedlock>
+         <D:lockentry>
+              <D:lockscope><D:exclusive/></D:lockscope>
+              <D:locktype><D:write/></D:locktype>
+         </D:lockentry>
+         <D:lockentry>
+              <D:lockscope><D:shared/></D:lockscope>
+              <D:locktype><D:write/></D:locktype>
+         </D:lockentry>
+    </D:supportedlock>
+
+=======
+Headers
+=======
+
+Some headers (either for request or response purpose) are used in general by
+WebDav communication, which are described here.
+
+If
+--
+
+The "If" header is used (similarly to "If-Match" in pure HTTP) to indicate a
+certain state of the desired resource. The content provided by the header is a
+list of state tokens. If a resource, affected by the given resource, does not
+match any of the state tokens, the request must fail with code 412
+(Precondition Failed).
+
+The only place where the "If" header is used in WebDav is for opaquelocktokens.
+
+The exact BNF definition of this header can be seen in the RFC in section 9.4.
+
+Status-URI
+----------
+
+This header can be used for a process that takes longer than the
+request-response communication can be kept up. In this case, the client can
+repeatedly request the given URI to check the status of the process.
+
+This header is used in combination with the 102 (Processing) e.g. as an answer
+to a MOVE operation.
+
+Operations
+~~~~~~~~~~
+
+This section contains operation specific information.
+
+========
+PROPFIND
+========
+
+Retrieves information on the properties of the resource identified by the
+Request-URI. Three different ways of finding properties are possible:
+
+- Retrieve a list of certain property names and the correcsponding values.
+- Retrieve a list of all available property names for a resource, without their
+  corresponding values.
+- Retrieve a single property name and the correcsponding ways.
+
+PROPFIND can work recursively on the gevien resource, if this is a collection.
+The "Depth" header determines, what level of recursion is desired.
+
+Header
+======
+
+Depth
+-----
+
+Defines the search-depth of the resources to search properties for. The Depth
+header can have the values "0", "1" or "infinity". If the header is not
+provided, "inifinity" is asumed, which means that the operation is performed
+recursively down to the leave nodes. A depth of "0" means, that only the
+resource itself and none of its children is taken into accound and "1" means
+that only first level descendants are taken into account.
+
+XML
+===
+
+<!ELEMENT propfind (allprop | propname | prop) >
+  Base tag for the PROPFIND request. Only possible XML base tag. Optional for
+  the PROPFIND request. If not given, the request is handled as if "allprop"
+  was set.
+
+<!ELEMENT allprop EMPTY >
+  If this tag is available, a list of all available properties without their
+  corresponding values is desired.
+
+<!ELEMENT propname EMPTY >
+  The propname XML element specifies that only a list of property names on the
+  resource is to be returned.
+
+<!ELEMENT prop ANY>
+  The <prop>-XML-element is a generic container for property information. In
+  case of a PROPFIND request, it contains an empty property tag for each
+  property that should be returned.
+
+Exampls
+=======
+
+Regular PROPFIND request
+------------------------
+
+The following request submits 4 property names to the server, for which the
+values should be returned. 2 properties are returned successfully in this
+example, while access to the other 2 requested properties is forbidden.
+
+::
+
+   >>Request
+
+   PROPFIND  /file HTTP/1.1
+   Host: www.foo.bar
+   Content-type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:propfind xmlns:D="DAV:">
+     <D:prop xmlns:R="http://www.foo.bar/boxschema/">
+          <R:bigbox/>
+          <R:author/>
+          <R:DingALing/>
+          <R:Random/>
+     </D:prop>
+   </D:propfind>
+
+   >>Response
+
+   HTTP/1.1 207 Multi-Status
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:multistatus xmlns:D="DAV:">
+     <D:response>
+          <D:href>http://www.foo.bar/file</D:href>
+          <D:propstat>
+               <D:prop xmlns:R="http://www.foo.bar/boxschema/">
+                    <R:bigbox>
+                         <R:BoxType>Box type A</R:BoxType>
+                    </R:bigbox>
+                    <R:author>
+                         <R:Name>J.J. Johnson</R:Name>
+                    </R:author>
+               </D:prop>
+               <D:status>HTTP/1.1 200 OK</D:status>
+          </D:propstat>
+          <D:propstat>
+               <D:prop><R:DingALing/><R:Random/></D:prop>
+               <D:status>HTTP/1.1 403 Forbidden</D:status>
+               <D:responsedescription> The user does not have access to
+   the DingALing property.
+               </D:responsedescription>
+          </D:propstat>
+     </D:response>
+     <D:responsedescription> There has been an access violation error.
+     </D:responsedescription>
+   </D:multistatus>
+
+
+<allprop />-PROPFIND request
+----------------------------
+
+In the following example, a request for all available properties and their
+values is issued and the proper response is returned.
+
+::
+
+  >>Request
+
+   PROPFIND  /container/ HTTP/1.1
+   Host: www.foo.bar
+   Depth: 1
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:propfind xmlns:D="DAV:">
+     <D:allprop/>
+   </D:propfind>
+
+   >>Response
+
+   HTTP/1.1 207 Multi-Status
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:multistatus xmlns:D="DAV:">
+     <D:response>
+          <D:href>http://www.foo.bar/container/</D:href>
+          <D:propstat>
+               <D:prop xmlns:R="http://www.foo.bar/boxschema/">
+                    <R:bigbox>
+                         <R:BoxType>Box type A</R:BoxType>
+                    </R:bigbox>
+                    <R:author>
+                         <R:Name>Hadrian</R:Name>
+                    </R:author>
+                    <D:creationdate>
+                         1997-12-01T17:42:21-08:00
+                    </D:creationdate>
+                    <D:displayname>
+                         Example collection
+                    </D:displayname>
+                    <D:resourcetype><D:collection/></D:resourcetype>
+                    <D:supportedlock>
+                         <D:lockentry>
+                              <D:lockscope><D:exclusive/></D:lockscope>
+                              <D:locktype><D:write/></D:locktype>
+                         </D:lockentry>
+                         <D:lockentry>
+                              <D:lockscope><D:shared/></D:lockscope>
+                              <D:locktype><D:write/></D:locktype>
+                         </D:lockentry>
+                    </D:supportedlock>
+               </D:prop>
+               <D:status>HTTP/1.1 200 OK</D:status>
+          </D:propstat>
+     </D:response>
+     <D:response>
+          <D:href>http://www.foo.bar/container/front.html</D:href>
+          <D:propstat>
+               <D:prop xmlns:R="http://www.foo.bar/boxschema/">
+                    <R:bigbox>
+                         <R:BoxType>Box type B</R:BoxType>
+                    </R:bigbox>
+                    <D:creationdate>
+                         1997-12-01T18:27:21-08:00
+                    </D:creationdate>
+                    <D:displayname>
+                         Example HTML resource
+                    </D:displayname>
+                    <D:getcontentlength>
+                         4525
+                    </D:getcontentlength>
+                    <D:getcontenttype>
+                         text/html
+                    </D:getcontenttype>
+                    <D:getetag>
+                         zzyzx
+                    </D:getetag>
+                    <D:getlastmodified>
+                         Monday, 12-Jan-98 09:25:56 GMT
+                    </D:getlastmodified>
+                    <D:resourcetype/>
+                    <D:supportedlock>
+                         <D:lockentry>
+                              <D:lockscope><D:exclusive/></D:lockscope>
+                              <D:locktype><D:write/></D:locktype>
+                         </D:lockentry>
+                         <D:lockentry>
+                              <D:lockscope><D:shared/></D:lockscope>
+                              <D:locktype><D:write/></D:locktype>
+                         </D:lockentry>
+                    </D:supportedlock>
+               </D:prop>
+               <D:status>HTTP/1.1 200 OK</D:status>
+          </D:propstat>
+     </D:response>
+   </D:multistatus>
+
+
+<propname />-PROPFIND request
+-----------------------------
+
+The last PROPFIND example issues a <proname /> tag is send to request the names
+of all supported properties.
+
+::
+
+   >>Request
+
+   PROPFIND  /container/ HTTP/1.1
+   Host: www.foo.bar
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <propfind xmlns="DAV:">
+     <propname/>
+   </propfind>
+
+   >>Response
+
+   HTTP/1.1 207 Multi-Status
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <multistatus xmlns="DAV:">
+     <response>
+          <href>http://www.foo.bar/container/</href>
+          <propstat>
+               <prop xmlns:R="http://www.foo.bar/boxschema/">
+                    <R:bigbox/>
+                    <R:author/>
+                    <creationdate/>
+                    <displayname/>
+                    <resourcetype/>
+                    <supportedlock/>
+               </prop>
+               <status>HTTP/1.1 200 OK</status>
+          </propstat>
+     </response>
+     <response>
+          <href>http://www.foo.bar/container/front.html</href>
+          <propstat>
+               <prop xmlns:R="http://www.foo.bar/boxschema/">
+                    <R:bigbox/>
+                    <creationdate/>
+                    <displayname/>
+                    <getcontentlength/>
+                    <getcontenttype/>
+                    <getetag/>
+                    <getlastmodified/>
+                    <resourcetype/>
+                    <supportedlock/>
+               </prop>
+               <status>HTTP/1.1 200 OK</status>
+          </propstat>
+     </response>
+   </multistatus>
+
+=========
+PROPPATCH
+=========
+
+Allows the setting, updating and removing of 1 or more properties. 1 request
+represents a transaction and can contain multiple manipulations of different
+kinds on different resources.
+
+Header
+======
+
+-
+
+
+XML
+===
+
+<!ELEMENT propertyupdate (remove | set)+ >
+  Main element for the PROPPATCH request. Contains a set of property
+  manipulations to perform.
+
+<!ELEMENT remove (prop) >
+  Indicates that the property given inside <prop /> should be removed from the
+  resource. The property element cointained in <prop /> must be empty.
+
+<!ELEMENT set (prop) >
+  Indicates that the given property inside the <prop /> element should be set
+  to the given value.
+
+Response
+========
+
+Codes
+-----
+
+Example response codes to be returned by this request.
+
+200 (OK)
+  The command succeeded.  As there can be a mixture of sets and removes in a
+  body, a 201 (Created) seems inappropriate.
+403 (Forbidden)
+  The client, for reasons the server chooses not to specify, cannot alter one
+  of the properties.
+409 (Conflict)
+  The client has provided a value whose semantics are not appropriate for the
+  property.  This includes trying to set read- only properties.
+423 (Locked)
+  The specified resource is locked and the client either is not a lock owner or
+  the lock type requires a lock token to be submitted and the client did not
+  submit it.
+507 (Insufficient Storage)
+  The server did not have sufficient space to record the property.
+
+Example
+=======
+
+The PROPPATCH request only has 1 valid format.
+
+::
+
+   >>Request
+
+   PROPPATCH /bar.html HTTP/1.1
+   Host: www.foo.com
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:propertyupdate xmlns:D="DAV:"
+   xmlns:Z="http://www.w3.com/standards/z39.50/">
+     <D:set>
+          <D:prop>
+               <Z:authors>
+                    <Z:Author>Jim Whitehead</Z:Author>
+                    <Z:Author>Roy Fielding</Z:Author>
+               </Z:authors>
+          </D:prop>
+     </D:set>
+     <D:remove>
+          <D:prop><Z:Copyright-Owner/></D:prop>
+     </D:remove>
+   </D:propertyupdate>
+
+   >>Response
+
+   HTTP/1.1 207 Multi-Status
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:multistatus xmlns:D="DAV:"
+   xmlns:Z="http://www.w3.com/standards/z39.50">
+     <D:response>
+          <D:href>http://www.foo.com/bar.html</D:href>
+          <D:propstat>
+               <D:prop><Z:Authors/></D:prop>
+               <D:status>HTTP/1.1 424 Failed Dependency</D:status>
+          </D:propstat>
+          <D:propstat>
+               <D:prop><Z:Copyright-Owner/></D:prop>
+               <D:status>HTTP/1.1 409 Conflict</D:status>
+          </D:propstat>
+          <D:responsedescription> Copyright Owner can not be deleted or
+   altered.</D:responsedescription>
+     </D:response>
+   </D:multistatus>
+
+=====
+MKCOL
+=====
+
+The MKCOL request is used to create a new collection resource. Collections
+cannot be created using PUT or any other request, but only by MKCOL.
+
+Header
+======
+
+-
+
+XML
+===
+
+-
+
+Example
+=======
+
+The MKCOL request is quite easy.
+
+   >>Request
+
+   MKCOL /webdisc/xfiles/ HTTP/1.1
+   Host: www.server.org
+
+   >>Response
+
+   HTTP/1.1 201 Created
+
+======
+DELETE
+======
+
+Requests to delete a certain resource. May be used on non-collection and
+collection resources. If used on collection resources, this request works like
+"Depth: Infinity" header is set and deletes all descendants.
+
+Header
+======
+
+-
+
+XML
+===
+
+-
+
+Example
+=======
+
+The following example shows a case were a descendant resource is locked and
+therefore the delete failed.
+
+   >>Request
+
+   DELETE  /container/ HTTP/1.1
+   Host: www.foo.bar
+
+   >>Response
+
+   HTTP/1.1 207 Multi-Status
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <d:multistatus xmlns:d="DAV:">
+     <d:response>
+          <d:href>http://www.foo.bar/container/resource3</d:href>
+          <d:status>HTTP/1.1 423 Locked</d:status>
+     </d:response>
+   </d:multistatus>
+
+====
+COPY
+====
+
+Creates a duplicate of the requested resource at the destination defined by the
+"Destination" header. The state of the duplicate result must match the origin
+state as good as possible, regarding content and properties. The depth of the
+duplication is defined by the "Depth" header, while the default is 0 here.
+
+The <propertybehaviour /> XML element can be used to define the handling of
+properties while copying the resource.
+
+Header
+======
+
+Overwrite
+---------
+
+Value: T
+  The destination is to be DELTED before COPY starts.
+Value: F
+  If the destination exists, the COPY must fail.
+
+If a child COPY fails, the rest of the COPY must be performed. (No
+transactional behaviour!).
+
+Destination
+-----------
+
+Defines the destination resource to create a duplicate of the requested
+resource at.
+
+Depth
+-----
+
+Defined like the "Depth" header for the PROPFIND request. The default value
+here is 0, which means to only copy the resource itself and not descendants.
+
+XML
+===
+
+<!ELEMENT propertybehavior (omit | keepalive) >
+  This XML element may be used to influence the way in which a server handles
+  properties during copy.
+
+<!ELEMENT keepalive (#PCDATA | href+) >
+  The <keepalive /> element may contain 1 or more URIs (inside a <href />
+  each), to define, that the given list must be copied completly "live".
+  Alternatively, a * can be given instead of a list of elements, to indicate,
+  that all properties must be copied live.
+
+<!ELEMENT omit EMPTY >
+  Using this element, instead of <keepalive />, a client indicates to the
+  server that it should put "best efforts" into copying properties, but that
+  it must not fail, if a property copy fails.
+
+Response
+========
+
+Codes
+-----
+
+201 (Created)
+  The source resource was successfully copied.  The copy operation resulted in
+  the creation of a new resource.
+204 (No Content)
+  The source resource was successfully copied to a pre-existing destination
+  resource.
+403 (Forbidden)
+  The source and destination URIs are the same.
+409 (Conflict)
+  A resource cannot be created at the destination until one or more
+  intermediate collections have been created.
+412 (Precondition Failed)
+  The server was unable to maintain the liveness of the properties listed in
+  the propertybehavior XML element or the Overwrite header is "F" and the state
+  of the destination resource is non-null.
+423 (Locked)
+  The destination resource was locked.
+502 (Bad Gateway)
+  This may occur when the destination is on another server and the destination
+  server refuses to accept the resource.
+507 (Insufficient Storage)
+  The destination resource does not have sufficient space to record the state
+  of the resource after the execution of this method.
+
+Examples
+========
+
+Overwriting COPY
+----------------
+
+The following example indicates a successful COPY request that has overwritten
+the already existing destination resource (note: 204 indicates the overwrite!).
+
+::
+
+   >>Request
+
+   COPY /~fielding/index.html HTTP/1.1
+   Host: www.ics.uci.edu
+   Destination: http://www.ics.uci.edu/users/f/fielding/index.html
+
+   >>Response
+
+   HTTP/1.1 204 No Content
+
+Non-overwriting COPY
+--------------------
+
+In this example, the "Overwrite" header changed the overwriting behaviour.
+Because the destination resource exists and cannot be overwritten, COPY fails.
+
+::
+
+   >>Request
+
+   COPY /~fielding/index.html HTTP/1.1
+   Host: www.ics.uci.edu
+   Destination: http://www.ics.uci.edu/users/f/fielding/index.html
+   Overwrite: F
+
+   >>Response
+
+   HTTP/1.1 412 Precondition Failed
+
+Collection COPY
+---------------
+
+The following example shows the COPY of a collection resource. The "Depth"
+header is just set to the default and could therefore be ignored. The COPY
+operation suceeds almost on all resources, except for R2, which has
+most-propably a problem with property copying.
+
+::
+
+      >>Request
+
+      COPY /container/ HTTP/1.1
+      Host: www.foo.bar
+      Destination: http://www.foo.bar/othercontainer/
+      Depth: infinity
+      Content-Type: text/xml; charset="utf-8"
+      Content-Length: xxxx
+
+      <?xml version="1.0" encoding="utf-8" ?>
+      <d:propertybehavior xmlns:d="DAV:">
+        <d:keepalive>*</d:keepalive>
+      </d:propertybehavior>
+
+      >>Response
+
+      HTTP/1.1 207 Multi-Status
+      Content-Type: text/xml; charset="utf-8"
+      Content-Length: xxxx
+
+      <?xml version="1.0" encoding="utf-8" ?>
+      <d:multistatus xmlns:d="DAV:">
+        <d:response>
+             <d:href>http://www.foo.bar/othercontainer/R2/</d:href>
+             <d:status>HTTP/1.1 412 Precondition Failed</d:status>
+        </d:response>
+      </d:multistatus>
+
+====
+MOVE
+====
+
+The MOVE operation behaves similar to the COPY operation, followed by a DELETE
+of the original resource. All in all, the MOVE request is handled very similar
+to the COPY operation.
+
+Header
+======
+
+"Overwrite" and "Depth", as described with COPY.
+
+XML
+===
+
+-
+
+Response
+========
+
+Codes
+-----
+
+201 (Created)
+  The source resource was successfully moved, and a new resource was created at
+  the destination.
+204 (No Content)
+  The source resource was successfully moved to a pre-existing destination
+  resource.
+403 (Forbidden)
+  The source and destination URIs are the same.
+409 (Conflict)
+  A resource cannot be created at the destination until one or more
+  intermediate collections have been created.
+412 (Precondition Failed)
+  The server was unable to maintain the liveness of the properties listed in
+  the propertybehavior XML element or the Overwrite header is "F" and the state
+  of the destination resource is non-null.
+423 (Locked)
+  The source or the destination resource was locked.
+502 (Bad Gateway)
+  This may occur when the destination is on another server and the destination
+  server refuses to accept the resource.
+
+Examples
+========
+
+MOVE non-collection
+-------------------
+
+The following example shows a successful MOVE operation of a non-collection
+resource.
+
+::
+
+   >>Request
+
+   MOVE /~fielding/index.html HTTP/1.1
+   Host: www.ics.uci.edu
+   Destination: http://www.ics.uci.edu/users/f/fielding/index.html
+
+   >>Response
+
+   HTTP/1.1 201 Created
+   Location: http://www.ics.uci.edu/users/f/fielding/index.html
+
+MOVE collection
+---------------
+
+In the following example, a collection-resource is MOVED, while a single
+child-resource failed.
+
+::
+
+   >>Request
+
+   MOVE /container/ HTTP/1.1
+   Host: www.foo.bar
+   Destination: http://www.foo.bar/othercontainer/
+   Overwrite: F
+   If: (<opaquelocktoken:fe184f2e-6eec-41d0-c765-01adc56e6bb4>)
+       (<opaquelocktoken:e454f3f3-acdc-452a-56c7-00a5c91e4b77>)
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+   
+   <?xml version="1.0" encoding="utf-8" ?>
+   <d:propertybehavior xmlns:d='DAV:'>
+     <d:keepalive>*</d:keepalive>
+   </d:propertybehavior>
+
+   >>Response
+
+   HTTP/1.1 207 Multi-Status
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <d:multistatus xmlns:d='DAV:'>
+     <d:response>
+          <d:href>http://www.foo.bar/othercontainer/C2/</d:href>
+          <d:status>HTTP/1.1 423 Locked</d:status>
+     </d:response>
+   </d:multistatus>
+
+====
+LOCK
+====
+
+Creates the LOCK descibed by the <lockinfo /> XML element. Can be used to
+create a new lock or to refresh an exisiting one. Timeouts can be defined using
+the "Timeout" header. The response must contain the created lock information in
+a lockdiscovery property. For a new lock, the lock token must be returned in
+the "Lock-Token" header.
+
+A lock affects a complete resource, including its properties and (for
+collection-resources) adding and removal of collection members. The depth of a
+collection lock can be determined by the "Depth" header.
+
+Headers
+=======
+
+Lock-Token
+  Returned by a LOCK operation if a new lock was successfully created. Holds
+  the token identifying exactly this lock. It is not used on a lock refresh,
+  since the lock token is already known and used here.
+Timeout
+  Allows the client to define a timeout value for the lock. This timeout is not
+  mandatory for the server, since locks can also disappear by a system crash or
+  administartor intervention. In a normal case, the server should stick to the
+  timeout. A timeout may be defined for new locks as well as for refresh
+  requests. Multiple timeout alternatives can be defined comma-seperated.
+Depth
+  Determines the depth of locking for a collection resource. Valid values are
+  here only "0" (for only the collection itself) and "infinity". The default
+  value is "infinity".
+
+XML
+===
+
+
+Response
+========
+
+Codes
+-----
+
+200 (OK)
+  The lock request succeeded and the value of the lockdiscovery property is
+  included in the body.
+412 (Precondition Failed)
+  The included lock token was not enforceable on this resource or the server
+  could not satisfy the request in the lockinfo XML element.
+423 (Locked)
+  The resource is locked, so the method has been rejected.
+
+Examples
+========
+
+Simple LOCK request
+-------------------
+
+The following example shows a simple LOCK request for a non-collection
+resource. The request asks for an exclusive write lock, which is successfully
+granted. The returnes opaquelocktoken can be used to identify the lock
+globally.
+
+::
+
+  >>Request
+
+   LOCK /workspace/webdav/proposal.doc HTTP/1.1
+   Host: webdav.sb.aol.com
+   Timeout: Infinite, Second-4100000000
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+   Authorization: Digest username="ejw",
+      realm="ejw@webdav.sb.aol.com", nonce="...",
+      uri="/workspace/webdav/proposal.doc",
+      response="...", opaque="..."
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:lockinfo xmlns:D='DAV:'>
+     <D:lockscope><D:exclusive/></D:lockscope>
+     <D:locktype><D:write/></D:locktype>
+     <D:owner>
+          <D:href>http://www.ics.uci.edu/~ejw/contact.html</D:href>
+     </D:owner>
+   </D:lockinfo>
+
+   >>Response
+
+   HTTP/1.1 200 OK
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:prop xmlns:D="DAV:">
+     <D:lockdiscovery>
+          <D:activelock>
+               <D:locktype><D:write/></D:locktype>
+               <D:lockscope><D:exclusive/></D:lockscope>
+               <D:depth>Infinity</D:depth>
+               <D:owner>
+                    <D:href>
+                         http://www.ics.uci.edu/~ejw/contact.html
+                    </D:href>
+               </D:owner>
+               <D:timeout>Second-604800</D:timeout>
+               <D:locktoken>
+                    <D:href>
+               opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4
+                    </D:href>
+               </D:locktoken>
+          </D:activelock>
+     </D:lockdiscovery>
+   </D:prop>
+
+Refreshing a write lock
+-----------------------
+
+The second example shows a LOCk request that attempts to refresh an existing
+lock. The opaqualocktoken submitted identifies the affected lock. In this
+example, the server ignores the timeout values suggested by the client and uses
+its default value.
+
+::
+
+   >>Request
+
+   LOCK /workspace/webdav/proposal.doc HTTP/1.1
+   Host: webdav.sb.aol.com
+   Timeout: Infinite, Second-4100000000
+   If: (<opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4>)
+   Authorization: Digest username="ejw",
+      realm="ejw@webdav.sb.aol.com", nonce="...",
+      uri="/workspace/webdav/proposal.doc",
+      response="...", opaque="..."
+
+   >>Response
+
+   HTTP/1.1 200 OK
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:prop xmlns:D="DAV:">
+     <D:lockdiscovery>
+          <D:activelock>
+               <D:locktype><D:write/></D:locktype>
+               <D:lockscope><D:exclusive/></D:lockscope>
+               <D:depth>Infinity</D:depth>
+               <D:owner>
+                    <D:href>
+                    http://www.ics.uci.edu/~ejw/contact.html
+                    </D:href>
+               </D:owner>
+               <D:timeout>Second-604800</D:timeout>
+               <D:locktoken>
+                    <D:href>
+               opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4
+                    </D:href>
+               </D:locktoken>
+          </D:activelock>
+     </D:lockdiscovery>
+   </D:prop>
+
+Multi resource lock request
+---------------------------
+
+The following LOCK request desires a lock on a collection resource with
+infinite depth. The request fails, because an anchestor resource cannot be
+locked. Since no lock is established, because of this failure, the
+<lockdiscovery /> element is empty in the response.
+
+::
+
+   >>Request
+
+   LOCK /webdav/ HTTP/1.1
+   Host: webdav.sb.aol.com
+   Timeout: Infinite, Second-4100000000
+   Depth: infinity
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+   Authorization: Digest username="ejw",
+      realm="ejw@webdav.sb.aol.com", nonce="...",
+      uri="/workspace/webdav/proposal.doc",
+      response="...", opaque="..."
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:lockinfo xmlns:D="DAV:">
+     <D:locktype><D:write/></D:locktype>
+     <D:lockscope><D:exclusive/></D:lockscope>
+     <D:owner>
+          <D:href>http://www.ics.uci.edu/~ejw/contact.html</D:href>
+     </D:owner>
+   </D:lockinfo>
+
+   >>Response
+
+   HTTP/1.1 207 Multi-Status
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:multistatus xmlns:D="DAV:">
+     <D:response>
+          <D:href>http://webdav.sb.aol.com/webdav/secret</D:href>
+          <D:status>HTTP/1.1 403 Forbidden</D:status>
+     </D:response>
+     <D:response>
+          <D:href>http://webdav.sb.aol.com/webdav/</D:href>
+          <D:propstat>
+               <D:prop><D:lockdiscovery/></D:prop>
+               <D:status>HTTP/1.1 424 Failed Dependency</D:status>
+          </D:propstat>
+     </D:response>
+   </D:multistatus>
+
+======
+UNLOCK
+======
+
+The UNLOCK operation lifts a lock from a desired resource. While a resource is
+identified by the request as usual, the lock (identified by the "Lock-Token"
+header) is removed from all affected reources.
+
+Headers
+=======
+
+XML
+===
+
+Reponse
+=======
+
+Examples
+========
+
+Simple lock removal
+-------------------
+
+This example shows a simple, successful, removal of a lock.
+
+::
+
+ >>Request
+
+   UNLOCK /workspace/webdav/info.doc HTTP/1.1
+   Host: webdav.sb.aol.com
+   Lock-Token: <opaquelocktoken:a515cfa4-5da4-22e1-f5b5-00a0451e6bf7>
+   Authorization: Digest username="ejw",
+      realm="ejw@webdav.sb.aol.com", nonce="...",
+      uri="/workspace/webdav/proposal.doc",
+      response="...", opaque="..."
+
+   >>Response
+
+   HTTP/1.1 204 No Content
+
+=======
+OPTIONS
+=======
+
+The OPTIONS operation is a standard HTTP/1.1 operation, which is extended by
+the "DAV" header for WebDav.
+
+Headers
+=======
+
+DAV
+  Defined the level of DAV support provided by the server for a given URI (e.g.
+  1, 1#extend or 2).
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

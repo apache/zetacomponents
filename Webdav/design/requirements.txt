@@ -1,0 +1,183 @@
+eZ component: Webdav, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Kore Nordmann, Tobias Schlitt
+:Revision: $Rev:$
+:Date:     $Date:$
+
+Introduction
+============
+
+Description
+-----------
+
+The purpose of this component is acting as a webdav server, let clients
+download, upload and modify files from various sources.
+
+Requirements
+============
+
+The first version of the component should support a filesystem as backend and
+make it easy to write own custom backends for the data storage of the 
+webdav server. Imaginable are database backends, FTP-Servers and many more.
+
+A major problem to be solved by this component is, that most implementations of
+WebDAV clients violate the RFC, each in a different way. The component needs to
+abstract from these violation and to make it easy to support new clients. On
+each platform at least one client should be supported in the initial release,
+as there are:
+
+- Konqueror (Unix, KDE)
+- Nautilus (Unix, Gnome)
+- Internet Explorer, old and new implementation (Windows)
+- Finder (MacOS)
+
+Optionally:
+
+- Firefox (Multi platform)
+
+The default, RFC compliant, implementation must still be available and can be
+tested using cadaver, the most standard compliance webdav client available.
+
+Special Considerations
+======================
+
+Clients & Datasources
+---------------------
+
+The component should be flexible enough to easily add support for other
+misbehaving clients later, and to easily add other datasources then the
+filesystem backend. An solid abstraction of both tiers is the primary goal of
+this component.
+
+Dispatching
+-----------
+
+A developer integrating webdav using this component may want to use webdav as a
+front end for several types of data. The dispatching of URLs to different
+backends is task of the webserver, because it is capable of dispatching
+requests based on a URL (host, port, path, ..) to a different scripts which will
+perform as a webdav server for one single backend. Therefore dispatching will
+not be part of this component in any way.
+
+Locking
+-------
+
+We will support exclusive and shared locks directly in the server, including
+generation of unique lock tokens and lock timeouts. The server will store the
+lock state in a custom dead property resevered for this. The backend may
+overwrite the locking capabilities of the server, to implement custom group
+based shared locks, or exclusive lock mechanisms.
+
+Exclusive Locks
+	Write lock, so that only this pricipal may modify this ressource or
+	collection.
+
+Shared lock
+    Everyone with write access to the ressource may still change the ressource
+    or collection. The shared lock is just used as an indicator, that the
+    ressource is in use by another person and that communication is required
+    before performing any further change.
+
+Authentication
+--------------
+
+Authentication is key mechanism in webdav, especially when it comes to
+locking.  A lock persits on a per principal basis, so that each user is
+required to identify himself. The default authentication mechanism just
+authorizes every user to connect and read the contents.
+
+Optionally a ezcAuthenticationTiein may provide other authentication backends
+which may deny the connection to the webdav server. A possibility to distinct
+between interactive authentication mechanism (e.g. OpenID) and non-interactive
+mechanisms is required, because not every webdav client supports HTML.
+Therefore the Webdav component should only be capable of using non-interactive
+authenticiation methods.
+
+Authorization
+-------------
+
+The backend will handle the read / write authorization for its ressources and
+deny the access, if required.
+
+Metadata
+--------
+
+Webdav supports any kind of metadata in addition to the data required by the
+RFC, which is possible through costom or predefinde properties.  The storage of
+these properties needs to implemented by the server. The predefined properties,
+"live properties", needs to be validated by the server, while "dead
+properties", user / client defined ones, are left untouched by the server. The
+API of the backend classes still need a possibility to provide such dead
+properties and to react on properties defined by the client.
+
+It should be up to the storage backend to properly implement the storage of
+this data. For example, the filesystem backend may use XML files attached to
+the documents, or special file mechanisms like `XMP`__ to store the meta data
+directly in the file headers.
+
+__ http://wiki.creativecommons.org/XMP
+
+Extensions
+----------
+
+Perhaps consider extensions of the Webdav protocol, like versioning and VCS 
+support, to be easily integrated later.
+
+Terms
+=====
+
+Common WebDAV terms
+
+Collection
+	Corresponds to a directory in a file system. Contains a set of other
+	collections and / or ressources.
+
+Pricipal
+	Single user. May connect and act with multiple clients in parallel.
+
+Formats
+=======
+
+In the first iteration of the component we will implement `RFC 2518`__ with
+extensions for misbehaving clients.
+
+We will not support webdav extensions like distributed authoring and
+versioning defined in `RFC 3253`__ in the first stage, but keep these ideas in
+mind during the design phase.
+
+__ http://tools.ietf.org/rfc/rfc2518
+__ http://tools.ietf.org/rfc/rfc3253
+
+Other webdav related RFCs
+
+- `RFC 2291`__ - Requirements for a Distributed Authoring and Versioning 
+  Protocol for the World Wide Web
+- `RFC 2518`__ - HTTP Extensions for Distributed Authoring - WEBDAV
+- `RFC 3253`__ - Versioning Extensions to WebDAV
+- `RFC 3648`__ - Web Distributed Authoring and Versioning (WebDAV) Order
+  Collections Protocol
+- `RFC 3744`__ - Web Distributed Authoring and Versioning (WebDAV) Access
+  Control Protocol
+- `RFC 4316`__ - Datatypes for Web Distributed Authoring and Versioning
+  (WebDAV) Properties
+- `RFC 4331`__ - Quota and Size Properties for Distributed Authoring and
+  Versioning (DAV) Collections
+- `RFC 4437`__ - Web Distributed Authoring and Versioning (WebDAV) Redirect
+  Reference Resources
+
+__ http://tools.ietf.org/rfc/rfc2291
+__ http://tools.ietf.org/rfc/rfc2518
+__ http://tools.ietf.org/rfc/rfc3253
+__ http://tools.ietf.org/rfc/rfc3648
+__ http://tools.ietf.org/rfc/rfc3744
+__ http://tools.ietf.org/rfc/rfc4316
+__ http://tools.ietf.org/rfc/rfc4331
+__ http://tools.ietf.org/rfc/rfc4437
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

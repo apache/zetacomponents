@@ -1,0 +1,16 @@
+===============================
+Additional Implementation Notes
+===============================
+
+- Optional metadata validating mechanisms (Dublin core, ...)
+
+- Optional handlers for static files to call before delivering (SSI)
+
+  - Optional 404 handler which may create dynamic ressources? Just a stupid
+	get to the backend is probably sufficant?
+
+- Optionally enforce locking?
+
+  - Prevents HTTP clients from modifying ressources.
+
+
