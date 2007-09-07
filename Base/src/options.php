@@ -70,6 +70,11 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @param string $propertyName The name of the option to get.
      * @return mixed The option value.
      * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a write-only property.
      */
     public function __get( $propertyName )
     {
@@ -87,6 +92,13 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @param string $propertyName  The name of the option to set.
      * @param mixed $propertyValue The option value.
      * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBaseValueException
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
      */
     abstract public function __set( $propertyName, $propertyValue );
 
