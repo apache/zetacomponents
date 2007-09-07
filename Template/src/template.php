@@ -357,7 +357,7 @@ class ezcTemplate
             $tstToAst->programNode->accept( $g );
 
             // Add to the cache system.
-            if ($config->cacheManager !== false )
+            if ($config->cacheManager )
             {
                 $config->cacheManager->includeTemplate( $this, $this->properties["stream"] );
             }

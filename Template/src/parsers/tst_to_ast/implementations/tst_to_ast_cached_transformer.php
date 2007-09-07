@@ -236,7 +236,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function notFileExistsCache()
     {
-        if ( $this->template->usedConfiguration->cacheManager !== false )
+        if ( $this->template->usedConfiguration->cacheManager )
         {
             // !file_exists() || !$this->template->usedConfiguration->cacheManager->isValid( $cacheName )
             $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" . $this->cacheLevel  ) ) ) );
@@ -314,7 +314,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     {
         // / startCaching(); 
         $cplen = strlen( $this->parser->template->usedConfiguration->compilePath );
-        if ($this->template->usedConfiguration->cacheManager !== false )
+        if ($this->template->usedConfiguration->cacheManager )
         {
             $cb->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode("_ezcTemplateCache" . $this->cacheLevel ), new ezcTemplateVariableAstNode("_ezcCacheKeys") ) ) ) );
         }
@@ -450,7 +450,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $else->body->statements = array();
         $else->body->statements[] =  $this->_includeCache();
 
-        if ($this->template->usedConfiguration->cacheManager !== false )
+        if ($this->template->usedConfiguration->cacheManager )
         {
             $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->stopCaching", array() )));
         }
@@ -695,7 +695,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $else->body->statements[] =  $this->_includeCache();
 
 
-        if ($this->template->usedConfiguration->cacheManager !== false )
+        if ($this->template->usedConfiguration->cacheManager )
         {
             $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->stopCaching", array() )));
         }

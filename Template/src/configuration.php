@@ -54,6 +54,8 @@
  *           The currently registered custom functions.
  * @property ezcTemplateCacheManager                    $cacheManager
  *           The object to use for caching of compile templates.
+ * @property ezcTemplateLocator                         $locator
+ *           Set the locator object to dynamically translate the template file.
  * @property bool                                       $disableCache
  *           Disable caching for development purposes.
  * @property string                                     $sourceCharset
@@ -82,9 +84,9 @@ class ezcTemplateConfiguration
      * @var array(string=>mixed)
      */
      private $properties = array( 'context' => false,
-                                  'cacheManager' => false,
+                                  'cacheManager' => null,
                                   'disableCache' => false,
-                                  'locator' => false,
+                                  'locator' => null,
                                   'templatePath' => ".",
                                   'compilePath' => ".",
                                   'cachedTemplatesPath' => null,
@@ -165,7 +167,7 @@ class ezcTemplateConfiguration
                 break;
 
             case 'cacheManager': 
-                if ( !($value instanceof ezcTemplateCacheManager) && $value !== false )
+                if ( !($value instanceof ezcTemplateCacheManager) && $value !== null )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcTemplateCacheManager' );
                 }
@@ -174,7 +176,7 @@ class ezcTemplateConfiguration
                 break;
 
             case 'locator': 
-                if ( !($value instanceof ezcTemplateLocator) && $value !== false )
+                if ( !($value instanceof ezcTemplateLocator) && $value !== null )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcTemplateLocator' );
                 }
@@ -215,17 +217,17 @@ class ezcTemplateConfiguration
         switch ( $name )
         {
             case 'context': 
-            case 'cacheManager': 
             case 'disableCache': 
             case 'sourceCharset':
             case 'targetCharset':
                 return true;
 
+            case 'cacheManager': 
+            case 'locator': 
             case 'templatePath': 
             case 'compilePath':
             case 'cachedTemplatesPath':
             case 'compiledTemplatesPath':
-            // case 'cacheSystem':
             case 'checkModifiedTemplates':
             case 'executeTemplate':
                 return isset( $this->properties[$name] );
