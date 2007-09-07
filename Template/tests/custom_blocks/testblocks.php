@@ -264,6 +264,17 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def->optionalParameters = array("bla");
                 return $def;
 
+            case "variable_parameters": 
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "reflectParameters";
+                $def->hasCloseTag = false;
+                $def->requiredParameters = array("required");
+                $def->optionalParameters = array();
+                $def->excessParameters = true;
+                return $def;
+
+
 ////////////////////////////
 
             case "static_opt_parameter": 

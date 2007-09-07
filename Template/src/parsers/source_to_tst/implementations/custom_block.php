@@ -122,6 +122,8 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         $cb->name = $name;
         $this->block->isNestingBlock = $cb->isNestingBlock = $def->hasCloseTag;
 
+        $excessParameters = isset($def->excessParameters) && $def->excessParameters ? true : false;  
+
         if ( isset( $def->startExpressionName ) && $def->startExpressionName != "" )
         {
             if ( !in_array( $def->startExpressionName, $def->optionalParameters ) && !in_array( $def->startExpressionName, $def->requiredParameters ) )
@@ -159,7 +161,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
  
             }
 
-            if ( !in_array( $match, $def->optionalParameters ) && !in_array( $match, $def->requiredParameters ) )
+            if ( !$excessParameters && !in_array( $match, $def->optionalParameters ) && !in_array( $match, $def->requiredParameters ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                     sprintf(  ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_CUSTOM_BLOCK_PARAMETER, $match) );

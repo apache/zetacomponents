@@ -121,5 +121,13 @@ class ezcTemplateCustomBlockDefinition extends ezcTemplateCustomExtension
      */
     public $sendTemplateObject = false;
 
+    /**
+     * When excessParameters is set to true, the custom block accepts any amount of 
+     * parameters over the required parameters. 
+     *
+     * @var bool
+     */
+    public $excessParameters = false;
+
 }
 ?>
