@@ -13,10 +13,10 @@ class ezcWebdavSupportedLockPropertyTest extends ezcWebdavPropertyTestCase
     {
         $this->className = 'ezcWebdavSupportedLockProperty';
         $this->defaultValues = array(
-            'lockentry' => null,
+            'lockEntry' => null,
         );
         $this->workingValues = array(
-            'lockentry' => array(
+            'lockEntry' => array(
                 null,
                 array(
                     new ezcWebdavSupportedLockPropertyLockentry(),
@@ -25,7 +25,7 @@ class ezcWebdavSupportedLockPropertyTest extends ezcWebdavPropertyTestCase
             ),
         );
         $this->failingValues = array(
-            'lockentry' => array(
+            'lockEntry' => array(
                 23,
                 23.34,
                 'foobar',

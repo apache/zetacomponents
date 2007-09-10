@@ -10,7 +10,7 @@
 /**
  * An object of this class represents the Webdav property <supportedlock>.
  *
- * @property array(ezcWebdavSupportedLockPropertyLockentry) $lockentry
+ * @property array(ezcWebdavSupportedLockPropertyLockentry) $lockEntry
  *           Lock information according to <lockentry> elements.
  *
  * @version //autogenlastmodified//
@@ -21,12 +21,12 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavProperty
     /**
      * Creates a new ezcWebdavSourceProperty.
      * 
-     * @param array(ezcWebdavSupportedLockPropertyLockentry) $lockentry
+     * @param array(ezcWebdavSupportedLockPropertyLockentry) $lockEntry
      * @return void
      */
-    public function __construct( array $lockentry = null )
+    public function __construct( array $lockEntry = null )
     {
-        $this->lockentry = $lockentry;
+        $this->lockEntry = $lockEntry;
     }
 
     /**
@@ -48,7 +48,7 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavProperty
     {
         switch ( $propertyName )
         {
-            case 'lockentry':
+            case 'lockEntry':
                 if ( is_array( $propertyValue ) === false && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(ezcWebdavSupportedLockPropertyLockentry)' );
