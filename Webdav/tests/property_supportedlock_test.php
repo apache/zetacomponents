@@ -2,7 +2,7 @@
 
 require_once dirname( __FILE__ ) . '/property_test.php';
 
-class ezcWebdavLockDiscoveryPropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavSupportedLockPropertyTest extends ezcWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -11,21 +11,21 @@ class ezcWebdavLockDiscoveryPropertyTest extends ezcWebdavPropertyTestCase
 
     protected function setUp()
     {
-        $this->className = 'ezcWebdavLockDiscoveryProperty';
+        $this->className = 'ezcWebdavSupportedLockProperty';
         $this->defaultValues = array(
-            'activelock' => null,
+            'lockentry' => null,
         );
         $this->workingValues = array(
-            'activelock' => array(
+            'lockentry' => array(
                 null,
                 array(
-                    new ezcWebdavLockDiscoveryPropertyActivelock(),
-                    new ezcWebdavLockDiscoveryPropertyActivelock(),
+                    new ezcWebdavSupportedLockPropertyLockentry(),
+                    new ezcWebdavSupportedLockPropertyLockentry(),
                 ),
             ),
         );
         $this->failingValues = array(
-            'activelock' => array(
+            'lockentry' => array(
                 23,
                 23.34,
                 'foobar',

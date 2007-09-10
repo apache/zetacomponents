@@ -35,6 +35,7 @@ require_once 'property_resourcetype_test.php';
 require_once 'property_source_link_test.php';
 require_once 'property_source_test.php';
 require_once 'property_supportedlock_lockentry_test.php';
+require_once 'property_supportedlock_test.php';
 
 /**
 * Test suite for ImageAnalysis package.
@@ -67,6 +68,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavSourcePropertyLinkTest::suite() );
         $this->addTest( ezcWebdavSourcePropertyTest::suite() );
         $this->addTest( ezcWebdavSupportedLockPropertyLockentryTest::suite() );
+        $this->addTest( ezcWebdavSupportedLockPropertyTest::suite() );
     }
 
     public static function suite()
