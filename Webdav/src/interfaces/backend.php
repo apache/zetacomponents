@@ -103,30 +103,17 @@ abstract class ezcWebdavBackend
     abstract public function propFind( ezcWebdavPropFindRequest $request );
 
     /**
-     * Required method to serve PROPFETCH requests.
+     * Required method to serve PROPPATCH requests.
      * 
-     * The method receives a {@link ezcWebdavPropFetchRequest} object containing all
+     * The method receives a {@link ezcWebdavPropPatchRequest} object containing all
      * relevant information obout the clients request and should either return
      * an error by returning an {@link ezcWebdavErrorResponse} object, or any
      * other {@link ezcWebdavResponse} objects.
      *
-     * @param ezcWebdavPropFetchRequest $request The received request.
+     * @param ezcWebdavPropPatchRequest $request The received request.
      * @return ezcWebdavResponse A response to the received request.
      */
-    abstract public function propFetch( ezcWebdavPropFetchRequest $request );
-
-    /**
-     * Required method to serve PROPSET requests.
-     * 
-     * The method receives a {@link ezcWebdavPropSetRequest} object containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an {@link ezcWebdavErrorResponse} object, or any
-     * other {@link ezcWebdavResponse} objects.
-     *
-     * @param ezcWebdavPropSetRequest $request The received request.
-     * @return ezcWebdavResponse A response to the received request.
-     */
-    abstract public function propSet( ezcWebdavPropSetRequest $request );
+    abstract public function propPatch( ezcWebdavPropPatchRequest $request );
 }
 
 ?>
