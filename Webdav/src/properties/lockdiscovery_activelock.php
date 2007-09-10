@@ -33,7 +33,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
     /**
      * Creates a new ezcWebdavSupportedLockPropertyLockentry.
      * 
-     * @param int           $LockType  Lock type (constant TYPE_*).
+     * @param int           $lockType  Lock type (constant TYPE_*).
      * @param int           $lockScope Lock scope (constant SCOPE_*).
      * @param int           $depth     Lock depth (constant DEPTH_*).
      * @param string        $owner
@@ -41,14 +41,14 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * @param array(string) $tokens
      * @return void
      */
-    public function __construct( $LockType         = self::TYPE_READ,
+    public function __construct( $lockType         = self::TYPE_READ,
                                  $lockScope        = self::SCOPE_SHARED,
                                  $depth            = self::DEPTH_INFINITY,
                                  $owner            = null,
                                  DateTime $timeout = null,
                                  $tokens           = array() )
     {
-        parent::__construct( $LockType, $lockScope );
+        parent::__construct( $lockType, $lockScope );
         $this->depth   = $depth;
         $this->owner   = $owner;
         $this->timeout = $timeout;

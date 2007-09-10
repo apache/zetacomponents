@@ -11,7 +11,7 @@
  * An object of this class represents the Webdav property <lockdiscovery>.
  *
  * @property array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock
- *           Lock information according to <activeLock> elements.
+ *           Lock information according to <activelock> elements.
  *
  * @version //autogenlastmodified//
  * @package Webdav
