@@ -16,6 +16,13 @@
  *           Indicates weather memory backend should try to fake live
  *           properties instead of just returning null if a property not has
  *           been set.
+ * @property string $failForRegexp
+ *           Let operation fail for all ressource paths mathing this regular
+ *           expression. The exact handling of this option depends on the
+ *           operation this option is used with.
+ * @property int $failingOperations
+ *           Operations which should respect the failForRegexp property. May be
+ *           a bitmask of webdav request type constants.
  *
  * @package Webdav
  * @version //autogen//
@@ -35,6 +42,8 @@ class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
     public function __construct( array $options = array() )
     {
         $this->properties['fakeLiveProperties'] = false;
+        $this->properties['failForRegexp']      = null;
+        $this->properties['failingOperations']  = 0;
 
         parent::__construct( $options );
     }
@@ -58,6 +67,24 @@ class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
                 if ( !is_bool( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'bool' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            case 'failForRegexp':
+                if ( !is_string( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'regular expression' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            case 'failingOperations':
+                if ( !is_int( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'integer' );
                 }
 
                 $this->properties[$name] = $value;

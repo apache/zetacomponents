@@ -251,6 +251,53 @@ class ezcWebdavMemoryBackend
     }
 
     /**
+     * Copy ressources recursively from one path to another.
+     * 
+     * @param string $fromPath 
+     * @param string $toPath 
+     * @return void
+     */
+    protected function memCopy( $fromPath, $toPath )
+    {
+        // @TODO: Implemented
+    }
+
+    /**
+     * Delete everything below this path
+     * 
+     * @param string $path 
+     * @return void
+     */
+    protected function memDelete( $path )
+    {
+        if ( $this->options->failingOperations & ezcWebdavRequest::DELETE )
+        {
+            if ( preg_match( $this->options->failForRegexp, $path ) )
+            {
+                // @TODO: Issue error
+            }
+        }
+
+        // Remove all content nodes starting with requested path
+        foreach ( $this->content as $name => $content )
+        {
+            if ( strpos( $name, $path ) === 0 )
+            {
+                unset( $this->content[$name] );
+            }
+        }
+
+        // Also remove all properties for removed content nodes
+        foreach ( $this->props as $name => $properties )
+        {
+            if ( strpos( $name, $path ) === 0 )
+            {
+                unset( $this->props[$name] );
+            }
+        }
+    }
+
+    /**
      * Return bitmap of additional features supported by the backend referenced
      * by constants from the basic ezcWebdavBackend class.
      * 
