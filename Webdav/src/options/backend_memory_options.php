@@ -12,8 +12,10 @@
 /**
  * Class containing the options for the memory backend.
  *
- * @property string $pathFactory
- *           Class used to transform real paths into request paths.
+ * @property bool $fakeLiveProperties
+ *           Indicates weather memory backend should try to fake live
+ *           properties instead of just returning null if a property not has
+ *           been set.
  *
  * @package Webdav
  * @version //autogen//
@@ -32,7 +34,7 @@ class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['pathFactory'] = 'ezcWebdavPathFactory';
+        $this->properties['fakeLiveProperties'] = false;
 
         parent::__construct( $options );
     }
@@ -52,11 +54,10 @@ class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
     {
         switch ( $name )
         {
-            case 'pathFactory':
-                if ( !is_string( $value ) ||
-                     !is_subclass_of( $value, 'ezcWebdavPathFactory' ) )
+            case 'fakeLiveProperties':
+                if ( !is_bool( $value ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'ezcWebdavPathFactory' );
+                    throw new ezcBaseValueException( $name, $value, 'bool' );
                 }
 
                 $this->properties[$name] = $value;

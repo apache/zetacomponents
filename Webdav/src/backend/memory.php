@@ -29,6 +29,9 @@
  *  );
  * </code>
  *
+ * This backend does not implement any special features to test the servers
+ * capabilities to work with thos features.
+ *
  * @version //autogentag//
  * @package Webdav
  * @access private
@@ -53,7 +56,9 @@ class ezcWebdavMemoryBackend
      * 
      * @var array
      */
-    protected $content = array();
+    protected $content = array(
+        '/' => array(),
+    );
 
     /**
      * Properties for collections and ressources.
@@ -80,11 +85,59 @@ class ezcWebdavMemoryBackend
      * @param string $path 
      * @return void
      */
-    public function __construct( array $contents)
+    public function __construct()
     {
         $this->options = new ezcWebdavMemoryBackendOptions();
+    }
 
-        $this->readContents( $contents );
+    /**
+     * Offer access to some of the server properties.
+     * 
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property $name is not defined
+     * @param string $name 
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        switch ( $name )
+        {
+            case 'options':
+                return $this->$name;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+        }
+    }
+
+    /**
+     * Sets the option $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     * @throws ezcBaseValueException
+     *         if $value is not correct for the property $name
+     * @param string $name
+     * @param mixed $value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        switch ( $name )
+        {
+            case 'options':
+                if ( ! $value instanceof ezcWebdavMemoryBackendOptions )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcWebdavMemoryBackendOptions' );
+                }
+
+                $this->$name = $value;
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+        }
     }
 
     /**
@@ -100,7 +153,24 @@ class ezcWebdavMemoryBackend
      */
     protected function initializeProperties( $name, $isCollection = false )
     {
-        return array();
+        if ( $this->options->fakeLiveProperties )
+        {
+            return array(
+                'creationdate'          => 1054034820,
+                'displayname'           => basename( $name ),
+                'getcontentlanguage'    => 'en',
+                'getcontentlength'      => strlen( $this->content[$name] ),
+                'getcontenttype'        => 'application/octet-stream',
+                'getetag'               => md5( $name ),
+                'getlastmodified'       => 1124118780,
+                'resourcetype'          => null,
+                'source'                => null,
+            );
+        }
+        else
+        {
+            return array();
+        }
     }
 
     /**
@@ -110,7 +180,7 @@ class ezcWebdavMemoryBackend
      * @param array $contents 
      * @return void
      */
-    protected function readContents( array $contents, $path = '/' )
+    public function addContents( array $contents, $path = '/' )
     {
         foreach ( $contents as $name => $content )
         {
@@ -125,25 +195,59 @@ class ezcWebdavMemoryBackend
 
             if ( is_array( $content ) )
             {
+                // Collections always postpended by a slash
+                $ressourcePath .= '/';
+
                 // Content is a collection
+                $this->content[$ressourcePath] = array();
                 $this->props[$ressourcePath] = $this->initializeProperties(
                     $ressourcePath,
                     true
                 );
 
                 // Recurse
-                $this->readContents( $content, $ressourcePath . '/' );
+                $this->addContents( $content, $ressourcePath );
             }
             elseif ( is_string( $content ) )
             {
                 // Content is a file
+                $this->content[$ressourcePath] = $content;
                 $this->props[$ressourcePath] = $this->initializeProperties(
                     $ressourcePath
                 );
             }
+            else
+            {
+                // Ignore everything else...
+                continue;
+            }
 
-            // Ignore everything else...
+            // Add contents to parent directory
+            $this->content[$path][] = $ressourcePath;
         }
+    }
+
+    /**
+     * Manually set a property on a ressource to request it later.
+     * 
+     * @param string $ressource 
+     * @param string $propertyName 
+     * @param string $propertyValue 
+     * @return bool
+     */
+    public function setProperty( $ressource, $propertyName, $propertyValue )
+    {
+        // Check if ressource exists at all
+        if ( !array_key_exists( $ressource, $this->props ) )
+        {
+            return false;
+        }
+
+        // Do not check if an existing value will be overwritten, just set
+        // property
+        $this->props[$ressource][$propertyName] = $propertyValue;
+
+        return true;
     }
 
     /**
