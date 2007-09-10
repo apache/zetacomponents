@@ -19,6 +19,19 @@
 class ezcWebdavRequest
 {
     /**
+     * Constants for request types.
+     */
+    const GET       = 1;
+    const HEAD      = 2;
+    const PUT       = 4;
+    const PROPFIND  = 8;
+    const PROPPATCH = 16;
+    const DELETE    = 32;
+    const COPY      = 64;
+    const MOVE      = 128;
+    const MKCOL     = 256;
+
+    /**
      * Optional property containing the name of the requesting client
      * 
      * @var string
