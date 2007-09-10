@@ -15,6 +15,11 @@
 require_once 'test_case.php';
 
 /**
+ * Custom path factpory
+ */
+require_once 'classes/custom_path_factory.php';
+
+/**
  * Tests for ezcWebdavPathFactory class.
  * 
  * @package Webdav
@@ -156,6 +161,36 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $this->assertSame(
             ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] ),
             '/'
+        );
+    }
+
+    public function testPathFactoryInServer()
+    {
+        $_SERVER['SCRIPT_FILENAME']     = '/var/www/webdav/htdocs/path/to/webdav.php';
+        $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
+        $_SERVER['REQUEST_URI']         = '/path/to/webdav.php/';
+
+        $server = new ezcWebdavServer();
+
+        $this->assertSame(
+            $server->getParsedPath( $_SERVER['REQUEST_URI'] ),
+            '/'
+        );
+    }
+
+    public function testModifiedPathFactoryInServer()
+    {
+        $_SERVER['SCRIPT_FILENAME']     = '/var/www/webdav/htdocs/path/to/webdav.php';
+        $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
+        $_SERVER['REQUEST_URI']         = '/path/to/webdav.php/';
+
+        $server = new ezcWebdavServer();
+
+        $server->options->pathFactory = 'myTestPathFactory';
+
+        $this->assertSame(
+            $server->getParsedPath( $_SERVER['REQUEST_URI'] ),
+            'This is only a test.'
         );
     }
 }
