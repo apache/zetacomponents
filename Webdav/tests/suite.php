@@ -35,7 +35,6 @@ require_once 'property_resourcetype_test.php';
 require_once 'property_source_link_test.php';
 require_once 'property_source_test.php';
 require_once 'property_supportedlock_lockentry_test.php';
-require_once 'property_test.php';
 
 /**
 * Test suite for ImageAnalysis package.
@@ -55,19 +54,19 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavPathFactoryTest::suite() );
         $this->addTest( ezcWebdavMemoryBackendTest::suite() );
 
-        $this->addTest( ezcWebdavCreationdatePropertyTest::suite() );
+        $this->addTest( ezcWebdavCreationDatePropertyTest::suite() );
         $this->addTest( ezcWebdavDisplayNamePropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentLanguagePropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentLengthPropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentTypePropertyTest::suite() );
         $this->addTest( ezcWebdavGetEtagPropertyTest::suite() );
-        $this->addTest( ezcWebdavCreationdatePropertyTest::suite() );
-        $this->addTest( ezcWebdavCreationlocktypePropertyTest::suite() );
-        $this->addTest( ezcWebdavCreationlockentryPropertyTest::suite() );
+        $this->addTest( ezcWebdavLastModifiedPropertyTest::suite() );
+        $this->addTest( ezcWebdavLockDiscoveryPropertyActivelockTest::suite() );
+        $this->addTest( ezcWebdavSupportedLockPropertyTest::suite() );
         $this->addTest( ezcWebdavResourceTypePropertyTest::suite() );
-        $this->addTest( ezcWebdavResourceTypePropertyTest::suite() );
-        $this->addTest( ezcWebdavResourceTypePropertyTest::suite() );
-        $this->addTest( ezcWebdavCreationlocktypePropertyTest::suite() );
+        $this->addTest( ezcWebdavSourcePropertyLinkTest::suite() );
+        $this->addTest( ezcWebdavSourcePropertyTest::suite() );
+        $this->addTest( ezcWebdavSupportedLockPropertyLockentryTest::suite() );
     }
 
     public static function suite()

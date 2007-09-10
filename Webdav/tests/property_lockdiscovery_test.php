@@ -2,7 +2,7 @@
 
 require_once dirname( __FILE__ ) . '/property_test.php';
 
-class ezcWebdavCreationlockentryPropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavSupportedLockPropertyTest extends ezcWebdavPropertyTestCase
 {
     public static function suite()
     {

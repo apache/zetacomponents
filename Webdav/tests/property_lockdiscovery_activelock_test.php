@@ -2,7 +2,7 @@
 
 require_once dirname( __FILE__ ) . '/property_test.php';
 
-class ezcWebdavCreationlocktypePropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavLockDiscoveryPropertyActivelockTest extends ezcWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -13,7 +13,7 @@ class ezcWebdavCreationlocktypePropertyTest extends ezcWebdavPropertyTestCase
     {
         $this->className = 'ezcWebdavLockDiscoveryPropertyActivelock';
         $this->defaultValues = array(
-            'locktype'  => ezcWebdavLockDiscoveryPropertyActivelock::TYPE_READ,
+            'LockType'  => ezcWebdavLockDiscoveryPropertyActivelock::TYPE_READ,
             'lockscope' => ezcWebdavLockDiscoveryPropertyActivelock::SCOPE_SHARED,
             'depth'     => ezcWebdavLockDiscoveryPropertyActivelock::DEPTH_INFINITY,
             'owner'     => null,
@@ -21,7 +21,7 @@ class ezcWebdavCreationlocktypePropertyTest extends ezcWebdavPropertyTestCase
             'tokens'    => array(),
         );
         $this->workingValues = array(
-            'locktype' => array(
+            'LockType' => array(
                 ezcWebdavLockDiscoveryPropertyActivelock::TYPE_READ,
                 ezcWebdavLockDiscoveryPropertyActivelock::TYPE_WRITE,
             ),
@@ -49,7 +49,7 @@ class ezcWebdavCreationlocktypePropertyTest extends ezcWebdavPropertyTestCase
             ),
         );
         $this->failingValues = array(
-            'locktype' => array(
+            'LockType' => array(
                 23,
                 23.34,
                 'foobar',

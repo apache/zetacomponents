@@ -2,7 +2,7 @@
 
 require_once dirname( __FILE__ ) . '/property_test.php';
 
-class ezcWebdavCreationdatePropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavCreationDatePropertyTest extends ezcWebdavPropertyTestCase
 {
     public static function suite()
     {

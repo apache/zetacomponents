@@ -10,7 +10,7 @@
 /**
  * Objects of this class are used in the ezcWebdavSupportedLockProperty class.
  *
- * @property int $locktype
+ * @property int $LockType
  *           Constant indicating read or write lock.
  * @property int $lockscope
  *           Constant indicating exclusive or shared lock.
@@ -29,13 +29,13 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavProperty
     /**
      * Creates a new ezcWebdavSupportedLockPropertyLockentry.
      * 
-     * @param int $locktype  Lock type (constant TYPE_*).
+     * @param int $LockType  Lock type (constant TYPE_*).
      * @param int $lockscope Lock scope (constant SCOPE_*).
      * @return void
      */
-    public function __construct( $locktype = self::TYPE_READ, $lockscope = self::SCOPE_SHARED )
+    public function __construct( $LockType = self::TYPE_READ, $lockscope = self::SCOPE_SHARED )
     {
-        $this->locktype  = $locktype;
+        $this->LockType  = $LockType;
         $this->lockscope = $lockscope;
     }
 
@@ -58,7 +58,7 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavProperty
     {
         switch ( $propertyName )
         {
-            case 'locktype':
+            case 'LockType':
                 if ( $propertyValue !== self::TYPE_READ && $propertyValue !== self::TYPE_WRITE )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavSupportedLockPropertyLockentry::TYPE_*' );
