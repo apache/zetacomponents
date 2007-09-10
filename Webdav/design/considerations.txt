@@ -13,4 +13,6 @@ Additional Implementation Notes
 
   - Prevents HTTP clients from modifying ressources.
 
+- Optionally use mod_sendfile (apache & lighttpd) to send out big files? Wont
+  work with any other backend the file backends.
 
