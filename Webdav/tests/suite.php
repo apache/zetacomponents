@@ -18,6 +18,8 @@ require_once 'test_case.php';
  * Require test suites.
  */
 require_once 'server_test.php';
+require_once 'server_options_test.php';
+require_once 'path_factory_test.php';
 
 /**
 * Test suite for ImageAnalysis package.
@@ -33,6 +35,8 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Webdav' );
 
         $this->addTest( ezcWebdavBasicServerTest::suite() );
+        $this->addTest( ezcWebdavServerOptionsTest::suite() );
+        $this->addTest( ezcWebdavPathFactoryTest::suite() );
     }
 
     public static function suite()
