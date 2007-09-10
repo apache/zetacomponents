@@ -20,6 +20,9 @@
  * objects. The setMiscNodes() method can be used to inject new DOMNode
  * elements into the specific object. These nodes will be injected into the DOM
  * tree generated for the response.
+ *
+ * The class is declared abstract to avoid direct instantiation, it does not
+ * contain any abstract methods.
  * 
  * @package Webdav
  * @version //autogen//

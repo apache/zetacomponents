@@ -16,9 +16,49 @@
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavGetcontentlanguageProperty extends ezcWebdavProperty
+class ezcWebdavGetContentLanguageProperty extends ezcWebdavProperty
 {
-    // To be implemented.
+    /**
+     * Creates a new ezcWebdavGetContentLanguageProperty.
+     * 
+     * @param string $languages The languages.
+     * @return void
+     */
+    public function __construct( array $languages = array() )
+    {
+        $this->properties['languages'] = $languages;
+    }
+
+    /**
+     * Sets a property.
+     * This method is called when an property is to be set.
+     * 
+     * @param string $propertyName The name of the property to set.
+     * @param mixed $propertyValue The property value.
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBaseValueException
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'languages':
+                if ( is_array( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
 }
 
 ?>

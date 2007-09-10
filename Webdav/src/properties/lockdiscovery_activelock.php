@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Objects of this class are used in the ezcWebdavLockdiscoveryProperty class.
+ * Objects of this class are used in the ezcWebdavLockDiscoveryProperty class.
  *
  * @property int $depth
  *           Constant indicating 0, 1 or infinity.
@@ -24,13 +24,91 @@
  * @version //autogenlastmodified//
  * @package Webdav
  */
-class ezcWebdavLockdiscoveryPropertyActivelock extends ezcWebdavSupportedlockPropertyLockentry
+class ezcWebdavLockDiscoveryPropertyActivelock extends ezcWebdavSupportedLockPropertyLockentry
 {
     const DEPTH_ZERO      = 0;
     const DEPTH_ONE       = 1;
     const DEPTH_INFINITY  = -1;
 
-    // To be implemented.
+    /**
+     * Creates a new ezcWebdavSupportedLockPropertyLockentry.
+     * 
+     * @param int           $locktype  Lock type (constant TYPE_*).
+     * @param int           $lockscope Lock scope (constant SCOPE_*).
+     * @param int           $depth     Lock depth (constant DEPTH_*).
+     * @param string        $owner
+     * @param DateTime      $timeout
+     * @param array(string) $tokens
+     * @return void
+     */
+    public function __construct( $locktype         = self::TYPE_READ,
+                                 $lockscope        = self::SCOPE_SHARED,
+                                 $depth            = self::DEPTH_INFINITY,
+                                 $owner            = null,
+                                 DateTime $timeout = null,
+                                 $tokens           = array() )
+    {
+        parent::__construct( $locktype, $lockscope );
+        $this->depth   = $depth;
+        $this->owner   = $owner;
+        $this->timeout = $timeout;
+        $this->tokens  = $tokens;
+    }
+
+    /**
+     * Sets a property.
+     * This method is called when an property is to be set.
+     * 
+     * @param string $propertyName The name of the property to set.
+     * @param mixed $propertyValue The property value.
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBaseValueException
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'depth':
+                if ( $propertyValue !== self::DEPTH_INFINITY && $propertyValue !== self::DEPTH_ONE && $propertyValue !== self::DEPTH_ZERO )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockDiscoveryPropertyActivelock::DEPTH_*' );
+                }
+                break;
+            case 'owner':
+                if ( is_string( $propertyValue ) === false && $propertyValue !== null )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                }
+                break;
+            case 'timeout':
+                if ( ( $propertyValue instanceof DateTime ) === false && $propertyValue !== null )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'DateTime' );
+                }
+                break;
+            case 'timeout':
+                if ( ( $propertyValue instanceof DateTime ) === false && $propertyValue !== null )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'DateTime' );
+                }
+                break;
+            case 'tokens':
+                if ( is_array( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(string)' );
+                }
+                break;
+            default:
+                parent::__set( $propertyName, $propertyValue );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
 }
 
 

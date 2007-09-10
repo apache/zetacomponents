@@ -1,6 +1,21 @@
 <?php
-
-abstract class ezcWebdavProperty
+/**
+ * File containing the abstract ezcWebdavProperty class.
+ *
+ * @package Webdav
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Base class for WebDAV property representation classes.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+abstract class ezcWebdavProperty extends ezcWebdavXmlBase
 {
     /**
      * Container to hold the properties

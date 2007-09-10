@@ -20,7 +20,55 @@
  */
 class ezcWebdavSourcePropertyLink extends ezcWebdavProperty
 {
-    // To be implemented.
+    /**
+     * Creates a new ezcWebdavSourceProperty.
+     * 
+     * @param string $src Link source (URI).
+     * @param string $dst Link destination (URI).
+     * @return void
+     */
+    public function __construct( $src = null, $dst = null )
+    {
+        $this->src = $src;
+        $this->dst = $dst;
+    }
+
+    /**
+     * Sets a property.
+     * This method is called when an property is to be set.
+     * 
+     * @param string $propertyName The name of the property to set.
+     * @param mixed $propertyValue The property value.
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBaseValueException
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'src':
+                if ( is_string( $propertyValue ) === false && $propertyValue !== null )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                }
+                break;
+            case 'dst':
+                if ( is_string( $propertyValue ) === false && $propertyValue !== null )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
 }
 
 ?>

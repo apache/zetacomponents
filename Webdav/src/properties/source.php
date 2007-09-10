@@ -10,7 +10,7 @@
 /**
  * An object of this class represents the Webdav property <source>.
  *
- * @property array(ezcWebdavSourcePropertyLink) $link
+ * @property array(ezcWebdavSourcePropertyLink) $links
  *           Lock information according to <link> elements.
  *
  * @version //autogenlastmodified//
@@ -18,7 +18,47 @@
  */
 class ezcWebdavSourceProperty extends ezcWebdavProperty
 {
-    // To be implemented.
+    /**
+     * Creates a new ezcWebdavSourceProperty.
+     * 
+     * @param array(ezcWebdavSourcePropertyLink) $links
+     * @return void
+     */
+    public function __construct( array $links = array() )
+    {
+        $this->links = $links;
+    }
+
+    /**
+     * Sets a property.
+     * This method is called when an property is to be set.
+     * 
+     * @param string $propertyName The name of the property to set.
+     * @param mixed $propertyValue The property value.
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBaseValueException
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'links':
+                if ( is_array( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(ezcWebdavSourcePropertyLink)' );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
 }
 
 ?>
