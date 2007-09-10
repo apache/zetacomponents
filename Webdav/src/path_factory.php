@@ -45,7 +45,71 @@ class ezcWebdavPathFactory
      */
     public static function parsePath( $requestPath, $base = null )
     {
-        // @TODO: Implement
+        if ( $base !== null )
+        {
+            return self::handleRelativePath( $requestPath, $base );
+        }
+        else
+        {
+            return self::handleRequestUri( $requestPath );
+        }
+    }
+
+    /**
+     * Handle request URI and determine requested Webdav path using the server
+     * variables containing the script file name and the document root.
+     * 
+     * @param string $requestPath 
+     * @return string
+     */
+    protected static function handleRequestUri( $requestPath )
+    {
+        // Get Docroot and ensure proper definition
+        if ( !isset( $_SERVER['DOCUMENT_ROOT'] ) )
+        {
+            throw new ezcWebdavMissingServerVariableException( 'DOCUMENT_ROOT' );
+        }
+
+        // Ensure trailing slash in doc root.
+        $docRoot = $_SERVER['DOCUMENT_ROOT'];
+        if ( $docRoot[strlen( $docRoot ) - 1] !== '/' )
+        {
+            $docRoot .= '/';
+        }
+
+        // Get script filename
+        if ( !isset( $_SERVER['SCRIPT_FILENAME'] ) )
+        {
+            throw new ezcWebdavMissingServerVariableException( 'SCRIPT_FILENAME' );
+        }
+
+        $scriptFileName = $_SERVER['SCRIPT_FILENAME'];
+
+        // Get script path absolute to doc root
+        $serverFile = '/' . str_replace(
+            $docRoot, '', $scriptFileName
+        );
+
+        // Check for proper request path
+        if ( strpos( $requestPath, $serverFile ) !== 0 )
+        {
+            // Request URI should always start with server file, othwise there
+            // is some rewriting in place, which cannot be handled using this
+            // path factory
+            throw new ezcWebdavBrokenRequestUriException( $requestPath );
+
+        }
+
+        // Get ressource.
+        $ressource = substr( $requestPath, strlen( $serverFile ) );
+
+        // Ressource may be empty for requests on webdav root
+        if ( empty( $ressource ) )
+        {
+            $ressource = '/';
+        }
+
+        return $ressource;
     }
 }
 

@@ -11,6 +11,8 @@
 
 return array(
     'ezcWebdavException'                       => 'Webdav/exceptions/exception.php',
+    'ezcWebdavBrokenRequestUriException'       => 'Webdav/exceptions/broken_request_uri.php',
+    'ezcWebdavMissingServerVariableException'  => 'Webdav/exceptions/misssing_server_variable.php',
     'ezcWebdavNotTransportHandlerException'    => 'Webdav/exceptions/no_transport_handler.php',
     'ezcWebdavProperty'                        => 'Webdav/interfaces/property.php',
     'ezcWebdavBackend'                         => 'Webdav/interfaces/backend.php',
