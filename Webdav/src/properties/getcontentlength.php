@@ -10,7 +10,7 @@
 /**
  * An object of this class represents the Webdav property <getcontentlength>.
  *
- * @property int $lengths
+ * @property string $lengths
  *           The lengths.
  *
  * @version //autogentag//
