@@ -10,9 +10,9 @@
 /**
  * Objects of this class are used in the ezcWebdavSupportedLockProperty class.
  *
- * @property int $locktype
+ * @property int $lockType
  *           Constant indicating read or write lock.
- * @property int $lockscope
+ * @property int $lockScope
  *           Constant indicating exclusive or shared lock.
  *
  * @version //autogenlastmodified//
@@ -29,14 +29,14 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavProperty
     /**
      * Creates a new ezcWebdavSupportedLockPropertyLockentry.
      * 
-     * @param int $locktype  Lock type (constant TYPE_*).
-     * @param int $lockscope Lock scope (constant SCOPE_*).
+     * @param int $lockType  Lock type (constant TYPE_*).
+     * @param int $lockScope Lock scope (constant SCOPE_*).
      * @return void
      */
-    public function __construct( $locktype = self::TYPE_READ, $lockscope = self::SCOPE_SHARED )
+    public function __construct( $lockType = self::TYPE_READ, $lockScope = self::SCOPE_SHARED )
     {
-        $this->locktype  = $locktype;
-        $this->lockscope = $lockscope;
+        $this->lockType  = $lockType;
+        $this->lockScope = $lockScope;
     }
 
     /**
@@ -58,13 +58,13 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavProperty
     {
         switch ( $propertyName )
         {
-            case 'locktype':
+            case 'lockType':
                 if ( $propertyValue !== self::TYPE_READ && $propertyValue !== self::TYPE_WRITE )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavSupportedLockPropertyLockentry::TYPE_*' );
                 }
                 break;
-            case 'lockscope':
+            case 'lockScope':
                 if ( $propertyValue !== self::SCOPE_SHARED && $propertyValue !== self::SCOPE_EXCLUSIVE )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavSupportedLockPropertyLockentry::SCOPE_*' );
