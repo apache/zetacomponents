@@ -164,6 +164,24 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         );
     }
 
+    public function testDispatchingWithRewrittenUri()
+    {
+        $_SERVER['SCRIPT_FILENAME']     = '/var/www/webdav/htdocs/path/to/webdav.php';
+        $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
+        $_SERVER['REQUEST_URI']         = '/path/to/webdav/collection/ressource';
+
+        try
+        {
+            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] );
+        }
+        catch ( ezcWebdavBrokenRequestUriException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'ezcWebdavBrokenRequestUriException expected.' );
+    }
+
     public function testPathFactoryInServer()
     {
         $_SERVER['SCRIPT_FILENAME']     = '/var/www/webdav/htdocs/path/to/webdav.php';
