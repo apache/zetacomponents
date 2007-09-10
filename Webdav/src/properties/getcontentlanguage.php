@@ -26,7 +26,7 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavProperty
      */
     public function __construct( array $languages = array() )
     {
-        $this->properties['languages'] = $languages;
+        $this->languages = $languages;
     }
 
     /**

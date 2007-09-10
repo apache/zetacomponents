@@ -10,8 +10,8 @@
 /**
  * An object of this class represents the Webdav property <lockdiscovery>.
  *
- * @property array(ezcWebdavLockDiscoveryPropertyActivelock) $activelock
- *           Lock information according to <activelock> elements.
+ * @property array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock
+ *           Lock information according to <activeLock> elements.
  *
  * @version //autogenlastmodified//
  * @package Webdav
@@ -21,12 +21,12 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavProperty
     /**
      * Creates a new ezcWebdavLockDiscoveryProperty.
      * 
-     * @param array(ezcWebdavLockDiscoveryPropertyActivelock) $activelock Lock info.
+     * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock Lock info.
      * @return void
      */
-    public function __construct( array $activelock = null )
+    public function __construct( array $activeLock = null )
     {
-        $this->activelock = $activelock;
+        $this->activeLock = $activeLock;
     }
 
     /**
@@ -48,10 +48,10 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavProperty
     {
         switch ( $propertyName )
         {
-            case 'activelock':
+            case 'activeLock':
                 if ( is_array( $propertyValue ) === false && $propertyValue !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(ezcWebdavLockDiscoveryPropertyActivelock)' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(ezcWebdavLockDiscoveryPropertyActiveLock)' );
                 }
                 break;
             default:

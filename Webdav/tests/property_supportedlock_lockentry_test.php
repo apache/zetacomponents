@@ -13,21 +13,21 @@ class ezcWebdavSupportedLockPropertyLockentryTest extends ezcWebdavPropertyTestC
     {
         $this->className = 'ezcWebdavSupportedLockPropertyLockentry';
         $this->defaultValues = array(
-            'LockType'  => ezcWebdavLockDiscoveryPropertyActivelock::TYPE_READ,
-            'lockscope' => ezcWebdavLockDiscoveryPropertyActivelock::SCOPE_SHARED,
+            'locktype'  => ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_READ,
+            'lockscope' => ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_SHARED,
         );
         $this->workingValues = array(
-            'LockType' => array(
-                ezcWebdavLockDiscoveryPropertyActivelock::TYPE_READ,
-                ezcWebdavLockDiscoveryPropertyActivelock::TYPE_WRITE,
+            'locktype' => array(
+                ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_READ,
+                ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_WRITE,
             ),
             'lockscope' => array(
-                ezcWebdavLockDiscoveryPropertyActivelock::SCOPE_SHARED,
-                ezcWebdavLockDiscoveryPropertyActivelock::SCOPE_EXCLUSIVE,
+                ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_SHARED,
+                ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_EXCLUSIVE,
             ),
         );
         $this->failingValues = array(
-            'LockType' => array(
+            'locktype' => array(
                 23,
                 23.34,
                 'foobar',

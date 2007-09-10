@@ -13,19 +13,19 @@ class ezcWebdavLockDiscoveryPropertyTest extends ezcWebdavPropertyTestCase
     {
         $this->className = 'ezcWebdavLockDiscoveryProperty';
         $this->defaultValues = array(
-            'activelock' => null,
+            'activeLock' => null,
         );
         $this->workingValues = array(
-            'activelock' => array(
+            'activeLock' => array(
                 null,
                 array(
-                    new ezcWebdavLockDiscoveryPropertyActivelock(),
-                    new ezcWebdavLockDiscoveryPropertyActivelock(),
+                    new ezcWebdavLockDiscoveryPropertyActiveLock(),
+                    new ezcWebdavLockDiscoveryPropertyActiveLock(),
                 ),
             ),
         );
         $this->failingValues = array(
-            'activelock' => array(
+            'activeLock' => array(
                 23,
                 23.34,
                 'foobar',

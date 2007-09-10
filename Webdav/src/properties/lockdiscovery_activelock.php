@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the lockdiscovery property activelock class.
+ * File containing the lockdiscovery property activeLock class.
  *
  * @package Webdav
  * @version //autogenlastmodified//
@@ -24,7 +24,7 @@
  * @version //autogenlastmodified//
  * @package Webdav
  */
-class ezcWebdavLockDiscoveryPropertyActivelock extends ezcWebdavSupportedLockPropertyLockentry
+class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPropertyLockentry
 {
     const DEPTH_ZERO      = 0;
     const DEPTH_ONE       = 1;
@@ -77,7 +77,7 @@ class ezcWebdavLockDiscoveryPropertyActivelock extends ezcWebdavSupportedLockPro
             case 'depth':
                 if ( $propertyValue !== self::DEPTH_INFINITY && $propertyValue !== self::DEPTH_ONE && $propertyValue !== self::DEPTH_ZERO )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockDiscoveryPropertyActivelock::DEPTH_*' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_*' );
                 }
                 break;
             case 'owner':

@@ -2,7 +2,7 @@
 
 require_once dirname( __FILE__ ) . '/property_test.php';
 
-class ezcWebdavLockDiscoveryPropertyActivelockTest extends ezcWebdavPropertyTestCase
+class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -11,28 +11,28 @@ class ezcWebdavLockDiscoveryPropertyActivelockTest extends ezcWebdavPropertyTest
 
     protected function setUp()
     {
-        $this->className = 'ezcWebdavLockDiscoveryPropertyActivelock';
+        $this->className = 'ezcWebdavLockDiscoveryPropertyActiveLock';
         $this->defaultValues = array(
-            'LockType'  => ezcWebdavLockDiscoveryPropertyActivelock::TYPE_READ,
-            'lockscope' => ezcWebdavLockDiscoveryPropertyActivelock::SCOPE_SHARED,
-            'depth'     => ezcWebdavLockDiscoveryPropertyActivelock::DEPTH_INFINITY,
+            'locktype'  => ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_READ,
+            'lockscope' => ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_SHARED,
+            'depth'     => ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_INFINITY,
             'owner'     => null,
             'timeout'   => null,
             'tokens'    => array(),
         );
         $this->workingValues = array(
-            'LockType' => array(
-                ezcWebdavLockDiscoveryPropertyActivelock::TYPE_READ,
-                ezcWebdavLockDiscoveryPropertyActivelock::TYPE_WRITE,
+            'locktype' => array(
+                ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_READ,
+                ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_WRITE,
             ),
             'lockscope' => array(
-                ezcWebdavLockDiscoveryPropertyActivelock::SCOPE_SHARED,
-                ezcWebdavLockDiscoveryPropertyActivelock::SCOPE_EXCLUSIVE,
+                ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_SHARED,
+                ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_EXCLUSIVE,
             ),
             'depth' => array(
-                ezcWebdavLockDiscoveryPropertyActivelock::DEPTH_ZERO,
-                ezcWebdavLockDiscoveryPropertyActivelock::DEPTH_ONE,
-                ezcWebdavLockDiscoveryPropertyActivelock::DEPTH_INFINITY,
+                ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_ZERO,
+                ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_ONE,
+                ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_INFINITY,
             ),
             'owner' => array(
                 null,
@@ -49,7 +49,7 @@ class ezcWebdavLockDiscoveryPropertyActivelockTest extends ezcWebdavPropertyTest
             ),
         );
         $this->failingValues = array(
-            'LockType' => array(
+            'locktype' => array(
                 23,
                 23.34,
                 'foobar',
