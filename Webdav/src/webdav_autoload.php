@@ -31,6 +31,8 @@ return array(
     'ezcWebdavGetlastmodifiedProperty'         => 'Webdav/properties/getlastmodified.php',
     'ezcWebdavLockdiscoveryProperty'           => 'Webdav/properties/lockdiscovery.php',
     'ezcWebdavLockdiscoveryPropertyActivelock' => 'Webdav/properties/lockdiscovery_activelock.php',
+    'ezcWebdavMemoryBackend'                   => 'Webdav/backend/memory.php',
+    'ezcWebdavMemoryBackendOptions'            => 'Webdav/options/backend_memory_options.php',
     'ezcWebdavPathFactory'                     => 'Webdav/path_factory.php',
     'ezcWebdavRequest'                         => 'Webdav/request.php',
     'ezcWebdavResourcetypeProperty'            => 'Webdav/properties/resourcetype.php',
