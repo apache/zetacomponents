@@ -23,7 +23,7 @@ class ezcWebdavHeadersNotValidatedException extends ezcWebdavException
      */
     public function __construct( $header )
     {
-        parent::__construct( "Header '{$header}' requested, before request headers has been validated." );
+        parent::__construct( "Header '{$header}' requested, before request headers have been validated." );
     }
 }
 
