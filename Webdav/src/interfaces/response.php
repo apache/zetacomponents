@@ -16,7 +16,7 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavResponse
+abstract class ezcWebdavResponse
 {
     /**
      * Container to hold the properties
@@ -26,19 +26,54 @@ class ezcWebdavResponse
     protected $properties = array();
     
     /**
-     * Creates a new request object.
-     * All request objects can have 
+     * Validates the headers set in this request.
+     * This method is called by ezcWebdavServer after the response object has
+     * been created by an ezcWebdavBackend. It must validate all headers
+     * specific for this request for existance of required headers and validity
+     * of all headers used  by the specific request implementation. The call of
+     * the parent method is *mandatory* to have common WebDAV and HTTP headers
+     * validated, too!
      *
      * @return void
+     *
+     * @throws ezcWebdavMissingHeaderException
+     *         if a required header is missing.
+     * @throws ezcWebdavInvalidHeaderException
+     *         if a header is present, but its content does not validate.
      */
-    public function __construct()
-    {
-        $this->headers = new ezcWebdavHeaderStorage();
-    }
-
     public function validateHeaders()
     {
-        // @todo: To be implemented...
+        // @todo Implement general header checks here.
+    }
+
+    /**
+     * Sets a header to a specified value.
+     * Sets the value for $header to $headerValue. All processable headers will
+     * be validated centrally in {@link validateHeaders()}.
+     *
+     * For validation of header content, the method {@link validateHeaders()}
+     * can be overwritten.
+     * 
+     * @param string $headerName 
+     * @param mixed $headerValue 
+     * @return void
+     */
+    public final function setHeader( $headerName, $headerValue )
+    {
+        $this->headers[$headerName] = $headerValue;
+    }
+
+    /**
+     * Returns the contents of a specific header.
+     * Returns the content of the header identified with $headerName with the
+     * given name and null if no content for the header is available.
+     * 
+     * @param string $headerName 
+     * @return mixed
+     */
+    public final function getHeader( $headerName )
+    {
+        return isset( $this->headers[$headerName] ) ? $this->headers[$headerName] : null;
     }
 
     /**
@@ -56,21 +91,7 @@ class ezcWebdavResponse
      * @throws ezcBasePropertyPermissionException
      *         if the property to be set is a read-only property.
      */
-    public function __set( $propertyName, $propertyValue )
-    {
-        switch ( $propertyName )
-        {
-            case 'headers':
-                if ( is_array( $propertyValue ) === false )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array' );
-                }
-                break;
-            default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
-        }
-        $this->properties[$propertyName] = $propertyValue;
-    }
+    abstract public function __set( $propertyName, $propertyValue );
 
     /**
      * Property get access.
