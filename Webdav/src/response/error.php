@@ -93,7 +93,7 @@ class ezcWebdavErrorResponse extends ezcWebdavResponse
      */
     public function __toString()
     {
-        return 'HTTP/1.1 ' . $this->type . ' ' . self::$errorNames[$this->type];
+        return 'HTTP/1.1 ' . $this->status . ' ' . self::$errorNames[$this->status];
     }
 }
 

@@ -112,5 +112,15 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
         $this->fail( 'Expected ezcBaseValueException.' );
     }
+
+    public function testErrorResponseToString()
+    {
+        $options = new ezcWebdavErrorResponse(ezcWebdavErrorResponse::STATUS_404, '/requested' );
+
+        $this->assertSame(
+            'HTTP/1.1 404 Not Found',
+            (string) $options
+        );
+    }
 }
 ?>
