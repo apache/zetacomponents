@@ -15,7 +15,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavPropertyTest
         $this->defaultValues = array(
             'lockType'  => ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_READ,
             'lockScope' => ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_SHARED,
-            'depth'     => ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_INFINITY,
+            'depth'     => ezcWebdavRequest::DEPTH_INFINITY,
             'owner'     => null,
             'timeout'   => null,
             'tokens'    => array(),
@@ -30,9 +30,9 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavPropertyTest
                 ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_EXCLUSIVE,
             ),
             'depth' => array(
-                ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_ZERO,
-                ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_ONE,
-                ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_INFINITY,
+                ezcWebdavRequest::DEPTH_ZERO,
+                ezcWebdavRequest::DEPTH_ONE,
+                ezcWebdavRequest::DEPTH_INFINITY,
             ),
             'owner' => array(
                 null,

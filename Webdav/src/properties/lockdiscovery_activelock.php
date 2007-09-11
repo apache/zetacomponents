@@ -40,7 +40,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      */
     public function __construct( $lockType         = self::TYPE_READ,
                                  $lockScope        = self::SCOPE_SHARED,
-                                 $depth            = self::DEPTH_INFINITY,
+                                 $depth            = ezcWebdavRequest::DEPTH_INFINITY,
                                  $owner            = null,
                                  DateTime $timeout = null,
                                  $tokens           = array() )
@@ -72,7 +72,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
         switch ( $propertyName )
         {
             case 'depth':
-                if ( $propertyValue !== self::DEPTH_INFINITY && $propertyValue !== self::DEPTH_ONE && $propertyValue !== self::DEPTH_ZERO )
+                if ( $propertyValue !== ezcWebdavRequest::DEPTH_INFINITY && $propertyValue !== ezcWebdavRequest::DEPTH_ONE && $propertyValue !== ezcWebdavRequest::DEPTH_ZERO )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_*' );
                 }
