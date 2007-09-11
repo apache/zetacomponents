@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogen//
+ * @version //autogentag//
  * @filesource
  * @package Tree
  */
@@ -24,7 +24,7 @@
  *           Which IDs should have the 'highlight' CSS class added.
  *
  * @package Tree
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcTreeVisitorXHTMLOptions extends ezcBaseOptions
 {

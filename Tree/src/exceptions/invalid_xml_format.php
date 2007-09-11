@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogen//
+ * @version //autogentag//
  * @filesource
  * @package Tree
  */
@@ -13,7 +13,7 @@
  * Exception that is thrown when an XML tree document does not validate.
  *
  * @package Tree
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcTreeInvalidXmlFormatException extends ezcTreeException
 {
