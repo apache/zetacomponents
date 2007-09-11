@@ -261,13 +261,13 @@ class ezcWebdavMemoryBackend
      * @param int $depth
      * @return array
      */
-    protected function memCopy( $fromPath, $toPath, $depth = -1 )
+    protected function memCopy( $fromPath, $toPath, $depth = wzcWebdavRequest::DEPTH_INFINITY )
     {
         $causeErrors = (bool) ( $this->options->failingOperations & ezcWebdavRequest::COPY );
         $errors = array();
         
         if ( !is_array( $this->content[$fromPath] ) ||
-             ( is_array( $this->content[$fromPath] ) && ( $depth === 0 ) ) )
+             ( is_array( $this->content[$fromPath] ) && ( $depth === wzcWebdavRequest::DEPTH_ZERO ) ) )
         {
             // Copy a ressource, or a collection, but the depth header told not
             // to recurse into collections
@@ -334,7 +334,7 @@ class ezcWebdavMemoryBackend
 
                 // To actually perform the copy operation, modify the
                 // destination ressource name
-                $newRessourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $ressource );
+                $newResourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $ressource );
                 
                 // Add collection to collection child recalculation array
                 if ( is_array( $this->content[$ressource] ) )
@@ -343,13 +343,13 @@ class ezcWebdavMemoryBackend
                 }
 
                 // Actually copy
-                $this->content[$newRessourceName] = $this->content[$ressource];
+                $this->content[$newResourceName] = $this->content[$ressource];
 
                 // Copy properties
-                $this->props[$newRessourceName] = $this->props[$ressource];
+                $this->props[$newResourceName] = $this->props[$ressource];
 
                 // Update modification date
-                $this->props[$newRessourceName]['getlastmodified'] = time();
+                $this->props[$newResourceName]['getlastmodified'] = time();
             }
 
             // Iterate over all copied collections and update the child
@@ -369,10 +369,10 @@ class ezcWebdavMemoryBackend
                         }
                     }
 
-                    // Ressource is not part of an error, so we just update its
+                    // Resource is not part of an error, so we just update its
                     // name.
-                    $newRessourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $child );
-                    $this->content[$collection][$nr] = $newRessourceName;
+                    $newResourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $child );
+                    $this->content[$collection][$nr] = $newResourceName;
                 }
             }
         }
@@ -438,12 +438,70 @@ class ezcWebdavMemoryBackend
      * an error by returning an {@link ezcWebdavErrorResponse} object, or any
      * other {@link ezcWebdavResponse} objects.
      * 
-     * @param ezcWebdavGetRequest $request The received request.
-     * @return ezcWebdavResponse A response to the received request.
+     * @param ezcWebdavGetRequest $request
+     * @return ezcWebdavResponse
      */
     public function get( ezcWebdavGetRequest $request )
     {
-        // @TODO: Implement.
+        $requested = $request->requestUri;
+
+        // Check if ressource is available
+        if ( !isset( $this->content[$requested] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                $requested
+            );
+        }
+
+        if ( !is_array( $this->content[$requested] ) )
+        {
+            // Just deliver file
+            return new ezcWebdavGetResourceResponse(
+                new ezcWebdavResource(
+                    $requested,
+                    $this->props[$requested],
+                    $this->content[$requested]
+                )
+            );
+        }
+
+        // Build and add an array with structs for contained collections and
+        // ressources of an collection if requested ressource is not just a
+        // file.
+        //
+        // It is up to the transport handler, to render some listing out of
+        // this. 
+        $contents = array();
+
+        foreach ( $this->content[$requested] as $child )
+        {
+            if ( is_array( $this->content[$child] ) )
+            {
+                // Add collection without any childs
+                $contents[] = new ezcWebdavCollection(
+                    $child,
+                    $this->props[$child]
+                );
+            }
+            else
+            {
+                // Add files without content
+                $contents[] = new ezcWebdavResource(
+                    $child,
+                    $this->props[$child]
+                );
+            }
+        }
+
+        // Return collection with contained childs
+        return new ezcWebdavGetCollectionResponse(
+            new ezcWebdavCollection(
+                $requested,
+                $this->props[$requested],
+                $contents
+            )
+        );
     }
 
     /**
@@ -454,8 +512,8 @@ class ezcWebdavMemoryBackend
      * an error by returning an {@link ezcWebdavErrorResponse} object, or any other
      * {@link ezcWebdavResponse} objects.
      * 
-     * @param ezcWebdavGetRequest $request The received request.
-     * @return ezcWebdavResponse A response to the received request.
+     * @param ezcWebdavGetRequest $request
+     * @return ezcWebdavResponse
      */
     public function head( ezcWebdavHeadRequest $request )
     {
@@ -473,8 +531,8 @@ class ezcWebdavMemoryBackend
      * The {@link ezcWebdavPropFindRequest} object contains a definition to
      * find one or more properties of a given file or collection.
      *
-     * @param ezcWebdavPropFindRequest $request The received request.
-     * @return ezcWebdavResponse A response to the received request.
+     * @param ezcWebdavPropFindRequest $request
+     * @return ezcWebdavResponse
      */
     public function propFind( ezcWebdavPropFindRequest $request )
     {
@@ -489,8 +547,8 @@ class ezcWebdavMemoryBackend
      * an error by returning an {@link ezcWebdavErrorResponse} object, or any
      * other {@link ezcWebdavResponse} objects.
      *
-     * @param ezcWebdavPropPatchRequest $request The received request.
-     * @return ezcWebdavResponse A response to the received request.
+     * @param ezcWebdavPropPatchRequest $request
+     * @return ezcWebdavResponse
      */
     public function propPatch( ezcWebdavPropPatchRequest $request )
     {

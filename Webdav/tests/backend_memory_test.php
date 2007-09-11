@@ -260,5 +260,92 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             'Setting on unknown ressource sould return false.'
         );
     }
+
+    public function testResourceGet()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavGetRequest( '/foo' );
+        $response = $backend->get( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavGetResourceResponse(
+                new ezcWebdavResource(
+                    '/foo', array(), 'bar'
+                )
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testCollectionGet()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+                'blah' => array(
+                    'fumdiidudel.txt' => 'Willst du an \'was Rundes denken, denk\' an einen Plastikball. Willst du \'was gesundes schenken, schenke einen Plastikball. Plastikball, Plastikball, ...',
+                ),
+            )
+        ) );
+
+        $request = new ezcWebdavGetRequest( '/bar/' );
+        $response = $backend->get( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavGetCollectionResponse(
+                new ezcWebdavCollection(
+                    '/bar/', array(), array(
+                        new ezcWebdavResource(
+                            '/bar/blubb', array()
+                        ),
+                        new ezcWebdavCollection(
+                            '/bar/blah/', array()
+                        ),
+                    )
+                )
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceDeepGet()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+                'blah' => array(
+                    'fumdiidudel.txt' => 'Willst du an \'was Rundes denken, denk\' an einen Plastikball. Willst du \'was gesundes schenken, schenke einen Plastikball. Plastikball, Plastikball, ...',
+                ),
+            )
+        ) );
+
+        $request = new ezcWebdavGetRequest( '/bar/blah/fumdiidudel.txt' );
+        $response = $backend->get( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavGetResourceResponse(
+                new ezcWebdavResource(
+                    '/bar/blah/fumdiidudel.txt', 
+                    array(), 
+                    'Willst du an \'was Rundes denken, denk\' an einen Plastikball. Willst du \'was gesundes schenken, schenke einen Plastikball. Plastikball, Plastikball, ...'
+                )
+            ),
+            'Expected response does not match real response.'
+        );
+    }
 }
 ?>
