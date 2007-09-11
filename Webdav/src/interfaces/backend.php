@@ -68,8 +68,8 @@ abstract class ezcWebdavBackend
      * an error by returning an {@link ezcWebdavErrorResponse} object, or any
      * other {@link ezcWebdavResponse} objects.
      * 
-     * @param ezcWebdavGetRequest $request The received request.
-     * @return ezcWebdavResponse A response to the received request.
+     * @param ezcWebdavGetRequest $request
+     * @return ezcWebdavResponse
      */
     abstract public function get( ezcWebdavGetRequest $request );
 
@@ -81,8 +81,8 @@ abstract class ezcWebdavBackend
      * an error by returning an {@link ezcWebdavErrorResponse} object, or any other
      * {@link ezcWebdavResponse} objects.
      * 
-     * @param ezcWebdavGetRequest $request The received request.
-     * @return ezcWebdavResponse A response to the received request.
+     * @param ezcWebdavGetRequest $request
+     * @return ezcWebdavResponse
      */
     abstract public function head( ezcWebdavHeadRequest $request );
 
@@ -97,8 +97,8 @@ abstract class ezcWebdavBackend
      * The {@link ezcWebdavPropFindRequest} object contains a definition to
      * find one or more properties of a given file or collection.
      *
-     * @param ezcWebdavPropFindRequest $request The received request.
-     * @return ezcWebdavResponse A response to the received request.
+     * @param ezcWebdavPropFindRequest $request
+     * @return ezcWebdavResponse
      */
     abstract public function propFind( ezcWebdavPropFindRequest $request );
 
@@ -110,8 +110,8 @@ abstract class ezcWebdavBackend
      * an error by returning an {@link ezcWebdavErrorResponse} object, or any
      * other {@link ezcWebdavResponse} objects.
      *
-     * @param ezcWebdavPropPatchRequest $request The received request.
-     * @return ezcWebdavResponse A response to the received request.
+     * @param ezcWebdavPropPatchRequest $request
+     * @return ezcWebdavResponse
      */
     abstract public function propPatch( ezcWebdavPropPatchRequest $request );
 }
