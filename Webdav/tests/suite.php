@@ -62,6 +62,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavGetEtagPropertyTest::suite() );
         $this->addTest( ezcWebdavLastModifiedPropertyTest::suite() );
         $this->addTest( ezcWebdavLockDiscoveryPropertyActiveLockTest::suite() );
+        $this->addTest( ezcWebdavLockDiscoveryPropertyTest::suite() );
         $this->addTest( ezcWebdavMemoryBackendTest::suite() );
         $this->addTest( ezcWebdavPathFactoryTest::suite() );
         $this->addTest( ezcWebdavResourceTypePropertyTest::suite() );
@@ -69,7 +70,6 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavSourcePropertyLinkTest::suite() );
         $this->addTest( ezcWebdavSourcePropertyTest::suite() );
         $this->addTest( ezcWebdavSupportedLockPropertyLockentryTest::suite() );
-        $this->addTest( ezcWebdavSupportedLockPropertyTest::suite() );
         $this->addTest( ezcWebdavSupportedLockPropertyTest::suite() );
     }
 
