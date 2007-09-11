@@ -1,11 +1,12 @@
 <?php
 /**
- * File containing the ezcTreeTransactionAlreadyStartedException class
+ * File containing the ezcTreeTransactionAlreadyStartedException class.
  *
- * @package Tree
- * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ * @filesource
+ * @package Tree
  */
 
 /**
@@ -19,10 +20,8 @@ class ezcTreeTransactionAlreadyStartedException extends ezcTreeException
 {
     /**
      * Constructs a new ezcTreeTransactionAlreadyStartedException.
-     *
-     * @return void
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct( "A transaction has already been started." );
     }

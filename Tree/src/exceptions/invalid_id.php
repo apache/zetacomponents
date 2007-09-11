@@ -1,11 +1,12 @@
 <?php
 /**
- * File containing the ezcTreeInvalidIdException class
+ * File containing the ezcTreeInvalidIdException class.
  *
- * @package Tree
- * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ * @filesource
+ * @package Tree
  */
 
 /**
@@ -21,9 +22,8 @@ class ezcTreeInvalidIdException extends ezcTreeException
      * Constructs a new ezcTreeInvalidIdException for the ID $nodeId.
      *
      * @param string $nodeId
-     * @return void
      */
-    function __construct( $nodeId )
+    public function __construct( $nodeId )
     {
         parent::__construct( "The node with ID '{$nodeId}' could not be found." );
     }

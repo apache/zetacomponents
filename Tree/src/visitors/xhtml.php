@@ -2,10 +2,11 @@
 /**
  * File containing the ezcTreeVisitorXHTML class.
  *
- * @package Tree
- * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ * @filesource
+ * @package Tree
  */
 
 /**
@@ -37,41 +38,37 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
     protected $edges = array();
 
     /**
-     * Holds the root ID
+     * Holds the root ID.
      *
      * @var string
      */
     protected $root = null;
 
     /**
-     * Holds the XML ID
+     * Holds the XML ID.
      *
      * @var string
      */
     protected $id;
 
     /**
-     * Holds the XHTML class
+     * Holds the XHTML class.
      *
      * @var string
      */
     protected $class;
 
     /**
-     * Whether the XML ID has been set
+     * Whether the XML ID has been set.
      *
      * @var bool
      */
     private $treeIdSet;
 
     /**
-     * Constructs a new ezcTreeVisitorXHTML visualizer using $symbolCharset as character set
+     * Constructs a new ezcTreeVisitorXHTML visualizer.
      *
-     * This class only supports 'ascii' and 'utf-8' as character sets.
-     * @see SYMBOL_UTF8
-     * @see SYMBOL_ASCII
-     *
-     * @param int $symbolCharset
+     * @param ezcTreeVisitorXHTMLOptions $options
      */
     public function __construct( ezcTreeVisitorXHTMLOptions $options = null )
     {
@@ -86,7 +83,7 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
     }
 
     /**
-     * This method formats a node's data.
+     * Formats a node's data.
      *
      * It is just a simple method, that provide an easy way to change the way
      * on how data is formatted when this class is extended.
@@ -104,7 +101,7 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
      * type and contents.
      *
      * @param ezcTreeVisitable $visitable
-     * @return boolean
+     * @return bool
      */
     public function visit( ezcTreeVisitable $visitable )
     {
@@ -205,7 +202,7 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
     }
 
     /**
-     * Returns a text representatation of a tree.
+     * Returns the XHTML representation of a tree.
      *
      * @return string
      * @ignore

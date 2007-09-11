@@ -1,8 +1,10 @@
 <?php
 /**
+ * File containing the ezcTreeXml class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Tree
  */
@@ -39,7 +41,7 @@
  *                the ezcTreeNode class.
  *
  * @package Tree
- * @version //autogentag//
+ * @version //autogen//
  * @mainclass
  */
 class ezcTreeXml extends ezcTree
@@ -90,7 +92,7 @@ class ezcTreeXml extends ezcTree
     private $dom;
 
     /**
-     * The file name that contains the tree as XML string
+     * The file name that contains the tree as XML string.
      *
      * @var string $xmlFile
      */
@@ -165,7 +167,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Creates a new XML tree in the file $xmlFile using $store as data store
+     * Creates a new XML tree in the file $xmlFile using $store as data store.
      *
      * The $prefix option can be used to change the prefix that is used for IDs
      * in the created tree. By default this is set to "id" so that numerical
@@ -196,7 +198,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Saves the internal DOM representation of the tree back to disk
+     * Saves the internal DOM representation of the tree back to disk.
      */
     public function saveFile()
     {
@@ -204,7 +206,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Returns whether the node with ID $nodeId exists
+     * Returns whether the node with ID $nodeId exists.
      *
      * @param string $nodeId
      * @return bool
@@ -216,7 +218,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Retrieves a DOMElement containing the node with node ID $nodeId
+     * Retrieves a DOMElement containing the node with node ID $nodeId.
      *
      * @param string $nodeId
      * @return DOMElement
@@ -341,8 +343,9 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Returns the node with ID $nodeId and all its children, sorted accoring to
-     * the `Depth-first sorting`_ algorithm.
+     * Returns the node with ID $nodeId and all its children, sorted according to
+     * the {@link http://en.wikipedia.org/wiki/Depth-first_search Depth-first sorting}
+     * algorithm.
      *
      * @param string $nodeId
      * @return ezcTreeNodeList
@@ -389,8 +392,9 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Returns the node with ID $nodeId and all its children, sorted accoring to
-     * the `Breadth-first sorting`_ algorithm.
+     * Returns the node with ID $nodeId and all its children, sorted according to
+     * the {@link http://en.wikipedia.org/wiki/Breadth-first_search Breadth-first sorting}
+     * algorithm.
      *
      * @param string $nodeId
      * @return ezcTreeNodeList
@@ -405,7 +409,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Returns the number of direct children of the node with ID $nodeId
+     * Returns the number of direct children of the node with ID $nodeId.
      *
      * @param string $nodeId
      * @return int
@@ -427,7 +431,7 @@ class ezcTreeXml extends ezcTree
 
     /**
      * Adds the number of children with for the node with ID $nodeId nodes to
-     * $count recursively.
+     * $count, recursively.
      *
      * @param int $count
      * @param string $nodeId
@@ -442,7 +446,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Returns the number of children of the node with ID $nodeId, recursively
+     * Returns the number of children of the node with ID $nodeId, recursively.
      *
      * @param string $nodeId
      * @return int
@@ -455,7 +459,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Returns the distance from the root node to the node with ID $nodeId
+     * Returns the distance from the root node to the node with ID $nodeId.
      *
      * @param string $nodeId
      * @return int
@@ -475,7 +479,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Returns whether the node with ID $nodeId has children
+     * Returns whether the node with ID $nodeId has children.
      *
      * @param string $nodeId
      * @return bool
@@ -496,7 +500,7 @@ class ezcTreeXml extends ezcTree
 
     /**
      * Returns whether the node with ID $childId is a direct child of the node
-     * with ID $parentId
+     * with ID $parentId.
      *
      * @param string $childId
      * @param string $parentId
@@ -516,7 +520,7 @@ class ezcTreeXml extends ezcTree
 
     /**
      * Returns whether the node with ID $childId is a direct or indirect child
-     * of the node with ID $parentId
+     * of the node with ID $parentId.
      *
      * @param string $childId
      * @param string $parentId
@@ -541,7 +545,7 @@ class ezcTreeXml extends ezcTree
 
     /**
      * Returns whether the nodes with IDs $child1Id and $child2Id are siblings
-     * (ie, the share the same parent)
+     * (ie, they share the same parent).
      *
      * @param string $child1Id
      * @param string $child2Id
@@ -558,7 +562,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Sets a new node as root node, this wipes also out the whole tree
+     * Sets a new node as root node, this also wipes out the whole tree.
      *
      * @param ezcTreeNode $node
      */
@@ -587,7 +591,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Returns the root node
+     * Returns the root node.
      *
      * This methods returns null if there is no root node.
      *
@@ -610,7 +614,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Adds the node $childNode as child of the node with ID $parentId
+     * Adds the node $childNode as child of the node with ID $parentId.
      *
      * @param string $parentId
      * @param ezcTreeNode $childNode
@@ -642,7 +646,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Deletes the node with ID $nodeId from the tree, including all its children
+     * Deletes the node with ID $nodeId from the tree, including all its children.
      *
      * @param string $nodeId
      */
@@ -680,7 +684,7 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
-     * Moves the node with ID $nodeId as child to the node with ID $targetParentId
+     * Moves the node with ID $nodeId as child to the node with ID $targetParentId.
      *
      * @param string $nodeId
      * @param string $targetParentId
@@ -707,6 +711,9 @@ class ezcTreeXml extends ezcTree
         }
     }
 
+    /**
+     * Fixates the transaction (saves the XML file).
+     */
     public function fixateTransaction()
     {
         $this->saveFile();

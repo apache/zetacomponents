@@ -1,8 +1,10 @@
 <?php
 /**
+ * File containing the ezcTreeMemoryDataStore class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Tree
  */
@@ -13,7 +15,7 @@
  * class.
  *
  * @package Tree
- * @version //autogentag//
+ * @version //autogen//
  */
 class ezcTreeMemoryDataStore implements ezcTreeDataStore
 {

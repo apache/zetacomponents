@@ -1,11 +1,12 @@
 <?php
 /**
- * File containing the ezcTreeInvalidXmlException class
+ * File containing the ezcTreeInvalidXmlException class.
  *
- * @package Tree
- * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ * @filesource
+ * @package Tree
  */
 
 /**
@@ -17,13 +18,12 @@
 class ezcTreeInvalidXmlException extends ezcTreeException
 {
     /**
-     * Constructs a new ezcTreeInvalidXmlException
+     * Constructs a new ezcTreeInvalidXmlException.
      *
      * @param string $xmlFile
      * @param array $errors
-     * @return void
      */
-    function __construct( $xmlFile, $errors )
+    public function __construct( $xmlFile, array $errors )
     {
         $message = '';
         foreach( $errors as $error )

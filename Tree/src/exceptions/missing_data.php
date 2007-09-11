@@ -1,11 +1,12 @@
 <?php
 /**
- * File containing the ezcTreeDataStoreMissingDataException class
+ * File containing the ezcTreeDataStoreMissingDataException class.
  *
- * @package Tree
- * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ * @filesource
+ * @package Tree
  */
 
 /**
@@ -18,12 +19,11 @@
 class ezcTreeDataStoreMissingDataException extends ezcTreeException
 {
     /**
-     * Constructs a new ezcTreeDataStoreMissingDataException
+     * Constructs a new ezcTreeDataStoreMissingDataException.
      *
      * @param string $nodeId
-     * @return void
      */
-    function __construct( $nodeId )
+    public function __construct( $nodeId )
     {
         parent::__construct( "The data store does not have data stored for the node with ID '$nodeId'." );
     }

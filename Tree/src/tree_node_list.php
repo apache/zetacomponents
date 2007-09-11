@@ -1,8 +1,10 @@
 <?php
 /**
+ * File containing the ezcTreeNodeList class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Tree
  */
@@ -53,7 +55,7 @@
  *                The nodes belonging to this list.
  *
  * @package Tree
- * @version //autogentag//
+ * @version //autogen//
  */
 class ezcTreeNodeList implements ArrayAccess
 {
@@ -65,7 +67,7 @@ class ezcTreeNodeList implements ArrayAccess
     private $nodes;
 
     /**
-     * Constructs a new ezcTreeNode object
+     * Constructs a new ezcTreeNodeList object.
      */
     public function __construct()
     {
@@ -77,6 +79,7 @@ class ezcTreeNodeList implements ArrayAccess
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
+     * @ignore
      */
     public function __get( $name )
     {
@@ -100,6 +103,7 @@ class ezcTreeNodeList implements ArrayAccess
      *         tried to be modified.
      * @param string $name
      * @param mixed $value
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -115,7 +119,7 @@ class ezcTreeNodeList implements ArrayAccess
     }
 
     /**
-     * Returns whether a node with the ID $nodeId exists in the list
+     * Returns whether a node with the ID $nodeId exists in the list.
      *
      * This method is part of the SPL ArrayAccess interface.
      *
@@ -129,7 +133,7 @@ class ezcTreeNodeList implements ArrayAccess
     }
 
     /**
-     * Returns the node with the ID $nodeId
+     * Returns the node with the ID $nodeId.
      *
      * This method is part of the SPL ArrayAccess interface.
      *
@@ -183,7 +187,7 @@ class ezcTreeNodeList implements ArrayAccess
 
 
     /**
-     * Adds the node $node to the list
+     * Adds the node $node to the list.
      *
      * @param ezcTreeNode $node
      */
@@ -193,9 +197,7 @@ class ezcTreeNodeList implements ArrayAccess
     }
 
     /**
-     * Fetches data for all nodes in the node list
-     *
-     * @param ezcTreeNodeList $nodeList
+     * Fetches data for all nodes in the node list.
      */
     public function fetchDataForNodes()
     {

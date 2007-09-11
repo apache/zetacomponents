@@ -1,11 +1,12 @@
 <?php
 /**
- * File containing the ezcTreeInvalidXmlFormatException class
+ * File containing the ezcTreeInvalidXmlFormatException class.
  *
- * @package Tree
- * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ * @filesource
+ * @package Tree
  */
 
 /**
@@ -17,13 +18,12 @@
 class ezcTreeInvalidXmlFormatException extends ezcTreeException
 {
     /**
-     * Constructs a new ezcTreeInvalidClassException
+     * Constructs a new ezcTreeInvalidXmlFormatException.
      *
      * @param string $xmlFile
      * @param array $errors
-     * @return void
      */
-    function __construct( $xmlFile, $errors )
+    public function __construct( $xmlFile, $errors )
     {
         $message = '';
         foreach( $errors as $error )

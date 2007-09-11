@@ -1,11 +1,12 @@
 <?php
 /**
- * File containing the ezcTreeInvalidIdException class
+ * File containing the ezcTreeIdsDoNotMatchException class.
  *
- * @package Tree
- * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ * @filesource
+ * @package Tree
  */
 
 /**
@@ -18,13 +19,12 @@
 class ezcTreeIdsDoNotMatchException extends ezcTreeException
 {
     /**
-     * Constructs a new ezcTreeIdsDoNotMatchException
+     * Constructs a new ezcTreeIdsDoNotMatchException.
      *
      * @param string $expectedId
      * @param string $actualId
-     * @return void
      */
-    function __construct( $expectedId, $actualId )
+    public function __construct( $expectedId, $actualId )
     {
         parent::__construct( "You can add the node with node ID '$expectedId' to the list with key '$actualId'. The key needs to match the node ID." );
     }

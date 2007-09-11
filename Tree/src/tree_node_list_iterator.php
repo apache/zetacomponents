@@ -1,17 +1,19 @@
 <?php
 /**
+ * File containing the ezcTreeNodeListIterator class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Tree
  */
 
 /**
- * ezcTreeNodeListIterator implements an iterator over a ezcTreeNodeList
+ * ezcTreeNodeListIterator implements an iterator over an ezcTreeNodeList.
  *
- * The iterator is instantiated with both an implementation ezcTree and
- * a ezcTreeNodeList object. It can be used to iterate over all the nodes
+ * The iterator is instantiated with both an implementation of an ezcTree and
+ * an ezcTreeNodeList object. It can be used to iterate over all the nodes
  * in a list.
  *
  * Example:
@@ -48,7 +50,7 @@
  * </code>
  *
  * @package Tree
- * @version //autogentag//
+ * @version //autogen//
  * @mainclass
  */
 class ezcTreeNodeListIterator implements Iterator
@@ -71,7 +73,7 @@ class ezcTreeNodeListIterator implements Iterator
     private $tree;
 
     /**
-     * Constructs a new ezcTreeNodeListIterator object over $nodeList
+     * Constructs a new ezcTreeNodeListIterator object over $nodeList.
      *
      * The $tree argument is used so that data can be fetched on-demand.
      *
@@ -90,7 +92,7 @@ class ezcTreeNodeListIterator implements Iterator
     }
 
     /**
-     * Rewinds the internal pointer back to the start of the nodelist
+     * Rewinds the internal pointer back to the start of the nodelist.
      */
     public function rewind()
     {
@@ -128,7 +130,7 @@ class ezcTreeNodeListIterator implements Iterator
     }
 
     /**
-     * Advances the internal pointer to the next node in the nodelist
+     * Advances the internal pointer to the next node in the nodelist.
      */
     public function next()
     {
@@ -140,9 +142,9 @@ class ezcTreeNodeListIterator implements Iterator
     }
 
     /**
-     * Returns whether the internal pointer is still valid
+     * Returns whether the internal pointer is still valid.
      *
-     * It returns false when the end of list has been reached
+     * It returns false when the end of list has been reached.
      *
      * @return bool
      */

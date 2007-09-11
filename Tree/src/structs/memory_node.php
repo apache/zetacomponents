@@ -1,8 +1,10 @@
 <?php
 /**
+ * File containing the ezcTreeMemoryNode class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Tree
  */
@@ -12,7 +14,7 @@
  * the ezcTreeMemory backend.
  *
  * @package Tree
- * @version //autogentag//
+ * @version //autogen//
  */
 class ezcTreeMemoryNode extends ezcBaseStruct
 {
@@ -44,7 +46,7 @@ class ezcTreeMemoryNode extends ezcBaseStruct
      * @param array(string=>ezcTreeMemoryNode) $children
      * @param ezcTreeMemoryNode $parent
      */
-    function __construct( ezcTreeNode $node, array $children, ezcTreeMemoryNode $parent = null  )
+    public function __construct( ezcTreeNode $node, array $children, ezcTreeMemoryNode $parent = null  )
     {
         $this->node = $node;
         $this->children = $children;

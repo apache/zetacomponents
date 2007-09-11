@@ -1,8 +1,10 @@
 <?php
 /**
+ * File containing the ezcTreeMemory class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Tree
  */
@@ -31,7 +33,7 @@
  *                the ezcTreeNode class.
  *
  * @package Tree
- * @version //autogentag//
+ * @version //autogen//
  * @mainclass
  */
 class ezcTreeMemory extends ezcTree
@@ -51,7 +53,7 @@ class ezcTreeMemory extends ezcTree
     private $rootNode;
 
     /**
-     * Constructs a new ezcTreeMemory object
+     * Constructs a new ezcTreeMemory object.
      *
      * The store that is used for data storage should be passed as the
      * $store argument.
@@ -64,7 +66,7 @@ class ezcTreeMemory extends ezcTree
     }
 
     /**
-     * A factory method that creates a new empty tree using the data store $store
+     * A factory method that creates a new empty tree using the data store $store.
      *
      * @param ezcTreeMemoryDataStore $store
      * @return ezcTreeMemory
@@ -78,7 +80,7 @@ class ezcTreeMemory extends ezcTree
     }
 
     /**
-     * Returns whether the node with ID $nodeId exists
+     * Returns whether the node with ID $nodeId exists.
      *
      * @param string $nodeId
      * @return bool
@@ -89,7 +91,7 @@ class ezcTreeMemory extends ezcTree
     }
 
     /**
-     * Returns the node identified by the ID $nodeId
+     * Returns the node identified by the ID $nodeId.
      *
      * @param string $nodeId
      * @throws ezcTreeInvalidIdException if there is no node with ID $nodeId
@@ -101,7 +103,7 @@ class ezcTreeMemory extends ezcTree
     }
 
     /**
-     * Returns the node container for node $nodeId
+     * Returns the node container for node $nodeId.
      *
      * @param string $nodeId
      * @throws ezcTreeInvalidIdException if there is no node with ID $nodeId
@@ -197,7 +199,8 @@ class ezcTreeMemory extends ezcTree
 
     /**
      * Returns the node with ID $nodeId and all its children, sorted accoring to
-     * the `Depth-first sorting`_ algorithm.
+     * the {@link http://en.wikipedia.org/wiki/Depth-first_search Depthth-first sorting}
+     * algorithm.
      *
      * @param string $nodeId
      * @return ezcTreeNodeList
@@ -242,8 +245,9 @@ class ezcTreeMemory extends ezcTree
     }
 
     /**
-     * Returns the node with ID $nodeId and all its children, sorted accoring to
-     * the `Breadth-first sorting`_ algorithm.
+     * Returns the node with ID $nodeId and all its children, sorted according to
+     * the {@link http://en.wikipedia.org/wiki/Breadth-first_search Breadth-first sorting}
+     * algorithm.
      *
      * @param string $nodeId
      * @return ezcTreeNodeList
@@ -258,7 +262,7 @@ class ezcTreeMemory extends ezcTree
     }
 
     /**
-     * Returns the number of direct children of the node with ID $nodeId
+     * Returns the number of direct children of the node with ID $nodeId.
      *
      * @param string $nodeId
      * @return int
@@ -517,6 +521,9 @@ class ezcTreeMemory extends ezcTree
         $nodeToMove->parent = $newParent;
     }
 
+    /**
+     * Fixates the transaction.
+     */
     public function fixateTransaction()
     {
     }

@@ -2,15 +2,16 @@
 /**
  * File containing the ezcTreeVisitorPlainText class.
  *
- * @package Tree
- * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ * @filesource
+ * @package Tree
  */
 
 /**
  * An implementation of the ezcTreeVisitor interface that generates
- * a plain text representatation of a tree structure.
+ * a plain text representation of a tree structure.
  *
  * <code>
  * <?php
@@ -47,12 +48,12 @@
 class ezcTreeVisitorPlainText implements ezcTreeVisitor
 {
     /**
-     * Represents the ASCII symbol set
+     * Represents the ASCII symbol set.
      */
     const SYMBOL_ASCII = 1;
 
     /**
-     * Represents the UTF-8 symbol set
+     * Represents the UTF-8 symbol set.
      */
     const SYMBOL_UTF8 = 2;
 
@@ -71,9 +72,12 @@ class ezcTreeVisitorPlainText implements ezcTreeVisitor
     protected $root = null;
 
     /**
-     * Constructs a new ezcTreeVisitorPlainText visualizer using $symbolCharset as character set
+     * Constructs a new ezcTreeVisitorPlainText visualizer using $symbolCharset
+     * as character set.
      *
-     * This class only supports 'ascii' and 'utf-8' as character sets.
+     * This class only supports 'ascii' and 'utf-8' as character sets. Default is
+     * 'utf-8'.
+     *
      * @see SYMBOL_UTF8
      * @see SYMBOL_ASCII
      *
@@ -101,7 +105,7 @@ class ezcTreeVisitorPlainText implements ezcTreeVisitor
      * type and contents.
      *
      * @param ezcTreeVisitable $visitable
-     * @return boolean
+     * @return bool
      */
     public function visit( ezcTreeVisitable $visitable )
     {
@@ -183,7 +187,7 @@ class ezcTreeVisitorPlainText implements ezcTreeVisitor
     }
 
     /**
-     * Returns a text representatation of a tree.
+     * Returns the text representatation of a tree.
      *
      * @return string
      * @ignore

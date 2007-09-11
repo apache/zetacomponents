@@ -2,10 +2,11 @@
 /**
  * File containing the ezcTreeVisitorGraphViz class.
  *
- * @package Tree
- * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ * @filesource
+ * @package Tree
  */
 
 /**
@@ -28,19 +29,19 @@ class ezcTreeVisitorGraphViz implements ezcTreeVisitor
     /**
      * Holds the displayed strings for each of the nodes.
      *
-     * @var array(string => string)
+     * @var array(string=>string)
      */
     protected $nodes = array();
 
     /**
      * Holds all the edges of the graph.
      *
-     * @var array( id => array( ezcTreeNode ) )
+     * @var array(id=>array(ezcTreeNode))
      */
     protected $edges = array();
 
     /**
-     * Creates a graphviz compliant ID out of the ID identifying $node
+     * Creates a graphviz compliant ID out of the ID identifying $node.
      *
      * @param ezcTreeNode $node
      * @return string
@@ -55,7 +56,7 @@ class ezcTreeVisitorGraphViz implements ezcTreeVisitor
      * type and contents.
      *
      * @param ezcTreeVisitable $visitable
-     * @return boolean
+     * @return bool
      */
     public function visit( ezcTreeVisitable $visitable )
     {
@@ -80,7 +81,7 @@ class ezcTreeVisitorGraphViz implements ezcTreeVisitor
     }
 
     /**
-     * Returns the contents as a graphviz .dot file.
+     * Returns the contents as a graphviz .dot file structure.
      *
      * @return string
      * @ignore

@@ -1,8 +1,10 @@
 <?php
 /**
+ * File containing the ezcTreeDataStore interface.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Tree
  */
@@ -12,7 +14,7 @@
  * tree data storage module should implement.
  *
  * @package Tree
- * @version //autogentag//
+ * @version //autogen//
  */
 interface ezcTreeDataStore
 {

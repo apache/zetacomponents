@@ -1,8 +1,10 @@
 <?php
 /**
+ * File containing the ezcTree class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Tree
  */
@@ -48,7 +50,7 @@
  *                the ezcTreeNode class.
  * 
  * @package Tree
- * @version //autogentag//
+ * @version //autogen//
  */
 abstract class ezcTree implements ezcTreeVisitable
 {
@@ -104,8 +106,8 @@ abstract class ezcTree implements ezcTreeVisitable
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @throws ezcBasePropertyPermissionException if a read-only property is
      *         tried to be modified.
-     * @throws ezcBaseValueException if a the value for a property is out of
-     *         range.
+     * @throws ezcBaseValueException if trying to assign a wrong value to the
+     *         property
      * @throws ezcBaseInvalidParentClassException
      *         if the class name passed as replacement for the ezcTreeNode
      *         classs does not inherit from the ezcTreeNode class.
@@ -144,7 +146,7 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
-     * Creates a new tree node with node ID $nodeId and $data
+     * Creates a new tree node with node ID $nodeId and $data.
      *
      * This method returns by default an object of the ezcTreeNode class, 
      * however if a replacement is configured through the nodeClassName property
@@ -153,7 +155,7 @@ abstract class ezcTree implements ezcTreeVisitable
      *
      * @param string $nodeId
      * @param mixed  $data
-     * @return instanceof(ezcTreeNode)
+     * @return ezcTreeNode
      */
     public function createNode( $nodeId, $data )
     {
@@ -162,7 +164,7 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
-     * Implements the accept method for visitation
+     * Implements the accept method for visiting.
      *
      * @param ezcTreeVisitor $visitor
      */
@@ -173,7 +175,7 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
-     * Returns whether the node with ID $nodeId exists
+     * Returns whether the node with ID $nodeId exists.
      *
      * @param string $nodeId
      * @return bool
@@ -181,7 +183,7 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function nodeExists( $nodeId );
 
     /**
-     * Returns the node identified by the ID $nodeId
+     * Returns the node identified by the ID $nodeId.
      *
      * @param string $nodeId
      * @throws ezcTreeInvalidIdException if there is no node with ID $nodeId
@@ -233,8 +235,9 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function fetchSubtree( $nodeId );
 
     /**
-     * Returns the node with ID $nodeId and all its children, sorted accoring to
-     * the `Breadth-first sorting`_ algorithm.
+     * Returns the node with ID $nodeId and all its children, sorted according to
+     * the {@link http://en.wikipedia.org/wiki/Breadth-first_search Breadth-first sorting}
+     * algorithm.
      *
      * @param string $nodeId
      * @return ezcTreeNodeList
@@ -242,8 +245,9 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function fetchSubtreeBreadthFirst( $nodeId );
 
     /**
-     * Returns the node with ID $nodeId and all its children, sorted accoring to
-     * the `Depth-first sorting`_ algorithm.
+     * Returns the node with ID $nodeId and all its children, sorted according to
+     * the {@link http://en.wikipedia.org/wiki/Depth-first_search Depth-first sorting}
+     * algorithm.
      *
      * @param string $nodeId
      * @return ezcTreeNodeList
@@ -251,7 +255,7 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function fetchSubtreeDepthFirst( $nodeId );
 
     /**
-     * Returns the number of direct children of the node with ID $nodeId
+     * Returns the number of direct children of the node with ID $nodeId.
      *
      * @param string $nodeId
      * @return int
@@ -259,7 +263,7 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function getChildCount( $nodeId );
 
     /**
-     * Returns the number of children of the node with ID $nodeId, recursively
+     * Returns the number of children of the node with ID $nodeId, recursively.
      *
      * @param string $nodeId
      * @return int
@@ -267,7 +271,7 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function getChildCountRecursive( $nodeId );
 
     /**
-     * Returns the distance from the root node to the node with ID $nodeId
+     * Returns the distance from the root node to the node with ID $nodeId.
      *
      * @param string $nodeId
      * @return int
@@ -275,7 +279,7 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function getPathLength( $nodeId );
 
     /**
-     * Returns whether the node with ID $nodeId has children
+     * Returns whether the node with ID $nodeId has children.
      *
      * @param string $nodeId
      * @return bool
@@ -284,7 +288,7 @@ abstract class ezcTree implements ezcTreeVisitable
 
     /**
      * Returns whether the node with ID $childId is a direct child of the node
-     * with ID $parentId
+     * with ID $parentId.
      *
      * @param string $childId
      * @param string $parentId
@@ -294,7 +298,7 @@ abstract class ezcTree implements ezcTreeVisitable
 
     /**
      * Returns whether the node with ID $childId is a direct or indirect child
-     * of the node with ID $parentId
+     * of the node with ID $parentId.
      *
      * @param string $childId
      * @param string $parentId
@@ -304,7 +308,7 @@ abstract class ezcTree implements ezcTreeVisitable
 
     /**
      * Returns whether the nodes with IDs $child1Id and $child2Id are siblings
-     * (ie, the share the same parent)
+     * (ie, they share the same parent).
      *
      * @param string $child1Id
      * @param string $child2Id
@@ -313,21 +317,21 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function isSiblingOf( $child1Id, $child2Id );
 
     /**
-     * Sets a new node as root node, this wipes also out the whole tree
+     * Sets a new node as root node, this also wipes out the whole tree.
      *
      * @param ezcTreeNode $node
      */
     abstract public function setRootNode( ezcTreeNode $node );
 
     /**
-     * Returns the root node
+     * Returns the root node.
      *
-     * @return ezcTreenode
+     * @return ezcTreeNode
      */
     abstract public function getRootNode();
 
     /**
-     * Adds the node $childNode as child of the node with ID $parentId
+     * Adds the node $childNode as child of the node with ID $parentId.
      *
      * @param string $parentId
      * @param ezcTreeNode $childNode
@@ -335,14 +339,14 @@ abstract class ezcTree implements ezcTreeVisitable
     abstract public function addChild( $parentId, ezcTreeNode $childNode );
 
     /**
-     * Deletes the node with ID $nodeId from the tree, including all its children
+     * Deletes the node with ID $nodeId from the tree, including all its children.
      *
      * @param string $nodeId
      */
     abstract public function delete( $nodeId );
 
     /**
-     * Moves the node with ID $nodeId as child to the node with ID $targetParentId
+     * Moves the node with ID $nodeId as child to the node with ID $targetParentId.
      *
      * @param string $nodeId
      * @param string $targetParentId
@@ -380,7 +384,7 @@ abstract class ezcTree implements ezcTreeVisitable
      * This method copies all the nodes, including associated data from the
      * used data store, from the tree $from to the tree $to.  Because this
      * function uses internally setRootNode() the target tree will be cleared
-     * out automatically.  The method will not check whether the $from and $to
+     * out automatically. The method will not check whether the $from and $to
      * trees share the same database table or data store, so make sure they are
      * different to prevent unexpected behavior.
      *
@@ -443,7 +447,7 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
-     * Adds a new transaction item to the list
+     * Adds a new transaction item to the list.
      *
      * @param ezcTreeTransactionItem $item
      */

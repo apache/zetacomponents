@@ -1,8 +1,10 @@
 <?php
 /**
+ * File containing the ezcTreeNode class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
+ * @version //autogen//
  * @filesource
  * @package Tree
  */
@@ -36,7 +38,7 @@
  *                                     data store implementations.
  *
  * @package Tree
- * @version //autogentag//
+ * @version //autogen//
  * @mainclass
  */
 class ezcTreeNode implements ezcTreeVisitable
@@ -49,7 +51,9 @@ class ezcTreeNode implements ezcTreeVisitable
     private $properties = array();
 
     /**
-     * Constructs a new ezcTreeNode object with ID $nodeId on tree $tree
+     * Constructs a new ezcTreeNode object with ID $nodeId on tree $tree.
+     *
+     * If a third argument is specified it is used as data for the new node.
      *
      * @param ezcTree $tree
      * @param string  $nodeId
@@ -109,6 +113,8 @@ class ezcTreeNode implements ezcTreeVisitable
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @throws ezcBasePropertyPermissionException if a read-only property is
      *         tried to be modified.
+     * @throws ezcBaseValueException if trying to assign a wrong value to
+     *         the property
      * @param string $name
      * @param mixed $value
      * @ignore
@@ -146,7 +152,7 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Implements the accept method for visitation
+     * Implements the accept method for visiting.
      *
      * @param ezcTreeVisitor $visitor
      */
@@ -160,7 +166,7 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Adds the node $node as child of the current node to the tree
+     * Adds the node $node as child of the current node to the tree.
      *
      * @param ezcTreeNode $node
      */
@@ -170,7 +176,7 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Returns all the children of this node
+     * Returns all the children of this node.
      *
      * @return ezcTreeNodeList
      */
@@ -180,7 +186,7 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Returns all the nodes in the path from the root node to this node
+     * Returns all the nodes in the path from the root node to this node.
      *
      * @return ezcTreeNodeList
      */
@@ -190,7 +196,7 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Returns the parent node of this node
+     * Returns the parent node of this node.
      *
      * @return ezcTreeNode
      */
@@ -200,8 +206,9 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Returns this node and all its children, sorted accoring to the
-     * Depth-first sorting algorithm.
+     * Returns this node and all its children, sorted according to the
+     * {@link http://en.wikipedia.org/wiki/Depth-first_search Depth-first sorting}
+     * algorithm.
      *
      * @return ezcTreeNodeList
      */
@@ -223,7 +230,8 @@ class ezcTreeNode implements ezcTreeVisitable
 
     /**
      * Returns this node and all its children, sorted accoring to the
-     * Breadth-first sorting algorithm.
+     * {@link http://en.wikipedia.org/wiki/Breadth-first_search Breadth-first sorting}
+     * algorithm.
      *
      * @return ezcTreeNodeList
      */
@@ -233,7 +241,7 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Returns the number of direct children of this node
+     * Returns the number of direct children of this node.
      *
      * @return int
      */
@@ -244,7 +252,7 @@ class ezcTreeNode implements ezcTreeVisitable
 
     /**
      * Returns the number of children of this node, recursively iterating over
-     * the children
+     * the children.
      *
      * @return int
      */
@@ -254,7 +262,7 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Returns the distance from the root node to this node
+     * Returns the distance from the root node to this node.
      *
      * @return int
      */
@@ -264,7 +272,7 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Returns whether this node has children
+     * Returns whether this node has children.
      *
      * @return bool
      */
@@ -274,7 +282,7 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
-     * Returns whether this node is a direct child of the $parentNode node
+     * Returns whether this node is a direct child of the $parentNode node.
      *
      * @param ezcTreeNode $parentNode
      *
@@ -287,7 +295,7 @@ class ezcTreeNode implements ezcTreeVisitable
 
     /**
      * Returns whether this node is a direct or indirect child of the
-     * $parentNode node
+     * $parentNode node.
      *
      * @param ezcTreeNode $parentNode
      *
@@ -300,7 +308,7 @@ class ezcTreeNode implements ezcTreeVisitable
 
     /**
      * Returns whether this node, and the $child2Node node are are siblings
-     * (ie, the share the same parent)
+     * (ie, they share the same parent).
      *
      * @param ezcTreeNode $child2Node
      *
@@ -311,6 +319,12 @@ class ezcTreeNode implements ezcTreeVisitable
         return $this->tree->isSiblingOf( $this->id, $child2Node->id );
     }
 
+    /**
+     * Returns the text representation of a node (its ID).
+     *
+     * @return string
+     * @ignore
+     */
     public function __toString()
     {
         return $this->id;
