@@ -34,6 +34,7 @@ require_once 'property_source_test.php';
 require_once 'property_supportedlock_lockentry_test.php';
 require_once 'property_supportedlock_test.php';
 require_once 'response_error_test.php';
+require_once 'response_get_test.php';
 require_once 'server_options_test.php';
 require_once 'server_test.php';
 
@@ -54,6 +55,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavCreationDatePropertyTest::suite() );
         $this->addTest( ezcWebdavDisplayNamePropertyTest::suite() );
         $this->addTest( ezcWebdavErrorResonseTest::suite() );
+        $this->addTest( ezcWebdavGetResponseTest::suite() );
         $this->addTest( ezcWebdavGetContentLanguagePropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentLengthPropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentTypePropertyTest::suite() );
