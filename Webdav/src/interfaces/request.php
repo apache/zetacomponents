@@ -20,6 +20,8 @@ abstract class ezcWebdavRequest
 {
     /**
      * Constants for request types.
+     *
+     * @todo Remove these from here, they are only for testing!
      */
     const GET       = 1;
     const HEAD      = 2;
