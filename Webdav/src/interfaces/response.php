@@ -29,7 +29,6 @@ class ezcWebdavResponse
      * Creates a new request object.
      * All request objects can have 
      *
-     * @param array $headers Headers.
      * @return void
      */
     public function __construct()
