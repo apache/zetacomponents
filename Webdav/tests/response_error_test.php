@@ -29,8 +29,6 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testGetUnknownProperty()
     {
-        new ezcWebdavErrorResponse( 404 );
-        
         $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
 
         try
