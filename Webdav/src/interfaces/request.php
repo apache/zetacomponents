@@ -58,6 +58,15 @@ abstract class ezcWebdavRequest
     protected $headers = array();
 
     /**
+     * Indicates wheather the validateHeaders method has already been called.
+     * Otherwise getHeader() will throw an exception because of unvalidated
+     * headers.
+     * 
+     * @var bool
+     */
+    private $validated = false;
+
+    /**
      * Validates the headers set in this request.
      * This method is called by ezcWebdavServer after the request object has
      * been created by an ezcWebdavTransport. It must validate all headers
@@ -76,6 +85,8 @@ abstract class ezcWebdavRequest
     public function validateHeaders()
     {
         // @todo Implement general header checks here.
+        
+        $this->validated = true;
     }
 
     /**
@@ -92,6 +103,11 @@ abstract class ezcWebdavRequest
      */
     public final function setHeader( $headerName, $headerValue )
     {
+        if ( $this->validated !== true )
+        {
+            throw new ezcWebdavHeadersNotValidatedException( $headerName );
+        }
+
         $this->headers[$headerName] = $headerValue;
     }
 
