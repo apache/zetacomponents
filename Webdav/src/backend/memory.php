@@ -252,21 +252,141 @@ class ezcWebdavMemoryBackend
 
     /**
      * Copy ressources recursively from one path to another.
+     *
+     * Returns an array with ressources / collections, which caused an error
+     * during copy operation. An empty array means full success.
      * 
      * @param string $fromPath 
      * @param string $toPath 
-     * @return void
+     * @param int $depth
+     * @return array
      */
-    protected function memCopy( $fromPath, $toPath )
+    protected function memCopy( $fromPath, $toPath, $depth = -1 )
     {
-        // @TODO: Implemented
+        $causeErrors = (bool) ( $this->options->failingOperations & ezcWebdavRequest::COPY );
+        $errors = array();
+        
+        if ( !is_array( $this->content[$fromPath] ) ||
+             ( is_array( $this->content[$fromPath] ) && ( $depth === 0 ) ) )
+        {
+            // Copy a ressource, or a collection, but the depth header told not
+            // to recurse into collections
+            if ( $causeErrors && preg_match( $this->options->failForRegexp, $fromPath ) )
+            {
+                // Completely abort with error
+                return array( $fromPath );
+            }
+
+            // Perform copy operation
+            if ( is_array( $this->content[$fromPath] ) )
+            {
+                // Create a new empty collection
+                $this->content[$toPath] = array();
+            }
+            else
+            {
+                // Copy file content
+                $this->content[$toPath] = $this->content[$fromPath];
+            }
+
+            // Copy properties
+            $this->props[$toPath] = $this->props[$fromPath];
+
+            // Update modification date
+            $this->props[$toPath]['getlastmodified'] = time();
+        }
+        else
+        {
+            // Copy a collection
+            $errnousSubtrees = array();
+
+            // Array of copied collections, where the child names are required
+            // to be modified depending on the success of the copy operation.
+            $copiedCollections = array();
+
+            // Check all nodes, if they math the fromPath
+            foreach ( $this->content as $ressource => $content )
+            {
+                if ( strpos( $content, $fromPath ) !== 0 )
+                {
+                    // This ressource is not affected by the copy operation
+                    continue;
+                }
+
+                // Check if this ressource should be skipped, because
+                // already one of the parent nodes caused an error.
+                foreach ( $errnousSubtrees as $subtree )
+                {
+                    if ( strpos( $ressource, $subtree ) )
+                    {
+                        // Skip ressource, then.
+                        continue 2;
+                    }
+                }
+
+                // Check if this ressource should cause an error
+                if ( $causeErrors && preg_match( $this->options->failForRegexp, $ressource ) )
+                {
+                    // Cause an error and skip ressource
+                    $errors[] = $ressource;
+                    continue;
+                }
+
+                // To actually perform the copy operation, modify the
+                // destination ressource name
+                $newRessourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $ressource );
+                
+                // Add collection to collection child recalculation array
+                if ( is_array( $this->content[$ressource] ) )
+                {
+                    $copiedCollections[] = $ressource;
+                }
+
+                // Actually copy
+                $this->content[$newRessourceName] = $this->content[$ressource];
+
+                // Copy properties
+                $this->props[$newRessourceName] = $this->props[$ressource];
+
+                // Update modification date
+                $this->props[$newRessourceName]['getlastmodified'] = time();
+            }
+
+            // Iterate over all copied collections and update the child
+            // references
+            foreach ( $copiedCollections as $collection )
+            {
+                foreach ( $this->content[$collection] as $nr => $child )
+                {
+                    foreach ( $errnousSubtrees as $subtree )
+                    {
+                        if ( strpos( $child, $subtree ) )
+                        {
+                            // If child caused an error, it has not been
+                            // copied, so we remove it.
+                            unset( $this->content[$collection][$nr] );
+                            continue 2;
+                        }
+                    }
+
+                    // Ressource is not part of an error, so we just update its
+                    // name.
+                    $newRessourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $child );
+                    $this->content[$collection][$nr] = $newRessourceName;
+                }
+            }
+        }
+
+        return $errors;
     }
 
     /**
-     * Delete everything below this path
+     * Delete everything below this path.
+     *
+     * Returns false if the delete process failed.
      * 
      * @param string $path 
-     * @return void
+     * @return bool
      */
     protected function memDelete( $path )
     {
@@ -274,7 +394,7 @@ class ezcWebdavMemoryBackend
         {
             if ( preg_match( $this->options->failForRegexp, $path ) )
             {
-                // @TODO: Issue error
+                return false;
             }
         }
 
@@ -295,6 +415,8 @@ class ezcWebdavMemoryBackend
                 unset( $this->props[$name] );
             }
         }
+
+        return true;
     }
 
     /**
