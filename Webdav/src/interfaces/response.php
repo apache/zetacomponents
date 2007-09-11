@@ -91,7 +91,10 @@ abstract class ezcWebdavResponse
      * @throws ezcBasePropertyPermissionException
      *         if the property to be set is a read-only property.
      */
-    abstract public function __set( $propertyName, $propertyValue );
+    public function __set( $propertyName, $propertyValue )
+    {
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
 
     /**
      * Property get access.
