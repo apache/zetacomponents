@@ -114,11 +114,6 @@ abstract class ezcWebdavRequest
      */
     public final function setHeader( $headerName, $headerValue )
     {
-        if ( $this->validated !== true )
-        {
-            throw new ezcWebdavHeadersNotValidatedException( $headerName );
-        }
-
         $this->headers[$headerName] = $headerValue;
     }
 
@@ -132,6 +127,11 @@ abstract class ezcWebdavRequest
      */
     public final function getHeader( $headerName )
     {
+        if ( $this->validated !== true )
+        {
+            throw new ezcWebdavHeadersNotValidatedException( $headerName );
+        }
+
         return isset( $this->headers[$headerName] ) ? $this->headers[$headerName] : null;
     }
 
