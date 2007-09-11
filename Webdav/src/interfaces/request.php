@@ -45,14 +45,14 @@ abstract class ezcWebdavRequest
      * @param array $headers Headers.
      * @return void
      */
-    public function __construct( ezcWebdavHeaderStorage $headers = null )
+    public function __construct()
     {
-        $this->headers = ( $headers === null ) ? new ezcWebdavHeaderStorage() : $headers;
+        $this->headers = new ezcWebdavHeaderStorage();
     }
 
     public function validateHeaders()
     {
-        // @todo: To be implemented...
+        // @todo Implement general header checks here.
     }
 
     /**

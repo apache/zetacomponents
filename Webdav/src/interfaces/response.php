@@ -32,9 +32,9 @@ class ezcWebdavResponse
      * @param array $headers Headers.
      * @return void
      */
-    public function __construct( ezcWebdavHeaderStorage $headers = null )
+    public function __construct()
     {
-        $this->headers = ( $headers === null ) ? new ezcWebdavHeaderStorage() : $headers;
+        $this->headers = new ezcWebdavHeaderStorage();
     }
 
     public function validateHeaders()
