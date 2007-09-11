@@ -32,6 +32,13 @@ abstract class ezcWebdavRequest
     const MKCOL     = 256;
 
     /**
+     * Constants for the 'Depth' 
+     */
+    const DEPTH_ZERO      = 0;
+    const DEPTH_ONE       = 1;
+    const DEPTH_INFINITY  = -1;
+
+    /**
      * Container to hold the properties
      *
      * @var array(string=>mixed)
