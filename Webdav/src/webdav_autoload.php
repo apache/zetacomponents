@@ -38,7 +38,7 @@ return array(
     'ezcWebdavPathFactory'                     => 'Webdav/path_factory.php',
     'ezcWebdavRequest'                         => 'Webdav/interfaces/request.php',
     'ezcWebdavResourceTypeProperty'            => 'Webdav/properties/resourcetype.php',
-    'ezcWebdavResponse'                        => 'Webdav/response.php',
+    'ezcWebdavResponse'                        => 'Webdav/interfaces/response.php',
     'ezcWebdavServer'                          => 'Webdav/server.php',
     'ezcWebdavServerOptions'                   => 'Webdav/options/server.php',
     'ezcWebdavSourceProperty'                  => 'Webdav/properties/source.php',
