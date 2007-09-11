@@ -13,16 +13,8 @@
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavGetRequest
+class ezcWebdavGetRequest extends ezcWebdavRequest
 {
-    /**
-     * Requested files / collections
-     * 
-     * @var string
-     */
-    public $files = array();
-
-    // ...
 }
 
 ?>
