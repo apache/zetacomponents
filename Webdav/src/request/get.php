@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the class representing a GET request to the webdav server.
+ * File containing the class representing a GET request to the WebDAV server.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Struct containing all relevant information about a webdav GET request.
+ * Struct-like class representing all relevant information about a webdav GET request.
  *
  * @version //autogentag//
  * @package Webdav
