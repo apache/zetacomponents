@@ -74,7 +74,7 @@ abstract class ezcWebdavRequest
      */
     public function __construct( $requestUri )
     {
-        $this->requestUri = $requestUri;
+        $this->properties['requestUri'] = $requestUri;
     }
 
     /**
