@@ -83,7 +83,7 @@ abstract class ezcWebdavRequest
             case 'headers':
                 if ( is_array( $propertyValue ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavHeaderStorage' );
                 }
                 break;
             default:
