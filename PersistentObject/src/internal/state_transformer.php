@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentFindIterator class
+ * File containing the ezcPersistentStateTransformer class.
  *
  * @package PersistentObject
  * @version //autogen//
