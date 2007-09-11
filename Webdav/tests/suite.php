@@ -19,6 +19,7 @@ require_once 'test_case.php';
  */
 require_once 'backend_memory_test.php';
 require_once 'path_factory_test.php';
+
 require_once 'property_creationdate_test.php';
 require_once 'property_displayname_test.php';
 require_once 'property_getcontentlanguage_test.php';
@@ -33,8 +34,12 @@ require_once 'property_source_link_test.php';
 require_once 'property_source_test.php';
 require_once 'property_supportedlock_lockentry_test.php';
 require_once 'property_supportedlock_test.php';
+
+require_once 'request_copy_test.php';
+
 require_once 'response_error_test.php';
 require_once 'response_get_test.php';
+
 require_once 'server_options_test.php';
 require_once 'server_test.php';
 
@@ -71,6 +76,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavSourcePropertyTest::suite() );
         $this->addTest( ezcWebdavSupportedLockPropertyLockentryTest::suite() );
         $this->addTest( ezcWebdavSupportedLockPropertyTest::suite() );
+        $this->addTest( ezcWebdavCopyRequestTest::suite() );
     }
 
     public static function suite()
