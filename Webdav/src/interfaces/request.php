@@ -38,8 +38,8 @@ abstract class ezcWebdavRequest
      *
      * @see ezcWebdavLockDiscoveryPropertyActiveLock
      */
-    const DEPTH_ZERO      = 0;
-    const DEPTH_ONE       = 1;
+    const DEPTH_ZERO      =  0;
+    const DEPTH_ONE       =  1;
     const DEPTH_INFINITY  = -1;
 
     /**
