@@ -67,6 +67,17 @@ abstract class ezcWebdavRequest
     private $validated = false;
 
     /**
+     * Construct request class with requested URI
+     * 
+     * @param string $requestUri 
+     * @return void
+     */
+    public function __construct( $requestUri )
+    {
+        $this->requestUri = $requestUri;
+    }
+
+    /**
      * Validates the headers set in this request.
      * This method is called by ezcWebdavServer after the request object has
      * been created by an ezcWebdavTransport. It must validate all headers
@@ -141,7 +152,17 @@ abstract class ezcWebdavRequest
      */
     public function __set( $propertyName, $propertyValue )
     {
-        throw new ezcBasePropertyNotFoundException( $propertyName );
+        switch ( $propertyName )
+        {
+            case 'requestUri':
+                throw new ezcBasePropertyPermissionException( 
+                    $propertyName, 
+                    ezcBasePropertyPermissionException::READ
+                );
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
     }
 
     /**
