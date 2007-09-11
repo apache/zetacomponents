@@ -31,12 +31,12 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
     {
         new ezcWebdavErrorResponse( 404 );
         
-        $options = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
+        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
 
         try
         {
             // Read access
-            $options->unknownProperty;
+            $response->unknownProperty;
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
@@ -48,11 +48,11 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testSetUnknownProperty()
     {
-        $options = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
+        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
 
         try
         {
-            $options->unknownProperty = 42;
+            $response->unknownProperty = 42;
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
@@ -64,17 +64,17 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testErrorResponseOptionStatus()
     {
-        $options = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
+        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
 
         $this->assertSame(
             ezcWebdavErrorResponse::STATUS_404,
-            $options->status,
+            $response->status,
             'Wrong default value for property type in class ezcWebdavErrorResponse.'
         );
 
         try
         {
-            $options->status = 200;
+            $response->status = 200;
         }
         catch ( ezcBaseValueException $e )
         {
@@ -86,24 +86,24 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testErrorResponseOptionRequestUri()
     {
-        $options = new ezcWebdavErrorResponse(ezcWebdavErrorResponse::STATUS_404, '/requested' );
+        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404, '/requested' );
 
         $this->assertSame(
             '/requested',
-            $options->requestUri,
+            $response->requestUri,
             'Wrong default value for property requestUri in class ezcWebdavErrorResponse.'
         );
 
-        $options->requestUri = '/foo';
+        $response->requestUri = '/foo';
         $this->assertSame(
             '/foo',
-            $options->requestUri,
+            $response->requestUri,
             'Setting property value did not work for property requestUri in class ezcWebdavErrorResponse.'
         );
 
         try
         {
-            $options->requestUri = false;
+            $response->requestUri = false;
         }
         catch ( ezcBaseValueException $e )
         {
@@ -115,11 +115,11 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testErrorResponseToString()
     {
-        $options = new ezcWebdavErrorResponse(ezcWebdavErrorResponse::STATUS_404, '/requested' );
+        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404, '/requested' );
 
         $this->assertSame(
             'HTTP/1.1 404 Not Found',
-            (string) $options
+            (string) $response
         );
     }
 }
