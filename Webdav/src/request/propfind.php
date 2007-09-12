@@ -58,7 +58,7 @@ class ezcWebdavPropFindRequest extends ezcWebdavRequest
 
         // Create properties
         $this->properties['allProp']  = false;
-        $this->properties['propName'] = null;
+        $this->properties['propName'] = false;
         $this->properties['prop']     = null;
     }
 
@@ -102,7 +102,7 @@ class ezcWebdavPropFindRequest extends ezcWebdavRequest
                 }
                 break;
             case 'prop':
-                if ( is_array( $propertyValue ) === false && $propertyValue !== null )
+                if ( ( $propertyValue instanceof ezcWebdavPropertyStorage ) === false && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(string) or null' );
                 }

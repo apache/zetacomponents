@@ -51,8 +51,7 @@ class ezcWebdavPropFindRequestTest extends ezcWebdavRequestTestCase
                 false,
             ),
             'prop' => array(
-                array(),
-                array( 'foo', 'bar' ),
+                new ezcWebdavPropertyStorage(),
                 null
             ),
         );
@@ -78,6 +77,7 @@ class ezcWebdavPropFindRequestTest extends ezcWebdavRequestTestCase
                 true,
                 false,
                 new stdClass(),
+                array( 23, 42),
             ),
         );
     }

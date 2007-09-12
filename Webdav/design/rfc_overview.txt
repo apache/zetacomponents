@@ -445,6 +445,11 @@ Allows the setting, updating and removing of 1 or more properties. 1 request
 represents a transaction and can contain multiple manipulations of different
 kinds on different resources.
 
+.. Danger::
+   The RFC seems not to state anything about PROPPATCH on collection resources.
+   We decided internally to perform the PROPPATCH with a Depth of 0 on
+   collections.
+
 Header
 ======
 
