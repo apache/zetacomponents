@@ -35,10 +35,16 @@ class ezcWebdavCopyRequest extends ezcWebdavRequest
      * Creates a new COPY request object.
      * Sets the defaults for the optional headers for this request.
      * 
+     * @param string $requestUri
+     * @param string $destination
      * @return void
      */
-    public function __construct()
+    public function __construct( $requestUri, $destination )
     {
+        // Set from constructor values
+        parent::__construct( $requestUri );
+        $this->headers['Destination'] = $destination;
+
         // Set header defaults
         $this->headers['Overwrite'] = 'T';
         $this->headers['Depth']     = ezcWebdavRequest::DEPTH_ZERO;
