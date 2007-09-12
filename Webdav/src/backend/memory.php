@@ -159,7 +159,7 @@ class ezcWebdavMemoryBackend
                 'creationdate'          => 1054034820,
                 'displayname'           => basename( $name ),
                 'getcontentlanguage'    => 'en',
-                'getcontentlength'      => strlen( $this->content[$name] ),
+                'getcontentlength'      => ( is_array( $this->content[$name] ) ? 0 : strlen( $this->content[$name] ) ),
                 'getcontenttype'        => 'application/octet-stream',
                 'getetag'               => md5( $name ),
                 'getlastmodified'       => 1124118780,
