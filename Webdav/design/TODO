@@ -1,1 +1,5 @@
+TODO
+====
+
 - Handle external URLs in path factory and backends (Bail out with 502 - Bad Gateway)
+- Always handle 404 in backend (even when not explicitely descibed)
