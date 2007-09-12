@@ -17,7 +17,6 @@
  *
  * Optional headers for this request are:
  * - Overwrite (default: 'T')
- * - Depth (default: ezcWebdavRequest::DEPTH_ZERO)
  * 
  * @package Webdav
  * @version //autogen//
@@ -47,7 +46,6 @@ class ezcWebdavMoveRequest extends ezcWebdavRequest
 
         // Set header defaults
         $this->headers['Overwrite'] = 'T';
-        $this->headers['Depth']     = ezcWebdavRequest::DEPTH_ZERO;
 
         // Create properties
         $this->properties['propertyBehaviour'] = null;
@@ -114,23 +112,6 @@ class ezcWebdavMoveRequest extends ezcWebdavRequest
                 'Overwrite',
                 $this->headers['Overwrite'],
                 "'T' or 'F'"
-            );
-        }
-        
-        if ( isset( $this->headers['Depth'] ) === false )
-        {
-            throw new ezcWebdavMissingHeaderException( 'Depth' );
-        }
-
-        if ( $this->headers['Depth'] !== ezcWebdavRequest::DEPTH_ZERO
-            && $this->headers['Depth'] !== ezcWebdavRequest::DEPTH_ONE 
-            && $this->headers['Depth'] !== ezcWebdavRequest::DEPTH_INFINITY )
-        {
-
-            throw new ezcWebdavInvalidHeaderException(
-                'Depth',
-                $this->headers['Depth'],
-                'ezcWebdavRequest::DEPTH_ZERO, ezcWebdavRequest::DEPTH_ONE or ezcWebdavRequest::DEPTH_INFINITY'
             );
         }
 

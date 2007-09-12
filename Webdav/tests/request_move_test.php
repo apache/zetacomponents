@@ -66,15 +66,6 @@ class ezcWebdavMoveRequestTest extends ezcWebdavRequestTestCase
         
         $req->setHeader( 'Overwrite', 'T' );
         $req->validateHeaders();
-
-        $req->setHeader( 'Depth', ezcWebdavMoveRequest::DEPTH_ONE );
-        $req->validateHeaders();
-
-        $req->setHeader( 'Depth', ezcWebdavMoveRequest::DEPTH_INFINITY );
-        $req->validateHeaders();
-
-        $req->setHeader( 'Depth', ezcWebdavMoveRequest::DEPTH_ZERO );
-        $req->validateHeaders();
     }
 
     public function testValidateHeadersFailure()
@@ -94,24 +85,6 @@ class ezcWebdavMoveRequestTest extends ezcWebdavRequestTestCase
         {
             $req->validateHeaders();
             $this->fail( 'Exception not thrown on invalid Overwrite header.' );
-        }
-        catch ( ezcWebdavInvalidHeaderException $e ) {}
-        // Fix this problem to test others
-        $req->setHeader( 'Overwrite', 'T' );
-        
-        $req->setHeader( 'Depth', null );
-        try
-        {
-            $req->validateHeaders();
-            $this->fail( 'Exception not thrown on missing Depth header.' );
-        }
-        catch ( ezcWebdavMissingHeaderException $e ) {}
-
-        $req->setHeader( 'Depth', 'A' );
-        try
-        {
-            $req->validateHeaders();
-            $this->fail( 'Exception not thrown on invalid Depth header.' );
         }
         catch ( ezcWebdavInvalidHeaderException $e ) {}
     }
