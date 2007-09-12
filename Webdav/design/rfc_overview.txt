@@ -790,10 +790,18 @@ The MOVE operation behaves similar to the COPY operation, followed by a DELETE
 of the original resource. All in all, the MOVE request is handled very similar
 to the COPY operation.
 
+.. Danger::
+  Like for COPY, the RFC says, that the server should try to copy as much as
+  possible in case an error occurs for some subtree for a collection MOVE with
+  depth infinity.
+
+  We decide to omit the deletion of the source collection, if an error occured
+  during the copy operation, even this is not defined by the RFC.
+
 Header
 ======
 
-"Overwrite" and "Depth", as described with COPY.
+"Overwrite" as described with COPY. "Depth" must not be sent by the client.
 
 XML
 ===
