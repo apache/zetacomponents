@@ -19,6 +19,10 @@
  * @version //autogentag//
  * @package Webdav
  */
+
+/*
+ * Commented out class stub
+ *
 class ezcWebdavFileBackend
     extends
         ezcWebdavBackend
@@ -31,7 +35,7 @@ class ezcWebdavFileBackend
      * Array with properties of the file backend.
      * 
      * @var array
-     */
+     * /
     protected $properties;
 
     /**
@@ -39,7 +43,7 @@ class ezcWebdavFileBackend
      * 
      * @param string $path 
      * @return void
-     */
+     * /
     public function __construct( $path )
     {
         $this->properties['followSymLinks']     = false;
@@ -49,5 +53,5 @@ class ezcWebdavFileBackend
 
     // @TODO: Implement methods required by interfaces...
 }
-
+*/
 ?>
