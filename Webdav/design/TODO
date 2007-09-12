@@ -1,0 +1,1 @@
+- Handle external URLs in path factory and backends (Bail out with 502 - Bad Gateway)
