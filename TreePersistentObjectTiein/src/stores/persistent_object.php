@@ -1,5 +1,7 @@
 <?php
 /**
+ * File containing the ezcTreePersistentObjectDataStore class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
@@ -18,14 +20,14 @@
 class ezcTreePersistentObjectDataStore implements ezcTreeXmlDataStore, ezcTreeDbDataStore
 {
     /**
-     * Contains the persistent session object
+     * Contains the persistent session object.
      *
      * @var ezcPersistentSession
      */
     private $session;
 
     /**
-     * Contains the class name of the objects that belong to the tree
+     * Contains the class name of the objects that belong to the tree.
      *
      * @var string
      */
@@ -48,7 +50,7 @@ class ezcTreePersistentObjectDataStore implements ezcTreeXmlDataStore, ezcTreeDb
     /**
      * Contains the DOM representing this tree this data store stores data for.
      *
-     * @var DomDocument
+     * @var DOMDocument
      */
     protected $dom;
 
