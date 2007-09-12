@@ -19,7 +19,8 @@
 class ezcWebdavMultistatusResponse extends ezcWebdavResponse
 {
     /**
-     * Construct error response from status and requested URI.
+     * Construct multistatus from any number of requests, provided either in
+     * arrays with requests or directly as constructor parameters.
      * 
      * @param int $status 
      * @param string $requestUri 
