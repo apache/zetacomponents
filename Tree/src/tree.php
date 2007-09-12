@@ -369,7 +369,7 @@ abstract class ezcTree implements ezcTreeVisitable
     private static function copyChildren( ezcTree $from, ezcTree $to, ezcTreeNode $fromNode, ezcTreeNode $toNode )
     {
         $children = $fromNode->fetchChildren();
-        foreach( new ezcTreeNodeListIterator( $from, $children, true ) as $childNodeKey => $childNodeData )
+        foreach ( new ezcTreeNodeListIterator( $from, $children, true ) as $childNodeKey => $childNodeData )
         {
             $fromChildNode = $from->fetchNodeById( $childNodeKey );
             $toChildNode = new ezcTreeNode( $to, $childNodeKey, $childNodeData );

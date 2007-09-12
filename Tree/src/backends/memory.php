@@ -485,7 +485,7 @@ class ezcTreeMemory extends ezcTree
         unset( $nodeToDelete->parent->children[$nodeId] );
 
         // Remove the node and all its children
-        foreach( new ezcTreeNodeListIterator( $this, $children ) as $nodeId => $data )
+        foreach ( new ezcTreeNodeListIterator( $this, $children ) as $nodeId => $data )
         {
             unset( $this->nodeList[$nodeId] );
         }

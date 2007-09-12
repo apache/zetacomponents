@@ -26,7 +26,7 @@ class ezcTreeInvalidXmlException extends ezcTreeException
     public function __construct( $xmlFile, array $errors )
     {
         $message = '';
-        foreach( $errors as $error )
+        foreach ( $errors as $error )
         {
             $message .= sprintf( "%s:%d:%d: %s\n", $error->file, $error->line, $error->column, trim( $error->message ) );
         }

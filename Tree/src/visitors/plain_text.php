@@ -85,7 +85,7 @@ class ezcTreeVisitorPlainText implements ezcTreeVisitor
      */
     public function __construct( $symbolCharset = self::SYMBOL_UTF8 )
     {
-        switch( $symbolCharset )
+        switch ( $symbolCharset )
         {
             case self::SYMBOL_ASCII:
                 $symbols = array( '|', '+', '-', '+' );
