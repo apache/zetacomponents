@@ -20,6 +20,8 @@ require_once 'test_case.php';
 require_once 'backend_memory_test.php';
 require_once 'path_factory_test.php';
 
+require_once 'property_storage_test.php';
+
 require_once 'property_creationdate_test.php';
 require_once 'property_displayname_test.php';
 require_once 'property_getcontentlanguage_test.php';
@@ -65,6 +67,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Webdav' );
 
         $this->addTest( ezcWebdavBasicServerTest::suite() );
+        $this->addTest( ezcWebdavPropertyStorageTest::suite() );
         $this->addTest( ezcWebdavCreationDatePropertyTest::suite() );
         $this->addTest( ezcWebdavDisplayNamePropertyTest::suite() );
         $this->addTest( ezcWebdavErrorResonseTest::suite() );
