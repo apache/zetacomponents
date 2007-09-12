@@ -1,6 +1,6 @@
 <?php
 /**
- * Basic test cases for the path factory class.
+ * File containing the ezcWebdavCopyRequestTest class.
  *
  * @package Webdav
  * @subpackage Tests
@@ -15,10 +15,13 @@
 require_once 'request_test.php';
 
 /**
- * Tests for ezcWebdavPathFactory class.
+ * Test case for the ezcWebdavCopyRequest class.
  * 
  * @package Webdav
  * @subpackage Tests
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
  */
 class ezcWebdavCopyRequestTest extends ezcWebdavRequestTestCase
 {

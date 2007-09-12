@@ -47,6 +47,7 @@ return array(
     'ezcWebdavMoveRequest'                     => 'Webdav/request/move.php',
     'ezcWebdavMultistatusResponse'             => 'Webdav/response/multistatus.php',
     'ezcWebdavPathFactory'                     => 'Webdav/path_factory.php',
+    'ezcWebdavPropFindRequest'                 => 'Webdav/request/propfind.php',
     'ezcWebdavRequestPropertyBehaviourContent' => 'Webdav/request/content/property_behaviour.php',
     'ezcWebdavResource'                        => 'Webdav/structs/resource.php',
     'ezcWebdavResourceTypeProperty'            => 'Webdav/properties/resourcetype.php',
