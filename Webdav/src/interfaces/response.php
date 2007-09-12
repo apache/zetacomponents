@@ -24,7 +24,7 @@ abstract class ezcWebdavResponse
      * @var array(string=>mixed)
      */
     protected $properties = array(
-        'responseDescription' = null,
+        'responseDescription' => null,
     );
     
     /**
