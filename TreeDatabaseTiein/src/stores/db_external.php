@@ -20,21 +20,21 @@
 class ezcTreeDbExternalTableDataStore implements ezcTreeDbDataStore, ezcTreeXmlDataStore
 {
     /**
-     * Contains the database connection handler
+     * Contains the database connection handler.
      *
      * @var ezcDbHandler
      */
     private $dbHandler;
 
     /**
-     * Contains the name of the table to fetch data from
+     * Contains the name of the table to fetch data from.
      *
      * @var string
      */
     private $table = null;
 
     /**
-     * Contains the name of the field that contains the node ID
+     * Contains the name of the field that contains the node ID.
      *
      * @var string
      */

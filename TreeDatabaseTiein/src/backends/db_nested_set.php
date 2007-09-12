@@ -97,7 +97,8 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
 
     /**
      * Returns the node with ID $nodeId and all its children, sorted according to
-     * the `Depth-first sorting`_ algorithm.
+     * the {@link http://en.wikipedia.org/wiki/Depth-first_search Depth-first sorting}
+     * algorithm.
      *
      * @param string $nodeId
      * @return ezcTreeNodeList
@@ -132,7 +133,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Returns the distance from the root node to the node with ID $nodeId
+     * Returns the distance from the root node to the node with ID $nodeId.
      *
      * @param string $nodeId
      * @return int
@@ -145,7 +146,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
 
     /**
      * Returns whether the node with ID $childId is a direct or indirect child
-     * of the node with ID $parentId
+     * of the node with ID $parentId.
      *
      * @param string $childId
      * @param string $parentId
@@ -163,7 +164,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Sets a new node as root node, this wipes also out the whole tree
+     * Sets a new node as root node, this also wipes out the whole tree.
      *
      * @param ezcTreeNode $node
      */
@@ -246,7 +247,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Adds the node $childNode as child of the node with ID $parentId
+     * Adds the node $childNode as child of the node with ID $parentId.
      *
      * @param string $parentId
      * @param ezcTreeNode $childNode
@@ -327,7 +328,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Updates the left and right values in case a subtree is deleted
+     * Updates the left and right values in case a subtree is deleted.
      *
      * @param int $right
      * @param int $width
@@ -360,7 +361,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Deletes the node with ID $nodeId from the tree, including all its children
+     * Deletes the node with ID $nodeId from the tree, including all its children.
      *
      * @param string $nodeId
      */
@@ -393,7 +394,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Moves the node with ID $nodeId as child to the node with ID $targetParentId
+     * Moves the node with ID $nodeId as child to the node with ID $targetParentId.
      *
      * @param string $nodeId
      * @param string $targetParentId

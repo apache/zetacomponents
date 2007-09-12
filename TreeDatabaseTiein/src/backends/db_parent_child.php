@@ -14,7 +14,7 @@
  * information in a simple table containing the node's ID and its parent's ID.
  *
  * The table that stores the index (configured using the $indexTableName argument
- * of the {@link __construct} method) should contain atleast two fields. The
+ * of the {@link __construct} method) should contain at least two fields. The
  * first one 'id' will contain the node's ID, the second one 'parent_id' the ID
  * of the node's parent. Both fields should be of the same database field type.
  * Supported field types are either integer or a string type.
@@ -53,7 +53,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
     /**
      * Runs SQL to get all the children of the node with ID $nodeId as a PDO
-     * result set
+     * result set.
      *
      * @param string $nodeId
      * @return PDOStatement
@@ -141,7 +141,8 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
     /**
      * Returns the node with ID $nodeId and all its children, sorted according to
-     * the `Depth-first sorting`_ algorithm.
+     * the {@link http://en.wikipedia.org/wiki/Depth-first_search Depth-first sorting}
+     * algorithm.
      *
      * @param string $nodeId
      * @return ezcTreeNodeList
@@ -189,7 +190,8 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
     /**
      * Returns the node with ID $nodeId and all its children, sorted according to
-     * the `Breadth-first sorting`_ algorithm.
+     * the {@link http://en.wikipedia.org/wiki/Breadth-first_search Breadth-first sorting}
+     * algorithm.
      *
      * @param string $nodeId
      * @return ezcTreeNodeList
@@ -204,7 +206,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns the number of direct children of the node with ID $nodeId
+     * Returns the number of direct children of the node with ID $nodeId.
      *
      * @param string $nodeId
      * @return int
@@ -228,7 +230,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
     /**
      * Adds the number of children with for the node with ID $nodeId nodes to
-     * $count recursively.
+     * $count, recursively.
      *
      * @param int $count
      * @param string $nodeId
@@ -243,7 +245,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns the number of children of the node with ID $nodeId, recursively
+     * Returns the number of children of the node with ID $nodeId, recursively.
      *
      * @param string $nodeId
      * @return int
@@ -256,7 +258,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns the distance from the root node to the node with ID $nodeId
+     * Returns the distance from the root node to the node with ID $nodeId.
      *
      * @param string $nodeId
      * @return int
@@ -275,7 +277,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns whether the node with ID $nodeId has children
+     * Returns whether the node with ID $nodeId has children.
      *
      * @param string $nodeId
      * @return bool
@@ -287,7 +289,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
     /**
      * Returns whether the node with ID $childId is a direct child of the node
-     * with ID $parentId
+     * with ID $parentId.
      *
      * @param string $childId
      * @param string $parentId
@@ -302,7 +304,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
     /**
      * Returns whether the node with ID $childId is a direct or indirect child
-     * of the node with ID $parentId
+     * of the node with ID $parentId.
      *
      * @param string $childId
      * @param string $parentId
@@ -325,7 +327,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
     /**
      * Returns whether the nodes with IDs $child1Id and $child2Id are siblings
-     * (ie, they share the same parent)
+     * (ie, they share the same parent).
      *
      * @param string $child1Id
      * @param string $child2Id
@@ -339,7 +341,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Sets a new node as root node, this wipes also out the whole tree
+     * Sets a new node as root node, this also wipes out the whole tree.
      *
      * @param ezcTreeNode $node
      */
@@ -364,7 +366,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Adds the node $childNode as child of the node with ID $parentId
+     * Adds the node $childNode as child of the node with ID $parentId.
      *
      * @param string $parentId
      * @param ezcTreeNode $childNode
@@ -390,7 +392,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Deletes all nodes in the node list $list
+     * Deletes all nodes in the node list $list.
      *
      * @param ezcTreeNodeList $list
      */
@@ -414,7 +416,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Deletes the node with ID $nodeId from the tree, including all its children
+     * Deletes the node with ID $nodeId from the tree, including all its children.
      *
      * @param string $nodeId
      */
@@ -432,7 +434,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Moves the node with ID $nodeId as child to the node with ID $targetParentId
+     * Moves the node with ID $nodeId as child to the node with ID $targetParentId.
      *
      * @param string $nodeId
      * @param string $targetParentId

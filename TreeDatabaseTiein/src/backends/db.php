@@ -24,7 +24,7 @@
 abstract class ezcTreeDb extends ezcTree
 {
     /**
-     * Contains the database connection handler
+     * Contains the database connection handler.
      *
      * @var ezcDbHandler
      */
@@ -38,7 +38,7 @@ abstract class ezcTreeDb extends ezcTree
     protected $indexTableName;
 
     /**
-     * Constructs a new ezcTreeDb object
+     * Constructs a new ezcTreeDb object.
      *
      * The different arguments to the constructor configure which database
      * connection ($dbh) is used to access the database and the $indexTableName
@@ -60,7 +60,7 @@ abstract class ezcTreeDb extends ezcTree
     }
 
     /**
-     * Returns whether the node with ID $id exists as tree node
+     * Returns whether the node with ID $id exists as tree node.
      *
      * @param string $id
      * @return bool
@@ -81,7 +81,7 @@ abstract class ezcTreeDb extends ezcTree
     }
 
     /**
-     * Returns the ID of parent of the node with ID $childId
+     * Returns the ID of parent of the node with ID $childId.
      *
      * @param string $childId
      * @return string
@@ -113,11 +113,11 @@ abstract class ezcTreeDb extends ezcTree
     {
         $className = $this->properties['nodeClassName'];
         $parentId = $this->getParentId( $id );
-        return $parentId !== NULL ? new $className( $this, $parentId ) : NULL;
+        return $parentId !== null ? new $className( $this, $parentId ) : null;
     }
 
     /**
-     * Returns the root node
+     * Returns the root node.
      *
      * This methods returns null if there is no root node.
      *
