@@ -15,7 +15,7 @@ require_once dirname( __FILE__ ) . '/custom_chart.php';
 /**
  * Tests for ezcGraph class.
  * 
- * @package ImageAnalysis
+ * @package Graph
  * @subpackage Tests
  */
 class ezcGraphChartTest extends ezcGraphTestCase

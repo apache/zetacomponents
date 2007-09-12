@@ -12,7 +12,7 @@
 /**
  * Tests for ezcGraph class.
  * 
- * @package ImageAnalysis
+ * @package Graph
  * @subpackage Tests
  */
 class ezcGraphDataSetTest extends ezcTestCase

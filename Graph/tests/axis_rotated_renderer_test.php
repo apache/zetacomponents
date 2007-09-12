@@ -14,7 +14,7 @@ require_once dirname( __FILE__ ) . '/test_case.php';
 /**
  * Tests for ezcGraph class.
  * 
- * @package ImageAnalysis
+ * @package Graph
  * @subpackage Tests
  */
 class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase

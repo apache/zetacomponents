@@ -51,9 +51,9 @@ require_once 'transformation_test.php';
 require_once 'vector_test.php';
 
 /**
-* Test suite for ImageAnalysis package.
+* Test suite for Graph package.
 *
-* @package ImageAnalysis
+* @package Graph
 * @subpackage Tests
 */
 class ezcGraphSuite extends PHPUnit_Framework_TestSuite
