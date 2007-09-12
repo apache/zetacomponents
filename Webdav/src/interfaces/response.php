@@ -23,7 +23,9 @@ abstract class ezcWebdavResponse
      *
      * @var array(string=>mixed)
      */
-    protected $properties = array();
+    protected $properties = array(
+        'responseDescription' = null,
+    );
     
     /**
      * Validates the headers set in this request.
@@ -93,7 +95,20 @@ abstract class ezcWebdavResponse
      */
     public function __set( $propertyName, $propertyValue )
     {
-        throw new ezcBasePropertyNotFoundException( $propertyName );
+        switch ( $propertyName )
+        {
+            case 'responseDescription':
+                if ( !is_string( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                }
+
+                $this->properties[$propertyName] = $propertyValue;
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
     }
 
     /**
