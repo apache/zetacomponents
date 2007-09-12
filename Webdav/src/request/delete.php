@@ -1,6 +1,7 @@
 <?php
 /**
- * File containing the class representing a GET request to the WebDAV server.
+ * File containing the class representing a DELETE request to the WebDAV
+ * server.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,13 +9,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Struct-like class representing all relevant information about a webdav GET
- * request.
+ * Struct-like class representing all relevant information about a webdav
+ * DELETE request.
  *
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavGetRequest extends ezcWebdavRequest
+class ezcWebdavDeleteRequest extends ezcWebdavRequest
 {
 }
 

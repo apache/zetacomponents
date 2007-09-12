@@ -600,7 +600,22 @@ class ezcWebdavMemoryBackend
      */
     public function delete( ezcWebdavDeleteRequest $request )
     {
-        // @TODO: Implement.
+        $deletion = $this->memDelete( $source = $request->requestUri );
+
+        // If deletion failed, this has again been caused by the automatic
+        // error causing facilities of the backend. Send 423 by choice.
+        if ( $deletion !== true )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_423,
+                $source
+            );
+        }
+
+        // Send proper response on success
+        return new ezcWebdavDeleteResponse(
+            $source
+        );
     }
 
     /**

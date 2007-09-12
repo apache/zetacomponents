@@ -963,5 +963,119 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         );
     }
+
+    public function testResourceDelete()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavDeleteRequest( '/foo' );
+        $request->validateHeaders();
+        $response = $backend->delete( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavDeleteResponse(
+                '/foo'
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            $content,
+            array(
+                '/' => array(
+                    '/bar',
+                ),
+                '/bar' => array(
+                    '/bar/blubb',
+                ),
+                '/bar/blubb' => 'Somme blubb blubbs.',
+            )
+        );
+    }
+
+    public function testCollectionDelete()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavDeleteRequest( '/bar' );
+        $request->validateHeaders();
+        $response = $backend->delete( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavDeleteResponse(
+                '/bar'
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            $content,
+            array(
+                '/' => array(
+                    '/foo',
+                ),
+                '/foo' => 'bar',
+            )
+        );
+    }
+
+    public function testResourceDeleteError()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $backend->options->failingOperations = ezcWebdavRequest::DELETE;
+        $backend->options->failForRegexp = '(foo)';
+
+        $request = new ezcWebdavDeleteRequest( '/foo' );
+        $request->validateHeaders();
+        $response = $backend->delete( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_423,
+                '/foo'
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            $content,
+            array(
+                '/' => array(
+                    '/foo',
+                    '/bar',
+                ),
+                '/foo' => 'bar',
+                '/bar' => array(
+                    '/bar/blubb',
+                ),
+                '/bar/blubb' => 'Somme blubb blubbs.',
+            )
+        );
+    }
 }
 ?>
