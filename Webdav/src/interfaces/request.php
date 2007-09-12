@@ -115,6 +115,7 @@ abstract class ezcWebdavRequest
     public final function setHeader( $headerName, $headerValue )
     {
         $this->headers[$headerName] = $headerValue;
+        $this->validated = false;
     }
 
     /**
