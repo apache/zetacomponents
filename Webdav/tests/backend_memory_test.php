@@ -285,6 +285,43 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
     }
 
+    public function testResourceGetWithProperties()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavGetRequest( '/foo' );
+        $response = $backend->get( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavGetResourceResponse(
+                new ezcWebdavResource(
+                    '/foo', 
+                    array(
+                        'creationdate' => 1054034820,
+                        'displayname' => 'foo',
+                        'getcontentlanguage' => 'en',
+                        'getcontentlength' => 3,
+                        'getcontenttype' => 'application/octet-stream',
+                        'getetag' => '1effb2475fcfba4f9e8b8a1dbc8f3caf',
+                        'getlastmodified' => 1124118780,
+                        'resourcetype' => null,
+                        'source' => null,
+                    ), 
+                    'bar'
+                )
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
     public function testCollectionGet()
     {
         $backend = new ezcWebdavMemoryBackend();
