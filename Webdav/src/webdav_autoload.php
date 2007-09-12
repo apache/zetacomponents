@@ -28,6 +28,7 @@ return array(
     'ezcWebdavSupportedLockPropertyLockentry'  => 'Webdav/properties/supportedlock_lockentry.php',
     'ezcWebdavCollection'                      => 'Webdav/structs/collection.php',
     'ezcWebdavCopyRequest'                     => 'Webdav/request/copy.php',
+    'ezcWebdavCopyResponse'                    => 'Webdav/response/copy.php',
     'ezcWebdavCreationDateProperty'            => 'Webdav/properties/creationdate.php',
     'ezcWebdavDisplayNameProperty'             => 'Webdav/properties/displayname.php',
     'ezcWebdavErrorResponse'                   => 'Webdav/response/error.php',

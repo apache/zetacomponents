@@ -104,10 +104,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             array(
                 '/' => array(
                     '/foo',
-                    '/bar/',
+                    '/bar',
                 ),
                 '/foo' => 'bar',
-                '/bar/' => array(
+                '/bar' => array(
                     '/bar/blubb',
                 ),
                 '/bar/blubb' => 'Somme blubb blubbs.',
@@ -119,7 +119,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             $props,
             array(
                 '/foo' => array(),
-                '/bar/' => array(),
+                '/bar' => array(),
                 '/bar/blubb' => array(),
             ),
             'Expected empty property array.'
@@ -272,6 +272,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         ) );
 
         $request = new ezcWebdavGetRequest( '/foo' );
+        $request->validateHeaders();
         $response = $backend->get( $request );
 
         $this->assertEquals(
@@ -280,6 +281,30 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 new ezcWebdavResource(
                     '/foo', array(), 'bar'
                 )
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceGetError()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavGetRequest( '/unknown' );
+        $request->validateHeaders();
+        $response = $backend->get( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                '/unknown'
             ),
             'Expected response does not match real response.'
         );
@@ -297,6 +322,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         ) );
 
         $request = new ezcWebdavGetRequest( '/foo' );
+        $request->validateHeaders();
         $response = $backend->get( $request );
 
         $this->assertEquals(
@@ -335,19 +361,20 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         ) );
 
-        $request = new ezcWebdavGetRequest( '/bar/' );
+        $request = new ezcWebdavGetRequest( '/bar' );
+        $request->validateHeaders();
         $response = $backend->get( $request );
 
         $this->assertEquals(
             $response,
             new ezcWebdavGetCollectionResponse(
                 new ezcWebdavCollection(
-                    '/bar/', array(), array(
+                    '/bar', array(), array(
                         new ezcWebdavResource(
                             '/bar/blubb', array()
                         ),
                         new ezcWebdavCollection(
-                            '/bar/blah/', array()
+                            '/bar/blah', array()
                         ),
                     )
                 )
@@ -370,6 +397,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         ) );
 
         $request = new ezcWebdavGetRequest( '/bar/blah/fumdiidudel.txt' );
+        $request->validateHeaders();
         $response = $backend->get( $request );
 
         $this->assertEquals(
@@ -382,6 +410,306 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 )
             ),
             'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceCopy()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavCopyRequest( '/foo', '/dest' );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavCopyResponse(
+                false
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceCopyF()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavCopyRequest( '/foo', '/dest' );
+        $request->setHeader( 'Overwrite', 'F' );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavCopyResponse(
+                false
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceCopyOverwrite()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavCopyRequest( '/foo', '/bar' );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavCopyResponse(
+                true
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceCopyOverwriteFailed()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavCopyRequest( '/foo', '/bar' );
+        $request->setHeader( 'Overwrite', 'F' );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_412,
+                '/bar'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceCopyDestinationNotExisting()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavCopyRequest( '/foo', '/dum/di' );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                '/dum/di'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceCopySourceEqualsDest()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavCopyRequest( '/foo', '/foo' );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_403,
+                '/foo'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceCopyDepthZero()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'bar' => array(
+                '_1' => 'contents',
+                '_2' => 'contents',
+            )
+        ) );
+
+        $request = new ezcWebdavCopyRequest( '/bar', '/foo' );
+        $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavCopyResponse(
+                false
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            $content,
+            array(
+                '/' => array(
+                    '/bar',
+                    '/foo',
+                ),
+                '/bar' => array(
+                    '/bar/_1',
+                    '/bar/_2',
+                ),
+                '/bar/_1' => 'contents',
+                '/bar/_2' => 'contents',
+                '/foo' => array(),
+            )
+        );
+    }
+
+    public function testResourceCopyDepthInfinity()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'bar' => array(
+                '_1' => 'contents',
+                '_2' => 'contents',
+            )
+        ) );
+
+        $request = new ezcWebdavCopyRequest( '/bar', '/foo' );
+        $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavCopyResponse(
+                false
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            $content,
+            array(
+                '/' => array(
+                    '/bar',
+                    '/foo',
+                ),
+                '/bar' => array(
+                    '/bar/_1',
+                    '/bar/_2',
+                ),
+                '/bar/_1' => 'contents',
+                '/bar/_2' => 'contents',
+                '/foo' => array(
+                    '/foo/_1',
+                    '/foo/_2',
+                ),
+                '/foo/_1' => 'contents',
+                '/foo/_2' => 'contents',
+            )
+        );
+    }
+
+    public function testResourceCopyDepthInfinityErrors()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'bar' => array(
+                '_1' => 'contents',
+                '_2' => 'contents',
+                '_3' => 'contents',
+                '_4' => 'contents',
+                '_5' => 'contents',
+            )
+        ) );
+
+        $backend->options->failingOperations = ezcWebdavRequest::COPY;
+        $backend->options->failForRegexp = '(_[24]$)';
+
+        $request = new ezcWebdavCopyRequest( '/bar', '/foo' );
+        $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavMultistatusResponse(
+                new ezcWebdavErrorResponse(
+                    ezcWebdavErrorResponse::STATUS_423,
+                    '/bar/_2'
+                ),
+                new ezcWebdavErrorResponse(
+                    ezcWebdavErrorResponse::STATUS_423,
+                    '/bar/_4'
+                )
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            $content,
+            array(
+                '/' => array(
+                    '/bar',
+                    '/foo',
+                ),
+                '/bar' => array(
+                    '/bar/_1',
+                    '/bar/_2',
+                    '/bar/_3',
+                    '/bar/_4',
+                    '/bar/_5',
+                ),
+                '/bar/_1' => 'contents',
+                '/bar/_2' => 'contents',
+                '/bar/_3' => 'contents',
+                '/bar/_4' => 'contents',
+                '/bar/_5' => 'contents',
+                '/foo' => array(
+                    '/foo/_1',
+                    '/foo/_3',
+                    '/foo/_5',
+                ),
+                '/foo/_1' => 'contents',
+                '/foo/_3' => 'contents',
+                '/foo/_5' => 'contents',
+            )
         );
     }
 }

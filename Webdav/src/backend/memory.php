@@ -195,9 +195,6 @@ class ezcWebdavMemoryBackend
 
             if ( is_array( $content ) )
             {
-                // Collections always postpended by a slash
-                $ressourcePath .= '/';
-
                 // Content is a collection
                 $this->content[$ressourcePath] = array();
                 $this->props[$ressourcePath] = $this->initializeProperties(
@@ -206,7 +203,7 @@ class ezcWebdavMemoryBackend
                 );
 
                 // Recurse
-                $this->addContents( $content, $ressourcePath );
+                $this->addContents( $content, $ressourcePath . '/' );
             }
             elseif ( is_string( $content ) )
             {
@@ -223,7 +220,8 @@ class ezcWebdavMemoryBackend
             }
 
             // Add contents to parent directory
-            $this->content[$path][] = $ressourcePath;
+            $parent = ( $path === '/' ? '/' : substr( $path, 0, -1 ) );
+            $this->content[$parent][] = $ressourcePath;
         }
     }
 
@@ -261,13 +259,13 @@ class ezcWebdavMemoryBackend
      * @param int $depth
      * @return array
      */
-    protected function memCopy( $fromPath, $toPath, $depth = wzcWebdavRequest::DEPTH_INFINITY )
+    protected function memCopy( $fromPath, $toPath, $depth = ezcWebdavRequest::DEPTH_INFINITY )
     {
         $causeErrors = (bool) ( $this->options->failingOperations & ezcWebdavRequest::COPY );
         $errors = array();
         
         if ( !is_array( $this->content[$fromPath] ) ||
-             ( is_array( $this->content[$fromPath] ) && ( $depth === wzcWebdavRequest::DEPTH_ZERO ) ) )
+             ( is_array( $this->content[$fromPath] ) && ( $depth === ezcWebdavRequest::DEPTH_ZERO ) ) )
         {
             // Copy a ressource, or a collection, but the depth header told not
             // to recurse into collections
@@ -294,6 +292,9 @@ class ezcWebdavMemoryBackend
 
             // Update modification date
             $this->props[$toPath]['getlastmodified'] = time();
+
+            // Add to parent node
+            $this->content[dirname( $toPath )][] = $toPath;
         }
         else
         {
@@ -307,7 +308,7 @@ class ezcWebdavMemoryBackend
             // Check all nodes, if they math the fromPath
             foreach ( $this->content as $ressource => $content )
             {
-                if ( strpos( $content, $fromPath ) !== 0 )
+                if ( strpos( $ressource, $fromPath ) !== 0 )
                 {
                     // This ressource is not affected by the copy operation
                     continue;
@@ -339,7 +340,7 @@ class ezcWebdavMemoryBackend
                 // Add collection to collection child recalculation array
                 if ( is_array( $this->content[$ressource] ) )
                 {
-                    $copiedCollections[] = $ressource;
+                    $copiedCollections[] = $newResourceName;
                 }
 
                 // Actually copy
@@ -350,6 +351,9 @@ class ezcWebdavMemoryBackend
 
                 // Update modification date
                 $this->props[$newResourceName]['getlastmodified'] = time();
+
+                // Add to parent node
+                $this->content[dirname( $newResourceName )][] = $newResourceName;
             }
 
             // Iterate over all copied collections and update the child
@@ -369,11 +373,15 @@ class ezcWebdavMemoryBackend
                         }
                     }
 
-                    // Resource is not part of an error, so we just update its
-                    // name.
-                    $newResourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $child );
-                    $this->content[$collection][$nr] = $newResourceName;
+                    // Also remove all references to old children, new children
+                    // have already been added during the last step.
+                    if ( preg_match( '(^' . preg_quote( $fromPath ) . ')', $child ) )
+                    {
+                        unset( $this->content[$collection][$nr] );
+                    }
                 }
+
+                $this->content[$collection] = array_values( $this->content[$collection] );
             }
         }
 
@@ -600,7 +608,81 @@ class ezcWebdavMemoryBackend
      */
     public function copy( ezcWebdavCopyRequest $request )
     {
-        // @TODO: Implement.
+        // Indicates wheather a destiantion ressource has been replaced or not.
+        // The success response code depends on this.
+        $replaced = false;
+
+        // Extract paths from request
+        $source = $request->requestUri;
+        $dest = $request->getHeader( 'Destination' );
+
+        // If source and destination are equal, the request should always fail.
+        if ( $source === $dest )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_403,
+                $source
+            );
+        }
+
+        // Check if destination ressource exists and throw error, when
+        // overwrite header is F
+        if ( ( $request->getHeader( 'Overwrite' ) === 'F' ) &&
+             ( isset( $this->content[$dest] ) ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_412,
+                $dest
+            );
+        }
+
+        // Check if the destination parent directory already exists, otherwise
+        // bail out.
+        if ( !isset( $this->content[dirname( $dest )] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                $dest
+            );
+        }
+
+        // The destination ressource should be deleted if it exists and the
+        // overwrite headers is T
+        if ( ( $request->getHeader( 'Overwrite' ) === 'T' ) &&
+             ( isset( $this->content[$dest] ) ) )
+        {
+            $replaced = true;
+            $this->memDelete( $dest );
+        }
+
+        // All checks are passed, we can actuall copy now.
+        $errors = $this->memCopy( $source, $dest, $request->getHeader( 'Depth' ) );
+
+        if ( !count( $errors ) )
+        {
+            // No errors occured during copy. Just response with success.
+            return new ezcWebdavCopyResponse(
+                $replaced
+            );
+        }
+
+        // We need a multistatus response, because some errors occured for some
+        // of the ressources.
+        //
+        // For each errnous ressource we create a 423 error response, because
+        // they were randomly caused and we do not hav a "real" error here.        
+        $responses = array();
+        foreach ( $errors as $error )
+        {
+            $responses[] = new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_423,
+                $error
+            );
+        }
+
+        return new ezcWebdavMultistatusResponse(
+            $responses
+        );
     }
 
     /**
