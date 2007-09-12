@@ -45,7 +45,7 @@ abstract class ezcTreeDb extends ezcTree
      * argument which table is used to retrieve the relation data from. The
      * $store argument configure which data store is used with this tree.
      *
-     * All database backends require the index table to atleast define the
+     * All database backends require the index table to at least define the
      * field 'id', which can either be a string or an integer field.
      * 
      * @param ezcDbHandler       $dbh

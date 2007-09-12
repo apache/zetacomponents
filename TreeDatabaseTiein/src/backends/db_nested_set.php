@@ -14,7 +14,7 @@
  * information with left and right values.
  *
  * The table that stores the index (configured using the $indexTableName argument
- * of the {@link __construct} method) should contain atleast four fields. The
+ * of the {@link __construct} method) should contain at least four fields. The
  * first one 'id' will contain the node's ID, the second one 'parent_id' the ID
  * of the node's parent. Both fields should be of the same database field type.
  * Supported field types are either integer or a string type.  The other two
@@ -411,7 +411,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
 
         // Get the nodes that are gonne be moved in the subtree
         $nodeIds = array();
-        foreach( $this->fetchSubtreeDepthFirst( $nodeId )->nodes as $node )
+        foreach ( $this->fetchSubtreeDepthFirst( $nodeId )->nodes as $node )
         {
             $nodeIds[] = $node->id;
         }
