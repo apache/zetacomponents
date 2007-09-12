@@ -104,6 +104,7 @@ class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavXmlBase
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
         }
+        $this->properties[$propertyName] = $propertyValue;
     }
 
     /**

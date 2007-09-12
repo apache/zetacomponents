@@ -92,7 +92,6 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
         $this->assertPropertyValues( $object, $this->defaultValues );
 
         
-        $paramPos = 0;
         $params = array();
         foreach ( $this->workingValues as $propName => $values )
         {
@@ -102,7 +101,6 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
                 $object = $class->newInstanceArgs( $params );
                 $this->assertPropertyValues( $object, $params );
             }
-            $paramPos++;
         }
     }
 
