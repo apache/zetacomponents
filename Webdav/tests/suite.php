@@ -42,6 +42,7 @@ require_once 'request_content_property_behaviour_test.php';
 
 require_once 'response_error_test.php';
 require_once 'response_get_test.php';
+require_once 'response_test.php';
 
 require_once 'server_options_test.php';
 require_once 'server_test.php';
@@ -80,6 +81,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavSupportedLockPropertyLockentryTest::suite() );
         $this->addTest( ezcWebdavSupportedLockPropertyTest::suite() );
         $this->addTest( ezcWebdavCopyRequestTest::suite() );
+        $this->addTest( ezcWebdavResponseTest::suite() );
         $this->addTest( ezcWebdavMoveRequestTest::suite() );
         $this->addTest( ezcWebdavRequestPropertyBehaviourContentTest::suite() );
     }
