@@ -415,6 +415,14 @@ class ezcWebdavMemoryBackend
             }
         }
 
+        // Remove parent node assignement to removed node
+        $id = array_search( $path, $this->content[$parent = dirname( $path )] );
+        if ( $id !== false )
+        {
+            unset( $this->content[$parent][$id] );
+            $this->content[$parent] = array_values( $this->content[$parent] );
+        }
+
         // Also remove all properties for removed content nodes
         foreach ( $this->props as $name => $properties )
         {
@@ -680,6 +688,7 @@ class ezcWebdavMemoryBackend
             );
         }
 
+        // Send proper response on success
         return new ezcWebdavMultistatusResponse(
             $responses
         );
@@ -698,7 +707,100 @@ class ezcWebdavMemoryBackend
      */
     public function move( ezcWebdavMoveRequest $request )
     {
-        // @TODO: Implement.
+        // Indicates wheather a destiantion ressource has been replaced or not.
+        // The success response code depends on this.
+        $replaced = false;
+
+        // Extract paths from request
+        $source = $request->requestUri;
+        $dest = $request->getHeader( 'Destination' );
+
+        // If source and destination are equal, the request should always fail.
+        if ( $source === $dest )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_403,
+                $source
+            );
+        }
+
+        // Check if destination ressource exists and throw error, when
+        // overwrite header is F
+        if ( ( $request->getHeader( 'Overwrite' ) === 'F' ) &&
+             ( isset( $this->content[$dest] ) ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_412,
+                $dest
+            );
+        }
+
+        // Check if the destination parent directory already exists, otherwise
+        // bail out.
+        if ( !isset( $this->content[dirname( $dest )] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                $dest
+            );
+        }
+
+        // The destination ressource should be deleted if it exists and the
+        // overwrite headers is T
+        if ( ( $request->getHeader( 'Overwrite' ) === 'T' ) &&
+             ( isset( $this->content[$dest] ) ) )
+        {
+            $replaced = true;
+            $this->memDelete( $dest );
+        }
+
+        // All checks are passed, we can actuall copy now.
+        //
+        // MOVEd contents should always be copied using infinity depth.
+        $errors = $this->memCopy( $source, $dest, ezcWebdavRequest::DEPTH_INFINITY );
+
+        // If an error occured we skip deletion of source.
+        //
+        // @IMPORTANT: This is a definition / assumption made by us, because it
+        // is not defined in the RFC how to handle such a case.
+        if ( count( $errors ) )
+        {
+            // We need a multistatus response, because some errors occured for some
+            // of the ressources.
+            //
+            // For each errnous ressource we create a 423 error response, because
+            // they were randomly caused and we do not hav a "real" error here.        
+            $responses = array();
+            foreach ( $errors as $error )
+            {
+                $responses[] = new ezcWebdavErrorResponse(
+                    ezcWebdavErrorResponse::STATUS_423,
+                    $error
+                );
+            }
+
+            return new ezcWebdavMultistatusResponse(
+                $responses
+            );
+        }
+
+        // Delete the source, COPY has been successful
+        $deletion = $this->memDelete( $source );
+
+        // If deletion failed, this has again been caused by the automatic
+        // error causing facilities of the backend. Send 423 by choice.
+        if ( $deletion !== true )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_423,
+                $source
+            );
+        }
+
+        // Send proper response on success
+        return new ezcWebdavMoveResponse(
+            $replaced
+        );
     }
 
     /**
