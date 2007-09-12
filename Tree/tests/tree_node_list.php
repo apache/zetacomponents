@@ -157,7 +157,7 @@ class ezcTreeNodeListTest extends ezcTestCase
         }
         catch ( ezcTreeIdsDoNotMatchException $e )
         {
-            self::assertSame( "You can add the node with node ID '16' to the list with key '6'. The key needs to match the node ID.", $e->getMessage() );
+            self::assertSame( "You cannot add the node with node ID '16' to the list with key '6'. The key needs to match the node ID.", $e->getMessage() );
         }
     }
 

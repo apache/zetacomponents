@@ -26,7 +26,7 @@ class ezcTreeIdsDoNotMatchException extends ezcTreeException
      */
     public function __construct( $expectedId, $actualId )
     {
-        parent::__construct( "You can add the node with node ID '$expectedId' to the list with key '$actualId'. The key needs to match the node ID." );
+        parent::__construct( "You cannot add the node with node ID '$expectedId' to the list with key '$actualId'. The key needs to match the node ID." );
     }
 }
 ?>
