@@ -73,9 +73,3 @@ class ezcWebdavRequestPropertyBehaviourContentTest extends ezcWebdavPropertyTest
 }
 
 ?>
-/**
- *  
- */
-/**
- *  
- */

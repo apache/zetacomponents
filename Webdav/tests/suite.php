@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcGraphSuite
+ * File containing the test suite for the Webdav component.
  *
  * @package Webdav
  * @subpackage Tests
@@ -49,11 +49,14 @@ require_once 'server_options_test.php';
 require_once 'server_test.php';
 
 /**
-* Test suite for ImageAnalysis package.
-*
+ * Test suite for the Webdav component.
+ *
  * @package Webdav
  * @subpackage Tests
-*/
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
