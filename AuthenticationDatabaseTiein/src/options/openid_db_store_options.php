@@ -6,7 +6,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  */
 
 /**
@@ -42,7 +42,7 @@
  *           table name can be changed ('nonce', 'timestamp', 'openid_associations').
  *
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcAuthenticationOpenidDbStoreOptions extends ezcAuthenticationOpenidStoreOptions
 {

@@ -4,13 +4,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package Authentication
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  */
 
 /**
  * @package Authentication
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  * @access private
  */

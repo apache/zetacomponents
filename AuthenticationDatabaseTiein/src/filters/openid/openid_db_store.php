@@ -6,7 +6,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  */
 
 /**
@@ -32,7 +32,7 @@
  *           The database instance to use for database storage.
  *
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcAuthenticationOpenidDbStore extends ezcAuthenticationOpenidStore
 {

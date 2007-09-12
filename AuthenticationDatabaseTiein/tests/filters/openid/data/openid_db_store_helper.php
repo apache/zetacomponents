@@ -6,7 +6,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  */
 
@@ -17,7 +17,7 @@
  * For testing purposes only.
  *
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  * @access private
  */

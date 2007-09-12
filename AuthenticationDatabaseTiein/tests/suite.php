@@ -6,7 +6,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  */
 
@@ -18,7 +18,7 @@ require_once( "filters/openid/openid_db_store_test.php" );
 
 /**
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  */
 class ezcAuthenticationDatabaseTieinSuite extends PHPUnit_Framework_TestSuite

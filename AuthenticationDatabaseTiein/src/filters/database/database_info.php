@@ -6,14 +6,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  */
 
 /**
  * Structure for defining the database and table to authenticate against.
  *
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcAuthenticationDatabaseInfo extends ezcBaseStruct
 {

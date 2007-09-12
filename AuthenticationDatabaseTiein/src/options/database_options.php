@@ -6,14 +6,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  */
 
 /**
  * Class containing the options for the database authentication filter.
  *
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcAuthenticationDatabaseOptions extends ezcAuthenticationFilterOptions
 {

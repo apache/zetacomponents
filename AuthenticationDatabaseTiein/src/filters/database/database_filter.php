@@ -6,7 +6,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  */
 
 /**
@@ -65,7 +65,7 @@
  *           which are used for authentication.
  *
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  * @mainclass
  */
 class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter implements ezcAuthenticationDataFetch

@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  */
 
@@ -14,7 +14,7 @@ include_once( 'data/openid_db_store_helper.php' );
 
 /**
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  */
 class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinTest

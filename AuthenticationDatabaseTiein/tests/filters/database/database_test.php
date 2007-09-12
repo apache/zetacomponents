@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @filesource
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  */
 
@@ -12,7 +12,7 @@ include_once( 'AuthenticationDatabaseTiein/tests/test.php' );
 
 /**
  * @package AuthenticationDatabaseTiein
- * @version //autogen//
+ * @version //autogentag//
  * @subpackage Tests
  */
 class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
