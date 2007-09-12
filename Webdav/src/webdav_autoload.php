@@ -50,6 +50,8 @@ return array(
     'ezcWebdavMultistatusResponse'             => 'Webdav/response/multistatus.php',
     'ezcWebdavPathFactory'                     => 'Webdav/path_factory.php',
     'ezcWebdavPropFindRequest'                 => 'Webdav/request/propfind.php',
+    'ezcWebdavPropPatchRequest'                => 'Webdav/request/proppatch.php',
+    'ezcWebdavPropertyStorage'                 => 'Webdav/property_storage.php',
     'ezcWebdavRequestPropertyBehaviourContent' => 'Webdav/request/content/property_behaviour.php',
     'ezcWebdavResource'                        => 'Webdav/structs/resource.php',
     'ezcWebdavResourceTypeProperty'            => 'Webdav/properties/resourcetype.php',
