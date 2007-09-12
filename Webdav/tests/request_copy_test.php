@@ -1,8 +1,26 @@
 <?php
+/**
+ * Basic test cases for the path factory class.
+ *
+ * @package Webdav
+ * @subpackage Tests
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+/**
+ * Reqiuire base test
+ */
+require_once 'request_test.php';
 
-class ezcWebdavCopyRequestTest extends ezcWebdavPropertyTestCase
+/**
+ * Tests for ezcWebdavPathFactory class.
+ * 
+ * @package Webdav
+ * @subpackage Tests
+ */
+class ezcWebdavCopyRequestTest extends ezcWebdavRequestTestCase
 {
     public static function suite()
     {
@@ -12,6 +30,9 @@ class ezcWebdavCopyRequestTest extends ezcWebdavPropertyTestCase
     protected function setUp()
     {
         $this->className = 'ezcWebdavCopyRequest';
+        $this->constructorArguments = array(
+            '/foo', '/bar'
+        );
         $this->defaultValues = array(
             'propertyBehaviour' => null,
         );
@@ -32,7 +53,7 @@ class ezcWebdavCopyRequestTest extends ezcWebdavPropertyTestCase
 
     public function testValidateHeadersSuccess()
     {
-        $req = new ezcWebdavCopyRequest();
+        $req = new ezcWebdavCopyRequest( '/foo', '/bar' );
 
         $req->setHeader( 'Destination', '/foo/bar' );
         $req->validateHeaders();
@@ -55,16 +76,7 @@ class ezcWebdavCopyRequestTest extends ezcWebdavPropertyTestCase
 
     public function testValidateHeadersFailure()
     {
-        $req = new ezcWebdavCopyRequest();
-
-        try
-        {
-            $req->validateHeaders();
-            $this->fail( 'Exception not thrown on missing Destination header.' );
-        }
-        catch ( ezcWebdavMissingHeaderException $e ) {}
-        // Fix this problem to test others
-        $req->setHeader( 'Destination', '/foo/bar' );
+        $req = new ezcWebdavCopyRequest( '/foo', '/bar' );
 
         $req->setHeader( 'Overwrite', null );
         try

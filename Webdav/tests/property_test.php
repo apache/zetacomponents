@@ -81,6 +81,16 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
 		return new PHPUnit_Framework_TestSuite( 'ezcWebdavPropertyTestCase' );
 	}
 
+    /**
+     * Get object of $className for testing.
+     * 
+     * @return stdClass
+     */
+    protected function getObject()
+    {
+        return new $this->className();
+    }
+
     // protected abstract function setup();
 
     public function testCtorSuccess()
@@ -132,13 +142,13 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
 
     public function testGetAccessSuccess()
     {
-        $object = new $this->className();
+        $object = $this->getObject();
         $this->assertPropertyValues( $object, $this->defaultValues );
     }
 
     public function testGetAccessFailure()
     {
-        $object = new $this->className();
+        $object = $this->getObject();
         try
         {
             echo $object->fooBarBaz;
@@ -148,7 +158,7 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
 
     public function testSetAccessSuccess()
     {
-        $object = new $this->className();
+        $object = $this->getObject();
         foreach ( $this->workingValues as $propName => $values )
         {
             foreach( $values as $value )
@@ -161,7 +171,7 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
 
     public function testSetAccessFailure()
     {
-        $object = new $this->className();
+        $object = $this->getObject();
         foreach ( $this->failingValues as $propName => $values )
         {
             foreach( $values as $value )
@@ -179,7 +189,7 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
 
     public function testIssetAccessSuccess()
     {
-        $object = new $this->className();
+        $object = $this->getObject();
         foreach ( $this->workingValues as $propName => $values )
         {
             $this->assertTrue( isset( $object->$propName ) );
@@ -188,7 +198,7 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
 
     public function testIssetAccessFailure()
     {
-        $object = new $this->className();
+        $object = $this->getObject();
 
         $this->assertFalse( isset( $object->fooBarBaz ) );
         $this->assertFalse( isset( $object->properties ) );
