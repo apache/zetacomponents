@@ -1,5 +1,7 @@
 <?php
 /**
+ * File containing the ezcTreeDbExternalTableDataStore class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
@@ -50,7 +52,7 @@ class ezcTreeDbExternalTableDataStore implements ezcTreeDbDataStore, ezcTreeXmlD
     /**
      * Contains the DOM representing this tree this data store stores data for.
      *
-     * @var DomDocument
+     * @var DOMDocument
      */
     protected $dom;
 

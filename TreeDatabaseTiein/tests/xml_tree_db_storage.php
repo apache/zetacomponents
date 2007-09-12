@@ -4,12 +4,12 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Tree
+ * @package TreeDatabaseTiein
  * @subpackage Tests
  */
 
 /**
- * @package Tree
+ * @package TreeDatabaseTiein
  * @subpackage Tests
  */
 class ezcTreeXmlWithDbStorageTest extends ezcTestCase

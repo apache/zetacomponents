@@ -1,5 +1,7 @@
 <?php
 /**
+ * File containing the ezcTreeDbNestedSet class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
@@ -94,7 +96,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
-     * Returns the node with ID $nodeId and all its children, sorted accoring to
+     * Returns the node with ID $nodeId and all its children, sorted according to
      * the `Depth-first sorting`_ algorithm.
      *
      * @param string $nodeId

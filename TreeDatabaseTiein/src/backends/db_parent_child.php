@@ -1,5 +1,7 @@
 <?php
 /**
+ * File containing the ezcTreeDbParentChild class.
+ *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
@@ -138,7 +140,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns the node with ID $nodeId and all its children, sorted accoring to
+     * Returns the node with ID $nodeId and all its children, sorted according to
      * the `Depth-first sorting`_ algorithm.
      *
      * @param string $nodeId
@@ -186,7 +188,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
-     * Returns the node with ID $nodeId and all its children, sorted accoring to
+     * Returns the node with ID $nodeId and all its children, sorted according to
      * the `Breadth-first sorting`_ algorithm.
      *
      * @param string $nodeId
@@ -323,7 +325,7 @@ class ezcTreeDbParentChild extends ezcTreeDb
 
     /**
      * Returns whether the nodes with IDs $child1Id and $child2Id are siblings
-     * (ie, the share the same parent)
+     * (ie, they share the same parent)
      *
      * @param string $child1Id
      * @param string $child2Id
@@ -454,6 +456,9 @@ class ezcTreeDbParentChild extends ezcTreeDb
         $s->execute();
     }
 
+    /**
+     * Fixates the transaction.
+     */
     public function fixateTransaction()
     {
     }
