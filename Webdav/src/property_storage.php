@@ -134,7 +134,7 @@ class ezcWebdavPropertyStorage
      */
     public function getAllProperties()
     {
-        return $this->deadProperties;
+        return $this->properties;
     }
 }
 
