@@ -459,25 +459,25 @@ class ezcWebdavMemoryBackend
      */
     public function get( ezcWebdavGetRequest $request )
     {
-        $requested = $request->requestUri;
+        $source = $request->requestUri;
 
         // Check if ressource is available
-        if ( !isset( $this->content[$requested] ) )
+        if ( !isset( $this->content[$source] ) )
         {
             return new ezcWebdavErrorResponse(
                 ezcWebdavErrorResponse::STATUS_404,
-                $requested
+                $source
             );
         }
 
-        if ( !is_array( $this->content[$requested] ) )
+        if ( !is_array( $this->content[$source] ) )
         {
             // Just deliver file
             return new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
-                    $requested,
-                    $this->props[$requested],
-                    $this->content[$requested]
+                    $source,
+                    $this->props[$source],
+                    $this->content[$source]
                 )
             );
         }
@@ -490,7 +490,7 @@ class ezcWebdavMemoryBackend
         // this. 
         $contents = array();
 
-        foreach ( $this->content[$requested] as $child )
+        foreach ( $this->content[$source] as $child )
         {
             if ( is_array( $this->content[$child] ) )
             {
@@ -513,8 +513,8 @@ class ezcWebdavMemoryBackend
         // Return collection with contained childs
         return new ezcWebdavGetCollectionResponse(
             new ezcWebdavCollection(
-                $requested,
-                $this->props[$requested],
+                $source,
+                $this->props[$source],
                 $contents
             )
         );
@@ -534,6 +534,17 @@ class ezcWebdavMemoryBackend
     public function head( ezcWebdavHeadRequest $request )
     {
         // @TODO: Implement.
+        $source = $request->requestUri;
+
+        // Check if ressource is available
+        if ( !isset( $this->content[$source] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                $source
+            );
+        }
+
     }
 
     /**
@@ -600,7 +611,19 @@ class ezcWebdavMemoryBackend
      */
     public function delete( ezcWebdavDeleteRequest $request )
     {
-        $deletion = $this->memDelete( $source = $request->requestUri );
+        $source = $request->requestUri;
+
+        // Check if ressource is available
+        if ( !isset( $this->content[$source] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                $source
+            );
+        }
+
+        // Delete
+        $deletion = $this->memDelete( $source );
 
         // If deletion failed, this has again been caused by the automatic
         // error causing facilities of the backend. Send 423 by choice.
@@ -638,6 +661,15 @@ class ezcWebdavMemoryBackend
         // Extract paths from request
         $source = $request->requestUri;
         $dest = $request->getHeader( 'Destination' );
+
+        // Check if ressource is available
+        if ( !isset( $this->content[$source] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                $source
+            );
+        }
 
         // If source and destination are equal, the request should always fail.
         if ( $source === $dest )
@@ -729,6 +761,15 @@ class ezcWebdavMemoryBackend
         // Extract paths from request
         $source = $request->requestUri;
         $dest = $request->getHeader( 'Destination' );
+
+        // Check if ressource is available
+        if ( !isset( $this->content[$source] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                $source
+            );
+        }
 
         // If source and destination are equal, the request should always fail.
         if ( $source === $dest )

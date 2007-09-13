@@ -436,6 +436,30 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
     }
 
+    public function testResourceCopyError()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavCopyRequest( '/unknown', '/irrelevant' );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                '/unknown'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
     public function testResourceCopyF()
     {
         $backend = new ezcWebdavMemoryBackend();
@@ -731,6 +755,30 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavMoveResponse(
                 false
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceMoveError()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavMoveRequest( '/unknown', '/irrelevant' );
+        $request->validateHeaders();
+        $response = $backend->move( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                '/unknown'
             ),
             'Expected response does not match real response.'
         );
@@ -1035,7 +1083,31 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
     }
 
-    public function testResourceDeleteError()
+    public function testResourceDeleteError404()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavDeleteRequest( '/unknown' );
+        $request->validateHeaders();
+        $response = $backend->delete( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                '/unknown'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceDeleteCausedError()
     {
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
