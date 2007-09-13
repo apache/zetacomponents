@@ -226,6 +226,24 @@ class ezcWebdavMemoryBackend
     }
 
     /**
+     * Create a new collection.
+     *
+     * Creates a new collection at the given path.
+     * 
+     * @param string $path 
+     * @access protected
+     * @return void
+     */
+    protected function createCollection( $path )
+    {
+        // Create collection
+        $this->content[$path] = array();
+
+        // Add collection to parent node
+        $this->content[dirname( $path )][] = $path;
+    }
+
+    /**
      * Manually set a property on a ressource to request it later.
      * 
      * @param string $ressource 
@@ -872,7 +890,57 @@ class ezcWebdavMemoryBackend
      */
     public function makeCollection( ezcWebdavMakeCollectionRequest $request )
     {
-        // @TODO: Implement.
+        $collection = $request->requestUri;
+
+        // If ressource already exists, the collection cannot be created and a
+        // 405 is thrown.
+        if ( isset( $this->content[$collection] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_405,
+                $collection
+            );
+        }
+
+        // Check if the parent node already exists, otherwise throw a 409
+        // error.
+        if ( !isset( $this->content[dirname( $collection )] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                $collection
+            );
+        }
+
+        // If the parent node exists, but is a ressource, which obviously can
+        // not accept any members, throw a 403 error.
+        if ( !is_array( $this->content[dirname( $collection )] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_403,
+                $collection
+            );
+        }
+
+        // As the handling of request bodies is not described in RFC 2518, we
+        // skip their handling and always return a 415 error.
+        if ( $request->body )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_415,
+                $collection
+            );
+        }
+
+        // Cause error, if requested?
+
+        // All checks passed, we can create the collection
+        $this->createCollection( $collection );
+
+        // Return success
+        return new ezcWebdavMakeCollectionResponse(
+            $collection
+        );
     }
 }
 

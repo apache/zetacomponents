@@ -44,6 +44,8 @@ return array(
     'ezcWebdavGetResourceResponse'             => 'Webdav/response/get_resource.php',
     'ezcWebdavLockDiscoveryProperty'           => 'Webdav/properties/lockdiscovery.php',
     'ezcWebdavLockDiscoveryPropertyActiveLock' => 'Webdav/properties/lockdiscovery_activelock.php',
+    'ezcWebdavMakeCollectionRequest'           => 'Webdav/request/mkcol.php',
+    'ezcWebdavMakeCollectionResponse'          => 'Webdav/response/mkcol.php',
     'ezcWebdavMemoryBackend'                   => 'Webdav/backend/memory.php',
     'ezcWebdavMemoryBackendOptions'            => 'Webdav/options/backend_memory_options.php',
     'ezcWebdavMoveRequest'                     => 'Webdav/request/move.php',

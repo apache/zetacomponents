@@ -1149,5 +1149,166 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         );
     }
+
+    public function testMakeCollectionOnExistingCollection()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavMakeCollectionRequest( '/bar' );
+        $request->validateHeaders();
+        $response = $backend->makeCollection( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_405,
+                '/bar'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testMakeCollectionOnExistingRessource()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavMakeCollectionRequest( '/foo' );
+        $request->validateHeaders();
+        $response = $backend->makeCollection( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_405,
+                '/foo'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testMakeCollectionMissingParent()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavMakeCollectionRequest( '/dum/di' );
+        $request->validateHeaders();
+        $response = $backend->makeCollection( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                '/dum/di'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testMakeCollectionInRessource()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavMakeCollectionRequest( '/foo/bar' );
+        $request->validateHeaders();
+        $response = $backend->makeCollection( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_403,
+                '/foo/bar'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testMakeCollectionWithRequestBody()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavMakeCollectionRequest( '/bar/foo', 'with request body' );
+        $request->validateHeaders();
+        $response = $backend->makeCollection( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_415,
+                '/bar/foo'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testMakeCollection()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavMakeCollectionRequest( '/bar/foo' );
+        $request->validateHeaders();
+        $response = $backend->makeCollection( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavMakeCollectionResponse(
+                '/bar/foo'
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            $content,
+            array(
+                '/' => array(
+                    '/foo',
+                    '/bar',
+                ),
+                '/foo' => 'bar',
+                '/bar' => array(
+                    '/bar/blubb',
+                    '/bar/foo',
+                ),
+                '/bar/blubb' => 'Somme blubb blubbs.',
+                '/bar/foo' => array(),
+            )
+        );
+    }
 }
 ?>
