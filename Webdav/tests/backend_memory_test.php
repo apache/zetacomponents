@@ -756,7 +756,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         ) );
 
-        $backend->options->failingOperations = ezcWebdavRequest::COPY;
+        $backend->options->failingOperations = ezcWebdavMemoryBackendOptions::REQUEST_COPY;
         $backend->options->failForRegexp = '(_[24]$)';
 
         $request = new ezcWebdavCopyRequest( '/bar', '/foo' );
@@ -1031,7 +1031,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         ) );
 
-        $backend->options->failingOperations = ezcWebdavRequest::COPY;
+        $backend->options->failingOperations = ezcWebdavMemoryBackendOptions::REQUEST_COPY;
         $backend->options->failForRegexp = '(_[24]$)';
 
         $request = new ezcWebdavMoveRequest( '/bar', '/foo' );
@@ -1191,7 +1191,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         ) );
 
-        $backend->options->failingOperations = ezcWebdavRequest::DELETE;
+        $backend->options->failingOperations = ezcWebdavMemoryBackendOptions::REQUEST_DELETE;
         $backend->options->failForRegexp = '(foo)';
 
         $request = new ezcWebdavDeleteRequest( '/foo' );

@@ -31,6 +31,19 @@
 class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
 {
     /**
+     * Constants for request types.
+     */
+    const REQUEST_GET       = 1;
+    const REQUEST_HEAD      = 2;
+    const REQUEST_PUT       = 4;
+    const REQUEST_PROPFIND  = 8;
+    const REQUEST_PROPPATCH = 16;
+    const REQUEST_DELETE    = 32;
+    const REQUEST_COPY      = 64;
+    const REQUEST_MOVE      = 128;
+    const REQUEST_MKCOL     = 256;
+
+    /**
      * Constructs an object with the specified values.
      *
      * @throws ezcBasePropertyNotFoundException

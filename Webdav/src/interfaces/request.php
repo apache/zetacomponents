@@ -19,21 +19,6 @@
 abstract class ezcWebdavRequest
 {
     /**
-     * Constants for request types.
-     *
-     * @todo Remove these from here, they are only for testing!
-     */
-    const GET       = 1;
-    const HEAD      = 2;
-    const PUT       = 4;
-    const PROPFIND  = 8;
-    const PROPPATCH = 16;
-    const DELETE    = 32;
-    const COPY      = 64;
-    const MOVE      = 128;
-    const MKCOL     = 256;
-
-    /**
      * Constants for the 'Depth' header and property fields. 
      *
      * @see ezcWebdavLockDiscoveryPropertyActiveLock

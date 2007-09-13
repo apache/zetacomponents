@@ -303,7 +303,7 @@ class ezcWebdavMemoryBackend
      */
     protected function memCopy( $fromPath, $toPath, $depth = ezcWebdavRequest::DEPTH_INFINITY )
     {
-        $causeErrors = (bool) ( $this->options->failingOperations & ezcWebdavRequest::COPY );
+        $causeErrors = (bool) ( $this->options->failingOperations & ezcWebdavMemoryBackendOptions::REQUEST_COPY );
         $errors = array();
         
         if ( !is_array( $this->content[$fromPath] ) ||
@@ -440,7 +440,7 @@ class ezcWebdavMemoryBackend
      */
     protected function memDelete( $path )
     {
-        if ( $this->options->failingOperations & ezcWebdavRequest::DELETE )
+        if ( $this->options->failingOperations & ezcWebdavMemoryBackendOptions::REQUEST_DELETE )
         {
             if ( preg_match( $this->options->failForRegexp, $path ) )
             {
