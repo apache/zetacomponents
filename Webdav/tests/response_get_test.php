@@ -32,9 +32,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetResourceResponse(
             new ezcWebdavResource(
                 '/path',
-                array(
-                    'name' => 'value',
-                )
+                new ezcWebdavPropertyStorage()
             )
         );
 
@@ -56,9 +54,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetResourceResponse(
             new ezcWebdavResource(
                 '/path',
-                array(
-                    'name' => 'value',
-                )
+                new ezcWebdavPropertyStorage()
             )
         );
 
@@ -79,9 +75,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetCollectionResponse(
             new ezcWebdavCollection(
                 '/path',
-                array(
-                    'name' => 'value',
-                ),
+                new ezcWebdavPropertyStorage(),
                 array()
             )
         );
@@ -104,9 +98,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetCollectionResponse(
             new ezcWebdavCollection(
                 '/path',
-                array(
-                    'name' => 'value',
-                ),
+                new ezcWebdavPropertyStorage(),
                 array()
             )
         );
@@ -128,9 +120,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetResourceResponse(
             $resource = new ezcWebdavResource(
                 '/path',
-                array(
-                    'name' => 'value',
-                )
+                new ezcWebdavPropertyStorage()
             )
         );
 
@@ -157,9 +147,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetCollectionResponse(
             $collection = new ezcWebdavCollection(
                 '/path',
-                array(
-                    'name' => 'value',
-                )
+                new ezcWebdavPropertyStorage()
             )
         );
 
