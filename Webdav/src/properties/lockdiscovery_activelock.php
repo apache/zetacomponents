@@ -50,6 +50,8 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
         $this->owner   = $owner;
         $this->timeout = $timeout;
         $this->tokens  = $tokens;
+
+        $this->name    = 'activelock';
     }
 
     /**

@@ -2,7 +2,7 @@
 
 require_once dirname( __FILE__ ) . '/property_test.php';
 
-class ezcWebdavSupportedLockPropertyLockentryTest extends ezcWebdavPropertyTestCase
+class ezcWebdavSupportedLockPropertyLockentryTest extends ezcWebdavWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -12,6 +12,7 @@ class ezcWebdavSupportedLockPropertyLockentryTest extends ezcWebdavPropertyTestC
     protected function setUp()
     {
         $this->className = 'ezcWebdavSupportedLockPropertyLockentry';
+        $this->propertyName = 'lockentry';
         $this->defaultValues = array(
             'lockType'  => ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_READ,
             'lockScope' => ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_SHARED,

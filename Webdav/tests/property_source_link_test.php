@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+require_once dirname( __FILE__ ) . '/webdav_property_test.php';
 
-class ezcWebdavSourcePropertyLinkTest extends ezcWebdavPropertyTestCase
+class ezcWebdavSourcePropertyLinkTest extends ezcWebdavWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -12,6 +12,7 @@ class ezcWebdavSourcePropertyLinkTest extends ezcWebdavPropertyTestCase
     protected function setUp()
     {
         $this->className = 'ezcWebdavSourcePropertyLink';
+        $this->propertyName = 'link';
         $this->defaultValues = array(
             'src' => null,
             'dst' => null,

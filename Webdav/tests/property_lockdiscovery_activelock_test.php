@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+require_once dirname( __FILE__ ) . '/webdav_property_test.php';
 
-class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavPropertyTestCase
+class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -12,6 +12,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavPropertyTest
     protected function setUp()
     {
         $this->className = 'ezcWebdavLockDiscoveryPropertyActiveLock';
+        $this->propertyName = 'activelock';
         $this->defaultValues = array(
             'lockType'  => ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_READ,
             'lockScope' => ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_SHARED,

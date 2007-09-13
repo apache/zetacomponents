@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+require_once dirname( __FILE__ ) . '/webdav_property_test.php';
 
-class ezcWebdavGetContentTypePropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavGetContentTypePropertyTest extends ezcWebdavWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -12,6 +12,7 @@ class ezcWebdavGetContentTypePropertyTest extends ezcWebdavPropertyTestCase
     protected function setUp()
     {
         $this->className = 'ezcWebdavGetContentTypeProperty';
+        $this->propertyName = 'getcontenttype';
         $this->defaultValues = array(
             'mime'    => null,
             'charset' => null,

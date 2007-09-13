@@ -77,7 +77,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavGetContentLengthPropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentTypePropertyTest::suite() );
         $this->addTest( ezcWebdavGetEtagPropertyTest::suite() );
-        $this->addTest( ezcWebdavLastModifiedPropertyTest::suite() );
+        $this->addTest( ezcWebdavGetLastModifiedPropertyTest::suite() );
         $this->addTest( ezcWebdavLockDiscoveryPropertyActiveLockTest::suite() );
         $this->addTest( ezcWebdavLockDiscoveryPropertyTest::suite() );
         $this->addTest( ezcWebdavMemoryBackendTest::suite() );

@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+require_once dirname( __FILE__ ) . '/webdav_property_test.php';
 
-class ezcWebdavDisplayNamePropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavDisplayNamePropertyTest extends ezcWebdavWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -12,18 +12,19 @@ class ezcWebdavDisplayNamePropertyTest extends ezcWebdavPropertyTestCase
     protected function setUp()
     {
         $this->className = 'ezcWebdavDisplayNameProperty';
+        $this->propertyName = 'displayname';
         $this->defaultValues = array(
-            'name' => null,
+            'displayName' => null,
         );
         $this->workingValues = array(
-            'name' => array(
+            'displayName' => array(
                 null,
                 '',
                 'Foo Bar Baz',
             ),
         );
         $this->failingValues = array(
-            'name' => array(
+            'displayName' => array(
                 23,
                 23.34,
                 true,

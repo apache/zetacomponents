@@ -47,13 +47,5 @@ abstract class ezcWebdavRequestTestCase extends ezcWebdavPropertyTestCase
         $class = new ReflectionClass( $this->className );
         return $class->newInstanceArgs( $this->constructorArguments );
     }
-
-    /**
-     * Do not run this test here.
-     */
-    public function testCtorSuccess()
-    {
-        return true;
-    }
 }
 ?>

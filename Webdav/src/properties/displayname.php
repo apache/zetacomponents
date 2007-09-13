@@ -28,7 +28,7 @@ class ezcWebdavDisplayNameProperty extends ezcWebdavLiveProperty
     {
         parent::__construct( 'displayname' );
 
-        $this->name = $name;
+        $this->displayName = $name;
     }
 
     /**
@@ -50,7 +50,7 @@ class ezcWebdavDisplayNameProperty extends ezcWebdavLiveProperty
     {
         switch ( $propertyName )
         {
-            case 'name':
+            case 'displayName':
                 if ( is_string( $propertyValue ) === false && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );

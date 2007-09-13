@@ -93,27 +93,6 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
 
     // protected abstract function setup();
 
-    public function testCtorSuccess()
-    {
-        $class = new ReflectionClass( $this->className );
-        
-        // Without params
-        $object = $class->newInstance();
-        $this->assertPropertyValues( $object, $this->defaultValues );
-
-        
-        $params = array();
-        foreach ( $this->workingValues as $propName => $values )
-        {
-            foreach ( $values as $value )
-            {
-                $params[$propName] = $value;
-                $object = $class->newInstanceArgs( $params );
-                $this->assertPropertyValues( $object, $params );
-            }
-        }
-    }
-
     /*
      * Does not work with type hints, currently.
      *

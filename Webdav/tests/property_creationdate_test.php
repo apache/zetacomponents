@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+require_once dirname( __FILE__ ) . '/webdav_property_test.php';
 
-class ezcWebdavCreationDatePropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavCreationDatePropertyTest extends ezcWebdavWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -12,6 +12,7 @@ class ezcWebdavCreationDatePropertyTest extends ezcWebdavPropertyTestCase
     protected function setUp()
     {
         $this->className = 'ezcWebdavCreationDateProperty';
+        $this->propertyName = 'creationdate';
         $this->defaultValues = array(
             'date' => null,
         );

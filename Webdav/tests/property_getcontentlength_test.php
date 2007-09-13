@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+require_once dirname( __FILE__ ) . '/webdav_property_test.php';
 
-class ezcWebdavGetContentLengthPropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavGetContentLengthPropertyTest extends ezcWebdavWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -12,6 +12,7 @@ class ezcWebdavGetContentLengthPropertyTest extends ezcWebdavPropertyTestCase
     protected function setUp()
     {
         $this->className = 'ezcWebdavGetContentLengthProperty';
+        $this->propertyName = 'getcontentlength';
         $this->defaultValues = array(
             'length' => null,
         );

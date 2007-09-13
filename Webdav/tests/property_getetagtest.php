@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+require_once dirname( __FILE__ ) . '/webdav_property_test.php';
 
-class ezcWebdavGetEtagPropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavGetEtagPropertyTest extends ezcWebdavWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -12,6 +12,7 @@ class ezcWebdavGetEtagPropertyTest extends ezcWebdavPropertyTestCase
     protected function setUp()
     {
         $this->className = 'ezcWebdavGetEtagProperty';
+        $this->propertyName = 'getetag';
         $this->defaultValues = array(
             'etag'    => null,
         );

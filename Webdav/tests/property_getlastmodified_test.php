@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+require_once dirname( __FILE__ ) . '/webdav_property_test.php';
 
-class ezcWebdavLastModifiedPropertyTest extends ezcWebdavPropertyTestCase
+class ezcWebdavGetLastModifiedPropertyTest extends ezcWebdavWebdavPropertyTestCase
 {
     public static function suite()
     {
@@ -12,6 +12,7 @@ class ezcWebdavLastModifiedPropertyTest extends ezcWebdavPropertyTestCase
     protected function setUp()
     {
         $this->className = 'ezcWebdavGetLastModifiedProperty';
+        $this->propertyName = 'getlastmodified';
         $this->defaultValues = array(
             'date' => null,
         );
