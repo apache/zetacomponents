@@ -161,6 +161,34 @@ Operations
 
 This section contains operation specific information.
 
+===
+PUT
+===
+
+Replaces the content which will be returned by GET. Live properties may be
+recalculated - for example the content type may be set from the corresponding
+header passed to the server.a
+
+Header
+======
+
+None special.
+
+Response
+========
+
+Codes
+-----
+
+Example response codes to be returned by this request.
+
+200 (OK)
+  The command succeeded.  As there can be a mixture of sets and removes in a
+  body, a 201 (Created) seems inappropriate.
+
+409 (Conflict)
+  If parent node does not exists, or is no collection.
+
 ========
 PROPFIND
 ========
@@ -210,7 +238,7 @@ XML
   case of a PROPFIND request, it contains an empty property tag for each
   property that should be returned.
 
-Exampls
+Example
 =======
 
 Regular PROPFIND request
