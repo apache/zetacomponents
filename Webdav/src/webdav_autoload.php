@@ -42,6 +42,8 @@ return array(
     'ezcWebdavGetLastModifiedProperty'         => 'Webdav/properties/getlastmodified.php',
     'ezcWebdavGetRequest'                      => 'Webdav/request/get.php',
     'ezcWebdavGetResourceResponse'             => 'Webdav/response/get_resource.php',
+    'ezcWebdavHeadRequest'                     => 'Webdav/request/head.php',
+    'ezcWebdavHeadResponse'                    => 'Webdav/response/head.php',
     'ezcWebdavLockDiscoveryProperty'           => 'Webdav/properties/lockdiscovery.php',
     'ezcWebdavLockDiscoveryPropertyActiveLock' => 'Webdav/properties/lockdiscovery_activelock.php',
     'ezcWebdavMakeCollectionRequest'           => 'Webdav/request/mkcol.php',

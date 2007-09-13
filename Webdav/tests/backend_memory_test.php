@@ -261,6 +261,80 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
     }
 
+    public function testResourceHead()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavHeadRequest( '/foo' );
+        $request->validateHeaders();
+        $response = $backend->head( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavHeadResponse(
+                new ezcWebdavResource(
+                    '/foo', array()
+                )
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testCollectionHead()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavHeadRequest( '/bar' );
+        $request->validateHeaders();
+        $response = $backend->head( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavHeadResponse(
+                new ezcWebdavCollection(
+                    '/bar', array()
+                )
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testResourceHeadError()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavGetRequest( '/unknown' );
+        $request->validateHeaders();
+        $response = $backend->get( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_404,
+                '/unknown'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
     public function testResourceGet()
     {
         $backend = new ezcWebdavMemoryBackend();

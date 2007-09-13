@@ -575,7 +575,6 @@ class ezcWebdavMemoryBackend
      */
     public function head( ezcWebdavHeadRequest $request )
     {
-        // @TODO: Implement.
         $source = $request->requestUri;
 
         // Check if resource is available
@@ -587,6 +586,26 @@ class ezcWebdavMemoryBackend
             );
         }
 
+        if ( !is_array( $this->content[$source] ) )
+        {
+            // Just deliver file without contents
+            return new ezcWebdavHeadResponse(
+                new ezcWebdavResource(
+                    $source,
+                    $this->props[$source]
+                )
+            );
+        }
+        else
+        {
+            // Just deliver collection without childs
+            return new ezcWebdavHeadResponse(
+                new ezcWebdavCollection(
+                    $source,
+                    $this->props[$source]
+                )
+            );
+        }
     }
 
     /**
