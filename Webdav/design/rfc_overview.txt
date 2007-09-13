@@ -182,9 +182,8 @@ Codes
 
 Example response codes to be returned by this request.
 
-200 (OK)
-  The command succeeded.  As there can be a mixture of sets and removes in a
-  body, a 201 (Created) seems inappropriate.
+201 (Created)
+  The resource was created in its entity.
 
 409 (Conflict)
   If parent node does not exists, or is no collection.
