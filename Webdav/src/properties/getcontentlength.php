@@ -16,7 +16,7 @@
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavGetContentLengthProperty extends ezcWebdavProperty
+class ezcWebdavGetContentLengthProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavGetContentLengthProperty.
@@ -26,6 +26,8 @@ class ezcWebdavGetContentLengthProperty extends ezcWebdavProperty
      */
     public function __construct( $length = null )
     {
+        parent::__construct();
+
         $this->length = $length;
     }
 
@@ -53,11 +55,13 @@ class ezcWebdavGetContentLengthProperty extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string of digits' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

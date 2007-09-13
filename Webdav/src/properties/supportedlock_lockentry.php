@@ -18,7 +18,7 @@
  * @version //autogenlastmodified//
  * @package Webdav
  */
-class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavProperty
+class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
 {
     const TYPE_READ       = 1;
     const TYPE_WRITE      = 2;
@@ -35,6 +35,8 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavProperty
      */
     public function __construct( $lockType = self::TYPE_READ, $lockScope = self::SCOPE_SHARED )
     {
+        parent::__construct();
+
         $this->lockType  = $lockType;
         $this->lockScope = $lockScope;
     }
@@ -63,17 +65,22 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavSupportedLockPropertyLockentry::TYPE_*' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             case 'lockScope':
                 if ( $propertyValue !== self::SCOPE_SHARED && $propertyValue !== self::SCOPE_EXCLUSIVE )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavSupportedLockPropertyLockentry::SCOPE_*' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

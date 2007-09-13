@@ -16,7 +16,7 @@
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavDisplayNameProperty extends ezcWebdavProperty
+class ezcWebdavDisplayNameProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavDisplayNameProperty.
@@ -26,6 +26,8 @@ class ezcWebdavDisplayNameProperty extends ezcWebdavProperty
      */
     public function __construct( $name = null )
     {
+        parent::__construct();
+
         $this->name = $name;
     }
 
@@ -53,11 +55,13 @@ class ezcWebdavDisplayNameProperty extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

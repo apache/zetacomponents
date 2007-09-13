@@ -16,7 +16,7 @@
  * @version //autogenetag//
  * @package Webdav
  */
-class ezcWebdavGetEtagProperty extends ezcWebdavProperty
+class ezcWebdavGetEtagProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavGetEtagProperty.
@@ -26,6 +26,8 @@ class ezcWebdavGetEtagProperty extends ezcWebdavProperty
      */
     public function __construct( $etag = null )
     {
+        parent::__construct();
+
         $this->etag = $etag;
     }
 
@@ -53,11 +55,13 @@ class ezcWebdavGetEtagProperty extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

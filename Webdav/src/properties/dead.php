@@ -1,34 +1,38 @@
 <?php
 /**
- * File containing the lockdiscovery property class.
+ * File containing the dead property class.
  *
  * @package Webdav
- * @version //autogenlastmodified//
+ * @version //autogenetag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * An object of this class represents the Webdav property <lockdiscovery>.
+ * An object of this class represents a  Webdav dead property.
  *
- * @property array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock
- *           Lock information according to <activelock> elements.
+ * @property string $content
+ *           The content of a dead property.
  *
- * @version //autogenlastmodified//
+ * @version //autogenetag//
  * @package Webdav
  */
-class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
+class ezcWebdavDeadProperty extends ezcWebdavProperty
 {
     /**
-     * Creates a new ezcWebdavLockDiscoveryProperty.
+     * Creates a new dead property.
+     *
+     * Creates a new dead property by namespace, name and optionally its
+     * content.
      * 
-     * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock Lock info.
+     * @param string $namespace
+     * @param string $name
+     * @param string $content
      * @return void
      */
-    public function __construct( array $activeLock = null )
+    public function __construct( $namespace, $name, $content = null )
     {
-        parent::__construct();
-
-        $this->activeLock = $activeLock;
+        parent::__construct( $namespace, $name );
+        $this->content = $content;
     }
 
     /**
@@ -50,10 +54,10 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
     {
         switch ( $propertyName )
         {
-            case 'activeLock':
-                if ( is_array( $propertyValue ) === false && $propertyValue !== null )
+            case 'content':
+                if ( !is_string( $propertyValue ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(ezcWebdavLockDiscoveryPropertyActiveLock)' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;

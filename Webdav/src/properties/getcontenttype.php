@@ -18,7 +18,7 @@
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavGetContentTypeProperty extends ezcWebdavProperty
+class ezcWebdavGetContentTypeProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavGetContentTypeProperty.
@@ -28,6 +28,8 @@ class ezcWebdavGetContentTypeProperty extends ezcWebdavProperty
      */
     public function __construct( $mime = null, $charset = null )
     {
+        parent::__construct();
+
         $this->mime = $mime;
         $this->charset = $charset;
     }
@@ -56,17 +58,21 @@ class ezcWebdavGetContentTypeProperty extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
             case 'charset':
                 if ( is_string( $propertyValue ) === false && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

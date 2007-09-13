@@ -16,7 +16,7 @@
  * @version //autogenlastmodified//
  * @package Webdav
  */
-class ezcWebdavResourceTypeProperty extends ezcWebdavProperty
+class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavResourceTypeProperty.
@@ -26,6 +26,8 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavProperty
      */
     public function __construct( $type = null )
     {
+        parent::__construct();
+
         $this->type = $type;
     }
 
@@ -53,11 +55,13 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

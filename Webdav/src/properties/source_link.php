@@ -18,7 +18,7 @@
  * @version //autogenlastmodified//
  * @package Webdav
  */
-class ezcWebdavSourcePropertyLink extends ezcWebdavProperty
+class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavSourceProperty.
@@ -29,6 +29,8 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavProperty
      */
     public function __construct( $src = null, $dst = null )
     {
+        parent::__construct();
+
         $this->src = $src;
         $this->dst = $dst;
     }
@@ -57,17 +59,22 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             case 'dst':
                 if ( is_string( $propertyValue ) === false && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

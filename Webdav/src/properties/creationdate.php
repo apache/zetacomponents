@@ -16,7 +16,7 @@
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavCreationDateProperty extends ezcWebdavProperty
+class ezcWebdavCreationDateProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavCreationDateProperty.
@@ -26,6 +26,8 @@ class ezcWebdavCreationDateProperty extends ezcWebdavProperty
      */
     public function __construct( DateTime $date = null )
     {
+        parent::__construct();
+
         $this->date = $date;
     }
 
@@ -53,11 +55,13 @@ class ezcWebdavCreationDateProperty extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'DateTime' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

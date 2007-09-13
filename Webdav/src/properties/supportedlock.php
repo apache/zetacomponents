@@ -16,7 +16,7 @@
  * @version //autogenlastmodified//
  * @package Webdav
  */
-class ezcWebdavSupportedLockProperty extends ezcWebdavProperty
+class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavSourceProperty.
@@ -26,6 +26,8 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavProperty
      */
     public function __construct( array $lockEntry = null )
     {
+        parent::__construct();
+
         $this->lockEntry = $lockEntry;
     }
 
@@ -53,11 +55,13 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(ezcWebdavSupportedLockPropertyLockentry)' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

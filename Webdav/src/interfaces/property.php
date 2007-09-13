@@ -10,6 +10,11 @@
 /**
  * Base class for WebDAV property representation classes.
  * 
+ * @property $namespace
+ *           Namespace of property
+ * @property $name
+ *           Name of property
+ *
  * @package Webdav
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
@@ -24,6 +29,21 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
      */
     protected $properties;
     
+    /**
+     * Creates a new property.
+     *
+     * Creates a new property by namespace and name.
+     * 
+     * @param string $namespace
+     * @param string $name
+     * @return void
+     */
+    public function __construct( $namespace, $name )
+    {
+        $this->namespace = $namespace;
+        $this->name      = $name;
+    }
+
     /**
      * Property get access.
      * Simply returns a given property.
@@ -64,7 +84,23 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
      * @throws ezcBasePropertyPermissionException
      *         if the property to be set is a read-only property.
      */
-    abstract public function __set( $propertyName, $propertyValue );
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'name':
+            case 'namespace':
+                if ( !is_string( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                }
+                $this->properties[$propertyName] = $propertyValue;
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+    }
 
     /**
      * Returns if a property exists.
@@ -79,7 +115,6 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
     {
         return array_key_exists( $propertyName, $this->properties );
     }
-
 }
 
 ?>

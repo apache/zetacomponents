@@ -16,7 +16,7 @@
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavGetContentLanguageProperty extends ezcWebdavProperty
+class ezcWebdavGetContentLanguageProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavGetContentLanguageProperty.
@@ -26,6 +26,8 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavProperty
      */
     public function __construct( array $languages = array() )
     {
+        parent::__construct();
+
         $this->languages = $languages;
     }
 
@@ -53,11 +55,13 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavProperty
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 
