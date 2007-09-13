@@ -25,6 +25,11 @@ class ezcTreeCopyTest extends ezcTestCase
         $this->storeToMem = new ezcTreeMemoryDataStore();
     }
 
+    protected function tearDown()
+    {
+        $this->removeTempDir();
+    }
+
     protected function addTestData( $tree )
     {
         $primates = array(
