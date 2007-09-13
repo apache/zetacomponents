@@ -66,10 +66,10 @@ abstract class ezcWebdavSimpleBackend
      * 
      * @param string $resource 
      * @param string $propertyName 
-     * @param ezcWebdavProperty $propertyValue 
+     * @param ezcWebdavProperty $property
      * @return bool
      */
-    abstract public function setProperty( $resource, ezcWebdavProperty $propertyValue );
+    abstract public function setProperty( $resource, ezcWebdavProperty $property );
 
     /**
      * Manually get a property on a resource.
