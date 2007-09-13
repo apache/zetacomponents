@@ -61,7 +61,7 @@ class ezcWebdavMemoryBackend
     );
 
     /**
-     * Properties for collections and ressources.
+     * Properties for collections and resources.
      *
      * They are stored in an array of the following form reusing the initial
      * content example:
@@ -141,9 +141,9 @@ class ezcWebdavMemoryBackend
     }
 
     /**
-     * Return an initial set o fproperties for ressources and collections.
+     * Return an initial set o fproperties for resources and collections.
      *
-     * The second parameter indicates wheather the given ressource is a
+     * The second parameter indicates wheather the given resource is a
      * collection. The returned properties are used to initialize the property
      * arrays for the given content.
      * 
@@ -159,7 +159,7 @@ class ezcWebdavMemoryBackend
                 'creationdate'          => 1054034820,
                 'displayname'           => basename( $name ),
                 'getcontentlanguage'    => 'en',
-                'getcontentlength'      => ( is_array( $this->content[$name] ) ? 0 : strlen( $this->content[$name] ) ),
+                'getcontentlength'      => ( $isCollection ? 0 : strlen( $this->content[$name] ) ),
                 'getcontenttype'        => 'application/octet-stream',
                 'getetag'               => md5( $name ),
                 'getlastmodified'       => 1124118780,
@@ -190,27 +190,27 @@ class ezcWebdavMemoryBackend
                 continue;
             }
 
-            // Full path to ressource
-            $ressourcePath = $path . $name;
+            // Full path to resource
+            $resourcePath = $path . $name;
 
             if ( is_array( $content ) )
             {
                 // Content is a collection
-                $this->content[$ressourcePath] = array();
-                $this->props[$ressourcePath] = $this->initializeProperties(
-                    $ressourcePath,
+                $this->content[$resourcePath] = array();
+                $this->props[$resourcePath] = $this->initializeProperties(
+                    $resourcePath,
                     true
                 );
 
                 // Recurse
-                $this->addContents( $content, $ressourcePath . '/' );
+                $this->addContents( $content, $resourcePath . '/' );
             }
             elseif ( is_string( $content ) )
             {
                 // Content is a file
-                $this->content[$ressourcePath] = $content;
-                $this->props[$ressourcePath] = $this->initializeProperties(
-                    $ressourcePath
+                $this->content[$resourcePath] = $content;
+                $this->props[$resourcePath] = $this->initializeProperties(
+                    $resourcePath
                 );
             }
             else
@@ -221,7 +221,7 @@ class ezcWebdavMemoryBackend
 
             // Add contents to parent directory
             $parent = ( $path === '/' ? '/' : substr( $path, 0, -1 ) );
-            $this->content[$parent][] = $ressourcePath;
+            $this->content[$parent][] = $resourcePath;
         }
     }
 
@@ -231,7 +231,6 @@ class ezcWebdavMemoryBackend
      * Creates a new collection at the given path.
      * 
      * @param string $path 
-     * @access protected
      * @return void
      */
     protected function createCollection( $path )
@@ -241,35 +240,60 @@ class ezcWebdavMemoryBackend
 
         // Add collection to parent node
         $this->content[dirname( $path )][] = $path;
+
+        // Set initial metadata for collection
+        $this->props[$path] = $this->initializeProperties( $path, true );
     }
 
     /**
-     * Manually set a property on a ressource to request it later.
+     * Create a new resource.
+     *
+     * Creates a new resource at the given path, optionally with the given
+     * content.
      * 
-     * @param string $ressource 
+     * @param string $path 
+     * @param string $content 
+     * @return void
+     */
+    protected function createResource( $path, $content = null )
+    {
+        // Create resource
+        $this->content[$path] = $content;
+
+        // Add resource to parent node
+        $this->content[dirname( $path )][] = $path;
+
+        // Set initial metadata for collection
+        $this->props[$path] = $this->initializeProperties( $path, false );
+    }
+
+    /**
+     * Manually set a property on a resource to request it later.
+     * 
+     * @param string $resource 
      * @param string $propertyName 
      * @param string $propertyValue 
      * @return bool
      */
-    public function setProperty( $ressource, $propertyName, $propertyValue )
+    public function setProperty( $resource, $propertyName, $propertyValue )
     {
-        // Check if ressource exists at all
-        if ( !array_key_exists( $ressource, $this->props ) )
+        // Check if resource exists at all
+        if ( !array_key_exists( $resource, $this->props ) )
         {
             return false;
         }
 
         // Do not check if an existing value will be overwritten, just set
         // property
-        $this->props[$ressource][$propertyName] = $propertyValue;
+        $this->props[$resource][$propertyName] = $propertyValue;
 
         return true;
     }
 
     /**
-     * Copy ressources recursively from one path to another.
+     * Copy resources recursively from one path to another.
      *
-     * Returns an array with ressources / collections, which caused an error
+     * Returns an array with resources / collections, which caused an error
      * during copy operation. An empty array means full success.
      * 
      * @param string $fromPath 
@@ -285,7 +309,7 @@ class ezcWebdavMemoryBackend
         if ( !is_array( $this->content[$fromPath] ) ||
              ( is_array( $this->content[$fromPath] ) && ( $depth === ezcWebdavRequest::DEPTH_ZERO ) ) )
         {
-            // Copy a ressource, or a collection, but the depth header told not
+            // Copy a resource, or a collection, but the depth header told not
             // to recurse into collections
             if ( $causeErrors && preg_match( $this->options->failForRegexp, $fromPath ) )
             {
@@ -324,48 +348,48 @@ class ezcWebdavMemoryBackend
             $copiedCollections = array();
 
             // Check all nodes, if they math the fromPath
-            foreach ( $this->content as $ressource => $content )
+            foreach ( $this->content as $resource => $content )
             {
-                if ( strpos( $ressource, $fromPath ) !== 0 )
+                if ( strpos( $resource, $fromPath ) !== 0 )
                 {
-                    // This ressource is not affected by the copy operation
+                    // This resource is not affected by the copy operation
                     continue;
                 }
 
-                // Check if this ressource should be skipped, because
+                // Check if this resource should be skipped, because
                 // already one of the parent nodes caused an error.
                 foreach ( $errnousSubtrees as $subtree )
                 {
-                    if ( strpos( $ressource, $subtree ) )
+                    if ( strpos( $resource, $subtree ) )
                     {
-                        // Skip ressource, then.
+                        // Skip resource, then.
                         continue 2;
                     }
                 }
 
-                // Check if this ressource should cause an error
-                if ( $causeErrors && preg_match( $this->options->failForRegexp, $ressource ) )
+                // Check if this resource should cause an error
+                if ( $causeErrors && preg_match( $this->options->failForRegexp, $resource ) )
                 {
-                    // Cause an error and skip ressource
-                    $errors[] = $ressource;
+                    // Cause an error and skip resource
+                    $errors[] = $resource;
                     continue;
                 }
 
                 // To actually perform the copy operation, modify the
-                // destination ressource name
-                $newResourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $ressource );
+                // destination resource name
+                $newResourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $resource );
                 
                 // Add collection to collection child recalculation array
-                if ( is_array( $this->content[$ressource] ) )
+                if ( is_array( $this->content[$resource] ) )
                 {
                     $copiedCollections[] = $newResourceName;
                 }
 
                 // Actually copy
-                $this->content[$newResourceName] = $this->content[$ressource];
+                $this->content[$newResourceName] = $this->content[$resource];
 
                 // Copy properties
-                $this->props[$newResourceName] = $this->props[$ressource];
+                $this->props[$newResourceName] = $this->props[$resource];
 
                 // Update modification date
                 $this->props[$newResourceName]['getlastmodified'] = time();
@@ -479,7 +503,7 @@ class ezcWebdavMemoryBackend
     {
         $source = $request->requestUri;
 
-        // Check if ressource is available
+        // Check if resource is available
         if ( !isset( $this->content[$source] ) )
         {
             return new ezcWebdavErrorResponse(
@@ -501,7 +525,7 @@ class ezcWebdavMemoryBackend
         }
 
         // Build and add an array with structs for contained collections and
-        // ressources of an collection if requested ressource is not just a
+        // resources of an collection if requested resource is not just a
         // file.
         //
         // It is up to the transport handler, to render some listing out of
@@ -554,7 +578,7 @@ class ezcWebdavMemoryBackend
         // @TODO: Implement.
         $source = $request->requestUri;
 
-        // Check if ressource is available
+        // Check if resource is available
         if ( !isset( $this->content[$source] ) )
         {
             return new ezcWebdavErrorResponse(
@@ -587,10 +611,10 @@ class ezcWebdavMemoryBackend
     /**
      * Required method to serve PROPPATCH requests.
      * 
-     * The method receives a {@link ezcWebdavPropPatchRequest} object containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an {@link ezcWebdavErrorResponse} object, or any
-     * other {@link ezcWebdavResponse} objects.
+     * The method receives a {@link ezcWebdavPropPatchRequest} object
+     * containing all relevant information obout the clients request and should
+     * either return an error by returning an {@link ezcWebdavErrorResponse}
+     * object, or any other {@link ezcWebdavResponse} objects.
      *
      * @param ezcWebdavPropPatchRequest $request
      * @return ezcWebdavResponse
@@ -613,7 +637,48 @@ class ezcWebdavMemoryBackend
      */
     public function put( ezcWebdavPutRequest $request )
     {
-        // @TODO: Implement.
+        $source = $request->requestUri;
+
+        // Check if parent node exists and throw a 409 otherwise
+        if ( !isset( $this->content[dirname( $source )] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                $source
+            );
+        }
+
+        // Check if parent node is a collection, and throw a 409 otherwise
+        if ( !is_array( $this->content[dirname( $source )] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                $source
+            );
+        }
+
+        // Check if resource to be updated or created does not exists already
+        // AND is a collection
+        if ( isset( $this->content[$source] ) &&
+             is_array( $this->content[$source] ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                $source
+            );
+        }
+
+        // Everything is OK, create or update resource.
+        if ( !isset( $this->content[$source] ) )
+        {
+            $this->createResource( $source );
+        }
+        $this->content[$source] = $request->body;
+
+        // Return success response
+        return new ezcWebdavPutResponse(
+            $source
+        );
     }
 
     /**
@@ -631,7 +696,7 @@ class ezcWebdavMemoryBackend
     {
         $source = $request->requestUri;
 
-        // Check if ressource is available
+        // Check if resource is available
         if ( !isset( $this->content[$source] ) )
         {
             return new ezcWebdavErrorResponse(
@@ -672,7 +737,7 @@ class ezcWebdavMemoryBackend
      */
     public function copy( ezcWebdavCopyRequest $request )
     {
-        // Indicates wheather a destiantion ressource has been replaced or not.
+        // Indicates wheather a destiantion resource has been replaced or not.
         // The success response code depends on this.
         $replaced = false;
 
@@ -680,7 +745,7 @@ class ezcWebdavMemoryBackend
         $source = $request->requestUri;
         $dest = $request->getHeader( 'Destination' );
 
-        // Check if ressource is available
+        // Check if resource is available
         if ( !isset( $this->content[$source] ) )
         {
             return new ezcWebdavErrorResponse(
@@ -698,7 +763,7 @@ class ezcWebdavMemoryBackend
             );
         }
 
-        // Check if destination ressource exists and throw error, when
+        // Check if destination resource exists and throw error, when
         // overwrite header is F
         if ( ( $request->getHeader( 'Overwrite' ) === 'F' ) &&
              ( isset( $this->content[$dest] ) ) )
@@ -719,7 +784,7 @@ class ezcWebdavMemoryBackend
             );
         }
 
-        // The destination ressource should be deleted if it exists and the
+        // The destination resource should be deleted if it exists and the
         // overwrite headers is T
         if ( ( $request->getHeader( 'Overwrite' ) === 'T' ) &&
              ( isset( $this->content[$dest] ) ) )
@@ -740,9 +805,9 @@ class ezcWebdavMemoryBackend
         }
 
         // We need a multistatus response, because some errors occured for some
-        // of the ressources.
+        // of the resources.
         //
-        // For each errnous ressource we create a 423 error response, because
+        // For each errnous resource we create a 423 error response, because
         // they were randomly caused and we do not hav a "real" error here.        
         $responses = array();
         foreach ( $errors as $error )
@@ -772,7 +837,7 @@ class ezcWebdavMemoryBackend
      */
     public function move( ezcWebdavMoveRequest $request )
     {
-        // Indicates wheather a destiantion ressource has been replaced or not.
+        // Indicates wheather a destiantion resource has been replaced or not.
         // The success response code depends on this.
         $replaced = false;
 
@@ -780,7 +845,7 @@ class ezcWebdavMemoryBackend
         $source = $request->requestUri;
         $dest = $request->getHeader( 'Destination' );
 
-        // Check if ressource is available
+        // Check if resource is available
         if ( !isset( $this->content[$source] ) )
         {
             return new ezcWebdavErrorResponse(
@@ -798,7 +863,7 @@ class ezcWebdavMemoryBackend
             );
         }
 
-        // Check if destination ressource exists and throw error, when
+        // Check if destination resource exists and throw error, when
         // overwrite header is F
         if ( ( $request->getHeader( 'Overwrite' ) === 'F' ) &&
              ( isset( $this->content[$dest] ) ) )
@@ -819,7 +884,7 @@ class ezcWebdavMemoryBackend
             );
         }
 
-        // The destination ressource should be deleted if it exists and the
+        // The destination resource should be deleted if it exists and the
         // overwrite headers is T
         if ( ( $request->getHeader( 'Overwrite' ) === 'T' ) &&
              ( isset( $this->content[$dest] ) ) )
@@ -840,9 +905,9 @@ class ezcWebdavMemoryBackend
         if ( count( $errors ) )
         {
             // We need a multistatus response, because some errors occured for some
-            // of the ressources.
+            // of the resources.
             //
-            // For each errnous ressource we create a 423 error response, because
+            // For each errnous resource we create a 423 error response, because
             // they were randomly caused and we do not hav a "real" error here.        
             $responses = array();
             foreach ( $errors as $error )
@@ -892,7 +957,7 @@ class ezcWebdavMemoryBackend
     {
         $collection = $request->requestUri;
 
-        // If ressource already exists, the collection cannot be created and a
+        // If resource already exists, the collection cannot be created and a
         // 405 is thrown.
         if ( isset( $this->content[$collection] ) )
         {
@@ -912,7 +977,7 @@ class ezcWebdavMemoryBackend
             );
         }
 
-        // If the parent node exists, but is a ressource, which obviously can
+        // If the parent node exists, but is a resource, which obviously can
         // not accept any members, throw a 403 error.
         if ( !is_array( $this->content[dirname( $collection )] ) )
         {

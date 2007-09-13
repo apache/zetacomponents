@@ -55,6 +55,8 @@ return array(
     'ezcWebdavPropFindRequest'                 => 'Webdav/request/propfind.php',
     'ezcWebdavPropPatchRequest'                => 'Webdav/request/proppatch.php',
     'ezcWebdavPropertyStorage'                 => 'Webdav/property_storage.php',
+    'ezcWebdavPutRequest'                      => 'Webdav/request/put.php',
+    'ezcWebdavPutResponse'                     => 'Webdav/response/put.php',
     'ezcWebdavRequestPropertyBehaviourContent' => 'Webdav/request/content/property_behaviour.php',
     'ezcWebdavResource'                        => 'Webdav/structs/resource.php',
     'ezcWebdavResourceTypeProperty'            => 'Webdav/properties/resourcetype.php',

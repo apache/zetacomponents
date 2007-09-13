@@ -1310,5 +1310,157 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         );
     }
+
+    public function testPutOnExistingCollection()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPutRequest( '/bar', 'some content' );
+        $request->validateHeaders();
+        $response = $backend->put( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                '/bar'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testPutMissingParent()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPutRequest( '/dum/di', 'some content' );
+        $request->validateHeaders();
+        $response = $backend->put( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                '/dum/di'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testPutInRessource()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPutRequest( '/foo/bar', 'some content' );
+        $request->validateHeaders();
+        $response = $backend->put( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavErrorResponse(
+                ezcWebdavErrorResponse::STATUS_409,
+                '/foo/bar'
+            ),
+            'Expected response does not match real response.'
+        );
+    }
+
+    public function testPut()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPutRequest( '/bar/foo', 'some content' );
+        $request->validateHeaders();
+        $response = $backend->put( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavPutResponse(
+                '/bar/foo'
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            $content,
+            array(
+                '/' => array(
+                    '/foo',
+                    '/bar',
+                ),
+                '/foo' => 'bar',
+                '/bar' => array(
+                    '/bar/blubb',
+                    '/bar/foo',
+                ),
+                '/bar/blubb' => 'Somme blubb blubbs.',
+                '/bar/foo' => 'some content',
+            )
+        );
+    }
+
+    public function testPutOnExistingRessource()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPutRequest( '/foo', 'some content' );
+        $request->validateHeaders();
+        $response = $backend->put( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavPutResponse(
+                '/foo'
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            $content,
+            array(
+                '/' => array(
+                    '/foo',
+                    '/bar',
+                ),
+                '/foo' => 'some content',
+                '/bar' => array(
+                    '/bar/blubb',
+                ),
+                '/bar/blubb' => 'Somme blubb blubbs.',
+            )
+        );
+    }
 }
 ?>
