@@ -303,10 +303,10 @@ class ezcWebdavMemoryBackend
      * Manually set a property on a resource to request it later.
      * 
      * @param string $resource 
-     * @param ezcWebdavProperty $propertyValue 
+     * @param ezcWebdavProperty $property
      * @return bool
      */
-    public function setProperty( $resource, ezcWebdavProperty $propertyValue )
+    public function setProperty( $resource, ezcWebdavProperty $property )
     {
         // Check if resource exists at all
         if ( !array_key_exists( $resource, $this->props ) )
@@ -316,7 +316,7 @@ class ezcWebdavMemoryBackend
 
         // Do not check if an existing value will be overwritten, just set
         // property
-        $this->props[$resource][$propertyName] = $propertyValue;
+        $this->props[$resource]->attach( $property );
 
         return true;
     }
