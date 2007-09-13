@@ -26,7 +26,7 @@ class ezcWebdavDisplayNameProperty extends ezcWebdavLiveProperty
      */
     public function __construct( $name = null )
     {
-        parent::__construct();
+        parent::__construct( 'displayname' );
 
         $this->name = $name;
     }

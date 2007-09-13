@@ -35,7 +35,7 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
      */
     public function __construct( $lockType = self::TYPE_READ, $lockScope = self::SCOPE_SHARED )
     {
-        parent::__construct();
+        parent::__construct( 'lockentry' );
 
         $this->lockType  = $lockType;
         $this->lockScope = $lockScope;

@@ -29,7 +29,7 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
      */
     public function __construct( $src = null, $dst = null )
     {
-        parent::__construct();
+        parent::__construct( 'link' );
 
         $this->src = $src;
         $this->dst = $dst;

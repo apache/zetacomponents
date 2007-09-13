@@ -26,7 +26,7 @@ class ezcWebdavGetEtagProperty extends ezcWebdavLiveProperty
      */
     public function __construct( $etag = null )
     {
-        parent::__construct();
+        parent::__construct( 'getetag' );
 
         $this->etag = $etag;
     }

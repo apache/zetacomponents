@@ -21,11 +21,12 @@ abstract class ezcWebdavLiveProperty extends ezcWebdavProperty
      * Creates a new live property with its class name as name and in the
      * default namespace "DAV:".
      * 
+     * @param string $name
      * @return void
      */
-    public function __construct()
+    public function __construct( $name )
     {
-        parent::__construct( 'DAV:', get_class( $this ) );
+        parent::__construct( 'DAV:', $name );
     }
 }
 

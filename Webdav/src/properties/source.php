@@ -26,7 +26,7 @@ class ezcWebdavSourceProperty extends ezcWebdavLiveProperty
      */
     public function __construct( array $links = array() )
     {
-        parent::__construct();
+        parent::__construct( 'source' );
 
         $this->links = $links;
     }

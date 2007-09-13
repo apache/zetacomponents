@@ -26,7 +26,7 @@ class ezcWebdavGetLastModifiedProperty extends ezcWebdavLiveProperty
      */
     public function __construct( DateTime $date = null )
     {
-        parent::__construct();
+        parent::__construct( 'getlastmodified' );
 
         $this->date = $date;
     }

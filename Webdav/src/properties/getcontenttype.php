@@ -28,7 +28,7 @@ class ezcWebdavGetContentTypeProperty extends ezcWebdavLiveProperty
      */
     public function __construct( $mime = null, $charset = null )
     {
-        parent::__construct();
+        parent::__construct( 'getcontenttype' );
 
         $this->mime = $mime;
         $this->charset = $charset;

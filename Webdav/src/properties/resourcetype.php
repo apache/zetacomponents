@@ -26,7 +26,7 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
      */
     public function __construct( $type = null )
     {
-        parent::__construct();
+        parent::__construct( 'resourcetype' );
 
         $this->type = $type;
     }

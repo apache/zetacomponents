@@ -26,7 +26,7 @@ class ezcWebdavGetContentLengthProperty extends ezcWebdavLiveProperty
      */
     public function __construct( $length = null )
     {
-        parent::__construct();
+        parent::__construct( 'getcontentlength' );
 
         $this->length = $length;
     }

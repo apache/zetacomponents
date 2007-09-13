@@ -26,7 +26,7 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
      */
     public function __construct( array $activeLock = null )
     {
-        parent::__construct();
+        parent::__construct( 'lockdiscovery' );
 
         $this->activeLock = $activeLock;
     }
