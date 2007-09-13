@@ -321,9 +321,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         ) );
 
-        $request = new ezcWebdavGetRequest( '/unknown' );
+        $request = new ezcWebdavHeadRequest( '/unknown' );
         $request->validateHeaders();
-        $response = $backend->get( $request );
+        $response = $backend->head( $request );
 
         $this->assertEquals(
             $response,
