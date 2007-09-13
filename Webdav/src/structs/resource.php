@@ -43,11 +43,11 @@ class ezcWebdavResource extends ezcBaseStruct
      * resource.
      * 
      * @param string $path 
-     * @param array $liveProperties 
+     * @param ezcWebdavPropertyStorage $liveProperties 
      * @param string $content 
      * @return void
      */
-    public function __construct( $path, array $liveProperties, $content = null )
+    public function __construct( $path, ezcWebdavPropertyStorage $liveProperties, $content = null )
     {
         $this->path = $path;
         $this->liveProperties = $liveProperties;
