@@ -580,6 +580,36 @@ The MKCOL request is quite easy.
 
    HTTP/1.1 201 Created
 
+Response
+========
+
+Codes
+-----
+
+201 (Created) 
+  The collection or structured resource was created in its entirety.
+
+403 (Forbidden)
+  This indicates at least one of two conditions: 
+
+  1) the server does not allow the creation of collections at the given
+     location in its namespace, or 
+  2) the parent collection of the Request-URI exists but cannot accept members.
+
+405 (Method Not Allowed) 
+  MKCOL can only be executed on a deleted/non-existent resource.
+
+409 (Conflict) 
+  A collection cannot be made at the Request-URI until one or more intermediate
+  collections have been created.
+
+415 (Unsupported Media Type)
+  The server does not support the request type of the body.
+
+507 (Insufficient Storage)
+  The resource does not have sufficient space to record the state of the
+  resource after the execution of this method.
+
 ======
 DELETE
 ======
