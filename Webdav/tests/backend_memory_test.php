@@ -142,10 +142,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             ),
             'Expected filled property array.'
         );
-
-        $this->markTestSkipped(
-            "This one SHOULD fail."
-        );
     }
 
     public function testMemoryBackendOptionsInMemoryBackend()
@@ -218,13 +214,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             'foo' => 'bar',
         ) );
 
-        $this->markTestSkipped(
-            'Dead properties not supported yet.'
-        );
-
         $backend->setProperty( 
             '/foo',
-            new ezcWebdavDeadProperty( 'wcv:ctime', '123456' )
+            new ezcWebdavDeadProperty( 'wcv:', 'ctime', '123456' )
         );
 
         $props = $this->readAttribute( $backend, 'props' );
@@ -256,14 +248,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             'foo' => 'bar',
         ) );
 
-        $this->markTestSkipped(
-            'Dead properties not supported yet.'
-        );
-
         $this->assertFalse( 
             $backend->setProperty( 
                 '/bar',
-                new ezcWebdavDeadProperty( 'wcv:ctime', '123456' )
+                new ezcWebdavDeadProperty( 'wcv:', 'ctime', '123456' )
             ),
             'Setting on unknown ressource sould return false.'
         );
