@@ -2,3 +2,4 @@ TODO
 ====
 
 - Handle external URLs in path factory and backends (Bail out with 502 - Bad Gateway)
+- Add validity checks for $name (XML tag) and $namspace (URI) properties to ezcWebdavDeadProperty.
