@@ -94,7 +94,7 @@ class ezcWebdavPropFindRequest extends ezcWebdavRequest
             case 'propName':
                 if ( is_bool( $propertyValue ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(string) or null' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
                 }
                 if ( $propertyValue === true && ( $this->allProp !== false || $this->prop !== null ) )
                 {
@@ -104,7 +104,7 @@ class ezcWebdavPropFindRequest extends ezcWebdavRequest
             case 'prop':
                 if ( ( $propertyValue instanceof ezcWebdavPropertyStorage ) === false && $propertyValue !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(string) or null' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavPropertyStorage' );
                 }
                 if ( $propertyValue !== null && ( $this->allProp !== false || $this->propName === true ) )
                 {
