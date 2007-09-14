@@ -18,25 +18,25 @@
  * Specifications: {@link http://www.sixapart.com/typekey/api}
  *
  * In order to access a protected page, user logs in by using a request like:
- *   https://www.typekey.com/t/typekey/login?
- *     t=391jbj25WAQANzJrKvb5&_return=http://example.com/login.php
- * (link split on two rows for clarity),
+ *  - https://www.typekey.com/t/typekey/login?
+ *        t=391jbj25WAQANzJrKvb5&
+ *        _return=http://example.com/login.php
+ *
  * where:
- *   t = TypeKey token generated for each TypeKey account.
- *       It is found at https://www.typekey.com/t/typekey/prefs.
- *       This value is also used as a session key, so it must be passed to the
- *       page performing the TypeKey authentication via the _return URL.
- *   _return = the URL where to return after user logs in with his TypeKey
- *             username and password.
- *             The URL can contain query arguments, such as the value t which
- *             can be used as a session key.
+ *  - t = TypeKey token generated for each TypeKey account.
+ *        It is found at https://www.typekey.com/t/typekey/prefs.
+ *        This value is also used as a session key, so it must be passed to the
+ *        page performing the TypeKey authentication via the _return URL.
+ *  - _return = the URL where to return after user logs in with his TypeKey
+ *              username and password. The URL can contain query arguments, such
+ *              as the value t which can be used as a session key.
  *
  * The login link can also contain these 2 optional values:
- *   v = TypeKey version to use. Default is 1.
- *   need_email = the mail address which was used to register with TypeKey. It
- *                needs to be set to a value different than 0 in order to get
- *                the email address of the user when calling fetchData() after
- *                the authentication process has been completed.
+ *  - v = TypeKey version to use. Default is 1.
+ *  - need_email = the mail address which was used to register with TypeKey. It
+ *                 needs to be set to a value different than 0 in order to get
+ *                 the email address of the user when calling fetchData() after
+ *                 the authentication process has been completed.
  *
  * So the TypeKey authentication filter will run in the _return page and will
  * verify the signature and the other information in the URL.
@@ -48,22 +48,21 @@
  *
  * The link returned by TypeKey after user logs in with his TypeKey username
  * and password looks like this:
+ *  - http://example.com/typekey.php?
+ *       ts=1177319974&email=5098f1e87a608675ded4d933f31899cae6b4f968&
+ *       name=ezc&nick=ezctest&
+ *       sig=I9Dop72+oahY82bpL7ymBoxdQ+k=:Vj/t7oZVL2zMSzwHzdOWop5NG/g=
  *
- * http://example.com/typekey.php?
- *   ts=1177319974&email=5098f1e87a608675ded4d933f31899cae6b4f968&
- *   name=ezc&nick=ezctest&
- *   sig=I9Dop72+oahY82bpL7ymBoxdQ+k=:Vj/t7oZVL2zMSzwHzdOWop5NG/g=
- * (link split on four rows for clarity),
  * where:
- *   ts = timestamp (in seconds) of the TypeKey server time at login.
- *        The TypeKey filter compares this timestamp with the application
- *        server's timestamp to make sure the login is in a reasonable
- *        time window (specified by the validity option). Don't use a too small
- *        value for validity, because servers are not always synchronized.
- *   email = sha1 hash of "mailto:$mail", where $mail is the mail address
- *           used to register with TypeKey.
- *   nick = TypeKey nickname/display name.
- *   sig = signature which must be validated by the TypeKey filter.
+ *  - ts = timestamp (in seconds) of the TypeKey server time at login.
+ *         The TypeKey filter compares this timestamp with the application
+ *         server's timestamp to make sure the login is in a reasonable
+ *         time window (specified by the validity option). Don't use a too small
+ *         value for validity, because servers are not always synchronized.
+ *  - email = sha1 hash of "mailto:$mail", where $mail is the mail address
+ *            used to register with TypeKey.
+ *  - nick = TypeKey nickname/display name.
+ *  - sig = signature which must be validated by the TypeKey filter.
  *
  * For more information on the login request and the TypeKey response link see
  * {@link http://www.sixapart.com/typekey/api}.
@@ -162,9 +161,7 @@
  * To be able to get the email address of the user, need_email must be set
  * to a value different than 0 in the initial request sent to the TypeKey
  * server (along with the t and _return values). Example:
- * <code>
- * https://www.typekey.com/t/typekey/login?t=<token>&_return=<url>&need_email=1
- * </code>
+ *  - https://www.typekey.com/t/typekey/login?t=<token>&_return=<url>&need_email=1
  *
  * Example of fetching the extra data after the initial request has been sent:
  * <code>
@@ -187,7 +184,7 @@
  *           The wrapper for the PHP extension to use for big number operations.
  *           This will be autodetected in the constructor, but you can specify
  *           your own wrapper before calling run().
- *           
+ *
  * @package Authentication
  * @version //autogen//
  * @mainclass
