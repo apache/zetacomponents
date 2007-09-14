@@ -134,11 +134,32 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             'foo' => 'bar',
         ) );
 
+        // Expected properties
+        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage->attach(
+            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDisplayNameProperty( 'foo' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetEtagProperty( md5( '/foo' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+        );
+
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
             $props,
             array(
-                '/foo' => new ezcWebdavPropertyStorage(),
+                '/foo' => $propertyStorage,
             ),
             'Expected filled property array.'
         );
@@ -219,22 +240,35 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavDeadProperty( 'wcv:', 'ctime', '123456' )
         );
 
+        // Expected properties
+        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage->attach(
+            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDisplayNameProperty( 'foo' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetEtagProperty( md5( '/foo' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDeadProperty( 'wcv:', 'ctime', '123456' )
+        );
+
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
             $props,
             array(
-                '/foo' => array(
-                    'creationdate'          => 1054034820,
-                    'displayname'           => 'foo',
-                    'getcontentlanguage'    => 'en',
-                    'getcontentlength'      => 3,
-                    'getcontenttype'        => 'application/octet-stream',
-                    'getetag'               => '1effb2475fcfba4f9e8b8a1dbc8f3caf',
-                    'getlastmodified'       => 1124118780,
-                    'resourcetype'          => null,
-                    'source'                => null,
-                    'wcv:ctime'             => '123456',
-                ),
+                '/foo' => $propertyStorage,
             ),
             'Expected filled property array.'
         );
@@ -391,6 +425,27 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         ) );
 
+        // Expected properties
+        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage->attach(
+            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDisplayNameProperty( 'foo' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetEtagProperty( md5( '/foo' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+        );
+
         $request = new ezcWebdavGetRequest( '/foo' );
         $request->validateHeaders();
         $response = $backend->get( $request );
@@ -400,7 +455,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
                     '/foo', 
-                    new ezcWebdavPropertyStorage(),
+                    $propertyStorage,
                     'bar'
                 )
             ),
