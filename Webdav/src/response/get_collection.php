@@ -27,6 +27,8 @@ class ezcWebdavGetCollectionResponse extends ezcWebdavResponse
      */
     public function __construct( ezcWebdavCollection $collection )
     {
+        parent::__construct( ezcWebdavResponse::STATUS_200 );
+
         $this->collection = $collection;
     }
 

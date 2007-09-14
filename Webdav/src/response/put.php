@@ -18,6 +18,15 @@
  */
 class ezcWebdavPutResponse extends ezcWebdavResponse
 {
+    /**
+     * Construct put response.
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct( ezcWebdavResponse::STATUS_200 );
+    }
 }
 
 ?>

@@ -18,6 +18,15 @@
  */
 class ezcWebdavMakeCollectionResponse extends ezcWebdavResponse
 {
+    /**
+     * Construct mkcol response.
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct( ezcWebdavResponse::STATUS_201 );
+    }
 }
 
 ?>

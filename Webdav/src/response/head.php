@@ -29,6 +29,8 @@ class ezcWebdavHeadResponse extends ezcWebdavResponse
      */
     public function __construct( $resource )
     {
+        parent::__construct( ezcWebdavResponse::STATUS_200 );
+
         $this->resource = $resource;
     }
 

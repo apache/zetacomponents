@@ -11,6 +11,9 @@
  * Base class for all response objects.
  * This base class must be extended by all response representation classes.
  *
+ * @property string $requestUri
+ *           Request URI the error occured for.
+ *
  * @version //autogentag//
  * @package Webdav
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
@@ -27,7 +30,7 @@ class ezcWebdavErrorResponse extends ezcWebdavResponse
      */
     public function __construct( $status, $requestUri = null )
     {
-        $this->status = $status;
+        parent::__construct( $status );
 
         if ( $requestUri !== null )
         {
@@ -54,15 +57,6 @@ class ezcWebdavErrorResponse extends ezcWebdavResponse
     {
         switch ( $propertyName )
         {
-            case 'status':
-                if ( !isset( self::$errorNames[$propertyValue] ) )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'HTTP error code' );
-                }
-
-                $this->properties[$propertyName] = $propertyValue;
-                break;
-
             case 'requestUri':
                 if ( !is_string( $propertyValue ) )
                 {

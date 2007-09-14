@@ -29,6 +29,15 @@ class ezcWebdavCopyResponse extends ezcWebdavResponse
     public function __construct( $replaced )
     {
         $this->replaced = $replaced;
+
+        if ( $replaced )
+        {
+            parent::__construct( ezcWebdavResponse::STATUS_204 );
+        }
+        else
+        {
+            parent::__construct( ezcWebdavResponse::STATUS_201 );
+        }
     }
 
     /**

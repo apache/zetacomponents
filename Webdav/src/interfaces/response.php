@@ -11,6 +11,11 @@
  * Base class for all response objects.
  * This base class must be extended by all response representation classes.
  *
+ * @property int $status
+ *           Response status code.
+ * @property string $responseDescription
+ *           Optional user readable response description.
+ *
  * @version //autogentag//
  * @package Webdav
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
@@ -31,6 +36,7 @@ abstract class ezcWebdavResponse
     const STATUS_204            = 204;
     const STATUS_205            = 205;
     const STATUS_206            = 206;
+    const STATUS_207            = 207;
 
     const STATUS_300            = 300;
     const STATUS_301            = 301;
@@ -81,6 +87,7 @@ abstract class ezcWebdavResponse
         self::STATUS_204        => 'No Content',
         self::STATUS_205        => 'Reset Content',
         self::STATUS_206        => 'Partial Content',
+        self::STATUS_207        => 'Multi-Status',
 
         self::STATUS_300        => 'Multiple Choices',
         self::STATUS_301        => 'Moved Permanently',
@@ -125,6 +132,17 @@ abstract class ezcWebdavResponse
         'responseDescription' => null,
     );
     
+    /**
+     * Construct error response from status.
+     * 
+     * @param int $status 
+     * @return void
+     */
+    public function __construct( $status = self::STATUS_200 )
+    {
+        $this->status = $status;
+    }
+
     /**
      * Validates the headers set in this request.
      * This method is called by ezcWebdavServer after the response object has
@@ -195,6 +213,15 @@ abstract class ezcWebdavResponse
     {
         switch ( $propertyName )
         {
+            case 'status':
+                if ( !isset( self::$errorNames[$propertyValue] ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'HTTP error code' );
+                }
+
+                $this->properties[$propertyName] = $propertyValue;
+                break;
+
             case 'responseDescription':
                 if ( !is_string( $propertyValue ) )
                 {
