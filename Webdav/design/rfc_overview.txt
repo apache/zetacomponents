@@ -198,9 +198,9 @@ Request-URI. Three different ways of finding properties are possible:
 - Retrieve a list of certain property names and the correcsponding values.
 - Retrieve a list of all available property names for a resource, without their
   corresponding values.
-- Retrieve a single property name and the correcsponding ways.
+- Retrieve a single property name and the correcsponding value.
 
-PROPFIND can work recursively on the gevien resource, if this is a collection.
+PROPFIND can work recursively on the given resource, if this is a collection.
 The "Depth" header determines, what level of recursion is desired.
 
 Header
