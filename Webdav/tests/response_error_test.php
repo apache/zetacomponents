@@ -29,7 +29,7 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testGetUnknownProperty()
     {
-        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
+        $response = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_404 );
 
         try
         {
@@ -46,7 +46,7 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testSetUnknownProperty()
     {
-        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
+        $response = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_404 );
 
         try
         {
@@ -62,17 +62,17 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testErrorResponseOptionStatus()
     {
-        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 );
+        $response = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_404 );
 
         $this->assertSame(
-            ezcWebdavErrorResponse::STATUS_404,
+            ezcWebdavResponse::STATUS_404,
             $response->status,
             'Wrong default value for property type in class ezcWebdavErrorResponse.'
         );
 
         try
         {
-            $response->status = 200;
+            $response->status = 34650;
         }
         catch ( ezcBaseValueException $e )
         {
@@ -84,7 +84,7 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testErrorResponseOptionRequestUri()
     {
-        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404, '/requested' );
+        $response = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_404, '/requested' );
 
         $this->assertSame(
             '/requested',
@@ -113,7 +113,7 @@ class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
 
     public function testErrorResponseToString()
     {
-        $response = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404, '/requested' );
+        $response = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_404, '/requested' );
 
         $this->assertSame(
             'HTTP/1.1 404 Not Found',

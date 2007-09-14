@@ -49,7 +49,7 @@ class ezcWebdavResponseTest extends ezcWebdavRequestTestCase
     public function testMultistatusResponseSingle()
     {
         $response = new ezcWebdavMultistatusResponse(
-            $error = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 )
+            $error = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_404 )
         );
 
         $this->assertEquals(
@@ -62,8 +62,8 @@ class ezcWebdavResponseTest extends ezcWebdavRequestTestCase
     public function testMultistatusResponseMultiple()
     {
         $response = new ezcWebdavMultistatusResponse(
-            $error1 = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 ),
-            $error2 = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_409 )
+            $error1 = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_404 ),
+            $error2 = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_409 )
         );
 
         $this->assertEquals(
@@ -76,9 +76,9 @@ class ezcWebdavResponseTest extends ezcWebdavRequestTestCase
     public function testMultistatusResponseMultipleFlatten()
     {
         $response = new ezcWebdavMultistatusResponse(
-            $error1 = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 ),
+            $error1 = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_404 ),
             array(
-                $error2 = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_409 ),
+                $error2 = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_409 ),
             )
         );
 
@@ -93,8 +93,8 @@ class ezcWebdavResponseTest extends ezcWebdavRequestTestCase
     {
         $response = new ezcWebdavMultistatusResponse(
             array(
-                $error1 = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_404 ),
-                $error2 = new ezcWebdavErrorResponse( ezcWebdavErrorResponse::STATUS_409 ),
+                $error1 = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_404 ),
+                $error2 = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_409 ),
             )
         );
 

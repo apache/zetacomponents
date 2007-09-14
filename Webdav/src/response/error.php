@@ -19,38 +19,6 @@
 class ezcWebdavErrorResponse extends ezcWebdavResponse
 {
     /**
-     * Error status codes
-     */
-    const STATUS_403        = 403;
-    const STATUS_404        = 404;
-    const STATUS_405        = 405;
-    const STATUS_409        = 409;
-    const STATUS_412        = 412;
-    const STATUS_415        = 415;
-    const STATUS_423        = 423;
-
-    const STATUS_502        = 502;
-    const STATUS_507        = 507;
-
-    /**
-     * User readable names for error status codes
-     * 
-     * @var array
-     */
-    static public $errorNames = array(
-        self::STATUS_403        => 'Forbidden',
-        self::STATUS_404        => 'Not Found',
-        self::STATUS_405        => 'Method Not Allowed',
-        self::STATUS_409        => 'Conflict',
-        self::STATUS_412        => 'Precondition Failed',
-        self::STATUS_415        => 'Unsupported Media Type',
-        self::STATUS_423        => 'Locked',
-
-        self::STATUS_502        => 'Bad Gateway',
-        self::STATUS_507        => 'Insufficient Storage',
-    );
-
-    /**
      * Construct error response from status and requested URI.
      * 
      * @param int $status 

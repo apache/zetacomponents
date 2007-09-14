@@ -184,7 +184,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->nodeExists( $source ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_404,
+                ezcWebdavResponse::STATUS_404,
                 $source
             );
         }
@@ -230,7 +230,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->nodeExists( $source ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_404,
+                ezcWebdavResponse::STATUS_404,
                 $source
             );
         }
@@ -311,7 +311,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->nodeExists( dirname( $source ) ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_409,
+                ezcWebdavResponse::STATUS_409,
                 $source
             );
         }
@@ -320,7 +320,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->isCollection( dirname( $source ) ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_409,
+                ezcWebdavResponse::STATUS_409,
                 $source
             );
         }
@@ -331,7 +331,7 @@ abstract class ezcWebdavSimpleBackend
              $this->isCollection( $source ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_409,
+                ezcWebdavResponse::STATUS_409,
                 $source
             );
         }
@@ -368,7 +368,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->nodeExists( $source ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_404,
+                ezcWebdavResponse::STATUS_404,
                 $source
             );
         }
@@ -381,7 +381,7 @@ abstract class ezcWebdavSimpleBackend
         if ( $deletion !== true )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_423,
+                ezcWebdavResponse::STATUS_423,
                 $source
             );
         }
@@ -417,7 +417,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->nodeExists( $source ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_404,
+                ezcWebdavResponse::STATUS_404,
                 $source
             );
         }
@@ -426,7 +426,7 @@ abstract class ezcWebdavSimpleBackend
         if ( $source === $dest )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_403,
+                ezcWebdavResponse::STATUS_403,
                 $source
             );
         }
@@ -437,7 +437,7 @@ abstract class ezcWebdavSimpleBackend
              $this->nodeExists( $dest ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_412,
+                ezcWebdavResponse::STATUS_412,
                 $dest
             );
         }
@@ -447,7 +447,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->nodeExists( dirname( $dest ) ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_409,
+                ezcWebdavResponse::STATUS_409,
                 $dest
             );
         }
@@ -503,7 +503,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->nodeExists( $source ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_404,
+                ezcWebdavResponse::STATUS_404,
                 $source
             );
         }
@@ -512,7 +512,7 @@ abstract class ezcWebdavSimpleBackend
         if ( $source === $dest )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_403,
+                ezcWebdavResponse::STATUS_403,
                 $source
             );
         }
@@ -523,7 +523,7 @@ abstract class ezcWebdavSimpleBackend
              $this->nodeExists( $dest ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_412,
+                ezcWebdavResponse::STATUS_412,
                 $dest
             );
         }
@@ -533,7 +533,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->nodeExists( dirname( $dest ) ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_409,
+                ezcWebdavResponse::STATUS_409,
                 $dest
             );
         }
@@ -573,7 +573,7 @@ abstract class ezcWebdavSimpleBackend
         if ( $deletion !== true )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_423,
+                ezcWebdavResponse::STATUS_423,
                 $source
             );
         }
@@ -604,7 +604,7 @@ abstract class ezcWebdavSimpleBackend
         if ( $this->nodeExists( $collection ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_405,
+                ezcWebdavResponse::STATUS_405,
                 $collection
             );
         }
@@ -614,7 +614,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->nodeExists( dirname( $collection ) ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_409,
+                ezcWebdavResponse::STATUS_409,
                 $collection
             );
         }
@@ -624,7 +624,7 @@ abstract class ezcWebdavSimpleBackend
         if ( !$this->isCollection( dirname( $collection ) ) )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_403,
+                ezcWebdavResponse::STATUS_403,
                 $collection
             );
         }
@@ -634,7 +634,7 @@ abstract class ezcWebdavSimpleBackend
         if ( $request->body )
         {
             return new ezcWebdavErrorResponse(
-                ezcWebdavErrorResponse::STATUS_415,
+                ezcWebdavResponse::STATUS_415,
                 $collection
             );
         }

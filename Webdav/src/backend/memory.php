@@ -378,7 +378,7 @@ class ezcWebdavMemoryBackend
             {
                 // Completely abort with error
                 return array( ezcWebdavErrorResponse(
-                    ezcWebdavErrorResponse::STATUS_423,
+                    ezcWebdavResponse::STATUS_423,
                     $fromPath
                 ) );
             }
@@ -438,7 +438,7 @@ class ezcWebdavMemoryBackend
                 {
                     // Cause an error and skip resource
                     $errors[] = new ezcWebdavErrorResponse(
-                        ezcWebdavErrorResponse::STATUS_423,
+                        ezcWebdavResponse::STATUS_423,
                         $resource
                     );
                     continue;
