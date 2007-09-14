@@ -1,0 +1,38 @@
+Review Alexandru 14-09-2007
+---------------------------
+
+[ ] Failed test: testTreeFetchSubtreeDepthFirst in ezcTreeDbMaterializedPathTest
+    with MySQL, because of MySQL sorting.
+
+[ ] Oracle tests fail in TreeDatabaseTiein and TreePersistentObjectTiein:
+    'PDOException: SQLSTATE[HY000]: General error: 942 OCIStmtExecute:
+	ORA-00942: table or view does not exist'.
+
+[ ] XHTML visitor: the hightlight class applies to the whole subtree - is it correct?
+
+[ ] Files missing __get() and __set() ($this->properties is accessed directly):
+     - Tree/src/backends/memory.php
+     - Tree/src/backends/xml.php (__get() is present, but not fully implemented)
+     - Tree/src/tree_node.php (__get() and set() are implemented but not used)
+     - Tree/src/tree.php (__get() and __set() are implemented but not used)
+     - TreeDatabaseTiein/src/backends/db_materialized_path.php
+     - TreeDatabaseTiein/src/backends/db_nested_set.php
+     - TreeDatabaseTiein/src/backends/db_parent_child.php
+     - TreeDatabaseTiein/src/backends/db.php
+
+[ ] Files missing __isset():
+     - Tree/src/backends/memory.php
+     - Tree/src/backends/xml.php
+     - Tree/src/tree_node.php
+     - Tree/src/tree.php
+     - Tree/src/tree_node_list.php (probably not needed here)
+     - TreeDatabaseTiein/src/backends/db_materialized_path.php
+     - TreeDatabaseTiein/src/backends/db_nested_set.php
+     - TreeDatabaseTiein/src/backends/db_parent_child.php
+     - TreeDatabaseTiein/src/backends/db.php
+
+[ ] Files missing __set_state():
+     - Tree/src/structs/memory_node.php
+     - Tree/src/structs/transaction_item.php
+
+
