@@ -14,6 +14,9 @@
  */
 require_once 'test_case.php';
 
+require_once 'client_test_suite.php';
+require_once 'client_test.php';
+
 /**
  * Require test suites.
  */
@@ -50,6 +53,8 @@ require_once 'response_test.php';
 
 require_once 'server_options_test.php';
 require_once 'server_test.php';
+
+require_once 'client_test_cadaver.php';
 
 /**
  * Test suite for the Webdav component.
@@ -94,6 +99,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavPropFindRequestTest::suite() );
         $this->addTest( ezcWebdavPropPatchRequestTest::suite() );
         $this->addTest( ezcWebdavRequestPropertyBehaviourContentTest::suite() );
+        $this->addTest( ezcWebdavClientCadaverTest::suite() );
     }
 
     public static function suite()
