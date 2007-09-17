@@ -67,6 +67,12 @@ class ezcWebdavPropFindResponse extends ezcWebdavResponse
             }
         }
 
+        // If it actually consists of multiple sub responses be of type 207.
+        if ( count( $responses ) )
+        {
+            $this->status = ezcWebdavResponse::STATUS_207;
+        }
+
         $this->responses = $responses;
     }
 

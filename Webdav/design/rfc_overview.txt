@@ -470,7 +470,8 @@ PROPPATCH
 
 Allows the setting, updating and removing of 1 or more properties. 1 request
 represents a transaction and can contain multiple manipulations of different
-kinds on different resources.
+kinds on one resource. If one operation fails, all other operations need to be
+reverted.
 
 .. Danger::
    The RFC seems not to state anything about PROPPATCH on collection resources.
@@ -509,16 +510,24 @@ Example response codes to be returned by this request.
 200 (OK)
   The command succeeded.  As there can be a mixture of sets and removes in a
   body, a 201 (Created) seems inappropriate.
+
 403 (Forbidden)
   The client, for reasons the server chooses not to specify, cannot alter one
   of the properties.
+
 409 (Conflict)
   The client has provided a value whose semantics are not appropriate for the
   property.  This includes trying to set read- only properties.
+
 423 (Locked)
   The specified resource is locked and the client either is not a lock owner or
   the lock type requires a lock token to be submitted and the client did not
   submit it.
+
+424 (Failed Dependency)
+  Shown in the example below. Probably used, when one transaction element
+  failed, and all others operations had to be reverted.
+
 507 (Insufficient Storage)
   The server did not have sufficient space to record the property.
 

@@ -62,6 +62,7 @@ abstract class ezcWebdavResponse
     const STATUS_414            = 414;
     const STATUS_415            = 415;
     const STATUS_423            = 423;
+    const STATUS_424            = 424;
 
     const STATUS_500            = 500;
     const STATUS_501            = 501;
@@ -113,6 +114,7 @@ abstract class ezcWebdavResponse
         self::STATUS_414        => 'Request-URI Too Large',
         self::STATUS_415        => 'Unsupported Media Type',
         self::STATUS_423        => 'Locked',
+        self::STATUS_424        => 'Failed Dependency',
 
         self::STATUS_500        => 'Internal Server Error',
         self::STATUS_501        => 'Not Implemented',

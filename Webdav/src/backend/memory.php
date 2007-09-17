@@ -317,7 +317,7 @@ class ezcWebdavMemoryBackend
      */
     public function setProperty( $resource, ezcWebdavProperty $property )
     {
-        // Intialize property storage for node, if ont done yet.
+        // Bail out, if the resource is not known yet.
         if ( !array_key_exists( $resource, $this->props ) )
         {
             return false;
@@ -325,6 +325,31 @@ class ezcWebdavMemoryBackend
 
         $this->props[$resource]->attach( $property );
         return true;
+    }
+
+    /**
+     * Manually remove a property from a resource.
+     * 
+     * @param string $resource 
+     * @param ezcWebdavProperty $property
+     * @return bool
+     */
+    public function removeProperty( $resource, ezcWebdavProperty $property )
+    {
+        $this->props[$resource]->detach( $property->name, $property->namespace );
+        return true;
+    }
+
+    /**
+     * Reset property storage for a resource.
+     * 
+     * @param string $resource 
+     * @param ezcWebdavPropertyStorage $properties
+     * @return bool
+     */
+    public function resetProperties( $resource, ezcWebdavPropertyStorage $properties )
+    {
+        $this->props[$resource] = $properties;
     }
 
     /**

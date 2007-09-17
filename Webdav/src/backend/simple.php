@@ -65,11 +65,28 @@ abstract class ezcWebdavSimpleBackend
      * Manually set a property on a resource to request it later.
      * 
      * @param string $resource 
-     * @param string $propertyName 
      * @param ezcWebdavProperty $property
      * @return bool
      */
     abstract public function setProperty( $resource, ezcWebdavProperty $property );
+
+    /**
+     * Manually remove a property from a resource.
+     * 
+     * @param string $resource 
+     * @param ezcWebdavProperty $property
+     * @return bool
+     */
+    abstract public function removeProperty( $resource, ezcWebdavProperty $property );
+
+    /**
+     * Reset property storage for a resource.
+     * 
+     * @param string $resource 
+     * @param ezcWebdavPropertyStorage $properties
+     * @return bool
+     */
+    abstract public function resetProperties( $resource, ezcWebdavPropertyStorage $properties );
 
     /**
      * Manually get a property on a resource.
@@ -481,6 +498,8 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
+        // Check the exact type of propfind request and dispatch to
+        // corresponding method.
         switch ( true )
         {
             case $request->prop:
@@ -493,6 +512,8 @@ abstract class ezcWebdavSimpleBackend
                 return $this->fetchAllProperties( $request );
         }
 
+        // This should really never happen, because the request class itself
+        // should have ensured, that on of those options is set. Untestable.
         return new ezcWebdavErrorResponse(
             ezcWebdavResponse::STATUS_500
         );
@@ -511,7 +532,104 @@ abstract class ezcWebdavSimpleBackend
      */
     public function propPatch( ezcWebdavPropPatchRequest $request )
     {
-        // @TODO: Implement.
+        $source = $request->requestUri;
+
+        // Check if resource is available
+        if ( !$this->nodeExists( $source ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_404,
+                $source
+            );
+        }
+
+        // Store proeprties, to be able to revert all changes later
+        $propertyBackup = clone $this->getAllProperties( $source );
+
+        $errors = array(
+            ezcWebdavResponse::STATUS_403 => new ezcWebdavPropertyStorage(),
+            ezcWebdavResponse::STATUS_424 => new ezcWebdavPropertyStorage(),
+        );
+        $errnous = false;
+
+        // Update properties, like requested
+        $update = $request->set->getAllProperties();
+        foreach ( $update as $namespace => $properties )
+        {
+            foreach( $properties as $name => $property )
+            {
+                // If there already has been some error, issue failed
+                // dependency errors for everything else.
+                if ( $errnous )
+                {
+                    $errors[ezcWebdavResponse::STATUS_424]->attach( $property );
+                    continue;
+                }
+
+                if ( !$this->setProperty( $source, $property ) )
+                {
+                    // If update failed, we assume the access has been denied.
+                    $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
+                    $errnous = true;
+                }
+            }
+        }
+
+        // Remove properties
+        $remove = $request->remove->getAllProperties();
+        foreach ( $remove as $namespace => $properties )
+        {
+            foreach( $properties as $name => $property )
+            {
+                // If there already has been some error, issue failed
+                // dependency errors for everything else.
+                if ( $errnous )
+                {
+                    $errors[ezcWebdavResponse::STATUS_424]->attach( $property );
+                    continue;
+                }
+
+                if ( !$this->removeProperty( $source, $property ) )
+                {
+                    // If update failed, we assume the access has been denied.
+                    $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
+                    $errnous = true;
+                }
+            }
+        }
+
+        // Create node from source for response
+        if ( $this->isCollection( $source ) )
+        {
+            $node = new ezcWebdavCollection( $source );
+        }
+        else
+        {
+            $node = new ezcWebdavResource( $source );
+        }
+
+        if ( $errnous )
+        {
+            // Revert all changes
+            $this->resetProperties( $source, $propertyBackup );
+
+            // Create response
+            return new ezcWebdavPropPatchResponse(
+                $node,
+                new ezcWebdavPropStatResponse(
+                    $errors[ezcWebdavResponse::STATUS_403],
+                    ezcWebdavResponse::STATUS_403
+                ),
+                new ezcWebdavPropStatResponse(
+                    $errors[ezcWebdavResponse::STATUS_424],
+                    ezcWebdavResponse::STATUS_424
+                )
+            );
+        }
+
+        return new ezcWebdavPropPatchResponse(
+            $node
+        );
     }
 
     /**
