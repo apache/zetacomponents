@@ -23,6 +23,7 @@
  */
 abstract class ezcWebdavResponse
 {
+
     /**
      * Response status codes
      */
@@ -133,6 +134,13 @@ abstract class ezcWebdavResponse
     protected $properties = array(
         'responseDescription' => null,
     );
+
+    /**
+     * Container for header information. 
+     * 
+     * @var array(string=>mixed)
+     */
+    protected $headers = array();
     
     /**
      * Construct error response from status.
