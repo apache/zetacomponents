@@ -92,7 +92,7 @@ abstract class ezcWebdavWebdavPropertyTestCase extends ezcWebdavPropertyTestCase
         
         $this->assertSame(
             true XOR $this->alwaysHasContent,
-            $object->noContent(),
+            $object->hasNoContent(),
             'Initially a property should have no content.'
         );
     }
@@ -112,7 +112,7 @@ abstract class ezcWebdavWebdavPropertyTestCase extends ezcWebdavPropertyTestCase
         
         $this->assertSame(
             false,
-            $object->noContent(),
+            $object->hasNoContent(),
             'The property should have some content now.'
         );
     }

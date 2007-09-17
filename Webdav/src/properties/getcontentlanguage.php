@@ -72,7 +72,7 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavLiveProperty
      * @access public
      * @return bool
      */
-    public function noContent()
+    public function hasNoContent()
     {
         return !count( $this->properties['languages'] );
     }

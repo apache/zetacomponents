@@ -117,7 +117,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * @access public
      * @return bool
      */
-    public function noContent()
+    public function hasNoContent()
     {
         return false;
     }

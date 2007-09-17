@@ -85,7 +85,7 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
      * @access public
      * @return bool
      */
-    public function noContent()
+    public function hasNoContent()
     {
         return ( ( $this->properties['src'] === null ) || ( $this->properties['dst'] === null ) );
     }

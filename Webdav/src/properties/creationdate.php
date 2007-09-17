@@ -72,7 +72,7 @@ class ezcWebdavCreationDateProperty extends ezcWebdavLiveProperty
      * @access public
      * @return bool
      */
-    public function noContent()
+    public function hasNoContent()
     {
         return $this->properties['date'] === null;
     }

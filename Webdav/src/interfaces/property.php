@@ -124,7 +124,7 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
      * @access public
      * @return bool
      */
-    abstract public function noContent();
+    abstract public function hasNoContent();
 }
 
 ?>
