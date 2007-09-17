@@ -26,10 +26,6 @@ class ezcWebdavGetContentLengthPropertyTest extends ezcWebdavWebdavPropertyTestC
         );
         $this->failingValues = array(
             'length' => array(
-                // No negative filesizes
-                '-23',
-                // No filesize with part bytes
-                '23.42',
                 'foo',
                 23,
                 23.34,
