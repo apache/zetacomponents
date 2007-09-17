@@ -19,6 +19,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 class ezcWebdavPropertyStorage
+    implements
+        Countable
 {
     /**
      * Stores the properties.
@@ -101,7 +103,7 @@ class ezcWebdavPropertyStorage
      * @param string $namespace
      * @return ezcWebdavProperty|null
      */
-    public function get( $name, $namespace ='DAV:' )
+    public function get( $name, $namespace = 'DAV:' )
     {
         if ( isset( $this->properties[$namespace][$name] ) === true )
         {
@@ -135,6 +137,88 @@ class ezcWebdavPropertyStorage
     public function getAllProperties()
     {
         return $this->properties;
+    }
+
+    /**
+     * Diff two property storages.
+     *
+     * Return the current property storage reduced by the elements in the given
+     * property storage.
+     * 
+     * @param ezcWebdavPropertyStorage $properties 
+     * @return ezcWebdavPropertyStorage
+     */
+    public function diff( ezcWebdavPropertyStorage $properties )
+    {
+        $foreign = $properties->getAllProperties();
+
+        $diffedProperties = new ezcWebdavPropertyStorage();
+        foreach ( $this->properties as $namespace => $properties )
+        {
+            foreach( $properties as $name => $property )
+            {
+                if ( !isset( $foreign[$namespace][$name] ) )
+                {
+                    // Only add properties to new property storage, which could
+                    // not be found in the foreign property storage.
+                    $diffedProperties->attach( $property );
+                }
+            }
+        }
+
+        return $diffedProperties;
+    }
+
+    /**
+     * Intersection between two property storages.
+     *
+     * Calculate and return {@link ezcWebdavPropertyStorage} which returns the
+     * intersection of two property storages. This means a new property storage
+     * will be return which contains all values, which are present in the
+     * current and the gi ven property storage.
+     * 
+     * @param ezcWebdavPropertyStorage $properties 
+     * @return ezcWebdavPropertyStorage
+     */
+    public function intersect( ezcWebdavPropertyStorage $properties )
+    {
+        $foreign = $properties->getAllProperties();
+
+        $intersection = new ezcWebdavPropertyStorage();
+        foreach ( $this->properties as $namespace => $properties )
+        {
+            foreach( $properties as $name => $property )
+            {
+                if ( isset( $foreign[$namespace][$name] ) )
+                {
+                    // Only add properties to new property storage, which could
+                    // be found in both property storages.
+                    $intersection->attach( $property );
+                }
+            }
+        }
+
+        return $intersection;
+    }
+
+    /**
+     * Return property count.
+     *
+     * Implementation required by interface Countable. Count the numbers of
+     * item contained by this class. Will return the item count ignoring their
+     * namespace.
+     * 
+     * @return int
+     */
+    public function count()
+    {
+        $count = 0;
+        foreach ( $this->properties as $properties )
+        {
+            $count += count( $properties );
+        }
+        
+        return $count;
     }
 }
 

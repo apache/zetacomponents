@@ -418,6 +418,12 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
             ),
             $storage->getAllProperties()
         );
+
+        $this->assertEquals(
+            2,
+            count( $storage ),
+            'Expected property count is: two.'
+        );
     }
 
     public function testGetAllPropertiesNone()
@@ -430,6 +436,57 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
         );
     }
 
+    public function testPropertyStorageDiff()
+    {
+        $liveProp  = new ezcWebdavGetContentLengthProperty();
+        $deadProp  = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
+        $deadProp2 = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'blubb', 'some... content' );
+
+        $storage1 = new ezcWebdavPropertyStorage();
+        $storage1->attach( $liveProp );
+        $storage1->attach( $deadProp );
+
+        $storage2 = new ezcWebdavPropertyStorage();
+        $storage2->attach( $deadProp );
+        $storage2->attach( $deadProp2 );
+
+        $diff = $storage1->diff( $storage2 );
+
+        $this->assertEquals(
+            array(
+                'DAV:' => array(
+                    'getcontentlength' => $liveProp,
+                ),
+            ),
+            $diff->getAllProperties()
+        );
+    }
+
+    public function testPropertyStorageIntersection()
+    {
+        $liveProp  = new ezcWebdavGetContentLengthProperty();
+        $deadProp  = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
+        $deadProp2 = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'blubb', 'some... content' );
+
+        $storage1 = new ezcWebdavPropertyStorage();
+        $storage1->attach( $liveProp );
+        $storage1->attach( $deadProp );
+
+        $storage2 = new ezcWebdavPropertyStorage();
+        $storage2->attach( $deadProp );
+        $storage2->attach( $deadProp2 );
+
+        $intersection = $storage1->intersect( $storage2 );
+
+        $this->assertEquals(
+            array(
+                'http://example.com/foo/bar' => array(
+                    'foobar' => $deadProp,
+                ),
+            ),
+            $intersection->getAllProperties()
+        );
+    }
 }
 
 ?>
