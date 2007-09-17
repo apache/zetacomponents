@@ -19,6 +19,7 @@ return array(
     'ezcWebdavMissingHeaderException'          => 'Webdav/exceptions/missing_header.php',
     'ezcWebdavMissingServerVariableException'  => 'Webdav/exceptions/misssing_server_variable.php',
     'ezcWebdavNotTransportHandlerException'    => 'Webdav/exceptions/no_transport_handler.php',
+    'ezcWebdavUnknownHeaderException'          => 'Webdav/exceptions/unknown_header.php',
     'ezcWebdavXmlBase'                         => 'Webdav/interfaces/xml_base.php',
     'ezcWebdavProperty'                        => 'Webdav/interfaces/property.php',
     'ezcWebdavBackend'                         => 'Webdav/interfaces/backend.php',

@@ -50,12 +50,16 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected function runTestSet()
     {
-        // Result for comparison must always exist
-        if ( file_exists( ($resultFile = $this->currentTestSet . '.result.txt' ) ) === false )
+        if ( file_exists( ( $resultFile = $this->currentTestSet . '.result.txt' ) ) === true 
+            && ( $referenceResult = file_get_contents( $resultFile ) ) !== ''
+           )
         {
-            throw new PHPUnit_Framework_ExpectationFailedException( "Result file '$resultFile' not found." );
+            $referenceResult = unserialize( file_get_contents( $resultFile ) );
         }
-        $referenceResult = unserialize( file_get_contents( $resultFile ) );
+        else
+        {
+            $referenceResult = false;
+        }
 
         // Optionally set a body.
         if ( file_exists( ($bodyFile = $this->currentTestSet . '.body.php' ) ) )
@@ -85,6 +89,12 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $transportClass = $this->transportClass;
         $transport = new $transportClass();
         $result = $transport->parseRequest( $uri );
+
+        if ( $referenceResult === false )
+        {
+            // Regenerate
+            file_put_contents( $resultFile, serialize( $result ) );
+        }
 
         $this->assertEquals(
             $referenceResult,

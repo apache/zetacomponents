@@ -9,6 +9,14 @@ return <<<EOT
 <resourcetype xmlns="DAV:"/>
 <checked-in xmlns="DAV:"/>
 <checked-out xmlns="DAV:"/>
+<creationdate xmlns="DAV:" />
+<displayname xmlns="DAV:" />
+<getcontentlanguage xmlns="DAV:" />
+<getcontenttype xmlns="DAV:" />
+<getetag xmlns="DAV:" />
+<lockdiscovery xmlns="DAV:" />
+<source xmlns="DAV:" />
+<supportedlock xmlns="DAV:" />
 </prop></propfind>
 EOT;
 

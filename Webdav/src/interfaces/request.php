@@ -104,6 +104,24 @@ abstract class ezcWebdavRequest
     }
 
     /**
+     * Sets a header to a specified value.
+     * Sets the values for the headers given in $headers to the specified
+     * values. All processable headers will be validated centrally in {@link
+     * validateHeaders()}.
+     *
+     * For validation of header content, the method {@link validateHeaders()}
+     * can be overwritten.
+     * 
+     * @param array $headers 
+     * @return void
+     */
+    public final function setHeaders( array $headers )
+    {
+        $this->headers = array_merge( $this->headers, $headers );
+        $this->validated = false;
+    }
+
+    /**
      * Returns the contents of a specific header.
      * Returns the content of the header identified with $headerName with the
      * given name and null if no content for the header is available.

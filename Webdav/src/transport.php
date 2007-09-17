@@ -21,6 +21,15 @@ class ezcWebdavTransport
 {
 
     /**
+     * Map of regular header names to $_SERVER keys.
+     *
+     * @var array(string=>string)
+     */
+    static protected $headerMap = array(
+        'Depth' => 'HTTP_DEPTH',
+    );
+
+    /**
      * Regedx to parse the <getcontenttype /> XML elemens content.
      * Example: 'text/html; charset=UTF-8'
      */
@@ -66,6 +75,58 @@ class ezcWebdavTransport
         return $body;
     }
 
+    /**
+     * Returns an array with the given headers.
+     * Checks for the availability of headers in $headerNamess, given as an array
+     * of header names, and parses them according to their format. 
+     *
+     * The returned array can be used with {@link ezcWebdavRequest->setHeaders()}.
+     * 
+     * @param array(string) $headerNames 
+     * @return array(string=>mixed)
+     */
+    protected function parseHeaders( array $headerNames )
+    {
+        $resultHeaders = array();
+        foreach ( $headerNames as $headerName )
+        {
+            if ( isset( self::$headerMap[$headerName] ) === false )
+            {
+                throw new ezcWebdavUnknownHeaderException( $headerName );
+            }
+            if ( isset( $_SERVER[self::$headerMap[$headerName]] ) )
+            {
+                $resultHeaders[$headerName] = $this->parseHeader( $headerName, $_SERVER[self::$headerMap[$headerName]] );
+            }
+        }
+        return $resultHeaders;
+    }
+
+    protected function parseHeader( $headerName, $value )
+    {
+        switch ( $headerName )
+        {
+            case 'Depth':
+                switch ( trim( $value ) )
+                {
+                    case '0':
+                        $value = ezcWebdavRequest::DEPTH_ZERO;
+                        break;
+                    case '1':
+                        $value = ezcWebdavRequest::DEPTH_ONE;
+                        break;
+                    case 'infinity':
+                        $value = ezcWebdavRequest::DEPTH_INFINITY;
+                        break;
+                    // No default. Header stays as is, if not matched
+                }
+                break;
+            default:
+                // @TODO Add extensiability hook
+        }
+        return $value;
+    }
+
     // PROPFIND
 
     /**
@@ -82,6 +143,12 @@ class ezcWebdavTransport
     protected function parsePropFindRequest( $uri, $body )
     {
         $request = new ezcWebdavPropFindRequest( $uri );
+
+        $request->setHeaders(
+            $this->parseHeaders(
+                array( 'Depth' )
+            )
+        );
 
         $dom = new DOMDocument();
         if ( $dom->loadXML( $body, LIBXML_NOWARNING ) === false )
