@@ -260,27 +260,16 @@ abstract class ezcWebdavSimpleBackend
     }
 
     /**
-     * Fetch properties by name as defined in propfind prop request.
+     * Get all children nodes.
      *
-     * Fetch properties as defined by the passed propfind request by their
-     * names for the given node.
+     * Get all nodes from given $source path up to the given depth.
      * 
-     * @param ezcWebdavPropFindRequest $request 
-     * @return ezcWebdavResponse
+     * @param string $source 
+     * @param int $depth 
+     * @return array
      */
-    protected function fetchProperties( ezcWebdavPropFindRequest $request )
+    protected function getNodes( $source, $depth )
     {
-        $source = $request->requestUri;
-
-        // Check if resource is available
-        if ( !$this->nodeExists( $source ) )
-        {
-            return new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_404,
-                $source
-            );
-        }
-
         // If source is a collection also find properties for all childs
         if ( $this->isCollection( $source ) )
         {
@@ -297,6 +286,25 @@ abstract class ezcWebdavSimpleBackend
                 new ezcWebdavResource( $source )
             );
         }
+
+        return $nodes;
+    }
+
+    /**
+     * Fetch properties by name as defined in propfind prop request.
+     *
+     * Fetch properties as defined by the passed propfind request by their
+     * names for the given node.
+     * 
+     * @param ezcWebdavPropFindRequest $request 
+     * @return ezcWebdavResponse
+     */
+    protected function fetchProperties( ezcWebdavPropFindRequest $request )
+    {
+        $source = $request->requestUri;
+
+        // Get list of all affected node, depeding on source and depth
+        $nodes = $this->getNodes( $source, $request->getHeader( 'Depth' ) );
 
         // Get requested properties for all files
         $responses = array();
@@ -342,6 +350,89 @@ abstract class ezcWebdavSimpleBackend
             $responses
         );
     }
+
+    /**
+     * Fetch names of all available properties for a node.
+     *
+     * Fetch names of properties in one node, and if the node is a collection,
+     * also return children, depending on the set depth header.
+     * 
+     * @param ezcWebdavPropFindRequest $request 
+     * @return ezcWebdavResponse
+     */
+    protected function fetchPropertyNames( ezcWebdavPropFindRequest $request )
+    {
+        $source = $request->requestUri;
+
+        // Get list of all affected node, depeding on source and depth
+        $nodes = $this->getNodes( $source, $request->getHeader( 'Depth' ) );
+
+        // Get requested properties for all files
+        $responses = array();
+        foreach ( $nodes as $node )
+        {
+            // Get all properties form node ...
+            $nodeProperties = $this->getAllProperties( $node->path );
+
+            // ... and clear and add them to the property name storage.
+            $propertyNames = new ezcWebdavPropertyStorage();
+            foreach( $nodeProperties->getAllProperties() as $namespace => $properties )
+            {
+                foreach ( $properties as $name => $property )
+                {
+                    // Clear property, because the client only want the names
+                    // of the available properties.
+                    $property = clone $property;
+                    $property->clear();
+                    $propertyNames->attach( $property );
+                }
+            }
+
+            // Add response
+            $responses[] = new ezcWebdavPropFindResponse(
+                $node,
+                new ezcWebdavPropStatResponse( $propertyNames )
+            );
+        }
+
+        return new ezcWebdavMultistatusResponse(
+            $responses
+        );
+    }
+
+    /**
+     * Fetch all available properties for a node.
+     *
+     * Fetch properties in one node, and if the node is a collection, also
+     * return children, depending on the set depth header.
+     * 
+     * @param ezcWebdavPropFindRequest $request 
+     * @return ezcWebdavResponse
+     */
+    protected function fetchAllProperties( ezcWebdavPropFindRequest $request )
+    {
+        $source = $request->requestUri;
+
+        // Get list of all affected node, depeding on source and depth
+        $nodes = $this->getNodes( $source, $request->getHeader( 'Depth' ) );
+
+        // Get requested properties for all files
+        $responses = array();
+        foreach ( $nodes as $node )
+        {
+            // Just create response from properties
+            $responses[] = new ezcWebdavPropFindResponse(
+                $node,
+                new ezcWebdavPropStatResponse( 
+                    $this->getAllProperties( $node->path )
+                )
+            );
+        }
+
+        return new ezcWebdavMultistatusResponse(
+            $responses
+        );
+    }
     
     /**
      * Required method to serve PROPFIND requests.
@@ -359,15 +450,26 @@ abstract class ezcWebdavSimpleBackend
      */
     public function propFind( ezcWebdavPropFindRequest $request )
     {
+        $source = $request->requestUri;
+
+        // Check if resource is available
+        if ( !$this->nodeExists( $source ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_404,
+                $source
+            );
+        }
+
         switch ( true )
         {
             case $request->prop:
                 return $this->fetchProperties( $request );
 
-            case $request->propname:
+            case $request->propName:
                 return $this->fetchPropertyNames( $request );
 
-            case $request->allprop:
+            case $request->allProp:
                 return $this->fetchAllProperties( $request );
         }
 

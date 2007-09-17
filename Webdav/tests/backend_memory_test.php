@@ -318,7 +318,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/foo', new ezcWebdavPropertyStorage()
                 )
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -343,7 +345,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/bar', new ezcWebdavPropertyStorage()
                 )
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -367,7 +371,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -392,7 +398,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/foo', new ezcWebdavPropertyStorage(), 'bar'
                 )
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -416,7 +424,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -468,7 +478,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     'bar'
                 )
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -503,7 +515,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     )
                 )
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -533,7 +547,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     'Willst du an \'was Rundes denken, denk\' an einen Plastikball. Willst du \'was gesundes schenken, schenke einen Plastikball. Plastikball, Plastikball, ...'
                 )
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -556,7 +572,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavCopyResponse(
                 false
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -580,7 +598,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -604,7 +624,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavCopyResponse(
                 false
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -627,7 +649,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavCopyResponse(
                 true
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -652,7 +676,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_412,
                 '/bar'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -676,7 +702,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_409,
                 '/dum/di'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -700,7 +728,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_403,
                 '/foo'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -724,7 +754,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavCopyResponse(
                 false
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -766,7 +798,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavCopyResponse(
                 false
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -826,7 +860,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/bar/_4'
                 )
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -880,7 +916,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavMoveResponse(
                 false
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -904,7 +942,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -928,7 +968,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavMoveResponse(
                 false
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -951,7 +993,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavMoveResponse(
                 true
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -976,7 +1020,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_412,
                 '/bar'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1000,7 +1046,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_409,
                 '/dum/di'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1024,7 +1072,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_403,
                 '/foo'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1048,7 +1098,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavMoveResponse(
                 false
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -1101,7 +1153,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/bar/_4'
                 )
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -1155,7 +1209,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavDeleteResponse(
                 '/foo'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -1192,7 +1248,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavDeleteResponse(
                 '/bar'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -1227,7 +1285,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1254,7 +1314,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_423,
                 '/foo'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -1294,7 +1356,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_405,
                 '/bar'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1318,7 +1382,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_405,
                 '/foo'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1342,7 +1408,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_409,
                 '/dum/di'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1366,7 +1434,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_403,
                 '/foo/bar'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1390,7 +1460,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_415,
                 '/bar/foo'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1413,7 +1485,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavMakeCollectionResponse(
                 '/bar/foo'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -1455,7 +1529,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_409,
                 '/bar'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1479,7 +1555,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_409,
                 '/dum/di'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1503,7 +1581,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ezcWebdavResponse::STATUS_409,
                 '/foo/bar'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1526,7 +1606,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavPutResponse(
                 '/bar/foo'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -1567,7 +1649,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavPutResponse(
                 '/foo'
             ),
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
 
         $content = $this->readAttribute( $backend, 'content' );
@@ -1639,7 +1723,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $this->assertEquals(
             $expectedResponse,
             $response,
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 
@@ -1714,8 +1800,286 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $this->assertEquals(
             $expectedResponse,
             $response,
-            'Expected response does not match real response.'
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropFindNamesOnResource()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request->propName = true;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage->attach(
+            new ezcWebdavCreationDateProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDisplayNameProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLanguageProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentTypeProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetEtagProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetLastModifiedProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLengthProperty()
+        );
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/foo' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropFindNamesOnCollection()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request->propName = true;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage->attach(
+            new ezcWebdavCreationDateProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDisplayNameProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLanguageProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentTypeProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetEtagProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetLastModifiedProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLengthProperty()
+        );
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavCollection( '/bar' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/bar/blubb' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropFindAllPropsOnResource()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request->allProp = true;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage->attach(
+            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDisplayNameProperty( 'foo' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetEtagProperty( md5( '/foo' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLengthProperty( '3' )
+        );
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/foo' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropFindAllPropsOnCollection()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request->allProp = true;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $propertyStorageC = new ezcWebdavPropertyStorage();
+        $propertyStorageC->attach(
+            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+        );
+        $propertyStorageC->attach(
+            new ezcWebdavDisplayNameProperty( 'bar' )
+        );
+        $propertyStorageC->attach(
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $propertyStorageC->attach(
+            new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
+        );
+        $propertyStorageC->attach(
+            new ezcWebdavGetEtagProperty( md5( '/bar' ) )
+        );
+        $propertyStorageC->attach(
+            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+        );
+        $propertyStorageC->attach(
+            new ezcWebdavGetContentLengthProperty( ezcWebdavGetContentLengthProperty::COLLECTION )
+        );
+
+        $propertyStorageR = new ezcWebdavPropertyStorage();
+        $propertyStorageR->attach(
+            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+        );
+        $propertyStorageR->attach(
+            new ezcWebdavDisplayNameProperty( 'blubb' )
+        );
+        $propertyStorageR->attach(
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $propertyStorageR->attach(
+            new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
+        );
+        $propertyStorageR->attach(
+            new ezcWebdavGetEtagProperty( md5( '/bar/blubb' ) )
+        );
+        $propertyStorageR->attach(
+            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+        );
+        $propertyStorageR->attach(
+            new ezcWebdavGetContentLengthProperty( '19' )
+        );
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavCollection( '/bar' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorageC
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/bar/blubb' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorageR
+                    ),
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
         );
     }
 }
+
 ?>
