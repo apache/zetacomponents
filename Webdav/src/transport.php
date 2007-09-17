@@ -107,8 +107,6 @@ class ezcWebdavTransport
             );
         }
 
-        // $_GLOBAL['log'] .= var_export( $dom->documentElement->firstChild->tagName )
-
         switch ( $dom->documentElement->firstChild->tagName )
         {
             case 'allprop':
@@ -179,9 +177,8 @@ class ezcWebdavTransport
                 $propDom->appendChild( $copiedNode );
                 $storage->attach(
                     new ezcWebdavDeadProperty(
-                    // DEBUG!!!
-                        'foo' . $currentNode->namespaceURI . 'bar',
-                        $currentNode->nodeType . '---' . $currentNode->tagName,
+                        $currentNode->namespaceURI,
+                        $currentNode->tagName,
                         $propDom->saveXML()
                     )
                 );
