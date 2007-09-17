@@ -1,0 +1,45 @@
+Authentication RFCs
+-------------------
+
+This document lists various RFCs (Requests For Comments) supported
+by the Authentication component. Not all RFCs are fully implemented yet.
+
+
+LDAP (Lightweight Directory Access Protocol)
+============================================
+
+1. `RFC 4513 - LDAP: Authentication Methods and Security Mechanisms`__
+
+__ http://www.faqs.org/rfcs/rfc4513.html
+
+
+OpenID
+======
+
+1. `OpenID 1.0`__
+2. `OpenID 1.1`__
+3. `Yadis  1.0`__
+4. `RFC 2104 - HMAC: Keyed-Hashing for Message Authentication`__
+
+__ http://openid.net/specs/openid-simple-registration-extension-1_0.html
+__ http://openid.net/specs/openid-authentication-1_1.html
+__ http://yadis.org
+__ http://www.faqs.org/rfcs/rfc2104.html
+
+
+TypeKey
+=======
+
+1. `TypeKey specifications`__
+
+__ http://www.sixapart.com/typekey/api
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
+
