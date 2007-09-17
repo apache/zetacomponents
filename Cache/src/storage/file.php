@@ -323,7 +323,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      *                                           data to restore.
      * @return array(int=>string) Found cache items.
      */
-    private function search( $id = null, $attributes = array() )
+    protected function search( $id = null, $attributes = array() )
     {
         $globArr = explode( "-", $this->generateIdentifier( $id, $attributes ), 2 );
         if ( sizeof( $globArr ) > 1 )
@@ -345,7 +345,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      * @param mixed $directory Directory to search in.
      * @return array(int=>string) Found cache items.
      */
-    private function searchRecursive( $pattern, $directory )
+    protected function searchRecursive( $pattern, $directory )
     {
         $itemArr = glob( $directory . $pattern );
         $dirArr = glob( $directory . "*", GLOB_ONLYDIR );
