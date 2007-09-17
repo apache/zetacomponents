@@ -262,7 +262,9 @@ abstract class ezcWebdavSimpleBackend
     /**
      * Get all children nodes.
      *
-     * Get all nodes from given $source path up to the given depth.
+     * Get all nodes from given $source path up to the given depth. Reuses the
+     * method {@link getCollectionMembers}, but you may want to overwrite this
+     * implementation by somethings which fits better with your backend.
      * 
      * @param string $source 
      * @param int $depth 
@@ -270,21 +272,39 @@ abstract class ezcWebdavSimpleBackend
      */
     protected function getNodes( $source, $depth )
     {
-        // If source is a collection also find properties for all childs
-        if ( $this->isCollection( $source ) )
+        // No special handling for plain ressources
+        if ( !$this->isCollection( $source ) )
         {
-            $nodes = array_merge(
-                array(
-                    new ezcWebdavCollection( $source )
-                ),
-                $this->getCollectionMembers( $source )
-            );
+            return array( new ezcWebdavResource( $source ) );
         }
-        else
+
+        // For zero depth just return the collection
+        if ( $depth === ezcWebdavRequest::DEPTH_ZERO )
         {
-            $nodes = array(
-                new ezcWebdavResource( $source )
-            );
+            return array( new ezcWebdavCollection( $source ) );
+        }
+
+        $nodes = array( new ezcWebdavCollection( $source ) );
+        $recurseCollections = array( $source );
+
+        // Collect children for all collections listed in $recurseCollections.
+        for ( $i = 0; $i < count( $recurseCollections); ++$i )
+        {
+            $source = $recurseCollections[$i];
+            $childs = $this->getCollectionMembers( $source );
+
+            foreach ( $childs as $child )
+            {
+                $nodes[] = $child;
+
+                // Check if we should recurse deeper, and add collections to
+                // processing list in this case.
+                if ( ( $child instanceof ezcWebdavCollection ) && 
+                     ( $depth === ezcWebdavRequest::DEPTH_INFINITY ) )
+                {
+                    $recurseCollections[] = $child->path;
+                }
+            }
         }
 
         return $nodes;

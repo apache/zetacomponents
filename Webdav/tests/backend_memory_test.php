@@ -1932,6 +1932,249 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
     }
 
+    public function testPropFindNamesOnCollectionDepthZero()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blah' => array(
+                    'dum' => array(
+                        'di' => 'blah blah',
+                    ),
+                ),
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request->propName = true;
+        $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage->attach(
+            new ezcWebdavCreationDateProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDisplayNameProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLanguageProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentTypeProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetEtagProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetLastModifiedProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLengthProperty()
+        );
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavCollection( '/bar' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropFindNamesOnCollectionDepthOne()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blah' => array(
+                    'dum' => array(
+                        'di' => 'blah blah',
+                    ),
+                ),
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request->propName = true;
+        $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ONE );
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage->attach(
+            new ezcWebdavCreationDateProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDisplayNameProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLanguageProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentTypeProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetEtagProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetLastModifiedProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLengthProperty()
+        );
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavCollection( '/bar' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavCollection( '/bar/blah' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/bar/blubb' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropFindNamesOnCollectionDepthInfinite()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blah' => array(
+                    'dum' => array(
+                        'di' => 'blah blah',
+                    ),
+                ),
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request->propName = true;
+        $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage->attach(
+            new ezcWebdavCreationDateProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavDisplayNameProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLanguageProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentTypeProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetEtagProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetLastModifiedProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLengthProperty()
+        );
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavCollection( '/bar' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavCollection( '/bar/blah' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/bar/blubb' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavCollection( '/bar/blah/dum' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/bar/blah/dum/di' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $propertyStorage
+                    ),
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
     public function testPropFindAllPropsOnResource()
     {
         $backend = new ezcWebdavMemoryBackend();
