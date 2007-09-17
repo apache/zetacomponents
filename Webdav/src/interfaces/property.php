@@ -125,6 +125,24 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
      * @return bool
      */
     abstract public function hasNoContent();
+
+    /**
+     * Remove all contents from a property.
+     *
+     * Clear a property, so that it will be recognized as empty later.
+     * 
+     * @return void
+     */
+    public function clear()
+    {
+        foreach ( $this->properties as $name => $value )
+        {
+            if ( !in_array( $name, array( 'name', 'namespace' ), true ) )
+            {
+                $this->properties[$name] = null;
+            }
+        }
+    }
 }
 
 ?>

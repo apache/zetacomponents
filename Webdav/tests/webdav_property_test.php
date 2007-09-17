@@ -116,5 +116,35 @@ abstract class ezcWebdavWebdavPropertyTestCase extends ezcWebdavPropertyTestCase
             'The property should have some content now.'
         );
     }
+
+    public function testPropertyClearContent()
+    {
+        $object = $this->getObject();
+
+        foreach ( $this->workingValues as $propName => $values )
+        {
+            foreach( $values as $value )
+            {
+                $object->$propName = $value;
+                $this->assertEquals( $value, $object->$propName );
+            }
+        }
+        
+        $this->assertSame(
+            false,
+            $object->hasNoContent(),
+            'The property should have some content now.'
+        );
+
+        $object->clear();
+        
+        $this->assertSame(
+            true XOR $this->alwaysHasContent,
+            $object->hasNoContent(),
+            'The property should have some content now.'
+        );
+
+        $this->assertPropertyValues( $object, $this->defaultValues );
+    }
 }
 ?>

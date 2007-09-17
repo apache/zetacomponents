@@ -121,6 +121,23 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
     {
         return false;
     }
+
+    /**
+     * Remove all contents from a property.
+     *
+     * Clear a property, so that it will be recognized as empty later.
+     * 
+     * @return void
+     */
+    public function clear()
+    {
+        parent::clear();
+
+        $this->properties['lockType']  = self::TYPE_READ;
+        $this->properties['lockScope'] = self::SCOPE_SHARED;
+        $this->properties['depth']     = ezcWebdavRequest::DEPTH_INFINITY;
+        $this->properties['tokens']    = array();
+    }
 }
 
 

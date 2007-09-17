@@ -76,6 +76,20 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavLiveProperty
     {
         return !count( $this->properties['languages'] );
     }
+
+    /**
+     * Remove all contents from a property.
+     *
+     * Clear a property, so that it will be recognized as empty later.
+     * 
+     * @return void
+     */
+    public function clear()
+    {
+        parent::clear();
+
+        $this->properties['languages'] = array();
+    }
 }
 
 ?>

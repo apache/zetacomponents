@@ -76,6 +76,20 @@ class ezcWebdavSourceProperty extends ezcWebdavLiveProperty
     {
         return !count( $this->properties['links'] );
     }
+
+    /**
+     * Remove all contents from a property.
+     *
+     * Clear a property, so that it will be recognized as empty later.
+     * 
+     * @return void
+     */
+    public function clear()
+    {
+        parent::clear();
+
+        $this->properties['links'] = array();
+    }
 }
 
 ?>
