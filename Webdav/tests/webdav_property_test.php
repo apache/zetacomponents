@@ -36,6 +36,13 @@ abstract class ezcWebdavWebdavPropertyTestCase extends ezcWebdavPropertyTestCase
      */
     protected $alwaysHasContent = false;
 
+    /**
+     * Expected property namespace
+     * 
+     * @var string
+     */
+    protected $namespace = 'DAV:';
+
     public function testCtorSuccess()
     {
         $class = new ReflectionClass( $this->className );
@@ -63,7 +70,7 @@ abstract class ezcWebdavWebdavPropertyTestCase extends ezcWebdavPropertyTestCase
 
         $this->assertEquals(
             $object->namespace,
-            'DAV:',
+            $this->namespace,
             'Property is in wrong namespace.'
         );
     }
