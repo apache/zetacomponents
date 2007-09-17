@@ -3,6 +3,7 @@
 
 - Implemented issue #10533: ezcCacheManager::getCache does not support delayed
   initialization.
+- Fixed issue #11064: Marked search() as protected in ezcCacheStorageFile.
 
 
 1.2 - Monday 02 July 2007
