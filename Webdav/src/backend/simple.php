@@ -74,13 +74,15 @@ abstract class ezcWebdavSimpleBackend
     /**
      * Manually get a property on a resource.
      * 
-     * Get the property with the given name from the given resource.
+     * Get the property with the given name from the given resource. You may
+     * optionally define a namespace to receive the property from.
      *
      * @param string $resource 
      * @param string $propertyName 
+     * @param string $namespace 
      * @return ezcWebdavProperty
      */
-    abstract public function getProperty( $resource, $propertyName );
+    abstract public function getProperty( $resource, $propertyName, $namespace = 'DAV:' );
 
     /**
      * Manually get a property on a resource.
@@ -91,7 +93,7 @@ abstract class ezcWebdavSimpleBackend
      * @param string $resource 
      * @return ezcWebdavPropertyStorage
      */
-    abstract public function getProperties( $resource );
+    abstract public function getAllProperties( $resource );
 
     /**
      * Copy resources recursively from one path to another.
@@ -258,6 +260,90 @@ abstract class ezcWebdavSimpleBackend
     }
 
     /**
+     * Fetch properties by name as defined in propfind prop request.
+     *
+     * Fetch properties as defined by the passed propfind request by their
+     * names for the given node.
+     * 
+     * @param ezcWebdavPropFindRequest $request 
+     * @return ezcWebdavResponse
+     */
+    protected function fetchProperties( ezcWebdavPropFindRequest $request )
+    {
+        $source = $request->requestUri;
+
+        // Check if resource is available
+        if ( !$this->nodeExists( $source ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_404,
+                $source
+            );
+        }
+
+        // If source is a collection also find properties for all childs
+        if ( $this->isCollection( $source ) )
+        {
+            $nodes = array_merge(
+                array(
+                    new ezcWebdavCollection( $source )
+                ),
+                $this->getCollectionMembers( $source )
+            );
+        }
+        else
+        {
+            $nodes = array(
+                new ezcWebdavResource( $source )
+            );
+        }
+
+        // Get requested properties for all files
+        $responses = array();
+        foreach ( $nodes as $node )
+        {
+            // We only check if a property could not be found. Normally there
+            // are more other errors which could occur when retrieving a
+            // property, like 403 (Forbidden), which are not handled by this
+            // simple backend. Overwrite this method to handle them.
+
+            // Get all properties form node ...
+            $nodeProperties = $this->getAllProperties( $node->path );
+
+            // ... and diff the with the requested properties.
+            $notFound = $request->prop->diff( $nodeProperties );
+            $valid = $request->prop->intersect( $nodeProperties );
+
+            $nodeResponses = array();
+            // Add propstat sub response for valid responses
+            if ( count( $valid ) )
+            {
+                $nodeResponses[] = new ezcWebdavPropStatResponse( $valid );
+            }
+
+            // Only create error response, when some properties could not be
+            // found.
+            if ( count( $notFound ) )
+            {
+                $nodeResponses[] = new ezcWebdavPropStatResponse(
+                    $notFound,
+                    ezcWebdavResponse::STATUS_404
+                );
+            }
+
+            // Create response
+            $responses[] = new ezcWebdavPropFindResponse(
+                $node,
+                $nodeResponses
+            );
+        }
+
+        return new ezcWebdavMultistatusResponse(
+            $responses
+        );
+    }
+    
+    /**
      * Required method to serve PROPFIND requests.
      * 
      * The method receives a {@link ezcWebdavPropFindRequest} object containing all
@@ -273,7 +359,21 @@ abstract class ezcWebdavSimpleBackend
      */
     public function propFind( ezcWebdavPropFindRequest $request )
     {
-        // @TODO: Implement.
+        switch ( true )
+        {
+            case $request->prop:
+                return $this->fetchProperties( $request );
+
+            case $request->propname:
+                return $this->fetchPropertyNames( $request );
+
+            case $request->allprop:
+                return $this->fetchAllProperties( $request );
+        }
+
+        return new ezcWebdavErrorResponse(
+            ezcWebdavResponse::STATUS_500
+        );
     }
 
     /**

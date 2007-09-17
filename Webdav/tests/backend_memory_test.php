@@ -154,6 +154,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $propertyStorage->attach(
             new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
         );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLengthProperty( '3' )
+        );
 
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
@@ -259,6 +262,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
         $propertyStorage->attach(
             new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLengthProperty( '3' )
         );
         $propertyStorage->attach(
             new ezcWebdavDeadProperty( 'wcv:', 'ctime', '123456' )
@@ -445,6 +451,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $propertyStorage->attach(
             new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
         );
+        $propertyStorage->attach(
+            new ezcWebdavGetContentLengthProperty( '3' )
+        );
 
         $request = new ezcWebdavGetRequest( '/foo' );
         $request->validateHeaders();
@@ -486,10 +495,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 new ezcWebdavCollection(
                     '/bar', new ezcWebdavPropertyStorage(), array(
                         new ezcWebdavResource(
-                            '/bar/blubb', new ezcWebdavPropertyStorage()
+                            '/bar/blubb'
                         ),
                         new ezcWebdavCollection(
-                            '/bar/blah', new ezcWebdavPropertyStorage()
+                            '/bar/blah'
                         ),
                     )
                 )
@@ -1578,7 +1587,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
     }
 
-    public function testPropFind()
+    public function testPropFindOnResource()
     {
         $backend = new ezcWebdavMemoryBackend();
         $backend->options->fakeLiveProperties = true;
@@ -1591,28 +1600,122 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $requestedProperties = new ezcWebdavPropertyStorage();
         $requestedProperties->attach(
-            new ezcWebdavGetContentLengthProperty()
+            $prop1 = new ezcWebdavGetContentLengthProperty()
         );
         $requestedProperties->attach(
-            new ezcWebdavGetLastModifiedProperty()
+            $prop2 = new ezcWebdavGetLastModifiedProperty()
         );
         $requestedProperties->attach(
-            new ezcWebdavDeadProperty( 'http://apache.org/dav/props/', 'executable' )
+            $prop3 = new ezcWebdavDeadProperty( 'http://apache.org/dav/props/', 'executable' )
         );
-/*
+
         $request = new ezcWebdavPropFindRequest( '/foo' );
         $request->prop = $requestedProperties;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $this->assertEquals(
-            $response,
+        $prop200 = new ezcWebdavPropertyStorage();
+        $prop200->attach( $prop2 );
+        $prop200->attach( $prop1 );
+
+        $prop404 = new ezcWebdavPropertyStorage();
+        $prop404->attach( $prop3 );
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                '/foo'
-            ),
+                new ezcWebdavResource( '/foo' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $prop200
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $prop404,
+                        ezcWebdavResponse::STATUS_404
+                    ),
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
             'Expected response does not match real response.'
         );
-*/
+    }
+
+    public function testPropFindOnCollection()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $requestedProperties = new ezcWebdavPropertyStorage();
+        $requestedProperties->attach(
+            $prop1 = new ezcWebdavGetContentLengthProperty()
+        );
+        $requestedProperties->attach(
+            $prop2 = new ezcWebdavGetLastModifiedProperty()
+        );
+        $requestedProperties->attach(
+            $prop3 = new ezcWebdavDeadProperty( 'http://apache.org/dav/props/', 'executable' )
+        );
+
+        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request->prop = $requestedProperties;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $prop200c = new ezcWebdavPropertyStorage();
+        $prop200c->attach( $prop1 );
+        $prop200c->attach( $prop2 );
+
+        $prop404c = new ezcWebdavPropertyStorage();
+        $prop404c->attach( $prop3 );
+
+        $prop200r = new ezcWebdavPropertyStorage();
+        $prop200r->attach( $prop1 );
+        $prop200r->attach( $prop2 );
+
+        $prop404r = new ezcWebdavPropertyStorage();
+        $prop404r->attach( $prop3 );
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavCollection( '/bar' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $prop200c
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $prop404c,
+                        ezcWebdavResponse::STATUS_404
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/bar/blubb' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $prop200r
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $prop404r,
+                        ezcWebdavResponse::STATUS_404
+                    ),
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.'
+        );
     }
 }
 ?>

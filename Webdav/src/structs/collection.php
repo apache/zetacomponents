@@ -47,7 +47,7 @@ class ezcWebdavCollection extends ezcBaseStruct
      * @param array $childs 
      * @return void
      */
-    public function __construct( $path, ezcWebdavPropertyStorage $liveProperties, array $childs = array() )
+    public function __construct( $path, ezcWebdavPropertyStorage $liveProperties = null, array $childs = array() )
     {
         $this->path = $path;
         $this->liveProperties = $liveProperties;

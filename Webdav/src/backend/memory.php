@@ -182,6 +182,15 @@ class ezcWebdavMemoryBackend
             $propertyStorage->attach(
                 new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
             );
+
+            // Define content length if node is a resource.
+            $propertyStorage->attach(
+                new ezcWebdavGetContentLengthProperty(
+                    $isCollection ?
+                        ezcWebdavGetContentLengthProperty::COLLECTION :
+                        (string) strlen( $this->content[$name] )
+                )
+            );
         }
         else
         {
@@ -308,31 +317,30 @@ class ezcWebdavMemoryBackend
      */
     public function setProperty( $resource, ezcWebdavProperty $property )
     {
-        // Check if resource exists at all
+        // Intialize property storage for node, if ont done yet.
         if ( !array_key_exists( $resource, $this->props ) )
         {
             return false;
         }
 
-        // Do not check if an existing value will be overwritten, just set
-        // property
         $this->props[$resource]->attach( $property );
-
         return true;
     }
 
     /**
      * Manually get a property on a resource.
      * 
-     * Get the property with the given name from the given resource.
+     * Get the property with the given name from the given resource. You may
+     * optionally define a namespace to receive the property from.
      *
      * @param string $resource 
      * @param string $propertyName 
+     * @param string $namespace 
      * @return ezcWebdavProperty
      */
-    public function getProperty( $resource, $propertyName )
+    public function getProperty( $resource, $propertyName, $namespace = 'DAV:' )
     {
-
+        return $this->props[$resource]->get( $propertyName, $namespace );
     }
 
     /**
@@ -344,9 +352,9 @@ class ezcWebdavMemoryBackend
      * @param string $resource 
      * @return ezcWebdavPropertyStorage
      */
-    public function getProperties( $resource )
+    public function getAllProperties( $resource )
     {
-
+        return $this->props[$resource];
     }
 
     /**
@@ -595,16 +603,14 @@ class ezcWebdavMemoryBackend
             {
                 // Add collection without any childs
                 $contents[] = new ezcWebdavCollection(
-                    $child,
-                        $this->props[$child]
+                    $child
                 );
             }
             else
             {
                 // Add files without content
                 $contents[] = new ezcWebdavResource(
-                    $child,
-                    $this->props[$child]
+                    $child
                 );
             }
         }

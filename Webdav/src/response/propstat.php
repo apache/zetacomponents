@@ -1,6 +1,7 @@
 <?php
 /**
- * File containing the getcontentlength property class.
+ * File containing the class representing a GET response on a collection from
+ * the webdav server.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,34 +9,31 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * An object of this class represents the Webdav property <getcontentlength>.
- *
- * @property string $length
- *           The content length.
+ * Class used to answer GET responses on a collection by the webdav backend.
  *
  * @version //autogentag//
  * @package Webdav
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavGetContentLengthProperty extends ezcWebdavLiveProperty
+class ezcWebdavPropStatResponse extends ezcWebdavResponse
 {
     /**
-     * The WebDav RFC defines that each DAV: compliant resource must have this
-     * property set. It does not define what should be returned for
-     * collections. We use the string in this constant for this.
-     */
-    const COLLECTION = '-1';
-
-    /**
-     * Creates a new ezcWebdavGetContentLengthProperty.
+     * Construct prop stat response.
+     *
+     * Construct prop stat response, which should be aggregated in a {@link
+     * ezcWebdavPropFindResponse} from a property storage and optionally an
+     * error stutus code, which will default to 200(OK).
      * 
-     * @param string $length The length.
+     * @param ezcWebdavPropertyStorage $properties
+     * @param int $status 
      * @return void
      */
-    public function __construct( $length = null )
+    public function __construct( ezcWebdavPropertyStorage $properties, $status = ezcWebdavResponse::STATUS_200 )
     {
-        parent::__construct( 'getcontentlength' );
+        parent::__construct( $status );
 
-        $this->length = $length;
+        $this->properties = $properties;
     }
 
     /**
@@ -57,10 +55,10 @@ class ezcWebdavGetContentLengthProperty extends ezcWebdavLiveProperty
     {
         switch ( $propertyName )
         {
-            case 'length':
-                if ( ( is_string( $propertyValue ) === false || is_numeric( $propertyValue ) === false ) && $propertyValue !== null )
+            case 'properties':
+                if ( ! $propertyValue instanceof ezcWebdavPropertyStorage )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string of digits' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavPropertyStorage' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
