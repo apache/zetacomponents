@@ -76,6 +76,19 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
                 parent::__set( $propertyName, $propertyValue );
         }
     }
+
+    /**
+     * Check if property has no content.
+     *
+     * Should return true, if property has no assigned content.
+     * 
+     * @access public
+     * @return bool
+     */
+    public function noContent()
+    {
+        return ( ( $this->properties['src'] === null ) || ( $this->properties['dst'] === null ) );
+    }
 }
 
 ?>

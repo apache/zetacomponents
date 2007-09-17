@@ -29,6 +29,13 @@ abstract class ezcWebdavWebdavPropertyTestCase extends ezcWebdavPropertyTestCase
      */
     protected $propertyName;
 
+    /**
+     * Property always has content.
+     * 
+     * @var bool
+     */
+    protected $alwaysHasContent = false;
+
     public function testCtorSuccess()
     {
         $class = new ReflectionClass( $this->className );
@@ -69,6 +76,37 @@ abstract class ezcWebdavWebdavPropertyTestCase extends ezcWebdavPropertyTestCase
             $object->name,
             $this->propertyName,
             'Property has wrong name assigned.'
+        );
+    }
+
+    public function testPropertyNoContent()
+    {
+        $object = $this->getObject();
+        
+        $this->assertSame(
+            true XOR $this->alwaysHasContent,
+            $object->noContent(),
+            'Initially a property should have no content.'
+        );
+    }
+
+    public function testPropertyNoContentWithContentSet()
+    {
+        $object = $this->getObject();
+
+        foreach ( $this->workingValues as $propName => $values )
+        {
+            foreach( $values as $value )
+            {
+                $object->$propName = $value;
+                $this->assertEquals( $value, $object->$propName );
+            }
+        }
+        
+        $this->assertSame(
+            false,
+            $object->noContent(),
+            'The property should have some content now.'
         );
     }
 }

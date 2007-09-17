@@ -47,6 +47,7 @@ class ezcWebdavSupportedLockPropertyLockentryTest extends ezcWebdavWebdavPropert
                 array(),
             ),
         );
+        $this->alwaysHasContent = true;
     }
 }
 

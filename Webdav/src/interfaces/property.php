@@ -115,6 +115,16 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
     {
         return array_key_exists( $propertyName, $this->properties );
     }
+
+    /**
+     * Check if property has no content.
+     *
+     * Should return true, if property has no assigned content.
+     * 
+     * @access public
+     * @return bool
+     */
+    abstract public function noContent();
 }
 
 ?>

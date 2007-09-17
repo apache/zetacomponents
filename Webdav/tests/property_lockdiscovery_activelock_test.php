@@ -103,6 +103,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavProper
                 new stdClass(),
             ),
         );
+        $this->alwaysHasContent = true;
     }
 }
 
