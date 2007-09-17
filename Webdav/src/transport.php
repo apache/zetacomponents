@@ -35,24 +35,38 @@ class ezcWebdavTransport
      */
     public function parseRequest( $uri )
     {
-        $body = '';
-        $in   = fopen( 'php://input', 'r' );
-
-        while ( $data = fread( $in ) )
-        {
-            $body .= $data;
-        }
-
+        $body = $this->retreiveBody();
         switch ( $_SERVER['REQUEST_METHOD'] )
         {
             case 'PROPFIND':
-                return $this->parsePropFindRequest( $body );
+                return $this->parsePropFindRequest( $uri, $body );
             default:
                 throw new ezcWebdavInvalidRequestMethodException(
                     $_SERVER['REQUEST_METHOD']
                 );
         }
     }
+
+    /**
+     * Returns the body content of the request.
+     * This method mainly exists for unittesting purpose. It reads the request
+     * body and returns the contents.
+     * 
+     * @return string void
+     */
+    protected function retreiveBody()
+    {
+        $body = '';
+        $in   = fopen( 'php://input', 'r' );
+
+        while ( $data = fread( $in, 1024 ) )
+        {
+            $body .= $data;
+        }
+        return $body;
+    }
+
+    // PROPFIND
 
     /**
      * Parses the PROPFIN request and returns a request object.
@@ -70,7 +84,13 @@ class ezcWebdavTransport
         $request = new ezcWebdavPropFindRequest( $uri );
 
         $dom = new DOMDocument();
-        $dom->loadXML( $body, LIBXML_NOWARNING );
+        if ( $dom->loadXML( $body, LIBXML_NOWARNING ) === false )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'PROPFIND',
+                "Could not open XML as DOMDocument: '{$body}'."
+            );
+        }
 
         if ( $dom->documentElement->tagName !== 'propfind' )
         {
@@ -86,6 +106,8 @@ class ezcWebdavTransport
                 "Element <propfind /> does not have a child element."
             );
         }
+
+        // $_GLOBAL['log'] .= var_export( $dom->documentElement->firstChild->tagName )
 
         switch ( $dom->documentElement->firstChild->tagName )
         {
@@ -128,15 +150,21 @@ class ezcWebdavTransport
         for ( $i = 0; $i < $domNodes->length; ++$i )
         {
             $currentNode = $domNodes->item( $i );
+            if ( $currentNode->nodeType !== XML_ELEMENT_NODE )
+            {
+                // Skip
+                continue;
+            }
             
             // DAV: namespace indicates live property!
+            // Other RFCs allready intruded into this namespace, as 3253 does.
             if ( $currentNode->namespaceURI === 'DAV:' )
             {
                 $property = $this->extractLiveProperty( $currentNode );
                 // In case we don't know the property, we currently ignore it!
                 if ( $property !== null )
                 {
-                    $storage->append( $property );
+                    $storage->attach( $property );
                 }
             }
             
@@ -144,13 +172,16 @@ class ezcWebdavTransport
             else
             {
                 // Create standalone XML for property
-                // @TODO Do we need to take care about different namespaces here?? We should!
+                // @TODO How do we need to take care about different namespaces here?
+                // It may possibly occur, that shortcut clashes occur...
                 $propDom = new DOMDocument();
-                $propDom->importNode( $currentNode, true );
-                $storage->append(
+                $copiedNode = $propDom->importNode( $currentNode, true );
+                $propDom->appendChild( $copiedNode );
+                $storage->attach(
                     new ezcWebdavDeadProperty(
-                        $currentNode->namespaceURI,
-                        $currentNode->tagName,
+                    // DEBUG!!!
+                        'foo' . $currentNode->namespaceURI . 'bar',
+                        $currentNode->nodeType . '---' . $currentNode->tagName,
                         $propDom->saveXML()
                     )
                 );
@@ -195,14 +226,14 @@ class ezcWebdavTransport
                 }
                 break;
             case 'getcontentlength':
-                $property = new ezcWebdavGetContentLength();
+                $property = new ezcWebdavGetContentLengthProperty();
                 if ( empty( $domElement->nodeValue ) === false )
                 {
                     $property->length = trim( $domElement->nodeValue );
                 }
                 break;
             case 'getcontenttype':
-                $property = new ezcWebdavGetContentLength();
+                $property = new ezcWebdavGetContentTypeProperty();
                 // @TODO: Should this throw an exception, if the match fails?
                 // Currently, the property stays empty and the backend needs to handle this
                 if ( empty( $domElement->nodeValue ) === false 
