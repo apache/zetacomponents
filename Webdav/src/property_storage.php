@@ -96,7 +96,8 @@ class ezcWebdavPropertyStorage implements Countable, Iterator
      * property did not exist in the storage, the call is silently ignored. If
      * no $namespace is given, the default namespace DAV: is used.
      * 
-     * @param ezcWebdavProperty $property 
+     * @param string $name 
+     * @param string $namespace
      * @return void
      */
     public function detach( $name, $namespace = 'DAV:' )
