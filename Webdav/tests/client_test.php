@@ -62,9 +62,9 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         }
 
         // Optionally set a body.
-        if ( file_exists( ($bodyFile = $this->currentTestSet . '.body.php' ) ) )
+        if ( file_exists( ($bodyFile = $this->currentTestSet . '.body.xml' ) ) )
         {
-            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = require $bodyFile;
+            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = file_get_contents( $bodyFile );
         }
         else
         {
