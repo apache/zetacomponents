@@ -630,7 +630,9 @@ each of the tables to one column of another. In the above case, the
 database column "id" from the table "persons" would be mapped to the column
 "person_id" in the table "addresses". In general, this means, that "id" is the
 primary key from the "persons" table and "person_id" is the foreign key in the
-"addresses" table, that refers to the "persons" table.
+"addresses" table, that refers to the "persons" table. Please note that the 
+relation mappings are done on the table name/column name and not on the
+class name/property name.
 
 If you want to map using several columns, you can add more
 ezcPersistentSingleTableMap instances to the columnMap array. For example, if
@@ -715,7 +717,7 @@ Person object, we can do the following::
 Defining n:m relations
 ----------------------
 
-The eczPersistentManyToManyRelation class works slightly different than
+The ezcPersistentManyToManyRelation class works slightly different than
 the other ezcPersistentRelation classes. For this kind of relation, you need an
 extra table in your database to store the relation records. The next example
 shows the definition of an ezcPersistentManyToManyRelation relation, based on
