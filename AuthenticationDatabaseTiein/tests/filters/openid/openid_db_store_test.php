@@ -87,7 +87,6 @@ class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinT
         {
             $this->db = ezcDbInstance::get();
 
-            $this->cleanupTables( $this->db );
             $schema = ezcDbSchema::createFromFile(
                                                    'array',
                                                    dirname( __FILE__ ) . '/../../../docs/tutorial/openid_db_store_schema.dba'
@@ -114,8 +113,8 @@ class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinT
 
     public function cleanupTables()
     {
-        $this->db->exec( 'DROP TABLE IF EXISTS ' . self::$tableNonces . ';' );
-        $this->db->exec( 'DROP TABLE IF EXISTS ' . self::$tableAssociations . ';' );
+        $this->db->exec( 'DROP TABLE ' . $this->db->quoteIdentifier( self::$tableNonces ) );
+        $this->db->exec( 'DROP TABLE ' . $this->db->quoteIdentifier( self::$tableAssociations ) );
     }
 
     public function testOpenidDbStoreStoreNonceNormal()
