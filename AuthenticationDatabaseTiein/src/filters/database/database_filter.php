@@ -247,7 +247,12 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter implements
             // fetch extra data from the database
             $query = new ezcQuerySelect( $db->instance );
             $e = $query->expr;
-            $query->select( implode( ',', $this->requestedData ) )
+            $params = array();
+            foreach ( $this->requestedData as $param )
+            {
+                $params[] = $db->instance->quoteIdentifier( $param );
+            }
+            $query->select( implode( ', ', $params ) )
                   ->from( $db->instance->quoteIdentifier( $db->table ) )
                   ->where( $e->lAnd(
                       $e->eq( $db->instance->quoteIdentifier( $db->fields[0] ), $query->bindValue( $credentials->id ) ),

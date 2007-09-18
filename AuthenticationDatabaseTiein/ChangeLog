@@ -7,6 +7,8 @@
   data during authentication for Database, LDAP, OpenID and TypeKey filters.
 - Fixed issue #11412: The Database filter does not trigger a PDO General Error
   2014 with MySQL.
+- Fixed issue #11465: Fetching extra authentication data in Database filter
+  does not trigger a PDO General Error 904 with Oracle.
 
 
 1.0 - Monday 02 July 2007
