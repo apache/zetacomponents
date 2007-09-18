@@ -487,6 +487,126 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
             $intersection->getAllProperties()
         );
     }
+
+    public function testIteratorPreserveOrder()
+    {
+        $storage   = new ezcWebdavPropertyStorage();
+        $orderedProperties = array();
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavGetContentLengthProperty()
+        );
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some content' )
+        );
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavGetContentTypeProperty()
+        );
+
+        $nr = 0;
+        foreach ( $storage as $proprety )
+        {
+            $this->assertEquals(
+                $proprety,
+                $orderedProperties[$nr],
+                "Property on position $nr does not match."
+            );
+
+            ++$nr;
+        }
+    }
+
+    public function testIteratorPreserveOrderDetachFirst()
+    {
+        $storage   = new ezcWebdavPropertyStorage();
+        $orderedProperties = array();
+        $storage->attach(
+            new ezcWebdavGetContentLengthProperty()
+        );
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some content' )
+        );
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavGetContentTypeProperty()
+        );
+
+        $storage->detach( 'getcontentlength', 'DAV:' );
+
+        $nr = 0;
+        foreach ( $storage as $proprety )
+        {
+            $this->assertEquals(
+                $proprety,
+                $orderedProperties[$nr],
+                "Property on position $nr does not match."
+            );
+
+            ++$nr;
+        }
+    }
+
+    public function testIteratorPreserveOrderDetachLast()
+    {
+        $storage   = new ezcWebdavPropertyStorage();
+        $orderedProperties = array();
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavGetContentLengthProperty()
+        );
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some content' )
+        );
+        $storage->attach(
+            new ezcWebdavGetContentTypeProperty()
+        );
+
+        $storage->detach( 'getcontenttype', 'DAV:' );
+
+        $nr = 0;
+        foreach ( $storage as $proprety )
+        {
+            $this->assertEquals(
+                $proprety,
+                $orderedProperties[$nr],
+                "Property on position $nr does not match."
+            );
+
+            ++$nr;
+        }
+    }
+
+    public function testIteratorPreserveOrderDetachAndReattach()
+    {
+        $storage   = new ezcWebdavPropertyStorage();
+        $orderedProperties = array();
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavGetContentLengthProperty()
+        );
+        $storage->attach(
+            new ezcWebdavGetContentTypeProperty()
+        );
+        $storage->attach(
+            new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some content' )
+        );
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some other content' )
+        );
+        $storage->attach(
+            $orderedProperties[] = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'blubb', 'some content' )
+        );
+
+        $storage->detach( 'getcontenttype', 'DAV:' );
+
+        $nr = 0;
+        foreach ( $storage as $proprety )
+        {
+            $this->assertEquals(
+                $proprety,
+                $orderedProperties[$nr],
+                "Property on position $nr does not match."
+            );
+
+            ++$nr;
+        }
+    }
 }
 
 ?>

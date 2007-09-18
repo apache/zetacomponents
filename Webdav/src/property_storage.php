@@ -20,7 +20,8 @@
  */
 class ezcWebdavPropertyStorage
     implements
-        Countable
+        Countable,
+        Iterator
 {
     /**
      * Stores the properties.
@@ -44,6 +45,29 @@ class ezcWebdavPropertyStorage
     protected $properties = array();
 
     /**
+     * Stores a list of the assigned properties in the order they were
+     * assigned, to make this order accessible for the Iterator.
+     * 
+     * @var array
+     */
+    protected $propertyOrder = array();
+
+    /**
+     * Current position of the iterator in the ordered property list.
+     * 
+     * @var int
+     */
+    protected $propertyOrderPosition = 0;
+
+    /**
+     * Next ID for a element in the ordered property list, to generate valid
+     * IDs even when some contents has been removed.
+     * 
+     * @var int
+     */
+    protected $propertyOrderNextId = 0;
+
+    /**
      * Attaches a property to the storage.
      * Adds the given $property to the storage. The property can later be
      * accessed by its name in combination with the namespace. Live properties
@@ -58,6 +82,14 @@ class ezcWebdavPropertyStorage
      */
     public function attach( ezcWebdavProperty $property )
     {
+        // Update list of ordered properties
+        if ( ( isset( $this->properties[$property->namespace] ) === false ) ||
+             ( isset( $this->properties[$property->namespace][$property->name] ) === false ) )
+        {
+            $this->propertyOrder[$this->propertyOrderNextId++] = array( $property->namespace, $property->name );
+        }
+
+        // Add property
         $this->properties[$property->namespace][$property->name] = $property;
     }
     
@@ -72,7 +104,8 @@ class ezcWebdavPropertyStorage
      */
     public function detach( $name, $namespace = 'DAV:' )
     {
-        if ( isset( $this->properties[$namespace][$name] ) === true )
+        if ( ( isset( $this->properties[$namespace] ) === true ) &&
+             ( isset( $this->properties[$namespace][$name] ) === true ) )
         {
             unset( $this->properties[$namespace][$name] );
         }
@@ -202,6 +235,10 @@ class ezcWebdavPropertyStorage
     }
 
     /**
+     * Methods required for Countable
+     */
+
+    /**
      * Return property count.
      *
      * Implementation required by interface Countable. Count the numbers of
@@ -219,6 +256,86 @@ class ezcWebdavPropertyStorage
         }
         
         return $count;
+    }
+
+    /**
+     * Methods required for Iterator
+     */
+
+    /**
+     * Implements current() for Iterator
+     * 
+     * @return mixed
+     */
+    public function current()
+    {
+        list( $namespace, $name ) = $this->propertyOrder[$this->propertyOrderPosition];
+
+        // Skip detached properties
+        while ( !isset( $this->properties[$namespace][$name] ) )
+        {
+            if ( !isset( $this->propertyOrder[++$this->propertyOrderPosition] ) )
+            {
+                // We reached the end.
+                return false;
+            }
+
+            list( $namespace, $name ) = $this->propertyOrder[$this->propertyOrderPosition];
+        }
+
+        return $this->properties[$namespace][$name];
+    }
+
+    /**
+     * Implements key() for Iterator
+     * 
+     * @return int
+     */
+    public function key()
+    {
+        return $this->propertyOrderPosition;
+    }
+
+    /**
+     * Implements next() for Iterator
+     * 
+     * @return mixed
+     */
+    public function next()
+    {
+        do 
+        {
+            if ( !isset( $this->propertyOrder[++$this->propertyOrderPosition] ) )
+            {
+                // We reached the end.
+                return false;
+            }
+
+            list( $namespace, $name ) = $this->propertyOrder[$this->propertyOrderPosition];
+        } // Skip detached properties
+        while ( !isset( $this->properties[$namespace][$name] ) );
+
+        return $this->properties[$namespace][$name];
+    }
+
+    /**
+     * Implements rewind() for Iterator
+     * 
+     * @return void
+     */
+    public function rewind()
+    {
+        $this->propertyOrderPosition = 0;
+    }
+
+    /**
+     * Implements valid() for Iterator
+     * 
+     * @return boolean
+     */
+    public function valid()
+    {
+        return ( $this->propertyOrderPosition < $this->propertyOrderNextId );
     }
 }
 
