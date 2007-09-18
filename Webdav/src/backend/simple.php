@@ -553,7 +553,7 @@ abstract class ezcWebdavSimpleBackend
         $errnous = false;
 
         // Update properties, like requested
-        foreach ( $request->set as $property )
+        foreach ( $request->updates as $property )
         {
             // If there already has been some error, issue failed
             // dependency errors for everything else.
@@ -563,35 +563,34 @@ abstract class ezcWebdavSimpleBackend
                 continue;
             }
 
-            if ( !$property instanceof ezcWebdavProperty )
+            switch ( $request->updates->getFlag( $property->name, $property->namespace ) )
             {
-                var_dump( $property );
-            }
+                case ezcWebdavPropPatchRequest::DELETE:
+                    if ( !$this->removeProperty( $source, $property ) )
+                    {
+                        // If update failed, we assume the access has been denied.
+                        $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
+                        $errnous = true;
+                    }
+                    break;
 
-            if ( !$this->setProperty( $source, $property ) )
-            {
-                // If update failed, we assume the access has been denied.
-                $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
-                $errnous = true;
-            }
-        }
+                case ezcWebdavPropPatchRequest::SET:
+                    if ( !$this->setProperty( $source, $property ) )
+                    {
+                        // If update failed, we assume the access has been denied.
+                        $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
+                        $errnous = true;
+                    }
+                    break;
 
-        // Remove properties
-        foreach ( $request->remove as $property )
-        {
-            // If there already has been some error, issue failed
-            // dependency errors for everything else.
-            if ( $errnous )
-            {
-                $errors[ezcWebdavResponse::STATUS_424]->attach( $property );
-                continue;
-            }
+                default:
+                    // This may happen, when a broken flag has been assigned
+                    // during request generation. This SHOULD never happen.
+                    $this->resetProperties( $source, $propertyBackup );
 
-            if ( !$this->removeProperty( $source, $property ) )
-            {
-                // If update failed, we assume the access has been denied.
-                $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
-                $errnous = true;
+                    return new ezcWebdavErrorResponse(  
+                        ezcWebdavResponse::STATUS_500
+                    );
             }
         }
 

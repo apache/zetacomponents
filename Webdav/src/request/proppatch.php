@@ -30,6 +30,18 @@
 class ezcWebdavPropPatchRequest extends ezcWebdavRequest
 {
     /**
+     * Flagged {@link ezcWebdavFlaggedPropertyStorage} indicating this property
+     * should be set or updated.
+     */
+    const SET = 1;
+
+    /**
+     * Flagged {@link ezcWebdavFlaggedPropertyStorage} indicating this property
+     * should be removed.
+     */
+    const DELETE = 2;
+
+    /**
      * Creates a new PROPPATCH request object.
      * Sets the defaults for the optional headers for this request. Expects the
      * URI of the request to be encapsulated.
@@ -43,8 +55,7 @@ class ezcWebdavPropPatchRequest extends ezcWebdavRequest
         parent::__construct( $requestUri );
 
         // Create properties
-        $this->properties['set']    = new ezcWebdavPropertyStorage();
-        $this->properties['remove'] = new ezcWebdavPropertyStorage();
+        $this->properties['updates'] = new ezcWebdavFlaggedPropertyStorage();
     }
 
     /**
@@ -66,17 +77,18 @@ class ezcWebdavPropPatchRequest extends ezcWebdavRequest
     {
         switch ( $propertyName )
         {
-            case 'set':
-            case 'remove':
-                if ( ( $propertyValue instanceof ezcWebdavPropertyStorage ) === false )
+            case 'updates':
+                if ( ( $propertyValue instanceof ezcWebdavFlaggedPropertyStorage ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavPropertyStorage' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavFlaggedPropertyStorage' );
                 }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
+
             default:
                 parent::__set( $propertyName, $propertyValue );
         }
-        $this->properties[$propertyName] = $propertyValue;
     }
 }
 

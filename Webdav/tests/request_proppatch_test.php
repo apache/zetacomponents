@@ -37,26 +37,15 @@ class ezcWebdavPropPatchRequestTest extends ezcWebdavRequestTestCase
             '/foo', '/bar'
         );
         $this->defaultValues = array(
-            'set'    => new ezcWebdavPropertyStorage(),
-            'remove' => new ezcWebdavPropertyStorage(),
+            'updates' => new ezcWebdavFlaggedPropertyStorage(),
         );
         $this->workingValues = array(
-            'set' => array(
-                new ezcWebdavPropertyStorage(),
-            ),
-            'remove' => array(
-                new ezcWebdavPropertyStorage(),
+            'updates' => array(
+                new ezcWebdavFlaggedPropertyStorage(),
             ),
         );
         $this->failingValues = array(
-            'set' => array(
-                23,
-                23.34,
-                'foo bar',
-                array( 23, 42 ),
-                new stdClass(),
-            ),
-            'remove' => array(
+            'updates' => array(
                 23,
                 23.34,
                 'foo bar',
