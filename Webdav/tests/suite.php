@@ -50,6 +50,7 @@ require_once 'request_content_property_behaviour_test.php';
 
 require_once 'response_error_test.php';
 require_once 'response_get_test.php';
+require_once 'response_options_test.php';
 require_once 'response_test.php';
 
 require_once 'server_options_test.php';
@@ -79,6 +80,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavDisplayNamePropertyTest::suite() );
         $this->addTest( ezcWebdavErrorResonseTest::suite() );
         $this->addTest( ezcWebdavGetResponseTest::suite() );
+        $this->addTest( ezcWebdavOptionsResponseTest::suite() );
         $this->addTest( ezcWebdavDeadPropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentLanguagePropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentLengthPropertyTest::suite() );

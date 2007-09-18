@@ -60,6 +60,8 @@ return array(
     'ezcWebdavMoveRequest'                     => 'Webdav/request/move.php',
     'ezcWebdavMoveResponse'                    => 'Webdav/response/move.php',
     'ezcWebdavMultistatusResponse'             => 'Webdav/response/multistatus.php',
+    'ezcWebdavOptionsRequest'                  => 'Webdav/request/options.php',
+    'ezcWebdavOptionsResponse'                 => 'Webdav/response/options.php',
     'ezcWebdavPathFactory'                     => 'Webdav/path_factory.php',
     'ezcWebdavPropFindRequest'                 => 'Webdav/request/propfind.php',
     'ezcWebdavPropPatchRequest'                => 'Webdav/request/proppatch.php',
