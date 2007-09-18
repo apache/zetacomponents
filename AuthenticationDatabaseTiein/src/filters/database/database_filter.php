@@ -222,6 +222,7 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter implements
         {
             return self::STATUS_USERNAME_INCORRECT;
         }
+        $rows->closeCursor();
 
         // see if username has the specified password
         $query = new ezcQuerySelect( $db->instance );
@@ -239,6 +240,7 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter implements
         {
             return self::STATUS_PASSWORD_INCORRECT;
         }
+        $rows->closeCursor();
 
         if ( count( $this->requestedData ) > 0 )
         {

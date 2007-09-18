@@ -5,6 +5,8 @@
   authentication.
 - Implemented feature request #10971: Added the possibility to fetch extra
   data during authentication for Database, LDAP, OpenID and TypeKey filters.
+- Fixed issue #11412: The Database filter does not trigger a PDO General Error
+  2014 with MySQL.
 
 
 1.0 - Monday 02 July 2007
