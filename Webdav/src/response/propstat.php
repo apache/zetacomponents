@@ -29,11 +29,11 @@ class ezcWebdavPropStatResponse extends ezcWebdavResponse
      * @param int $status 
      * @return void
      */
-    public function __construct( ezcWebdavPropertyStorage $properties, $status = ezcWebdavResponse::STATUS_200 )
+    public function __construct( ezcWebdavPropertyStorage $storage, $status = ezcWebdavResponse::STATUS_200 )
     {
         parent::__construct( $status );
 
-        $this->properties = $properties;
+        $this->storage = $storage;
     }
 
     /**
@@ -55,7 +55,7 @@ class ezcWebdavPropStatResponse extends ezcWebdavResponse
     {
         switch ( $propertyName )
         {
-            case 'properties':
+            case 'storage':
                 if ( ! $propertyValue instanceof ezcWebdavPropertyStorage )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavPropertyStorage' );

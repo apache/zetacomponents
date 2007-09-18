@@ -2392,6 +2392,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             )
         ) );
     
+        // First add some custom properties.
         $newProperties = new ezcWebdavPropertyStorage();
         $newProperties->attach( $p_bar = new ezcWebdavDeadProperty( 
             'foo:', 'bar', 'some content'
@@ -2415,6 +2416,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             20
         );
 
+        // Then remove one of them using proppatch
         $removeProperties = new ezcWebdavPropertyStorage();
         $removeProperties->attach( $p_blubb );
 
@@ -2433,6 +2435,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             20
         );
 
+        // Ensure property has been deleted by requesting both, expecting a 404
+        // for the removed property.
         $leftProperties = new ezcWebdavPropertyStorage();
         $leftProperties->attach( $p_bar );
 
@@ -2446,6 +2450,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 new ezcWebdavResource( '/foo' ),
                 new ezcWebdavPropStatResponse(
                     $leftProperties
+                ),
+                new ezcWebdavPropStatResponse(
+                    $removeProperties,
+                    ezcWebdavResponse::STATUS_404
                 )
             )
         );
