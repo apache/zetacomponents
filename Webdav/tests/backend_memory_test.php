@@ -2629,10 +2629,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $depError->attach( $p_bar );
         $depError->attach( $p_last );
 
-        // @TODO: This fails, because the property storage iterator does not
-        // preserve the original order of the properties, so that one of the
-        // dead properties is missing in the failed dep response.
-        // /*
         $failed->rewind();
         $depError->rewind();
         $this->assertEquals(
@@ -2651,7 +2647,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             'Expected property removing PROPPATCH response does not match real response.',
             0,
             20
-        ); // */
+        );
 
         // Ensure nothing has been removed, and the transactions has been
         // properly reverted.
@@ -2687,6 +2683,189 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             $expectedResponse,
             $response,
             'Expected validating PROPFIND response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropPatchCombinedSetDelete()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+    
+        // First add some custom properties.
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( $p_bar = new ezcWebdavDeadProperty( 
+            'foo:', 'bar', 'some content'
+        ), ezcWebdavPropPatchRequest::SET );
+        $newProperties->attach( $p_blubb = new ezcWebdavDeadProperty( 
+            'foo:', 'blubb', 'some other content'
+        ), ezcWebdavPropPatchRequest::SET );
+
+        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request->updates = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $this->assertEquals(
+            new ezcWebdavPropPatchResponse(
+                new ezcWebdavResource( '/foo' )
+            ),
+            $response,
+            'Expected property adding PROPPATCH response does not match real response.',
+            0,
+            20
+        );
+
+        // Then remove them again, with one live property in the middle to
+        // check for proper failed dependency response codes.
+        $updateProperties = new ezcWebdavFlaggedPropertyStorage();
+        $updateProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::DELETE );
+        $updateProperties->attach( 
+            $p_foo = new ezcWebdavDeadProperty( 'foo:', 'foo', 'random content' ),
+            ezcWebdavPropPatchRequest::SET
+        );
+        $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::DELETE );
+
+        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request->updates = $updateProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $this->assertEquals(
+            new ezcWebdavPropPatchResponse(
+                new ezcWebdavResource( '/foo' )
+            ),
+            $response,
+            'Expected property removing PROPPATCH response does not match real response.',
+            0,
+            20
+        );
+
+        // Ensure nothing has been removed, and the transactions has been
+        // properly reverted.
+        $leftProperties = new ezcWebdavPropertyStorage();
+        $leftProperties->attach( $p_bar );
+
+        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request->prop = $updateProperties;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $failed = new ezcWebdavPropertyStorage();
+        $failed->attach( $p_blubb );
+        $failed->attach( $p_bar );
+        $failed->rewind();
+
+        $success = new ezcWebdavPropertyStorage();
+        $success->attach( $p_foo );
+        $success->rewind();
+
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse(
+                    $success
+                ),
+                new ezcWebdavPropStatResponse(
+                    $failed,
+                    ezcWebdavResponse::STATUS_404
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected validating PROPFIND response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropPatchCombinedSetDeleteFail()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+    
+        // First add some custom properties.
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( $p_bar = new ezcWebdavDeadProperty( 
+            'foo:', 'bar', 'some content'
+        ), ezcWebdavPropPatchRequest::SET );
+        $newProperties->attach( $p_blubb = new ezcWebdavDeadProperty( 
+            'foo:', 'blubb', 'some other content'
+        ), ezcWebdavPropPatchRequest::SET );
+
+        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request->updates = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $this->assertEquals(
+            new ezcWebdavPropPatchResponse(
+                new ezcWebdavResource( '/foo' )
+            ),
+            $response,
+            'Expected property adding PROPPATCH response does not match real response.',
+            0,
+            20
+        );
+
+        // Then remove them again, with one live property in the middle to
+        // check for proper failed dependency response codes.
+        $updateProperties = new ezcWebdavFlaggedPropertyStorage();
+        $updateProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::DELETE );
+        $updateProperties->attach( 
+            $p_length = new ezcWebdavGetContentLengthProperty(), 
+            ezcWebdavPropPatchRequest::DELETE
+        );
+        $updateProperties->attach( 
+            $p_foo = new ezcWebdavDeadProperty( 'foo:', 'foo', 'random content' ),
+            ezcWebdavPropPatchRequest::SET
+        );
+        $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::DELETE );
+
+        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request->updates = $updateProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $failed = new ezcWebdavPropertyStorage();
+        $failed->attach( $p_length );
+
+        $depError = new ezcWebdavPropertyStorage();
+        $depError->attach( $p_foo );
+        $depError->attach( $p_bar );
+
+        $failed->rewind();
+        $depError->rewind();
+        $this->assertEquals(
+            new ezcWebdavPropPatchResponse(
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse(
+                    $failed,
+                    ezcWebdavResponse::STATUS_403
+                ),
+                new ezcWebdavPropStatResponse(
+                    $depError,
+                    ezcWebdavResponse::STATUS_424
+                )
+            ),
+            $response,
+            'Expected property removing PROPPATCH response does not match real response.',
             0,
             20
         );
