@@ -553,48 +553,45 @@ abstract class ezcWebdavSimpleBackend
         $errnous = false;
 
         // Update properties, like requested
-        $update = $request->set->getAllProperties();
-        foreach ( $update as $namespace => $properties )
+        foreach ( $request->set as $property )
         {
-            foreach( $properties as $name => $property )
+            // If there already has been some error, issue failed
+            // dependency errors for everything else.
+            if ( $errnous )
             {
-                // If there already has been some error, issue failed
-                // dependency errors for everything else.
-                if ( $errnous )
-                {
-                    $errors[ezcWebdavResponse::STATUS_424]->attach( $property );
-                    continue;
-                }
+                $errors[ezcWebdavResponse::STATUS_424]->attach( $property );
+                continue;
+            }
 
-                if ( !$this->setProperty( $source, $property ) )
-                {
-                    // If update failed, we assume the access has been denied.
-                    $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
-                    $errnous = true;
-                }
+            if ( !$property instanceof ezcWebdavProperty )
+            {
+                var_dump( $property );
+            }
+
+            if ( !$this->setProperty( $source, $property ) )
+            {
+                // If update failed, we assume the access has been denied.
+                $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
+                $errnous = true;
             }
         }
 
         // Remove properties
-        $remove = $request->remove->getAllProperties();
-        foreach ( $remove as $namespace => $properties )
+        foreach ( $request->remove as $property )
         {
-            foreach( $properties as $name => $property )
+            // If there already has been some error, issue failed
+            // dependency errors for everything else.
+            if ( $errnous )
             {
-                // If there already has been some error, issue failed
-                // dependency errors for everything else.
-                if ( $errnous )
-                {
-                    $errors[ezcWebdavResponse::STATUS_424]->attach( $property );
-                    continue;
-                }
+                $errors[ezcWebdavResponse::STATUS_424]->attach( $property );
+                continue;
+            }
 
-                if ( !$this->removeProperty( $source, $property ) )
-                {
-                    // If update failed, we assume the access has been denied.
-                    $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
-                    $errnous = true;
-                }
+            if ( !$this->removeProperty( $source, $property ) )
+            {
+                // If update failed, we assume the access has been denied.
+                $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
+                $errnous = true;
             }
         }
 

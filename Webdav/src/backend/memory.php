@@ -317,6 +317,12 @@ class ezcWebdavMemoryBackend
      */
     public function setProperty( $resource, ezcWebdavProperty $property )
     {
+        // Live properties may not be updated by a client.
+        if ( $this->options->failingOperations & ezcWebdavMemoryBackendOptions::REQUEST_PROPPATCH )
+        {
+            return false;
+        }
+
         // Bail out, if the resource is not known yet.
         if ( !array_key_exists( $resource, $this->props ) )
         {
@@ -336,6 +342,12 @@ class ezcWebdavMemoryBackend
      */
     public function removeProperty( $resource, ezcWebdavProperty $property )
     {
+        // Live properties may not be removed.
+        if ( $property instanceof ezcWebdavLiveProperty )
+        {
+            return false;
+        }
+
         $this->props[$resource]->detach( $property->name, $property->namespace );
         return true;
     }
