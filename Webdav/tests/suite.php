@@ -47,6 +47,7 @@ require_once 'request_move_test.php';
 require_once 'request_propfind_test.php';
 require_once 'request_proppatch_test.php';
 require_once 'request_lock_test.php';
+require_once 'request_unlock_test.php';
 
 require_once 'request_content_property_behaviour_test.php';
 
@@ -104,6 +105,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavMoveRequestTest::suite() );
         $this->addTest( ezcWebdavPropFindRequestTest::suite() );
         $this->addTest( ezcWebdavPropPatchRequestTest::suite() );
+        $this->addTest( ezcWebdavUnlockRequestTest::suite() );
         $this->addTest( ezcWebdavRequestPropertyBehaviourContentTest::suite() );
         
         $this->addTest( ezcWebdavErrorResonseTest::suite() );
