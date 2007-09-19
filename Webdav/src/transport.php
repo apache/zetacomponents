@@ -53,6 +53,8 @@ class ezcWebdavTransport
         {
             case 'PROPFIND':
                 return $this->parsePropFindRequest( $uri, $body );
+            case 'PROPPATCH':
+                return $this->parsePropPatchRequest( $uri, $body );
             case 'COPY':
                 return $this->parseCopyRequest( $uri, $body );
             case 'MOVE':
@@ -503,8 +505,10 @@ class ezcWebdavTransport
                 $request->propName = true;
                 break;
             case 'prop':
-                $request->prop = $this->extractProperties(
-                    $dom->documentElement->firstChild->childNodes
+                $request->prop = new ezcWebdavPropertyStorage();
+                $this->extractProperties(
+                    $dom->documentElement->firstChild->childNodes,
+                    $request->prop
                 );
                 break;
             default:
@@ -523,15 +527,19 @@ class ezcWebdavTransport
      * The list may contain live properties as well as dead ones. Live
      * properties as defined in RFC 2518 are currently recognized. All other
      * properties in the DAV: namespace are silently ignored. Dead properties
-     * are parsed.
+     * are parsed. The properties are stored in the given {@link
+     * ezcWebdavPropertyStorage} $storage. If a $flag value is provided, this
+     * one is submitted as the second parameter to
+     * ezcWebdavPropertyStorage->attach() ({@link
+     * ezcWebdavFlaggedPropertyStorage}).
      * 
      * @param DOMNodeList $domNodes 
+     * @param ezcWebdavPropertyStorage $storage
+     * @param int $flag
      * @return ezcWebdavPropertyStorage
      */
-    protected function extractProperties( DOMNodeList $domNodes )
+    protected function extractProperties( DOMNodeList $domNodes, ezcWebdavPropertyStorage $storage, $flag = null )
     {
-        $storage = new ezcWebdavPropertyStorage();
-
         for ( $i = 0; $i < $domNodes->length; ++$i )
         {
             $currentNode = $domNodes->item( $i );
@@ -549,7 +557,7 @@ class ezcWebdavTransport
                 // In case we don't know the property, we currently ignore it!
                 if ( $property !== null )
                 {
-                    $storage->attach( $property );
+                    $flag === null ? $storage->attach( $property ) : $storage->attach( $property, $flag );
                 }
             }
             
@@ -562,13 +570,13 @@ class ezcWebdavTransport
                 $propDom = new DOMDocument();
                 $copiedNode = $propDom->importNode( $currentNode, true );
                 $propDom->appendChild( $copiedNode );
-                $storage->attach(
-                    new ezcWebdavDeadProperty(
-                        $currentNode->namespaceURI,
-                        $currentNode->localName,
-                        $propDom->saveXML()
-                    )
+                
+                $property = new ezcWebdavDeadProperty(
+                    $currentNode->namespaceURI,
+                    $currentNode->localName,
+                    $propDom->saveXML()
                 );
+                $flag === null ? $storage->attach( $property ) : $storage->attach( $property, $flag );
             }
         }
         return $storage;
@@ -723,6 +731,64 @@ class ezcWebdavTransport
         // @TODO Implement
         return null;
     }
+    
+    // PROPPATCH
+
+    /**
+     * Parses the PROPPATCH request and returns a request object.
+     * This method is responsible for parsing the PROPPATCH request. It
+     * retrieves the current request URI in $uri and the request body as $body.
+     * The return value, if no exception is thrown, is a valid {@link
+     * ezcWebdavPropPatchRequest} object.
+     * 
+     * @param string $uri 
+     * @param string $body 
+     * @return ezcWebdavPropPatchRequest
+     */
+    protected function parsePropPatchRequest( $uri, $body )
+    {
+        $request = new ezcWebdavPropPatchRequest( $uri );
+
+        if ( ( $dom = $this->loadDom( $body ) ) === false )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'PROPPATCH',
+                "Could not open XML as DOMDocument: '{$body}'."
+            );
+        }
+
+        if ( $dom->documentElement->localName !== 'propertyupdate' )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'PROPPATCH',
+                "Expected XML element <propertyupdate />, received <{$dom->documentElement->localName} />."
+            );
+        }
+
+        $setElements    = $dom->documentElement->getElementsByTagNameNS( 'DAV:', 'set' );
+        $removeElements = $dom->documentElement->getElementsByTagNameNS( 'DAV:', 'remove' );
+        
+        for ( $i = 0; $i < $setElements->length; ++$i )
+        {
+            $this->extractProperties(
+                $setElements->item( 0 )->firstChild->childNodes,
+                $request->updates,
+                ezcWebdavPropPatchRequest::SET
+            );
+        }
+        
+        for ( $i = 0; $i < $removeElements->length; ++$i )
+        {
+            $this->extractProperties(
+                $removeElements->item( 0 )->firstChild->childNodes,
+                $request->updates,
+                ezcWebdavPropPatchRequest::REMOVE
+            );
+        }
+
+        return $request;
+    }
+
 
     /**
      * Handle a response from the backend and output it depending on the
