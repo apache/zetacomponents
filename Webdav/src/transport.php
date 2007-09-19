@@ -29,6 +29,7 @@ class ezcWebdavTransport
         'Depth'       => 'HTTP_DEPTH',
         'Destination' => 'HTTP_DESTINATION',
         'Overwrite'   => 'HTTP_OVERWRITE',
+        'Timeout'     => 'HTTP_TIMEOUT',
     );
 
     /**
@@ -81,6 +82,27 @@ class ezcWebdavTransport
             $body .= $data;
         }
         return $body;
+    }
+
+    /**
+     * Returns a DOMDocument from the given XML.
+     * Creates a new DOMDocument and loads the given XML string with settings
+     * appropriate to work with it.
+     * 
+     * @param sting $xml 
+     * @return DOMDocument|false
+     */
+    protected function loadDom( $xml )
+    {
+        $dom = new DOMDocument();
+        if ( $dom->loadXML(
+                $xml,
+                LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS
+             ) === false )
+        {
+            return false;
+        }
+        return $dom;
     }
 
     /**
@@ -173,8 +195,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        $dom = new DOMDocument();
-        if ( $dom->loadXML( $body, LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS ) === false )
+        if ( ( $dom = $this->loadDom( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'COPY',
@@ -252,7 +273,68 @@ class ezcWebdavTransport
      */
     protected function parseLockRequest( $uri, $body )
     {
-        return new ezcWebdavLockRequest( $uri );
+        $request = new ezcWebdavLockRequest( $uri );
+
+        $request->setHeaders(
+            $this->parseHeaders(
+                array( 'Depth', 'Timeout' )
+            )
+        );
+
+        if ( trim( $body ) === '' )
+        {
+            return $request;
+        }
+
+        if ( ( $dom = $this->loadDom( $body ) ) === false )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'LOCK',
+                "Could not open XML as DOMDocument: '{$body}'."
+            );
+        }
+        
+        if ( $dom->documentElement->localName !== 'lockinfo' )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'LOCK',
+                "Expected XML element <lockinfo />, received <{$dom->documentElement->localName} />."
+            );
+        }
+
+        $lockTypeElements  = $dom->documentElement->getElementsByTagnameNS( 'DAV:', 'locktype' );
+        $lockScopeElements = $dom->documentElement->getElementsByTagnameNS( 'DAV:', 'lockscope' );
+        $ownerElements     = $dom->documentElement->getElementsByTagnameNS( 'DAV:', 'owner' );
+
+        if ( $lockTypeElements->length === 0 )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'LOCK',
+                "Expected XML element <locktype /> as child of <lockinfo /> in namespace DAV: which was not found."
+            );
+        }
+        if ( $lockScopeElements->length === 0 )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'LOCK',
+                "Expected XML element <lockscope /> as child of <lockinfo /> in namespace DAV: which was not found."
+            );
+        }
+
+        // @TODO is the following not restrictive enough?
+        $request->lockInfo = new ezcWebdavRequestLockInfoContent(
+            ( $lockScopeElements->item( 0 )->firstChild->localName === 'exclusive'
+                ? ezcWebdavLockRequest::SCOPE_EXCLUSIVE
+                : ezcWebdavLockRequest::SCOPE_SHARED ),
+            ( $lockTypeElements->item( 0 )->firstChild->localName === 'read'
+                ? ezcWebdavLockRequest::TYPE_READ
+                : ezcWebdavLockRequest::TYPE_WRITE ),
+            ( $ownerElements->length > 0 
+                ? $ownerElements->item( 0 )->textContent
+                : null )
+        );
+
+        return $request;
     }
 
     // PROPFIND
@@ -278,8 +360,7 @@ class ezcWebdavTransport
             )
         );
 
-        $dom = new DOMDocument();
-        if ( $dom->loadXML( $body, LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS ) === false )
+        if ( ( $dom = $this->loadDom( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPFIND',
