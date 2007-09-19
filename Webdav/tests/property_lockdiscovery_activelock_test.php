@@ -14,8 +14,8 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavProper
         $this->className = 'ezcWebdavLockDiscoveryPropertyActiveLock';
         $this->propertyName = 'activelock';
         $this->defaultValues = array(
-            'lockType'  => ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_READ,
-            'lockScope' => ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_SHARED,
+            'lockType'  => ezcWebdavLockRequest::TYPE_READ,
+            'lockScope' => ezcWebdavLockRequest::SCOPE_SHARED,
             'depth'     => ezcWebdavRequest::DEPTH_INFINITY,
             'owner'     => null,
             'timeout'   => null,
@@ -23,12 +23,12 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavProper
         );
         $this->workingValues = array(
             'lockType' => array(
-                ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_READ,
-                ezcWebdavLockDiscoveryPropertyActiveLock::TYPE_WRITE,
+                ezcWebdavLockRequest::TYPE_READ,
+                ezcWebdavLockRequest::TYPE_WRITE,
             ),
             'lockScope' => array(
-                ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_SHARED,
-                ezcWebdavLockDiscoveryPropertyActiveLock::SCOPE_EXCLUSIVE,
+                ezcWebdavLockRequest::SCOPE_SHARED,
+                ezcWebdavLockRequest::SCOPE_EXCLUSIVE,
             ),
             'depth' => array(
                 ezcWebdavRequest::DEPTH_ZERO,

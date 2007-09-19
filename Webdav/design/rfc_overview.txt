@@ -994,10 +994,6 @@ collection lock can be determined by the "Depth" header.
 Headers
 =======
 
-Lock-Token
-  Returned by a LOCK operation if a new lock was successfully created. Holds
-  the token identifying exactly this lock. It is not used on a lock refresh,
-  since the lock token is already known and used here.
 Timeout
   Allows the client to define a timeout value for the lock. This timeout is not
   mandatory for the server, since locks can also disappear by a system crash or
@@ -1008,9 +1004,53 @@ Depth
   Determines the depth of locking for a collection resource. Valid values are
   here only "0" (for only the collection itself) and "infinity". The default
   value is "infinity".
+If
+  The If-Header, which is commonly used to indicate to a server that oneself is
+  the valid owner of a lock, might be present in case of lock refresh requests
+  and gives the lock token it requests an update to.
+Authorization
+  While this header is not directly used by the WebDAV RFC it is commonly used
+  to submit various authorization informations, especially in cases of the LOCK
+  examples.
+
 
 XML
 ===
+
+<!ELEMENT lockinfo (lockscope, locktype, owner?) >
+  This element is used as a possible body of the lock request. It is used to
+  specify information about the lock to be created using <lockscop />,
+  <locktype /> and optionally <owner /> XML elements.
+<!ELEMENT lockscope (exclusive | shared) >
+  This element must always be present in the <lockinfo /> element and its
+  possible (constant) values describe the type of lock.
+<!ELEMENT locktype (write) >
+  So far the specification only describes 1 possible settings element here,
+  which is write. => Only write-locks are possible.
+<!ELEMENT owner ANY>
+  The optional owner element may contain anything as a description for the
+  owner of the lock. Possible would be e.g. a user ID or the URL of the users
+  website (see example).
+
+.. Note::
+   We asume here 1 of 2 alternatives for the <owner /> element:
+   - A <href /> element with a URL
+   - A #PCDATA node
+   Both will simply be stored as a string and need to be re-serialized
+   correctly, if a URI is returned.
+
+Example
+-------
+
+::
+
+   <D:lockinfo xmlns:D="DAV:">
+     <D:locktype><D:write/></D:locktype>
+     <D:lockscope><D:exclusive/></D:lockscope>
+     <D:owner>
+          <D:href>http://www.ics.uci.edu/~ejw/contact.html</D:href>
+     </D:owner>
+   </D:lockinfo>
 
 
 Response
@@ -1202,6 +1242,10 @@ header) is removed from all affected reources.
 
 Headers
 =======
+
+Lock-Token
+  Uses the lock ID returned by a LOCK operation to UNLOCK the resources locked
+  by this token.
 
 XML
 ===

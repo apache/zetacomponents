@@ -30,16 +30,16 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
     /**
      * Creates a new ezcWebdavSupportedLockPropertyLockentry.
      * 
-     * @param int           $lockType  Lock type (constant self::TYPE_*).
-     * @param int           $lockScope Lock scope (constant self::SCOPE_*).
+     * @param int           $lockType  Lock type (constant ezcWebdavLockRequest::TYPE__*).
+     * @param int           $lockScope Lock scope (constant ezcWebdavLockRequest::SCOPE__*).
      * @param int           $depth     Lock depth (constant ezcWebdavRequest::DEPTH_*).
      * @param string        $owner
      * @param DateTime      $timeout
      * @param array(string) $tokens
      * @return void
      */
-    public function __construct( $lockType         = self::TYPE_READ,
-                                 $lockScope        = self::SCOPE_SHARED,
+    public function __construct( $lockType         = ezcWebdavLockRequest::TYPE__READ,
+                                 $lockScope        = ezcWebdavLockRequest::SCOPE__SHARED,
                                  $depth            = ezcWebdavRequest::DEPTH_INFINITY,
                                  $owner            = null,
                                  DateTime $timeout = null,
@@ -133,8 +133,8 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
     {
         parent::clear();
 
-        $this->properties['lockType']  = self::TYPE_READ;
-        $this->properties['lockScope'] = self::SCOPE_SHARED;
+        $this->properties['lockType']  = ezcWebdavLockRequest::TYPE__READ;
+        $this->properties['lockScope'] = ezcWebdavLockRequest::SCOPE__SHARED;
         $this->properties['depth']     = ezcWebdavRequest::DEPTH_INFINITY;
         $this->properties['tokens']    = array();
     }

@@ -55,6 +55,8 @@ class ezcWebdavTransport
                 return $this->parseCopyRequest( $uri, $body );
             case 'DELETE':
                 return $this->parseDeleteRequest( $uri, $body );
+            case 'LOCK':
+                return $this->parseLockRequest( $uri, $body );
             default:
                 throw new ezcWebdavInvalidRequestMethodException(
                     $_SERVER['REQUEST_METHOD']
@@ -233,6 +235,24 @@ class ezcWebdavTransport
     protected function parseDeleteRequest( $uri, $body )
     {
         return new ezcWebdavDeleteRequest( $uri );
+    }
+    
+    // LOCK
+
+    /**
+     * Parses the LOCK request and returns a request object.
+     * This method is responsible for parsing the LOCK request. It
+     * retrieves the current request URI in $uri and the request body as $body.
+     * The return value, if no exception is thrown, is a valid {@link
+     * ezcWebdavLockRequest} object.
+     * 
+     * @param string $uri 
+     * @param string $body 
+     * @return ezcWebdavLockRequest
+     */
+    protected function parseLockRequest( $uri, $body )
+    {
+        return new ezcWebdavLockRequest( $uri );
     }
 
     // PROPFIND

@@ -20,12 +20,6 @@
  */
 class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
 {
-    const TYPE_READ       = 1;
-    const TYPE_WRITE      = 2;
-                       
-    const SCOPE_SHARED    = 1;
-    const SCOPE_EXCLUSIVE = 2;
-
     /**
      * Creates a new ezcWebdavSupportedLockPropertyLockentry.
      * 
@@ -33,7 +27,7 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
      * @param int $lockScope Lock scope (constant SCOPE_*).
      * @return void
      */
-    public function __construct( $lockType = self::TYPE_READ, $lockScope = self::SCOPE_SHARED )
+    public function __construct( $lockType = ezcWebdavLockRequest::TYPE__READ, $lockScope = ezcWebdavLockRequest::SCOPE__SHARED )
     {
         parent::__construct( 'lockentry' );
 
@@ -61,18 +55,18 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'lockType':
-                if ( $propertyValue !== self::TYPE_READ && $propertyValue !== self::TYPE_WRITE )
+                if ( $propertyValue !== ezcWebdavLockRequest::TYPE__READ && $propertyValue !== ezcWebdavLockRequest::TYPE__WRITE )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavSupportedLockPropertyLockentry::TYPE_*' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockRequest::TYPE_*' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
                 break;
 
             case 'lockScope':
-                if ( $propertyValue !== self::SCOPE_SHARED && $propertyValue !== self::SCOPE_EXCLUSIVE )
+                if ( $propertyValue !== ezcWebdavLockRequest::SCOPE__SHARED && $propertyValue !== ezcWebdavLockRequest::SCOPE__EXCLUSIVE )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavSupportedLockPropertyLockentry::SCOPE_*' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockRequest::SCOPE_*' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
@@ -107,8 +101,8 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
     {
         parent::clear();
 
-        $this->properties['lockType']  = self::TYPE_READ;
-        $this->properties['lockScope'] = self::SCOPE_SHARED;
+        $this->properties['lockType']  = ezcWebdavLockRequest::TYPE__READ;
+        $this->properties['lockScope'] = ezcWebdavLockRequest::SCOPE__SHARED;
     }
 }
 
