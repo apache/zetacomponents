@@ -55,6 +55,8 @@ class ezcWebdavTransport
                 return $this->parsePropFindRequest( $uri, $body );
             case 'COPY':
                 return $this->parseCopyRequest( $uri, $body );
+            case 'MOVE':
+                return $this->parseMoveRequest( $uri, $body );
             case 'DELETE':
                 return $this->parseDeleteRequest( $uri, $body );
             case 'LOCK':
@@ -214,6 +216,59 @@ class ezcWebdavTransport
             );
         }
         
+        return $this->parsePropertyBehaviourContent( $dom, $request );
+    }
+
+    // MOVE
+
+    /**
+     * Parses the MOVE request and returns a request object.
+     * This method is responsible for parsing the MOVE request. It
+     * retrieves the current request URI in $uri and the request body as $body.
+     * The return value, if no exception is thrown, is a valid {@link
+     * ezcWebdavMoveRequest} object.
+     * 
+     * @param string $uri 
+     * @param string $body 
+     * @return ezcWebdavMoveRequest
+     */
+    protected function parseMoveRequest( $uri, $body )
+    {
+        $headers = $this->parseHeaders(
+            array( 'Destination', 'Depth', 'Overwrite' )
+        );
+
+        $request = new ezcWebdavMoveRequest( $uri, $headers['Destination'] );
+
+        $request->setHeaders( $headers );
+
+        if ( trim( $body ) === '' )
+        {
+            // No body present
+            return $request;
+        }
+
+        if ( ( $dom = $this->loadDom( $body ) ) === false )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'MOVE',
+                "Could not open XML as DOMDocument: '{$body}'."
+            );
+        }
+        
+        if ( $dom->documentElement->localName !== 'propertybehavior' )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'MOVE',
+                "Expected XML element <propertybehavior />, received <{$dom->documentElement->localName} />."
+            );
+        }
+        
+        return $this->parsePropertyBehaviourContent( $dom, $request );
+    }
+
+    protected function parsePropertyBehaviourContent( DOMDocument $dom, ezcWebdavRequest $request )
+    {
         $propertyBehaviourNode = $dom->documentElement;
 
         $request->propertyBehaviour = new ezcWebdavRequestPropertyBehaviourContent();
