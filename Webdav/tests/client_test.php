@@ -27,7 +27,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         parent::__construct();
         $this->setupTestEnvironment();
 
-        foreach ( glob( $this->dataDir . '/*' ) as $testSetDir )
+        foreach ( glob( $this->dataDir . '/*', GLOB_ONLYDIR ) as $testSetDir )
         {
             $this->testSets[] = $testSetDir;
         }
@@ -132,7 +132,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         {
             // Regenerate
             file_put_contents(
-                "{$this->dataDir}/request/result.txt",
+                "{$this->currentTestSet}/request/result.ser",
                 serialize( $result )
             );
         }

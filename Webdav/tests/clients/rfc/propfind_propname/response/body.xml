@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+  <response>
+       <href>http://www.foo.bar/container/</href>
+       <propstat>
+            <prop xmlns:R="http://www.foo.bar/boxschema/">
+                 <R:bigbox/>
+                 <R:author/>
+                 <creationdate/>
+                 <displayname/>
+                 <resourcetype/>
+                 <supportedlock/>
+            </prop>
+            <status>HTTP/1.1 200 OK</status>
+       </propstat>
+  </response>
+  <response>
+       <href>http://www.foo.bar/container/front.html</href>
+       <propstat>
+            <prop xmlns:R="http://www.foo.bar/boxschema/">
+                 <R:bigbox/>
+                 <creationdate/>
+                 <displayname/>
+                 <getcontentlength/>
+                 <getcontenttype/>
+                 <getetag/>
+                 <getlastmodified/>
+                 <resourcetype/>
+                 <supportedlock/>
+            </prop>
+            <status>HTTP/1.1 200 OK</status>
+       </propstat>
+  </response>
+</multistatus>

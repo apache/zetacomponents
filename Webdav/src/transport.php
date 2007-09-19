@@ -151,7 +151,7 @@ class ezcWebdavTransport
         );
 
         $dom = new DOMDocument();
-        if ( $dom->loadXML( $body, LIBXML_NOWARNING ) === false )
+        if ( $dom->loadXML( $body, LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPFIND',
@@ -159,11 +159,11 @@ class ezcWebdavTransport
             );
         }
 
-        if ( $dom->documentElement->tagName !== 'propfind' )
+        if ( $dom->documentElement->localName !== 'propfind' )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPFIND',
-                "Expected XML element <propfind />, received <{$dom->documentElement->tagName} />."
+                "Expected XML element <propfind />, received <{$dom->documentElement->localName} />."
             );
         }
         if ( $dom->documentElement->firstChild === null )
@@ -174,7 +174,7 @@ class ezcWebdavTransport
             );
         }
 
-        switch ( $dom->documentElement->firstChild->tagName )
+        switch ( $dom->documentElement->firstChild->localName )
         {
             case 'allprop':
                 $request->allProp = true;
@@ -245,7 +245,7 @@ class ezcWebdavTransport
                 $storage->attach(
                     new ezcWebdavDeadProperty(
                         $currentNode->namespaceURI,
-                        $currentNode->tagName,
+                        $currentNode->localName,
                         $propDom->saveXML()
                     )
                 );
@@ -265,7 +265,7 @@ class ezcWebdavTransport
      */
     protected function extractLiveProperty( DOMElement $domElement )
     {
-        switch ( $domElement->tagName )
+        switch ( $domElement->localName )
         {
             case 'creationdate':
                 $property = new ezcWebdavCreationDateProperty();
