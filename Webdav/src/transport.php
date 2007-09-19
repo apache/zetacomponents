@@ -30,6 +30,7 @@ class ezcWebdavTransport
         'Destination' => 'HTTP_DESTINATION',
         'Overwrite'   => 'HTTP_OVERWRITE',
         'Timeout'     => 'HTTP_TIMEOUT',
+        'Lock-Token'  => 'HTTP_LOCK_TOKEN',
     );
 
     /**
@@ -58,6 +59,8 @@ class ezcWebdavTransport
                 return $this->parseDeleteRequest( $uri, $body );
             case 'LOCK':
                 return $this->parseLockRequest( $uri, $body );
+            case 'UNLOCK':
+                return $this->parseUnlockRequest( $uri, $body );
             default:
                 throw new ezcWebdavInvalidRequestMethodException(
                     $_SERVER['REQUEST_METHOD']
@@ -332,6 +335,32 @@ class ezcWebdavTransport
             ( $ownerElements->length > 0 
                 ? $ownerElements->item( 0 )->textContent
                 : null )
+        );
+
+        return $request;
+    }
+    
+    // UNLOCK
+
+    /**
+     * Parses the UNLOCK request and returns a request object.
+     * This method is responsible for parsing the UNLOCK request. It
+     * retrieves the current request URI in $uri and the request body as $body.
+     * The return value, if no exception is thrown, is a valid {@link
+     * ezcWebdavUnlockRequest} object.
+     * 
+     * @param string $uri 
+     * @param string $body 
+     * @return ezcWebdavUnlockRequest
+     */
+    protected function parseUnlockRequest( $uri, $body )
+    {
+        $request = new ezcWebdavUnlockRequest( $uri );
+
+        $request->setHeaders(
+            $this->parseHeaders(
+                array( 'Lock-Token' )
+            )
         );
 
         return $request;
