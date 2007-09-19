@@ -63,6 +63,8 @@ class ezcWebdavTransport
                 return $this->parseLockRequest( $uri, $body );
             case 'UNLOCK':
                 return $this->parseUnlockRequest( $uri, $body );
+            case 'MKCOL':
+                return $this->parseMakeCollectionRequest( $uri, $body );
             default:
                 throw new ezcWebdavInvalidRequestMethodException(
                     $_SERVER['REQUEST_METHOD']
@@ -267,6 +269,13 @@ class ezcWebdavTransport
         return $this->parsePropertyBehaviourContent( $dom, $request );
     }
 
+    /**
+     * Parses the <propertybehavior /> XML element. 
+     * 
+     * @param DOMDocument $dom 
+     * @param ezcWebdavRequest $request 
+     * @return ezcWebdavRequest
+     */
     protected function parsePropertyBehaviourContent( DOMDocument $dom, ezcWebdavRequest $request )
     {
         $propertyBehaviourNode = $dom->documentElement;
@@ -419,6 +428,24 @@ class ezcWebdavTransport
         );
 
         return $request;
+    }
+
+    // MKCOL
+
+    /**
+     * Parses the MKCOL request and returns a request object.
+     * This method is responsible for parsing the MKCOL request. It
+     * retrieves the current request URI in $uri and the request body as $body.
+     * The return value, if no exception is thrown, is a valid {@link
+     * ezcWebdavMakeCollectionRequest} object.
+     * 
+     * @param string $uri 
+     * @param string $body 
+     * @return ezcWebdavMakeCollectionRequest
+     */
+    protected function parseMakeCollectionRequest( $uri, $body )
+    {
+        return new ezcWebdavMakeCollectionRequest( $uri, ( trim( $body ) === '' ? null : $body ) );
     }
 
     // PROPFIND
