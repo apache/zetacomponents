@@ -46,6 +46,7 @@ require_once 'request_copy_test.php';
 require_once 'request_move_test.php';
 require_once 'request_propfind_test.php';
 require_once 'request_proppatch_test.php';
+require_once 'request_lock_test.php';
 
 require_once 'request_content_property_behaviour_test.php';
 
@@ -77,14 +78,14 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Webdav' );
 
         $this->addTest( ezcWebdavBasicServerTest::suite() );
-        $this->addTest( ezcWebdavPropertyStorageTest::suite() );
+        $this->addTest( ezcWebdavServerOptionsTest::suite() );
+
         $this->addTest( ezcWebdavFlaggedPropertyStorageTest::suite() );
+        $this->addTest( ezcWebdavPropertyStorageTest::suite() );
+
         $this->addTest( ezcWebdavCreationDatePropertyTest::suite() );
-        $this->addTest( ezcWebdavDisplayNamePropertyTest::suite() );
-        $this->addTest( ezcWebdavErrorResonseTest::suite() );
-        $this->addTest( ezcWebdavGetResponseTest::suite() );
-        $this->addTest( ezcWebdavOptionsResponseTest::suite() );
         $this->addTest( ezcWebdavDeadPropertyTest::suite() );
+        $this->addTest( ezcWebdavDisplayNamePropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentLanguagePropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentLengthPropertyTest::suite() );
         $this->addTest( ezcWebdavGetContentTypePropertyTest::suite() );
@@ -92,20 +93,28 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavGetLastModifiedPropertyTest::suite() );
         $this->addTest( ezcWebdavLockDiscoveryPropertyActiveLockTest::suite() );
         $this->addTest( ezcWebdavLockDiscoveryPropertyTest::suite() );
-        $this->addTest( ezcWebdavMemoryBackendTest::suite() );
-        $this->addTest( ezcWebdavPathFactoryTest::suite() );
         $this->addTest( ezcWebdavResourceTypePropertyTest::suite() );
-        $this->addTest( ezcWebdavServerOptionsTest::suite() );
         $this->addTest( ezcWebdavSourcePropertyLinkTest::suite() );
         $this->addTest( ezcWebdavSourcePropertyTest::suite() );
         $this->addTest( ezcWebdavSupportedLockPropertyLockentryTest::suite() );
         $this->addTest( ezcWebdavSupportedLockPropertyTest::suite() );
+
         $this->addTest( ezcWebdavCopyRequestTest::suite() );
-        $this->addTest( ezcWebdavResponseTest::suite() );
+        $this->addTest( ezcWebdavLockRequestTest::suite() );
         $this->addTest( ezcWebdavMoveRequestTest::suite() );
         $this->addTest( ezcWebdavPropFindRequestTest::suite() );
         $this->addTest( ezcWebdavPropPatchRequestTest::suite() );
         $this->addTest( ezcWebdavRequestPropertyBehaviourContentTest::suite() );
+        
+        $this->addTest( ezcWebdavErrorResonseTest::suite() );
+        $this->addTest( ezcWebdavGetResponseTest::suite() );
+        $this->addTest( ezcWebdavOptionsResponseTest::suite() );
+        $this->addTest( ezcWebdavResponseTest::suite() );
+
+        $this->addTest( ezcWebdavMemoryBackendTest::suite() );
+
+        $this->addTest( ezcWebdavPathFactoryTest::suite() );
+
         $this->addTest( ezcWebdavClientRfcTest::suite() );
         $this->addTest( ezcWebdavClientCadaverTest::suite() );
     }

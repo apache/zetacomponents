@@ -27,7 +27,7 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
      * @param int $lockScope Lock scope (constant SCOPE_*).
      * @return void
      */
-    public function __construct( $lockType = ezcWebdavLockRequest::TYPE__READ, $lockScope = ezcWebdavLockRequest::SCOPE__SHARED )
+    public function __construct( $lockType = ezcWebdavLockRequest::TYPE_READ, $lockScope = ezcWebdavLockRequest::SCOPE_SHARED )
     {
         parent::__construct( 'lockentry' );
 
@@ -55,7 +55,7 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'lockType':
-                if ( $propertyValue !== ezcWebdavLockRequest::TYPE__READ && $propertyValue !== ezcWebdavLockRequest::TYPE__WRITE )
+                if ( $propertyValue !== ezcWebdavLockRequest::TYPE_READ && $propertyValue !== ezcWebdavLockRequest::TYPE_WRITE )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockRequest::TYPE_*' );
                 }
@@ -64,7 +64,7 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
                 break;
 
             case 'lockScope':
-                if ( $propertyValue !== ezcWebdavLockRequest::SCOPE__SHARED && $propertyValue !== ezcWebdavLockRequest::SCOPE__EXCLUSIVE )
+                if ( $propertyValue !== ezcWebdavLockRequest::SCOPE_SHARED && $propertyValue !== ezcWebdavLockRequest::SCOPE_EXCLUSIVE )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockRequest::SCOPE_*' );
                 }
@@ -101,8 +101,8 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
     {
         parent::clear();
 
-        $this->properties['lockType']  = ezcWebdavLockRequest::TYPE__READ;
-        $this->properties['lockScope'] = ezcWebdavLockRequest::SCOPE__SHARED;
+        $this->properties['lockType']  = ezcWebdavLockRequest::TYPE_READ;
+        $this->properties['lockScope'] = ezcWebdavLockRequest::SCOPE_SHARED;
     }
 }
 
