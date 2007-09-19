@@ -565,7 +565,7 @@ abstract class ezcWebdavSimpleBackend
 
             switch ( $request->updates->getFlag( $property->name, $property->namespace ) )
             {
-                case ezcWebdavPropPatchRequest::DELETE:
+                case ezcWebdavPropPatchRequest::REMOVE:
                     if ( !$this->removeProperty( $source, $property ) )
                     {
                         // If update failed, we assume the access has been denied.

@@ -39,7 +39,7 @@ class ezcWebdavPropPatchRequest extends ezcWebdavRequest
      * Flagged {@link ezcWebdavFlaggedPropertyStorage} indicating this property
      * should be removed.
      */
-    const DELETE = 2;
+    const REMOVE = 2;
 
     /**
      * Creates a new PROPPATCH request object.

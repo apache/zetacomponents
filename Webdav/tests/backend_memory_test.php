@@ -2514,7 +2514,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         // Then remove one of them using proppatch
         $removeProperties = new ezcWebdavFlaggedPropertyStorage();
-        $removeProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::DELETE );
+        $removeProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::REMOVE );
 
         $removedProperties = new ezcWebdavPropertyStorage();
         $removedProperties->attach( $p_blubb );
@@ -2606,15 +2606,15 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         // Then remove them again, with one live property in the middle to
         // check for proper failed dependency response codes.
         $removeProperties = new ezcWebdavFlaggedPropertyStorage();
-        $removeProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::DELETE );
+        $removeProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::REMOVE );
         $removeProperties->attach(  
             $p_length = new ezcWebdavGetContentLengthProperty(),
-            ezcWebdavPropPatchRequest::DELETE
+            ezcWebdavPropPatchRequest::REMOVE
         );
-        $removeProperties->attach( $p_bar, ezcWebdavPropPatchRequest::DELETE );
+        $removeProperties->attach( $p_bar, ezcWebdavPropPatchRequest::REMOVE );
         $removeProperties->attach(  
             $p_last = new ezcWebdavGetLastModifiedProperty(),
-            ezcWebdavPropPatchRequest::DELETE
+            ezcWebdavPropPatchRequest::REMOVE
         );
 
         $request = new ezcWebdavPropPatchRequest( '/foo' );
@@ -2726,12 +2726,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         // Then remove them again, with one live property in the middle to
         // check for proper failed dependency response codes.
         $updateProperties = new ezcWebdavFlaggedPropertyStorage();
-        $updateProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::DELETE );
+        $updateProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::REMOVE );
         $updateProperties->attach( 
             $p_foo = new ezcWebdavDeadProperty( 'foo:', 'foo', 'random content' ),
             ezcWebdavPropPatchRequest::SET
         );
-        $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::DELETE );
+        $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::REMOVE );
 
         $request = new ezcWebdavPropPatchRequest( '/foo' );
         $request->updates = $updateProperties;
@@ -2827,16 +2827,16 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         // Then remove them again, with one live property in the middle to
         // check for proper failed dependency response codes.
         $updateProperties = new ezcWebdavFlaggedPropertyStorage();
-        $updateProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::DELETE );
+        $updateProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::REMOVE );
         $updateProperties->attach( 
             $p_length = new ezcWebdavGetContentLengthProperty(), 
-            ezcWebdavPropPatchRequest::DELETE
+            ezcWebdavPropPatchRequest::REMOVE
         );
         $updateProperties->attach( 
             $p_foo = new ezcWebdavDeadProperty( 'foo:', 'foo', 'random content' ),
             ezcWebdavPropPatchRequest::SET
         );
-        $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::DELETE );
+        $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::REMOVE );
 
         $request = new ezcWebdavPropPatchRequest( '/foo' );
         $request->updates = $updateProperties;
