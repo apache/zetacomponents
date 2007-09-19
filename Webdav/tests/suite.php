@@ -57,6 +57,7 @@ require_once 'response_test.php';
 require_once 'server_options_test.php';
 require_once 'server_test.php';
 
+require_once 'client_test_rfc.php';
 require_once 'client_test_cadaver.php';
 
 /**
@@ -105,6 +106,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavPropFindRequestTest::suite() );
         $this->addTest( ezcWebdavPropPatchRequestTest::suite() );
         $this->addTest( ezcWebdavRequestPropertyBehaviourContentTest::suite() );
+        $this->addTest( ezcWebdavClientRfcTest::suite() );
         $this->addTest( ezcWebdavClientCadaverTest::suite() );
     }
 
