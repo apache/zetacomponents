@@ -53,6 +53,8 @@ class ezcWebdavTransport
                 return $this->parsePropFindRequest( $uri, $body );
             case 'COPY':
                 return $this->parseCopyRequest( $uri, $body );
+            case 'DELETE':
+                return $this->parseDeleteRequest( $uri, $body );
             default:
                 throw new ezcWebdavInvalidRequestMethodException(
                     $_SERVER['REQUEST_METHOD']
@@ -142,6 +144,17 @@ class ezcWebdavTransport
 
     // COPY
 
+    /**
+     * Parses the COPY request and returns a request object.
+     * This method is responsible for parsing the COPY request. It
+     * retrieves the current request URI in $uri and the request body as $body.
+     * The return value, if no exception is thrown, is a valid {@link
+     * ezcWebdavCopyRequest} object.
+     * 
+     * @param string $uri 
+     * @param string $body 
+     * @return ezcWebdavCopyRequest
+     */
     protected function parseCopyRequest( $uri, $body )
     {
         $headers = $this->parseHeaders(
@@ -203,11 +216,29 @@ class ezcWebdavTransport
         }
         return $request;
     }
+    
+    // DELETE
+
+    /**
+     * Parses the DELETE request and returns a request object.
+     * This method is responsible for parsing the DELETE request. It
+     * retrieves the current request URI in $uri and the request body as $body.
+     * The return value, if no exception is thrown, is a valid {@link
+     * ezcWebdavDeleteRequest} object.
+     * 
+     * @param string $uri 
+     * @param string $body 
+     * @return ezcWebdavDeleteRequest
+     */
+    protected function parseDeleteRequest( $uri, $body )
+    {
+        return new ezcWebdavDeleteRequest( $uri );
+    }
 
     // PROPFIND
 
     /**
-     * Parses the PROPFIN request and returns a request object.
+     * Parses the PROPFIND request and returns a request object.
      * This method is responsible for parsing the PROPFIND request. It
      * retrieves the current request URI in $uri and the request body as $body.
      * The return value, if no exception is thrown, is a valid {@link
