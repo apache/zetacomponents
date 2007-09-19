@@ -7,6 +7,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected $transportClass;
 
+    protected $setupClass;
+
+    protected $pathFactory = 'ezcWebdavPathFactory';
+
     private $testSets = array();
     
     private $currentTestSet;
@@ -41,6 +45,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
     public function setTestSet( $testSet )
     {
         $this->currentTestSet = $testSet;
+        $this->setName( basename( $testSet ) );
     }
 
     public function runTest()
@@ -57,27 +62,38 @@ abstract class ezcWebdavClientTest extends ezcTestCase
     {
         $requestObject = null;
 
+        $serverBase = array(
+            'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',
+            'SCRIPT_FILENAME' => '/var/www/localhost/htdocs',
+        );
+
         // Request test
         if ( file_exists( ( $requestDir = "{$testSetName}/request" ) ) === true )
         {
             // Settings
             $request = array();
             $request['result'] = $this->getFileContent( $requestDir, 'result' );
-            $request['server'] = $this->getFileContent( $requestDir, 'server' );
+            $request['server'] = array_merge( $serverBase, $this->getFileContent( $requestDir, 'server' ) );
             $request['body']   = $this->getFileContent( $requestDir, 'body' );
             $request['uri']    = $this->getFileContent( $requestDir, 'uri' );
             
             $requestObject = $this->runRequestTest( $request );
+
         }
 
         // Response test
-        if ( file_exists( ( $responseDir = "{$this->dataDir}/response" ) ) === true && $requestObject !== null )
+        if ( file_exists( ( $responseDir = "{$testSetName}/response" ) ) === true && $requestObject instanceof ezcWebdavRequest && $this->setupClass !== null )
         {
+            $requestObject->validateHeaders();
+
             // Settings
             $response = array();
-            $response['result'] = $this->getFileContent( $responseDir, 'result' );
+            $response['result']  = $this->getFileContent( $responseDir, 'result' );
             $response['headers'] = $this->getFileContent( $responseDir, 'headers' );
-            $response['body']   = $this->getFileContent( $responseDir, 'body' );
+            $response['body']    = $this->getFileContent( $responseDir, 'body' );
+            $response['code']    = $this->getFileContent( $responseDir, 'code' );
+            $response['name']    = $this->getFileContent( $responseDir, 'name' );
+            $response['backend'] = call_user_func( array( $this->setupClass, 'getSetup' ), basename( $testSetName ) );
             
             $responseObject = $this->runResponseTest( $response, $requestObject );
         }
@@ -119,7 +135,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $_SERVER = ( $request['server'] !== false ? $request['server'] : $_SERVER );
 
         // Optionally set an URI different from 'http://localhost/webdav.php'
-        $uri = ( $request['uri'] !== false  ? $request['uri'] : 'http://localhost/webdav.php' );
+        $uri = ( $request['uri'] !== false 
+            ? call_user_func( array( $this->pathFactory, 'parsePath' ),  $request['uri'] )
+            : '/webdav.php'
+        );
 
         // Setup test environment
         $transportClass = $this->transportClass;
@@ -142,11 +161,99 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             $result,
             "Result not parsed correctly for test set '{$this->currentTestSet}'."
         );
+
+        return $result;
     }
 
     protected function runResponseTest( array $response, ezcWebdavRequest $requestObject )
     {
-        // To be implemented...
+        switch( get_class( $requestObject ) )
+        {
+            case 'ezcWebdavGetRequest':
+                $responseObject = $response['backend']->get( $requestObject );
+                break;
+            case 'ezcWebdavHeadRequest':
+                $responseObject = $response['backend']->head( $requestObject );
+                break;
+            case 'ezcWebdavPropFindRequest':
+                $responseObject = $response['backend']->propFind( $requestObject );
+                break;
+            case 'ezcWebdavPropPatchRequest':
+                $responseObject = $response['backend']->propPatch( $requestObject );
+                break;
+            case 'ezcWebdavDeleteRequest':
+                if ( $requestObject instanceof ezcWebdavBackendChange )
+                {
+                    $responseObject = $response['backend']->delete( $requestObject );
+                }
+                else
+                {
+                    $this->fail( 'Backend does not support testing DELETE request.' );
+                }
+                break;
+            case 'ezcWebdavCopyRequest':
+                if ( $requestObject instanceof ezcWebdavBackendChange )
+                {
+                    $responseObject = $response['backend']->copy( $requestObject );
+                }
+                else
+                {
+                    $this->fail( 'Backend does not support testing COPY request.' );
+                }
+                break;
+            case 'ezcWebdavMoveRequest':
+                if ( $requestObject instanceof ezcWebdavBackendChange )
+                {
+                    $responseObject = $response['backend']->move( $requestObject );
+                }
+                else
+                {
+                    $this->fail( 'Backend does not support testing MOVE request.' );
+                }
+                break;
+            case 'ezcWebdavMakeCollectionRequest':
+                if ( $requestObject instanceof ezcWebdavBackendMakeCollection )
+                {
+                    $responseObject = $response['backend']->makeCollection( $requestObject );
+                }
+                else
+                {
+                    $this->fail( 'Backend does not support testing MKCOL request.' );
+                }
+                break;
+            case 'ezcWebdavPutRequest':
+                if ( $requestObject instanceof ezcWebdavBackendPut )
+                {
+                    $responseObject = $response['backend']->put( $requestObject );
+                }
+                else
+                {
+                    $this->fail( 'Backend does not support testing PUT request.' );
+                }
+                break;
+            default:
+                throw new PHPUnit_Framework_ExpectationFailedException( "Unable to dispatch request of class " . get_class( $requestObject ) );
+        }
+
+        $this->assertEquals(
+            $response['code'],
+            $responseObject->status,
+            "Request returned status code '{$responseObject->status}' instead of '{$response['code']}' '{$requestObject->requestUri}'."
+        );
+
+        foreach ( $response['headers'] as $headerName => $headerValue )
+        {
+            if ( $headerName !== 'Content-Type' && $headerName !== 'Content-Length' )
+            {
+                $this->assertEquals(
+                    $headerValue,
+                    $responseObject->getHeader( $headerName ),
+                    "Header '$headerName' not set to value '$headerValue'."
+                );
+            }
+        }
+
+        return $responseObject;
     }
 
 }

@@ -204,6 +204,11 @@ abstract class ezcWebdavResponse
         return isset( $this->headers[$headerName] ) ? $this->headers[$headerName] : null;
     }
 
+    public final function getHeaders()
+    {
+        return $this->headers;
+    }
+
     /**
      * Sets a property.
      * This method is called when an property is to be set.
