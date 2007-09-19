@@ -26,7 +26,9 @@ class ezcWebdavTransport
      * @var array(string=>string)
      */
     static protected $headerMap = array(
-        'Depth' => 'HTTP_DEPTH',
+        'Depth'       => 'HTTP_DEPTH',
+        'Destination' => 'HTTP_DESTINATION',
+        'Overwrite'   => 'HTTP_OVERWRITE',
     );
 
     /**
@@ -49,6 +51,8 @@ class ezcWebdavTransport
         {
             case 'PROPFIND':
                 return $this->parsePropFindRequest( $uri, $body );
+            case 'COPY':
+                return $this->parseCopyRequest( $uri, $body );
             default:
                 throw new ezcWebdavInvalidRequestMethodException(
                     $_SERVER['REQUEST_METHOD']
@@ -102,6 +106,15 @@ class ezcWebdavTransport
         return $resultHeaders;
     }
 
+    /**
+     * Prases a single header.
+     * Takes the $headerName and $value of a header and parses the value accordingly,
+     * if necessary. Returns the parsed or unmanipuled result.
+     * 
+     * @param string $headerName 
+     * @param string $value 
+     * @return mixed
+     */
     protected function parseHeader( $headerName, $value )
     {
         switch ( $headerName )
@@ -125,6 +138,70 @@ class ezcWebdavTransport
                 // @TODO Add extensiability hook
         }
         return $value;
+    }
+
+    // COPY
+
+    protected function parseCopyRequest( $uri, $body )
+    {
+        $headers = $this->parseHeaders(
+            array( 'Destination', 'Depth', 'Overwrite' )
+        );
+
+        $request = new ezcWebdavCopyRequest( $uri, $headers['Destination'] );
+
+        $request->setHeaders( $headers );
+
+        if ( trim( $body ) === '' )
+        {
+            // No body present
+            return $request;
+        }
+
+        $dom = new DOMDocument();
+        if ( $dom->loadXML( $body, LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS ) === false )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'COPY',
+                "Could not open XML as DOMDocument: '{$body}'."
+            );
+        }
+        
+        if ( $dom->documentElement->localName !== 'propertybehavior' )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'COPY',
+                "Expected XML element <propertybehavior />, received <{$dom->documentElement->localName} />."
+            );
+        }
+        
+        $propertyBehaviourNode = $dom->documentElement;
+
+        $request->propertyBehaviour = new ezcWebdavRequestPropertyBehaviourContent();
+        switch ( $propertyBehaviourNode->firstChild->localName )
+        {
+            case 'omit':
+                $request->propertyBehavior->omit = true;
+                break;
+            case 'keepalive':
+                if ( $propertyBehaviourNode->firstChild->nodeValue === '*' )
+                {
+                    $request->propertyBehaviour->keepAlive = ezcWebdavRequestPropertyBehaviourContent::ALL;
+                }
+                else
+                {
+                    $keepAliveContent = array();
+                    $hrefNodes        = $propertyBehaviourNode->firstChild->getElementsByTagName( 'href' );
+
+                    for ( $i = 0; $i < $hrefNodes->length; ++$i )
+                    {
+                        $keepAliveContent[] = $hrefNodes->item( $i )->nodeValue;
+                    }
+
+                    $request->propertyBehaviour->keepAlive = $keepAliveContent;
+                }
+        }
+        return $request;
     }
 
     // PROPFIND
