@@ -108,7 +108,7 @@ class ezcWebdavPropFindResponse extends ezcWebdavResponse
             case 'responses':
                 if ( !is_array( $propertyValue ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array( ezcWebdavPropStatResponse )' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(ezcWebdavPropStatResponse)' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
