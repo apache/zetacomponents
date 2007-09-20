@@ -64,24 +64,26 @@ class ezcWebdavTransport
     public function parseRequest( $uri )
     {
         $body = $this->retreiveBody();
+        $path = $this->options->pathFactory->parseUriToPath( $uri );
+
         switch ( $_SERVER['REQUEST_METHOD'] )
         {
             case 'PROPFIND':
-                return $this->parsePropFindRequest( $uri, $body );
+                return $this->parsePropFindRequest( $path, $body );
             case 'PROPPATCH':
-                return $this->parsePropPatchRequest( $uri, $body );
+                return $this->parsePropPatchRequest( $path, $body );
             case 'COPY':
-                return $this->parseCopyRequest( $uri, $body );
+                return $this->parseCopyRequest( $path, $body );
             case 'MOVE':
-                return $this->parseMoveRequest( $uri, $body );
+                return $this->parseMoveRequest( $path, $body );
             case 'DELETE':
-                return $this->parseDeleteRequest( $uri, $body );
+                return $this->parseDeleteRequest( $path, $body );
             case 'LOCK':
-                return $this->parseLockRequest( $uri, $body );
+                return $this->parseLockRequest( $path, $body );
             case 'UNLOCK':
-                return $this->parseUnlockRequest( $uri, $body );
+                return $this->parseUnlockRequest( $path, $body );
             case 'MKCOL':
-                return $this->parseMakeCollectionRequest( $uri, $body );
+                return $this->parseMakeCollectionRequest( $path, $body );
             default:
                 throw new ezcWebdavInvalidRequestMethodException(
                     $_SERVER['REQUEST_METHOD']
@@ -195,21 +197,21 @@ class ezcWebdavTransport
     /**
      * Parses the COPY request and returns a request object.
      * This method is responsible for parsing the COPY request. It
-     * retrieves the current request URI in $uri and the request body as $body.
+     * retrieves the current request URI in $path and the request body as $body.
      * The return value, if no exception is thrown, is a valid {@link
      * ezcWebdavCopyRequest} object.
      * 
-     * @param string $uri 
+     * @param string $path 
      * @param string $body 
      * @return ezcWebdavCopyRequest
      */
-    protected function parseCopyRequest( $uri, $body )
+    protected function parseCopyRequest( $path, $body )
     {
         $headers = $this->parseHeaders(
             array( 'Destination', 'Depth', 'Overwrite' )
         );
 
-        $request = new ezcWebdavCopyRequest( $uri, $headers['Destination'] );
+        $request = new ezcWebdavCopyRequest( $path, $headers['Destination'] );
 
         $request->setHeaders( $headers );
 
@@ -243,21 +245,21 @@ class ezcWebdavTransport
     /**
      * Parses the MOVE request and returns a request object.
      * This method is responsible for parsing the MOVE request. It
-     * retrieves the current request URI in $uri and the request body as $body.
+     * retrieves the current request URI in $path and the request body as $body.
      * The return value, if no exception is thrown, is a valid {@link
      * ezcWebdavMoveRequest} object.
      * 
-     * @param string $uri 
+     * @param string $path 
      * @param string $body 
      * @return ezcWebdavMoveRequest
      */
-    protected function parseMoveRequest( $uri, $body )
+    protected function parseMoveRequest( $path, $body )
     {
         $headers = $this->parseHeaders(
             array( 'Destination', 'Depth', 'Overwrite' )
         );
 
-        $request = new ezcWebdavMoveRequest( $uri, $headers['Destination'] );
+        $request = new ezcWebdavMoveRequest( $path, $headers['Destination'] );
 
         $request->setHeaders( $headers );
 
@@ -329,17 +331,17 @@ class ezcWebdavTransport
     /**
      * Parses the DELETE request and returns a request object.
      * This method is responsible for parsing the DELETE request. It
-     * retrieves the current request URI in $uri and the request body as $body.
+     * retrieves the current request URI in $path and the request body as $body.
      * The return value, if no exception is thrown, is a valid {@link
      * ezcWebdavDeleteRequest} object.
      * 
-     * @param string $uri 
+     * @param string $path 
      * @param string $body 
      * @return ezcWebdavDeleteRequest
      */
-    protected function parseDeleteRequest( $uri, $body )
+    protected function parseDeleteRequest( $path, $body )
     {
-        return new ezcWebdavDeleteRequest( $uri );
+        return new ezcWebdavDeleteRequest( $path );
     }
     
     // LOCK
@@ -347,17 +349,17 @@ class ezcWebdavTransport
     /**
      * Parses the LOCK request and returns a request object.
      * This method is responsible for parsing the LOCK request. It
-     * retrieves the current request URI in $uri and the request body as $body.
+     * retrieves the current request URI in $path and the request body as $body.
      * The return value, if no exception is thrown, is a valid {@link
      * ezcWebdavLockRequest} object.
      * 
-     * @param string $uri 
+     * @param string $path 
      * @param string $body 
      * @return ezcWebdavLockRequest
      */
-    protected function parseLockRequest( $uri, $body )
+    protected function parseLockRequest( $path, $body )
     {
-        $request = new ezcWebdavLockRequest( $uri );
+        $request = new ezcWebdavLockRequest( $path );
 
         $request->setHeaders(
             $this->parseHeaders(
@@ -426,17 +428,17 @@ class ezcWebdavTransport
     /**
      * Parses the UNLOCK request and returns a request object.
      * This method is responsible for parsing the UNLOCK request. It
-     * retrieves the current request URI in $uri and the request body as $body.
+     * retrieves the current request URI in $path and the request body as $body.
      * The return value, if no exception is thrown, is a valid {@link
      * ezcWebdavUnlockRequest} object.
      * 
-     * @param string $uri 
+     * @param string $path 
      * @param string $body 
      * @return ezcWebdavUnlockRequest
      */
-    protected function parseUnlockRequest( $uri, $body )
+    protected function parseUnlockRequest( $path, $body )
     {
-        $request = new ezcWebdavUnlockRequest( $uri );
+        $request = new ezcWebdavUnlockRequest( $path );
 
         $request->setHeaders(
             $this->parseHeaders(
@@ -452,17 +454,17 @@ class ezcWebdavTransport
     /**
      * Parses the MKCOL request and returns a request object.
      * This method is responsible for parsing the MKCOL request. It
-     * retrieves the current request URI in $uri and the request body as $body.
+     * retrieves the current request URI in $path and the request body as $body.
      * The return value, if no exception is thrown, is a valid {@link
      * ezcWebdavMakeCollectionRequest} object.
      * 
-     * @param string $uri 
+     * @param string $path 
      * @param string $body 
      * @return ezcWebdavMakeCollectionRequest
      */
-    protected function parseMakeCollectionRequest( $uri, $body )
+    protected function parseMakeCollectionRequest( $path, $body )
     {
-        return new ezcWebdavMakeCollectionRequest( $uri, ( trim( $body ) === '' ? null : $body ) );
+        return new ezcWebdavMakeCollectionRequest( $path, ( trim( $body ) === '' ? null : $body ) );
     }
 
     // PROPFIND
@@ -470,17 +472,17 @@ class ezcWebdavTransport
     /**
      * Parses the PROPFIND request and returns a request object.
      * This method is responsible for parsing the PROPFIND request. It
-     * retrieves the current request URI in $uri and the request body as $body.
+     * retrieves the current request URI in $path and the request body as $body.
      * The return value, if no exception is thrown, is a valid {@link
      * ezcWebdavPropFindRequest} object.
      * 
-     * @param string $uri 
+     * @param string $path 
      * @param string $body 
      * @return ezcWebdavPropFindRequest
      */
-    protected function parsePropFindRequest( $uri, $body )
+    protected function parsePropFindRequest( $path, $body )
     {
-        $request = new ezcWebdavPropFindRequest( $uri );
+        $request = new ezcWebdavPropFindRequest( $path );
 
         $request->setHeaders(
             $this->parseHeaders(
@@ -752,17 +754,17 @@ class ezcWebdavTransport
     /**
      * Parses the PROPPATCH request and returns a request object.
      * This method is responsible for parsing the PROPPATCH request. It
-     * retrieves the current request URI in $uri and the request body as $body.
+     * retrieves the current request URI in $path and the request body as $body.
      * The return value, if no exception is thrown, is a valid {@link
      * ezcWebdavPropPatchRequest} object.
      * 
-     * @param string $uri 
+     * @param string $path 
      * @param string $body 
      * @return ezcWebdavPropPatchRequest
      */
-    protected function parsePropPatchRequest( $uri, $body )
+    protected function parsePropPatchRequest( $path, $body )
     {
-        $request = new ezcWebdavPropPatchRequest( $uri );
+        $request = new ezcWebdavPropPatchRequest( $path );
 
         if ( ( $dom = $this->loadDom( $body ) ) === false )
         {
@@ -843,12 +845,13 @@ class ezcWebdavTransport
     }
     
     /**
-     * Offer access to some of the server properties.
+     * Property read access.
      * 
+     * @param string $propertyName Name of the property.
+     * @return mixed Value of the property or null.
+     *
      * @throws ezcBasePropertyNotFoundException
-     *         If the property $propertyName is not defined
-     * @param string $propertyName 
-     * @return mixed
+     *         If the the desired property is not found.
      * @ignore
      */
     public function __get( $propertyName )
@@ -862,14 +865,15 @@ class ezcWebdavTransport
     }
 
     /**
-     * Sets the option $propertyName to $propertyValue.
+     * Property write access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue  The value for the property.
      *
      * @throws ezcBasePropertyNotFoundException
-     *         if the property $propertyName is not defined
+     *         If a the value for the property options is not an instance of
      * @throws ezcBaseValueException
-     *         if $propertyValue is not correct for the property $propertyName
-     * @param string $propertyName
-     * @param mixed $propertyValue
+     *         If a the value for a property is out of range.
      * @ignore
      */
     public function __set( $propertyName, $propertyValue )
@@ -889,6 +893,13 @@ class ezcWebdavTransport
         $this->properties[$propertyName] = $propertyValue;
     }
 
+    /**
+     * Property isset access.
+     *
+     * @param string $propertyName Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     * @ignore
+     */
     public function __isset( $propertyName )
     {
         return array_key_exists( $propertyName, $this->properties );

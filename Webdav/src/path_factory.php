@@ -33,6 +33,15 @@ class ezcWebdavPathFactory
      */
     protected $baseUriParts;
     
+    /**
+     * Creates a new path factory.
+     * Creates a new object to parse URIs to local pathes. The URL given as a
+     * parameter is used to strip URL/path parts from incoming URIs and add the
+     * specific parts to outgoin ones.
+     * 
+     * @param string $baseUri 
+     * @return void
+     */
     public function __construct( $baseUri = '' )
     {
         $this->baseUriParts = parse_url( $baseUri );
@@ -51,8 +60,11 @@ class ezcWebdavPathFactory
     public function parseUriToPath( $uri )
     {
         $requestPath = parse_url( $uri, PHP_URL_PATH );
-
-        return substr( $requestPath, strlen( $this->baseUriParts['path'] ) );
+        if ( substr( $requestPath, -1, 1 ) === '/' )
+        {
+            $requestPath = substr( $requestPath, 0, -1 );
+        }
+        return substr( $requestPath, isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 );
     }
 
     /**

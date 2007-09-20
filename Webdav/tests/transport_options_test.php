@@ -15,7 +15,7 @@
 require_once 'test_case.php';
 
 /**
- * Tests for ezcWebdavPathFactory class.
+ * Tests for ezcWebdavAutomaticPathFactory class.
  * 
  * @package Webdav
  * @subpackage Tests
@@ -54,7 +54,7 @@ class ezcWebdavTransportOptionsTest extends ezcWebdavTestCase
 
         $this->assertEquals(
             $transport->options->pathFactory,
-            new ezcWebdavPathFactory()
+            new ezcWebdavAutomaticPathFactory()
         );
 
         $transport->options->pathFactory = new ezcWebdavAutomaticPathFactory();
@@ -105,11 +105,11 @@ class ezcWebdavTransportOptionsTest extends ezcWebdavTestCase
         $options = new ezcWebdavTransportOptions();
 
         $this->assertEquals(
-            new ezcWebdavPathFactory(),
+            new ezcWebdavAutomaticPathFactory(),
             $options->pathFactory
         );
 
-        $mockedPathFactory = $this->getMock( 'ezcWebdavPathFactory' );
+        $mockedPathFactory = $this->getMock( 'ezcWebdavAutomaticPathFactory' );
 
         $options->pathFactory = $mockedPathFactory;
         $this->assertSame(

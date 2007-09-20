@@ -9,7 +9,10 @@ class ezcWebdavClientCadaverTest extends ezcWebdavClientTest
 {
     protected function setupTestEnvironment()
     {
-        $this->transportClass = 'ezcWebdavTransportTestMock';
+        $this->transport = new ezcWebdavTransportTestMock();
+        $this->transport->options->pathFactory = new ezcWebdavPathFactory(
+            'http://foo.bar'
+        );
         $this->dataDir        = dirname( __FILE__ ) . '/clients/cadaver';
     }
 

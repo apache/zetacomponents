@@ -5,7 +5,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected $dataDir;
 
-    protected $transportClass;
+    protected $transport;
 
     protected $setupClass;
 
@@ -19,7 +19,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
      * Needs to set different options.
      * {@link $this->dataDir} needs to be set to the base path of
      * Webdav/tests/clients/<clientname>
-     * {@link $this->transportClass} needs to be set to the transport class to
+     * {@link $this->transport} needs to be set to the transport to
      * use, e.g. {@link ezcWebdavTransportTestMock} for a RFC compliant test.
      * 
      * @return void
@@ -78,7 +78,6 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             $request['uri']    = $this->getFileContent( $requestDir, 'uri' );
             
             $requestObject = $this->runRequestTest( $request );
-
         }
 
         // Response test
@@ -135,17 +134,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $_SERVER = ( $request['server'] !== false ? $request['server'] : $_SERVER );
 
         // Optionally set an URI different from 'http://localhost/webdav.php'
-        $uri = ( $request['uri'] !== false 
-            ? call_user_func( array( $this->pathFactory, 'parsePath' ),  $request['uri'] )
-            : '/webdav.php'
-        );
+        $uri = ( $request['uri'] !== false ? $request['uri'] : '/webdav.php' );
 
-        // Setup test environment
-        $transportClass = $this->transportClass;
-        $transport = new $transportClass();
-        
         // Begin request test
-        $result = $transport->parseRequest( $uri );
+        $result = $this->transport->parseRequest( $uri );
 
         if ( $request['result'] === false )
         {

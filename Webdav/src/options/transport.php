@@ -12,7 +12,8 @@
  * Class containing the options for basic webdav server.
  *
  * @property ezcWebdavPathFactory $pathFactory
- *           Class used to transform real paths into request paths.
+ *           Class used to transform real paths into request paths. Standard is
+ *           ezcWebdavAutomaticPathFactory.
  *
  * @package Webdav
  * @version //autogen//
@@ -30,7 +31,7 @@ class ezcWebdavTransportOptions extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['pathFactory'] = new ezcWebdavPathFactory();
+        $this->properties['pathFactory'] = new ezcWebdavAutomaticPathFactory();
 
         parent::__construct( $options );
     }

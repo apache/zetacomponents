@@ -11,10 +11,12 @@ class ezcWebdavClientRfcTest extends ezcWebdavClientTest
 {
     protected function setupTestEnvironment()
     {
-        $this->transportClass = 'ezcWebdavTransportTestMock';
-        $this->dataDir        = dirname( __FILE__ ) . '/clients/rfc';
-        $this->setupClass     = 'ezcWebdavClientRfcTestBackend';
-        $this->pathFactory    = 'ezcWebdavRfcPathFactory';
+        $this->transport  = new ezcWebdavTransportTestMock();
+        $this->transport->options->pathFactory = new ezcWebdavPathFactory(
+            'http://foo.bar'
+        );
+        $this->dataDir    = dirname( __FILE__ ) . '/clients/rfc';
+        $this->setupClass = 'ezcWebdavClientRfcTestBackend';
     }
 
     public static function suite()
