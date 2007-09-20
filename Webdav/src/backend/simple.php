@@ -548,6 +548,7 @@ abstract class ezcWebdavSimpleBackend
 
         $errors = array(
             ezcWebdavResponse::STATUS_403 => new ezcWebdavPropertyStorage(),
+            ezcWebdavResponse::STATUS_409 => new ezcWebdavPropertyStorage(),
             ezcWebdavResponse::STATUS_424 => new ezcWebdavPropertyStorage(),
         );
         $errnous = false;
@@ -560,6 +561,14 @@ abstract class ezcWebdavSimpleBackend
             if ( $errnous )
             {
                 $errors[ezcWebdavResponse::STATUS_424]->attach( $property );
+                continue;
+            }
+
+            // Check for property validation errors and add a 409 for this.
+            if ( $property->hasError )
+            {
+                $errors[ezcWebdavResponse::STATUS_409]->attach( $property );
+                $errnous = true;
                 continue;
             }
 
@@ -615,6 +624,10 @@ abstract class ezcWebdavSimpleBackend
                 new ezcWebdavPropStatResponse(
                     $errors[ezcWebdavResponse::STATUS_403],
                     ezcWebdavResponse::STATUS_403
+                ),
+                new ezcWebdavPropStatResponse(
+                    $errors[ezcWebdavResponse::STATUS_409],
+                    ezcWebdavResponse::STATUS_409
                 ),
                 new ezcWebdavPropStatResponse(
                     $errors[ezcWebdavResponse::STATUS_424],

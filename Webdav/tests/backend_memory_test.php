@@ -2441,6 +2441,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     ezcWebdavResponse::STATUS_403
                 ),
                 new ezcWebdavPropStatResponse(
+                    new ezcWebdavPropertyStorage,
+                    ezcWebdavResponse::STATUS_409
+                ),
+                new ezcWebdavPropStatResponse(
                     $depError,
                     ezcWebdavResponse::STATUS_424
                 )
@@ -2637,6 +2641,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 new ezcWebdavPropStatResponse(
                     $failed,
                     ezcWebdavResponse::STATUS_403
+                ),
+                new ezcWebdavPropStatResponse(
+                    new ezcWebdavPropertyStorage,
+                    ezcWebdavResponse::STATUS_409
                 ),
                 new ezcWebdavPropStatResponse(
                     $depError,
@@ -2858,6 +2866,100 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 new ezcWebdavPropStatResponse(
                     $failed,
                     ezcWebdavResponse::STATUS_403
+                ),
+                new ezcWebdavPropStatResponse(
+                    new ezcWebdavPropertyStorage,
+                    ezcWebdavResponse::STATUS_409
+                ),
+                new ezcWebdavPropStatResponse(
+                    $depError,
+                    ezcWebdavResponse::STATUS_424
+                )
+            ),
+            $response,
+            'Expected property removing PROPPATCH response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropPatchCombinedSetDeleteValidationError()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->options->fakeLiveProperties = true;
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+    
+        // First add some custom properties.
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( $p_bar = new ezcWebdavDeadProperty( 
+            'foo:', 'bar', 'some content'
+        ), ezcWebdavPropPatchRequest::SET );
+        $newProperties->attach( $p_blubb = new ezcWebdavDeadProperty( 
+            'foo:', 'blubb', 'some other content'
+        ), ezcWebdavPropPatchRequest::SET );
+
+        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request->updates = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $this->assertEquals(
+            new ezcWebdavPropPatchResponse(
+                new ezcWebdavResource( '/foo' )
+            ),
+            $response,
+            'Expected property adding PROPPATCH response does not match real response.',
+            0,
+            20
+        );
+
+        // Then remove them again, with one live property in the middle to
+        // check for proper failed dependency response codes.
+        $updateProperties = new ezcWebdavFlaggedPropertyStorage();
+        $updateProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::REMOVE );
+        $updateProperties->attach( 
+            $p_length = new ezcWebdavGetContentLengthProperty(), 
+            ezcWebdavPropPatchRequest::REMOVE
+        );
+
+        // Cause validation error
+        $p_length->length = 'not a number';
+
+        $updateProperties->attach( 
+            $p_foo = new ezcWebdavDeadProperty( 'foo:', 'foo', 'random content' ),
+            ezcWebdavPropPatchRequest::SET
+        );
+        $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::REMOVE );
+
+        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request->updates = $updateProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $failed = new ezcWebdavPropertyStorage();
+        $failed->attach( $p_length );
+
+        $depError = new ezcWebdavPropertyStorage();
+        $depError->attach( $p_foo );
+        $depError->attach( $p_bar );
+
+        $failed->rewind();
+        $depError->rewind();
+        $this->assertEquals(
+            new ezcWebdavPropPatchResponse(
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse(
+                    new ezcWebdavPropertyStorage,
+                    ezcWebdavResponse::STATUS_403
+                ),
+                new ezcWebdavPropStatResponse(
+                    $failed,
+                    ezcWebdavResponse::STATUS_409
                 ),
                 new ezcWebdavPropStatResponse(
                     $depError,
