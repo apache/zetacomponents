@@ -76,35 +76,35 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
             case 'depth':
                 if ( $propertyValue !== ezcWebdavRequest::DEPTH_INFINITY && $propertyValue !== ezcWebdavRequest::DEPTH_ONE && $propertyValue !== ezcWebdavRequest::DEPTH_ZERO )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_*' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavLockDiscoveryPropertyActiveLock::DEPTH_*' );
                 }
                 break;
             case 'owner':
                 if ( is_string( $propertyValue ) === false && $propertyValue !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                    return $this->hasError( $propertyName, $propertyValue, 'string' );
                 }
                 break;
             case 'timeout':
                 if ( ( $propertyValue instanceof DateTime ) === false && $propertyValue !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'DateTime' );
+                    return $this->hasError( $propertyName, $propertyValue, 'DateTime' );
                 }
                 break;
             case 'timeout':
                 if ( ( $propertyValue instanceof DateTime ) === false && $propertyValue !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'DateTime' );
+                    return $this->hasError( $propertyName, $propertyValue, 'DateTime' );
                 }
                 break;
             case 'tokens':
                 if ( is_array( $propertyValue ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(string)' );
+                    return $this->hasError( $propertyName, $propertyValue, 'array(string)' );
                 }
                 break;
             default:
-                parent::__set( $propertyName, $propertyValue );
+                return parent::__set( $propertyName, $propertyValue );
         }
         $this->properties[$propertyName] = $propertyValue;
     }

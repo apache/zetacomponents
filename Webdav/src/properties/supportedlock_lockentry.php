@@ -57,7 +57,7 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
             case 'lockType':
                 if ( $propertyValue !== ezcWebdavLockRequest::TYPE_READ && $propertyValue !== ezcWebdavLockRequest::TYPE_WRITE )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockRequest::TYPE_*' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavLockRequest::TYPE_*' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
@@ -66,7 +66,7 @@ class ezcWebdavSupportedLockPropertyLockentry extends ezcWebdavLiveProperty
             case 'lockScope':
                 if ( $propertyValue !== ezcWebdavLockRequest::SCOPE_SHARED && $propertyValue !== ezcWebdavLockRequest::SCOPE_EXCLUSIVE )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockRequest::SCOPE_*' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavLockRequest::SCOPE_*' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;

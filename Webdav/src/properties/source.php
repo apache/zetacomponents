@@ -53,7 +53,7 @@ class ezcWebdavSourceProperty extends ezcWebdavLiveProperty
             case 'links':
                 if ( is_array( $propertyValue ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array(ezcWebdavSourcePropertyLink)' );
+                    return $this->hasError( $propertyName, $propertyValue, 'array(ezcWebdavSourcePropertyLink)' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;

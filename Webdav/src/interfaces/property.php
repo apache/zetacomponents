@@ -10,10 +10,14 @@
 /**
  * Base class for WebDAV property representation classes.
  * 
- * @property $namespace
+ * @property string $namespace
  *           Namespace of property
- * @property $name
+ * @property string $name
  *           Name of property
+ * @property-read bool $hasError
+ *           If the property has a property validation error.
+ * @property-read array $errors
+ *           Validation errors for property
  *
  * @package Webdav
  * @version //autogen//
@@ -40,6 +44,9 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
      */
     public function __construct( $namespace, $name )
     {
+        $this->properties['hasError'] = false;
+        $this->properties['errors']   = array();
+
         $this->namespace = $namespace;
         $this->name      = $name;
     }
@@ -70,6 +77,23 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
     }
     
     /**
+     * Add property validation error.
+     *
+     * Method called, when a property validation error occured. The error is
+     * stored and the property is set as errnous.
+     * 
+     * @param string $property 
+     * @param mixed $value 
+     * @param string $expected 
+     * @return void
+     */
+    protected function hasError( $property, $value, $expected )
+    {
+        $this->properties['hasError'] = true;
+        $this->properties['errors'][] = "The property '$property' only accepts values of type '$expected' - '" . gettype( $value ) . "' given.";
+    }
+
+    /**
      * Sets a property.
      * This method is called when an property is to be set.
      * 
@@ -95,6 +119,14 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
                 $this->properties[$propertyName] = $propertyValue;
+                break;
+
+            case 'errors':
+            case 'hasError':
+                throw new ezcBasePropertyPermissionException(
+                    $propertyName,
+                    ezcBasePropertyPermissionException::READ
+                );
                 break;
 
             default:
@@ -137,7 +169,7 @@ abstract class ezcWebdavProperty extends ezcWebdavXmlBase
     {
         foreach ( $this->properties as $name => $value )
         {
-            if ( !in_array( $name, array( 'name', 'namespace' ), true ) )
+            if ( !in_array( $name, array( 'name', 'namespace', 'errors', 'hasError' ), true ) )
             {
                 $this->properties[$name] = null;
             }

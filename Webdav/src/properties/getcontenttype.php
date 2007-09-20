@@ -56,7 +56,7 @@ class ezcWebdavGetContentTypeProperty extends ezcWebdavLiveProperty
             case 'mime':
                 if ( is_string( $propertyValue ) === false && $propertyValue !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                    return $this->hasError( $propertyName, $propertyValue, 'string' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
@@ -64,7 +64,7 @@ class ezcWebdavGetContentTypeProperty extends ezcWebdavLiveProperty
             case 'charset':
                 if ( is_string( $propertyValue ) === false && $propertyValue !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                    return $this->hasError( $propertyName, $propertyValue, 'string' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;

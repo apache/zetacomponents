@@ -60,7 +60,7 @@ class ezcWebdavGetContentLengthProperty extends ezcWebdavLiveProperty
             case 'length':
                 if ( ( is_string( $propertyValue ) === false || is_numeric( $propertyValue ) === false ) && $propertyValue !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string of digits' );
+                    return $this->hasError( $propertyName, $propertyValue, 'string of digits' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;

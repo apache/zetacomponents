@@ -97,6 +97,29 @@ abstract class ezcWebdavWebdavPropertyTestCase extends ezcWebdavPropertyTestCase
         );
     }
 
+    public function testSetAccessFailure()
+    {
+        foreach ( $this->failingValues as $propName => $values )
+        {
+            foreach( $values as $value )
+            {
+                $object = $this->getObject();
+                $object->$propName = $value;
+
+                $this->assertEquals( 
+                    true,
+                    $object->hasError
+                );
+
+                $this->assertEquals( 
+                    $this->defaultValues[$propName], 
+                    $object->$propName,
+                    "Failed default value for $propName."
+                );
+            }
+        }
+    }
+
     public function testPropertyNoContentWithContentSet()
     {
         $object = $this->getObject();

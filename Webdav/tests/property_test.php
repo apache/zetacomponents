@@ -158,6 +158,7 @@ abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
                 try
                 {
                     $object->$propName = $value;
+                    $this->fail( 'Expected ezcBaseValueException.' );
                 }
                 catch ( ezcBaseValueException $e ) {}
 

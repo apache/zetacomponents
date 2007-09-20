@@ -53,7 +53,7 @@ class ezcWebdavCreationDateProperty extends ezcWebdavLiveProperty
             case 'date':
                 if ( ( $propertyValue instanceof DateTime ) === false && $propertyValue !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'DateTime' );
+                    return $this->hasError( $propertyName, $propertyValue, 'DateTime' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;

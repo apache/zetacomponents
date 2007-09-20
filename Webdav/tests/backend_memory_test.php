@@ -1844,7 +1844,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetLastModifiedProperty()
         );
         $propertyStorage->attach(
-            new ezcWebdavGetContentLengthProperty()
+            $test = new ezcWebdavGetContentLengthProperty()
         );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(

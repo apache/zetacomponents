@@ -57,7 +57,7 @@ class ezcWebdavDeadProperty extends ezcWebdavProperty
             case 'content':
                 if ( ( $propertyValue !== null ) && !is_string( $propertyValue ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                    return $this->hasError( $propertyName, $propertyValue, 'string' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
