@@ -115,7 +115,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavHeadRequest( '/foo' );
+        $request = new ezcWebdavHeadRequest( '/resource' );
         $request->validateHeaders();
         $response = $backend->head( $request );
 
@@ -123,7 +123,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavHeadResponse(
                 new ezcWebdavResource(
-                    '/foo', new ezcWebdavPropertyStorage()
+                    '/resource', new ezcWebdavPropertyStorage()
                 )
             ),
             'Expected response does not match real response.',
@@ -136,7 +136,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavHeadRequest( '/bar' );
+        $request = new ezcWebdavHeadRequest( '/collection' );
         $request->validateHeaders();
         $response = $backend->head( $request );
 
@@ -144,7 +144,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavHeadResponse(
                 new ezcWebdavCollection(
-                    '/bar', new ezcWebdavPropertyStorage()
+                    '/collection', new ezcWebdavPropertyStorage()
                 )
             ),
             'Expected response does not match real response.',
@@ -177,7 +177,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavGetRequest( '/foo' );
+        $request = new ezcWebdavGetRequest( '/resource' );
         $request->validateHeaders();
         $response = $backend->get( $request );
 
@@ -185,7 +185,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
-                    '/foo', new ezcWebdavPropertyStorage(), 'bar'
+                    '/resource', new ezcWebdavPropertyStorage(), "Some webdav contents.\n"
                 )
             ),
             'Expected response does not match real response.',
@@ -213,7 +213,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
-
+/*
     public function testResourceGetWithProperties()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -260,12 +260,12 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
-
+*/
     public function testCollectionGet()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavGetRequest( '/bar' );
+        $request = new ezcWebdavGetRequest( '/collection' );
         $request->validateHeaders();
         $response = $backend->get( $request );
 
@@ -273,12 +273,12 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavGetCollectionResponse(
                 new ezcWebdavCollection(
-                    '/bar', new ezcWebdavPropertyStorage(), array(
-                        new ezcWebdavResource(
-                            '/bar/blubb'
-                        ),
+                    '/collection', new ezcWebdavPropertyStorage(), array(
                         new ezcWebdavCollection(
-                            '/bar/blah'
+                            '/collection/.svn'
+                        ),
+                        new ezcWebdavResource(
+                            '/collection/test.txt'
                         ),
                     )
                 )
@@ -293,7 +293,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavGetRequest( '/bar/blah/fumdiidudel.txt' );
+        $request = new ezcWebdavGetRequest( '/collection/.svn/text-base/test.txt.svn-base' );
         $request->validateHeaders();
         $response = $backend->get( $request );
 
@@ -301,9 +301,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
-                    '/bar/blah/fumdiidudel.txt', 
+                    '/collection/.svn/text-base/test.txt.svn-base', 
                     new ezcWebdavPropertyStorage(), 
-                    'Willst du an \'was Rundes denken, denk\' an einen Plastikball. Willst du \'was gesundes schenken, schenke einen Plastikball. Plastikball, Plastikball, ...'
+                    "Some other contents...\n"
                 )
             ),
             'Expected response does not match real response.',
@@ -316,7 +316,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavCopyRequest( '/foo', '/dest' );
+        $request = new ezcWebdavCopyRequest( '/resource', '/new_resource' );
         $request->validateHeaders();
         $response = $backend->copy( $request );
 
@@ -355,7 +355,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavCopyRequest( '/foo', '/dest' );
+        $request = new ezcWebdavCopyRequest( '/resource', '/collection/resource' );
         $request->setHeader( 'Overwrite', 'F' );
         $request->validateHeaders();
         $response = $backend->copy( $request );
@@ -375,7 +375,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavCopyRequest( '/foo', '/bar' );
+        $request = new ezcWebdavCopyRequest( '/resource', '/collection/test.txt' );
         $request->validateHeaders();
         $response = $backend->copy( $request );
 
@@ -394,7 +394,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavCopyRequest( '/foo', '/bar' );
+        $request = new ezcWebdavCopyRequest( '/resource', '/collection/test.txt' );
         $request->setHeader( 'Overwrite', 'F' );
         $request->validateHeaders();
         $response = $backend->copy( $request );
@@ -403,7 +403,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_412,
-                '/bar'
+                '/collection/test.txt'
             ),
             'Expected response does not match real response.',
             0,
@@ -415,7 +415,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavCopyRequest( '/foo', '/dum/di' );
+        $request = new ezcWebdavCopyRequest( '/resource', '/dum/di' );
         $request->validateHeaders();
         $response = $backend->copy( $request );
 
@@ -435,7 +435,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavCopyRequest( '/foo', '/foo' );
+        $request = new ezcWebdavCopyRequest( '/resource', '/resource' );
         $request->validateHeaders();
         $response = $backend->copy( $request );
 
@@ -443,7 +443,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_403,
-                '/foo'
+                '/resource'
             ),
             'Expected response does not match real response.',
             0,
@@ -455,7 +455,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavCopyRequest( '/bar', '/foo' );
+        $request = new ezcWebdavCopyRequest( '/collection', '/new_collection' );
         $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
         $request->validateHeaders();
         $response = $backend->copy( $request );
@@ -470,22 +470,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
-        $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/bar',
-                    '/foo',
-                ),
-                '/bar' => array(
-                    '/bar/_1',
-                    '/bar/_2',
-                ),
-                '/bar/_1' => 'contents',
-                '/bar/_2' => 'contents',
-                '/foo' => array(),
-            )
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/new_collection' ),
+            'Expected created collection.'
         );
     }
 
@@ -493,7 +480,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavCopyRequest( '/bar', '/foo' );
+        $request = new ezcWebdavCopyRequest( '/collection', '/new_collection' );
         $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
         $request->validateHeaders();
         $response = $backend->copy( $request );
@@ -508,27 +495,19 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
-        $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/bar',
-                    '/foo',
-                ),
-                '/bar' => array(
-                    '/bar/_1',
-                    '/bar/_2',
-                ),
-                '/bar/_1' => 'contents',
-                '/bar/_2' => 'contents',
-                '/foo' => array(
-                    '/foo/_1',
-                    '/foo/_2',
-                ),
-                '/foo/_1' => 'contents',
-                '/foo/_2' => 'contents',
-            )
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/new_collection' ),
+            'Expected created collection.'
+        );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/new_collection/test.txt' ),
+            'Expected created file in collection.'
+        );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/new_collection/.svn/text-base/test.txt.svn-base' ),
+            'Expected created deep file in collection.'
         );
     }
 
@@ -536,7 +515,10 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavCopyRequest( '/bar', '/foo' );
+        // Cause error by making file not readable
+        chmod ( $this->tempDir . 'backend/collection/test.txt', 0 );
+
+        $request = new ezcWebdavCopyRequest( '/collection', '/new_collection' );
         $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
         $request->validateHeaders();
         $response = $backend->copy( $request );
@@ -546,11 +528,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             new ezcWebdavMultistatusResponse(
                 new ezcWebdavErrorResponse(
                     ezcWebdavResponse::STATUS_423,
-                    '/bar/_2'
-                ),
-                new ezcWebdavErrorResponse(
-                    ezcWebdavResponse::STATUS_423,
-                    '/bar/_4'
+                    '/collection/test.txt'
                 )
             ),
             'Expected response does not match real response.',
@@ -558,43 +536,29 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
-        $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/bar',
-                    '/foo',
-                ),
-                '/bar' => array(
-                    '/bar/_1',
-                    '/bar/_2',
-                    '/bar/_3',
-                    '/bar/_4',
-                    '/bar/_5',
-                ),
-                '/bar/_1' => 'contents',
-                '/bar/_2' => 'contents',
-                '/bar/_3' => 'contents',
-                '/bar/_4' => 'contents',
-                '/bar/_5' => 'contents',
-                '/foo' => array(
-                    '/foo/_1',
-                    '/foo/_3',
-                    '/foo/_5',
-                ),
-                '/foo/_1' => 'contents',
-                '/foo/_3' => 'contents',
-                '/foo/_5' => 'contents',
-            )
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/new_collection' ),
+            'Expected created collection.'
         );
+
+        $this->assertFalse(
+            is_file( $this->tempDir . 'backend/new_collection/test.txt' ),
+            'Expected file in collection not to be created.'
+        );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/new_collection/.svn/text-base/test.txt.svn-base' ),
+            'Expected created deep file in collection.'
+        );
+
+        chmod ( $this->tempDir . 'backend/collection/test.txt', 0777 );
     }
 
     public function testResourceMove()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMoveRequest( '/foo', '/dest' );
+        $request = new ezcWebdavMoveRequest( '/resource', '/dest' );
         $request->validateHeaders();
         $response = $backend->move( $request );
 
@@ -633,7 +597,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMoveRequest( '/foo', '/dest' );
+        $request = new ezcWebdavMoveRequest( '/resource', '/dest' );
         $request->setHeader( 'Overwrite', 'F' );
         $request->validateHeaders();
         $response = $backend->move( $request );
@@ -653,7 +617,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMoveRequest( '/foo', '/bar' );
+        $request = new ezcWebdavMoveRequest( '/resource', '/collection/test.txt' );
         $request->validateHeaders();
         $response = $backend->move( $request );
 
@@ -672,7 +636,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMoveRequest( '/foo', '/bar' );
+        $request = new ezcWebdavMoveRequest( '/resource', '/collection/test.txt' );
         $request->setHeader( 'Overwrite', 'F' );
         $request->validateHeaders();
         $response = $backend->move( $request );
@@ -681,7 +645,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_412,
-                '/bar'
+                '/collection/test.txt'
             ),
             'Expected response does not match real response.',
             0,
@@ -693,7 +657,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMoveRequest( '/foo', '/dum/di' );
+        $request = new ezcWebdavMoveRequest( '/resource', '/dum/di' );
         $request->validateHeaders();
         $response = $backend->move( $request );
 
@@ -713,7 +677,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMoveRequest( '/foo', '/foo' );
+        $request = new ezcWebdavMoveRequest( '/resource', '/resource' );
         $request->validateHeaders();
         $response = $backend->move( $request );
 
@@ -721,7 +685,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_403,
-                '/foo'
+                '/resource'
             ),
             'Expected response does not match real response.',
             0,
@@ -733,7 +697,12 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMoveRequest( '/bar', '/foo' );
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/collection' ),
+            'Expected existing collection before request.'
+        );
+
+        $request = new ezcWebdavMoveRequest( '/collection', '/new_collection' );
         $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
         $request->validateHeaders();
         $response = $backend->move( $request );
@@ -748,20 +717,24 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
-        $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/foo',
-                ),
-                '/foo' => array(
-                    '/foo/_1',
-                    '/foo/_2',
-                ),
-                '/foo/_1' => 'contents',
-                '/foo/_2' => 'contents',
-            )
+        $this->assertFalse(
+            is_dir( $this->tempDir . 'backend/collection' ),
+            'Expected removed collection.'
+        );
+
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/new_collection' ),
+            'Expected created collection.'
+        );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/new_collection/test.txt' ),
+            'Expected created file in collection.'
+        );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/new_collection/.svn/text-base/test.txt.svn-base' ),
+            'Expected created deep file in collection.'
         );
     }
 
@@ -769,7 +742,15 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMoveRequest( '/bar', '/foo' );
+        // Cause error by making file not readable
+        chmod ( $this->tempDir . 'backend/collection/test.txt', 0 );
+
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/collection' ),
+            'Expected existing collection before request.'
+        );
+
+        $request = new ezcWebdavMoveRequest( '/collection', '/new_collection' );
         $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
         $request->validateHeaders();
         $response = $backend->move( $request );
@@ -779,11 +760,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             new ezcWebdavMultistatusResponse(
                 new ezcWebdavErrorResponse(
                     ezcWebdavResponse::STATUS_423,
-                    '/bar/_2'
-                ),
-                new ezcWebdavErrorResponse(
-                    ezcWebdavResponse::STATUS_423,
-                    '/bar/_4'
+                    '/collection/test.txt'
                 )
             ),
             'Expected response does not match real response.',
@@ -791,68 +768,55 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
-        $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/bar',
-                    '/foo',
-                ),
-                '/bar' => array(
-                    '/bar/_1',
-                    '/bar/_2',
-                    '/bar/_3',
-                    '/bar/_4',
-                    '/bar/_5',
-                ),
-                '/bar/_1' => 'contents',
-                '/bar/_2' => 'contents',
-                '/bar/_3' => 'contents',
-                '/bar/_4' => 'contents',
-                '/bar/_5' => 'contents',
-                '/foo' => array(
-                    '/foo/_1',
-                    '/foo/_3',
-                    '/foo/_5',
-                ),
-                '/foo/_1' => 'contents',
-                '/foo/_3' => 'contents',
-                '/foo/_5' => 'contents',
-            )
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/collection' ),
+            'Expected collection not to be removed.'
         );
+
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/new_collection' ),
+            'Expected created collection.'
+        );
+
+        $this->assertFalse(
+            is_file( $this->tempDir . 'backend/new_collection/test.txt' ),
+            'Expected file in collection not to be created.'
+        );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/new_collection/.svn/text-base/test.txt.svn-base' ),
+            'Expected created deep file in collection.'
+        );
+
+        chmod ( $this->tempDir . 'backend/collection/test.txt', 0777 );
     }
 
     public function testResourceDelete()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavDeleteRequest( '/foo' );
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/resource' ),
+            'Expected existing file.'
+        );
+
+        $request = new ezcWebdavDeleteRequest( '/resource' );
         $request->validateHeaders();
         $response = $backend->delete( $request );
 
         $this->assertEquals(
             $response,
             new ezcWebdavDeleteResponse(
-                '/foo'
+                '/resource'
             ),
             'Expected response does not match real response.',
             0,
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
-        $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/bar',
-                ),
-                '/bar' => array(
-                    '/bar/blubb',
-                ),
-                '/bar/blubb' => 'Somme blubb blubbs.',
-            )
+        $this->assertFalse(
+            is_file( $this->tempDir . 'backend/resource' ),
+            'Expected file to be removed.'
         );
     }
 
@@ -860,29 +824,28 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavDeleteRequest( '/bar' );
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/collection' ),
+            'Expected existing directory.'
+        );
+
+        $request = new ezcWebdavDeleteRequest( '/collection' );
         $request->validateHeaders();
         $response = $backend->delete( $request );
 
         $this->assertEquals(
             $response,
             new ezcWebdavDeleteResponse(
-                '/bar'
+                '/collection'
             ),
             'Expected response does not match real response.',
             0,
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
-        $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/foo',
-                ),
-                '/foo' => 'bar',
-            )
+        $this->assertFalse(
+            is_dir( $this->tempDir . 'backend/collection' ),
+            'Expected directory to be removed.'
         );
     }
 
@@ -910,7 +873,14 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavDeleteRequest( '/foo' );
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/resource' ),
+            'Expected existing file.'
+        );
+
+        chmod ( $this->tempDir . 'backend/collection/test.txt', 0 );
+
+        $request = new ezcWebdavDeleteRequest( '/resource' );
         $request->validateHeaders();
         $response = $backend->delete( $request );
 
@@ -925,28 +895,19 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
-        $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/foo',
-                    '/bar',
-                ),
-                '/foo' => 'bar',
-                '/bar' => array(
-                    '/bar/blubb',
-                ),
-                '/bar/blubb' => 'Somme blubb blubbs.',
-            )
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/resource' ),
+            'Expected still existing file.'
         );
+
+        chmod ( $this->tempDir . 'backend/collection/test.txt', 0777 );
     }
 
     public function testMakeCollectionOnExistingCollection()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMakeCollectionRequest( '/bar' );
+        $request = new ezcWebdavMakeCollectionRequest( '/collection' );
         $request->validateHeaders();
         $response = $backend->makeCollection( $request );
 
@@ -954,7 +915,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_405,
-                '/bar'
+                '/collection'
             ),
             'Expected response does not match real response.',
             0,
@@ -966,7 +927,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMakeCollectionRequest( '/foo' );
+        $request = new ezcWebdavMakeCollectionRequest( '/resource' );
         $request->validateHeaders();
         $response = $backend->makeCollection( $request );
 
@@ -974,7 +935,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_405,
-                '/foo'
+                '/resource'
             ),
             'Expected response does not match real response.',
             0,
@@ -1006,7 +967,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMakeCollectionRequest( '/foo/bar' );
+        $request = new ezcWebdavMakeCollectionRequest( '/resource/collection' );
         $request->validateHeaders();
         $response = $backend->makeCollection( $request );
 
@@ -1014,7 +975,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_403,
-                '/foo/bar'
+                '/resource/collection'
             ),
             'Expected response does not match real response.',
             0,
@@ -1026,7 +987,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMakeCollectionRequest( '/bar/foo', 'with request body' );
+        $request = new ezcWebdavMakeCollectionRequest( '/collection/new_collection', 'with request body' );
         $request->validateHeaders();
         $response = $backend->makeCollection( $request );
 
@@ -1034,7 +995,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_415,
-                '/bar/foo'
+                '/collection/new_collection'
             ),
             'Expected response does not match real response.',
             0,
@@ -1046,7 +1007,12 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavMakeCollectionRequest( '/bar/foo' );
+        $this->assertFalse(
+            is_dir( $this->tempDir . 'backend/collection/new_collection' ),
+            'Expected collection not existing yet.'
+        );
+
+        $request = new ezcWebdavMakeCollectionRequest( '/collection/new_collection' );
         $request->validateHeaders();
         $response = $backend->makeCollection( $request );
 
@@ -1060,22 +1026,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
-        $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/foo',
-                    '/bar',
-                ),
-                '/foo' => 'bar',
-                '/bar' => array(
-                    '/bar/blubb',
-                    '/bar/foo',
-                ),
-                '/bar/blubb' => 'Somme blubb blubbs.',
-                '/bar/foo' => array(),
-            )
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/collection/new_collection' ),
+            'Expected created collection.'
         );
     }
 
@@ -1083,7 +1036,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPutRequest( '/bar', 'some content' );
+        $request = new ezcWebdavPutRequest( '/collection', 'some content' );
         $request->validateHeaders();
         $response = $backend->put( $request );
 
@@ -1091,7 +1044,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
-                '/bar'
+                '/collection'
             ),
             'Expected response does not match real response.',
             0,
@@ -1123,7 +1076,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPutRequest( '/foo/bar', 'some content' );
+        $request = new ezcWebdavPutRequest( '/resource/new_resource', 'some content' );
         $request->validateHeaders();
         $response = $backend->put( $request );
 
@@ -1131,7 +1084,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
-                '/foo/bar'
+                '/resource/new_resource'
             ),
             'Expected response does not match real response.',
             0,
@@ -1143,36 +1096,33 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPutRequest( '/bar/foo', 'some content' );
+        $this->assertFalse(
+            is_file( $this->tempDir . 'backend/collection/new_resource' ),
+            'Expected resource not existing yet.'
+        );
+
+        $request = new ezcWebdavPutRequest( '/collection/new_resource', 'some content' );
         $request->validateHeaders();
         $response = $backend->put( $request );
 
         $this->assertEquals(
             $response,
             new ezcWebdavPutResponse(
-                '/bar/foo'
+                '/collection/new_resource'
             ),
             'Expected response does not match real response.',
             0,
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/collection/new_resource' ),
+            'Expected created resource.'
+        );
+
         $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/foo',
-                    '/bar',
-                ),
-                '/foo' => 'bar',
-                '/bar' => array(
-                    '/bar/blubb',
-                    '/bar/foo',
-                ),
-                '/bar/blubb' => 'Somme blubb blubbs.',
-                '/bar/foo' => 'some content',
-            )
+            'some content',
+            file_get_contents( $this->tempDir . 'backend/collection/new_resource' )
         );
     }
 
@@ -1180,37 +1130,41 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPutRequest( '/foo', 'some content' );
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/resource' ),
+            'Expected created resource.'
+        );
+
+        $this->assertEquals(
+            "Some webdav contents.\n",
+            file_get_contents( $this->tempDir . 'backend/resource' )
+        );
+
+        $request = new ezcWebdavPutRequest( '/resource', 'some content' );
         $request->validateHeaders();
         $response = $backend->put( $request );
 
         $this->assertEquals(
             $response,
             new ezcWebdavPutResponse(
-                '/foo'
+                '/resource'
             ),
             'Expected response does not match real response.',
             0,
             20
         );
 
-        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/resource' ),
+            'Expected created resource.'
+        );
+
         $this->assertEquals(
-            $content,
-            array(
-                '/' => array(
-                    '/foo',
-                    '/bar',
-                ),
-                '/foo' => 'some content',
-                '/bar' => array(
-                    '/bar/blubb',
-                ),
-                '/bar/blubb' => 'Somme blubb blubbs.',
-            )
+            'some content',
+            file_get_contents( $this->tempDir . 'backend/resource' )
         );
     }
-
+/*
     public function testPropFindOnResource()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -2289,6 +2243,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
+    // */
 }
 
 ?>

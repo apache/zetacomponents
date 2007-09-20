@@ -227,6 +227,17 @@ class ezcWebdavFileBackend
     }
 
     /**
+     * Get contents of a resource.
+     * 
+     * @param string $path 
+     * @return string
+     */
+    protected function getResourceContents( $path )
+    {
+        return file_get_contents( $this->root . $path );
+    }
+
+    /**
      * Get the storage path for a property.
      *
      * Get the storage path for a resources property. This depends on the name
@@ -385,6 +396,8 @@ class ezcWebdavFileBackend
                 );
             }
         }
+
+        return $storage;
     }
 
     /**
@@ -450,7 +463,7 @@ class ezcWebdavFileBackend
 
             $errors = array_merge(
                 $errors,
-                self::copyRecursive( 
+                $this->copyRecursive( 
                     $source . '/' . $file, 
                     $destination . '/' . $file,
                     $depth - 1
@@ -479,14 +492,14 @@ class ezcWebdavFileBackend
      */
     protected function performCopy( $fromPath, $toPath, $depth = ezcWebdavRequest::DEPTH_INFINITY )
     {
-        $errors = $this->copyRecursive( $fromPath, $toPath, $depth );
+        $errors = $this->copyRecursive( $this->root . $fromPath, $this->root . $toPath, $depth );
 
         // Transform errors
         foreach ( $errors as $nr => $error )
         {
             $errors[$nr] = new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_423,
-                $fromPath
+                str_replace( $this->root, '', $error )
             );
         }
 
@@ -508,7 +521,17 @@ class ezcWebdavFileBackend
     protected function performDelete( $path )
     {
         // @TODO: Handle errors
-        ezcBaseFile::removeRecursive( $this->root . $path );
+        //
+        if ( is_file( $this->root . $path ) )
+        {
+            unlink( $this->root . $path );
+        }
+        else
+        {
+            ezcBaseFile::removeRecursive( $this->root . $path );
+        }
+
+        return true;
     }
 
     /**
@@ -552,7 +575,7 @@ class ezcWebdavFileBackend
     protected function getCollectionMembers( $path )
     {
         $contents = array();
-        $dh = opendir( $source );
+        $dh = opendir( $this->root . $path );
         $errors = array();
         while( $file = readdir( $dh ) )
         {
@@ -565,7 +588,7 @@ class ezcWebdavFileBackend
                 continue;
             }
 
-            $file = $path . $file;
+            $file = $path . '/' . $file;
             if ( is_dir( $this->root . $file ) )
             {
                 // Add collection without any childs
