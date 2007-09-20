@@ -18,7 +18,8 @@
  * that every reinitialisations gives you a fresh backend.
  *
  * <code>
- *  $backend = new ezcWebdavMemoryBackend( 
+ *  $backend = new ezcWebdavMemoryBackend();
+ *  $backend->addContents(
  *      array(
  *          'foo' => 'bar', // File with content "bar"
  *          'bar' => array( // Collection "bar"
