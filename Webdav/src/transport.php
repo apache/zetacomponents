@@ -186,6 +186,9 @@ class ezcWebdavTransport
                     // No default. Header stays as is, if not matched
                 }
                 break;
+            case 'Destination':
+                $value = $this->options->pathFactory->parseUriToPath( $value );
+                break;
             default:
                 // @TODO Add extensiability hook
         }
