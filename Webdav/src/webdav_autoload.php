@@ -82,7 +82,7 @@ return array(
     'ezcWebdavSourcePropertyLink'              => 'Webdav/properties/source_link.php',
     'ezcWebdavSupportedLockProperty'           => 'Webdav/properties/supportedlock.php',
     'ezcWebdavTransport'                       => 'Webdav/transport.php',
-    'ezcWebdavTransportOptions'                => 'Webdav/options/server.php',
+    'ezcWebdavTransportOptions'                => 'Webdav/options/transport.php',
     'ezcWebdavUnlockRequest'                   => 'Webdav/request/unlock.php',
 );
 ?>

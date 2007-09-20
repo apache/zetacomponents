@@ -21,7 +21,8 @@ require_once 'client_test.php';
  * Require test suites.
  */
 require_once 'backend_memory_test.php';
-require_once 'path_factory_test.php';
+
+require_once 'path_factory_automatic_test.php';
 
 require_once 'property_storage_test.php';
 require_once 'property_storage_flagged_test.php';
@@ -56,7 +57,7 @@ require_once 'response_get_test.php';
 require_once 'response_options_test.php';
 require_once 'response_test.php';
 
-require_once 'server_options_test.php';
+require_once 'transport_options_test.php';
 require_once 'server_test.php';
 
 require_once 'client_test_rfc.php';
