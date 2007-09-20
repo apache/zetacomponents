@@ -62,6 +62,14 @@ abstract class ezcWebdavSimpleBackend
     abstract protected function setResourceContents( $path, $content );
 
     /**
+     * Get contents of a resource.
+     * 
+     * @param string $path 
+     * @return string
+     */
+    abstract protected function getResourceContents( $path );
+
+    /**
      * Manually set a property on a resource to request it later.
      * 
      * @param string $resource 
@@ -214,8 +222,8 @@ abstract class ezcWebdavSimpleBackend
             return new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
                     $source,
-                    $this->props[$source],
-                    $this->content[$source]
+                    $this->getAllProperties( $source ),
+                    $this->getResourceContents( $source )
                 )
             );
         }
@@ -224,7 +232,7 @@ abstract class ezcWebdavSimpleBackend
         return new ezcWebdavGetCollectionResponse(
             new ezcWebdavCollection(
                 $source,
-                $this->props[$source],
+                $this->getAllProperties( $source ),
                 $this->getCollectionMembers( $source )
             )
         );
@@ -260,7 +268,7 @@ abstract class ezcWebdavSimpleBackend
             return new ezcWebdavHeadResponse(
                 new ezcWebdavResource(
                     $source,
-                    $this->props[$source]
+                    $this->getAllProperties( $source )
                 )
             );
         }
@@ -270,7 +278,7 @@ abstract class ezcWebdavSimpleBackend
             return new ezcWebdavHeadResponse(
                 new ezcWebdavCollection(
                     $source,
-                    $this->props[$source]
+                    $this->getAllProperties( $source )
                 )
             );
         }

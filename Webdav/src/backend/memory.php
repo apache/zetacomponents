@@ -310,6 +310,17 @@ class ezcWebdavMemoryBackend
     }
 
     /**
+     * Get contents of a resource.
+     * 
+     * @param string $path 
+     * @return string
+     */
+    protected function getResourceContents( $path )
+    {
+        return $this->content[$path];
+    }
+
+    /**
      * Manually set a property on a resource to request it later.
      * 
      * @param string $resource 
