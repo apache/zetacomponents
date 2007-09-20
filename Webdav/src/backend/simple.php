@@ -587,6 +587,10 @@ abstract class ezcWebdavSimpleBackend
                     if ( !$this->setProperty( $source, $property ) )
                     {
                         // If update failed, we assume the access has been denied.
+                        //
+                        // @TODO: This assumptions is not particular correct.
+                        // In case of live properties, which were tried to
+                        // update a 409 error would be correct.
                         $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
                         $errnous = true;
                     }
@@ -727,6 +731,9 @@ abstract class ezcWebdavSimpleBackend
 
         // If deletion failed, this has again been caused by the automatic
         // error causing facilities of the backend. Send 423 by choice.
+        //
+        // @TODO: The error generated here should depend on the actual backend
+        // implementation and  not be generated guessing what may fit.
         if ( $deletion !== true )
         {
             return new ezcWebdavErrorResponse(
@@ -919,6 +926,9 @@ abstract class ezcWebdavSimpleBackend
 
         // If deletion failed, this has again been caused by the automatic
         // error causing facilities of the backend. Send 423 by choice.
+        //
+        // @TODO: The error generated here should depend on the actual backend
+        // implementation and  not be generated guessing what may fit.
         if ( $deletion !== true )
         {
             return new ezcWebdavErrorResponse(
