@@ -720,8 +720,73 @@ class ezcWebdavTransport
      */
     protected function extractActiveLockContent( DOMElement $domElement )
     {
-        // @TODO Implement
-        return null;
+        $activeLock = new ezcWebdavLockDiscoveryPropertyActiveLock();
+
+        $activelockElement = $domElement->getElementsByTagNameNS( 'DAV:', 'activelock' )->item( 0 );
+        for ( $i = 0; $i < $activelockElement->childNodes->length; ++$i )
+        {
+            if ( ( ( $currentElement = $activelockElement->childNodes->item( $i ) ) instanceof DOMElement ) === false )
+            {
+                // Skip non element children
+                continue;
+            }
+            switch ( $currentElement->localName )
+            {
+                case 'locktype':
+                    if ( $currentElement->hasChildren && $currentElement->firstChild->localName !== 'write' )
+                    {
+                        $activelock->lockType = ezcWebdavLockRequest::TYPE_READ;
+                    }
+                    else
+                    {
+                        $activelock->lockType = ezcWebdavLockRequest::TYPE_WRITE;
+                    }
+                    break;
+                case 'lockscope':
+                    if ( $currentElement->hasChildren )
+                    {
+                        switch ( $currentElement->firstChild->localName )
+                        {
+                            case 'exclusive':
+                                $activelock->lockScope = ezcWebdavLockRequest::SCOPE_EXCLUSIVE;
+                                break;
+                            case 'shared':
+                                $activelock->lockScope = ezcWebdavLockRequest::SCOPE_SHARED;
+                                break;
+                        }
+                    }
+                    break;
+                case 'depth':
+                    switch ( trim( $currentElement->nodeValue ) )
+                    {
+                        case '0':
+                            $activelock->depth = ezcWebdavRequest::DEPTH_ZERO;
+                            break;
+                        case '1':
+                            $activelock->depth = ezcWebdavRequest::DEPTH_ONE;
+                            break;
+                        case 'infinity':
+                            $activelock->depth = ezcWebdavRequest::DEPTH_INFINITY;
+                            break;
+                    }
+                    break;
+                case 'owner':
+                    // Ignore <href /> element by intention!
+                    $activelock->owner = $currentElement->textContent;
+                    break;
+                case 'timeout':
+                    // @TODO Need to check for special values here!
+                    $activelock->timeout = new DateTime( $currentElement->nodeValue );
+                    break;
+                case 'locktoken':
+                    for ( $i = 0; $i < $currentElement->childNodes->length; ++$i )
+                    {
+                        $activelock->tokens[] = trim( $currentElement->childNodes->item( $i )->textContent );
+                    }
+                    break;
+            }
+        }
+        return $activelock;
     }
 
     /**
