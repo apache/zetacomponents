@@ -146,6 +146,7 @@ class ezcWebdavFileBackend
         // exists, which we need to silence using the @
         while ( ( $fp = @fopen( $lockFileName, 'x' ) ) === false )
         {
+            echo ' - ';
             usleep( $sleeptime );
         }
 
@@ -412,7 +413,7 @@ class ezcWebdavFileBackend
             foreach ( glob( $dir . '/*.xml' ) as $file )
             {
                 $storage->attach( 
-                    unserialize( file_get_contents( $storage ) )
+                    unserialize( file_get_contents( $file ) )
                 );
             }
         }
@@ -646,8 +647,10 @@ class ezcWebdavFileBackend
     public function get( ezcWebdavGetRequest $request )
     {
         $this->acquireLock( true );
-        return parent::get( $request );
+        $return = parent::get( $request );
         $this->freeLock();
+
+        return $return;
     }
 
     /**
@@ -664,8 +667,10 @@ class ezcWebdavFileBackend
     public function head( ezcWebdavHeadRequest $request )
     {
         $this->acquireLock( true );
-        return parent::head( $request );
+        $return = parent::head( $request );
         $this->freeLock();
+
+        return $return;
     }
 
     /**
@@ -685,8 +690,10 @@ class ezcWebdavFileBackend
     public function propFind( ezcWebdavPropFindRequest $request )
     {
         $this->acquireLock( true );
-        return parent::propFind( $request );
+        $return = parent::propFind( $request );
         $this->freeLock();
+
+        return $return;
     }
 
     /**
@@ -703,8 +710,10 @@ class ezcWebdavFileBackend
     public function propPatch( ezcWebdavPropPatchRequest $request )
     {
         $this->acquireLock();
-        return parent::propPatch( $request );
+        $return = parent::propPatch( $request );
         $this->freeLock();
+
+        return $return;
     }
 
     /**
@@ -721,8 +730,10 @@ class ezcWebdavFileBackend
     public function put( ezcWebdavPutRequest $request )
     {
         $this->acquireLock();
-        return parent::put( $request );
+        $return = parent::put( $request );
         $this->freeLock();
+
+        return $return;
     }
 
     /**
@@ -739,8 +750,10 @@ class ezcWebdavFileBackend
     public function delete( ezcWebdavDeleteRequest $request )
     {
         $this->acquireLock();
-        return parent::delete( $request );
+        $return = parent::delete( $request );
         $this->freeLock();
+
+        return $return;
     }
 
     /**
@@ -757,8 +770,10 @@ class ezcWebdavFileBackend
     public function copy( ezcWebdavCopyRequest $request )
     {
         $this->acquireLock();
-        return parent::copy( $request );
+        $return = parent::copy( $request );
         $this->freeLock();
+
+        return $return;
     }
 
     /**
@@ -775,8 +790,10 @@ class ezcWebdavFileBackend
     public function move( ezcWebdavMoveRequest $request )
     {
         $this->acquireLock();
-        return parent::move( $request );
+        $return = parent::move( $request );
         $this->freeLock();
+
+        return $return;
     }
 
     /**
@@ -793,8 +810,10 @@ class ezcWebdavFileBackend
     public function makeCollection( ezcWebdavMakeCollectionRequest $request )
     {
         $this->acquireLock();
-        return parent::makeCollection( $request );
+        $return = parent::makeCollection( $request );
         $this->freeLock();
+
+        return $return;
     }
 }
 
