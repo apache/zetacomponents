@@ -23,7 +23,6 @@
  */
 abstract class ezcWebdavResponse
 {
-
     /**
      * Response status codes
      */
@@ -288,6 +287,16 @@ abstract class ezcWebdavResponse
     public function __isset( $propertyName )
     {
         return array_key_exists( $propertyName, $this->properties );
+    }
+
+    /**
+     * Return valid HTTP response string from error code.
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'HTTP/1.1 ' . $this->status . ' ' . self::$errorNames[$this->status];
     }
 }
 

@@ -70,16 +70,6 @@ class ezcWebdavErrorResponse extends ezcWebdavResponse
                 parent::__set( $propertyName, $propertyValue );
         }
     }
-
-    /**
-     * Return valid HTTP response string from error code.
-     * 
-     * @return string
-     */
-    public function __toString()
-    {
-        return 'HTTP/1.1 ' . $this->status . ' ' . self::$errorNames[$this->status];
-    }
 }
 
 ?>
