@@ -123,7 +123,8 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavHeadResponse(
                 new ezcWebdavResource(
-                    '/resource', new ezcWebdavPropertyStorage()
+                    '/resource', 
+                    $backend->getAllProperties( '/resource' )
                 )
             ),
             'Expected response does not match real response.',
@@ -144,7 +145,8 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavHeadResponse(
                 new ezcWebdavCollection(
-                    '/collection', new ezcWebdavPropertyStorage()
+                    '/collection',
+                    $backend->getAllProperties( '/collection' )
                 )
             ),
             'Expected response does not match real response.',
@@ -185,7 +187,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
-                    '/resource', new ezcWebdavPropertyStorage(), "Some webdav contents.\n"
+                    '/resource', 
+                    $backend->getAllProperties( '/resource' ),
+                    "Some webdav contents.\n"
                 )
             ),
             'Expected response does not match real response.',
@@ -233,7 +237,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
         );
         $propertyStorage->attach(
-            new ezcWebdavGetEtagProperty( md5( '/foo' ) )
+            new ezcWebdavGetEtagProperty( md5( '/resource' ) )
         );
         $propertyStorage->attach(
             new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
@@ -242,7 +246,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetContentLengthProperty( '3' )
         );
 
-        $request = new ezcWebdavGetRequest( '/foo' );
+        $request = new ezcWebdavGetRequest( '/resource' );
         $request->validateHeaders();
         $response = $backend->get( $request );
 
@@ -250,7 +254,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
-                    '/foo', 
+                    '/resource', 
                     $propertyStorage,
                     'bar'
                 )
@@ -273,7 +277,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavGetCollectionResponse(
                 new ezcWebdavCollection(
-                    '/collection', new ezcWebdavPropertyStorage(), array(
+                    '/collection',
+                    $backend->getAllProperties( '/collection' ),
+                    array(
                         new ezcWebdavCollection(
                             '/collection/.svn'
                         ),
@@ -302,7 +308,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
                     '/collection/.svn/text-base/test.txt.svn-base', 
-                    new ezcWebdavPropertyStorage(), 
+                    $backend->getAllProperties( '/collection/.svn/text-base/test.txt.svn-base' ),
                     "Some other contents...\n"
                 )
             ),
@@ -888,7 +894,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_423,
-                '/foo'
+                '/resource'
             ),
             'Expected response does not match real response.',
             0,
@@ -1164,7 +1170,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             file_get_contents( $this->tempDir . 'backend/resource' )
         );
     }
-/*
+
     public function testPropFindOnResource()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1180,7 +1186,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $prop3 = new ezcWebdavDeadProperty( 'http://apache.org/dav/props/', 'executable' )
         );
 
-        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request = new ezcWebdavPropFindRequest( '/resource' );
         $request->prop = $requestedProperties;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
@@ -1196,7 +1202,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $prop200
@@ -1233,7 +1239,8 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $prop3 = new ezcWebdavDeadProperty( 'http://apache.org/dav/props/', 'executable' )
         );
 
-        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request = new ezcWebdavPropFindRequest( '/collection' );
+        $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ONE );
         $request->prop = $requestedProperties;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
@@ -1254,7 +1261,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavCollection( '/bar' ),
+                new ezcWebdavCollection( '/collection' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $prop200c
@@ -1266,7 +1273,19 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
                 )
             ),
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/bar/blubb' ),
+                new ezcWebdavCollection( '/collection/.svn' ),
+                array(
+                    new ezcWebdavPropStatResponse(
+                        $prop200c
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $prop404c,
+                        ezcWebdavResponse::STATUS_404
+                    ),
+                )
+            ),
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/collection/test.txt' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $prop200r
@@ -1292,97 +1311,23 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request = new ezcWebdavPropFindRequest( '/resource' );
         $request->propName = true;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
         $propertyStorage = new ezcWebdavPropertyStorage();
         $propertyStorage->attach(
-            new ezcWebdavCreationDateProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavDisplayNameProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLanguageProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentTypeProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetEtagProperty()
+            new ezcWebdavGetContentLengthProperty()
         );
         $propertyStorage->attach(
             new ezcWebdavGetLastModifiedProperty()
         );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLengthProperty()
-        );
+        // @TODO: Add other live properties...
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/foo' ),
-                array(
-                    new ezcWebdavPropStatResponse(
-                        $propertyStorage
-                    ),
-                )
-            )
-        );
-
-        $this->assertEquals(
-            $expectedResponse,
-            $response,
-            'Expected response does not match real response.',
-            0,
-            20
-        );
-    }
-
-    public function testPropFindNamesOnCollection()
-    {
-        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
-
-        $request = new ezcWebdavPropFindRequest( '/bar' );
-        $request->propName = true;
-        $request->validateHeaders();
-        $response = $backend->propfind( $request );
-
-        $propertyStorage = new ezcWebdavPropertyStorage();
-        $propertyStorage->attach(
-            new ezcWebdavCreationDateProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavDisplayNameProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLanguageProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentTypeProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetEtagProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetLastModifiedProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLengthProperty()
-        );
-
-        $expectedResponse = new ezcWebdavMultistatusResponse(
-            new ezcWebdavPropFindResponse(
-                new ezcWebdavCollection( '/bar' ),
-                array(
-                    new ezcWebdavPropStatResponse(
-                        $propertyStorage
-                    ),
-                )
-            ),
-            new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/bar/blubb' ),
+                new ezcWebdavResource( '/resource' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $propertyStorage
@@ -1404,7 +1349,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request = new ezcWebdavPropFindRequest( '/collection' );
         $request->propName = true;
         $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
         $request->validateHeaders();
@@ -1412,30 +1357,16 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $propertyStorage = new ezcWebdavPropertyStorage();
         $propertyStorage->attach(
-            new ezcWebdavCreationDateProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavDisplayNameProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLanguageProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentTypeProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetEtagProperty()
+            new ezcWebdavGetContentLengthProperty()
         );
         $propertyStorage->attach(
             new ezcWebdavGetLastModifiedProperty()
         );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLengthProperty()
-        );
+        // @TODO: Add other live properties...
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavCollection( '/bar' ),
+                new ezcWebdavCollection( '/collection' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $propertyStorage
@@ -1457,7 +1388,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request = new ezcWebdavPropFindRequest( '/collection' );
         $request->propName = true;
         $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ONE );
         $request->validateHeaders();
@@ -1465,30 +1396,16 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $propertyStorage = new ezcWebdavPropertyStorage();
         $propertyStorage->attach(
-            new ezcWebdavCreationDateProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavDisplayNameProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLanguageProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentTypeProperty()
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetEtagProperty()
+            new ezcWebdavGetContentLengthProperty()
         );
         $propertyStorage->attach(
             new ezcWebdavGetLastModifiedProperty()
         );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLengthProperty()
-        );
+        // @TODO: Add other live properties...
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavCollection( '/bar' ),
+                new ezcWebdavCollection( '/collection' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $propertyStorage
@@ -1496,7 +1413,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
                 )
             ),
             new ezcWebdavPropFindResponse(
-                new ezcWebdavCollection( '/bar/blah' ),
+                new ezcWebdavCollection( '/collection/.svn' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $propertyStorage
@@ -1504,7 +1421,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
                 )
             ),
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/bar/blubb' ),
+                new ezcWebdavResource( '/collection/test.txt' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $propertyStorage
@@ -1521,12 +1438,12 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
-
+/*
     public function testPropFindNamesOnCollectionDepthInfinite()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request = new ezcWebdavPropFindRequest( '/collection' );
         $request->propName = true;
         $request->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
         $request->validateHeaders();
@@ -1557,7 +1474,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavCollection( '/bar' ),
+                new ezcWebdavCollection( '/collection' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $propertyStorage
@@ -1606,42 +1523,27 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
-
+*/
     public function testPropFindAllPropsOnResource()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request = new ezcWebdavPropFindRequest( '/resource' );
         $request->allProp = true;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
         $propertyStorage = new ezcWebdavPropertyStorage();
         $propertyStorage->attach(
-            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
-        );
-        $propertyStorage->attach(
-            new ezcWebdavDisplayNameProperty( 'foo' )
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
-        );
-        $propertyStorage->attach(
-            new ezcWebdavGetEtagProperty( md5( '/foo' ) )
+            new ezcWebdavGetContentLengthProperty( '22' )
         );
         $propertyStorage->attach(
             new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
         );
-        $propertyStorage->attach(
-            new ezcWebdavGetContentLengthProperty( '3' )
-        );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $propertyStorage
@@ -1658,12 +1560,12 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
-
+/*
     public function testPropFindAllPropsOnCollection()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavPropFindRequest( '/bar' );
+        $request = new ezcWebdavPropFindRequest( '/collection' );
         $request->allProp = true;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
@@ -1682,7 +1584,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
         );
         $propertyStorageC->attach(
-            new ezcWebdavGetEtagProperty( md5( '/bar' ) )
+            new ezcWebdavGetEtagProperty( md5( '/collection' ) )
         );
         $propertyStorageC->attach(
             new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
@@ -1716,7 +1618,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavCollection( '/bar' ),
+                new ezcWebdavCollection( '/collection' ),
                 array(
                     new ezcWebdavPropStatResponse(
                         $propertyStorageC
@@ -1758,14 +1660,14 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $addedProperties->attach( $p1 );
         $addedProperties->attach( $p2 );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $newProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/resource' )
             ),
             $response,
             'Expected response does not match real response.',
@@ -1773,7 +1675,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
 
-        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request = new ezcWebdavPropFindRequest( '/resource' );
         $request->prop = $newProperties;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
@@ -1781,7 +1683,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $addedProperties->rewind();
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 new ezcWebdavPropStatResponse(
                     $addedProperties
                 )
@@ -1818,7 +1720,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $addedProperties->attach( $p_blubb );
         $addedProperties->attach( $p_blah );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $newProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
@@ -1836,7 +1738,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 new ezcWebdavPropStatResponse(
                     $failed,
                     ezcWebdavResponse::STATUS_403
@@ -1853,7 +1755,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
 
         // Verfify that none of the properties has been added.
-        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request = new ezcWebdavPropFindRequest( '/resource' );
         $request->prop = $newProperties;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
@@ -1861,7 +1763,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $addedProperties->rewind();
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 new ezcWebdavPropStatResponse(
                     $addedProperties,
                     ezcWebdavResponse::STATUS_404
@@ -1891,14 +1793,14 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             'foo:', 'blubb', 'some other content'
         ), ezcWebdavPropPatchRequest::SET );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $newProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/resource' )
             ),
             $response,
             'Expected response does not match real response.',
@@ -1913,14 +1815,14 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $removedProperties = new ezcWebdavPropertyStorage();
         $removedProperties->attach( $p_blubb );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $removeProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/resource' )
             ),
             $response,
             'Expected response does not match real response.',
@@ -1933,7 +1835,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $leftProperties = new ezcWebdavPropertyStorage();
         $leftProperties->attach( $p_bar );
 
-        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request = new ezcWebdavPropFindRequest( '/resource' );
         $request->prop = $newProperties;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
@@ -1942,7 +1844,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $removedProperties->rewind();
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 new ezcWebdavPropStatResponse(
                     $leftProperties
                 ),
@@ -1975,14 +1877,14 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             'foo:', 'blubb', 'some other content'
         ), ezcWebdavPropPatchRequest::SET );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $newProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/resource' )
             ),
             $response,
             'Expected property adding PROPPATCH response does not match real response.',
@@ -2004,7 +1906,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             ezcWebdavPropPatchRequest::DELETE
         );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $removeProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
@@ -2020,7 +1922,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $depError->rewind();
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 new ezcWebdavPropStatResponse(
                     $failed,
                     ezcWebdavResponse::STATUS_403
@@ -2041,7 +1943,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $leftProperties = new ezcWebdavPropertyStorage();
         $leftProperties->attach( $p_bar );
 
-        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request = new ezcWebdavPropFindRequest( '/resource' );
         $request->prop = $removeProperties;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
@@ -2059,7 +1961,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 new ezcWebdavPropStatResponse(
                     $checkProperties
                 )
@@ -2088,14 +1990,14 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             'foo:', 'blubb', 'some other content'
         ), ezcWebdavPropPatchRequest::SET );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $newProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/resource' )
             ),
             $response,
             'Expected property adding PROPPATCH response does not match real response.',
@@ -2113,14 +2015,14 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
         $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::DELETE );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $updateProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/resource' )
             ),
             $response,
             'Expected property removing PROPPATCH response does not match real response.',
@@ -2133,7 +2035,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $leftProperties = new ezcWebdavPropertyStorage();
         $leftProperties->attach( $p_bar );
 
-        $request = new ezcWebdavPropFindRequest( '/foo' );
+        $request = new ezcWebdavPropFindRequest( '/resource' );
         $request->prop = $updateProperties;
         $request->validateHeaders();
         $response = $backend->propfind( $request );
@@ -2149,7 +2051,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 new ezcWebdavPropStatResponse(
                     $success
                 ),
@@ -2182,14 +2084,14 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             'foo:', 'blubb', 'some other content'
         ), ezcWebdavPropPatchRequest::SET );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $newProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/resource' )
             ),
             $response,
             'Expected property adding PROPPATCH response does not match real response.',
@@ -2211,7 +2113,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
         $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::DELETE );
 
-        $request = new ezcWebdavPropPatchRequest( '/foo' );
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
         $request->updates = $updateProperties;
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
@@ -2227,7 +2129,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $depError->rewind();
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavResource( '/resource' ),
                 new ezcWebdavPropStatResponse(
                     $failed,
                     ezcWebdavResponse::STATUS_403

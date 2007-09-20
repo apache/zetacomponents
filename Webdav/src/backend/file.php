@@ -276,13 +276,13 @@ class ezcWebdavFileBackend
         }
 
         // Check if sub path for namespace exists and create otherwise
-        if ( !is_dir( $storage . $property->namespace ) )
+        if ( !is_dir( $storage = $storage . base64_encode( $property->namespace ) ) )
         {
-            mkdir( $storage . $property->namespace, $this->options->directoryMode );
+            mkdir( $storage, $this->options->directoryMode );
         }
 
         // Return path to property.
-        return $storage . $property->namespace . '/' . $property->name . '.xml';
+        return $storage . '/' . $property->name . '.xml';
     }
 
     /**
@@ -366,9 +366,29 @@ class ezcWebdavFileBackend
     {
         $storage = $this->getPropertyStoragePath( $resource, new ezcWebdavDeadProperty( $namespace, $propertyName ) );
 
-        // @TODO: We should handle some (/most?) of the live properties
-        // differently.
-        return unserialize( file_get_contents( $storage ) );
+        // handle dead propreties
+        if ( $namespace !== 'DAV:' )
+        {
+            return unserialize( file_get_contents( $storage ) );
+        }
+
+        switch ( $propertyName )
+        {
+            case 'getcontentlength':
+                $property = new ezcWebdavGetContentLengthProperty();
+                $property->length = ( $this->isCollection( $resource ) ?
+                    ezcWebdavGetContentLengthProperty::COLLECTION :
+                    (string) filesize( $this->root . $resource ) );
+                return $property;
+
+            case 'getlastmodified':
+                $property = new ezcWebdavGetLastModifiedProperty();
+                $property->date = new DateTime( '@' . filemtime( $this->root . $resource ) );
+                return $property;
+
+            default:
+                throw new Exception( 'Start handling this one immediately!' );
+        }
     }
 
     /**
@@ -395,6 +415,13 @@ class ezcWebdavFileBackend
                     unserialize( file_get_contents( $storage ) )
                 );
             }
+        }
+
+        // Also attach generated live properties
+        $liveProperties = array( 'getcontentlength', 'getlastmodified' );
+        foreach( $liveProperties as $name )
+        {
+            $storage->attach( $this->getProperty( $resource, $name ) );
         }
 
         return $storage;
