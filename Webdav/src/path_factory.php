@@ -80,12 +80,12 @@ class ezcWebdavPathFactory
     public function generateUriFromPath( $path )
     {
         return $this->baseUriParts['scheme'] 
-             . '://' . $this->baseUriParts['host'] 
+             . '://' 
              . ( isset( $this->baseUriParts['user'] ) ? $this->baseUriParts['user'] : '' )
              . ( isset( $this->baseUriParts['pass'] ) ? ':' . $this->baseUriParts['pass'] : '' )
              . ( isset( $this->baseUriParts['user'] ) || isset( $this->baseUriParts['pass'] ) ? '@' : '' )
              . $this->baseUriParts['host']
-             . $this->baseUriParts['path']
+             . ( isset( $this->baseUriParts['path'] ) ? $this->baseUriParts['path'] : '' )
              . $path
              . ( isset( $this->baseUriParts['query'] ) ? '?' . $this->baseUriParts['query'] : '' )
              . ( isset( $this->baseUriParts['fragment'] ) ? '#' . $this->baseUriParts['fragment'] : '' );

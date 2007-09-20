@@ -227,6 +227,25 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 throw new PHPUnit_Framework_ExpectationFailedException( "Unable to dispatch request of class " . get_class( $requestObject ) );
         }
 
+        try
+        {
+            $this->transport->handleResponse( $responseObject );
+            $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
+            $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
+
+            libxml_use_internal_errors( true);
+
+            $this->assertXmlStringEqualsXmlString(
+                $response['body'],
+                $responseBody,
+                'Response body not generated correctly.'
+            );
+        }
+        catch ( RuntimeException $e )
+        {
+            return;
+        }
+
         $this->assertEquals(
             $response['code'],
             $responseObject->status,

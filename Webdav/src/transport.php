@@ -118,15 +118,18 @@ class ezcWebdavTransport
      * @param sting $xml 
      * @return DOMDocument|false
      */
-    protected function loadDom( $xml )
+    protected function getDom( $xml = null )
     {
-        $dom = new DOMDocument();
-        if ( $dom->loadXML(
-                $xml,
-                LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS
-             ) === false )
+        $dom = new DOMDocument( '1.0', 'utf-8' );
+        if ( $xml !== null )
         {
-            return false;
+            if ( $dom->loadXML(
+                    $xml,
+                    LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS
+                 ) === false )
+            {
+                return false;
+            }
         }
         return $dom;
     }
@@ -224,7 +227,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = $this->loadDom( $body ) ) === false )
+        if ( ( $dom = $this->getDom( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'COPY',
@@ -272,7 +275,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = $this->loadDom( $body ) ) === false )
+        if ( ( $dom = $this->getDom( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'MOVE',
@@ -375,7 +378,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = $this->loadDom( $body ) ) === false )
+        if ( ( $dom = $this->getDom( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'LOCK',
@@ -493,7 +496,7 @@ class ezcWebdavTransport
             )
         );
 
-        if ( ( $dom = $this->loadDom( $body ) ) === false )
+        if ( ( $dom = $this->getDom( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPFIND',
@@ -769,7 +772,7 @@ class ezcWebdavTransport
     {
         $request = new ezcWebdavPropPatchRequest( $path );
 
-        if ( ( $dom = $this->loadDom( $body ) ) === false )
+        if ( ( $dom = $this->getDom( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPPATCH',
@@ -819,8 +822,22 @@ class ezcWebdavTransport
      */
     public function handleResponse( ezcWebdavResponse $response )
     {
-        switch ( get_class( $response ) )
+        $this->sendResponse( $response, $this->processResponse( $response ) );
+    }
+
+    protected function processResponse( ezcWebdavResponse $response )
+    {
+        $dom = null;
+
+        switch ( ( $responseClass = get_class( $response ) ) )
         {
+            case 'ezcWebdavPropFindResponse':
+                $dom = $this->processPropFindResponse( $response );
+                break;
+            case 'ezcWebdavMultistatusResponse':
+                $dom = $this->processMultiStatusResponse( $response );
+                break;
+            
             case 'ezcWebdavCopyResponse':
             case 'ezcWebdavDeleteResponse':
             case 'ezcWebdavErrorResponse':
@@ -829,22 +846,272 @@ class ezcWebdavTransport
             case 'ezcWebdavHeadResponse':
             case 'ezcWebdavMakeCollectionResponse':
             case 'ezcWebdavMoveResponse':
-            case 'ezcWebdavMultiStatusResponse':
             case 'ezcWebdavOptionsResponse':
             case 'ezcWebdavPropPatchResponse':
             case 'ezcWebdavPutResponse':
+            default:
                 // @TODO: Implement!
-                throw new RuntimeException( 'Not implemented, yet.' );
+                throw new RuntimeException( "Serialization of class $responseClass not implemented, yet." );
             
-            case 'ezcWebdavPropFindResponse':
-                $this->handlePropFindResponse( $response );
-                break;
+        }
+
+        return $dom;
+    }
+
+    /**
+     * Finally send out the response.
+     * This method is called to finally send the response to the browser. It
+     * can be overwritten in test cases to change the behaviour of printing out
+     * the result and sending the headers.
+     * 
+     * @param ezcWebdavResponse $response 
+     * @param DOMDocument $dom 
+     * @return void
+     */
+    protected function sendResponse( ezcWebdavResponse $response, DOMDocument $dom = null )
+    {
+        header( (string) $response );
+        if ( $dom instanceof DOMDocument )
+        {
+            $dom->formatOutput = true;
+            echo $dom->saveXML( $dom );
         }
     }
 
-    protected function handlePropFindResponse( ezcWebdavPropFindResponse $response )
+    /**
+     * Returns an XML representation of the given response object.
+     *
+     * @param ezcWebdavMultiStatusResponse $response 
+     * @return DOMDocument
+     */
+    protected function processMultiStatusResponse( ezcWebdavMultiStatusResponse $response )
     {
-        $dom = new DOMDocument();
+        $dom = $this->getDom();
+
+        $multistatusElement = $dom->appendChild(
+            $dom->createElementNS(
+                'DAV:',
+                'D:multistatus'
+            )
+        );
+
+        foreach ( $response->responses as $subResponse )
+        {
+            $multistatusElement->appendChild(
+                $dom->importNode( $this->processResponse( $subResponse )->documentElement, true )
+            );
+        }
+        
+        return $dom;
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     *
+     * @param ezcWebdavPropFindResponse $response 
+     * @return DOMDocument
+     */
+    protected function processPropFindResponse( ezcWebdavPropFindResponse $response )
+    {
+        $dom = $this->getDom();
+
+        $responseElement = $dom->appendChild(
+            $dom->createElementNS( 'DAV:', 'D:repsonse' )
+        );
+
+        $responseElement->appendChild(
+            $dom->createElementNS(
+                'DAV:',
+                'D:href',
+                $this->options->pathFactory->generateUriFromPath( $response->node->path )
+            )
+        );
+
+        foreach ( $response->responses as $propStat )
+        {
+            $responseElement->appendChild(
+                $dom->importNode( $this->processPropStatResponse( $propStat )->documentElement, true )
+            );
+        }
+        return $dom;
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
+     * @param ezcWebdavPropStatResponse $response 
+     * @return DOMDocument
+     */
+    protected function processPropStatResponse( ezcWebdavPropStatResponse $response )
+    {
+        $dom = $this->getDom();
+
+        $propstatElement = $dom->appendChild(
+            $dom->createElementNS( 'DAV:', 'D:propstat' )
+        );
+        
+        $this->serializePropertyStorage(
+            $response->storage,
+            $propstatElement->appendChild( $dom->createElementNS( 'DAV:', 'D:prop' ) )
+        );
+
+        $propstatElement->appendChild(
+            $dom->createElementNS(
+                'DAV:',
+                'D:status',
+                (string) $response
+            )
+        );
+
+        return $dom;
+    }
+
+    /**
+     * Serializes an object of ezcWebdavPropertyStorage to XML.
+     * Attaches all properties of the $storage to the $parentElement XML
+     * element.
+     * 
+     * @param ezcWebdavPropertyStorage $storage 
+     * @param DOMElement $parentElement 
+     * @return void
+     */
+    protected function serializePropertyStorage( ezcWebdavPropertyStorage $storage, DOMElement $parentElement )
+    {
+        foreach ( $storage as $property )
+        {
+            if ( $property instanceof ezcWebdavLiveProperty )
+            {
+                $this->serializeLiveProperty( $property, $parentElement );
+            }
+            else
+            {
+                $this->serializeDeadProperty( $property, $parentElement );
+            }
+        }
+    }
+
+    /**
+     * Returns the XML representation of a dead property.
+     * Returns a DOMElement, representing the content of the given $property.
+     * The newly created element is also appended as a child to the given
+     * $parentElement.
+     * 
+     * @param ezcWebdavDeadProperty $property 
+     * @param DOMElement $parentElement 
+     * @return DOMElement
+     */
+    protected function serializeDeadProperty( ezcWebdavDeadProperty $property, DOMElement $parentElement )
+    {
+        if ( $property->content === null || ( $contentDom = $this->getDom( $property->content ) ) === false )
+        {
+            return $parentElement->appendChild(
+                $parentElement->ownerDocument->createElementNS(
+                    $property->namespace,
+                    // This seems to be a way to not loose the correct prefix here.
+                    $property->ownerDocument->lookupPrefix( $property->namespace ) . ':' . $property->name
+                )
+            );
+        }
+
+        return $parentElement->appendChild(
+            $parentElement->ownerDocument->importNode( $contentDom->documentElement, true )
+        );
+    }
+
+    /**
+     * Returns the XML representation of a live property.
+     * Returns a DOMElement, representing the content of the given $property.
+     * The newly created element is also appended as a child to the given
+     * $parentElement.
+     * 
+     * @param ezcWebdavLiveProperty $property 
+     * @param DOMElement $parentElement 
+     * @return DOMElement
+     */
+    protected function serializeLiveProperty( ezcWebdavLiveProperty $property, DOMElement $parentElement )
+    {
+        switch ( get_class( $property ) )
+        {
+            case 'ezcWebdavCreationDateProperty':
+                $elementName  = 'creationdate';
+                $elementValue = ( $property->date !== null ? $property->date->format( DATE_ISO8601 ) : null );
+                break;
+            case 'ezcWebdavDisplayNameProperty':
+                $elementName  = 'displayname';
+                $elementValue = $property->displayName;
+                break;
+            case 'ezcWebdavGetContentLanguageProperty':
+                $elementName  = 'getcontentlanguage';
+                $elementValue = ( count( $property->languages ) > 0 ? implode( ', ', $property->languages ) : null );
+                break;
+            case 'ezcWebdavGetContentLengthProperty':
+                $elementName  = 'getcontentlength';
+                $elementValue = $property->length;
+                break;
+            case 'ezcWebdavGetContentTypeProperty':
+                $elementName  = 'getcontenttype';
+                $elementValue = ( $property->mime !== null ? $property->mime . ( $property->charset === null ? '' : '; charset=' . $property->charset ) : null );
+                break;
+            case 'ezcWebdavGetEtagProperty':
+                $elementName  = 'getetag';
+                $elementValue = $property->etag;
+                break;
+            case 'ezcWebdavGetLastModifiedProperty':
+                $elementName  = 'getlastmodified';
+                $elementValue = ( $property->date !== null ? $property->date->format( DATE_ISO8601 ) : null );
+                break;
+            case 'ezcWebdavLockDiscoveryProperty':
+                $elementName  = 'lockdiscovery';
+                $elementValue = ( $property->activeLock !== null ? $this->serializeActiveLockContent( $property->activeLock ) : null );
+                break;
+            case 'ezcWebdavResourceTypeProperty':
+                $elementName  = 'resourcetype';
+                $elementValue = ( $property->type === 'collection' ? new DOMElement( 'D:collection', null, 'DAV:' ) : null );
+                break;
+            case 'ezcWebdavSourceProperty':
+                $elementName  = 'source';
+                $elementValue = ( $property->links !== null ? $this->serializeLinkContent( $property->links ) : null );
+                break;
+            case 'ezcWebdavSupportedLockProperty':
+                $elementName  = 'supportedlock';
+                $elementValue = ( $property->lockEntry !== null ? $this->serializeLockEntryContent( $property->lockEntry ) : null );
+                break;
+        }
+
+        $propertyElement = $parentElement->appendChild( 
+            $parentElement->ownerDocument->createElementNS(
+                'DAV:',
+                "D:{$elementName}"
+            )
+        );
+
+        if ( $elementValue instanceof DOMDocument )
+        {
+            $propertyElement->appendChild(
+                $dom->importNode( $elementValue->documentElement, true )
+            );
+        }
+        else if ( $elementValue !== null )
+        {
+            $propertyElement->nodeValue = $elementValue;
+        }
+
+        return $propertyElement;
+    }
+
+    protected function serializeActiveLockContent( ezcWebdavLockDiscoveryPropertyActiveLock $content = null )
+    {
+        return null;
+    }
+
+    protected function serializeLinkContent( array $links = null )
+    {
+        return null;
+    }
+
+    protected function serializeLockEntryContent( array $content = null )
+    {
+        return null;
     }
     
     /**

@@ -203,6 +203,11 @@ abstract class ezcWebdavResponse
         return isset( $this->headers[$headerName] ) ? $this->headers[$headerName] : null;
     }
 
+    /**
+     * Returns all headers.
+     * 
+     * @return array(string=>string)
+     */
     public final function getHeaders()
     {
         return $this->headers;
