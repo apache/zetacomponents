@@ -44,6 +44,8 @@ return array(
     'ezcWebdavDeleteResponse'                  => 'Webdav/response/delete.php',
     'ezcWebdavDisplayNameProperty'             => 'Webdav/properties/displayname.php',
     'ezcWebdavErrorResponse'                   => 'Webdav/response/error.php',
+    'ezcWebdavFileBackend'                     => 'Webdav/backend/file.php',
+    'ezcWebdavFileBackendOptions'              => 'Webdav/options/backend_file_options.php',
     'ezcWebdavFlaggedPropertyStorage'          => 'Webdav/property_storage_flagged.php',
     'ezcWebdavGetCollectionResponse'           => 'Webdav/response/get_collection.php',
     'ezcWebdavGetContentLanguageProperty'      => 'Webdav/properties/getcontentlanguage.php',

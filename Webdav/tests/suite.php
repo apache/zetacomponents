@@ -21,6 +21,7 @@ require_once 'client_test.php';
  * Require test suites.
  */
 require_once 'backend_memory_test.php';
+require_once 'backend_file_test.php';
 
 require_once 'path_factory_automatic_test.php';
 
@@ -115,6 +116,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavResponseTest::suite() );
 
         $this->addTest( ezcWebdavMemoryBackendTest::suite() );
+        $this->addTest( ezcWebdavFileBackendTest::suite() );
 
         $this->addTest( ezcWebdavAutomaticPathFactoryTest::suite() );
 
