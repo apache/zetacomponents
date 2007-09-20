@@ -79,7 +79,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Webdav' );
 
         $this->addTest( ezcWebdavBasicServerTest::suite() );
-        $this->addTest( ezcWebdavServerOptionsTest::suite() );
+        $this->addTest( ezcWebdavTransportOptionsTest::suite() );
 
         $this->addTest( ezcWebdavFlaggedPropertyStorageTest::suite() );
         $this->addTest( ezcWebdavPropertyStorageTest::suite() );
@@ -115,7 +115,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcWebdavMemoryBackendTest::suite() );
 
-        $this->addTest( ezcWebdavPathFactoryTest::suite() );
+        $this->addTest( ezcWebdavAutomaticPathFactoryTest::suite() );
 
         $this->addTest( ezcWebdavClientRfcTest::suite() );
         $this->addTest( ezcWebdavClientCadaverTest::suite() );

@@ -20,16 +20,16 @@ require_once 'test_case.php';
 require_once 'classes/custom_path_factory.php';
 
 /**
- * Tests for ezcWebdavPathFactory class.
+ * Tests for ezcWebdavAutomaticPathFactory class.
  * 
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
+class ezcWebdavAutomaticPathFactoryTest extends ezcWebdavTestCase
 {
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( 'ezcWebdavPathFactoryTest' );
+		return new PHPUnit_Framework_TestSuite( 'ezcWebdavAutomaticPathFactoryTest' );
 	}
 
     public function testPathDispatchingWithoutScriptFileName()
@@ -40,14 +40,12 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
 
         try
         {
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] );
-        }
-        catch ( ezcWebdavMissingServerVariableException $e )
-        {
-            return true;
-        }
+            $factory = new ezcWebdavAutomaticPathFactory();
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] );
 
-        $this->fail( 'ezcWebdavMissingServerVariableException expected.' );
+            $this->fail( 'ezcWebdavMissingServerVariableException expected.' );
+        }
+        catch ( ezcWebdavMissingServerVariableException $e ) {}
     }
 
     public function testPathDispatchingWithoutDocumentRoot()
@@ -58,14 +56,12 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
 
         try
         {
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] );
-        }
-        catch ( ezcWebdavMissingServerVariableException $e )
-        {
-            return true;
-        }
+            $factory = new ezcWebdavAutomaticPathFactory();
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] );
 
-        $this->fail( 'ezcWebdavMissingServerVariableException expected.' );
+            $this->fail( 'ezcWebdavMissingServerVariableException expected.' );
+        }
+        catch ( ezcWebdavMissingServerVariableException $e ) {}
     }
 
     public function testRootPathWithoutRewrite()
@@ -74,9 +70,10 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
         $_SERVER['REQUEST_URI']         = '/webdav.php/collection/ressource';
 
+        $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] ),
-            '/collection/ressource'
+            '/collection/ressource',
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
 
@@ -86,9 +83,10 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs';
         $_SERVER['REQUEST_URI']         = '/webdav.php/collection/ressource';
 
+        $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] ),
-            '/collection/ressource'
+            '/collection/ressource',
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
 
@@ -98,9 +96,10 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
         $_SERVER['REQUEST_URI']         = '/webdav.php';
 
+        $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] ),
-            '/'
+            '',
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
 
@@ -110,9 +109,10 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
         $_SERVER['REQUEST_URI']         = '/webdav.php/';
 
+        $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] ),
-            '/'
+            '/',
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
 
@@ -122,9 +122,10 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
         $_SERVER['REQUEST_URI']         = '/path/to/webdav.php/collection/ressource';
 
+        $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] ),
-            '/collection/ressource'
+            '/collection/ressource',
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
 
@@ -134,9 +135,10 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs';
         $_SERVER['REQUEST_URI']         = '/path/to/webdav.php/collection/ressource';
 
+        $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] ),
-            '/collection/ressource'
+            '/collection/ressource',
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
     
@@ -146,9 +148,10 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
         $_SERVER['REQUEST_URI']         = '/path/to/webdav.php';
 
+        $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] ),
-            '/'
+            '',
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
 
@@ -158,9 +161,10 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
         $_SERVER['REQUEST_URI']         = '/path/to/webdav.php/';
 
+        $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] ),
-            '/'
+            '/',
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
 
@@ -170,46 +174,13 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
         $_SERVER['REQUEST_URI']         = '/path/to/webdav/collection/ressource';
 
+        $factory = new ezcWebdavAutomaticPathFactory();
         try
         {
-            ezcWebdavPathFactory::parsePath( $_SERVER['REQUEST_URI'] );
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] );
+            $this->fail( 'ezcWebdavBrokenRequestUriException expected.' );
         }
-        catch ( ezcWebdavBrokenRequestUriException $e )
-        {
-            return true;
-        }
-
-        $this->fail( 'ezcWebdavBrokenRequestUriException expected.' );
-    }
-
-    public function testPathFactoryInServer()
-    {
-        $_SERVER['SCRIPT_FILENAME']     = '/var/www/webdav/htdocs/path/to/webdav.php';
-        $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
-        $_SERVER['REQUEST_URI']         = '/path/to/webdav.php/';
-
-        $server = new ezcWebdavServer();
-
-        $this->assertSame(
-            $server->getParsedPath( $_SERVER['REQUEST_URI'] ),
-            '/'
-        );
-    }
-
-    public function testModifiedPathFactoryInServer()
-    {
-        $_SERVER['SCRIPT_FILENAME']     = '/var/www/webdav/htdocs/path/to/webdav.php';
-        $_SERVER['DOCUMENT_ROOT']       = '/var/www/webdav/htdocs/';
-        $_SERVER['REQUEST_URI']         = '/path/to/webdav.php/';
-
-        $server = new ezcWebdavServer();
-
-        $server->options->pathFactory = 'myTestPathFactory';
-
-        $this->assertSame(
-            $server->getParsedPath( $_SERVER['REQUEST_URI'] ),
-            'This is only a test.'
-        );
+        catch ( ezcWebdavBrokenRequestUriException $e ) {}
     }
 }
 ?>

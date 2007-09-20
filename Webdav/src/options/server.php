@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavServerOptions class
+ * File containing the ezcWebdavTransportOptions class
  *
  * @package Webdav
  * @version //autogen//
@@ -11,15 +11,13 @@
 /**
  * Class containing the options for basic webdav server.
  *
- * @property string $pathFactory
+ * @property ezcWebdavPathFactory $pathFactory
  *           Class used to transform real paths into request paths.
- * @property bool $modSendfile
- *           Server module mod_sendfile may be used for file sendouts.
  *
  * @package Webdav
  * @version //autogen//
  */
-class ezcWebdavServerOptions extends ezcBaseOptions
+class ezcWebdavTransportOptions extends ezcBaseOptions
 {
     /**
      * Constructs an object with the specified values.
@@ -32,8 +30,7 @@ class ezcWebdavServerOptions extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['pathFactory'] = 'ezcWebdavPathFactory';
-        $this->properties['modSendfile'] = false;
+        $this->properties['pathFactory'] = new ezcWebdavPathFactory();
 
         parent::__construct( $options );
     }
@@ -49,32 +46,20 @@ class ezcWebdavServerOptions extends ezcBaseOptions
      * @param mixed $value
      * @ignore
      */
-    public function __set( $name, $value )
+    public function __set( $propertyName, $propertyValue )
     {
-        switch ( $name )
+        switch ( $propertyName )
         {
             case 'pathFactory':
-                if ( !is_string( $value ) ||
-                     !is_subclass_of( $value, 'ezcWebdavPathFactory' ) )
+                if ( is_object( $propertyValue ) === false || ( $propertyValue instanceof ezcWebdavPathFactory ) === false )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'ezcWebdavPathFactory' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavPathFactory' );
                 }
-
-                $this->properties[$name] = $value;
                 break;
-
-            case 'modSendfile':
-                if ( !is_bool( $value ) )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'bool' );
-                }
-
-                $this->properties[$name] = $value;
-                break;
-
             default:
-                throw new ezcBasePropertyNotFoundException( $name );
+                throw new ezcBasePropertyNotFoundException( $propertyName );
         }
+        $this->properties[$propertyName] = $propertyValue;
     }
 }
 ?>

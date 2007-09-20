@@ -222,7 +222,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 }
                 break;
             case 'ezcWebdavPutRequest':
-                if ( $requestObject instanceof ezcWebdavBackendPut )
+                if ( ( $requestObject instanceof ezcWebdavBackendPut ) === false )
                 {
                     $responseObject = $response['backend']->put( $requestObject );
                 }
@@ -243,6 +243,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         foreach ( $response['headers'] as $headerName => $headerValue )
         {
+            // Headers can only be set after XML generation
             if ( $headerName !== 'Content-Type' && $headerName !== 'Content-Length' )
             {
                 $this->assertEquals(

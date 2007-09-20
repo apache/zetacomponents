@@ -12,7 +12,10 @@ class ezcWebdavClientRfcTestBackend
             case 'propfind_allprop':
             case 'move_collection':
             case 'copy_collection':
+            case 'delete':
                 return self::getFooBarSetup();
+            case 'propfind_prop':
+                return self::getFooBar2Setup();
             default:
                 throw new RuntimeException( "Could not find setup for test set '$testSetName'." );
         }
@@ -155,6 +158,45 @@ EOT
                         ezcWebdavLockRequest::SCOPE_SHARED
                     ),
                 )
+            )
+        );
+
+        return $backend;
+    }
+    
+    protected static function getFooBar2Setup()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents(
+            array(
+                'file' => ''
+            )
+        );
+
+        $backend->setProperty(
+            '/file',
+            new ezcWebdavDeadProperty(
+                'http://www.foo.bar/boxschema/',
+                'bigbox',
+                <<<EOT
+<?xml version="1.0" encoding="utf-8" ?>
+<R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
+<R:BoxType>Box type A</R:BoxType>
+</R:bigbox>
+EOT
+            )
+        );
+        $backend->setProperty(
+            '/file',
+            new ezcWebdavDeadProperty(
+                'http://www.foo.bar/boxschema/',
+                'author',
+                <<<EOT
+<?xml version="1.0" encoding="utf-8" ?>
+<R:author xmlns:R="http://www.foo.bar/boxschema/">
+<R:Name>J.J. Johnson</R:Name>
+</R:author>
+EOT
             )
         );
 

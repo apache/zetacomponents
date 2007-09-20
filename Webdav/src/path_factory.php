@@ -8,21 +8,18 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * This class is meant to calculate the path of the requested item from the
- * backend based on the given path by the webdav client. The resulting path
- * string is absolute to the root of the backend repository.
+ * Basic path factory.
  *
- * This class is necessary to calculate the correct path when a server uses
- * rewrite rules for mapping directories to one or more webdav implementations.
- * The basic class uses pathinfo to parse the requested file / collection.
+ * An object of this class is meant to be used in {@link
+ * ezcWebdavTransportOptions} as the $pathFactory property. The instance of
+ * {@link ezcWebdavTransport} utilizes the path factory to translate between
+ * external pathes/URIs and internal path representations.
  *
- * Request: /path/to/webdav.php/path/to/file
- * Result:  /path/to/file
+ * This simple implementation of a path factory expects the base URI it should
+ * be working on as the ctor parameter. It will translate all incoming URIs to
+ * internal pathes and the other way round based on this basis URI.
  *
  * You may want to provide custome implementations for different mappings.
- *
- * @properties ezcWebdavBackend $backend
- *             Data backend used to serve the request.
  *
  * @version //autogentag//
  * @package Webdav
@@ -30,86 +27,56 @@
 class ezcWebdavPathFactory
 {
     /**
-     * Parses a given path into a path object representing a file or collection
-     * in the backend.
-     *
-     * This method is not only called for the initial requested path, but also
-     * for every ressource in the request body.
-     *
-     * The optional parameter base is required to calculate a proper absolute
-     * path when a relative path was given. The base path should always already
-     * be a valid absolute repository path.
-     *
-     * @param string $requestPath
-     * @return string
+     * Result of parse_url() for the {@link $baseUri} submitted to the ctor.
+     * 
+     * @var array(string=>string)
      */
-    public static function parsePath( $requestPath, $base = null )
+    protected $baseUriParts;
+    
+    public function __construct( $baseUri = '' )
     {
-        if ( $base !== null )
-        {
-            return self::handleRelativePath( $requestPath, $base );
-        }
-        else
-        {
-            return self::handleRequestUri( $requestPath );
-        }
+        $this->baseUriParts = parse_url( $baseUri );
     }
 
     /**
-     * Handle request URI and determine requested Webdav path using the server
-     * variables containing the script file name and the document root.
-     * 
-     * @param string $requestPath 
+     * Parses the given URI to a locally understandable path.
+     *
+     * This method retrieves a URI (either full qualified or relative) and
+     * translates it into a local path, which can be understood by the WebDAV
+     * elements.
+     *
+     * @param string $uri
      * @return string
      */
-    protected static function handleRequestUri( $requestPath )
+    public function parseUriToPath( $uri )
     {
-        // Get Docroot and ensure proper definition
-        if ( !isset( $_SERVER['DOCUMENT_ROOT'] ) )
-        {
-            throw new ezcWebdavMissingServerVariableException( 'DOCUMENT_ROOT' );
-        }
+        $requestPath = parse_url( $uri, PHP_URL_PATH );
 
-        // Ensure trailing slash in doc root.
-        $docRoot = $_SERVER['DOCUMENT_ROOT'];
-        if ( $docRoot[strlen( $docRoot ) - 1] !== '/' )
-        {
-            $docRoot .= '/';
-        }
+        return substr( $requestPath, strlen( $this->baseUriParts['path'] ) );
+    }
 
-        // Get script filename
-        if ( !isset( $_SERVER['SCRIPT_FILENAME'] ) )
-        {
-            throw new ezcWebdavMissingServerVariableException( 'SCRIPT_FILENAME' );
-        }
-
-        $scriptFileName = $_SERVER['SCRIPT_FILENAME'];
-
-        // Get script path absolute to doc root
-        $serverFile = '/' . str_replace(
-            $docRoot, '', $scriptFileName
-        );
-
-        // Check for proper request path
-        if ( strpos( $requestPath, $serverFile ) !== 0 )
-        {
-            // Request URI should always start with server file, othwise there
-            // is some rewriting in place, which cannot be handled using this
-            // path factory
-            throw new ezcWebdavBrokenRequestUriException( $requestPath );
-
-        }
-
-        // Get ressource.
-        $ressource = substr( $requestPath, strlen( $serverFile ) );
-
-        // Ressource may be empty for requests on webdav root
-        if ( empty( $ressource ) )
-        {
-            $ressource = '/';
-        }
-
-        return $ressource;
+    /**
+     * Generates a URI from a local path.
+     *
+     * This method receives a local $path string, representing a node in the
+     * local WebDAV store and translates it into a full qualified URI to be
+     * used as external reference.
+     * 
+     * @param string $path 
+     * @return string
+     */
+    public function generateUriFromPath( $path )
+    {
+        return $this->baseUriParts['scheme'] 
+             . '://' . $this->baseUriParts['host'] 
+             . ( isset( $this->baseUriParts['user'] ) ? $this->baseUriParts['user'] : '' )
+             . ( isset( $this->baseUriParts['pass'] ) ? ':' . $this->baseUriParts['pass'] : '' )
+             . ( isset( $this->baseUriParts['user'] ) || isset( $this->baseUriParts['pass'] ) ? '@' : '' )
+             . $this->baseUriParts['host']
+             . $this->baseUriParts['path']
+             . $path
+             . ( isset( $this->baseUriParts['query'] ) ? '?' . $this->baseUriParts['query'] : '' )
+             . ( isset( $this->baseUriParts['fragment'] ) ? '#' . $this->baseUriParts['fragment'] : '' );
     }
 }
 

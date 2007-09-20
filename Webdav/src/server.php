@@ -16,9 +16,6 @@
  * // Server data using file backend with data in "path/"
  * $server->backend = new ezcWebdavBackendFile( '/path' );
  *
- * // Optionally set some server options
- * $server->options->modSendfile = true;
- *
  * // Optionally register aditional transport handlers
  * //  
  * // This step is only required, when a user wants to provide own 
@@ -48,12 +45,6 @@
  */
 class ezcWebdavServer
 {
-    /**
-     * Server option class
-     * 
-     * @var ezcWebdavServerOptions
-     */
-    protected $options;
 
     /**
      * Array with available transport handlers. The key of this array is a
@@ -101,59 +92,7 @@ class ezcWebdavServer
      */
     public function __construct( ezcWebdavBackend $backend = null )
     {
-        $this->options = new ezcWebdavServerOptions();
-
         // @TODO: Implement
-    }
-
-    /**
-     * Offer access to some of the server properties.
-     * 
-     * @throws ezcBasePropertyNotFoundException
-     *         If the property $name is not defined
-     * @param string $name 
-     * @return mixed
-     * @ignore
-     */
-    public function __get( $name )
-    {
-        switch ( $name )
-        {
-            case 'options':
-                return $this->$name;
-
-            default:
-                throw new ezcBasePropertyNotFoundException( $name );
-        }
-    }
-
-    /**
-     * Sets the option $name to $value.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         if the property $name is not defined
-     * @throws ezcBaseValueException
-     *         if $value is not correct for the property $name
-     * @param string $name
-     * @param mixed $value
-     * @ignore
-     */
-    public function __set( $name, $value )
-    {
-        switch ( $name )
-        {
-            case 'options':
-                if ( ! $value instanceof ezcWebdavServerOptions )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'ezcWebdavServerOptions' );
-                }
-
-                $this->$name = $value;
-                break;
-
-            default:
-                throw new ezcBasePropertyNotFoundException( $name );
-        }
     }
 
     /**
@@ -265,31 +204,6 @@ class ezcWebdavServer
         {
             return false;
         }
-    }
-
-    /**
-     * Get parsed path using the configured path factory class defined in the
-     * server option parseFactory. You may change the used class by setting
-     * another class for this, which inherits from {@link
-     * ezcWebdavPathFactory}.
-     *
-     * <code>
-     *  $server->options->pathFactory = 'myPathFactory';
-     * </code>
-     * 
-     * @param mixed $path 
-     * @param mixed $base 
-     * @access public
-     * @return void
-     */
-    public function getParsedPath( $path, $base = null )
-    {
-        // Just dispatch call to configured pathFactory class.
-        return call_user_func(
-            array( $this->options->pathFactory, 'parsePath' ),
-            $path,
-            $base
-        );
     }
 }
 

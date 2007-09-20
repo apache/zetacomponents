@@ -20,33 +20,53 @@ require_once 'test_case.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavServerOptionsTest extends ezcWebdavTestCase
+class ezcWebdavTransportOptionsTest extends ezcWebdavTestCase
 {
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( 'ezcWebdavServerOptionsTest' );
+		return new PHPUnit_Framework_TestSuite( 'ezcWebdavTransportOptionsTest' );
 	}
 
-    public function testServerOptionsInServer()
+    public function testTransportOptionsInServer()
     {
-        $server = new ezcWebdavServer();
+        $transport = new ezcWebdavTransport();
 
         $this->assertEquals(
-            $server->options,
-            new ezcWebdavServerOptions(),
+            $transport->options,
+            new ezcWebdavTransportOptions(),
             'Expected initially unmodified server options class.'
         );
 
-        $this->assertSame(
-            $server->options->modSendfile,
-            false,
-            'Expected successfull access on option.'
+        try
+        {
+            $transport->options->unknownProperty;
+            $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e ) {}
+    }
+
+    public function testTransportOptionsSetInServer()
+    {
+        $transport = new ezcWebdavTransport();
+
+        $options = new ezcWebdavTransportOptions();
+        $transport->options = $options;
+
+        $this->assertEquals(
+            $transport->options->pathFactory,
+            new ezcWebdavPathFactory()
+        );
+
+        $transport->options->pathFactory = new ezcWebdavAutomaticPathFactory();
+
+        $this->assertEquals(
+            $transport->options->pathFactory,
+            new ezcWebdavAutomaticPathFactory()
         );
 
         try
         {
-            // Read access
-            $server->unknownProperty;
+            $transport->unknownProperty = $options;
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
@@ -56,130 +76,54 @@ class ezcWebdavServerOptionsTest extends ezcWebdavTestCase
         $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
     }
 
-    public function testServerOptionsSetInServer()
+    public function testTransportOptionsUnknownRead()
     {
-        $server = new ezcWebdavServer();
-
-        $options = new ezcWebdavServerOptions();
-        $options->modSendfile = true;
-
-        $this->assertSame(
-            $server->options->modSendfile,
-            false,
-            'Wrong initial value before changed option class.'
-        );
-
-        $server->options = $options;
-
-        $this->assertSame(
-            $server->options->modSendfile,
-            true,
-            'Expected modified value, because of changed option class.'
-        );
+        $options = new ezcWebdavTransportOptions();
 
         try
         {
-            $server->unknownProperty = $options;
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return true;
-        }
-
-        $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
-    }
-
-    public function testServerOptionsModSendfile()
-    {
-        $options = new ezcWebdavServerOptions();
-
-        $this->assertSame(
-            false,
-            $options->modSendfile,
-            'Wrong default value for property modSendfile in class ezcWebdavServerOptions.'
-        );
-
-        $options->modSendfile = true;
-        $this->assertSame(
-            true,
-            $options->modSendfile,
-            'Setting property value did not work for property modSendfile in class ezcWebdavServerOptions.'
-        );
-
-        try
-        {
-            $options->modSendfile = 42;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return true;
-        }
-
-        $this->fail( 'Expected ezcBaseValueException.' );
-    }
-
-    public function testServerOptionsUnknownRead()
-    {
-        $options = new ezcWebdavServerOptions();
-
-        try
-        {
-            // Read access
             $options->unknownProperty;
+            $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
         }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return true;
-        }
-
-        $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+        catch ( ezcBasePropertyNotFoundException $e ) {}
     }
 
-    public function testServerOptionsUnknownWrite()
+    public function testTransportOptionsUnknownWrite()
     {
-        $options = new ezcWebdavServerOptions();
+        $options = new ezcWebdavTransportOptions();
 
         try
         {
             $options->unknownProperty = 42;
+            $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
         }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return true;
-        }
-
-        $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+        catch ( ezcBasePropertyNotFoundException $e ) {}
     }
 
-    public function testServerOptionsPathFactory()
+    public function testTransportOptionsPathFactory()
     {
-        $options = new ezcWebdavServerOptions();
+        $options = new ezcWebdavTransportOptions();
 
-        $this->assertSame(
-            'ezcWebdavPathFactory',
-            $options->pathFactory,
-            'Wrong default value for property pathFactory in class ezcWebdavServerOptions.'
+        $this->assertEquals(
+            new ezcWebdavPathFactory(),
+            $options->pathFactory
         );
 
         $mockedPathFactory = $this->getMock( 'ezcWebdavPathFactory' );
 
-        $options->pathFactory = get_class( $mockedPathFactory );
+        $options->pathFactory = $mockedPathFactory;
         $this->assertSame(
-            get_class( $mockedPathFactory ),
-            $options->pathFactory,
-            'Setting property value did not work for property pathFactory in class ezcWebdavServerOptions.'
+            $mockedPathFactory,
+            $options->pathFactory
         );
 
         try
         {
-            $options->pathFactory = 'ezcWebdavServerOptions';
+            $options->pathFactory = 'ezcWebdavTransportOptions';
+            $this->fail( 'Expected ezcBaseValueException.' );
         }
-        catch ( ezcBaseValueException $e )
-        {
-            return true;
-        }
+        catch ( ezcBaseValueException $e ) {}
 
-        $this->fail( 'Expected ezcBaseValueException.' );
     }
 }
 ?>

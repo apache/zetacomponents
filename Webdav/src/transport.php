@@ -19,6 +19,21 @@
  */
 class ezcWebdavTransport
 {
+    /**
+     * Properties.
+     * 
+     * @var array()
+     */
+    protected $properties = array();
+
+    public function __construct( ezcWebdavTransportOptions $options = null )
+    {
+        if ( $options === null )
+        {
+            $options = new ezcWebdavTransportOptions();
+        }
+        $this->properties['options'] = $options;
+    }
 
     /**
      * Map of regular header names to $_SERVER keys.
@@ -799,7 +814,84 @@ class ezcWebdavTransport
      */
     public function handleResponse( ezcWebdavResponse $response )
     {
-        // @TODO: Implement
+        switch ( get_class( $response ) )
+        {
+            case 'ezcWebdavCopyResponse':
+            case 'ezcWebdavDeleteResponse':
+            case 'ezcWebdavErrorResponse':
+            case 'ezcWebdavGetCollectionResponse':
+            case 'ezcWebdavGetResourceResponse':
+            case 'ezcWebdavHeadResponse':
+            case 'ezcWebdavMakeCollectionResponse':
+            case 'ezcWebdavMoveResponse':
+            case 'ezcWebdavMultiStatusResponse':
+            case 'ezcWebdavOptionsResponse':
+            case 'ezcWebdavPropPatchResponse':
+            case 'ezcWebdavPutResponse':
+                // @TODO: Implement!
+                throw new RuntimeException( 'Not implemented, yet.' );
+            
+            case 'ezcWebdavPropFindResponse':
+                $this->handlePropFindResponse( $response );
+                break;
+        }
+    }
+
+    protected function handlePropFindResponse( ezcWebdavPropFindResponse $response )
+    {
+        $dom = new DOMDocument();
+    }
+    
+    /**
+     * Offer access to some of the server properties.
+     * 
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property $propertyName is not defined
+     * @param string $propertyName 
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        if ( $this->__isset( $propertyName ) === false )
+        {
+            throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+            
+        return $this->properties[$propertyName];
+    }
+
+    /**
+     * Sets the option $propertyName to $propertyValue.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $propertyName is not defined
+     * @throws ezcBaseValueException
+     *         if $propertyValue is not correct for the property $propertyName
+     * @param string $propertyName
+     * @param mixed $propertyValue
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'options':
+                if ( ( $propertyValue instanceof ezcWebdavTransportOptions ) === false )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavTransportOptions' );
+                }
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
+
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
     }
 }
 
