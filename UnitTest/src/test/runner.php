@@ -252,8 +252,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
                     require_once( $package );
                     $class = $this->getClassName( $package );
 
-                    var_dump( $class );
-
                     if ( $class !== false )
                     {
                         $allSuites->addTest( call_user_func( array( $class, 'suite' ) ) );
