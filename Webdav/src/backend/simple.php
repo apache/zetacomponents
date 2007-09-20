@@ -818,6 +818,9 @@ abstract class ezcWebdavSimpleBackend
         }
 
         // All checks are passed, we can actuall copy now.
+        //
+        // @TODO: handle keepalive setting somehow - even the RFC is quite
+        // vague how to handle them exactly.
         $errors = $this->performCopy( $source, $dest, $request->getHeader( 'Depth' ) );
 
         if ( !count( $errors ) )
@@ -906,6 +909,9 @@ abstract class ezcWebdavSimpleBackend
         // All checks are passed, we can actuall copy now.
         //
         // MOVEd contents should always be copied using infinity depth.
+        //
+        // @TODO: handle keepalive setting somehow - even the RFC is quite
+        // vague how to handle them exactly.
         $errors = $this->performCopy( $source, $dest, ezcWebdavRequest::DEPTH_INFINITY );
 
         // If an error occured we skip deletion of source.
