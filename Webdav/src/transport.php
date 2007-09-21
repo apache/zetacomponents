@@ -800,8 +800,19 @@ class ezcWebdavTransport
      */
     protected function extractLinkContent( DOMElement $domElement )
     {
-        // @TODO Implement
-        return null;
+        $links = array();
+
+        $linkElements = $domElement->getElementsByTagNameNS(
+            'DAV:', 'link'
+        );
+        for ( $i = 0; $i < $linkElements->length; ++$i )
+        {
+            $links[] = new ezcWebdavSourcePropertyLink(
+                $linkElements->item( $i )->getElementsByTagNameNS( 'DAV:', 'src' )->nodeValue,
+                $linkElements->item( $i )->getElementsByTagNameNS( 'DAV:', 'dst' )->nodeValue
+            );
+        }
+        return $links;
     }
     
     /**
@@ -816,8 +827,19 @@ class ezcWebdavTransport
      */
     protected function extractLockEntryContent( DOMElement $domElement )
     {
-        // @TODO Implement
-        return null;
+        $lockEntries = array();
+
+        $lockEntryElements = $domElement->getElementsByTagNameNS( 'DAV:', 'lockentry' );
+        for ( $i = 0; $i < $lockEntryElements->length; ++$i )
+        {
+            $lockEntries[] = new ezcWebdavSupportedLockPropertyLockentry(
+                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( 'DAV:', 'locktype' )->item( 0 )->localname === 'write'
+                    ? ezcWebdavLockRequest::TYPE_WRITE : ezcWebdavLockRequest::TYPE_READ ),
+                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( 'DAV:', 'lockscope' )->item( 0 )->localname === 'shared'
+                    ? ezcWebdavLockRequest::SCOPE_SHARED : ezcWebdavLockRequest::SCOPE_EXCLUSIVE )
+            );
+        }
+        return $lockEntries;
     }
     
     // PROPPATCH
