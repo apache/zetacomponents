@@ -61,6 +61,106 @@ abstract class ezcWebdavBackend
     }
 
     /**
+     * Performs the given request.
+     *
+     * This method takes an instance of {@link ezcWebdavRequest} in $request
+     * and dispatches it locally to the correct handling method. A
+     * corresponding {@link ezcWebdavResponse} object will be returned. If the
+     * given request could not be dispatched, because the backend does not
+     * implement the neccessary interface or the request type is unknown, a
+     * {@link ezcWebdavRequestNotSupportedException} is thrown.
+     * 
+     * @param ezcWebdavRequest $request 
+     * @return ezcWebdavResponse
+     * @throws ezcWebdavRequestNotSupportedException
+     *         if the given request object could not be handled by the backend.
+     */
+    public function performRequest( ezcWebdavRequest $request )
+    {
+        switch ( true )
+        {
+            case ( $request instanceof ezcWebdavGetRequest ):
+                return $this->get( $request );
+            case ( $request instanceof ezcWebdavHeadRequest ):
+                return $this->head( $request );
+            case ( $request instanceof ezcWebdavPropFindRequest ):
+                return $this->propFind( $request );
+            case ( $request instanceof ezcWebdavPropPatchRequest ):
+                return $this->propPatch( $request );
+            case ( $request instanceof ezcWebdavDeleteRequest ):
+                if ( $this instanceof ezcWebdavBackendChange )
+                {
+                    return $this->delete( $request );
+                }
+                else
+                {
+                    throw new ezcWebdavRequestNotSupportedException(
+                        $request,
+                        'Backend does not implement ezcWebdavBackendChange.'
+                    );
+                }
+                break;
+            case ( $request instanceof ezcWebdavCopyRequest ):
+                if ( $this instanceof ezcWebdavBackendChange )
+                {
+                    return $this->copy( $request );
+                }
+                else
+                {
+                    throw new ezcWebdavRequestNotSupportedException(
+                        $request,
+                        'Backend does not implement ezcWebdavBackendChange.'
+                    );
+                }
+                break;
+            case ( $request instanceof ezcWebdavMoveRequest ):
+                if ( $this instanceof ezcWebdavBackendChange )
+                {
+                    return $this->move( $request );
+                }
+                else
+                {
+                    throw new ezcWebdavRequestNotSupportedException(
+                        $request,
+                        'Backend does not implement ezcWebdavBackendChange.'
+                    );
+                }
+                break;
+            case ( $request instanceof ezcWebdavMakeCollectionRequest ):
+                if ( $this instanceof ezcWebdavBackendMakeCollection )
+                {
+                    return $this->makeCollection( $request );
+                }
+                else
+                {
+                    throw new ezcWebdavRequestNotSupportedException(
+                        $request,
+                        'Backend does not implement ezcWebdavBackendMakeCollection.'
+                    );
+                }
+                break;
+            case ( $request instanceof ezcWebdavPutRequest ):
+                if ( $this instanceof ezcWebdavBackendPut )
+                {
+                    return $this->put( $request );
+                }
+                else
+                {
+                    throw new ezcWebdavRequestNotSupportedException(
+                        $request,
+                        'Backend does not implement ezcWebdavBackendPut.'
+                    );
+                }
+                break;
+            default:
+                throw new ezcWebdavRequestNotSupportedException(
+                    $request,
+                    'Backend could not dispatch request object.'
+                );
+        }
+    }
+
+    /**
      * Required method to serve GET requests.
      *
      * The method receives a {@link ezcWebdavGetRequest} object containing all

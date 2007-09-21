@@ -60,6 +60,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected function runTestSet( $testSetName )
     {
+        libxml_use_internal_errors(  true );
         $requestObject = null;
 
         $serverBase = array(
@@ -159,159 +160,60 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected function runResponseTest( array $response, ezcWebdavRequest $requestObject )
     {
-        switch( get_class( $requestObject ) )
+        $responseObject = $response['backend']->performRequest( $requestObject );
+        
+        $this->transport->handleResponse( $responseObject );
+        $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
+        $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
+
+
+        if ( $response['result'] === false )
         {
-            case 'ezcWebdavGetRequest':
-                $responseObject = $response['backend']->get( $requestObject );
-                break;
-            case 'ezcWebdavHeadRequest':
-                $responseObject = $response['backend']->head( $requestObject );
-                break;
-            case 'ezcWebdavPropFindRequest':
-                $responseObject = $response['backend']->propFind( $requestObject );
-                break;
-            case 'ezcWebdavPropPatchRequest':
-                $responseObject = $response['backend']->propPatch( $requestObject );
-                break;
-            case 'ezcWebdavDeleteRequest':
-                if ( $response['backend'] instanceof ezcWebdavBackendChange )
-                {
-                    $responseObject = $response['backend']->delete( $requestObject );
-                }
-                else
-                {
-                    $this->fail( 'Backend does not support testing DELETE request.' );
-                }
-                break;
-            case 'ezcWebdavCopyRequest':
-                if ( $response['backend'] instanceof ezcWebdavBackendChange )
-                {
-                    $responseObject = $response['backend']->copy( $requestObject );
-                }
-                else
-                {
-                    $this->fail( 'Backend does not support testing COPY request.' );
-                }
-                break;
-            case 'ezcWebdavMoveRequest':
-                if ( $response['backend'] instanceof ezcWebdavBackendChange )
-                {
-                    $responseObject = $response['backend']->move( $requestObject );
-                }
-                else
-                {
-                    $this->fail( 'Backend does not support testing MOVE request.' );
-                }
-                break;
-            case 'ezcWebdavMakeCollectionRequest':
-                if ( $response['backend'] instanceof ezcWebdavBackendMakeCollection )
-                {
-                    $responseObject = $response['backend']->makeCollection( $requestObject );
-                }
-                else
-                {
-                    $this->fail( 'Backend does not support testing MKCOL request.' );
-                }
-                break;
-            case 'ezcWebdavPutRequest':
-                if ( ( $requestObject instanceof ezcWebdavBackendPut ) === false )
-                {
-                    $response['backend'] = $response['backend']->put( $requestObject );
-                }
-                else
-                {
-                    $this->fail( 'Backend does not support testing PUT request.' );
-                }
-                break;
-            default:
-                throw new PHPUnit_Framework_ExpectationFailedException( "Unable to dispatch request of class " . get_class( $requestObject ) );
-        }
-        // Switch off all DOM warnings
-        libxml_use_internal_errors( true );
-
-        // Assert basic correctness
-
-        $this->assertEquals(
-            $response['code'],
-            $responseObject->status,
-            "Request returned status code '{$responseObject->status}' instead of '{$response['code']}' '{$requestObject->requestUri}'."
-        );
-
-        foreach ( $response['headers'] as $headerName => $headerValue )
-        {
-            // Content-Type and Content-Length can only be set after XML generation
-            if ( $headerName !== 'Content-Type' && $headerName !== 'Content-Length' )
+            // Regenerate
+            file_put_contents(
+                "{$this->currentTestSet}/response/result.php",
+                "<?php\nreturn " . var_export( array( "headers" => $responseHeaders, "body" => $responseBody ), true ) . ";\n?>"
+            );
+            if ( trim( $response['body'] ) === '' || trim( $responseBody ) === '' )
             {
                 $this->assertEquals(
-                    $headerValue,
-                    $responseObject->getHeader( $headerName ),
-                    "Header '$headerName' not set to value '$headerValue'."
+                    $response['body'],
+                    $responseBody,
+                    'Response body not generated correctly.'
                 );
             }
-        }
-        
-        // Try body generation
-
-        try
-        {
-            $this->transport->handleResponse( $responseObject );
-            $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
-            $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
-
-
-            if ( $response['result'] === false )
-            {
-                // Regenerate
-                file_put_contents(
-                    "{$this->currentTestSet}/response/result.php",
-                    "<?php\nreturn " . var_export( array( "headers" => $responseHeaders, "body" => $responseBody ), true ) . ";\n?>"
-                );
-                if ( trim( $response['body'] ) === '' || trim( $responseBody ) === '' )
-                {
-                    $this->assertEquals(
-                        $response['body'],
-                        $responseBody,
-                        'Response body not generated correctly.'
-                    );
-                }
-                else
-                {
-                    $this->assertXmlStringEqualsXmlString(
-                        $response['body'],
-                        $responseBody,
-                        'Response body not generated correctly.'
-                    );
-                }
-            } 
             else
             {
-                $this->assertEquals(
-                    $response['result']['headers'],
-                    $responseHeaders,
-                    'Generated headers missmatch.'
+                $this->assertXmlStringEqualsXmlString(
+                    $response['body'],
+                    $responseBody,
+                    'Response body not generated correctly.'
                 );
-                if ( trim( $response['result']['body'] ) === '' || trim( $responseBody ) === '' )
-                {
-                    $this->assertEquals(
-                        $response['result']['body'],
-                        $responseBody,
-                        'Generated body missmatch.'
-                    );
-                }
-                else
-                {
-                    $this->assertXmlStringEqualsXmlString(
-                        $response['result']['body'],
-                        $responseBody,
-                        'Generated body missmatch.'
-                    );
-                }
             }
-
-        }
-        catch ( Exception $e )
+        } 
+        else
         {
-            return;
+            $this->assertEquals(
+                $response['result']['headers'],
+                $responseHeaders,
+                'Generated headers missmatch.'
+            );
+            if ( trim( $response['result']['body'] ) === '' || trim( $responseBody ) === '' )
+            {
+                $this->assertEquals(
+                    $response['result']['body'],
+                    $responseBody,
+                    'Generated body missmatch.'
+                );
+            }
+            else
+            {
+                $this->assertXmlStringEqualsXmlString(
+                    $response['result']['body'],
+                    $responseBody,
+                    'Generated body missmatch.'
+                );
+            }
         }
 
         return $responseObject;

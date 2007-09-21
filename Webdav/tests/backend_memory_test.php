@@ -1520,6 +1520,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         ) );
 
         $request = new ezcWebdavPutRequest( '/bar', 'some content' );
+        $request->setHeader( 'Content-Type', 'text/plain' );
+        $request->setHeader( 'Content-Length', strlen( $request->body ) );
         $request->validateHeaders();
         $response = $backend->put( $request );
 
@@ -1546,6 +1548,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         ) );
 
         $request = new ezcWebdavPutRequest( '/dum/di', 'some content' );
+        $request->setHeader( 'Content-Type', 'text/plain' );
+        $request->setHeader( 'Content-Length', strlen( $request->body ) );
         $request->validateHeaders();
         $response = $backend->put( $request );
 
@@ -1572,6 +1576,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         ) );
 
         $request = new ezcWebdavPutRequest( '/foo/bar', 'some content' );
+        $request->setHeader( 'Content-Type', 'text/plain' );
+        $request->setHeader( 'Content-Length', strlen( $request->body ) );
         $request->validateHeaders();
         $response = $backend->put( $request );
 
@@ -1598,6 +1604,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         ) );
 
         $request = new ezcWebdavPutRequest( '/bar/foo', 'some content' );
+        $request->setHeader( 'Content-Type', 'text/plain' );
+        $request->setHeader( 'Content-Length', strlen( $request->body ) );
         $request->validateHeaders();
         $response = $backend->put( $request );
 
@@ -1641,6 +1649,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         ) );
 
         $request = new ezcWebdavPutRequest( '/foo', 'some content' );
+        $request->setHeader( 'Content-Type', 'text/plain' );
+        $request->setHeader( 'Content-Length', strlen( $request->body ) );
         $request->validateHeaders();
         $response = $backend->put( $request );
 

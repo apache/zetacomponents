@@ -39,6 +39,33 @@ class ezcWebdavPutRequest extends ezcWebdavRequest
     }
 
     /**
+     * Validates the headers set in this request.
+     * This method validates that all required headers are available and that
+     * all feasible headers for this request have valid values.
+     *
+     * @return void
+     *
+     * @throws ezcWebdavMissingHeaderException
+     *         if a required header is missing.
+     * @throws ezcWebdavInvalidHeaderException
+     *         if a header is present, but its content does not validate.
+     */
+    public function validateHeaders()
+    {
+        if ( isset( $this->headers['Content-Length'] ) === false )
+        {
+            throw new ezcWebdavMissingHeaderException( 'Content-Length' );
+        }
+        if ( isset( $this->headers['Content-Type'] ) === false )
+        {
+            throw new ezcWebdavMissingHeaderException( 'Content-Type' );
+        }
+
+        // Validate common HTTP/WebDAV headers
+        parent::validateHeaders();
+    }
+
+    /**
      * Sets a property.
      * This method is called when an property is to be set.
      * 
