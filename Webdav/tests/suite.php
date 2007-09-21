@@ -117,8 +117,8 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavResponseTest::suite() );
 
         $this->addTest( ezcWebdavMemoryBackendTest::suite() );
-        $this->addTest( ezcWebdavFileBackendTest::suite() );
-        $this->addTest( ezcWebdavFileBackendOptionsTestCase::suite() );
+//        $this->addTest( ezcWebdavFileBackendTest::suite() );
+//        $this->addTest( ezcWebdavFileBackendOptionsTestCase::suite() );
 
         $this->addTest( ezcWebdavAutomaticPathFactoryTest::suite() );
 

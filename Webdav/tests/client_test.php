@@ -174,7 +174,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 $responseObject = $response['backend']->propPatch( $requestObject );
                 break;
             case 'ezcWebdavDeleteRequest':
-                if ( $requestObject instanceof ezcWebdavBackendChange )
+                if ( $response['backend'] instanceof ezcWebdavBackendChange )
                 {
                     $responseObject = $response['backend']->delete( $requestObject );
                 }
@@ -184,7 +184,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 }
                 break;
             case 'ezcWebdavCopyRequest':
-                if ( $requestObject instanceof ezcWebdavBackendChange )
+                if ( $response['backend'] instanceof ezcWebdavBackendChange )
                 {
                     $responseObject = $response['backend']->copy( $requestObject );
                 }
@@ -194,7 +194,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 }
                 break;
             case 'ezcWebdavMoveRequest':
-                if ( $requestObject instanceof ezcWebdavBackendChange )
+                if ( $response['backend'] instanceof ezcWebdavBackendChange )
                 {
                     $responseObject = $response['backend']->move( $requestObject );
                 }
@@ -204,7 +204,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 }
                 break;
             case 'ezcWebdavMakeCollectionRequest':
-                if ( $requestObject instanceof ezcWebdavBackendMakeCollection )
+                if ( $response['backend'] instanceof ezcWebdavBackendMakeCollection )
                 {
                     $responseObject = $response['backend']->makeCollection( $requestObject );
                 }
@@ -216,7 +216,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             case 'ezcWebdavPutRequest':
                 if ( ( $requestObject instanceof ezcWebdavBackendPut ) === false )
                 {
-                    $responseObject = $response['backend']->put( $requestObject );
+                    $response['backend'] = $response['backend']->put( $requestObject );
                 }
                 else
                 {
@@ -226,25 +226,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             default:
                 throw new PHPUnit_Framework_ExpectationFailedException( "Unable to dispatch request of class " . get_class( $requestObject ) );
         }
+        // Switch off all DOM warnings
+        libxml_use_internal_errors( true );
 
-        try
-        {
-            $this->transport->handleResponse( $responseObject );
-            $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
-            $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
-
-            libxml_use_internal_errors( true);
-
-            $this->assertXmlStringEqualsXmlString(
-                $response['body'],
-                $responseBody,
-                'Response body not generated correctly.'
-            );
-        }
-        catch ( RuntimeException $e )
-        {
-            return;
-        }
+        // Assert basic correctness
 
         $this->assertEquals(
             $response['code'],
@@ -254,7 +239,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         foreach ( $response['headers'] as $headerName => $headerValue )
         {
-            // Headers can only be set after XML generation
+            // Content-Type and Content-Length can only be set after XML generation
             if ( $headerName !== 'Content-Type' && $headerName !== 'Content-Length' )
             {
                 $this->assertEquals(
@@ -263,6 +248,70 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                     "Header '$headerName' not set to value '$headerValue'."
                 );
             }
+        }
+        
+        // Try body generation
+
+        try
+        {
+            $this->transport->handleResponse( $responseObject );
+            $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
+            $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
+
+
+            if ( $response['result'] === false )
+            {
+                // Regenerate
+                file_put_contents(
+                    "{$this->currentTestSet}/response/result.php",
+                    "<?php\nreturn " . var_export( array( "headers" => $responseHeaders, "body" => $responseBody ), true ) . ";\n?>"
+                );
+                if ( trim( $response['body'] ) === '' || trim( $responseBody ) === '' )
+                {
+                    $this->assertEquals(
+                        $response['body'],
+                        $responseBody,
+                        'Response body not generated correctly.'
+                    );
+                }
+                else
+                {
+                    $this->assertXmlStringEqualsXmlString(
+                        $response['body'],
+                        $responseBody,
+                        'Response body not generated correctly.'
+                    );
+                }
+            } 
+            else
+            {
+                $this->assertEquals(
+                    $response['result']['headers'],
+                    $responseHeaders,
+                    'Generated headers missmatch.'
+                );
+                if ( trim( $response['result']['body'] ) === '' || trim( $responseBody ) === '' )
+                {
+                    $this->assertEquals(
+                        $response['result']['body'],
+                        $responseBody,
+                        'Generated body missmatch.'
+                    );
+                }
+                else
+                {
+                    $this->assertXmlStringEqualsXmlString(
+                        $response['result']['body'],
+                        $responseBody,
+                        'Generated body missmatch.'
+                    );
+                }
+            }
+
+        }
+        catch ( Exception $e )
+        {
+            return;
         }
 
         return $responseObject;

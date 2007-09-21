@@ -924,11 +924,18 @@ class ezcWebdavTransport
             case 'ezcWebdavMultistatusResponse':
                 $dom = $this->processMultiStatusResponse( $response );
                 break;
-            
             case 'ezcWebdavCopyResponse':
+                $dom = $this->processCopyResponse( $response );
+                break;
             case 'ezcWebdavDeleteResponse':
+                $dom = $this->processDeleteResponse( $response );
+                break;
             case 'ezcWebdavErrorResponse':
+                $dom = $this->processErrorResponse( $response );
+                break;
             case 'ezcWebdavGetCollectionResponse':
+                $dom = $this->processGetCollectionResponse( $response );
+                break;
             case 'ezcWebdavGetResourceResponse':
             case 'ezcWebdavHeadResponse':
             case 'ezcWebdavMakeCollectionResponse':
@@ -1026,8 +1033,74 @@ class ezcWebdavTransport
     /**
      * Returns an XML representation of the given response object.
      * 
+     * @param ezcWebdavCopyResponse $response 
+     * @return DOMDocument|null
+     */
+    protected function processCopyResponse( ezcWebdavCopyResponse $response )
+    {
+        return null;
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
+     * @param ezcWebdavDeleteResponse $response 
+     * @return DOMDocument|null
+     */
+    protected function processDeleteResponse( ezcWebdavDeleteResponse $response )
+    {
+        return null;
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
+     * @param ezcWebdavErrorResponse $response 
+     * @return DOMDocument|null
+     */
+    protected function processErrorResponse( ezcWebdavErrorResponse $response )
+    {
+        $dom = $this->getDom();
+        $responseElement = $dom->appendChild(
+            $dom->createElementNS( 'DAV:', 'D:response' )
+        );
+        
+        $responseElement->appendChild(
+            $dom->createElementNS( 'DAV:', 'D:href', $this->options->pathFactory->generateUriFromPath( $response->requestUri ) )
+        );
+        $responseElement->appendChild(
+            $dom->createElementNS( 'DAV:', 'D:status', (string) $response )
+        );
+        return $dom;
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
+     * @param ezcWebdavGetCollectionResponse $response 
+     * @return DOMDocument|null
+     */
+    protected function processGetCollectionResponse( ezcWebdavGetCollectionResponse $response )
+    {
+        $dom = $this->getDom();
+        $responseElement = $dom->appendChild(
+            $dom->createElementNS( 'DAV:', 'D:response' )
+        );
+        
+        $responseElement->appendChild(
+            $dom->createElementNS( 'DAV:', 'D:href', $this->options->pathFactory->generateUriFromPath( $response->requestUri ) )
+        );
+        $responseElement->appendChild(
+            $dom->createElementNS( 'DAV:', 'D:status', (string) $response )
+        );
+        return $dom;
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
      * @param ezcWebdavPropStatResponse $response 
-     * @return DOMDocument
+     * @return DOMDocument|null
      */
     protected function processPropStatResponse( ezcWebdavPropStatResponse $response )
     {
@@ -1149,7 +1222,7 @@ class ezcWebdavTransport
                 break;
             case 'ezcWebdavLockDiscoveryProperty':
                 $elementName  = 'lockdiscovery';
-                $elementValue = ( $property->activeLock !== null ? $this->serializeActiveLockContent( $property->activeLock ) : null );
+                $elementValue = ( $property->activeLock !== null ? $this->serializeActiveLockContent( $property->activeLock, $dom ) : null );
                 break;
             case 'ezcWebdavResourceTypeProperty':
                 $elementName  = 'resourcetype';
@@ -1157,11 +1230,11 @@ class ezcWebdavTransport
                 break;
             case 'ezcWebdavSourceProperty':
                 $elementName  = 'source';
-                $elementValue = ( $property->links !== null ? $this->serializeLinkContent( $property->links ) : null );
+                $elementValue = ( $property->links !== null ? $this->serializeLinkContent( $property->links, $dom ) : null );
                 break;
             case 'ezcWebdavSupportedLockProperty':
                 $elementName  = 'supportedlock';
-                $elementValue = ( $property->lockEntry !== null ? $this->serializeLockEntryContent( $property->lockEntry ) : null );
+                $elementValue = ( $property->lockEntry !== null ? $this->serializeLockEntryContent( $property->lockEntry, $dom ) : null );
                 break;
         }
 
@@ -1178,7 +1251,14 @@ class ezcWebdavTransport
                 $dom->importNode( $elementValue->documentElement, true )
             );
         }
-        else if ( $elementValue !== null )
+        else if ( is_array( $elementValue ) )
+        {
+            foreach( $elementValue as $subValue )
+            {
+                $propertyElement->appendChild( $subValue );
+            }
+        }
+        else if ( is_scalar( $elementValue ) )
         {
             $propertyElement->nodeValue = $elementValue;
         }
@@ -1186,19 +1266,148 @@ class ezcWebdavTransport
         return $propertyElement;
     }
 
-    protected function serializeActiveLockContent( ezcWebdavLockDiscoveryPropertyActiveLock $content = null )
+    /**
+     * Serializes an array of ezcWebdavLockDiscoveryPropertyActiveLock elements to XML.
+     * 
+     * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $links 
+     * @param DOMDocument $dom To create the returned DOMElements.
+     * @return array(DOMElement)
+     */
+    protected function serializeActiveLockContent( array $activeLocks = null, DOMDocument $dom )
     {
-        return null;
+        $activeLockElements = array();
+        foreach ( $activeLocks as $activeLock )
+        {
+            $activeLockElement = $dom->createElementNS(
+                'DAV:',
+                'D:activelock'
+            );
+            
+            $activeLockElement->appendChild(
+                $dom->createElementNS( 'DAV:', 'D:locktype' )
+            )->appendChild(
+                $dom->createElementNS( 'DAV:', ( $activeLock->lockType === ezcWebdavLockRequest::TYPE_READ ? 'D:read' : 'D:write' ) )
+            );
+            
+            $activeLockElement->appendChild(
+                $dom->createElementNS( 'DAV:', 'D:lockscope' )
+            )->appendChild(
+                $dom->createElementNS( 'DAV:', ( $activeLock->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'D:exclusive' : 'D:shared' ) )
+            );
+            
+            $depthElement = $activeLockElement->appendChild(
+                $dom->createElementNS( 'DAV:', 'D:depth' )
+            );
+            
+            switch ( $activeLock->depth )
+            {
+                case ezcWebdavRequest::DEPTH_ZERO:
+                    $depthElement->nodeValue = '0';
+                    break;
+                case ezcWebdavRequest::DEPTH_ONE:
+                    $depthElement->nodeValue = '1';
+                    break;
+                case ezcWebdavRequest::DEPTH_INFINITY:
+                    $depthElement->nodeValue = 'Infity';
+                    break;
+            }
+
+            if ( $activeLock->owner !== null )
+            {
+                $activeLockElement->appendChild(
+                    $dom->createElementNS( 'DAV:', 'D:owner', $activeLock->owner )
+                );
+            }
+
+            $activeLockElement->appendChild(
+                $dom->createElementNS( 'DAV:', 'D:timeout', $activeLock->timeout )
+            );
+
+            foreach ( $activeLock->tokens as $token )
+            {
+                $activeLockElement->appendChild(
+                    $dom->createElementNS( 'DAV:', 'D:locktoken' )
+                )->appendChild(
+                    $dom->createElementNS( 'DAV:', 'D:href', $token )
+                );
+            }
+
+            $activeLockElements[] = $lockElement;
+        }
+
+        return $activeLockElements;
     }
 
-    protected function serializeLinkContent( array $links = null )
+    /**
+     * Serializes an array of ezcWebdavSourcePropertyLink elements to XML.
+     * 
+     * @param array(ezcWebdavSourcePropertyLink) $links 
+     * @param DOMDocument $dom To create the returned DOMElements.
+     * @return array(DOMElement)
+     */
+    protected function serializeLinkContent( array $links = null, DOMDocument $dom )
     {
-        return null;
+        $linkContentElements = array();
+
+        foreach( $links as $link )
+        {
+            $linkElement = $dom->createElementNS(
+                'DAV:', 'D:link'
+            );
+            $linkElement->appendChild(
+                $dom->createElementNS(
+                    'DAV:', 'D:src', $link->src
+                )
+            );
+            $linkElement->appendChild(
+                $dom->createElementNS(
+                    'DAV:', 'D:dst', $link->dst
+                )
+            );
+            $linkContentElements[] = $linkElement;
+        }
+
+        return $linkContentElements;
     }
 
-    protected function serializeLockEntryContent( array $content = null )
+    /**
+     * Serializes an array of ezcWebdavSupportedLockPropertyLockentry elements to XML.
+     * 
+     * @param array(ezcWebdavSupportedLockPropertyLockentry) $lockEntries 
+     * @param DOMDocument $dom To create the returned DOMElements.
+     * @return array(DOMElement)
+     */
+    protected function serializeLockEntryContent( array $lockEntries = null, DOMDocument $dom )
     {
-        return null;
+        $lockEntryContentElements = array();
+
+        foreach( $lockEntries as $lockEntry )
+        {
+            $lockEntryElement = $dom->createElementNS(
+                'DAV:', 'D:lockentry'
+            );
+            $lockEntryElement->appendChild(
+                $dom->createElementNS(
+                    'DAV:', 'D:lockscope'
+                )
+            )->appendChild(
+                $dom->createElementNS(
+                    'DAV:', ( $lockEntry->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'D:exclusive' : 'D:shared' )
+                )
+            );
+            $lockEntryElement->appendChild(
+                $dom->createElementNS(
+                    'DAV:', 'D:locktype'
+                )
+            )->appendChild(
+                $dom->createElementNS(
+                    'DAV:', ( $lockEntry->lockScope === ezcWebdavLockRequest::TYPE_READ ? 'D:read' : 'D:write' )
+                )
+            );
+            $lockEntryContentElements[] = $lockEntryElement;
+        }
+
+        return $lockEntryContentElements;
     }
     
     /**

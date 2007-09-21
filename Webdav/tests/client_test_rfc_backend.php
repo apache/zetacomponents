@@ -13,21 +13,37 @@ class ezcWebdavClientRfcTestBackend
             case 'move_collection':
             case 'copy_collection':
             case 'delete':
-                return self::getFooBarSetup();
+                return self::getFooBarSetup1();
             case 'propfind_prop':
-                return self::getFooBar2Setup();
+                return self::getFooBarSetup2();
+            case 'proppatch':
+                return self::getFooBarSetup3();
+            case 'copy_success':
+            case 'copy':
+            case 'copy_overwrite':
+                return self::getIcsUciSetup1();
+            case 'move_resource':
+                return self::getIcsUciSetup2();
+            case 'mkcol':
+                return self::getServerOrgSetup();
             default:
                 throw new RuntimeException( "Could not find setup for test set '$testSetName'." );
         }
     }
 
-    protected static function getFooBarSetup()
+    protected static function getFooBarSetup1()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend                             = new ezcWebdavMemoryBackend();
+        // $backend->options->failForRegexp     = '(container/R2|container/resource3)';
+        $backend->options->failForRegexp     = '(container)';
+        $backend->options->failingOperations = ezcWebdavMemoryBackendOptions::REQUEST_COPY | ezcWebdavMemoryBackendOptions::REQUEST_DELETE;
+
         $backend->addContents(
             array(
                 'container' => array(
                     'front.html' => '',
+                    'R2'         => array(),
+                    'resource3'  => '',
                 ),
             )
         );
@@ -164,7 +180,7 @@ EOT
         return $backend;
     }
     
-    protected static function getFooBar2Setup()
+    protected static function getFooBarSetup2()
     {
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents(
@@ -197,6 +213,93 @@ EOT
 <R:Name>J.J. Johnson</R:Name>
 </R:author>
 EOT
+            )
+        );
+
+        return $backend;
+    }
+    
+    protected static function getFooBarSetup3()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents(
+            array(
+                'bar.html' => ''
+            )
+        );
+
+        $backend->setProperty(
+            '/bar.html',
+            new ezcWebdavDeadProperty(
+                'http://www.w3.com/standards/z39.50',
+                'Z:Authors',
+                <<<EOT
+<?xml version="1.0" encoding="utf-8" ?>
+<Z:authors xmlns:Z="http://www.w3.com/standards/z39.50">
+<Z:author>John Doe</Z:author>
+</Z:authors>
+EOT
+            )
+        );
+
+        return $backend;
+    }
+
+    protected static function getIcsUciSetup1()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents(
+            array(
+                '~fielding' => array(
+                    'index.html' => '',
+                ),
+            )
+        );
+        $backend->addContents(
+            array(
+                'users' => array(
+                    'f' => array(
+                        'fielding' => array(
+                            'index.html' => ''
+                        )
+                    ),
+                ),
+            )
+        );
+
+        return $backend;
+    }
+
+    protected static function getIcsUciSetup2()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents(
+            array(
+                '~fielding' => array(
+                    'index.html' => '',
+                ),
+            )
+        );
+        $backend->addContents(
+            array(
+                'users' => array(
+                    'f' => array(
+                        'fielding' => array(
+                        )
+                    ),
+                ),
+            )
+        );
+
+        return $backend;
+    }
+
+    protected static function getServerOrgSetup()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+        $backend->addContents(
+            array(
+                'webdisc' => array(),
             )
         );
 
