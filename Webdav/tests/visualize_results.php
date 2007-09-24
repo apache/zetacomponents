@@ -116,6 +116,12 @@ $testOpt = $in->registerOption(
 $testOpt->shorthelp = 'Path pattern defining the test cases to display data for.';
 $testOpt->longhelp  = 'This option may contain a path pattern as understood by glob(), defining the test cases to display data for. An example would be "get_*" to only see all test cases that start with "get_".';
 
+$noColorOpt = $in->registerOption(
+    new ezcConsoleOption( 'n', 'no-color' )
+);
+$noColorOpt->shorthelp = 'Switch of use of format codes (for logging).';
+$noColorOpt->longhelp  = 'Switches of the use of shell formatting codes, like color and style. This is particularly useful if you want to log the generated output.';
+
 try
 {
     $in->process();
@@ -136,6 +142,11 @@ if ( $helpOpt->value === true )
         $in->getHelpText( 'Webdav client test viewer', 80, true )
     );
     exit(0);
+}
+
+if ( $noColorOpt->value === true )
+{
+    $out->options->useFormats = false;
 }
 
 $suites = glob( dirname( __FILE__ ) . "/clients/{$suiteOpt->value}", GLOB_ONLYDIR );
@@ -164,7 +175,6 @@ foreach ( $suites as $suite )
             $out->outputLine( '-------------------------------------- END -------------------------------------', 'border' );
         }
         
-        $out->outputLine( '--- Printing infos for test "' . basename( $test ) . '/response":', 'headline_2' );
 
         $responseInfos = loadFiles( glob( "{$test}/response/*" ) );
         if ( count( $responseInfos ) === 0 )
@@ -173,6 +183,7 @@ foreach ( $suites as $suite )
         }
         foreach ( $responseInfos as $file => $info )
         {
+            $out->outputLine( '--- Printing infos for test "' . basename( $test ) . '/response":', 'headline_2' );
             $out->outputLine( '----- Printing file contents for "' . $file . '"', 'headline_3' );
 
             $out->outputLine( '------------------------------------- START ------------------------------------', 'border' );
