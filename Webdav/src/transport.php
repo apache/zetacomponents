@@ -1246,8 +1246,7 @@ class ezcWebdavTransport
      */
     protected function processGetCollectionResponse( ezcWebdavGetCollectionResponse $response )
     {
-        $dom = $this->getDom();
-        return new ezcWebdavDisplayInformation( $response, $dom );
+        return new ezcWebdavDisplayInformation( $response, null );
     }
 
     /**

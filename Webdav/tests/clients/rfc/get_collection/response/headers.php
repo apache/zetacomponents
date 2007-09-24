@@ -1,8 +1,8 @@
 <?php
 
 return array (
-    'Content-Length' => '8',
-    'Content-Type'   => '"utf-8"',
+    0 => 'HTTP/1.1 200 OK',
 );
+
 
 ?>

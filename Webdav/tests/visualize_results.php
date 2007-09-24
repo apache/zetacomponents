@@ -35,6 +35,16 @@ function loadFiles( array $files )
         $res['info'] = $unorderedRes['info'];
         unset( $unorderedRes['info'] );
     }
+    if ( isset( $unorderedRes['code'] ) )
+    {
+        $res['code'] = $unorderedRes['code'];
+        unset( $unorderedRes['code'] );
+    }
+    if ( isset( $unorderedRes['name'] ) )
+    {
+        $res['name'] = $unorderedRes['name'];
+        unset( $unorderedRes['name'] );
+    }
     if ( isset( $unorderedRes['uri'] ) )
     {
         $res['uri'] = $unorderedRes['uri'];
