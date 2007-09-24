@@ -1,6 +1,2 @@
-a:2:{s:7:"headers";a:1:{i:0;s:22:"HTTP/1.1 404 Not Found";}s:4:"body";s:172:"<?xml version="1.0" encoding="UTF-8"?>
-<D:response xmlns:D="DAV:">
-  <D:href>http://foo.bar/~fielding_</D:href>
-  <D:status>HTTP/1.1 404 Not Found</D:status>
-</D:response>
+a:2:{s:7:"headers";a:1:{i:0;s:15:"HTTP/1.1 200 OK";}s:4:"body";s:39:"<?xml version="1.0" encoding="UTF-8"?>
 ";}

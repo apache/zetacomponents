@@ -59,7 +59,7 @@ class ezcWebdavPathFactory
      */
     public function parseUriToPath( $uri )
     {
-        $requestPath = parse_url( $uri, PHP_URL_PATH );
+        $requestPath = parse_url( trim( $uri ), PHP_URL_PATH );
         if ( substr( $requestPath, -1, 1 ) === '/' )
         {
             $requestPath = substr( $requestPath, 0, -1 );
@@ -86,7 +86,7 @@ class ezcWebdavPathFactory
              . ( isset( $this->baseUriParts['user'] ) || isset( $this->baseUriParts['pass'] ) ? '@' : '' )
              . $this->baseUriParts['host']
              . ( isset( $this->baseUriParts['path'] ) ? $this->baseUriParts['path'] : '' )
-             . $path
+             . trim( $path )
              . ( isset( $this->baseUriParts['query'] ) ? '?' . $this->baseUriParts['query'] : '' )
              . ( isset( $this->baseUriParts['fragment'] ) ? '#' . $this->baseUriParts['fragment'] : '' );
     }

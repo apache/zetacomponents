@@ -1,6 +1,6 @@
 <?php
 
-class ezcWebdavRfcPathFactory
+class ezcWebdavRfcPathFactory extends ezcWebdavPathFactory
 {
     public static function parsePath( $requestPath, $base = null )
     {

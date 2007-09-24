@@ -25,10 +25,10 @@ class ezcWebdavDisplayInformation
      * Creates a new struct.
      * 
      * @param ezcWebdavResponse $response 
-     * @param DOMDocument $body 
+     * @param DOMDocument|string|null $body 
      * @return void
      */
-    public function __construct( ezcWebdavResponse $response, DOMDocument $body = null )
+    public function __construct( ezcWebdavResponse $response, $body = null )
     {
         $this->response = $response;
         $this->body     = $body;
