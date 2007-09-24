@@ -1074,11 +1074,18 @@ class ezcWebdavTransport
                 $displayInfo = $this->processPropPatchResponse( $response );
                 break;
             case 'ezcWebdavHeadResponse':
+                $displayInfo = $this->processHeadResponse( $response );
+                break;
             case 'ezcWebdavMakeCollectionResponse':
+                $displayInfo = $this->processMakeCollectionResponse( $response );
+                break;
             case 'ezcWebdavMoveResponse':
+                $displayInfo = $this->processMoveResponse( $response );
+                break;
             case 'ezcWebdavPutResponse':
+                $displayInfo = $this->processPutResponse( $response );
+                break;
             default:
-                // @TODO: Implement!
                 throw new RuntimeException( "Serialization of class $responseClass not implemented, yet." );
         }
 
@@ -1205,6 +1212,17 @@ class ezcWebdavTransport
     /**
      * Returns an XML representation of the given response object.
      * 
+     * @param ezcWebdavMoveResponse $response 
+     * @return DOMDocument|null
+     */
+    protected function processMoveResponse( ezcWebdavMoveResponse $response )
+    {
+        return new ezcWebdavDisplayInformation( $response, null );
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
      * @param ezcWebdavDeleteResponse $response 
      * @return DOMDocument|null
      */
@@ -1272,6 +1290,53 @@ class ezcWebdavTransport
             $response->setHeader( 'Content-Length', ( strlen( $response->resource->content ) + 1 ) );
         }
         return new ezcWebdavDisplayInformation( $response, $response->resource->content );
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
+     * @param ezcWebdavPutResponse $response 
+     * @return DOMDocument|null
+     */
+    protected function processPutResponse( ezcWebdavPutResponse $response )
+    {
+        return new ezcWebdavDisplayInformation( $response, $response->resource->content );
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
+     * @param ezcWebdavHeadResponse $response 
+     * @return DOMDocument|null
+     * @todo Do we need to set more headers here?
+     */
+    protected function processHeadResponse( ezcWebdavHeadResponse $response )
+    {
+        // Generate Content-Type header if necessary
+        if ( $response->getHeader( 'Content-Type' ) === null )
+        {
+            $contentTypeProperty = $response->resource->liveProperties->get( 'getcontenttype' );
+            $contentTypeHeader = ( $contentTypeProperty->mime    !== null ? $contentTypeProperty->mime    : 'application/octet-stream' ) .
+                '; charset="' .   ( $contentTypeProperty->charset !== null ? $contentTypeProperty->charset : 'utf-8' ) . '"';
+            $response->setHeader( 'Content-Type', $contentTypeHeader );
+        }
+        // Generate Content-Length header if necessary
+        if ( $response->getHeader( 'Content-Length' ) === null )
+        {
+            $response->setHeader( 'Content-Length', ( strlen( $response->resource->content ) + 1 ) );
+        }
+        return new ezcWebdavDisplayInformation( $response, $response->resource->content );
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
+     * @param ezcWebdavMakeCollectionResponse $response 
+     * @return DOMDocument|null
+     */
+    protected function processMakeCollectionResponse( ezcWebdavMakeCollectionResponse $response )
+    {
+        return new ezcWebdavDisplayInformation( $response, null );
     }
 
     /**
