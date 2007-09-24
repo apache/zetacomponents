@@ -24,3 +24,7 @@ TODO
 - Memory backend does not support emulation of client test case rfc/proppatch.
 
   - Error emulation would need to be highly more flexible.
+
+- ezcWebdavDisplayInformation holds a DOMDocument as the body information per
+  default. Only the ezcWebdavGetResourceResponse needs it different. We
+  currently store both datatypes an $body, but that is unclean.

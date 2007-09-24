@@ -1068,8 +1068,8 @@ class ezcWebdavTransport
                 $displayInfo = $this->processOptionsResponse( $response );
                 break;
             case 'ezcWebdavPropPatchResponse':
-                // $displayInfo = $this->processPropPatchResponse( $response );
-                // break;
+                $displayInfo = $this->processPropPatchResponse( $response );
+                break;
             case 'ezcWebdavGetResourceResponse':
             case 'ezcWebdavHeadResponse':
             case 'ezcWebdavMakeCollectionResponse':
@@ -1089,18 +1089,41 @@ class ezcWebdavTransport
      * can be overwritten in test cases to change the behaviour of printing out
      * the result and sending the headers.
      * 
-     * @param ezcWebdavResponse $response 
-     * @param DOMDocument $dom 
+     * @param ezcWebdavDisplayInformation $info
      * @return void
+     *
+     * @todo Do we need to explicitly send Content-Length here?
      */
     protected function sendResponse( ezcWebdavDisplayInformation $info )
     {
-        header( (string) $info->response );
-        if ( $info->body instanceof DOMDocument )
+        switch ( true )
         {
-            $info->body->formatOutput = true;
-            echo $info->body->saveXML( $info->body );
+            case ( $info->body instanceof DOMDocument ):
+                $info->body->formatOutput = true;
+                $result = $info->body->saveXML( $info->body );
+                break;
+            case ( is_string( $info->body ) ):
+                $result = $info->body;
+                break;
+            case ( $info->body === null ):
+            default:
+                $result = '';
+                break;
         }
+        
+        // Sends HTTP response code and description
+        header( (string) $info->response );
+
+        // Send headers defined by response
+        $headers = $info->repsonse->getHeaders();
+        foreach ( $headers as $name => $value )
+        {
+            header( "{$name}: {$value}" );
+        }
+
+        // Do we need to explictly send the Content-Length header here?
+        
+        // All done
     }
 
     /**
@@ -1152,6 +1175,17 @@ class ezcWebdavTransport
             );
         }
         return new ezcWebdavDisplayInformation( $response, $dom );
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     *
+     * @param ezcWebdavPropPatchResponse $response 
+     * @return DOMDocument
+     */
+    protected function processPropPatchResponse( ezcWebdavPropPatchResponse $response )
+    {
+        return new ezcWebdavDisplayInformation( $response, null );
     }
 
     /**

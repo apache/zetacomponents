@@ -42,10 +42,11 @@ class ezcWebdavDisplayInformation
     public $response;
 
     /**
-     * DOMDocument representing the response body.
-     * Should be empty, if no body should be send.
+     * Representation of the response body.
+     * Should be null, if no body is to be sent, an instance of DOMDocument to
+     * send and XML body or a string representng the body if it is non-XML.
      * 
-     * @var DOMDocument|null
+     * @var DOMDocument|string|null
      */
     public $body;
 }
