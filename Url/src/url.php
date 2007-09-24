@@ -69,7 +69,7 @@
  *
  * @property string $host
  *           Hostname or null
- * @property string $path
+ * @property array(string) $path
  *           Complete path as an array.
  * @property string $user
  *           User or null.
@@ -79,17 +79,17 @@
  *           Port or null.
  * @property string $scheme
  *           Protocol or null.
- * @property string $query
+ * @property array(string=>mixed) $query
  *           Complete query string as an associative array.
  * @property string $fragment
  *           Anchor or null.
- * @property string $basedir
- *           Base directory or null.
- * @property string $script
- *           Script name or null.
- * @property string $params
+ * @property array(string) $basedir
+ *           Base directory (the part before the script name) or null.
+ * @property array(string) $script
+ *           Script name (eg. 'index.php') or null.
+ * @property array(string) $params
  *           Complete ordered parameters as array.
- * @property string $uparams
+ * @property array(string=>mixed) $uparams
  *           Complete unordered parameters as associative array.
  * @property ezcUrlConfiguration $configuration
  *           The URL configuration defined for this URL, or null.

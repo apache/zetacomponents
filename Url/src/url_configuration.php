@@ -68,16 +68,16 @@
  *           The default php script, which comes after the basedir. Can be null
  *           if the web server configuration is set to hide it.
  *           Example: $script = index.php in http://www.example.com/shop/index.php
- * @property array $unorderedDelimiters
+ * @property array(string) $unorderedDelimiters
  *           The delimiters for the unordered parameters names.
  *           Example: $unorderedDelimiters = array( '(', ')' ) for
  *              url = http://www.example.com/doc/(file)/classtrees_Base.html
- * @property string $orderedParameters
+ * @property array(string=>int) $orderedParameters
  *           The ordered parameters of the URL.
  *           Example: $orderedParameters = array( 'section' => 0, 'module' => 1, 'view' => 2, 'content' => 3 );
  *              url = http://www.example.com/doc/components/view/trunk
  *           The numbers in the array represent the indices for each parameter.
- * @property string $unorderedParameters
+ * @property array(string=>int) $unorderedParameters
  *           The unordered parameters of the URL.
  *           Example: $unorderedParameters = array( 'file' => SINGLE_ARGUMENT );
  *              url = http://www.example.com/doc/(file)/classtrees_Base.html
