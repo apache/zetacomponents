@@ -22,6 +22,8 @@ class ezcWebdavClientRfcTestBackend
             case 'copy':
             case 'copy_overwrite':
             case 'options':
+            case 'get_collection':
+            case 'get_resource':
                 return self::getIcsUciSetup1();
             case 'move_resource':
                 return self::getIcsUciSetup2();
@@ -252,7 +254,7 @@ EOT
         $backend->addContents(
             array(
                 '~fielding' => array(
-                    'index.html' => '',
+                    'index.html' => '<html><head><title>Foo Bar</title></head></html>',
                 ),
             )
         );
@@ -265,6 +267,20 @@ EOT
                         )
                     ),
                 ),
+            )
+        );
+
+        $backend->setProperty(
+            '/~fielding/index.html',
+            new ezcWebdavGetContentTypeProperty(
+                'text/html', 'utf-8'
+            )
+        );
+
+        $backend->setProperty(
+            '/~fielding/index.html',
+            new ezcWebdavGetContentLengthProperty(
+                '49'
             )
         );
 

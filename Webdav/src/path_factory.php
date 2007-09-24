@@ -64,7 +64,7 @@ class ezcWebdavPathFactory
         {
             $requestPath = substr( $requestPath, 0, -1 );
         }
-        return substr( $requestPath, isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 );
+        return substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) );
     }
 
     /**

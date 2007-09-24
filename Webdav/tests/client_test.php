@@ -163,20 +163,8 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $responseObject = $response['backend']->performRequest( $requestObject );
         
         $this->transport->handleResponse( $responseObject );
-        $responseHeaders = array_merge( 
-            array( (string) $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->response ),
-            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->response->getHeaders()
-        );
-        
-        if ( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->body !== null )
-        {
-            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->body->formatOutput = true;
-            $responseBody = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->body->saveXML( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->body );
-        }
-        else
-        {
-            $responseBody = null;
-        }
+        $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
+        $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
 
 
         if ( $response['result'] === false )

@@ -1064,13 +1064,15 @@ class ezcWebdavTransport
             case 'ezcWebdavGetCollectionResponse':
                 $displayInfo = $this->processGetCollectionResponse( $response );
                 break;
+            case 'ezcWebdavGetResourceResponse':
+                $displayInfo = $this->processGetResourceResponse( $response );
+                break;
             case 'ezcWebdavOptionsResponse':
                 $displayInfo = $this->processOptionsResponse( $response );
                 break;
             case 'ezcWebdavPropPatchResponse':
                 $displayInfo = $this->processPropPatchResponse( $response );
                 break;
-            case 'ezcWebdavGetResourceResponse':
             case 'ezcWebdavHeadResponse':
             case 'ezcWebdavMakeCollectionResponse':
             case 'ezcWebdavMoveResponse':
@@ -1123,6 +1125,7 @@ class ezcWebdavTransport
 
         // Do we need to explictly send the Content-Length header here?
         
+        echo $result;
         // All done
     }
 
@@ -1245,6 +1248,31 @@ class ezcWebdavTransport
     {
         $dom = $this->getDom();
         return new ezcWebdavDisplayInformation( $response, $dom );
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
+     * @param ezcWebdavGetResourceResponse $response 
+     * @return DOMDocument|null
+     * @todo Do we need to set more headers here?
+     */
+    protected function processGetResourceResponse( ezcWebdavGetResourceResponse $response )
+    {
+        // Generate Content-Type header if necessary
+        if ( $response->getHeader( 'Content-Type' ) === null )
+        {
+            $contentTypeProperty = $response->resource->liveProperties->get( 'getcontenttype' );
+            $contentTypeHeader = ( $contentTypeProperty->mime    !== null ? $contentTypeProperty->mime    : 'application/octet-stream' ) .
+                '; charset="' .   ( $contentTypeProperty->charset !== null ? $contentTypeProperty->charset : 'utf-8' ) . '"';
+            $response->setHeader( 'Content-Type', $contentTypeHeader );
+        }
+        // Generate Content-Length header if necessary
+        if ( $response->getHeader( 'Content-Length' ) === null )
+        {
+            $response->setHeader( 'Content-Length', ( strlen( $response->resource->content ) + 1 ) );
+        }
+        return new ezcWebdavDisplayInformation( $response, $response->resource->content );
     }
 
     /**
