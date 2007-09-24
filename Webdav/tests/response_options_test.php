@@ -29,12 +29,7 @@ class ezcWebdavOptionsResponseTest extends ezcWebdavTestCase
 
     public function testResourceOptionsUnknownProperty()
     {
-        $response = new ezcWebdavOptionsResponse(
-            new ezcWebdavResource(
-                '/path',
-                new ezcWebdavPropertyStorage()
-            )
-        );
+        $response = new ezcWebdavOptionsResponse();
 
         try
         {
@@ -51,12 +46,7 @@ class ezcWebdavOptionsResponseTest extends ezcWebdavTestCase
 
     public function testResourceSetUnknownProperty()
     {
-        $response = new ezcWebdavOptionsResponse(
-            new ezcWebdavResource(
-                '/path',
-                new ezcWebdavPropertyStorage()
-            )
-        );
+        $response = new ezcWebdavOptionsResponse();
 
         try
         {
@@ -72,13 +62,7 @@ class ezcWebdavOptionsResponseTest extends ezcWebdavTestCase
 
     public function testCollectionOptionsUnknownProperty()
     {
-        $response = new ezcWebdavOptionsResponse(
-            new ezcWebdavCollection(
-                '/path',
-                new ezcWebdavPropertyStorage(),
-                array()
-            )
-        );
+        $response = new ezcWebdavOptionsResponse();
 
         try
         {
@@ -95,13 +79,7 @@ class ezcWebdavOptionsResponseTest extends ezcWebdavTestCase
 
     public function testCollectionSetUnknownProperty()
     {
-        $response = new ezcWebdavOptionsResponse(
-            new ezcWebdavCollection(
-                '/path',
-                new ezcWebdavPropertyStorage(),
-                array()
-            )
-        );
+        $response = new ezcWebdavOptionsResponse();
 
         try
         {
@@ -115,41 +93,9 @@ class ezcWebdavOptionsResponseTest extends ezcWebdavTestCase
         $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
     }
 
-    public function testResourceSetPropertyResource()
-    {
-        $response = new ezcWebdavOptionsResponse(
-            $resource = new ezcWebdavResource(
-                '/path',
-                new ezcWebdavPropertyStorage()
-            )
-        );
-
-        $this->assertSame(
-            $resource,
-            $response->resource,
-            'Wrong default value for property resource in class ezcWebdavOptionsResponse.'
-        );
-
-        try
-        {
-            $response->resource = 200;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return true;
-        }
-
-        $this->fail( 'Expected ezcBaseValueException.' );
-    }
-
     public function testValidateHeadersSuccess()
     {
-        $response = new ezcWebdavOptionsResponse(
-            $resource = new ezcWebdavResource(
-                '/path',
-                new ezcWebdavPropertyStorage()
-            )
-        );
+        $response = new ezcWebdavOptionsResponse();
 
         $response->validateHeaders();
         $this->assertEquals(
@@ -184,12 +130,7 @@ class ezcWebdavOptionsResponseTest extends ezcWebdavTestCase
 
     public function testValidateHeadersFailure()
     {
-        $response = new ezcWebdavOptionsResponse(
-            $resource = new ezcWebdavResource(
-                '/path',
-                new ezcWebdavPropertyStorage()
-            )
-        );
+        $response = new ezcWebdavOptionsResponse();
 
         $response->setHeader( 'DAV', null );
 

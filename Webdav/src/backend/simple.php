@@ -1022,6 +1022,22 @@ abstract class ezcWebdavSimpleBackend
             $collection
         );
     }
+
+    /**
+     * Required method to serve OPTIONS requests.
+     * 
+     * The method receives a {@link ezcWebdavOptionsRequest} object containing all
+     * relevant information obout the clients request and should either return
+     * an error by returning an {@link ezcWebdavErrorResponse} object, or any
+     * other {@link ezcWebdavResponse} objects.
+     *
+     * @param ezcWebdavOptionsRequest $request
+     * @return ezcWebdavResponse
+     */
+    public function options( ezcWebdavOptionsRequest $request )
+    {
+        return new ezcWebdavOptionsResponse();
+    }
 }
 
 ?>

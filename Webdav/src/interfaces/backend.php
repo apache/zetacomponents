@@ -87,6 +87,8 @@ abstract class ezcWebdavBackend
                 return $this->propFind( $request );
             case ( $request instanceof ezcWebdavPropPatchRequest ):
                 return $this->propPatch( $request );
+            case ( $request instanceof ezcWebdavOptionsRequest ):
+                return $this->options( $request );
             case ( $request instanceof ezcWebdavDeleteRequest ):
                 if ( $this instanceof ezcWebdavBackendChange )
                 {
@@ -214,6 +216,19 @@ abstract class ezcWebdavBackend
      * @return ezcWebdavResponse
      */
     abstract public function propPatch( ezcWebdavPropPatchRequest $request );
+
+    /**
+     * Required method to serve OPTIONS requests.
+     * 
+     * The method receives a {@link ezcWebdavOptionsRequest} object containing all
+     * relevant information obout the clients request and should either return
+     * an error by returning an {@link ezcWebdavErrorResponse} object, or any
+     * other {@link ezcWebdavResponse} objects.
+     *
+     * @param ezcWebdavOptionsRequest $request
+     * @return ezcWebdavResponse
+     */
+    abstract public function options( ezcWebdavOptionsRequest $request );
 }
 
 ?>

@@ -21,6 +21,7 @@ class ezcWebdavClientRfcTestBackend
             case 'copy_success':
             case 'copy':
             case 'copy_overwrite':
+            case 'options':
                 return self::getIcsUciSetup1();
             case 'move_resource':
                 return self::getIcsUciSetup2();

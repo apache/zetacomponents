@@ -96,7 +96,8 @@ class ezcWebdavTransport
                 return $this->parseMakeCollectionRequest( $path, $body );
             case 'MOVE':
                 return $this->parseMoveRequest( $path, $body );
-                // @TODO: OPTIONS
+            case 'OPTIONS':
+                return $this->parseOptionsRequest( $path, $body );
             case 'PROPFIND':
                 return $this->parsePropFindRequest( $path, $body );
             case 'PROPPATCH':
@@ -574,6 +575,24 @@ class ezcWebdavTransport
     {
         return new ezcWebdavMakeCollectionRequest( $path, ( trim( $body ) === '' ? null : $body ) );
     }
+    
+    // OPTIONS
+
+    /**
+     * Parses the OPTIONS request and returns a request object.
+     * This method is responsible for parsing the OPTIONS request. It
+     * retrieves the current request URI in $path and the request body as $body.
+     * The return value, if no exception is thrown, is a valid {@link
+     * ezcWebdavOptionsRequest} object.
+     * 
+     * @param string $path 
+     * @param string $body 
+     * @return ezcWebdavOptionsRequest
+     */
+    protected function parseOptionsRequest( $path, $body )
+    {
+        return new ezcWebdavOptionsRequest( $path, ( trim( $body ) === '' ? null : $body ) );
+    }
 
     // PROPFIND
 
@@ -644,6 +663,7 @@ class ezcWebdavTransport
         }
         return $request;
     }
+    
 
     /**
      * Returns extracted properties in an ezcWebdavPropertyStorage.
@@ -1011,7 +1031,7 @@ class ezcWebdavTransport
      */
     public function handleResponse( ezcWebdavResponse $response )
     {
-        $this->sendResponse( $response, $this->processResponse( $response ) );
+        $this->sendResponse( $this->processResponse( $response ) );
     }
 
     /**
@@ -1022,42 +1042,45 @@ class ezcWebdavTransport
      */
     protected function processResponse( ezcWebdavResponse $response )
     {
-        $dom = null;
+        $displayInfo = null;
 
         switch ( ( $responseClass = get_class( $response ) ) )
         {
             case 'ezcWebdavPropFindResponse':
-                $dom = $this->processPropFindResponse( $response );
+                $displayInfo = $this->processPropFindResponse( $response );
                 break;
             case 'ezcWebdavMultistatusResponse':
-                $dom = $this->processMultiStatusResponse( $response );
+                $displayInfo = $this->processMultiStatusResponse( $response );
                 break;
             case 'ezcWebdavCopyResponse':
-                $dom = $this->processCopyResponse( $response );
+                $displayInfo = $this->processCopyResponse( $response );
                 break;
             case 'ezcWebdavDeleteResponse':
-                $dom = $this->processDeleteResponse( $response );
+                $displayInfo = $this->processDeleteResponse( $response );
                 break;
             case 'ezcWebdavErrorResponse':
-                $dom = $this->processErrorResponse( $response );
+                $displayInfo = $this->processErrorResponse( $response );
                 break;
             case 'ezcWebdavGetCollectionResponse':
-                $dom = $this->processGetCollectionResponse( $response );
+                $displayInfo = $this->processGetCollectionResponse( $response );
                 break;
+            case 'ezcWebdavOptionsResponse':
+                $displayInfo = $this->processOptionsResponse( $response );
+                break;
+            case 'ezcWebdavPropPatchResponse':
+                // $displayInfo = $this->processPropPatchResponse( $response );
+                // break;
             case 'ezcWebdavGetResourceResponse':
             case 'ezcWebdavHeadResponse':
             case 'ezcWebdavMakeCollectionResponse':
             case 'ezcWebdavMoveResponse':
-            case 'ezcWebdavOptionsResponse':
-            case 'ezcWebdavPropPatchResponse':
             case 'ezcWebdavPutResponse':
             default:
                 // @TODO: Implement!
                 throw new RuntimeException( "Serialization of class $responseClass not implemented, yet." );
-            
         }
 
-        return $dom;
+        return $displayInfo;
     }
 
     /**
@@ -1070,13 +1093,13 @@ class ezcWebdavTransport
      * @param DOMDocument $dom 
      * @return void
      */
-    protected function sendResponse( ezcWebdavResponse $response, DOMDocument $dom = null )
+    protected function sendResponse( ezcWebdavDisplayInformation $info )
     {
-        header( (string) $response );
-        if ( $dom instanceof DOMDocument )
+        header( (string) $info->response );
+        if ( $info->body instanceof DOMDocument )
         {
-            $dom->formatOutput = true;
-            echo $dom->saveXML( $dom );
+            $info->body->formatOutput = true;
+            echo $info->body->saveXML( $info->body );
         }
     }
 
@@ -1097,11 +1120,11 @@ class ezcWebdavTransport
         foreach ( $response->responses as $subResponse )
         {
             $multistatusElement->appendChild(
-                $dom->importNode( $this->processResponse( $subResponse )->documentElement, true )
+                $dom->importNode( $this->processResponse( $subResponse )->body->documentElement, true )
             );
         }
         
-        return $dom;
+        return new ezcWebdavDisplayInformation( $response, $dom );
     }
 
     /**
@@ -1125,10 +1148,10 @@ class ezcWebdavTransport
         foreach ( $response->responses as $propStat )
         {
             $responseElement->appendChild(
-                $dom->importNode( $this->processPropStatResponse( $propStat )->documentElement, true )
+                $dom->importNode( $this->processPropStatResponse( $propStat )->body->documentElement, true )
             );
         }
-        return $dom;
+        return new ezcWebdavDisplayInformation( $response, $dom );
     }
 
     /**
@@ -1139,7 +1162,7 @@ class ezcWebdavTransport
      */
     protected function processCopyResponse( ezcWebdavCopyResponse $response )
     {
-        return null;
+        return new ezcWebdavDisplayInformation( $response, null );
     }
 
     /**
@@ -1150,7 +1173,7 @@ class ezcWebdavTransport
      */
     protected function processDeleteResponse( ezcWebdavDeleteResponse $response )
     {
-        return null;
+        return new ezcWebdavDisplayInformation( $response, null );
     }
 
     /**
@@ -1175,7 +1198,7 @@ class ezcWebdavTransport
             $this->newDomElement( $dom, 'status' )
         )->nodeValue = (string) $response;
 
-        return $dom;
+        return new ezcWebdavDisplayInformation( $response, $dom );
     }
 
     /**
@@ -1187,7 +1210,18 @@ class ezcWebdavTransport
     protected function processGetCollectionResponse( ezcWebdavGetCollectionResponse $response )
     {
         $dom = $this->getDom();
-        return $dom;
+        return new ezcWebdavDisplayInformation( $response, $dom );
+    }
+
+    /**
+     * Returns an XML representation of the given response object.
+     * 
+     * @param ezcWebdavOptionsResponse $response 
+     * @return DOMDocument|null
+     */
+    protected function processOptionsResponse( ezcWebdavOptionsResponse $response )
+    {
+        return new ezcWebdavDisplayInformation( $response, null );
     }
 
     /**
@@ -1216,7 +1250,7 @@ class ezcWebdavTransport
             )
         )->nodeValue = (string) $response;
 
-        return $dom;
+        return new ezcWebdavDisplayInformation( $response, $dom );
     }
 
     /**

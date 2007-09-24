@@ -163,18 +163,30 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $responseObject = $response['backend']->performRequest( $requestObject );
         
         $this->transport->handleResponse( $responseObject );
-        $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
-        $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
+        $responseHeaders = array_merge( 
+            array( (string) $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->response ),
+            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->response->getHeaders()
+        );
+        
+        if ( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->body !== null )
+        {
+            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->body->formatOutput = true;
+            $responseBody = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->body->saveXML( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_DISPLAY_INFO']->body );
+        }
+        else
+        {
+            $responseBody = null;
+        }
 
 
         if ( $response['result'] === false )
         {
             // Regenerate
             file_put_contents(
-                "{$this->currentTestSet}/response/result.php",
-                "<?php\nreturn " . var_export( array( "headers" => $responseHeaders, "body" => $responseBody ), true ) . ";\n?>"
+                "{$this->currentTestSet}/response/result.ser",
+                serialize( array( "headers" => $responseHeaders, "body" => $responseBody ) )
             );
-            if ( trim( $response['body'] ) === '' || trim( $responseBody ) === '' )
+            if ( trim( $response['body'] ) === '' || $responseBody === null )
             {
                 $this->assertEquals(
                     $response['body'],
@@ -198,7 +210,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 $responseHeaders,
                 'Generated headers missmatch.'
             );
-            if ( trim( $response['result']['body'] ) === '' || trim( $responseBody ) === '' )
+            if ( trim( $response['result']['body'] ) === '' || $responseBody === null )
             {
                 $this->assertEquals(
                     $response['result']['body'],

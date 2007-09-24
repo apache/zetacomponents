@@ -30,48 +30,10 @@ class ezcWebdavOptionsResponse extends ezcWebdavResponse
      * @param mixed $resource 
      * @return void
      */
-    public function __construct( $resource )
+    public function __construct( $version = null )
     {
         parent::__construct( ezcWebdavResponse::STATUS_200 );
-
-        $this->resource = $resource;
-
-        // @TODO: Check for correctness
-        $this->headers['DAV'] = '1, 2, 1#extended';
-    }
-
-    /**
-     * Sets a property.
-     * This method is called when an property is to be set.
-     * 
-     * @param string $propertyName The name of the property to set.
-     * @param mixed $propertyValue The property value.
-     * @ignore
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         if the given property does not exist.
-     * @throws ezcBaseValueException
-     *         if the value to be assigned to a property is invalid.
-     * @throws ezcBasePropertyPermissionException
-     *         if the property to be set is a read-only property.
-     */
-    public function __set( $propertyName, $propertyValue )
-    {
-        switch ( $propertyName )
-        {
-            case 'resource':
-                if ( ( ! $propertyValue instanceof ezcWebdavResource ) &&
-                     ( ! $propertyValue instanceof ezcWebdavCollection ) )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavResource or ezcWebdavCollection' );
-                }
-
-                $this->properties[$propertyName] = $propertyValue;
-                break;
-
-            default:
-                parent::__set( $propertyName, $propertyValue );
-        }
+        $this->headers['DAV'] = ( $version === null ? '1, 2, 1#extended' : null );
     }
 
     /**

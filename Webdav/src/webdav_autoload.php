@@ -43,6 +43,7 @@ return array(
     'ezcWebdavDeadProperty'                    => 'Webdav/properties/dead.php',
     'ezcWebdavDeleteRequest'                   => 'Webdav/request/delete.php',
     'ezcWebdavDeleteResponse'                  => 'Webdav/response/delete.php',
+    'ezcWebdavDisplayInformation'              => 'Webdav/structs/display_information.php',
     'ezcWebdavDisplayNameProperty'             => 'Webdav/properties/displayname.php',
     'ezcWebdavErrorResponse'                   => 'Webdav/response/error.php',
     'ezcWebdavFileBackend'                     => 'Webdav/backend/file.php',
