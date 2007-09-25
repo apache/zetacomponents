@@ -1,4 +1,4 @@
-a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:2809:"<?xml version="1.0" encoding="UTF-8"?>
+a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:2816:"<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:repsonse xmlns:R="http://www.foo.bar/boxschema/">
     <D:href>http://www.foo.bar/container/</D:href>
@@ -47,7 +47,7 @@ a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:2809:
         <D:getcontentlength>4525</D:getcontentlength>
         <D:getcontenttype>text/html</D:getcontenttype>
         <D:getetag>zzyzx</D:getetag>
-        <D:getlastmodified>1998-01-12T09:25:56+0000</D:getlastmodified>
+        <D:getlastmodified>Mon, 12 Jan 1998 09:25:56 +0000</D:getlastmodified>
         <D:resourcetype/>
         <D:supportedlock>
           <D:lockentry>
