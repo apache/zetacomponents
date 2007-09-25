@@ -709,18 +709,7 @@ class ezcWebdavTransport
             // Other namespaces are always dead properties
             else
             {
-                // Create standalone XML for property
-                // @TODO How do we need to take care about different namespaces here?
-                // It may possibly occur, that shortcut clashes occur...
-                $propDom = new DOMDocument();
-                $copiedNode = $propDom->importNode( $currentNode, true );
-                $propDom->appendChild( $copiedNode );
-                
-                $property = new ezcWebdavDeadProperty(
-                    $currentNode->namespaceURI,
-                    $currentNode->localName,
-                    $propDom->saveXML()
-                );
+                $property = $this->extractDeadProperty( $currentNode );
                 $flag === null ? $storage->attach( $property ) : $storage->attach( $property, $flag );
             }
         }
@@ -728,7 +717,31 @@ class ezcWebdavTransport
     }
 
     /**
-     * Extracts a live property from an DOMElement.
+     * Extract a dead property from a DOMElement.
+     * This method is responsible for parsing a {@link ezcWebdavDeadProperty}
+     * (unknown) property from a DOMElement.
+     * 
+     * @param DOMElement $domElement 
+     * @return ezcWebdavDeadProperty
+     * @todo How do we need to take care about different namespaces here?
+     */
+    protected function extractDeadProperty( DOMElement $domElement )
+    {
+        // Create standalone XML for property
+        // It may possibly occur, that shortcut clashes occur...
+        $propDom    = new DOMDocument();
+        $copiedNode = $propDom->importNode( $domElement, true );
+        $propDom->appendChild( $copiedNode );
+        
+        return new ezcWebdavDeadProperty(
+            $domElement->namespaceURI,
+            $domElement->localName,
+            $propDom->saveXML()
+        );
+    }
+
+    /**
+     * Extracts a live property from a DOMElement.
      * This method is responsible for parsing WebDAV live properties. The
      * DOMElement $domElement must be an XML element in the DAV: namepsace. If
      * the received property is not defined in RFC 2518, null is returned.
@@ -812,20 +825,20 @@ class ezcWebdavTransport
                 $property = new ezcWebdavSourceProperty();
                 if ( $domElement->hasChildNodes() === true )
                 {
-                    $property->links = $this->extractLinkContent( $domElemente );
+                    $property->links = $this->extractLinkContent( $domElement );
                 }
                 break;
             case 'supportedlock':
                 $property = new ezcWebdavSupportedLockProperty();
                 if ( $domElement->hasChildNodes() === true )
                 {
-                    $property->links = $this->extractLockEntryContent( $domElemente );
+                    $property->links = $this->extractLockEntryContent( $domElement );
                 }
                 break;
             default:
                 // @TODO Implement extension plugins
                 // Currently just ignore
-                $property = null;
+                $property = $this->extractDeadProperty( $domElement );
         }
         return $property;
     }
@@ -1124,7 +1137,7 @@ class ezcWebdavTransport
         header( (string) $info->response );
 
         // Send headers defined by response
-        $headers = $info->repsonse->getHeaders();
+        $headers = $info->response->getHeaders();
         foreach ( $headers as $name => $value )
         {
             header( "{$name}: {$value}" );
@@ -1153,7 +1166,10 @@ class ezcWebdavTransport
         foreach ( $response->responses as $subResponse )
         {
             $multistatusElement->appendChild(
-                $dom->importNode( $this->processResponse( $subResponse )->body->documentElement, true )
+                ( $subResponse instanceof ezcWebdavErrorResponse 
+                    ? $dom->importNode( $this->processErrorResponse( $subResponse, true )->body->documentElement, true )
+                    : $dom->importNode( $this->processResponse( $subResponse )->body->documentElement, true )
+                )
             );
         }
         
@@ -1235,24 +1251,28 @@ class ezcWebdavTransport
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavErrorResponse $response 
+     * @param bool $xml DOMDocument in result only generated of true.
      * @return DOMDocument|null
      */
-    protected function processErrorResponse( ezcWebdavErrorResponse $response )
+    protected function processErrorResponse( ezcWebdavErrorResponse $response, $xml = false )
     {
-        $dom = $this->getDom();
+        $dom = null;
+        if ( $xml === true )
+        {
+            $dom = $this->getDom();
+            $responseElement = $dom->appendChild(
+                $this->newDomElement( $dom, 'response' )
+            );
+            
+            $responseElement->appendChild(
+                $this->newDomElement( $dom, 'href' )
+            )->nodeValue = $this->options->pathFactory->generateUriFromPath( $response->requestUri );
+            
+            $responseElement->appendChild(
+                $this->newDomElement( $dom, 'status' )
+            )->nodeValue = (string) $response;
 
-        $responseElement = $dom->appendChild(
-            $this->newDomElement( $dom, 'response' )
-        );
-        
-        $responseElement->appendChild(
-            $this->newDomElement( $dom, 'href' )
-        )->nodeValue = $this->options->pathFactory->generateUriFromPath( $response->requestUri );
-        
-        $responseElement->appendChild(
-            $this->newDomElement( $dom, 'status' )
-        )->nodeValue = (string) $response;
-
+        }
         return new ezcWebdavDisplayInformation( $response, $dom );
     }
 
@@ -1285,10 +1305,12 @@ class ezcWebdavTransport
             $response->setHeader( 'Content-Type', $contentTypeHeader );
         }
         // Generate Content-Length header if necessary
+        /*
         if ( $response->getHeader( 'Content-Length' ) === null )
         {
             $response->setHeader( 'Content-Length', ( strlen( $response->resource->content ) + 1 ) );
         }
+        */
         return new ezcWebdavDisplayInformation( $response, $response->resource->content );
     }
 
