@@ -736,12 +736,6 @@ abstract class ezcWebdavSimpleBackend
 
         // Delete
         $deletion = $this->performDelete( $source );
-
-        // If deletion failed, this has again been caused by the automatic
-        // error causing facilities of the backend. Send 423 by choice.
-        //
-        // @TODO: The error generated here should depend on the actual backend
-        // implementation and  not be generated guessing what may fit.
         if ( count( $deletion ) > 0 )
         {
             return new ezcWebdavMultistatusResponse(
@@ -910,11 +904,10 @@ abstract class ezcWebdavSimpleBackend
              $this->nodeExists( $dest ) )
         {
             $replaced = true;
-            if ( $this->performDelete( $dest ) === false )
+            if ( count ( $delteErrors = $this->performDelete( $dest ) ) > 0 )
             {
-                return new ezcWebdavErrorResponse(
-                    ezcWebdavResponse::STATUS_423,
-                    $dest
+                return new ezcWebdavMultistatusResponse(
+                    $delteErrors
                 );
             }
         }
@@ -948,11 +941,10 @@ abstract class ezcWebdavSimpleBackend
         //
         // @TODO: The error generated here should depend on the actual backend
         // implementation and  not be generated guessing what may fit.
-        if ( $deletion !== true )
+        if ( count( $deletion ) > 0 )
         {
-            return new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_423,
-                $source
+            return new ezcWebdavMultistatusResponse(
+                $deletion
             );
         }
 

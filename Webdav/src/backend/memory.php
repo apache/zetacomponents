@@ -431,7 +431,7 @@ class ezcWebdavMemoryBackend
         {
             // Copy a resource, or a collection, but the depth header told not
             // to recurse into collections
-            if ( $causeErrors && preg_match( $this->options->failForRegexp, $fromPath ) )
+            if ( $causeErrors && preg_match( $this->options->failForRegexp, $fromPath ) > 0 )
             {
                 // Completely abort with error
                 return array( ezcWebdavErrorResponse(
@@ -439,7 +439,7 @@ class ezcWebdavMemoryBackend
                     $fromPath
                 ) );
             }
-            if ( $causeErrors && preg_match( $this->options->failForRegexp, $toPath ) )
+            if ( $causeErrors && preg_match( $this->options->failForRegexp, $toPath ) > 0 )
             {
                 // Completely abort with error
                 return array( ezcWebdavErrorResponse(
@@ -602,8 +602,14 @@ class ezcWebdavMemoryBackend
                 else
                 {
                     unset( $this->content[$name] );
+                    unset( $this->props[$name] );
                 }
             }
+        }
+
+        if ( count( $errors ) > 0 ) 
+        {
+            return $errors;
         }
 
         // Remove parent node assignement to removed node
@@ -612,15 +618,6 @@ class ezcWebdavMemoryBackend
         {
             unset( $this->content[$parent][$id] );
             $this->content[$parent] = array_values( $this->content[$parent] );
-        }
-
-        // Also remove all properties for removed content nodes
-        foreach ( $this->props as $name => $properties )
-        {
-            if ( strpos( $name, $path ) === 0 )
-            {
-                unset( $this->props[$name] );
-            }
         }
 
         return $errors;
