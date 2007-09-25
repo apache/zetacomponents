@@ -365,7 +365,7 @@ abstract class ezcWebdavSimpleBackend
 
             // ... and diff the with the requested properties.
             $notFound = $request->prop->diff( $nodeProperties );
-            $valid = $request->prop->intersect( $nodeProperties );
+            $valid = $nodeProperties->intersect( $request->prop );
 
             $nodeResponses = array();
             // Add propstat sub response for valid responses
@@ -1036,7 +1036,9 @@ abstract class ezcWebdavSimpleBackend
      */
     public function options( ezcWebdavOptionsRequest $request )
     {
-        return new ezcWebdavOptionsResponse();
+        $res = new ezcWebdavOptionsResponse( '1' );
+        $res->setHeader( 'Allow', 'GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, DELETE, COPY, MOVE, MKCOL, PUT' );
+        return $res;
     }
 }
 
