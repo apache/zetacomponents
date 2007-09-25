@@ -1122,6 +1122,11 @@ class ezcWebdavTransport
         {
             case ( $info->body instanceof DOMDocument ):
                 $info->body->formatOutput = true;
+                // Explicitly set txt/xml content type
+                if ( $info->response->getHeader( 'Content-Type' ) === null )
+                {
+                    $info->response->setHeader( 'Content-Type', 'text/xml; charset="utf-8"' );
+                }
                 $result = $info->body->saveXML( $info->body );
                 break;
             case ( is_string( $info->body ) ):
@@ -1129,12 +1134,12 @@ class ezcWebdavTransport
                 break;
             case ( $info->body === null ):
             default:
-                $result = '';
+                $result = null;
                 break;
         }
         
-        // Sends HTTP response code and description
-        header( (string) $info->response );
+        // Sends HTTP response code and description, 3rd param forces status
+        header( (string) $info->response, true, (int) $info->response->status );
 
         // Send headers defined by response
         $headers = $info->response->getHeaders();
@@ -1143,10 +1148,11 @@ class ezcWebdavTransport
             header( "{$name}: {$value}" );
         }
 
-        // Do we need to explictly send the Content-Length header here?
-        
-        echo $result;
-        // All done
+        if ( $result !== null )
+        {
+            // Content-Length header automatically send
+            echo $result;
+        }
     }
 
     /**
@@ -1501,7 +1507,7 @@ class ezcWebdavTransport
                 break;
             case 'ezcWebdavResourceTypeProperty':
                 $elementName  = 'resourcetype';
-                $elementValue = ( $property->type === ezcWebdavResourceTypeProperty::TYPE_COLLECTION ? $this->newDomElement( $parentElement->ownerDocument, 'collection' ) : null );
+                $elementValue = ( $property->type === ezcWebdavResourceTypeProperty::TYPE_COLLECTION ? array( $this->newDomElement( $parentElement->ownerDocument, 'collection' ) ) : null );
                 break;
             case 'ezcWebdavSourceProperty':
                 $elementName  = 'source';
