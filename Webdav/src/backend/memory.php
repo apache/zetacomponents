@@ -423,7 +423,7 @@ class ezcWebdavMemoryBackend
      */
     protected function performCopy( $fromPath, $toPath, $depth = ezcWebdavRequest::DEPTH_INFINITY )
     {
-        $causeErrors = (bool) ( $this->options->failingOperations & ezcWebdavMemoryBackendOptions::REQUEST_COPY );
+        $causeErrors = (bool) ( $this->options->failingOperations & ( ezcWebdavMemoryBackendOptions::REQUEST_COPY | ezcWebdavMemoryBackendOptions::REQUEST_MOVE ) );
         $errors = array();
         
         if ( !is_array( $this->content[$fromPath] ) ||
