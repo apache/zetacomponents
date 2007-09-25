@@ -4,6 +4,9 @@ libxml_use_internal_errors( true );
 
 abstract class ezcWebdavClientTest extends ezcTestCase
 {
+    const REGENERATE_REQUEST  = false;
+    const REGENERATE_RESPONSE = false;
+
     protected $setupClass;
 
     public $dataDir;
@@ -141,7 +144,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         // Begin request test
         $result = $this->transport->parseRequest( $uri );
 
-        if ( $request['result'] === false )
+        if ( $request['result'] === false && self::REGENERATE_REQUEST === true )
         {
             // Regenerate
             file_put_contents(
@@ -170,11 +173,14 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         if ( $response['result'] === false )
         {
-            // Regenerate
-            file_put_contents(
-                "{$this->currentTestSet}/response/result.ser",
-                serialize( array( "headers" => $responseHeaders, "body" => $responseBody ) )
-            );
+            if ( self::REGENERATE_RESPONSE )
+            {
+                // Regenerate
+                file_put_contents(
+                    "{$this->currentTestSet}/response/result.ser",
+                    serialize( array( "headers" => $responseHeaders, "body" => $responseBody ) )
+                );
+            }
             if ( isset( $response['body'] ) === false || trim( $response['body'] ) === '' || $responseBody === '' )
             {
                 $this->assertEquals(
@@ -216,6 +222,18 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 );
             }
         }
+
+        $this->assertEquals(
+            $response['code'],
+            $responseObject->status,
+            'Response code missmatch'
+        );
+
+        $this->assertEquals(
+            $response['name'],
+            ezcWebdavResponse::$errorNames[$responseObject->status],
+            'Response name missmatch'
+        );
 
         return $responseObject;
     }
