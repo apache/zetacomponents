@@ -1,0 +1,24 @@
+Useful hints for WebDAV development
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Kore Nordmann, Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+litmus
+======
+
+litmus_ is a WebDAV server test suite based on libneon.
+
+.._litmus: http://www.webdav.org/neon/litmus/
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
