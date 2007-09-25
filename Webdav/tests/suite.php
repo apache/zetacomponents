@@ -64,6 +64,7 @@ require_once 'transport_options_test.php';
 require_once 'server_test.php';
 
 require_once 'client_test_rfc.php';
+require_once 'client_test_litmus.php';
 require_once 'client_test_cadaver.php';
 
 /**
@@ -125,6 +126,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavAutomaticPathFactoryTest::suite() );
 
         $this->addTest( ezcWebdavClientRfcTest::suite() );
+        $this->addTest( ezcWebdavClientLitmusTest::suite() );
         $this->addTest( ezcWebdavClientCadaverTest::suite() );
     }
 
