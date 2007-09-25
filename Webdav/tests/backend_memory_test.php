@@ -1694,10 +1694,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $requestedProperties = new ezcWebdavPropertyStorage();
         $requestedProperties->attach(
-            $prop1 = new ezcWebdavGetContentLengthProperty()
+            $prop1 = new ezcWebdavGetLastModifiedProperty()
         );
         $requestedProperties->attach(
-            $prop2 = new ezcWebdavGetLastModifiedProperty()
+            $prop2 = new ezcWebdavGetContentLengthProperty()
         );
         $requestedProperties->attach(
             $prop3 = new ezcWebdavDeadProperty( 'http://apache.org/dav/props/', 'executable' )
@@ -1706,10 +1706,13 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $request = new ezcWebdavPropFindRequest( '/foo' );
         $request->prop = $requestedProperties;
         $request->validateHeaders();
+        
         $response = $backend->propfind( $request );
 
         $prop200 = new ezcWebdavPropertyStorage();
+        $prop1->date = new DateTime( '@1124118780' );
         $prop200->attach( $prop1 );
+        $prop2->length = '3';
         $prop200->attach( $prop2 );
         $prop200->rewind();
 
@@ -1754,10 +1757,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $requestedProperties = new ezcWebdavPropertyStorage();
         $requestedProperties->attach(
-            $prop1 = new ezcWebdavGetContentLengthProperty()
+            $prop1 = new ezcWebdavGetLastModifiedProperty()
         );
         $requestedProperties->attach(
-            $prop2 = new ezcWebdavGetLastModifiedProperty()
+            $prop2 = new ezcWebdavGetContentLengthProperty()
         );
         $requestedProperties->attach(
             $prop3 = new ezcWebdavDeadProperty( 'http://apache.org/dav/props/', 'executable' )
@@ -1769,15 +1772,23 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->propfind( $request );
 
         $prop200c = new ezcWebdavPropertyStorage();
-        $prop200c->attach( $prop1 );
-        $prop200c->attach( $prop2 );
+        $prop1c = clone $prop1;
+        $prop1c->date = new DateTime( '@1124118780' );
+        $prop200c->attach( $prop1c );
+        $prop2c = clone $prop2;
+        $prop2c->length = '-1';
+        $prop200c->attach( $prop2c );
 
         $prop404c = new ezcWebdavPropertyStorage();
         $prop404c->attach( $prop3 );
 
         $prop200r = new ezcWebdavPropertyStorage();
-        $prop200r->attach( $prop1 );
-        $prop200r->attach( $prop2 );
+        $prop1r = clone $prop1;
+        $prop1r->date = new DateTime( '@1124118780' );
+        $prop200r->attach( $prop1r );
+        $prop2r = clone $prop2;
+        $prop2r->length = '19';
+        $prop200r->attach( $prop2r );
 
         $prop404r = new ezcWebdavPropertyStorage();
         $prop404r->attach( $prop3 );
@@ -1808,6 +1819,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 )
             )
         );
+
+        $prop200c->rewind();
+        $prop404c->rewind();
+        $prop200r->rewind();
+        $prop404r->rewind();
 
         $this->assertEquals(
             $expectedResponse,
@@ -2602,6 +2618,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             'foo:', 'blubb', 'some other content'
         ), ezcWebdavPropPatchRequest::SET );
 
+        $newProperties->rewind();
+
         $request = new ezcWebdavPropPatchRequest( '/foo' );
         $request->updates = $newProperties;
         $request->validateHeaders();
@@ -2678,14 +2696,14 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->propfind( $request );
 
         $checkProperties = new ezcWebdavPropertyStorage();
-        $checkProperties->attach( $p_blubb );
+        $checkProperties->attach(  
+            $p_last = new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+        );
+        $checkProperties->attach(  
+            $p_length = new ezcWebdavGetContentLengthProperty( '3' )
+        );
         $checkProperties->attach( $p_bar );
-        $checkProperties->attach(  
-            $p_length = new ezcWebdavGetContentLengthProperty()
-        );
-        $checkProperties->attach(  
-            $p_last = new ezcWebdavGetLastModifiedProperty()
-        );
+        $checkProperties->attach( $p_blubb );
         $checkProperties->rewind();
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
