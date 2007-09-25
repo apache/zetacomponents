@@ -1,7 +1,7 @@
-a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:2792:"<?xml version="1.0" encoding="UTF-8"?>
+a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:2793:"<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:repsonse xmlns:R="http://www.foo.bar/boxschema/">
-    <D:href>http://foo.bar/container</D:href>
+    <D:href>http://foo.bar/container/</D:href>
     <D:propstat xmlns:R="http://www.foo.bar/boxschema/">
       <D:prop>
         <R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
