@@ -29,6 +29,7 @@ class ezcWebdavClientRfcTestBackend
             case 'options':
             case 'get_collection':
             case 'get_resource':
+            case 'put_resource':
                 return self::getIcsUciSetup1( $test );
             case 'move_resource':
                 return self::getIcsUciSetup2( $test );

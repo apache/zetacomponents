@@ -969,6 +969,14 @@ abstract class ezcWebdavSimpleBackend
     {
         $collection = $request->requestUri;
 
+        if ( $request->body !== null )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_415,
+                $collection
+            );
+        }
+
         // If resource already exists, the collection cannot be created and a
         // 405 is thrown.
         if ( $this->nodeExists( $collection ) )
@@ -1033,7 +1041,7 @@ abstract class ezcWebdavSimpleBackend
      */
     public function options( ezcWebdavOptionsRequest $request )
     {
-        $res = new ezcWebdavOptionsResponse( '1' );
+        $res = new ezcWebdavOptionsResponse( '1, 2' );
         $res->setHeader( 'Allow', 'GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, DELETE, COPY, MOVE, MKCOL, PUT' );
         return $res;
     }

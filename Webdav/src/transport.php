@@ -103,7 +103,7 @@ class ezcWebdavTransport
             case 'PROPPATCH':
                 return $this->parsePropPatchRequest( $path, $body );
             case 'PUT':
-                return $this->parsePutReqeuts( $path, $body );
+                return $this->parsePutRequest( $path, $body );
             case 'UNLOCK':
                 return $this->parseUnlockRequest( $path, $body );
             default:
@@ -1328,7 +1328,7 @@ class ezcWebdavTransport
      */
     protected function processPutResponse( ezcWebdavPutResponse $response )
     {
-        return new ezcWebdavDisplayInformation( $response, $response->resource->content );
+        return new ezcWebdavDisplayInformation( $response, $response );
     }
 
     /**

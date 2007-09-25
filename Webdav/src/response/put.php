@@ -25,7 +25,7 @@ class ezcWebdavPutResponse extends ezcWebdavResponse
      */
     public function __construct()
     {
-        parent::__construct( ezcWebdavResponse::STATUS_200 );
+        parent::__construct( ezcWebdavResponse::STATUS_201 );
     }
 }
 

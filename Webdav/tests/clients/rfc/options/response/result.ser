@@ -1,1 +1,0 @@
-a:2:{s:7:"headers";a:3:{i:0;s:15:"HTTP/1.1 200 OK";s:3:"DAV";s:1:"1";s:5:"Allow";s:71:"GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, DELETE, COPY, MOVE, MKCOL, PUT";}s:4:"body";s:0:"";}
