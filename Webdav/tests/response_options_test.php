@@ -99,7 +99,7 @@ class ezcWebdavOptionsResponseTest extends ezcWebdavTestCase
 
         $response->validateHeaders();
         $this->assertEquals(
-            '1, 2, 1#extended',
+            '1',
             $response->getHeader( 'DAV' )
         );
 
