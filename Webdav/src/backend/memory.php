@@ -439,6 +439,14 @@ class ezcWebdavMemoryBackend
                     $fromPath
                 ) );
             }
+            if ( $causeErrors && preg_match( $this->options->failForRegexp, $toPath ) )
+            {
+                // Completely abort with error
+                return array( ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_412,
+                    $toPath
+                ) );
+            }
 
             // Perform copy operation
             if ( is_array( $this->content[$fromPath] ) )
@@ -504,6 +512,17 @@ class ezcWebdavMemoryBackend
                 // To actually perform the copy operation, modify the
                 // destination resource name
                 $newResourceName = preg_replace( '(^' . preg_quote( $fromPath ) . ')', $toPath, $resource );
+                
+                // Check if this resource should cause an error
+                if ( $causeErrors && preg_match( $this->options->failForRegexp, $newResourceName ) )
+                {
+                    // Cause an error and skip resource
+                    $errors[] = new ezcWebdavErrorResponse(
+                        ezcWebdavResponse::STATUS_412,
+                        $newResourceName
+                    );
+                    continue;
+                }
                 
                 // Add collection to collection child recalculation array
                 if ( is_array( $this->content[$resource] ) )
