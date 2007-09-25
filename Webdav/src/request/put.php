@@ -58,7 +58,7 @@ class ezcWebdavPutRequest extends ezcWebdavRequest
         }
         if ( isset( $this->headers['Content-Type'] ) === false )
         {
-            throw new ezcWebdavMissingHeaderException( 'Content-Type' );
+            $this->setHeader( 'Content-Type', 'application/octet-stream' );
         }
 
         // Validate common HTTP/WebDAV headers
