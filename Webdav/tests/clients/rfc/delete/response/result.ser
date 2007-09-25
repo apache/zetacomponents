@@ -1,1 +1,8 @@
-a:2:{s:7:"headers";a:1:{i:0;s:23:"HTTP/1.1 204 No Content";}s:4:"body";s:0:"";}
+a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:223:"<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response>
+    <D:href>http://www.foo.bar/container/resource3</D:href>
+    <D:status>HTTP/1.1 423 Locked</D:status>
+  </D:response>
+</D:multistatus>
+";}

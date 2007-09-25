@@ -1,7 +1,7 @@
-a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1850:"<?xml version="1.0" encoding="UTF-8"?>
+a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1866:"<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:repsonse>
-    <D:href>http://foo.bar/container/</D:href>
+    <D:href>http://www.foo.bar/container/</D:href>
     <D:propstat>
       <D:prop>
         <D:supportedlock>
@@ -27,7 +27,7 @@ a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1850:
     </D:propstat>
   </D:repsonse>
   <D:repsonse>
-    <D:href>http://foo.bar/container/front.html</D:href>
+    <D:href>http://www.foo.bar/container/front.html</D:href>
     <D:propstat>
       <D:prop>
         <D:supportedlock>
@@ -53,7 +53,7 @@ a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1850:
     </D:propstat>
   </D:repsonse>
   <D:repsonse>
-    <D:href>http://foo.bar/container/R2</D:href>
+    <D:href>http://www.foo.bar/container/R2</D:href>
     <D:propstat>
       <D:prop>
         <D:supportedlock/>
@@ -62,7 +62,7 @@ a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1850:
     </D:propstat>
   </D:repsonse>
   <D:repsonse>
-    <D:href>http://foo.bar/container/resource3</D:href>
+    <D:href>http://www.foo.bar/container/resource3</D:href>
     <D:propstat>
       <D:prop>
         <D:supportedlock/>
