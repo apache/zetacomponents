@@ -24,6 +24,7 @@ require_once 'backend_memory_test.php';
 require_once 'backend_file_test.php';
 require_once 'backend_file_options_test.php';
 
+require_once 'path_factory_test.php';
 require_once 'path_factory_automatic_test.php';
 
 require_once 'property_storage_test.php';
@@ -120,6 +121,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
 //        $this->addTest( ezcWebdavFileBackendTest::suite() );
 //        $this->addTest( ezcWebdavFileBackendOptionsTestCase::suite() );
 
+        $this->addTest( ezcWebdavPathFactoryTest::suite() );
         $this->addTest( ezcWebdavAutomaticPathFactoryTest::suite() );
 
         $this->addTest( ezcWebdavClientRfcTest::suite() );

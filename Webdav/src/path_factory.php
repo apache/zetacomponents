@@ -32,6 +32,19 @@ class ezcWebdavPathFactory
      * @var array(string=>string)
      */
     protected $baseUriParts;
+
+
+    /**
+     * Caches pathes that are a collection.
+     *
+     * Those will get a '/' appended on reserialization. Works only if they had
+     * been unserialized before.
+     *
+     * @todo This is a temporary hack to satisfy memory backend and RFC.
+     * 
+     * @var array(string=>bool)
+     */
+    protected $collectionPathes = array();
     
     /**
      * Creates a new path factory.
@@ -62,7 +75,9 @@ class ezcWebdavPathFactory
         $requestPath = parse_url( trim( $uri ), PHP_URL_PATH );
         if ( substr( $requestPath, -1, 1 ) === '/' )
         {
+            // @todo This is a cleanup for the memory backend
             $requestPath = substr( $requestPath, 0, -1 );
+            $this->collectionPathes[substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) )] = true;
         }
         return substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) );
     }
@@ -86,7 +101,7 @@ class ezcWebdavPathFactory
              . ( isset( $this->baseUriParts['user'] ) || isset( $this->baseUriParts['pass'] ) ? '@' : '' )
              . $this->baseUriParts['host']
              . ( isset( $this->baseUriParts['path'] ) ? $this->baseUriParts['path'] : '' )
-             . trim( $path )
+             . trim( $path ) . ( isset( $this->collectionPathes[$path] ) ? '/' : '' )
              . ( isset( $this->baseUriParts['query'] ) ? '?' . $this->baseUriParts['query'] : '' )
              . ( isset( $this->baseUriParts['fragment'] ) ? '#' . $this->baseUriParts['fragment'] : '' );
     }
