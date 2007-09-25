@@ -66,7 +66,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/foo',
@@ -74,16 +73,17 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ),
                 '/foo' => 'bar',
                 '/blubb' => 'Somme blubb blubbs.',
-            )
+            ),
+            $content
         );
 
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
-            $props,
             array(
                 '/foo' => new ezcWebdavPropertyStorage(),
                 '/blubb' => new ezcWebdavPropertyStorage(),
             ),
+            $props,
             'Expected empty property array.'
         );
     }
@@ -100,7 +100,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/foo',
@@ -111,17 +110,18 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/bar/blubb',
                 ),
                 '/bar/blubb' => 'Somme blubb blubbs.',
-            )
+            ),
+            $content
         );
 
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
-            $props,
             array(
                 '/foo' => new ezcWebdavPropertyStorage(),
                 '/bar' => new ezcWebdavPropertyStorage(),
                 '/bar/blubb' => new ezcWebdavPropertyStorage(),
             ),
+            $props,
             'Expected empty property array.'
         );
     }
@@ -160,10 +160,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
-            $props,
             array(
                 '/foo' => $propertyStorage,
             ),
+            $props,
             'Expected filled property array.'
         );
     }
@@ -179,8 +179,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
 
         $this->assertSame(
-            $server->options->fakeLiveProperties,
             false,
+            $server->options->fakeLiveProperties,
             'Expected successfull access on option.'
         );
 
@@ -205,16 +205,16 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $options->fakeLiveProperties = true;
 
         $this->assertSame(
-            $server->options->fakeLiveProperties,
             false,
+            $server->options->fakeLiveProperties,
             'Wrong initial value before changed option class.'
         );
 
         $server->options = $options;
 
         $this->assertSame(
-            $server->options->fakeLiveProperties,
             true,
+            $server->options->fakeLiveProperties,
             'Expected modified value, because of changed option class.'
         );
 
@@ -272,10 +272,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
-            $props,
             array(
                 '/foo' => $propertyStorage,
             ),
+            $props,
             'Expected filled property array.'
         );
     }
@@ -312,12 +312,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->head( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavHeadResponse(
                 new ezcWebdavResource(
                     '/foo', new ezcWebdavPropertyStorage()
                 )
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -339,12 +339,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->head( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavHeadResponse(
                 new ezcWebdavCollection(
                     '/bar', new ezcWebdavPropertyStorage()
                 )
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -366,11 +366,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->head( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -392,12 +392,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->get( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
                     '/foo', new ezcWebdavPropertyStorage(), 'bar'
                 )
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -419,11 +419,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->get( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -470,7 +470,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->get( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
                     '/foo', 
@@ -478,6 +477,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     'bar'
                 )
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -502,7 +502,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->get( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavGetCollectionResponse(
                 new ezcWebdavCollection(
                     '/bar', new ezcWebdavPropertyStorage(), array(
@@ -515,6 +514,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     )
                 )
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -539,7 +539,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->get( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
                     '/bar/blah/fumdiidudel.txt', 
@@ -547,6 +546,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     'Willst du an \'was Rundes denken, denk\' an einen Plastikball. Willst du \'was gesundes schenken, schenke einen Plastikball. Plastikball, Plastikball, ...'
                 )
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -568,10 +568,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavCopyResponse(
                 false
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -593,11 +593,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -620,10 +620,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavCopyResponse(
                 false
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -645,10 +645,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavCopyResponse(
                 true
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -671,11 +671,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_412,
                 '/bar'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -697,11 +697,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
                 '/dum/di'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -723,11 +723,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_403,
                 '/foo'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -750,10 +750,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavCopyResponse(
                 false
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -761,7 +761,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/bar',
@@ -774,7 +773,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 '/bar/_1' => 'contents',
                 '/bar/_2' => 'contents',
                 '/foo' => array(),
-            )
+            ),
+            $content
         );
     }
 
@@ -794,10 +794,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavCopyResponse(
                 false
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -805,7 +805,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/bar',
@@ -823,7 +822,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ),
                 '/foo/_1' => 'contents',
                 '/foo/_2' => 'contents',
-            )
+            ),
+            $content
         );
     }
 
@@ -849,7 +849,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->copy( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavMultistatusResponse(
                 new ezcWebdavErrorResponse(
                     ezcWebdavResponse::STATUS_423,
@@ -860,6 +859,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/bar/_4'
                 )
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -867,7 +867,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/bar',
@@ -893,7 +892,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 '/foo/_1' => 'contents',
                 '/foo/_3' => 'contents',
                 '/foo/_5' => 'contents',
-            )
+            ),
+            $content
         );
     }
 
@@ -912,10 +912,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->move( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavMoveResponse(
                 false
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -937,11 +937,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->move( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -964,10 +964,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->move( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavMoveResponse(
                 false
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -989,10 +989,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->move( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavMoveResponse(
                 true
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1015,11 +1015,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->move( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_412,
                 '/bar'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1041,11 +1041,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->move( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
                 '/dum/di'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1067,11 +1067,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->move( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_403,
                 '/foo'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1094,10 +1094,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->move( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavMoveResponse(
                 false
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1105,7 +1105,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/foo',
@@ -1116,7 +1115,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ),
                 '/foo/_1' => 'contents',
                 '/foo/_2' => 'contents',
-            )
+            ),
+            $content
         );
     }
 
@@ -1142,7 +1142,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->move( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavMultistatusResponse(
                 new ezcWebdavErrorResponse(
                     ezcWebdavResponse::STATUS_423,
@@ -1153,6 +1152,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/bar/_4'
                 )
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1160,7 +1160,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/bar',
@@ -1186,7 +1185,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 '/foo/_1' => 'contents',
                 '/foo/_3' => 'contents',
                 '/foo/_5' => 'contents',
-            )
+            ),
+            $content
         );
     }
 
@@ -1205,10 +1205,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->delete( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavDeleteResponse(
                 '/foo'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1216,7 +1216,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/bar',
@@ -1225,7 +1224,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/bar/blubb',
                 ),
                 '/bar/blubb' => 'Somme blubb blubbs.',
-            )
+            ),
+            $content
         );
     }
 
@@ -1244,10 +1244,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->delete( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavDeleteResponse(
                 '/bar'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1255,13 +1255,13 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/foo',
                 ),
                 '/foo' => 'bar',
-            )
+            ),
+            $content
         );
     }
 
@@ -1280,11 +1280,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->delete( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_404,
                 '/unknown'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1309,11 +1309,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->delete( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_423,
                 '/foo'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1321,7 +1321,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/foo',
@@ -1332,7 +1331,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/bar/blubb',
                 ),
                 '/bar/blubb' => 'Somme blubb blubbs.',
-            )
+            ),
+            $content
         );
     }
 
@@ -1351,11 +1351,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->makeCollection( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_405,
                 '/bar'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1377,11 +1377,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->makeCollection( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_405,
                 '/foo'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1403,11 +1403,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->makeCollection( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
                 '/dum/di'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1429,11 +1429,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->makeCollection( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_403,
                 '/foo/bar'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1455,11 +1455,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->makeCollection( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_415,
                 '/bar/foo'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1481,10 +1481,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->makeCollection( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavMakeCollectionResponse(
                 '/bar/foo'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1492,7 +1492,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/foo',
@@ -1505,7 +1504,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ),
                 '/bar/blubb' => 'Somme blubb blubbs.',
                 '/bar/foo' => array(),
-            )
+            ),
+            $content
         );
     }
 
@@ -1526,11 +1526,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->put( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
                 '/bar'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1554,11 +1554,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->put( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
                 '/dum/di'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1582,11 +1582,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->put( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
                 '/foo/bar'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1610,10 +1610,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->put( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavPutResponse(
                 '/bar/foo'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1621,7 +1621,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/foo',
@@ -1634,7 +1633,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 ),
                 '/bar/blubb' => 'Somme blubb blubbs.',
                 '/bar/foo' => 'some content',
-            )
+            ),
+            $content
         );
     }
 
@@ -1655,10 +1655,10 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->put( $request );
 
         $this->assertEquals(
-            $response,
             new ezcWebdavPutResponse(
                 '/foo'
             ),
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -1666,7 +1666,6 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
-            $content,
             array(
                 '/' => array(
                     '/foo',
@@ -1677,7 +1676,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                     '/bar/blubb',
                 ),
                 '/bar/blubb' => 'Somme blubb blubbs.',
-            )
+            ),
+            $content
         );
     }
 
