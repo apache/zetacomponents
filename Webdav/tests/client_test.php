@@ -1,15 +1,16 @@
 <?php
 
+libxml_use_internal_errors( true );
+
 abstract class ezcWebdavClientTest extends ezcTestCase
 {
-
-    protected $dataDir;
-
-    protected $transport;
-
     protected $setupClass;
 
-    protected $pathFactory = 'ezcWebdavPathFactory';
+    public $dataDir;
+    
+    public $transport;
+
+    public $backend;
 
     private $testSets = array();
     
@@ -60,7 +61,8 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected function runTestSet( $testSetName )
     {
-        libxml_use_internal_errors(  true );
+        call_user_func( array( $this->setupClass, 'performSetup' ), $this, basename( $testSetName ) );
+
         $requestObject = null;
 
         $serverBase = array(
@@ -93,7 +95,6 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             $response['body']    = $this->getFileContent( $responseDir, 'body' );
             $response['code']    = $this->getFileContent( $responseDir, 'code' );
             $response['name']    = $this->getFileContent( $responseDir, 'name' );
-            $response['backend'] = call_user_func( array( $this->setupClass, 'getSetup' ), basename( $testSetName ) );
             
             $responseObject = $this->runResponseTest( $response, $requestObject );
         }
@@ -120,7 +121,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 break;
             case 'txt':
             default:
-                $fileContent = file_get_contents( $filePath );
+                $fileContent = trim( file_get_contents( $filePath ) );
                 break;
         }
         return $fileContent;
@@ -160,7 +161,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected function runResponseTest( array $response, ezcWebdavRequest $requestObject )
     {
-        $responseObject = $response['backend']->performRequest( $requestObject );
+        $responseObject = $this->backend->performRequest( $requestObject );
         
         $this->transport->handleResponse( $responseObject );
         $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
@@ -174,7 +175,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 "{$this->currentTestSet}/response/result.ser",
                 serialize( array( "headers" => $responseHeaders, "body" => $responseBody ) )
             );
-            if ( trim( $response['body'] ) === '' || $responseBody === null )
+            if ( isset( $response['body'] ) === false || trim( $response['body'] ) === '' || $responseBody === '' )
             {
                 $this->assertEquals(
                     $response['body'],
@@ -198,7 +199,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 $responseHeaders,
                 'Generated headers missmatch.'
             );
-            if ( trim( $response['result']['body'] ) === '' || $responseBody === null )
+            if ( trim( $response['result']['body'] ) === '' || $responseBody === '' )
             {
                 $this->assertEquals(
                     $response['result']['body'],
