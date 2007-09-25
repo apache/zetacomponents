@@ -18,16 +18,21 @@
  */
 class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
 {
+    const TYPE_RESSOURCE = 1;
+
+    const TYPE_COLLECTION = 2;
+    
     /**
      * Creates a new ezcWebdavResourceTypeProperty.
      * 
-     * @param string $type The resource type.
+     * @param int $type {@link self::TYPE_COLLECTION} or {@link self::TYPE_RESSOURCE}.
      * @return void
      */
     public function __construct( $type = null )
     {
         parent::__construct( 'resourcetype' );
 
+        $this->properties['type'] = null;
         $this->type = $type;
     }
 
@@ -51,9 +56,9 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'type':
-                if ( is_string( $propertyValue ) === false && $propertyValue !== null )
+                if ( $propertyValue !== self::TYPE_RESSOURCE && $propertyValue !== self::TYPE_COLLECTION && $propertyValue !== null )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'string' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavResourceTypeProperty::TYPE_RESSOURCE, ezcWebdavResourceTypeProperty::TYPE_COLLECTION or null' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;

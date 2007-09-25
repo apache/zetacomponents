@@ -230,6 +230,9 @@ EOT
     protected static function getFooBarSetup3( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend();
+        $test->backend->options->failForRegexp     = '(bar.html)';
+        $test->backend->options->failingOperations = ezcWebdavMemoryBackendOptions::REQUEST_PROPPATCH;
+        
         $test->backend->addContents(
             array(
                 'bar.html' => ''

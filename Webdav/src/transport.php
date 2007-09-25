@@ -1485,7 +1485,7 @@ class ezcWebdavTransport
                 break;
             case 'ezcWebdavGetContentTypeProperty':
                 $elementName  = 'getcontenttype';
-                $elementValue = ( $property->mime !== null ? $property->mime . ( $property->charset === null ? '' : '; charset=' . $property->charset ) : null );
+                $elementValue = ( $property->mime !== null ? $property->mime . ( $property->charset === null ? '' : '; charset="' . $property->charset . '"' ) : null );
                 break;
             case 'ezcWebdavGetEtagProperty':
                 $elementName  = 'getetag';
@@ -1493,7 +1493,7 @@ class ezcWebdavTransport
                 break;
             case 'ezcWebdavGetLastModifiedProperty':
                 $elementName  = 'getlastmodified';
-                $elementValue = ( $property->date !== null ? $property->date->format( DATE_ISO8601 ) : null );
+                $elementValue = ( $property->date !== null ? $property->date->format( DATE_RFC1123 ) : null );
                 break;
             case 'ezcWebdavLockDiscoveryProperty':
                 $elementName  = 'lockdiscovery';
@@ -1501,7 +1501,7 @@ class ezcWebdavTransport
                 break;
             case 'ezcWebdavResourceTypeProperty':
                 $elementName  = 'resourcetype';
-                $elementValue = ( $property->type === 'collection' ? new DOMElement( 'D:collection', null, self::DEFAULT_NAMESPACE ) : null );
+                $elementValue = ( $property->type === ezcWebdavResourceTypeProperty::TYPE_COLLECTION ? $this->newDomElement( $parentElement->ownerDocument, 'collection' ) : null );
                 break;
             case 'ezcWebdavSourceProperty':
                 $elementName  = 'source';

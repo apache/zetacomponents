@@ -23,7 +23,7 @@ class ezcWebdavGetContentLengthProperty extends ezcWebdavLiveProperty
      * property set. It does not define what should be returned for
      * collections. We use the string in this constant for this.
      */
-    const COLLECTION = '-1';
+    const COLLECTION = '4096';
 
     /**
      * Creates a new ezcWebdavGetContentLengthProperty.

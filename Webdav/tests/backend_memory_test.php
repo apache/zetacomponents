@@ -157,6 +157,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty( '3' )
         );
+        $propertyStorage->attach(
+            new ezcWebdavResourceTypeProperty(
+                ezcWebdavResourceTypeProperty::TYPE_RESSOURCE
+            )
+        );
 
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
@@ -265,6 +270,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty( '3' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavResourceTypeProperty(
+                ezcWebdavResourceTypeProperty::TYPE_RESSOURCE
+            )
         );
         $propertyStorage->attach(
             new ezcWebdavDeadProperty( 'wcv:', 'ctime', '123456' )
@@ -463,6 +473,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty( '3' )
+        );
+        $propertyStorage->attach(
+            new ezcWebdavResourceTypeProperty(
+                ezcWebdavResourceTypeProperty::TYPE_RESSOURCE
+            )
         );
 
         $request = new ezcWebdavGetRequest( '/foo' );
@@ -1780,7 +1795,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $prop1c->date = new DateTime( '@1124118780' );
         $prop200c->attach( $prop1c );
         $prop2c = clone $prop2;
-        $prop2c->length = '-1';
+        $prop2c->length = '4096';
         $prop200c->attach( $prop2c );
 
         $prop404c = new ezcWebdavPropertyStorage();
@@ -1876,6 +1891,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $propertyStorage->attach(
             $test = new ezcWebdavGetContentLengthProperty()
         );
+        $propertyStorage->attach(
+            new ezcWebdavResourceTypeProperty()
+        );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
@@ -1934,6 +1952,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavResourceTypeProperty()
         );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
@@ -2008,6 +2029,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty()
         );
+        $propertyStorage->attach(
+            new ezcWebdavResourceTypeProperty()
+        );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
@@ -2072,6 +2096,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavResourceTypeProperty()
         );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
@@ -2153,6 +2180,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty()
+        );
+        $propertyStorage->attach(
+            new ezcWebdavResourceTypeProperty()
         );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
@@ -2245,6 +2275,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty( '3' )
         );
+        $propertyStorage->attach(
+            new ezcWebdavResourceTypeProperty(
+                ezcWebdavResourceTypeProperty::TYPE_RESSOURCE
+            )
+        );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
             new ezcWebdavPropFindResponse(
@@ -2304,6 +2339,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $propertyStorageC->attach(
             new ezcWebdavGetContentLengthProperty( ezcWebdavGetContentLengthProperty::COLLECTION )
         );
+        $propertyStorageC->attach(
+            new ezcWebdavResourceTypeProperty(
+                ezcWebdavResourceTypeProperty::TYPE_COLLECTION
+            )
+        );
 
         $propertyStorageR = new ezcWebdavPropertyStorage();
         $propertyStorageR->attach(
@@ -2326,6 +2366,11 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
         $propertyStorageR->attach(
             new ezcWebdavGetContentLengthProperty( '19' )
+        );
+        $propertyStorageR->attach(
+            new ezcWebdavResourceTypeProperty(
+                ezcWebdavResourceTypeProperty::TYPE_RESSOURCE
+            )
         );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(

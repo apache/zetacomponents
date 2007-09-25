@@ -19,14 +19,16 @@ class ezcWebdavResourceTypePropertyTest extends ezcWebdavWebdavPropertyTestCase
         $this->workingValues = array(
             'type' => array(
                 null,
-                '',
-                'Foo Bar Baz',
+                ezcWebdavResourceTypeProperty::TYPE_COLLECTION,
+                ezcWebdavResourceTypeProperty::TYPE_RESSOURCE,
             ),
         );
         $this->failingValues = array(
             'type' => array(
                 23,
                 23.34,
+                '',
+                'foo',
                 true,
                 false,
                 array( 23, 42 ),

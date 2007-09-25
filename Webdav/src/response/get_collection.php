@@ -30,6 +30,7 @@ class ezcWebdavGetCollectionResponse extends ezcWebdavResponse
         parent::__construct( ezcWebdavResponse::STATUS_200 );
 
         $this->collection = $collection;
+        $this->setHeader( 'Content-Length', '4096' );
     }
 
     /**
