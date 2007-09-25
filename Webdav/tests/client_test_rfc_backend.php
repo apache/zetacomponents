@@ -5,7 +5,7 @@ class ezcWebdavClientRfcTestBackend
     public static function performSetup( ezcWebdavClientTest $test, $testSetName )
     {
         $test->transport  = new ezcWebdavTransportTestMock();
-        $test->transport->options->pathFactory = new ezcWebdavPathFactory( 'http://foo.bar' );
+        $test->transport->options->pathFactory = new ezcWebdavPathFactory( 'http://www.foo.bar' );
 
         switch( $testSetName )
         {
@@ -265,7 +265,7 @@ EOT
             array(
                 'container' => array(
                     'front.html' => '',
-                    'R2'         => array(),
+                    'R2/'         => array(),
                     'resource3'  => '',
                 ),
             )

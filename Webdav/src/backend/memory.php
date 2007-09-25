@@ -581,25 +581,28 @@ class ezcWebdavMemoryBackend
      * Returns false if the delete process failed.
      * 
      * @param string $path 
-     * @return bool
+     * @return array(ezcWebdavErrorResponse)
      */
     protected function performDelete( $path )
     {
-        // Check if we want to cause some errors here.
-        if ( $this->options->failingOperations & ezcWebdavMemoryBackendOptions::REQUEST_DELETE )
-        {
-            if ( preg_match( $this->options->failForRegexp, $path ) )
-            {
-                return false;
-            }
-        }
-
+        $errors = array();
         // Remove all content nodes starting with requested path
         foreach ( $this->content as $name => $content )
         {
             if ( strpos( $name, $path ) === 0 )
             {
-                unset( $this->content[$name] );
+                // Check if we want to cause some errors here.
+                if ( $this->options->failingOperations & ezcWebdavMemoryBackendOptions::REQUEST_DELETE && preg_match( $this->options->failForRegexp, $name ) > 0 )
+                {
+                    $errors[] = new ezcWebdavErrorResponse(
+                        ezcWebdavResponse::STATUS_423,
+                        $name
+                    );
+                }
+                else
+                {
+                    unset( $this->content[$name] );
+                }
             }
         }
 
@@ -620,7 +623,7 @@ class ezcWebdavMemoryBackend
             }
         }
 
-        return true;
+        return $errors;
     }
 
     /**

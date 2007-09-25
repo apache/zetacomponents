@@ -742,11 +742,10 @@ abstract class ezcWebdavSimpleBackend
         //
         // @TODO: The error generated here should depend on the actual backend
         // implementation and  not be generated guessing what may fit.
-        if ( $deletion !== true )
+        if ( count( $deletion ) > 0 )
         {
-            return new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_423,
-                $source
+            return new ezcWebdavMultistatusResponse(
+                $deletion
             );
         }
 
@@ -911,7 +910,13 @@ abstract class ezcWebdavSimpleBackend
              $this->nodeExists( $dest ) )
         {
             $replaced = true;
-            $this->performDelete( $dest );
+            if ( $this->performDelete( $dest ) === false )
+            {
+                return new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_423,
+                    $dest
+                );
+            }
         }
 
         // All checks are passed, we can actuall copy now.
