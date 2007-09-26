@@ -40,6 +40,7 @@ return array(
     'ezcWebdavCollection'                      => 'Webdav/structs/collection.php',
     'ezcWebdavCopyRequest'                     => 'Webdav/request/copy.php',
     'ezcWebdavCreationDateProperty'            => 'Webdav/properties/creationdate.php',
+    'ezcWebdavDateTime'                        => 'Webdav/tools/date_time.php',
     'ezcWebdavDeadProperty'                    => 'Webdav/properties/dead.php',
     'ezcWebdavDeleteRequest'                   => 'Webdav/request/delete.php',
     'ezcWebdavDeleteResponse'                  => 'Webdav/response/delete.php',

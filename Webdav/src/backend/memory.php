@@ -156,7 +156,7 @@ class ezcWebdavMemoryBackend
 
             // Add default creation date
             $propertyStorage->attach(
-                new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+                new ezcWebdavCreationDateProperty( new ezcWebdavDateTime( '@1054034820' ) )
             );
 
             // Define default display name
@@ -181,7 +181,7 @@ class ezcWebdavMemoryBackend
 
             // Define default modification time
             $propertyStorage->attach(
-                new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+                new ezcWebdavGetLastModifiedProperty( new ezcWebdavDateTime( '@1124118780' ) )
             );
 
             // Define content length if node is a resource.

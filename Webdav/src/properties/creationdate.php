@@ -10,7 +10,7 @@
 /**
  * An object of this class represents the Webdav property <creationdate>.
  *
- * @property DateTime $date
+ * @property ezcWebdavDateTime $date
  *           The creation date.
  *
  * @version //autogentag//
@@ -21,10 +21,10 @@ class ezcWebdavCreationDateProperty extends ezcWebdavLiveProperty
     /**
      * Creates a new ezcWebdavCreationDateProperty.
      * 
-     * @param DateTime $date The date value.
+     * @param ezcWebdavDateTime $date The date value.
      * @return void
      */
-    public function __construct( DateTime $date = null )
+    public function __construct( ezcWebdavDateTime $date = null )
     {
         parent::__construct( 'creationdate' );
 
@@ -51,9 +51,9 @@ class ezcWebdavCreationDateProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'date':
-                if ( ( $propertyValue instanceof DateTime ) === false && $propertyValue !== null )
+                if ( ( $propertyValue instanceof ezcWebdavDateTime ) === false && $propertyValue !== null )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'DateTime' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;

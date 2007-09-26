@@ -14,7 +14,7 @@
  *           Constant indicating 0, 1 or infinity.
  * @property string $owner
  *           Owner of this lock (free form string). Null if not provided.
- * @property DateTime|null $timeout
+ * @property ezcWebdavDateTime|null $timeout
  *           Timeout date or null for inifinite. Null if not provided.
  * @property array(string) $tokens
  *           Tokens submitted in <locktocken> (URIs). Null if not provided.
@@ -34,7 +34,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * @param int           $lockScope Lock scope (constant ezcWebdavLockRequest::SCOPE_*).
      * @param int           $depth     Lock depth (constant ezcWebdavRequest::DEPTH_*).
      * @param string        $owner
-     * @param DateTime      $timeout
+     * @param ezcWebdavDateTime      $timeout
      * @param array(string) $tokens
      * @return void
      */
@@ -42,7 +42,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
                                  $lockScope        = ezcWebdavLockRequest::SCOPE_SHARED,
                                  $depth            = ezcWebdavRequest::DEPTH_INFINITY,
                                  $owner            = null,
-                                 DateTime $timeout = null,
+                                 ezcWebdavDateTime $timeout = null,
                                  $tokens           = array() )
     {
         parent::__construct( $lockType, $lockScope );
@@ -86,15 +86,15 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
                 }
                 break;
             case 'timeout':
-                if ( ( $propertyValue instanceof DateTime ) === false && $propertyValue !== null )
+                if ( ( $propertyValue instanceof ezcWebdavDateTime ) === false && $propertyValue !== null )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'DateTime' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime' );
                 }
                 break;
             case 'timeout':
-                if ( ( $propertyValue instanceof DateTime ) === false && $propertyValue !== null )
+                if ( ( $propertyValue instanceof ezcWebdavDateTime ) === false && $propertyValue !== null )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'DateTime' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime' );
                 }
                 break;
             case 'tokens':

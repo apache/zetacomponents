@@ -137,7 +137,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         // Expected properties
         $propertyStorage = new ezcWebdavPropertyStorage();
         $propertyStorage->attach(
-            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+            new ezcWebdavCreationDateProperty( new ezcWebdavDateTime( '@1054034820' ) )
         );
         $propertyStorage->attach(
             new ezcWebdavDisplayNameProperty( 'foo' )
@@ -152,7 +152,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetEtagProperty( md5( '/foo' ) )
         );
         $propertyStorage->attach(
-            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+            new ezcWebdavGetLastModifiedProperty( new ezcWebdavDateTime( '@1124118780' ) )
         );
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty( '3' )
@@ -251,7 +251,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         // Expected properties
         $propertyStorage = new ezcWebdavPropertyStorage();
         $propertyStorage->attach(
-            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+            new ezcWebdavCreationDateProperty( new ezcWebdavDateTime( '@1054034820' ) )
         );
         $propertyStorage->attach(
             new ezcWebdavDisplayNameProperty( 'foo' )
@@ -266,7 +266,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetEtagProperty( md5( '/foo' ) )
         );
         $propertyStorage->attach(
-            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+            new ezcWebdavGetLastModifiedProperty( new ezcWebdavDateTime( '@1124118780' ) )
         );
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty( '3' )
@@ -454,7 +454,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         // Expected properties
         $propertyStorage = new ezcWebdavPropertyStorage();
         $propertyStorage->attach(
-            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+            new ezcWebdavCreationDateProperty( new ezcWebdavDateTime( '@1054034820' ) )
         );
         $propertyStorage->attach(
             new ezcWebdavDisplayNameProperty( 'foo' )
@@ -469,7 +469,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetEtagProperty( md5( '/foo' ) )
         );
         $propertyStorage->attach(
-            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+            new ezcWebdavGetLastModifiedProperty( new ezcWebdavDateTime( '@1124118780' ) )
         );
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty( '3' )
@@ -1729,7 +1729,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->propfind( $request );
 
         $prop200 = new ezcWebdavPropertyStorage();
-        $prop1->date = new DateTime( '@1124118780' );
+        $prop1->date = new ezcWebdavDateTime( '@1124118780' );
         $prop200->attach( $prop1 );
         $prop2->length = '3';
         $prop200->attach( $prop2 );
@@ -1792,7 +1792,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $prop200c = new ezcWebdavPropertyStorage();
         $prop1c = clone $prop1;
-        $prop1c->date = new DateTime( '@1124118780' );
+        $prop1c->date = new ezcWebdavDateTime( '@1124118780' );
         $prop200c->attach( $prop1c );
         $prop2c = clone $prop2;
         $prop2c->length = '4096';
@@ -1803,7 +1803,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $prop200r = new ezcWebdavPropertyStorage();
         $prop1r = clone $prop1;
-        $prop1r->date = new DateTime( '@1124118780' );
+        $prop1r->date = new ezcWebdavDateTime( '@1124118780' );
         $prop200r->attach( $prop1r );
         $prop2r = clone $prop2;
         $prop2r->length = '19';
@@ -2255,7 +2255,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $propertyStorage = new ezcWebdavPropertyStorage();
         $propertyStorage->attach(
-            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+            new ezcWebdavCreationDateProperty( new ezcWebdavDateTime( '@1054034820' ) )
         );
         $propertyStorage->attach(
             new ezcWebdavDisplayNameProperty( 'foo' )
@@ -2270,7 +2270,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetEtagProperty( md5( '/foo' ) )
         );
         $propertyStorage->attach(
-            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+            new ezcWebdavGetLastModifiedProperty( new ezcWebdavDateTime( '@1124118780' ) )
         );
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty( '3' )
@@ -2319,7 +2319,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $propertyStorageC = new ezcWebdavPropertyStorage();
         $propertyStorageC->attach(
-            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+            new ezcWebdavCreationDateProperty( new ezcWebdavDateTime( '@1054034820' ) )
         );
         $propertyStorageC->attach(
             new ezcWebdavDisplayNameProperty( 'bar' )
@@ -2334,7 +2334,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetEtagProperty( md5( '/bar' ) )
         );
         $propertyStorageC->attach(
-            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+            new ezcWebdavGetLastModifiedProperty( new ezcWebdavDateTime( '@1124118780' ) )
         );
         $propertyStorageC->attach(
             new ezcWebdavGetContentLengthProperty( ezcWebdavGetContentLengthProperty::COLLECTION )
@@ -2347,7 +2347,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $propertyStorageR = new ezcWebdavPropertyStorage();
         $propertyStorageR->attach(
-            new ezcWebdavCreationDateProperty( new DateTime( '@1054034820' ) )
+            new ezcWebdavCreationDateProperty( new ezcWebdavDateTime( '@1054034820' ) )
         );
         $propertyStorageR->attach(
             new ezcWebdavDisplayNameProperty( 'blubb' )
@@ -2362,7 +2362,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetEtagProperty( md5( '/bar/blubb' ) )
         );
         $propertyStorageR->attach(
-            new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+            new ezcWebdavGetLastModifiedProperty( new ezcWebdavDateTime( '@1124118780' ) )
         );
         $propertyStorageR->attach(
             new ezcWebdavGetContentLengthProperty( '19' )
@@ -2746,7 +2746,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $checkProperties = new ezcWebdavPropertyStorage();
         $checkProperties->attach(  
-            $p_last = new ezcWebdavGetLastModifiedProperty( new DateTime( '@1124118780' ) )
+            $p_last = new ezcWebdavGetLastModifiedProperty( new ezcWebdavDateTime( '@1124118780' ) )
         );
         $checkProperties->attach(  
             $p_length = new ezcWebdavGetContentLengthProperty( '3' )

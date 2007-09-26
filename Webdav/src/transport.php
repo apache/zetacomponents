@@ -757,7 +757,7 @@ class ezcWebdavTransport
                 $property = new ezcWebdavCreationDateProperty();
                 if ( empty( $domElement->nodeValue ) === false )
                 {
-                    $property->date = new DateTime( $domElement->nodeValue );
+                    $property->date = new ezcWebdavDateTime( $domElement->nodeValue );
                 }
                 break;
             case 'displayname':
@@ -804,7 +804,7 @@ class ezcWebdavTransport
                 $property = new ezcWebdavGetLastModifiedProperty();
                 if ( empty( $domElement->nodeValue ) === false )
                 {
-                    $property->date = new DateTime( $domElement->nodeValue );
+                    $property->date = new ezcWebdavDateTime( $domElement->nodeValue );
                 }
                 break;
             case 'lockdiscovery':
@@ -911,7 +911,7 @@ class ezcWebdavTransport
                     break;
                 case 'timeout':
                     // @TODO Need to check for special values here!
-                    $activelock->timeout = new DateTime( $currentElement->nodeValue );
+                    $activelock->timeout = new ezcWebdavDateTime( $currentElement->nodeValue );
                     break;
                 case 'locktoken':
                     for ( $i = 0; $i < $currentElement->childNodes->length; ++$i )

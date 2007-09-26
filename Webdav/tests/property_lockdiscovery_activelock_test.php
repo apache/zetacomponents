@@ -42,7 +42,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavProper
             ),
             'timeout' => array(
                 null,
-                new DateTime( '+3 hours' ),
+                new ezcWebdavDateTime( '+3 hours' ),
             ),
             'tokens' => array(
                 array(),

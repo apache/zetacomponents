@@ -43,7 +43,7 @@ class ezcWebdavClientLitmusTestBackend
         $backend->setProperty(
             '/test_collection',
             new ezcWebdavGetLastModifiedProperty(
-                new DateTime()
+                new ezcWebdavDateTime()
             )
         );
 

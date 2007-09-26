@@ -10,7 +10,7 @@
 /**
  * An object of this class represents the Webdav property <getlastmodified>.
  *
- * @property DateTime $date
+ * @property ezcWebdavDateTime $date
  *           The last modification date.
  *
  * @version //autogenlastmodified//
@@ -21,10 +21,10 @@ class ezcWebdavGetLastModifiedProperty extends ezcWebdavLiveProperty
     /**
      * Creates a new ezcWebdavGetLastModifiedProperty.
      * 
-     * @param DateTime $date The date.
+     * @param ezcWebdavDateTime $date The date.
      * @return void
      */
-    public function __construct( DateTime $date = null )
+    public function __construct( ezcWebdavDateTime $date = null )
     {
         parent::__construct( 'getlastmodified' );
 
@@ -51,9 +51,9 @@ class ezcWebdavGetLastModifiedProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'date':
-                if ( ( $propertyValue instanceof DateTime ) === false && $propertyValue !== null )
+                if ( ( $propertyValue instanceof ezcWebdavDateTime ) === false && $propertyValue !== null )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'DateTime' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;

@@ -19,7 +19,7 @@ class ezcWebdavCreationDatePropertyTest extends ezcWebdavWebdavPropertyTestCase
         $this->workingValues = array(
             'date' => array(
                 null,
-                new DateTime( "+3 hours" ),
+                new ezcWebdavDateTime( "+3 hours" ),
             ),
         );
         $this->failingValues = array(

@@ -86,7 +86,7 @@ EOT
         $test->backend->setProperty(
             '/container',
             new ezcWebdavCreationDateProperty(
-                new DateTime( '1997-12-01T17:42:21-08:00' )
+                new ezcWebdavDateTime( '1997-12-01T17:42:21-08:00' )
             )
         );
         $test->backend->setProperty(
@@ -133,7 +133,7 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavCreationDateProperty(
-                new DateTime( '1997-12-01T18:27:21-08:00' )
+                new ezcWebdavDateTime( '1997-12-01T18:27:21-08:00' )
             )
         );
         $test->backend->setProperty(
@@ -163,7 +163,7 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavGetLastModifiedProperty(
-                new DateTime( 'Monday, 12-Jan-98 09:25:56 GMT' )
+                new ezcWebdavDateTime( 'Monday, 12-Jan-98 09:25:56 GMT' )
             )
         );
         $test->backend->setProperty(
@@ -305,7 +305,7 @@ EOT
         $test->backend->setProperty(
             '/container',
             new ezcWebdavCreationDateProperty(
-                new DateTime( '1997-12-01T17:42:21-08:00' )
+                new ezcWebdavDateTime( '1997-12-01T17:42:21-08:00' )
             )
         );
         $test->backend->setProperty(
@@ -352,7 +352,7 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavCreationDateProperty(
-                new DateTime( '1997-12-01T18:27:21-08:00' )
+                new ezcWebdavDateTime( '1997-12-01T18:27:21-08:00' )
             )
         );
         $test->backend->setProperty(
@@ -382,7 +382,7 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavGetLastModifiedProperty(
-                new DateTime( 'Monday, 12-Jan-98 09:25:56 GMT' )
+                new ezcWebdavDateTime( 'Monday, 12-Jan-98 09:25:56 GMT' )
             )
         );
         $test->backend->setProperty(
@@ -455,7 +455,7 @@ EOT
         $test->backend->setProperty(
             '/container',
             new ezcWebdavCreationDateProperty(
-                new DateTime( '1997-12-01T17:42:21-08:00' )
+                new ezcWebdavDateTime( '1997-12-01T17:42:21-08:00' )
             )
         );
         $test->backend->setProperty(
@@ -502,7 +502,7 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavCreationDateProperty(
-                new DateTime( '1997-12-01T18:27:21-08:00' )
+                new ezcWebdavDateTime( '1997-12-01T18:27:21-08:00' )
             )
         );
         $test->backend->setProperty(
@@ -532,7 +532,7 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavGetLastModifiedProperty(
-                new DateTime( 'Monday, 12-Jan-98 09:25:56 GMT' )
+                new ezcWebdavDateTime( 'Monday, 12-Jan-98 09:25:56 GMT' )
             )
         );
         $test->backend->setProperty(

@@ -1,7 +1,3 @@
-<br />
-<b>Warning</b>:  Cannot modify header information - headers already sent by (output started at /home/dotxp/dev/ez/ezcomponents/trunk/Webdav/src/transport.php:1502) in <b>/home/dotxp/dev/ez/ezcomponents/trunk/Webdav/src/transport.php</b> on line <b>1142</b><br />
-<br />
-<b>Warning</b>:  Cannot modify header information - headers already sent by (output started at /home/dotxp/dev/ez/ezcomponents/trunk/Webdav/src/transport.php:1502) in <b>/home/dotxp/dev/ez/ezcomponents/trunk/Webdav/src/transport.php</b> on line <b>1148</b><br />
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:repsonse xmlns:default="http://webdav.org/neon/litmus/">
@@ -9,7 +5,7 @@
     <D:propstat>
       <D:prop>
         <D:displayname>litmus</D:displayname>
-        <D:getlastmodified></D:getlastmodified>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0100</D:getlastmodified>
         <D:getcontentlength>4096</D:getcontentlength>
         <D:resourcetype>
           <D:collection/>

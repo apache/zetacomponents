@@ -384,7 +384,7 @@ class ezcWebdavFileBackend
 
             case 'getlastmodified':
                 $property = new ezcWebdavGetLastModifiedProperty();
-                $property->date = new DateTime( '@' . filemtime( $this->root . $resource ) );
+                $property->date = new ezcWebdavDateTime( '@' . filemtime( $this->root . $resource ) );
                 return $property;
 
             default:
