@@ -4,8 +4,8 @@ libxml_use_internal_errors( true );
 
 abstract class ezcWebdavClientTest extends ezcTestCase
 {
-    const REGENERATE_REQUEST  = false;
-    const REGENERATE_RESPONSE = false;
+    const REGENERATE_REQUEST  = true;
+    const REGENERATE_RESPONSE = true;
 
     protected $setupClass;
 

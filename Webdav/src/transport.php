@@ -1193,7 +1193,7 @@ class ezcWebdavTransport
         $dom = $this->getDom();
 
         $responseElement = $dom->appendChild(
-            $this->newDomElement( $dom, 'repsonse' )
+            $this->newDomElement( $dom, 'response' )
         );
 
         $responseElement->appendChild(

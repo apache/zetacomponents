@@ -1,6 +1,6 @@
 a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1866:"<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
-  <D:repsonse>
+  <D:response>
     <D:href>http://www.foo.bar/container/</D:href>
     <D:propstat>
       <D:prop>
@@ -25,8 +25,8 @@ a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1866:
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
-  </D:repsonse>
-  <D:repsonse>
+  </D:response>
+  <D:response>
     <D:href>http://www.foo.bar/container/front.html</D:href>
     <D:propstat>
       <D:prop>
@@ -51,8 +51,8 @@ a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1866:
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
-  </D:repsonse>
-  <D:repsonse>
+  </D:response>
+  <D:response>
     <D:href>http://www.foo.bar/container/R2</D:href>
     <D:propstat>
       <D:prop>
@@ -60,8 +60,8 @@ a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1866:
       </D:prop>
       <D:status>HTTP/1.1 404 Not Found</D:status>
     </D:propstat>
-  </D:repsonse>
-  <D:repsonse>
+  </D:response>
+  <D:response>
     <D:href>http://www.foo.bar/container/resource3</D:href>
     <D:propstat>
       <D:prop>
@@ -69,6 +69,6 @@ a:2:{s:7:"headers";a:1:{i:0;s:25:"HTTP/1.1 207 Multi-Status";}s:4:"body";s:1866:
       </D:prop>
       <D:status>HTTP/1.1 404 Not Found</D:status>
     </D:propstat>
-  </D:repsonse>
+  </D:response>
 </D:multistatus>
 ";}
