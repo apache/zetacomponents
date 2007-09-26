@@ -28,3 +28,12 @@ TODO
 - ezcWebdavDisplayInformation holds a DOMDocument as the body information per
   default. Only the ezcWebdavGetResourceResponse needs it different. We
   currently store both datatypes an $body, but that is unclean.
+
+- ezcWebdavDateTime is a temporary solution for the issue that DateTime is
+  currently not correctly serializable. Will this be fixed? We just need it for
+  testing, though.
+
+- Client test case litmus/113_props__3_propfind_invalid2 reflects the issue,
+  that we can not reject invalid XML properly. a) the DAV: namespace is invalid
+  by itself. b) DOM does not bail out on loading an XML string without proper
+  XML declaration. WebDAV defines to reject "invalid" issues.
