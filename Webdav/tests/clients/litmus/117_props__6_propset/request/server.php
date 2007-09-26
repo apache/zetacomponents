@@ -21,7 +21,7 @@ return array (
   'GATEWAY_INTERFACE' => 'CGI/1.1',
   'SERVER_PORT' => '80',
   'SERVER_ADDR' => '127.0.0.1',
-  'REMOTE_PORT' => '53097',
+  'REMOTE_PORT' => '37620',
   'REMOTE_ADDR' => '127.0.0.1',
   'CONTENT_LENGTH' => '1023',
   'SCRIPT_NAME' => '/index.php',
@@ -43,7 +43,7 @@ return array (
   'CONTENT_TYPE' => 'application/xml',
   'HTTP_X_LITMUS' => 'props: 6 (propset)',
   'PHP_SELF' => '/index.php/litmus/prop',
-  'REQUEST_TIME' => 1190839813,
+  'REQUEST_TIME' => 1190841506,
   'argv' => 
   array (
   ),

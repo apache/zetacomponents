@@ -1016,7 +1016,7 @@ class ezcWebdavTransport
         for ( $i = 0; $i < $setElements->length; ++$i )
         {
             $this->extractProperties(
-                $setElements->item( 0 )->firstChild->childNodes,
+                $setElements->item( $i )->firstChild->childNodes,
                 $request->updates,
                 ezcWebdavPropPatchRequest::SET
             );
@@ -1025,7 +1025,7 @@ class ezcWebdavTransport
         for ( $i = 0; $i < $removeElements->length; ++$i )
         {
             $this->extractProperties(
-                $removeElements->item( 0 )->firstChild->childNodes,
+                $removeElements->item( $i )->firstChild->childNodes,
                 $request->updates,
                 ezcWebdavPropPatchRequest::REMOVE
             );

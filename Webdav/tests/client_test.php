@@ -145,11 +145,11 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         // Begin request test
         $result = $this->transport->parseRequest( $uri );
 
-        if ( $request['result'] === false && self::REGENERATE_REQUEST === true )
+        if ( file_exists( ( $testResultFile = "{$this->currentTestSet}/request/result.ser" ) ) === false && self::REGENERATE_REQUEST === true )
         {
-            // Regenerate
+            echo "\nRegenerating {$testResultFile}\n";
             file_put_contents(
-                "{$this->currentTestSet}/request/result.ser",
+                $testResultFile,
                 serialize( $result )
             );
         }
@@ -174,16 +174,12 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         if ( $response['result'] === false )
         {
-            if ( self::REGENERATE_RESPONSE )
+            if ( file_exists( ( $testResultFile = "{$this->currentTestSet}/response/result.ser" ) ) === false && self::REGENERATE_RESPONSE )
             {
-                // Regenerate
+                echo "\nRegenerating {$testResultFile}\n";
                 file_put_contents(
-                    "{$this->currentTestSet}/response/result.ser",
+                    $testResultFile,
                     serialize( array( "headers" => $responseHeaders, "body" => $responseBody ) )
-                );
-                file_put_contents(
-                    "{$this->currentTestSet}/response/backend.ser",
-                    serialize( $this->backend )
                 );
             }
             if ( isset( $response['body'] ) === false || trim( $response['body'] ) === '' || $responseBody === '' )
@@ -235,11 +231,11 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 );
             }
         }
-        if ( self::REGENERATE_RESPONSE )
+        if ( file_exists( ( $testBackendFile = "{$this->currentTestSet}/response/backend.ser" ) ) === false && self::REGENERATE_RESPONSE )
         {
-            // Regenerate new backend file
+            echo "\nRegenerating {$testBackendFile}\n";
             file_put_contents(
-                "{$this->currentTestSet}/response/backend.ser",
+                $testBackendFile,
                 serialize( $this->backend )
             );
         }
