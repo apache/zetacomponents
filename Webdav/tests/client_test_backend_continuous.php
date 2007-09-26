@@ -1,6 +1,6 @@
 <?php
 
-class ezcWebdavClientLitmusTestBackend
+class ezcWebdavClientTestBackendContinuous
 {
     protected static $transport;
 

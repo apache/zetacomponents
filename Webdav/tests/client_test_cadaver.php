@@ -1,7 +1,7 @@
 <?php
 
 require_once 'classes/transport_test_mock.php';
-require_once 'client_test_cadaver_backend.php';
+require_once 'client_test_backend_continuous.php';
 
 require_once 'client_test_suite.php';
 require_once 'client_test.php';
@@ -10,7 +10,7 @@ class ezcWebdavClientCadaverTest extends ezcWebdavClientTest
 {
     protected function setupTestEnvironment()
     {
-        $this->setupClass = 'ezcWebdavClientCadaverTestBackend';
+        $this->setupClass = 'ezcWebdavClientTestBackendContinuous';
         $this->dataDir    = dirname( __FILE__ ) . '/clients/cadaver';
     }
 

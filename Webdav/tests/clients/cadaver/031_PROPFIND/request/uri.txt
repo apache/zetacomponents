@@ -1,0 +1,1 @@
+http://webdav/test_collection/foo_col
