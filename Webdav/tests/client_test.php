@@ -4,7 +4,7 @@ libxml_use_internal_errors( true );
 
 abstract class ezcWebdavClientTest extends ezcTestCase
 {
-    const REGENERATE_REQUEST  = true;
+    const REGENERATE_REQUEST  = false;
     const REGENERATE_RESPONSE = false;
 
     protected $setupClass;
@@ -98,6 +98,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             $response['body']    = $this->getFileContent( $responseDir, 'body' );
             $response['code']    = $this->getFileContent( $responseDir, 'code' );
             $response['name']    = $this->getFileContent( $responseDir, 'name' );
+            $response['backend'] = $this->getFileContent( $responseDir, 'backend' );
             
             $responseObject = $this->runResponseTest( $response, $requestObject );
         }
@@ -120,7 +121,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 $fileContent = require $filePath;
                 break;
             case 'ser':
-                $fileContent = unserialize( file_get_contents( $filePath ) );
+                $fileContent = @unserialize( file_get_contents( $filePath ) );
                 break;
             case 'txt':
             default:
@@ -180,6 +181,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                     "{$this->currentTestSet}/response/result.ser",
                     serialize( array( "headers" => $responseHeaders, "body" => $responseBody ) )
                 );
+                file_put_contents(
+                    "{$this->currentTestSet}/response/backend.ser",
+                    serialize( $this->backend )
+                );
             }
             if ( isset( $response['body'] ) === false || trim( $response['body'] ) === '' || $responseBody === '' )
             {
@@ -195,6 +200,14 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                     $response['body'],
                     $responseBody,
                     'Response body not generated correctly.'
+                );
+            }
+            if ( isset( $response['backend'] ) && $response['backend'] !== false )
+            {
+                $this->assertEquals(
+                    $response['backend'],
+                    $this->backend,
+                    'Backend state missmatched.'
                 );
             }
         } 
@@ -221,6 +234,14 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                     'Generated body missmatch.'
                 );
             }
+        }
+        if ( self::REGENERATE_RESPONSE )
+        {
+            // Regenerate new backend file
+            file_put_contents(
+                "{$this->currentTestSet}/response/backend.ser",
+                serialize( $this->backend )
+            );
         }
 
         $this->assertEquals(

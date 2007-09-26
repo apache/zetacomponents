@@ -21,7 +21,7 @@ return array (
   'GATEWAY_INTERFACE' => 'CGI/1.1',
   'SERVER_PORT' => '80',
   'SERVER_ADDR' => '127.0.0.1',
-  'REMOTE_PORT' => '59070',
+  'REMOTE_PORT' => '43757',
   'REMOTE_ADDR' => '127.0.0.1',
   'SCRIPT_NAME' => '/index.php',
   'PATH_INFO' => '/litmus/copysrc',
@@ -43,7 +43,7 @@ return array (
   'HTTP_OVERWRITE' => 'F',
   'HTTP_X_LITMUS' => 'copymove: 5 (copy_nodestcoll)',
   'PHP_SELF' => '/index.php/litmus/copysrc',
-  'REQUEST_TIME' => 1190747819,
+  'REQUEST_TIME' => 1190769209,
   'argv' => 
   array (
   ),

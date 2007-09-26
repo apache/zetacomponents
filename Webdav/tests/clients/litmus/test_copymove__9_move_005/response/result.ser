@@ -1,1 +1,1 @@
-a:2:{s:7:"headers";a:1:{i:0;s:22:"HTTP/1.1 404 Not Found";}s:4:"body";s:0:"";}
+a:2:{s:7:"headers";a:1:{i:0;s:32:"HTTP/1.1 412 Precondition Failed";}s:4:"body";s:0:"";}
