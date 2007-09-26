@@ -595,7 +595,7 @@ class ezcWebdavMemoryBackend
         // Remove all content nodes starting with requested path
         foreach ( $this->content as $name => $content )
         {
-            if ( strpos( $name, $path ) === 0 )
+            if ( strpos( $name, $path ) === 0 && ( substr( $name, strlen( $path ), 1 ) === '/' || $name === $path ) )
             {
                 // Check if we want to cause some errors here.
                 if ( $this->options->failingOperations & ezcWebdavMemoryBackendOptions::REQUEST_DELETE && preg_match( $this->options->failForRegexp, $name ) > 0 )
