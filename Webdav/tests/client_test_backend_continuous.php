@@ -38,15 +38,6 @@ class ezcWebdavClientTestBackendContinuous
             )
         );
 
-        // Properties requested by Cadaver on first request
-
-        $backend->setProperty(
-            '/test_collection',
-            new ezcWebdavGetLastModifiedProperty(
-                new ezcWebdavDateTime()
-            )
-        );
-
         // Make GET requests work
 
         $backend->setProperty(
