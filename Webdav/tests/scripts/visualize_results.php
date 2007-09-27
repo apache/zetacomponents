@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/../../Base/src/base.php';
+require_once dirname( __FILE__ ) . '/../../../Base/src/base.php';
 
 function __autoload( $className )
 {
@@ -149,7 +149,7 @@ if ( $noColorOpt->value === true )
     $out->options->useFormats = false;
 }
 
-$suites = glob( dirname( __FILE__ ) . "/clients/{$suiteOpt->value}", GLOB_ONLYDIR );
+$suites = glob( dirname( __FILE__ ) . "/../clients/{$suiteOpt->value}", GLOB_ONLYDIR );
 foreach ( $suites as $suite )
 {
     $tests = glob( "{$suite}/{$testOpt->value}", GLOB_ONLYDIR );
