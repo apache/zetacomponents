@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<getlastmodified xmlns="DAV:"/>
+<creationdate xmlns="DAV:"/>
+<resourcetype xmlns="DAV:"/>
+<getcontenttype xmlns="DAV:"/>
+<getcontentlength xmlns="DAV:"/>
+</prop></propfind>
