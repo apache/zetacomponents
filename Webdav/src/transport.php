@@ -19,21 +19,6 @@
 class ezcWebdavTransport
 {
     /**
-     * The default namespace, where WebDAV XML elements reside in. 
-     */
-    const XML_DEFAULT_NAMESPACE = 'DAV:';
-
-    /**
-     * The XML version to create DOM documents in. 
-     */
-    const XML_VERSION = '1.0';
-
-    /**
-     * Encoding to use to create DOM documents. 
-     */
-    const XML_ENCODING = 'utf-8';
-
-    /**
      * Regedx to parse the <getcontenttype /> XML elemens content.
      *
      * Example: 'text/html; charset=UTF-8'
@@ -116,13 +101,11 @@ class ezcWebdavTransport
      * 
      * @param ezcWebdavTransportOptions $options 
      * @return void
-     *
-     * @todo The namespace factory should be moved into options, too.
      */
-    public function __construct( ezcWebdavTransportOptions $options = null )
+    public function __construct( ezcWebdavXmlTool $xml = null, ezcWebdavTransportOptions $options = null )
     {
-        $this->properties['options']           = ( $options === null ? new ezcWebdavTransportOptions() : $options );
-        $this->properties['namespaceRegistry'] = new ezcWebdavNamespaceRegistry();
+        $this->properties['xml']     = ( $xml === null     ? new ezcWebdavXmlTool()          : $xml );
+        $this->properties['options'] = ( $options === null ? new ezcWebdavTransportOptions() : $options );
     }
 
     /**
@@ -209,53 +192,6 @@ class ezcWebdavTransport
     }
 
     /**
-     * Returns a DOMDocument from the given XML.
-     * Creates a new DOMDocument with the options set in the class constants
-     * and loads the optionally given $xml string with settings appropriate to
-     * work with it.
-     * 
-     *
-     * @see LIBXML_NOWARNING, LIBXML_NSCLEAN, LIBXML_NOBLANKS
-     *
-     * @param sting $xml 
-     * @return DOMDocument|false
-     */
-    protected function getDom( $xml = null )
-    {
-        $dom = new DOMDocument( self::XML_VERSION, self::XML_ENCODING );
-        if ( $xml !== null )
-        {
-            if ( $dom->loadXML(
-                    $xml,
-                    LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS
-                 ) === false )
-            {
-                return false;
-            }
-        }
-        return $dom;
-    }
-
-    /**
-     * Returns a new DOMElement in the given namespace.
-     *
-     * Retrieves the shortcut for the $namespace and creates a new DOMElement
-     * object with the correct global name for the given $localName.
-     * 
-     * @param DOMDocument $dom 
-     * @param string $localName 
-     * @param string $namespace 
-     * @return DOMElement
-     */
-    protected function newDomElement( DOMDocument $dom, $localName, $namespace = self::XML_DEFAULT_NAMESPACE )
-    {
-        return $dom->createElementNS(
-            $namespace,
-            "{$this->namespaceRegistry[$namespace]}:{$localName}"
-        );
-    }
-
-    /**
      * Serializes a response object to XML.
      * This method performs the internal dispatching of a given $response
      * object. It determines the method to handle the response by {@link
@@ -328,7 +264,7 @@ class ezcWebdavTransport
             case ( is_string( $info->body ) ):
                 if ( $info->response->getHeader( 'Content-Type' ) === null )
                 {
-                    throw new ezcWebdavMissingHeaderException( 'ContentType' )
+                    throw new ezcWebdavMissingHeaderException( 'ContentType' );
                 }
                 $result = $info->body;
                 break;
@@ -519,7 +455,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = $this->getDom( $body ) ) === false )
+        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'COPY',
@@ -567,7 +503,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = $this->getDom( $body ) ) === false )
+        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'MOVE',
@@ -670,7 +606,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = $this->getDom( $body ) ) === false )
+        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'LOCK',
@@ -686,9 +622,9 @@ class ezcWebdavTransport
             );
         }
 
-        $lockTypeElements  = $dom->documentElement->getElementsByTagnameNS( self::XML_DEFAULT_NAMESPACE, 'locktype' );
-        $lockScopeElements = $dom->documentElement->getElementsByTagnameNS( self::XML_DEFAULT_NAMESPACE, 'lockscope' );
-        $ownerElements     = $dom->documentElement->getElementsByTagnameNS( self::XML_DEFAULT_NAMESPACE, 'owner' );
+        $lockTypeElements  = $dom->documentElement->getElementsByTagnameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'locktype' );
+        $lockScopeElements = $dom->documentElement->getElementsByTagnameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'lockscope' );
+        $ownerElements     = $dom->documentElement->getElementsByTagnameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'owner' );
 
         if ( $lockTypeElements->length === 0 )
         {
@@ -806,7 +742,7 @@ class ezcWebdavTransport
             )
         );
 
-        if ( ( $dom = $this->getDom( $body ) ) === false )
+        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPFIND',
@@ -885,7 +821,7 @@ class ezcWebdavTransport
             
             // DAV: namespace indicates live property!
             // Other RFCs allready intruded into this namespace, as 3253 does.
-            if ( $currentNode->namespaceURI === self::XML_DEFAULT_NAMESPACE )
+            if ( $currentNode->namespaceURI === ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE )
             {
                 $property = $this->extractLiveProperty( $currentNode );
                 // In case we don't know the property, we currently ignore it!
@@ -1046,7 +982,7 @@ class ezcWebdavTransport
     {
         $activeLock = new ezcWebdavLockDiscoveryPropertyActiveLock();
 
-        $activelockElement = $domElement->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'activelock' )->item( 0 );
+        $activelockElement = $domElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'activelock' )->item( 0 );
         for ( $i = 0; $i < $activelockElement->childNodes->length; ++$i )
         {
             if ( ( ( $currentElement = $activelockElement->childNodes->item( $i ) ) instanceof DOMElement ) === false )
@@ -1127,13 +1063,13 @@ class ezcWebdavTransport
         $links = array();
 
         $linkElements = $domElement->getElementsByTagNameNS(
-            self::XML_DEFAULT_NAMESPACE, 'link'
+            ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'link'
         );
         for ( $i = 0; $i < $linkElements->length; ++$i )
         {
             $links[] = new ezcWebdavSourcePropertyLink(
-                $linkElements->item( $i )->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'src' )->nodeValue,
-                $linkElements->item( $i )->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'dst' )->nodeValue
+                $linkElements->item( $i )->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'src' )->nodeValue,
+                $linkElements->item( $i )->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'dst' )->nodeValue
             );
         }
         return $links;
@@ -1153,13 +1089,13 @@ class ezcWebdavTransport
     {
         $lockEntries = array();
 
-        $lockEntryElements = $domElement->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'lockentry' );
+        $lockEntryElements = $domElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'lockentry' );
         for ( $i = 0; $i < $lockEntryElements->length; ++$i )
         {
             $lockEntries[] = new ezcWebdavSupportedLockPropertyLockentry(
-                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'locktype' )->item( 0 )->localname === 'write'
+                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'locktype' )->item( 0 )->localname === 'write'
                     ? ezcWebdavLockRequest::TYPE_WRITE : ezcWebdavLockRequest::TYPE_READ ),
-                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'lockscope' )->item( 0 )->localname === 'shared'
+                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'lockscope' )->item( 0 )->localname === 'shared'
                     ? ezcWebdavLockRequest::SCOPE_SHARED : ezcWebdavLockRequest::SCOPE_EXCLUSIVE )
             );
         }
@@ -1183,7 +1119,7 @@ class ezcWebdavTransport
     {
         $request = new ezcWebdavPropPatchRequest( $path );
 
-        if ( ( $dom = $this->getDom( $body ) ) === false )
+        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPPATCH',
@@ -1199,8 +1135,8 @@ class ezcWebdavTransport
             );
         }
 
-        $setElements    = $dom->documentElement->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'set' );
-        $removeElements = $dom->documentElement->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'remove' );
+        $setElements    = $dom->documentElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'set' );
+        $removeElements = $dom->documentElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'remove' );
         
         for ( $i = 0; $i < $setElements->length; ++$i )
         {
@@ -1232,10 +1168,10 @@ class ezcWebdavTransport
      */
     protected function processMultiStatusResponse( ezcWebdavMultiStatusResponse $response )
     {
-        $dom = $this->getDom();
+        $dom = $this->xml->createDomDocument();
 
         $multistatusElement = $dom->appendChild(
-            $this->newDomElement( $dom, 'multistatus' )
+            $this->xml->createDomElement( $dom, 'multistatus' )
         );
 
         foreach ( $response->responses as $subResponse )
@@ -1259,14 +1195,14 @@ class ezcWebdavTransport
      */
     protected function processPropFindResponse( ezcWebdavPropFindResponse $response )
     {
-        $dom = $this->getDom();
+        $dom = $this->xml->createDomDocument();
 
         $responseElement = $dom->appendChild(
-            $this->newDomElement( $dom, 'response' )
+            $this->xml->createDomElement( $dom, 'response' )
         );
 
         $responseElement->appendChild(
-            $this->newDomElement( $dom, 'href' )
+            $this->xml->createDomElement( $dom, 'href' )
         )->nodeValue = $this->options->pathFactory->generateUriFromPath( $response->node->path );
 
         foreach ( $response->responses as $propStat )
@@ -1334,17 +1270,17 @@ class ezcWebdavTransport
         $dom = null;
         if ( $xml === true )
         {
-            $dom = $this->getDom();
+            $dom = $this->xml->createDomDocument();
             $responseElement = $dom->appendChild(
-                $this->newDomElement( $dom, 'response' )
+                $this->xml->createDomElement( $dom, 'response' )
             );
             
             $responseElement->appendChild(
-                $this->newDomElement( $dom, 'href' )
+                $this->xml->createDomElement( $dom, 'href' )
             )->nodeValue = $this->options->pathFactory->generateUriFromPath( $response->requestUri );
             
             $responseElement->appendChild(
-                $this->newDomElement( $dom, 'status' )
+                $this->xml->createDomElement( $dom, 'status' )
             )->nodeValue = (string) $response;
 
         }
@@ -1455,19 +1391,19 @@ class ezcWebdavTransport
      */
     protected function processPropStatResponse( ezcWebdavPropStatResponse $response )
     {
-        $dom = $this->getDom();
+        $dom = $this->xml->createDomDocument();
 
         $propstatElement = $dom->appendChild(
-            $this->newDomElement( $dom, 'propstat' )
+            $this->xml->createDomElement( $dom, 'propstat' )
         );
         
         $this->serializePropertyStorage(
             $response->storage,
-            $propstatElement->appendChild( $this->newDomElement( $dom, 'prop' ) )
+            $propstatElement->appendChild( $this->xml->createDomElement( $dom, 'prop' ) )
         );
 
         $propstatElement->appendChild(
-            $this->newDomElement(
+            $this->xml->createDomElement(
                 $dom,
                 'status'
             )
@@ -1512,10 +1448,10 @@ class ezcWebdavTransport
      */
     protected function serializeDeadProperty( ezcWebdavDeadProperty $property, DOMElement $parentElement )
     {
-        if ( $property->content === null || ( $contentDom = $this->getDom( $property->content ) ) === false )
+        if ( $property->content === null || ( $contentDom = $this->xml->createDomDocument( $property->content ) ) === false )
         {
             return $parentElement->appendChild(
-                $this->newDomElement(
+                $this->xml->createDomElement(
                     $parentElement->ownerDocument,
                     $property->name,
                     $property->namespace
@@ -1576,7 +1512,7 @@ class ezcWebdavTransport
                 break;
             case 'ezcWebdavResourceTypeProperty':
                 $elementName  = 'resourcetype';
-                $elementValue = ( $property->type === ezcWebdavResourceTypeProperty::TYPE_COLLECTION ? array( $this->newDomElement( $parentElement->ownerDocument, 'collection' ) ) : null );
+                $elementValue = ( $property->type === ezcWebdavResourceTypeProperty::TYPE_COLLECTION ? array( $this->xml->createDomElement( $parentElement->ownerDocument, 'collection' ) ) : null );
                 break;
             case 'ezcWebdavSourceProperty':
                 $elementName  = 'source';
@@ -1589,7 +1525,7 @@ class ezcWebdavTransport
         }
 
         $propertyElement = $parentElement->appendChild( 
-            $this->newDomElement( $parentElement->ownerDocument, $elementName, $property->namespace )
+            $this->xml->createDomElement( $parentElement->ownerDocument, $elementName, $property->namespace )
         );
 
         if ( $elementValue instanceof DOMDocument )
@@ -1625,22 +1561,22 @@ class ezcWebdavTransport
         $activeLockElements = array();
         foreach ( $activeLocks as $activeLock )
         {
-            $activeLockElement = $this->newDomElement( $dom, 'activelock' );
+            $activeLockElement = $this->xml->createDomElement( $dom, 'activelock' );
             
             $activeLockElement->appendChild(
-                $this->newDomElement( $dom, 'locktype' )
+                $this->xml->createDomElement( $dom, 'locktype' )
             )->appendChild(
-                $this->newDomElement( $dom, ( $activeLock->lockType === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' ) )
+                $this->xml->createDomElement( $dom, ( $activeLock->lockType === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' ) )
             );
             
             $activeLockElement->appendChild(
-                $this->newDomElement( $dom, 'lockscope' )
+                $this->xml->createDomElement( $dom, 'lockscope' )
             )->appendChild(
-                $this->newDomElement( $dom, ( $activeLock->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' ) )
+                $this->xml->createDomElement( $dom, ( $activeLock->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' ) )
             );
             
             $depthElement = $activeLockElement->appendChild(
-                $this->newDomElement( $dom, 'depth' )
+                $this->xml->createDomElement( $dom, 'depth' )
             );
             
             switch ( $activeLock->depth )
@@ -1659,20 +1595,20 @@ class ezcWebdavTransport
             if ( $activeLock->owner !== null )
             {
                 $activeLockElement->appendChild(
-                    $this->newDomElement( $dom, 'owner' )
+                    $this->xml->createDomElement( $dom, 'owner' )
                 )->nodeValue = $activeLock->owner;
             }
 
             $activeLockElement->appendChild(
-                $this->newDomElement( $dom, 'timeout' )
+                $this->xml->createDomElement( $dom, 'timeout' )
             )->$activeLock->timeout;
 
             foreach ( $activeLock->tokens as $token )
             {
                 $activeLockElement->appendChild(
-                    $this->newDomElement( $dom, 'locktoken' )
+                    $this->xml->createDomElement( $dom, 'locktoken' )
                 )->appendChild(
-                    $this->newDomElement( $dom, 'href' )
+                    $this->xml->createDomElement( $dom, 'href' )
                 )->nodeValue = $token;
             }
 
@@ -1695,12 +1631,12 @@ class ezcWebdavTransport
 
         foreach( $links as $link )
         {
-            $linkElement = $this->newDomElement( $dom, 'link' );
+            $linkElement = $this->xml->createDomElement( $dom, 'link' );
             $linkElement->appendChild(
-                $this->newDomElement( $dom, 'src' )
+                $this->xml->createDomElement( $dom, 'src' )
             )->nodeValue = $link->src;
             $linkElement->appendChild(
-                $this->newDomElement( $dom, 'dst' )
+                $this->xml->createDomElement( $dom, 'dst' )
             )->nodeValue = $link->dst;
             $linkContentElements[] = $linkElement;
         }
@@ -1721,16 +1657,16 @@ class ezcWebdavTransport
 
         foreach( $lockEntries as $lockEntry )
         {
-            $lockEntryElement = $this->newDomElement( $dom, 'lockentry' );
+            $lockEntryElement = $this->xml->createDomElement( $dom, 'lockentry' );
             $lockEntryElement->appendChild(
-                $this->newDomElement( $dom, 'lockscope' )
+                $this->xml->createDomElement( $dom, 'lockscope' )
             )->appendChild(
-                $this->newDomElement( $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' ) )
+                $this->xml->createDomElement( $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' ) )
             );
             $lockEntryElement->appendChild(
-                $this->newDomElement( $dom, 'locktype' )
+                $this->xml->createDomElement( $dom, 'locktype' )
             )->appendChild(
-                $this->newDomElement( $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' ) )
+                $this->xml->createDomElement( $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' ) )
             );
             $lockEntryContentElements[] = $lockEntryElement;
         }
@@ -1780,10 +1716,10 @@ class ezcWebdavTransport
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavTransportOptions' );
                 }
                 break;
-            case 'namepaceRegistry':
-                if ( ( $propertyValue instanceof ezcWebdavNamespaceRegistry ) === false )
+            case 'xml':
+                if ( ( $propertyValue instanceof ezcWebdavXmlTool ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavNamespaceRegistry' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavXmlTool' );
                 }
                 break;
             default:

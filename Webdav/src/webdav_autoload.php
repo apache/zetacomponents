@@ -90,5 +90,6 @@ return array(
     'ezcWebdavTransport'                       => 'Webdav/transport.php',
     'ezcWebdavTransportOptions'                => 'Webdav/options/transport.php',
     'ezcWebdavUnlockRequest'                   => 'Webdav/request/unlock.php',
+    'ezcWebdavXmlTool'                         => 'Webdav/tools/xml.php',
 );
 ?>

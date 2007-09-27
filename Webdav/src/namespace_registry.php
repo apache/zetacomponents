@@ -20,7 +20,6 @@
  */
 class ezcWebdavNamespaceRegistry implements ArrayAccess
 {
-
     /**
      * Counter to create new shortcuts.
      * 
