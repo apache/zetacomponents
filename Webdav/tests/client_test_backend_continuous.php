@@ -6,16 +6,16 @@ class ezcWebdavClientTestBackendContinuous
 
     protected static $backend;
 
+    protected static $lastTestSuite;
+
     public static function performSetup( ezcWebdavClientTest $test, $testSetName )
     {
-        if ( self::$transport === null )
+        if ( basename( dirname( $testSetName ) ) !== self::$lastTestSuite )
         {
-            self::$transport = new ezcWebdavTransportTestMock();
+            self::$lastTestSuite                   = basename( dirname( $testSetName ) );
+            self::$transport                       = new ezcWebdavTransportTestMock();
             self::$transport->options->pathFactory = new ezcWebdavPathFactory( 'http://webdav' );
-        }
-        if ( self::$backend === null )
-        {
-            self::$backend = self::setupBackend();
+            self::$backend                         = self::setupBackend();
         }
         $test->transport = self::$transport;
         $test->backend   = self::$backend;

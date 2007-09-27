@@ -5,7 +5,7 @@ libxml_use_internal_errors( true );
 abstract class ezcWebdavClientTest extends ezcTestCase
 {
     const REGENERATE_REQUEST  = false;
-    const REGENERATE_RESPONSE = true;
+    const REGENERATE_RESPONSE = false;
 
     protected $setupClass;
 
@@ -18,6 +18,8 @@ abstract class ezcWebdavClientTest extends ezcTestCase
     private $testSets = array();
     
     private $currentTestSet;
+
+    private $reset = false;
 
     /**
      * Needs to set different options.
@@ -34,6 +36,8 @@ abstract class ezcWebdavClientTest extends ezcTestCase
     {
         parent::__construct();
         $this->setupTestEnvironment();
+
+        // Reset the backend at start of the suite
 
         foreach ( glob( $this->dataDir . '/*', GLOB_ONLYDIR ) as $testSetDir )
         {
@@ -64,7 +68,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected function runTestSet( $testSetName )
     {
-        call_user_func( array( $this->setupClass, 'performSetup' ), $this, basename( $testSetName ) );
+        call_user_func( array( $this->setupClass, 'performSetup' ), $this, $testSetName );
 
         $requestObject = null;
 
