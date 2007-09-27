@@ -251,7 +251,7 @@ class ezcWebdavTransport
     {
         switch ( true )
         {
-            case ( $info->body instanceof DOMDocument ):
+            case ( $info instanceof ezcWebdavDisplayInformationXml ):
                 $info->body->formatOutput = true;
                 // Explicitly set txt/xml content type
                 if ( $info->response->getHeader( 'Content-Type' ) === null )
@@ -261,15 +261,15 @@ class ezcWebdavTransport
                 $result = $info->body->saveXML( $info->body );
                 break;
                 
-            case ( is_string( $info->body ) ):
+            case ( $info instanceof ezcWebdavDisplayInformationString ):
                 if ( $info->response->getHeader( 'Content-Type' ) === null )
                 {
                     throw new ezcWebdavMissingHeaderException( 'ContentType' );
                 }
                 $result = $info->body;
                 break;
-            case ( $info->body === null ):
 
+            case ( $info instanceof ezcWebdavDisplayInformationEmpty ):
             default:
                 if ( ( $contenTypeHeader = $info->response->getHeader( 'Content-Type' ) ) !== null  )
                 {
@@ -1164,7 +1164,7 @@ class ezcWebdavTransport
      * Returns an XML representation of the given response object.
      *
      * @param ezcWebdavMultiStatusResponse $response 
-     * @return DOMDocument
+     * @return ezcWebdavDisplayInformationXml
      */
     protected function processMultiStatusResponse( ezcWebdavMultiStatusResponse $response )
     {
@@ -1184,14 +1184,14 @@ class ezcWebdavTransport
             );
         }
         
-        return new ezcWebdavDisplayInformation( $response, $dom );
+        return new ezcWebdavDisplayInformationXml( $response, $dom );
     }
 
     /**
      * Returns an XML representation of the given response object.
      *
      * @param ezcWebdavPropFindResponse $response 
-     * @return DOMDocument
+     * @return ezcWebdavDisplayInformationXml
      */
     protected function processPropFindResponse( ezcWebdavPropFindResponse $response )
     {
@@ -1211,51 +1211,51 @@ class ezcWebdavTransport
                 $dom->importNode( $this->processPropStatResponse( $propStat )->body->documentElement, true )
             );
         }
-        return new ezcWebdavDisplayInformation( $response, $dom );
+        return new ezcWebdavDisplayInformationXml( $response, $dom );
     }
 
     /**
      * Returns an XML representation of the given response object.
      *
      * @param ezcWebdavPropPatchResponse $response 
-     * @return DOMDocument
+     * @return ezcWebdavDisplayInformationEmpty
      */
     protected function processPropPatchResponse( ezcWebdavPropPatchResponse $response )
     {
-        return new ezcWebdavDisplayInformation( $response, null );
+        return new ezcWebdavDisplayInformationEmpty( $response );
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavCopyResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationEmpty
      */
     protected function processCopyResponse( ezcWebdavCopyResponse $response )
     {
-        return new ezcWebdavDisplayInformation( $response, null );
+        return new ezcWebdavDisplayInformationEmpty( $response );
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavMoveResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationEmpty
      */
     protected function processMoveResponse( ezcWebdavMoveResponse $response )
     {
-        return new ezcWebdavDisplayInformation( $response, null );
+        return new ezcWebdavDisplayInformationEmpty( $response );
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavDeleteResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationEmpty
      */
     protected function processDeleteResponse( ezcWebdavDeleteResponse $response )
     {
-        return new ezcWebdavDisplayInformation( $response, null );
+        return new ezcWebdavDisplayInformationEmpty( $response );
     }
 
     /**
@@ -1263,11 +1263,11 @@ class ezcWebdavTransport
      * 
      * @param ezcWebdavErrorResponse $response 
      * @param bool $xml DOMDocument in result only generated of true.
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationXml|ezcWebdavDisplayInformationEmpty
      */
     protected function processErrorResponse( ezcWebdavErrorResponse $response, $xml = false )
     {
-        $dom = null;
+        $res = new ezcWebdavDisplayInformationEmpty( $response );
         if ( $xml === true )
         {
             $dom = $this->xml->createDomDocument();
@@ -1282,27 +1282,27 @@ class ezcWebdavTransport
             $responseElement->appendChild(
                 $this->xml->createDomElement( $dom, 'status' )
             )->nodeValue = (string) $response;
-
+            $res = new ezcWebdavDisplayInformationXml( $response, $dom );
         }
-        return new ezcWebdavDisplayInformation( $response, $dom );
+        return $res;
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavGetCollectionResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationEmpty
      */
     protected function processGetCollectionResponse( ezcWebdavGetCollectionResponse $response )
     {
-        return new ezcWebdavDisplayInformation( $response, null );
+        return new ezcWebdavDisplayInformationEmpty( $response );
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavGetResourceResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationString
      * @todo Do we need to set more headers here?
      */
     protected function processGetResourceResponse( ezcWebdavGetResourceResponse $response )
@@ -1315,32 +1315,26 @@ class ezcWebdavTransport
                 '; charset="' .   ( $contentTypeProperty->charset !== null ? $contentTypeProperty->charset : 'utf-8' ) . '"';
             $response->setHeader( 'Content-Type', $contentTypeHeader );
         }
-        // Generate Content-Length header if necessary
-        /*
-        if ( $response->getHeader( 'Content-Length' ) === null )
-        {
-            $response->setHeader( 'Content-Length', ( strlen( $response->resource->content ) + 1 ) );
-        }
-        */
-        return new ezcWebdavDisplayInformation( $response, $response->resource->content );
+        // Content-Length automatically send by web server
+        return new ezcWebdavDisplayInformationString( $response, $response->resource->content );
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavPutResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationEmpty
      */
     protected function processPutResponse( ezcWebdavPutResponse $response )
     {
-        return new ezcWebdavDisplayInformation( $response, $response );
+        return new ezcWebdavDisplayInformationEmpty( $response );
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavHeadResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationEmpty
      * @todo Do we need to set more headers here?
      */
     protected function processHeadResponse( ezcWebdavHeadResponse $response )
@@ -1358,36 +1352,36 @@ class ezcWebdavTransport
         {
             $response->setHeader( 'Content-Length', ( strlen( $response->resource->content ) + 1 ) );
         }
-        return new ezcWebdavDisplayInformation( $response, $response->resource->content );
+        return new ezcWebdavDisplayInformationEmpty( $response );
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavMakeCollectionResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationEmpty
      */
     protected function processMakeCollectionResponse( ezcWebdavMakeCollectionResponse $response )
     {
-        return new ezcWebdavDisplayInformation( $response, null );
+        return new ezcWebdavDisplayInformationEmpty( $response );
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavOptionsResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationEmpty
      */
     protected function processOptionsResponse( ezcWebdavOptionsResponse $response )
     {
-        return new ezcWebdavDisplayInformation( $response, null );
+        return new ezcWebdavDisplayInformationEmpty( $response );
     }
 
     /**
      * Returns an XML representation of the given response object.
      * 
      * @param ezcWebdavPropStatResponse $response 
-     * @return DOMDocument|null
+     * @return ezcWebdavDisplayInformationXml
      */
     protected function processPropStatResponse( ezcWebdavPropStatResponse $response )
     {
@@ -1409,7 +1403,7 @@ class ezcWebdavTransport
             )
         )->nodeValue = (string) $response;
 
-        return new ezcWebdavDisplayInformation( $response, $dom );
+        return new ezcWebdavDisplayInformationXml( $response, $dom );
     }
 
     /**
@@ -1417,7 +1411,7 @@ class ezcWebdavTransport
      * Attaches all properties of the $storage to the $parentElement XML
      * element.
      * 
-     * @param new ezcWebdavBasicPropertyStorage $storage 
+     * @param new ezcWebdavPropertyStorage $storage 
      * @param DOMElement $parentElement 
      * @return void
      */

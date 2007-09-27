@@ -18,20 +18,18 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-abstract class ezcWebdavDisplayInformation
+class ezcWebdavDisplayInformationEmpty extends ezcWebdavDisplayInformation
 {
     
     /**
      * Creates a new struct.
      * 
      * @param ezcWebdavResponse $response 
-     * @param DOMDocument|string|null $body 
      * @return void
      */
-    public function __construct( ezcWebdavResponse $response, $body )
+    public function __construct( ezcWebdavResponse $response )
     {
         $this->response = $response;
-        $this->body     = $body;
     }
 
     /**
@@ -40,14 +38,6 @@ abstract class ezcWebdavDisplayInformation
      * @var ezcWebdavResponse
      */
     public $response;
-
-    /**
-     * Representation of the response body.
-     * Contents overwritten in extending structs.
-     * 
-     * @var DOMDocument|sring|null
-     */
-    public $body;
 }
 
 ?>
