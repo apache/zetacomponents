@@ -52,7 +52,7 @@ class ezcWebdavTransportOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'pathFactory':
-                if ( is_object( $propertyValue ) === false || ( $propertyValue instanceof ezcWebdavBasicPathFactory ) === false )
+                if ( is_object( $propertyValue ) === false || ( $propertyValue instanceof ezcWebdavPathFactory ) === false )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavBasicPathFactory' );
                 }

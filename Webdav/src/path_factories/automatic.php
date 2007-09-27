@@ -22,7 +22,7 @@
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavAutomaticPathFactory extends ezcWebdavBasicPathFactory
+class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
 {
     /**
      * Base path on the server.
