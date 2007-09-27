@@ -9,9 +9,12 @@
  */
 
 /**
- * Exception thrown when a request object misses a header essential to the request.
+ * Exception thrown when a request/response object misses an essential header essential.
+ *
  * {@link ezcWebdavRequest::validateHeaders()} will throw this exception, if a
- * header, which is essential to the specific request, is not present.
+ * header, which is essential to the specific request, is not present. {@link
+ * ezcWebdavTransport::sendResponse()} will throw this exception, if a non-XML
+ * body should be sent and the header is not set.
  * 
  * @package Webdav
  * @version //autogen//
@@ -29,7 +32,7 @@ class ezcWebdavMissingHeaderException extends ezcWebdavException
      */
     public function __construct( $headerName )
     {
-        parent::__construct( "The header '$headerName' is required by the request sent but was not included." );
+        parent::__construct( "The header '$headerName' is required by the request sent or the response to send but was not set." );
     }
 }
 

@@ -8,8 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * The transport handler parses the request and echos the response depending on
- * the client it has been written for.
+ * Handler class that handles parsing of requests and handling of responses.
  *
  * This basic implementation handles requests and responses as defined in RFC
  * 2518 and should be extended for misbehaving clients.
@@ -22,30 +21,24 @@ class ezcWebdavTransport
     /**
      * The default namespace, where WebDAV XML elements reside in. 
      */
-    const DEFAULT_NAMESPACE = 'DAV:';
+    const XML_DEFAULT_NAMESPACE = 'DAV:';
 
     /**
-     * Properties.
-     * 
-     * @var array()
+     * The XML version to create DOM documents in. 
      */
-    protected $properties = array();
+    const XML_VERSION = '1.0';
 
     /**
-     * Creates a new transport object.
-     * 
-     * @param ezcWebdavTransportOptions $options 
-     * @return void
+     * Encoding to use to create DOM documents. 
      */
-    public function __construct( ezcWebdavTransportOptions $options = null )
-    {
-        if ( $options === null )
-        {
-            $options = new ezcWebdavTransportOptions();
-        }
-        $this->properties['options'] = $options;
-        $this->properties['namespaceRegistry'] = new ezcWebdavNamespaceRegistry();
-    }
+    const XML_ENCODING = 'utf-8';
+
+    /**
+     * Regedx to parse the <getcontenttype /> XML elemens content.
+     *
+     * Example: 'text/html; charset=UTF-8'
+     */
+    const GETCONTENTTYPE_REGEX = '(^(?P<mime>\w+/\w+)\s*;\s*charset\s*=\s*(?P<charset>.+)\s*$)i';
 
     /**
      * Map of regular header names to $_SERVER keys.
@@ -63,62 +56,145 @@ class ezcWebdavTransport
     );
 
     /**
-     * Regedx to parse the <getcontenttype /> XML elemens content.
-     * Example: 'text/html; charset=UTF-8'
+     * Map of HTTP methods to object method names for parsing.
+     *
+     * @var array(string=>string)
      */
-    const GETCONTENTTYPE_REGEX = '(^(?P<mime>\w+/\w+)\s*;\s*charset\s*=\s*(?P<charset>.+)\s*$)i';
+    static protected $parsingMap = array(
+        'COPY'      => 'parseCopyRequest',
+        'DELETE'    => 'parseDeleteRequest',
+        'GET'       => 'parseGetRequest',
+        'HEAD'      => 'parseHeadRequest',
+        'LOCK'      => 'parseLockRequest',
+        'MKCOL'     => 'parseMakeCollectionRequest',
+        'MOVE'      => 'parseMoveRequest',
+        'OPTIONS'   => 'parseOptionsRequest',
+        'PROPFIND'  => 'parsePropFindRequest',
+        'PROPPATCH' => 'parsePropPatchRequest',
+        'PUT'       => 'parsePutRequest',
+        'UNLOCK'    => 'parseUnlockRequest',
+    );
 
     /**
-     * Parses the webserver environment variables to create a proper request
-     * object from then containing all relevant information to handle the
-     * request by the backend.
+     * Map of response objects to handling methods.
+     *
+     * @array(string=>string)
+     */
+    static protected $handlingMap = array(
+        'ezcWebdavPropFindResponse'       => 'processPropFindResponse',
+        'ezcWebdavMultistatusResponse'    => 'processMultiStatusResponse',
+        'ezcWebdavCopyResponse'           => 'processCopyResponse',
+        'ezcWebdavDeleteResponse'         => 'processDeleteResponse',
+        'ezcWebdavErrorResponse'          => 'processErrorResponse',
+        'ezcWebdavGetCollectionResponse'  => 'processGetCollectionResponse',
+        'ezcWebdavGetResourceResponse'    => 'processGetResourceResponse',
+        'ezcWebdavOptionsResponse'        => 'processOptionsResponse',
+        'ezcWebdavPropPatchResponse'      => 'processPropPatchResponse',
+        'ezcWebdavHeadResponse'           => 'processHeadResponse',
+        'ezcWebdavMakeCollectionResponse' => 'processMakeCollectionResponse',
+        'ezcWebdavMoveResponse'           => 'processMoveResponse',
+        'ezcWebdavPutResponse'            => 'processPutResponse',
+    );
+
+    /**
+     * Properties.
+     * 
+     * @var array(string=>mixed)
+     */
+    protected $properties = array();
+
+    /**
+     * Creates a new transport object.
+     *
+     * The transport object will make use of the submitted $options or create a
+     * default {@link ezcWebdavTransportOptions} object for use. You can access
+     * and change the option at any time through the {@link $optiosn} property.
+     *
+     * The methods {@link $this->parseRequest()} and {@
+     * $this->handleResponse()} are called by {@link ezcWebdavServer to perform
+     * the specific operations.
+     * 
+     * @param ezcWebdavTransportOptions $options 
+     * @return void
+     *
+     * @todo The namespace factory should be moved into options, too.
+     */
+    public function __construct( ezcWebdavTransportOptions $options = null )
+    {
+        $this->properties['options']           = ( $options === null ? new ezcWebdavTransportOptions() : $options );
+        $this->properties['namespaceRegistry'] = new ezcWebdavNamespaceRegistry();
+    }
+
+    /**
+     * Parses the incoming request into a fitting request abstraction object.
+     *
+     * This method is the main entry point of {@link ezcWebdavServer} and is
+     * utilized by it to parse the incoming request into an instance of {@link
+     * ezcWebdavRequest}.
+     *
+     * The submitted URI must be formatted in a way, that the {@link
+     * ezcWebdavPathFactory} (by default this is {@link
+     * ezcWebdavAutomaticPathFactory}) set in the {@link
+     * ezcWebdavTransportOptions $pathFactory} option can convert it into a
+     * path absolute to the WebDAV repository.
+     *
+     * The retrieval of the request body is performed by the {@link
+     * retreiveBody()} method, the request method from {@link
+     * $_SERVER['REQUEST_METHOD']}. The latter one is mapped through the
+     * {self::$parsingMap} attribute to a local object method.
      *
      * @return ezcWebdavRequest
+     *
+     * @throws ezcWebdavInvalidRequestBodyException
+     *         if the request method in {@link $_SERVER} was not found in
+     *         {@link self::$parsingMap}.
+     *
+     * @todo TS: I made this final for now and made it dispatch to protected
+     * methods for its special operations. This way we can ensure that the
+     * server API stays stable across extended transports.
      */
-    public function parseRequest( $uri )
+    public final function parseRequest( $uri )
     {
         $body = $this->retreiveBody();
         $path = $this->options->pathFactory->parseUriToPath( $uri );
 
-        switch ( $_SERVER['REQUEST_METHOD'] )
+        if ( isset( self::$parsingMap[$_SERVER['REQUEST_METHOD']] ) === false )
         {
-            case 'COPY':
-                return $this->parseCopyRequest( $path, $body );
-            case 'DELETE':
-                return $this->parseDeleteRequest( $path, $body );
-            case 'GET':
-                return $this->parseGetRequest( $path, $body );
-            case 'HEAD':
-                return $this->parseHeadRequest( $path. $body );
-            case 'LOCK':
-                return $this->parseLockRequest( $path, $body );
-            case 'MKCOL':
-                return $this->parseMakeCollectionRequest( $path, $body );
-            case 'MOVE':
-                return $this->parseMoveRequest( $path, $body );
-            case 'OPTIONS':
-                return $this->parseOptionsRequest( $path, $body );
-            case 'PROPFIND':
-                return $this->parsePropFindRequest( $path, $body );
-            case 'PROPPATCH':
-                return $this->parsePropPatchRequest( $path, $body );
-            case 'PUT':
-                return $this->parsePutRequest( $path, $body );
-            case 'UNLOCK':
-                return $this->parseUnlockRequest( $path, $body );
-            default:
-                throw new ezcWebdavInvalidRequestMethodException(
-                    $_SERVER['REQUEST_METHOD']
-                );
+            throw new ezcWebdavInvalidRequestMethodException(
+                $_SERVER['REQUEST_METHOD']
+            );
         }
+        return call_user_func( array( $this, self::$parsingMap[$_SERVER['REQUEST_METHOD']] ), $path, $body );
+    }
+
+    /**
+     * Handle a response and send it to the browser.
+     * This method is part of the integral communication between the client and
+     * the {@link ezcWebdavServer}. It is declared final to ensure a minimal
+     * compatibile API between the extended classes.
+     *
+     * It currently just maps internally to {@link processResponse()} and
+     * passes the result to {@ sendResponse()}. It is not recommended that the
+     * {@link processResponse()} method is overwritten, because this one takes
+     * care about the dispatching. The {@link sendResponse()} may be
+     * overwritten, mainly for debugging, testing and logging purposes.
+     * 
+     * @param ezcWebdavResponse $response
+     * @return void
+     */
+    public final function handleResponse( ezcWebdavResponse $response )
+    {
+        $this->sendResponse( $this->processResponse( $response ) );
     }
 
     /**
      * Returns the body content of the request.
+     *
      * This method mainly exists for unittesting purpose. It reads the request
-     * body and returns the contents.
+     * body and returns the contents as a string. This method can also be
+     * usefull to override in cases of strange web severs.
      * 
-     * @return string void
+     * @return string
      */
     protected function retreiveBody()
     {
@@ -134,15 +210,19 @@ class ezcWebdavTransport
 
     /**
      * Returns a DOMDocument from the given XML.
-     * Creates a new DOMDocument and loads the given XML string with settings
-     * appropriate to work with it.
+     * Creates a new DOMDocument with the options set in the class constants
+     * and loads the optionally given $xml string with settings appropriate to
+     * work with it.
      * 
+     *
+     * @see LIBXML_NOWARNING, LIBXML_NSCLEAN, LIBXML_NOBLANKS
+     *
      * @param sting $xml 
      * @return DOMDocument|false
      */
     protected function getDom( $xml = null )
     {
-        $dom = new DOMDocument( '1.0', 'utf-8' );
+        $dom = new DOMDocument( self::XML_VERSION, self::XML_ENCODING );
         if ( $xml !== null )
         {
             if ( $dom->loadXML(
@@ -167,12 +247,121 @@ class ezcWebdavTransport
      * @param string $namespace 
      * @return DOMElement
      */
-    protected function newDomElement( DOMDocument $dom, $localName, $namespace = self::DEFAULT_NAMESPACE )
+    protected function newDomElement( DOMDocument $dom, $localName, $namespace = self::XML_DEFAULT_NAMESPACE )
     {
         return $dom->createElementNS(
             $namespace,
             "{$this->namespaceRegistry[$namespace]}:{$localName}"
         );
+    }
+
+    /**
+     * Serializes a response object to XML.
+     * This method performs the internal dispatching of a given $response
+     * object. It determines the method to handle the response by {@link
+     * self::$handlingMap} and throws an Exception if the given class could not
+     * be dispatched.
+     *
+     * It is not recommend to overwrite this method in derived classes, since
+     * this contains the elemental dispatching algorithm for response classes
+     * and might change in future. It is therefore marked private.
+     * 
+     * @private
+     *
+     * @param ezcWebdavResponse $response 
+     * @return ezcWebdavDisplayInformation
+     *
+     * @throws RuntimeException
+     *         if the class of the given object could not be dispatched.
+     *
+     * @todo Correct exception. Or better: Correct all exception mess!
+     */
+    protected function processResponse( ezcWebdavResponse $response )
+    {
+        if ( isset( self::$handlingMap[( $responseClass = get_class( $response ) )] ) === false )
+        {
+            throw new RuntimeException( "Serialization of class $responseClass not implemented, yet." );
+        }
+        return call_user_func( array( $this, self::$handlingMap[( $responseClass = get_class( $response ) )] ), $response );
+    }
+
+    /**
+     * Finally send out the response.
+     *
+     * This method is called to finally send the response to the browser. It
+     * can be overwritten in test cases to change the behaviour of printing out
+     * the result and sending the headers. The method automatically generates an
+     * appropriate Content-Type header for XML output, if a DOMDocument is received in
+     * ezcWebdavDisplayInformation. A header existent in the response object
+     * will not be affected and the method will silently go on.
+     *
+     * If the {@link ezcWebdavDisplayInformation::$body} property is a string,
+     * correct setting of the Content-Type header is checked and an {@link
+     * ezcWebdavMissingHeaderException} is thrown in negative case {@link
+     * ezcWebdavMissingHeaderException} is thrown in negative case.
+     *
+     * If a null body is received, the method checks if Content-Type and
+     * Content-Length headers are not present, so they are not excplicitly send
+     * later on.
+     * 
+     * @param ezcWebdavDisplayInformation $info
+     * @return void
+     *
+     * @todo ezcWebdavDisplayInformation should be refactored to have
+     *       subclasses for the different content types (DOMDOcument, null,
+     *       string).
+     */
+    protected function sendResponse( ezcWebdavDisplayInformation $info )
+    {
+        switch ( true )
+        {
+            case ( $info->body instanceof DOMDocument ):
+                $info->body->formatOutput = true;
+                // Explicitly set txt/xml content type
+                if ( $info->response->getHeader( 'Content-Type' ) === null )
+                {
+                    $info->response->setHeader( 'Content-Type', 'text/xml; charset="utf-8"' );
+                }
+                $result = $info->body->saveXML( $info->body );
+                break;
+                
+            case ( is_string( $info->body ) ):
+                if ( $info->response->getHeader( 'Content-Type' ) === null )
+                {
+                    throw new ezcWebdavMissingHeaderException( 'ContentType' )
+                }
+                $result = $info->body;
+                break;
+            case ( $info->body === null ):
+
+            default:
+                if ( ( $contenTypeHeader = $info->response->getHeader( 'Content-Type' ) ) !== null  )
+                {
+                    throw new ezcWebdavInvalidHeaderException( 'Content-Type', $contenTypeHeader, 'null' );
+                }
+                if ( ( $contenLengthHeader = $info->response->getHeader( 'Content-Length' ) ) !== null  )
+                {
+                    throw new ezcWebdavInvalidHeaderException( 'Content-Length', $contenLengthHeader, 'null' );
+                }
+                $result = null;
+                break;
+        }
+        
+        // Sends HTTP response code and description, 3rd param forces status
+        header( (string) $info->response, true, (int) $info->response->status );
+
+        // Send headers defined by response
+        $headers = $info->response->getHeaders();
+        foreach ( $headers as $name => $value )
+        {
+            header( "{$name}: {$value}" );
+        }
+
+        if ( $result !== null )
+        {
+            // Content-Length header automatically send
+            echo $result;
+        }
     }
 
     /**
@@ -497,9 +686,9 @@ class ezcWebdavTransport
             );
         }
 
-        $lockTypeElements  = $dom->documentElement->getElementsByTagnameNS( self::DEFAULT_NAMESPACE, 'locktype' );
-        $lockScopeElements = $dom->documentElement->getElementsByTagnameNS( self::DEFAULT_NAMESPACE, 'lockscope' );
-        $ownerElements     = $dom->documentElement->getElementsByTagnameNS( self::DEFAULT_NAMESPACE, 'owner' );
+        $lockTypeElements  = $dom->documentElement->getElementsByTagnameNS( self::XML_DEFAULT_NAMESPACE, 'locktype' );
+        $lockScopeElements = $dom->documentElement->getElementsByTagnameNS( self::XML_DEFAULT_NAMESPACE, 'lockscope' );
+        $ownerElements     = $dom->documentElement->getElementsByTagnameNS( self::XML_DEFAULT_NAMESPACE, 'owner' );
 
         if ( $lockTypeElements->length === 0 )
         {
@@ -696,7 +885,7 @@ class ezcWebdavTransport
             
             // DAV: namespace indicates live property!
             // Other RFCs allready intruded into this namespace, as 3253 does.
-            if ( $currentNode->namespaceURI === self::DEFAULT_NAMESPACE )
+            if ( $currentNode->namespaceURI === self::XML_DEFAULT_NAMESPACE )
             {
                 $property = $this->extractLiveProperty( $currentNode );
                 // In case we don't know the property, we currently ignore it!
@@ -857,7 +1046,7 @@ class ezcWebdavTransport
     {
         $activeLock = new ezcWebdavLockDiscoveryPropertyActiveLock();
 
-        $activelockElement = $domElement->getElementsByTagNameNS( self::DEFAULT_NAMESPACE, 'activelock' )->item( 0 );
+        $activelockElement = $domElement->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'activelock' )->item( 0 );
         for ( $i = 0; $i < $activelockElement->childNodes->length; ++$i )
         {
             if ( ( ( $currentElement = $activelockElement->childNodes->item( $i ) ) instanceof DOMElement ) === false )
@@ -938,13 +1127,13 @@ class ezcWebdavTransport
         $links = array();
 
         $linkElements = $domElement->getElementsByTagNameNS(
-            self::DEFAULT_NAMESPACE, 'link'
+            self::XML_DEFAULT_NAMESPACE, 'link'
         );
         for ( $i = 0; $i < $linkElements->length; ++$i )
         {
             $links[] = new ezcWebdavSourcePropertyLink(
-                $linkElements->item( $i )->getElementsByTagNameNS( self::DEFAULT_NAMESPACE, 'src' )->nodeValue,
-                $linkElements->item( $i )->getElementsByTagNameNS( self::DEFAULT_NAMESPACE, 'dst' )->nodeValue
+                $linkElements->item( $i )->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'src' )->nodeValue,
+                $linkElements->item( $i )->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'dst' )->nodeValue
             );
         }
         return $links;
@@ -964,13 +1153,13 @@ class ezcWebdavTransport
     {
         $lockEntries = array();
 
-        $lockEntryElements = $domElement->getElementsByTagNameNS( self::DEFAULT_NAMESPACE, 'lockentry' );
+        $lockEntryElements = $domElement->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'lockentry' );
         for ( $i = 0; $i < $lockEntryElements->length; ++$i )
         {
             $lockEntries[] = new ezcWebdavSupportedLockPropertyLockentry(
-                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( self::DEFAULT_NAMESPACE, 'locktype' )->item( 0 )->localname === 'write'
+                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'locktype' )->item( 0 )->localname === 'write'
                     ? ezcWebdavLockRequest::TYPE_WRITE : ezcWebdavLockRequest::TYPE_READ ),
-                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( self::DEFAULT_NAMESPACE, 'lockscope' )->item( 0 )->localname === 'shared'
+                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'lockscope' )->item( 0 )->localname === 'shared'
                     ? ezcWebdavLockRequest::SCOPE_SHARED : ezcWebdavLockRequest::SCOPE_EXCLUSIVE )
             );
         }
@@ -1010,8 +1199,8 @@ class ezcWebdavTransport
             );
         }
 
-        $setElements    = $dom->documentElement->getElementsByTagNameNS( self::DEFAULT_NAMESPACE, 'set' );
-        $removeElements = $dom->documentElement->getElementsByTagNameNS( self::DEFAULT_NAMESPACE, 'remove' );
+        $setElements    = $dom->documentElement->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'set' );
+        $removeElements = $dom->documentElement->getElementsByTagNameNS( self::XML_DEFAULT_NAMESPACE, 'remove' );
         
         for ( $i = 0; $i < $setElements->length; ++$i )
         {
@@ -1034,126 +1223,6 @@ class ezcWebdavTransport
         return $request;
     }
 
-
-    /**
-     * Handle a response from the backend and output it depending on the
-     * current transport mechanism.
-     * 
-     * @param ezcWebdavResponse $response
-     * @return void
-     */
-    public function handleResponse( ezcWebdavResponse $response )
-    {
-        $this->sendResponse( $this->processResponse( $response ) );
-    }
-
-    /**
-     * Serializes a response object to XML.
-     * 
-     * @param ezcWebdavResponse $response 
-     * @return DOMDocument|null
-     */
-    protected function processResponse( ezcWebdavResponse $response )
-    {
-        $displayInfo = null;
-
-        switch ( ( $responseClass = get_class( $response ) ) )
-        {
-            case 'ezcWebdavPropFindResponse':
-                $displayInfo = $this->processPropFindResponse( $response );
-                break;
-            case 'ezcWebdavMultistatusResponse':
-                $displayInfo = $this->processMultiStatusResponse( $response );
-                break;
-            case 'ezcWebdavCopyResponse':
-                $displayInfo = $this->processCopyResponse( $response );
-                break;
-            case 'ezcWebdavDeleteResponse':
-                $displayInfo = $this->processDeleteResponse( $response );
-                break;
-            case 'ezcWebdavErrorResponse':
-                $displayInfo = $this->processErrorResponse( $response );
-                break;
-            case 'ezcWebdavGetCollectionResponse':
-                $displayInfo = $this->processGetCollectionResponse( $response );
-                break;
-            case 'ezcWebdavGetResourceResponse':
-                $displayInfo = $this->processGetResourceResponse( $response );
-                break;
-            case 'ezcWebdavOptionsResponse':
-                $displayInfo = $this->processOptionsResponse( $response );
-                break;
-            case 'ezcWebdavPropPatchResponse':
-                $displayInfo = $this->processPropPatchResponse( $response );
-                break;
-            case 'ezcWebdavHeadResponse':
-                $displayInfo = $this->processHeadResponse( $response );
-                break;
-            case 'ezcWebdavMakeCollectionResponse':
-                $displayInfo = $this->processMakeCollectionResponse( $response );
-                break;
-            case 'ezcWebdavMoveResponse':
-                $displayInfo = $this->processMoveResponse( $response );
-                break;
-            case 'ezcWebdavPutResponse':
-                $displayInfo = $this->processPutResponse( $response );
-                break;
-            default:
-                throw new RuntimeException( "Serialization of class $responseClass not implemented, yet." );
-        }
-
-        return $displayInfo;
-    }
-
-    /**
-     * Finally send out the response.
-     * This method is called to finally send the response to the browser. It
-     * can be overwritten in test cases to change the behaviour of printing out
-     * the result and sending the headers.
-     * 
-     * @param ezcWebdavDisplayInformation $info
-     * @return void
-     *
-     * @todo Do we need to explicitly send Content-Length here?
-     */
-    protected function sendResponse( ezcWebdavDisplayInformation $info )
-    {
-        switch ( true )
-        {
-            case ( $info->body instanceof DOMDocument ):
-                $info->body->formatOutput = true;
-                // Explicitly set txt/xml content type
-                if ( $info->response->getHeader( 'Content-Type' ) === null )
-                {
-                    $info->response->setHeader( 'Content-Type', 'text/xml; charset="utf-8"' );
-                }
-                $result = $info->body->saveXML( $info->body );
-                break;
-            case ( is_string( $info->body ) ):
-                $result = $info->body;
-                break;
-            case ( $info->body === null ):
-            default:
-                $result = null;
-                break;
-        }
-        
-        // Sends HTTP response code and description, 3rd param forces status
-        header( (string) $info->response, true, (int) $info->response->status );
-
-        // Send headers defined by response
-        $headers = $info->response->getHeaders();
-        foreach ( $headers as $name => $value )
-        {
-            header( "{$name}: {$value}" );
-        }
-
-        if ( $result !== null )
-        {
-            // Content-Length header automatically send
-            echo $result;
-        }
-    }
 
     /**
      * Returns an XML representation of the given response object.
