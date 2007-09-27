@@ -18,7 +18,7 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavFlaggedPropertyStorage extends ezcWebdavPropertyStorage
+class ezcWebdavFlaggedPropertyStorage extends ezcWebdavBasicPropertyStorage
 {
     /**
      * Next ID for a element in the ordered property list, to generate valid

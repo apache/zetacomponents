@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Basic path factory.
+ * Basic path factory interface.
  *
  * An object of this class is meant to be used in {@link
  * ezcWebdavTransportOptions} as the $pathFactory property. The instance of
@@ -24,7 +24,7 @@
  * @version //autogentag//
  * @package Webdav
  */
-class ezcWebdavPathFactory
+class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
 {
     /**
      * Result of parse_url() for the {@link $baseUri} submitted to the ctor.

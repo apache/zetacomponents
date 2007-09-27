@@ -152,7 +152,7 @@ class ezcWebdavMemoryBackend
     {
         if ( $this->options->fakeLiveProperties )
         {
-            $propertyStorage = new ezcWebdavPropertyStorage();
+            $propertyStorage = new ezcWebdavBasicPropertyStorage();
 
             // Add default creation date
             $propertyStorage->attach(
@@ -201,7 +201,7 @@ class ezcWebdavMemoryBackend
         }
         else
         {
-            $propertyStorage = new ezcWebdavPropertyStorage();
+            $propertyStorage = new ezcWebdavBasicPropertyStorage();
         }
 
         return $propertyStorage;
@@ -405,7 +405,7 @@ class ezcWebdavMemoryBackend
      * ezcWebdavPropertyStorage}
      *
      * @param string $resource 
-     * @return ezcWebdavPropertyStorage
+     * @return ezcWebdavBasicPropertyStorage
      */
     public function getAllProperties( $resource )
     {

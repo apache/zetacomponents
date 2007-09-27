@@ -1128,7 +1128,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $requestedProperties = new ezcWebdavPropertyStorage();
+        $requestedProperties = new ezcWebdavBasicPropertyStorage();
         $requestedProperties->attach(
             $prop1 = new ezcWebdavGetContentLengthProperty()
         );
@@ -1144,12 +1144,12 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $prop200 = new ezcWebdavPropertyStorage();
+        $prop200 = new ezcWebdavBasicPropertyStorage();
         $prop200->attach( $prop1 );
         $prop200->attach( $prop2 );
         $prop200->rewind();
 
-        $prop404 = new ezcWebdavPropertyStorage();
+        $prop404 = new ezcWebdavBasicPropertyStorage();
         $prop404->attach( $prop3 );
         $prop404->rewind();
 
@@ -1181,7 +1181,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $requestedProperties = new ezcWebdavPropertyStorage();
+        $requestedProperties = new ezcWebdavBasicPropertyStorage();
         $requestedProperties->attach(
             $prop1 = new ezcWebdavGetContentLengthProperty()
         );
@@ -1198,18 +1198,18 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $prop200c = new ezcWebdavPropertyStorage();
+        $prop200c = new ezcWebdavBasicPropertyStorage();
         $prop200c->attach( $prop1 );
         $prop200c->attach( $prop2 );
 
-        $prop404c = new ezcWebdavPropertyStorage();
+        $prop404c = new ezcWebdavBasicPropertyStorage();
         $prop404c->attach( $prop3 );
 
-        $prop200r = new ezcWebdavPropertyStorage();
+        $prop200r = new ezcWebdavBasicPropertyStorage();
         $prop200r->attach( $prop1 );
         $prop200r->attach( $prop2 );
 
-        $prop404r = new ezcWebdavPropertyStorage();
+        $prop404r = new ezcWebdavBasicPropertyStorage();
         $prop404r->attach( $prop3 );
 
         $expectedResponse = new ezcWebdavMultistatusResponse(
@@ -1269,7 +1269,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage = new ezcWebdavBasicPropertyStorage();
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty()
         );
@@ -1308,7 +1308,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage = new ezcWebdavBasicPropertyStorage();
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty()
         );
@@ -1347,7 +1347,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage = new ezcWebdavBasicPropertyStorage();
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty()
         );
@@ -1402,7 +1402,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage = new ezcWebdavBasicPropertyStorage();
         $propertyStorage->attach(
             new ezcWebdavCreationDateProperty()
         );
@@ -1486,7 +1486,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $propertyStorage = new ezcWebdavPropertyStorage();
+        $propertyStorage = new ezcWebdavBasicPropertyStorage();
         $propertyStorage->attach(
             new ezcWebdavGetContentLengthProperty( '22' )
         );
@@ -1523,7 +1523,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $propertyStorageC = new ezcWebdavPropertyStorage();
+        $propertyStorageC = new ezcWebdavBasicPropertyStorage();
         $propertyStorageC->attach(
             new ezcWebdavCreationDateProperty( new ezcWebdavDateTime( '@1054034820' ) )
         );
@@ -1546,7 +1546,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetContentLengthProperty( ezcWebdavGetContentLengthProperty::COLLECTION )
         );
 
-        $propertyStorageR = new ezcWebdavPropertyStorage();
+        $propertyStorageR = new ezcWebdavBasicPropertyStorage();
         $propertyStorageR->attach(
             new ezcWebdavCreationDateProperty( new ezcWebdavDateTime( '@1054034820' ) )
         );
@@ -1609,7 +1609,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             'foo:', 'blubb', 'some other content'
         ), ezcWebdavPropPatchRequest::SET );
 
-        $addedProperties = new ezcWebdavPropertyStorage();
+        $addedProperties = new ezcWebdavBasicPropertyStorage();
         $addedProperties->attach( $p1 );
         $addedProperties->attach( $p2 );
 
@@ -1668,7 +1668,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             'foo:', 'blah', 'evn more content'
         ), ezcWebdavPropPatchRequest::SET );
 
-        $addedProperties = new ezcWebdavPropertyStorage();
+        $addedProperties = new ezcWebdavBasicPropertyStorage();
         $addedProperties->attach( $p_bar );
         $addedProperties->attach( $p_blubb );
         $addedProperties->attach( $p_blah );
@@ -1679,12 +1679,12 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $response = $backend->proppatch( $request );
 
         // We expect the first to fail "normally".
-        $failed = new ezcWebdavPropertyStorage();
+        $failed = new ezcWebdavBasicPropertyStorage();
         $failed->attach( $p_bar );
         $failed->rewind();
 
         // All other will cause dep errors.
-        $depError = new ezcWebdavPropertyStorage();
+        $depError = new ezcWebdavBasicPropertyStorage();
         $depError->attach( $p_blubb );
         $depError->attach( $p_blah );
         $depError->rewind();
@@ -1765,7 +1765,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $removeProperties = new ezcWebdavFlaggedPropertyStorage();
         $removeProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::REMOVE );
 
-        $removedProperties = new ezcWebdavPropertyStorage();
+        $removedProperties = new ezcWebdavBasicPropertyStorage();
         $removedProperties->attach( $p_blubb );
 
         $request = new ezcWebdavPropPatchRequest( '/resource' );
@@ -1785,7 +1785,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         // Ensure property has been deleted by requesting both, expecting a 404
         // for the removed property.
-        $leftProperties = new ezcWebdavPropertyStorage();
+        $leftProperties = new ezcWebdavBasicPropertyStorage();
         $leftProperties->attach( $p_bar );
 
         $request = new ezcWebdavPropFindRequest( '/resource' );
@@ -1864,10 +1864,10 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
-        $failed = new ezcWebdavPropertyStorage();
+        $failed = new ezcWebdavBasicPropertyStorage();
         $failed->attach( $p_length );
 
-        $depError = new ezcWebdavPropertyStorage();
+        $depError = new ezcWebdavBasicPropertyStorage();
         $depError->attach( $p_bar );
         $depError->attach( $p_last );
 
@@ -1893,7 +1893,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         // Ensure nothing has been removed, and the transactions has been
         // properly reverted.
-        $leftProperties = new ezcWebdavPropertyStorage();
+        $leftProperties = new ezcWebdavBasicPropertyStorage();
         $leftProperties->attach( $p_bar );
 
         $request = new ezcWebdavPropFindRequest( '/resource' );
@@ -1901,7 +1901,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $checkProperties = new ezcWebdavPropertyStorage();
+        $checkProperties = new ezcWebdavBasicPropertyStorage();
         $checkProperties->attach( $p_blubb );
         $checkProperties->attach( $p_bar );
         $checkProperties->attach(  
@@ -1985,7 +1985,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         // Ensure nothing has been removed, and the transactions has been
         // properly reverted.
-        $leftProperties = new ezcWebdavPropertyStorage();
+        $leftProperties = new ezcWebdavBasicPropertyStorage();
         $leftProperties->attach( $p_bar );
 
         $request = new ezcWebdavPropFindRequest( '/resource' );
@@ -1993,12 +1993,12 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->propfind( $request );
 
-        $failed = new ezcWebdavPropertyStorage();
+        $failed = new ezcWebdavBasicPropertyStorage();
         $failed->attach( $p_blubb );
         $failed->attach( $p_bar );
         $failed->rewind();
 
-        $success = new ezcWebdavPropertyStorage();
+        $success = new ezcWebdavBasicPropertyStorage();
         $success->attach( $p_foo );
         $success->rewind();
 
@@ -2071,10 +2071,10 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
-        $failed = new ezcWebdavPropertyStorage();
+        $failed = new ezcWebdavBasicPropertyStorage();
         $failed->attach( $p_length );
 
-        $depError = new ezcWebdavPropertyStorage();
+        $depError = new ezcWebdavBasicPropertyStorage();
         $depError->attach( $p_foo );
         $depError->attach( $p_bar );
 

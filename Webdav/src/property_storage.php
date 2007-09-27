@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavPropertyStorage class.
+ * File containing the ezcWebdavBasicPropertyStorage class.
  * 
  * @package Webdav
  * @version //autogen//
@@ -18,7 +18,7 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavPropertyStorage implements Countable, Iterator
+class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 {
     /**
      * Stores the properties.
@@ -176,14 +176,14 @@ class ezcWebdavPropertyStorage implements Countable, Iterator
      * Return the current property storage reduced by the elements in the given
      * property storage.
      * 
-     * @param ezcWebdavPropertyStorage $properties 
-     * @return ezcWebdavPropertyStorage
+     * @param ezcWebdavBasicPropertyStorage $properties 
+     * @return ezcWebdavBasicPropertyStorage
      */
     public function diff( ezcWebdavPropertyStorage $properties )
     {
         $foreign = $properties->getAllProperties();
 
-        $diffedProperties = new ezcWebdavPropertyStorage();
+        $diffedProperties = new ezcWebdavBasicPropertyStorage();
         foreach ( $this->properties as $namespace => $properties )
         {
             foreach( $properties as $name => $property )
@@ -203,19 +203,19 @@ class ezcWebdavPropertyStorage implements Countable, Iterator
     /**
      * Intersection between two property storages.
      *
-     * Calculate and return {@link ezcWebdavPropertyStorage} which returns the
+     * Calculate and return {@link ezcWebdavBasicPropertyStorage} which returns the
      * intersection of two property storages. This means a new property storage
      * will be return which contains all values, which are present in the
      * current and the gi ven property storage.
      * 
-     * @param ezcWebdavPropertyStorage $properties 
-     * @return ezcWebdavPropertyStorage
+     * @param ezcWebdavBasicPropertyStorage $properties 
+     * @return ezcWebdavBasicPropertyStorage
      */
     public function intersect( ezcWebdavPropertyStorage $properties )
     {
         $foreign = $properties->getAllProperties();
 
-        $intersection = new ezcWebdavPropertyStorage();
+        $intersection = new ezcWebdavBasicPropertyStorage();
         foreach ( $this->properties as $namespace => $properties )
         {
             foreach( $properties as $name => $property )

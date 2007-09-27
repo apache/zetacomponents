@@ -11,7 +11,7 @@
 /**
  * Class containing the options for basic webdav server.
  *
- * @property ezcWebdavPathFactory $pathFactory
+ * @property ezcWebdavBasicPathFactory $pathFactory
  *           Class used to transform real paths into request paths. Standard is
  *           ezcWebdavAutomaticPathFactory.
  *
@@ -52,9 +52,9 @@ class ezcWebdavTransportOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'pathFactory':
-                if ( is_object( $propertyValue ) === false || ( $propertyValue instanceof ezcWebdavPathFactory ) === false )
+                if ( is_object( $propertyValue ) === false || ( $propertyValue instanceof ezcWebdavBasicPathFactory ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavPathFactory' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavBasicPathFactory' );
                 }
                 break;
             default:

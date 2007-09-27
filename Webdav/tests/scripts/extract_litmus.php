@@ -24,7 +24,7 @@ function __autoload( $className )
 require_once dirname( __FILE__ ) . '/transport_mock.php';
 
 $trans = new tsWebdavTransportMock();
-$trans->options->pathFactory = new ezcWebdavPathFactory( 'http://' . $_SERVER['HTTP_HOST'] );
+$trans->options->pathFactory = new ezcWebdavBasicPathFactory( 'http://' . $_SERVER['HTTP_HOST'] );
 try
 {
     $req = $trans->parseRequest( ( $_SERVER['REQUEST_URI'] === '' ? '/' : $_SERVER['REQUEST_URI'] ) );

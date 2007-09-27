@@ -113,7 +113,7 @@ abstract class ezcWebdavSimpleBackend
      * Manually get a property on a resource.
      * 
      * Get all properties for the given resource as a {@link
-     * ezcWebdavPropertyStorage}
+     * ezcWebdavBasicPropertyStorage}
      *
      * @param string $resource 
      * @return ezcWebdavPropertyStorage
@@ -420,7 +420,7 @@ abstract class ezcWebdavSimpleBackend
             $nodeProperties = $this->getAllProperties( $node->path );
 
             // ... and clear and add them to the property name storage.
-            $propertyNames = new ezcWebdavPropertyStorage();
+            $propertyNames = new ezcWebdavBasicPropertyStorage();
             foreach( $nodeProperties->getAllProperties() as $namespace => $properties )
             {
                 foreach ( $properties as $name => $property )
@@ -555,9 +555,9 @@ abstract class ezcWebdavSimpleBackend
         $propertyBackup = clone $this->getAllProperties( $source );
 
         $errors = array(
-            ezcWebdavResponse::STATUS_403 => new ezcWebdavPropertyStorage(),
-            ezcWebdavResponse::STATUS_409 => new ezcWebdavPropertyStorage(),
-            ezcWebdavResponse::STATUS_424 => new ezcWebdavPropertyStorage(),
+            ezcWebdavResponse::STATUS_403 => new ezcWebdavBasicPropertyStorage(),
+            ezcWebdavResponse::STATUS_409 => new ezcWebdavBasicPropertyStorage(),
+            ezcWebdavResponse::STATUS_424 => new ezcWebdavBasicPropertyStorage(),
         );
         $errnous = false;
 

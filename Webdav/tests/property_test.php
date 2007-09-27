@@ -15,7 +15,7 @@
 require_once 'test_case.php';
 
 /**
- * Tests for ezcWebdavPathFactory class.
+ * Tests for ezcWebdavBasicPathFactory class.
  * 
  * @package Webdav
  * @subpackage Tests

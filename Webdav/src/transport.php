@@ -116,7 +116,7 @@ class ezcWebdavTransport
      * ezcWebdavRequest}.
      *
      * The submitted URI must be formatted in a way, that the {@link
-     * ezcWebdavPathFactory} (by default this is {@link
+     * ezcWebdavBasicPathFactory} (by default this is {@link
      * ezcWebdavAutomaticPathFactory}) set in the {@link
      * ezcWebdavTransportOptions $pathFactory} option can convert it into a
      * path absolute to the WebDAV repository.
@@ -774,7 +774,7 @@ class ezcWebdavTransport
                 $request->propName = true;
                 break;
             case 'prop':
-                $request->prop = new ezcWebdavPropertyStorage();
+                $request->prop = new ezcWebdavBasicPropertyStorage();
                 $this->extractProperties(
                     $dom->documentElement->firstChild->childNodes,
                     $request->prop
@@ -791,24 +791,24 @@ class ezcWebdavTransport
     
 
     /**
-     * Returns extracted properties in an ezcWebdavPropertyStorage.
+     * Returns extracted properties in an new ezcWebdavBasicPropertyStorage.
      * This method receives a DOMNodeList $domNodes, which must contain a set
      * of DOMElement objects, while each of those represents a WebDAV property.
      * The list may contain live properties as well as dead ones. Live
      * properties as defined in RFC 2518 are currently recognized. All other
      * properties in the DAV: namespace are silently ignored. Dead properties
      * are parsed. The properties are stored in the given {@link
-     * ezcWebdavPropertyStorage} $storage. If a $flag value is provided, this
+     * new ezcWebdavBasicPropertyStorage} $storage. If a $flag value is provided, this
      * one is submitted as the second parameter to
-     * ezcWebdavPropertyStorage->attach() ({@link
+     * new ezcWebdavBasicPropertyStorage->attach() ({@link
      * ezcWebdavFlaggedPropertyStorage}).
      * 
      * @param DOMNodeList $domNodes 
-     * @param ezcWebdavPropertyStorage $storage
+     * @param new ezcWebdavBasicPropertyStorage $storage
      * @param int $flag
-     * @return ezcWebdavPropertyStorage
+     * @return new ezcWebdavBasicPropertyStorage
      */
-    protected function extractProperties( DOMNodeList $domNodes, ezcWebdavPropertyStorage $storage, $flag = null )
+    protected function extractProperties( DOMNodeList $domNodes, ezcWebdavBasicPropertyStorage $storage, $flag = null )
     {
         for ( $i = 0; $i < $domNodes->length; ++$i )
         {
@@ -1413,11 +1413,11 @@ class ezcWebdavTransport
     }
 
     /**
-     * Serializes an object of ezcWebdavPropertyStorage to XML.
+     * Serializes an object of new ezcWebdavBasicPropertyStorage to XML.
      * Attaches all properties of the $storage to the $parentElement XML
      * element.
      * 
-     * @param ezcWebdavPropertyStorage $storage 
+     * @param new ezcWebdavBasicPropertyStorage $storage 
      * @param DOMElement $parentElement 
      * @return void
      */

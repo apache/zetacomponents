@@ -9,7 +9,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testAttachLiveProperty()
     {
-        $storage = new ezcWebdavPropertyStorage();
+        $storage = new ezcWebdavBasicPropertyStorage();
         $prop    = new ezcWebdavGetContentLengthProperty();
 
         $storage->attach( $prop );
@@ -27,7 +27,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testAttachDeadProperty()
     {
-        $storage         = new ezcWebdavPropertyStorage();
+        $storage         = new ezcWebdavBasicPropertyStorage();
         $prop            = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
         $storage->attach( $prop );
@@ -45,7 +45,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testAttachMultipleProperties()
     {
-        $storage  = new ezcWebdavPropertyStorage();
+        $storage  = new ezcWebdavBasicPropertyStorage();
         $liveProp = new ezcWebdavGetContentLengthProperty();
         $deadProp = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
@@ -68,7 +68,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testAttacheMultiplePropertiesOverwrite()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $liveProp  = new ezcWebdavGetContentLengthProperty();
         $liveProp2 = new ezcWebdavGetContentLengthProperty();
         $deadProp  = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
@@ -109,7 +109,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testDetachLiveProperty()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $liveProp  = new ezcWebdavGetContentLengthProperty();
 
         $storage->attach( $liveProp );
@@ -137,7 +137,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testDetachDeadProperty()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $deadProp  = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
         $storage->attach( $deadProp );
@@ -165,7 +165,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testDetachMultipleProperties()
     {
-        $storage  = new ezcWebdavPropertyStorage();
+        $storage  = new ezcWebdavBasicPropertyStorage();
         $liveProp = new ezcWebdavGetContentLengthProperty();
         $deadProp = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
@@ -202,7 +202,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
     
     public function testContainsLiveProperty()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $liveProp  = new ezcWebdavGetContentLengthProperty();
 
         $storage->attach( $liveProp );
@@ -217,7 +217,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
     
     public function testContainsDeadProperty()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $deadProp  = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
         $storage->attach( $deadProp );
@@ -232,7 +232,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testContainsMultipleProperties()
     {
-        $storage  = new ezcWebdavPropertyStorage();
+        $storage  = new ezcWebdavBasicPropertyStorage();
         $liveProp = new ezcWebdavGetContentLengthProperty();
         $deadProp = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
@@ -249,7 +249,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetLivePropertySuccess()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $liveProp  = new ezcWebdavGetContentLengthProperty();
 
         $storage->attach( $liveProp );
@@ -262,7 +262,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetLivePropertyFailure()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         
         $this->assertNull(
             $storage->get( 'getcontentlength' )
@@ -271,7 +271,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetDeadPropertySuccess()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $deadProp  = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
         $storage->attach( $deadProp );
@@ -284,7 +284,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetDeadPropertyFailure()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         
         $this->assertNull(
             $storage->get( 'foobar', 'http://example.com/foo/bar' )
@@ -293,7 +293,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetLivePropertiesExistent()
     {
-        $storage = new ezcWebdavPropertyStorage();
+        $storage = new ezcWebdavBasicPropertyStorage();
         $prop    = new ezcWebdavGetContentLengthProperty();
 
         $storage->attach( $prop );
@@ -308,7 +308,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetDeadPropertiesExistent()
     {
-        $storage         = new ezcWebdavPropertyStorage();
+        $storage         = new ezcWebdavBasicPropertyStorage();
         $prop            = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
         $storage->attach( $prop );
@@ -323,7 +323,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetLivePropertiesNonExistent()
     {
-        $storage = new ezcWebdavPropertyStorage();
+        $storage = new ezcWebdavBasicPropertyStorage();
 
         $this->assertEquals(
             array(),
@@ -333,7 +333,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetDeadPropertiesNonExistent()
     {
-        $storage         = new ezcWebdavPropertyStorage();
+        $storage         = new ezcWebdavBasicPropertyStorage();
 
         $this->assertEquals(
             array(),
@@ -343,7 +343,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetMultiplePropertiesExistent()
     {
-        $storage  = new ezcWebdavPropertyStorage();
+        $storage  = new ezcWebdavBasicPropertyStorage();
         $liveProp = new ezcWebdavGetContentLengthProperty();
         $deadProp = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
@@ -366,7 +366,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetAllPropertiesLiveProperty()
     {
-        $storage = new ezcWebdavPropertyStorage();
+        $storage = new ezcWebdavBasicPropertyStorage();
         $prop    = new ezcWebdavGetContentLengthProperty();
 
         $storage->attach( $prop );
@@ -383,7 +383,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetAllPropertiesDeadProperty()
     {
-        $storage         = new ezcWebdavPropertyStorage();
+        $storage         = new ezcWebdavBasicPropertyStorage();
         $prop            = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
         $storage->attach( $prop );
@@ -400,7 +400,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetAllPropertiesMultipleProperties()
     {
-        $storage  = new ezcWebdavPropertyStorage();
+        $storage  = new ezcWebdavBasicPropertyStorage();
         $liveProp = new ezcWebdavGetContentLengthProperty();
         $deadProp = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
 
@@ -428,7 +428,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testGetAllPropertiesNone()
     {
-        $storage  = new ezcWebdavPropertyStorage();
+        $storage  = new ezcWebdavBasicPropertyStorage();
 
         $this->assertEquals(
             array(),
@@ -442,11 +442,11 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
         $deadProp  = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
         $deadProp2 = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'blubb', 'some... content' );
 
-        $storage1 = new ezcWebdavPropertyStorage();
+        $storage1 = new ezcWebdavBasicPropertyStorage();
         $storage1->attach( $liveProp );
         $storage1->attach( $deadProp );
 
-        $storage2 = new ezcWebdavPropertyStorage();
+        $storage2 = new ezcWebdavBasicPropertyStorage();
         $storage2->attach( $deadProp );
         $storage2->attach( $deadProp2 );
 
@@ -468,11 +468,11 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
         $deadProp  = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
         $deadProp2 = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'blubb', 'some... content' );
 
-        $storage1 = new ezcWebdavPropertyStorage();
+        $storage1 = new ezcWebdavBasicPropertyStorage();
         $storage1->attach( $liveProp );
         $storage1->attach( $deadProp );
 
-        $storage2 = new ezcWebdavPropertyStorage();
+        $storage2 = new ezcWebdavBasicPropertyStorage();
         $storage2->attach( $deadProp );
         $storage2->attach( $deadProp2 );
 
@@ -490,7 +490,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testIteratorPreserveOrder()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $orderedProperties = array();
         $storage->attach(
             $orderedProperties[] = new ezcWebdavGetContentLengthProperty()
@@ -517,7 +517,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testIteratorPreserveOrderDetachFirst()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $orderedProperties = array();
         $storage->attach(
             new ezcWebdavGetContentLengthProperty()
@@ -546,7 +546,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testIteratorPreserveOrderDetachLast()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $orderedProperties = array();
         $storage->attach(
             $orderedProperties[] = new ezcWebdavGetContentLengthProperty()
@@ -575,7 +575,7 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
 
     public function testIteratorPreserveOrderDetachAndReattach()
     {
-        $storage   = new ezcWebdavPropertyStorage();
+        $storage   = new ezcWebdavBasicPropertyStorage();
         $orderedProperties = array();
         $storage->attach(
             $orderedProperties[] = new ezcWebdavGetContentLengthProperty()

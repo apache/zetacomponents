@@ -3,7 +3,7 @@
 /**
  * Just a stupid test class
  */
-class myTestPathFactory extends ezcWebdavPathFactory
+class myTestPathFactory extends ezcWebdavBasicPathFactory
 {
     public static function parsePath( $requestPath, $base = null )
     {

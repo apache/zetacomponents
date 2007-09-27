@@ -20,16 +20,16 @@ require_once 'test_case.php';
 require_once 'classes/custom_path_factory.php';
 
 /**
- * Tests for ezcWebdavPathFactory class.
+ * Tests for ezcWebdavBasicPathFactory class.
  * 
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
+class ezcWebdavBasicPathFactoryTest extends ezcWebdavTestCase
 {
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( 'ezcWebdavPathFactoryTest' );
+		return new PHPUnit_Framework_TestSuite( 'ezcWebdavBasicPathFactoryTest' );
 	}
 
     public function testPathDispatchingWithoutBasePath()
@@ -37,7 +37,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $uri = '/collection/ressource';
         $fakePath = $uri;
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com' );
 
         $this->assertEquals(
             $fakePath,
@@ -50,7 +50,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $uri = '/my/webdav/base/collection/ressource';
         $fakePath = '/collection/ressource';
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com/my/webdav/base' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com/my/webdav/base' );
 
         $this->assertEquals(
             $fakePath,
@@ -63,7 +63,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $uri = '/collection/another_coll/';
         $fakePath = '/collection/another_coll';
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com' );
 
         $this->assertEquals(
             $fakePath,
@@ -76,7 +76,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $uri = '/my/webdav/base/collection/another_coll';
         $fakePath = '/collection/another_coll';
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com/my/webdav/base' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com/my/webdav/base' );
 
         $this->assertEquals(
             $fakePath,
@@ -89,7 +89,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $uri = 'http://example.com/collection/ressource';
         $fakePath = '/collection/ressource';
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com' );
 
         $this->assertEquals(
             $fakePath,
@@ -102,7 +102,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $uri = 'http://example.com/my/webdav/base/collection/ressource';
         $fakePath = '/collection/ressource';
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com/my/webdav/base' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com/my/webdav/base' );
 
         $this->assertEquals(
             $fakePath,
@@ -115,7 +115,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $uri = 'http://example.com/collection/another_coll/';
         $fakePath = '/collection/another_coll';
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com' );
 
         $this->assertEquals(
             $fakePath,
@@ -128,7 +128,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $uri = 'http://example.com/my/webdav/base/collection/another_coll';
         $fakePath = '/collection/another_coll';
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com/my/webdav/base' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com/my/webdav/base' );
 
         $this->assertEquals(
             $fakePath,
@@ -142,7 +142,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $fakePath = '/collection/another_coll';
         $fakeUri  = $uri;
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com' );
 
         $this->assertEquals(
             $fakePath,
@@ -162,7 +162,7 @@ class ezcWebdavPathFactoryTest extends ezcWebdavTestCase
         $fakePath = '/collection/another_coll';
         $fakeUri  = $uri;
 
-        $factory = new ezcWebdavPathFactory( 'http://example.com/my/webdav/base' );
+        $factory = new ezcWebdavBasicPathFactory( 'http://example.com/my/webdav/base' );
 
         $this->assertEquals(
             $fakePath,

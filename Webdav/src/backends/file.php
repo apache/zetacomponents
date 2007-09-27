@@ -396,16 +396,16 @@ class ezcWebdavFileBackend
      * Manually get a property on a resource.
      * 
      * Get all properties for the given resource as a {@link
-     * ezcWebdavPropertyStorage}
+     * ezcWebdavBasicPropertyStorage}
      *
      * @param string $resource 
-     * @return ezcWebdavPropertyStorage
+     * @return ezcWebdavBasicPropertyStorage
      */
     public function getAllProperties( $resource )
     {
         $storageDir = $this->getPropertyStoragePath( $resource );
 
-        $storage = new ezcWebdavPropertyStorage();
+        $storage = new ezcWebdavBasicPropertyStorage();
         
         // Scan through namespaces
         foreach ( glob( $storageDir . '*', GLOB_ONLYDIR ) as $dir )

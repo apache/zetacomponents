@@ -32,7 +32,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetResourceResponse(
             new ezcWebdavResource(
                 '/path',
-                new ezcWebdavPropertyStorage()
+                new ezcWebdavBasicPropertyStorage()
             )
         );
 
@@ -54,7 +54,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetResourceResponse(
             new ezcWebdavResource(
                 '/path',
-                new ezcWebdavPropertyStorage()
+                new ezcWebdavBasicPropertyStorage()
             )
         );
 
@@ -75,7 +75,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetCollectionResponse(
             new ezcWebdavCollection(
                 '/path',
-                new ezcWebdavPropertyStorage(),
+                new ezcWebdavBasicPropertyStorage(),
                 array()
             )
         );
@@ -98,7 +98,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetCollectionResponse(
             new ezcWebdavCollection(
                 '/path',
-                new ezcWebdavPropertyStorage(),
+                new ezcWebdavBasicPropertyStorage(),
                 array()
             )
         );
@@ -120,7 +120,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetResourceResponse(
             $resource = new ezcWebdavResource(
                 '/path',
-                new ezcWebdavPropertyStorage()
+                new ezcWebdavBasicPropertyStorage()
             )
         );
 
@@ -147,7 +147,7 @@ class ezcWebdavGetResponseTest extends ezcWebdavTestCase
         $response = new ezcWebdavGetCollectionResponse(
             $collection = new ezcWebdavCollection(
                 '/path',
-                new ezcWebdavPropertyStorage()
+                new ezcWebdavBasicPropertyStorage()
             )
         );
 
