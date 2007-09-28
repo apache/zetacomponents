@@ -80,6 +80,7 @@ return array(
     'ezcWebdavPropPatchRequest'                => 'Webdav/requests/proppatch.php',
     'ezcWebdavPropPatchResponse'               => 'Webdav/responses/proppatch.php',
     'ezcWebdavPropStatResponse'                => 'Webdav/responses/propstat.php',
+    'ezcWebdavPropertyHandler'                 => 'Webdav/transports/property_handler.php',
     'ezcWebdavPutRequest'                      => 'Webdav/requests/put.php',
     'ezcWebdavPutResponse'                     => 'Webdav/responses/put.php',
     'ezcWebdavRequestLockInfoContent'          => 'Webdav/requests/content/lock_info.php',
