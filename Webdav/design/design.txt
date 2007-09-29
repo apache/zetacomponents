@@ -242,6 +242,128 @@ and running.
 	// Serve requests
 	$server->handle();
 
+Extensibility
+=============
+
+A server implementation of the WebDAV protocol needs several levels of
+extensibility. 2 ways are already reflected by the fact that the transport
+class can be extended to resolve client incompatibilities and the mechanism of
+backend handlers, which represent the storage of the server.
+
+2 other areas are significant here:
+
+1. There are several RCFs extending the WebDAV RFC with additional
+   functionality, like versioning support.
+2. The WebDAV RFC explicitly allows to implement custom extensions by using a
+   different namespace in the WebDAV XML communication.
+
+Both areas require us to implement a plugin system that allows custom
+extensions. This will also allow us to implement additional information (like
+additional RFCs) as tiein components to the base WebDAV server.
+
+The major problem with a plugin system for the Webdav component is, that an
+extension might propably want to hook into several places of the component at
+once. A developer will want to install several extension packages at once and
+use them in paralell. To reflect these issues, the design of a neat plugin
+system is required
+
+The plugin system
+-----------------
+
+The plugin system must reflect that different areas of the Webdav component
+provide completly different types of hooks. Therefore, the definition what a
+hook is, should be given first:
+
+A hook is a place in the system, where it will inform external systems, that
+this point has been reached. The external systems that are registered with the
+hook will receive a set of well-defined parameters for information extraction
+and possibly careful manipulation. Where exactly these points are and what the
+provided parameters are, is defined by the layer of the Webdav component.
+
+Extension packages are encouraged to not manipulate the provided data in
+sensible ways, that might affect the work of 3rd party extensions or possibly
+even the server itself. This is a sensible way of introducing code into the
+server and must be expressed in the documentation.
+
+Another aspect of the is the extension of all data classes (namely request,
+response and property classes) will be extended to be able to carry additional
+information in special containers. This will allow an extension package to
+attach information to these objects and take care of them in other places.
+
+The 3 different layers of the system will provide the following hooks:
+
+Transport
+#########
+
+The Transport layer has a very limited and fixed public API, which is used by
+the Server for communication. Since this API is completly fixed, it would not
+make sense to provide any hooks here. The internal structure of the transport
+classes offers much more sensible places.
+
+The first area of work of the Transport is the parsing of requests, which is
+structured by 1 protected method in the class that is assigned to 1 HTTP
+request method. While these methods may differ per client, it makes sense to
+offer hooks before and after each of them, as well as for new request methods.
+
+While the "before" and "after" hooks for the parsing methods can accept any
+number of assigned hook methods, given those a processed in no defined order,
+the latter hook may only accept a single method. The global system must offer a
+way for extension packages to ask if a hook is already assigned. If a new HTTP
+method hook is assigned, its "before" and "after" hooks must be assignable, too
+and extensions must detect this.
+
+The second area to provide hooks for is the serialization of resposes. The
+requirements here are similar to those of the request parsing, because
+dispatching is made by response class. Hooks "before" and "after" each
+exsisting response class must be provided, as well as hooks for new ones.
+
+The third area, which plays a bit into the first both, is the handling of
+properties. In a lot of extension cases it might only be necessary to hook into
+this and to add new live properties or pre-/post-process their custom dead
+properties. Therefore hooks for the parsing and serializing of these will be
+offered.
+
+A transport hook is always valid for any client and the extension needs to take
+care about its behaviour against clients on its own.
+
+Server
+######
+
+The servers tasks are defined to be the dispatching of a correct transport
+class. Creating a transport object as configured and making this parse the
+request into a request object. Hand this over to the configured backend for
+processing. Receive a corresponding response object back and hand it over to
+the transoport again for serialization.
+
+Most of these points can be used as hooks. It might, for example, possible to add
+logging facilities here or other stuff. The following list of hooks should be
+provided:
+
+- Receive the parsed request object before handing it to the backend.
+- Receive the processed transport object after receiving it from the backend.
+
+Backend
+#######
+
+The extension of a backend works similar to the extension of a transport
+object, while the hooks are here always for a special backend and not generic
+for any. The sense behind this lies in the backend specific operations that
+might be performed inside the extension. The extension will attach to certain
+hooks on certain backend classes and will stay completly inactive, if a backend
+is in use that it has not attached itself to. This also affects all other
+layers of the extension. If a backend is in use that this extension has not
+explictly has attached to, it will be deactivated.
+
+Inside the backend implementation it is logical to offer another set of
+"BEFORE" and "AFTER" hooks for the existing request classes, as well as hooks
+for new ones. Beside that, we implemented an intermediate backend class
+ezcWebdavSimpleBackend, which takes over a lot of care from the actual backend
+and dispatches to easier protected ones. It is logical to offer special hooks
+here, too.
+
+
+
+
 
 ..
    Local Variables:

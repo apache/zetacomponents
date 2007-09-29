@@ -66,7 +66,7 @@ class ezcWebdavFlaggedPropertyStorageTest extends ezcTestCase
         );
     }
 
-    public function testAttacheMultiplePropertiesOverwrite()
+    public function testAttachMultiplePropertiesOverwrite()
     {
         $storage   = new ezcWebdavFlaggedPropertyStorage();
         $liveProp  = new ezcWebdavGetContentLengthProperty();
@@ -254,6 +254,210 @@ class ezcWebdavFlaggedPropertyStorageTest extends ezcTestCase
             'Could not receive proper flag value.'
         );
     }
+
+    public function testDetachLiveProperty()
+    {
+        $storage = new ezcWebdavFlaggedPropertyStorage();
+        $prop    = new ezcWebdavGetContentLengthProperty();
+
+        $storage->attach( $prop );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                    'getcontentlength' => $prop,
+                ),
+            ),
+            'properties',
+            $storage
+        );
+
+        $storage->detach( 'getcontentlength' );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                ),
+            ),
+            'properties',
+            $storage
+        );
+
+    }
+
+    public function testDetachDeadProperty()
+    {
+        $storage         = new ezcWebdavFlaggedPropertyStorage();
+        $prop            = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
+
+        $storage->attach( $prop );
+
+        $this->assertAttributeEquals(
+            array(
+                'http://example.com/foo/bar' => array(
+                    'foobar' => $prop,
+                ),
+            ),
+            'properties',
+            $storage
+        );
+
+        $storage->detach( 'foobar', 'http;//example.com/foo/bar' );
+
+        $this->assertAttributeEquals(
+            array(
+                'http://example.com/foo/bar' => array(
+                ),
+            ),
+            'properties',
+            $storage
+        );
+    }
+
+    public function testDetachMultipleProperties()
+    {
+        $storage  = new ezcWebdavFlaggedPropertyStorage();
+        $liveProp = new ezcWebdavGetContentLengthProperty();
+        $deadProp = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
+
+        $storage->attach( $liveProp );
+        $storage->attach( $deadProp );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                    'getcontentlength' => $liveProp,
+                ),
+                'http://example.com/foo/bar' => array(
+                    'foobar' => $deadProp,
+                ),
+            ),
+            'properties',
+            $storage
+        );
+
+        $storage->detach( 'getcontentlength' );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                ),
+                'http://example.com/foo/bar' => array(
+                    'foobar' => $deadProp,
+                ),
+            ),
+            'properties',
+            $storage
+        );
+        
+        $storage->detach( 'foobar', 'http://example.com/foo/bar' );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                ),
+                'http://example.com/foo/bar' => array(
+                ),
+            ),
+            'properties',
+            $storage
+        );
+    }
+
+    public function testDetachMultiplePropertiesOverwrite()
+    {
+        $storage   = new ezcWebdavFlaggedPropertyStorage();
+        $liveProp  = new ezcWebdavGetContentLengthProperty();
+        $liveProp2 = new ezcWebdavGetContentLengthProperty();
+        $deadProp  = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... content' );
+        $deadProp2 = new ezcWebdavDeadProperty( 'http://example.com/foo/bar', 'foobar', 'some... other content' );
+
+        $storage->attach( $liveProp );
+        $storage->attach( $deadProp );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                    'getcontentlength' => $liveProp,
+                ),
+                'http://example.com/foo/bar' => array(
+                    'foobar' => $deadProp,
+                ),
+            ),
+            'properties',
+            $storage
+        );
+
+        $storage->attach( $liveProp2 );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                    'getcontentlength' => $liveProp2,
+                ),
+                'http://example.com/foo/bar' => array(
+                    'foobar' => $deadProp,
+                ),
+            ),
+            'properties',
+            $storage
+        );
+        
+        $storage->detach( 'getcontentlength' );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                ),
+                'http://example.com/foo/bar' => array(
+                    'foobar' => $deadProp,
+                ),
+            ),
+            'properties',
+            $storage
+        );
+        
+        $storage->detach( 'foobar', 'http://example.com/foo/bar' );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                ),
+                'http://example.com/foo/bar' => array(
+                ),
+            ),
+            'properties',
+            $storage
+        );
+        
+        $storage->attach( $deadProp2 );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                ),
+                'http://example.com/foo/bar' => array(
+                    'foobar' => $deadProp2,
+                ),
+            ),
+            'properties',
+            $storage
+        );
+        
+        $storage->detach( 'foobar', 'http://example.com/foo/bar' );
+
+        $this->assertAttributeEquals(
+            array(
+                'DAV:' => array(
+                ),
+                'http://example.com/foo/bar' => array(
+                ),
+            ),
+            'properties',
+            $storage
+        );
+    }
+
 }
 
 ?>
