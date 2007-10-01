@@ -1,0 +1,471 @@
+eZ component: Webdav, Design, 1.0 - Extensibility
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Kore Nordmann, Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+=====
+Scope
+=====
+
+The scope of this document is to define the extensibility features of the
+Webdav component. It does not affect the current design provided in
+design.txt, but only extends this one with design details.
+
+
+This chapte gives an overview about the state of the Webdav component while
+this document is created and a high level view about the problems faced to
+make the presented solution necessar and a high level view about the problems
+faced to make the presented solution necessary.
+
+-------------
+Current state
+-------------
+
+The current state of the Webdav component is, that a fully running server can
+be built as a "proof of concept". We successfully have run 2 different clients
+(cadaver and Nautilus) on such a server and recorded them as test suites. We
+also pass the largest amount of tests in litmus, a test suit for WebDAV
+servers and have a test suite generated out of examples from the RFC.
+
+=========
+The issue
+=========
+
+This document takes care about different aspects of extensibility of the
+Webdav component. To design extensibility features, first an analysis of the
+already existing features and an examination of the requirements are
+necessary.
+
+Current features
+================
+
+Currently the component allows to replace the backend and transport objects of
+a server. The inheritence tree of the transport classes is meant to reflect
+client specific adjustments, which is already extensibility feature.
+
+The backend is completly custom implementable and must follow a certain set
+finterfaces to be fully compliant with the base RFC. Backends can be extended
+to add additional features, since inheritenc is not taken as a matter of
+extensibility here.
+
+The server layer does not provide any extensibility features. First off,
+because it does not exist, yet. Second and more important they are not
+defined, yet.
+
+Requirements
+============
+
+The requirements are defined by 3 different issue groups in this feature
+set:
+
+- RFCs
+- Custom extensions
+- Tieins
+
+All 3 groups will be analyzed shortly here:
+
+RFCs
+----
+
+There are a lot of different RFCs that extend the Webdav layer with additional
+functionality like versioning support and authorization features. We will not
+be able to implement any of these in the first stable release of the
+component, but must define the API these may use to extend the current feature
+set. A good `overview of the RFCs_` related to Webdav can be found at
+GreenBytes.
+
+.. _`overview of RFCs`: http://greenbytes.de/tech/webdav/common-index.html
+
+The range of different points where a possible extension affects the basic
+Webdav component classes is huge. This includes even the introduction of new
+request methods, which need additional parsing in the transport, handling the
+backend or any other module and possibly new response classes, which need
+serialization code in the transport.
+
+The requirements set by additional RFCs affects all layers of the Webdav
+component and needs to access almost any functionality. At least, hooks in
+ezcWebdavTransport and ezcWebdavTransport are needed.
+
+Custom extensions
+-----------------
+
+The Webdav RFC recommends custom extensions of the protocol so we will
+definitly face the issue, that we need those on our own or someone else needs
+it. A typical example for such an extension is the SVN Webdav extension defined
+by Apache.
+
+A custom extension usually adds custom properties to existing
+requests/responses, which does not require any interaction at all, with the
+current design. Dead properties and unknown life properties are simply parsed
+and passed to the  backend for storage. The problem here comes into turn, when
+these additional properties should be associated with functionality.
+
+There are different places where we might allow access to properties, for
+example while parsing and serializing them during request/response to perform
+conversions as we do for life properties. This migh even lead to the invention
+of new property classes.
+
+Functionality would be more likely be placed on the server level, if no storage
+functionality is required or this functionality can be performed using the
+standard communication API. Or on the backend level, if heavy storage access is
+required. The latter decision most likely limits an extension to a certain set
+or even a single backend.
+
+Anyway, functionality for custom extensions must be, as with RFCs, provided on
+every layer of the component. Hooks in ezcWebdavTransport and ezcWebdavServer
+are mandatory, hooks for ezcWebdavBackend are desirable. The latter one can
+also be handled by inheritance.
+
+Tieins
+------
+
+eZ Components already provides a mechanism of adding functionality to a
+package. This mechanism is useful for both cases described before, since we
+might offer an Authentication tiein or a Template tiein, which will realize
+different RFCs. Beside that, 3rd parties can use the Tiein mechanism to provide
+their extensions.
+
+Summary
+=======
+
+There are 3 issue fields that require the Webdav component to have a very
+flexible and extensible API. This affects all 3 layers of the component, while
+in the transport layer the possibility to use inheritence is already taken by
+the need to react on missbehaving clients.
+
+============
+The solution
+============
+
+The solution to the described requirements is to define a plugin API similar to
+the terms of `Aspect Oriented Programming`_. This new way of extending the
+object oriented programming paradigma allows you to hook into different layers
+of a program with common functionality.
+
+.. _`Aspect Oriented Programming`: http://en.wikipedia.org/wiki/Aspect_oriented_programming
+
+We call the whole system designed here a "plugin system", therefore the packages
+that provide extended functionality are called "plugins".
+
+Basics
+======
+
+This section should clearify basic terms and the basic idea of the plugin
+system.
+
+--------
+The idea
+--------
+
+The basic idea is, to invent a global plugin system, which offers hooks for any
+imagineable functionality to offer extensibility support for the Webdav component.
+
+A single object, which takes care about the dispatching of plugin hooks. This
+very specific class is not extendable and an instance might only exist once per
+request (ezcWebdavServer instance). For now we call this object the plugin
+registry.
+
+This registry takes care about the management of extensions all over the
+component. It allows the user of the component to add extension packages to the
+registry, which then interact with this to influence the Webdav component in
+any layer.
+
+The registry knows about the hooks available throughout the component and
+dispatches them centrally, if a hook is signalized to it by a layer of the
+component. Each time a hook is announced by any of the layers, the registry
+dispatches this information to every attached callback. Hooks can be specified
+to send a number of arbitrary parameters to the attached plugin methods and can
+expect a return value for further processing.
+
+A hook may have any number of callbacks from several extensions assigned, which
+are processed in random number, when a hook is announced. Therefore, the plugin
+developer is encouraged to perform only such manipulations on the objects
+received by parameters, that are harmless for other extension and especially
+the basic RFC implementation.
+
+-------------------
+Definition of terms
+-------------------
+
+Before a detailed description of the proposed design can follow, some terms
+need to be clearified in this area. Terms explained in this list are are
+written as capitals.
+
+Plugin-System
+  The Plugin-System is the part of the Webdav component that should be designed
+  in this document. The Plugin-System will take care about Plugins, that can
+  be installed via tie-ins or be customly developed. The Plugin-System ensures
+  that the component stays flexible without allowing its basic API to change
+  and keeping other extensibility levels for different purposes.
+Plugin
+  A Plugin is a package of classes, that provides optional new functionality to
+  be used with the Webdav component. A Plugin can be configured by the user
+  of the component through a central instance of the main server: The
+  Plugin-Registry. All communication is handled through this class. A Plugin
+  may consist of any number of classes and must contain 1 certain
+  Configuration-Class, that follows a specific interface and implements the
+  Registration as well as the Initialization of the Plugin.
+Plugin-Registry
+  A single instance of the Plugin-Registry care of managing plugins and
+  dispatching hooks to them. A Plugin informs the Plugin-Registry about
+  the Hooks affected by it during Registration. The Plugin-Registry stores this
+  information and calls all registered specific callbacks if a certain Hook is
+  announced. The Annnouncement is provided by the classes of a certain layer to
+  the Plugin-Registry, including arbitrary Parameters. The Plugin-Registry
+  forwards these parameters to the callbacks registered for the specific hook.
+Registration
+  When a user installs a Plugin, it does not automatically register itself to
+  be used with any ezcWebdavServer instance, since any plugin will need a set
+  of configuration values and simply installing a plugin does not mean to use
+  it in every server. Therefore the Plugin must implement a process of
+  Registration as soon as a user adds its configuration to the Plugin-Registry.
+  During Registration a Plugin must inform the Plugin-Registry about the Hooks
+  it wants to subscribe to.  Registration is performed by the Configuration
+  class.
+Initialization
+  When a Plugin has performed successful configuration and Registration, it
+  will be notified by the Plugin-Registry about any Hook it is subscribed to.
+  Before any of these Hooks are populated, the Plugin-Registry will call a
+  method for Initialization on each Plugins Configuration-Class. This allows
+  the plugin to instanciate required objects and initialize values.
+Hook
+  A Hook describes the reaching of a certain point in th code. A Plugin may inform
+  the Plugin-Registry that it needs to be informed about a certain Hook. When
+  the point of code is reached, the Webdav component will pause processing and
+  send the Announcement for the Hook to the Plugin-Registry. The
+  Plugin-Registry will then dispatch the hook to all attached Callbacks and
+  return controll.
+Configuration-Class
+  Each Plugin must provide exactly 1 main configuration class. An instance of
+  this class might be created by the user and submitted to the Plugin-Registry,
+  to enable the plugin. During this, a method on the configuration object
+  (instance of the Configuration-Class) will be called that makes the Plugin
+  register all necessary Hooks. Before any Hook is disptched, another method
+  will be called for Initialization.
+Callback
+  A Plugin may attach any number of Callbacks to any number of Hooks through
+  Registration at the Plugin-Registry. Each Hook defines a concrete Interface
+  of Parameters, that the callback assigned to it must fulfill. Beside these
+  restrictions, a callback is defined in the usual terms of the abstract PHP
+  datatype. A callback will be called when the Plugin-Registry receives a Hook
+  Announcement.
+Interface
+  A Hook behaves like a method, but the other way around. It defines the
+  signature of the Callback assigned to it and therefore its Interface. The
+  Interface consists of the Parameters submitted, when the Hook occurs. Hook
+  Interfaces are not defined using PHP code and phpDocumentor syntax, but an
+  RST document.
+Parameters
+  A Hook may specify any number of parameters that will be submitted to the
+  attached Callbacks when the Hook occurs. The assigned Callback methods must
+  accept these parameters. A Parameter may be defined to be read/write or
+  read-only. The Plugins assigned to a Hook must accept these rules and may not
+  violate it. A malicious Plugin can easily destroy or even silently exploit
+  the server, so only trusted sources should be used.
+Announcement
+  The Announcement of a Hook is performed by any of the layers of the Webdav
+  component and send to the central Plugin Registry. This instance dispatches
+  the Announcement, including Parameters, to the Callbacks assigned to the
+  Hook.
+  
+API
+===
+
+As the basic section already introduced, several elements will design the API
+of the Plugin-System. There are 2 major goals for this design: 1. The
+extensibility of the component. 2. The consistence of its internal API. The
+first part will be ensured by the Hooks defined in the second part of this
+section. The second goal will follow now.
+
+-----------
+Inheritence
+-----------
+
+The current communication between the layers is kept as small as possible and
+each layer uses independent objects. To ensure this, the base interface on each
+level will define a certain set of public final methods, that handle the base
+communication and dispatching.
+
+Inside these methods, which will perform the main dispatching tasks of each
+layer, the hooks of the Plugin-System will be established. Only there the
+Plugin-Registry will be informed about Hooks.
+
+This will ensure the stability of 2 points in our API: 1. The communication
+between the 3 layers and their affected classes. 2. The Plugin-API. And this
+will not be affected by inheritence.
+
+Inheritence can still be used on any level of the component to perform other
+specialization tasks, except for the Transport layer, where inheritence is
+already taken by the fact of client specific adjustments.
+
+-----
+Hooks
+-----
+
+The Hooks of each layer are defined hard-coded in the Plugin-Registry. The
+final/private methods of each layer dispatch these Hooks to the
+Plugin-Registry, the necessary parameters attached. The Plugin-Registry will
+then perform all necessary callbacks in no specific order.
+
+As decided after discussion, hooks will only be offered by the layers 
+Transport and Server. The Backend layer is to specific to offer any hooks,
+except for addition of new processing instructions for new request types. Those
+can also be dispatched by the Server layer, since all request and response
+objects pass this one before/after being processed by the Backend.
+
+Hooks may issue any public API call that is defined by the Webdav component.
+This way it is possible for plugins to perform any task.
+
+Transport
+---------
+
+The Transport layer (represented by the ezcWebdavTransport class and it's
+children) will issue 3 different types of hooks:
+
+- Request hooks (PARSE_REQUEST_*_BEFOR, PARSE_REQUEST_*_AFTER and
+  PARSE_UNKNOWN_REQUEST)
+- Response hooks (HANDLE_RESPONSE_*_BEFORE, HANDLE_RESPONSE_AFTER and
+  HANDLE_UNKNOWN_RESPONSE)
+- Property hooks (PARSE_*_PROPERTY* and HANDLE_*_PROPERTY*)
+
+For the request section, 2 hooks will be offered for each HTTP request method
+defined in `RFC 2518`_: One before and one after the processing of the request.
+For example, the hook "REQUEST_PROPFIND_BEFORE" will be announced before a
+PROPFIND request is parsed, given the raw URI and body as parameters. The hook
+"REQUEST_PROPFIND_AFTER" will be announced right after the request was parsed,
+given the created request object. Both hooks don't expect any return value. The
+most common use for the before hook will be to extract custom XML elements,
+while the after hook will most commonly be used to attach the extracted
+information to the created request object for later processing.
+
+.. _`RFC 2518`: http://tools.ietf.org/html/rfc2518
+
+In addition 1 hook for "unknown" request methods will be invented. This hook is
+announced whenever a request method is not known by the base component. A
+callback attached to this hook may return a request object, which is then
+dispatched by the server (for each callback). If multiple response are
+generated through this, those will be collected in a multi status response.
+
+A very similar hook scheme is used for the response section, where before and
+after hooks will be invented for each response class known by the base package.
+Again a special hook for "unknown" response classes is offered, following the
+conditions mentioned above, including the multi status response.
+
+The property section affects both previously mentioned ones, since it affects
+the parsing and handling of properties. The hooks there are devided again in
+before and after hooks, as well as hooks for live and dead properties. Live
+properties are those that need generation and validation by the server while
+dead properties are simply stored by the backend.
+
+The PARSE_LIVE_PROPERTY_BEFORE hook is announced as soon as the Transport layer
+requires the parsing of a live property. The DOMElement containing the property
+information is passed as the hook parameter. The assigned methods might either
+perform extract information from this and store them internally or, if it is
+sure that no other plugins or even the base component are affected, even
+manipulate it. It is assured that the property contained in the DOMElement is
+in the DAV: XML namespace used by `RFC 2518`_.
+
+The PARSE LIVE_PROPERTY_AFTER hook is announced right after a property in the
+DAV: namespace has been processed. If no valid live property could be extracted
+by the base component, a dead property with the according name and the DAV:
+namespace is received. A plugin may return a new property object, that must be
+a live property object, which is then used as a replacement for the original
+one. If 2 callbacks return a new property an exception occurs.
+
+.. Danger: When a Plugin attaches to a hook of the Transport layer, it might
+   not expect anything about the client it is talking to, but needs to inspect
+   the User-Agent header itself, if it attaches to new request methods or
+   reponses.
+
+Server
+------
+
+The server will provide a very limited number of hooks:
+
+- Request received (REQUEST_RECEIVED)
+- Response generated (RESPONSE_GENERATED)
+
+The REQUEST_RECEIVED hook is reached each time after a request object is
+returned from the Transport layer. A Plugin may attach here, to perform any
+number of operations. For it's internal usage, it may issue public methods on
+the Server and Backend layer (and even on the Transport layer, although this
+might be of raw use).
+
+Each hook attached to this slot may manipulate the request object, issue new
+requests through the server or directly to the public methods of the backend
+and return a response to the server, or null, if no response information is
+required or is generated using another hook. The latter method is the most
+preferred one, if a request which might be used by another plugin or even the
+base component are affected. In this case, the second provided hook should be
+used to manipulate the responses generated by the backend or other plugins.
+
+If multiple responses are received from the hook, those will be combined with
+the potential response of the backend into a multi status response.
+
+The seconde hook (RESPONSE_GENERATED) will allow a plugin to be informed,
+whenever a response was generated by the server. This hook is the preferred
+form for a plugin to interact with responses of commonly known requests (e.g.
+GET, PUT, PROPFIND).
+
+The previously explained REQUEST_RECEIVED hook can be used to gather request
+information and a before hook from the Transport layer might be used to parse
+custom XML information and attach it to the request object with the after hook.
+
+The REQUEST_RECEIVED hook can return a response object directly in case a
+custom request is handled and that it is not possible to collide with other
+plugins, the backends or if clients handle multi status responses including
+custom extensions properly for this request. The latter procedure will occur,
+if the backend returns any other response than an "unknown request" or another
+plugin returns a response object for this one, too.
+
+---------------------------
+Base infrastructure changes
+---------------------------
+
+There is 1 point where the base infrastructure must be changed. For now we
+asumed that it is enought to attach unknown XML tags to properties and
+requests. This is a) not realizeable as it turned out and b) not valueable.
+Therefore, we will remove this base class (ezcWebdavXmlBase) and replace it
+with a new one.
+
+This new class will provide a common property for every request, response and
+property class. The property will be generated on the fly, when it is requested
+once and contain a collector object, that allows the storage of any arbitrary
+data in the plugins namespace.
+
+The mentioned namespace must be provided by each plugin to identify data of
+that plugin uniquely in the base storage and to avoid conflicts with other
+plugins. Data contained in this storage will not be affected by any other part
+of the system except for the plugin itself.
+
+================
+Proof of concept
+================
+
+To proofe that the above described concept works for extending the Webdav
+component should be to implement the locking facilities described in `RFC
+2518`_. This functionality was orginally meant to be part of the base package
+and to belong into the Server layer. Since it is connected to parsing
+properties, parsing different new requests and old ones and because it needs
+to issue multiple internal requests to the backend to perform its work.
+
+The locking facilities described in `RFC 2518`_ require the usage of almost
+every part of the plugin system. The LOCK and UNLOCK requests (currently parsed
+by the Transport layer) are added as new requests and need to be handled as
+such in the Server layer hooks. The handling requires to issue new requests to
+the backend for setting/getting properties.  Beside that, locking affects
+multiple requests known by the base class, like parsing live properties and
+reading headers. The exact requirements for locking can be extracted from the
+RFC overview document.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
