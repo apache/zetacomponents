@@ -31,13 +31,13 @@ class ezcWebdavTransport
      * @var array(string=>string)
      */
     static protected $headerMap = array(
-        'Depth'          => 'HTTP_DEPTH',
-        'Destination'    => 'HTTP_DESTINATION',
-        'Overwrite'      => 'HTTP_OVERWRITE',
-        'Timeout'        => 'HTTP_TIMEOUT',
-        'Lock-Token'     => 'HTTP_LOCK_TOKEN',
         'Content-Length' => 'HTTP_CONTENT_LENGTH',
         'Content-Type'   => 'CONTENT_TYPE',
+        'Depth'          => 'HTTP_DEPTH',
+        'Destination'    => 'HTTP_DESTINATION',
+        'Lock-Token'     => 'HTTP_LOCK_TOKEN',
+        'Overwrite'      => 'HTTP_OVERWRITE',
+        'Timeout'        => 'HTTP_TIMEOUT',
     );
 
     /**
@@ -66,18 +66,18 @@ class ezcWebdavTransport
      * @array(string=>string)
      */
     static protected $handlingMap = array(
-        'ezcWebdavPropFindResponse'       => 'processPropFindResponse',
-        'ezcWebdavMultistatusResponse'    => 'processMultiStatusResponse',
         'ezcWebdavCopyResponse'           => 'processCopyResponse',
         'ezcWebdavDeleteResponse'         => 'processDeleteResponse',
         'ezcWebdavErrorResponse'          => 'processErrorResponse',
         'ezcWebdavGetCollectionResponse'  => 'processGetCollectionResponse',
         'ezcWebdavGetResourceResponse'    => 'processGetResourceResponse',
-        'ezcWebdavOptionsResponse'        => 'processOptionsResponse',
-        'ezcWebdavPropPatchResponse'      => 'processPropPatchResponse',
         'ezcWebdavHeadResponse'           => 'processHeadResponse',
         'ezcWebdavMakeCollectionResponse' => 'processMakeCollectionResponse',
         'ezcWebdavMoveResponse'           => 'processMoveResponse',
+        'ezcWebdavMultistatusResponse'    => 'processMultiStatusResponse',
+        'ezcWebdavOptionsResponse'        => 'processOptionsResponse',
+        'ezcWebdavPropFindResponse'       => 'processPropFindResponse',
+        'ezcWebdavPropPatchResponse'      => 'processPropPatchResponse',
         'ezcWebdavPutResponse'            => 'processPutResponse',
     );
 
