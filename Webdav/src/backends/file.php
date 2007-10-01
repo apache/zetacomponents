@@ -544,7 +544,7 @@ class ezcWebdavFileBackend
      * Returns false if the delete process failed.
      * 
      * @param string $path 
-     * @return bool
+     * @return array(ezcWebdavErrorResponse)
      */
     protected function performDelete( $path )
     {
@@ -559,7 +559,7 @@ class ezcWebdavFileBackend
             ezcBaseFile::removeRecursive( $this->root . $path );
         }
 
-        return true;
+        return array();
     }
 
     /**
