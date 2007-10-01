@@ -15,19 +15,9 @@ TODO
 
 - Check how to deal with namespaces in dead properties.
 
-- Memory backend does not support emulation of client test case rfc/delete.
-
-- Memory backend does not support emulation of client test case rfc/move_resource.
- 
-  - Location: header not set on response.
-
 - Memory backend does not support emulation of client test case rfc/proppatch.
 
   - Error emulation would need to be highly more flexible.
-
-- ezcWebdavDisplayInformation holds a DOMDocument as the body information per
-  default. Only the ezcWebdavGetResourceResponse needs it different. We
-  currently store both datatypes an $body, but that is unclean.
 
 - ezcWebdavDateTime is a temporary solution for the issue that DateTime is
   currently not correctly serializable. Will this be fixed? We just need it for
