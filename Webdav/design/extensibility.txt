@@ -306,10 +306,11 @@ already taken by the fact of client specific adjustments.
 Hooks
 -----
 
-The Hooks of each layer are defined hard-coded in the Plugin-Registry. The
-final/private methods of each layer dispatch these Hooks to the
-Plugin-Registry, the necessary parameters attached. The Plugin-Registry will
-then perform all necessary callbacks in no specific order.
+The Hooks of each layer are defined in the Plugin-Registry and are not
+influenceable by any external mechanism at run time. The final/private methods
+of each layer dispatch these Hooks to the Plugin-Registry, the necessary
+parameters attached. The Plugin-Registry will then perform all necessary
+callbacks in the ordeer of there registration.
 
 As decided after discussion, hooks will only be offered by the layers 
 Transport and Server. The Backend layer is to specific to offer any hooks,
@@ -317,66 +318,119 @@ except for addition of new processing instructions for new request types. Those
 can also be dispatched by the Server layer, since all request and response
 objects pass this one before/after being processed by the Backend.
 
-Hooks may issue any public API call that is defined by the Webdav component.
-This way it is possible for plugins to perform any task.
+Callbacks issued by hooks may issue any public API call that is defined by the
+Webdav component.  This way it is possible for plugins to perform any task.
+Plugins need to rely on APIs defined in interfaces and base classes, to
+interact with e.g. the backend or the transport layer, to ensure highest
+compatibility with the component and other plugins.
 
 Transport
 ---------
 
-The Transport layer (represented by the ezcWebdavTransport class and it's
-children) will issue 3 different types of hooks:
+The Transport layer (represented by the ezcWebdavTransport class and its
+children + utility classes) will issue 3 different types of hooks:
 
-- Request hooks (PARSE_REQUEST_*_BEFOR, PARSE_REQUEST_*_AFTER and
-  PARSE_UNKNOWN_REQUEST)
-- Response hooks (HANDLE_RESPONSE_*_BEFORE, HANDLE_RESPONSE_AFTER and
-  HANDLE_UNKNOWN_RESPONSE)
-- Property hooks (PARSE_*_PROPERTY* and HANDLE_*_PROPERTY*)
+- Request hooks (parse*Request and parseUnknownRequest)
+- Response hooks (handle*Response and handleUnknownresponse)
+- Property hooks (beforeExtract*Property and afterExtract*Property)
 
-For the request section, 2 hooks will be offered for each HTTP request method
-defined in `RFC 2518`_: One before and one after the processing of the request.
-For example, the hook "REQUEST_PROPFIND_BEFORE" will be announced before a
-PROPFIND request is parsed, given the raw URI and body as parameters. The hook
-"REQUEST_PROPFIND_AFTER" will be announced right after the request was parsed,
-given the created request object. Both hooks don't expect any return value. The
-most common use for the before hook will be to extract custom XML elements,
-while the after hook will most commonly be used to attach the extracted
-information to the created request object for later processing.
+For the request section, a hooks will be offered for each HTTP request method
+defined in `RFC 2518`_. This hook will be invoked right before the request is
+parsed and will receive the parameters of the accordingly named protected
+method on ezcWebdavTransport, which is an additional orientation for the
+developer using the plugin system.  For example, the hook
+"parsePropFindRequest" will be announced before a PROPFIND request is parsed,
+given the raw URI and body as parameters.
 
 .. _`RFC 2518`: http://tools.ietf.org/html/rfc2518
 
-In addition 1 hook for "unknown" request methods will be invented. This hook is
-announced whenever a request method is not known by the base component. A
-callback attached to this hook may return a request object, which is then
-dispatched by the server (for each callback). If multiple response are
-generated through this, those will be collected in a multi status response.
+This hook will comonly be used to extract custom XML from the body of a request
+or to check custom headers. The manipulation of the XML and headers has
+possibly effects on the base component or other plugins and must be taken
+highly serious by plugin developers. But it might even be imangineable that a
+plugin fixes certain XML errors, removes or adds XML elements.
 
-A very similar hook scheme is used for the response section, where before and
-after hooks will be invented for each response class known by the base package.
-Again a special hook for "unknown" response classes is offered, following the
-conditions mentioned above, including the multi status response.
+An additional hook will be provided to hook into the parsing of unknown
+requests. This hook will provide the HTTP method name in addition to the data
+of the hooks presented above. The first callback that returns a valid
+ezcWebdavRequest implementation will be the last one executed and the request
+will be dispatched to the server.
+
+.. note: This behaviour is not recommended, if the request method might be used
+   by other clients or even possibly in the future, too. In this case, a plugin
+   developer should consider to store the information he needs internally and
+   let others handle this request properly, too. The server layer hooks,
+   introduced later, will give possibilities to catch up with desired and
+   undesired behaviour and will even allow the plugin to issue requests on its
+   own and handle them.
+
+For response hooks, a very similar behaviour is realized by the transport
+layer. A hook is realized right before the final display information is send
+out, for every handled response object. It is possible at this stage for the
+plugin manipulate the headers and body of the response to be send to the
+client, right before this happens.
+
+At this stage, the plugin developer could (theoretically) even replace the
+display information struct with a different implementation (e.g. an empty
+response with a xml response). Therefore, plugin developers must take
+manipulations here extremly serious.
+
+As with requests, an additional hook will be provided for all responses that
+are unknown by the transport layer. The first callback returning a valid
+display information struct will be used to satisfy the response. A plugin
+should define its own response classes for this purpose, to not collide with
+other plugins or the base component.
+
+It is possible to dispatch additional responses to the currently active
+transport and retrieve back the display information generated trough the public
+API of the component. This way, a plugin can rely somewhat on the specialities
+of each client in addition.
 
 The property section affects both previously mentioned ones, since it affects
-the parsing and handling of properties. The hooks there are devided again in
+the parsing and handling of properties. The hooks there are devided into
 before and after hooks, as well as hooks for live and dead properties. Live
 properties are those that need generation and validation by the server while
 dead properties are simply stored by the backend.
 
-The PARSE_LIVE_PROPERTY_BEFORE hook is announced as soon as the Transport layer
-requires the parsing of a live property. The DOMElement containing the property
-information is passed as the hook parameter. The assigned methods might either
-perform extract information from this and store them internally or, if it is
-sure that no other plugins or even the base component are affected, even
-manipulate it. It is assured that the property contained in the DOMElement is
-in the DAV: XML namespace used by `RFC 2518`_.
+The before hook is announced directly before a property is parse, just like the
+request hooks, the after hook is announced directly after the mehod for parsing
+a property is called. An example: The hook "beforeExtractLiveProperty" is
+called as soon as any request or response requests to parse a property in the
+DAV: namespace and receives the affected DOMElement as a parameter. The
+corresponding hook "afterExtractLiveProperty" receives the result of the method
+call, which is either a live property, recognized by the sever, or a dead
+property. In the latter case, a plugin is allowed to replace the dead property
+with a live property by returning the new object. Processing of following
+plugins attached to this slot will be given the new property as the parameter.
 
-The PARSE LIVE_PROPERTY_AFTER hook is announced right after a property in the
-DAV: namespace has been processed. If no valid live property could be extracted
-by the base component, a dead property with the according name and the DAV:
-namespace is received. A plugin may return a new property object, that must be
-a live property object, which is then used as a replacement for the original
-one. If 2 callbacks return a new property an exception occurs.
+The same API will be realized for the before/afterExtractDeadProperty. The
+second range of hooks provided for properties: The serialization hooks. As with
+extraction of properties, before and after hooks are to be implemented here.
+The "beforeSerializeDeadProperty" hook will be called right before a dead
+property is going to be serialized. The dead property will be received as the
+parameter.  The "afterSerializeDeadProperty" hook will be announced right after
+the property has been serialized, given the resulting DOMElement to the plugin
+callbacks.
 
-.. Danger: When a Plugin attaches to a hook of the Transport layer, it might
+As for requests and responses, there are special hooks for live properties,
+each for extraction and serialization: The hook "extractUnknownLiveProperty" is
+announced as soon as a live property was attempt to be parsed and this attempt
+failed. The first plugin returning a live property here will make the race. But
+beware, the live property must pass the after parsing hook possibly, after it
+was parsed here. In case no plugin reacts, the base component will parse a dead
+property in the DAV: namespace, so this could still be replaced in the after
+hook.
+
+.. note: Using custom live properties is not the recommended way of storing
+   data. Dead properties suite this need as well as live ones and are generally
+   handled.
+
+Similar rules apply to the corresponding "serializeUnkownLiveProperty" is
+announced as soon as the transport layer receives a live property it can not
+serialize to XML. The first plugin callback that reacts on this hook will make
+the job. If no hook attempts to react on this hook, an exception is thrown.
+
+.. note: When a Plugin attaches to a hook of the Transport layer, it might
    not expect anything about the client it is talking to, but needs to inspect
    the User-Agent header itself, if it attaches to new request methods or
    reponses.
@@ -386,10 +440,10 @@ Server
 
 The server will provide a very limited number of hooks:
 
-- Request received (REQUEST_RECEIVED)
-- Response generated (RESPONSE_GENERATED)
+- Request received (receivedRequest)
+- Response generated (responseGenerated)
 
-The REQUEST_RECEIVED hook is reached each time after a request object is
+The receivedRequest hook is reached each time after a request object is
 returned from the Transport layer. A Plugin may attach here, to perform any
 number of operations. For it's internal usage, it may issue public methods on
 the Server and Backend layer (and even on the Transport layer, although this
@@ -406,16 +460,16 @@ used to manipulate the responses generated by the backend or other plugins.
 If multiple responses are received from the hook, those will be combined with
 the potential response of the backend into a multi status response.
 
-The seconde hook (RESPONSE_GENERATED) will allow a plugin to be informed,
+The seconde hook (responseGenerated) will allow a plugin to be informed,
 whenever a response was generated by the server. This hook is the preferred
 form for a plugin to interact with responses of commonly known requests (e.g.
 GET, PUT, PROPFIND).
 
-The previously explained REQUEST_RECEIVED hook can be used to gather request
+The previously explained receivedRequest hook can be used to gather request
 information and a before hook from the Transport layer might be used to parse
 custom XML information and attach it to the request object with the after hook.
 
-The REQUEST_RECEIVED hook can return a response object directly in case a
+The receivedRequest hook can return a response object directly in case a
 custom request is handled and that it is not possible to collide with other
 plugins, the backends or if clients handle multi status responses including
 custom extensions properly for this request. The latter procedure will occur,
