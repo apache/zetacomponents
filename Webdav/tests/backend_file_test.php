@@ -1425,10 +1425,10 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     
         $newProperties = new ezcWebdavFlaggedPropertyStorage();
         $newProperties->attach( $p1 = new ezcWebdavDeadProperty( 
-            'foo:', 'bar', 'some content'
+            'foo:', 'bar', '<content>some content</content>'
         ), ezcWebdavPropPatchRequest::SET );
         $newProperties->attach( $p2 = new ezcWebdavDeadProperty( 
-            'foo:', 'blubb', 'some other content'
+            'foo:', 'blubb', '<content>some other content</content>'
         ), ezcWebdavPropPatchRequest::SET );
 
         $addedProperties = new ezcWebdavBasicPropertyStorage();
@@ -1523,13 +1523,13 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         // Add properties, but cause errors
         $newProperties = new ezcWebdavFlaggedPropertyStorage();
         $newProperties->attach( $p_bar = new ezcWebdavDeadProperty( 
-            'foo:', 'bar', 'some content'
+            'foo:', 'bar', '<content>some content</content>'
         ), ezcWebdavPropPatchRequest::SET );
         $newProperties->attach( $p_blubb = new ezcWebdavDeadProperty( 
-            'foo:', 'blubb', 'some other content'
+            'foo:', 'blubb', '<content>some other content</content>'
         ), ezcWebdavPropPatchRequest::SET );
         $newProperties->attach( $p_blah = new ezcWebdavDeadProperty( 
-            'foo:', 'blah', 'evn more content'
+            'foo:', 'blah', '<content>even more content</content>'
         ), ezcWebdavPropPatchRequest::SET );
 
         $addedProperties = new ezcWebdavBasicPropertyStorage();
@@ -1560,10 +1560,10 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         // First add some custom properties.
         $newProperties = new ezcWebdavFlaggedPropertyStorage();
         $newProperties->attach( $p_bar = new ezcWebdavDeadProperty( 
-            'foo:', 'bar', 'some content'
+            'foo:', 'bar', '<content>some content</content>'
         ), ezcWebdavPropPatchRequest::SET );
         $newProperties->attach( $p_blubb = new ezcWebdavDeadProperty( 
-            'foo:', 'blubb', 'some other content'
+            'foo:', 'blubb', '<content>some other content</content>'
         ), ezcWebdavPropPatchRequest::SET );
 
         $request = new ezcWebdavPropPatchRequest( '/resource' );
@@ -1644,10 +1644,10 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         // First add some custom properties.
         $newProperties = new ezcWebdavFlaggedPropertyStorage();
         $newProperties->attach( $p_bar = new ezcWebdavDeadProperty( 
-            'foo:', 'bar', 'some content'
+            'foo:', 'bar', '<content>some content</content>'
         ), ezcWebdavPropPatchRequest::SET );
         $newProperties->attach( $p_blubb = new ezcWebdavDeadProperty( 
-            'foo:', 'blubb', 'some other content'
+            'foo:', 'blubb', '<content>some other content</content>'
         ), ezcWebdavPropPatchRequest::SET );
 
         $request = new ezcWebdavPropPatchRequest( '/resource' );
@@ -1706,10 +1706,10 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         // First add some custom properties.
         $newProperties = new ezcWebdavFlaggedPropertyStorage();
         $newProperties->attach( $p_bar = new ezcWebdavDeadProperty( 
-            'foo:', 'bar', 'some content'
+            'foo:', 'bar', '<content>some content</content>'
         ), ezcWebdavPropPatchRequest::SET );
         $newProperties->attach( $p_blubb = new ezcWebdavDeadProperty( 
-            'foo:', 'blubb', 'some other content'
+            'foo:', 'blubb', '<content>some other content</content>'
         ), ezcWebdavPropPatchRequest::SET );
 
         $request = new ezcWebdavPropPatchRequest( '/resource' );
@@ -1732,7 +1732,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $updateProperties = new ezcWebdavFlaggedPropertyStorage();
         $updateProperties->attach( $p_blubb, ezcWebdavPropPatchRequest::REMOVE );
         $updateProperties->attach( 
-            $p_foo = new ezcWebdavDeadProperty( 'foo:', 'foo', 'random content' ),
+            $p_foo = new ezcWebdavDeadProperty( 'foo:', 'foo', '<content>random content</content>' ),
             ezcWebdavPropPatchRequest::SET
         );
         $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::REMOVE );
@@ -1800,10 +1800,10 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         // First add some custom properties.
         $newProperties = new ezcWebdavFlaggedPropertyStorage();
         $newProperties->attach( $p_bar = new ezcWebdavDeadProperty( 
-            'foo:', 'bar', 'some content'
+            'foo:', 'bar', '<content>some content</content>'
         ), ezcWebdavPropPatchRequest::SET );
         $newProperties->attach( $p_blubb = new ezcWebdavDeadProperty( 
-            'foo:', 'blubb', 'some other content'
+            'foo:', 'blubb', '<content>some other content</content>'
         ), ezcWebdavPropPatchRequest::SET );
 
         $request = new ezcWebdavPropPatchRequest( '/resource' );
@@ -1830,7 +1830,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             ezcWebdavPropPatchRequest::REMOVE
         );
         $updateProperties->attach( 
-            $p_foo = new ezcWebdavDeadProperty( 'foo:', 'foo', 'random content' ),
+            $p_foo = new ezcWebdavDeadProperty( 'foo:', 'foo', '<content>random content</content>' ),
             ezcWebdavPropPatchRequest::SET
         );
         $updateProperties->attach( $p_bar, ezcWebdavPropPatchRequest::REMOVE );

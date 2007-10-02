@@ -224,17 +224,15 @@ class ezcWebdavFileBackend
         }
 
         // Check if some browser submitted mime type is available.
-        $storage = $this->getPropertyStoragePath(
-            $resource, 
-            new ezcWebdavDeadProperty( 'DAV:', 'getcontenttype' ) 
-        );
+        $storage = $this->getPropertyStorage( $resource );
+        $properties = $storage->getAllProperties();
 
-        if ( is_file( $storage ) )
+        if ( isset( $properties['DAV:']['getcontenttype'] ) )
         {
-            $property = unserialize( file_get_contents( $storage ) );
-            return $property->mime;
+            return $properties['DAV:']['getcontenttype']->mime;
         }
 
+        // Default to 'application/octet-stream' if nothing else is available.
         return 'application/octet-stream';
     }
 
@@ -310,42 +308,104 @@ class ezcWebdavFileBackend
      * path to the property storage file.
      * 
      * @param string $resource 
-     * @param ezcWebdavProperty $property 
      * @return string
      */
-    protected function getPropertyStoragePath( $resource, ezcWebdavProperty $property = null )
+    protected function getPropertyStoragePath( $resource )
     {
         // Get storage path for properties depending on the type of the
         // ressource.
-        if ( is_dir( $resource ) )
-        {
-            $storage = realpath( $this->root . $resource ) . '/' . $this->options->propertyStoragePath . '/';
-        }
-        else
-        {
-            $storage = realpath( $this->root . dirname( $resource ) ) . '/' . $this->options->propertyStoragePath . '/';
-        }
+        $storagePath = realpath( $this->root . dirname( $resource ) ) 
+            . '/' . $this->options->propertyStoragePath . '/'
+            . basename( $resource ) . '.xml';
 
         // Create property storage if it does not exist yet
-        if ( !is_dir( $storage ) )
+        if ( !is_dir( dirname( $storagePath ) ) )
         {
-            mkdir( $storage, $this->options->directoryMode );
+            mkdir( dirname( $storagePath ), $this->options->directoryMode );
         }
 
-        // Return root storage dir, if property has been ommitted.
-        if ( $property === null )
+        // Append name of namespace to property storage path
+        return $storagePath;
+    }
+
+    /**
+     * Get property storage
+     *
+     * Get property storage for a ressource for one namespace.
+     * 
+     * @param string $resource 
+     * @return ezcWebdavBasicPropertyStorage
+     */
+    protected function getPropertyStorage( $resource )
+    {
+        $storagePath = $this->getPropertyStoragePath( $resource );
+
+        // If no properties has been stored yet, just return an empty property
+        // storage.
+        if ( !is_file( $storagePath ) )
         {
-            return $storage;
+            return new ezcWebdavBasicPropertyStorage();
         }
 
-        // Check if sub path for namespace exists and create otherwise
-        if ( !is_dir( $storage = $storage . base64_encode( $property->namespace ) ) )
+        // Create handler structure to read properties
+        $handler = new ezcWebdavPropertyHandler(
+            $xml = new ezcWebdavXmlTool()
+        );
+        $storage = new ezcWebdavBasicPropertyStorage();
+
+        // Read document
+        if ( !$doc = $xml->createDomDocument( file_get_contents( $storagePath ) ) )
         {
-            mkdir( $storage, $this->options->directoryMode );
+            throw new ezcWebdavFileBackendBrokenStorageException(
+                "Could not open XML as DOMDocument: '{$storage}'."
+            );
         }
 
-        // Return path to property.
-        return $storage . '/' . $property->name . '.xml';
+        // Get property node from document
+        $properties = $doc->getElementsByTagname( 'properties' )->item( 0 )->childNodes;
+
+        // Extract and return properties
+        $handler->extractProperties( 
+            $properties,
+            $storage
+        );
+
+        return $storage;
+    }
+
+    /**
+     * Store properties back to file
+     *
+     * Create a new property storage file and store the properties back there.
+     * This depends on the affected resource and the actual properties in the
+     * property storage.
+     * 
+     * @param string $resource 
+     * @param ezcWebdavBasicPropertyStorage $storage 
+     * @return void
+     */
+    protected function storeProperties( $resource, ezcWebdavBasicPropertyStorage $storage )
+    {
+        $storagePath = $this->getPropertyStoragePath( $resource );
+
+        // Create handler structure to read properties
+        $handler = new ezcWebdavPropertyHandler(
+            $xml = new ezcWebdavXmlTool()
+        );
+
+        // Create new dom document with property storage for one namespace
+        $doc = new DOMDocument( '1.0' );
+
+        $properties = $doc->createElement( 'properties' );
+        $doc->appendChild( $properties );
+
+        // Store and store properties
+        $handler->serializeProperties(
+            $storage,
+            $properties
+        );
+
+        return $doc->save( $storagePath );
     }
 
     /**
@@ -357,8 +417,6 @@ class ezcWebdavFileBackend
      */
     public function setProperty( $resource, ezcWebdavProperty $property )
     {
-        $storage = $this->getPropertyStoragePath( $resource, $property );
-
         // Check if property is a self handled live property and return an
         // error in this case.
         if ( ( $property->namespace === 'DAV:' ) &&
@@ -368,10 +426,15 @@ class ezcWebdavFileBackend
             return false;
         }
 
-        // @TODO: Get rid of serialize here. We should either store them as
-        // vlaid XML, or use var_export. Both make some internal serialize
-        // methods fpr all properties necessary.
-        file_put_contents( $storage, serialize( $property ) );
+        // Get namespace property storage
+        $storage = $this->getPropertyStorage( $resource );
+
+        // Attach property to store
+        $storage->attach( $property );
+
+        // Store document back
+        $this->storeProperties( $resource, $storage );
+
         return true;
     }
 
@@ -390,12 +453,14 @@ class ezcWebdavFileBackend
             return false;
         }
 
-        $storage = $this->getPropertyStoragePath( $resource, $property );
-        
-        if ( is_file( $storage ) )
-        {
-            unlink( $storage );
-        }
+        // Get namespace property storage
+        $storage = $this->getPropertyStorage( $resource );
+
+        // Attach property to store
+        $storage->detach( $property );
+
+        // Store document back
+        $this->storeProperties( $resource, $storage );
 
         return true;
     }
@@ -404,20 +469,12 @@ class ezcWebdavFileBackend
      * Reset property storage for a resource.
      * 
      * @param string $resource 
-     * @param ezcWebdavPropertyStorage $properties
+     * @param ezcWebdavPropertyStorage $storage
      * @return bool
      */
-    public function resetProperties( $resource, ezcWebdavPropertyStorage $properties )
+    public function resetProperties( $resource, ezcWebdavPropertyStorage $storage )
     {
-        // Remove all properties by removing the property storage directory.
-        $storageDir = $this->getPropertyStoragePath( $resource );
-        ezcBaseFile::removeRecursive( $storageDir );
-
-        // Recreate all properties
-        foreach( $properties as $property )
-        {
-            $this->setProperty( $resource, $property );
-        }
+        $this->storeProperties( $resource, $storage );
     }
 
     /**
@@ -433,12 +490,13 @@ class ezcWebdavFileBackend
      */
     public function getProperty( $resource, $propertyName, $namespace = 'DAV:' )
     {
-        $storage = $this->getPropertyStoragePath( $resource, new ezcWebdavDeadProperty( $namespace, $propertyName ) );
+        $storage = $this->getPropertyStorage( $resource );
 
         // Handle dead propreties
         if ( $namespace !== 'DAV:' )
         {
-            return unserialize( file_get_contents( $storage ) );
+            $properties = $storage->getAllProperties();
+            return $properties[$namespace][$name];
         }
 
         // Handle live properties
@@ -486,8 +544,9 @@ class ezcWebdavFileBackend
                 return $property;
 
             default:
-                // Handle unknown live properties like dead properties
-                return unserialize( file_get_contents( $storage ) );
+                // Handle all other live properties like dead properties
+                $properties = $storage->getAllProperties();
+                return $properties[$namespace][$name];
         }
     }
 
@@ -502,25 +561,14 @@ class ezcWebdavFileBackend
      */
     public function getAllProperties( $resource )
     {
-        $storageDir = $this->getPropertyStoragePath( $resource );
-
-        $storage = new ezcWebdavBasicPropertyStorage();
+        $storage = $this->getPropertyStorage( $resource );
         
-        // Scan through namespaces
-        foreach ( glob( $storageDir . '*', GLOB_ONLYDIR ) as $dir )
+        // Add all live properties to stored properties
+        foreach ( $this->handledLiveProperties as $property )
         {
-            foreach ( glob( $dir . '/*.xml' ) as $file )
-            {
-                $storage->attach( 
-                    unserialize( file_get_contents( $file ) )
-                );
-            }
-        }
-
-        // Also attach generated live properties
-        foreach( $this->handledLiveProperties as $name )
-        {
-            $storage->attach( $this->getProperty( $resource, $name ) );
+            $storage->attach(
+                $this->getProperty( $resource, $property )
+            );
         }
 
         return $storage;
