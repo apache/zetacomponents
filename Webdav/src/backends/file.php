@@ -162,7 +162,7 @@ class ezcWebdavFileBackend
         // exists, which we need to silence using the @
         while ( ( $fp = @fopen( $lockFileName, 'x' ) ) === false )
         {
-            echo ' - ';
+            // This is untestable.
             usleep( $sleeptime );
         }
 
@@ -287,8 +287,6 @@ class ezcWebdavFileBackend
     {
         file_put_contents( $this->root . $path, $content );
         chmod( $this->root . $path, $this->options->fileMode );
-
-        // @TODO: Also update properties?
     }
 
     /**
