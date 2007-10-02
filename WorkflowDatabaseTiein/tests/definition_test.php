@@ -114,6 +114,15 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
     }
 
+    public function testSaveAndLoadExclusiveChoiceWithElseSimpleMerge()
+    {
+        $this->setUpExclusiveChoiceWithElseSimpleMerge();
+        $this->definition->save( $this->workflow );
+        $workflow = $this->definition->loadByName( 'ExclusiveChoiceWithElseSimpleMerge' );
+
+        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
+    }
+
     public function testExceptionWhenLoadingNotExistingWorkflow()
     {
         try
