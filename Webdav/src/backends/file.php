@@ -248,9 +248,11 @@ class ezcWebdavFileBackend
      */
     protected function createCollection( $path )
     {
-        mkdir( $this->root . $path, $this->options->directoryMode );
+        mkdir( $this->root . $path );
+        chmod( $this->root . $path, $this->options->directoryMode );
 
-        // @TODO: Also create property storage?
+        // This automatically creates the property storage
+        $storage = $this->getPropertyStoragePath( $path . '/foo' );
     }
 
     /**
@@ -268,7 +270,8 @@ class ezcWebdavFileBackend
         file_put_contents( $this->root . $path, $content );
         chmod( $this->root . $path, $this->options->fileMode );
 
-        // @TODO: Also create property storage?
+        // This automatically creates the property storage if missing
+        $storage = $this->getPropertyStoragePath( $path );
     }
 
     /**

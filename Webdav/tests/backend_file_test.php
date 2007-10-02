@@ -1048,6 +1048,11 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             is_dir( $this->tempDir . 'backend/collection/new_collection' ),
             'Expected created collection.'
         );
+
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/collection/new_collection/.ezc' ),
+            'Expected property storage in directory.'
+        );
     }
 
     public function testPutOnExistingCollection()
