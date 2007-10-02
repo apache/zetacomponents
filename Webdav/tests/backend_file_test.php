@@ -80,6 +80,19 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             dirname( __FILE__ ) . '/data/backend_file', 
             $this->tempDir . 'backend/'
         );
+
+        // Remove SVN directories from temporary backend
+        $svnDirs = ezcFile::findRecursive(
+            $this->tempDir . 'backend/',
+            array( '(/\.svn/entries$)' )
+        );
+
+        foreach ( $svnDirs as $dir )
+        {
+            ezcFile::removeRecursive( dirname( $dir ) );
+        }
+
+        // Explicitely set mtime and ctime
         $this->recursiveTouch(
             $this->tempDir . 'backend/',
             // Change this once 64bit systems are common, or we reached year 2038
@@ -280,7 +293,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
                     $backend->getAllProperties( '/collection' ),
                     array(
                         new ezcWebdavCollection(
-                            '/collection/.svn'
+                            '/collection/deep_collection'
                         ),
                         new ezcWebdavResource(
                             '/collection/test.txt'
@@ -298,7 +311,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
 
-        $request = new ezcWebdavGetRequest( '/collection/.svn/text-base/test.txt.svn-base' );
+        $request = new ezcWebdavGetRequest( '/collection/deep_collection/deep_test.txt' );
         $request->validateHeaders();
         $response = $backend->get( $request );
 
@@ -306,9 +319,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $response,
             new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
-                    '/collection/.svn/text-base/test.txt.svn-base', 
-                    $backend->getAllProperties( '/collection/.svn/text-base/test.txt.svn-base' ),
-                    "Some other contents...\n"
+                    '/collection/deep_collection/deep_test.txt',
+                    $backend->getAllProperties( '/collection/deep_collection/deep_test.txt' ),
+                    "=========\nTest file\n=========\n\nAnd again some randome contents...\n"
                 )
             ),
             'Expected response does not match real response.',
@@ -511,7 +524,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
 
         $this->assertTrue(
-            is_file( $this->tempDir . 'backend/new_collection/.svn/text-base/test.txt.svn-base' ),
+            is_file( $this->tempDir . 'backend/new_collection/deep_collection/deep_test.txt' ),
             'Expected created deep file in collection.'
         );
     }
@@ -552,7 +565,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
 
         $this->assertTrue(
-            is_file( $this->tempDir . 'backend/new_collection/.svn/text-base/test.txt.svn-base' ),
+            is_file( $this->tempDir . 'backend/new_collection/deep_collection/deep_test.txt' ),
             'Expected created deep file in collection.'
         );
 
@@ -738,7 +751,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
 
         $this->assertTrue(
-            is_file( $this->tempDir . 'backend/new_collection/.svn/text-base/test.txt.svn-base' ),
+            is_file( $this->tempDir . 'backend/new_collection/deep_collection/deep_test.txt' ),
             'Expected created deep file in collection.'
         );
     }
@@ -789,7 +802,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
 
         $this->assertTrue(
-            is_file( $this->tempDir . 'backend/new_collection/.svn/text-base/test.txt.svn-base' ),
+            is_file( $this->tempDir . 'backend/new_collection/deep_collection/deep_test.txt' ),
             'Expected created deep file in collection.'
         );
 
