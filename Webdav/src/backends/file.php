@@ -52,8 +52,8 @@ class ezcWebdavFileBackend
         'getlastmodified', 
         'creationdate', 
         'displayname', 
-        'getcontenttype', 
         'getetag', 
+        'getcontenttype', 
         'resourcetype'
     );
 
@@ -208,7 +208,7 @@ class ezcWebdavFileBackend
     protected function getMimeType( $resource )
     {
         // Check if extension pecl/fileinfo is usable.
-        if ( function_exists( 'finfo_file' ) )
+        if ( $this->options->useMimeExts && function_exists( 'finfo_file' ) )
         {
             $fInfo = new fInfo( FILEINFO_MIME );
             $mimeType = $fInfo->file( $this->root . $resource );
@@ -218,15 +218,21 @@ class ezcWebdavFileBackend
         }
 
         // Check if extension ext/mime-magic is usable.
-        if ( function_exists( 'mime_content_type' ) )
+        if ( $this->options->useMimeExts && function_exists( 'mime_content_type' ) )
         {
             return mime_content_type( $this->root . $resource );
         }
 
         // Check if some browser submitted mime type is available.
-        if ( false )
+        $storage = $this->getPropertyStoragePath(
+            $resource, 
+            new ezcWebdavDeadProperty( 'DAV:', 'getcontenttype' ) 
+        );
+
+        if ( is_file( $storage ) )
         {
-            // @TODO: Implement
+            $property = unserialize( file_get_contents( $storage ) );
+            return $property->mime;
         }
 
         return 'application/octet-stream';
@@ -354,7 +360,9 @@ class ezcWebdavFileBackend
 
         // Check if property is a self handled live property and return an
         // error in this case.
-        if ( in_array( $property->name, $this->handledLiveProperties, true ) )
+        if ( ( $property->namespace === 'DAV:' ) &&
+             in_array( $property->name, $this->handledLiveProperties, true ) &&
+             ( $property->name !== 'getcontenttype' ) )
         {
             return false;
         }

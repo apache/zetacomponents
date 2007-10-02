@@ -37,6 +37,7 @@ class ezcWebdavFileBackendOptionsTestCase extends ezcWebdavPropertyTestCase
             'propertyStoragePath'   => '.ezc',
             'directoryMode'         => 0755,
             'fileMode'              => 0644,
+            'useMimeExts'           => true,
         );
         $this->workingValues = array(
             'noLock'                => array(
@@ -62,6 +63,10 @@ class ezcWebdavFileBackendOptionsTestCase extends ezcWebdavPropertyTestCase
             'fileMode'              => array(
                 0,
                 100
+            ),
+            'useMimeExts'           => array(
+                true,
+                false
             ),
         );
         $this->failingValues = array(
@@ -105,6 +110,13 @@ class ezcWebdavFileBackendOptionsTestCase extends ezcWebdavPropertyTestCase
                 'foo',
                 array(),
                 false,
+                new stdClass(),
+            ),
+            'useMimeExts'           => array(
+                23,
+                23.34,
+                'foo',
+                array(),
                 new stdClass(),
             ),
         );

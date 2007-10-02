@@ -1211,6 +1211,105 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $this->compareResponse( __FUNCTION__, $response );
     }
 
+    public function testPropMimeTypeOnResource()
+    {
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( 
+            new ezcWebdavGetContentTypeProperty( 'text/xml' ),
+            ezcWebdavPropPatchRequest::SET
+        );
+
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
+        $request->updates = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $requestedProperties = new ezcWebdavBasicPropertyStorage();
+        $requestedProperties->attach(
+            new ezcWebdavGetContentTypeProperty()
+        );
+
+        $request = new ezcWebdavPropFindRequest( '/resource' );
+        $request->prop = $requestedProperties;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $responseProperty = new ezcWebdavBasicPropertyStorage();
+        $responseProperty->attach(
+            new ezcWebdavGetContentTypeProperty( 'text/plain' )
+        );
+
+        $responseProperty->rewind();
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/resource' ),
+                new ezcWebdavPropStatResponse(
+                    $responseProperty
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropMimeTypeOnResourceWithoutGuessingPriorSet()
+    {
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        $backend->options->useMimeExts = false;
+
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( 
+            new ezcWebdavGetContentTypeProperty( 'text/xml' ),
+            ezcWebdavPropPatchRequest::SET
+        );
+
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
+        $request->updates = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $requestedProperties = new ezcWebdavBasicPropertyStorage();
+        $requestedProperties->attach(
+            new ezcWebdavGetContentTypeProperty()
+        );
+
+        $request = new ezcWebdavPropFindRequest( '/resource' );
+        $request->prop = $requestedProperties;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $responseProperty = new ezcWebdavBasicPropertyStorage();
+        $responseProperty->attach(
+            new ezcWebdavGetContentTypeProperty( 'text/xml' )
+        );
+
+        $responseProperty->rewind();
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/resource' ),
+                new ezcWebdavPropStatResponse(
+                    $responseProperty
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
     public function testPropFindOnCollection()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );

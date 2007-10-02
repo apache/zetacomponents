@@ -25,6 +25,10 @@
  *           Mode directories are created with.
  * @property int $fileMode
  *           Mode files are created with.
+ * @property bool $useMimeExts
+ *           Indicates wheather to use PHPs extensions to receive the correct
+ *           mime time for a file instead of just returning the mime type
+ *           originally set by the client.
  *
  * @package Webdav
  * @version //autogen//
@@ -49,6 +53,7 @@ class ezcWebdavFileBackendOptions extends ezcBaseOptions
         $this->properties['propertyStoragePath']    = '.ezc';
         $this->properties['directoryMode']          = 0755;
         $this->properties['fileMode']               = 0644;
+        $this->properties['useMimeExts']            = true;
 
         parent::__construct( $options );
     }
@@ -69,6 +74,7 @@ class ezcWebdavFileBackendOptions extends ezcBaseOptions
         switch ( $name )
         {
             case 'noLock':
+            case 'useMimeExts':
                 if ( !is_bool( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'bool' );
