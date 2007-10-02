@@ -1,5 +1,18 @@
 <?php
-
+/**
+ * File containing the ezcWebdavPropertyHandler class.
+ *
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Description missing
+ *
+ * @package Webdav
+ * @version //autogen//
+ */
 class ezcWebdavPropertyHandler
 {
     /**
@@ -8,6 +21,13 @@ class ezcWebdavPropertyHandler
      * @var ezcWebdavXmlTool
      */
     protected $xml;
+
+    /**
+     * Regedx to parse the <getcontenttype /> XML elemens content.
+     *
+     * Example: 'text/html; charset=UTF-8'
+     */
+    const GETCONTENTTYPE_REGEX = '(^(?P<mime>\w+/\w+)\s*;\s*charset\s*=\s*(?P<charset>.+)\s*$)i';
 
     /**
      * Creates a new property handler.
