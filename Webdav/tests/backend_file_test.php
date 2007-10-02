@@ -1365,6 +1365,48 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
     }
 
+    public function testPropPatchSetLiveProperty()
+    {
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+    
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( 
+            $p = new ezcWebdavGetContentLengthProperty( '23' ), 
+            ezcWebdavPropPatchRequest::SET
+        );
+
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
+        $request->updates = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $failed = new ezcWebdavBasicPropertyStorage();
+        $failed->attach( $p );
+        $failed->rewind();
+
+        $this->assertEquals(
+            new ezcWebdavPropPatchResponse(
+                new ezcWebdavResource( '/resource' ),
+                new ezcWebdavPropStatResponse(
+                    $failed,
+                    ezcWebdavResponse::STATUS_403
+                ),
+                new ezcWebdavPropStatResponse(
+                    new ezcWebdavBasicPropertyStorage(),
+                    ezcWebdavResponse::STATUS_409
+                ),
+                new ezcWebdavPropStatResponse(
+                    new ezcWebdavBasicPropertyStorage(),
+                    ezcWebdavResponse::STATUS_424
+                )
+            ),
+            $response,
+            'Expected property removing PROPPATCH response does not match real response.',
+            0,
+            20
+        );
+    }
+
     public function testPropPatchAddPropertyFail()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );

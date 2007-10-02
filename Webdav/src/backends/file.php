@@ -42,6 +42,22 @@ class ezcWebdavFileBackend
     protected $root;
 
     /**
+     * Names of live properties from the DAV: namespace which will be handled
+     * live, and should not bestored like dead properties.
+     * 
+     * @var array
+     */
+    protected $handledLiveProperties = array( 
+        'getcontentlength', 
+        'getlastmodified', 
+        'creationdate', 
+        'displayname', 
+        'getcontenttype', 
+        'getetag', 
+        'resourcetype'
+    );
+
+    /**
      * Construct backend from a given path.
      * 
      * @param string $path 
@@ -336,9 +352,13 @@ class ezcWebdavFileBackend
     {
         $storage = $this->getPropertyStoragePath( $resource, $property );
 
-        // @TODO: We should handle some (/most?) of the live properties
-        // differently.
-        //
+        // Check if property is a self handled live property and return an
+        // error in this case.
+        if ( in_array( $property->name, $this->handledLiveProperties, true ) )
+        {
+            return false;
+        }
+
         // @TODO: Get rid of serialize here. We should either store them as
         // vlaid XML, or use var_export. Both make some internal serialize
         // methods fpr all properties necessary.
@@ -489,8 +509,7 @@ class ezcWebdavFileBackend
         }
 
         // Also attach generated live properties
-        $liveProperties = array( 'getcontentlength', 'getlastmodified', 'creationdate', 'displayname', 'getcontenttype', 'getetag', 'resourcetype' );
-        foreach( $liveProperties as $name )
+        foreach( $this->handledLiveProperties as $name )
         {
             $storage->attach( $this->getProperty( $resource, $name ) );
         }
