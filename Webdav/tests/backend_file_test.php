@@ -42,6 +42,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
             if ( is_dir( $path = $source . '/' . $file ) )
             {
+                touch( $path, $time, $time );
                 $this->recursiveTouch( $path, $time );
             }
             else
@@ -81,7 +82,8 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
         $this->recursiveTouch(
             $this->tempDir . 'backend/',
-            12345678
+            // Change this once 64bit systems are common, or we reached year 2038
+            2147483647
         );
     }
 

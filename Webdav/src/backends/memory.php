@@ -195,7 +195,10 @@ class ezcWebdavMemoryBackend
 
             $propertyStorage->attach(
                 new ezcWebdavResourceTypeProperty(
-                    ( $isCollection === true ? ezcWebdavResourceTypeProperty::TYPE_COLLECTION : ezcWebdavResourceTypeProperty::TYPE_RESSOURCE )
+                    ( $isCollection === true ? 
+                        ezcWebdavResourceTypeProperty::TYPE_COLLECTION : 
+                        ezcWebdavResourceTypeProperty::TYPE_RESSOURCE
+                    )
                 )
             );
         }

@@ -178,6 +178,45 @@ class ezcWebdavFileBackend
     }
 
     /**
+     * Get mime type for resource
+     *
+     * Return the mime type for a resource. If a mime type extension is
+     * available it will be used to read the real mime type, otherwise the
+     * original mime type passed by the client when uploading the file will be
+     * returned. If no mimetype has ever been associated with the file, the
+     * method will just return 'application/octet-stream'.
+     * 
+     * @param string $resource 
+     * @return string
+     */
+    protected function getMimeType( $resource )
+    {
+        // Check if extension pecl/fileinfo is usable.
+        if ( function_exists( 'finfo_file' ) )
+        {
+            $fInfo = new fInfo( FILEINFO_MIME );
+            $mimeType = $fInfo->file( $this->root . $resource );
+            $fInfo->close();
+
+            return $mimeType;
+        }
+
+        // Check if extension ext/mime-magic is usable.
+        if ( function_exists( 'mime_content_type' ) )
+        {
+            return mime_content_type( $this->root . $resource );
+        }
+
+        // Check if some browser submitted mime type is available.
+        if ( false )
+        {
+            // @TODO: Implement
+        }
+
+        return 'application/octet-stream';
+    }
+
+    /**
      * Create a new collection.
      *
      * Creates a new collection at the given path.
@@ -367,12 +406,13 @@ class ezcWebdavFileBackend
     {
         $storage = $this->getPropertyStoragePath( $resource, new ezcWebdavDeadProperty( $namespace, $propertyName ) );
 
-        // handle dead propreties
+        // Handle dead propreties
         if ( $namespace !== 'DAV:' )
         {
             return unserialize( file_get_contents( $storage ) );
         }
 
+        // Handle live properties
         switch ( $propertyName )
         {
             case 'getcontentlength':
@@ -387,8 +427,38 @@ class ezcWebdavFileBackend
                 $property->date = new ezcWebdavDateTime( '@' . filemtime( $this->root . $resource ) );
                 return $property;
 
+            case 'creationdate':
+                $property = new ezcWebdavCreationDateProperty();
+                $property->date = new ezcWebdavDateTime( '@' . filectime( $this->root . $resource ) );
+                return $property;
+
+            case 'displayname':
+                $property = new ezcWebdavDisplayNameProperty();
+                $property->displayName = basename( $resource );
+                return $property;
+
+            case 'getcontenttype':
+                $property = new ezcWebdavGetContentTypeProperty(
+                    $this->getMimeType( $resource )
+                );
+                return $property;
+
+            case 'getetag':
+                $property = new ezcWebdavGetEtagProperty();
+                // @TODO: Use proper etag hashing stuff
+                $property->etag = md5( $resource . filemtime( $this->root . $resource ) );
+                return $property;
+
+            case 'resourcetype':
+                $property = new ezcWebdavResourceTypeProperty();
+                $property->type = $this->isCollection( $resource ) ?
+                    ezcWebdavResourceTypeProperty::TYPE_COLLECTION : 
+                    ezcWebdavResourceTypeProperty::TYPE_RESSOURCE;
+                return $property;
+
             default:
-                throw new Exception( 'Start handling this one immediately!' );
+                // Handle unknown live properties like dead properties
+                return unserialize( file_get_contents( $storage ) );
         }
     }
 
@@ -419,7 +489,7 @@ class ezcWebdavFileBackend
         }
 
         // Also attach generated live properties
-        $liveProperties = array( 'getcontentlength', 'getlastmodified' );
+        $liveProperties = array( 'getcontentlength', 'getlastmodified', 'creationdate', 'displayname', 'getcontenttype', 'getetag', 'resourcetype' );
         foreach( $liveProperties as $name )
         {
             $storage->attach( $this->getProperty( $resource, $name ) );
