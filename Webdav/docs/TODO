@@ -27,3 +27,5 @@ TODO
   that we can not reject invalid XML properly. a) the DAV: namespace is invalid
   by itself. b) DOM does not bail out on loading an XML string without proper
   XML declaration. WebDAV defines to reject "invalid" issues.
+
+- Header handling needs to be refactored to allow plugins to access them.

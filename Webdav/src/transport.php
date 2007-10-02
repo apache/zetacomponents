@@ -43,9 +43,13 @@ class ezcWebdavTransport
     /**
      * Map of HTTP methods to object method names for parsing.
      *
+     * Need public access here to retrieve this in {@link
+     * ezcWebdavPluginRegistry}.
+     *
      * @var array(string=>string)
+     * @private
      */
-    static protected $parsingMap = array(
+    static public $parsingMap = array(
         'COPY'      => 'parseCopyRequest',
         'DELETE'    => 'parseDeleteRequest',
         'GET'       => 'parseGetRequest',
@@ -63,9 +67,13 @@ class ezcWebdavTransport
     /**
      * Map of response objects to handling methods.
      *
+     * Need public access here to retrieve this in {@link
+     * ezcWebdavPluginRegistry}.
+     *
      * @array(string=>string)
+     * @private
      */
-    static protected $handlingMap = array(
+    static public $handlingMap = array(
         'ezcWebdavCopyResponse'           => 'processCopyResponse',
         'ezcWebdavDeleteResponse'         => 'processDeleteResponse',
         'ezcWebdavErrorResponse'          => 'processErrorResponse',
