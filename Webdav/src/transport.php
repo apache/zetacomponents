@@ -855,7 +855,13 @@ class ezcWebdavTransport
 
         $setElements    = $dom->documentElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'set' );
         $removeElements = $dom->documentElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'remove' );
-        
+ 
+        // @TODO:
+        // This code destroys the original order of the properties, and only
+        // preserves the property order in set or remove groups. This violates
+        // the webdav RFC section "8.2 PROPPATCH". 
+        //
+        // @See http://tools.ietf.org/html/rfc2518#page-31
         for ( $i = 0; $i < $setElements->length; ++$i )
         {
             $this->propertyHandler->extractProperties(
