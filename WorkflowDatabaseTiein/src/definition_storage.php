@@ -97,8 +97,17 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         // Create node objects.
         foreach ( $result as $node )
         {
+            $configuration = ezcWorkflowDatabaseUtil::unserialize(
+              $node['node_configuration'], null
+            );
+
+            if ( is_null( $configuration ) )
+            {
+                $configuration = ezcWorkflowUtil::getDefaultConfiguration( $node['node_class'] );
+            }
+
             $nodes[$node['node_id']] = new $node['node_class'](
-              ezcWorkflowDatabaseUtil::unserialize( $node['node_configuration'], '' )
+              $configuration
             );
 
             $nodes[$node['node_id']]->setId( $node['node_id'] );
