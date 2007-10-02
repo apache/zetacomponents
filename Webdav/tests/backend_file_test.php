@@ -1151,6 +1151,11 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             'some content',
             file_get_contents( $this->tempDir . 'backend/collection/new_resource' )
         );
+
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/collection/.ezc' ),
+            'Expected property storage in directory.'
+        );
     }
 
     public function testPutOnExistingRessource()
