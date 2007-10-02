@@ -105,7 +105,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
     }
 
-    public function testSaveAndLoadExclusiveChoiceBranchSimpleMerge()
+    public function testSaveAndLoadExclusiveChoiceSimpleMerge()
     {
         $this->setUpExclusiveChoiceSimpleMerge();
         $this->definition->save( $this->workflow );
