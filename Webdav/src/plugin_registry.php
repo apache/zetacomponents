@@ -30,14 +30,6 @@
  */
 class ezcWebdavPluginRegistry
 {
-
-    /**
-     * Singleton instance.
-     * 
-     * @var ezcWebdavPluginRegistry
-     */
-    private static $instance;
-
     /**
      * Known hooks. 
      * 
@@ -70,11 +62,11 @@ class ezcWebdavPluginRegistry
     private $plugins = array();
 
     /**
-     * Use singleton.
+     * Creates a new plugin registry.
      * 
      * @return void
      */
-    private function __construct()
+    public function __construct()
     {
         // Transport layer hooks
 
@@ -135,22 +127,6 @@ class ezcWebdavPluginRegistry
     private function createHook( $class, $method, $prefix = null )
     {
         $this->hooks[$class][( $prefix !== null ? $prefix . ucfirst( $method )  : $method )] = true;
-    }
-
-    /**
-     * Get singleton instance.
-     *
-     * Returns the single instance of this class that may exist per request.
-     * 
-     * @return ezcWebdavPluginRegistry
-     */
-    public static final function getInstance()
-    {
-        if ( self::$instance === null )
-        {
-            self::$instance = new ezcWebdavPluginRegistry();
-        }
-        return self::$instance;
     }
 
     /**

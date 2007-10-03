@@ -8,7 +8,7 @@ class ezcWebdavClientRfcTestBackend
         $testSetName = basename( $testSetName );
 
         $test->transport  = new ezcWebdavTransportTestMock();
-        $test->transport->options->pathFactory = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
+        $test->transport->pathFactory = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
 
         switch( $testSetName )
         {
@@ -267,7 +267,7 @@ EOT
 
     protected static function getFooBarSetup4( ezcWebdavClientTest $test )
     {
-        $test->transport->options->pathFactory = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
+        $test->transport->pathFactory = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
 
         $test->backend                             = new ezcWebdavMemoryBackend();
         // $test->backend->options->failForRegexp     = '(container/R2|container/resource3)';
@@ -418,7 +418,7 @@ EOT
 
     protected static function getFooBarSetup5( ezcWebdavClientTest $test )
     {
-        $test->transport->options->pathFactory = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
+        $test->transport->pathFactory = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
 
         $test->backend                             = new ezcWebdavMemoryBackend();
         $test->backend->options->failForRegexp     = '(othercontainer/C2)';

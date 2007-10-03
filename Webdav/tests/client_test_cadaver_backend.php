@@ -5,7 +5,7 @@ class ezcWebdavClientCadaverTestBackend
     public static function performSetup( ezcWebdavClientTest $test, $testSetName )
     {
         $test->transport = new ezcWebdavTransportTestMock();
-        $test->transport->options->pathFactory = new ezcWebdavBasicPathFactory(
+        $test->transport->pathFactory = new ezcWebdavBasicPathFactory(
             'http://foo.bar'
         );
         

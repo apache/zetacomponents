@@ -12,10 +12,10 @@ class ezcWebdavClientTestBackendContinuous
     {
         if ( basename( dirname( $testSetName ) ) !== self::$lastTestSuite )
         {
-            self::$lastTestSuite                   = basename( dirname( $testSetName ) );
-            self::$transport                       = new ezcWebdavTransportTestMock();
-            self::$transport->options->pathFactory = new ezcWebdavBasicPathFactory( 'http://webdav' );
-            self::$backend                         = self::setupBackend();
+            self::$lastTestSuite          = basename( dirname( $testSetName ) );
+            self::$transport              = new ezcWebdavTransportTestMock();
+            self::$transport->pathFactory = new ezcWebdavBasicPathFactory( 'http://webdav' );
+            self::$backend                = self::setupBackend();
         }
         $test->transport = self::$transport;
         $test->backend   = self::$backend;

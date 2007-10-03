@@ -60,8 +60,9 @@ require_once 'response_get_test.php';
 require_once 'response_options_test.php';
 require_once 'response_test.php';
 
-require_once 'transport_options_test.php';
 require_once 'server_test.php';
+require_once 'transport_configuration_test.php';
+require_once 'transport_dispatcher_test.php';
 
 require_once 'client_test_rfc.php';
 require_once 'client_test_litmus.php';
@@ -85,7 +86,8 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Webdav' );
 
         $this->addTest( ezcWebdavBasicServerTest::suite() );
-        $this->addTest( ezcWebdavTransportOptionsTest::suite() );
+        $this->addTest( ezcWebdavTransportConfigurationTest::suite() );
+        $this->addTest( ezcWebdavTransportDispatcherTest::suite() );
 
         $this->addTest( ezcWebdavFlaggedPropertyStorageTest::suite() );
         $this->addTest( ezcWebdavPropertyStorageTest::suite() );

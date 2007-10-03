@@ -45,165 +45,187 @@
  */
 class ezcWebdavServer
 {
-
     /**
-     * Array with available transport handlers. The key of this array is a
-     * regular expression which should match the client name the handler has
-     * been designed for, while the value is the name of the handler class
-     * extending the basic ezcWebdavTransport class.
+     * Singleton instance.
      *
-     *  array(
-     *      '(regular\s+expression)' =>
-     *          'ezcWebdavSomeTransport',
-     *      ...
-     *  )
-     * 
-     * @var array
+     * @var ezcWebdavServer
      */
-    protected $transportHandlers = array(
-        '(Internet\s+Explorer)' =>
-            'ezcWebdavMicrosoftTransport',
-
-        // Fall back to default handler, if none special handler matches
-        '(.*)' =>
-            'ezcWebdavTransport',
-    );
+    protected static $instance;
 
     /**
-     * Selected transport handler 
+     * Properties. 
      * 
-     * @var ezcWebdavTransport
-     */
-    protected $transport = null;
-
-    /**
-     * Array with properties of the basic server class.
-     * 
-     * @var array
+     * @var array(string=>mixed)
      */
     protected $properties = array();
 
     /**
-     * Constructor for webdav server. The used backend to use might be passed
-     * right away with the constructor.
+     * Creates a new instance.
+     *
+     * The constructor is private due to singleton reasons. Use {@link
+     * self::getInstance()} and then use the properties of the server to adjust
+     * it's configuration.
      * 
-     * @param ezcWebdavBackend $backend 
      * @return void
      */
-    public function __construct( ezcWebdavBackend $backend = null )
+    protected function __construct()
     {
-        // @TODO: Implement
+        $this->properties['transport']      = null;
+        $this->properties['backend']        = null;
+        $this->properties['transports']     = new ezcWebdavTransportDispatcher();
+        $this->properties['pluginRegistry'] = new ezcWebdavPluginRegistry();
     }
 
     /**
-     * Select a transport handler to use.
+     * Singleton retrieval.
      *
-     * The main server instance knows about available clients and has a regular
-     * expression for each of them, to identify the clients it communicates to
-     * by matching the regular expression against the client name provided in
-     * the HTTP headers.
-     *
-     * The protected property $transport will contain the best matching
-     * instantiated tarnsport handler after executing the method.
+     * The instantiation of 2 WebDAV servers at the same time does not make
+     * sense. Therefore the server is a singleton and its only instance must be
+     * retrieved using this method.
      * 
-     * @throws ezcWebdavNotTransportHandlerException
-     *         If no matching handler could be found for the current user
-     *         agent.
      * @return void
      */
-    protected function selectTransportHandler()
+    public static function getInstance()
     {
-        foreach ( $this->transportHandlers as $expression => $class )
+        if ( self::$instance === null )
         {
-            if ( preg_match( $expression, $_SERVER['HTTP_USER_AGENT'] ) )
-            {
-                // Transport handler matches
-                $this->transport = new $class();
-                break;
-            }
+            self::$instance = new ezcWebdavServer();
         }
-
-        // If no handler matched throw an exception
-        if ( $this->transport === null )
-        {
-            throw new ezcWebdavNotTransportHandlerException( $_SERVER['HTTP_USER_AGENT'] );
-        }
+        return self::$instance;
     }
 
     /**
-     * Actually handle request using the specified backend and matching
-     * transport handlers.
+     * Makes the Webdav server handle the current request.
+     *
+     * This method is the absolute heart of the Webdav component. It is called
+     * to make the server instance handle the current request. This means, a
+     * {@link ezcWebdavTransport} is selected and instantiated through the
+     * {@link ezcWebdavTransportDispatcher} in {@link $this->transports}.
      * 
-     * This method will send the proper response headers and echo the request
-     * response.
-     *
-     * You shouldn't have send any headers prior to the execution of this
-     * method.
-     *
      * @return void
      */
-    public function handle()
+    public final function handle( ezcWebdavBackend $backend )
     {
-        $this->selectTransportHandler();
+        // Perform final setup
+        $this->backend = $backend;
+        if ( !isset( $_SERVER['HTTP_USER_AGENT'] ) )
+        {
+            throw new ezcWedavMissingHeaderException( 'User-Agent' );
+        }
+        $this->transport = $this->transports->createTransport( $_SERVER['HTTP_USER_AGENT'] );
 
-        // @TODO: Implement
+        // Parse request into request object
+        try
+        {
+            $request = $this->transport->parseRequest();
+        }
+        catch ( Exception $e )
+        {
+            // @todo: Handle Exception here with ezcWebdavErrorResponse
+        }
+        // @todo $this->pluginRegistry->hook( __CLASS__, 'receivedRequest', new ezcWebdavPluginParameters( array( 'request' => $request ) ) );
+
+        // Process created request object through backend
+        try
+        {
+            $response = $this->backend->performRequest( $request );
+        }
+        catch ( Exception $e )
+        {
+            // @todo: Handle Exception here with ezcWebdavErrorResponse
+        }
+        // @todo $this->pluginRegistry->hook( __CLASS__, 'generatedResponse', new ezcWebdavPluginParameters( array( 'response' => $response ) ) );
+
+        // Return the generated response to the client
+        try
+        {
+            $this->transport->handleResponse( $response );
+        }
+        catch ( Exception $e )
+        {
+            // @todo: Handle Exception here with ezcWebdavErrorResponse
+        }
     }
 
     /**
-     * Register a new transport handler for the webdav server.
-     *
-     * A handler is registered by a PCRE regular expression which should match
-     * the clients name the transport handler will used for. Newly added
-     * handlers will be added at highest priority.
-     *
-     * The given handler class should extend the basic webdav transport class
-     * ezcWebdavTransport.
+     * Sets a property.
+     * This method is called when an property is to be set.
      * 
+     * @param string $propertyName The name of the property to set.
+     * @param mixed $propertyValue The property value.
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
      * @throws ezcBaseValueException
-     *         If a handler class name has been provided not implementing
-     *         ezcWebdavTransport.
-     * @param string $expression 
-     * @param string $handler 
-     * @return void
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
      */
-    public function registerTransportHandler( $expression, $handler )
+    public function __set( $propertyName, $propertyValue )
     {
-        // Check if handler class is an extension of the base transport
-        // mechanism
-        if ( !is_subclass_of( $handler, 'ezcWebdavTransport' ) )
+        switch ( $propertyName )
         {
-            throw new ezcBaseValueException( 'transportHandler', $handler, 'ezcWebdavTransport' );
-        }
+            case 'transports':
+                if ( ( $propertyValue instanceof ezcWebdavTransportDispatcher ) === false )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavTransportDispatcher' );
+                }
+                break;
+            case 'backend':
+                if ( ( $propertyValue instanceof ezcWebdavBackend ) === false )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavBackend' );
+                }
+                break;
+            case 'pluginRegistry':
+            case 'transport':
+                throw new ezcBasePropertyPermissionException( $propertyName, ezcBasePropertyPermissionException::READ );
+                break;
 
-        // Use array_unshift to prepend new registrations to transport handler
-        // array
-        $this->transportHandlers = array_merge(
-            array( $expression => $handler ),
-            $this->transportHandlers
-        );
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
     }
 
     /**
-     * Unregister a new transport handler for the webdav server.
-     *
-     * Remove a handler from the handler list by its regular expression. If no
-     * handler with theis expression has been registerd before, the method will
-     * return false.
+     * Property get access.
+     * Simply returns a given property.
      * 
-     * @param string $expression 
-     * @return bool
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property propertys is not an instance of
+     * @param string $propertyName The name of the property to get.
+     * @return mixed The property value.
+     *
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a write-only property.
      */
-    public function unregisterTransportHandler( $expression )
+    public function __get( $propertyName )
     {
-        if ( array_key_exists( $expression, $this->transportHandlers ) )
+        if ( $this->__isset( $propertyName ) === true )
         {
-            unset( $this->transportHandlers[$expression] );
-            return true;
+            return $this->properties[$propertyName];
         }
-        else
-        {
-            return false;
-        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Returns if a property exists.
+     * Returns true if the property exists in the {@link $properties} array
+     * (even if it is null) and false otherwise. 
+     *
+     * @param string $propertyName Option name to check for.
+     * @return void
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
     }
 }
 
