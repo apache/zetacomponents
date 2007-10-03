@@ -87,13 +87,6 @@
 class ezcWebdavTransport
 {
     /**
-     * Regex to parse the <getcontenttype /> XML elemens content.
-     *
-     * Example: 'text/html; charset=UTF-8'
-     */
-    const GETCONTENTTYPE_REGEX = '(^(?P<mime>\w+/\w+)\s*;\s*charset\s*=\s*(?P<charset>.+)\s*$)i';
-
-    /**
      * Map of regular header names to $_SERVER keys.
      *
      * @var array(string=>string)
