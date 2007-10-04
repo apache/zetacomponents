@@ -140,10 +140,10 @@ abstract class ezcWebdavSimpleBackend
     /**
      * Delete everything below this path.
      *
-     * Returns false if the delete process failed.
+     * Returns an error response if the deletion failed, and null on success.
      * 
      * @param string $path 
-     * @return array(ezcWebdavErrorResponse)
+     * @return ezcWebdavErrorResponse
      */
     abstract protected function performDelete( $path );
 
@@ -736,11 +736,9 @@ abstract class ezcWebdavSimpleBackend
 
         // Delete
         $deletion = $this->performDelete( $source );
-        if ( count( $deletion ) > 0 )
+        if ( $deletion !== null )
         {
-            return new ezcWebdavMultistatusResponse(
-                $deletion
-            );
+            return $deletion;
         }
 
         // Send proper response on success

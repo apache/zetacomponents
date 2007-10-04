@@ -963,7 +963,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             'Expected existing file.'
         );
 
-        chmod ( $this->tempDir . 'backend/collection/test.txt', 0 );
+        chmod ( $this->tempDir . 'backend/collection', 0 );
 
         $request = new ezcWebdavDeleteRequest( '/collection/test.txt' );
         $request->validateHeaders();
@@ -972,7 +972,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $this->assertEquals(
             $response,
             new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_423,
+                ezcWebdavResponse::STATUS_403,
                 '/collection/test.txt'
             ),
             'Expected response does not match real response.',
@@ -985,7 +985,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             'Expected still existing file.'
         );
 
-        chmod ( $this->tempDir . 'backend/collection/test.txt', 0777 );
+        chmod ( $this->tempDir . 'backend/collection', 0777 );
     }
 
     public function testMakeCollectionOnExistingCollection()

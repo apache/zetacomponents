@@ -583,16 +583,13 @@ class ezcWebdavFileBackend
      * of 0 means, that only the current file or directory will be copied,
      * without any recursion.
      *
-     * @throws ezcBaseFileNotFoundException
-     *      If the $sourceDir directory is not a directory or does not exist.
-     * @throws ezcBaseFilePermissionException 
-     *      If the $sourceDir directory could not be opened for reading, or the
-     *      destination is not writeable.
+     * Returns an empty array if no errors occured, and an array with the files
+     * which caused errors otherwise.
      * 
      * @param string $source 
      * @param string $destination 
      * @param int $depth 
-     * @return void
+     * @return array
      */
     public function copyRecursive( $source, $destination, $depth = ezcWebdavRequest::DEPTH_INFINITY )
     {
@@ -689,17 +686,75 @@ class ezcWebdavFileBackend
     }
 
     /**
+     * Check recusively if everything can be deleted.
+     *
+     * Check files and directories recursively, if everything can be deleted.
+     *
+     * Returns an empty array if no errors occured, and an array with the files
+     * which caused errors otherwise.
+     *
+     * @param string $source 
+     * @return array
+     */
+    public function checkDeleteRecursive( $source )
+    {
+        // Skip non readable files in source directory, or non writeable
+        // destination directories.
+        if ( !is_writeable( dirname( $source ) ) )
+        {
+            return array( $source );
+        }
+
+        if ( is_file( $source ) )
+        {
+            // For plain files the above checks should be sufficant
+            return array();
+        }
+
+        // Recurse
+        $dh = opendir( $source );
+        $errors = array();
+        while( $file = readdir( $dh ) )
+        {
+            if ( ( $file === '.' ) ||
+                 ( $file === '..' ) )
+            {
+                continue;
+            }
+
+            $errors = array_merge(
+                $errors,
+                $this->checkDeleteRecursive( $source . '/' . $file )
+            );
+        }
+        closedir( $dh );
+
+        // Return errors
+        return $errors;
+    }
+
+    /**
      * Delete everything below this path.
      *
-     * Returns false if the delete process failed.
+     * Returns an error response if the deletion failed, and null on success.
      * 
      * @param string $path 
-     * @return array(ezcWebdavErrorResponse)
+     * @return ezcWebdavErrorResponse
      */
     protected function performDelete( $path )
     {
-        // @TODO: Handle errors
-        //
+        $errors = $this->checkDeleteRecursive( $this->root . $path );
+
+        // If an error will occur return the proper status
+        if ( count( $errors ) )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_403,
+                $path
+            );
+        }
+
+        // Just delete otherwise
         if ( is_file( $this->root . $path ) )
         {
             unlink( $this->root . $path );
@@ -709,7 +764,14 @@ class ezcWebdavFileBackend
             ezcBaseFile::removeRecursive( $this->root . $path );
         }
 
-        return array();
+        // Finally empty property storage for removed node
+        $storagePath = $this->getPropertyStoragePath( $path );
+        if ( is_file( $storagePath ) )
+        {
+            unlink( $storagePath );
+        }
+
+        return null;
     }
 
     /**
