@@ -27,7 +27,7 @@ class ezcWebdavPropertyHandler
      *
      * Example: 'text/html; charset=UTF-8'
      */
-    const GETCONTENTTYPE_REGEX = '(^(?P<mime>\w+/\w+)\s*;\s*charset\s*=\s*(?P<charset>.+)\s*$)i';
+    const GETCONTENTTYPE_REGEX = '(^(?P<mime>\w+/\w+)\s*(?:;\s*charset\s*=\s*(?P<charset>.+)\s*)?$)i';
 
     /**
      * Creates a new property handler.
@@ -171,7 +171,11 @@ class ezcWebdavPropertyHandler
                   && preg_match( self::GETCONTENTTYPE_REGEX, $domElement->nodeValue, $matches ) > 0 )
                 {
                     $property->mime    = $matches['mime'];
-                    $property->charset = $matches['charset'];
+
+                    if ( isset( $matches['charset'] ) )
+                    {
+                        $property->charset = $matches['charset'];
+                    }
                 }
                 break;
             case 'getetag':
