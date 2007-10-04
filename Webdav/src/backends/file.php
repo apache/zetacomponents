@@ -820,6 +820,8 @@ class ezcWebdavFileBackend
         while( $file = readdir( $dh ) )
         {
             // Skip files used for somethig else...
+            //
+            // @TODO: Mind hideDotFiles option
             if ( ( $file === '.' ) ||
                  ( $file === '..' ) ||
                  ( strpos( $file, $this->options->lockFileName ) !== false ) ||

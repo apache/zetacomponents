@@ -29,6 +29,8 @@
  *           Indicates wheather to use PHPs extensions to receive the correct
  *           mime time for a file instead of just returning the mime type
  *           originally set by the client.
+ * @property bool $hideDotFiles
+ *           Indicates wheather to hide files starting with a dot
  *
  * @package Webdav
  * @version //autogen//
@@ -54,6 +56,7 @@ class ezcWebdavFileBackendOptions extends ezcBaseOptions
         $this->properties['directoryMode']          = 0755;
         $this->properties['fileMode']               = 0644;
         $this->properties['useMimeExts']            = true;
+        $this->properties['hideDotFiles']           = true;
 
         parent::__construct( $options );
     }
@@ -75,6 +78,7 @@ class ezcWebdavFileBackendOptions extends ezcBaseOptions
         {
             case 'noLock':
             case 'useMimeExts':
+            case 'hideDotFiles':
                 if ( !is_bool( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'bool' );

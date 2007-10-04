@@ -38,6 +38,7 @@ class ezcWebdavFileBackendOptionsTestCase extends ezcWebdavPropertyTestCase
             'directoryMode'         => 0755,
             'fileMode'              => 0644,
             'useMimeExts'           => true,
+            'hideDotFiles'          => true,
         );
         $this->workingValues = array(
             'noLock'                => array(
@@ -65,6 +66,10 @@ class ezcWebdavFileBackendOptionsTestCase extends ezcWebdavPropertyTestCase
                 100
             ),
             'useMimeExts'           => array(
+                true,
+                false
+            ),
+            'hideDotFiles'          => array(
                 true,
                 false
             ),
@@ -113,6 +118,13 @@ class ezcWebdavFileBackendOptionsTestCase extends ezcWebdavPropertyTestCase
                 new stdClass(),
             ),
             'useMimeExts'           => array(
+                23,
+                23.34,
+                'foo',
+                array(),
+                new stdClass(),
+            ),
+            'hideDotFiles'          => array(
                 23,
                 23.34,
                 'foo',
