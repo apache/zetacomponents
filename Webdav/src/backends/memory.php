@@ -594,7 +594,8 @@ class ezcWebdavMemoryBackend
      */
     protected function performDelete( $path )
     {
-        // Remove all content nodes starting with requested path
+        // Check if any errors would occur during deletion process
+        $error = array();
         foreach ( $this->content as $name => $content )
         {
             if ( strpos( $name, $path ) === 0 && ( substr( $name, strlen( $path ), 1 ) === '/' || $name === $path ) )
@@ -602,16 +603,29 @@ class ezcWebdavMemoryBackend
                 // Check if we want to cause some errors here.
                 if ( $this->options->failingOperations & ezcWebdavMemoryBackendOptions::REQUEST_DELETE && preg_match( $this->options->failForRegexp, $name ) > 0 )
                 {
-                    return new ezcWebdavErrorResponse(
+                    $error[] = new ezcWebdavErrorResponse(
                         ezcWebdavResponse::STATUS_423,
                         $name
                     );
                 }
-                else
-                {
-                    unset( $this->content[$name] );
-                    unset( $this->props[$name] );
-                }
+            }
+        }
+
+        // If errors occured, return them
+        if ( count( $error ) )
+        {
+            return new ezcWebdavMultistatusResponse(
+                $error
+            );
+        }
+
+        // Remove all content nodes starting with requested path
+        foreach ( $this->content as $name => $content )
+        {
+            if ( strpos( $name, $path ) === 0 && ( substr( $name, strlen( $path ), 1 ) === '/' || $name === $path ) )
+            {
+                unset( $this->content[$name] );
+                unset( $this->props[$name] );
             }
         }
 
