@@ -163,6 +163,41 @@ in line 35 performing the static call on customSingleton::getInstance(). The
 var_dump() in the following line shows, that the property value is set and
 contains the earlier set value (int) 42.
 
+File Operations
+---------------
+
+Finding files recursively
+`````````````````````````
+
+This example shows how to use the ezcBaseFile::findRecursive() method:
+
+.. include:: tutorial_example_02.php
+   :literal:
+
+The code in this example searches for files in the ``/dat/dev/ezcomponents``
+directory. It will only include files that match *all* patterns in the
+$includeFilters array (the second parameter). Files that match *any* of the
+patterns in the $excludeFilters array (the third parameter) will not be returned.
+
+In other words, the code above searches for files in the ``dat/dev/ezcomponents``
+directory, which are in the ``src/`` directory and end with ``_autoload.php``,
+except for files that are in the ``/autoload/`` directory.
+
+Removing directories recursively
+````````````````````````````````
+
+This example shows how to use the ezcBaseFile::removeRecursive() method:
+
+.. include:: tutorial_example_03.php
+   :literal:
+
+This code simply removes the directory ``/dat/dev/ezcomponents/trash`` and all
+of its files and sub-directories.
+
+**Warning: Use this function with care, as it has the potential to erase
+everything that the current user has access to.**
+
+
 
 ..
    Local Variables:

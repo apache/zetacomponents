@@ -6,54 +6,17 @@ eZ Components - File
 Introduction
 ============
 
-The File component currently contains one class, providing a few handy
-file system operations that are missing from PHP.
+The File component is now **deprecated**. Instead use the ezcBaseFile class
+from the Base package. Please refer to the Base_ component introduction
+for the tutorial. The classes in this component still exist because
+of backwards compatibility reasons.
 
-Class overview
-==============
-
-ezcFile is the only class in this component. It provides two static methods:
-ezcFile::findRecursive() and ezcFile::removeRecursive().
-
-
-Usage
-=====
-
-Finding files recursively
--------------------------
-
-This example shows how to use the ezcFile::findRecursive() method:
-
-.. include:: tutorial_example_01.php
-   :literal:
-
-The code in this example searches for files in the ``/dat/dev/ezcomponents``
-directory. It will only include files that match *all* patterns in the
-$includeFilters array (the second parameter). Files that match *any* of the
-patterns in the $excludeFilters array (the third parameter) will not be returned.
-
-In other words, the code above searches for files in the ``dat/dev/ezcomponents``
-directory, which are in the ``src/`` directory and end with ``_autoload.php``,
-except for files that are in the ``/autoload/`` directory.
-
-Removing directories recursively
---------------------------------
-
-This example shows how to use the ezcFile::removeRecursive() method:
-
-.. include:: tutorial_example_02.php
-   :literal:
-
-This code simply removes the directory ``/dat/dev/ezcomponents/trash`` and all
-of its files and sub-directories.
-
-**Warning: Use this function with care, as it has the potential to erase
-everything that the current user has access to.**
+.. _Base: introduction_Base.html
 
 More information
 ================
 
-For more information, see the ezcFile API documentation.
+For more information, see the ezcBaseFile API documentation.
 
 
 ..
