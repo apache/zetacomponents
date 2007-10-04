@@ -457,7 +457,7 @@ class ezcWebdavFileBackend
         $storage = $this->getPropertyStorage( $resource );
 
         // Attach property to store
-        $storage->detach( $property );
+        $storage->detach( $property->name, $property->namespace );
 
         // Store document back
         $this->storeProperties( $resource, $storage );
