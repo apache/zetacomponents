@@ -349,6 +349,73 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
     }
 
+    public function testResourceCopyProperties()
+    {
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        $backend->options->useMimeExts = false;
+
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( 
+            $p1 = new ezcWebdavGetContentTypeProperty( 'text/xml' ),
+            ezcWebdavPropPatchRequest::SET
+        );
+        $newProperties->attach( 
+            $p2 = new ezcWebdavDeadProperty( 'foo:', 'bar', "<?xml version=\"1.0\"?>\n<bar xmlns=\"foo:\">some content</bar>\n" ), 
+            ezcWebdavPropPatchRequest::SET
+        );
+
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
+        $request->updates = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $request = new ezcWebdavCopyRequest( '/resource', '/new_resource' );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavCopyResponse(
+                false
+            ),
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/.ezc/new_resource.xml' ),
+            'Expected creation of property storage.'
+        );
+
+        $request = new ezcWebdavPropFindRequest( '/new_resource' );
+        $request->prop = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $responseProperty = new ezcWebdavBasicPropertyStorage();
+        $responseProperty->attach( $p1 );
+        $responseProperty->attach( $p2 );
+
+        $responseProperty->rewind();
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/new_resource' ),
+                new ezcWebdavPropStatResponse(
+                    $responseProperty
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
     public function testResourceCopyError()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );

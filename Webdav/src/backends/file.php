@@ -677,9 +677,13 @@ class ezcWebdavFileBackend
             );
         }
 
-        // @TODO: Copy properties
+        // Copy dead properties
+        $storage = $this->getPropertyStorage( $fromPath );
+        $this->storeProperties( $toPath, $storage );
 
-        // @TODO: Update live properties if requested
+        // Updateable live properties are updated automagically, because they
+        // are regenerated on request on base of the file they affect. So there
+        // is no reason to keep them "alive".
 
         return $errors;
     }
