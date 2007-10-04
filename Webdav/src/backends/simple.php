@@ -1040,6 +1040,7 @@ abstract class ezcWebdavSimpleBackend
      */
     public function options( ezcWebdavOptionsRequest $request )
     {
+        // @TODO: Read this from implemented interfaces / features in base class.
         $res = new ezcWebdavOptionsResponse( '1, 2' );
         $res->setHeader( 'Allow', 'GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, DELETE, COPY, MOVE, MKCOL, PUT' );
         return $res;
