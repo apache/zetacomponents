@@ -199,6 +199,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
             );
         }
 
+        $this->removeTempDir();
     }
 
     public static function suite()
