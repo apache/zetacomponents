@@ -302,7 +302,7 @@ class ezcWebdavFlaggedPropertyStorageTest extends ezcTestCase
             $storage
         );
 
-        $storage->detach( 'foobar', 'http;//example.com/foo/bar' );
+        $storage->detach( 'foobar', 'http://example.com/foo/bar' );
 
         $this->assertAttributeEquals(
             array(
