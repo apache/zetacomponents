@@ -14,7 +14,7 @@ class Data
     public function manipulate()
     {
         // change the data here
-        $this->signals()->emit( "dataChanged", "calender" );
+        $this->signals()->emit( "dataChanged", "calendar" );
     }
 }
 
