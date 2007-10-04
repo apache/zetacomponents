@@ -385,10 +385,6 @@ class ezcWebdavTransport
                 {
                     throw new ezcWebdavInvalidHeaderException( 'Content-Type', $contenTypeHeader, 'null' );
                 }
-                if ( ( $contenLengthHeader = $info->response->getHeader( 'Content-Length' ) ) !== null  )
-                {
-                    throw new ezcWebdavInvalidHeaderException( 'Content-Length', $contenLengthHeader, 'null' );
-                }
                 $result = null;
                 break;
         }
