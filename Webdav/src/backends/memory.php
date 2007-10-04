@@ -587,14 +587,13 @@ class ezcWebdavMemoryBackend
     /**
      * Delete everything below this path.
      *
-     * Returns false if the delete process failed.
+     * Returns an error response if the deletion failed, and null on success.
      * 
      * @param string $path 
-     * @return array(ezcWebdavErrorResponse)
+     * @return ezcWebdavErrorResponse
      */
     protected function performDelete( $path )
     {
-        $errors = array();
         // Remove all content nodes starting with requested path
         foreach ( $this->content as $name => $content )
         {
@@ -603,7 +602,7 @@ class ezcWebdavMemoryBackend
                 // Check if we want to cause some errors here.
                 if ( $this->options->failingOperations & ezcWebdavMemoryBackendOptions::REQUEST_DELETE && preg_match( $this->options->failForRegexp, $name ) > 0 )
                 {
-                    $errors[] = new ezcWebdavErrorResponse(
+                    return new ezcWebdavErrorResponse(
                         ezcWebdavResponse::STATUS_423,
                         $name
                     );
@@ -616,11 +615,6 @@ class ezcWebdavMemoryBackend
             }
         }
 
-        if ( count( $errors ) > 0 ) 
-        {
-            return $errors;
-        }
-
         // Remove parent node assignement to removed node
         $id = array_search( $path, $this->content[$parent = dirname( $path )] );
         if ( $id !== false )
@@ -629,7 +623,7 @@ class ezcWebdavMemoryBackend
             $this->content[$parent] = array_values( $this->content[$parent] );
         }
 
-        return $errors;
+        return null;
     }
 
     /**

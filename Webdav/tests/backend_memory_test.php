@@ -1324,13 +1324,9 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $response = $backend->delete( $request );
 
         $this->assertEquals(
-            new ezcWebdavMultistatusResponse(
-                array(
-                    new ezcWebdavErrorResponse(
-                        ezcWebdavResponse::STATUS_423,
-                        '/foo'
-                    ),
-                )
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_423,
+                '/foo'
             ),
             $response,
             'Expected response does not match real response.',
