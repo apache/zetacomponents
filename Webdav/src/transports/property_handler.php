@@ -153,7 +153,7 @@ class ezcWebdavPropertyHandler
                 if ( empty( $domElement->nodeValue ) === false )
                 {
                     // e.g. 'de, en'
-                    $property->displayName = array_map( 'trim', explode( ',', $domElement->nodeValue ) );
+                    $property->languages = array_map( 'trim', explode( ',', $domElement->nodeValue ) );
                 }
                 break;
             case 'getcontentlength':
