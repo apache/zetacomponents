@@ -1,0 +1,8 @@
+=======================
+Other important clients
+=======================
+
+- WebDAVFS/1.*
+- XML Spy
+- Dreamweaver-WebDAV-SCM1
+

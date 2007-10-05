@@ -1,0 +1,68 @@
+=========================
+Testing Microsoft clients
+=========================
+
+The clients
+===========
+
+There are multiple clients which come with Windows XP.
+
+For now it seems that the used client heavily depends on the URL you use:
+
+Internet Explorer 7 & Internet Explorer 6 - Windows XP 
+------------------------------------------------------
+
+- http://webdav/
+- http://webdav:80/
+
+  Microsoft-WebDAV-MiniRedir/5.1.2600
+
+- http://webdav/#
+- http://webdav:80/#
+ 
+  Results in requests by two clients:
+
+  Microsoft Data Access Internet Publishing Provider DAV 1.1 sends:
+
+  - PROPFIND request
+
+  Microsoft Data Access Internet Publishing Provider Cache Manager sends:
+
+  - OPTIONS request
+
+Internet Explorer 7 & Internet Explorer 6 - Windows XP SP 2
+-----------------------------------------------------------
+
+...
+
+Microsoft Web Folders
+---------------------
+
+...
+
+Implementation notes
+====================
+
+Micorsoft specific handling.
+
+Header
+------
+
+You need to send the following header to tell MS clients not to use some
+Frontpage protocol, but webdav: ::
+
+	header( 'MS-Author-Via: DAV' );
+
+PROPFIND
+--------
+
+After some options requests the MS clients send an empty propfind request with
+different depth headers. This actually mean allProp requests, like: ::
+
+	<?xml version="1.0" encoding="utf-8" ?>
+	<D:propfind xmlns:D="DAV:">
+		<D:allprop/>
+	</D:propfind>
+
+
+
