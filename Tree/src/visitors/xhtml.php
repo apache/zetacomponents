@@ -86,9 +86,12 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
      * Formats a node's data.
      *
      * It is just a simple method, that provide an easy way to change the way
-     * on how data is formatted when this class is extended.
+     * on how data is formatted when this class is extended. The data is passed
+     * in the $data argument, and whether the node should be highlighted is
+     * passed in the $highlight argument.
      *
      * @param mixed $data
+     * @param boolean $highlight
      * @return string
      */
     protected function formatData( $data, $highlight )
