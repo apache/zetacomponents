@@ -119,6 +119,53 @@ class ezcCacheStorageFileOptionsTest extends ezcTestCase
         $this->assertFalse( isset( $opt->foo ) );
     }
 
+    public function testMergeOptions()
+    {
+        $options = new ezcCacheStorageFileOptions();
+        $optionsNew = new ezcCacheStorageOptions();
+        $optionsNew->ttl = 30;
+        $options->mergeStorageOptions( $optionsNew );
+        $this->assertEquals( 30, $options->ttl );
+    }
+
+    public function testOptions()
+    {
+        $obj = new ezcCacheStorageFileArray( '/tmp' );
+        $options = new ezcCacheStorageFileOptions();
+        $optionsGeneral = new ezcCacheStorageOptions();
+
+        $obj->options = $optionsGeneral;
+        $this->assertEquals( $optionsGeneral, $obj->getOptions() );
+
+        $obj->options = $options;
+        $this->assertEquals( $options, $obj->getOptions() );
+
+        $obj->setOptions( $optionsGeneral );
+        $this->assertEquals( $options, $obj->getOptions() );
+
+        $obj->setOptions( $options );
+        $this->assertEquals( $options, $obj->getOptions() );
+
+        try
+        {
+            $obj->setOptions( 'wrong value' );
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'options' is invalid. Allowed values are: instance of ezcCacheStorageFileOptions or (deprecated) ezcCacheStorageOptions.", $e->getMessage() );
+        }
+    }
+
+    public function testProperties()
+    {
+        $obj = new ezcCacheStorageFileArray( '/tmp' );
+        $options = new ezcCacheStorageFileOptions();
+
+        $this->invalidPropertyTest( $obj, 'options', 'wrong value', 'instance of ezcCacheStorageFileOptions' );
+        $this->missingPropertyTest( $obj, 'no_such_option' );
+    }
+
     protected function genericSetFailureTest( $obj, $property, $value )
     {
         try

@@ -545,11 +545,11 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
                 }
                 else if ( $val instanceof ezcCacheStorageOptions )
                 {
-                    $this->options->mergeStorageOptions( $options );
+                    $this->options->mergeStorageOptions( $val );
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $key, $val, 'instance of ezcCacheStorageFileOptions' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'instance of ezcCacheStorageFileOptions' );
                 }
                 $this->properties['options'] = $val;
                 return;

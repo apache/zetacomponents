@@ -17,19 +17,26 @@
  *
  * Implementations of ezcCacheStorage can be used with the 
  * {@link ezcCacheManager} or on their own. If you want to implement a cache 
- * storage backend that stores cache data in a file on your harddisc, there
+ * storage backend that stores cache data in a file on your harddisk, there
  * is an extended version of ezcCacheStorage, {@link ezcCacheStorageFile},
  * which already implements large parts of the API and leaves only
- * very few work for you to do.
- * 
+ * very few work for you to do. The descendant class {@link ezcCacheStorageMemory}
+ * is a base class for storage using memory.
+ *
  * For example code of using a cache storage, see {@link ezcCacheManager}.
  *
  * The Cache package already contains several implementations of 
- * {@link ezcCacheStorageFile}. As there are:
+ * {@link ezcCacheStorageFile}:
  *
- * - ezcCacheStorageFileArray
- * - ezcCacheStorageFileEvalArray
- * - ezcCacheStorageFilePlain
+ * - {@link ezcCacheStorageFileArray}
+ * - {@link ezcCacheStorageFileEvalArray}
+ * - {@link ezcCacheStorageFilePlain}
+ *
+ * Implementations of {@link ezcCacheStorageMemory}:
+ *
+ * - {@link ezcCacheStorageMemcachePlain}
+ * - {@link ezcCacheStorageApcPlain}
+ * - {@link ezcCacheStorageFileApcArray}
  *
  * @property ezcCacheStorageOptions $options
  *           Options for the cache storage. Which options are
@@ -38,7 +45,6 @@
  * @property string $location
  *           The location the cache resides in.
  *
- * 
  * @package Cache
  * @version //autogentag//
  */
@@ -330,7 +336,7 @@ abstract class ezcCacheStorage
             case 'options':
                 if ( !( $val instanceof ezcCacheStorageOptions ) )
                 {
-                    throw new ezcBaseValueException( $key, $val, 'instance of ezcCacheStorageOptions' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'instance of ezcCacheStorageOptions' );
                 }
                 $this->properties['options'] = $val;
                 return;

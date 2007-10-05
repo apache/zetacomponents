@@ -9,13 +9,15 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+include_once( 'Cache/tests/test.php' );
+
 /**
  * Abstract base test class for ezcCacheStorage tests.
  * 
  * @package Cache
  * @subpackage Tests
  */
-abstract class ezcCacheStorageTest extends ezcTestCase
+abstract class ezcCacheStorageTest extends ezcCacheTest
 {
     /**
      * storageClass 
@@ -90,8 +92,10 @@ abstract class ezcCacheStorageTest extends ezcTestCase
      */
     public function testStoreSuccessWithoutAttributes()
     {
+//echo __FUNCTION__;
         foreach ( $this->data as $id => $dataArr ) 
         {
+//var_dump( $id );
             $this->storage->store( $id, $dataArr );
             $this->assertEquals( $this->storage->countDataItems( $id ), 1, 'Storage file does not exist for ID: <' . $id . '>.' );
         }
@@ -104,6 +108,7 @@ abstract class ezcCacheStorageTest extends ezcTestCase
      */
     public function testStoreSuccessWithAttributes()
     {
+//die();
         foreach ( $this->data as $id => $dataArr ) 
         {
             $attributes = array(

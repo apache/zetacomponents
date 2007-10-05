@@ -31,6 +31,10 @@ require_once 'storage_file_options_test.php';
  */
 require_once 'storage_array_test.php';
 /**
+ * Require Apc array storage test suite. 
+ */
+require_once 'storage_apc_array_test.php';
+/**
  * Require array eval storage test suite. 
  */
 require_once 'storage_evalarray_test.php';
@@ -38,7 +42,15 @@ require_once 'storage_evalarray_test.php';
  * Require plain storage test suite. 
  */
 require_once 'storage_plain_test.php';
-    
+/**
+ * Require APC storage test suite. 
+ */
+require_once 'storage_apc_plain_test.php';
+/**
+ * Require Memcache storage test suite. 
+ */
+require_once 'storage_memcache_plain_test.php';
+
 /**
  * Test suite for Cache package. 
  * 
@@ -56,6 +68,9 @@ class ezcCacheSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcCacheStorageFileEvalArrayTest::suite() );
         $this->addTest( ezcCacheStorageFilePlainTest::suite() );
         $this->addTest( ezcCacheStorageFileTest::suite() );
+        $this->addTest( ezcCacheStorageApcPlainTest::suite() );
+        $this->addTest( ezcCacheStorageFileApcArrayTest::suite() );
+        $this->addTest( ezcCacheStorageMemcachePlainTest::suite() );
         $this->addTest( ezcCacheStorageOptionsTest::suite() );
         $this->addTest( ezcCacheStorageFileOptionsTest::suite() );
         $this->addTest( ezcCacheManagerTest::suite() );

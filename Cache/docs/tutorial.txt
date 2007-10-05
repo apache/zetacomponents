@@ -47,7 +47,19 @@ ezcCacheStorageFileEvalArray
   the stored data will not be cached again in PHP accelerators like APC_.
   This might be desirable if you store large amounts of data at once.
 
-.. _APC: http://pecl.php.net/package/APC
+ezcCacheStorageMemcachePlain
+  Uses the PHP Memcache_ extension to store cache objects in memory between
+  requests, thus improving speed. The zlib extension is also required by
+  Memcache for on-the-fly compression.
+
+ezcCacheStorageApcPlain
+  Uses the PHP APC_ extension to store cache objects in memory between
+  requests, thus improving speed.
+
+ezcCacheStorageFileApcArray
+  Uses the PHP APC_ extension to store array structures in memory between
+  requests, thus improving speed. It is basically a replacement for
+  ezcCacheStorageFileArray, if the APC_ extension is installed.
 
 
 Usage
@@ -193,11 +205,75 @@ On line 36 the storage object is told to delete all cache items that have
 the `attribute`_ "language" set to "de". Therefore, the next calls to
 ezcCacheStorageFile::countDataItems() will return 2 and 0.
 
+Memory caching
+--------------
+
+If either of Memcache_ or APC_ PHP extensions is installed, then the caching
+performance can be improved considerably by storing the cache data in memory
+between requests.
+
+
+APC
+```
+
+There are 2 implementations of APC provided: ezcCacheStorageApcPlain for
+storing cache objects in memory, and ezcCacheStorageFileApcArray for storing
+arrays in memory with file fall-back. The ezcCacheStorageFileApcArray basically
+replaces the ezcCacheStorageFileArray if the APC_ PHP extension is installed.
+
+The following example shows how to create and use a plain APC storage. It is
+the same as the simple example above, but using the ezcCacheStorageApcPlain
+class instead of ezcCacheStorageFilePlain.
+
+.. include:: tutorial_apc_plain.php
+   :literal:
+
+
+The following example shows how to create and use an APC array storage. It is
+the same as the second example above, but using the ezcCacheStorageFileApcArray
+class instead of ezcCacheStorageFileArray.
+
+.. include:: tutorial_apc_array.php
+   :literal:
+
+Memcache
+````````
+
+Certain options must be set before creating a Memcache cache storage. See
+ezcCacheStorageMemcacheOptions for more information.
+
+host
+  The name of the host running Memcache. Normally this is localhost.
+
+port
+  The port on which to connect to the Memcache host. Normally it is 11211.
+
+persistent
+  If creating a persistent connection to the Memcache server or not. A
+  persistent connection does not close when the script ends. By default this is
+  false.
+
+compressed
+  If the data is to be compressed in the cache. The zlib extension is required.
+
+The following example shows how to create and use a plain Memcache storage. It
+is the same as the simple example above, but using the
+ezcCacheStorageMemcachePlain class instead of ezcCacheStorageFilePlain, and
+setting the required options for the storage.
+
+.. include:: tutorial_memcache_plain.php
+   :literal:
+
 More Information
 ================
 
-For more information, see the ezcCacheManager and ezcCacheStorageFile API
-documentation.
+For more information, see the ezcCacheManager, ezcCacheStorageFile and
+ezcCacheStorageMemory API documentation.
+
+
+.. _APC: http://pecl.php.net/package/APC
+.. _Memcache: http://pecl.php.net/package/Memcache
+
 
 
 ..

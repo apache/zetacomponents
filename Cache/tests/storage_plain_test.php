@@ -35,7 +35,36 @@ class ezcCacheStorageFilePlainTest extends ezcCacheStorageTest
         4 => 12.3746,
     );
 
-	public static function suite()
+    public function testGetRemainingLifetimeId()
+    {
+        $this->storage->setOptions( array( 'ttl' => 10 ) );
+
+        $this->storage->store( '1', 'data1' );
+
+        $this->assertEquals( true, 8 < $this->storage->getRemainingLifetime( '1' ) );
+
+    }
+
+    public function testGetRemainingLifetimeAttributes()
+    {
+        $this->storage->setOptions( array( 'ttl' => 10 ) );
+
+        $this->storage->store( '1', 'data1', array( 'type' => 'simple' ) );
+        $this->storage->store( '2', 'data2', array( 'type' => 'simple' ) );
+
+        $this->assertEquals( true, 8 < $this->storage->getRemainingLifetime( null, array( 'type' => 'simple' ) ) );
+
+    }
+
+    public function testGetRemainingLifetimeNoMatch()
+    {
+        $this->storage->setOptions( array( 'ttl' => 10 ) );
+
+        $this->assertEquals( 0, $this->storage->getRemainingLifetime( 'no_such_id' ) );
+
+    }
+
+    public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( "ezcCacheStorageFilePlainTest" );
 	}
