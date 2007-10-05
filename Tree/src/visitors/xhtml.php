@@ -91,9 +91,10 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
      * @param mixed $data
      * @return string
      */
-    protected function formatData( $data )
+    protected function formatData( $data, $highlight )
     {
-        return $data;
+        $data = htmlspecialchars( $data );
+        return $highlight ? "<div class=\"highlight\">$data</div>" : $data;
     }
 
     /**
@@ -167,7 +168,7 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
                 $path = htmlspecialchars( $this->options->basePath . '/' . join( '/', $path ) );
                 $text .= str_repeat( '  ', $level + 2 );
 
-                $data = htmlspecialchars( $this->formatData( $child[1] ) );
+                $data = $this->formatData( $child[1], in_array( $child[0], $this->options->highlightNodeIds ) );
 
                 $linkStart = $linkEnd = '';
                 if ( $this->options->addLinks )
@@ -177,7 +178,7 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
                 }
 
                 $highlightPart = '';
-                if ( in_array( $child[0], $this->options->highlightNodeIds ) )
+                if ( in_array( $child[0], $this->options->subtreeHighlightNodeIds ) )
                 {
                     $highlightPart = ' class="highlight"';
                 }

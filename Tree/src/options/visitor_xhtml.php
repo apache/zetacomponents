@@ -22,6 +22,8 @@
  *           The ID that should be set on the top level &lt;ul&gt; tag.
  * @property array(string) $highlightNodeIds
  *           Which IDs should have the 'highlight' CSS class added.
+ * @property array(string) $subtreeHighlightNodeIds
+ *           Which subtree IDs should have the 'highlight' CSS class added.
  *
  * @package Tree
  * @version //autogentag//
@@ -44,6 +46,7 @@ class ezcTreeVisitorXHTMLOptions extends ezcBaseOptions
         $this->displayRootNode = false;
         $this->xmlId = null;
         $this->highlightNodeIds = array();
+        $this->subtreeHighlightNodeIds = array();
 
         parent::__construct( $options );
     }
@@ -81,6 +84,7 @@ class ezcTreeVisitorXHTMLOptions extends ezcBaseOptions
                 break;
 
             case 'highlightNodeIds':
+            case 'subtreeHighlightNodeIds':
                 if ( !is_array( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'array(string)' );

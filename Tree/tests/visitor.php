@@ -474,6 +474,50 @@ END;
         self::assertSame( $expected, $visitor->__toString() );
     }
 
+    public function testVisitorXHTMLSubtreeHighlightNodes()
+    {
+        $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+        $this->addTestData( $tree );
+
+        $options = new ezcTreeVisitorXHTMLOptions;
+        $options->subtreeHighlightNodeIds = array( 'Nomascus', 'Eastern Black Crested Gibbon' );
+        $options->addLinks = false;
+        $visitor = new ezcTreeVisitorXHTML( $options );
+
+        $tree->fetchNodeById( 'Hylobatidae' )->accept( $visitor );
+        $expected = <<<END
+  <ul>
+    <li>Hylobates
+      <ul>
+        <li>Lar Gibbon</li>
+        <li>Agile Gibbon</li>
+        <li>Müller's Bornean Gibbon</li>
+        <li>Silvery Gibbon</li>
+        <li>Pileated Gibbon</li>
+        <li>Kloss's Gibbon</li>
+      </ul>
+    </li>
+    <li>Hoolock
+      <ul>
+        <li>Western Hoolock Gibbon</li>
+        <li>Eastern Hoolock Gibbon</li>
+      </ul>
+    </li>
+    <li>Symphalangus</li>
+    <li class="highlight">Nomascus
+      <ul>
+        <li>Black Crested Gibbon</li>
+        <li class="highlight">Eastern Black Crested Gibbon</li>
+        <li>White-cheecked Crested Gibbon</li>
+        <li>Yellow-cheecked Gibbon</li>
+      </ul>
+    </li>
+  </ul>
+
+END;
+        self::assertSame( $expected, $visitor->__toString() );
+    }
+
     public function testVisitorXHTMLHighlightNodes()
     {
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
@@ -504,10 +548,10 @@ END;
       </ul>
     </li>
     <li>Symphalangus</li>
-    <li class="highlight">Nomascus
+    <li><div class="highlight">Nomascus</div>
       <ul>
         <li>Black Crested Gibbon</li>
-        <li class="highlight">Eastern Black Crested Gibbon</li>
+        <li><div class="highlight">Eastern Black Crested Gibbon</div></li>
         <li>White-cheecked Crested Gibbon</li>
         <li>Yellow-cheecked Gibbon</li>
       </ul>

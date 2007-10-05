@@ -8,7 +8,10 @@ Review Alexandru 14-09-2007
     'PDOException: SQLSTATE[HY000]: General error: 942 OCIStmtExecute:
 	ORA-00942: table or view does not exist'.
 
-[ ] XHTML visitor: the hightlight class applies to the whole subtree - is it correct?
+[X] XHTML visitor: the hightlight class applies to the whole subtree - is it correct?
+
+	It was, but I added an option to make both subtrees and just nodes
+	highlighted now.
 
 [ ] Files missing __get() and __set() ($this->properties is accessed directly):
      - Tree/src/backends/memory.php
@@ -45,8 +48,9 @@ Review Alexandru 14-09-2007
 Other points
 ------------
 
-[ ] Allow the / char to be changed in the nested set implementation, and add a check
-    for this char in used IDs when creating a new node.
+[ ] Issue #11444: Allow the / char to be changed in the nested set
+	implementation, and add a check for this char in used IDs when creating a
+	new node.
 
 [ ] Check how we can use node names paths to retrieve items.
 
@@ -57,6 +61,4 @@ Other points
     make that an option as well perhaps.
 
 [ ] Check example from Alex, and add them to docs if useful.
-
-[ ] Issue #11444: Clarify the use of '/' for ID naming in Trees
 
