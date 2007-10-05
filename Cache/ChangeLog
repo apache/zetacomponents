@@ -6,6 +6,8 @@
 - Fixed issue #11064: Marked search() as protected in ezcCacheStorageFile.
 - Implemented feature request #11049: Added APC and Memcache backends for
   caching. Based on a patch from Grady Kuhnline.
+- Fixed issue #11181: A physical location is not required anymore for memory
+  backends.
 
 
 1.2 - Monday 02 July 2007

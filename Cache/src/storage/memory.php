@@ -73,7 +73,10 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
      *         options depend on the ezcCacheStorage implementation and may
      *         vary.
      *
-     * @param string $location Path to the cache location
+     * @param string $location Path to the cache location. Null for
+     *                         memory-based storage and an existing
+     *                         writeable path for file or memory/file
+     *                         storage.
      * @param array(string=>string) $options Options for the cache
      */
     public function __construct( $location, array $options = array() )

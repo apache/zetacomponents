@@ -212,6 +212,15 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
 
     }
 
+    public function testCacheManagerLocationEmpty()
+    {
+        $options = array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 );
+        ezcCacheManager::createCache( 'cache', null, 'ezcCacheStorageMemcachePlain', $options );
+        $storage = ezcCacheManager::getCache( 'cache' );
+        $storage->store( 'key', 'data' );
+        $this->assertEquals( 'data', $storage->restore( 'key' ) );
+    }
+
     public function testStorageMemcacheOptions()
     {
         $options = new ezcCacheStorageMemcacheOptions();

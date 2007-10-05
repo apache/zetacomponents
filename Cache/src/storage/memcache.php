@@ -51,7 +51,7 @@ abstract class ezcCacheStorageMemcache extends ezcCacheStorageMemory
      * @param string $location Path to the cache location
      * @param array(string=>string) $options Options for the cache
      */
-    public function __construct( $location, array $options = array() )
+    public function __construct( $location = null, array $options = array() )
     {
         parent::__construct( $location, array() );
 

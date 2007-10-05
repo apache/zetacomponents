@@ -223,7 +223,8 @@ replaces the ezcCacheStorageFileArray if the APC_ PHP extension is installed.
 
 The following example shows how to create and use a plain APC storage. It is
 the same as the simple example above, but using the ezcCacheStorageApcPlain
-class instead of ezcCacheStorageFilePlain.
+class instead of ezcCacheStorageFilePlain. The second parameter of the
+createCache() method is null, because an existing path is not needed.
 
 .. include:: tutorial_apc_plain.php
    :literal:
@@ -231,7 +232,8 @@ class instead of ezcCacheStorageFilePlain.
 
 The following example shows how to create and use an APC array storage. It is
 the same as the second example above, but using the ezcCacheStorageFileApcArray
-class instead of ezcCacheStorageFileArray.
+class instead of ezcCacheStorageFileArray. The second parameter of the
+createCache() method must be an existing writeable path.
 
 .. include:: tutorial_apc_array.php
    :literal:
@@ -259,7 +261,8 @@ compressed
 The following example shows how to create and use a plain Memcache storage. It
 is the same as the simple example above, but using the
 ezcCacheStorageMemcachePlain class instead of ezcCacheStorageFilePlain, and
-setting the required options for the storage.
+setting the required options for the storage. The second parameter of the
+createCache() method is null, because an existing path is not needed.
 
 .. include:: tutorial_memcache_plain.php
    :literal:

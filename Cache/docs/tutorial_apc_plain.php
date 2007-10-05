@@ -6,7 +6,7 @@ $options = array(
     'ttl'   => 30,
 );
 
-ezcCacheManager::createCache( 'simple', '/tmp/cache/plain', 'ezcCacheStorageApcPlain', $options );
+ezcCacheManager::createCache( 'simple', null, 'ezcCacheStorageApcPlain', $options );
 
 $myId = 'unique_id_1';
 $mySecondId = 'id_2';

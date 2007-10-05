@@ -61,14 +61,19 @@ abstract class ezcCacheStorage
      * Creates a new cache storage in the given location.
      * Creates a new cache storage for a given location. The location can 
      * differ for each ezcCacheStorage implementation, but will most likely
-     * be a filesystem path to a directory where cache data is stored in.
+     * be a filesystem path to a directory where cache data is stored in. The
+     * location is null for memory storage and an existing writeable path
+     * for file or memory/file storage.
      *
      * Per default there is only 1 common option for all ezcCacheStorage
      * classes, which is the 'ttl' ( Time-To-Life ). This is per default set
      * to 1 day. Specific ezcCacheStorage implementations can have
      * additional options.
      * 
-     * @param string $location               Path to the cache location
+     * @param string $location               Path to the cache location. Null for
+     *                                       memory-based storage and an existing
+     *                                       writeable path for file or memory/file
+     *                                       storage.
      * @param array(string=>string) $options Options for the cache.
      *
      * @throws ezcBaseFileNotFoundException

@@ -178,6 +178,15 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
 
     }
 
+    public function testCacheManagerLocationEmpty()
+    {
+        $options = array( 'ttl' => 10 );
+        ezcCacheManager::createCache( 'cache', null, 'ezcCacheStorageApcPlain', $options );
+        $storage = ezcCacheManager::getCache( 'cache' );
+        $storage->store( 'key', 'data' );
+        $this->assertEquals( 'data', $storage->restore( 'key' ) );
+    }
+
     public function testStorageApcOptions()
     {
         $options = new ezcCacheStorageApcOptions();

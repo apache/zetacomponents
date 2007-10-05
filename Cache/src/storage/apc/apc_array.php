@@ -33,7 +33,7 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
      * @throws ezcBasePropertyNotFoundException
      *         If you tried to set a non-existent option value.
      *
-     * @param string $location Path to the cache location
+     * @param string $location Path to the cache location. Must be a valid path
      * @param array(string=>string) $options Options for the cache storage
      */
     public function __construct( $location, array $options = array() )

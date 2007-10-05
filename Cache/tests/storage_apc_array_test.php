@@ -235,6 +235,21 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
         $this->assertEquals( true, 8 <= $lifetime );
     }
 
+    public function testCacheManagerLocationEmpty()
+    {
+        $options = array( 'ttl' => 10 );
+        ezcCacheManager::createCache( 'memory', null, 'ezcCacheStorageFileApcArray', $options );
+        try
+        {
+            $storage = ezcCacheManager::getCache( 'memory' );
+            $this->fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->assertEquals( "The file '/' can not be opened for writing. (Cache location is not a directory.)", $e->getMessage() );
+        }
+    }
+
     public function testStorageFileApcArrayOptions()
     {
         $options = new ezcCacheStorageFileApcArrayOptions();

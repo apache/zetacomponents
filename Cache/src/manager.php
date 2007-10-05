@@ -153,7 +153,10 @@ class ezcCacheManager
      * The $location parameter depends on the kind of {@link ezcCacheStorage}
      * used for the cache you create. Usually this is a directory on your
      * file system, but may also be e.g. a data source name, if you cache in
-     * a database or similar.
+     * a database or similar. For memory-based storage ({@link ezcCacheStorageApcPlain}
+     * or {@link ezcCacheStorageMemcachePlain}) it is null, but for
+     * memory/file hybrid storage ({@link ezcCacheStorageFileApcArray}) it should
+     * be an existing writeable path.
      *
      * The $options array consists of several standard attributes and can
      * additionally contain options defined by the {@link ezcCacheStorage} 
@@ -166,7 +169,10 @@ class ezcCacheManager
      * </code>
      *
      * @param string $id                     ID of the cache to create.
-     * @param string $location               Location to create the cache in.
+     * @param string $location               Location to create the cache in. Null for
+     *                                       memory-based storage and an existing
+     *                                       writeable path for file or memory/file
+     *                                       storage.
      * @param string $storageClass           Subclass of {@link ezcCacheStorage}.
      * @param array(string=>string) $options Options for the cache.
      * @return void
@@ -187,30 +193,35 @@ class ezcCacheManager
      *         If the given storage class does not exist or is no subclass of 
      *         ezcCacheStorage.
      */
-    public static function createCache( $id, $location, $storageClass, $options = array() ) 
+    public static function createCache( $id, $location = null, $storageClass, $options = array() ) 
     {
-        // Sanity check existance.
-        if ( !file_exists( $location ) || !is_dir( $location ) ) 
+        if ( $location !== null )
         {
-            throw new ezcBaseFileNotFoundException( $location, 'cache location', 'Does not exists or is no directory.' );
-        }
-        if ( !is_readable( $location ) )
-        {
-            throw new ezcBaseFilePermissionException( $location, ezcBaseFileException::READ, 'Cache location is not readable.' );
-        }
-        if ( !is_writeable( $location ) )
-        {
-            throw new ezcBaseFilePermissionException( $location, ezcBaseFileException::WRITE, 'Cache location is not writeable.' );
-        }
-        $location = realpath( $location );
-        // Sanity check double taken locations.
-        foreach ( self::$configurations as $confId => $config )
-        {
-            if ( $config['location'] == $location )
+            // Sanity check existance.
+            if ( !file_exists( $location ) || !is_dir( $location ) ) 
             {
-                throw new ezcCacheUsedLocationException( $location, $confId );
+                throw new ezcBaseFileNotFoundException( $location, 'cache location', 'Does not exists or is no directory.' );
+            }
+            if ( !is_readable( $location ) )
+            {
+                throw new ezcBaseFilePermissionException( $location, ezcBaseFileException::READ, 'Cache location is not readable.' );
+            }
+            if ( !is_writeable( $location ) )
+            {
+                throw new ezcBaseFilePermissionException( $location, ezcBaseFileException::WRITE, 'Cache location is not writeable.' );
+            }
+            $location = realpath( $location );
+
+            // Sanity check double taken locations.
+            foreach ( self::$configurations as $confId => $config )
+            {
+                if ( $config['location'] == $location )
+                {
+                    throw new ezcCacheUsedLocationException( $location, $confId );
+                }
             }
         }
+
         // Sanity check storage class.
         if ( !ezcBaseFeatures::classExists( $storageClass ) || !is_subclass_of( $storageClass, 'ezcCacheStorage' ) )
         {

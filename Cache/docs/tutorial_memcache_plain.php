@@ -8,7 +8,7 @@ $options = array(
     'port'  => 11211
 );
 
-ezcCacheManager::createCache( 'simple', '/tmp/cache/plain', 'ezcCacheStorageMemcachePlain', $options );
+ezcCacheManager::createCache( 'simple', null, 'ezcCacheStorageMemcachePlain', $options );
 
 $myId = 'unique_id_1';
 $mySecondId = 'id_2';
