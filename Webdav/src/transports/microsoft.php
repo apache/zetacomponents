@@ -15,6 +15,9 @@
  *  - Microsoft Data Access Internet Publishing Provider DAV 1.1
  *  - Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
  *
+ * Still not working:
+ *  - Microsoft-WebDAV-MiniRedir/5.1.2600
+ *
  * @version //autogentag//
  * @package Webdav
  */
@@ -43,6 +46,8 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
     {
         // Required by MS Clients to not think this is Frontpage stuff
         header( 'MS-Author-Via: DAV', true );
+
+        return parent::sendResponse( $info );
     }
 
     /**
