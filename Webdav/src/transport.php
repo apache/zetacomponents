@@ -914,7 +914,8 @@ class ezcWebdavTransport
             )
         );
 
-        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
+        if ( empty( $body ) ||
+             ( ( $dom = $this->xml->createDomDocument( $body ) ) === false ) )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPFIND',
