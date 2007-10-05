@@ -10,6 +10,8 @@
   memory backends.
 - Fixed issue #11413: The search flag is off by default for restore() and
   delete().
+- Fixed issue #11138: The validateLocation() method is defined as abstract in
+  ezcCacheStorage.
 
 
 1.2 - Monday 02 July 2007

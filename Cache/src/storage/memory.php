@@ -381,7 +381,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
     }
 
     /**
-     * Checks if a given location is valid.
+     * Checks if the location property is valid.
      */
     protected function validateLocation()
     {

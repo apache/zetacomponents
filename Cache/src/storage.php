@@ -235,6 +235,11 @@ abstract class ezcCacheStorage
     abstract public function getRemainingLifetime( $id, $attributes = array() );
 
     /**
+     * Checks if the location property is valid.
+     */
+    abstract protected function validateLocation();
+
+    /**
      * Returns the location.
      * Returns the location the current storage resides in. The
      * $location attribute has no setter, since it can only be set during

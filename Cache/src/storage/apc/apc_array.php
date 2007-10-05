@@ -412,7 +412,8 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
     }
 
     /**
-     * Checks if a given location is valid.
+     * Checks the path in the location property exists, and is read-/writable. It
+     * throws an exception if not.
      *
      * @throws ezcBaseFileNotFoundException
      *         If the storage location does not exist. This should usually not 

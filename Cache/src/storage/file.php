@@ -358,11 +358,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
     }
 
     /**
-     * Checks if a given location is valid.
-     * Checks if the location exists and tries to create it, if not. Also checks
-     * if the location is read-/writable and throws an exception, if not.
-     * 
-     * @return void
+     * Checks the path in the location property exists, and is read-/writable. It
+     * throws an exception if not.
      *
      * @throws ezcBaseFileNotFoundException
      *         If the storage location does not exist. This should usually not 
