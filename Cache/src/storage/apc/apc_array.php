@@ -248,10 +248,11 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
             if ( $search === true
                  && count( $files = $this->search( $id, $attributes ) ) === 1 )
             {
-                $filename = $files[0];
+                $filename = $files[0][2];
             }
             else
             {
+                // There are more elements found during search, so false is returned
                 return false;
             }
         }
@@ -342,7 +343,7 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
      * @param array(string=>string) $attributes Attributes describing the data to restore
      * @param bool $search Wheather to search for items if not found directly
      */
-    public function delete( $id = null, $attributes = array(), $search = true )
+    public function delete( $id = null, $attributes = array(), $search = false )
     {
         // Generates the identifier
         $filename = $this->properties['location'] . $this->generateIdentifier( $id, $attributes );

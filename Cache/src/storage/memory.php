@@ -145,7 +145,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
      * @param bool $search Wheather to search for items if not found directly
      * @return mixed The cached data on success, otherwise false
      */
-    public function restore( $id, $attributes = array(), $search = true )
+    public function restore( $id, $attributes = array(), $search = false )
     {
         // Generate the Identifier
         $identifier = $this->generateIdentifier( $id, $attributes );
@@ -166,8 +166,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
         }
 
         // Makes sure a cache exists
-        if ( is_object( $this->registry[$location][$id][$identifier] )
-             && $this->registry[$location][$id][$identifier]->data === false )
+        if ( $this->registry[$location][$id][$identifier] === false )
         {
             if ( $search === true
                  && count( $identifiers = $this->search( $id, $attributes ) ) === 1 )
@@ -177,6 +176,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
             }
             else
             {
+                // There are more elements found during search, so false is returned
                 return false;
             }
         }
@@ -221,7 +221,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
      * @param array(string=>string) $attributes Attributes describing the data to restore
      * @param bool $search Wheather to search for items if not found directly
      */
-    public function delete( $id = null, $attributes = array(), $search = true )
+    public function delete( $id = null, $attributes = array(), $search = false )
     {
         // Generate the Identifier
         $identifier = $this->generateIdentifier( $id, $attributes );
@@ -350,7 +350,6 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
                 foreach ( $this->searchRegistry[$location] as $id => $arr )
                 {
                     foreach ( $arr as $identifier => $registryObj )
-                    //foreach ( $this->searchRegistry[$location][$id] as $identifier => $registryObj )
                     {
                         $attrStr = $this->generateAttrStr( $registryObj->attributes );
                         if ( preg_match( $pattern, $attrStr ) )

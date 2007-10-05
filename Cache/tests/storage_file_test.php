@@ -110,7 +110,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
         // Fake mtime and atime
         touch( $cache->getLocation() . '/' . $file, time() - 90000, time() - 90000 );
         
-        $this->assertNotEquals( false, $cache->restore( 0 ) );
+        $this->assertNotEquals( false, $cache->restore( 0, $data['attributes'] ) );
 
         $this->removeTempDir();
     }

@@ -205,7 +205,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      *         has been corrupted by external influences (file permission 
      *         change).
      */
-    public function restore( $id, $attributes = array(), $search = true )
+    public function restore( $id, $attributes = array(), $search = false )
     {
         $filename = $this->properties['location'] . $this->generateIdentifier( $id, $attributes );
         if ( file_exists( $filename ) === false ) 
@@ -258,7 +258,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      *         has been corrupted by external influences (file permission 
      *         change).
      */
-    public function delete( $id = null, $attributes = array(), $search = true )
+    public function delete( $id = null, $attributes = array(), $search = false )
     {
         $filename = $this->properties['location'] . $this->generateIdentifier( $id, $attributes );
         $delFiles = array();

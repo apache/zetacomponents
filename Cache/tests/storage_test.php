@@ -92,10 +92,8 @@ abstract class ezcCacheStorageTest extends ezcCacheTest
      */
     public function testStoreSuccessWithoutAttributes()
     {
-//echo __FUNCTION__;
         foreach ( $this->data as $id => $dataArr ) 
         {
-//var_dump( $id );
             $this->storage->store( $id, $dataArr );
             $this->assertEquals( $this->storage->countDataItems( $id ), 1, 'Storage file does not exist for ID: <' . $id . '>.' );
         }
@@ -108,7 +106,6 @@ abstract class ezcCacheStorageTest extends ezcCacheTest
      */
     public function testStoreSuccessWithAttributes()
     {
-//die();
         foreach ( $this->data as $id => $dataArr ) 
         {
             $attributes = array(
@@ -497,6 +494,86 @@ abstract class ezcCacheStorageTest extends ezcCacheTest
                 $this->storage->countDataItems( $id . $idSuffix ),
                 "Data count for ID with slashes incorrect."
             );
+        }
+    }
+
+    public function testStoreRestoreNoAttributesSearch()
+    {
+        foreach ( $this->data as $id => $dataArr ) 
+        {
+            $this->storage->store( $id, $dataArr );
+            $data = $this->storage->restore( $id, array(), true );
+            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
+        }
+    }
+
+    public function testStoreRestoreWithAttributesSearch()
+    {
+        foreach ( $this->data as $id => $dataArr ) 
+        {
+            $attributes = array(
+                'name'      => 'test',
+                'title'     => 'Test item',
+                'date'      => time().$id,
+            );
+            $this->storage->store( $id, $dataArr, $attributes );
+            $data = $this->storage->restore( $id, $attributes, true );
+            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
+        }
+    }
+
+    public function testStoreRestoreWithAttributesSearchNoAttributes()
+    {
+        foreach ( $this->data as $id => $dataArr ) 
+        {
+            $attributes = array(
+                'name'      => 'test',
+                'title'     => 'Test item',
+                'date'      => time().$id,
+            );
+            $this->storage->store( $id, $dataArr, $attributes );
+            $data = $this->storage->restore( $id, array(), true );
+            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
+        }
+    }
+
+    public function testStoreRestoreWithAttributesSearchNoId()
+    {
+        foreach ( $this->data as $id => $dataArr ) 
+        {
+            $attributes = array(
+                'name'      => 'test',
+                'title'     => 'Test item',
+                'date'      => time().$id,
+            );
+            $this->storage->store( $id, $dataArr, $attributes );
+            $data = $this->storage->restore( null, $attributes, true );
+            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
+        }
+    }
+
+    public function testStoreRestoreWithAttributesSearchNoAttributesNoId()
+    {
+        $count = 0;
+        foreach ( $this->data as $id => $dataArr ) 
+        {
+            $attributes = array(
+                'name'      => 'test',
+                'title'     => 'Test item',
+                'date'      => time().$id,
+            );
+            $this->storage->store( $id, $dataArr, $attributes );
+            $data = $this->storage->restore( null, array(), true );
+            if ( $count === 0 )
+            {
+                $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
+            }
+            else
+            {
+                // There are more elements found during search, so false is returned
+                $this->assertTrue( $data == false, "Restore data broken for ID <{$id}>." );
+            }
+            $count++;
         }
     }
 }

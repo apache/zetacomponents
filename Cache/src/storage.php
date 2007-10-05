@@ -170,8 +170,9 @@ abstract class ezcCacheStorage
      * @param string $id                        The item ID.
      * @param array(string=>string) $attributes Attributes that describe the 
      *                                          cached data.
-     * @param bool $search                       Wheather to search for items
-     *                                           if not found directly.
+     * @param bool $search                      Wheather to search for items
+     *                                          if not found directly. Default is
+     *                                          false.
      * 
      * @return mixed The cached data on success, otherwise false.
      *
@@ -181,7 +182,7 @@ abstract class ezcCacheStorage
      *         has been corrupted by external influences (file permission 
      *         change).
      */
-    abstract public function restore( $id, $attributes = array() );
+    abstract public function restore( $id, $attributes = array(), $search = false );
 
     /**
      * Delete data from the cache.
@@ -198,8 +199,9 @@ abstract class ezcCacheStorage
      * @param string $id                        The item ID.
      * @param array(string=>string) $attributes Attributes that describe the 
      *                                          cached data.
-     * @param bool $search                       Wheather to search for items
-     *                                           if not found directly.
+     * @param bool $search                      Wheather to search for items
+     *                                          if not found directly. Default is
+     *                                          false.
      *
      * @throws ezcBaseFilePermissionException
      *         If an already existsing cache file could not be unlinked. 
@@ -207,7 +209,7 @@ abstract class ezcCacheStorage
      *         has been corrupted by external influences (file permission 
      *         change).
      */
-    abstract public function delete( $id = null, $attributes = array() );
+    abstract public function delete( $id = null, $attributes = array(), $search = false );
 
     /**
     * Return the number of items in the cache matching a certain criteria.
