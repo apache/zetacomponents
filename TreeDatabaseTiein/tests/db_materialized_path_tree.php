@@ -73,6 +73,86 @@ class ezcTreeDbMaterializedPathTest extends ezcDbTreeTest
         return $tree;
     }
 
+    public function testWithWrongSeparationChar()
+    {
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
+        $tree = new ezcTreeDbMaterializedPath(
+            $this->dbh,
+            'materialized_path',
+            $store,
+            '@'
+        );
+
+        $nodeList = $tree->fetchNodeById( 4 )->fetchSubtree();
+        self::assertSame( 1, $nodeList->size );
+    }
+
+    public function testCreateNodeWithInvalidId1()
+    {
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
+        $tree = new ezcTreeDbMaterializedPath(
+            $this->dbh,
+            'materialized_path',
+            $store,
+            '/'
+        );
+
+
+        try
+        {
+            $newNode = $tree->createNode( 'Is/This/Right', 'No' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcTreeInvalidIdException $e )
+        {
+            self::assertSame( "The node ID 'Is/This/Right' contains the invalid character '/'.", $e->getMessage() );
+        }
+    }
+
+    public function testCreateNodeWithInvalidId2()
+    {
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
+        $tree = new ezcTreeDbMaterializedPath(
+            $this->dbh,
+            'materialized_path',
+            $store,
+            '@'
+        );
+
+        try
+        {
+            $newNode = $tree->createNode( 'Is@This@Right', 'No' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcTreeInvalidIdException $e )
+        {
+            self::assertSame( "The node ID 'Is@This@Right' contains the invalid character '@'.", $e->getMessage() );
+        }
+    }
+
+    public function testSeparatingCharPropertyAccess()
+    {
+        $store = new ezcTreeDbExternalTableDataStore( $this->dbh, 'data', 'id', 'data' );
+        $tree = new ezcTreeDbMaterializedPath(
+            $this->dbh,
+            'materialized_path',
+            $store,
+            '@'
+        );
+
+        self::assertSame( '@', $tree->separationChar );
+        self::assertSame( true, isset( $tree->separationChar ) );
+        try
+        {
+            $newNode = $tree->separationChar = '#';
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcBasePropertyPermissionException $e )
+        {
+            self::assertSame( "The property 'separationChar' is read-only.", $e->getMessage() );
+        }
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeDbMaterializedPathTest" );

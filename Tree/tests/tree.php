@@ -164,7 +164,7 @@ class ezcTreeTest extends ezcTestCase
             $node = $tree->fetchNodeById( 42 );
             self::fail( "Expected exception was not thrown." );
         }
-        catch ( ezcTreeInvalidIdException $e )
+        catch ( ezcTreeUnknownIdException $e )
         {
             self::assertSame( "The node with ID '42' could not be found.", $e->getMessage() );
         }
@@ -192,7 +192,7 @@ class ezcTreeTest extends ezcTestCase
         {
             self::assertSame( true, $tree->fetchNodeById( 98 )->isChildOf( $tree->fetchNodeById( 99 ) ) );
         }
-        catch ( ezcTreeInvalidIdException $e )
+        catch ( ezcTreeUnknownIdException $e )
         {
             self::assertSame( "The node with ID '98' could not be found.", $e->getMessage() );
         }
@@ -220,7 +220,7 @@ class ezcTreeTest extends ezcTestCase
         {
             self::assertSame( false, $tree->isChildOf( 98, 99 ) );
         }
-        catch ( ezcTreeInvalidIdException $e )
+        catch ( ezcTreeUnknownIdException $e )
         {
             self::assertSame( "The node with ID '98' could not be found.", $e->getMessage() );
         }

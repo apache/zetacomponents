@@ -374,7 +374,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
         }
 
         // Delete all data for the deleted nodes
-        $nodeList = $this->fetchSubtree( $nodeId );
+        $nodeList = $this->fetchSubtreeDepthFirst( $nodeId );
         $this->store->deleteDataForNodes( $nodeList );
 
         // Fetch node information

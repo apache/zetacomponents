@@ -10,8 +10,7 @@
  */
 
 /**
- * Exception that is thrown when a node is request through an invalid
- * (non-existing) ID.
+ * Exception that is thrown when a node is created with an invalid ID.
  *
  * @package Tree
  * @version //autogentag//
@@ -23,9 +22,9 @@ class ezcTreeInvalidIdException extends ezcTreeException
      *
      * @param string $nodeId
      */
-    public function __construct( $nodeId )
+    public function __construct( $nodeId, $invalidChar )
     {
-        parent::__construct( "The node with ID '{$nodeId}' could not be found." );
+        parent::__construct( "The node ID '{$nodeId}' contains the invalid character '{$invalidChar}'." );
     }
 }
 ?>

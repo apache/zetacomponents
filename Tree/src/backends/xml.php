@@ -269,7 +269,7 @@ class ezcTreeXml extends ezcTree
         $node = $this->dom->getElementById( "{$this->properties['prefix']}$nodeId" );
         if ( !$node )
         {
-            throw new ezcTreeInvalidIdException( $nodeId );
+            throw new ezcTreeUnknownIdException( $nodeId );
         }
         return $node;
     }

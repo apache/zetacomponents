@@ -19,6 +19,7 @@ return array(
     'ezcTreeInvalidXmlFormatException'          => 'Tree/exceptions/invalid_xml_format.php',
     'ezcTreeTransactionAlreadyStartedException' => 'Tree/exceptions/transaction_already_started.php',
     'ezcTreeTransactionNotStartedException'     => 'Tree/exceptions/transaction_not_started.php',
+    'ezcTreeUnknownIdException'                 => 'Tree/exceptions/unknown_id.php',
     'ezcTreeDataStore'                          => 'Tree/interfaces/data_store.php',
     'ezcTreeVisitable'                          => 'Tree/interfaces/visitable.php',
     'ezcTree'                                   => 'Tree/tree.php',

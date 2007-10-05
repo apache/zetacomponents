@@ -166,6 +166,18 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
+     * This method checks whether a node ID is valid to be used in a backend.
+     *
+     * @throws ezcTreeInvalidNodeIDException if the node is not valid.
+     *
+     * @param string $nodeId
+     */
+    protected function checkNodeId( $nodeId )
+    {
+        /* The default implementation does not check anything */
+    }
+
+    /**
      * Creates a new tree node with node ID $nodeId and $data.
      *
      * This method returns by default an object of the ezcTreeNode class, 
@@ -179,6 +191,7 @@ abstract class ezcTree implements ezcTreeVisitable
      */
     public function createNode( $nodeId, $data )
     {
+        $this->checkNodeID( $nodeId );
         $className = $this->properties['nodeClassName'];
         return new $className( $this, $nodeId, $data );
     }
@@ -213,7 +226,7 @@ abstract class ezcTree implements ezcTreeVisitable
     {
         if ( !$this->nodeExists( $nodeId ) )
         {
-            throw new ezcTreeInvalidIdException( $nodeId );
+            throw new ezcTreeUnknownIdException( $nodeId );
         }
         $className = $this->properties['nodeClassName'];
         $node = new $className( $this, $nodeId );

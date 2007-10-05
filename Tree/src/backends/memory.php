@@ -113,7 +113,7 @@ class ezcTreeMemory extends ezcTree
     {
         if ( !$this->nodeExists( $nodeId ) )
         {
-            throw new ezcTreeInvalidIdException( $nodeId );
+            throw new ezcTreeUnknownIdException( $nodeId );
         }
         return $this->nodeList[$nodeId];
     }

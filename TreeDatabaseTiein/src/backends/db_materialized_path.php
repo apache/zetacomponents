@@ -23,6 +23,9 @@
  *
  * @property-read ezcTreeDbDataStore $store
  *                The data store that is used for retrieving/storing data.
+ * @property-read string             $separationChar
+ *                The character that is used to separate node IDs internally.
+ *                This character can then *not* be part of a node ID.
  * @property      string $nodeClassName
  *                Which class is used as tree node - this class *must* inherit
  *                the ezcTreeNode class.
@@ -34,6 +37,106 @@
 class ezcTreeDbMaterializedPath extends ezcTreeDb
 {
     /**
+     * Constructs a new ezcTreeDbMaterializedPath object.
+     *
+     * The different arguments to the constructor configure which database
+     * connection ($dbh) is used to access the database and the $indexTableName
+     * argument which table is used to retrieve the relation data from. The
+     * $store argument configure which data store is used with this tree.
+     *
+     * The $separationChar argument defaults to / and is used to separate node
+     * IDs internally. This character can *not* be part of a node ID, and should be
+     * the same character that was used when creating the tree.
+     *
+     * Just like the others, this database backend requires the index table to
+     * at least define the field 'id', which can either be a string or an
+     * integer field.
+     * 
+     * @param ezcDbHandler       $dbh
+     * @param string             $indexTableName
+     * @param ezcTreeDbDataStore $store
+     * @param string             $separationChar
+     */
+    public function __construct( ezcDbHandler $dbh, $indexTableName, ezcTreeDbDataStore $store, $separationChar = '/' )
+    {
+        parent::__construct( $dbh, $indexTableName, $store );
+        $this->properties['separationChar'] = $separationChar;
+    }
+
+    /**
+     * Returns the value of the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        switch ( $name )
+        {
+            case 'separationChar':
+                return $this->properties[$name];
+        }
+        return parent::__get( $name );
+    }
+
+    /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyPermissionException if a read-only property is
+     *         tried to be modified.
+     * @param string $name
+     * @param mixed $value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        switch ( $name )
+        {
+            case 'separationChar':
+                throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
+
+            default:
+                return parent::__set( $name, $value );
+        }
+    }
+
+    /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name     
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'separationChar':
+                return isset( $this->properties[$name] );
+
+            default:
+                return parent::__isset( $name );
+        }
+    }
+
+    /**
+     * This method checks whether a node ID is valid to be used in a backend.
+     *
+     * @throws ezcTreeInvalidNodeIDException if the node is not valid.
+     *
+     * @param string $nodeId
+     */
+    protected function checkNodeId( $nodeId )
+    {
+        if ( strchr( $nodeId, $this->properties['separationChar'] ) != false )
+        {
+            throw new ezcTreeInvalidIdException( $nodeId, $this->properties['separationChar'] );
+        }
+    }
+
+    /**
      * Creates a new ezcTreeDbMaterializedPath object.
      *
      * The different arguments to the method configure which database
@@ -41,16 +144,21 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
      * argument which table is used to retrieve the relation data from. The
      * $store argument configure which data store is used with this tree.
      *
+     * The $separationChar argument defaults to / and is used to separate node
+     * IDs internally. This character can *not* be part of a node ID, and the same
+     * character should be used when re-opening the tree upon instantiation.
+     *
      * It is up to the user to create the database table and make sure it is
      * empty.
      * 
      * @param ezcDbHandler       $dbh
      * @param string             $indexTableName
      * @param ezcTreeDbDataStore $store
+     * @param string             $separationChar
      */
-    public static function create( ezcDbHandler $dbh, $indexTableName, ezcTreeDbDataStore $store )
+    public static function create( ezcDbHandler $dbh, $indexTableName, ezcTreeDbDataStore $store, $separationChar = '/' )
     {
-        return new ezcTreeDbMaterializedPath( $dbh, $indexTableName, $store );
+        return new ezcTreeDbMaterializedPath( $dbh, $indexTableName, $store, $separationChar );
     }
 
     /**
@@ -136,7 +244,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         // Fetch node information
         list( $parentId, $path ) = $this->fetchNodeInformation( $nodeId );
 
-        $parts = split( '/', $path );
+        $parts = split( $this->properties['separationChar'], $path );
         array_shift( $parts );
 
         foreach ( $parts as $pathNodeId )
@@ -174,7 +282,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         // WHERE path LIKE '$path/%'
         $q->select( 'id' )
           ->from( $db->quoteIdentifier( $this->indexTableName ) )
-          ->where( $q->expr->like( 'path', $q->bindValue( "$path/%" ) ) );
+          ->where( $q->expr->like( 'path', $q->bindValue( "$path{$this->properties['separationChar']}%" ) ) );
         $s = $q->prepare();
         $s->execute();
 
@@ -277,7 +385,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         // WHERE path LIKE '$path/%'
         $q->select( 'count(id)' )
           ->from( $db->quoteIdentifier( $this->indexTableName ) )
-          ->where( $q->expr->like( 'path', $q->bindValue( "$path/%" ) ) );
+          ->where( $q->expr->like( 'path', $q->bindValue( "$path{$this->properties['separationChar']}%" ) ) );
         $s = $q->prepare();
         $s->execute();
         $r = $s->fetch( PDO::FETCH_NUM );
@@ -296,7 +404,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         // Fetch information for node
         list( $parentId, $path ) = $this->fetchNodeInformation( $nodeId );
 
-        return substr_count( $path, '/' ) - 1;
+        return substr_count( $path, $this->properties['separationChar'] ) - 1;
     }
 
     /**
@@ -338,7 +446,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         // Fetch node information
         list( $dummyParentId, $path ) = $this->fetchNodeInformation( $childId );
 
-        $parts = split( '/', $path );
+        $parts = split( $this->properties['separationChar'], $path );
         array_shift( $parts );
 
         return in_array( $parentId, $parts ) && ( $childId !== $parentId );
@@ -378,7 +486,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) )
           ->set( 'parent_id', "null" )
           ->set( 'id', $q->bindValue( $node->id ) )
-          ->set( 'path', $q->bindValue( '/' . $node->id ) );
+          ->set( 'path', $q->bindValue( $this->properties['separationChar'] . $node->id ) );
         $s = $q->prepare();
         $s->execute();
 
@@ -408,7 +516,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) )
           ->set( 'parent_id', $q->bindValue( $parentId ) )
           ->set( 'id', $q->bindValue( $childNode->id ) )
-          ->set( 'path', $q->bindValue( $path . '/' . $childNode->id ) );
+          ->set( 'path', $q->bindValue( $path . $this->properties['separationChar'] . $childNode->id ) );
         $s = $q->prepare();
         $s->execute();
 
@@ -476,7 +584,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
 
         // Get path to parent of $nodeId
         // - position of last /
-        $pos = strrpos( $origPath, '/' );
+        $pos = strrpos( $origPath, $this->properties['separationChar'] );
         // - parent path and its length
         $parentPath = substr( $origPath, 0, $pos );
         $parentPathLength = strlen( $parentPath ) + 1;
@@ -504,7 +612,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
             ) )
           ->where( $q->expr->lOr(
                 $q->expr->eq( 'id', $q->bindValue( $nodeId ) ),
-                $q->expr->like( 'path', $q->bindValue( "$origPath/%" ) )
+                $q->expr->like( 'path', $q->bindValue( "$origPath{$this->properties['separationChar']}%" ) )
             ) );
         $s = $q->prepare();
         $s->execute();
