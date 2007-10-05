@@ -167,6 +167,47 @@ class ezcTreeXml extends ezcTree
     }
 
     /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyPermissionException if a read-only property is
+     *         tried to be modified.
+     * @param string $name
+     * @param mixed $value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        switch ( $name )
+        {
+            case 'prefix':
+                throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
+
+            default:
+                return parent::__set( $name, $value );
+        }
+    }
+
+    /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name     
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'prefix':
+                return isset( $this->properties[$name] );
+
+            default:
+                return parent::__isset( $name );
+        }
+    }
+
+    /**
      * Creates a new XML tree in the file $xmlFile using $store as data store.
      *
      * The $prefix option can be used to change the prefix that is used for IDs

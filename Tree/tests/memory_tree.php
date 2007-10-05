@@ -84,6 +84,10 @@ class ezcTreeMemoryTest extends ezcTreeTest
         self::assertSame( true, $tree->nodeExists( '3' ) );
     }
 
+    public function testMemoryNodeSetState()
+    {
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeMemoryTest" );

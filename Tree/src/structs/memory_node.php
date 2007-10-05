@@ -7,6 +7,7 @@
  * @version //autogentag//
  * @filesource
  * @package Tree
+ * @access private
  */
 
 /**
@@ -15,6 +16,7 @@
  *
  * @package Tree
  * @version //autogentag//
+ * @access private
  */
 class ezcTreeMemoryNode extends ezcBaseStruct
 {

@@ -157,6 +157,37 @@ class ezcTreeXmlTest extends ezcTreeTest
         );
     }
 
+    public function testSetPrefix()
+    {
+        $tree = ezcTreeXml::create(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore(),
+            'ezc'
+        );
+
+        try
+        {
+            $tree->prefix = 'foo';
+            self::fail( "Expected exception not thrown" );
+        }
+        catch ( ezcBasePropertyPermissionException $e )
+        {
+            self::assertSame( "The property 'prefix' is read-only.", $e->getMessage() );
+        }
+    }
+
+    public function testIssetAndGetPrefix()
+    {
+        $tree = ezcTreeXml::create(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore(),
+            'ezc'
+        );
+
+        self::assertSame( true, isset( $tree->prefix ) );
+        self::assertSame( 'ezc', $tree->prefix );
+    }
+
     public function testCreateXmlTreeWithTransaction()
     {
         $tree = ezcTreeXml::create(

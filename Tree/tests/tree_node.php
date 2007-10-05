@@ -90,6 +90,17 @@ class ezcTreeNodeTest extends ezcTestCase
         }
     }
 
+    public function testIssetProperty()
+    {
+        $node = new ezcTreeNode( $this->tree, 'Pl', 'Plutonium' );
+        self::assertSame( true, isset( $node->id ) );
+        self::assertSame( true, isset( $node->tree ) );
+        self::assertSame( true, isset( $node->data ) );
+        self::assertSame( true, isset( $node->dataFetched ) );
+        self::assertSame( true, isset( $node->dataStored ) );
+        self::assertSame( false, isset( $node->unknown ) );
+    }
+
     public function testAddChild()
     {
         $node = new ezcTreeNode( $this->tree, 'O', 'Oxygen' );

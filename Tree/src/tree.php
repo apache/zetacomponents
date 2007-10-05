@@ -146,6 +146,26 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name     
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'store':
+            case 'nodeClassName':
+                return isset( $this->properties[$name] );
+
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Creates a new tree node with node ID $nodeId and $data.
      *
      * This method returns by default an object of the ezcTreeNode class, 

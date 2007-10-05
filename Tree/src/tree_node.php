@@ -152,6 +152,29 @@ class ezcTreeNode implements ezcTreeVisitable
     }
 
     /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name     
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'id':
+            case 'tree':
+            case 'data':
+            case 'dataFetched':
+            case 'dataStored':
+                return isset( $this->properties[$name] );
+
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Implements the accept method for visiting.
      *
      * @param ezcTreeVisitor $visitor

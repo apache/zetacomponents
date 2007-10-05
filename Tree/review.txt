@@ -20,7 +20,7 @@ Review Alexandru 14-09-2007
      - TreeDatabaseTiein/src/backends/db_parent_child.php
      - TreeDatabaseTiein/src/backends/db.php
 
-[ ] Files missing __isset():
+[X] Files missing __isset():
      - Tree/src/backends/memory.php
      - Tree/src/backends/xml.php
      - Tree/src/tree_node.php
@@ -31,8 +31,32 @@ Review Alexandru 14-09-2007
      - TreeDatabaseTiein/src/backends/db_parent_child.php
      - TreeDatabaseTiein/src/backends/db.php
 
-[ ] Files missing __set_state():
+	ezcTreeNodeList did indeed not need it (because of ArrayAccess), and all
+	the backends actually inherit ezcTree, which does now implement __isset().
+
+[X] Files missing __set_state():
      - Tree/src/structs/memory_node.php
      - Tree/src/structs/transaction_item.php
 
+	They are not public, so they don't need __set_state(). I marked them as
+	private classes now.
+
+
+Other points
+------------
+
+[ ] Allow the / char to be changed in the nested set implementation, and add a check
+    for this char in used IDs when creating a new node.
+
+[ ] Check how we can use node names paths to retrieve items.
+
+[ ] Check XHTML visitor's generation of paths - they are sort of useles as only the
+    last item is used. Perhaps make this an option.
+
+[ ] Check if the highlighting can be done on the data, and not the <li> nodes -
+    make that an option as well perhaps.
+
+[ ] Check example from Alex, and add them to docs if useful.
+
+[ ] Issue #11444: Clarify the use of '/' for ID naming in Trees
 

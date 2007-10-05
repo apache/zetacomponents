@@ -68,10 +68,16 @@ class ezcTreeTest extends ezcTestCase
         }
     }
 
+    public function testIssetStore()
+    {
+        $tree = $this->setUpTestTree();
+        self::assertSame( true, isset( $tree->store ) ); 
+    }
+
     public function testSetStore()
     {
         $tree = $this->setUpTestTree();
-        
+
         try
         {
             $tree->store = new TestTranslateDataStore;
@@ -81,6 +87,12 @@ class ezcTreeTest extends ezcTestCase
         {
             self::assertSame( "The property 'store' is read-only.", $e->getMessage() );
         }
+    }
+
+    public function testIssetNodeClassName()
+    {
+        $tree = $this->setUpTestTree();
+        self::assertSame( true, isset( $tree->nodeClassName ) ); 
     }
 
     public function testSetNodeClassName()
@@ -119,6 +131,13 @@ class ezcTreeTest extends ezcTestCase
         {
             self::assertSame( "Class 'ezcTreeMemoryNode' does not exist, or does not inherit from the 'ezcTreeNode' class.", $e->getMessage() );
         }
+    }
+
+    public function testIssetUnknownProperty()
+    {
+        $tree = $this->setUpTestTree();
+
+        self::assertSame( false, isset( $tree->unknown ) );
     }
 
     public function testSetUnknownProperty()
