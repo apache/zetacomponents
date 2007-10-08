@@ -17,9 +17,12 @@
  *
  * The feed type defines which processor is used to parse and generate that type.
  * The following feed processors are supported by the Feed component:
- *  - RSS1 ({@link ezcFeedRss1})
- *  - RSS2 ({@link ezcFeedRss1})
- *  - ATOM ({@link ezcFeedAtom})
+ *  - RSS1 ({@link ezcFeedRss1}) -
+ *    {@link http://web.resource.org/rss/1.0/spec Specifications}
+ *  - RSS2 ({@link ezcFeedRss1}) -
+ *    {@link http://www.rssboard.org/rss-specification Specifications}
+ *  - ATOM ({@link ezcFeedAtom}) -
+ *    {@link http://atompub.org/rfc4287.html RFC4287}
  *
  * A new processor can be defined by creating a class which extends the class
  * {@link ezcFeedProcessor} and implements the interface {@link ezcFeedParser},
@@ -27,8 +30,10 @@
  *
  * A module is a part of a feed. The following modules are supported by the Feed
  * component:
- *  - Content ({@link ezcFeedModuleContent})
- *  - DublinCore ({@link ezcFeedModuleDublinCore})
+ *  - Content ({@link ezcFeedModuleContent}) -
+ *    {@link http://web.resource.org/rss/1.0/modules/content/ Specifications}
+ *  - DublinCore ({@link ezcFeedModuleDublinCore}) -
+ *    {@link http://web.resource.org/rss/1.0/modules/dc/ Specifications}
  *
  * A new module can be defined by creating a class which implements the interface
  * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}

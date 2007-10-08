@@ -126,6 +126,15 @@ Possible feed operations:
     $xml = $feed->generate();
 
 
+RFCs and specifications
+=======================
+
+For a list of supported RFCs and specifications of the feed types and modules,
+please see the `RFCs list`_.
+
+.. _RFCs list: Feed_rfcs.html
+
+
 
 ..
    Local Variables:
