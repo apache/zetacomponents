@@ -697,6 +697,9 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
+        // @TODO: RFC2616 Section 9.6 PUT requires us to send 501 on all
+        // Content-* we don't support.
+
         // Everything is OK, create or update resource.
         if ( !$this->nodeExists( $source ) )
         {
