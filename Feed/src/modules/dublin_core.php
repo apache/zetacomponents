@@ -15,8 +15,8 @@
  */
 class ezcFeedModuleDublinCore implements ezcFeedModule
 {
-    private $feedType;
-    private $supportedElements = array(
+    protected $feedType;
+    protected $supportedElements = array(
         'title', 'creator', 'subject', 'description', 'publisher',
         'contributor', 'date', 'type', 'format', 'identifier',
         'source', 'language', 'relation', 'coverage', 'rights'

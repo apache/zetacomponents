@@ -18,7 +18,7 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
     protected $root;
     protected $channel;
     protected $items = array();
-    private $metaData = array();
+    protected $metaData = array();
 
     public function createRootElement( $version )
     {
@@ -169,7 +169,7 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         {
             return $this->metaData[$element];
         }
-        return NULL;
+        return null;
     }
 
     protected function getAllMetaData()

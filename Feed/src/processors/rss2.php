@@ -27,14 +27,14 @@ class ezcFeedRss2 extends ezcFeedRss
      *
      * @var array(string)
      */
-    static $requiredFeedAttributes = array( 'title', 'link', 'description' );
+    protected static $requiredFeedAttributes = array( 'title', 'link', 'description' );
 
     /**
      * A list of optional attributes for the channel definition
      *
      * @var array(string)
      */
-    static $optionalFeedAttributes = array(
+    protected static $optionalFeedAttributes = array(
         'language', 'copyright', 'author', 'webMaster', 'published', 'updated',
         'category', 'generator', 'ttl', 'docs', 'image' );
 
@@ -43,20 +43,20 @@ class ezcFeedRss2 extends ezcFeedRss
      *
      * @var array(string=>string)
      */
-    static $feedAttributesMap = array(
+    protected static $feedAttributesMap = array(
         'author' => 'managingEditor',
         'published' => 'pubDate',
         'updated' => 'lastBuildDate',
     );
 
-    static $requiredFeedItemAttributes = array( 'title', 'link', 'description' );
-    static $optionalFeedItemAttributes = array( 'author', 'category',
+    protected static $requiredFeedItemAttributes = array( 'title', 'link', 'description' );
+    protected static $optionalFeedItemAttributes = array( 'author', 'category',
         'comments', 'enclosure', 'guid', 'published', 'source' );
-    static $feedItemAttributesMap = array(
+    protected static $feedItemAttributesMap = array(
         'published' => 'pubDate',
     );
 
-    private $usedPrefixes = array();
+    protected $usedPrefixes = array();
 
     public function __construct()
     {
@@ -117,7 +117,7 @@ class ezcFeedRss2 extends ezcFeedRss
         return $item->getMetaData( $element );
     }
 
-    private function generateItem( $item )
+    protected function generateItem( $item )
     {
         $itemTag = $this->xml->createElement( 'item' );
         $this->channel->appendChild( $itemTag );

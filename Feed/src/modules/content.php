@@ -15,8 +15,8 @@
  */
 class ezcFeedModuleContent implements ezcFeedModule
 {
-    private $feedType;
-    private $supportedItemElements = array( 'encoded' );
+    protected $feedType;
+    protected $supportedItemElements = array( 'encoded' );
 
     public function __construct( $feedType )
     {

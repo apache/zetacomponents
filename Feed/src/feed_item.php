@@ -10,7 +10,7 @@
  */
 
 /**
- * ezcFeedItem.
+ * Class defining an item in a feed.
  *
  * @package Feed
  * @version //autogentag//
@@ -19,7 +19,9 @@
 class ezcFeedItem
 {
     public $feedProcessor;
-    private $metaData = array();
+
+    protected $metaData = array();
+
     public $moduleMetaData = array();
 
     public function __construct( $processor )
@@ -145,7 +147,7 @@ class ezcFeedItem
         {
             return $this->metaData[$element];
         }
-        return NULL;
+        return null;
     }
 
     public function getAllModuleMetaData( $module )

@@ -20,8 +20,8 @@ abstract class ezcFeedProcessor
      *
      * @var array(string=>ezcFeedModule)
      */
-    private $modules = array();
-    private $moduleMetaData = array();
+    protected $modules = array();
+    protected $moduleMetaData = array();
 
     public function isModuleSupported( $moduleName )
     {
@@ -62,7 +62,7 @@ abstract class ezcFeedProcessor
         {
             return $this->moduleMetaData[$moduleName][$element];
         }
-        return NULL;
+        return null;
     }
 
     public function getModuleItemData( $moduleName, $moduleObj, $item, $element )
@@ -71,7 +71,7 @@ abstract class ezcFeedProcessor
         {
             return $item->moduleMetaData[$moduleName][$element];
         }
-        return NULL;
+        return null;
     }
 
     public function setModuleMetaData( $moduleName, $moduleObj, $element, $value )

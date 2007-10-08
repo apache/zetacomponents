@@ -19,7 +19,7 @@ class ezcFeedRss2ContentTest extends ezcTestCase
         date_default_timezone_set( 'Europe/Oslo' );
     }
 
-    static private function normalizeString( $str )
+    protected static function normalizeString( $str )
     {
         return trim( preg_replace( '@\s+@', ' ', $str ) );
     }

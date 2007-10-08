@@ -17,18 +17,18 @@
  */
 class ezcFeedModuleData
 {
-    private $moduleName;
+    protected $moduleName;
     public $moduleObj;
-    private $feedProcessor;
+    protected $feedProcessor;
     
-    function __construct( $moduleName, $moduleObj, $feedProcessor )
+    public function __construct( $moduleName, $moduleObj, $feedProcessor )
     {
         $this->moduleName = $moduleName;
         $this->moduleObj = $moduleObj;
         $this->feedProcessor = $feedProcessor;
     }
 
-    function __set( $element, $value )
+    public function __set( $element, $value )
     {
         if ( !$this->moduleObj->isChannelElementAllowed( $element ) )
         {
@@ -40,7 +40,7 @@ class ezcFeedModuleData
         }
     }
 
-    function __get( $element )
+    public function __get( $element )
     {
         return $this->feedProcessor->getModuleMetaData( $this->moduleName, $this->moduleObj, $element );
     }
