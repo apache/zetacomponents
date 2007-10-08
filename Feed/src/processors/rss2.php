@@ -16,6 +16,11 @@
 class ezcFeedRss2 extends ezcFeedRss
 {
     /**
+     * Defines the feed type of this processor.
+     */
+    const FEED_TYPE = 'rss2';
+
+    /**
      * A list of modules that are supported by this feed type
      *
      * @var array(string)
@@ -58,12 +63,16 @@ class ezcFeedRss2 extends ezcFeedRss
 
     protected $usedPrefixes = array();
 
+    /**
+     * Creates a new RSS2 processor.
+     */
     public function __construct()
     {
         // set default values
         $this->setMetaData( 'published', $this->prepareDate( time() ) );
         $this->setMetaData( 'generator', "eZ components" );
         $this->setMetaData( 'docs', 'http://www.rssboard.org/rss-specification' );
+        $this->feedType = self::FEED_TYPE;
     }
 
     public function setFeedElement( $element, $value )

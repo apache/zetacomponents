@@ -16,11 +16,27 @@
 abstract class ezcFeedProcessor
 {
     /**
-     * A list of modules which are loaded
+     * Holds the names of the supported modules by this processor. Child classes
+     * must populate this array with the modules that they support.
+     *
+     * @var array(string)
+     */
+    protected $supportedModules = array();
+
+    /**
+     * Holds the feed type.
+     *
+     * @var string
+     */
+    protected $feedType;
+
+    /**
+     * A list of modules which are loaded.
      *
      * @var array(string=>ezcFeedModule)
      */
     protected $modules = array();
+
     protected $moduleMetaData = array();
 
     public function isModuleSupported( $moduleName )
@@ -151,5 +167,10 @@ abstract class ezcFeedProcessor
     abstract public function setFeedElement( $element, $value );
     abstract public function setFeedItemElement( $item, $element, $value );
     abstract public function generate();
+
+    public function getFeedType()
+    {
+        return $this->feedType;
+    }
 }
 ?>

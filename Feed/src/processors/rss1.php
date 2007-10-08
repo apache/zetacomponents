@@ -15,6 +15,19 @@
  */
 class ezcFeedRss1 extends ezcFeedRss
 {
+    /**
+     * Defines the feed type of this processor.
+     */
+    const FEED_TYPE = 'rss1';
+
+    /**
+     * Creates a new RSS1 processor.
+     */
+    public function __construct()
+    {
+        $this->feedType = self::FEED_TYPE;
+    }
+
     protected $supportedModules = array();
 
     public function setFeedElement( $element, $value )

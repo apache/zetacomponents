@@ -31,10 +31,17 @@ class ezcFeedItem
         $modules = $this->feedProcessor->getModules();
         foreach ( $modules as $moduleName => $moduleObj )
         {
-            $this->$moduleName = $this->feedProcessor->addItemModule( $moduleName, ezcFeed::getModule( $moduleName, $this->feedType ), $this );
+            $this->$moduleName = $this->feedProcessor->addItemModule( $moduleName, ezcFeed::getModule( $moduleName, $this->feedProcessor->getFeedType() ), $this );
         }
     }
-    
+
+    /**
+     * Sets the property $property to $value.
+     *
+     * @param string $property The property name
+     * @param mixed $value The property value
+     * @ignore
+     */
     public function __set( $property, $value )
     {
         switch ( $property )
@@ -63,6 +70,16 @@ class ezcFeedItem
         }
     }
 
+    /**
+     * Returns the value of property $property.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property $property does not exist.
+     *
+     * @param string $property The property name
+     * @return mixed
+     * @ignore
+     */
     public function __get( $property )
     {
         switch ( $property )
@@ -80,20 +97,8 @@ class ezcFeedItem
                 return $this->feedProcessor->getFeedItemElement( $this, $property );
 
             default:
-                return false;
+                throw new ezcBasePropertyNotFoundException( $property );
         }
-    }
-
-    /**
-     * Returns new item for this feed
-     *
-     * @return ezcFeedItem
-     */
-    public function newItem()
-    {
-        $item = new ezcFeedItem();
-        $this->items[] = $item;
-        return $item;
     }
 
     public function setMetaData( $element, $value )

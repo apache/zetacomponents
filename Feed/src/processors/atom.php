@@ -17,6 +17,19 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 {
     protected $supportedModules = array();
 
+    /**
+     * Defines the feed type of this processor.
+     */
+    const FEED_TYPE = 'rss1';
+
+    /**
+     * Creates a new ATOM processor.
+     */
+    public function __construct()
+    {
+        $this->feedType = self::FEED_TYPE;
+    }
+
     public function setFeedElement( $element, $value )
     {
     }
