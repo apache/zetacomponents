@@ -17,7 +17,7 @@
  */
 class ezcFeedModuleData
 {
-    protected $moduleName;
+    public $moduleName;
     public $moduleObj;
     protected $feedProcessor;
     

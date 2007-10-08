@@ -18,12 +18,35 @@
  */
 class ezcFeedItem
 {
+    /**
+     * Holds the feed processor.
+     *
+     * @var ezcFeedProcessor
+     * @ignore
+     */
     public $feedProcessor;
 
+    /**
+     * Holds the meta data.
+     *
+     * @var array(string=>mixed)
+     * @ignore
+     */
     protected $metaData = array();
 
-    public $moduleMetaData = array();
+    /**
+     * Holds the module meta data.
+     *
+     * @var array(string=>mixed)
+     * @ignore
+     */
+    protected $moduleMetaData = array();
 
+    /**
+     * Constructs a new feed item object.
+     *
+     * @param ezcFeedProcessor $processor The processor used by the feed item
+     */
     public function __construct( $processor )
     {
         $this->feedProcessor = $processor;
@@ -137,13 +160,13 @@ class ezcFeedItem
         $this->moduleMetaData[$moduleName][$element] = $value;
     }
 
-    public function getModuleMetaData( $module )
+    public function getModuleMetaData( $module, $element )
     {
-        if ( isset( $this->moduleMetaData[$module] ) )
+        if ( isset( $this->moduleMetaData[$module][$element] ) )
         {
-            return $this->moduleMetaData[$module];
+            return $this->moduleMetaData[$module][$element];
         }
-        return array();
+        return null;
     }
 
     public function getMetaData( $element )

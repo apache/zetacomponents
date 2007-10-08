@@ -83,11 +83,7 @@ abstract class ezcFeedProcessor
 
     public function getModuleItemData( $moduleName, $moduleObj, $item, $element )
     {
-        if ( isset( $item->moduleMetaData[$moduleName][$element] ) )
-        {
-            return $item->moduleMetaData[$moduleName][$element];
-        }
-        return null;
+        return $item->getModuleMetaData( $moduleName, $element );
     }
 
     public function setModuleMetaData( $moduleName, $moduleObj, $element, $value )
@@ -99,7 +95,7 @@ abstract class ezcFeedProcessor
     public function setModuleItemData( $moduleName, $moduleObj, $item, $element, $value )
     {
         $value = $moduleObj->prepareMetaData( $element, $value );
-        $item->moduleMetaData[$moduleName][$element] = $value;
+        $item->setModuleMetaData( $moduleName, $moduleObj, $element, $value );
     }
 
     public function getSupportedModules()

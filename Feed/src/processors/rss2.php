@@ -175,7 +175,7 @@ class ezcFeedRss2 extends ezcFeedRss
             $namespace = $moduleDescription->moduleObj->getNamespace();
             $this->generateNamespace( $prefix, $namespace );
 
-            foreach ( $item->getModuleMetaData( $moduleName ) as $element => $value )
+            foreach ( $item->getAllModuleMetaData( $moduleName ) as $element => $value )
             {
                 $moduleDescription->moduleObj->generateItemData( $itemTag, $this, $element, $value );
             }

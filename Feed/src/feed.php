@@ -128,7 +128,7 @@
 class ezcFeed implements Iterator
 {
     /**
-     * A list of all supported feed types.
+     * Holds a list of all supported feed types.
      *
      * @var array(string=>string)
      */
@@ -139,7 +139,7 @@ class ezcFeed implements Iterator
     );
 
     /**
-     * A list of all supported feed modules.
+     * Holds a list of all supported feed modules.
      *
      * @var array(string=>string)
      */
@@ -149,7 +149,7 @@ class ezcFeed implements Iterator
     );
 
     /**
-     * The feed processor.
+     * Holds the feed processor.
      *
      * @var ezcFeedProcessor
      * @ignore
@@ -157,7 +157,7 @@ class ezcFeed implements Iterator
     protected $feedProcessor;
 
     /**
-     * The feed type.
+     * Holds the feed type.
      *
      * @var string
      * @ignore
@@ -165,7 +165,7 @@ class ezcFeed implements Iterator
     protected $feedType;
 
     /**
-     * The feed items to be iterated.
+     * Holds the feed items to be iterated.
      *
      * @var array(ezcFeedItem)
      * @ignore
@@ -173,7 +173,7 @@ class ezcFeed implements Iterator
     protected $iteratorItems = array();
 
     /**
-     * The number of feed items.
+     * Holds the number of feed items.
      *
      * @var int
      * @ignore
@@ -181,7 +181,7 @@ class ezcFeed implements Iterator
     protected $iteratorElementCount = 0;
 
     /**
-     * The current feed item.
+     * Holds the current feed item.
      *
      * @var int
      * @ignore

@@ -17,10 +17,10 @@
  */
 class ezcFeedItemModuleData
 {
-    protected $moduleName;
+    public $moduleName;
     public $moduleObj;
     protected $item;
-    
+
     public function __construct( $moduleName, $moduleObj, $item )
     {
         $this->moduleName = $moduleName;
