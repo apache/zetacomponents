@@ -10,9 +10,102 @@
  */
 
 /**
- * ezcFeed.
+ * Class defining a feed.
  *
- * @property-read array(int=>ezcFeedItem) $items The items belonging to the feed.
+ * A feed has a type (eg. RSS1, RSS2 or ATOM) and one or more cores (eg.
+ * Content, DublinCore).
+ *
+ * The feed type defines which processor is used to parse and generate that type.
+ * The following feed processors are supported by the Feed component:
+ *  - RSS1 ({@link ezcFeedRss1})
+ *  - RSS2 ({@link ezcFeedRss1})
+ *  - ATOM ({@link ezcFeedAtom})
+ *
+ * A new processor can be defined by creating a class which extends the class
+ * {@link ezcFeedProcessor} and implements the interface {@link ezcFeedParser},
+ * and adding it to the {@link self::$supportedFeedTypes} array.
+ *
+ * A module is a part of a feed. The following modules are supported by the Feed
+ * component:
+ *  - Content ({@link ezcFeedModuleContent})
+ *  - DublinCore ({@link ezcFeedModuleDublinCore})
+ *
+ * A new module can be defined by creating a class which implements the interface
+ * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}
+ * array.
+ *
+ * A feed object can be created in different ways:
+ *  - by calling the constructor with the required feed type. Example:
+ *      <code>
+ *        // create an RSS2 feed
+ *        $feed = new ezcFeed( 'rss2' );
+ *      </code>
+ *  - by parsing an existing XML file or uri. The feed type of the resulting
+ *    ezcFeed object will be autodetected. Example:
+ *      <code>
+ *        // create an RSS2 feed from the XML file at http://www.example.com/rss2.xml
+ *        $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
+ *      </code>
+ *  - by parsing an XML document stored in a string variable. The feed type of
+ *    the resulting ezcFeed object will be autodetected. Example:
+ *      <code>
+ *        // create an RSS2 feed from the XML document stored in $xmlString
+ *        $feed = ezcFeed::parseContent( $xmlString );
+ *      </code>
+ *
+ * Operations possible upon ezcFeed objects (in the following examples $feed is
+ * an existing ezcFeed object):
+ *  - add a module to the feed. Example:
+ *      <code>
+ *        $feed->addModule( 'ezcFeedModuleDublinCore' );
+ *      </code>
+ *  - set/get a value from the feed document. Example:
+ *      <code>
+ *        $feed->title = 'News';
+ *        $title = $feed->title;
+ *      </code>
+ *  - set/get a value from a module in the feed document. Example:
+ *      <code>
+ *        $feed->DublinCore->description = 'Detailed description';
+ *        $title = $feed->DublinCore->description;
+ *      </code>
+ *  - generate an XML document from the ezcFeed object. Example:
+ *      <code>
+ *        $xml = $feed->generate();
+ *      </code>
+ *
+ * @property string $title
+ *           Required in RSS1, RSS2, ATOM.
+ * @property string $subtitle
+ *           ATOM only.
+ * @property string $link
+ *           Required in RSS2, rdf:about AND link in RSS1.
+ * @property string $description
+ *           Required in RSS1, RSS2.
+ * @property string $language
+ *           Language string.
+ * @property string $copyright
+ *           Rights in ATOM.
+ * @property string $author
+ *           Same as managingEditor in RSS2, required in ATOM.
+ * @property string $webMaster
+ *           RSS2 only.
+ * @property string $published
+ *           Same as pubDate in RSS2.
+ * @property string $updated
+ *           Same as lastBuildDate in RSS2, required in ATOM.
+ * @property string $category
+ *           Category string.
+ * @property string $generator
+ *           Generator string.
+ * @property string $ttl
+ *           Time-to-live.
+ * @property string $image
+ *           Same as icon in ATOM.
+ * @property string $id
+ *           ATOM only, required in ATOM.
+ * @property-read array(int=>ezcFeedItem) $items
+ *                The items belonging to the feed.
  *
  * @package Feed
  * @version //autogentag//
@@ -21,121 +114,105 @@
 class ezcFeed implements Iterator
 {
     /**
-     * A list of all supported feed types
+     * A list of all supported feed types.
      *
      * @var array(string=>string)
      */
-    static private $supportedFeedTypes = array(
+    protected static $supportedFeedTypes = array(
         'rss1' => 'ezcFeedRss1',
         'rss2' => 'ezcFeedRss2',
         'atom' => 'ezcFeedAtom',
     );
 
     /**
-     * A list of all supported feed modules
+     * A list of all supported feed modules.
      *
      * @var array(string=>string)
      */
-    static private $supportedModules = array(
+    protected static $supportedModules = array(
         'Content'    => 'ezcFeedModuleContent',
         'DublinCore' => 'ezcFeedModuleDublinCore',
     );
 
     /**
-     * The feed processor
+     * The feed processor.
      *
      * @var ezcFeedProcessor
+     * @ignore
      */
-    private $feedProcessor;
-
-    private $feedType;
-
-    private $iteratorItems = array();
-    private $iteratorElementCount = 0;
-    private $iteratorPosition = 0;
-
-
-    static public function parse( $uri )
-    {
-        $xml = new DomDocument;
-        $retval = @$xml->load( $uri );
-        if ( $retval === false )
-        {
-            throw new ezcBaseFileNotFoundException( $uri );
-        }
-        return self::dispatchXml( $xml );
-    }
-
-    static public function parseContent( $content )
-    {
-        $xml = new DomDocument;
-        $retval = @$xml->loadXML( $content );
-        if ( $retval === false )
-        {
-            throw new ezcFeedParseErrorException( "Content is no valid XML." );
-        }
-        return self::dispatchXml( $xml );
-    }
-
-    protected static function dispatchXml( DOMDocument $xml )
-    {
-        foreach ( self::$supportedFeedTypes as $feedType => $feedClass )
-        {
-            $canParse = call_user_func( array( $feedClass, 'canParse' ), $xml );
-            if ( $canParse === true )
-            {
-                $processor = new $feedClass;
-                return $processor->parse( $xml );
-            }
-        }
-
-        throw new ezcFeedCanNotParseException( $xml->documentURI, 'Feed type not recognised' );
-    }
-
-    static public function getSupportedTypes()
-    {
-        return array_keys( self::$supportedFeedTypes );
-    }
-
-    static public function getSupportedModules()
-    {
-        return self::$supportedModules;
-    }
-
-    static public function getModule( $moduleName, $feedType )
-    {
-        return new self::$supportedModules[$moduleName]( $feedType );
-    }
+    protected $feedProcessor;
 
     /**
-     * Creates a new feed
+     * The feed type.
+     *
+     * @var string
+     * @ignore
+     */
+    protected $feedType;
+
+    /**
+     * The feed items to be iterated.
+     *
+     * @var array(ezcFeedItem)
+     * @ignore
+     */
+    protected $iteratorItems = array();
+
+    /**
+     * The number of feed items.
+     *
+     * @var int
+     * @ignore
+     */
+    protected $iteratorElementCount = 0;
+
+    /**
+     * The current feed item.
+     *
+     * @var int
+     * @ignore
+     */
+    protected $iteratorPosition = 0;
+
+    /**
+     * Creates a new feed of type $type.
+     *
+     * Example:
+     * <code>
+     * // create an RSS2 feed
+     * $feed = new ezcFeed( 'rss2' );
+     * </code>
      *
      * @throws ezcFeedUnsupportedTypeException
-     *         If the passed $type is an unsupported feed type
+     *         If the passed $type is an unsupported feed type.
      *
-     * @param string $type
+     * @param string $type The feed type
      */
     public function __construct( $type )
     {
-        if ( !in_array( $type, array_keys( self::$supportedFeedTypes ) ) )
+        $type = strtolower( $type );
+
+        if ( !isset( self::$supportedFeedTypes[$type] ) )
         {
             throw new ezcFeedUnsupportedTypeException( $type );
         }
+
         $this->feedType = $type;
         $this->feedProcessor = new self::$supportedFeedTypes[$type];
     }
 
-    public function addModule( $className )
-    {
-        $moduleObj = new $className( $this->feedType );
-        if ( !$moduleObj instanceof ezcFeedModule )
-        {
-            throw new ezcFeedUnsupportedModuleException( $className );
-        }
-        $moduleName = $moduleObj->getModuleName();
-        $this->$moduleName = $this->feedProcessor->addModule( $moduleName, $moduleObj );
-    }
-
+    /**
+     * Sets the property $property to $value.
+     *
+     * @throws ezcBasePropertyPermissionException
+     *         If $property is a read-only property.
+     * @throws ezcBaseValueException
+     *         If trying to assign a wrong value to the property $property.
+     *
+     * @param string $property The property name
+     * @param mixed $value The property value
+     * @ignore
+     */
     public function __set( $property, $value )
     {
         switch ( $property )
@@ -157,6 +234,9 @@ class ezcFeed implements Iterator
             case 'id': // ATOM only, required in ATOM
                 $this->feedProcessor->setFeedElement( $property, $value );
                 break;
+
+            case 'items':
+                throw new ezcBasePropertyPermissionException( $property, ezcBasePropertyPermissionException::READ );
         }
 
         $modules = $this->feedProcessor->getModules();
@@ -169,9 +249,19 @@ class ezcFeed implements Iterator
         }
     }
 
-    public function __get( $propertyName )
+    /**
+     * Returns the value of property $property.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property $property does not exist.
+     *
+     * @param string $property The property name
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $property )
     {
-        switch ( $propertyName )
+        switch ( $property )
         {
             case 'title': // required in RSS1, RSS2, ATOM
             case 'subtitle': // ATOM only
@@ -188,16 +278,35 @@ class ezcFeed implements Iterator
             case 'ttl':
             case 'image': // icon in ATOM
             case 'id': // ATOM only, required in ATOM
-                return $this->feedProcessor->getFeedElement( $propertyName );
+                return $this->feedProcessor->getFeedElement( $property );
 
             case 'items':
                 return (array) $this->feedProcessor->getItems();
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $property );
         }
-        throw new Exception( "OH OH: {$propertyName}" );
     }
 
     /**
-     * Returns new item for this feed
+     * Adds a new module to the feed.
+     *
+     * @var string $className The type of the module
+     */
+    public function addModule( $className )
+    {
+        $moduleObj = new $className( $this->feedType );
+        if ( !$moduleObj instanceof ezcFeedModule )
+        {
+            throw new ezcFeedUnsupportedModuleException( $className );
+        }
+
+        $moduleName = $moduleObj->getModuleName();
+        $this->$moduleName = $this->feedProcessor->addModule( $moduleName, $moduleObj );
+    }
+
+    /**
+     * Creates and returns a new feed item for this feed.
      *
      * @return ezcFeedItem
      */
@@ -208,11 +317,19 @@ class ezcFeed implements Iterator
         return $item;
     }
 
+    /**
+     * Generates and returns an XML document from the current object.
+     *
+     * @return string
+     */
     public function generate()
     {
         return $this->feedProcessor->generate();
     }
 
+    /**
+     * Rewinds the cursor in the items array. Required by the Iterator interface.
+     */
     public function rewind()
     {
         $this->iteratorItems = $this->feedProcessor->getItems();
@@ -220,24 +337,146 @@ class ezcFeed implements Iterator
         $this->iteratorPosition = 0;
     }
 
+    /**
+     * Returns the current item in the items array. Required by the Iterator
+     * interface.
+     *
+     * @return ezcFeedItem
+     */
     public function current()
     {
         return $this->iteratorItems[$this->iteratorPosition];
     }
 
+    /**
+     * Returns the current key in the items array. Required by the Iterator
+     * interface.
+     *
+     * @return int
+     */
     public function key()
     {
         return $this->iteratorPosition;
     }
 
+    /**
+     * Returns if the current item in the items array is not in the last position.
+     * Required by the Iterator interface.
+     *
+     * @return bool
+     */
     public function valid()
     {
         return $this->iteratorPosition < $this->iteratorElementCount;
     }
 
+    /**
+     * Advances the current item in the items array. Required by the Iterator
+     * interface.
+     */
     public function next()
     {
         $this->iteratorPosition++;
+    }
+
+    /**
+     * Parses the XML document in the $uri and returns an ezcFeed object with
+     * the type autodetected from the XML document.
+     *
+     * @throws ezcBaseFileNotFoundException
+     *         If the XML file at $uri could not be found.
+     *
+     * @param string $uri An URI which stores an XML document
+     * @return ezcFeed
+     */
+    public static function parse( $uri )
+    {
+        $xml = new DomDocument;
+        $retval = @$xml->load( $uri );
+        if ( $retval === false )
+        {
+            throw new ezcBaseFileNotFoundException( $uri );
+        }
+        return self::dispatchXml( $xml );
+    }
+
+    /**
+     * Parses the XML document stored in $content and returns an ezcFeed object
+     * with the type autodetected from the XML document.
+     *
+     * @throws ezcFeedParseErrorException
+     *         If $content is not a valid XML document.
+     *
+     * @param string $content A string variable which stores an XML document
+     * @return ezcFeed
+     */
+    public static function parseContent( $content )
+    {
+        $xml = new DomDocument;
+        $retval = @$xml->loadXML( $content );
+        if ( $retval === false )
+        {
+            throw new ezcFeedParseErrorException( "Content is no valid XML" );
+        }
+        return self::dispatchXml( $xml );
+    }
+
+    /**
+     * Returns the supported feed types (the keys of the
+     * {@link self::$supportedFeedTypes} array).
+     *
+     * @return array(string)
+     */
+    public static function getSupportedTypes()
+    {
+        return array_keys( self::$supportedFeedTypes );
+    }
+
+    /**
+     * Returns the supported modules (the {@link self::$supportedModules} array).
+     *
+     * @return array(string)
+     */
+    public static function getSupportedModules()
+    {
+        return self::$supportedModules;
+    }
+
+    /**
+     * Returns a new $moduleName module object of feed type $feedType.
+     *
+     * @param string $moduleName A module name, for example 'DublinCore'
+     * @param string $feedType A feed type, for example 'rss2'
+     * @return ezcFeedModule
+     */
+    public static function getModule( $moduleName, $feedType )
+    {
+        return new self::$supportedModules[$moduleName]( $feedType );
+    }
+
+    /**
+     * Parses the $xml object by dispatching it to the processor that can
+     * handle it.
+     *
+     * @throws ezcFeedCanNotParseException
+     *         If the $xml document could not be parsed by any available processor.
+     *
+     * @param DOMDocument $xml The XML object to parse
+     * @return ezcFeed
+     */
+    protected static function dispatchXml( DOMDocument $xml )
+    {
+        foreach ( self::$supportedFeedTypes as $feedType => $feedClass )
+        {
+            $canParse = call_user_func( array( $feedClass, 'canParse' ), $xml );
+            if ( $canParse === true )
+            {
+                $processor = new $feedClass;
+                return $processor->parse( $xml );
+            }
+        }
+
+        throw new ezcFeedCanNotParseException( $xml->documentURI, 'Feed type not recognized' );
     }
 }
 ?>

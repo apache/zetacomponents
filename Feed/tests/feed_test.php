@@ -8,23 +8,25 @@
  * @subpackage Tests
  */
 
+include_once( 'Feed/tests/test.php' );
+
 /**
  * @package Feed
  * @subpackage Tests
  */
-class ezcFeedTest extends ezcTestCase
+class ezcFeedTest extends ezcFeedTestCase
 {
     public function testGetSupportedTypes()
     {
         $types = ezcFeed::getSupportedTypes();
         $expected = array( 'rss1', 'rss2', 'atom' );
-        self::assertEquals( $expected, $types );
+        $this->assertEquals( $expected, $types );
     }
 
     public function testCreateFeedSupported()
     {
         $feed = new ezcFeed( 'rss1' );
-        self::assertEquals( 'ezcFeed', get_class( $feed ) );
+        $this->assertEquals( 'ezcFeed', get_class( $feed ) );
     }
 
     public function testCreateFeedNotSupported()
@@ -32,18 +34,34 @@ class ezcFeedTest extends ezcTestCase
         try
         {
             $feed = new ezcFeed( 'molecule' );
-            self::fail( 'Expected exception not thrown' );
+            $this->fail( 'Expected exception not thrown' );
         }
         catch ( ezcFeedUnsupportedTypeException $e )
         {
-            self::assertEquals( "The feed type 'molecule' is not supported.", $e->getMessage() );
+            $this->assertEquals( "The feed type 'molecule' is not supported.", $e->getMessage() );
         }
     }
 
     public function testAddModuleSupported()
     {
         $feed = new ezcFeed( 'rss2' );
+        $this->assertEquals( false, isset( $feed->DublinCore ) );
         $feed->addModule( 'ezcFeedModuleDublinCore' );
+        $this->assertEquals( true, isset( $feed->DublinCore ) );
+    }
+
+    public function testAddModuleNotSupported()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        try
+        {
+            $feed->addModule( 'stdClass' );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedUnsupportedModuleException $e )
+        {
+            $this->assertEquals( "The module 'stdClass' is not supported.", $e->getMessage() );
+        }
     }
 
     public function testFeedNonExistentLocal()
@@ -51,11 +69,11 @@ class ezcFeedTest extends ezcTestCase
         try
         {
             $feed = ezcFeed::parse( 'not-here.xml' );
-            self::fail( 'Expected exception not thrown' );
+            $this->fail( 'Expected exception not thrown' );
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            self::assertEquals( "The file 'not-here.xml' could not be found.", $e->getMessage() );
+            $this->assertEquals( "The file 'not-here.xml' could not be found.", $e->getMessage() );
         }
     }
 
@@ -64,17 +82,62 @@ class ezcFeedTest extends ezcTestCase
         try
         {
             $feed = ezcFeed::parse( 'http://ez.no/not-here.xml' );
-            self::fail( 'Expected exception not thrown' );
+            $this->fail( 'Expected exception not thrown' );
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            self::assertEquals( "The file 'http://ez.no/not-here.xml' could not be found.", $e->getMessage() );
+            $this->assertEquals( "The file 'http://ez.no/not-here.xml' could not be found.", $e->getMessage() );
         }
     }
 
     public function testFeedExistsRemote()
     {
         $feed = ezcFeed::parse( 'http://ez.no/rss/feed/communitynews' );
+    }
+
+    public function testParseContentBroken()
+    {
+        try
+        {
+            $feed = ezcFeed::parseContent( 'bad XML document' );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedParseErrorException $e )
+        {
+            $this->assertEquals( "Parse error while parsing feed: Content is no valid XML.", $e->getMessage() );
+        }
+    }
+
+    public function testParseContentNotRecognized()
+    {
+        try
+        {
+            $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><xxx>Content</xxx>' );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedCanNotParseException $e )
+        {
+            $expected = "' could not be parsed: Feed type not recognized.";
+            $result = substr( $e->getMessage(), strlen( $e->getMessage() ) - 48 );
+            $this->assertEquals( $expected, $result );
+        }
+    }
+
+    public function testFeedProperties()
+    {
+        $feed = new ezcFeed( 'rss2' );
+
+        $this->readonlyPropertyTest( $feed, 'items' );
+
+        try
+        {
+            $value = $feed->no_such_property;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
+        }
     }
 
     public static function suite()

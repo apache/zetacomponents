@@ -188,6 +188,7 @@ class ezcFeedRss2Test extends ezcTestCase
         foreach ( $feed as $item )
         {
             $returned[] = array( $item->title, $item->link, $item->description );
+            $keys[] = $feed->key();
         }
         $expected = array (
   0 =>
@@ -242,6 +243,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
   ),
 );
         self::assertEquals( $expected, $returned );
+        self::assertEquals( array_keys( $expected ), $keys );
     }
 
     public function testWithModule1()
