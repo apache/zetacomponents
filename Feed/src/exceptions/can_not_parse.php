@@ -17,7 +17,13 @@
  */
 class ezcFeedCanNotParseException extends ezcFeedException
 {
-    function __construct( $uri, $extraData )
+    /**
+     * Constructs a new ezcFeedCanNotParseException.
+     *
+     * @param string $uri The URI which identifies the XML document which was tried to be parsed
+     * @param string $extraData An extra message to be included in the thrown exception text
+     */
+    public function __construct( $uri, $extraData )
     {
         parent::__construct( "The feed '{$uri}' could not be parsed: {$extraData}." );
     }

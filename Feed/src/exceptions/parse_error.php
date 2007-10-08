@@ -17,7 +17,12 @@
  */
 class ezcFeedParseErrorException extends ezcFeedException
 {
-    function __construct( $extraData )
+    /**
+     * Constructs a new ezcFeedParseErrorException.
+     *
+     * @param string $extraData An extra message to be included in the thrown exception text
+     */
+    public function __construct( $extraData )
     {
         parent::__construct( "Parse error while parsing feed: {$extraData}." );
     }

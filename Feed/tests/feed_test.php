@@ -140,6 +140,38 @@ class ezcFeedTest extends ezcFeedTestCase
         }
     }
 
+    public function testFeedItemProperties()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $feedItem = $feed->newItem();
+
+        try
+        {
+            $value = $feedItem->no_such_property;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
+        }
+    }
+
+    public function testFeedItemSetMetaDataFail()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $feedItem = $feed->newItem();
+
+        try
+        {
+            $feedItem->setMetaData( 'title', array() );
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcFeedOnlyOneValueAllowedException $e )
+        {
+            $this->assertEquals( "The attribute 'title' supports only singular values.", $e->getMessage() );
+        }
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcFeedTest" );

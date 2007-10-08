@@ -17,7 +17,12 @@
  */
 class ezcFeedOnlyOneValueAllowedException extends ezcFeedException
 {
-    function __construct( $attribute )
+    /**
+     * Constructs a new ezcFeedOnlyOneValueAllowedException.
+     *
+     * @param string $attribute The attribute which caused the exception
+     */
+    public function __construct( $attribute )
     {
         parent::__construct( "The attribute '{$attribute}' supports only singular values." );
     }

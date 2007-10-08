@@ -10,14 +10,19 @@
  */
 
 /**
- * Thrown when an unsupported feed is created.
+ * Thrown when an unsupported module is created.
  *
  * @package Feed
  * @version //autogentag//
  */
 class ezcFeedUnsupportedModuleException extends ezcFeedException
 {
-    function __construct( $type )
+    /**
+     * Constructs a new ezcFeedUnsupportedModuleException.
+     *
+     * @param string $type The module type which caused the exception
+     */
+    public function __construct( $type )
     {
         parent::__construct( "The module '{$type}' is not supported." );
     }

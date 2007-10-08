@@ -17,7 +17,12 @@
  */
 class ezcFeedUnsupportedTypeException extends ezcFeedException
 {
-    function __construct( $type )
+    /**
+     * Constructs a new ezcFeedUnsupportedTypeException.
+     *
+     * @param string $type The feed type which caused the exception
+     */
+    public function __construct( $type )
     {
         parent::__construct( "The feed type '{$type}' is not supported." );
     }

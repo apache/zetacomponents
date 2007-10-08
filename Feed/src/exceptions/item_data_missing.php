@@ -17,7 +17,12 @@
  */
 class ezcFeedRequiredItemDataMissingException extends ezcFeedException
 {
-    function __construct( $attribute )
+    /**
+     * Constructs a new ezcFeedRequiredItemDataMissingException.
+     *
+     * @param string $attribute The attribute which caused the exception
+     */
+    public function __construct( $attribute )
     {
         parent::__construct( "There was no data submitted for required attribute '{$attribute}'." );
     }

@@ -123,6 +123,31 @@ class ezcFeedRss2Test extends ezcTestCase
         self::assertEquals( $expected, $feed->generate() );
     }
 
+    public function testSimpleWithItemsWithError1()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $feed->title = "eZ components test";
+        $feed->link = "http://components.ez.no";
+        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->author = "xx@ez.no (Derick Rethans)";
+        $feed->webMaster = "xx@ez.no (Derick Rethans)";
+        $feed->published = 1148633191;
+        $feed->updated = "Fri May 26, 08:46:31 2006 UTC";
+        $feed->category = "eZ components";
+
+        $item = $feed->newItem();
+
+        try
+        {
+            $feed->generate();
+            self::assertEquals( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedRequiredItemDataMissingException $e )
+        {
+            self::assertEquals( "There was no data submitted for required attribute 'title'.", $e->getMessage() );
+        }
+    }
+
     public function testComplex1()
     {
         $feed = new ezcFeed( 'rss2' );

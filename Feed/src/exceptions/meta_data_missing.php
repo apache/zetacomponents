@@ -17,7 +17,12 @@
  */
 class ezcFeedRequiredMetaDataMissingException extends ezcFeedException
 {
-    function __construct( $attribute )
+    /**
+     * Constructs a new ezcFeedRequiredMetaDataMissingException.
+     *
+     * @param string $attribute The attribute which caused the exception
+     */
+    public function __construct( $attribute )
     {
         parent::__construct( "There was no data submitted for required channel attribute '{$attribute}'." );
     }

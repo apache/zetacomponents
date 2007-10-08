@@ -10,6 +10,13 @@
  */
 
 /**
+ * Base class for all feed processors.
+ *
+ * Currently implemented for these feed types:
+ *  - RSS1 ({@link ezcFeedRss1})
+ *  - RSS2 ({@link ezcFeedRss2})
+ *  - ATOM ({@link ezcFeedAtom})
+ *
  * @package Feed
  * @version //autogentag//
  */
@@ -48,7 +55,7 @@ abstract class ezcFeedProcessor
     {
         if ( !$this->isModuleSupported( $moduleName ) )
         {
-            throw new ezcFeedUnsupportedModuleException( $moduleName, 'RSS' );
+            throw new ezcFeedUnsupportedModuleException( $moduleName );
         }
         $this->modules[$moduleName] = new ezcFeedModuleData( $moduleName, $moduleObj, $this );
         return $this->modules[$moduleName];
@@ -58,7 +65,7 @@ abstract class ezcFeedProcessor
     {
         if ( !$this->isModuleSupported( $moduleName ) )
         {
-            throw new ezcFeedUnsupportedModuleException( $moduleName, 'RSS' );
+            throw new ezcFeedUnsupportedModuleException( $moduleName );
         }
         return new ezcFeedItemModuleData( $moduleName, $moduleObj, $item );
     }
@@ -164,6 +171,11 @@ abstract class ezcFeedProcessor
     abstract public function setFeedItemElement( $item, $element, $value );
     abstract public function generate();
 
+    /**
+     * Returns the type of this processor (eg. 'rss1').
+     *
+     * @return string
+     */
     public function getFeedType()
     {
         return $this->feedType;

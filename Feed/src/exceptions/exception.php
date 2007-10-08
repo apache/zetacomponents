@@ -10,7 +10,7 @@
  */
 
 /**
- * The general exception class as used by the Feed Classes.
+ * The general exception class used as base class for the Feed exception classes.
  *
  * @package Feed
  * @version //autogentag//

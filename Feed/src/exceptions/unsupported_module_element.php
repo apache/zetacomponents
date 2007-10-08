@@ -17,7 +17,13 @@
  */
 class ezcFeedUnsupportedModuleElementException extends ezcFeedException
 {
-    function __construct( $module, $element )
+    /**
+     * Constructs a new ezcFeedUnsupportedModuleElementException.
+     *
+     * @param string $module The module which caused the exception
+     * @param string $element The element which caused the exception
+     */
+    public function __construct( $module, $element )
     {
         parent::__construct( "The element '{$element}' does not exist for the module '{$module}'." );
     }
