@@ -1,15 +1,20 @@
 <?php
 /**
+ * File containing the ezcFeedItem class.
+ *
+ * @package Feed
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
  * @filesource
- * @package Feed
  */
 
 /**
+ * ezcFeedItem.
+ *
  * @package Feed
  * @version //autogentag//
+ * @mainclass
  */
 class ezcFeedItem
 {

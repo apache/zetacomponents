@@ -1,16 +1,22 @@
 <?php
 /**
+ * File containing the ezcFeed class.
+ *
+ * @package Feed
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
  * @filesource
- * @package Feed
  */
 
 /**
+ * ezcFeed.
+ *
  * @property-read array(int=>ezcFeedItem) $items The items belonging to the feed.
+ *
  * @package Feed
  * @version //autogentag//
+ * @mainclass
  */
 class ezcFeed implements Iterator
 {
