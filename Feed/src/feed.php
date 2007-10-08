@@ -69,6 +69,14 @@
  *        $feed->DublinCore->description = 'Detailed description';
  *        $title = $feed->DublinCore->description;
  *      </code>
+ *  - iterate over the items in the feed. An item in the feed is of class
+ *    {@link ezcFeedItem}. Example:
+ *      <code>
+ *        foreach ( $feed as $item )
+ *        {
+ *            $titles[] = $item->title;
+ *        }
+ *      </code>
  *  - generate an XML document from the ezcFeed object. Example:
  *      <code>
  *        $xml = $feed->generate();
