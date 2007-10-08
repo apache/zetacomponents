@@ -305,6 +305,11 @@ class ezcFeed implements Iterator
     /**
      * Adds a new module to the feed.
      *
+     * Example:
+     * <code>
+     * $feed->addModule( 'ezcFeedModuleDublinCode' );
+     * </code>
+     *
      * @var string $className The type of the module
      */
     public function addModule( $className )
@@ -321,6 +326,11 @@ class ezcFeed implements Iterator
 
     /**
      * Creates and returns a new feed item for this feed.
+     *
+     * Example:
+     * <code>
+     * $item = $feed->newItem();
+     * </code>
      *
      * @return ezcFeedItem
      */
@@ -397,6 +407,11 @@ class ezcFeed implements Iterator
      * Parses the XML document in the $uri and returns an ezcFeed object with
      * the type autodetected from the XML document.
      *
+     * Example of parsing an XML document stored in an URI:
+     * <code>
+     * $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
+     * </code>
+     *
      * @throws ezcBaseFileNotFoundException
      *         If the XML file at $uri could not be found.
      *
@@ -417,6 +432,12 @@ class ezcFeed implements Iterator
     /**
      * Parses the XML document stored in $content and returns an ezcFeed object
      * with the type autodetected from the XML document.
+     *
+     * Example of parsing an XML document stored in a string:
+     * <code>
+     * // $xmlString contains a valid XML document
+     * $feed = ezcFeed::parse( $xmlString );
+     * </code>
      *
      * @throws ezcFeedParseErrorException
      *         If $content is not a valid XML document.
@@ -449,7 +470,7 @@ class ezcFeed implements Iterator
     /**
      * Returns the supported modules (the {@link self::$supportedModules} array).
      *
-     * @return array(string)
+     * @return array(string=>string)
      */
     public static function getSupportedModules()
     {
@@ -473,7 +494,7 @@ class ezcFeed implements Iterator
      * handle it.
      *
      * @throws ezcFeedCanNotParseException
-     *         If the $xml document could not be parsed by any available processor.
+     *         If the $xml object could not be parsed by any available processor.
      *
      * @param DOMDocument $xml The XML object to parse
      * @return ezcFeed
