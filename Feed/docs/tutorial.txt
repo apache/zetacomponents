@@ -28,6 +28,103 @@ ezcFeed
   feed modules can be added to the feed object. It can be generated into an XML
   document.
 
+ezcFeedItem
+  Defines an item in a feed object.
+
+
+Supported feed types and modules
+--------------------------------
+
+A feed has a type (eg. RSS1, RSS2 or ATOM) and one or more modules (eg. Content,
+DublinCore).
+
+The feed type defines which processor is used to parse and generate that type.
+The following feed processors are supported by the Feed component:
+
+- RSS1 (ezcFeedRss1)
+- RSS2 (ezcFeedRss1)
+- ATOM (ezcFeedAtom)
+
+A new processor can be defined by creating a class which extends the class
+ezcFeedProcessor and implements the interface ezcFeedParser, and adding it to the
+ezcFeed::$supportedFeedTypes array.
+
+A module is a part of a feed. The following modules are supported by the Feed
+component:
+
+- Content (ezcFeedModuleContent)
+- DublinCore (ezcFeedModuleDublinCore)
+
+A new module can be defined by creating a class which implements the interface
+ezcFeedModule, and adding it to the ezcFeed::$supportedModules array.
+
+
+Working with feeds
+==================
+
+Feeds can be created from scratch or from existing XML documents (stored in an
+URI or in a string variable). The information stored in the feed can be
+modified, or new information can be added. The feed object can be converted to
+an XML document.
+
+
+Creating a feed object
+----------------------
+
+A feed object can be created in different ways:
+
+- by calling the constructor with the required feed type. Example: ::
+
+    // create an RSS2 feed
+    $feed = new ezcFeed( 'rss2' );
+
+- by parsing an existing XML file or uri. The feed type of the resulting
+  ezcFeed object will be autodetected. Example: ::
+
+    // create an RSS2 feed from the XML file at http://www.example.com/rss2.xml
+    $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
+
+- by parsing an XML document stored in a string variable. The feed type of
+  the resulting ezcFeed object will be autodetected. Example: ::
+
+    // create an RSS2 feed from the XML document stored in $xmlString
+    $feed = ezcFeed::parseContent( $xmlString );
+
+
+Feed operations
+---------------
+
+In the following examples $feed is an existing ezcFeed object.
+
+Possible feed operations:
+
+- add a module to the feed. Example: ::
+
+    $feed->addModule( 'ezcFeedModuleDublinCore' );
+
+- set/get a value from the feed document. Example: ::
+
+    $feed->title = 'News';
+    $title = $feed->title;
+
+- set/get a value from a module in the feed document. Example: ::
+
+    $feed->DublinCore->description = 'Detailed description';
+    $title = $feed->DublinCore->description;
+
+- iterate over the items in the feed. An item in the feed is of class
+  ezcFeedItem. Example: ::
+
+    // retrieve the titles from the feed items
+    foreach ( $feed as $item )
+    {
+        $titles[] = $item->title;
+    }
+
+- generate an XML document from the ezcFeed object. Example: ::
+
+    $xml = $feed->generate();
+
 
 
 ..
