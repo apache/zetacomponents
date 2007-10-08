@@ -17,7 +17,7 @@
  * @property int $lockType Represents the <locktype /> XML element.
  * @property string $owner Represents the <owner /> XML element.
  */
-class ezcWebdavRequestLockInfoContent extends ezcWebdavXmlBase
+class ezcWebdavRequestLockInfoContent extends ezcWebdavInfrastructureBase
 {
     /**
      * Container to hold the properties

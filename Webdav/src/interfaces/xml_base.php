@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavXmlBase class.
+ * File containing the ezcWebdavInfrastructureBase class.
  *
  * @package Base
  * @version //autogen//
@@ -9,65 +9,177 @@
  */
 
 /**
- * Base class for all XML based objects in this component.
- * The WebDAV specification allows any client/server to introduce own XML
- * elements in an own namespace at almost every place. To suite this need every
- * class that can be parsed from or be serialized to XML must extend this base
- * class (e.g. ezcWebdavProperty or ezcWebdavRequest).
+ * Base class for all infrastructural classes of the Webdav component.
  *
- * If a derived class is parsed from a request, all unrecognized XML elements
- * are available through the getMiscNodes() method as an array of DOMNode
- * objects. The setMiscNodes() method can be used to inject new DOMNode
- * elements into the specific object. These nodes will be injected into the DOM
- * tree generated for the response.
+ * The Webdav component provides a nifty plugin system that allows extension
+ * developers to hook into the flow of the Webdav component. Since this system
+ * makes it hard to extend infrastructural classes, like request or response
+ * classes, to add storage for custom plugin data.
  *
- * The class is declared abstract to avoid direct instantiation, it does not
- * contain any abstract methods.
- * 
+ * To solve this need for plugins to attach data to the instance of an
+ * infrastructural class, this abstract base class has been invented which is
+ * extended by all infrastructural classes.
+ *
+ * You can attach data to objects that inherit this class by using the {@see
+ * $this->setPluginData()} method, receive data back using {@see
+ * $this->getPluginData()} and detach once attached data using {@link
+ * $this->removePluginData()}. A check if data is available for a given plugin
+ * namespace and key can be checked using {@link $this->hasPluginData()}.
+ *
+ * @see ezcWebdavRequest
+ * @see ezcWebdavResponse
+ * @see ezcWebdavProperty
+ *
  * @package Webdav
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-abstract class ezcWebdavXmlBase
+abstract class ezcWebdavInfrastructureBase
 {
 
-    protected $miscNodes = array();
-
     /**
-     * Returns an array of DOMNode objects that were not recognized.
-     * This method returns an array of DOMNode objects, which could not be
-     * recognized during parsing.
+     * Storage for the plugin data. 
      * 
-     * @return array(DOMNode) Not recognized XML elements.
+     * @var array
      */
-    public function getMiscNodes()
-    {
-        return $this->miscNodes;
-    }
+    protected $pluginData = array();
 
     /**
-     * Sets an array of DOMNode objects to inject into the resulting XML.
-     * This method receives an array of DOMNode objects, which will be injected
-     * into the resulting XML, when it is serialized. Any DOMNode can be used
-     * (like DOMAttr or DOMElement).
-     * 
-     * @param array(DOMNode) $nodes Nodes to inject.
+     * Sets plugin data in the storage.
+     *
+     * This method is used to set plugin data in the internal data storage. The
+     * $namespace parameter must be the valid namespace of a plugin registered
+     * with the {@link ezcWebdavPluginRegistry}. If this is not the case, an
+     * {@link ezcBaseValueException} will be thrown.
+     *
+     * The $key parameter is a string used to identify the data added uniquely
+     * inside the private storage area of the client. The $key is needed to
+     * retrieve the data back using {@link $this->getPluginData()}.
+     *
+     * The $data to store can be of any arbitrary PHP type. If there is already
+     * $data stored in the position of the data store it will be overwritten.
+     *
+     * @param string $namespace 
+     * @param string $key 
+     * @param mixed $data 
      * @return void
      *
      * @throws ezcBaseValueException
-     *         if an element in the submitted array is not a DOMNode.
+     *         if the $namespace is unknown by the {@link
+     *         ezcWebdavPluginRegistry} or if $key is not a string.
      */
-    public function setMiscNodes( array $nodes )
+    public function setPluginData( $namespace, $key, $data )
     {
-        foreach ( $nodes as $id => $node )
+        if ( !ezcWebdavServer::getInstance()->pluginRegistry->hasPlugin( $namespace ) )
         {
-            if ( ( $node instanceof DOMNode ) )
-            {
-                throw new ezcBaseValueException( "nodes[$id]", get_class( $node ), 'DOMNode' );
-            }
+            throw new ezcBaseValueException( 'namespace', $namespace, 'known by ezcWebdavPluginRegistry' );
         }
-        $this->miscNodes = $nodes;
+        if ( !is_string( $key ) )
+        {
+            throw new ezcBaseValueException( 'key', $key, 'string' );
+        }
+        $this->pluginData[$namespace][$key] = $data;
+    }
+
+    /**
+     * Removes plugin data from the storage.
+     *
+     * Completly removes the data identified by the given plugin $namespace and
+     * the data $key. If the $namespace is not a known by the global {@link
+     * ezcWebdavPluginRegistry} an {@link ezcBaseValueException} will
+     * be thrown. If the given $key has no data assigned inside the plugins
+     * private data store, this call is silently ignored.
+     * 
+     * @param string $namespace 
+     * @param string $key 
+     * @return void
+     *
+     * @throws ezcBaseValueException
+     *         if the $namespace is unknown by the {@link
+     *         ezcWebdavPluginRegistry} or if $key is not a string.
+     */
+    public function removePluginData( $namespace, $key )
+    {
+        if ( !ezcWebdavServer::getInstance()->pluginRegistry->hasPlugin( $namespace ) )
+        {
+            throw new ezcBaseValueException( 'namespace', $namespace, 'known by ezcWebdavPluginRegistry' );
+        }
+        if ( !is_string( $key ) )
+        {
+            throw new ezcBaseValueException( 'key', $key, 'string' );
+        }
+        
+        if ( isset( $this->pluginData[$namespace][$key] ) )
+        {
+            unset( $this->pluginData[$namespace][$key] );
+        }
+    }
+
+    /**
+     * Retrieves plugin data from the storage.
+     *
+     * This method returns the data that was stored under the given plugin
+     * $namespace and data $key. If the given $namespace is unknown by the
+     * global {@link ezcWebdavPluginRegistry} an {@link
+     * ezcBaseValueException} will be thrown. If no data exists with
+     * the given $key, null will be returned.
+     * 
+     * @param string $namespace 
+     * @param string $key 
+     * @return mixed
+     *
+     * @throws ezcBaseValueException
+     *         if the $namespace is unknown by the {@link
+     *         ezcWebdavPluginRegistry} or if $key is not a string.
+     */
+    public function getPluginData( $namespace, $key )
+    {
+        if ( !ezcWebdavServer::getInstance()->pluginRegistry->hasPlugin( $namespace ) )
+        {
+            throw new ezcBaseValueException( 'namespace', $namespace, 'known by ezcWebdavPluginRegistry' );
+        }
+        if ( !is_string( $key ) )
+        {
+            throw new ezcBaseValueException( 'key', $key, 'string' );
+        }
+        
+        if ( isset( $this->pluginData[$namespace][$key] ) )
+        {
+            return $this->pluginData[$namespace][$key];
+        }
+        return null;
+    }
+    
+    /**
+     * Returns if plugin data is available in the storage.
+     *
+     * This method checks if there is data available for the given plugin
+     * $namespace and data $key. If the given $namespace is unknown by the
+     * global {@link ezcWebdavPluginRegistry} an {@link
+     * ezcBaseValueException} will be thrown. If data (not null) is
+     * assigned to the given key this method returns true, otherwise false.
+     * 
+     * @param string $namespace 
+     * @param string $key 
+     * @return bool
+     *
+     * @throws ezcBaseValueException
+     *         if the $namespace is unknown by the {@link
+     *         ezcWebdavPluginRegistry} or if $key is not a string.
+     */
+    public function hasPluginData( $namespace, $key )
+    {
+        if ( !ezcWebdavServer::getInstance()->pluginRegistry->hasPlugin( $namespace ) )
+        {
+            throw new ezcBaseValueException( 'namespace', $namespace, 'known by ezcWebdavPluginRegistry' );
+        }
+        if ( !is_string( $key ) )
+        {
+            throw new ezcBaseValueException( 'key', $key, 'string' );
+        }
+        
+        return ( isset( $this->pluginData[$namespace][$key] ) );
     }
 }
 

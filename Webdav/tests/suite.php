@@ -30,6 +30,8 @@ require_once 'path_factory_automatic_test.php';
 require_once 'property_storage_test.php';
 require_once 'property_storage_flagged_test.php';
 
+require_once 'infrastructure_base_test.php';
+
 require_once 'property_dead_test.php';
 require_once 'property_creationdate_test.php';
 require_once 'property_displayname_test.php';
@@ -91,6 +93,8 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcWebdavFlaggedPropertyStorageTest::suite() );
         $this->addTest( ezcWebdavPropertyStorageTest::suite() );
+
+        $this->addTest( ezcWebdavInfrastructureBaseTest::suite() );
 
         $this->addTest( ezcWebdavCreationDatePropertyTest::suite() );
         $this->addTest( ezcWebdavDeadPropertyTest::suite() );

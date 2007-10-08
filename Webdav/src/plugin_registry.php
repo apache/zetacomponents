@@ -147,7 +147,6 @@ class ezcWebdavPluginRegistry
 
     }
 
-
     /**
      * Can be used to deactivate a plugin.
      *
@@ -190,7 +189,8 @@ class ezcWebdavPluginRegistry
      */
     public final function hasPlugin( $namespace )
     {
-
+        // @todo: Implement
+        return true;
     }
 
     /**

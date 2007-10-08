@@ -24,7 +24,7 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-abstract class ezcWebdavProperty extends ezcWebdavXmlBase
+abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
 {
     /**
      * Container to hold the properties

@@ -25,7 +25,7 @@
  * @property mixed $keepAlive Represents the <keepalive /> XML element.
  * @property bool $omit Represents the <omit /> XML element.
  */
-class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavXmlBase
+class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavInfrastructureBase
 {
     /**
      * Indicates that the <keepalive /> XML element contained #PCDATA *.
