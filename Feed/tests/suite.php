@@ -12,9 +12,9 @@
  * Require the tests
  */
 require_once 'feed_test.php';
-require_once 'rss2_test.php';
-require_once 'rss2_content_test.php';
-require_once 'rss2_dc_test.php';
+require_once 'rss2/rss2_test.php';
+require_once 'rss2/rss2_content_test.php';
+require_once 'rss2/rss2_dc_test.php';
 
 /**
  * @package Feed
