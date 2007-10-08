@@ -12,7 +12,7 @@
 /**
  * Class defining a feed.
  *
- * A feed has a type (eg. RSS1, RSS2 or ATOM) and one or more cores (eg.
+ * A feed has a type (eg. RSS1, RSS2 or ATOM) and one or more modules (eg.
  * Content, DublinCore).
  *
  * The feed type defines which processor is used to parse and generate that type.
@@ -72,6 +72,7 @@
  *  - iterate over the items in the feed. An item in the feed is of class
  *    {@link ezcFeedItem}. Example:
  *      <code>
+ *        // retrieve the titles from the feed items
  *        foreach ( $feed as $item )
  *        {
  *            $titles[] = $item->title;
