@@ -1,0 +1,37 @@
+Feed RFCs
+---------
+
+This document lists the various feed types and modules supported by the Feed
+component, and the related specifications documents and RFCs.
+
+
+Feed types
+==========
+
+1. `RSS 1.0`__
+2. `RSS 2.0`__
+3. `ATOM`__ (RFC 4287)
+
+__ http://web.resource.org/rss/1.0/spec
+__ http://www.rssboard.org/rss-specification
+__ http://atompub.org/rfc4287.html
+
+
+Modules
+=======
+
+1. `Content`__
+2. `DublinCore`__
+
+__ http://web.resource.org/rss/1.0/modules/content/
+__ http://web.resource.org/rss/1.0/modules/dc/
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
+

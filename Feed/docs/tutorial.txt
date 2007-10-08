@@ -1,0 +1,38 @@
+eZ Components - Feed
+~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+Description
+-----------
+
+The purpose of the Feed component is to handle parsing and creating RSS and
+ATOM feeds.
+
+
+Class overview
+==============
+
+An overview of the most important classes in the Feed component.
+
+
+Base classes
+------------
+
+ezcFeed
+  Defines a feed object of a specified type. Can be created from scratch or
+  from an existing XML document (with autodetection of type). One or more
+  feed modules can be added to the feed object. It can be generated into an XML
+  document.
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79 nocin
