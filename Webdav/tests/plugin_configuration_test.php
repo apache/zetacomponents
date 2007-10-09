@@ -38,9 +38,13 @@ class ezcWebdavPluginConfigurationTest extends ezcWebdavTestCase
         $this->assertEquals(
             array(
                 'ezcWebdavTransport' => array(
-                    'extractLiveProperty' => array(
-                        array( 'fooBar', 'baz' ),
-                        array( 'fooCustomWebdavPluginConfiguration', 'test' ),
+                    'beforeExtractLiveProperty' => array(
+                        array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
+                        array(  $cfg, 'testCallback' ),
+                    ),
+                    'afterExtractLiveProperty' => array(
+                        array( 'ezcWebdavPluginRegistryTest', 'callbackAfterTest' ),
+                        array( $cfg, 'testCallback' )
                     ),
                 ),
             ),
@@ -52,7 +56,7 @@ class ezcWebdavPluginConfigurationTest extends ezcWebdavTestCase
     {
         $cfg = new fooCustomWebdavPluginConfiguration();
         $this->assertEquals(
-            'foobar',
+            'foonamespace',
             $cfg->getNamespace()
         );
     }
@@ -61,9 +65,8 @@ class ezcWebdavPluginConfigurationTest extends ezcWebdavTestCase
     {
         $cfg = new fooCustomWebdavPluginConfiguration();
         $cfg->init();
-        $this->assertEquals(
-            'bar',
-            $cfg->foo
+        $this->assertTrue(
+            $cfg->init
         );
     }
 }
