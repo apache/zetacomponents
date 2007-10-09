@@ -11,26 +11,32 @@
  * Base class for creating a webdav server, capable of serving webdav requests.
  *
  * <code>
- * $server = new ezcWebdavServer();
+ * $server = ezcWebdavServer::getInstance();
  *
  * // Server data using file backend with data in "path/"
  * $server->backend = new ezcWebdavBackendFile( '/path' );
  *
  * // Optionally register aditional transport handlers
- * //  
+ *   
  * // This step is only required, when a user wants to provide own 
  * // implementations for special clients.
- * $server->registerTransportHandler(
+ * $server->transportsi[] = new ezcWebdavTransportConfiguration(
  *     // Regular expression to match client name
  *     '(Microsoft.*Webdav\s+XP)i',
  *     // Class name of transport handler, extending ezcWebdavTransportHandler
  *     'ezcWebdavMicrosoftTransport'
  * );  
- * $server->registerTransportHandler(
+ * $server->transportsi[] = new ezcWebdavTransportConfiguration(
  *     // Regular expression to match client name
  *     '(.*Firefox.*)i',
  *     // Class name of transport handler, extending ezcWebdavTransportHandler
- *     'ezcWebdavMozillaTransport'
+ *     'customWebdavMozillaTransport',
+ *     // A custom implementation of {@link ezcWebdavXmlTool}
+ *     'customWebdavXmlTool',
+ *     // A custom implementation of {@link ezcWebdavPropertyHandler}
+ *     'customWebdavPropertyHandler',
+ *     // A custom path factory
+ *     new customWebdavPathFactory()
  * );  
  *
  * // Serve requests
@@ -112,7 +118,7 @@ class ezcWebdavServer
         {
             throw new ezcWedavMissingHeaderException( 'User-Agent' );
         }
-        $this->transport = $this->transports->createTransport( $_SERVER['HTTP_USER_AGENT'] );
+        $this->properties['transport'] = $this->transports->createTransport( $_SERVER['HTTP_USER_AGENT'] );
 
         // Parse request into request object
         try

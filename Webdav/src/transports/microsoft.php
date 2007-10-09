@@ -45,7 +45,7 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
     protected function sendResponse( ezcWebdavDisplayInformation $info )
     {
         // Required by MS Clients to not think this is Frontpage stuff
-        header( 'MS-Author-Via: DAV', true );
+        $info->response->setHeader( 'MS-Author-Via', 'DAV' );
 
         return parent::sendResponse( $info );
     }
