@@ -114,17 +114,20 @@ class ezcFeedRss2 extends ezcFeedRss
     public function setFeedElement( $element, $value )
     {
         $this->processModuleFeedSetHook( $this, $element, $value );
-        if ( in_array( $element, self::$requiredFeedAttributes ) || in_array( $element, self::$optionalFeedAttributes ) )
+        if ( in_array( $element, self::$requiredFeedAttributes )
+             || in_array( $element, self::$optionalFeedAttributes ) )
         {
             switch ( $element )
             {
                 case 'category':
                     $this->setMetaArrayData( $element, $value );
                     break;
+
                 case 'published':
                 case 'updated':
                     $this->setMetaData( $element, $this->prepareDate( $value ) );
                     break;
+
                 default:
                     $this->setMetaData( $element, $value );
             }
@@ -144,16 +147,19 @@ class ezcFeedRss2 extends ezcFeedRss
     public function setFeedItemElement( ezcFeedItem $item, $element, $value )
     {
         $this->processModuleItemSetHook( $item, $element, $value );
-        if ( in_array( $element, self::$requiredFeedItemAttributes ) || in_array( $element, self::$optionalFeedItemAttributes ) )
+        if ( in_array( $element, self::$requiredFeedItemAttributes )
+             || in_array( $element, self::$optionalFeedItemAttributes ) )
         {
             switch ( $element )
             {
                 case 'category':
                     $item->setMetaArrayData( $element, $value );
                     break;
+
                 case 'published':
                     $item->setMetaData( $element, $this->prepareDate( $value ) );
                     break;
+
                 default:
                     $item->setMetaData( $element, $value );
             }
@@ -222,14 +228,17 @@ class ezcFeedRss2 extends ezcFeedRss
             {
                 if ( !is_null( $metaData ) )
                 {
-                    switch ( $attribute ) {
+                    switch ( $attribute )
+                    {
                         case 'guid':
                             $permalink = substr( $metaData, 0, 7 ) === 'http://' ? "true" : "false";
                             $this->generateItemDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, array( 'isPermaLink' => $permalink ) );
                             break;
+
                         case 'published':
                             $this->generateItemData( $itemTag, $normalizedAttribute, date( 'D, d M Y H:i:s O', $metaData ) );
                             break;
+
                         default:
                             $this->generateItemData( $itemTag, $normalizedAttribute, $metaData );
                     }
@@ -294,10 +303,12 @@ class ezcFeedRss2 extends ezcFeedRss
                         case 'image':
                             $this->generateImage( $this->channel, $this->getMetaData( 'title' ), $this->getMetaData( 'link' ), $data );
                             break;
+
                         case 'published':
                         case 'updated':
                             $this->generateMetaData( $normalizedAttribute, date( 'D, d M Y H:i:s O', $data ) );
                             break;
+
                         default:
                             $this->generateMetaData( $normalizedAttribute, $data );
                     }
@@ -351,56 +362,6 @@ class ezcFeedRss2 extends ezcFeedRss
     }
 
     /**
-     * Parses the provided XML element object and stores it as a feed item in
-     * the provided ezcFeed object.
-     *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
-     * @param DOMElement $xml The XML element object to parse
-     */
-    public function parseItem( ezcFeed $feed, DOMElement $item )
-    {
-        $feedItem = $feed->newItem();
-        foreach ( $item->childNodes as $itemChild )
-        {
-            if ( $itemChild->nodeType == XML_ELEMENT_NODE )
-            {
-                $tagName = $itemChild->tagName;
-                $tagName = $this->deNormalizeName( $tagName, self::$feedItemAttributesMap );
-                switch ( $tagName )
-                {
-                    case 'title':
-                    case 'link':
-                    case 'description':
-                    case 'author':
-                    case 'comments':
-                    case 'enclosure':
-                    case 'guid':
-                    case 'source':
-                        $feedItem->$tagName = $itemChild->textContent;
-                        break;
-                    case 'published':
-                        $feedItem->$tagName = $this->prepareDate( $itemChild->textContent );
-                        break;
-                    case 'category':
-                        $array = $feedItem->$tagName;
-                        $array[] = $itemChild->textContent;
-                        $feedItem->$tagName = $array;
-                        break;
-                    default:
-                        // check if it's part of a known module/namespace
-                        $parts = explode( ':', $tagName );
-                        if ( count( $parts ) == 2 && in_array( $parts[0], array_keys( $this->usedPrefixes ) ) )
-                        {
-                            $moduleName = $this->usedPrefixes[$parts[0]];
-                            $element = $parts[1];
-                            $feedItem->$moduleName->$element = $itemChild->textContent;
-                        }
-                }
-            }
-        }
-    }
-
-    /**
      * Parses the provided XML document object and returns an ezcFeed object
      * from it.
      *
@@ -412,7 +373,7 @@ class ezcFeedRss2 extends ezcFeedRss
      */
     public function parse( DOMDocument $xml )
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $rssChildren = $xml->documentElement->childNodes;
         $channel = null;
 
@@ -492,6 +453,60 @@ class ezcFeedRss2 extends ezcFeedRss
             }
         }
         return $feed;
+    }
+
+    /**
+     * Parses the provided XML element object and stores it as a feed item in
+     * the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
+     * @param DOMElement $xml The XML element object to parse
+     */
+    public function parseItem( ezcFeed $feed, DOMElement $item )
+    {
+        $feedItem = $feed->newItem();
+        foreach ( $item->childNodes as $itemChild )
+        {
+            if ( $itemChild->nodeType == XML_ELEMENT_NODE )
+            {
+                $tagName = $itemChild->tagName;
+                $tagName = $this->deNormalizeName( $tagName, self::$feedItemAttributesMap );
+
+                switch ( $tagName )
+                {
+                    case 'title':
+                    case 'link':
+                    case 'description':
+                    case 'author':
+                    case 'comments':
+                    case 'enclosure':
+                    case 'guid':
+                    case 'source':
+                        $feedItem->$tagName = $itemChild->textContent;
+                        break;
+
+                    case 'published':
+                        $feedItem->$tagName = $this->prepareDate( $itemChild->textContent );
+                        break;
+
+                    case 'category':
+                        $array = $feedItem->$tagName;
+                        $array[] = $itemChild->textContent;
+                        $feedItem->$tagName = $array;
+                        break;
+
+                    default:
+                        // check if it's part of a known module/namespace
+                        $parts = explode( ':', $tagName );
+                        if ( count( $parts ) == 2 && in_array( $parts[0], array_keys( $this->usedPrefixes ) ) )
+                        {
+                            $moduleName = $this->usedPrefixes[$parts[0]];
+                            $element = $parts[1];
+                            $feedItem->$moduleName->$element = $itemChild->textContent;
+                        }
+                }
+            }
+        }
     }
 }
 ?>

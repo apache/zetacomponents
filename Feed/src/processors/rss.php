@@ -10,16 +10,51 @@
  */
 
 /**
+ * Abstract class providing common functionality for the RSS1 and RSS2
+ * processors.
+ *
+ * Currently implemented for these feed types:
+ *  - RSS1 ({@link ezcFeedRss1})
+ *  - RSS2 ({@link ezcFeedRss2})
+ *
  * @package Feed
  * @version //autogentag//
  */
 abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
 {
+    /**
+     * Holds the root node of the XML document being generated.
+     *
+     * @var DOMNode
+     */
     protected $root;
+
+    /**
+     * Holds the channel element of the XML document being generated.
+     *
+     * @var DOMElement
+     */
     protected $channel;
+
+    /**
+     * Holds the item nodes of the XML document being generated.
+     *
+     * @var array(ezcFeedItem)
+     */
     protected $items = array();
+
+    /**
+     * Holds meta data for the elements of the XML document being generated.
+     *
+     * @var array(string=>array(string=>mixed))
+     */
     protected $metaData = array();
 
+    /**
+     * Creates a root node for the XML document being generated.
+     *
+     * @param string $version The RSS version for the root node
+     */
     public function createRootElement( $version )
     {
         $rss = $this->xml->createElement( 'rss' );
@@ -32,6 +67,13 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         $this->root = $this->xml->appendChild( $rss );
     }
 
+    /**
+     * Creates elements in the XML document being generated with name $element
+     * and value(s) $value.
+     *
+     * @param string $element The name of the XML element
+     * @param mixed|array(mixed) $value The value(s) for $element
+     */
     public function generateMetaData( $element, $value )
     {
         if ( !is_array( $value ) )
@@ -45,12 +87,26 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         }
     }
 
+    /**
+     * Sets the namespace attribute in the XML document being generated.
+     *
+     * @param string $prefix The prefix to use
+     * @param string $namespace The namespace to use
+     */
     public function generateNamespace( $prefix, $namespace )
     {
         $this->root->setAttributeNS( "http://www.w3.org/2000/xmlns/", "xmlns:$prefix", $namespace );
     }
 
-    public function generateItemData( $item, $element, $value )
+    /**
+     * Creates elements in the node $item of the XML document being generated,
+     * with name $element and with value(s) $value.
+     *
+     * @param DOMNode $item The node where to add $element
+     * @param string $element The name of the XML element
+     * @param mixed|array(mixed) $value The value(s) for $element
+     */
+    public function generateItemData( DOMNode $item, $element, $value )
     {
         if ( !is_array( $value ) )
         {
@@ -63,7 +119,16 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         }
     }
 
-    public function generateItemDataWithAttributes( $item, $element, $value, $attributes )
+    /**
+     * Creates elements in the node $item of the XML document being generated,
+     * with name $element and with value(s) $value and attributes $attributes.
+     *
+     * @param DOMNode $item The node where to add $element
+     * @param string $element The name of the XML element
+     * @param mixed|array(mixed) $value The value(s) for $element
+     * @param array(string=>mixed) $attributes The attributes for $element
+     */
+    public function generateItemDataWithAttributes( DOMNode $item, $element, $value, $attributes )
     {
         if ( !is_array( $value ) )
         {
@@ -83,7 +148,17 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         }
     }
 
-    public function generateImage( $item, $title, $link, $imageUrl )
+    /**
+     * Creates an image element in the node $item of the XML document being
+     * generated, with the title, link and url subnodes populated with the
+     * values $title, $link and $imageUrl, respectively.
+     *
+     * @param DOMNode $item The node where to add the image element
+     * @param string $title The title of the image element
+     * @param string $link The link of the image element
+     * @param string $imageUrl The image URL of the image element
+     */
+    public function generateImage( DOMNode $item, $title, $link, $imageUrl )
     {
         $image = $this->xml->createElement( 'image' );
         $title = $this->xml->createElement( 'title', $title );
@@ -95,6 +170,12 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         $item->appendChild( $image );
     }
 
+    /**
+     * Returns the provided $date in timestamp format.
+     *
+     * @param mixed $date A date
+     * @return int
+     */
     public function prepareDate( $date )
     {
         if ( is_int( $date ) || is_numeric( $date ) )
@@ -109,11 +190,14 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         return time();
     }
 
-    public function addItem( $item )
-    {
-        $this->items[] = $item;
-    }
-    
+    /**
+     * Returns the name on which $attributeName is mapped in the $mappingArray
+     * array, or $attributeName if a mapping does not exist for $attributeName.
+     *
+     * @param string $attributeName The attribute name
+     * @param array(string=>string) $mappingArray A mapping of attribute names to normalized names
+     * @return string
+     */
     protected function normalizeName( $attributeName, $mappingArray )
     {
         if ( array_key_exists( $attributeName, $mappingArray ) )
@@ -123,16 +207,29 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         return $attributeName;
     }
 
+    /**
+     * Returns the name on which $attributeName is mapped in the $mappingArray
+     * flipped array, or $attributeName if a mapping does not exist for
+     * $attributeName.
+     *
+     * @param string $attributeName The attribute name
+     * @param array(string=>string) $mappingArray A mapping of attribute names to normalized names
+     * @return string
+     */
     protected function deNormalizeName( $attributeName, $mappingArray )
     {
         return $this->normalizeName( $attributeName, array_flip( $mappingArray ) );
     }
 
-    public function getItems()
-    {
-        return $this->items;
-    }
-
+    /**
+     * Sets the meta data associated with the XML element name $element to $value.
+     *
+     * @throws ezcFeedOnlyOneValueAllowedException
+     *         If $value is an array.
+     *
+     * @param string $element The XML element name
+     * @param mixed $value The new value for $element
+     */
     public function setMetaData( $element, $value )
     {
         if ( is_array( $value ) )
@@ -142,6 +239,14 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         $this->metaData[$element] = $value;
     }
 
+    /**
+     * Adds $value to the array of meta data associated with the XML element
+     * name $element. If $value is an array it is assigned directly to the
+     * meta data, clearing old values.
+     *
+     * @param string $element The XML element name
+     * @param mixed $value The new value for $element
+     */
     public function setMetaArrayData( $element, $value )
     {
         if ( is_array( $value ) )
@@ -158,11 +263,23 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         }
     }
 
+    /**
+     * Clears the meta data associated with the XML element name $element.
+     *
+     * @param string $element The XML element name
+     */
     public function unsetMetaData( $element )
     {
         unset( $this->metaData[$element] );
     }
 
+    /**
+     * Returns the meta data stored in this processor for the XML element name
+     * $element.
+     *
+     * @param string $element The XML element name
+     * @return array(string=>mixed)
+     */
     public function getMetaData( $element )
     {
         if ( isset( $this->metaData[$element] ) )
@@ -172,9 +289,34 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         return null;
     }
 
+    /**
+     * Returns the meta data stored in this processor.
+     *
+     * @return array(string=>array(string=>mixed))
+     */
     protected function getAllMetaData()
     {
         return $this->metaData;
+    }
+
+    /**
+     * Adds a new feed item to this processor.
+     *
+     * @param ezcFeedItem $item The feed item object to add
+     */
+    public function addItem( ezcFeedItem $item )
+    {
+        $this->items[] = $item;
+    }
+    
+    /**
+     * Returns the feed items in this processor.
+     *
+     * @return array(ezcFeedItem)
+     */
+    public function getItems()
+    {
+        return $this->items;
     }
 }
 ?>
