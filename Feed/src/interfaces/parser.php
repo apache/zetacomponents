@@ -10,13 +10,46 @@
  */
 
 /**
+ * Interface for feed parsers.
+ *
+ * Currently implemented for these feed types:
+ *  - RSS1 ({@link ezcFeedRss1})
+ *  - RSS2 ({@link ezcFeedRss2})
+ *  - ATOM ({@link ezcFeedAtom})
+ *
  * @package Feed
  * @version //autogentag//
  */
 interface ezcFeedParser
 {
-    public static function canParse( DomDocument $xml );
-    public function parse( DomDocument $xml );
-    public function parseItem( ezcFeed $feed, DomElement $xml );
+    /**
+     * Returns true if the parser can parse the provided XML document object,
+     * false otherwise.
+     *
+     * @param DOMDocument $xml The XML document object to check for parseability
+     * @return bool
+     */
+    public static function canParse( DOMDocument $xml );
+
+    /**
+     * Parses the provided XML document object and returns an ezcFeed object
+     * from it.
+     *
+     * @throws ezcFeedParseErrorException
+     *         If an error was encountered during parsing.
+     *
+     * @param DOMDocument $xml The XML document object to parse
+     * @return ezcFeed
+     */
+    public function parse( DOMDocument $xml );
+
+    /**
+     * Parses the provided XML element object and stores it as a feed item in
+     * the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
+     * @param DOMElement $xml The XML element object to parse
+     */
+    public function parseItem( ezcFeed $feed, DOMElement $xml );
 }
 ?>

@@ -251,8 +251,11 @@ class ezcFeed implements Iterator
 
             case 'items':
                 throw new ezcBasePropertyPermissionException( $property, ezcBasePropertyPermissionException::READ );
+
+            default:
         }
 
+        // @todo find a way to remove this from here
         $modules = $this->feedProcessor->getModules();
         foreach ( $modules as $moduleName => $moduleObj )
         {

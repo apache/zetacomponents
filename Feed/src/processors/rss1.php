@@ -34,7 +34,7 @@ class ezcFeedRss1 extends ezcFeedRss
     {
     }
 
-    public function setFeedItemElement( $item, $element, $value )
+    public function setFeedItemElement( ezcFeedItem $item, $element, $value )
     {
     }
 
@@ -42,7 +42,7 @@ class ezcFeedRss1 extends ezcFeedRss
     {
     }
 
-    public function getFeedItemElement( $item, $element )
+    public function getFeedItemElement( ezcFeedItem $item, $element )
     {
     }
 
@@ -50,17 +50,17 @@ class ezcFeedRss1 extends ezcFeedRss
     {
     }
 
-    public static function canParse( DomDocument $xml )
+    public static function canParse( DOMDocument $xml )
     {
         return false;
     }
 
-    public function parse( DomDocument $xml )
+    public function parse( DOMDocument $xml )
     {
         return false;
     }
 
-    public function parseItem( ezcFeed $feed, DomElement $xml )
+    public function parseItem( ezcFeed $feed, DOMElement $xml )
     {
     }
 }

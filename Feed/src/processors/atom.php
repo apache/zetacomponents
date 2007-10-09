@@ -34,7 +34,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
     }
 
-    public function setFeedItemElement( $item, $element, $value )
+    public function setFeedItemElement( ezcFeedItem $item, $element, $value )
     {
     }
 
@@ -42,7 +42,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
     }
 
-    public function getFeedItemElement( $item, $element )
+    public function getFeedItemElement( ezcFeedItem $item, $element )
     {
     }
 
@@ -50,16 +50,16 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
     }
 
-    public static function canParse( DomDocument $xml )
+    public static function canParse( DOMDocument $xml )
     {
         return false;
     }
 
-    public function parseItem( ezcFeed $feed, DomElement $item )
+    public function parseItem( ezcFeed $feed, DOMElement $item )
     {
     }
  
-    public function parse( DomDocument $xml )
+    public function parse( DOMDocument $xml )
     {
     }
 }

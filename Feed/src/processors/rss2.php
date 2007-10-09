@@ -10,6 +10,8 @@
  */
 
 /**
+ * Class providing parsing and generating of RSS2 feeds.
+ *
  * @package Feed
  * @version //autogentag//
  */
@@ -21,21 +23,21 @@ class ezcFeedRss2 extends ezcFeedRss
     const FEED_TYPE = 'rss2';
 
     /**
-     * A list of modules that are supported by this feed type
+     * Holds a list of modules that are supported by this feed type.
      *
      * @var array(string)
      */
     protected $supportedModules = array( 'DublinCore', 'Content' );
 
     /**
-     * A list of required attributes for the channel definition.
+     * Holds a list of required attributes for the channel definition.
      *
      * @var array(string)
      */
     protected static $requiredFeedAttributes = array( 'title', 'link', 'description' );
 
     /**
-     * A list of optional attributes for the channel definition.
+     * Holds a list of optional attributes for the channel definition.
      *
      * @var array(string)
      */
@@ -44,7 +46,8 @@ class ezcFeedRss2 extends ezcFeedRss
         'category', 'generator', 'ttl', 'docs', 'image' );
 
     /**
-     * This array maps the common names for channel attributes to feed specific names
+     * Holds a mapping of the common names for channel attributes to feed specific
+     * names.
      *
      * @var array(string=>string)
      */
@@ -54,13 +57,37 @@ class ezcFeedRss2 extends ezcFeedRss
         'updated' => 'lastBuildDate',
     );
 
+    /**
+     * Holds a list of required attributes for items definitions.
+     *
+     * @var array(string)
+     */
     protected static $requiredFeedItemAttributes = array( 'title', 'link', 'description' );
+
+    /**
+     * Holds a list of optional attributes for items definitions.
+     *
+     * @var array(string)
+     */
     protected static $optionalFeedItemAttributes = array( 'author', 'category',
         'comments', 'enclosure', 'guid', 'published', 'source' );
+
+    /**
+     * Holds a mapping of the common names for items attributes to feed specific
+     * names.
+     *
+     * @var array(string=>string)
+     */
     protected static $feedItemAttributesMap = array(
         'published' => 'pubDate',
     );
 
+    /**
+     * Holds the prefixes used in the feed generation process.
+     *
+     * @var array(string)
+     * @ignore
+     */
     protected $usedPrefixes = array();
 
     /**
@@ -75,6 +102,15 @@ class ezcFeedRss2 extends ezcFeedRss
         $this->feedType = self::FEED_TYPE;
     }
 
+    /**
+     * Sets the value of the feed element $element to $value.
+     *
+     * The hook {@link ezcFeedProcessor::processModuleFeedSetHook()} is called
+     * before setting $element.
+     *
+     * @param string $element The feed element
+     * @param mixed $value The new value of $element
+     */
     public function setFeedElement( $element, $value )
     {
         $this->processModuleFeedSetHook( $this, $element, $value );
@@ -95,7 +131,17 @@ class ezcFeedRss2 extends ezcFeedRss
         }
     }
 
-    public function setFeedItemElement( $item, $element, $value )
+    /**
+     * Sets the value of the feed element $element of feed item $item to $value.
+     *
+     * The hook {@link ezcFeedProcessor::processModuleItemSetHook()} is called
+     * before setting $element.
+     *
+     * @param ezcFeedItem $item The feed item object
+     * @param string $element The feed element
+     * @param mixed $value The new value of $element
+     */
+    public function setFeedItemElement( ezcFeedItem $item, $element, $value )
     {
         $this->processModuleItemSetHook( $item, $element, $value );
         if ( in_array( $element, self::$requiredFeedItemAttributes ) || in_array( $element, self::$optionalFeedItemAttributes ) )
@@ -114,19 +160,42 @@ class ezcFeedRss2 extends ezcFeedRss
         }
     }
 
+    /**
+     * Returns the value of the feed element $element.
+     *
+     * @param string $element The feed element
+     * @return mixed
+     */
     public function getFeedElement( $element )
     {
         $element = $this->normalizeName( $element, self::$feedAttributesMap );
         return $this->getMetaData( $element );
     }
 
-    public function getFeedItemElement( $item, $element )
+    /**
+     * Returns the value of the element $element of feed item $item.
+     *
+     * @param ezcFeedItem $item The feed item object
+     * @param string $element The feed element
+     * @return mixed
+     */
+    public function getFeedItemElement( ezcFeedItem $item, $element )
     {
         $element = $this->normalizeName( $element, self::$feedItemAttributesMap );
         return $item->getMetaData( $element );
     }
 
-    protected function generateItem( $item )
+    /**
+     * Generates the required data for the feed item $item and includes it in
+     * the XML document which is being generated.
+     *
+     * The hook {@link ezcFeedProcessor::processModuleItemGenerateHook()} is
+     * called for each attribute in the item.
+     *
+     * @param ezcFeedItem $item The feed item object
+     * @return string
+     */
+    protected function generateItem( ezcFeedItem $item )
     {
         $itemTag = $this->xml->createElement( 'item' );
         $this->channel->appendChild( $itemTag );
@@ -182,9 +251,19 @@ class ezcFeedRss2 extends ezcFeedRss
         }
     }
 
+    /**
+     * Returns an XML string from the feed information contained in this
+     * processor.
+     *
+     * The hooks {@link ezcFeedProcessor::processModuleFeedGenerateHook()} and
+     * {@link ezcFeedProcessor::processModuleItemGenerateHook()} are used for
+     * each attribute in the feed and in the feed items.
+     *
+     * @return string
+     */
     public function generate()
     {
-        $this->xml = new DomDocument( '1.0', 'utf-8' );
+        $this->xml = new DOMDocument( '1.0', 'utf-8' );
         $this->xml->formatOutput = 1;
         $this->createRootElement( '2.0' );
 
@@ -247,7 +326,14 @@ class ezcFeedRss2 extends ezcFeedRss
         return $this->xml->saveXML();
     }
 
-    public static function canParse( DomDocument $xml )
+    /**
+     * Returns true if the parser can parse the provided XML document object,
+     * false otherwise.
+     *
+     * @param DOMDocument $xml The XML document object to check for parseability
+     * @return bool
+     */
+    public static function canParse( DOMDocument $xml )
     {
         if ( $xml->documentElement->tagName !== 'rss' )
         {
@@ -264,7 +350,14 @@ class ezcFeedRss2 extends ezcFeedRss
         return true;
     }
 
-    public function parseItem( ezcFeed $feed, DomElement $item )
+    /**
+     * Parses the provided XML element object and stores it as a feed item in
+     * the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
+     * @param DOMElement $xml The XML element object to parse
+     */
+    public function parseItem( ezcFeed $feed, DOMElement $item )
     {
         $feedItem = $feed->newItem();
         foreach ( $item->childNodes as $itemChild )
@@ -307,7 +400,17 @@ class ezcFeedRss2 extends ezcFeedRss
         }
     }
 
-    public function parse( DomDocument $xml )
+    /**
+     * Parses the provided XML document object and returns an ezcFeed object
+     * from it.
+     *
+     * @throws ezcFeedParseErrorException
+     *         If an error was encountered during parsing.
+     *
+     * @param DOMDocument $xml The XML document object to parse
+     * @return ezcFeed
+     */
+    public function parse( DOMDocument $xml )
     {
         $feed = new ezcFeed( 'rss2' );
         $rssChildren = $xml->documentElement->childNodes;
@@ -350,6 +453,7 @@ class ezcFeedRss2 extends ezcFeedRss
             {
                 $tagName = $channelChild->tagName;
                 $tagName = $this->deNormalizeName( $tagName, self::$feedAttributesMap );
+
                 switch ( $tagName )
                 {
                     case 'title':
@@ -365,13 +469,16 @@ class ezcFeedRss2 extends ezcFeedRss
                     case 'category':
                         $feed->$tagName = $channelChild->textContent;
                         break;
+
                     case 'published':
                     case 'updated':
                         $feed->$tagName = $this->prepareDate( $channelChild->textContent );
                         break;
+
                     case 'item':
                         $this->parseItem( $feed, $channelChild );
                         break;
+
                     default:
                         // check if it's part of a known module/namespace
                         $parts = explode( ':', $tagName );
