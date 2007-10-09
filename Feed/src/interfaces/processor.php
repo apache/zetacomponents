@@ -31,32 +31,79 @@ abstract class ezcFeedProcessor
     protected $supportedModules = array();
 
     /**
-     * Holds the feed type.
+     * Holds the feed type (eg. 'rss2').
      *
      * @var string
+     * @ignore
      */
     protected $feedType;
 
     /**
      * A list of modules which are loaded.
      *
-     * @var array(string=>ezcFeedModule)
+     * @var array(string=>ezcFeedModuleData)
+     * @ignore
      */
     protected $modules = array();
 
+    /**
+     * The meta data for the modules.
+     *
+     * The format of this array is:
+     * <code>
+     *   array( module_name => array( element_name => element_value ) );
+     * </code>
+     *
+     * Example:
+     * <code>
+     *   array( 'DublinCore' => array( 'title' => 'News', 'format' = 'text/plain' ) );
+     * </code>
+     *
+     * @var array(string=>array)
+     * @ignore
+     */
     protected $moduleMetaData = array();
 
+    /**
+     * Returns the type of this processor (eg. 'rss1').
+     *
+     * @return string
+     */
+    public function getFeedType()
+    {
+        return $this->feedType;
+    }
+
+    /**
+     * Returns true if $moduleName is supported by this processor, false otherwise.
+     *
+     * @var string $moduleName The module name (eg. 'DublinCore')
+     * @return bool
+     */
     public function isModuleSupported( $moduleName )
     {
         return in_array( $moduleName, $this->supportedModules );
     }
 
-    public function addModule( $moduleName, $moduleObj )
+    /**
+     * Adds a new module to the feed processor.
+     *
+     * It is called by the {@link ezcFeed::addModule()} method.
+     *
+     * @throws ezcFeedUnsupportedModuleException
+     *         If the module is not supported by this feed processor.
+     *
+     * @param string $moduleName The type of the module
+     * @param ezcFeedModule $moduleObj The instance of the module
+     * @return ezcFeedModuleData
+     */
+    public function addModule( $moduleName, ezcFeedModule $moduleObj )
     {
         if ( !$this->isModuleSupported( $moduleName ) )
         {
             throw new ezcFeedUnsupportedModuleException( $moduleName );
         }
+
         $this->modules[$moduleName] = new ezcFeedModuleData( $moduleName, $moduleObj, $this );
         return $this->modules[$moduleName];
     }
@@ -170,15 +217,5 @@ abstract class ezcFeedProcessor
     abstract public function setFeedElement( $element, $value );
     abstract public function setFeedItemElement( $item, $element, $value );
     abstract public function generate();
-
-    /**
-     * Returns the type of this processor (eg. 'rss1').
-     *
-     * @return string
-     */
-    public function getFeedType()
-    {
-        return $this->feedType;
-    }
 }
 ?>
