@@ -28,14 +28,14 @@ class ezcFeedRss2 extends ezcFeedRss
     protected $supportedModules = array( 'DublinCore', 'Content' );
 
     /**
-     * A list of required attributes for the channel definition
+     * A list of required attributes for the channel definition.
      *
      * @var array(string)
      */
     protected static $requiredFeedAttributes = array( 'title', 'link', 'description' );
 
     /**
-     * A list of optional attributes for the channel definition
+     * A list of optional attributes for the channel definition.
      *
      * @var array(string)
      */
@@ -70,7 +70,7 @@ class ezcFeedRss2 extends ezcFeedRss
     {
         // set default values
         $this->setMetaData( 'published', $this->prepareDate( time() ) );
-        $this->setMetaData( 'generator', "eZ components" );
+        $this->setMetaData( 'generator', "eZ Components" );
         $this->setMetaData( 'docs', 'http://www.rssboard.org/rss-specification' );
         $this->feedType = self::FEED_TYPE;
     }

@@ -6,10 +6,10 @@
     <language>en-GB</language>
     <item>
       <pubDate>Mon, 29 May 2006 13:45:57 GMT</pubDate>
-      <title>eZ components 1.1rc1</title><link>http://ez.no/community/news/ez_components_1_1rc1</link>
+      <title>eZ Components 1.1rc1</title><link>http://ez.no/community/news/ez_components_1_1rc1</link>
       <description>
 &lt;p&gt;
-We just released the first release for eZ components 1.1. In this release you will find updated packages for many of the packages. The main changes are they way how options are handled for components. The Mail and Template package are the ones with the other major changes.
+We just released the first release for eZ Components 1.1. In this release you will find updated packages for many of the packages. The main changes are they way how options are handled for components. The Mail and Template package are the ones with the other major changes.
 &lt;/p&gt;
 </description>
     </item>
@@ -45,7 +45,7 @@ This week we bring you an update on the eZ publish 4.0 development process, news
       <title>Community newsletter 12/05/2006</title><link>http://ez.no/community/news/community_newsletter_12_05_2006</link>
       <description>
 &lt;p&gt;
-In this week&apos;s newsletter, we bring you news about the beta 2 version of eZ components and an update on eZ publish 4.0 development. We also have news about eZ publish sub-releases and an announcement of the first release candidate of the Online Editor version 4.1. The newsletter also includes an update on the current bug status.
+In this week&apos;s newsletter, we bring you news about the beta 2 version of eZ Components and an update on eZ publish 4.0 development. We also have news about eZ publish sub-releases and an announcement of the first release candidate of the Online Editor version 4.1. The newsletter also includes an update on the current bug status.
 &lt;/p&gt;
 </description>
     </item>

@@ -22,9 +22,9 @@ class ezcFeedRss2Test extends ezcTestCase
     public function testSimpleEmpty1()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
-        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
 
         $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-01.xml" );
@@ -34,9 +34,9 @@ class ezcFeedRss2Test extends ezcTestCase
     public function testSimpleEmpty2()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
-        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = "1148633131"; // strtotime( "Fri May 26, 10:45:31 2006" );
         $feed->updated = "Fri May 26, 10:45:31 2006";
@@ -48,7 +48,7 @@ class ezcFeedRss2Test extends ezcTestCase
     public function testSimpleEmptyWithError1()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
 
         try
@@ -80,9 +80,9 @@ class ezcFeedRss2Test extends ezcTestCase
     public function testSimpleWithItems1()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
-        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
@@ -105,14 +105,14 @@ class ezcFeedRss2Test extends ezcTestCase
     public function testSimpleWithItems2()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
-        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->webMaster = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 08:46:31 2006 UTC";
-        $feed->category = "eZ components";
+        $feed->category = "eZ Components";
 
         $item = $feed->newItem();
         $item->title = "First Item";
@@ -126,14 +126,14 @@ class ezcFeedRss2Test extends ezcTestCase
     public function testSimpleWithItemsWithError1()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
-        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->webMaster = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 08:46:31 2006 UTC";
-        $feed->category = "eZ components";
+        $feed->category = "eZ Components";
 
         $item = $feed->newItem();
 
@@ -151,18 +151,18 @@ class ezcFeedRss2Test extends ezcTestCase
     public function testComplex1()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
-        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->webMaster = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 08:46:31 2006 UTC";
         $feed->category = "test";
-        $feed->category = "eZ components";
+        $feed->category = "eZ Components";
         $feed->language = "nl";
         $feed->copyright = "eZ systems";
-        $feed->generator = "eZ components TEST";
+        $feed->generator = "eZ Components TEST";
         $feed->ttl = 86400;
         $feed->image = "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png";
 
@@ -178,9 +178,9 @@ class ezcFeedRss2Test extends ezcTestCase
     public function testComplex2()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
-        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 10:46:31 2006 CEST";
@@ -191,7 +191,7 @@ class ezcFeedRss2Test extends ezcTestCase
         $item->description = "This is the first item";
         $item->author = 'xx1@ez.no (Derick)';
         $item->category = 'Tests';
-        $item->category = 'eZ components';
+        $item->category = 'eZ Components';
         $item->comments = 'http://components.ez.no/1/comments';
         $item->guid = "http://components.ez.no/1";
         $item->published = "Fri May 26, 10:46:31 2006 CEST";
@@ -218,11 +218,11 @@ class ezcFeedRss2Test extends ezcTestCase
         $expected = array (
   0 =>
   array (
-    0 => 'eZ components 1.1rc1',
+    0 => 'eZ Components 1.1rc1',
     1 => 'http://ez.no/community/news/ez_components_1_1rc1',
     2 => '
 <p>
-We just released the first release for eZ components 1.1. In this release you will find updated packages for many of the packages. The main changes are they way how options are handled for components. The Mail and Template package are the ones with the other major changes.
+We just released the first release for eZ Components 1.1. In this release you will find updated packages for many of the packages. The main changes are they way how options are handled for components. The Mail and Template package are the ones with the other major changes.
 </p>
 ',
   ),
@@ -262,7 +262,7 @@ This week we bring you an update on the eZ publish 4.0 development process, news
     1 => 'http://ez.no/community/news/community_newsletter_12_05_2006',
     2 => '
 <p>
-In this week\'s newsletter, we bring you news about the beta 2 version of eZ components and an update on eZ publish 4.0 development. We also have news about eZ publish sub-releases and an announcement of the first release candidate of the Online Editor version 4.1. The newsletter also includes an update on the current bug status.
+In this week\'s newsletter, we bring you news about the beta 2 version of eZ Components and an update on eZ publish 4.0 development. We also have news about eZ publish sub-releases and an announcement of the first release candidate of the Online Editor version 4.1. The newsletter also includes an update on the current bug status.
 </p>
 ',
   ),
@@ -276,9 +276,9 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
         $feed = new ezcFeed( 'rss2' );
         $feed->addModule( 'ezcFeedModuleDublinCore' );
 
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
-        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 10:46:31 2006 CEST";
@@ -294,9 +294,9 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
         $feed = new ezcFeed( 'rss2' );
         $feed->addModule( 'ezcFeedModuleDublinCore' );
 
-        $feed->title = "eZ components test";
+        $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
-        $feed->description = "This is a test for the eZ components Feed Generator";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->DublinCore->description = "<p>This is a richer <i>description</i> supported by dublin code.</p>";
