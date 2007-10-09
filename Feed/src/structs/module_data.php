@@ -10,24 +10,59 @@
  */
 
 /**
- * Container for module data
+ * Container for module data.
  *
  * @package Feed
  * @version //autogentag//
+ * @access private
  */
 class ezcFeedModuleData
 {
+    /**
+     * Holds the module name (eg. 'DublinCore').
+     *
+     * @var string
+     */
     public $moduleName;
+
+    /**
+     * Holds the module object.
+     *
+     * @var ezcFeedModule
+     */
     public $moduleObj;
+
+    /**
+     * Holds the feed processor object.
+     *
+     * @var ezcFeedProcessor
+     */
     protected $feedProcessor;
     
-    public function __construct( $moduleName, $moduleObj, $feedProcessor )
+    /**
+     * Constructs a new ezcFeedModuleData object.
+     *
+     * @param string $moduleName The module name (eg. 'DublinCore')
+     * @param ezcFeedModule $moduleObj The module object
+     * @param ezcFeedProcessor $feedProcessor The feed processor object
+     */
+    public function __construct( $moduleName, ezcFeedModule $moduleObj, ezcFeedProcessor $feedProcessor )
     {
         $this->moduleName = $moduleName;
         $this->moduleObj = $moduleObj;
         $this->feedProcessor = $feedProcessor;
     }
 
+    /**
+     * Sets the property $element to $value.
+     *
+     * @throws ezcFeedUnsupportedModuleElementException
+     *         If $element is not allowed in the module.
+     *
+     * @param string $element The property name
+     * @param mixed $value The property value
+     * @ignore
+     */
     public function __set( $element, $value )
     {
         if ( !$this->moduleObj->isChannelElementAllowed( $element ) )
@@ -40,6 +75,13 @@ class ezcFeedModuleData
         }
     }
 
+    /**
+     * Returns the value of property $element.
+     *
+     * @param string $element The property name
+     * @return mixed
+     * @ignore
+     */
     public function __get( $element )
     {
         return $this->feedProcessor->getModuleMetaData( $this->moduleName, $this->moduleObj, $element );
