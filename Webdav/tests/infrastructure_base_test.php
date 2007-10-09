@@ -26,6 +26,11 @@ class fooCustomWebdavInfrastructure extends ezcWebdavInfrastructureBase {}
 require_once 'test_case.php';
 
 /**
+ * Require mocked version of ezcWebdavPluginConfiguration. 
+ */
+require_once 'classes/custom_plugin_configuration.php';
+
+/**
  * Tests for ezcWebdavInfrastructureBase class.
  * 
  * @package Webdav
@@ -33,6 +38,8 @@ require_once 'test_case.php';
  */
 class ezcWebdavInfrastructureBaseTest extends ezcWebdavTestCase
 {
+    protected $namespaces = array();
+
 	public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( __CLASS__ );
@@ -40,9 +47,23 @@ class ezcWebdavInfrastructureBaseTest extends ezcWebdavTestCase
 
     protected function setUp()
     {
-        // Should register a plugin here to get a namespace
-        // no need for now, since ezcWebdavPluginRegistry is not
-        // ready, yet, and always returns true.
+        $srv = ezcWebdavServer::getInstance();
+
+        $this->namespaces['foonamespace'] = new fooCustomWebdavPluginConfiguration();
+
+        $this->namespaces['namespacebar'] = new fooCustomWebdavPluginConfiguration();
+        $this->namespaces['namespacebar']->namespace = 'namespacebar';
+
+        $srv->pluginRegistry->registerPlugin( $this->namespaces['foonamespace'] );
+        $srv->pluginRegistry->registerPlugin( $this->namespaces['namespacebar'] );
+    }
+
+    protected function tearDown()
+    {
+        $srv = ezcWebdavServer::getInstance();
+
+        $srv->pluginRegistry->unregisterPlugin( $this->namespaces['foonamespace'] );
+        $srv->pluginRegistry->unregisterPlugin( $this->namespaces['namespacebar'] );
     }
 
     public function testSetPluginDataSuccess()
@@ -182,14 +203,31 @@ class ezcWebdavInfrastructureBaseTest extends ezcWebdavTestCase
             $base,
             'Plugin data not unset correctly.'
         );
+    }
 
-        $base->removePluginData( 'unkown namespace', 'unknown key' );
+    public function testRemovePluginDataFailure()
+    {
+        $base = new fooCustomWebdavInfrastructure();
+
+        $base->setPluginData( 'foonamespace', 'barkey', array( 23, 42 ) );
+        $base->setPluginData( 'foonamespace', 'bazkey', true );
+        $base->setPluginData( 'namespacebar', 'keyfoo', new stdClass() );
+
+        try
+        {
+            $base->removePluginData( 'unkown namespace', 'unknown key' );
+            $this->fail( 'Exception not thrown on removal of data from unknown plugin namespace.' );
+        }
+        catch ( ezcBaseValueException $e ) {}
 
         $this->assertAttributeEquals(
             array(
                 'foonamespace' => array(
+                    'barkey' => array( 23, 42 ),
+                    'bazkey' => true,
                 ),
                 'namespacebar' => array(
+                    'keyfoo' => new stdClass(),
                 ),
             ),
             'pluginData',

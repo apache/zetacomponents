@@ -36,7 +36,7 @@ class ezcWebdavPluginRegistry
      * <code>
      *      array(
      *          '<class>' => array(
-     *              '<method>' => <bitmask>,
+     *              '<method>' => true,
      *              // ...
      *          )
      *          // ...
@@ -60,6 +60,30 @@ class ezcWebdavPluginRegistry
      * @var array(string=>ezcWebdavPluginConfiguration)
      */
     private $plugins = array();
+    
+
+    /**
+     * Assigned hooks.
+     * <code>
+     *      array(
+     *          '<class name>' => array(
+     *              '<hook name>' => array(
+     *                  '<namespace>' => array(
+     *                      <callback1>,
+     *                      <callback2>,
+     *                      // ...
+     *                  ),
+     *                  // ...
+     *              ),
+     *              // ...
+     *          ),
+     *          // ...
+     *      )
+     * </code>
+     * 
+     * @var array
+     */
+    private $assignedHooks = array();
 
     /**
      * Creates a new plugin registry.
@@ -144,7 +168,46 @@ class ezcWebdavPluginRegistry
      */
     public final function registerPlugin( ezcWebdavPluginConfiguration $config )
     {
+        if ( !is_string( ( $namespace = $config->getNamespace() ) ) )
+        {
+            throw new ezcBaseValueException( 'namespace', $namespace, 'string' );
+        }
+        if ( isset( $this->plugins[$namespace] ) )
+        {
+            throw new ezcBaseValueException( 'namespace', $namespace, 'not registered' );
+        }
 
+        if ( !is_array( ( $hooks = $config->getHooks() ) ) )
+        {
+            throw new ezcBaseValueException( 'hooks', $hooks, 'array' );
+        }
+        // Validate hooks
+        foreach ( $hooks as $class => $hookInfos )
+        {
+            if ( !isset( $this->hooks[$class] ) )
+            {
+                throw new ezcWebdavInvalidHookException( $class );
+            }
+            foreach ( $hookInfos as $hook => $callback )
+            {
+                if ( !isset( $this->hooks[$class][$hook] ) )
+                {
+                    throw new ezcWebdavInvalidHookException( $class, $hook );
+                }
+            }
+        }
+
+        // Register namespace
+        $this->plugins[$namespace] = $config;
+
+        // Register Hooks
+        foreach ( $hooks as $class => $hookInfos )
+        {
+            foreach ( $hookInfos as $hook => $callbacks )
+            {
+                $this->assignedHooks[$class][$hook][$namespace] = $callbacks;
+            }
+        }
     }
 
     /**
@@ -160,7 +223,29 @@ class ezcWebdavPluginRegistry
      */
     public final function unregisterPlugin( ezcWebdavPluginConfiguration $config )
     {
+        if ( !is_string( ( $namespace = $config->getNamespace() ) ) )
+        {
+            throw new ezcBaseValueException( 'namespace', $namespace, 'string' );
+        }
+        if ( !isset( $this->plugins[$namespace] ) )
+        {
+            throw new ezcBaseValueException( 'namespace', $namespace, 'registered' );
+        }
 
+        // Unregister namespace
+        unset( $this->plugins[$namespace] );
+
+        // Unregister hooks
+        foreach ( $this->assignedHooks as $class => $hookInfos )
+        {
+            foreach ( $hookInfos as $hook => $pluginInfos )
+            {
+                if ( isset( $pluginInfos[$namespace] ) )
+                {
+                    unset( $this->assignedHooks[$class][$hook][$namespace] );
+                }
+            }
+        }
     }
 
     /**
@@ -175,7 +260,12 @@ class ezcWebdavPluginRegistry
      */
     public final function getPluginConfig( $namespace )
     {
+        if ( !isset( $this->plugins[$namespace] ) )
+        {
+            throw new ezcBaseValueException( 'namespace', $namespace, 'registered' );
+        }
 
+        return $this->plugins[$namespace];
     }
 
     /**
@@ -189,8 +279,7 @@ class ezcWebdavPluginRegistry
      */
     public final function hasPlugin( $namespace )
     {
-        // @todo: Implement
-        return true;
+        return isset( $this->plugins[$namespace] );
     }
 
     /**
@@ -214,7 +303,13 @@ class ezcWebdavPluginRegistry
      */
     public final function announceHook( $class, $hook, ezcWebdavPluginParameters $params )
     {
-
+        foreach ( $this->assignedHooks[$class][$hook] as $namespace => $callbacks )
+        {
+            foreach ( $callbacks as $callback )
+            {
+                call_user_func( $callback, $params );
+            }
+        }
     }
 }
 
