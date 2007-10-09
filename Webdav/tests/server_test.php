@@ -15,6 +15,11 @@
 require_once 'test_case.php';
 
 /**
+ * Additional transport for testing. 
+ */
+require_once 'classes/transport_test_mock.php';
+
+/**
  * Tests for ezcWebdavServer class.
  * 
  * @package Webdav
@@ -204,106 +209,41 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
         );
     }
 
-    /*
-     * Old tests.
-     * Need updated environment now.
-
     public function testDefaultHandlerWithUnknowClient()
     {
         $_SERVER['HTTP_USER_AGENT'] = 'ezcUnknownClient';
 
-        $webdav = new ezcWebdavServer();
-        $webdav->handle();
+        $webdav  = ezcWebdavServer::getInstance();
+        $backend = new ezcWebdavMemoryBackend();
 
-        $this->assertEquals(
-            $this->readAttribute( $webdav, 'transport' ),
-            new ezcWebdavTransport(),
-            'Fallback to ezcWebdavTransport expected.'
-        );
+        ob_start();
+
+        $webdav->handle( $backend );
+
+        $body = ob_get_clean();
     }
 
-    public function testAddMockedTransport()
-    {
-        $_SERVER['HTTP_USER_AGENT'] = 'ezcMockedClient';
-
-        $mockedTransport = $this->getMock( 'ezcWebdavTransport' );
-
-        $webdav = new ezcWebdavServer();
-
-        $count = count( $this->readAttribute( $webdav, 'transportHandlers' ) );
-        $webdav->registerTransportHandler( 
-            '(^ezcMockedClient$)', 
-            get_class( $mockedTransport )
-        );
-
-        $this->assertEquals(
-            $count + 1,
-            count( $this->readAttribute( $webdav, 'transportHandlers' ) ),
-            'Expected increased count of transport handlers.'
-        );
-
-        $transportHandlers = $this->readAttribute( $webdav, 'transportHandlers' );
-        $this->assertEquals(
-            reset( $transportHandlers ),
-            get_class( $mockedTransport ),
-            'Expected mocked transport handler to be first in list.'
-        );
-
-        $webdav->handle();
-
-        $this->assertEquals(
-            $this->readAttribute( $webdav, 'transport' ),
-            $mockedTransport,
-            'Mocked transport handler expected.'
-        );
-    }
-
-    public function testRemoveTransport()
+    public function testDefaultHandlerWithUnknowClientAdditionalHandler()
     {
         $_SERVER['HTTP_USER_AGENT'] = 'ezcUnknownClient';
+        $_SERVER['REQUEST_METHOD']  = 'OPTIONS';
 
-        $webdav = new ezcWebdavServer();
-
-        $count = count( $this->readAttribute( $webdav, 'transportHandlers' ) );
-        $webdav->unregisterTransportHandler( 
-            '(.*)'
+        $webdav  = ezcWebdavServer::getInstance();
+        $webdav->transports->insertBefore(
+            new ezcWebdavTransportConfiguration(
+                '(.*SomeAgent.*)',
+                'ezcWebdavTransportTestMock'
+            )
         );
 
-        $this->assertEquals(
-            $count - 1,
-            count( $this->readAttribute( $webdav, 'transportHandlers' ) ),
-            'Expected decreased count of transport handlers.'
-        );
+        $backend = new ezcWebdavMemoryBackend();
+
+        ob_start();
+
+        $webdav->handle( $backend );
+
+        $body = ob_get_clean();
     }
-
-    public function testExceptionForUnhandledClient()
-    {
-        $_SERVER['HTTP_USER_AGENT'] = 'ezcUnknownClient';
-
-        $webdav = new ezcWebdavServer();
-
-        $webdav->unregisterTransportHandler( 
-            '(.*)'
-        );
-
-        try
-        {
-            $webdav->handle();
-        }
-        catch ( ezcWebdavNotTransportHandlerException $e )
-        {
-            $this->assertEquals(
-                $e->getMessage(),
-                "Could not find any ezcWebdavTransport for the client 'ezcUnknownClient'."
-            );
-
-            return true;
-        }
-
-        $this->fail( 'Expected ezcWebdavNotTransportHandlerException.' );
-    }
-
-    */
 
     protected function assertSetPropertyFailure( $propertyName, array $propertyValues, $exceptionClass )
     {
