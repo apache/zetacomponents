@@ -138,6 +138,40 @@ abstract class ezcFeedProcessor
     }
 
     /**
+     * Sets the meta data value for the element $element of the module
+     * $moduleName to $value.
+     *
+     * @param string $moduleName The type of the module
+     * @param ezcFeedModule $moduleObj The module object
+     * @param ezcFeedItem $item The feed item object
+     * @param string $element The element in the module
+     * @return mixed
+     */
+    public function setModuleMetaData( $moduleName, $moduleObj, $element, $value )
+    {
+        $value = $moduleObj->prepareMetaData( $element, $value );
+        $this->moduleMetaData[$moduleName][$element] = $value;
+    }
+
+    /**
+     * Returns the meta data value of the element $element from the module
+     * $moduleName.
+     *
+     * @param string $moduleName The type of the module
+     * @param ezcFeedModule $moduleObj The module object
+     * @param string $element The element in the module
+     * @return mixed
+     */
+    public function getModuleMetaData( $moduleName, $moduleObj, $element )
+    {
+        if ( isset( $this->moduleMetaData[$moduleName][$element] ) )
+        {
+            return $this->moduleMetaData[$moduleName][$element];
+        }
+        return null;
+    }
+
+    /**
      * Returns all the meta data for the module $moduleName.
      *
      * The format of the returned array is:
@@ -163,21 +197,19 @@ abstract class ezcFeedProcessor
     }
 
     /**
-     * Returns the meta data value of the element $element from the module
-     * $moduleName.
+     * Sets the meta data value for the element $element of the module
+     * $moduleName of the item $item to $value.
      *
      * @param string $moduleName The type of the module
      * @param ezcFeedModule $moduleObj The module object
+     * @param ezcFeedItem $item The feed item object
      * @param string $element The element in the module
      * @return mixed
      */
-    public function getModuleMetaData( $moduleName, $moduleObj, $element )
+    public function setModuleItemData( $moduleName, $moduleObj, ezcFeedItem $item, $element, $value )
     {
-        if ( isset( $this->moduleMetaData[$moduleName][$element] ) )
-        {
-            return $this->moduleMetaData[$moduleName][$element];
-        }
-        return null;
+        $value = $moduleObj->prepareMetaData( $element, $value );
+        $item->setModuleMetaData( $moduleName, $moduleObj, $element, $value );
     }
 
     /**
@@ -193,28 +225,6 @@ abstract class ezcFeedProcessor
     public function getModuleItemData( $moduleName, $moduleObj, ezcFeedItem $item, $element )
     {
         return $item->getModuleMetaData( $moduleName, $element );
-    }
-
-    /**
-     * Sets the meta data value for the element $element of the module
-     * $moduleName to $value.
-     *
-     * @param string $moduleName The type of the module
-     * @param ezcFeedModule $moduleObj The module object
-     * @param ezcFeedItem $item The feed item object
-     * @param string $element The element in the module
-     * @return mixed
-     */
-    public function setModuleMetaData( $moduleName, $moduleObj, $element, $value )
-    {
-        $value = $moduleObj->prepareMetaData( $element, $value );
-        $this->moduleMetaData[$moduleName][$element] = $value;
-    }
-
-    public function setModuleItemData( $moduleName, $moduleObj, $item, $element, $value )
-    {
-        $value = $moduleObj->prepareMetaData( $element, $value );
-        $item->setModuleMetaData( $moduleName, $moduleObj, $element, $value );
     }
 
     /**

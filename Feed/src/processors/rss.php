@@ -156,43 +156,6 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Creates an image element in the node $item of the XML document being
-     * generated, with the title, link and url subnodes populated with the
-     * values $title, $link and $imageUrl, respectively.
-     *
-     * @param DOMNode $item The node where to add the image element
-     * @param string $title The title of the image element
-     * @param string $link The link of the image element
-     * @param string $imageUrl The image URL of the image element
-
-    public function generateImage( DOMNode $item, $title, $link, $imageUrl, $description = null, $width = null, $height = null )
-    {
-        $image = $this->xml->createElement( 'image' );
-
-        $image->appendChild( $this->xml->createElement( 'title', $title ) );
-        $image->appendChild( $this->xml->createElement( 'link', $link ) );
-        $image->appendChild( $this->xml->createElement( 'url', $imageUrl ) );
-
-        if ( $description !== null )
-        {
-            $image->appendChild( $this->xml->createElement( 'description', $description ) );
-        }
-
-        if ( $width !== null )
-        {
-            $image->appendChild( $this->xml->createElement( 'width', $width ) );
-        }
-
-        if ( $height !== null )
-        {
-            $image->appendChild( $this->xml->createElement( 'height', $height ) );
-        }
-
-        $item->appendChild( $image );
-    }
-     */
-
-    /**
      * Returns the provided $date in timestamp format.
      *
      * @param mixed $date A date

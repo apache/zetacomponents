@@ -396,11 +396,6 @@ class ezcFeedRss2 extends ezcFeedRss
                 {
                     switch ( $attribute )
                     {
-                        //case 'image':
-                        //    $this->generateImage( $this->image ); //$this->channel, $this->getMetaData( 'title' ), $this->getMetaData( 'link' ), $data,
-                                //$this->getMetaData( 'description' ), $this->getMetaData( 'width' ), $this->getMetaData( 'height' ) );
-                        //    break;
-
                         case 'published':
                         case 'updated':
                             $this->generateMetaData( $normalizedAttribute, date( 'D, d M Y H:i:s O', $data ) );

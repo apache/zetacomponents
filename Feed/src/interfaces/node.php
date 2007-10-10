@@ -43,6 +43,15 @@ abstract class ezcFeedNode
         $this->feedProcessor = $processor;
     }
 
+    /**
+     * Sets the meta data of node element $element to $value.
+     *
+     * @throws ezcFeedOnlyOneValueAllowedException
+     *         If $value is an array.
+     *
+     * @param string $element The name of the node element
+     * @param mixed $value The new value for $element
+     */
     public function setMetaData( $element, $value )
     {
         if ( is_array( $value ) )
@@ -57,6 +66,14 @@ abstract class ezcFeedNode
         unset( $this->metaData[$element] );
     }
 
+    /**
+     * Adds $value to the array of meta data associated with the node element
+     * name $element. If $value is an array it is assigned directly to the
+     * meta data, clearing old values.
+     *
+     * @param string $element The node element name
+     * @param mixed $value The new value for $element
+     */
     public function setMetaArrayData( $element, $value )
     {
         if ( is_array( $value ) )
