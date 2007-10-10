@@ -123,6 +123,29 @@ class ezcFeedRss2Test extends ezcTestCase
         self::assertEquals( $expected, $feed->generate() );
     }
 
+    public function testSimpleWithItems3NoLink()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $feed->title = "eZ Components test";
+        $feed->link = "http://components.ez.no";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
+        $feed->author = "xx@ez.no (Derick Rethans)";
+        $feed->author = "xx@ez.no (Derick Rethans)";
+        $feed->published = 1148633191;
+        $feed->updated = "Fri May 26, 10:46:31 2006 PDT";
+
+        $item = $feed->newItem();
+        $item->title = "First Item";
+        $item->description = "This is the first item";
+
+        $item = $feed->newItem();
+        $item->title = "Second Item";
+        $item->description = "This is the second item";
+
+        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-02_no_link.xml" );
+        self::assertEquals( $expected, $feed->generate() );
+    }
+
     public function testSimpleWithItemsWithError1()
     {
         $feed = new ezcFeed( 'rss2' );
@@ -140,11 +163,11 @@ class ezcFeedRss2Test extends ezcTestCase
         try
         {
             $feed->generate();
-            self::assertEquals( 'Expected exception not thrown' );
+            self::fail( 'Expected exception not thrown' );
         }
-        catch ( ezcFeedRequiredItemDataMissingException $e )
+        catch ( ezcFeedAtLeastOneItemDataRequiredException $e )
         {
-            self::assertEquals( "There was no data submitted for required attribute 'title'.", $e->getMessage() );
+            self::assertEquals( "At least one of these attributes is required: title, description.", $e->getMessage() );
         }
     }
 

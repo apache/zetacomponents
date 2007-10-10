@@ -11,6 +11,7 @@
 
 return array(
     'ezcFeedException'                             => 'Feed/exceptions/exception.php',
+    'ezcFeedAtLeastOneItemDataRequiredException'   => 'Feed/exceptions/one_item_data_missing.php',
     'ezcFeedCanNotParseException'                  => 'Feed/exceptions/can_not_parse.php',
     'ezcFeedOnlyOneValueAllowedException'          => 'Feed/exceptions/only_one_value_allowed.php',
     'ezcFeedParseErrorException'                   => 'Feed/exceptions/parse_error.php',

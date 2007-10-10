@@ -62,15 +62,25 @@ class ezcFeedRss2 extends ezcFeedRss
      *
      * @var array(string)
      */
-    protected static $requiredFeedItemAttributes = array( 'title', 'link', 'description' );
+    protected static $requiredFeedItemAttributes = array();
+
+    /**
+     * Holds a list of attributes for items definitions of which at least one
+     * is required.
+     *
+     * @var array(string)
+     */
+    protected static $atLeastOneRequiredFeedItemAttributes = array( 'title', 'description' );
 
     /**
      * Holds a list of optional attributes for items definitions.
      *
      * @var array(string)
      */
-    protected static $optionalFeedItemAttributes = array( 'author', 'category',
-        'comments', 'enclosure', 'guid', 'published', 'source' );
+    protected static $optionalFeedItemAttributes = array(
+        'title', 'link', 'description',
+        'author', 'category', 'comments', 'enclosure', 'guid',
+        'published', 'source' );
 
     /**
      * Holds a mapping of the common names for items attributes to feed specific
@@ -206,17 +216,20 @@ class ezcFeedRss2 extends ezcFeedRss
         $itemTag = $this->xml->createElement( 'item' );
         $this->channel->appendChild( $itemTag );
 
-        foreach ( self::$requiredFeedItemAttributes as $attribute )
+        $atLeastOneRequiredFeedItemPresent = false;
+        foreach ( self::$atLeastOneRequiredFeedItemAttributes as $attribute )
         {
             $data = $item->getMetaData( $attribute );
-            if ( is_null( $data ) )
+            if ( !is_null( $data ) )
             {
-                throw new ezcFeedRequiredItemDataMissingException( $attribute );
+                $atLeastOneRequiredFeedItemPresent = true;
+                break;
             }
-            if ( $this->processModuleItemGenerateHook( $item, $attribute, $data ) !== false )
-            {
-                $this->generateItemData( $itemTag, $attribute, $item->getMetaData( $attribute ) );
-            }
+        }
+
+        if ( $atLeastOneRequiredFeedItemPresent === false )
+        {
+            throw new ezcFeedAtLeastOneItemDataRequiredException( self::$atLeastOneRequiredFeedItemAttributes );
         }
 
         foreach ( self::$optionalFeedItemAttributes as $attribute )
@@ -224,7 +237,7 @@ class ezcFeedRss2 extends ezcFeedRss
             $normalizedAttribute = $this->normalizeName( $attribute, self::$feedItemAttributesMap );
 
             $metaData = $item->getMetaData( $attribute );
-            if ( $this->processModuleItemGenerateHook( $item, $attribute, $data ) !== false )
+            if ( $this->processModuleItemGenerateHook( $item, $attribute, $metaData ) !== false )
             {
                 if ( !is_null( $metaData ) )
                 {
