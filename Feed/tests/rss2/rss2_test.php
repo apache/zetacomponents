@@ -187,7 +187,11 @@ class ezcFeedRss2Test extends ezcTestCase
         $feed->copyright = "eZ systems";
         $feed->generator = "eZ Components TEST";
         $feed->ttl = 86400;
-        $feed->image = "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png";
+
+        $image = $feed->newImage();
+        $image->url = "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png";
+        $image->title = "Downloads";
+        $image->link = "http://ez.no/download";
 
         $item = $feed->newItem();
         $item->title = "First Item";
@@ -196,6 +200,71 @@ class ezcFeedRss2Test extends ezcTestCase
 
         $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-05.xml" );
         self::assertEquals( $expected, $feed->generate() );
+    }
+
+    public function testComplex1WithOptional()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $feed->title = "eZ Components test";
+        $feed->link = "http://components.ez.no";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
+        $feed->author = "xx@ez.no (Derick Rethans)";
+        $feed->webMaster = "xx@ez.no (Derick Rethans)";
+        $feed->published = 1148633191;
+        $feed->updated = "Fri May 26, 08:46:31 2006 UTC";
+        $feed->category = "test";
+        $feed->category = "eZ Components";
+        $feed->language = "nl";
+        $feed->copyright = "eZ systems";
+        $feed->generator = "eZ Components TEST";
+        $feed->ttl = 86400;
+
+        $image = $feed->newImage();
+        $image->url = "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png";
+        $image->title = "Downloads";
+        $image->link = "http://ez.no/download";
+        $image->description = "Newest versions are available for download.";
+        $image->width = "176";
+        $image->height = "62";
+
+        $item = $feed->newItem();
+        $item->title = "First Item";
+        $item->link = "http://components.ez.no/1";
+        $item->description = "This is the first item";
+
+        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-05_optional.xml" );
+        self::assertEquals( $expected, $feed->generate() );
+    }
+
+    public function testComplex1MissingRequired()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $feed->title = "eZ Components test";
+        $feed->link = "http://components.ez.no";
+        $feed->description = "This is a test for the eZ Components Feed Generator";
+        $feed->author = "xx@ez.no (Derick Rethans)";
+        $feed->webMaster = "xx@ez.no (Derick Rethans)";
+        $feed->published = 1148633191;
+        $feed->updated = "Fri May 26, 08:46:31 2006 UTC";
+        $feed->category = "test";
+        $feed->category = "eZ Components";
+        $feed->language = "nl";
+        $feed->copyright = "eZ systems";
+        $feed->generator = "eZ Components TEST";
+        $feed->ttl = 86400;
+
+        $image = $feed->newImage();
+        $image->url = "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png";
+
+        try
+        {
+            $feed->generate();
+            self::fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcFeedRequiredItemDataMissingException $e )
+        {
+            self::assertEquals( "There was no data submitted for required attribute 'title'.", $e->getMessage() );
+        }
     }
 
     public function testComplex2()
@@ -343,6 +412,25 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ Com
 
         $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-09.xml" );
         self::assertEquals( $expected, $feed->generate() );
+    }
+
+    public function testParseImage1()
+    {
+        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-05.xml" );
+        self::assertEquals( "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png", $feed->image->url );
+        self::assertEquals( "Downloads", $feed->image->title );
+        self::assertEquals( "http://ez.no/download", $feed->image->link );
+    }
+
+    public function testParseImage1OptionalAttributes()
+    {
+        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-05_optional.xml" );
+        self::assertEquals( "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png", $feed->image->url );
+        self::assertEquals( "Downloads", $feed->image->title );
+        self::assertEquals( "http://ez.no/download", $feed->image->link );
+        self::assertEquals( "Newest versions are available for download.", $feed->image->description );
+        self::assertEquals( "176", $feed->image->width );
+        self::assertEquals( "62", $feed->image->height );
     }
 
     public function testParseComplexWithModule1()

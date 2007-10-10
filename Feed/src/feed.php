@@ -244,12 +244,13 @@ class ezcFeed implements Iterator
             case 'category':
             case 'generator':
             case 'ttl':
-            case 'image': // icon in ATOM
+            //case 'image': // icon in ATOM
             case 'id': // ATOM only, required in ATOM
                 $this->feedProcessor->setFeedElement( $property, $value );
                 break;
 
             case 'items':
+            case 'image':
                 throw new ezcBasePropertyPermissionException( $property, ezcBasePropertyPermissionException::READ );
 
             default:
@@ -293,12 +294,15 @@ class ezcFeed implements Iterator
             case 'category':
             case 'generator':
             case 'ttl':
-            case 'image': // icon in ATOM
+            //case 'image': // icon in ATOM
             case 'id': // ATOM only, required in ATOM
                 return $this->feedProcessor->getFeedElement( $property );
 
             case 'items':
                 return (array) $this->feedProcessor->getItems();
+
+            case 'image':
+                return $this->feedProcessor->getImage();
 
             default:
                 throw new ezcBasePropertyNotFoundException( $property );
@@ -345,6 +349,23 @@ class ezcFeed implements Iterator
         $item = new ezcFeedItem( $this->feedProcessor );
         $this->feedProcessor->addItem( $item );
         return $item;
+    }
+
+    /**
+     * Creates and returns a new feed image for this feed.
+     *
+     * Example:
+     * <code>
+     * $image = $feed->newImage();
+     * </code>
+     *
+     * @return ezcFeedImage
+     */
+    public function newImage()
+    {
+        $image = new ezcFeedImage( $this->feedProcessor );
+        $this->feedProcessor->setImage( $image );
+        return $image;
     }
 
     /**

@@ -16,24 +16,8 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcFeedItem
+class ezcFeedItem extends ezcFeedNode
 {
-    /**
-     * Holds the feed processor.
-     *
-     * @var ezcFeedProcessor
-     * @ignore
-     */
-    public $feedProcessor;
-
-    /**
-     * Holds the meta data.
-     *
-     * @var array(string=>mixed)
-     * @ignore
-     */
-    protected $metaData = array();
-
     /**
      * Holds the module meta data.
      *
@@ -49,7 +33,7 @@ class ezcFeedItem
      */
     public function __construct( $processor )
     {
-        $this->feedProcessor = $processor;
+        parent::__construct( $processor );
 
         $modules = $this->feedProcessor->getModules();
         foreach ( $modules as $moduleName => $moduleObj )
@@ -124,36 +108,6 @@ class ezcFeedItem
         }
     }
 
-    public function setMetaData( $element, $value )
-    {
-        if ( is_array( $value ) )
-        {
-            throw new ezcFeedOnlyOneValueAllowedException( $element );
-        }
-        $this->metaData[$element] = $value;
-    }
-
-    public function unsetMetaData( $element )
-    {
-        unset( $this->metaData[$element] );
-    }
-
-    public function setMetaArrayData( $element, $value )
-    {
-        if ( is_array( $value ) )
-        {
-            $this->metaData[$element] = $value;
-        }
-        else
-        {
-            if ( !isset( $this->metaData[$element] ) )
-            {
-                $this->metaData[$element] = array();
-            }
-            $this->metaData[$element][] = $value;
-        }
-    }
-
     public function setModuleMetaData( $moduleName, $moduleObj, $element, $value )
     {
         $value = $moduleObj->prepareMetaData( $element, $value );
@@ -165,15 +119,6 @@ class ezcFeedItem
         if ( isset( $this->moduleMetaData[$module][$element] ) )
         {
             return $this->moduleMetaData[$module][$element];
-        }
-        return null;
-    }
-
-    public function getMetaData( $element )
-    {
-        if ( isset( $this->metaData[$element] ) )
-        {
-            return $this->metaData[$element];
         }
         return null;
     }

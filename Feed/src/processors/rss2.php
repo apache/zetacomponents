@@ -93,6 +93,28 @@ class ezcFeedRss2 extends ezcFeedRss
     );
 
     /**
+     * Holds a list of required attributes for image definitions.
+     *
+     * @var array(string)
+     */
+    protected static $requiredFeedImageAttributes = array( 'url', 'title', 'link' );
+
+    /**
+     * Holds a list of optional attributes for image definitions.
+     *
+     * @var array(string)
+     */
+    protected static $optionalFeedImageAttributes = array( 'description', 'width', 'height' );
+
+    /**
+     * Holds a mapping of the common names for image attributes to feed specific
+     * names.
+     *
+     * @var array(string=>string)
+     */
+    protected static $feedImageAttributesMap = array();
+
+    /**
      * Holds the prefixes used in the feed generation process.
      *
      * @var array(string)
@@ -145,6 +167,18 @@ class ezcFeedRss2 extends ezcFeedRss
     }
 
     /**
+     * Returns the value of the feed element $element.
+     *
+     * @param string $element The feed element
+     * @return mixed
+     */
+    public function getFeedElement( $element )
+    {
+        $element = $this->normalizeName( $element, self::$feedAttributesMap );
+        return $this->getMetaData( $element );
+    }
+
+    /**
      * Sets the value of the feed element $element of feed item $item to $value.
      *
      * The hook {@link ezcFeedProcessor::processModuleItemSetHook()} is called
@@ -177,18 +211,6 @@ class ezcFeedRss2 extends ezcFeedRss
     }
 
     /**
-     * Returns the value of the feed element $element.
-     *
-     * @param string $element The feed element
-     * @return mixed
-     */
-    public function getFeedElement( $element )
-    {
-        $element = $this->normalizeName( $element, self::$feedAttributesMap );
-        return $this->getMetaData( $element );
-    }
-
-    /**
      * Returns the value of the element $element of feed item $item.
      *
      * @param ezcFeedItem $item The feed item object
@@ -199,6 +221,33 @@ class ezcFeedRss2 extends ezcFeedRss
     {
         $element = $this->normalizeName( $element, self::$feedItemAttributesMap );
         return $item->getMetaData( $element );
+    }
+
+    /**
+     * Sets the value of the feed element $element of the feed image to $value.
+     *
+     * @param string $element The feed element
+     * @param mixed $value The new value of $element
+     */
+    public function setFeedImageElement( $element, $value )
+    {
+        if ( in_array( $element, self::$requiredFeedImageAttributes )
+             || in_array( $element, self::$optionalFeedImageAttributes ) )
+        {
+            $this->image->setMetaData( $element, $value );
+        }
+    }
+
+    /**
+     * Returns the value of the element $element of the feed image.
+     *
+     * @param string $element The feed element
+     * @return mixed
+     */
+    public function getFeedImageElement( $element )
+    {
+        $element = $this->normalizeName( $element, self::$feedImageAttributesMap );
+        return $this->image->getMetaData( $element );
     }
 
     /**
@@ -274,6 +323,40 @@ class ezcFeedRss2 extends ezcFeedRss
     }
 
     /**
+     * Generates the required data for the feed image and includes it in
+     * the XML document which is being generated.
+     *
+     * @param ezcFeedImage $image The feed image object
+     * @return string
+     */
+    protected function generateImage( ezcFeedImage $image )
+    {
+        $imageTag = $this->xml->createElement( 'image' );
+        $this->channel->appendChild( $imageTag );
+
+        foreach ( self::$requiredFeedImageAttributes as $attribute )
+        {
+            $data = $image->$attribute;
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredItemDataMissingException( $attribute );
+            }
+            $this->generateItemData( $imageTag, $attribute, $data );
+        }
+
+        foreach ( self::$optionalFeedImageAttributes as $attribute )
+        {
+            $normalizedAttribute = $this->normalizeName( $attribute, self::$feedImageAttributesMap );
+
+            $metaData = $image->getMetaData( $attribute );
+            if ( !is_null( $metaData ) )
+            {
+                $this->generateItemData( $imageTag, $normalizedAttribute, $metaData );
+            }
+        }
+    }
+
+    /**
      * Returns an XML string from the feed information contained in this
      * processor.
      *
@@ -313,9 +396,10 @@ class ezcFeedRss2 extends ezcFeedRss
                 {
                     switch ( $attribute )
                     {
-                        case 'image':
-                            $this->generateImage( $this->channel, $this->getMetaData( 'title' ), $this->getMetaData( 'link' ), $data );
-                            break;
+                        //case 'image':
+                        //    $this->generateImage( $this->image ); //$this->channel, $this->getMetaData( 'title' ), $this->getMetaData( 'link' ), $data,
+                                //$this->getMetaData( 'description' ), $this->getMetaData( 'width' ), $this->getMetaData( 'height' ) );
+                        //    break;
 
                         case 'published':
                         case 'updated':
@@ -340,6 +424,11 @@ class ezcFeedRss2 extends ezcFeedRss
             {
                 $moduleDescription->moduleObj->generateMetaData( $this, $element, $value );
             }
+        }
+
+        if ( isset( $this->image ) )
+        {
+            $this->generateImage( $this->image );
         }
 
         foreach ( $this->items as $item )
@@ -453,6 +542,10 @@ class ezcFeedRss2 extends ezcFeedRss
                         $this->parseItem( $feed, $channelChild );
                         break;
 
+                    case 'image':
+                        $this->parseImage( $feed, $channelChild );
+                        break;
+
                     default:
                         // check if it's part of a known module/namespace
                         $parts = explode( ':', $tagName );
@@ -475,10 +568,10 @@ class ezcFeedRss2 extends ezcFeedRss
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
      * @param DOMElement $xml The XML element object to parse
      */
-    public function parseItem( ezcFeed $feed, DOMElement $item )
+    public function parseItem( ezcFeed $feed, DOMElement $xml )
     {
         $feedItem = $feed->newItem();
-        foreach ( $item->childNodes as $itemChild )
+        foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType == XML_ELEMENT_NODE )
             {
@@ -517,6 +610,40 @@ class ezcFeedRss2 extends ezcFeedRss
                             $element = $parts[1];
                             $feedItem->$moduleName->$element = $itemChild->textContent;
                         }
+                }
+            }
+        }
+    }
+
+    /**
+     * Parses the provided XML element object and stores it as a feed image in
+     * the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed image
+     * @param DOMElement $xml The XML element object to parse
+     */
+    public function parseImage( ezcFeed $feed, DOMElement $xml )
+    {
+        $feedImage = $feed->newImage();
+        foreach ( $xml->childNodes as $itemChild )
+        {
+            if ( $itemChild->nodeType == XML_ELEMENT_NODE )
+            {
+                $tagName = $itemChild->tagName;
+                $tagName = $this->deNormalizeName( $tagName, self::$feedImageAttributesMap );
+
+                switch ( $tagName )
+                {
+                    case 'title': // required in RSS2
+                    case 'link': // required in RSS2
+                    case 'url': // required in RSS2
+                    case 'description':
+                    case 'width':
+                    case 'height':
+                        $feedImage->$tagName = $itemChild->textContent;
+                        break;
+
+                    // @todo check if there are extra subnodes in <image>
                 }
             }
         }

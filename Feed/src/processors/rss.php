@@ -37,6 +37,13 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
     protected $channel;
 
     /**
+     * Holds the image node of the XML document being generated.
+     *
+     * @var ezcFeedImage
+     */
+    protected $image;
+
+    /**
      * Holds the item nodes of the XML document being generated.
      *
      * @var array(ezcFeedItem)
@@ -157,18 +164,33 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
      * @param string $title The title of the image element
      * @param string $link The link of the image element
      * @param string $imageUrl The image URL of the image element
-     */
-    public function generateImage( DOMNode $item, $title, $link, $imageUrl )
+
+    public function generateImage( DOMNode $item, $title, $link, $imageUrl, $description = null, $width = null, $height = null )
     {
         $image = $this->xml->createElement( 'image' );
-        $title = $this->xml->createElement( 'title', $title );
-        $link = $this->xml->createElement( 'link', $link );
-        $url = $this->xml->createElement( 'url', $imageUrl );
-        $image->appendChild( $title );
-        $image->appendChild( $link );
-        $image->appendChild( $url );
+
+        $image->appendChild( $this->xml->createElement( 'title', $title ) );
+        $image->appendChild( $this->xml->createElement( 'link', $link ) );
+        $image->appendChild( $this->xml->createElement( 'url', $imageUrl ) );
+
+        if ( $description !== null )
+        {
+            $image->appendChild( $this->xml->createElement( 'description', $description ) );
+        }
+
+        if ( $width !== null )
+        {
+            $image->appendChild( $this->xml->createElement( 'width', $width ) );
+        }
+
+        if ( $height !== null )
+        {
+            $image->appendChild( $this->xml->createElement( 'height', $height ) );
+        }
+
         $item->appendChild( $image );
     }
+     */
 
     /**
      * Returns the provided $date in timestamp format.
@@ -308,7 +330,7 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
     {
         $this->items[] = $item;
     }
-    
+
     /**
      * Returns the feed items in this processor.
      *
@@ -317,6 +339,26 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * Adds a new feed image to this processor.
+     *
+     * @param ezcFeedImage $image The feed image object to add
+     */
+    public function setImage( ezcFeedImage $image )
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * Returns the feed image in this processor.
+     *
+     * @return ezcFeedImage
+     */
+    public function getImage()
+    {
+        return ( isset( $this->image ) ) ? $this->image : null;
     }
 }
 ?>

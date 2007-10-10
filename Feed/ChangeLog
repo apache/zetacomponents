@@ -1,3 +1,11 @@
+1.1alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- In RSS2 the title, link and description nodes of item nodes are not all
+  required, but at least one of title or description nodes is required.
+- The RSS2 image node is created and parsed correctly.
+
+
 1.0beta1 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

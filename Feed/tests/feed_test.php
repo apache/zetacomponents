@@ -128,6 +128,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = new ezcFeed( 'rss2' );
 
         $this->readonlyPropertyTest( $feed, 'items' );
+        $this->readonlyPropertyTest( $feed, 'image' );
 
         try
         {
@@ -148,6 +149,24 @@ class ezcFeedTest extends ezcFeedTestCase
         try
         {
             $value = $feedItem->no_such_property;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
+        }
+    }
+
+    public function testFeedImageProperties()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $feedImage = $feed->newImage();
+
+        $feedImage = $feed->image;
+
+        try
+        {
+            $value = $feedImage->no_such_property;
             $this->fail( "Expected exception was not thrown." );
         }
         catch ( ezcBasePropertyNotFoundException $e )

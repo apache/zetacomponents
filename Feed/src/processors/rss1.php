@@ -51,6 +51,16 @@ class ezcFeedRss1 extends ezcFeedRss
     }
 
     /**
+     * Returns the value of the feed element $element.
+     *
+     * @param string $element The feed element
+     * @return mixed
+     */
+    public function getFeedElement( $element )
+    {
+    }
+
+    /**
      * Sets the value of the feed element $element of feed item $item to $value.
      *
      * The hook {@link ezcFeedProcessor::processModuleItemSetHook()} is called
@@ -65,16 +75,6 @@ class ezcFeedRss1 extends ezcFeedRss
     }
 
     /**
-     * Returns the value of the feed element $element.
-     *
-     * @param string $element The feed element
-     * @return mixed
-     */
-    public function getFeedElement( $element )
-    {
-    }
-
-    /**
      * Returns the value of the element $element of feed item $item.
      *
      * @param ezcFeedItem $item The feed item object
@@ -82,6 +82,26 @@ class ezcFeedRss1 extends ezcFeedRss
      * @return mixed
      */
     public function getFeedItemElement( ezcFeedItem $item, $element )
+    {
+    }
+
+    /**
+     * Sets the value of the feed element $element of the feed image to $value.
+     *
+     * @param string $element The feed element
+     * @param mixed $value The new value of $element
+     */
+    public function setFeedImageElement( $element, $value )
+    {
+    }
+
+    /**
+     * Returns the value of the element $element of the feed image.
+     *
+     * @param string $element The feed element
+     * @return mixed
+     */
+    public function getFeedImageElement( $element )
     {
     }
 
