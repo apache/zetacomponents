@@ -244,13 +244,12 @@ class ezcFeed implements Iterator
             case 'category':
             case 'generator':
             case 'ttl':
-            //case 'image': // icon in ATOM
             case 'id': // ATOM only, required in ATOM
                 $this->feedProcessor->setFeedElement( $property, $value );
                 break;
 
             case 'items':
-            case 'image':
+            case 'image': // icon in ATOM
                 throw new ezcBasePropertyPermissionException( $property, ezcBasePropertyPermissionException::READ );
 
             default:
@@ -294,14 +293,13 @@ class ezcFeed implements Iterator
             case 'category':
             case 'generator':
             case 'ttl':
-            //case 'image': // icon in ATOM
             case 'id': // ATOM only, required in ATOM
                 return $this->feedProcessor->getFeedElement( $property );
 
             case 'items':
                 return (array) $this->feedProcessor->getItems();
 
-            case 'image':
+            case 'image': // icon in ATOM
                 return $this->feedProcessor->getImage();
 
             default:
@@ -447,7 +445,7 @@ class ezcFeed implements Iterator
      */
     public static function parse( $uri )
     {
-        $xml = new DomDocument;
+        $xml = new DOMDocument();
         $retval = @$xml->load( $uri );
         if ( $retval === false )
         {
@@ -474,7 +472,7 @@ class ezcFeed implements Iterator
      */
     public static function parseContent( $content )
     {
-        $xml = new DomDocument;
+        $xml = new DOMDocument();
         $retval = @$xml->loadXML( $content );
         if ( $retval === false )
         {
