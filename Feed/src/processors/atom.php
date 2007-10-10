@@ -153,5 +153,16 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     public function parseItem( ezcFeed $feed, DOMElement $item )
     {
     }
+
+    /**
+     * Parses the provided XML element object and stores it as a feed image in
+     * the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed image
+     * @param DOMElement $xml The XML element object to parse
+     */
+    public function parseImage( ezcFeed $feed, DOMElement $xml )
+    {
+    }
 }
 ?>
