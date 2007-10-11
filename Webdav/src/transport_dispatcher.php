@@ -21,7 +21,12 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      */
     public function __construct()
     {
-        // Add default RFC transport for now
+        // Add MS compatible transport
+        $this[] = new ezcWebdavTransportConfiguration(
+            '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+            'ezcWebdavMicrosoftCompatibleTransport'
+        );
+        // Add default RFC compliant transport as final catchall
         $this[] = new ezcWebdavTransportConfiguration();
     }
 
