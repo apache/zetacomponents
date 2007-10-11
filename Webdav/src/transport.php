@@ -275,7 +275,7 @@ class ezcWebdavTransport
      */
     public final function handleResponse( ezcWebdavResponse $response )
     {
-        $this->sendResponse( $this->processResponse( $response ) );
+        $this->sendResponse( $this->flattenResponse( $this->processResponse( $response ) ) );
     }
 
     /**
@@ -308,11 +308,24 @@ class ezcWebdavTransport
      * self::$handlingMap} and throws an Exception if the given class could not
      * be dispatched.
      *
+     * The method internally calls one of the handle*Response() methods to get
+     * the repsonse object processed and returns an instance of {@link
+     * ezcWebdavDisplayInformation} to be displayed.
+     *
      * @param ezcWebdavResponse $response 
      * @return ezcWebdavDisplayInformation
-     *
+     * 
      * @throws RuntimeException
      *         if the class of the given object could not be dispatched.
+     * @throws ezcWebdavMissingHeaderException
+     *         if the generated result is an {@link
+     *         ezcWebdavStringDisplayInformation} struct and the contained
+     *         {@link ezcWebdavResponse} object has no Content-Type header set.
+     * @throws ezcWebdavInvalidHeaderException
+     *         if the generated result is an {@link
+     *         ezcWebdavEmptyDisplayInformation} and the contained {@link
+     *         ezcWebdavResponse} object has a Content-Type or a Content-Length
+     *         header set.
      *
      * @todo Correct exception. Or better: Correct all exception mess!
      */
@@ -323,60 +336,52 @@ class ezcWebdavTransport
             // @todo: The processResponse plugin hook should be announced here.
             throw new RuntimeException( "Serialization of class $responseClass not implemented, yet." );
         }
+        
         return call_user_func( array( $this, self::$handlingMap[( $responseClass = get_class( $response ) )] ), $response );
     }
 
     /**
-     * Finally send out the response.
+     * Flattens a processed response object to headers and body.
      *
-     * This method is called to finally send the response to the browser. It
-     * can be overwritten in test cases to change the behaviour of printing out
-     * the result and sending the headers. The method automatically generates an
-     * appropriate Content-Type header for XML output, if an
-     * {@link ezcWebdavXmlDisplayInformation} is received. A header existent in the
-     * response object will not be affected and the method will silently go on.
+     * Takes a given {@link ezcWebdavDisplayInformation} object and returns an
+     * array containg the headers and body it represents.
      *
-     * If an {@link ezcWebdavStringDisplayInformation} is submitted
-     * correct setting of the Content-Type header is checked and an {@link
-     * ezcWebdavMissingHeaderException} is thrown in negative case.
+     * <code>
+     *      array(
+     *          'headers' => array(
+     *              ''       => '<responsecodeandname>',
+     *              '<name>' => '<value>',
+     *              // ...
+     *          ),
+     *          'body' => '<string>'
+     *      )
+     * </code>
      *
-     * If an {@link ezcWebdavEmptyDisplayInformation} is received, the method
-     * checks if Content-Type and Content-Length headers are not present, so
-     * they are not excplicitly send later on.
+     * The returned information can be processed (send out to the client) by
+     * {@link ezcWebdavTransport::sendResponse()}.
      * 
-     * @param ezcWebdavDisplayInformation $info
-     * @return void
-     *
-     * @throws ezcWebdavMissingHeaderException
-     *         if the submitted $info parameter is an {@link
-     *         ezcWebdavStringDisplayInformation} struct and the contained
-     *         {@link ezcWebdavResponse} object has no Content-Type header set.
-     * @throws ezcWebdavInvalidHeaderException
-     *         if the submitted $info parameter is an {@link
-     *         ezcWebdavEmptyDisplayInformation} and the contained {@link
-     *         ezcWebdavResponse} object has a Content-Type or a Content-Length
-     *         header set.
+     * @param ezcWebdavDisplayInformation $info 
+     * @return array(string=>mixed)
      */
-    protected function sendResponse( ezcWebdavDisplayInformation $info )
+    protected function flattenResponse( ezcWebdavDisplayInformation $info )
     {
+        $headers     = array_merge( $info->response->getHeaders() );
+        $headers[''] = (string) $info->response;
+        $body        = '';
+
         switch ( true )
         {
             case ( $info instanceof ezcWebdavXmlDisplayInformation ):
+                $headers['Content-Type']  = ( isset( $headers['Content-Type'] ) ? $headers['Content-Type'] : 'text/xml; charset="utf-8"' );
                 $info->body->formatOutput = true;
-                // Explicitly set txt/xml content type
-                if ( $info->response->getHeader( 'Content-Type' ) === null )
-                {
-                    $info->response->setHeader( 'Content-Type', 'text/xml; charset="utf-8"' );
-                }
-                $result = $info->body->saveXML( $info->body );
+                $body                     = $info->body->saveXML( $info->body );
                 break;
-                
             case ( $info instanceof ezcWebdavStringDisplayInformation ):
                 if ( $info->response->getHeader( 'Content-Type' ) === null )
                 {
                     throw new ezcWebdavMissingHeaderException( 'ContentType' );
                 }
-                $result = $info->body;
+                $body = $info->body;
                 break;
 
             case ( $info instanceof ezcWebdavEmptyDisplayInformation ):
@@ -385,25 +390,50 @@ class ezcWebdavTransport
                 {
                     throw new ezcWebdavInvalidHeaderException( 'Content-Type', $contenTypeHeader, 'null' );
                 }
-                $result = null;
+                $body = '';
                 break;
         }
         
-        // Sends HTTP response code and description, 3rd param forces status
-        header( (string) $info->response, true, (int) $info->response->status );
+        return array( 'headers' => $headers, 'body' => $body );
+    }
 
-        // Send headers defined by response
-        $headers = $info->response->getHeaders();
-        foreach ( $headers as $name => $value )
+    /**
+     * Finally send out the response.
+     *
+     * This method is called to finally send the response to the browser. It
+     * can be overwritten in test cases to change the behaviour of printing out
+     * the result and sending the headers. The method receives an array
+     * containg 2 elements: The key 'headers' is assigned to an array of
+     * headers to be send. This array is indexed by the header name, while
+     * there is usually 1 empty key, that contains the response code header.
+     * The second element has the key 'body' and contains the string to be send
+     * to the client.
+     *
+     * <code>
+     *      array(
+     *          'headers' => array(
+     *              ''       => '<responsecodeandname>',
+     *              '<name>' => '<value>',
+     *              // ...
+     *          ),
+     *          'body' => '<string>'
+     *      )
+     * </code>
+     *
+     * @param array(string=>mixed) $output
+     * @return void
+     *
+     */
+    protected function sendResponse( array $output )
+    {
+        // Sends HTTP response code and description
+        foreach( $output['headers'] as $name => $content )
         {
-            header( "{$name}: {$value}" );
+            header( ( $name === '' ? $content : "{$name}: {$content}" ) );
         }
 
-        if ( $result !== null )
-        {
-            // Content-Length header automatically send
-            echo $result;
-        }
+        // Content-Length header automatically send
+        echo $result;
     }
 
     /**
