@@ -411,8 +411,6 @@ class ezcWebdavTransport
      *
      * @param ezcWebdavOutputResult $output
      * @return void
-     *
-     * @todo Should $output be a struct?
      */
     protected function sendResponse( ezcWebdavOutputResult $output )
     {
