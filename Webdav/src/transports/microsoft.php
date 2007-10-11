@@ -18,6 +18,10 @@
  * Still not working:
  *  - Microsoft-WebDAV-MiniRedir/5.1.2600
  *
+ * Seen, but unknown:
+ *  - Mozilla/2.0 (compatible; MS FrontPage 4.0)
+ *  - MSFrontPage/4.0
+ *
  * @version //autogentag//
  * @package Webdav
  */
@@ -45,9 +49,15 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
     protected function sendResponse( ezcWebdavDisplayInformation $info )
     {
         // Required by MS Clients to not think this is Frontpage stuff
-        $info->response->setHeader( 'MS-Author-Via', 'DAV' );
+        if ( $info->response instanceof ezcWebdavOptionsResponse )
+        {
+            $info->response->setHeader( 'MS-Author-Via', 'DAV' );
+        }
 
-        return parent::sendResponse( $info );
+        parent::sendResponse( $info );
+
+        // MS IE7 requires a newline after the XML.
+        echo "\n";
     }
 
     /**
