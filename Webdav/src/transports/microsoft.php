@@ -32,29 +32,16 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
      *
      * Microsoft clients require an additional header here, so that we send
      * this and dispatch back to the original method.
-     * 
-     * @param ezcWebdavDisplayInformation $info
-     * @return void
      *
-     * @throws ezcWebdavMissingHeaderException
-     *         if the submitted $info parameter is an {@link
-     *         ezcWebdavStringDisplayInformation} struct and the contained
-     *         {@link ezcWebdavResponse} object has no Content-Type header set.
-     * @throws ezcWebdavInvalidHeaderException
-     *         if the submitted $info parameter is an {@link
-     *         ezcWebdavEmptyDisplayInformation} and the contained {@link
-     *         ezcWebdavResponse} object has a Content-Type or a Content-Length
-     *         header set.
+     * @param ezcWebdavOutputResult $output
+     * @return void
      */
-    protected function sendResponse( ezcWebdavDisplayInformation $info )
+    protected function sendResponse( ezcWebdavOutputResult $output )
     {
-        // Required by MS Clients to not think this is Frontpage stuff
-        if ( $info->response instanceof ezcWebdavOptionsResponse )
-        {
-            $info->response->setHeader( 'MS-Author-Via', 'DAV' );
-        }
+        // Add MS specific header
+        $output->header['MS-Author-Via'] = 'DAV';
 
-        parent::sendResponse( $info );
+        parent::sendResponse( $output );
 
         // MS IE7 requires a newline after the XML.
         echo "\n";
