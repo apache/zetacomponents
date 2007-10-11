@@ -366,8 +366,10 @@ class ezcWebdavTransport
     protected function flattenResponse( ezcWebdavDisplayInformation $info )
     {
         $headers     = array_merge( $info->response->getHeaders() );
-        $headers[''] = (string) $info->response;
         $body        = '';
+
+        $output = new ezcWebdavOutputResult();
+        $output->status = (string) $info->response;
 
         switch ( true )
         {
@@ -393,8 +395,11 @@ class ezcWebdavTransport
                 $body = '';
                 break;
         }
+
+        $output->headers = $headers;
+        $output->body    = $body;
         
-        return array( 'headers' => $headers, 'body' => $body );
+        return $output;
     }
 
     /**
@@ -402,39 +407,26 @@ class ezcWebdavTransport
      *
      * This method is called to finally send the response to the browser. It
      * can be overwritten in test cases to change the behaviour of printing out
-     * the result and sending the headers. The method receives an array
-     * containg 2 elements: The key 'headers' is assigned to an array of
-     * headers to be send. This array is indexed by the header name, while
-     * there is usually 1 empty key, that contains the response code header.
-     * The second element has the key 'body' and contains the string to be send
-     * to the client.
+     * the result and sending the headers.
      *
-     * <code>
-     *      array(
-     *          'headers' => array(
-     *              ''       => '<responsecodeandname>',
-     *              '<name>' => '<value>',
-     *              // ...
-     *          ),
-     *          'body' => '<string>'
-     *      )
-     * </code>
-     *
-     * @param array(string=>mixed) $output
+     * @param ezcWebdavOutputResult $output
      * @return void
      *
      * @todo Should $output be a struct?
      */
-    protected function sendResponse( array $output )
+    protected function sendResponse( ezcWebdavOutputResult $output )
     {
-        // Sends HTTP response code and description
-        foreach( $output['headers'] as $name => $content )
+        // Sends HTTP headers
+        foreach( $output->headers as $name => $content )
         {
-            header( ( $name === '' ? $content : "{$name}: {$content}" ) );
+            header( "{$name}: {$content}" );
         }
 
+        // Send HTTP status code
+        header( $output->status );
+
         // Content-Length header automatically send
-        echo $result;
+        echo $output->body;
     }
 
     /**

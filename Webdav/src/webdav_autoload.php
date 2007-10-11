@@ -80,6 +80,7 @@ return array(
     'ezcWebdavNamespaceRegistry'                      => 'Webdav/namespace_registry.php',
     'ezcWebdavOptionsRequest'                         => 'Webdav/requests/options.php',
     'ezcWebdavOptionsResponse'                        => 'Webdav/responses/options.php',
+    'ezcWebdavOutputResult'                           => 'Webdav/structs/output_result.php',
     'ezcWebdavPluginConfiguration'                    => 'Webdav/plugin_configuration.php',
     'ezcWebdavPluginParameters'                       => 'Webdav/plugin_parameters.php',
     'ezcWebdavPluginRegistry'                         => 'Webdav/plugin_registry.php',

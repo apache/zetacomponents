@@ -7,10 +7,10 @@ class ezcWebdavTransportTestMock extends ezcWebdavTransport
         return $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'];
     }
 
-    protected function sendResponse( array $output )
+    protected function sendResponse( ezcWebdavOutputResult $output )
     {
-        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'] = $output['headers'];
-        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY']    = $output['body'];
+        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'] = $output->headers;
+        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY']    = $output->body;
     }
 }
 
