@@ -423,6 +423,7 @@ class ezcWebdavTransport
      * @param array(string=>mixed) $output
      * @return void
      *
+     * @todo Should $output be a struct?
      */
     protected function sendResponse( array $output )
     {
