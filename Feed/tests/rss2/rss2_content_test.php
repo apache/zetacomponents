@@ -14,9 +14,14 @@
  */
 class ezcFeedRss2ContentTest extends ezcTestCase
 {
-    protected function setup()
+    protected static $dataDir;
+
+    public static function suite()
     {
         date_default_timezone_set( 'Europe/Oslo' );
+        self::$dataDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
+
+        return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
     protected static function normalizeString( $str )
@@ -26,9 +31,9 @@ class ezcFeedRss2ContentTest extends ezcTestCase
 
     public function testParseWithFullContent()
     {
-        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-content-01.xml" );
+        $feed = ezcFeed::parse( self::$dataDir . "rss2-content-01.xml" );
         self::assertEquals( array( 'php', 'work' ), $feed->category );
-        self::assertEquals( self::normalizeString( '<p>
+        $this->assertEquals( self::normalizeString( '<p>
 While checking whether the <a href="http://components.ez.no">eZ
 components</a> would run with the latest PHP 5.2 release candidate we
 noticed that there are some things that are not backwards compatible
@@ -38,21 +43,21 @@ with PHP 5.1.
 
     public function testParseWithFullContentGenerate()
     {
-        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-content-01.xml" );
+        $feed = ezcFeed::parse( self::$dataDir . "rss2-content-01.xml" );
         $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-content-02.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testParseWithUnknownContentModuleElement()
     {
         try
         {
-            $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-dc-02.xml" );
-            self::fail( 'The expected exception was not thrown.' );
+            $feed = ezcFeed::parse( self::$dataDir . "rss2-dc-02.xml" );
+            $this->fail( 'Expected exception was not thrown.' );
         }
         catch ( ezcFeedUnsupportedModuleElementException $e )
         {
-            self::assertEquals( "The element 'bullshit' does not exist for the module 'DublinCore'.", $e->getMessage() );
+            $this->assertEquals( "The element 'bullshit' does not exist for the module 'DublinCore'.", $e->getMessage() );
         }
     }
 
@@ -61,18 +66,12 @@ with PHP 5.1.
         try
         {
             $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-dc-03.xml" );
-            self::fail( 'The expected exception was not thrown.' );
+            $this->fail( 'Expected exception was not thrown.' );
         }
         catch ( ezcFeedUnsupportedModuleItemElementException $e )
         {
-            self::assertEquals( "The feed item element 'bullshit' does not exist for the module 'DublinCore'.", $e->getMessage() );
+            $this->assertEquals( "The feed item element 'bullshit' does not exist for the module 'DublinCore'.", $e->getMessage() );
         }
     }
-
-    public static function suite()
-    {
-         return new PHPUnit_Framework_TestSuite( "ezcFeedRss2ContentTest" );
-    }
 }
-
 ?>

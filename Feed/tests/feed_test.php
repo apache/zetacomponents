@@ -16,6 +16,11 @@ include_once( 'Feed/tests/test.php' );
  */
 class ezcFeedTest extends ezcFeedTestCase
 {
+    public static function suite()
+    {
+        return new PHPUnit_Framework_TestSuite( __CLASS__ );
+    }
+
     public function testGetSupportedTypes()
     {
         $types = ezcFeed::getSupportedTypes();
@@ -190,11 +195,5 @@ class ezcFeedTest extends ezcFeedTestCase
             $this->assertEquals( "The attribute 'title' supports only singular values.", $e->getMessage() );
         }
     }
-
-    public static function suite()
-    {
-         return new PHPUnit_Framework_TestSuite( "ezcFeedTest" );
-    }
 }
-
 ?>

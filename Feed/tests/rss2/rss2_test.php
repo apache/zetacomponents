@@ -14,26 +14,33 @@
  */
 class ezcFeedRss2Test extends ezcTestCase
 {
-    protected function setup()
+    const FEED_TYPE = 'rss2';
+
+    protected static $dataDir;
+
+    public static function suite()
     {
         date_default_timezone_set( 'Europe/Oslo' );
+        self::$dataDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
+
+        return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
     public function testSimpleEmpty1()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
         $feed->author = "xx@ez.no (Derick Rethans)";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-01.xml" );
-        self::assertEquals( $expected, preg_replace( '@<pubDate>.*?</pubDate>@', '<pubDate>XXXX</pubDate>', $feed->generate() ) );
+        $expected = file_get_contents( self::$dataDir . "rss2-01.xml" );
+        $this->assertEquals( $expected, preg_replace( '@<pubDate>.*?</pubDate>@', '<pubDate>XXXX</pubDate>', $feed->generate() ) );
     }
 
     public function testSimpleEmpty2()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
@@ -41,45 +48,45 @@ class ezcFeedRss2Test extends ezcTestCase
         $feed->published = "1148633131"; // strtotime( "Fri May 26, 10:45:31 2006" );
         $feed->updated = "Fri May 26, 10:45:31 2006";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-03.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $expected = file_get_contents( self::$dataDir . "rss2-03.xml" );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testSimpleEmptyWithError1()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
 
         try
         {
             $feed->generate();
-            self::assertEquals( 'Expected exception not thrown' );
+            $this->fail( 'Expected exception not thrown.' );
         }
         catch ( ezcFeedRequiredMetaDataMissingException $e )
         {
-            self::assertEquals( "There was no data submitted for required channel attribute 'description'.", $e->getMessage() );
+            $this->assertEquals( "There was no data submitted for required channel attribute 'description'.", $e->getMessage() );
         }
     }
 
     public function testSimpleEmptyWithError2()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
 
         try
         {
             $feed->generate();
-            self::assertEquals( 'Expected exception not thrown' );
+            $this->fail( 'Expected exception not thrown.' );
         }
         catch ( ezcFeedRequiredMetaDataMissingException $e )
         {
-            self::assertEquals( "There was no data submitted for required channel attribute 'title'.", $e->getMessage() );
+            $this->assertEquals( "There was no data submitted for required channel attribute 'title'.", $e->getMessage() );
         }
     }
 
     public function testSimpleWithItems1()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
@@ -98,13 +105,13 @@ class ezcFeedRss2Test extends ezcTestCase
         $item->link = "http://components.ez.no/2";
         $item->description = "This is the second item";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-02.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $expected = file_get_contents( self::$dataDir . "rss2-02.xml" );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testSimpleWithItems2()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
@@ -119,13 +126,13 @@ class ezcFeedRss2Test extends ezcTestCase
         $item->link = "http://components.ez.no/1";
         $item->description = "This is the first item";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-04.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $expected = file_get_contents( self::$dataDir . "rss2-04.xml" );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testSimpleWithItems3NoLink()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
@@ -142,13 +149,13 @@ class ezcFeedRss2Test extends ezcTestCase
         $item->title = "Second Item";
         $item->description = "This is the second item";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-02_no_link.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $expected = file_get_contents( self::$dataDir . "rss2-02_no_link.xml" );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testSimpleWithItemsWithError1()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
@@ -163,17 +170,17 @@ class ezcFeedRss2Test extends ezcTestCase
         try
         {
             $feed->generate();
-            self::fail( 'Expected exception not thrown' );
+            $this->fail( 'Expected exception not thrown' );
         }
         catch ( ezcFeedAtLeastOneItemDataRequiredException $e )
         {
-            self::assertEquals( "At least one of these attributes is required: title, description.", $e->getMessage() );
+            $this->assertEquals( "At least one of these attributes is required: title, description.", $e->getMessage() );
         }
     }
 
     public function testComplex1()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
@@ -198,13 +205,13 @@ class ezcFeedRss2Test extends ezcTestCase
         $item->link = "http://components.ez.no/1";
         $item->description = "This is the first item";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-05.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $expected = file_get_contents( self::$dataDir . "rss2-05.xml" );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testComplex1WithOptional()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
@@ -232,13 +239,13 @@ class ezcFeedRss2Test extends ezcTestCase
         $item->link = "http://components.ez.no/1";
         $item->description = "This is the first item";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-05_optional.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $expected = file_get_contents( self::$dataDir . "rss2-05_optional.xml" );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testComplex1MissingRequired()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
@@ -259,17 +266,17 @@ class ezcFeedRss2Test extends ezcTestCase
         try
         {
             $feed->generate();
-            self::fail( 'Expected exception was not thrown.' );
+            $this->fail( 'Expected exception was not thrown.' );
         }
         catch ( ezcFeedRequiredItemDataMissingException $e )
         {
-            self::assertEquals( "There was no data submitted for required attribute 'title'.", $e->getMessage() );
+            $this->assertEquals( "There was no data submitted for required attribute 'title'.", $e->getMessage() );
         }
     }
 
     public function testComplex2()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ Components Feed Generator";
@@ -294,13 +301,13 @@ class ezcFeedRss2Test extends ezcTestCase
         $item->description = "This is the second item";
         $item->guid = "components.ez.no/2";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-06.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $expected = file_get_contents( self::$dataDir . "rss2-06.xml" );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testIterator1()
     {
-        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-07.xml" );
+        $feed = ezcFeed::parse( self::$dataDir . "rss2-07.xml" );
         $returned = array();
         foreach ( $feed as $item )
         {
@@ -359,13 +366,13 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ Com
 ',
   ),
 );
-        self::assertEquals( $expected, $returned );
-        self::assertEquals( array_keys( $expected ), $keys );
+        $this->assertEquals( $expected, $returned );
+        $this->assertEquals( array_keys( $expected ), $keys );
     }
 
     public function testWithModule1()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->addModule( 'DublinCore' );
 
         $feed->title = "eZ Components test";
@@ -377,13 +384,13 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ Com
         $feed->DublinCore->date = "Fri May 26, 10:46:31 2006 CEST";
         $feed->DublinCore->description = "<p>This is a richer <i>description</i> supported by dublin code.</p>";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-08.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $expected = file_get_contents( self::$dataDir . "rss2-08.xml" );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testComplexWithModule1()
     {
-        $feed = new ezcFeed( 'rss2' );
+        $feed = new ezcFeed( self::FEED_TYPE );
         $feed->addModule( 'DublinCore' );
 
         $feed->title = "eZ Components test";
@@ -410,58 +417,57 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ Com
         $item->published = "Fri May 26, 10:46:31 2006 CEST";
         $item->DublinCore->rights = "Copyright only.";
 
-        $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-09.xml" );
-        self::assertEquals( $expected, $feed->generate() );
+        $expected = file_get_contents( self::$dataDir . "rss2-09.xml" );
+        $this->assertEquals( $expected, $feed->generate() );
     }
 
     public function testParseImage1()
     {
-        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-05.xml" );
-        self::assertEquals( "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png", $feed->image->url );
-        self::assertEquals( "Downloads", $feed->image->title );
-        self::assertEquals( "http://ez.no/download", $feed->image->link );
+        $feed = ezcFeed::parse( self::$dataDir . "rss2-05.xml" );
+        $this->assertEquals( "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png", $feed->image->url );
+        $this->assertEquals( "Downloads", $feed->image->title );
+        $this->assertEquals( "http://ez.no/download", $feed->image->link );
     }
 
     public function testParseImage1OptionalAttributes()
     {
-        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-05_optional.xml" );
-        self::assertEquals( "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png", $feed->image->url );
-        self::assertEquals( "Downloads", $feed->image->title );
-        self::assertEquals( "http://ez.no/download", $feed->image->link );
-        self::assertEquals( "Newest versions are available for download.", $feed->image->description );
-        self::assertEquals( "176", $feed->image->width );
-        self::assertEquals( "62", $feed->image->height );
+        $feed = ezcFeed::parse( self::$dataDir . "rss2-05_optional.xml" );
+        $this->assertEquals( "http://ez.no/var/ezno/storage/images/download/other_downloads/powered_by_ez_components_logos/108x31/472645-3-eng-GB/108x31.png", $feed->image->url );
+        $this->assertEquals( "Downloads", $feed->image->title );
+        $this->assertEquals( "http://ez.no/download", $feed->image->link );
+        $this->assertEquals( "Newest versions are available for download.", $feed->image->description );
+        $this->assertEquals( "176", $feed->image->width );
+        $this->assertEquals( "62", $feed->image->height );
     }
 
     public function testParseComplexWithModule1()
     {
-        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-09.xml" );
-        self::assertEquals( "<p>This is a richer <i>description</i> supported by dublin code.</p>", $feed->DublinCore->description );
-        self::assertEquals( "CreativeCommons", $feed->items[0]->DublinCore->rights );
-        self::assertEquals( "This is the second item", $feed->items[1]->description );
-        self::assertEquals( "Copyright only.", $feed->items[1]->DublinCore->rights );
+        $feed = ezcFeed::parse( self::$dataDir . "rss2-09.xml" );
+        $this->assertEquals( "<p>This is a richer <i>description</i> supported by dublin code.</p>", $feed->DublinCore->description );
+        $this->assertEquals( "CreativeCommons", $feed->items[0]->DublinCore->rights );
+        $this->assertEquals( "This is the second item", $feed->items[1]->description );
+        $this->assertEquals( "Copyright only.", $feed->items[1]->DublinCore->rights );
     }
 
     public function testParseComplexWithModuleFromVariable()
     {
-        $feed = ezcFeed::parseContent( file_get_contents( dirname( __FILE__ ) . "/data/rss2-09.xml" ) );
-        self::assertEquals( "<p>This is a richer <i>description</i> supported by dublin code.</p>", $feed->DublinCore->description );
-        self::assertEquals( "CreativeCommons", $feed->items[0]->DublinCore->rights );
-        self::assertEquals( "This is the second item", $feed->items[1]->description );
-        self::assertEquals( "Copyright only.", $feed->items[1]->DublinCore->rights );
+        $feed = ezcFeed::parseContent( file_get_contents( self::$dataDir . "rss2-09.xml" ) );
+        $this->assertEquals( "<p>This is a richer <i>description</i> supported by dublin code.</p>", $feed->DublinCore->description );
+        $this->assertEquals( "CreativeCommons", $feed->items[0]->DublinCore->rights );
+        $this->assertEquals( "This is the second item", $feed->items[1]->description );
+        $this->assertEquals( "Copyright only.", $feed->items[1]->DublinCore->rights );
     }
 
     public function testParseAll()
     {
-        $basePath = dirname( __FILE__ ) . "/data";
-        $files = scandir( $basePath );
+        $files = scandir( self::$dataDir );
         foreach ( $files as $file )
         {
-            if ( substr( $file, 0, 1 ) !== '.' && is_file( "{$basePath}/{$file}" ) )
+            if ( substr( $file, 0, 1 ) !== '.' && is_file( self::$dataDir . "{$file}" ) )
             {
                 try
                 {
-                    $feed = ezcFeed::parse( "{$basePath}/{$file}" );
+                    $feed = ezcFeed::parse( self::$dataDir . "{$file}" );
                 }
                 catch ( ezcFeedUnsupportedModuleElementException $e )
                 {
@@ -473,11 +479,6 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ Com
                 }
             }
         }
-    }
-
-    public static function suite()
-    {
-         return new PHPUnit_Framework_TestSuite( "ezcFeedRss2Test" );
     }
 }
 ?>
