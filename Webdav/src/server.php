@@ -116,14 +116,14 @@ class ezcWebdavServer
         $this->backend = $backend;
         if ( !isset( $_SERVER['HTTP_USER_AGENT'] ) )
         {
-            throw new ezcWedavMissingHeaderException( 'User-Agent' );
+            throw new ezcWebdavMissingHeaderException( 'User-Agent' );
         }
         $this->properties['transport'] = $this->transports->createTransport( $_SERVER['HTTP_USER_AGENT'] );
 
         // Parse request into request object
         try
         {
-            $request = $this->transport->parseRequest();
+            $request = $this->transport->parseRequest( 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] );
         }
         catch ( Exception $e )
         {

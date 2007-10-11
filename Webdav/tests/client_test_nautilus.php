@@ -10,7 +10,7 @@ class ezcWebdavClientNautilusTest extends ezcWebdavClientTest
 {
     protected function setupTestEnvironment()
     {
-        $this->setupClass = 'ezcWebdavClientTestBackendContinuous';
+        $this->setupClass = 'ezcWebdavClientTestContinuousSetup';
         $this->dataDir    = dirname( __FILE__ ) . '/clients/nautilus';
     }
 

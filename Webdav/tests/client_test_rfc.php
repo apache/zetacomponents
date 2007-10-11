@@ -11,7 +11,7 @@ class ezcWebdavClientRfcTest extends ezcWebdavClientTest
 {
     protected function setupTestEnvironment()
     {
-        $this->setupClass = 'ezcWebdavClientRfcTestBackend';
+        $this->setupClass = 'ezcWebdavClientTestRfcSetup';
         $this->dataDir    = dirname( __FILE__ ) . '/clients/rfc';
     }
 

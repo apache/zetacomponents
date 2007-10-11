@@ -1,15 +1,15 @@
 <?php
 
-class ezcWebdavClientRfcTestBackend
+require_once 'client_test_setup.php';
+
+class ezcWebdavClientTestRfcSetup extends ezcWebdavClientTestSetup
 {
     public static function performSetup( ezcWebdavClientTest $test, $testSetName )
     {
-        // Compat
+        $pathFactory  = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
+        $test->server = self::getServer( $pathFactory );
+
         $testSetName = basename( $testSetName );
-
-        $test->transport  = new ezcWebdavTransportTestMock();
-        $test->transport->pathFactory = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
-
         switch( $testSetName )
         {
             case 'propfind_propname':
@@ -41,11 +41,6 @@ class ezcWebdavClientRfcTestBackend
             default:
                 throw new RuntimeException( "Could not find setup for test set '$testSetName'." );
         }
-    }
-
-    public static function reset()
-    {
-
     }
 
     protected static function getFooBarSetup1( ezcWebdavClientTest $test )

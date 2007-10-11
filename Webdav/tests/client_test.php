@@ -18,7 +18,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     public $dataDir;
     
-    public $transport;
+    public $server;
 
     public $backend;
 
@@ -85,34 +85,54 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         );
 
         // Request test
-        if ( file_exists( ( $requestDir = "{$testSetName}/request" ) ) === true )
+        if ( file_exists( ( $requestDir = "{$testSetName}/request" ) ) === false )
         {
-            // Settings
-            $request = array();
-            $request['result'] = $this->getFileContent( $requestDir, 'result' );
-            $request['server'] = array_merge( $serverBase, $this->getFileContent( $requestDir, 'server' ) );
-            $request['body']   = $this->getFileContent( $requestDir, 'body' );
-            $request['uri']    = $this->getFileContent( $requestDir, 'uri' );
-            
-            $requestObject = $this->runRequestTest( $request );
+            throw new PHPUnit_Framework_ExpectationFailedException( "No test data found for '$requestDir'." );
         }
+        // Settings
+        $request = array();
+        $request['result'] = $this->getFileContent( $requestDir, 'result' );
+        $request['server'] = array_merge( $serverBase, $this->getFileContent( $requestDir, 'server' ) );
+        $request['body']   = $this->getFileContent( $requestDir, 'body' );
+        $request['uri']    = $this->getFileContent( $requestDir, 'uri' );
 
         // Response test
         if ( file_exists( ( $responseDir = "{$testSetName}/response" ) ) === true && $requestObject instanceof ezcWebdavRequest && $this->setupClass !== null )
         {
-            $requestObject->validateHeaders();
-
-            // Settings
-            $response = array();
-            $response['result']  = $this->getFileContent( $responseDir, 'result' );
-            $response['headers'] = $this->getFileContent( $responseDir, 'headers' );
-            $response['body']    = $this->getFileContent( $responseDir, 'body' );
-            $response['code']    = $this->getFileContent( $responseDir, 'code' );
-            $response['name']    = $this->getFileContent( $responseDir, 'name' );
-            $response['backend'] = $this->getFileContent( $responseDir, 'backend' );
-            
-            $responseObject = $this->runResponseTest( $response, $requestObject );
+            throw new PHPUnit_Framework_ExpectationFailedException( "No test data found for '$requestDir'." );
         }
+        // Settings
+        $response = array();
+        $response['result']  = $this->getFileContent( $responseDir, 'result' );
+        $response['headers'] = $this->getFileContent( $responseDir, 'headers' );
+        $response['body']    = $this->getFileContent( $responseDir, 'body' );
+        $response['code']    = $this->getFileContent( $responseDir, 'code' );
+        $response['name']    = $this->getFileContent( $responseDir, 'name' );
+        $response['backend'] = $this->getFileContent( $responseDir, 'backend' );
+        
+        // Optionally set a body.
+        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = ( $request['body'] !== false ? $request['body'] : '' );
+
+        // Optionally overwrite $_SERVER
+        $_SERVER = $request['server'];
+
+        $this->server->handle( $this->backend );
+
+        $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
+        $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
+        $responseStatus  = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'];
+
+        $this->assertEquals(
+            $responseHeaders,
+            $response['headers'],
+            'Headers incorrect.'
+        );
+
+        $this->assertEquals(
+            $responseBody,
+            $response['body'],
+            'Body incorrect.'
+        );
     }
 
     protected function getFileContent( $dir, $file )
@@ -140,139 +160,6 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 break;
         }
         return $fileContent;
-    }
-
-    protected function runRequestTest( array $request )
-    {
-        // Optionally set a body.
-        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = ( $request['body'] !== false ? $request['body'] : '' );
-
-        // Optionally overwrite $_SERVER
-        $_SERVER = ( $request['server'] !== false ? $request['server'] : $_SERVER );
-
-        // Optionally set an URI different from 'http://localhost/webdav.php'
-        $uri = ( $request['uri'] !== false ? $request['uri'] : '/webdav.php' );
-
-        // Begin request test
-        $result = $this->transport->parseRequest( $uri );
-
-        if ( file_exists( ( $testResultFile = "{$this->currentTestSet}/request/result.ser" ) ) === false && self::REGENERATE_REQUEST === true )
-        {
-            echo "\nRegenerating {$testResultFile}\n";
-            file_put_contents(
-                $testResultFile,
-                serialize( $result )
-            );
-        }
-
-        $this->assertEquals(
-            $request['result'],
-            $result,
-            "Result not parsed correctly for test set '{$this->currentTestSet}'."
-        );
-
-        return $result;
-    }
-
-    protected function runResponseTest( array $response, ezcWebdavRequest $requestObject )
-    {
-        $responseObject = $this->backend->performRequest( $requestObject );
-        
-        $this->transport->handleResponse( $responseObject );
-        
-        $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
-        $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
-        $responseStatus  = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'];
-
-        if ( $response['result'] === false )
-        {
-            if ( file_exists( ( $testResultFile = "{$this->currentTestSet}/response/result.ser" ) ) === false && self::REGENERATE_RESPONSE )
-            {
-                echo "\nRegenerating {$testResultFile}\n";
-                file_put_contents(
-                    $testResultFile,
-                    serialize( array( "headers" => $responseHeaders, "body" => $responseBody ) )
-                );
-            }
-            if ( isset( $response['body'] ) === false || trim( $response['body'] ) === '' || $responseBody === '' )
-            {
-                $this->assertEquals(
-                    $response['body'],
-                    $responseBody,
-                    'Response body not generated correctly.'
-                );
-            }
-            else
-            {
-                $this->assertXmlStringEqualsXmlString(
-                    $response['body'],
-                    $responseBody,
-                    'Response body not generated correctly.'
-                );
-            }
-            if ( isset( $response['backend'] ) && $response['backend'] !== false )
-            {
-                $this->assertEquals(
-                    $response['backend'],
-                    $this->backend,
-                    'Backend state missmatched.'
-                );
-            }
-        } 
-        else
-        {
-            // FIXME
-            $responseHeaders[0] = $responseStatus;
-            if ( !empty( $responseBody ) && !isset( $response['result']['headers']['Content-Type'] ) )
-            {
-                $response['result']['headers']['Content-Type'] = 'text/xml; charset="utf-8"';
-            }
-            // END FIXME
-
-            $this->assertEquals(
-                $response['result']['headers'],
-                $responseHeaders,
-                'Generated headers missmatch.'
-            );
-            if ( trim( $response['result']['body'] ) === '' || $responseBody === '' )
-            {
-                $this->assertEquals(
-                    $response['result']['body'],
-                    $responseBody,
-                    'Generated body missmatch.'
-                );
-            }
-            else
-            {
-                $this->assertXmlStringEqualsXmlString(
-                    $response['result']['body'],
-                    $responseBody,
-                    'Generated body missmatch.'
-                );
-            }
-        }
-        if ( file_exists( ( $testBackendFile = "{$this->currentTestSet}/response/backend.ser" ) ) === false && self::REGENERATE_RESPONSE )
-        {
-            echo "\nRegenerating {$testBackendFile}\n";
-            file_put_contents(
-                $testBackendFile,
-                serialize( $this->backend )
-            );
-        }
-
-        $this->assertEquals(
-            $response['code'],
-            $responseObject->status,
-            'Response code missmatch'
-        );
-
-        $this->assertEquals(
-            $response['name'],
-            ezcWebdavResponse::$errorNames[$responseObject->status],
-            'Response name missmatch'
-        );
-
-        return $responseObject;
     }
 
 }

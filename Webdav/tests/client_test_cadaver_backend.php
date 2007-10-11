@@ -1,19 +1,17 @@
 <?php
 
-class ezcWebdavClientCadaverTestBackend
+require_once 'client_test_setup.php';
+
+class ezcWebdavClientTestCadaverSetup extends ezcWebdavClientTestSetup
 {
     public static function performSetup( ezcWebdavClientTest $test, $testSetName )
     {
-        $test->transport = new ezcWebdavTransportTestMock();
-        $test->transport->pathFactory = new ezcWebdavBasicPathFactory(
+        $pathFactory = new ezcWebdavBasicPathFactory(
             'http://foo.bar'
         );
         
-        return self::getFooBarSetup1( $test );
-    }
-
-    protected static function getFooBarSetup1( ezcWebdavClientTest $test )
-    {
+        $test->server = self::getServer( $pathFactory );
+        
         $test->backend                             = new ezcWebdavMemoryBackend();
         $test->backend->options->failForRegexp     = '(container/resource3)';
         $test->backend->options->failingOperations = ezcWebdavMemoryBackendOptions::REQUEST_DELETE;
@@ -156,8 +154,6 @@ EOT
                 )
             )
         );
-
-        return $test->backend;
     }
 }
 
