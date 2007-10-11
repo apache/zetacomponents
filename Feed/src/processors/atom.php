@@ -10,6 +10,8 @@
  */
 
 /**
+ * Class providing parsing and generating of ATOM feeds.
+ *
  * @package Feed
  * @version //autogentag//
  */
@@ -150,7 +152,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
      * @param DOMElement $xml The XML element object to parse
      */
-    public function parseItem( ezcFeed $feed, DOMElement $item )
+    public function parseItem( ezcFeed $feed, DOMElement $xml )
     {
     }
 

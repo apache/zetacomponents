@@ -85,7 +85,7 @@ abstract class ezcFeedProcessor
     /**
      * Returns true if $moduleName is supported by this processor, false otherwise.
      *
-     * @var string $moduleName The module name (eg. 'DublinCore')
+     * @param string $moduleName The module name (eg. 'DublinCore')
      * @return bool
      */
     public function isModuleSupported( $moduleName )
@@ -127,7 +127,7 @@ abstract class ezcFeedProcessor
      * @param ezcFeedItem $item The instance of the feed item
      * @return ezcFeedItemModuleData
      */
-    public function addItemModule( $moduleName, $moduleObj, $item )
+    public function addItemModule( $moduleName, ezcFeedModule $moduleObj, ezcFeedItem $item )
     {
         if ( !$this->isModuleSupported( $moduleName ) )
         {
@@ -143,11 +143,11 @@ abstract class ezcFeedProcessor
      *
      * @param string $moduleName The type of the module
      * @param ezcFeedModule $moduleObj The module object
-     * @param ezcFeedItem $item The feed item object
      * @param string $element The element in the module
+     * @param string $value The new value for $element
      * @return mixed
      */
-    public function setModuleMetaData( $moduleName, $moduleObj, $element, $value )
+    public function setModuleMetaData( $moduleName, ezcFeedModule $moduleObj, $element, $value )
     {
         $value = $moduleObj->prepareMetaData( $element, $value );
         $this->moduleMetaData[$moduleName][$element] = $value;
@@ -162,7 +162,7 @@ abstract class ezcFeedProcessor
      * @param string $element The element in the module
      * @return mixed
      */
-    public function getModuleMetaData( $moduleName, $moduleObj, $element )
+    public function getModuleMetaData( $moduleName, ezcFeedModule $moduleObj, $element )
     {
         if ( isset( $this->moduleMetaData[$moduleName][$element] ) )
         {
@@ -204,9 +204,10 @@ abstract class ezcFeedProcessor
      * @param ezcFeedModule $moduleObj The module object
      * @param ezcFeedItem $item The feed item object
      * @param string $element The element in the module
+     * @param string $value The new value for $element
      * @return mixed
      */
-    public function setModuleItemData( $moduleName, $moduleObj, ezcFeedItem $item, $element, $value )
+    public function setModuleItemData( $moduleName, ezcFeedModule $moduleObj, ezcFeedItem $item, $element, $value )
     {
         $value = $moduleObj->prepareMetaData( $element, $value );
         $item->setModuleMetaData( $moduleName, $moduleObj, $element, $value );
@@ -302,7 +303,7 @@ abstract class ezcFeedProcessor
      * This hook is called before calling setMetaData() with the $element and $value
      * arguments for the feed item $item.
      *
-     * @param ezcFeedItem $feed The feed item object
+     * @param ezcFeedItem $item The feed item object
      * @param string $element The name of the element to set
      * @param mixed $value The new value for $element
      */

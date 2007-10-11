@@ -114,7 +114,7 @@ class ezcFeedModuleContent implements ezcFeedModule
      *
      * It is a hook called before setting the feed $element to $value.
      *
-     * @param array(string=>mixed) The module data
+     * @param array(string=>mixed) $moduleData The module data
      * @param string $element The name of the feed element
      * @param mixed $value The new value for $element
      * @return bool
@@ -145,7 +145,7 @@ class ezcFeedModuleContent implements ezcFeedModule
      *
      * It is a hook called before setting the feed $element to $value.
      *
-     * @param array(string=>mixed) The item module data
+     * @param array(string=>mixed) $moduleData The item module data
      * @param string $element The name of the feed element
      * @param mixed $value The new value for $element
      * @return bool
