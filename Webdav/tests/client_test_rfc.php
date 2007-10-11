@@ -2,7 +2,7 @@
 
 require_once 'classes/transport_test_mock.php';
 require_once 'classes/rfc_path_factory.php';
-require_once 'client_test_rfc_backend.php';
+require_once 'client_test_rfc_setup.php';
 
 require_once 'client_test_suite.php';
 require_once 'client_test.php';
