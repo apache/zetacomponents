@@ -365,39 +365,34 @@ class ezcWebdavTransport
      */
     protected function flattenResponse( ezcWebdavDisplayInformation $info )
     {
-        $headers     = array_merge( $info->response->getHeaders() );
-        $body        = '';
-
-        $output = new ezcWebdavOutputResult();
-        $output->status = (string) $info->response;
+        $output          = new ezcWebdavOutputResult();
+        $output->status  = (string) $info->response;
+        $output->headers = $info->response->getHeaders();
+        $output->body    = '';
 
         switch ( true )
         {
             case ( $info instanceof ezcWebdavXmlDisplayInformation ):
-                $headers['Content-Type']  = ( isset( $headers['Content-Type'] ) ? $headers['Content-Type'] : 'text/xml; charset="utf-8"' );
+                $output->headers['Content-Type']  = ( isset( $output->headers['Content-Type'] ) ? $output->headers['Content-Type'] : 'text/xml; charset="utf-8"' );
                 $info->body->formatOutput = true;
-                $body                     = $info->body->saveXML( $info->body );
+                $output->body                     = $info->body->saveXML( $info->body );
                 break;
             case ( $info instanceof ezcWebdavStringDisplayInformation ):
                 if ( $info->response->getHeader( 'Content-Type' ) === null )
                 {
                     throw new ezcWebdavMissingHeaderException( 'ContentType' );
                 }
-                $body = $info->body;
+                $output->body = $info->body;
                 break;
-
             case ( $info instanceof ezcWebdavEmptyDisplayInformation ):
             default:
                 if ( ( $contenTypeHeader = $info->response->getHeader( 'Content-Type' ) ) !== null  )
                 {
                     throw new ezcWebdavInvalidHeaderException( 'Content-Type', $contenTypeHeader, 'null' );
                 }
-                $body = '';
+                $output->body = '';
                 break;
         }
-
-        $output->headers = $headers;
-        $output->body    = $body;
         
         return $output;
     }

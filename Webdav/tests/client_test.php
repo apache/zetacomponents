@@ -182,6 +182,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         
         $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
         $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
+        $responseStatus  = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'];
 
         if ( $response['result'] === false )
         {
@@ -221,8 +222,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         else
         {
             // FIXME
-            $response['result']['headers'][''] = $response['result']['headers'][0];
-            unset( $response['result']['headers'][0] );
+            $responseHeaders[0] = $responseStatus;
             if ( !empty( $responseBody ) && !isset( $response['result']['headers']['Content-Type'] ) )
             {
                 $response['result']['headers']['Content-Type'] = 'text/xml; charset="utf-8"';
