@@ -312,23 +312,23 @@ class ezcFeed implements Iterator
      *
      * Example:
      * <code>
-     * $feed->addModule( 'ezcFeedModuleDublinCode' );
+     * $feed->addModule( 'DublinCore' );
      * </code>
      *
      * @throws ezcFeedUnsupportedModuleException
      *         If the module is not supported by this feed processor.
      *
-     * @param string $className The class of the module
+     * @param string $moduleName The name of the module
      */
-    public function addModule( $className )
+    public function addModule( $moduleName )
     {
-        if ( !in_array( $className, self::$supportedModules ) )
+        if ( !isset( self::$supportedModules[$moduleName] ) )
         {
-            throw new ezcFeedUnsupportedModuleException( $className );
+            throw new ezcFeedUnsupportedModuleException( $moduleName );
         }
 
+        $className = self::$supportedModules[$moduleName];
         $moduleObj = new $className( $this->feedType );
-        $moduleName = $moduleObj->getModuleName();
         $this->$moduleName = $this->feedProcessor->addModule( $moduleName, $moduleObj );
     }
 

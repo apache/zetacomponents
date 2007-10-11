@@ -366,7 +366,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ Com
     public function testWithModule1()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->addModule( 'ezcFeedModuleDublinCore' );
+        $feed->addModule( 'DublinCore' );
 
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
@@ -384,7 +384,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ Com
     public function testComplexWithModule1()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->addModule( 'ezcFeedModuleDublinCore' );
+        $feed->addModule( 'DublinCore' );
 
         $feed->title = "eZ Components test";
         $feed->link = "http://components.ez.no";
@@ -451,10 +451,33 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ Com
         self::assertEquals( "Copyright only.", $feed->items[1]->DublinCore->rights );
     }
 
+    public function testParseAll()
+    {
+        $basePath = dirname( __FILE__ ) . "/data";
+        $files = scandir( $basePath );
+        foreach ( $files as $file )
+        {
+            if ( substr( $file, 0, 1 ) !== '.' && is_file( "{$basePath}/{$file}" ) )
+            {
+                try
+                {
+                    $feed = ezcFeed::parse( "{$basePath}/{$file}" );
+                }
+                catch ( ezcFeedUnsupportedModuleElementException $e )
+                {
+                    $this->assertEquals( "The element 'bullshit' does not exist for the module 'DublinCore'.", $e->getMessage() );
+                }
+                catch ( ezcFeedUnsupportedModuleItemElementException $e )
+                {
+                    $this->assertEquals( "The feed item element 'bullshit' does not exist for the module 'DublinCore'.", $e->getMessage() );
+                }
+            }
+        }
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcFeedRss2Test" );
     }
 }
-
 ?>

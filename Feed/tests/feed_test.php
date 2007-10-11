@@ -46,7 +46,7 @@ class ezcFeedTest extends ezcFeedTestCase
     {
         $feed = new ezcFeed( 'rss2' );
         $this->assertEquals( false, isset( $feed->DublinCore ) );
-        $feed->addModule( 'ezcFeedModuleDublinCore' );
+        $feed->addModule( 'DublinCore' );
         $this->assertEquals( true, isset( $feed->DublinCore ) );
     }
 

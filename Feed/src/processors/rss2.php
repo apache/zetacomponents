@@ -487,7 +487,7 @@ class ezcFeedRss2 extends ezcFeedRss
                 $moduleNamespace = call_user_func( array( $moduleClass, 'getNamespace' ) );
                 if ( $moduleNamespace == $node->nodeValue )
                 {
-                    $feed->addModule( $moduleClass );
+                    $feed->addModule( $moduleName );
                     $this->usedPrefixes[call_user_func( array( $moduleClass, 'getNamespacePrefix' ) )] = $moduleName;
                 }
             }

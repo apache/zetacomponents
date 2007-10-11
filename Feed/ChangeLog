@@ -4,6 +4,8 @@
 - In RSS2 the title, link and description nodes of item nodes are not all
   required, but at least one of title or description nodes is required.
 - The RSS2 image node is created and parsed correctly.
+- The addModule() method in ezcFeed now accepts the name of a module instead
+  the name of a class.
 
 
 1.0beta1 - Monday 18 December 2006

@@ -100,7 +100,7 @@ Possible feed operations:
 
 - add a module to the feed. Example: ::
 
-    $feed->addModule( 'ezcFeedModuleDublinCore' );
+    $feed->addModule( 'DublinCore' );
 
 - set/get a value from the feed document. Example: ::
 
