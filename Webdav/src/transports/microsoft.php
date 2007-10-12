@@ -39,7 +39,7 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
     protected function sendResponse( ezcWebdavOutputResult $output )
     {
         // Add MS specific header
-        $output->header['MS-Author-Via'] = 'DAV';
+        $output->headers['MS-Author-Via'] = 'DAV';
 
         parent::sendResponse( $output );
 
