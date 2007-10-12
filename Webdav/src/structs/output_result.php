@@ -32,7 +32,7 @@ class ezcWebdavOutputResult
      * 
      * @var array
      */
-    public $header;
+    public $headers;
 
     /**
      * Response body
