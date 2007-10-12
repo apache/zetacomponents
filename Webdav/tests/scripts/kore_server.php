@@ -39,16 +39,15 @@ class mockedTransport extends ezcWebdavMicrosoftCompatibleTransport
         return $GLOBALS['EZC_WEBDAV_REQUEST_BODY'];
     }
 
-    protected function sendResponse( ezcWebdavDisplayInformation $info )
+    protected function sendResponse( ezcWebdavOutputResult $output )
     {
-        $info->response->setHeader( 'Server', 'Apache' );
-
-        $GLOBALS['EZC_WEBDAV_RESPONSE'] = $info->response;
-        $GLOBALS['EZC_WEBDAV_RESPONSE_HEADERS'] = $info->response->getHeaders();
+        $GLOBALS['EZC_WEBDAV_RESPONSE'] = $output->status;
+        $GLOBALS['EZC_WEBDAV_RESPONSE_HEADERS'] = $output->headers;
 
         ob_start();
-        parent::sendResponse( $info );
+        parent::sendResponse( $output );
         $GLOBALS['EZC_WEBDAV_RESPONSE_BODY'] = ob_get_clean();
+
 
         // MS stuff seems to want paths without host
         $GLOBALS['EZC_WEBDAV_RESPONSE_BODY'] = str_replace(
@@ -60,7 +59,7 @@ class mockedTransport extends ezcWebdavMicrosoftCompatibleTransport
         // Add date namespace to response elements for MS clients
         $GLOBALS['EZC_WEBDAV_RESPONSE_BODY'] = preg_replace(
             '(<D:response([^>]*)>)',
-            '<D:response\\1 xmlns:ns0="urn:uuid:c2f41010-65b3-11d1-a29f-00aa00c14882/">',
+            '<D:response\\1 xmlns:lp1="DAV:" xmlns:lp2="http://apache.org/dav/props/" xmlns:ns0="urn:uuid:c2f41010-65b3-11d1-a29f-00aa00c14882/">',
             $GLOBALS['EZC_WEBDAV_RESPONSE_BODY']
         );
 
@@ -75,6 +74,13 @@ class mockedTransport extends ezcWebdavMicrosoftCompatibleTransport
         $GLOBALS['EZC_WEBDAV_RESPONSE_BODY'] = preg_replace(
             '(<D:getlastmodified([^>]*)>)',
             '<D:getlastmodified\\1 ns0:dt="dateTime.rfc1123">',
+            $GLOBALS['EZC_WEBDAV_RESPONSE_BODY']
+        );
+
+        // Put some elements in DAV: namespace with other namespace identifier
+        $GLOBALS['EZC_WEBDAV_RESPONSE_BODY'] = preg_replace(
+            '(D:(resourcetype|creationdate|getlastmodified|getetag)([^>]*))',
+            'lp1:\\1\\2',
             $GLOBALS['EZC_WEBDAV_RESPONSE_BODY']
         );
 
