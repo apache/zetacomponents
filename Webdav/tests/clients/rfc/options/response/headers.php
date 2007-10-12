@@ -1,7 +1,10 @@
 <?php
 
 return array (
-    'DAV:' => '1, 2, 1#extended'
+    // Once...
+    // 'DAV:' => '1, 2, 1#extended'
+    'DAV'   => '1, 2',
+    'Allow' => 'GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, DELETE, COPY, MOVE, MKCOL, PUT',
 );
 
 ?>

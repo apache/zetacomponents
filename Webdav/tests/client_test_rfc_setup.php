@@ -7,7 +7,6 @@ class ezcWebdavClientTestRfcSetup extends ezcWebdavClientTestSetup
     public static function performSetup( ezcWebdavClientTest $test, $testSetName )
     {
         $pathFactory  = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
-        $test->server = self::getServer( $pathFactory );
 
         $testSetName = basename( $testSetName );
         switch( $testSetName )
@@ -17,15 +16,20 @@ class ezcWebdavClientTestRfcSetup extends ezcWebdavClientTestSetup
             case 'supportedlock':
             case 'propfind_allprop':
             case 'delete':
-                return self::getFooBarSetup1( $test );
+                $customPathFactory = self::getFooBarSetup1( $test );
+                break;
             case 'propfind_prop':
-                return self::getFooBarSetup2( $test );
+                $customPathFactory = self::getFooBarSetup2( $test );
+                break;
             case 'proppatch':
-                return self::getFooBarSetup3( $test );
+                $customPathFactory = self::getFooBarSetup3( $test );
+                break;
             case 'copy_collection':
-                return self::getFooBarSetup4( $test );
+                $customPathFactory = self::getFooBarSetup4( $test );
+                break;
             case 'move_collection':
-                return self::getFooBarSetup5( $test );
+                $customPathFactory = self::getFooBarSetup5( $test );
+                break;
             case 'copy_success':
             case 'copy':
             case 'copy_overwrite':
@@ -33,19 +37,23 @@ class ezcWebdavClientTestRfcSetup extends ezcWebdavClientTestSetup
             case 'get_collection':
             case 'get_resource':
             case 'put_resource':
-                return self::getIcsUciSetup1( $test );
+                $customPathFactory = self::getIcsUciSetup1( $test );
+                break;
             case 'move_resource':
-                return self::getIcsUciSetup2( $test );
+                $customPathFactory = self::getIcsUciSetup2( $test );
+                break;
             case 'mkcol':
-                return self::getServerOrgSetup( $test );
+                $customPathFactory = self::getServerOrgSetup( $test );
+                break;
             default:
                 throw new RuntimeException( "Could not find setup for test set '$testSetName'." );
         }
+
+        $test->server = self::getServer( ( $customPathFactory === null ? $pathFactory : $customPathFactory ) );
     }
 
     protected static function getFooBarSetup1( ezcWebdavClientTest $test )
     {
-
         $test->backend                             = new ezcWebdavMemoryBackend();
         $test->backend->options->failForRegexp     = '(container/resource3)';
         $test->backend->options->failingOperations = ezcWebdavMemoryBackendOptions::REQUEST_DELETE;
@@ -188,8 +196,6 @@ EOT
                 )
             )
         );
-
-        return $test->backend;
     }
     
     protected static function getFooBarSetup2( ezcWebdavClientTest $test )
@@ -227,8 +233,6 @@ EOT
 EOT
             )
         );
-
-        return $test->backend;
     }
     
     protected static function getFooBarSetup3( ezcWebdavClientTest $test )
@@ -256,13 +260,10 @@ EOT
 EOT
             )
         );
-
-        return $test->backend;
     }
 
     protected static function getFooBarSetup4( ezcWebdavClientTest $test )
     {
-        $test->transport->pathFactory = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
 
         $test->backend                             = new ezcWebdavMemoryBackend();
         // $test->backend->options->failForRegexp     = '(container/R2|container/resource3)';
@@ -408,13 +409,11 @@ EOT
             )
         );
 
-        return $test->backend;
+        return new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
     }
 
     protected static function getFooBarSetup5( ezcWebdavClientTest $test )
     {
-        $test->transport->pathFactory = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
-
         $test->backend                             = new ezcWebdavMemoryBackend();
         $test->backend->options->failForRegexp     = '(othercontainer/C2)';
         $test->backend->options->failingOperations = ezcWebdavMemoryBackendOptions::REQUEST_MOVE;
@@ -558,7 +557,7 @@ EOT
             )
         );
 
-        return $test->backend;
+        return new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
     }
 
     protected static function getIcsUciSetup1( ezcWebdavClientTest $test )
@@ -567,7 +566,7 @@ EOT
         $test->backend->addContents(
             array(
                 '~fielding' => array(
-                    'index.html' => '<html><head><title>Foo Bar</title></head></html>',
+                    'index.html' => "<html><head><title>Foo Bar</title></head></html>\n",
                 ),
             )
         );
@@ -596,8 +595,6 @@ EOT
                 '49'
             )
         );
-
-        return $test->backend;
     }
 
     protected static function getIcsUciSetup2( ezcWebdavClientTest $test )
@@ -620,8 +617,6 @@ EOT
                 ),
             )
         );
-
-        return $test->backend;
     }
 
     protected static function getServerOrgSetup( ezcWebdavClientTest $test )
@@ -632,8 +627,6 @@ EOT
                 'webdisc' => array(),
             )
         );
-
-        return $test->backend;
     }
 }
 

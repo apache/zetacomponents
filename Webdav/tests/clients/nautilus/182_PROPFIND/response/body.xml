@@ -16,7 +16,7 @@
     </D:propstat>
   </D:response>
   <D:response>
-    <D:href>http://webdav/test_collection/a_new_folder/baz_coll/test01/test02</D:href>
+    <D:href>http://webdav/test_collection/a_new_folder/baz_coll/test01/test02/</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0100</D:creationdate>

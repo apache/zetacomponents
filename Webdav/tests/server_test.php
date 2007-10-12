@@ -211,9 +211,20 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
     public function testDefaultHandlerWithUnknowClient()
     {
-        $_SERVER['HTTP_USER_AGENT'] = 'ezcUnknownClient';
+        $_SERVER['HTTP_USER_AGENT'] = 'unknown';
+        $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
+        $_SERVER['SERVER_NAME'] = 'webdav';
+        $_SERVER['REQUEST_URI'] = '/foo/bar';
 
         $webdav  = ezcWebdavServer::getInstance();
+
+        // Fake pathfactory, because SCRIPT_FILENAME cannot be overwritten
+        $pathFactory = new ezcWebdavBasicPathFactory( 'http://webdav/' );
+        foreach( $webdav->transports as $transportCfg )
+        {
+            $transportCfg->pathFactory = $pathFactory;
+        }
+
         $backend = new ezcWebdavMemoryBackend();
 
         ob_start();
@@ -225,8 +236,10 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
     public function testDefaultHandlerWithUnknowClientAdditionalHandler()
     {
-        $_SERVER['HTTP_USER_AGENT'] = 'ezcUnknownClient';
-        $_SERVER['REQUEST_METHOD']  = 'OPTIONS';
+        $_SERVER['HTTP_USER_AGENT'] = 'unknown';
+        $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
+        $_SERVER['SERVER_NAME'] = 'webdav';
+        $_SERVER['REQUEST_URI'] = '/foo/bar';
 
         $webdav  = ezcWebdavServer::getInstance();
         $webdav->transports->insertBefore(
@@ -235,6 +248,13 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
                 'ezcWebdavTransportTestMock'
             )
         );
+        
+        // Fake pathfactory, because SCRIPT_FILENAME cannot be overwritten
+        $pathFactory = new ezcWebdavBasicPathFactory( 'http://webdav/' );
+        foreach( $webdav->transports as $transportCfg )
+        {
+            $transportCfg->pathFactory = $pathFactory;
+        }
 
         $backend = new ezcWebdavMemoryBackend();
 

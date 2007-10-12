@@ -82,6 +82,8 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $serverBase = array(
             'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',
             'SCRIPT_FILENAME' => '/var/www/localhost/htdocs',
+            'SERVER_NAME'     => 'webdav',
+            'HTTP_USER_AGENT' => 'RFC compliant',
         );
 
         // Request test
@@ -91,7 +93,6 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         }
         // Settings
         $request = array();
-        $request['result'] = $this->getFileContent( $requestDir, 'result' );
         $request['server'] = array_merge( $serverBase, $this->getFileContent( $requestDir, 'server' ) );
         $request['body']   = $this->getFileContent( $requestDir, 'body' );
         $request['uri']    = $this->getFileContent( $requestDir, 'uri' );
@@ -103,12 +104,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         }
         // Settings
         $response = array();
-        $response['result']  = $this->getFileContent( $responseDir, 'result' );
         $response['headers'] = $this->getFileContent( $responseDir, 'headers' );
         $response['body']    = $this->getFileContent( $responseDir, 'body' );
         $response['code']    = $this->getFileContent( $responseDir, 'code' );
         $response['name']    = $this->getFileContent( $responseDir, 'name' );
-        $response['backend'] = $this->getFileContent( $responseDir, 'backend' );
         
         // Optionally set a body.
         $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = ( $request['body'] !== false ? $request['body'] : '' );
@@ -118,20 +117,31 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         $this->server->handle( $this->backend );
 
+        if ( !isset( $GLOBALS["EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY"] ) )
+        {
+            // var_dump( $this->server->transport );
+        }
+
         $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
         $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
         $responseStatus  = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'];
 
+        // Reset globals
+        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'] );
+        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'] );
+        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'] );
+        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] );
+
         $this->assertEquals(
-            $responseHeaders,
             $response['headers'],
-            'Headers incorrect.'
+            $responseHeaders,
+            'Headers sent by WebDAV server incorrect.'
         );
 
         $this->assertEquals(
-            $responseBody,
             $response['body'],
-            'Body incorrect.'
+            $responseBody,
+            'Body sent by WebDAV server incorrect.'
         );
     }
 
@@ -156,7 +166,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 break;
             case 'txt':
             default:
-                $fileContent = trim( file_get_contents( $filePath ) );
+                $fileContent = file_get_contents( $filePath );
                 break;
         }
         return $fileContent;

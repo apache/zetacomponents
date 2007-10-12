@@ -76,10 +76,7 @@ class ezcWebdavServer
      */
     protected function __construct()
     {
-        $this->properties['transport']      = null;
-        $this->properties['backend']        = null;
-        $this->properties['transports']     = new ezcWebdavTransportDispatcher();
-        $this->properties['pluginRegistry'] = new ezcWebdavPluginRegistry();
+        $this->reset();
     }
 
     /**
@@ -124,10 +121,12 @@ class ezcWebdavServer
         try
         {
             $request = $this->transport->parseRequest( 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] );
+            $request->validateHeaders();
         }
         catch ( Exception $e )
         {
             // @todo: Handle Exception here with ezcWebdavErrorResponse
+            throw $e;
         }
         // @todo $this->pluginRegistry->hook( __CLASS__, 'receivedRequest', new ezcWebdavPluginParameters( array( 'request' => $request ) ) );
 
@@ -139,6 +138,7 @@ class ezcWebdavServer
         catch ( Exception $e )
         {
             // @todo: Handle Exception here with ezcWebdavErrorResponse
+            throw $e;
         }
         // @todo $this->pluginRegistry->hook( __CLASS__, 'generatedResponse', new ezcWebdavPluginParameters( array( 'response' => $response ) ) );
 
@@ -150,7 +150,24 @@ class ezcWebdavServer
         catch ( Exception $e )
         {
             // @todo: Handle Exception here with ezcWebdavErrorResponse
+            throw $e;
         }
+    }
+
+    /**
+     * Reset the server to its initial state.
+     *
+     * Resets the internal server state as if a new instance has just been
+     * constructed.
+     * 
+     * @return void
+     */
+    public function reset()
+    {
+        $this->properties['transport']      = null;
+        $this->properties['backend']        = null;
+        $this->properties['transports']     = new ezcWebdavTransportDispatcher();
+        $this->properties['pluginRegistry'] = new ezcWebdavPluginRegistry();
     }
 
     /**
