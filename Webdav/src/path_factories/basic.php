@@ -103,10 +103,6 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
      */
     public function generateUriFromPath( $path )
     {
-        if ( strpos( $path, 'foo_col/foo_bar.txt' ) !== false )
-        {
-            echo "\nPath: $path\n";
-        }
         return $this->baseUriParts['scheme'] 
              . '://' 
              . ( isset( $this->baseUriParts['user'] ) ? $this->baseUriParts['user'] : '' )
