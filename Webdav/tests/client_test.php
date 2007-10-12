@@ -81,9 +81,9 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         $serverBase = array(
             'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',
+            'HTTP_USER_AGENT' => 'RFC compliant',
             'SCRIPT_FILENAME' => '/var/www/localhost/htdocs',
             'SERVER_NAME'     => 'webdav',
-            'HTTP_USER_AGENT' => 'RFC compliant',
         );
 
         // Request test
@@ -95,7 +95,6 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $request = array();
         $request['server'] = array_merge( $serverBase, $this->getFileContent( $requestDir, 'server' ) );
         $request['body']   = $this->getFileContent( $requestDir, 'body' );
-        $request['uri']    = $this->getFileContent( $requestDir, 'uri' );
 
         // Response test
         if ( file_exists( ( $responseDir = "{$testSetName}/response" ) ) === true && $requestObject instanceof ezcWebdavRequest && $this->setupClass !== null )
@@ -117,20 +116,15 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         $this->server->handle( $this->backend );
 
-        if ( !isset( $GLOBALS["EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY"] ) )
-        {
-            // var_dump( $this->server->transport );
-        }
-
         $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
         $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
         $responseStatus  = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'];
 
         // Reset globals
+        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] );
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'] );
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'] );
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'] );
-        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] );
 
         $this->assertEquals(
             $response['headers'],
@@ -160,9 +154,6 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         {
             case 'php':
                 $fileContent = require $filePath;
-                break;
-            case 'ser':
-                $fileContent = @unserialize( file_get_contents( $filePath ) );
                 break;
             case 'txt':
             default:
