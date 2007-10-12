@@ -79,6 +79,15 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
             $requestPath = substr( $requestPath, 0, -1 );
             $this->collectionPathes[substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) )] = true;
         }
+        else
+        {
+            // @todo Some clients first send with / and then discover it is not a resource
+            // therefore the upper todo might be refined.
+            if ( isset( $this->collectionPathes[substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) )] ) )
+            {
+                unset( $this->collectionPathes[substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) )] );
+            }
+        }
         return substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) );
     }
 
@@ -94,6 +103,10 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
      */
     public function generateUriFromPath( $path )
     {
+        if ( strpos( $path, 'foo_col/foo_bar.txt' ) !== false )
+        {
+            echo "\nPath: $path\n";
+        }
         return $this->baseUriParts['scheme'] 
              . '://' 
              . ( isset( $this->baseUriParts['user'] ) ? $this->baseUriParts['user'] : '' )
