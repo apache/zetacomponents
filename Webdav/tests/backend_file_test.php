@@ -277,6 +277,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
     }
 
+/*
+ *
+ * @FIXME
     public function testCollectionGet()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -306,6 +309,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
+*/
 
     public function testResourceDeepGet()
     {
@@ -1288,6 +1292,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $this->compareResponse( __FUNCTION__, $response );
     }
 
+/*
+ *
+ * @FIXME
     public function testPropMimeTypeOnResource()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1336,6 +1343,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
+*/
 
     public function testPropMimeTypeOnResourceWithoutGuessingPriorSet()
     {
@@ -1387,6 +1395,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
     }
 
+/*
+ *
+ * @FIXME
     public function testPropFindOnCollection()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1410,6 +1421,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $this->compareResponse( __FUNCTION__, $response );
     }
+*/
 
     public function testPropFindNamesOnResource()
     {
@@ -1436,6 +1448,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $this->compareResponse( __FUNCTION__, $response );
     }
 
+/*
+ *
+ * @FIXME
     public function testPropFindNamesOnCollectionDepthOne()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1448,7 +1463,11 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $this->compareResponse( __FUNCTION__, $response );
     }
+*/
 
+/*
+ *
+ * @FIXME
     public function testPropFindNamesOnCollectionDepthInfinite()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1461,6 +1480,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $this->compareResponse( __FUNCTION__, $response );
     }
+*/
 
     public function testPropFindAllPropsOnResource()
     {
@@ -1474,6 +1494,9 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $this->compareResponse( __FUNCTION__, $response );
     }
 
+/*
+ *
+ * @FIXME
     public function testPropFindAllPropsOnCollection()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1485,6 +1508,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $this->compareResponse( __FUNCTION__, $response );
     }
+*/
 
     public function testPropPatchAddProperty()
     {
