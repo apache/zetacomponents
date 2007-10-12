@@ -54,7 +54,9 @@ class ezcWebdavFileBackend
         'displayname', 
         'getetag', 
         'getcontenttype', 
-        'resourcetype'
+        'resourcetype',
+        'supportedlock',
+        'lockdiscovery',
     );
 
     /**
@@ -541,6 +543,14 @@ class ezcWebdavFileBackend
                 $property->type = $this->isCollection( $resource ) ?
                     ezcWebdavResourceTypeProperty::TYPE_COLLECTION : 
                     ezcWebdavResourceTypeProperty::TYPE_RESSOURCE;
+                return $property;
+
+            case 'supportedlock':
+                $property = new ezcWebdavSupportedLockProperty();
+                return $property;
+
+            case 'lockdiscovery':
+                $property = new ezcWebdavLockDiscoveryProperty();
                 return $property;
 
             default:
