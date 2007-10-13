@@ -105,8 +105,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $response = array();
         $response['headers'] = $this->getFileContent( $responseDir, 'headers' );
         $response['body']    = $this->getFileContent( $responseDir, 'body' );
-        $response['code']    = trim( $this->getFileContent( $responseDir, 'code' ) );
-        $response['name']    = trim( $this->getFileContent( $responseDir, 'name' ) );
+        $response['status']  = trim( $this->getFileContent( $responseDir, 'status' ) );
         
         // Optionally set a body.
         $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = ( $request['body'] !== false ? $request['body'] : '' );
@@ -139,7 +138,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            "HTTP/1.1 {$response['code']} {$response['name']}",
+            $response['status'],
             $responseStatus,
             'Status code sent by WebDAV server incoreect.'
         );
