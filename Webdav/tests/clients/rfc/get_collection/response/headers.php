@@ -1,8 +1,8 @@
 <?php
 
 return array (
-    'Content-Length' => '4096',
+  'Content-Length' => '4096',
+  'Server' => 'eZComponents/dev/ezcWebdavTransportMock',
 );
-
 
 ?>

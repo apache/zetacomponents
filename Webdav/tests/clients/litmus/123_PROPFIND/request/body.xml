@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<prop0 xmlns="http://webdav.org/neon/litmus/"/>
+<prop1 xmlns="http://webdav.org/neon/litmus/"/>
+<prop2 xmlns="http://webdav.org/neon/litmus/"/>
+<prop3 xmlns="http://webdav.org/neon/litmus/"/>
+<prop4 xmlns="http://webdav.org/neon/litmus/"/>
+<prop5 xmlns="http://webdav.org/neon/litmus/"/>
+<prop6 xmlns="http://webdav.org/neon/litmus/"/>
+<prop7 xmlns="http://webdav.org/neon/litmus/"/>
+<prop8 xmlns="http://webdav.org/neon/litmus/"/>
+<prop9 xmlns="http://webdav.org/neon/litmus/"/>
+</prop></propfind>

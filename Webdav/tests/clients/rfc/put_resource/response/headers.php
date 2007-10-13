@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  // PHP generates that automatically on echo
+  'Server' => 'eZComponents/dev/ezcWebdavTransportMock',
 );
 
 ?>

@@ -96,6 +96,7 @@ class ezcWebdavOptionsResponseTest extends ezcWebdavTestCase
     public function testValidateHeadersSuccess()
     {
         $response = new ezcWebdavOptionsResponse();
+        $response->setHeader( 'Server', 'Some/Server/Software' );
 
         $response->validateHeaders();
         $this->assertEquals(

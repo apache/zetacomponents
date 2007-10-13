@@ -126,15 +126,15 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'] );
 
         $this->assertEquals(
-            $response['headers'],
-            $responseHeaders,
-            'Headers sent by WebDAV server incorrect.'
-        );
-
-        $this->assertEquals(
             $response['body'],
             $responseBody,
             'Body sent by WebDAV server incorrect.'
+        );
+
+        $this->assertEquals(
+            $response['headers'],
+            $responseHeaders,
+            'Headers sent by WebDAV server incorrect.'
         );
 
         $this->assertEquals(
