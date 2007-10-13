@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<removeset xmlns="http://webdav.org/neon/litmus/"/>
+</prop></propfind>
