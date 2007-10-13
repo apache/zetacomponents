@@ -1386,7 +1386,7 @@ class ezcWebdavTransport
         {
             $response->setHeader( 'Content-Length', ( strlen( $response->resource->content ) + 1 ) );
         }
-        return new ezcWebdavEmptyDisplayInformation( $response );
+        return new ezcWebdavStringDisplayInformation( $response, '' );
     }
 
     // ezcWebdavMakeCollectionResponse
