@@ -54,6 +54,31 @@ class ezcWebdavMultistatusResponse extends ezcWebdavResponse
     }
 
     /**
+     * Validates the headers set in this request.
+     * This method is called by ezcWebdavServer after the response object has
+     * been created by an ezcWebdavBackend. It must validate all headers
+     * specific for this request for existance of required headers and validity
+     * of all headers used  by the specific request implementation. The call of
+     * the parent method is *mandatory* to have common WebDAV and HTTP headers
+     * validated, too!
+     *
+     * @return void
+     *
+     * @throws ezcWebdavMissingHeaderException
+     *         if a required header is missing.
+     * @throws ezcWebdavInvalidHeaderException
+     *         if a header is present, but its content does not validate.
+     */
+    public function validateHeaders()
+    {
+        if ( count( $this->responses ) > 0 && $this->getHeader( 'Content-Type' ) === null )
+        {
+            throw new ezcWebdavMissingHeaderException( 'Content-Type' );
+        }
+        parent::validateHeaders();
+    }
+
+    /**
      * Sets a property.
      * This method is called when an property is to be set.
      * 
@@ -77,6 +102,8 @@ class ezcWebdavMultistatusResponse extends ezcWebdavResponse
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'array( ezcWebdavResponse )' );
                 }
+
+                ( count( $propertyValue ) > 0 ? $this->setHeader( 'Content-Type', 'text/xml; charset="utf-8"' ) : $this->setHeader( 'Content-Type', null ) );
 
                 $this->properties[$propertyName] = $propertyValue;
                 break;

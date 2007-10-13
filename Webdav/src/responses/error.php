@@ -26,15 +26,20 @@ class ezcWebdavErrorResponse extends ezcWebdavResponse
      * 
      * @param int $status 
      * @param string $requestUri 
+     * @param string $desc
      * @return void
      */
-    public function __construct( $status, $requestUri = null )
+    public function __construct( $status, $requestUri = null, $desc = null )
     {
         parent::__construct( $status );
 
         if ( $requestUri !== null )
         {
             $this->requestUri = $requestUri;
+        }
+        if ( $desc !== null )
+        {
+            $this->responseDescription = $desc;
         }
     }
 

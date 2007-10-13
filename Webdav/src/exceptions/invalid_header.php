@@ -20,7 +20,7 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavInvalidHeaderException extends ezcWebdavException
+class ezcWebdavInvalidHeaderException extends ezcWebdavBadRequestException
 {
     /**
      * Creates a new exception.

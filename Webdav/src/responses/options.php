@@ -33,7 +33,7 @@ class ezcWebdavOptionsResponse extends ezcWebdavResponse
     public function __construct( $version = null )
     {
         parent::__construct( ezcWebdavResponse::STATUS_200 );
-        $this->headers['DAV'] = ( $version === null ? '1' : $version );
+        $this->setHeader( 'DAV', ( $version === null ? '1' : $version ) );
     }
 
     /**

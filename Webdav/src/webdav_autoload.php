@@ -11,6 +11,7 @@
 
 return array(
     'ezcWebdavException'                              => 'Webdav/exceptions/exception.php',
+    'ezcWebdavBadRequestException'                    => 'Webdav/exceptions/bad_request.php',
     'ezcWebdavBrokenRequestUriException'              => 'Webdav/exceptions/broken_request_uri.php',
     'ezcWebdavHeadersNotValidatedException'           => 'Webdav/exceptions/headers_not_validated.php',
     'ezcWebdavInvalidHeaderException'                 => 'Webdav/exceptions/invalid_header.php',
@@ -23,7 +24,7 @@ return array(
     'ezcWebdavNotTransportHandlerException'           => 'Webdav/exceptions/no_transport_handler.php',
     'ezcWebdavRequestNotSupportedException'           => 'Webdav/exceptions/request_not_supported.php',
     'ezcWebdavUnknownHeaderException'                 => 'Webdav/exceptions/unknown_header.php',
-    'ezcWebdavInfrastructureBase'                     => 'Webdav/interfaces/xml_base.php',
+    'ezcWebdavInfrastructureBase'                     => 'Webdav/interfaces/infrastructure_base.php',
     'ezcWebdavProperty'                               => 'Webdav/interfaces/property.php',
     'ezcWebdavBackend'                                => 'Webdav/interfaces/backend.php',
     'ezcWebdavBackendChange'                          => 'Webdav/interfaces/backend/change.php',

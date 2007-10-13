@@ -170,7 +170,12 @@ abstract class ezcWebdavResponse
      */
     public function validateHeaders()
     {
-        // @todo Implement general header checks here.
+        // set in ezcWebdavTransport::handleResponse()
+        if ( !isset( $this->headers['Server'] ) )
+        {
+            throw new ezcWebdavMissingHeaderException( 'Server' );
+        }
+        // @TODO: Do we need more standard HTTP headers here?
     }
 
     /**

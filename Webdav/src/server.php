@@ -118,40 +118,22 @@ class ezcWebdavServer
         $this->properties['transport'] = $this->transports->createTransport( $_SERVER['HTTP_USER_AGENT'] );
 
         // Parse request into request object
-        try
+        $request = $this->transport->parseRequest( 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] );
+        
+        if ( $request instanceof ezcWebdavRequest )
         {
-            $request = $this->transport->parseRequest( 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] );
-            $request->validateHeaders();
-        }
-        catch ( Exception $e )
-        {
-            // @todo: Handle Exception here with ezcWebdavErrorResponse
-            throw $e;
-        }
-        // @todo $this->pluginRegistry->hook( __CLASS__, 'receivedRequest', new ezcWebdavPluginParameters( array( 'request' => $request ) ) );
-
-        // Process created request object through backend
-        try
-        {
+            // @todo $this->pluginRegistry->hook( __CLASS__, 'receivedRequest', new ezcWebdavPluginParameters( array( 'request' => $request ) ) );
             $response = $this->backend->performRequest( $request );
         }
-        catch ( Exception $e )
+        else
         {
-            // @todo: Handle Exception here with ezcWebdavErrorResponse
-            throw $e;
+            // The transport layer already issued an error.
+            $response = $request;
         }
+
         // @todo $this->pluginRegistry->hook( __CLASS__, 'generatedResponse', new ezcWebdavPluginParameters( array( 'response' => $response ) ) );
 
-        // Return the generated response to the client
-        try
-        {
-            $this->transport->handleResponse( $response );
-        }
-        catch ( Exception $e )
-        {
-            // @todo: Handle Exception here with ezcWebdavErrorResponse
-            throw $e;
-        }
+        $this->transport->handleResponse( $response );
     }
 
     /**

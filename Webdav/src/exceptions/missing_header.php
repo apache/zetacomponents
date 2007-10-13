@@ -22,7 +22,7 @@
  * @author  
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavMissingHeaderException extends ezcWebdavException
+class ezcWebdavMissingHeaderException extends ezcWebdavBadRequestException
 {
     /**
      * Creates a new exception.

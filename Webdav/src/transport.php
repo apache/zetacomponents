@@ -87,6 +87,11 @@
 class ezcWebdavTransport
 {
     /**
+     * Used for server software string in Server header. 
+     */
+    const VERSION = '//autogentag//';
+
+    /**
      * Map of regular header names to $_SERVER keys.
      *
      * @var array(string=>string)
@@ -99,6 +104,7 @@ class ezcWebdavTransport
         'Lock-Token'     => 'HTTP_LOCK_TOKEN',
         'Overwrite'      => 'HTTP_OVERWRITE',
         'Timeout'        => 'HTTP_TIMEOUT',
+        'Server'         => 'SERVER_SOFTWARE',
     );
 
     /**
@@ -234,11 +240,11 @@ class ezcWebdavTransport
      * and is responsible to dispatch the {@link ezcWebdavPluginRegistry} hooks
      * of the transport layer.
      *
-     * @return ezcWebdavRequest
+     * If an error occurs during request parsing, an instance of {@link
+     * ezcWebdavResponse} may be returned instead of an instance of {@link
+     * ezcWebdavRequest}.
      *
-     * @throws ezcWebdavInvalidRequestBodyException
-     *         if the request method in {@link $_SERVER} was not found in
-     *         {@link self::$parsingMap}.
+     * @return ezcWebdavRequest|ezcWebdavResponse
      */
     public final function parseRequest( $uri )
     {
@@ -248,11 +254,23 @@ class ezcWebdavTransport
         if ( isset( self::$parsingMap[$_SERVER['REQUEST_METHOD']] ) === false )
         {
             // @todo: parseUnknownRequest hook should be dispatched here.
-            throw new ezcWebdavInvalidRequestMethodException(
-                $_SERVER['REQUEST_METHOD']
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_501,
+                $uri
             );
         }
-        return call_user_func( array( $this, self::$parsingMap[$_SERVER['REQUEST_METHOD']] ), $path, $body );
+        
+        try
+        {
+            $request = call_user_func( array( $this, self::$parsingMap[$_SERVER['REQUEST_METHOD']] ), $path, $body );
+            $request->validateHeaders();
+        }
+        catch ( Exception $e )
+        {
+            return $this->handleException( $e, $uri );
+        }
+        
+        return $request;
     }
 
     /**
@@ -275,7 +293,60 @@ class ezcWebdavTransport
      */
     public final function handleResponse( ezcWebdavResponse $response )
     {
-        $this->sendResponse( $this->flattenResponse( $this->processResponse( $response ) ) );
+        // Set the Server header with information about eZ Components version
+        // and transport implementation.
+        $serverSoftwareHeaders = $this->parseHeaders( array( 'Server' ) );
+        $response->setHeader(
+            'Server',
+            ( count( $serverSoftwareHeaders ) > 0 ? $serverSoftwareHeaders['Server'] . '/' : '' )
+                . 'eZComponents/'
+                . ( self::VERSION === '//autogentag//' ? 'dev' : self::VERSION )
+                . '/'
+                . get_class( $this )
+        );
+        try
+        {
+            $response->validateHeaders();
+            $this->sendResponse( $this->flattenResponse( $this->processResponse( $response ) ) );
+        }
+        catch ( Exception $e )
+        {
+            // Attention: Recursion!
+            $this->handleResponse( $this->handleException( $e ) );
+        }
+    }
+
+    /**
+     * Handle a thrown exception and generate an error response from it.
+     *
+     * Takes the given exception $e and generates a response object from it.
+     * The $uri parameter will be given to {@link
+     * ezcWebdavErrorResponse::__construct()}.
+     *
+     * For special exceptions, special responses will be generated:
+     * - ezcWebdavBadRequestException: 400 Bad Request
+     * - ezcWebdavInvalidRequestMethodException: 501 Not Implemented
+     * 
+     * Per default, a 500 Internal Server Error response will be generated.
+     *
+     * Depending on where this is called, the generatedResponse hook will be
+     * issued (if during request parsing), but the processErrorResponse hooks
+     * will allways be called.
+     * 
+     * @param Exception $e 
+     * @param string $uri 
+     * @return ezcWebdavErrorResponse
+     */
+    protected function handleException( Exception $e, $uri = null )
+    {
+        switch ( true )
+        {
+            case ( $e instanceof ezcWebdavBadRequestException ):
+                return new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_400, $uri, $e->getMessage() );
+            case ( $e instanceof ezcWebdavInvalidRequestMethodException ):
+                return new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_501, $uri, $e->getMessage() );
+        }
+        return new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_500, $uri, $e->getMessage() );
     }
 
     /**
@@ -334,7 +405,7 @@ class ezcWebdavTransport
         if ( isset( self::$handlingMap[( $responseClass = get_class( $response ) )] ) === false )
         {
             // @todo: The processResponse plugin hook should be announced here.
-            throw new RuntimeException( "Serialization of class $responseClass not implemented, yet." );
+            return processResponse( new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_500 ) );
         }
         
         return call_user_func( array( $this, self::$handlingMap[( $responseClass = get_class( $response ) )] ), $response );
@@ -435,6 +506,10 @@ class ezcWebdavTransport
      *
      * @todo This should be refactored completly and must be made usable for
      *       plugins.
+     *
+     * @throws ezcWebdavUnknownHeaderException
+     *         if a header requested in $headerNames is not known in {@link
+     *         self::$headerNames}.
      */
     protected function parseHeaders( array $headerNames )
     {
@@ -586,6 +661,10 @@ class ezcWebdavTransport
      * @param string $path 
      * @param string $body 
      * @return ezcWebdavCopyRequest
+     *
+     * @throws ezcWebdavInvalidRequestBodyException
+     *         if the body of the copy request is invalid (XML wise or RFC
+     *         wise).
      */
     protected function parseCopyRequest( $path, $body )
     {
@@ -964,10 +1043,20 @@ class ezcWebdavTransport
                 break;
             case 'prop':
                 $request->prop = new ezcWebdavBasicPropertyStorage();
-                $this->propertyHandler->extractProperties(
-                    $dom->documentElement->firstChild->childNodes,
-                    $request->prop
-                );
+                try
+                {
+                    $this->propertyHandler->extractProperties(
+                        $dom->documentElement->firstChild->childNodes,
+                        $request->prop
+                    );
+                }
+                catch ( ezcBaseValueException $e )
+                {
+                    throw new ezcWebdavInvalidRequestBodyException(
+                        'PROPFIND',
+                        "Property extraction produced value exception: '{$e->getMessage()}'."
+                    );
+                }
                 break;
             default:
                 throw new ezcWebdavInvalidRequestBodyException(
@@ -1017,27 +1106,38 @@ class ezcWebdavTransport
         $setElements    = $dom->documentElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'set' );
         $removeElements = $dom->documentElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'remove' );
  
-        // @TODO:
-        // This code destroys the original order of the properties, and only
-        // preserves the property order in set or remove groups. This violates
-        // the webdav RFC section "8.2 PROPPATCH". 
-        //
-        // @See http://tools.ietf.org/html/rfc2518#page-31
-        for ( $i = 0; $i < $setElements->length; ++$i )
+        try
         {
-            $this->propertyHandler->extractProperties(
-                $setElements->item( $i )->firstChild->childNodes,
-                $request->updates,
-                ezcWebdavPropPatchRequest::SET
-            );
+
+            // @TODO:
+            // This code destroys the original order of the properties, and only
+            // preserves the property order in set or remove groups. This violates
+            // the webdav RFC section "8.2 PROPPATCH". 
+            //
+            // @See http://tools.ietf.org/html/rfc2518#page-31
+            for ( $i = 0; $i < $setElements->length; ++$i )
+            {
+                $this->propertyHandler->extractProperties(
+                    $setElements->item( $i )->firstChild->childNodes,
+                    $request->updates,
+                    ezcWebdavPropPatchRequest::SET
+                );
+            }
+            
+            for ( $i = 0; $i < $removeElements->length; ++$i )
+            {
+                $this->propertyHandler->extractProperties(
+                    $removeElements->item( $i )->firstChild->childNodes,
+                    $request->updates,
+                    ezcWebdavPropPatchRequest::REMOVE
+                );
+            }
         }
-        
-        for ( $i = 0; $i < $removeElements->length; ++$i )
+        catch ( ezcBaseValueException $e )
         {
-            $this->propertyHandler->extractProperties(
-                $removeElements->item( $i )->firstChild->childNodes,
-                $request->updates,
-                ezcWebdavPropPatchRequest::REMOVE
+            throw new ezcWebdavInvalidRequestBodyException(
+                'PROPPATCH',
+                "Property extraction produced value exception: '{$e->getMessage()}'."
             );
         }
 
@@ -1267,6 +1367,13 @@ class ezcWebdavTransport
             $responseElement->appendChild(
                 $this->xml->createDomElement( $dom, 'status' )
             )->nodeValue = (string) $response;
+
+            if ( !empty( $response->responseDescription ) )
+            {
+                $responseElement->appendChild(
+                    $this->xml->createDomElement( $dom, 'responsedescription' )
+                )->nodeValue = $response->responseDescription;
+            }
             $res = new ezcWebdavXmlDisplayInformation( $response, $dom );
         }
         return $res;

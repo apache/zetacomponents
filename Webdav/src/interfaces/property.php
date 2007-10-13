@@ -114,11 +114,11 @@ abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
         {
             case 'name':
             case 'namespace':
+                // if ( !is_string( $propertyValue ) || strlen( $propertyValue ) < 1 )
                 if ( !is_string( $propertyValue ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string, length > 0' );
                 }
-                $this->properties[$propertyName] = $propertyValue;
                 break;
 
             case 'errors':
@@ -132,6 +132,7 @@ abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
         }
+        $this->properties[$propertyName] = $propertyValue;
     }
 
     /**
