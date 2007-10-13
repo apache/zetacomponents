@@ -451,7 +451,7 @@ class ezcWebdavTransport
             case ( $info instanceof ezcWebdavStringDisplayInformation ):
                 if ( $info->response->getHeader( 'Content-Type' ) === null )
                 {
-                    throw new ezcWebdavMissingHeaderException( 'ContentType' );
+                    throw new ezcWebdavMissingHeaderException( 'Content-Type' );
                 }
                 $output->body = $info->body;
                 break;
