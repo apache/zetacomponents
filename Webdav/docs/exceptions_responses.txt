@@ -1,0 +1,14 @@
+Exception to response map
+=========================
+
+ezcWebdavTransport
+------------------
+
+- ezcWebdavInvalidRequestBodyException
+  400 Bad Request
+- ezcWebdavMissingHeaderException
+  400 Bad Request
+- ezcWebdavInvalidHeaderException
+  400 Bad Request
+- ezcWebdavInvalidRequestMethodException
+  501 Not implemented
