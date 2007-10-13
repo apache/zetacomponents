@@ -15,7 +15,7 @@ The scope of this document is to describe the initial design of a component
 that provides a WebDAV server, which works with all major other implementations
 of the WebDAV_ protocol.
 
-.. _WebDAV_: http://en.wikipedia.org/wiki/WebDAV
+.. _WebDAV: http://en.wikipedia.org/wiki/WebDAV
 
 It is currently not planned to also offer a WebDAV client component.
 
