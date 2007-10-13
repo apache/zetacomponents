@@ -144,7 +144,7 @@ class ezcWebdavClientTestGenerator
 
         // Restore backend from previous request or setup new
         $this->backend = ( file_exists( ( $this->backendFile = TMP_DIR . '/backend.ser' ) )
-            ? unserialize(file_get_contents( $backendFile ) )
+            ? unserialize( file_get_contents( $this->backendFile ) )
             : $this->getBackend()
         );
 
@@ -247,7 +247,7 @@ class ezcWebdavClientTestGenerator
            $GLOBALS['EZC_WEBDAV_RESPONSE_BODY']
         );
         file_put_contents(
-            "{$responseLogDir}/status.xml",
+            "{$responseLogDir}/status.txt",
            $GLOBALS['EZC_WEBDAV_RESPONSE_STATUS']
         );
     }
