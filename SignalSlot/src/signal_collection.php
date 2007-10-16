@@ -356,7 +356,7 @@ class ezcSignalCollection
      * See the PHP documentation for examples on the callback type.
      * http://php.net/callback.
      *
-     * We reccommend avoiding excessive usage of the $priority parameter
+     * We recommend avoiding excessive usage of the $priority parameter
      * since it makes it much harder to track how your program works.
      *
      * @throws ezcSignalSlotException if the signals options has been set and $signal is not in the list of signals.
