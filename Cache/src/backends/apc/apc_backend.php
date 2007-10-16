@@ -17,14 +17,14 @@
  */
 class ezcCacheApcBackend extends ezcCacheMemoryBackend
 {
-	/**
+    /**
      * Constructs a new ezcCacheApcBackend object.
      *
      * @throws ezcBaseExtensionNotFoundException
      *         If the PHP apc extension is not installed.
-	 */
-	public function __construct()
-	{
+     */
+    public function __construct()
+    {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'apc' ) )
         {
             throw new ezcBaseExtensionNotFoundException( 'apc', null, "PHP not configured with --with-apxs2." );
@@ -35,39 +35,39 @@ class ezcCacheApcBackend extends ezcCacheMemoryBackend
      * Stores the data $var under the key $key. Returns true or false depending
      * on the success of the operation.
      *
-	 * @param string $key
-	 * @param mixed $var
-	 * @param int $ttl
-	 * @return bool
-	 */
-	public function store( $key, $var, $ttl = 0 )
-	{
-		$data = new ezcCacheMemoryVarStruct( $key, $var, $ttl );
+     * @param string $key
+     * @param mixed $var
+     * @param int $ttl
+     * @return bool
+     */
+    public function store( $key, $var, $ttl = 0 )
+    {
+        $data = new ezcCacheMemoryVarStruct( $key, $var, $ttl );
         return apc_store( $key, $data, $ttl );
-	}
+    }
 
-	/**
+    /**
      * Fetches the data associated with key $key.
      *
-	 * @param mixed $key
-	 * @return mixed
-	 */
-	public function fetch( $key )
-	{
+     * @param mixed $key
+     * @return mixed
+     */
+    public function fetch( $key )
+    {
         $data = apc_fetch( $key );
         return ( is_object( $data ) ) ? $data->var : false;
-	}
+    }
 
-	/**
+    /**
      * Deletes the data associated with key $key. Returns true or false depending
      * on the success of the operation.
      *
-	 * @param string $key
-	 * @return bool
-	 */
-	public function delete( $key )
-	{
+     * @param string $key
+     * @return bool
+     */
+    public function delete( $key )
+    {
         return apc_delete( $key );
-	}
+    }
 }
 ?>
