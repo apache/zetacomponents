@@ -9,11 +9,6 @@ abstract class ezcTestCase extends PHPUnit_Framework_TestCase
      */
     private $tempDir;
 
-    public function __construct( $string = "" )
-    {
-        parent::__construct( $string );
-    }
-
     /**
      * Creates and returns the temporary directory.
      *
