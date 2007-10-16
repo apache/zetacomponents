@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcQueryExpressionPgsql class.
+ * File containing the ezcQueryExpressionOracle class.
  *
  * @package Database
  * @version //autogentag//
@@ -9,9 +9,9 @@
  */
 
 /**
- * The ezcQueryExpressionPgsql class is used to create SQL expression for PostgreSQL.
+ * The ezcQueryExpressionOracle class is used to create SQL expression for Oracle.
  *
- * This class reimplements the methods that have a different syntax in postgreSQL.
+ * This class reimplements the methods that have a different syntax in Oracle.
  *
  * @package Database
  * @version //autogentag//
