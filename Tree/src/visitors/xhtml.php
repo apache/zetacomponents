@@ -91,7 +91,7 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
      * passed in the $highlight argument.
      *
      * @param mixed $data
-     * @param boolean $highlight
+     * @param bool  $highlight
      * @return string
      */
     protected function formatData( $data, $highlight )
