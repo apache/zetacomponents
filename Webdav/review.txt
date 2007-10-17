@@ -35,4 +35,6 @@ isset( $this->properties[$propertyName] ) (in __isset() methods) for speed.
 
 Why in Webdav the order is different?
 
+- In the structs folder the class variables are defined after the constructor.
 
+- In the requests folder the @copyright and @license is used 2 times.
