@@ -1,0 +1,17 @@
+Review by Derick
+================
+
+[ ] I am not sure if the name for the new option constant for
+	addUnorderedParameter() are good - the
+	ezcUrlConfiguration::AGGREGATE_ARGUMENTS one. Perhaps
+	MULTIPLE_ARRAY_ARGUMENTS would work? Or perhaps MULTIPLE_ARGUMENTS |
+	ARRAY_ARGUMENTS would be a viable alternative? I think the latter makes
+	most sense, but is slightly more to type.
+
+[ ] parseQueryString() will most likely have locale issues - needs
+    investigating.
+
+[ ] In ReST, the following things are equivalent:
+    For example, if the $_SERVER array has these fields: ::
+    and:
+    For example, if the $_SERVER array has these fields::
