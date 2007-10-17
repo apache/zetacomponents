@@ -12,10 +12,6 @@
 /**
  * Class containing the options for the memory backend.
  *
- * @property bool $fakeLiveProperties
- *           Indicates weather memory backend should try to fake live
- *           properties instead of just returning null if a property not has
- *           been set.
  * @property string $failForRegexp
  *           Let operation fail for all ressource paths mathing this regular
  *           expression. The exact handling of this option depends on the
@@ -54,7 +50,6 @@ class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['fakeLiveProperties'] = false;
         $this->properties['failForRegexp']      = null;
         $this->properties['failingOperations']  = 0;
 
@@ -76,15 +71,6 @@ class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
     {
         switch ( $name )
         {
-            case 'fakeLiveProperties':
-                if ( !is_bool( $value ) )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'bool' );
-                }
-
-                $this->properties[$name] = $value;
-                break;
-
             case 'failForRegexp':
                 if ( !is_string( $value ) )
                 {

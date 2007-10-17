@@ -77,14 +77,29 @@ class ezcWebdavMemoryBackend
     protected $props = array();
 
     /**
+     * Indicates wheather to fake live properties.
+     * 
+     * @var bool
+     */
+    protected $fakeLiveProperties;
+
+    /**
      * Construct backend from a given path.
      * 
      * @param string $path 
      * @return void
      */
-    public function __construct()
+    public function __construct( $fakeLiveProperties = true )
     {
         $this->options = new ezcWebdavMemoryBackendOptions();
+
+        $this->fakeLiveProperties = $fakeLiveProperties;
+
+        // Initialize properties for root
+        if ( $fakeLiveProperties )
+        {
+            $this->props['/'] = $this->initializeProperties( '/', true );
+        }
     }
 
     /**
@@ -150,7 +165,7 @@ class ezcWebdavMemoryBackend
      */
     protected function initializeProperties( $name, $isCollection = false )
     {
-        if ( $this->options->fakeLiveProperties )
+        if ( $this->fakeLiveProperties )
         {
             $propertyStorage = new ezcWebdavBasicPropertyStorage();
 

@@ -26,7 +26,6 @@ class ezcWebdavClientTestContinuousSetup extends ezcWebdavClientTestSetup
     protected static function setupBackend()
     {
         $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
         $backend->addContents(
             array(
                 'test_collection' => array(

@@ -29,7 +29,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testEmptyMemoryServerCreation()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
 
         $content = $this->readAttribute( $backend, 'content' );
         $this->assertEquals(
@@ -56,7 +56,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testFileListMemoryServerCreation()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'blubb' => 'Somme blubb blubbs.',
@@ -90,7 +90,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testCollectionMemoryServerCreation()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -128,8 +128,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testFakedLiveProperties()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
         ) );
@@ -165,17 +164,15 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
-            array(
-                '/foo' => $propertyStorage,
-            ),
-            $props,
+            $propertyStorage,
+            $props['/foo'],
             'Expected filled property array.'
         );
     }
 
     public function testMemoryBackendOptionsInMemoryBackend()
     {
-        $server = new ezcWebdavMemoryBackend();
+        $server = new ezcWebdavMemoryBackend( false );
 
         $this->assertEquals(
             $server->options,
@@ -184,8 +181,8 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         );
 
         $this->assertSame(
-            false,
-            $server->options->fakeLiveProperties,
+            0,
+            $server->options->failingOperations,
             'Expected successfull access on option.'
         );
 
@@ -204,22 +201,22 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testMemoryBackendOptionsSetInMemoryBackend()
     {
-        $server = new ezcWebdavMemoryBackend();
+        $server = new ezcWebdavMemoryBackend( false );
 
         $options = new ezcWebdavMemoryBackendOptions();
-        $options->fakeLiveProperties = true;
+        $options->failingOperations = 1;
 
         $this->assertSame(
-            false,
-            $server->options->fakeLiveProperties,
+            0,
+            $server->options->failingOperations,
             'Wrong initial value before changed option class.'
         );
 
         $server->options = $options;
 
         $this->assertSame(
-            true,
-            $server->options->fakeLiveProperties,
+            1,
+            $server->options->failingOperations,
             'Expected modified value, because of changed option class.'
         );
 
@@ -237,8 +234,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testSettingProperty()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
         ) );
@@ -282,18 +278,15 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
         $props = $this->readAttribute( $backend, 'props' );
         $this->assertEquals(
-            array(
-                '/foo' => $propertyStorage,
-            ),
-            $props,
+            $propertyStorage,
+            $props['/foo'],
             'Expected filled property array.'
         );
     }
 
     public function testSettingPropertyOnUnknownRessource()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
         ) );
@@ -309,7 +302,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceHead()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -336,7 +329,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testCollectionHead()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -363,7 +356,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceHeadError()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -389,7 +382,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceGet()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -416,7 +409,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceGetError()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -442,8 +435,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceGetWithProperties()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -501,7 +493,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testCollectionGet()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -538,7 +530,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceDeepGet()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -570,7 +562,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopy()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -595,7 +587,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopyError()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -621,7 +613,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopyF()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -647,7 +639,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopyOverwrite()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -672,7 +664,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopyOverwriteFailed()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -699,7 +691,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopyDestinationNotExisting()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -725,7 +717,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopySourceEqualsDest()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -751,7 +743,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopyDepthZero()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'bar' => array(
                 '_1' => 'contents',
@@ -795,7 +787,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopyDepthInfinity()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'bar' => array(
                 '_1' => 'contents',
@@ -844,7 +836,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceCopyDepthInfinityErrors()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'bar' => array(
                 '_1' => 'contents',
@@ -914,7 +906,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceMove()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -939,7 +931,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceMoveError()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -965,7 +957,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceMoveF()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -991,7 +983,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceMoveOverwrite()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1016,7 +1008,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceMoveOverwriteFailed()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1043,7 +1035,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceMoveDestinationNotExisting()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1069,7 +1061,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceMoveSourceEqualsDest()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1095,7 +1087,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceMoveDepthInfinity()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'bar' => array(
                 '_1' => 'contents',
@@ -1137,7 +1129,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceMoveDepthInfinityErrors()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'bar' => array(
                 '_1' => 'contents',
@@ -1207,7 +1199,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceDelete()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1246,7 +1238,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testCollectionDelete()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1282,7 +1274,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceDeleteError404()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1308,7 +1300,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceDeleteCausedError()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1357,7 +1349,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testMakeCollectionOnExistingCollection()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1383,7 +1375,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testMakeCollectionOnExistingRessource()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1409,7 +1401,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testMakeCollectionMissingParent()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1435,7 +1427,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testMakeCollectionInRessource()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1461,7 +1453,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testMakeCollectionWithRequestBody()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1487,7 +1479,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testMakeCollection()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1530,7 +1522,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPutOnExistingCollection()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1558,7 +1550,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPutMissingParent()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1586,7 +1578,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPutInRessource()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1614,7 +1606,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPut()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1659,7 +1651,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPutOnExistingRessource()
     {
-        $backend = new ezcWebdavMemoryBackend();
+        $backend = new ezcWebdavMemoryBackend( false );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1702,8 +1694,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropFindOnResource()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1765,8 +1756,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropFindOnCollection()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1855,8 +1845,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropFindNamesOnResource()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1917,8 +1906,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropFindNamesOnCollection()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1987,8 +1975,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropFindNamesOnCollectionDepthZero()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2055,8 +2042,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropFindNamesOnCollectionDepthOne()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2139,8 +2125,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropFindNamesOnCollectionDepthInfinite()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2239,8 +2224,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropFindAllPropsOnResource()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2303,8 +2287,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropFindAllPropsOnCollection()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2403,8 +2386,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropPatchAddProperty()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2465,8 +2447,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropPatchAddPropertyFail()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->options->failingOperations = ezcWebdavMemoryBackendOptions::REQUEST_PROPPATCH;
         $backend->addContents( array(
             'foo' => 'bar',
@@ -2558,8 +2539,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropPatchRemoveProperty()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2649,8 +2629,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropPatchFailOnRemoveProperty()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2775,8 +2754,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropPatchCombinedSetDelete()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2876,8 +2854,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropPatchCombinedSetDeleteFail()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -2962,8 +2939,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPropPatchCombinedSetDeleteValidationError()
     {
-        $backend = new ezcWebdavMemoryBackend();
-        $backend->options->fakeLiveProperties = true;
+        $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
