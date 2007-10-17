@@ -29,7 +29,7 @@
     </D:propstat>
   </D:response>
   <D:response>
-    <D:href>http://webdav/collection/new_collection/collection/</D:href>
+    <D:href>http://webdav/collection/new_collection/collection</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0100</D:creationdate>

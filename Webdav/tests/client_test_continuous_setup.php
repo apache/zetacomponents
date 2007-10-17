@@ -4,8 +4,6 @@ require_once 'client_test_setup.php';
 
 class ezcWebdavClientTestContinuousSetup extends ezcWebdavClientTestSetup
 {
-    protected static $pathFactory;
-
     protected static $backend;
 
     protected static $lastTestSuite;
@@ -15,11 +13,12 @@ class ezcWebdavClientTestContinuousSetup extends ezcWebdavClientTestSetup
         if ( basename( dirname( $testSetName ) ) !== self::$lastTestSuite )
         {
             self::$lastTestSuite = basename( dirname( $testSetName ) );
-            self::$pathFactory   = new ezcWebdavBasicPathFactory( 'http://webdav' );
             self::$backend       = self::setupBackend();
         }
 
-        $test->server  = self::getServer( self::$pathFactory );
+        $test->server  = self::getServer(
+            new ezcWebdavBasicPathFactory( 'http://webdav' )
+        );
         $test->backend = self::$backend;
     }
 
