@@ -251,23 +251,39 @@ class ezcWebdavTransport
         $body = $this->retreiveBody();
         $path = $this->pathFactory->parseUriToPath( $uri );
 
-        if ( isset( self::$parsingMap[$_SERVER['REQUEST_METHOD']] ) === false )
+        if ( isset( self::$parsingMap[$_SERVER['REQUEST_METHOD']] )  )
         {
-            // @todo: parseUnknownRequest hook should be dispatched here.
-            return new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_501,
-                $uri
+            try
+            {
+                $request = call_user_func( array( $this, self::$parsingMap[$_SERVER['REQUEST_METHOD']] ), $path, $body );
+                $request->validateHeaders();
+            }
+            catch ( Exception $e )
+            {
+                return $this->handleException( $e, $uri );
+            }
+        }
+        else
+        {
+            // Plugin hook
+            $request = ezcWebdavServer::getInstance()->plugins->announceHook(
+                __CLASS__,
+                'parseUnkownRequest',
+                new ezcWebdavPluginParameters(
+                    array(
+                        'uri'  => $uri,
+                        'body' => $body,
+                    )
+                )
             );
-        }
-        
-        try
-        {
-            $request = call_user_func( array( $this, self::$parsingMap[$_SERVER['REQUEST_METHOD']] ), $path, $body );
-            $request->validateHeaders();
-        }
-        catch ( Exception $e )
-        {
-            return $this->handleException( $e, $uri );
+
+            if ( !( $request instanceof ezcWebdavRequest ) && !( $request instanceof ezcWebdavResponse )  )
+            {
+                return new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_501,
+                    $uri
+                );
+            }
         }
         
         return $request;
@@ -296,6 +312,7 @@ class ezcWebdavTransport
         // Set the Server header with information about eZ Components version
         // and transport implementation.
         $serverSoftwareHeaders = $this->parseHeaders( array( 'Server' ) );
+
         $response->setHeader(
             'Server',
             ( count( $serverSoftwareHeaders ) > 0 ? $serverSoftwareHeaders['Server'] . '/' : '' )
@@ -304,6 +321,7 @@ class ezcWebdavTransport
                 . '/'
                 . get_class( $this )
         );
+
         try
         {
             $response->validateHeaders();
@@ -404,8 +422,19 @@ class ezcWebdavTransport
     {
         if ( isset( self::$handlingMap[( $responseClass = get_class( $response ) )] ) === false )
         {
-            // @todo: The processResponse plugin hook should be announced here.
-            return processResponse( new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_500 ) );
+            $result = ezcWebdavServer::getInstance()->plugins->announceHook(
+                __CLASS__,
+                'processUnkownResponse',
+                new ezcWebdavPluginParameters(
+                    array(
+                        'response'  => $response,
+                    )
+                )
+            );
+            if ( $result === null )
+            {
+                return processResponse( new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_500 ) );
+            }
         }
         
         return call_user_func( array( $this, self::$handlingMap[( $responseClass = get_class( $response ) )] ), $response );

@@ -619,7 +619,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
                     'afterProcessPropPatchResponse'       => true,
                     'beforeProcessPutResponse'            => true,
                     'afterProcessPutResponse'             => true,
-                    'processUnknownRequest'               => true,
+                    'parseUnknownRequest'                 => true,
                     'handleUnknownResponse'               => true,
                     'beforeExtractLiveProperty'           => true,
                     'afterExtractLiveProperty'            => true,

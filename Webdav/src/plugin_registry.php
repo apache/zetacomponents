@@ -107,7 +107,7 @@ class ezcWebdavPluginRegistry
             $this->createHook( 'ezcWebdavTransport', $method, 'after' );
         }
         // Add additional Transport layer hooks
-        $this->createHook( 'ezcWebdavTransport', 'processUnknownRequest' );
+        $this->createHook( 'ezcWebdavTransport', 'parseUnknownRequest' );
         $this->createHook( 'ezcWebdavTransport', 'handleUnknownResponse' );
 
         // Property related hooks
@@ -290,6 +290,9 @@ class ezcWebdavPluginRegistry
      * method is marked private. Receives the name of the class issuing the
      * $hook and the $params that may be used for information extraction and
      * _careful_ possible manipulation.
+     *
+     * This method is declared private, because the announcement of hooks is
+     * only allowed by component internal classes.
      * 
      * @param string $class
      * @param string $hook 
@@ -300,6 +303,8 @@ class ezcWebdavPluginRegistry
      *         in case a plugin threw an exception. The original one can be
      *         accessed for processing through the public $originalException
      *         attribute.
+     *
+     * @private
      */
     public final function announceHook( $class, $hook, ezcWebdavPluginParameters $params )
     {
