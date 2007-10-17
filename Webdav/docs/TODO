@@ -29,3 +29,5 @@ TODO
   XML declaration. WebDAV defines to reject "invalid" issues.
 
 - Header handling needs to be refactored to allow plugins to access them.
+
+- Add test for mime type file info extensions
