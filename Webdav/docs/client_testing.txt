@@ -75,88 +75,44 @@ to be performed in the defined order as good as the clients features support
 them. If a step is not supported at all, it may be ignored and following test
 cases may be adjusted.
 
-- Connect to http://<yourserver>/<your>/<webdav>/<base>/test_collection
-- List the directory
-  Must contain
-  - foo.txt
-    Content: Test foo content
-  - bar
-    Content: Test bar content
-  - baz_coll
-    Collection 
-- Change to baz_coll
-- List the directory
-  Must contain
-  - baz_1.html
-    Content: <html></html>
-  - baz_2.html
-    Content: <html><body><h1>Test</h1></body></html>
-- Create a new directory test in baz_coll
-- List baz_coll
-  Must contain
-  - baz_1.html
-    Content: <html></html>
-  - baz_2.html
-    Content: <html><body><h1>Test</h1></body></html>
-  - test
-    Collection
-- Change to test
-- List test
-  Must be empty
-- Put test data Webdav/tests/data/put_test.html to test
-- Put test data Webdav/tests/data/put_test.xml to test
-- Put test data Webdav/tests/data/put_test.zip to test
-- List test
-  Must contain
-  - put_test.html
-  - put_test.xml
-  - put_test.zip
-- Change to ../../ (test_collection)
-- Move baz_coll to test_coll
-- List test_collection
-  Must contain
-  - foo.txt
-    Content: Test foo content
-  - bar
-    Content: Test bar content
-  - test_coll
-    Collection 
-- Copy test_coll/test/test_xml.xml ./foo.xml
-- List test_collection
-  Must contain
-  - foo.txt
-    Content: Test foo content
-  - bar
-    Content: Test bar content
-  - test_coll
-    Collection 
-  - foo.xml
-- Copy test_coll baz_coll
-- Remove test_coll
-- Remove baz_coll/test/put_test.zip
-- Remove baz_coll/test/
-- Remove foo.xml
-- List the directory
-  Must contain
-  - foo.txt
-    Content: Test foo content
-  - bar
-    Content: Test bar content
-  - baz_coll
-    Collection 
-- Change to baz_coll
-- List the directory
-  Must contain
-  - baz_1.html
-    Content: <html></html>
-  - baz_2.html
-    Content: <html><body><h1>Test</h1></body></html>
-- Download baz_2.html
-  Content: <html><body><h1>Test</h1></body></html>
-- Change to ../ (test_collection)
-- Download foo.txt
-  Content: Test foo content
+View /
+  - Collection: "collection"
+  - Files: "file.bin", "file.xml"
 
+View /file.xml
+  - Content: "<?xml ?>\n<content/>"
+
+View /collection
+  - Collection: "subdir"
+  - Files: "file.txt"
+
+Back to /
+
+Upload put_test to /
+
+View /
+  - Collection: "collection", "put_test"
+  - Files: "file.bin", "file.xml"
+
+View /put_test
+  - Collection: "collection"
+  - Files: "put_test.html"
+
+Back to /
+
+Rename /put_test to /new_collection
+
+Move /new_collection to /collection/new_collection
+
+View /collection
+  - Collection: "subdir", "new_collection"
+  - Files: "file.txt"
+
+Copy /collection/new_collection to /collection/uploaded
+
+View /collection
+  - Collection: "subdir", "uploaded", "new_collection"
+  - Files: "file.txt"
 
 Test suite generation
 ---------------------
