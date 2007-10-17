@@ -2328,7 +2328,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
         );
         $propertyStorageC->attach(
-            new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
+            new ezcWebdavGetContentTypeProperty( 'httpd/unix-directory' )
         );
         $propertyStorageC->attach(
             new ezcWebdavGetEtagProperty( md5( '/bar' ) )
