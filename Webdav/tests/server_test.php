@@ -229,7 +229,9 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         ob_start();
 
-        $webdav->handle( $backend );
+        // Silence headers already sent warnings - we just want to test for
+        // exceptions here.
+        @$webdav->handle( $backend );
 
         $body = ob_get_clean();
     }
@@ -260,7 +262,9 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         ob_start();
 
-        $webdav->handle( $backend );
+        // Silence headers already sent warnings - we just want to test for
+        // exceptions here.
+        @$webdav->handle( $backend );
 
         $body = ob_get_clean();
     }
