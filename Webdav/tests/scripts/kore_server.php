@@ -28,7 +28,7 @@ while (  $data = fread(  $in, 1024 ) )
 }
 
 // Log request contents
-file_put_contents( $logDir . 'request_headers.txt', var_export( $_SERVER, true ) );
+file_put_contents( $logDir . 'request_headers.txt', "<?php\n\nreturn " . var_export( $_SERVER, true ) . "\n?>" );
 file_put_contents( $logDir . 'request_body.xml',   $GLOBALS['EZC_WEBDAV_REQUEST_BODY'] );
 
 // Mock transport to make important stuff accessible
@@ -120,7 +120,7 @@ catch ( Exception $e )
 if ( $response === false )
 {
     // Log parsed request
-    file_put_contents( $logDir . 'request.txt', var_export( $request, true ) );
+    file_put_contents( $logDir . 'request.txt', "<?php\n\nreturn " . var_export( $request, true ) . "\n?>" );
 
     // Try to handle given request in backend, and log failures
     try
@@ -138,7 +138,7 @@ if ( $response === false )
 }
 
 // Log handled response
-file_put_contents( $logDir . 'response.txt', var_export( $response, true ) );
+file_put_contents( $logDir . 'response.txt', "<?php\n\nreturn " . var_export( $response, true ) . "\n?>" );
 
 // Try to serialize response back, log on error
 try

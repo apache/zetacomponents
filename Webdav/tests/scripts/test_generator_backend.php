@@ -1,42 +1,48 @@
 <?php
 
-$backend = new ezcWebdavMemoryBackend();
-$backend->options->fakeLiveProperties = true;
+$backend = new ezcWebdavMemoryBackend( true );
 $backend->addContents(
     array(
-        'test_collection' => array(
-            'foo.txt'  => 'Test foo content',
-            'bar'      => 'Test bar content',
-            'baz_coll' => array(
-                'baz_1.html' => '<html></html>',
-                'baz_2.html' => '<html><body><h1>Test</h1></body></html>',
+        'collection' => array(
+            'file.txt'  => 'Some text content.',
+            'subdir' => array(
+                'file.html' => '<html><body><h1>Test</h1></body></html>',
+                'file.xml' => "<?xml ?>\n<content/>",
             ),
         ),
+        'file.xml' => "<?xml ?>\n<content/>",
+        'file.bin' => "\0§\"$%&",
     )
 );
 
 $backend->setProperty(
-    '/test_collection/foo.txt',
+    '/collection/file.txt',
     new ezcWebdavGetContentTypeProperty(
         'text/plain', 'utf-8'
     )
 );
 $backend->setProperty(
-    '/test_collection/bar',
-    new ezcWebdavGetContentTypeProperty(
-        'text/plain', 'utf-8'
-    )
-);
-$backend->setProperty(
-    '/test_collection/baz_coll/baz_1.html',
+    '/collection/subdir/file.html',
     new ezcWebdavGetContentTypeProperty(
         'text/html', 'utf-8'
     )
 );
 $backend->setProperty(
-    '/test_collection/baz_coll/baz_2.html',
+    '/collection/subdir/file.xml',
     new ezcWebdavGetContentTypeProperty(
-        'text/xhtml', 'utf-8'
+        'text/xml', 'utf-8'
+    )
+);
+$backend->setProperty(
+    '/file.xml',
+    new ezcWebdavGetContentTypeProperty(
+        'text/xml', 'utf-8'
+    )
+);
+$backend->setProperty(
+    '/file.bin',
+    new ezcWebdavGetContentTypeProperty(
+        'application/octet-stream', 'utf-8'
     )
 );
 
