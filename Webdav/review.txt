@@ -1,0 +1,38 @@
+Review Alexandru 17-10-2007
+---------------------------
+
+- The docs folder contains many text files - are they to become pages in the
+online documentation? I think the place to put this temporary text files is
+design or even the root of Webdav. (the root is the place to put TODO anyway)
+
+- The option class ezcWebdavMemoryBackendOptions contain constants defined
+which are used in ezcWebdavMemoryBackend (and maybe other classes). Is this
+the correct way to do things? I think the constants should be defined
+in ezcWebdavMemoryBackend.
+
+- There is no tutorial.
+
+- ezcWebdavMemoryBackend, ezcWebdavSimpleBackend and maybe other classes have
+the extends and implements on many lines - I thought it was already discussed
+on IRC to have everything on one line.
+
+- Sometimes constructors are documented with '@return void'. I thought we
+don't write the '@return void' anymore (for constructors much less).
+
+- Some methods don't have code blocks.
+
+- Some classes have the description 'Description missing'.
+
+- Instead of array_key_exists( $propertyName, $this->properties ) it can be
+isset( $this->properties[$propertyName] ) (in __isset() methods) for speed.
+
+- Almost all the components have this order in the docblocks for methods:
+   - short description
+   - detailed description, examples
+   - @throws
+   - @param
+   - @return
+
+Why in Webdav the order is different?
+
+
