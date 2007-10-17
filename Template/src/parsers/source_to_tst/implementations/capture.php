@@ -56,8 +56,6 @@ class ezcTemplateCaptureSourceToTstParser extends ezcTemplateSourceToTstParser
                 return true;
             }
 
-
-
             $capture = new ezcTemplateCaptureTstNode( $this->parser->source, $this->startCursor, $cursor );
             $this->findNextElement();
 
@@ -74,52 +72,17 @@ class ezcTemplateCaptureSourceToTstParser extends ezcTemplateSourceToTstParser
                 throw new ezcTemplateParserException( $this->parser->source, $this->endCursor, $this->endCursor, $this->parser->symbolTable->getErrorMessage() );
             }
 
-
-
-
             $this->findNextElement();
-            if ( !$cursor->match( "}" ) ) 
+            if ( !$cursor->match( "}" ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
-            $this->appendElement( $capture);
+            $this->appendElement( $capture );
             return true;
         }
 
         return false;
     }
-                
-        /*
-                if ( !$this->parseOptionalType( "Variable", null, false) )
-                {
-                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
-                }
-
-                $cycle->variables[] = $this->lastParser->elements[0];
-
-                $this->findNextElement();
-
-            }
-            while ( $this->currentCursor->match( "," ) );
-
-            $this->appendElement( $cycle );
-            // $this->elements[0] = $cycle; // Replace the variable, with the cycle.
-
-
-            if ( !$this->parentParser->atEnd( $cursor, null, false ) )
-            {
-                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
-            }
-            $cursor->advance();
-
-            return true;
-        }
-
-
-
-        return false;
-         */
 }
-
 ?>
