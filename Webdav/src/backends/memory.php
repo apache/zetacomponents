@@ -170,9 +170,12 @@ class ezcWebdavMemoryBackend
             );
 
             // Define default content type
-            $propertyStorage->attach(
-                new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
-            );
+            if ( $isCollection === false )
+            {
+                $propertyStorage->attach(
+                    new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
+                );
+            }
 
             // Define default ETag
             $propertyStorage->attach(

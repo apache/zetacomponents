@@ -103,14 +103,14 @@ cases may be adjusted.
 - Change to test
 - List test
   Must be empty
-- Put test data Webdav/tests/data/test_html.html to test
-- Put test data Webdav/tests/data/test_xml.xml to test
-- Put test data Webdav/tests/data/test_bin.bin to test
+- Put test data Webdav/tests/data/put_test.html to test
+- Put test data Webdav/tests/data/put_test.xml to test
+- Put test data Webdav/tests/data/put_test.zip to test
 - List test
   Must contain
-  - test_html.html
-  - test_xml.xml
-  - test_bin.bin
+  - put_test.html
+  - put_test.xml
+  - put_test.zip
 - Change to ../../ (test_collection)
 - Move baz_coll to test_coll
 - List test_collection
@@ -133,7 +133,7 @@ cases may be adjusted.
   - foo.xml
 - Copy test_coll baz_coll
 - Remove test_coll
-- Remove baz_coll/test/test_bin.bin
+- Remove baz_coll/test/put_test.zip
 - Remove baz_coll/test/
 - Remove foo.xml
 - List the directory

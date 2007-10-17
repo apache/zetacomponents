@@ -42,7 +42,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1  => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -59,46 +65,55 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
             '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
             'ezcWebdavMicrosoftCompatibleTransport'
         );
+        $thirdCfg = new ezcWebdavTransportConfiguration(
+            '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+            'ezcWebdavTransport',
+            'ezcWebdavXmlTool',
+            'ezcWebdavNautilusPropertyHandler'
+        );
 
         $this->assertAttributeEquals(
             array(
                 0 => $secondCfg,
-                1 => $firstCfg,
+                1 => $thirdCfg,
+                2 => $firstCfg,
             ),
             'transportConfigurations',
             $dp,
             'Default properties not created correctly on empty ctor.'
         );
         
-        $thirdCfg = new ezcWebdavTransportConfiguration(
+        $fourthCfg = new ezcWebdavTransportConfiguration(
             'fooregex'
         );
 
-        $dp->insertBefore( $thirdCfg );
+        $dp->insertBefore( $fourthCfg );
 
         $this->assertAttributeEquals(
             array(
-                0 => $thirdCfg,
+                0 => $fourthCfg,
                 1 => $secondCfg,
-                2 => $firstCfg,
+                2 => $thirdCfg,
+                3 => $firstCfg,
             ),
             'transportConfigurations',
             $dp,
             'Third transport not added correctly.'
         );
 
-        $fourthCfg = new ezcWebdavTransportConfiguration(
+        $fifthCfg = new ezcWebdavTransportConfiguration(
             'barregex'
         );
 
-        $dp->insertBefore( $fourthCfg, 1 );
+        $dp->insertBefore( $fifthCfg, 1 );
 
         $this->assertAttributeEquals(
             array(
-                0 => $thirdCfg,
-                1 => $fourthCfg,
+                0 => $fourthCfg,
+                1 => $fifthCfg,
                 2 => $secondCfg,
-                3 => $firstCfg,
+                3 => $thirdCfg,
+                4 => $firstCfg,
             ),
             'transportConfigurations',
             $dp,
@@ -110,10 +125,11 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0 => $thirdCfg,
-                1 => $thirdCfg,
-                2 => $fourthCfg,
+                1 => $fourthCfg,
+                2 => $fifthCfg,
                 3 => $secondCfg,
-                4 => $firstCfg,
+                4 => $thirdCfg,
+                5 => $firstCfg,
             ),
             'transportConfigurations',
             $dp,
@@ -133,7 +149,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1  => $firstCfg,
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -157,7 +179,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1  => $firstCfg,
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -177,7 +205,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1  => $firstCfg,
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -197,7 +231,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1  => $firstCfg,
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -206,7 +246,7 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
 
         try
         {
-            $dp->insertBefore( $secondCfg, 2 );
+            $dp->insertBefore( $secondCfg, 3 );
             $this->fail( 'ezcBaseValueException not thrown on to large int $offset.' );
         }
         catch ( ezcBaseValueException $e ) {}
@@ -217,7 +257,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1  => $firstCfg,
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -289,6 +335,7 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
         $dp = new ezcWebdavTransportDispatcher();
         unset( $dp[0] );
         unset( $dp[0] );
+        unset( $dp[0] );
 
         try
         {
@@ -331,7 +378,8 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
-                2 => $second,
+                2 => new ezcWebdavTransportConfiguration(),
+                3 => $second,
             ),
             'transportConfigurations',
             $dp,
@@ -344,7 +392,8 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
             array(
                 0 => $second,
                 1 => $first,
-                2 => $second,
+                2 => new ezcWebdavTransportConfiguration(),
+                3 => $second,
             ),
             'transportConfigurations',
             $dp,
@@ -361,7 +410,7 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
 
         try
         {
-            $dp[3]   = $first;
+            $dp[4]   = $first;
             $this->fail( 'ezcBaseValueException not thrown on set access with too large offset.' );
         }
         catch ( ezcBaseValueException $e ) {}
@@ -372,7 +421,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -392,7 +447,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -412,7 +473,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -432,7 +499,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -452,7 +525,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -472,7 +551,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -492,7 +577,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -516,7 +607,8 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
-                2 => $second,
+                2 => new ezcWebdavTransportConfiguration(),
+                3 => $second,
             ),
             'transportConfigurations',
             $dp,
@@ -529,19 +621,25 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                 'ezcWebdavMicrosoftCompatibleTransport'
             ),
             $dp[0],
-            'Index 2 not got correctly.'
+            'Index 0 not got correctly.'
         );
 
         $this->assertSame(
             $first,
             $dp[1],
+            'Index 1 not got correctly.'
+        );
+
+        $this->assertEquals(
+            new ezcWebdavTransportConfiguration(),
+            $dp[2],
             'Index 2 not got correctly.'
         );
 
         $this->assertSame(
             $second,
-            $dp[2],
-            'Index 2 not got correctly.'
+            $dp[3],
+            'Index 3 not got correctly.'
         );
     }
 
@@ -553,8 +651,8 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
         $dp      = new ezcWebdavTransportDispatcher();
 
         $this->assertNull(
-            $dp[2],
-            'Offset 2 not null.'
+            $dp[3],
+            'Offset 3 not null.'
         );
         
         $this->assertAttributeEquals(
@@ -563,7 +661,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -583,7 +687,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -603,7 +713,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -617,7 +733,42 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
         $second  = new ezcWebdavTransportConfiguration( '(b)' );
 
         $dp      = new ezcWebdavTransportDispatcher();
+        
+        $this->assertAttributeEquals(
+            array(
+                0  => new ezcWebdavTransportConfiguration(
+                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    'ezcWebdavMicrosoftCompatibleTransport'
+                ),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
+            ),
+            'transportConfigurations',
+            $dp,
+            'Configurations not created correctly in ctor.'
+        );
+
         $dp[1]   = $first;
+        
+        $this->assertAttributeEquals(
+            array(
+                0  => new ezcWebdavTransportConfiguration(
+                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    'ezcWebdavMicrosoftCompatibleTransport'
+                ),
+                1 => $first,
+                2 => new ezcWebdavTransportConfiguration(),
+            ),
+            'transportConfigurations',
+            $dp,
+            'Configurations not added correctly through offsetSet(1).'
+        );
+        
         $dp[]    = $second;
         
         $this->assertAttributeEquals(
@@ -627,11 +778,28 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
+                2 => new ezcWebdavTransportConfiguration(),
+                3 => $second,
+            ),
+            'transportConfigurations',
+            $dp,
+            'Configurations not added correctly through offsetSet(null).'
+        );
+
+        unset( $dp[1] );
+        
+        $this->assertAttributeEquals(
+            array(
+                0  => new ezcWebdavTransportConfiguration(
+                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    'ezcWebdavMicrosoftCompatibleTransport'
+                ),
+                1 => new ezcWebdavTransportConfiguration(),
                 2 => $second,
             ),
             'transportConfigurations',
             $dp,
-            'Configurations not added correctly through offsetSet().'
+            'Configurations not removed from offset 1 correctly through offsetUnset().'
         );
 
         unset( $dp[1] );
@@ -646,7 +814,7 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
             ),
             'transportConfigurations',
             $dp,
-            'Configurations not added correctly through offsetSet().'
+            'Configurations not removed from offset 1 correctly through offsetUnset().'
         );
 
         unset( $dp[1] );
@@ -660,7 +828,7 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
             ),
             'transportConfigurations',
             $dp,
-            'Configurations not added correctly through offsetSet().'
+            'Configurations not removed from offset 1 correctly through offsetUnset().'
         );
 
         unset( $dp[0] );
@@ -670,7 +838,7 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
             ),
             'transportConfigurations',
             $dp,
-            'Configurations not added correctly through offsetSet().'
+            'Configurations not removed from offset 0 correctly through offsetUnset().'
         );
     }
 
@@ -681,10 +849,10 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
 
         $dp      = new ezcWebdavTransportDispatcher();
 
-        unset( $dp[2] );
+        unset( $dp[3] );
         $this->assertNull(
-            $dp[2],
-            'Offset 2 not null.'
+            $dp[3],
+            'Offset 3 not null.'
         );
         
         $this->assertAttributeEquals(
@@ -693,7 +861,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -713,7 +887,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -733,7 +913,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration(),
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
             ),
             'transportConfigurations',
             $dp,
@@ -757,7 +943,8 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
-                2 => $second,
+                2 => new ezcWebdavTransportConfiguration(),
+                3 => $second,
             ),
             'transportConfigurations',
             $dp,
@@ -775,6 +962,10 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
         $this->assertTrue(
             isset( $dp[2] ),
             'Offset 2 does not seem to be set.'
+        );
+        $this->assertTrue(
+            isset( $dp[3] ),
+            'Offset 3 does not seem to be set.'
         );
     }
 
@@ -794,7 +985,8 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
-                2 => $second,
+                2 => new ezcWebdavTransportConfiguration(),
+                3 => $second,
             ),
             'transportConfigurations',
             $dp,
@@ -806,7 +998,7 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
             'Offset -1 does seem to be set.'
         );
         $this->assertFalse(
-            isset( $dp[3] ),
+            isset( $dp[4] ),
             'Offset 3 does seem to be set.'
         );
         $this->assertFalse(
@@ -824,7 +1016,13 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                     '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
-                1 => new ezcWebdavTransportConfiguration()
+                1 => new ezcWebdavTransportConfiguration(
+                    '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                    'ezcWebdavTransport',
+                    'ezcWebdavXmlTool',
+                    'ezcWebdavNautilusPropertyHandler'
+                ),
+                2 => new ezcWebdavTransportConfiguration(),
         );
         
         $i = 0;
@@ -880,9 +1078,15 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
                 '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
                 'ezcWebdavMicrosoftCompatibleTransport'
             ),
-            1 => new ezcWebdavTransportConfiguration(),
-            2 => new ezcWebdavTransportConfiguration( '(.*nautilus.*)i' ),
-            3 => new ezcWebdavTransportConfiguration( '(.*konqueror.*)i' ),
+            1 => new ezcWebdavTransportConfiguration(
+                '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+                'ezcWebdavTransport',
+                'ezcWebdavXmlTool',
+                'ezcWebdavNautilusPropertyHandler'
+            ),
+            2 => new ezcWebdavTransportConfiguration(),
+            3 => new ezcWebdavTransportConfiguration( '(.*nautilus.*)i' ),
+            4 => new ezcWebdavTransportConfiguration( '(.*konqueror.*)i' ),
         );
         
         $i = 0;
@@ -930,6 +1134,7 @@ class ezcWebdavTransportDispatcherTest extends ezcWebdavTestCase
     public function testIteratorEmpty()
     {
         $dp   = new ezcWebdavTransportDispatcher();
+        unset( $dp[0] );
         unset( $dp[0] );
         unset( $dp[0] );
 
