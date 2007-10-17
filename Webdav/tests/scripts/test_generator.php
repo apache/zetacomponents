@@ -12,15 +12,15 @@
 /**
  * The base directory for all following. 
  */
-define( PWD, dirname( $_SERVER['SCRIPT_FILENAME'] ) );
+define( 'PWD', dirname( $_SERVER['SCRIPT_FILENAME'] ) );
 /**
  * Where captured data is stored. 
  */
-define( LOG_DIR, PWD . '/log' );
+define( 'LOG_DIR', PWD . '/log' );
 /**
  * Where temporary data (backend and running test number) are stored.
  */
-define( TMP_DIR, PWD . '/tmp' );
+define( 'TMP_DIR', PWD . '/tmp' );
 
 /**
  * Generator class for client test suites.
@@ -223,8 +223,8 @@ class ezcWebdavClientTestGenerator
         if ( count( $this->exceptions ) > 0 )
         {
             file_put_contents(
-                "<?php\n\nreturn " . var_export( $this->exceptions, true ) . ";\n\n?>",
-                "{$this->logDir}/error.php"
+                "{$this->logDir}/error.php",
+                "<?php\n\nreturn " . var_export( $this->exceptions, true ) . ";\n\n?>"
             );
         }
         file_put_contents( $this->backendFile, serialize( $this->backend ) );
@@ -235,20 +235,20 @@ class ezcWebdavClientTestGenerator
         );
         file_put_contents(
             "{$requestLogDir}/body.xml",
-           $GLOBALS['EZC_WEBDAV_REQUEST_BODY']
+            $GLOBALS['EZC_WEBDAV_REQUEST_BODY']
         );
 
         file_put_contents(
             "{$responseLogDir}/headers.php",
-           "<?php\n\nreturn " . var_export( $GLOBALS['EZC_WEBDAV_RESPONSE_HEADERS'], true ) . ";\n\n?>"
+            "<?php\n\nreturn " . var_export( $GLOBALS['EZC_WEBDAV_RESPONSE_HEADERS'], true ) . ";\n\n?>"
         );
         file_put_contents(
             "{$responseLogDir}/body.xml",
-           $GLOBALS['EZC_WEBDAV_RESPONSE_BODY']
+            $GLOBALS['EZC_WEBDAV_RESPONSE_BODY']
         );
         file_put_contents(
             "{$responseLogDir}/status.txt",
-           $GLOBALS['EZC_WEBDAV_RESPONSE_STATUS']
+            $GLOBALS['EZC_WEBDAV_RESPONSE_STATUS']
         );
     }
 
