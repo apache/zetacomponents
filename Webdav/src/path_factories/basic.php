@@ -67,6 +67,10 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
      * translates it into a local path, which can be understood by the WebDAV
      * elements.
      *
+     * A locally understandable path MUST NOT contain a trailing slash, but
+     * MUST always contain a starting slash. For the root URI the path "/" MUST
+     * be used.
+     *
      * @param string $uri
      * @return string
      */
@@ -88,7 +92,15 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
                 unset( $this->collectionPathes[substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) )] );
             }
         }
-        return substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) );
+        $requestPath = substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) );
+
+        // Ensure starting slash for root node
+        if ( !$requestPath )
+        {
+            $requestPath = '/';
+        }
+
+        return $requestPath;
     }
 
     /**

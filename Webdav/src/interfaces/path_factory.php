@@ -32,6 +32,10 @@ interface ezcWebdavPathFactory
      * translates it into a local path, which can be understood by the WebDAV
      * elements.
      *
+     * A locally understandable path MUST NOT contain a trailing slash, but
+     * MUST always contain a starting slash. For the root URI the path "/" MUST
+     * be used.
+     *
      * @param string $uri
      * @return string
      */

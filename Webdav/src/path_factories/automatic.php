@@ -40,6 +40,10 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
      * path factory automatically detects information from the running
      * webserver and tries to automatically determine the suitable values.
      *
+     * A locally understandable path MUST NOT contain a trailing slash, but
+     * MUST always contain a starting slash. For the root URI the path "/" MUST
+     * be used.
+     *
      * @return void
      */
     public function __construct()
