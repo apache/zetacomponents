@@ -228,7 +228,45 @@ abstract class ezcWebdavBackend
      * @param ezcWebdavOptionsRequest $request
      * @return ezcWebdavResponse
      */
-    abstract public function options( ezcWebdavOptionsRequest $request );
+    public function options( ezcWebdavOptionsRequest $request )
+    {
+        $response = new ezcWebdavOptionsResponse(
+            ( $this instanceof ezcWebdavBackendLock) ?
+                '1, 2' :
+                '1'
+        );
+
+        // Always allowed
+        $allowed = 'GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, ';
+
+        // Check if modifications are allowed
+        if ( $this instanceof ezcWebdavBackendChange )
+        {
+            $allowed .= 'DELETE, COPY, MOVE, ';
+        }
+
+        // Check if MKCOL is allowed
+        if ( $this instanceof ezcWebdavBackendMakeCollection )
+        {
+            $allowed .= 'MKCOL, ';
+        }
+
+        // Check if PUT is allowed
+        if ( $this instanceof ezcWebdavBackendPut )
+        {
+            $allowed .= 'PUT, ';
+        }
+
+        // Check if locking is allowed
+        if ( $this instanceof ezcWebdavBackendLock )
+        {
+            $allowed .= 'LOCK, UNLOCK, ';
+        }
+
+        $response->setHeader( 'Allow', substr( $allowed, 0, -2 ) );
+
+        return $response;
+    }
 }
 
 ?>
