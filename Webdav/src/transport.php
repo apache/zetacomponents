@@ -171,7 +171,7 @@ class ezcWebdavTransport
      * slightly by exchanging the properties, which can also be set through the
      * constructor. Such a configuration to suite the needs of a specific
      * client is specified using a {@link ezcWebavTransportConfiguration},
-     * which can be added to the  {@link ezcWebdavTransportDispatcher}, a part
+     * which can be added to the  {@link ezcWebdavServerConfigurationManager}, a part
      * of the {@link ezcWebdavServer}.
      *
      * The $xmlTool parameter will be used in the $xml property which is

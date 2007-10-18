@@ -11,8 +11,8 @@
 /**
  * Exception thrown if no transport configuration could be found to satisfy a configuration.
  *
- * This exception is thrown by {@link ezcWebdavTransportDispatcher} if it could
- * not find an {@link ezcWebdavTransportConfiguration} that provides a regex to
+ * This exception is thrown by {@link ezcWebdavServerConfigurationManager} if it could
+ * not find an {@link ezcWebdavServerConfiguration} that provides a regex to
  * match the given $userAgent.
  *
  * This can only occur if the configuration for the basic RFC compliant {@link
@@ -34,7 +34,7 @@ class ezcWebdavMissingTransportConfigurationException extends ezcWebdavException
      */
     public function __construct( $userAgent )
     {
-        parent::__construct( "There could be no ezcWebdavTransportConfiguration be found to satisfy the User-Agent '$userAgent'. Seems like the basic RFC transport has also been removed." );
+        parent::__construct( "There could be no ezcWebdavServerConfiguration be found to satisfy the User-Agent '$userAgent'. Seems like the basic RFC transport has also been removed." );
     }
 }
 

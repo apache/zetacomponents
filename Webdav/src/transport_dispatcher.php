@@ -1,19 +1,19 @@
 <?php
 
-class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
+class ezcWebdavServerConfigurationManager implements ArrayAccess, Iterator
 {
     /**
      * Transport configurations to dispatch. 
      * 
-     * @var array(int=>ezcWebdavTransportConfiguration)
+     * @var array(int=>ezcWebdavServerConfiguration)
      */
-    protected $transportConfigurations = array();
+    protected $configurations = array();
 
     /**
      * Creates a new dispatcher.
      *
      * This creates a new dispatcher object and registers the default {@link
-     * ezcWebdavTransportConfiguration} automatically. That means, all
+     * ezcWebdavServerConfiguration} automatically. That means, all
      * following should be added by {@link $this->insertBefore()} to ensure,
      * this catchall will not break the transfer layer.
      * 
@@ -22,19 +22,19 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
     public function __construct()
     {
         // Add MS compatible configuration
-        $this[] = new ezcWebdavTransportConfiguration(
+        $this[] = new ezcWebdavServerConfiguration(
             '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
             'ezcWebdavMicrosoftCompatibleTransport'
         );
         // Add Nautilus configuration
-        $this[] = new ezcWebdavTransportConfiguration(
+        $this[] = new ezcWebdavServerConfiguration(
             '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
             'ezcWebdavTransport',
             'ezcWebdavXmlTool',
             'ezcWebdavNautilusPropertyHandler'
         );
         // Add default RFC compliant transport as final catchall
-        $this[] = new ezcWebdavTransportConfiguration();
+        $this[] = new ezcWebdavServerConfiguration();
     }
 
     /**
@@ -42,36 +42,36 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      *
      * This method inserts a given $config right before the given $offset. The
      * $offset must be of type integer and between 0 and the number of elements
-     * in {@link $this->transportConfigurations} minus 1.
+     * in {@link $this->configurations} minus 1.
      *
      * If these preconditions do not match for the given $offset, an
      * ezcBaseValueException is thrown.
      * 
-     * @param ezcWebdavTransportConfiguration $config 
+     * @param ezcWebdavServerConfiguration $config 
      * @param int $offset 
      * @return void
      *
      * @throws ezcBaseValueException
      *         if the given $offset is not an integer that is larger or equal
      *         to 0 and smaller than the number of elements in {@link
-     *         $this->transportConfigurations}.
+     *         $this->configurations}.
      */
-    public function insertBefore( ezcWebdavTransportConfiguration $config, $offset = 0 )
+    public function insertBefore( ezcWebdavServerConfiguration $config, $offset = 0 )
     {
-        if ( !is_int( $offset ) || $offset < 0 || $offset > ( count( $this->transportConfigurations ) - 1 ) )
+        if ( !is_int( $offset ) || $offset < 0 || $offset > ( count( $this->configurations ) - 1 ) )
         {
             throw new ezcBaseValueException( 'index', $offset, 'int >= 0, < number of transport configurations' );
         }
-        array_splice( $this->transportConfigurations, $offset, 0, array( $config ) );
+        array_splice( $this->configurations, $offset, 0, array( $config ) );
     }
 
     /**
-     * Retrive a transport that is capable of handling the request.
+     * Configures the server for handling a request by the given User-Agent.
      *
      * This method is used by {@link ezcWebdavServer} to determine the correct
      * {@link ezcWebdavTransport} for the current request. It returns the
      * {@link ezcWebdavTransport} created by the {@link
-     * ezcWebdavTransportConfiguration} which matched the submitted User-Agent
+     * ezcWebdavServerConfiguration} which matched the submitted User-Agent
      * header first.
      *
      * Per default, the RFC compliant default implementation {@link
@@ -84,16 +84,17 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      * @return void
      *
      * @throws ezcWebdavMissingTransportConfigurationException
-     *         if no {@link ezcWebdavTransportConfiguration} could be found
+     *         if no {@link ezcWebdavServerConfiguration} could be found
      *         that matches the given $userAgent.
      */
-    public function createTransport( $userAgent )
+    public function configure( $server, $userAgent )
     {
         foreach ( $this as $transportConfiguration )
         {
             if ( preg_match( $transportConfiguration->userAgentRegex, $userAgent ) > 0 )
             {
-                return $transportConfiguration->getTransportInstance();
+                $transportConfiguration->configure( $server );
+                return;
             }
         }
         throw new ezcWebdavMissingTransportConfigurationException( $userAgent );
@@ -104,7 +105,7 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      *
      * This method checks if the given $offset is either of type int, then
      * larger 0 and not larger as the number of elements in {@link
-     * $this->transportConfigurations}, or null.
+     * $this->configurations}, or null.
      *
      * The method is primarily used in the {@link ArrayAccess} methods.
      * 
@@ -117,7 +118,7 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      */
     protected function checkOffset( $offset )
     {
-        if ( ( !is_int( $offset ) || $offset < 0 || $offset > count( $this->transportConfigurations ) ) && $offset !== null )
+        if ( ( !is_int( $offset ) || $offset < 0 || $offset > count( $this->configurations ) ) && $offset !== null )
         {
             throw new ezcBaseValueException( 'offset', $offset, 'int >= 0, <= number of transport configurations' );
         }
@@ -127,22 +128,22 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      * Checks the given $value for validity.
      *
      * This method checks if the given $value is either an instance of {@link
-     * ezcWebdavTransportConfiguration} or null.
+     * ezcWebdavServerConfiguration} or null.
      *
      * The method is primarily used in the {@link ArrayAccess} methods.
      * 
-     * @param ezcWebdavTransportConfiguration|null $value 
+     * @param ezcWebdavServerConfiguration|null $value 
      * @return void
      *
      * @throws ezcBaseValueException
      *         if the given $value is not an instance of
-     *         ezcWebdavTransportConfiguration or null.
+     *         ezcWebdavServerConfiguration or null.
      */
     protected function checkValue( $value )
     {
-        if ( !( $value instanceof ezcWebdavTransportConfiguration ) && $value !== null )
+        if ( !( $value instanceof ezcWebdavServerConfiguration ) && $value !== null )
         {
-            throw new ezcBaseValueException( 'value', $value, 'ezcWebdavTransportConfiguration' );
+            throw new ezcBaseValueException( 'value', $value, 'ezcWebdavServerConfiguration' );
         }
     }
 
@@ -166,9 +167,9 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
         }
         if ( $offset === null )
         {
-            $offset = count( $this->transportConfigurations );
+            $offset = count( $this->configurations );
         }
-        $this->transportConfigurations[$offset] = $value;
+        $this->configurations[$offset] = $value;
     }
 
     /**
@@ -181,11 +182,11 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
     public function offsetGet( $offset )
     {
         $this->checkOffset( $offset );
-        if ( !isset( $this->transportConfigurations[$offset] ) )
+        if ( !isset( $this->configurations[$offset] ) )
         {
             return null;
         }
-        return $this->transportConfigurations[$offset];
+        return $this->configurations[$offset];
     }
 
     /**
@@ -198,12 +199,12 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
     public function offsetUnset( $offset )
     {
         $this->checkOffset( $offset );
-        if ( $offset === null || $offset === count( $this->transportConfigurations ) )
+        if ( $offset === null || $offset === count( $this->configurations ) )
         {
             return;
         }
 
-        array_splice( $this->transportConfigurations, $offset, 1 );
+        array_splice( $this->configurations, $offset, 1 );
     }
 
     /**
@@ -215,7 +216,7 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      */
     public function offsetExists( $offset )
     {
-        return isset( $this->transportConfigurations[$offset] );
+        return isset( $this->configurations[$offset] );
     }
 
     // Iterator
@@ -227,7 +228,7 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      */
     public function current()
     {
-        return current( $this->transportConfigurations );
+        return current( $this->configurations );
     }
 
     /**
@@ -237,7 +238,7 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      */
     public function key()
     {
-        return key( $this->transportConfigurations );
+        return key( $this->configurations );
     }
 
     /**
@@ -247,7 +248,7 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      */
     public function next()
     {
-        return next( $this->transportConfigurations );
+        return next( $this->configurations );
     }
 
     /**
@@ -257,7 +258,7 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      */
     public function rewind()
     {
-        return reset( $this->transportConfigurations );
+        return reset( $this->configurations );
     }
 
     /**
@@ -267,7 +268,7 @@ class ezcWebdavTransportDispatcher implements ArrayAccess, Iterator
      */
     public function valid()
     {
-        return ( current( $this->transportConfigurations ) !== false );
+        return ( current( $this->configurations ) !== false );
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavTransportConfiguration class
+ * File containing the ezcWebdavServerConfiguration class
  *
  * @package Webdav
  * @version //autogen//
@@ -13,7 +13,7 @@
  *
  * An instance of this class represents the configuration necessary to
  * instanciate a new {@link ezcWebdavTransport} object. The {@link
- * ezcWebdavTransportDispatcher} holds a default set of such objects,
+ * ezcWebdavServerConfigurationManager} holds a default set of such objects,
  * representing the transport classes that are known by the Webdav component by
  * default.
  *
@@ -21,7 +21,7 @@
  * and possibly even extend it to support more advanced features.
  *
  * This base class instantiates a transport in the way that is suitable, when
- * requested by the {@link ezcWebdavTransportDispatcher}. The class may be
+ * requested by the {@link ezcWebdavServerConfigurationManager}. The class may be
  * extended to suite extended transport layer needs. The only premission is,
  * that the getTransportInstance() method returns a functional {@link
  * ezcWebdavTransport} instance.
@@ -50,7 +50,7 @@
  *           regex matches, this configuration object is used to create the
  *           transport layer classes for the current request, determined by the
  *           other properties.
- * @property string $transport
+ * @property string $transportClass
  *           Transport class to instanciate when creating an instance of the
  *           transport layer configured in this object. If the desired
  *           extension of {@link ezcWebdavTransport} is compatible API with the
@@ -61,12 +61,12 @@
  *           where an object is expected, since transport implementations
  *           should not rely on a specific path factory and that means 1 path
  *           factory can be used for all transport configurations.
- * @property string $xmlTool
+ * @property string $xmlToolClass
  *           This property defines the {@link ezcWebdavXmlTool} instance to be
  *           used with the {@link ezcWebdavTransport} class configured in
  *           $transport and the {@link ezcWebdavPropertyHandler} class
  *           configured in $propertyHandler.
- * @property string $propertyHandler
+ * @property string $propertyHandlerClass
  *           This property defines the {@link ezcWebdavPropertyHandler} class
  *           to use, when instanciating the {@link ezcWebdavTransport} in
  *           $transport. The class given here will receive $xmlTool as a
@@ -75,7 +75,7 @@
  * @package Webdav
  * @version //autogen//
  */
-class ezcWebdavTransportConfiguration
+class ezcWebdavServerConfiguration
 {
     /**
      * Properties. 
@@ -90,59 +90,55 @@ class ezcWebdavTransportConfiguration
      * All parameters are strings, representing the specific classes to use.
      * 
      * @param string $userAgentRegex 
-     * @param string $transport 
-     * @param string $xmlTool 
-     * @param string $propertyHandler 
+     * @param string $transportClass
+     * @param string $xmlToolClass 
+     * @param string $propertyHandlerClass
      * @param ezcWebdavPathFactory $pathFactory 
      * @return void
      */
     public function __construct(
-        $userAgentRegex  = '(.*)',
-        $transport       = 'ezcWebdavTransport',
-        $xmlTool         = 'ezcWebdavXmlTool',
-        $propertyHandler = 'ezcWebdavPropertyHandler',
+        $userAgentRegex                   = '(.*)',
+        $transportClass                   = 'ezcWebdavTransport',
+        $xmlToolClass                     = 'ezcWebdavXmlTool',
+        $propertyHandlerClass             = 'ezcWebdavPropertyHandler',
         ezcWebdavPathFactory $pathFactory = null
     )
     {
-        $this->properties['userAgentRegex']  = null;
-        $this->properties['transport']       = null;
-        $this->properties['xmlTool']         = null;
-        $this->properties['propertyHandler'] = null;
-        $this->properties['pathFactory']     = null;
+        $this->properties['userAgentRegex']       = null;
+        $this->properties['transportClass']       = null;
+        $this->properties['xmlToolClass']         = null;
+        $this->properties['propertyHandlerClass'] = null;
+        $this->properties['pathFactory']          = null;
 
-        $this->userAgentRegex                = $userAgentRegex;
-        $this->transport                     = $transport;
-        $this->xmlTool                       = $xmlTool;
-        $this->propertyHandler               = $propertyHandler;
-        $this->pathFactory                   = $pathFactory === null ? new ezcWebdavAutomaticPathFactory() : $pathFactory;
+        $this->userAgentRegex       = $userAgentRegex;
+        $this->transportClass       = $transportClass;
+        $this->xmlToolClass         = $xmlToolClass;
+        $this->propertyHandlerClass = $propertyHandlerClass;
+        $this->pathFactory          = ( $pathFactory === null ? new ezcWebdavAutomaticPathFactory() : $pathFactory );
     }
 
     /**
-     * Returns a new transport instance according to the property values.
+     * Configures the server for handling a request.
      *
-     * This method returns a new instance of the {@link ezcWebdavTransport}
-     * configured in the {@link $this->transport} property. The {@link
-     * $this->pathFactory}, {@link $this->xmlTool} and {@link
-     * $this->propertyHandler} properties are used to configure the transport.
+     * This method takes the instance of {@link ezcWebdavServer} in $server and
+     * configures this instance according to the configuration stored in $this.
      *
-     * This base class takes the raw interface defined for {@link
-     * ezcWebdavTransport} as given to instanciate the transport. If your
-     * transport class has different needs, you need to extend this class to
-     * suite your needs.
+     * After calling this method, the {@link ezcWebdavServer} instance in
+     * $server is ready to handle a request.
      * 
-     * @return ezcWebdavTransport
+     * @param ezcWebdavServer $server
+     * @return void
      */
-    public function getTransportInstance()
+    public function configure( ezcWebdavServer $server )
     {
         $this->checkClasses();
 
-        $xmlTool         = new $this->xmlTool();
-        $propertyHandler = new $this->propertyHandler( $xmlTool );
-        return             new $this->transport(
-            $xmlTool,
-            $propertyHandler,
-            $this->pathFactory
-        );
+        $xmlTool         = new $this->xmlToolClass();
+        $propertyHandler = new $this->propertyHandlerClass( $xmlTool );
+        $pathFactory     = $this->pathFactory;
+        $transport       = new $this->transportClass( $xmlTool, $propertyHandler, $pathFactory );
+
+        $server->init( $pathFactory, $xmlTool, $propertyHandler, $transport );
     }
 
     /**
@@ -169,17 +165,17 @@ class ezcWebdavTransportConfiguration
         }
         switch ( true )
         {
-            case ( $this->transport !== 'ezcWebdavTransport' && !is_subclass_of( $this->transport, 'ezcWebdavTransport' ) ):
-                throw new ezcBaseValueException( 'transport', $this->transport, 'ezcWebdavTransport or derived' );
+            case ( $this->transportClass !== 'ezcWebdavTransport' && !is_subclass_of( $this->transportClass, 'ezcWebdavTransport' ) ):
+                throw new ezcBaseValueException( 'transportClass', $this->transportClass, 'ezcWebdavTransport or derived' );
 
             case ( !( $this->pathFactory instanceof ezcWebdavPathFactory ) ):
-                throw new ezcBaseValueException( 'pathFactory', $this->pathFactory, 'ezcWebdavPathFactory or derived' );
+                throw new ezcBaseValueException( 'pathFactory', $this->pathFactory, 'ezcWebdavPathFactory implementation' );
 
-            case ( $this->xmlTool !== 'ezcWebdavXmlTool' && !is_subclass_of( $this->xmlTool, 'ezcWebdavXmlTool' ) ):
-                throw new ezcBaseValueException( 'xmlTool', $this->xmlTool, 'ezcWebdavXmlTool or derived' );
+            case ( $this->xmlToolClass !== 'ezcWebdavXmlTool' && !is_subclass_of( $this->xmlToolClass, 'ezcWebdavXmlTool' ) ):
+                throw new ezcBaseValueException( 'xmlToolClass', $this->xmlToolClass, 'ezcWebdavXmlTool or derived' );
 
-            case ( $this->propertyHandler !== 'ezcWebdavPropertyHandler' && !is_subclass_of( $this->propertyHandler, 'ezcWebdavPropertyHandler' ) ):
-                throw new ezcBaseValueException( 'propertyHandler', $this->propertyHandler, 'ezcWebdavPropertyHandler or derived' );
+            case ( $this->propertyHandlerClass !== 'ezcWebdavPropertyHandler' && !is_subclass_of( $this->propertyHandlerClass, 'ezcWebdavPropertyHandler' ) ):
+                throw new ezcBaseValueException( 'propertyHandlerClass', $this->propertyHandlerClass, 'ezcWebdavPropertyHandler or derived' );
         }
     }
 
@@ -199,9 +195,9 @@ class ezcWebdavTransportConfiguration
         switch ( $propertyName )
         {
             case 'userAgentRegex':
-            case 'transport':
-            case 'xmlTool':
-            case 'propertyHandler':
+            case 'transportClass':
+            case 'xmlToolClass':
+            case 'propertyHandlerClass':
                 if ( !is_string( $propertyValue ) || strlen( $propertyValue ) < 1 )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string, length > 0' );

@@ -20,13 +20,13 @@
  *   
  * // This step is only required, when a user wants to provide own 
  * // implementations for special clients.
- * $server->transportsi[] = new ezcWebdavTransportConfiguration(
+ * $server->configurationsi[] = new ezcWebdavServerConfiguration(
  *     // Regular expression to match client name
  *     '(Microsoft.*Webdav\s+XP)i',
  *     // Class name of transport handler, extending ezcWebdavTransportHandler
  *     'ezcWebdavMicrosoftTransport'
  * );  
- * $server->transportsi[] = new ezcWebdavTransportConfiguration(
+ * $server->configurationsi[] = new ezcWebdavServerConfiguration(
  *     // Regular expression to match client name
  *     '(.*Firefox.*)i',
  *     // Class name of transport handler, extending ezcWebdavTransportHandler
@@ -103,7 +103,7 @@ class ezcWebdavServer
      * This method is the absolute heart of the Webdav component. It is called
      * to make the server instance handle the current request. This means, a
      * {@link ezcWebdavTransport} is selected and instantiated through the
-     * {@link ezcWebdavTransportDispatcher} in {@link $this->transports}.
+     * {@link ezcWebdavServerConfigurationManager} in {@link $this->configurations}.
      * 
      * @return void
      */
@@ -115,7 +115,7 @@ class ezcWebdavServer
         {
             throw new ezcWebdavMissingHeaderException( 'User-Agent' );
         }
-        $this->properties['transport'] = $this->transports->createTransport( $_SERVER['HTTP_USER_AGENT'] );
+        $this->configurations->configure( $this, $_SERVER['HTTP_USER_AGENT'] );
 
         // Parse request into request object
         $request = $this->transport->parseRequest( 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] );
@@ -146,10 +146,14 @@ class ezcWebdavServer
      */
     public function reset()
     {
-        $this->properties['transport']      = null;
-        $this->properties['backend']        = null;
-        $this->properties['transports']     = new ezcWebdavTransportDispatcher();
-        $this->properties['pluginRegistry'] = new ezcWebdavPluginRegistry();
+        $this->properties['configurations']  = new ezcWebdavServerConfigurationManager();
+        $this->properties['pluginRegistry']  = new ezcWebdavPluginRegistry();
+
+        $this->properties['transport']       = null;
+        $this->properties['backend']         = null;
+        $this->properties['pathFactory']     = null;
+        $this->properties['xmlTool']         = null;
+        $this->properties['propertyHandler'] = null;
     }
 
     /**
@@ -171,10 +175,10 @@ class ezcWebdavServer
     {
         switch ( $propertyName )
         {
-            case 'transports':
-                if ( ( $propertyValue instanceof ezcWebdavTransportDispatcher ) === false )
+            case 'configurations':
+                if ( ( $propertyValue instanceof ezcWebdavServerConfigurationManager ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavTransportDispatcher' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavServerConfigurationManager' );
                 }
                 break;
             case 'backend':
@@ -184,9 +188,11 @@ class ezcWebdavServer
                 }
                 break;
             case 'pluginRegistry':
+            case 'pathFactory':
+            case 'xmlTool':
+            case 'propertyHandler':
             case 'transport':
                 throw new ezcBasePropertyPermissionException( $propertyName, ezcBasePropertyPermissionException::READ );
-                break;
 
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
@@ -194,6 +200,26 @@ class ezcWebdavServer
         $this->properties[$propertyName] = $propertyValue;
     }
 
+    /**
+     * Initialize the server with the given objects.
+     * 
+     * This method is marked proteced, because it is intended to be used by by
+     * {@link ezcWebdavServerConfiguration} instances and instances of derived
+     * classes, but not directly.
+     *
+     * @param ezcWebdavPathFactory $pathFactory
+     * @param ezcWebdavXmlTool $xmlTool
+     * @param ezcWebdavPropertyHandler $propertyHandler
+     * @param ezcWebdavTransport $transport
+     * @return void
+     */
+    public function init( ezcWebdavPathFactory $pathFactory, ezcWebdavXmlTool $xmlTool, ezcWebdavPropertyHandler $propertyHandler, ezcWebdavTransport $transport )
+    {
+        $this->properties['pathFactory']     = $pathFactory;
+        $this->properties['xmlTool']         = $xmlTool;
+        $this->properties['propertyHandler'] = $propertyHandler;
+        $this->properties['transport']       = $transport;
+    }
     /**
      * Property get access.
      * Simply returns a given property.

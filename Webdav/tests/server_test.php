@@ -46,10 +46,13 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
             array(
-                'transport'      => null,
-                'backend'        => null,
-                'transports'     => new ezcWebdavTransportDispatcher(),
-                'pluginRegistry' => new ezcWebdavPluginRegistry(),
+                'transport'       => null,
+                'backend'         => null,
+                'configurations'  => new ezcWebdavServerConfigurationManager(),
+                'pluginRegistry'  => new ezcWebdavPluginRegistry(),
+                'xmlTool'         => null,
+                'propertyHandler' => null,
+                'pathFactory'     => null,
             ),
             'properties',
             $srv
@@ -61,10 +64,13 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
         $srv = ezcWebdavServer::getInstance();
 
         $defaults = array(
-            'transport'      => null,
-            'backend'        => null,
-            'transports'     => new ezcWebdavTransportDispatcher(),
-            'pluginRegistry' => new ezcWebdavPluginRegistry(),
+            'transport'       => null,
+            'backend'         => null,
+            'configurations'  => new ezcWebdavServerConfigurationManager(),
+            'pluginRegistry'  => new ezcWebdavPluginRegistry(),
+            'xmlTool'         => null,
+            'propertyHandler' => null,
+            'pathFactory'     => null,
         );
 
         foreach ( $defaults as $property => $value )
@@ -97,14 +103,17 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
         $srv = ezcWebdavServer::getInstance();
 
         $setValues = array(
-            'transports'     => new ezcWebdavTransportDispatcher(),
+            'configurations' => new ezcWebdavServerConfigurationManager(),
             'backend'        => new ezcWebdavMemoryBackend(),
         );
         $checkValues = array(
-            'transport'      => null,
-            'backend'        => new ezcWebdavMemoryBackend(),
-            'transports'     => new ezcWebdavTransportDispatcher(),
-            'pluginRegistry' => new ezcWebdavPluginRegistry(),
+            'backend'         => new ezcWebdavMemoryBackend(),
+            'configurations'  => new ezcWebdavServerConfigurationManager(),
+            'pluginRegistry'  => new ezcWebdavPluginRegistry(),
+            'xmlTool'         => null,
+            'propertyHandler' => null,
+            'pathFactory'     => null,
+            'transport'       => null,
         );
 
         foreach( $setValues as $property => $value )
@@ -141,7 +150,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
         );
 
         $invalidValues = array(
-            'transports' => $typicalFails, 
+            'configurations' => $typicalFails, 
             'backend'    => $typicalFails, 
         );
 
@@ -180,10 +189,13 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
         $srv = ezcWebdavServer::getInstance();
 
         $properties =array(
-            'transports', 
+            'configurations', 
             'backend', 
             'pluginRegistry', 
             'transport', 
+            'xmlTool',
+            'propertyHandler',
+            'pathFactory',
         );
 
         foreach( $properties as $propertyName )
@@ -220,7 +232,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         // Fake pathfactory, because SCRIPT_FILENAME cannot be overwritten
         $pathFactory = new ezcWebdavBasicPathFactory( 'http://webdav/' );
-        foreach( $webdav->transports as $transportCfg )
+        foreach( $webdav->configurations as $transportCfg )
         {
             $transportCfg->pathFactory = $pathFactory;
         }
@@ -231,7 +243,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         // Silence headers already sent warnings - we just want to test for
         // exceptions here.
-        @$webdav->handle( $backend );
+        $webdav->handle( $backend );
 
         $body = ob_get_clean();
     }
@@ -244,8 +256,8 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
         $_SERVER['REQUEST_URI'] = '/foo/bar';
 
         $webdav  = ezcWebdavServer::getInstance();
-        $webdav->transports->insertBefore(
-            new ezcWebdavTransportConfiguration(
+        $webdav->configurations->insertBefore(
+            new ezcWebdavServerConfiguration(
                 '(.*SomeAgent.*)',
                 'ezcWebdavTransportTestMock'
             )
@@ -253,7 +265,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
         
         // Fake pathfactory, because SCRIPT_FILENAME cannot be overwritten
         $pathFactory = new ezcWebdavBasicPathFactory( 'http://webdav/' );
-        foreach( $webdav->transports as $transportCfg )
+        foreach( $webdav->configurations as $transportCfg )
         {
             $transportCfg->pathFactory = $pathFactory;
         }

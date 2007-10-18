@@ -35,17 +35,17 @@ class ezcWebdavClientTestSetup
         $server = ezcWebdavServer::getInstance();
         $server->reset();
         
-        foreach ( $server->transports as $id => $transportCfg )
+        foreach ( $server->configurations as $id => $cfg )
         {
             // Prepare mock classes, if not done, yet
-            if ( !class_exists( ( $mockClass = "{$transportCfg->transport}Mock" ) ) )
+            if ( !class_exists( ( $mockClass = "{$cfg->transportClass}Mock" ) ) )
             {
-                eval( sprintf( self::$mockClassSource, $transportCfg->transport, $transportCfg->transport ) );
+                eval( sprintf( self::$mockClassSource, $cfg->transportClass, $cfg->transportClass ) );
             }
 
             // Mock all transports
-            $server->transports[$id]->transport   = "{$transportCfg->transport}Mock";
-            $server->transports[$id]->pathFactory = $pathFactory;
+            $server->configurations[$id]->transportClass = "{$cfg->transportClass}Mock";
+            $server->configurations[$id]->pathFactory    = $pathFactory;
         }
 
         return $server;
