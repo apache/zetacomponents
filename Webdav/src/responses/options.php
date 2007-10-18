@@ -62,7 +62,7 @@ class ezcWebdavOptionsResponse extends ezcWebdavResponse
                 throw new ezcWebdavInvalidHeaderException(
                     'DAV',
                     $this->headers['DAV'],
-                    'Komponents must be ezcWebdavOptionsResponse::VERSION_ONE, ezcWebdavOptionsResponse::VERSION_TWO or ezcWebdavOptionsResponse::VERSION_ONE_EXTENDED'
+                    'Components must be ezcWebdavOptionsResponse::VERSION_ONE, ezcWebdavOptionsResponse::VERSION_TWO or ezcWebdavOptionsResponse::VERSION_ONE_EXTENDED'
                 );
             }
         }
