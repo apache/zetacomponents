@@ -65,7 +65,7 @@ Here is an example of getting the query part of urls:
 .. include:: tutorial/tutorial_get_query.php
     :literal:
 
-The output would be: ::
+The output would be::
 
     array(1) {
       ["user"]=>
@@ -87,7 +87,7 @@ Here is an example of setting the query part of urls:
 .. include:: tutorial/tutorial_set_query.php
     :literal:
 
-The output would be as follows (wrapped for clarity): ::
+The output would be as follows (wrapped for clarity)::
 
     string(139) "http://www.example.com/mydir/index.php/content/view/article/
     42/mode/print?user[name]=Bob+Smith&user[age]=47&user[sex]=M&user[dob]=
@@ -113,7 +113,7 @@ creating a new url object:
 .. include:: tutorial/tutorial_cfg_create.php
     :literal:
 
-The output would be: ::
+The output would be::
 
     object(ezcUrlConfiguration)#1 (1) {
       ["properties:private"]=>
@@ -192,7 +192,7 @@ the parameters from the provided url:
 .. include:: tutorial/tutorial_get_params.php
     :literal:
 
-The output would be as follows (wrapped for clarity): ::
+The output would be as follows (wrapped for clarity)::
 
     string(6) "groups"
     string(5) "Games"
@@ -224,7 +224,7 @@ addUnorderedParameter(), like in this example:
 .. include:: tutorial/tutorial_get_params_aggregate.php
     :literal:
 
-The output will be: ::
+The output will be::
 
     string(1) "y"
     array(2) {
@@ -262,7 +262,7 @@ Example:
 .. include:: tutorial/tutorial_get_params_no_delimiters.php
     :literal:
 
-The output will be: ::
+The output will be::
 
     array(8) {
       [0]=>
@@ -300,7 +300,7 @@ the parameters into the provided url:
 .. include:: tutorial/tutorial_set_params.php
     :literal:
 
-The output would be as follows (wrapped for clarity): ::
+The output would be as follows (wrapped for clarity)::
 
     string(72) "http://www.example.com/mydir/groups/Games/Adventure/Adult/
     (game)/Larry/7"
@@ -320,7 +320,7 @@ the parameters into the provided url:
 .. include:: tutorial/tutorial_cfg_change.php
     :literal:
 
-The output would be: ::
+The output would be::
 
     string(7) "Beatles"
 
@@ -336,7 +336,7 @@ alias when you want to prepend the url to a file name.
 .. include:: tutorial/tutorial_url_creator.php
     :literal:
 
-The output would be: ::
+The output would be::
 
     string(53) "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
 
@@ -353,7 +353,7 @@ alias when you want to apply formatting to a url.
 .. include:: tutorial/tutorial_url_creator_params.php
     :literal:
 
-The output would be: ::
+The output would be::
 
     string(53) "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
 
@@ -371,7 +371,7 @@ This function builds the current url from the $_SERVER array or another
 array source. The $_SERVER array is used by default, but another array source
 can be specified as a parameter when calling the function.
 
-For example, if the $_SERVER array has these fields: ::
+For example, if the $_SERVER array has these fields::
 
     $_SERVER = array(
         'HTTPS' => '1',
@@ -382,7 +382,7 @@ For example, if the $_SERVER array has these fields: ::
 
     $url = ezcUrlTools::getCurrentUrl();
 
-Then $url will be: ::
+Then $url will be::
 
     http://www.example.com/index.php
 
@@ -392,12 +392,12 @@ parseQueryString
 This function has the same functionality as the PHP function parse_str(), but
 without converting the dots to underscores in query parameter names.
 
-Example: ::
+Example::
 
     $params = ezcUrlTools::parseQueryString(
         'openid.nonce=123456&foo[]=bar&foo[]=baz' );
 
-Then $params will be: ::
+Then $params will be::
 
     array(2) {
       ["openid.nonce"]=>

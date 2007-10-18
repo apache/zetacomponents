@@ -11,7 +11,9 @@ Review by Derick
 [ ] parseQueryString() will most likely have locale issues - needs
     investigating.
 
-[ ] In ReST, the following things are equivalent:
+[X] In ReST, the following things are equivalent:
     For example, if the $_SERVER array has these fields: ::
     and:
     For example, if the $_SERVER array has these fields::
+
+	- Done
