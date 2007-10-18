@@ -38,7 +38,7 @@ class ezcWebdavNautilusPropertyHandler extends ezcWebdavPropertyHandler
         }
 
         $propertyElement = $parentElement->appendChild( 
-            $this->xml->createDomElement( $parentElement->ownerDocument, $elementName, $property->namespace )
+            ezcWebdavServer::getInstance()->xmlTool->createDomElement( $parentElement->ownerDocument, $elementName, $property->namespace )
         );
 
         if ( $elementValue instanceof DOMDocument )

@@ -39,9 +39,9 @@ class ezcWebdavPropertyHandler
      * @param ezcWebdavXmlTool $xml 
      * @return void
      */
-    public function __construct( ezcWebdavXmlTool $xml )
+    public function __construct( ezcWebdavXmlTool $xml = null )
     {
-        $this->xml = $xml;
+        $this->xml = ( $xml === null ? ezcWebdavServer::getInstance()->xmlTool : $xml );
     }
 
     /**

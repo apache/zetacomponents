@@ -21,20 +21,20 @@
  * protected methods. The easier way to adjust smaller issues is to replace one
  * of the helper components during construction of via property access.
  *
- * The $xml property will be used in the $xml property which is
+ * The {@link ezcWebdavServer->xmlTool} property will be used which is
  * accessed for different XML related operations. Exchanging this one will
  * allow you to manipulate the XML handling for the transport layer in
  * general.
  *
- * The $propertyHandler property, of type {@link ezcWebdavPropertyHandler}
- * will be used in the accordingly named property and is responsible for
- * extracting WebDAV properties from a {@link DOMElement} and to serialize
- * them back to one.
+ * The {@link ezcWebdavServer->propertyHandler} property, of type {@link
+ * ezcWebdavPropertyHandler} will be used in the accordingly named property and
+ * is responsible for extracting WebDAV properties from a {@link DOMElement}
+ * and to serialize them back to one.
  *
- * The $pathFactory property must be an instance of {@link
- * ezcWebdavPathFactory} and is used to convert between internal WebDAV
- * pathes (resource locations understood by the {@link ezcWebdavBackend})
- * and URIs that reference a resource on the web.
+ * The {@link ezcWebdavServer->pathFactory} property must be an instance of
+ * {@link ezcWebdavPathFactory} and is used to convert between internal WebDAV
+ * pathes (resource locations understood by the {@link ezcWebdavBackend}) and
+ * URIs that reference a resource on the web.
  *
  * An instance of this class is by default capable of parsing the follwoing
  * HTTP request methods:
@@ -75,11 +75,7 @@
  * @see ezcWebdavResponse
  * @see ezcWebdavProperty
  *
- * @property ezcWebdavXmlTool $xml
- * @property ezcWebdavPropertyHandler $propertyHandler
- * @property ezcWebdavPathFactory $pathFactory
- *
- * @link http://tools.ietf.org/html/rfc2518
+ * @link http://tools.ietf.org/html/rfc2518 RFC 2518
  *
  * @version //autogentag//
  * @package Webdav
@@ -164,61 +160,6 @@ class ezcWebdavTransport
     protected $properties = array();
 
     /**
-     * Creates a new transport object.
-     *
-     * When using the default constructor, an instance of this class will
-     * behave as RFC conform as possible. This behaviour can be influenced
-     * slightly by exchanging the properties, which can also be set through the
-     * constructor. Such a configuration to suite the needs of a specific
-     * client is specified using a {@link ezcWebavTransportConfiguration},
-     * which can be added to the  {@link ezcWebdavServerConfigurationManager}, a part
-     * of the {@link ezcWebdavServer}.
-     *
-     * The $xmlTool parameter will be used in the $xml property which is
-     * accessed for different XML related operations. Exchanging this one will
-     * allow you to manipulate the XML handling for the transport layer in
-     * general.
-     *
-     * The $propertyHandler parameter, of type {@link ezcWebdavPropertyHandler}
-     * will be used in the accordingly named property and is responsible for
-     * extracting WebDAV properties from a {@link DOMElement} and to serialize
-     * them back to one.
-     *
-     * The $pathFactory parameter must be an instance of {@link
-     * ezcWebdavPathFactory} and is used to convert between internal WebDAV
-     * pathes (resource locations understood by the {@link ezcWebdavBackend})
-     * and URIs that reference a resource on the web.
-     * 
-     * @param ezcWebdavXmlTool $xmlTool
-     * @param ezcWebdavPropertyHandler $propertyHandler
-     * @param ezcWebdavPathFactory $pathFactory
-     * @return void
-     */
-    public function __construct(
-        ezcWebdavXmlTool $xmlTool                 = null, 
-        ezcWebdavPropertyHandler $propertyHandler = null, 
-        ezcWebdavPathFactory $pathFactory         = null
-    )
-    {
-        $this->properties['xml']             = null;
-        $this->properties['propertyHandler'] = null;
-        $this->properties['pathFactory']     = null;
-
-        $this->xml = ( $xmlTool === null 
-            ? new ezcWebdavXmlTool()
-            : $xmlTool
-        );
-        $this->propertyHandler = ( $propertyHandler === null
-            ? new ezcWebdavPropertyHandler( $this->xml )
-            : $propertyHandler
-        );
-        $this->pathFactory = ( $pathFactory === null 
-            ? new ezcWebdavAutomaticPathFactory()
-            : $pathFactory
-        );
-    }
-
-    /**
      * Parses the incoming request into a fitting request abstraction object.
      *
      * This method is the main entry point of {@link ezcWebdavServer} and is
@@ -249,7 +190,7 @@ class ezcWebdavTransport
     public final function parseRequest( $uri )
     {
         $body = $this->retreiveBody();
-        $path = $this->pathFactory->parseUriToPath( $uri );
+        $path = ezcWebdavServer::getInstance()->pathFactory->parseUriToPath( $uri );
 
         if ( isset( self::$parsingMap[$_SERVER['REQUEST_METHOD']] )  )
         {
@@ -590,7 +531,7 @@ class ezcWebdavTransport
                 }
                 break;
             case 'Destination':
-                $value = $this->pathFactory->parseUriToPath( $value );
+                $value = ezcWebdavServer::getInstance()->pathFactory->parseUriToPath( $value );
                 break;
             default:
                 // @TODO Add extensiability hook
@@ -711,7 +652,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
+        if ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'COPY',
@@ -762,7 +703,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
+        if ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'MOVE',
@@ -888,7 +829,7 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
+        if ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'LOCK',
@@ -1039,7 +980,7 @@ class ezcWebdavTransport
         );
 
         if ( empty( $body ) ||
-             ( ( $dom = $this->xml->createDomDocument( $body ) ) === false ) )
+             ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false ) )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPFIND',
@@ -1074,7 +1015,7 @@ class ezcWebdavTransport
                 $request->prop = new ezcWebdavBasicPropertyStorage();
                 try
                 {
-                    $this->propertyHandler->extractProperties(
+                    ezcWebdavServer::getInstance()->propertyHandler->extractProperties(
                         $dom->documentElement->firstChild->childNodes,
                         $request->prop
                     );
@@ -1116,7 +1057,7 @@ class ezcWebdavTransport
     {
         $request = new ezcWebdavPropPatchRequest( $path );
 
-        if ( ( $dom = $this->xml->createDomDocument( $body ) ) === false )
+        if ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPPATCH',
@@ -1146,7 +1087,7 @@ class ezcWebdavTransport
             // @See http://tools.ietf.org/html/rfc2518#page-31
             for ( $i = 0; $i < $setElements->length; ++$i )
             {
-                $this->propertyHandler->extractProperties(
+                ezcWebdavServer::getInstance()->propertyHandler->extractProperties(
                     $setElements->item( $i )->firstChild->childNodes,
                     $request->updates,
                     ezcWebdavPropPatchRequest::SET
@@ -1155,7 +1096,7 @@ class ezcWebdavTransport
             
             for ( $i = 0; $i < $removeElements->length; ++$i )
             {
-                $this->propertyHandler->extractProperties(
+                ezcWebdavServer::getInstance()->propertyHandler->extractProperties(
                     $removeElements->item( $i )->firstChild->childNodes,
                     $request->updates,
                     ezcWebdavPropPatchRequest::REMOVE
@@ -1193,7 +1134,7 @@ class ezcWebdavTransport
      * processed $response and a {@link DOMDocument} representing the XML
      * response body.
      *
-     * This method utilizes {@link $this->xml} to perform basic XML operations,
+     * This method utilizes {@link ezcWebdavServer::getInstance()->xmlTool} to perform basic XML operations,
      * so this is the place to perform such changeds. You should overwrite this
      * method, if your client has problems specifically with the {@link
      * ezcWebdavMultiStatusResponse} response.
@@ -1203,10 +1144,10 @@ class ezcWebdavTransport
      */
     protected function processMultiStatusResponse( ezcWebdavMultiStatusResponse $response )
     {
-        $dom = $this->xml->createDomDocument();
+        $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument();
 
         $multistatusElement = $dom->appendChild(
-            $this->xml->createDomElement( $dom, 'multistatus' )
+            ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'multistatus' )
         );
 
         foreach ( $response->responses as $subResponse )
@@ -1236,7 +1177,7 @@ class ezcWebdavTransport
      * processed $response and a {@link DOMDocument} representing the XML
      * response body.
      *
-     * This method utilizes {@link $this->xml} to perform basic XML operations,
+     * This method utilizes {@link ezcWebdavServer::getInstance()->xmlTool} to perform basic XML operations,
      * so this is the place to perform such changeds. You should overwrite this
      * method, if your client has problems specifically with the {@link
      * ezcWebdavPropFindResponse} response.
@@ -1246,15 +1187,15 @@ class ezcWebdavTransport
      */
     protected function processPropFindResponse( ezcWebdavPropFindResponse $response )
     {
-        $dom = $this->xml->createDomDocument();
+        $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument();
 
         $responseElement = $dom->appendChild(
-            $this->xml->createDomElement( $dom, 'response' )
+            ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'response' )
         );
 
         $responseElement->appendChild(
-            $this->xml->createDomElement( $dom, 'href' )
-        )->nodeValue = $this->pathFactory->generateUriFromPath( $response->node->path );
+            ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'href' )
+        )->nodeValue = ezcWebdavServer::getInstance()->pathFactory->generateUriFromPath( $response->node->path );
 
         foreach ( $response->responses as $propStat )
         {
@@ -1370,7 +1311,7 @@ class ezcWebdavTransport
      * response body. If the $xml parameter is set to false, an empty display
      * information is generated, to indicate that only headers should be send. 
      *
-     * This method utilizes {@link $this->xml} to perform basic XML operations,
+     * This method utilizes {@link ezcWebdavServer::getInstance()->xmlTool} to perform basic XML operations,
      * so this is the place to perform such changeds. You should overwrite this
      * method, if your client has problems specifically with the {@link
      * ezcWebdavErrorResponse} response.
@@ -1384,23 +1325,23 @@ class ezcWebdavTransport
         $res = new ezcWebdavEmptyDisplayInformation( $response );
         if ( $xml === true )
         {
-            $dom = $this->xml->createDomDocument();
+            $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument();
             $responseElement = $dom->appendChild(
-                $this->xml->createDomElement( $dom, 'response' )
+                ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'response' )
             );
             
             $responseElement->appendChild(
-                $this->xml->createDomElement( $dom, 'href' )
-            )->nodeValue = $this->pathFactory->generateUriFromPath( $response->requestUri );
+                ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'href' )
+            )->nodeValue = ezcWebdavServer::getInstance()->pathFactory->generateUriFromPath( $response->requestUri );
             
             $responseElement->appendChild(
-                $this->xml->createDomElement( $dom, 'status' )
+                ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'status' )
             )->nodeValue = (string) $response;
 
             if ( !empty( $response->responseDescription ) )
             {
                 $responseElement->appendChild(
-                    $this->xml->createDomElement( $dom, 'responsedescription' )
+                    ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'responsedescription' )
                 )->nodeValue = $response->responseDescription;
             }
             $res = new ezcWebdavXmlDisplayInformation( $response, $dom );
@@ -1581,7 +1522,7 @@ class ezcWebdavTransport
      * processed $response and a {@link DOMDocument} representing the XML
      * response body.
      *
-     * This method utilizes {@link $this->xml} to perform basic XML operations,
+     * This method utilizes {@link ezcWebdavServer::getInstance()->xmlTool} to perform basic XML operations,
      * so this is the place to perform such changeds. You should overwrite this
      * method, if your client has problems specifically with the {@link
      * ezcWebdavErrorResponse} response.
@@ -1591,103 +1532,25 @@ class ezcWebdavTransport
      */
     protected function processPropStatResponse( ezcWebdavPropStatResponse $response )
     {
-        $dom = $this->xml->createDomDocument();
+        $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument();
 
         $propstatElement = $dom->appendChild(
-            $this->xml->createDomElement( $dom, 'propstat' )
+            ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'propstat' )
         );
         
-        $this->propertyHandler->serializeProperties(
+        ezcWebdavServer::getInstance()->propertyHandler->serializeProperties(
             $response->storage,
-            $propstatElement->appendChild( $this->xml->createDomElement( $dom, 'prop' ) )
+            $propstatElement->appendChild( ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'prop' ) )
         );
 
         $propstatElement->appendChild(
-            $this->xml->createDomElement(
+            ezcWebdavServer::getInstance()->xmlTool->createDomElement(
                 $dom,
                 'status'
             )
         )->nodeValue = (string) $response;
 
         return new ezcWebdavXmlDisplayInformation( $response, $dom );
-    }
-    
-    /*
-     *
-     * Interceptors for property access.
-     *
-     */
-
-    /**
-     * Property read access.
-     * 
-     * @param string $propertyName Name of the property.
-     * @return mixed Value of the property or null.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If the the desired property is not found.
-     * @ignore
-     */
-    public function __get( $propertyName )
-    {
-        if ( $this->__isset( $propertyName ) === false )
-        {
-            throw new ezcBasePropertyNotFoundException( $propertyName );
-        }
-            
-        return $this->properties[$propertyName];
-    }
-
-    /**
-     * Property write access.
-     * 
-     * @param string $propertyName Name of the property.
-     * @param mixed $propertyValue  The value for the property.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
-     * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
-     * @ignore
-     */
-    public function __set( $propertyName, $propertyValue )
-    {
-        switch ( $propertyName )
-        {
-            case 'pathFactory':
-                if ( ( $propertyValue instanceof ezcWebdavPathFactory ) === false )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavPathFactory' );
-                }
-                break;
-            case 'xml':
-                if ( ( $propertyValue instanceof ezcWebdavXmlTool ) === false )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavXmlTool' );
-                }
-                break;
-            case 'propertyHandler':
-                if ( ( $propertyValue instanceof ezcWebdavPropertyHandler ) === false )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavPropertyHandler' );
-                }
-                break;
-            default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
-        }
-        $this->properties[$propertyName] = $propertyValue;
-    }
-
-    /**
-     * Property isset access.
-     *
-     * @param string $propertyName Name of the property.
-     * @return bool True is the property is set, otherwise false.
-     * @ignore
-     */
-    public function __isset( $propertyName )
-    {
-        return array_key_exists( $propertyName, $this->properties );
     }
 }
 
