@@ -33,8 +33,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="400"
-     inkscape:cy="400"
+     inkscape:cx="314.84796"
+     inkscape:cy="340"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="800px"
@@ -142,14 +142,14 @@
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#eeeeec;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="248"
-       y="378"
+       x="252"
+       y="371"
        id="text3156"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3158"
-         x="248"
-         y="378">Transport Layer</tspan></text>
+         x="252"
+         y="371">Transport Layer</tspan></text>
     <rect
        y="450.297"
        x="60.296997"
@@ -165,37 +165,37 @@
        id="rect4133"
        style="opacity:1;fill:#729fcf;fill-opacity:1;stroke:#ffffff;stroke-width:0.59399998;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.4679666" />
     <rect
-       y="640.297"
+       y="640.29706"
        x="70.296997"
-       height="19.406"
+       height="49.405998"
        width="479.40601"
        id="rect4135"
        style="opacity:1;fill:#3465a4;fill-opacity:1;stroke:#ffffff;stroke-width:0.59399998;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.4679666" />
     <rect
        style="opacity:1;fill:#204a87;fill-opacity:1;stroke:#ffffff;stroke-width:0.59399998;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.4679666"
        id="rect4155"
-       width="234.40599"
+       width="224.40599"
        height="19.406"
-       x="70.296997"
+       x="80.296997"
        y="664.297" />
     <rect
        y="664.297"
        x="315.297"
        height="19.406"
-       width="234.40599"
+       width="224.40599"
        id="rect4157"
        style="opacity:1;fill:#204a87;fill-opacity:1;stroke:#ffffff;stroke-width:0.59399998;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.4679666" />
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#eeeeec;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="256"
-       y="743"
+       x="250"
+       y="741.5"
        id="text4159"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4161"
-         x="256"
-         y="743">Backend Layer</tspan></text>
+         x="250"
+         y="741.5">Backend Layer</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#eeeeec;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
@@ -232,13 +232,13 @@
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#eeeeec;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="270"
+       x="274"
        y="527"
        id="text4175"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4177"
-         x="270"
+         x="274"
          y="527">Server</tspan></text>
     <path
        sodipodi:type="arc"
@@ -511,5 +511,23 @@
          x="648"
          id="tspan4283"
          sodipodi:role="line">Plugins</tspan></text>
+    <rect
+       style="opacity:1;fill:#3465a4;fill-opacity:1;stroke:#ffffff;stroke-width:0.59399998;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.4679666"
+       id="rect2241"
+       width="479.40601"
+       height="19.406"
+       x="70.296997"
+       y="694.29706" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text2243"
+       y="710"
+       x="310.5"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#eeeeec;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="710"
+         x="310.5"
+         id="tspan2245"
+         sodipodi:role="line">Your Backend</tspan></text>
   </g>
 </svg>
