@@ -63,8 +63,8 @@ require_once 'response_options_test.php';
 require_once 'response_test.php';
 
 require_once 'server_test.php';
-require_once 'transport_configuration_test.php';
-require_once 'transport_dispatcher_test.php';
+require_once 'server_configuration_test.php';
+require_once 'server_configuration_manager_test.php';
 
 require_once 'plugin_configuration_test.php';
 require_once 'plugin_registry_test.php';

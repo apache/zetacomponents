@@ -137,6 +137,27 @@ class ezcWebdavServer
     }
 
     /**
+     * Initialize the server with the given objects.
+     * 
+     * This method is marked proteced, because it is intended to be used by by
+     * {@link ezcWebdavServerConfiguration} instances and instances of derived
+     * classes, but not directly.
+     *
+     * @param ezcWebdavPathFactory $pathFactory
+     * @param ezcWebdavXmlTool $xmlTool
+     * @param ezcWebdavPropertyHandler $propertyHandler
+     * @param ezcWebdavTransport $transport
+     * @return void
+     */
+    public function init( ezcWebdavPathFactory $pathFactory, ezcWebdavXmlTool $xmlTool, ezcWebdavPropertyHandler $propertyHandler, ezcWebdavTransport $transport )
+    {
+        $this->properties['pathFactory']     = $pathFactory;
+        $this->properties['xmlTool']         = $xmlTool;
+        $this->properties['propertyHandler'] = $propertyHandler;
+        $this->properties['transport']       = $transport;
+    }
+
+    /**
      * Reset the server to its initial state.
      *
      * Resets the internal server state as if a new instance has just been
@@ -200,26 +221,6 @@ class ezcWebdavServer
         $this->properties[$propertyName] = $propertyValue;
     }
 
-    /**
-     * Initialize the server with the given objects.
-     * 
-     * This method is marked proteced, because it is intended to be used by by
-     * {@link ezcWebdavServerConfiguration} instances and instances of derived
-     * classes, but not directly.
-     *
-     * @param ezcWebdavPathFactory $pathFactory
-     * @param ezcWebdavXmlTool $xmlTool
-     * @param ezcWebdavPropertyHandler $propertyHandler
-     * @param ezcWebdavTransport $transport
-     * @return void
-     */
-    public function init( ezcWebdavPathFactory $pathFactory, ezcWebdavXmlTool $xmlTool, ezcWebdavPropertyHandler $propertyHandler, ezcWebdavTransport $transport )
-    {
-        $this->properties['pathFactory']     = $pathFactory;
-        $this->properties['xmlTool']         = $xmlTool;
-        $this->properties['propertyHandler'] = $propertyHandler;
-        $this->properties['transport']       = $transport;
-    }
     /**
      * Property get access.
      * Simply returns a given property.
