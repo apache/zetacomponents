@@ -17,13 +17,17 @@
  * @property bool $addLinks
  *           Whether links should be generated or not.
  * @property bool $displayRootNode
- *           Whether the root node should be displayed.
+ *           Whether the root node should be displayed. The root node will
+ *           still be disabled from the links that the visitor create when
+ *           $selectedNodeLink is set to true.
  * @property string $xmlId
  *           The ID that should be set on the top level &lt;ul&gt; tag.
  * @property array(string) $highlightNodeIds
  *           Which IDs should have the 'highlight' CSS class added.
  * @property array(string) $subtreeHighlightNodeIds
  *           Which subtree IDs should have the 'highlight' CSS class added.
+ * @property bool $selectedNodeLink
+ *           If enabled, only the requested node is shown in links, and not the full path.
  *
  * @package Tree
  * @version //autogentag//
@@ -47,6 +51,7 @@ class ezcTreeVisitorXHTMLOptions extends ezcBaseOptions
         $this->xmlId = null;
         $this->highlightNodeIds = array();
         $this->subtreeHighlightNodeIds = array();
+        $this->selectedNodeLink = false;
 
         parent::__construct( $options );
     }
@@ -76,6 +81,7 @@ class ezcTreeVisitorXHTMLOptions extends ezcBaseOptions
 
             case 'addLinks':
             case 'displayRootNode':
+            case 'selectedNodeLink':
                 if ( !is_bool( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'bool' );

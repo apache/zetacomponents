@@ -168,7 +168,14 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
                 {
                     array_shift( $path );
                 }
-                $path = htmlspecialchars( $this->options->basePath . '/' . join( '/', $path ) );
+                if ( $this->options->selectedNodeLink )
+                {
+                    $path = htmlspecialchars( $this->options->basePath . '/' . join( '/', array_slice( $path, -1 ) ) );
+                }
+                else
+                {
+                    $path = htmlspecialchars( $this->options->basePath . '/' . join( '/', $path ) );
+                }
                 $text .= str_repeat( '  ', $level + 2 );
 
                 $data = $this->formatData( $child[1], in_array( $child[0], $this->options->highlightNodeIds ) );

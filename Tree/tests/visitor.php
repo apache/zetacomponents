@@ -389,6 +389,279 @@ END;
         self::assertSame( $expected, $visitor->__toString() );
     }
 
+    public function testVisitorXHTMLSelectedNodeLink1()
+    {
+        $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+        $this->addTestData( $tree );
+
+        $visitor = new ezcTreeVisitorXHTML();
+        $visitor->options->selectedNodeLink = true;
+
+        $tree->accept( $visitor );
+        $expected = <<<END
+  <ul>
+    <li><a href="/Hylobatidae">Hylobatidae</a>
+      <ul>
+        <li><a href="/Hylobates">Hylobates</a>
+          <ul>
+            <li><a href="/Lar Gibbon">Lar Gibbon</a></li>
+            <li><a href="/Agile Gibbon">Agile Gibbon</a></li>
+            <li><a href="/Müller's Bornean Gibbon">Müller's Bornean Gibbon</a></li>
+            <li><a href="/Silvery Gibbon">Silvery Gibbon</a></li>
+            <li><a href="/Pileated Gibbon">Pileated Gibbon</a></li>
+            <li><a href="/Kloss's Gibbon">Kloss's Gibbon</a></li>
+          </ul>
+        </li>
+        <li><a href="/Hoolock">Hoolock</a>
+          <ul>
+            <li><a href="/Western Hoolock Gibbon">Western Hoolock Gibbon</a></li>
+            <li><a href="/Eastern Hoolock Gibbon">Eastern Hoolock Gibbon</a></li>
+          </ul>
+        </li>
+        <li><a href="/Symphalangus">Symphalangus</a></li>
+        <li><a href="/Nomascus">Nomascus</a>
+          <ul>
+            <li><a href="/Black Crested Gibbon">Black Crested Gibbon</a></li>
+            <li><a href="/Eastern Black Crested Gibbon">Eastern Black Crested Gibbon</a></li>
+            <li><a href="/White-cheecked Crested Gibbon">White-cheecked Crested Gibbon</a></li>
+            <li><a href="/Yellow-cheecked Gibbon">Yellow-cheecked Gibbon</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="/Hominidae">Hominidae</a>
+      <ul>
+        <li><a href="/Pongo">Pongo</a>
+          <ul>
+            <li><a href="/Bornean Orangutan">Bornean Orangutan</a></li>
+            <li><a href="/Sumatran Orangutan">Sumatran Orangutan</a></li>
+          </ul>
+        </li>
+        <li><a href="/Gorilla">Gorilla</a>
+          <ul>
+            <li><a href="/Western Gorilla">Western Gorilla</a>
+              <ul>
+                <li><a href="/Western Lowland Gorilla">Western Lowland Gorilla</a></li>
+                <li><a href="/Cross River Gorilla">Cross River Gorilla</a></li>
+              </ul>
+            </li>
+            <li><a href="/Eastern Gorilla">Eastern Gorilla</a>
+              <ul>
+                <li><a href="/Mountain Gorilla">Mountain Gorilla</a></li>
+                <li><a href="/Eastern Lowland Gorilla">Eastern Lowland Gorilla</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="/Homo">Homo</a>
+          <ul>
+            <li><a href="/Homo Sapiens">Homo Sapiens</a>
+              <ul>
+                <li><a href="/Homo Sapiens Sapiens">Homo Sapiens Sapiens</a></li>
+                <li><a href="/Homo Superior">Homo Superior</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="/Pan">Pan</a>
+          <ul>
+            <li><a href="/Common Chimpanzee">Common Chimpanzee</a></li>
+            <li><a href="/Bonobo">Bonobo</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+END;
+        self::assertSame( $expected, $visitor->__toString() );
+    }
+
+    public function testVisitorXHTMLSelectedNodeLink2()
+    {
+        $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+        $this->addTestData( $tree );
+
+        $visitor = new ezcTreeVisitorXHTML();
+        $visitor->options->displayRootNode = true;
+        $visitor->options->selectedNodeLink = true;
+
+        $tree->accept( $visitor );
+        $expected = <<<END
+<ul>
+<li>Hominoidea</li>
+  <ul>
+    <li><a href="/Hylobatidae">Hylobatidae</a>
+      <ul>
+        <li><a href="/Hylobates">Hylobates</a>
+          <ul>
+            <li><a href="/Lar Gibbon">Lar Gibbon</a></li>
+            <li><a href="/Agile Gibbon">Agile Gibbon</a></li>
+            <li><a href="/Müller's Bornean Gibbon">Müller's Bornean Gibbon</a></li>
+            <li><a href="/Silvery Gibbon">Silvery Gibbon</a></li>
+            <li><a href="/Pileated Gibbon">Pileated Gibbon</a></li>
+            <li><a href="/Kloss's Gibbon">Kloss's Gibbon</a></li>
+          </ul>
+        </li>
+        <li><a href="/Hoolock">Hoolock</a>
+          <ul>
+            <li><a href="/Western Hoolock Gibbon">Western Hoolock Gibbon</a></li>
+            <li><a href="/Eastern Hoolock Gibbon">Eastern Hoolock Gibbon</a></li>
+          </ul>
+        </li>
+        <li><a href="/Symphalangus">Symphalangus</a></li>
+        <li><a href="/Nomascus">Nomascus</a>
+          <ul>
+            <li><a href="/Black Crested Gibbon">Black Crested Gibbon</a></li>
+            <li><a href="/Eastern Black Crested Gibbon">Eastern Black Crested Gibbon</a></li>
+            <li><a href="/White-cheecked Crested Gibbon">White-cheecked Crested Gibbon</a></li>
+            <li><a href="/Yellow-cheecked Gibbon">Yellow-cheecked Gibbon</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="/Hominidae">Hominidae</a>
+      <ul>
+        <li><a href="/Pongo">Pongo</a>
+          <ul>
+            <li><a href="/Bornean Orangutan">Bornean Orangutan</a></li>
+            <li><a href="/Sumatran Orangutan">Sumatran Orangutan</a></li>
+          </ul>
+        </li>
+        <li><a href="/Gorilla">Gorilla</a>
+          <ul>
+            <li><a href="/Western Gorilla">Western Gorilla</a>
+              <ul>
+                <li><a href="/Western Lowland Gorilla">Western Lowland Gorilla</a></li>
+                <li><a href="/Cross River Gorilla">Cross River Gorilla</a></li>
+              </ul>
+            </li>
+            <li><a href="/Eastern Gorilla">Eastern Gorilla</a>
+              <ul>
+                <li><a href="/Mountain Gorilla">Mountain Gorilla</a></li>
+                <li><a href="/Eastern Lowland Gorilla">Eastern Lowland Gorilla</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="/Homo">Homo</a>
+          <ul>
+            <li><a href="/Homo Sapiens">Homo Sapiens</a>
+              <ul>
+                <li><a href="/Homo Sapiens Sapiens">Homo Sapiens Sapiens</a></li>
+                <li><a href="/Homo Superior">Homo Superior</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="/Pan">Pan</a>
+          <ul>
+            <li><a href="/Common Chimpanzee">Common Chimpanzee</a></li>
+            <li><a href="/Bonobo">Bonobo</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</ul>
+
+END;
+        self::assertSame( $expected, $visitor->__toString() );
+    }
+
+    public function testVisitorXHTMLSelectedNodeLink3()
+    {
+        $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+        $this->addTestData( $tree );
+
+        $visitor = new ezcTreeVisitorXHTML();
+        $visitor->options->displayRootNode = true;
+        $visitor->options->selectedNodeLink = true;
+        $visitor->options->basePath = 'testing';
+
+        $tree->accept( $visitor );
+        $expected = <<<END
+<ul>
+<li>Hominoidea</li>
+  <ul>
+    <li><a href="testing/Hylobatidae">Hylobatidae</a>
+      <ul>
+        <li><a href="testing/Hylobates">Hylobates</a>
+          <ul>
+            <li><a href="testing/Lar Gibbon">Lar Gibbon</a></li>
+            <li><a href="testing/Agile Gibbon">Agile Gibbon</a></li>
+            <li><a href="testing/Müller's Bornean Gibbon">Müller's Bornean Gibbon</a></li>
+            <li><a href="testing/Silvery Gibbon">Silvery Gibbon</a></li>
+            <li><a href="testing/Pileated Gibbon">Pileated Gibbon</a></li>
+            <li><a href="testing/Kloss's Gibbon">Kloss's Gibbon</a></li>
+          </ul>
+        </li>
+        <li><a href="testing/Hoolock">Hoolock</a>
+          <ul>
+            <li><a href="testing/Western Hoolock Gibbon">Western Hoolock Gibbon</a></li>
+            <li><a href="testing/Eastern Hoolock Gibbon">Eastern Hoolock Gibbon</a></li>
+          </ul>
+        </li>
+        <li><a href="testing/Symphalangus">Symphalangus</a></li>
+        <li><a href="testing/Nomascus">Nomascus</a>
+          <ul>
+            <li><a href="testing/Black Crested Gibbon">Black Crested Gibbon</a></li>
+            <li><a href="testing/Eastern Black Crested Gibbon">Eastern Black Crested Gibbon</a></li>
+            <li><a href="testing/White-cheecked Crested Gibbon">White-cheecked Crested Gibbon</a></li>
+            <li><a href="testing/Yellow-cheecked Gibbon">Yellow-cheecked Gibbon</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="testing/Hominidae">Hominidae</a>
+      <ul>
+        <li><a href="testing/Pongo">Pongo</a>
+          <ul>
+            <li><a href="testing/Bornean Orangutan">Bornean Orangutan</a></li>
+            <li><a href="testing/Sumatran Orangutan">Sumatran Orangutan</a></li>
+          </ul>
+        </li>
+        <li><a href="testing/Gorilla">Gorilla</a>
+          <ul>
+            <li><a href="testing/Western Gorilla">Western Gorilla</a>
+              <ul>
+                <li><a href="testing/Western Lowland Gorilla">Western Lowland Gorilla</a></li>
+                <li><a href="testing/Cross River Gorilla">Cross River Gorilla</a></li>
+              </ul>
+            </li>
+            <li><a href="testing/Eastern Gorilla">Eastern Gorilla</a>
+              <ul>
+                <li><a href="testing/Mountain Gorilla">Mountain Gorilla</a></li>
+                <li><a href="testing/Eastern Lowland Gorilla">Eastern Lowland Gorilla</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="testing/Homo">Homo</a>
+          <ul>
+            <li><a href="testing/Homo Sapiens">Homo Sapiens</a>
+              <ul>
+                <li><a href="testing/Homo Sapiens Sapiens">Homo Sapiens Sapiens</a></li>
+                <li><a href="testing/Homo Superior">Homo Superior</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="testing/Pan">Pan</a>
+          <ul>
+            <li><a href="testing/Common Chimpanzee">Common Chimpanzee</a></li>
+            <li><a href="testing/Bonobo">Bonobo</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</ul>
+
+END;
+        self::assertSame( $expected, $visitor->__toString() );
+    }
+
     public function testVisitorXHTMLXmlId()
     {
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
