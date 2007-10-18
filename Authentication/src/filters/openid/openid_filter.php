@@ -481,7 +481,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                     'openid.mode' => 'id_res'
                 );
 
-        		$signed = explode( ',', $signed );
+                $signed = explode( ',', $signed );
                 for ( $i = 0; $i < count( $signed ); $i++ )
                 {
                     $s = str_replace( 'sreg.', 'sreg_', $signed[$i] );
@@ -616,11 +616,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         $headers = array( "GET {$path} HTTP/1.0", "HOST: {$host}", "Accept: application/xrds+xml", "Connection: Close" );
         fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
 
-        $src = '';
-        while ( !feof( $connection ) )
-        {
-            $src .= fgets( $connection, 1024 );
-        }
+        $src = stream_get_contents( $connection );
         fclose( $connection );
 
         $result = array();
@@ -682,11 +678,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         $headers = array( "GET {$path} HTTP/1.0", "HOST: {$host}", "Connection: Close" );
         fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
 
-        $src = '';
-        while ( !feof( $connection ) )
-        {
-            $src .= fgets( $connection, 1024 );
-        }
+        $src = stream_get_contents( $connection );
         fclose( $connection );
 
         $result = array();
@@ -766,7 +758,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      * @param string $method The method to connect to the provider (default GET)
      * @return bool
      */
-	protected function checkImmediate( $provider, array $params, $method = 'GET' )
+    protected function checkImmediate( $provider, array $params, $method = 'GET' )
     {
         $parts = parse_url( $provider );
         $path = isset( $parts['path'] ) ? $parts['path'] : '/';
@@ -777,7 +769,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         if ( !$connection )
         {
             throw new ezcAuthenticationOpenidException( "Could not connect to host {$host}:{$port}: {$errstr}." );
-		}
+        }
         else
         {
             stream_set_timeout( $connection, $this->options->timeout );
@@ -785,11 +777,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
             $headers = array( "{$method} {$url} HTTP/1.0", "Host: {$host}", "Connection: close" );
             fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
 
-            $src = '';
-            while ( !feof( $connection ) )
-            {
-                $src .= fgets( $connection, 1024 );
-            }
+            $src = stream_get_contents( $connection );
             fclose( $connection );
 
             $pattern = "/Location:\s(.*)/";
@@ -855,7 +843,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      * @param string $method The method to connect to the provider (default GET)
      * @return bool
      */
-	protected function checkSignature( $provider, array $params, $method = 'GET' )
+    protected function checkSignature( $provider, array $params, $method = 'GET' )
     {
         $parts = parse_url( $provider );
         $path = isset( $parts['path'] ) ? $parts['path'] : '/';
@@ -866,7 +854,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         if ( !$connection )
         {
             throw new ezcAuthenticationOpenidException( "Could not connect to host {$host}:{$port}: {$errstr}." );
-		}
+        }
         else
         {
             stream_set_timeout( $connection, $this->options->timeout );
@@ -874,11 +862,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
             $headers = array( "{$method} {$url} HTTP/1.0", "Host: {$host}", "Connection: close" );
             fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
 
-            $src = '';
-            while ( !feof( $connection ) )
-            {
-                $src .= fgets( $connection, 1024 );
-            }
+            $src = stream_get_contents( $connection );
             fclose( $connection );
 
             $r = array();
@@ -921,7 +905,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      * @param array(string=>string) $params OpenID parameters for id_res mode
      * @return bool
      */
-	protected function checkSignatureSmart( ezcAuthenticationOpenidAssociation $association, array $params )
+    protected function checkSignatureSmart( ezcAuthenticationOpenidAssociation $association, array $params )
     {
         $sig = $params['openid.sig'];
         $signed = explode( ',', $params['openid.signed'] );
@@ -984,7 +968,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         if ( !$connection )
         {
             throw new ezcAuthenticationOpenidException( "Could not connect to host {$host}:{$port}: {$errstr}." );
-		}
+        }
         else
         {
             stream_set_timeout( $connection, $this->options->timeout );
@@ -993,11 +977,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
             $headers = array( "{$method} {$url} HTTP/1.0", "Host: {$host}", "Connection: close" );
             fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
 
-            $src = '';
-            while ( !feof( $connection ) )
-            {
-                $src .= fgets( $connection, 1024 );
-            }
+            $src = stream_get_contents( $connection );
             fclose( $connection );
 
             $r = array();
@@ -1079,7 +1059,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      * array( 'fullname', 'gender', 'country', 'language' );
      * </code>
      *
-     * @param array(string) A list of attributes to fetch during authentication
+     * @param array(string) $data A list of attributes to fetch during authentication
      */
     public function registerFetchData( array $data = array() )
     {
@@ -1098,13 +1078,18 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      *      );
      * </code>
      *
-     * @param array(string=>mixed)
+     * @return array(string=>mixed)
      */
     public function fetchData()
     {
         return $this->data;
     }
 
+    /**
+     * Returns the setup URL.
+     *
+     * @return string
+     */
     public function getSetupUrl()
     {
         return $this->setupUrl;

@@ -167,6 +167,7 @@ request).
 
 The application can be structured like this: ::
 
+    <?php
     $session = new ezcAuthenticationSession();
     $session->start();
 
@@ -207,6 +208,7 @@ The application can be structured like this: ::
         // inform the user that the authentication failed (with the error
         // message that was created earlier)
     }
+    ?>
 
 In this way, the creation and initialization of the authentication filters is
 not performed if the credentials are stored in the session.

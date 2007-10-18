@@ -131,6 +131,8 @@ class ezcAuthenticationUrl
      * array( 'foo' => array( 'bar' ), 'openid.nonce' => '123456' );
      * </code>
      *
+     * The same function is defined in {@link ezcUrlTools} in the Url component.
+     *
      * @param array(string=>mixed) $str The string to parse
      * @return array(string=>mixed)
      */

@@ -60,7 +60,7 @@
  * @property array(string=>mixed) $requestSource
  *           From where to get the parameters returned by the OpenID provider.
  *           Default is $_GET.
- * @property bool immediate
+ * @property bool $immediate
  *           Enables OpenID checkid_immediate instead of checkid_setup. See the
  *           ezcAuthenticationOpenidFilter class documentation for more details.
  *           It is false by default (use checkid_setup by default).

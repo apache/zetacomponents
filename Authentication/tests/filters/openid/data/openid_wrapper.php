@@ -130,7 +130,7 @@ class ezcAuthenticationOpenidWrapper extends ezcAuthenticationOpenidFilter
      * @param string $method The method to connect to the provider (default GET)
      * @return bool
      */
-	public function checkImmediate( $provider, array $params, $method = 'GET' )
+    public function checkImmediate( $provider, array $params, $method = 'GET' )
     {
         return parent::checkImmediate( $provider, $params, $method );
     }
@@ -158,7 +158,7 @@ class ezcAuthenticationOpenidWrapper extends ezcAuthenticationOpenidFilter
      * @param string $method The method to connect to the provider (default GET)
      * @return bool
      */
-	public function checkSignature( $provider, array $params, $method = 'GET' )
+    public function checkSignature( $provider, array $params, $method = 'GET' )
     {
         return parent::checkSignature( $provider, $params, $method );
     }
@@ -182,7 +182,7 @@ class ezcAuthenticationOpenidWrapper extends ezcAuthenticationOpenidFilter
      * @param array(string=>string) $params OpenID parameters for check_authentication mode
      * @return bool
      */
-	public function checkSignatureSmart( ezcAuthenticationOpenidAssociation $association, array $params )
+    public function checkSignatureSmart( ezcAuthenticationOpenidAssociation $association, array $params )
     {
         return parent::checkSignatureSmart( $association, $params );
     }

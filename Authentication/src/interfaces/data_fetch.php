@@ -33,7 +33,7 @@ interface ezcAuthenticationDataFetch
      * filter. Please read the description of each filter to find out what extra
      * data is possible to fetch.
      *
-     * @param array(string) A list of attributes to fetch during authentication
+     * @param array(string) $data A list of attributes to fetch during authentication
      */
     public function registerFetchData( array $data = array() );
 
@@ -52,7 +52,7 @@ interface ezcAuthenticationDataFetch
      * filter. Please read the description of each filter to find out what extra
      * data is possible to fetch.
      *
-     * @param array(string=>mixed)
+     * @return array(string=>mixed)
      */
     public function fetchData();
 }

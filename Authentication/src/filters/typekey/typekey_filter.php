@@ -454,6 +454,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter implements 
      */
     public function registerFetchData( array $data = array() )
     {
+        // does not need to do anything because all the extra data is returned by default
     }
 
     /**

@@ -280,7 +280,6 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
                     $entries = ldap_get_entries( $connection, $search );
                     $entry = $entries[0];
 
-
                     foreach ( $this->requestedData as $attribute )
                     {
                         for ( $i = 0; $i < $entry[$attribute]['count']; $i++ )
@@ -352,7 +351,7 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
      * array( 'name', 'company', 'mobile' );
      * </code>
      *
-     * @param array(string) A list of attributes to fetch during authentication
+     * @param array(string) $data A list of attributes to fetch during authentication
      */
     public function registerFetchData( array $data = array() )
     {
@@ -370,7 +369,7 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
      *      );
      * </code>
      *
-     * @param array(string=>mixed)
+     * @return array(string=>mixed)
      */
     public function fetchData()
     {
