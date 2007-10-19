@@ -101,6 +101,7 @@ class ezcWebdavServerConfiguration
         $transportClass                   = 'ezcWebdavTransport',
         $xmlToolClass                     = 'ezcWebdavXmlTool',
         $propertyHandlerClass             = 'ezcWebdavPropertyHandler',
+        $headerHandlerClass               = 'ezcWebdavHeaderHandler',
         ezcWebdavPathFactory $pathFactory = null
     )
     {
@@ -108,12 +109,14 @@ class ezcWebdavServerConfiguration
         $this->properties['transportClass']       = null;
         $this->properties['xmlToolClass']         = null;
         $this->properties['propertyHandlerClass'] = null;
+        $this->properties['headerHandlerClass']   = null;
         $this->properties['pathFactory']          = null;
 
         $this->userAgentRegex       = $userAgentRegex;
         $this->transportClass       = $transportClass;
         $this->xmlToolClass         = $xmlToolClass;
         $this->propertyHandlerClass = $propertyHandlerClass;
+        $this->headerHandlerClass   = $headerHandlerClass;
         $this->pathFactory          = ( $pathFactory === null ? new ezcWebdavAutomaticPathFactory() : $pathFactory );
     }
 
@@ -134,11 +137,12 @@ class ezcWebdavServerConfiguration
         $this->checkClasses();
 
         $xmlTool         = new $this->xmlToolClass();
-        $propertyHandler = new $this->propertyHandlerClass( $xmlTool );
+        $propertyHandler = new $this->propertyHandlerClass();
+        $headerHandler   = new $this->headerHandlerClass();
+        $transport       = new $this->transportClass();
         $pathFactory     = $this->pathFactory;
-        $transport       = new $this->transportClass( $xmlTool, $propertyHandler, $pathFactory );
 
-        $server->init( $pathFactory, $xmlTool, $propertyHandler, $transport );
+        $server->init( $pathFactory, $xmlTool, $propertyHandler, $headerHandler, $transport );
     }
 
     /**
@@ -176,6 +180,9 @@ class ezcWebdavServerConfiguration
 
             case ( $this->propertyHandlerClass !== 'ezcWebdavPropertyHandler' && !is_subclass_of( $this->propertyHandlerClass, 'ezcWebdavPropertyHandler' ) ):
                 throw new ezcBaseValueException( 'propertyHandlerClass', $this->propertyHandlerClass, 'ezcWebdavPropertyHandler or derived' );
+
+            case ( $this->headerHandlerClass !== 'ezcWebdavHeaderHandler' && !is_subclass_of( $this->headerHandlerClass, 'ezcWebdavHeaderHandler' ) ):
+                throw new ezcBaseValueException( 'headerHandlerClass', $this->headerHandlerClass, 'ezcWebdavHeaderHandler or derived' );
         }
     }
 
@@ -198,6 +205,7 @@ class ezcWebdavServerConfiguration
             case 'transportClass':
             case 'xmlToolClass':
             case 'propertyHandlerClass':
+            case 'headerHandlerClass':
                 if ( !is_string( $propertyValue ) || strlen( $propertyValue ) < 1 )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string, length > 0' );

@@ -71,7 +71,10 @@ class ezcWebdavErrorResponse extends ezcWebdavResponse
                 $this->properties[$propertyName] = $propertyValue;
                 break;
             case 'responseDescription':
-               $this->setHeader( 'Warning', 'eZComponents ' . $this->responseDescription );
+               if ( $this->responseDescription !== null )
+               {
+                    $this->setHeader( 'Warning', 'eZComponents error "' . $this->responseDescription . '"' );
+               }
                parent::__set( $propertyName, $propertyValue );
                break;
             default:

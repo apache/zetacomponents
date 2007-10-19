@@ -12,4 +12,8 @@ class fooCustomPropertyHandler extends ezcWebdavPropertyHandler
 {
 }
 
+class fooCustomHeaderHandler extends ezcWebdavHeaderHandler
+{
+}
+
 ?>

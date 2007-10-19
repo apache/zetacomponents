@@ -149,11 +149,18 @@ class ezcWebdavServer
      * @param ezcWebdavTransport $transport
      * @return void
      */
-    public function init( ezcWebdavPathFactory $pathFactory, ezcWebdavXmlTool $xmlTool, ezcWebdavPropertyHandler $propertyHandler, ezcWebdavTransport $transport )
+    public function init(
+        ezcWebdavPathFactory $pathFactory,
+        ezcWebdavXmlTool $xmlTool,
+        ezcWebdavPropertyHandler $propertyHandler,
+        ezcWebdavHeaderHandler $headerHandler,
+        ezcWebdavTransport $transport
+    )
     {
         $this->properties['pathFactory']     = $pathFactory;
         $this->properties['xmlTool']         = $xmlTool;
         $this->properties['propertyHandler'] = $propertyHandler;
+        $this->properties['headerHandler']   = $headerHandler;
         $this->properties['transport']       = $transport;
     }
 
@@ -175,6 +182,7 @@ class ezcWebdavServer
         $this->properties['pathFactory']     = null;
         $this->properties['xmlTool']         = null;
         $this->properties['propertyHandler'] = null;
+        $this->properties['headerHandler']   = null;
     }
 
     /**
@@ -212,6 +220,7 @@ class ezcWebdavServer
             case 'pathFactory':
             case 'xmlTool':
             case 'propertyHandler':
+            case 'headerHandler':
             case 'transport':
                 throw new ezcBasePropertyPermissionException( $propertyName, ezcBasePropertyPermissionException::READ );
 

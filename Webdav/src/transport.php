@@ -88,22 +88,6 @@ class ezcWebdavTransport
     const VERSION = '//autogentag//';
 
     /**
-     * Map of regular header names to $_SERVER keys.
-     *
-     * @var array(string=>string)
-     */
-    static protected $headerMap = array(
-        'Content-Length' => 'HTTP_CONTENT_LENGTH',
-        'Content-Type'   => 'CONTENT_TYPE',
-        'Depth'          => 'HTTP_DEPTH',
-        'Destination'    => 'HTTP_DESTINATION',
-        'Lock-Token'     => 'HTTP_LOCK_TOKEN',
-        'Overwrite'      => 'HTTP_OVERWRITE',
-        'Timeout'        => 'HTTP_TIMEOUT',
-        'Server'         => 'SERVER_SOFTWARE',
-    );
-
-    /**
      * Map of HTTP methods to object method names for parsing.
      *
      * Need public access here to retrieve this in {@link
@@ -252,11 +236,11 @@ class ezcWebdavTransport
     {
         // Set the Server header with information about eZ Components version
         // and transport implementation.
-        $serverSoftwareHeaders = $this->parseHeaders( array( 'Server' ) );
+        $headers = ezcWebdavServer::getInstance()->headerHandler->parseHeaders( array( 'Server' ) );
 
         $response->setHeader(
             'Server',
-            ( count( $serverSoftwareHeaders ) > 0 ? $serverSoftwareHeaders['Server'] . '/' : '' )
+            ( isset( $headers['Server'] ) && strlen( $headers['Server'] ) > 0 ? $headers['Server'] . '/' : '' )
                 . 'eZComponents/'
                 . ( self::VERSION === '//autogentag//' ? 'dev' : self::VERSION )
                 . '/'
@@ -492,7 +476,7 @@ class ezcWebdavTransport
             }
             if ( isset( $_SERVER[self::$headerMap[$headerName]] ) )
             {
-                $resultHeaders[$headerName] = $this->parseHeader( $headerName, $_SERVER[self::$headerMap[$headerName]] );
+                $resultHeaders[$headerName] = ezcWebdavServer::getInstance()->headerHandler->parseHeader( $headerName );
             }
         }
         return $resultHeaders;
@@ -586,7 +570,7 @@ class ezcWebdavTransport
     {
         $req = new ezcWebdavPutRequest( $path, $body );
         $req->setHeaders(
-            $this->parseHeaders(
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders(
                 array(
                     'Content-Length', 'Content-Type'
                 )
@@ -638,7 +622,7 @@ class ezcWebdavTransport
      */
     protected function parseCopyRequest( $path, $body )
     {
-        $headers = $this->parseHeaders(
+        $headers = ezcWebdavServer::getInstance()->headerHandler->parseHeaders(
             array( 'Destination', 'Depth', 'Overwrite' )
         );
 
@@ -689,7 +673,7 @@ class ezcWebdavTransport
      */
     protected function parseMoveRequest( $path, $body )
     {
-        $headers = $this->parseHeaders(
+        $headers = ezcWebdavServer::getInstance()->headerHandler->parseHeaders(
             array( 'Destination', 'Depth', 'Overwrite' )
         );
 
@@ -819,7 +803,7 @@ class ezcWebdavTransport
         $request = new ezcWebdavLockRequest( $path );
 
         $request->setHeaders(
-            $this->parseHeaders(
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders(
                 array( 'Depth', 'Timeout' )
             )
         );
@@ -903,7 +887,7 @@ class ezcWebdavTransport
         $request = new ezcWebdavUnlockRequest( $path );
 
         $request->setHeaders(
-            $this->parseHeaders(
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders(
                 array( 'Lock-Token' )
             )
         );
@@ -974,7 +958,7 @@ class ezcWebdavTransport
         $request = new ezcWebdavPropFindRequest( $path );
 
         $request->setHeaders(
-            $this->parseHeaders(
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders(
                 array( 'Depth' )
             )
         );

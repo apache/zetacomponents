@@ -20,7 +20,7 @@ class ezcWebdavPropertyHandler
      * 
      * @var ezcWebdavXmlTool
      */
-    protected $xml;
+    protected $xmlTool;
 
     /**
      * Regedx to parse the <getcontenttype /> XML elemens content.
@@ -41,7 +41,19 @@ class ezcWebdavPropertyHandler
      */
     public function __construct( ezcWebdavXmlTool $xml = null )
     {
-        $this->xml = ( $xml === null ? ezcWebdavServer::getInstance()->xmlTool : $xml );
+        if ( $xml !== null )
+        {
+            $this->xmlTool = $xml;
+        }
+    }
+
+    protected function getXmlTool()
+    {
+        if ( $this->xmlTool === null )
+        {
+            return ezcWebdavServer::getInstance()->xmlTool;
+        }
+        return $this->xmlTool;
     }
 
     /**
@@ -402,10 +414,10 @@ class ezcWebdavPropertyHandler
      */
     protected function serializeDeadProperty( ezcWebdavDeadProperty $property, DOMElement $parentElement )
     {
-        if ( $property->content === null || ( $contentDom = $this->xml->createDomDocument( $property->content ) ) === false )
+        if ( $property->content === null || ( $contentDom = $this->getXmlTool()->createDomDocument( $property->content ) ) === false )
         {
             return $parentElement->appendChild(
-                $this->xml->createDomElement(
+                $this->getXmlTool()->createDomElement(
                     $parentElement->ownerDocument,
                     $property->name,
                     $property->namespace
@@ -466,7 +478,7 @@ class ezcWebdavPropertyHandler
                 break;
             case 'ezcWebdavResourceTypeProperty':
                 $elementName  = 'resourcetype';
-                $elementValue = ( $property->type === ezcWebdavResourceTypeProperty::TYPE_COLLECTION ? array( $this->xml->createDomElement( $parentElement->ownerDocument, 'collection' ) ) : null );
+                $elementValue = ( $property->type === ezcWebdavResourceTypeProperty::TYPE_COLLECTION ? array( $this->getXmlTool()->createDomElement( $parentElement->ownerDocument, 'collection' ) ) : null );
                 break;
             case 'ezcWebdavSourceProperty':
                 $elementName  = 'source';
@@ -479,7 +491,7 @@ class ezcWebdavPropertyHandler
         }
 
         $propertyElement = $parentElement->appendChild( 
-            $this->xml->createDomElement( $parentElement->ownerDocument, $elementName, $property->namespace )
+            $this->getXmlTool()->createDomElement( $parentElement->ownerDocument, $elementName, $property->namespace )
         );
 
         if ( $elementValue instanceof DOMDocument )
@@ -515,22 +527,22 @@ class ezcWebdavPropertyHandler
         $activeLockElements = array();
         foreach ( $activeLocks as $activeLock )
         {
-            $activeLockElement = $this->xml->createDomElement( $dom, 'activelock' );
+            $activeLockElement = $this->getXmlTool()->createDomElement( $dom, 'activelock' );
             
             $activeLockElement->appendChild(
-                $this->xml->createDomElement( $dom, 'locktype' )
+                $this->getXmlTool()->createDomElement( $dom, 'locktype' )
             )->appendChild(
-                $this->xml->createDomElement( $dom, ( $activeLock->lockType === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' ) )
+                $this->getXmlTool()->createDomElement( $dom, ( $activeLock->lockType === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' ) )
             );
             
             $activeLockElement->appendChild(
-                $this->xml->createDomElement( $dom, 'lockscope' )
+                $this->getXmlTool()->createDomElement( $dom, 'lockscope' )
             )->appendChild(
-                $this->xml->createDomElement( $dom, ( $activeLock->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' ) )
+                $this->getXmlTool()->createDomElement( $dom, ( $activeLock->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' ) )
             );
             
             $depthElement = $activeLockElement->appendChild(
-                $this->xml->createDomElement( $dom, 'depth' )
+                $this->getXmlTool()->createDomElement( $dom, 'depth' )
             );
             
             switch ( $activeLock->depth )
@@ -549,20 +561,20 @@ class ezcWebdavPropertyHandler
             if ( $activeLock->owner !== null )
             {
                 $activeLockElement->appendChild(
-                    $this->xml->createDomElement( $dom, 'owner' )
+                    $this->getXmlTool()->createDomElement( $dom, 'owner' )
                 )->nodeValue = $activeLock->owner;
             }
 
             $activeLockElement->appendChild(
-                $this->xml->createDomElement( $dom, 'timeout' )
+                $this->getXmlTool()->createDomElement( $dom, 'timeout' )
             )->$activeLock->timeout;
 
             foreach ( $activeLock->tokens as $token )
             {
                 $activeLockElement->appendChild(
-                    $this->xml->createDomElement( $dom, 'locktoken' )
+                    $this->getXmlTool()->createDomElement( $dom, 'locktoken' )
                 )->appendChild(
-                    $this->xml->createDomElement( $dom, 'href' )
+                    $this->getXmlTool()->createDomElement( $dom, 'href' )
                 )->nodeValue = $token;
             }
 
@@ -585,16 +597,16 @@ class ezcWebdavPropertyHandler
 
         foreach( $lockEntries as $lockEntry )
         {
-            $lockEntryElement = $this->xml->createDomElement( $dom, 'lockentry' );
+            $lockEntryElement = $this->getXmlTool()->createDomElement( $dom, 'lockentry' );
             $lockEntryElement->appendChild(
-                $this->xml->createDomElement( $dom, 'lockscope' )
+                $this->getXmlTool()->createDomElement( $dom, 'lockscope' )
             )->appendChild(
-                $this->xml->createDomElement( $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' ) )
+                $this->getXmlTool()->createDomElement( $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' ) )
             );
             $lockEntryElement->appendChild(
-                $this->xml->createDomElement( $dom, 'locktype' )
+                $this->getXmlTool()->createDomElement( $dom, 'locktype' )
             )->appendChild(
-                $this->xml->createDomElement( $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' ) )
+                $this->getXmlTool()->createDomElement( $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' ) )
             );
             $lockEntryContentElements[] = $lockEntryElement;
         }
@@ -615,12 +627,12 @@ class ezcWebdavPropertyHandler
 
         foreach( $links as $link )
         {
-            $linkElement = $this->xml->createDomElement( $dom, 'link' );
+            $linkElement = $this->getXmlTool()->createDomElement( $dom, 'link' );
             $linkElement->appendChild(
-                $this->xml->createDomElement( $dom, 'src' )
+                $this->getXmlTool()->createDomElement( $dom, 'src' )
             )->nodeValue = $link->src;
             $linkElement->appendChild(
-                $this->xml->createDomElement( $dom, 'dst' )
+                $this->getXmlTool()->createDomElement( $dom, 'dst' )
             )->nodeValue = $link->dst;
             $linkContentElements[] = $linkElement;
         }

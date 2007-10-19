@@ -52,6 +52,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
                 'pluginRegistry'  => new ezcWebdavPluginRegistry(),
                 'xmlTool'         => null,
                 'propertyHandler' => null,
+                'headerHandler'   => null,
                 'pathFactory'     => null,
             ),
             'properties',
@@ -70,6 +71,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
             'pluginRegistry'  => new ezcWebdavPluginRegistry(),
             'xmlTool'         => null,
             'propertyHandler' => null,
+            'headerHandler'   => null,
             'pathFactory'     => null,
         );
 
@@ -112,6 +114,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
             'pluginRegistry'  => new ezcWebdavPluginRegistry(),
             'xmlTool'         => null,
             'propertyHandler' => null,
+            'headerHandler'   => null,
             'pathFactory'     => null,
             'transport'       => null,
         );
