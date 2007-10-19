@@ -16,18 +16,18 @@
  * <?php
  * // lists all the files under /etc (including subdirectories) that end in 
  * // .conf
- * $confFiles = ezcFile::findRecursive( "/etc", array( '@\.conf$@' ) );
+ * $confFiles = ezcBaseFile::findRecursive( "/etc", array( '@\.conf$@' ) );
  *
  * // lists all autoload files in the components source tree and excludes the
  * // ones in the autoload subdirectory.
- * $files = ezcFile::findRecursive(
+ * $files = ezcBaseFile::findRecursive(
  *     "/dat/dev/ezcomponents",
  *     array( '@src/.*_autoload.php$@' ),
  *     array( '@/autoload/@' )
  * );
  *
  * // lists all binaries in /bin except the ones starting with a "g"
- * $data = ezcFile::findRecursive( "/bin", array(), array( '@^/bin/g@' ) );
+ * $data = ezcBaseFile::findRecursive( "/bin", array(), array( '@^/bin/g@' ) );
  * ?>
  * </code>
  *
@@ -75,14 +75,14 @@ class ezcBaseFile
                 continue;
             }
 
-            if ( is_dir( $sourceDir . '/' . $entry ) )
+            if ( is_dir( $sourceDir . DIRECTORY_SEPARATOR . $entry ) )
             {
                 // We need to ignore the Permission exceptions here as it can
                 // be normal that a directory can not be accessed. We only need
                 // the exception if the top directory could not be read.
                 try
                 {
-                    $subList = self::findRecursive( $sourceDir . '/' . $entry, $includeFilters, $excludeFilters );
+                    $subList = self::findRecursive( $sourceDir . DIRECTORY_SEPARATOR . $entry, $includeFilters, $excludeFilters );
                     $elements = array_merge( $elements, $subList );
                 }
                 catch ( ezcBaseFilePermissionException $e )
@@ -97,7 +97,7 @@ class ezcBaseFile
                 // being returned when atleast one of them does not match
                 foreach ( $includeFilters as $filter )
                 {
-                    if ( !preg_match( $filter, $sourceDir . '/' . $entry ) )
+                    if ( !preg_match( $filter, $sourceDir . DIRECTORY_SEPARATOR . $entry ) )
                     {
                         $ok = false;
                         break;
@@ -107,7 +107,7 @@ class ezcBaseFile
                 // being returns when atleast one of them matches
                 foreach ( $excludeFilters as $filter )
                 {
-                    if ( preg_match( $filter, $sourceDir . '/' . $entry ) )
+                    if ( preg_match( $filter, $sourceDir . DIRECTORY_SEPARATOR . $entry ) )
                     {
                         $ok = false;
                         break;
@@ -116,7 +116,7 @@ class ezcBaseFile
 
                 if ( $ok )
                 {
-                    $elements[] = $sourceDir . '/' . $entry;
+                    $elements[] = $sourceDir . DIRECTORY_SEPARATOR . $entry;
                 }
             }
         }
@@ -152,15 +152,15 @@ class ezcBaseFile
                 continue;
             }
 
-            if ( is_dir( $sourceDir . '/' . $entry ) )
+            if ( is_dir( $sourceDir . DIRECTORY_SEPARATOR . $entry ) )
             {
-                self::removeRecursive( $sourceDir . '/' . $entry );
+                self::removeRecursive( $sourceDir . DIRECTORY_SEPARATOR . $entry );
             }
             else
             {
-                if ( @unlink( $sourceDir . '/' . $entry ) === false )
+                if ( @unlink( $sourceDir . DIRECTORY_SEPARATOR . $entry ) === false )
                 {
-                    throw new ezcBaseFilePermissionException( $directory . '/' . $entry, ezcBaseFileException::REMOVE );
+                    throw new ezcBaseFilePermissionException( $directory . DIRECTORY_SEPARATOR . $entry, ezcBaseFileException::REMOVE );
                 }
             }
         }

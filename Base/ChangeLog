@@ -3,6 +3,10 @@
 
 - Added the ezcBaseFile::copyRecursive() method, to recursively copy files or
   directories
+- Fixed issue #11540: Problems with ezcFile::findRecursive and
+  ezcFile::calculateRelativePath on systems where DIRECTORY_SEPERATOR is not
+  //.
+
 
 1.4alpha1 - Tuesday 18 September 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
