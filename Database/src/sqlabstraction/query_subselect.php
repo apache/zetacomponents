@@ -27,7 +27,7 @@
  * // SELECT * FROM Greetings WHERE age > 10 AND user IN ( ( SELECT lastname FROM users ) )
  * $q->select( '*' )->from( 'Greetings' );
  *     ->where( $q->expr->gt( 'age', 10 ),
- *              $q->expr->in( 'user', $q2->getQuery() ) );
+ *              $q->expr->in( 'user', $q2 ) );
  *
  * $stmt = $q->prepare(); // $stmt is a normal PDOStatement
  * $stmt->execute();
@@ -81,7 +81,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
      *
      * $q->select('*')
      *     ->from( 'table' )
-     *       ->where ( $q->expr->eq( 'id', $subSelect->getQuery() ) );
+     *       ->where ( $q->expr->eq( 'id', $subSelect ) );
      *
      * $stmt = $q->prepare(); // the parameter $value is bound to the query.
      * $value = 4;
@@ -121,7 +121,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
      *
      * $q->select('*')
      *     ->from( 'table1' )
-     *       ->where ( $q->expr->eq( 'name', $subSelect->getQuery() ) );
+     *       ->where ( $q->expr->eq( 'name', $subSelect ) );
      *
      * $stmt = $q->prepare(); // the $value is bound to the query.
      * $value = 4;
@@ -143,8 +143,9 @@ class ezcQuerySubSelect extends ezcQuerySelect
     /**
      * Return SQL string for subselect.
      *
-     * Typecasting shouild be done to make __toString() to be called.
-     * This will work in PHP 5.2, 6.0
+     * Typecasting to (string) should be used to make __toString() to be called
+     * with PHP 5.1.  This will not be needed in PHP 5.2 and higher when this
+     * object is used in a string context.
      *
      * Example:
      * <code>
@@ -173,7 +174,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * $subSelect->select( name )->from( 'table2' );
      * $q->select('*')
      *     ->from( 'table1' )
-     *       ->where ( $q->expr->eq( 'name', $subSelect->getQuery() ) );
+     *       ->where ( $q->expr->eq( 'name', $subSelect ) );
      * $stmt = $q->prepare();
      * $stmt->execute();
      * </code>
@@ -201,7 +202,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
     *
     * $q->select(*)
     *     ->from( 'table1' )
-    *       ->where ( $q->expr->eq( 'name', $subSelect->getQuery() ) );
+    *       ->where ( $q->expr->eq( 'name', $subSelect ) );
     *
     * $stmt = $q->prepare(); // the $value is bound to the query.
     * $value = 4;

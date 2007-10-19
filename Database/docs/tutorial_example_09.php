@@ -21,8 +21,8 @@ $q2->select( 'company' )
 //         WHERE company = :ezcValue1 AND id > 2
 //     ) )
 $q->select('*')
-        ->from( 'query_test' )
-            ->where( ' id >= 1 ', $q->expr->in( 'company', $q2->getQuery() ) );
+  ->from( 'query_test' )
+  ->where( ' id >= 1 ', $q->expr->in( 'company', $q2 ) ) );
 
 $stmt = $q->prepare();
 $stmt->execute();

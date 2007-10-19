@@ -1,6 +1,7 @@
 1.3.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #11609: Subselect query documentation is incorrect.
 - Fixed issue #11687: Mssql DSN with port does not work.
 - Fixed issue #11700: Subselects only work when there is a database instance
   set.
