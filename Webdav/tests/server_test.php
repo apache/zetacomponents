@@ -246,7 +246,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         // Silence headers already sent warnings - we just want to test for
         // exceptions here.
-        $webdav->handle( $backend );
+        @$webdav->handle( $backend );
 
         $body = ob_get_clean();
     }
