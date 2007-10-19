@@ -56,7 +56,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
 
         if ( $this->expr === null )
         {
-            $this->expr = ezcDbInstance::get()->createExpression();
+            $this->expr = $outer->db->createExpression();
         }
     }
 
