@@ -74,10 +74,10 @@ class ezcDbHandlerMssql extends ezcDbHandler
 
         if ( isset( $host ) && $host )
         {
-            $dsn.= ";host=$host";
+            $dsn .= ";host=$host";
             if ( isset( $port ) && $port )
             {
-                $dsn = ":$port";
+                $dsn .= ":$port";
             }
     
        }
