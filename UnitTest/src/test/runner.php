@@ -2,6 +2,8 @@
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'PHPUnit/Util/Filter.php';
 
+PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
+
 class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 {
     const SUITE_FILENAME = "tests/suite.php";

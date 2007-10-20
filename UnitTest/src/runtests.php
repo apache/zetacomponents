@@ -1,4 +1,8 @@
 <?php
+require_once 'PHPUnit/Util/Filter.php';
+
+PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
+
 // All errors must be reported
 $currentErrorLevel = error_reporting();
 if ( $currentErrorLevel != ( E_ALL | E_STRICT ) )
