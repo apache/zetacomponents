@@ -15,7 +15,7 @@
  * @package Cache
  * @subpackage Tests
  */
-class ezcCacheStorageFileOptionsTest extends ezcTestCase
+class ezcCacheStorageFileOptionsTest extends ezcCacheTest
 {
 	public static function suite()
 	{
