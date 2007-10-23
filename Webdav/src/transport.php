@@ -180,7 +180,9 @@ class ezcWebdavTransport
         {
             try
             {
+                // @TODO: Plugin hook beforeParse*Request
                 $request = call_user_func( array( $this, self::$parsingMap[$_SERVER['REQUEST_METHOD']] ), $path, $body );
+                // @TODO: Plugin hook afterParse*Request
                 $request->validateHeaders();
             }
             catch ( Exception $e )
@@ -204,6 +206,7 @@ class ezcWebdavTransport
 
             if ( !( $request instanceof ezcWebdavRequest ) && !( $request instanceof ezcWebdavResponse )  )
             {
+                // Error code 501: Not implemented
                 return new ezcWebdavErrorResponse(
                     ezcWebdavResponse::STATUS_501,
                     $uri
@@ -347,6 +350,7 @@ class ezcWebdavTransport
     {
         if ( isset( self::$handlingMap[( $responseClass = get_class( $response ) )] ) === false )
         {
+            // Plugin hook processUnkownResponse
             $result = ezcWebdavServer::getInstance()->plugins->announceHook(
                 __CLASS__,
                 'processUnkownResponse',
@@ -362,7 +366,9 @@ class ezcWebdavTransport
             }
         }
         
+        // @TODO Plugin hook beforeProcess*Response
         return call_user_func( array( $this, self::$handlingMap[( $responseClass = get_class( $response ) )] ), $response );
+        // @TODO Plugin hook afterProcess*Response
     }
 
     /**
@@ -447,86 +453,10 @@ class ezcWebdavTransport
         echo $output->body;
     }
 
-    /**
-     * Returns an array with the given headers.
-     *
-     * Checks for the availability of headers in $headerNamess, given as an
-     * array of header names, and parses them according to their format. 
-     *
-     * The returned array can be used with {@link ezcWebdavRequest->setHeaders()}.
-     * 
-     * @param array(string) $headerNames 
-     * @return array(string=>mixed)
-     *
-     * @todo This should be refactored completly and must be made usable for
-     *       plugins.
-     *
-     * @throws ezcWebdavUnknownHeaderException
-     *         if a header requested in $headerNames is not known in {@link
-     *         self::$headerNames}.
-     */
-    protected function parseHeaders( array $headerNames )
-    {
-        $resultHeaders = array();
-        foreach ( $headerNames as $headerName )
-        {
-            if ( isset( self::$headerMap[$headerName] ) === false )
-            {
-                throw new ezcWebdavUnknownHeaderException( $headerName );
-            }
-            if ( isset( $_SERVER[self::$headerMap[$headerName]] ) )
-            {
-                $resultHeaders[$headerName] = ezcWebdavServer::getInstance()->headerHandler->parseHeader( $headerName );
-            }
-        }
-        return $resultHeaders;
-    }
-
-    /**
-     * Prases a single header.
-     *
-     * Takes the $headerName and $value of a header and parses the value accordingly,
-     * if necessary. Returns the parsed or unmanipuled result.
-     * 
-     * @param string $headerName 
-     * @param string $value 
-     * @return mixed
-     *
-     * @todo This should be refactored completly and must be made usable for
-     *       plugins.
-     */
-    protected function parseHeader( $headerName, $value )
-    {
-        switch ( $headerName )
-        {
-            case 'Depth':
-                switch ( trim( $value ) )
-                {
-                    case '0':
-                        $value = ezcWebdavRequest::DEPTH_ZERO;
-                        break;
-                    case '1':
-                        $value = ezcWebdavRequest::DEPTH_ONE;
-                        break;
-                    case 'infinity':
-                        $value = ezcWebdavRequest::DEPTH_INFINITY;
-                        break;
-                    // No default. Header stays as is, if not matched
-                }
-                break;
-            case 'Destination':
-                $value = ezcWebdavServer::getInstance()->pathFactory->parseUriToPath( $value );
-                break;
-            default:
-                // @TODO Add extensiability hook
-        }
-        return $value;
-    }
-
     /*
-     *
+     ***************************
      * Request handling follows.
-     *
+     ***************************
      */
 
     // GET
@@ -1099,9 +1029,9 @@ class ezcWebdavTransport
     }
 
     /*
-     *
+     ****************************
      * Response handling follows.
-     *
+     ****************************
      */
 
     // ezcWebdavMultiStatusResponse
