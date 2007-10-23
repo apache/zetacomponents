@@ -1202,9 +1202,6 @@ class ezcGraphRenderer3d
         switch ( $symbol )
         {
             case ezcGraph::NO_SYMBOL:
-            case ezcGraph::DIAMOND:
-            case ezcGraph::BULLET:
-            case ezcGraph::CIRCLE:
                 $this->drawRectangularBar(
                     $context,
                     $color,
@@ -1215,6 +1212,34 @@ class ezcGraphRenderer3d
                     $startDepth,
                     $midDepth,
                     $endDepth
+                );
+                break;
+            case ezcGraph::DIAMOND:
+                $this->drawDiamondBar(
+                    $context,
+                    $color,
+                    $position,
+                    $barWidth,
+                    $offset,
+                    $axisPosition,
+                    $startDepth,
+                    $midDepth,
+                    $endDepth
+                );
+                break;
+            case ezcGraph::BULLET:
+            case ezcGraph::CIRCLE:
+                $this->drawCircularBar(
+                    $context,
+                    $color,
+                    $position,
+                    $barWidth,
+                    $offset,
+                    $axisPosition,
+                    $startDepth,
+                    $midDepth,
+                    $endDepth,
+                    $symbol
                 );
                 break;
         }
@@ -1264,6 +1289,9 @@ class ezcGraphRenderer3d
         switch ( $symbol )
         {
             case ezcGraph::NO_SYMBOL:
+            case ezcGraph::DIAMOND:
+            case ezcGraph::BULLET:
+            case ezcGraph::CIRCLE:
                 $this->drawRectangularBar(
                     $context,
                     $color,
@@ -1274,34 +1302,6 @@ class ezcGraphRenderer3d
                     $startDepth,
                     $midDepth,
                     $endDepth
-                );
-                break;
-            case ezcGraph::DIAMOND:
-                $this->drawDiamondBar(
-                    $context,
-                    $color,
-                    $position,
-                    $barWidth,
-                    $offset,
-                    $start->y,
-                    $startDepth,
-                    $midDepth,
-                    $endDepth
-                );
-                break;
-            case ezcGraph::BULLET:
-            case ezcGraph::CIRCLE:
-                $this->drawCircularBar(
-                    $context,
-                    $color,
-                    $position,
-                    $barWidth,
-                    $offset,
-                    $start->y,
-                    $startDepth,
-                    $midDepth,
-                    $endDepth,
-                    $symbol
                 );
                 break;
         }
