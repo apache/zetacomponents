@@ -66,6 +66,8 @@ require_once 'server_test.php';
 require_once 'server_configuration_test.php';
 require_once 'server_configuration_manager_test.php';
 
+require_once 'transport_test.php';
+
 require_once 'plugin_configuration_test.php';
 require_once 'plugin_registry_test.php';
 
@@ -92,6 +94,8 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Webdav' );
 
         $this->addTest( ezcWebdavBasicServerTest::suite() );
+        
+        $this->addTest( ezcWebdavTransportTest::suite() );
 
         $this->addTest( ezcWebdavPluginConfigurationTest::suite() );
         $this->addTest( ezcWebdavPluginRegistryTest::suite() );
