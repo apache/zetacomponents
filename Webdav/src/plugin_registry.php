@@ -308,11 +308,21 @@ class ezcWebdavPluginRegistry
      */
     public final function announceHook( $class, $hook, ezcWebdavPluginParameters $params )
     {
+        if ( !isset( $this->assignedHooks[$class][$hook] ) )
+        {
+            // No plugins asssigned
+            return;
+        }
         foreach ( $this->assignedHooks[$class][$hook] as $namespace => $callbacks )
         {
             foreach ( $callbacks as $callback )
             {
-                call_user_func( $callback, $params );
+                $res = call_user_func( $callback, $params );
+                // If the plugin produced a result, we terminate and return the result
+                if ( $res !== null )
+                {
+                    return $res;
+                }
             }
         }
     }
