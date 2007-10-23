@@ -182,7 +182,7 @@ class ezcWebdavTransport
                     'before' . ucfirst( self::$parsingMap[$_SERVER['REQUEST_METHOD']] ),
                     new ezcWebdavPluginParameters(
                         array(
-                            'uri'  => &$uri,
+                            'path' => &$path,
                             'body' => &$body,
                         )
                     )
@@ -213,8 +213,8 @@ class ezcWebdavTransport
                 'parseUnkownRequest',
                 new ezcWebdavPluginParameters(
                     array(
-                        'uri'  => $uri,
-                        'body' => $body,
+                        'path' => &$path,
+                        'body' => &$body,
                     )
                 )
             );
