@@ -27,7 +27,7 @@
  * </code>
  *
  * @property float $lineThickness
- *           Theickness of chart lines
+ *           Thickness of chart lines
  * @property mixed $fillLines
  *           Status wheather the space between line and axis should get filled.
  *            - FALSE to not fill the space at all.
