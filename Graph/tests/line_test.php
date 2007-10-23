@@ -59,7 +59,7 @@ class ezcGraphLineChartTest extends ezcGraphTestCase
         $options = new ezcGraphLineChartOptions();
 
         $this->assertSame(
-            2,
+            1,
             $options->lineThickness,
             'Wrong default value for property lineThickness in class ezcGraphLineChartOptions'
         );

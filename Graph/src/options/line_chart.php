@@ -58,7 +58,7 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['lineThickness'] = 2;
+        $this->properties['lineThickness'] = 1;
         $this->properties['fillLines'] = false;
         $this->properties['symbolSize'] = 8;
         $this->properties['highlightFont'] = new ezcGraphFontOptions();
