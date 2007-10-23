@@ -336,8 +336,8 @@ class ezcWebdavTransport
             // testing there is no input to read.
             // @codeCoverageIgnoreStart
             $body .= $data;
-            // @codeCoverageIgnoreEnd
         }
+        // @codeCoverageIgnoreEnd
         return $body;
     }
 
