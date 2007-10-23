@@ -719,7 +719,7 @@ class ezcWebdavTransport
         switch ( $propertyBehaviourNode->firstChild->localName )
         {
             case 'omit':
-                $request->propertyBehavior->omit = true;
+                $request->propertyBehaviour->omit = true;
                 break;
             case 'keepalive':
                 if ( $propertyBehaviourNode->firstChild->nodeValue === '*' )
