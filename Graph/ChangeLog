@@ -1,6 +1,7 @@
 1.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #11511: Line thickness wan't used for rendering
 - Fixed issue #11509: Typo in line chart option
 - Implemented feature #10978: Add support for stacked bar charts
 - Implemented feature #11325: Allow values of 0 to be added to pie charts, to
