@@ -332,7 +332,11 @@ class ezcWebdavTransport
 
         while ( $data = fread( $in, 1024 ) )
         {
+            // This line is untestable, since it reads from STDIN and during
+            // testing there is no input to read.
+            // @codeCoverageIgnoreStart
             $body .= $data;
+            // @codeCoverageIgnoreEnd
         }
         return $body;
     }
