@@ -182,7 +182,6 @@ class ezcWebdavTransport
                     'before' . ucfirst( self::$parsingMap[$_SERVER['REQUEST_METHOD']] ),
                     new ezcWebdavPluginParameters(
                         array(
-                            // @TODO: Can we handle this without references?
                             'uri'  => &$uri,
                             'body' => &$body,
                         )
@@ -409,7 +408,6 @@ class ezcWebdavTransport
             'after' . ucfirst( self::$handlingMap[( $responseClass = get_class( $response ) )] ),
             new ezcWebdavPluginParameters(
                 array(
-                    // @TODO: Can we handle this without references?
                     'result'  => &$result,
                 )
             )

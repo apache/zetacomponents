@@ -122,7 +122,16 @@ class ezcWebdavServer
         
         if ( $request instanceof ezcWebdavRequest )
         {
-            // @todo $this->pluginRegistry->hook( __CLASS__, 'receivedRequest', new ezcWebdavPluginParameters( array( 'request' => $request ) ) );
+            // Plugin hook receivedRequest
+            ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                __CLASS__,
+                'receivedRequest',
+                new ezcWebdavPluginParameters(
+                    array(
+                        'request'  => $request,
+                    )
+                )
+            );
             $response = $this->backend->performRequest( $request );
         }
         else
@@ -131,7 +140,16 @@ class ezcWebdavServer
             $response = $request;
         }
 
-        // @todo $this->pluginRegistry->hook( __CLASS__, 'generatedResponse', new ezcWebdavPluginParameters( array( 'response' => $response ) ) );
+        // Plugin hook generatedResponse
+        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+            __CLASS__,
+            'generatedResponse',
+            new ezcWebdavPluginParameters(
+                array(
+                    'response'  => $response,
+                )
+            )
+        );
 
         $this->transport->handleResponse( $response );
     }
@@ -174,6 +192,8 @@ class ezcWebdavServer
      */
     public function reset()
     {
+        unset( $this->properties['configurations'] );
+        unset( $this->properties['pluginRegistry'] );
         $this->properties['configurations']  = new ezcWebdavServerConfigurationManager();
         $this->properties['pluginRegistry']  = new ezcWebdavPluginRegistry();
 
