@@ -77,7 +77,7 @@ class ezcWebdavPropertyHandler
      * @param int $flag
      * @return ezcWebdavBasicPropertyStorage
      */
-    public function extractProperties( DOMNodeList $domNodes, ezcWebdavBasicPropertyStorage $storage, $flag = null )
+    public final function extractProperties( DOMNodeList $domNodes, ezcWebdavBasicPropertyStorage $storage, $flag = null )
     {
         for ( $i = 0; $i < $domNodes->length; ++$i )
         {
@@ -87,23 +87,122 @@ class ezcWebdavPropertyHandler
                 // Skip
                 continue;
             }
+
+            // Initialize
+            $property = null;
             
             // DAV: namespace indicates live property! If parsing live fails, a dead property is returned
             if ( $currentNode->namespaceURI === ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE )
             {
-                $flag === null
-                    ? $storage->attach( $this->extractLiveProperty( $currentNode ) )
-                    : $storage->attach( $this->extractLiveProperty( $currentNode ), $flag );
+                $property = $this->dispatchExtractLiveProperty( $currentNode );
             }
             // Other namespaces are always dead properties
             else
             {
-                $flag === null
-                    ? $storage->attach( $this->extractDeadProperty( $currentNode ) )
-                    : $storage->attach( $this->extractDeadProperty( $currentNode ), $flag );
+                $property = $this->dispatchExtractDeadProperty( $currentNode );
             }
+
+            $flag === null ? $storage->attach( $property ) : $storage->attach( $property, $flag );
         }
         return $storage;
+    }
+
+    /**
+     * Dispatches the extraction of a live property.
+     *
+     * This method takes care that the dispatching to the plugin registry takes
+     * place before and after the actual live property is extracted.
+     * Additionally the extractUnknownLiveProperty is announced, if the
+     * property could not be parsed internally. If the property still cannot be
+     * parsed, it is dispatched to the dead property parsing. This also
+     * includes the additional hook announcements.
+     * 
+     * @param DOMElement $element 
+     * @return ezcWebdavLiveProperty
+     */
+    private function dispatchExtractLiveProperty ( DOMElement $element )
+    {
+        // Plugin hook beforeExtractLiveProperty
+        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+            __CLASS__,
+            'beforeExtractLiveProperty',
+            new ezcWebdavPluginParameters(
+                array(
+                    'domElement'  => $element,
+                )
+            )
+        );
+        
+        $property = $this->extractLiveProperty( $element );
+
+        // First, let a plugin try
+        if ( $property === null )
+        {
+            // Plugin hook extractUnknownLiveProperty
+            $property = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                __CLASS__,
+                'extractUnknownLiveProperty',
+                new ezcWebdavPluginParameters(
+                    array(
+                        'domElement'  => $element,
+                    )
+                )
+            );
+        }
+
+        // Second, parse dead property instead
+        $property = $this->dispatchExtractDeadProperty( $element );
+
+        // Plugin hook afterExtractLiveProperty
+        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+            __CLASS__,
+            'afterExtractLiveProperty',
+            new ezcWebdavPluginParameters(
+                array(
+                    'property'  => $property,
+                )
+            )
+        );
+        
+        return $property;
+    }
+
+    /**
+     * Dispatches the extraction of a dead property.
+     *
+     * This method takes care that the dispatching to the plugin registry takes
+     * place before and after the actual dead property is extracted.
+     * 
+     * @param DOMElement $element 
+     * @return ezcWebdavDeadProperty
+     */
+    private function dispatchExtractDeadProperty ( DOMElement $element )
+    {
+        // Plugin hook beforeExtractDeadProperty
+        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+            __CLASS__,
+            'beforeExtractDeadProperty',
+            new ezcWebdavPluginParameters(
+                array(
+                    'domElement'  => $element,
+                )
+            )
+        );
+
+        $property = $this->extractDeadProperty( $element );
+
+        // Plugin hook afterExtractDeadProperty
+        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+            __CLASS__,
+            'afterExtractDeadProperty',
+            new ezcWebdavPluginParameters(
+                array(
+                    'property'  => $property,
+                )
+            )
+        );
+        
+        return $property;
     }
 
     /**
@@ -114,8 +213,6 @@ class ezcWebdavPropertyHandler
      * 
      * @param DOMElement $domElement 
      * @return ezcWebdavDeadProperty
-     *
-     * @todo How do we need to take care about different namespaces here?
      */
     protected function extractDeadProperty( DOMElement $domElement )
     {
@@ -144,6 +241,7 @@ class ezcWebdavPropertyHandler
      */
     protected function extractLiveProperty( DOMElement $domElement )
     {
+        $property = null;
         switch ( $domElement->localName )
         {
             case 'creationdate':
@@ -219,9 +317,7 @@ class ezcWebdavPropertyHandler
                 }
                 break;
             default:
-                // @TODO: Plugin hook processUnknownLiveProperty
-                // Currently just ignore and parse dead
-                $property = $this->extractDeadProperty( $domElement );
+                return null;
         }
         return $property;
     }
@@ -235,17 +331,80 @@ class ezcWebdavPropertyHandler
      * @param DOMElement $parentElement 
      * @return void
      */
-    public function serializeProperties( ezcWebdavPropertyStorage $storage, DOMElement $parentElement )
+    public final function serializeProperties( ezcWebdavPropertyStorage $storage, DOMElement $parentElement )
     {
         foreach ( $storage as $property )
         {
             if ( $property instanceof ezcWebdavLiveProperty )
             {
-                $this->serializeLiveProperty( $property, $parentElement );
+                // Plugin hook beforeSerializeLiveProperty
+                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                    __CLASS__,
+                    'beforeSerializeLiveProperty',
+                    new ezcWebdavPluginParameters(
+                        array(
+                            'property'  => $property,
+                        )
+                    )
+                );
+
+                $propertyElement = $this->serializeLiveProperty( $property, $parentElement );
+
+                // Attempt plugins to parse an unknown live property
+                if ( $propertyElement === null )
+                {
+                    // Plugin hook beforeSerializeLiveProperty
+                    $propertyElement = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                        __CLASS__,
+                        'serializeUnknownLiveProperty',
+                        new ezcWebdavPluginParameters(
+                            array(
+                                'property'  => $property,
+                            )
+                        )
+                    );
+                }
+                
+                // Plugin hook afterSerializeLiveProperty
+                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                    __CLASS__,
+                    'afterSerializeLiveProperty',
+                    new ezcWebdavPluginParameters(
+                        array(
+                            'domElement'  => $propertyElement,
+                        )
+                    )
+                );
             }
             else
             {
-                $this->serializeDeadProperty( $property, $parentElement );
+                // Plugin hook beforeSerializeDeadProperty
+                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                    __CLASS__,
+                    'beforeSerializeDeadProperty',
+                    new ezcWebdavPluginParameters(
+                        array(
+                            'property'  => $property,
+                        )
+                    )
+                );
+                
+                $propertyElement = $this->serializeDeadProperty( $property, $parentElement );
+
+                // Plugin hook afterSerializeDeadProperty
+                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                    __CLASS__,
+                    'afterSerializeDeadProperty',
+                    new ezcWebdavPluginParameters(
+                        array(
+                            'domElement'  => $propertyElement,
+                        )
+                    )
+                );
+            }
+            if ( $propertyElement instanceof DOMNode )
+            {
+                $parentElement->appendChild( $propertyElement );
             }
         }
     }
@@ -283,8 +442,6 @@ class ezcWebdavPropertyHandler
     /**
      * Returns the XML representation of a dead property.
      * Returns a DOMElement, representing the content of the given $property.
-     * The newly created element is also appended as a child to the given
-     * $parentElement.
      * 
      * @param ezcWebdavDeadProperty $property 
      * @param DOMElement $parentElement 
@@ -294,18 +451,14 @@ class ezcWebdavPropertyHandler
     {
         if ( $property->content === null || ( $contentDom = $this->getXmlTool()->createDomDocument( $property->content ) ) === false )
         {
-            return $parentElement->appendChild(
-                $this->getXmlTool()->createDomElement(
-                    $parentElement->ownerDocument,
-                    $property->name,
-                    $property->namespace
-                )
+            return $this->getXmlTool()->createDomElement(
+                $parentElement->ownerDocument,
+                $property->name,
+                $property->namespace
             );
         }
 
-        return $parentElement->appendChild(
-            $parentElement->ownerDocument->importNode( $contentDom->documentElement, true )
-        );
+        return  $parentElement->ownerDocument->importNode( $contentDom->documentElement, true );
     }
 
     /**
@@ -359,7 +512,8 @@ class ezcWebdavPropertyHandler
                 $elementValue = ( $property->links !== null ? $this->serializeLinkContent( $property->links, $parentElement->ownerDocument ) : null );
                 break;
             default:
-                // @TODO: Plugin hook processUnknownLiveProperty
+                // Now let the plugin registry hook in
+                return null;
         }
 
         $propertyElement = $parentElement->appendChild( 
