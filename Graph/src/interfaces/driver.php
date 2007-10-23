@@ -229,8 +229,9 @@ abstract class ezcGraphDriver
 
             // A fast guess: If the movement of the point exceeds the length of
             // the surrounding edge vectors the angle was to small to perform a
-            // valid size reducement. In this case we just fall back to the
-            // original point array.
+            // valid size reducement. In this case we just reduce the length of
+            // the movement to the minimal length of the surrounding vectors.
+            // This should fit in most cases.
             //
             // The correct way to check would be a test, if the calculated
             // point is still in the original polygon, but a test for a point
