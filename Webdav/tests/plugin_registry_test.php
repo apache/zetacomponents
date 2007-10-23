@@ -627,8 +627,6 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
                     'afterSerializeDeadProperty'          => true,
                     'extractUnknownLiveProperty'          => true,
                     'serializeUnknownLiveProperty'        => true,
-                    'extractUnknownDeadProperty'          => true,
-                    'serializeUnknownDeadProperty'        => true,
                 ),
                 'ezcWebdavServer' => array (
                     'receivedRequest'   => true,
