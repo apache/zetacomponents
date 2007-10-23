@@ -387,7 +387,7 @@ class ezcWebdavTransport
             if ( $result === null )
             {
                 // No plugin could process the response: 500 Internal Server Error
-                return processResponse( new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_500 ) );
+                return $this->processResponse( new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_500 ) );
             }
             else
             {
@@ -603,6 +603,11 @@ class ezcWebdavTransport
         $headers = ezcWebdavServer::getInstance()->headerHandler->parseHeaders(
             array( 'Destination', 'Depth', 'Overwrite' )
         );
+
+        if ( !isset( $headers['Destination'] ) )
+        {
+            throw new ezcWebdavMissingHeaderException( 'Destination' );
+        }
 
         $request = new ezcWebdavCopyRequest( $path, $headers['Destination'] );
 
