@@ -225,9 +225,30 @@ class ezcWebdavTransportTest extends ezcWebdavTestCase
             );
         }
         catch ( ezcWebdavInvalidRequestBodyException $e )
+        {}
+    }
+    
+    public function testParseCopyRequestErrorMissingPropertyBehaviourTag()
+    {
+        $_SERVER['HTTP_DESTINATION'] = '/foo/bar/baz.html';
+
+        $path = '/baz.html';
+        $body = <<<EOT
+<?xml version="1.0" encoding="utf-8" ?>
+<d:propertymissbehavior xmlns:d="DAV:">
+  <d:omit/>
+</d:propertymissbehavior>
+EOT;
+        
+        try
         {
-            return;    
+            ezcWebdavServer::getInstance()->transport->parseCopyRequest( $path, $body );
+            $this->fail(
+                'Exception not thrown on parsing copy request with invalid XML body.'
+            );
         }
+        catch ( ezcWebdavInvalidRequestBodyException $e )
+        {}
     }
 
     public function testParseCopyRequestPropertyBehaviourOmitTag()
