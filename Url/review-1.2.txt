@@ -17,3 +17,9 @@ Review by Derick
     For example, if the $_SERVER array has these fields::
 
 	- Done
+
+Additional review by kn
+=======================
+
+[ ] It would be nice to have some more class level documentation for
+	ezcUrlTools, or at least mention it only provides static methods.
