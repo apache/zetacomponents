@@ -32,6 +32,10 @@ TODO
 
 - Add test for mime type file info extensions
 
+- We could offer an init hook, which is announced as soon as
+  ezcWebdavServer->init() is called, using it's parameters. This could make
+  sense for plugins to internally store those. But actually it's sugar, because
+  they can also access the data through the server singleton.
 
 Code TODOs on Thu Oct 18 08:20:15 CEST 2007
 ===========================================
