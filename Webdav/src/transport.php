@@ -180,9 +180,29 @@ class ezcWebdavTransport
         {
             try
             {
-                // @TODO: Plugin hook beforeParse*Request
+                // Plugin hook beforeParse*Request
+                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                    __CLASS__,
+                    'before' . ucfirst( self::$parsingMap[$_SERVER['REQUEST_METHOD']] ),
+                    new ezcWebdavPluginParameters(
+                        array(
+                            // @TODO: Can we handle this without references?
+                            'uri'  => &$uri,
+                            'body' => &$body,
+                        )
+                    )
+                );
                 $request = call_user_func( array( $this, self::$parsingMap[$_SERVER['REQUEST_METHOD']] ), $path, $body );
-                // @TODO: Plugin hook afterParse*Request
+                // Plugin hook afterParse*Request
+                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                    __CLASS__,
+                    'after' . ucfirst( self::$parsingMap[$_SERVER['REQUEST_METHOD']] ),
+                    new ezcWebdavPluginParameters(
+                        array(
+                            'request' => $request,
+                        )
+                    )
+                );
                 $request->validateHeaders();
             }
             catch ( Exception $e )
@@ -192,8 +212,8 @@ class ezcWebdavTransport
         }
         else
         {
-            // Plugin hook
-            $request = ezcWebdavServer::getInstance()->plugins->announceHook(
+            // Plugin hook parseUnkownRequest
+            $request = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
                 __CLASS__,
                 'parseUnkownRequest',
                 new ezcWebdavPluginParameters(
@@ -203,7 +223,8 @@ class ezcWebdavTransport
                     )
                 )
             );
-
+            
+            // If hooks did not return a valid request object, generate error
             if ( !( $request instanceof ezcWebdavRequest ) && !( $request instanceof ezcWebdavResponse )  )
             {
                 // Error code 501: Not implemented
@@ -257,7 +278,11 @@ class ezcWebdavTransport
         }
         catch ( Exception $e )
         {
-            // Attention: Recursion!
+            if ( $response instanceof ezcWebdavErrorResponse )
+            {
+                // Attention: Recursion detected!
+                throw $e;
+            }
             $this->handleResponse( $this->handleException( $e ) );
         }
     }
@@ -343,15 +368,14 @@ class ezcWebdavTransport
      *         ezcWebdavEmptyDisplayInformation} and the contained {@link
      *         ezcWebdavResponse} object has a Content-Type or a Content-Length
      *         header set.
-     *
-     * @todo Correct exception. Or better: Correct all exception mess!
      */
     private function processResponse( ezcWebdavResponse $response )
     {
-        if ( isset( self::$handlingMap[( $responseClass = get_class( $response ) )] ) === false )
+        // Check if response can be processed by default
+        if ( !isset( self::$handlingMap[( $responseClass = get_class( $response ) )] ) )
         {
             // Plugin hook processUnkownResponse
-            $result = ezcWebdavServer::getInstance()->plugins->announceHook(
+            $result = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
                 __CLASS__,
                 'processUnkownResponse',
                 new ezcWebdavPluginParameters(
@@ -360,15 +384,41 @@ class ezcWebdavTransport
                     )
                 )
             );
+
             if ( $result === null )
             {
+                // No plugin could process the response: 500 Internal Server Error
                 return processResponse( new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_500 ) );
+            }
+            else
+            {
+                return $result;
             }
         }
         
-        // @TODO Plugin hook beforeProcess*Response
-        return call_user_func( array( $this, self::$handlingMap[( $responseClass = get_class( $response ) )] ), $response );
-        // @TODO Plugin hook afterProcess*Response
+        // Plugin hook beforeProcess*Response
+        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+            __CLASS__,
+            'before' . ucfirst( self::$handlingMap[( $responseClass = get_class( $response ) )] ),
+            new ezcWebdavPluginParameters(
+                array(
+                    'response'  => $response,
+                )
+            )
+        );
+        $result = call_user_func( array( $this, self::$handlingMap[( $responseClass = get_class( $response ) )] ), $response );
+        // Plugin hook afterProcess*Response
+        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+            __CLASS__,
+            'after' . ucfirst( self::$handlingMap[( $responseClass = get_class( $response ) )] ),
+            new ezcWebdavPluginParameters(
+                array(
+                    // @TODO: Can we handle this without references?
+                    'result'  => &$result,
+                )
+            )
+        );
+        return $result;
     }
 
     /**
