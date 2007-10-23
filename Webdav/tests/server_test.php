@@ -242,13 +242,21 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         $backend = new ezcWebdavMemoryBackend();
 
+        // Silence warning of headers already been send, but keep other errors
+        $errRep = error_reporting( ( E_ALL | E_STRICT ) & ~E_WARNING );
+
+        // Avoid printing response
         ob_start();
 
         // Silence headers already sent warnings - we just want to test for
         // exceptions here.
-        @$webdav->handle( $backend );
-
+        $webdav->handle( $backend );
+        
+        // Clean OB res (no need to process it)
         $body = ob_get_clean();
+        
+        // Reset old error level
+        error_reporting( $errRep );
     }
 
     public function testDefaultHandlerWithUnknowClientAdditionalHandler()
@@ -275,13 +283,21 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         $backend = new ezcWebdavMemoryBackend();
 
+        // Silence warning of headers already been send, but keep other errors
+        $errRep = error_reporting( ( E_ALL | E_STRICT ) & ~E_WARNING );
+
+        // Avoid printing response
         ob_start();
 
         // Silence headers already sent warnings - we just want to test for
         // exceptions here.
-        @$webdav->handle( $backend );
-
+        $webdav->handle( $backend );
+        
+        // Clean OB res (no need to process it)
         $body = ob_get_clean();
+        
+        // Reset old error level
+        error_reporting( $errRep );
     }
 
     protected function assertSetPropertyFailure( $propertyName, array $propertyValues, $exceptionClass )
