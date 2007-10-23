@@ -151,6 +151,39 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         );
     }
 
+    public function testDrawPolygonFourPointsNotFilledBorderSizeReducement()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 24.79289, 28.078128 ),
+                new ezcGraphCoordinate( 11.29289, 41.578128 ),
+                new ezcGraphCoordinate( 30.15439, 22.13813 ),
+                new ezcGraphCoordinate( 43.65439, 8.63813 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A480' ),
+            false
+        );
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 24.79289, 28.078128 ),
+                new ezcGraphCoordinate( 11.29289, 41.578128 ),
+                new ezcGraphCoordinate( 30.15439, 22.13813 ),
+                new ezcGraphCoordinate( 43.65439, 8.63813 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A480' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testDrawPolygonThreePointsNotFilledReverse()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

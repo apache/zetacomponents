@@ -105,6 +105,7 @@ abstract class ezcGraphDriver
 
         // Build normalized vectors between polygon edge points
         $vectors = array();
+        $vectorLength = array();
         for ( $i = 0; $i < $pointCount; ++$i )
         {
             $nextPoint = ( $i + 1 ) % $pointCount;
@@ -112,7 +113,8 @@ abstract class ezcGraphDriver
                             ->sub( $points[$i] );
 
             // Throw exception if polygon is too small to reduce
-            if ( $vectors[$i]->length() < $size )
+            $vectorLength[$i] = $vectors[$i]->length();
+            if ( $vectorLength[$i] < $size )
             {
                 throw new ezcGraphReducementFailedException();
             }
@@ -215,17 +217,32 @@ abstract class ezcGraphDriver
             // point and the size as distance to move.
             // point + v + size / tan( angle / 2 ) * startVector
             $newPoint = clone $vectors[$next];
-            $newPoints[$next] = 
-                $v  ->add( 
-                        $newPoint
-                            ->scalar( 
-                                $size / 
-                                tan( 
-                                    $lastVector->angle( $vectors[$next] ) / 2
-                                ) 
-                            ) 
-                    )
-                    ->add( $points[$next] );
+            $v  ->add( 
+                $newPoint
+                    ->scalar( 
+                        $size / 
+                        tan( 
+                            $lastVector->angle( $vectors[$next] ) / 2
+                        ) 
+                    ) 
+            );
+
+            // A fast guess: If the movement of the point exceeds the length of
+            // the surrounding edge vectors the angle was to small to perform a
+            // valid size reducement. In this case we just fall back to the
+            // original point array.
+            //
+            // The correct way to check would be a test, if the calculated
+            // point is still in the original polygon, but a test for a point
+            // in a polygon is too expensive.
+            $movement = $v->length();
+            if ( ( $movement > $vectorLength[$last] ) &&
+                 ( $movement > $vectorLength[$next] ) )
+            {
+                $v->unify()->scalar( min( $vectorLength[$last], $vectorLength[$next] ) );
+            }
+
+            $newPoints[$next] = $v->add( $points[$next] );
         }
 
         return $newPoints;
