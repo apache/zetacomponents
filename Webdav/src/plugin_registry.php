@@ -125,9 +125,6 @@ class ezcWebdavPluginRegistry
 
         $this->createHook( 'ezcWebdavTransport', 'extractUnknownLiveProperty' );
         $this->createHook( 'ezcWebdavTransport', 'serializeUnknownLiveProperty' );
-        
-        $this->createHook( 'ezcWebdavTransport', 'extractUnknownDeadProperty' );
-        $this->createHook( 'ezcWebdavTransport', 'serializeUnknownDeadProperty' );
 
         // Server layer hooks
 
