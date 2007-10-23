@@ -660,6 +660,11 @@ class ezcWebdavTransport
             array( 'Destination', 'Depth', 'Overwrite' )
         );
 
+        if ( !isset( $headers['Destination'] ) )
+        {
+            throw new ezcWebdavMissingHeaderException( 'Destination' );
+        }
+
         $request = new ezcWebdavMoveRequest( $path, $headers['Destination'] );
 
         $request->setHeaders( $headers );

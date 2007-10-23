@@ -29,6 +29,11 @@ class ezcWebdavMockedTransport extends ezcWebdavTransport
         return parent::parseCopyRequest( $path, $body );
     }
 
+    public function parseMoveRequest( $path, $body )
+    {
+        return parent::parseMoveRequest( $path, $body );
+    }
+
     public function parsePropFindRequest( $path, $body )
     {
         return parent::parsePropFindRequest( $path, $body );
@@ -295,6 +300,122 @@ EOT;
 
         $this->assertTrue(
             ( $res instanceof ezcWebdavCopyRequest ),
+            'Request not parsed correctly: Invalid request class!'
+        );
+
+        $this->assertEquals(
+            array(
+                'some property',
+                'another property',
+            ),
+            $res->propertyBehaviour->keepAlive,
+            'Omit property of response object not set correctly.'
+        );
+    }
+
+    public function testParseMoveRequestErrorMissingHeader()
+    {
+        $path = '/baz.html';
+        $body = 'Foo bar baz';
+
+        try
+        {
+            ezcWebdavServer::getInstance()->transport->parseMoveRequest( $path, $body );
+            $this->fail(
+                'Exception not thrown on parsing move request without destination header.'
+            );
+        }
+        catch ( ezcWebdavMissingHeaderException $e )
+        {
+            return;    
+        }
+    }
+
+    public function testParseMoveRequestErrorBodyInvalidXml()
+    {
+        $_SERVER['HTTP_DESTINATION'] = '/foo/bar/baz.html';
+
+        $path = '/baz.html';
+        $body = 'Foo bar baz';
+        
+        try
+        {
+            ezcWebdavServer::getInstance()->transport->parseMoveRequest( $path, $body );
+            $this->fail(
+                'Exception not thrown on parsing move request with invalid XML body.'
+            );
+        }
+        catch ( ezcWebdavInvalidRequestBodyException $e )
+        {}
+    }
+    
+    public function testParseMoveRequestErrorMissingPropertyBehaviourTag()
+    {
+        $_SERVER['HTTP_DESTINATION'] = '/foo/bar/baz.html';
+
+        $path = '/baz.html';
+        $body = <<<EOT
+<?xml version="1.0" encoding="utf-8" ?>
+<d:propertymissbehavior xmlns:d="DAV:">
+  <d:omit/>
+</d:propertymissbehavior>
+EOT;
+        
+        try
+        {
+            ezcWebdavServer::getInstance()->transport->parseMoveRequest( $path, $body );
+            $this->fail(
+                'Exception not thrown on parsing move request with invalid XML body.'
+            );
+        }
+        catch ( ezcWebdavInvalidRequestBodyException $e )
+        {}
+    }
+
+    public function testParseMoveRequestPropertyBehaviourOmitTag()
+    {
+        $_SERVER['HTTP_DESTINATION'] = '/foo/bar/baz.html';
+
+        $path = '/baz.html';
+        $body = <<<EOT
+<?xml version="1.0" encoding="utf-8" ?>
+<d:propertybehavior xmlns:d="DAV:">
+  <d:omit/>
+</d:propertybehavior>
+EOT;
+        
+        $res = ezcWebdavServer::getInstance()->transport->parseMoveRequest( $path, $body );
+
+        $this->assertTrue(
+            ( $res instanceof ezcWebdavMoveRequest ),
+            'Request not parsed correctly: Invalid request class!'
+        );
+
+        $this->assertTrue(
+            $res->propertyBehaviour->omit,
+            'Omit property of response object not set correctly.'
+        );
+    }
+
+    public function testParseMoveRequestPropertyBehaviourKeepaliveTagWithHrefContent()
+    {
+        $_SERVER['HTTP_DESTINATION'] = '/foo/bar/baz.html';
+
+        $path = '/baz.html';
+        $body = <<<EOT
+<?xml version="1.0" encoding="utf-8" ?>
+<d:propertybehavior xmlns:d="DAV:">
+  <d:keepalive>
+      <d:href>some property</d:href>
+      <d:href>another property</d:href>
+  </d:keepalive>
+</d:propertybehavior>
+EOT;
+        
+        $res = ezcWebdavServer::getInstance()->transport->parseMoveRequest( $path, $body );
+
+        $this->assertTrue(
+            ( $res instanceof ezcWebdavMoveRequest ),
             'Request not parsed correctly: Invalid request class!'
         );
 
