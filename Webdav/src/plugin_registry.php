@@ -111,20 +111,20 @@ class ezcWebdavPluginRegistry
         $this->createHook( 'ezcWebdavTransport', 'handleUnknownResponse' );
 
         // Property related hooks
-        $this->createHook( 'ezcWebdavTransport', 'extractLiveProperty', 'before' );
-        $this->createHook( 'ezcWebdavTransport', 'extractLiveProperty', 'after' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'extractLiveProperty', 'before' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'extractLiveProperty', 'after' );
 
-        $this->createHook( 'ezcWebdavTransport', 'extractDeadProperty', 'before' );
-        $this->createHook( 'ezcWebdavTransport', 'extractDeadProperty', 'after' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'extractDeadProperty', 'before' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'extractDeadProperty', 'after' );
         
-        $this->createHook( 'ezcWebdavTransport', 'serializeLiveProperty', 'before' );
-        $this->createHook( 'ezcWebdavTransport', 'serializeLiveProperty', 'after' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'serializeLiveProperty', 'before' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'serializeLiveProperty', 'after' );
         
-        $this->createHook( 'ezcWebdavTransport', 'serializeDeadProperty', 'before' );
-        $this->createHook( 'ezcWebdavTransport', 'serializeDeadProperty', 'after' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'serializeDeadProperty', 'before' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'serializeDeadProperty', 'after' );
 
-        $this->createHook( 'ezcWebdavTransport', 'extractUnknownLiveProperty' );
-        $this->createHook( 'ezcWebdavTransport', 'serializeUnknownLiveProperty' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'extractUnknownLiveProperty' );
+        $this->createHook( 'ezcWebdavPropertyHandler', 'serializeUnknownLiveProperty' );
 
         // Server layer hooks
 

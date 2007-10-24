@@ -86,7 +86,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavTransport' => array(
+                'ezcWebdavPropertyHandler' => array(
                     'beforeExtractLiveProperty' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
@@ -218,7 +218,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavTransport' => array(
+                'ezcWebdavPropertyHandler' => array(
                     'beforeExtractLiveProperty' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
@@ -249,7 +249,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
         
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavTransport' => array(
+                'ezcWebdavPropertyHandler' => array(
                     'beforeExtractLiveProperty' => array(
                     ),
                     'afterExtractLiveProperty' => array(
@@ -317,7 +317,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavTransport' => array(
+                'ezcWebdavPropertyHandler' => array(
                     'beforeExtractLiveProperty' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
@@ -409,7 +409,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavTransport' => array(
+                'ezcWebdavPropertyHandler' => array(
                     'beforeExtractLiveProperty' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
@@ -497,7 +497,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavTransport' => array(
+                'ezcWebdavPropertyHandler' => array(
                     'beforeExtractLiveProperty' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
@@ -517,7 +517,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
             'Property $assignedHooks not set correctly after registration.'
         );
 
-        $reg->announceHook( 'ezcWebdavTransport', 'beforeExtractLiveProperty', ( $beforeParams = new ezcWebdavPluginParameters() ) );
+        $reg->announceHook( 'ezcWebdavPropertyHandler', 'beforeExtractLiveProperty', ( $beforeParams = new ezcWebdavPluginParameters() ) );
 
         $this->assertSame(
             $beforeParams,
@@ -536,7 +536,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
             'Number of called callbackes invalid.'
         );
 
-        $reg->announceHook( 'ezcWebdavTransport', 'afterExtractLiveProperty', ( $afterParams = new ezcWebdavPluginParameters() ) );
+        $reg->announceHook( 'ezcWebdavPropertyHandler', 'afterExtractLiveProperty', ( $afterParams = new ezcWebdavPluginParameters() ) );
 
         $this->assertSame(
             $beforeParams,
@@ -617,6 +617,8 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
                     'afterProcessPutResponse'             => true,
                     'parseUnknownRequest'                 => true,
                     'handleUnknownResponse'               => true,
+                ),
+                'ezcWebdavPropertyHandler' => array(
                     'beforeExtractLiveProperty'           => true,
                     'afterExtractLiveProperty'            => true,
                     'beforeExtractDeadProperty'           => true,
