@@ -76,6 +76,7 @@ require_once 'client_test_litmus.php';
 require_once 'client_test_cadaver.php';
 require_once 'client_test_nautilus.php';
 require_once 'client_test_konqueror.php';
+require_once 'client_test_ie6.php';
 
 /**
  * Test suite for the Webdav component.
@@ -149,6 +150,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavClientCadaverTest::suite() );
         $this->addTest( ezcWebdavClientNautilusTest::suite() );
         $this->addTest( ezcWebdavClientKonquerorTest::suite() );
+        $this->addTest( ezcWebdavClientIE6Test::suite() );
     }
 
     public static function suite()
