@@ -39,7 +39,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -62,7 +62,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
 
         $firstCfg = new ezcWebdavServerConfiguration();
         $secondCfg = new ezcWebdavServerConfiguration(
-            '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+            '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
             'ezcWebdavMicrosoftCompatibleTransport'
         );
         $thirdCfg = new ezcWebdavServerConfiguration(
@@ -146,7 +146,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -176,7 +176,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -202,7 +202,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -228,7 +228,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -254,7 +254,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -382,7 +382,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
@@ -426,7 +426,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -452,7 +452,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -478,7 +478,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -504,7 +504,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -530,7 +530,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -556,7 +556,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -582,7 +582,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -611,7 +611,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
@@ -625,7 +625,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
 
         $this->assertEquals(
             new ezcWebdavServerConfiguration(
-                '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                 'ezcWebdavMicrosoftCompatibleTransport'
             ),
             $dp[0],
@@ -666,7 +666,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -692,7 +692,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -718,7 +718,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -745,7 +745,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -766,7 +766,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
@@ -782,7 +782,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
@@ -799,7 +799,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(),
@@ -815,7 +815,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $second,
@@ -830,7 +830,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0  => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
             ),
@@ -866,7 +866,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0 => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -892,7 +892,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0 => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -918,7 +918,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0 => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -947,7 +947,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0 => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
@@ -989,7 +989,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0 => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
@@ -1021,7 +1021,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
 
         $fake = array(
                 0 => new ezcWebdavServerConfiguration(
-                    '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => new ezcWebdavServerConfiguration(
@@ -1083,7 +1083,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
 
         $fake = array(
             0 => new ezcWebdavServerConfiguration(
-                '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+                '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
                 'ezcWebdavMicrosoftCompatibleTransport'
             ),
             1 => new ezcWebdavServerConfiguration(
