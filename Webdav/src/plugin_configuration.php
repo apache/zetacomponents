@@ -1,5 +1,27 @@
 <?php
-
+/**
+ * File containing the ezcWebdavPluginConfiguration base class.
+ *
+ * @package Webdav
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Base class for plugin configurations.
+ *
+ * A plugin must ship at least one class that extends this base class and will
+ * be used by {@link ezcWebdavPluginRegistry} to configure the plugin on load.
+ *
+ * To activate (load) a plugin, the user must instanciate the plugin specific
+ * defived configuration class and submit the instance to {@link
+ * ezcWebdavPluginRegistry::registerPlugin()}.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 abstract class ezcWebdavPluginConfiguration
 {
     /**
@@ -38,12 +60,22 @@ abstract class ezcWebdavPluginConfiguration
      * Returns the namespace of this plugin.
      *
      * The namespace of a plugin is a unique identifier string that allows it
-     * to be recognized bejond other plugins. The namespace is used to provide storage for the plugin in the 
+     * to be recognized bejond other plugins. The namespace is used to provide
+     * storage for the plugin in the 
      * 
-     * @return void
+     * @return string
      */
     public abstract function getNamespace();
 
+    /**
+     * Initialize the plugin.
+     *
+     * This method is called after the server has be initialized to make the
+     * plugin setup necessary objects and to retreive necessary information
+     * from the server.
+     * 
+     * @return void
+     */
     public abstract function init();
 }
 
