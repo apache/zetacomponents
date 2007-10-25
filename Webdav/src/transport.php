@@ -425,22 +425,11 @@ class ezcWebdavTransport
      * Takes a given {@link ezcWebdavDisplayInformation} object and returns an
      * array containg the headers and body it represents.
      *
-     * <code>
-     *      array(
-     *          'headers' => array(
-     *              ''       => '<responsecodeandname>',
-     *              '<name>' => '<value>',
-     *              // ...
-     *          ),
-     *          'body' => '<string>'
-     *      )
-     * </code>
-     *
      * The returned information can be processed (send out to the client) by
      * {@link ezcWebdavTransport::sendResponse()}.
      * 
      * @param ezcWebdavDisplayInformation $info 
-     * @return array(string=>mixed)
+     * @return ezcWebdavOutputResult
      */
     protected function flattenResponse( ezcWebdavDisplayInformation $info )
     {
