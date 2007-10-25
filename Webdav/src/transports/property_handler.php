@@ -90,7 +90,7 @@ class ezcWebdavPropertyHandler
 
             // Initialize
             $property = null;
-            
+
             // DAV: namespace indicates live property! If parsing live fails, a dead property is returned
             if ( $currentNode->namespaceURI === ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE )
             {
@@ -132,7 +132,7 @@ class ezcWebdavPropertyHandler
                 )
             )
         );
-        
+
         $property = $this->extractLiveProperty( $element );
 
         // First, let a plugin try
@@ -148,10 +148,10 @@ class ezcWebdavPropertyHandler
                     )
                 )
             );
-        }
 
-        // Second, parse dead property instead
-        $property = $this->dispatchExtractDeadProperty( $element );
+            // Second, parse dead property instead
+            $property = $this->dispatchExtractDeadProperty( $element );
+        }
 
         // Plugin hook afterExtractLiveProperty
         ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
