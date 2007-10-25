@@ -128,6 +128,41 @@ class ezcWebdavClientTestGenerator
     );
     
     /**
+     * Template to mock transport classes.
+     *
+     * @var string
+     */
+    protected $mockClassSource = '
+        class %s extends %s
+        {
+            /**
+             * Retreives the body from a global variable.
+             * 
+             * @return void
+             */
+            protected function retreiveBody()
+            {
+                $GLOBALS["EZC_WEBDAV_REQUEST_BODY"] = parent::retreiveBody();
+                return $GLOBALS["EZC_WEBDAV_REQUEST_BODY"];
+            }
+        
+            /**
+             * Captures the response data in global variables.
+             * 
+             * @param ezcWebdavOutputResult $output 
+             * @return void
+             */
+            protected function sendResponse( ezcWebdavOutputResult $output )
+            {
+                $GLOBALS["EZC_WEBDAV_RESPONSE_STATUS"]  = $output->status;
+                $GLOBALS["EZC_WEBDAV_RESPONSE_HEADERS"] = $output->headers;
+                $GLOBALS["EZC_WEBDAV_RESPONSE_BODY"]    = $output->body;
+                parent::sendResponse( $output );
+            }
+        }
+    ';
+    
+    /**
      * Creates a new test generator.
      *
      * This method checks if a backend has been stored from a previous request,
@@ -286,41 +321,6 @@ class ezcWebdavClientTestGenerator
     }
     
     /**
-     * Template to mock transport classes.
-     *
-     * @var string
-     */
-    protected $mockClassSource = '
-        class %sMock extends %s
-        {
-            /**
-             * Retreives the body from a global variable.
-             * 
-             * @return void
-             */
-            protected function retreiveBody()
-            {
-                $GLOBALS["EZC_WEBDAV_REQUEST_BODY"] = parent::retreiveBody();
-                return $GLOBALS["EZC_WEBDAV_REQUEST_BODY"];
-            }
-        
-            /**
-             * Captures the response data in global variables.
-             * 
-             * @param ezcWebdavOutputResult $output 
-             * @return void
-             */
-            protected function sendResponse( ezcWebdavOutputResult $output )
-            {
-                $GLOBALS["EZC_WEBDAV_RESPONSE_STATUS"]  = $output->status;
-                $GLOBALS["EZC_WEBDAV_RESPONSE_HEADERS"] = $output->headers;
-                $GLOBALS["EZC_WEBDAV_RESPONSE_BODY"]    = $output->body;
-                parent::sendResponse( $output );
-            }
-        }
-    ';
-    
-    /**
      * Initialializes the WebDAV server used for capturing.
      * 
      * Retrieves the global server singleton and replaces all configured
@@ -333,17 +333,17 @@ class ezcWebdavClientTestGenerator
     {
         $this->server = ezcWebdavServer::getInstance();
         
-        foreach ( $this->server->transports as $id => $transportCfg )
+        foreach ( $this->server->configurations as $id => $transportCfg )
         {
             // Prepare mock classes, if not done, yet
-            if ( !class_exists( ( $mockClass = "{$transportCfg->transport}Mock" ) ) )
+            if ( !class_exists( ( $mockClass = ( $transportCfg->transportClass . 'Mock' ) ), false ) )
             {
-                eval( sprintf( $this->mockClassSource, $transportCfg->transport, $transportCfg->transport ) );
+                eval( sprintf( $this->mockClassSource, $mockClass, $transportCfg->transportClass ) );
             }
 
             // Replace with mock config
-            $this->server->transports[$id]->transport   = "{$transportCfg->transport}Mock";
-            $this->server->transports[$id]->pathFactory = $pathFactory;
+            $this->server->configurations[$id]->transportClass  = $mockClass;
+            $this->server->configurations[$id]->pathFactory     = $pathFactory;
         }
     }
 }
