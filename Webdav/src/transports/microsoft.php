@@ -50,14 +50,6 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
         // locking
         $output->headers['DAV'] = '1, 2';
 
-        // MS stuff seems to want paths without host
-        $output->body = str_replace(
-            // @TODO: HACK
-            'http://webdav',
-            '',
-            $output->body
-        );
-
         // Add date namespace to response elements for MS clients
         // Mimic Apache mod_dav behaviour for DAV: namespace
         $output->body = preg_replace(
