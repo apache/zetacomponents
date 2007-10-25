@@ -28,23 +28,76 @@
 class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
 {
     /**
-     * Finally send out the response.
+     * Flattens a processed response object to headers and body.
      *
-     * Microsoft clients require an additional header here, so that we send
-     * this and dispatch back to the original method.
+     * Takes a given {@link ezcWebdavDisplayInformation} object and returns an
+     * array containg the headers and body it represents.
      *
-     * @param ezcWebdavOutputResult $output
-     * @return void
+     * The returned information can be processed (send out to the client) by
+     * {@link ezcWebdavTransport::sendResponse()}.
+     * 
+     * @param ezcWebdavDisplayInformation $info 
+     * @return ezcWebdavOutputResult
      */
-    protected function sendResponse( ezcWebdavOutputResult $output )
+    protected function flattenResponse( ezcWebdavDisplayInformation $info )
     {
+        $output = parent::flattenResponse( $info );
+
         // Add MS specific header
         $output->headers['MS-Author-Via'] = 'DAV';
 
-        parent::sendResponse( $output );
+        // MS seems always want it this way, even when we do not support
+        // locking
+        $output->headers['DAV'] = '1, 2';
+
+        // MS stuff seems to want paths without host
+        $output->body = str_replace(
+            // @TODO: HACK
+            'http://webdav',
+            '',
+            $output->body
+        );
+
+        // Add date namespace to response elements for MS clients
+        // Mimic Apache mod_dav behaviour for DAV: namespace
+        $output->body = preg_replace(
+            '(<D:response([^>]*)>)',
+            '<D:response\\1 xmlns:lp1="DAV:" xmlns:lp2="http://apache.org/dav/props/" xmlns:ns0="urn:uuid:c2f41010-65b3-11d1-a29f-00aa00c14882/">',
+            $output->body
+        );
+
+        // Set creationdate namespace
+        $output->body = preg_replace(
+            '(<D:creationdate([^>]*)>)',
+            '<D:creationdate\\1 ns0:dt="dateTime.tz">',
+            $output->body
+        );
+
+        // Set getlastmodified namespace
+        $output->body = preg_replace(
+            '(<D:getlastmodified([^>]*)>)',
+            '<D:getlastmodified\\1 ns0:dt="dateTime.rfc1123">',
+            $output->body
+        );
+
+        // Put some elements in DAV: namespace with other namespace identifier
+        $output->body = preg_replace(
+            '(D:(resourcetype|creationdate|getlastmodified|getetag)([^>]*))',
+            'lp1:\\1\\2',
+            $output->body
+        );
+
+        // Remove all unessecary whitespaces
+        $output->body = preg_replace(
+            '(>\s+<)',
+            '><',
+            $output->body
+        );
 
         // MS IE7 requires a newline after the XML.
-        echo "\n";
+        $output->body .= "\n";
+
+        return $output;
     }
 
     /**
@@ -61,7 +114,7 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
     protected function parsePropFindRequest( $path, $body )
     {
         // Empty request seem to actually mean an allprop request.
-        if ( empty( $body ) )
+        if ( trim( $body ) === '' )
         {
             $body = '<?xml version="1.0" encoding="utf-8" ?>
 <D:propfind xmlns:D="DAV:">

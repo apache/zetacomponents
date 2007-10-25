@@ -23,7 +23,7 @@ class ezcWebdavServerConfigurationManager implements ArrayAccess, Iterator
     {
         // Add MS compatible configuration
         $this[] = new ezcWebdavServerConfiguration(
-            '(Microsoft\s+Data\s+Access\s+Internet|Mozilla/4.0\s+\(compatible;\s+MSIE\s+6.0;\s+Windows\s+NT\s+5.1\)|Microsoft-WebDAV-MiniRedir)i',
+            '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
             'ezcWebdavMicrosoftCompatibleTransport'
         );
         // Add Nautilus configuration
