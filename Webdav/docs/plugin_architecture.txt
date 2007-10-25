@@ -1,0 +1,452 @@
+eZ component: Webdav, Plugin-Architecture, 1.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: Kore Nordmann, Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+Scope
+=====
+
+The scope of this document is to give authors of plugins for the Webdav
+component an introduction on how to implement new plugins. If you just want to
+use the Webdav component, this document does not contain any relevant
+information for you.
+
+Overview
+========
+
+Hooks
+=====
+
+Plugin hooks are catgorized by the class that issues them. 3 classes of the
+Webdav component currently support the following plugin hooks:
+
+ezcWebdavTransport
+------------------
+
+The ezcWebdavTransport class offers hooks that are related to request parsing
+and response handling. To give you the most comfortable way of interacting
+with these processes, for each of the request parsing and response handling
+methods offer a "before" and an "after" hook. The "before" hook is announced
+right before the speicifc method is invoked, while "after" announcement
+happens right after the method has been called.
+
+Additionally a hook for parsing unknown requests and one for handling unknown
+response objects is announced if such cases occur.
+
+
+beforeParseCopyRequest
+``````````````````````
+
+This hook is announced right before a COPY request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParseCopyRequest
+`````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a COPY request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeParseDeleteRequest
+````````````````````````
+
+This hook is announced right before a DELETE request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParseDeleteRequest
+```````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a DELETE request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeParseGetRequest
+`````````````````````
+
+This hook is announced right before a GET request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParseGetRequest
+````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a GET request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeParseHeadRequest
+``````````````````````
+
+This hook is announced right before a HEAD request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParseHeadRequest
+`````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a HEAD request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeParseMakeCollectionRequest
+````````````````````````````````
+
+This hook is announced right before a MKCOL request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParseMakeCollectionRequest
+```````````````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a MKCOL request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeParseMoveRequest
+``````````````````````
+
+This hook is announced right before a MOVE request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParseMoveRequest
+`````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a MOVE request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeParseOptionsRequest
+`````````````````````````
+
+This hook is announced right before a OPTIONS request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParseOptionsRequest
+`````````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a OPTIONS request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeParsePropFindRequest
+``````````````````````````
+
+This hook is announced right before a PROPFIND request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParsePropFindRequest
+`````````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a PROPFIND request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeParsePropPatchRequest
+```````````````````````````
+
+This hook is announced right before a PROPPATCH request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParsePropPatchRequest
+``````````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a PROPPATCH request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeParsePutRequest
+`````````````````````
+
+This hook is announced right before a PUT request is parsed. It retrieves the
+parameters
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterParsePutRequest
+````````````````````
+
+Analogous to the "before" hook of this method, this hook is announced right
+after a PUT request has been parsed. The parameter received by the callbacks
+assigned to this hook receives the following parameters:
+
+request
+  The request object parsed from the request data (ezcWebdavRequest).
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore, all manipulations must be performed very carefully.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+
+
+
+
+beforeProcessCopyResponse
+afterProcessCopyResponse
+beforeProcessDeleteResponse
+afterProcessDeleteResponse
+beforeProcessErrorResponse
+afterProcessErrorResponse
+beforeProcessGetCollectionResponse
+afterProcessGetCollectionResponse
+beforeProcessGetResourceResponse
+afterProcessGetResourceResponse
+beforeProcessHeadResponse
+afterProcessHeadResponse
+beforeProcessMakeCollectionResponse
+afterProcessMakeCollectionResponse
+beforeProcessMoveResponse
+afterProcessMoveResponse
+beforeProcessMultiStatusResponse
+afterProcessMultiStatusResponse
+beforeProcessOptionsResponse
+afterProcessOptionsResponse
+beforeProcessPropFindResponse
+afterProcessPropFindResponse
+beforeProcessPropPatchResponse
+afterProcessPropPatchResponse
+beforeProcessPutResponse
+afterProcessPutResponse
+parseUnknownRequest
+handleUnknownResponse
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
