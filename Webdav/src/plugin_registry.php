@@ -323,6 +323,26 @@ class ezcWebdavPluginRegistry
             }
         }
     }
+
+    /**
+     * Initializes all registered plugins.
+     *
+     * This method calls the {@link ezcWebdavPluginConfiguration::init()}
+     * method for each registered plugin. The method is marked as private,
+     * because it is not intended for external use, but may only be called from
+     * {@link ezcWebdavServer}.
+     * 
+     * @return void
+     *
+     * @private
+     */
+    public final function initPlugins()
+    {
+        foreach ( $this->plugins as $namespace => $config )
+        {
+            $config->init();
+        }
+    }
 }
 
 ?>

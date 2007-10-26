@@ -115,9 +115,11 @@ class ezcWebdavServer
         {
             throw new ezcWebdavMissingHeaderException( 'User-Agent' );
         }
+        // Configure the server according to the requesting client
         $this->configurations->configure( $this, $_SERVER['HTTP_USER_AGENT'] );
 
-        // @todo: Call plugins init() method!
+        // Initialize all plugins
+        $this->pluginRegistry->initPlugins();
 
         // Parse request into request object
         $request = $this->transport->parseRequest( 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] );
