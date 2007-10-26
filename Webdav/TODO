@@ -37,6 +37,14 @@ TODO
   sense for plugins to internally store those. But actually it's sugar, because
   they can also access the data through the server singleton.
 
+- URL encoding, UTF-8 and other charsets?
+
+- Client initial request to deeper URLs for IE?
+
+- Some DAV clients request logs exactly after the time they requested the lock
+  to last. If the request now takes too much time, it may result in an error,
+  since the lock is already gone.
+
 Code TODOs on Thu Oct 18 08:20:15 CEST 2007
 ===========================================
 
