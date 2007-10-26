@@ -12,10 +12,9 @@
 /**
  * Class defining a feed.
  *
- * A feed has a type (eg. RSS1, RSS2 or ATOM) and one or more modules (eg.
- * Content, DublinCore).
+ * A feed has a type (eg. RSS1, RSS2 or ATOM). The feed type defines which
+ * processor is used to parse and generate that type.
  *
- * The feed type defines which processor is used to parse and generate that type.
  * The following feed processors are supported by the Feed component:
  *  - RSS1 ({@link ezcFeedRss1}) -
  *    {@link http://web.resource.org/rss/1.0/spec Specifications}
@@ -33,7 +32,7 @@
  *      <code>
  *        $feed = new ezcFeed( 'rss2' );
  *      </code>
- *  - by parsing an existing XML file or uri. The feed type of the resulting
+ *  - by parsing an existing XML file or URI. The feed type of the resulting
  *    ezcFeed object will be autodetected. Example:
  *      <code>
  *        $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
@@ -51,14 +50,18 @@
  *        $feed->title = 'News';
  *        $title = $feed->title;
  *      </code>
- *  - iterate over the items in the feed. An item in the feed is of class
- *    {@link ezcFeedItem}. Example:
+ *  - iterate over the items in the feed. Example:
  *      <code>
  *        // retrieve the titles from the feed items
  *        foreach ( $feed->items as $item )
  *        {
  *            $titles[] = $item->title;
  *        }
+ *      </code>
+ *  - add a new item to the feed. Example:
+ *      <code>
+ *        $item = $feed->add( 'item' );
+ *        $item->title = 'Item title';
  *      </code>
  *  - generate an XML document from the {@link ezcFeed} object. Example:
  *      <code>

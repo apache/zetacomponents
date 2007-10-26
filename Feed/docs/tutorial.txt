@@ -24,22 +24,19 @@ Base classes
 
 ezcFeed
   Defines a feed object of a specified type. Can be created from scratch or
-  from an existing XML document (with autodetection of type). One or more
-  feed modules can be added to the feed object. It can be generated into an XML
-  document.
+  from an existing XML document (with autodetection of type). It can be
+  generated into an XML document.
 
-ezcFeedItem
-  Defines an item in a feed object.
+ezcFeedElement
+  Defines an element in a feed object.
 
 
 Supported feed types and modules
 --------------------------------
 
-A feed has a type (eg. RSS1, RSS2 or ATOM) and one or more modules (eg. Content,
-DublinCore).
-
-The feed type defines which processor is used to parse and generate that type.
-The following feed processors are supported by the Feed component:
+A feed has a type (eg. RSS1, RSS2 or ATOM). The feed type defines which
+processor is used to parse and generate that type. The following feed
+processors are supported by the Feed component:
 
 - RSS1 (ezcFeedRss1)
 - RSS2 (ezcFeedRss1)
@@ -64,21 +61,18 @@ Creating a feed object
 
 A feed object can be created in different ways:
 
-- by calling the constructor with the required feed type. Example: ::
+- by calling the constructor with the required feed type. Example::
 
-    // create an RSS2 feed
     $feed = new ezcFeed( 'rss2' );
 
-- by parsing an existing XML file or uri. The feed type of the resulting
-  ezcFeed object will be autodetected. Example: ::
+- by parsing an existing XML file or URI. The feed type of the resulting
+  ezcFeed object will be auto-detected. Example::
 
-    // create an RSS2 feed from the XML file at http://www.example.com/rss2.xml
     $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
 
 - by parsing an XML document stored in a string variable. The feed type of
-  the resulting ezcFeed object will be autodetected. Example: ::
+  the resulting ezcFeed object will be autodetected. Example::
 
-    // create an RSS2 feed from the XML document stored in $xmlString
     $feed = ezcFeed::parseContent( $xmlString );
 
 
@@ -89,19 +83,23 @@ In the following examples $feed is an existing ezcFeed object.
 
 Possible feed operations:
 
-- set/get a value from the feed document. Example: ::
+- set/get a value from the feed document. Example::
 
     $feed->title = 'News';
     $title = $feed->title;
 
-- iterate over the items in the feed. An item in the feed is of class
-  ezcFeedItem. Example: ::
+- iterate over the items in the feed. Example::
 
     // retrieve the titles from the feed items
     foreach ( $feed->items as $item )
     {
         $titles[] = $item->title;
     }
+
+- add a new item to the feed. Example::
+
+    $item = $feed->add( 'item' );
+    $item->title = 'Item title';
 
 - generate an XML document from the ezcFeed object. Example: ::
 
