@@ -19,6 +19,53 @@ information for you.
 Overview
 ========
 
+The Webdav component provides a flexible plugin architecture to extend the
+features of the component. A plugin is a certain set of classes, that
+represents a certain functionality for the component. Every plugin must ship a
+class that extends ezcWebdavPluginConfiguration and is used to add the plugin
+to the component.
+
+To interact with the component, a plugin can assign an unlimited number of
+callbacks to so called "hooks" which are offered by certain parts of the
+component. A hook indicates that a certain event has occured inside the
+component and informs plugins about this event. A plugin callback will receive
+a defined number of parameters, wrapped into an instance of
+ezcWebavPluginParameters, it may work on and even possibly alter.
+
+A callback assigned to a hook should usually not return anything, because
+procesing of further callbacks will be stopped immediatelly in this case.
+Therefore, a plugin callback usually returns null and interacts with the
+component through the received parameters. Some special hooks expect a plugin
+callback to return a certain object to stop processing of further callbacks by
+intention and to inject a certain object into the component. If this is the
+case, it is explicitly mentioned in the hook description.
+
+Plugin configuration
+====================
+
+Every plugin must provide a class that extends ezcWebdavPluginConfiguration and
+is used to activate the plugin in the server. This class is instantiated by the
+user and submitted to ezcWebdavPluginRegistry->registerPlugin(). After that,
+the plugin is registered and active.
+
+The configuration class expects 2 abstract methods to be implemented, which are
+used by the server to determine all necessary information about the plugin:
+
+getNamespace()
+  This method must return a string, representing a unique identifier for the
+  plugin, called the namespace of the plugin. This sting should usually reflect
+  the plugins name for clearity. A good namespace identifier would e.g. be
+  "ezcWebdavLockPlugin".
+getHooks()
+  The server calls this method on the configuration object to receive an array
+  containing all hooks the plugin wants to assign to, including the callbacks
+  for each hook. The detailed structure of this definition can be found in the
+  Webdav API docs.
+
+Additionally, the server will call the init() method on the configuration
+object, which by default does nothing. A plugin can overwrite this method, to
+perform any kind of setup work.
+
 Hooks
 =====
 
@@ -504,7 +551,7 @@ therefore may not occur, since processing of additional callbacks will be
 stopped as soon as a return value is send.
 
 afterProcessErrorResponse
-````````````````````````
+`````````````````````````
 
 This hook is announce directly after a ezcWebdavError response object has been
 serialized to be send back to the client. The parameter submitted to the hook is
@@ -1335,6 +1382,86 @@ Any changes made to the parameter will have effects on other mechanisms
 accessing it. Therefore all manipulations must be performed very carefully and
 should be avoided if possible.
 
+API
+===
+
+Every plugin may access any public API elements of the Webdav component to
+perform any necessary tasks. To access the correct module for the right task,
+plugins should follow the following hints to ensure correct working.
+
+Central server
+--------------
+
+The central entrance point of the Webdav component is the class
+ezcWebdavServer, which coordinates all other modules. The singleton instance of
+this class acts also as the central registry for all modules, which can be
+accessed through the servers properties, once it is initialized.
+
+The singleton instance of the server can be access using
+ezcWebdavServer->getInstance() and offers the following attributes to be used
+by plugins:
+
+$pathFactory
+  This attribute contains the instance of ezcWebdavPathFactory that has been
+  configured by the user to be used. In most cases, a plugin will not need to
+  access this one, since it only acts on processed pathes. Only if new request
+  data is parsed or response data needs to be serialized, a plugin might need
+  to access to path factory to parse an URI into a path or the other way
+  around.
+$xmlTool
+  The instance of eczWebdavXmlTool is used in the transport layer and while
+  dealing with properties. When dealing with parsing/processing request or
+  response data, this attribute of the server should be accessed for XML
+  handling. In case of property related hooks, the XML tool to use will be
+  provided as a parameter, which _must_ be used in this case.
+$propertyHandler
+  The property handler object stored in this attribute is used to parse live
+  and dead properties from XML and serialize them to XML. A plugin can also
+  make use of this functionality. The attribute contains an instance of
+  ezcWebdavPropertyHandler.
+$headerHandler
+  Analogous to $propertyHandler, this attribute contains an instance of
+  ezcWebdavHeaderHandler, which can be used by a plugin to access and parse
+  headers sent with the request.
+$transport
+  The main element of the transport layer is kept in this attribute: An
+  instance of ezcWebdavTransport, which is responsible for parsing requests and
+  for serializing and sending of responses. Normally, a plugin should not need
+  to access this attribute.
+$backend
+  The backend used by the server is hold in this attribute, an instance of
+  ezcWebdavBackend. While a plugin could theoretically access the backends
+  methods directly, it is recommended to interact with it using request and
+  response objects. A newly created request object can be send to the backend
+  using ezcWebdavBackend->performRequest() which will return a response object
+  for evaluation. This will work with every backend, while non-standardized
+  methods might be missing in certain backends, which might break the plugin.
+ 
+Data transport
+--------------
+
+It often occurs, that a plugin needs to store data related to an
+infrastructural element of the component (request/response/property) and to
+access this data later during the request. To avoid that every plugin needs to
+implement a storage engine for this on its own, all infrastructual objects
+allow you to attach certain data to them and read this data later. Note that
+the data is not presistent between requests, but is only valid during the
+request.
+
+Intfrastructural elements are all instances of
+
+- ezcWebdavRequest
+- ezcWebdavRepsonse
+- ezcWebdavProperty
+
+and derived classes. All of these extend ezcWebdavInfrastructureBase, which
+offers the data storage mechanism for plugins.
+
+To attach data to such an object, the method setPluginData() is used, expecting
+the namespace of the plugin a key for the data and the data itself. Later, the
+data can be restored from the same object, by using its getPluginData() with
+the namespace and key. The methods hasPluginData() and removePluginData() are
+also available to maintain the storage.
 
 
 ..
