@@ -12,6 +12,9 @@
 /**
  * Class providing parsing and generating of ATOM feeds.
  *
+ * Specifications:
+ * {@link http://atompub.org/rfc4287.html ATOM RFC4287}.
+ *
  * @package Feed
  * @version //autogentag//
  */
@@ -23,11 +26,12 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     const FEED_TYPE = 'atom';
 
     /**
-     * Holds a list of modules that are supported by this feed type.
+     * Holds the definitions for the elements in RSS1.
      *
-     * @var array(string)
+     * @var array(string=>mixed)
+     * @ignore
      */
-    protected $supportedModules = array();
+    protected static $atomSchema = array();
 
     /**
      * Creates a new ATOM processor.
@@ -35,88 +39,22 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     public function __construct()
     {
         $this->feedType = self::FEED_TYPE;
-    }
-
-    /**
-     * Sets the value of the feed element $element to $value.
-     *
-     * The hook {@link ezcFeedProcessor::processModuleFeedSetHook()} is called
-     * before setting $element.
-     *
-     * @param string $element The feed element
-     * @param mixed $value The new value of $element
-     */
-    public function setFeedElement( $element, $value )
-    {
-    }
-
-    /**
-     * Returns the value of the feed element $element.
-     *
-     * @param string $element The feed element
-     * @return mixed
-     */
-    public function getFeedElement( $element )
-    {
-    }
-
-    /**
-     * Sets the value of the feed element $element of feed item $item to $value.
-     *
-     * The hook {@link ezcFeedProcessor::processModuleItemSetHook()} is called
-     * before setting $element.
-     *
-     * @param ezcFeedItem $item The feed item object
-     * @param string $element The feed element
-     * @param mixed $value The new value of $element
-     */
-    public function setFeedItemElement( ezcFeedItem $item, $element, $value )
-    {
-    }
-
-    /**
-     * Returns the value of the element $element of feed item $item.
-     *
-     * @param ezcFeedItem $item The feed item object
-     * @param string $element The feed element
-     * @return mixed
-     */
-    public function getFeedItemElement( ezcFeedItem $item, $element )
-    {
-    }
-
-    /**
-     * Sets the value of the feed element $element of the feed image to $value.
-     *
-     * @param string $element The feed element
-     * @param mixed $value The new value of $element
-     */
-    public function setFeedImageElement( $element, $value )
-    {
-    }
-
-    /**
-     * Returns the value of the element $element of the feed image.
-     *
-     * @param string $element The feed element
-     * @return mixed
-     */
-    public function getFeedImageElement( $element )
-    {
+        $this->schema = new ezcFeedSchema( self::$atomSchema );
     }
 
     /**
      * Returns an XML string from the feed information contained in this
      * processor.
      *
-     * The hooks {@link ezcFeedProcessor::processModuleFeedGenerateHook()} and
-     * {@link ezcFeedProcessor::processModuleItemGenerateHook()} are used for
-     * each attribute in the feed and in the feed items.
-     *
      * @return string
      */
     public function generate()
     {
+        $this->xml = new DOMDocument( '1.0', 'utf-8' );
+        $this->xml->formatOutput = 1;
+        $this->createRootElement( '2.0' );
+
+        return $this->xml->saveXML();
     }
 
     /**
@@ -128,7 +66,12 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     public static function canParse( DOMDocument $xml )
     {
-        return false;
+        if ( $xml->documentElement->tagName !== 'feed' )
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -143,6 +86,15 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     public function parse( DOMDocument $xml )
     {
+        $feed = new ezcFeed( self::FEED_TYPE );
+        $channel = $xml->documentElement;
+
+        $this->usedPrefixes = array();
+        $xp = new DOMXpath( $xml );
+        $set = $xp->query( './namespace::*', $xml->documentElement );
+        $this->usedNamespaces = array();
+
+        return $feed;
     }
 
     /**
@@ -150,9 +102,10 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * the provided ezcFeed object.
      *
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
+     * @param ezcFeedElement $element The feed element object that will contain the feed item
      * @param DOMElement $xml The XML element object to parse
      */
-    public function parseItem( ezcFeed $feed, DOMElement $xml )
+    public function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
     }
 

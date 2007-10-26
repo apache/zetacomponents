@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <category domain="Category domain 1">Feed category 1</category>
+    <category domain="Category domain 2">Feed category 2</category>
+  </channel>
+</rss> 

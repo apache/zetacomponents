@@ -23,46 +23,12 @@
 abstract class ezcFeedProcessor
 {
     /**
-     * Holds the names of the supported modules by this processor. Child classes
-     * must populate this array with the modules that they support.
-     *
-     * @var array(string)
-     */
-    protected $supportedModules = array();
-
-    /**
-     * Holds the feed type (eg. 'rss2').
+     * Holds the feed type (eg. 'rss1').
      *
      * @var string
      * @ignore
      */
     protected $feedType;
-
-    /**
-     * A list of modules contained in this processor.
-     *
-     * @var array(string=>ezcFeedModuleData)
-     * @ignore
-     */
-    protected $modules = array();
-
-    /**
-     * The meta data for the modules.
-     *
-     * The format of this array is:
-     * <code>
-     *   array( module_name => array( element_name => element_value ) );
-     * </code>
-     *
-     * Example:
-     * <code>
-     *   array( 'DublinCore' => array( 'title' => 'News', 'format' = 'text/plain' ) );
-     * </code>
-     *
-     * @var array(string=>array)
-     * @ignore
-     */
-    protected $moduleMetaData = array();
 
     /**
      * Holds the XML document which is being generated.
@@ -73,345 +39,164 @@ abstract class ezcFeedProcessor
     protected $xml;
 
     /**
-     * Returns the type of this processor (eg. 'rss1').
+     * Holds the root node of the XML document being generated.
      *
-     * @return string
+     * @var DOMNode
+     * @ignore
      */
-    public function getFeedType()
-    {
-        return $this->feedType;
-    }
+    protected $root;
 
     /**
-     * Returns true if $moduleName is supported by this processor, false otherwise.
+     * Holds the channel element of the XML document being generated.
      *
-     * @param string $moduleName The module name (eg. 'DublinCore')
-     * @return bool
+     * @var DOMElement
+     * @ignore
      */
-    public function isModuleSupported( $moduleName )
-    {
-        return in_array( $moduleName, $this->supportedModules );
-    }
+    protected $channel;
 
     /**
-     * Adds a new module to the feed processor.
+     * Holds the feed elements (ezcFeedElement).
      *
-     * It is called by the {@link ezcFeed::addModule()} method.
-     *
-     * @throws ezcFeedUnsupportedModuleException
-     *         If the module is not supported by this feed processor.
-     *
-     * @param string $moduleName The type of the module
-     * @param ezcFeedModule $moduleObj The instance of the module
-     * @return ezcFeedModuleData
+     * @var array(string=>mixed)
+     * @ignore
      */
-    public function addModule( $moduleName, ezcFeedModule $moduleObj )
-    {
-        if ( !$this->isModuleSupported( $moduleName ) )
-        {
-            throw new ezcFeedUnsupportedModuleException( $moduleName );
-        }
-
-        $this->modules[$moduleName] = new ezcFeedModuleData( $moduleName, $moduleObj, $this );
-        return $this->modules[$moduleName];
-    }
+    protected $elements;
 
     /**
-     * Adds a new module named $moduleName to the feed processor in $item.
+     * Holds the prefixes used in the feed generation process.
      *
-     * @throws ezcFeedUnsupportedModuleException
-     *         If the module is not supported by this feed processor.
-     *
-     * @param string $moduleName The type of the module
-     * @param ezcFeedModule $moduleObj The instance of the module
-     * @param ezcFeedItem $item The instance of the feed item
-     * @return ezcFeedItemModuleData
+     * @var array(string)
+     * @ignore
      */
-    public function addItemModule( $moduleName, ezcFeedModule $moduleObj, ezcFeedItem $item )
-    {
-        if ( !$this->isModuleSupported( $moduleName ) )
-        {
-            throw new ezcFeedUnsupportedModuleException( $moduleName );
-        }
-
-        return new ezcFeedItemModuleData( $moduleName, $moduleObj, $item );
-    }
-
-    /**
-     * Sets the meta data value for the element $element of the module
-     * $moduleName to $value.
-     *
-     * @param string $moduleName The type of the module
-     * @param ezcFeedModule $moduleObj The module object
-     * @param string $element The element in the module
-     * @param string $value The new value for $element
-     * @return mixed
-     */
-    public function setModuleMetaData( $moduleName, ezcFeedModule $moduleObj, $element, $value )
-    {
-        $value = $moduleObj->prepareMetaData( $element, $value );
-        $this->moduleMetaData[$moduleName][$element] = $value;
-    }
-
-    /**
-     * Returns the meta data value of the element $element from the module
-     * $moduleName.
-     *
-     * @param string $moduleName The type of the module
-     * @param ezcFeedModule $moduleObj The module object
-     * @param string $element The element in the module
-     * @return mixed
-     */
-    public function getModuleMetaData( $moduleName, ezcFeedModule $moduleObj, $element )
-    {
-        if ( isset( $this->moduleMetaData[$moduleName][$element] ) )
-        {
-            return $this->moduleMetaData[$moduleName][$element];
-        }
-        return null;
-    }
-
-    /**
-     * Returns all the meta data for the module $moduleName.
-     *
-     * The format of the returned array is:
-     * <code>
-     *   array( element_name => element_value );
-     * </code>
-     *
-     * Example:
-     * <code>
-     *   array( 'title' => 'News', 'format' = 'text/plain' );
-     * </code>
-     *
-     * @param string $moduleName The type of the module
-     * @return array(string=>mixed)
-     */
-    public function getAllModuleMetaData( $moduleName )
-    {
-        if ( isset( $this->moduleMetaData[$moduleName] ) )
-        {
-            return $this->moduleMetaData[$moduleName];
-        }
-        return array();
-    }
-
-    /**
-     * Sets the meta data value for the element $element of the module
-     * $moduleName of the item $item to $value.
-     *
-     * @param string $moduleName The type of the module
-     * @param ezcFeedModule $moduleObj The module object
-     * @param ezcFeedItem $item The feed item object
-     * @param string $element The element in the module
-     * @param string $value The new value for $element
-     * @return mixed
-     */
-    public function setModuleItemData( $moduleName, ezcFeedModule $moduleObj, ezcFeedItem $item, $element, $value )
-    {
-        $value = $moduleObj->prepareMetaData( $element, $value );
-        $item->setModuleMetaData( $moduleName, $moduleObj, $element, $value );
-    }
-
-    /**
-     * Returns the meta data value of the provided element in the module
-     * $moduleName of the item $item.
-     *
-     * @param string $moduleName The type of the module
-     * @param ezcFeedModule $moduleObj The module object
-     * @param ezcFeedItem $item The feed item object
-     * @param string $element The element in the module
-     * @return mixed
-     */
-    public function getModuleItemData( $moduleName, $moduleObj, ezcFeedItem $item, $element )
-    {
-        return $item->getModuleMetaData( $moduleName, $element );
-    }
-
-    /**
-     * Returns the list of supported modules by this processor.
-     *
-     * @return array(string)
-     */
-    public function getSupportedModules()
-    {
-        return $this->supportedModules;
-    }
-
-    /**
-     * Returns the modules contained in this processor.
-     *
-     * @return array(string=>ezcFeedModuleData)
-     */
-    public function getModules()
-    {
-        return $this->modules;
-    }
-
-    /**
-     * Ensures the correct setting of element $element to $value for feed
-     * processor $feed.
-     *
-     * This hook is called before calling setMetaData() with the $element and $value
-     * arguments for the feed processor $feed.
-     *
-     * @param ezcFeedProcessor $feed The feed processor
-     * @param string $element The name of the element to set
-     * @param mixed $value The new value for $element
-     */
-    public function processModuleFeedSetHook( ezcFeedProcessor $feed, $element, $value )
-    {
-        foreach ( $this->modules as $moduleName => $moduleDescription )
-        {
-            $hookResult = $moduleDescription->moduleObj->feedMetaSetHook( $element, $value );
-            if ( $hookResult === true )
-            {
-                $feed->setModuleMetaData( $moduleName, $element, $value );
-            }
-        }
-    }
-
-    /**
-     * Ensures the correct generation of feed element $element with value
-     * $value. Returns true if setting $element is allowed, false otherwise.
-     *
-     * This hook is called before calling generateMetaData() with the normalized
-     * name of $element and (eventually prepared) value $value. It is called in the
-     * generate() method of the processor implementation.
-     *
-     * @param string $element The name of the element to set
-     * @param mixed $value The new value for $element
-     * @return bool
-     */
-    public function processModuleFeedGenerateHook( $element, $value )
-    {
-        foreach ( $this->modules as $moduleName => $moduleDescription )
-        {
-            $hookResult = $moduleDescription->moduleObj->feedMetaGenerateHook( $this->getAllModuleMetaData( $moduleName ), $element, $value );
-            if ( $hookResult === false )
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Ensures the correct setting of element $element to $value for feed item
-     * $item.
-     *
-     * This hook is called before calling setMetaData() with the $element and $value
-     * arguments for the feed item $item.
-     *
-     * @param ezcFeedItem $item The feed item object
-     * @param string $element The name of the element to set
-     * @param mixed $value The new value for $element
-     */
-    public function processModuleItemSetHook( ezcFeedItem $item, $element, $value )
-    {
-        foreach ( $this->modules as $moduleName => $moduleDescription )
-        {
-            $hookResult = $moduleDescription->moduleObj->feedItemSetHook( $element, $value );
-            if ( $hookResult === true )
-            {
-                $this->setModuleItemData( $moduleName, $moduleDescription->moduleObj, $item, $element, $value );
-            }
-        }
-    }
-
-    /**
-     * Ensures the correct generation of feed element $element with value
-     * $value in item $item. Returns true if setting $element is allowed,
-     * false otherwise.
-     *
-     * This hook is called before calling generateItemData() with the normalized
-     * name of $element and (eventually prepared) value $value. It is called in the
-     * generate() method of the processor implementation.
-     *
-     * @param ezcFeedItem $item The feed item object
-     * @param string $element The name of the element to set
-     * @param mixed $value The new value for $element
-     * @return bool
-     */
-    public function processModuleItemGenerateHook( ezcFeedItem $item, $element, $value )
-    {
-        foreach ( $this->modules as $moduleName => $moduleDescription )
-        {
-            $hookResult = $moduleDescription->moduleObj->feedItemGenerateHook( $item->getAllModuleMetaData( $moduleName ), $element, $value );
-            if ( $hookResult === false )
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Sets the value of the feed element $element to $value.
-     *
-     * The hook {@link self::processModuleFeedSetHook()} can be used in the
-     * implementation before setting $element.
-     *
-     * @param string $element The feed element
-     * @param mixed $value The new value of $element
-     */
-    abstract public function setFeedElement( $element, $value );
-
-    /**
-     * Returns the value of the feed element $element.
-     *
-     * @param string $element The feed element
-     * @return mixed
-     */
-    abstract public function getFeedElement( $element );
-
-    /**
-     * Sets the value of the feed element $element of feed item $item to $value.
-     *
-     * The hook {@link self::processModuleItemSetHook()} can be used in the
-     * implementation before setting $element.
-     *
-     * @param ezcFeedItem $item The feed item object
-     * @param string $element The feed element
-     * @param mixed $value The new value of $element
-     */
-    abstract public function setFeedItemElement( ezcFeedItem $item, $element, $value );
-
-    /**
-     * Returns the value of the element $element of feed item $item.
-     *
-     * @param ezcFeedItem $item The feed item object
-     * @param string $element The feed element
-     * @return mixed
-     */
-    abstract public function getFeedItemElement( ezcFeedItem $item, $element );
-
-    /**
-     * Sets the value of the feed element $element of the feed image to $value.
-     *
-     * @param string $element The feed element
-     * @param mixed $value The new value of $element
-     */
-    abstract public function setFeedImageElement( $element, $value );
-
-    /**
-     * Returns the value of the element $element of the feed image.
-     *
-     * @param string $element The feed element
-     * @return mixed
-     */
-    abstract public function getFeedImageElement( $element );
+    protected $usedPrefixes = array();
 
     /**
      * Returns an XML string from the feed information contained in this
      * processor.
      *
-     * The hooks {@link self::processModuleFeedGenerateHook()} and
-     * {@link self::processModuleItemGenerateHook()} can be used in the
-     * implementation for each attribute in the feed and in the feed items.
-     *
      * @return string
      */
     abstract public function generate();
+
+    /**
+     * Creates a node in the XML document being generated with name $element
+     * and value(s) $value.
+     *
+     * @param DOMNode $root The root in which to create the node $element
+     * @param string $element The name of the XML element
+     * @param mixed|array(mixed) $value The value(s) for $element
+     */
+    public function generateMetaData( DOMNode $root, $element, $value )
+    {
+        if ( !is_array( $value ) )
+        {
+            $value = array( $value );
+        }
+        foreach ( $value as $valueElement )
+        {
+            $meta = $this->xml->createElement( $element, $valueElement );
+            $root->appendChild( $meta );
+        }
+    }
+
+    /**
+     * Creates elements in the XML document being generated with name $element
+     * and value(s) $value.
+     *
+     * @param DOMNode $root The root in which to create the node $element
+     * @param string $element The name of the XML element
+     * @param mixed|array(mixed) $value The value(s) for $element
+     * @param array(string=>mixed) $attributes The attributes to add to the node
+     */
+    public function generateMetaDataWithAttributes( DOMNode $root, $element, $value, array $attributes )
+    {
+        if ( !is_array( $value ) )
+        {
+            $value = array( $value );
+        }
+        foreach ( $value as $valueElement )
+        {
+            $meta = $this->xml->createElement( $element, $valueElement );
+            foreach ( $attributes as $attrName => $attrValue )
+            {
+                $attr = $this->xml->createAttribute( $attrName );
+                $text = $this->xml->createTextNode( $attrValue );
+                $attr->appendChild( $text );
+                $meta->appendChild( $attr );
+            }
+            $root->appendChild( $meta );
+        }
+    }
+
+    /**
+     * Sets the value of element $name to $value based on the feed schema.
+     *
+     * @param string $name The element name
+     * @param mixed $value The new value for the element $name
+     */
+    public function set( $name, $value )
+    {
+        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
+        if ( !isset( $this->elements[$name] ) )
+        {
+            if ( $this->schema->isMulti( $name ) )
+            {
+                $this->elements[$this->schema->getMulti( $name )] = array();
+            }
+            else
+            {
+                $this->elements[$name] = new ezcFeedElement( $this->schema->getSchema( $name ) );
+            }
+        }
+        if ( $this->schema->isMulti( $name ) )
+        {
+            $this->elements[$this->schema->getMulti( $name )][0]->set( $value );
+        }
+        else
+        {
+            $this->elements[$name]->set( $value );
+        }
+    }
+
+    /**
+     * Returns the value of element $name based on the feed schema.
+     *
+     * @param string $name The element name
+     * @return mixed
+     */
+    public function get( $name )
+    {
+        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
+        if ( isset( $this->elements[$name] ) )
+        {
+            return $this->elements[$name];
+        }
+
+        if ( $this->schema->isMulti( $name ) )
+        {
+            return isset( $this->elements[$this->schema->getMulti( $name )][0] ) ? $this->elements[$this->schema->getMulti( $name )][0] : null;
+        }
+
+        return null;
+    }
+
+    /**
+     * Adds a new ezcFeedElement element with name $name and returns it, if the
+     * feed schema allows this (returns null if the schema does not allow it).
+     *
+     * @param string $name The element name
+     * @return ezcFeedelement|null
+     */
+    public function add( $name )
+    {
+        if ( $this->schema->isMulti( $name ) )
+        {
+            $element = new ezcFeedElement( $this->schema->getSchema( $name ) );
+            $this->elements[$this->schema->getMulti( $name )][] = $element;
+            return $element;
+        }
+
+        return null;
+    }
 }
 ?>

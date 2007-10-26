@@ -47,28 +47,6 @@ class ezcFeedTest extends ezcFeedTestCase
         }
     }
 
-    public function testAddModuleSupported()
-    {
-        $feed = new ezcFeed( 'rss2' );
-        $this->assertEquals( false, isset( $feed->DublinCore ) );
-        $feed->addModule( 'DublinCore' );
-        $this->assertEquals( true, isset( $feed->DublinCore ) );
-    }
-
-    public function testAddModuleNotSupported()
-    {
-        $feed = new ezcFeed( 'rss2' );
-        try
-        {
-            $feed->addModule( 'stdClass' );
-            $this->fail( 'Expected exception not thrown' );
-        }
-        catch ( ezcFeedUnsupportedModuleException $e )
-        {
-            $this->assertEquals( "The module 'stdClass' is not supported.", $e->getMessage() );
-        }
-    }
-
     public function testFeedNonExistentLocal()
     {
         try
@@ -132,9 +110,6 @@ class ezcFeedTest extends ezcFeedTestCase
     {
         $feed = new ezcFeed( 'rss2' );
 
-        $this->readonlyPropertyTest( $feed, 'items' );
-        $this->readonlyPropertyTest( $feed, 'image' );
-
         try
         {
             $value = $feed->no_such_property;
@@ -143,56 +118,6 @@ class ezcFeedTest extends ezcFeedTestCase
         catch ( ezcBasePropertyNotFoundException $e )
         {
             $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
-    }
-
-    public function testFeedItemProperties()
-    {
-        $feed = new ezcFeed( 'rss2' );
-        $feedItem = $feed->newItem();
-
-        try
-        {
-            $value = $feedItem->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
-    }
-
-    public function testFeedImageProperties()
-    {
-        $feed = new ezcFeed( 'rss2' );
-        $feedImage = $feed->newImage();
-
-        $feedImage = $feed->image;
-
-        try
-        {
-            $value = $feedImage->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
-    }
-
-    public function testFeedItemSetMetaDataFail()
-    {
-        $feed = new ezcFeed( 'rss2' );
-        $feedItem = $feed->newItem();
-
-        try
-        {
-            $feedItem->setMetaData( 'title', array() );
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcFeedOnlyOneValueAllowedException $e )
-        {
-            $this->assertEquals( "The attribute 'title' supports only singular values.", $e->getMessage() );
         }
     }
 }

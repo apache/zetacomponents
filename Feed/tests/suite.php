@@ -12,9 +12,15 @@
  * Require the tests
  */
 require_once 'feed_test.php';
-require_once 'rss2/rss2_test.php';
-require_once 'rss2/rss2_content_test.php';
-require_once 'rss2/rss2_dc_test.php';
+
+require_once 'atom/atom_regression_generate_test.php';
+require_once 'atom/atom_regression_parse_test.php';
+
+require_once 'rss1/rss1_regression_generate_test.php';
+require_once 'rss1/rss1_regression_parse_test.php';
+
+require_once 'rss2/rss2_regression_generate_test.php';
+require_once 'rss2/rss2_regression_parse_test.php';
 
 /**
  * @package Feed
@@ -28,9 +34,15 @@ class ezcFeedSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Feed' );
 
         $this->addTest( ezcFeedTest::suite() );
-        $this->addTest( ezcFeedRss2Test::suite() );
-        $this->addTest( ezcFeedRss2ContentTest::suite() );
-        $this->addTest( ezcFeedRss2DCTest::suite() );
+
+        $this->addTest( ezcFeedAtomRegressionGenerateTest::suite() );
+        $this->addTest( ezcFeedAtomRegressionParseTest::suite() );
+
+        $this->addTest( ezcFeedRss1RegressionGenerateTest::suite() );
+        $this->addTest( ezcFeedRss1RegressionParseTest::suite() );
+
+        $this->addTest( ezcFeedRss2RegressionGenerateTest::suite() );
+        $this->addTest( ezcFeedRss2RegressionParseTest::suite() );
     }
 
     public static function suite()

@@ -42,23 +42,5 @@ interface ezcFeedParser
      * @return ezcFeed
      */
     public function parse( DOMDocument $xml );
-
-    /**
-     * Parses the provided XML element object and stores it as a feed item in
-     * the provided ezcFeed object.
-     *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
-     * @param DOMElement $xml The XML element object to parse
-     */
-    public function parseItem( ezcFeed $feed, DOMElement $xml );
-
-    /**
-     * Parses the provided XML element object and stores it as a feed image in
-     * the provided ezcFeed object.
-     *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed image
-     * @param DOMElement $xml The XML element object to parse
-     */
-    public function parseImage( ezcFeed $feed, DOMElement $xml );
 }
 ?>

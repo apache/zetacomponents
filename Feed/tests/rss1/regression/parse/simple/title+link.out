@@ -1,0 +1,8 @@
+<?php
+$feed = new ezcFeed( 'rss1' );
+
+$feed->title = 'Feed title';
+$feed->link = 'Feed link';
+
+return $feed;
+?>

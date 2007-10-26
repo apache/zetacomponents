@@ -1,0 +1,8 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( 'Feed link' ),
+              'description' => 'Feed description',
+			  'category' => array( array( '#' => 'Feed category 1', 'domain' => 'Category domain 1' ),
+                                   array( '#' => 'Feed category 2', 'domain' => 'Category domain 2' ) ),
+            );
+?>

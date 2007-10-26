@@ -6,6 +6,12 @@
 - The RSS2 image node is created and parsed correctly.
 - The addModule() method in ezcFeed now accepts the name of a module instead
   the name of a class.
+- Reorganized internal structure of classes.
+- Added support for XML attributes.
+- Added some RSS1 and ATOM support.
+- Added regression tests based on the ones from Template.
+- Added ezcFeedSchema to define different feed types.
+- Added ezcFeedElement instead of ezcFeedItem.
 
 
 1.0beta1 - Monday 18 December 2006

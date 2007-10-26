@@ -1,0 +1,11 @@
+<?php
+$feed = new ezcFeed( 'rss2' );
+
+$link = $feed->add( 'link' );
+$link->set( 'Feed link 1' );
+
+$link = $feed->add( 'link' );
+$link->set( 'Feed link 2' );
+
+return $feed;
+?>

@@ -1,0 +1,6 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( 'Feed link 1', 'Feed link 2' ),
+              'description' => 'Feed description',
+            );
+?>

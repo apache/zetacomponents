@@ -1,0 +1,8 @@
+<?php
+$feed = new ezcFeed( 'rss2' );
+
+$category = $feed->add( 'category' );
+$category->set( 'Feed category' );
+
+return $feed;
+?>

@@ -1,0 +1,4 @@
+<?php
+$feed = new ezcFeed( 'rss1' );
+return $feed;
+?>
