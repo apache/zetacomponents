@@ -101,9 +101,81 @@ Possible feed operations:
     $item = $feed->add( 'item' );
     $item->title = 'Item title';
 
-- generate an XML document from the ezcFeed object. Example: ::
+- generate an XML document from the ezcFeed object. Example::
 
     $xml = $feed->generate();
+
+
+Applications
+============
+
+Podcasts
+--------
+
+A podcast is a collection of media files distributed over the Internet using
+feeds.
+
+The Feed component supports creating and parsing feeds which define podcasts.
+
+
+Parse an RSS2 podcast
+`````````````````````
+
+The following example shows how to parse an RSS2 podcast::
+
+    $feed = ezcFeed::parse( 'http://www.example.com/podcast.xml' );
+
+    $media = array();
+    foreach ( $feed->items as $item )
+    {
+        if ( isset( $item->enclosure[0] ) )
+        {
+            $enclosure = $item->enclosure[0];
+
+            $media[] = array(
+               'url' => isset( $enclosure->url ) ? $enclosure->url : 'not defined',
+               'length' => isset( $enclosure->length ) ? $enclosure->length : 'not defined',
+               'type' => isset( $enclosure->type ) ? $enclosure->type : 'not defined' );
+        }
+    }
+
+After running the code, the array $media will contain the URL, length and type
+of the media files specified in the feed.
+
+
+Create an RSS2 podcast
+``````````````````````
+
+The following example shows how to create an RSS2 podcast with 2 media files::
+
+    $feed = new ezcFeed( 'rss2' );
+
+    $feed->title = 'Feed title';
+
+    $link = $feed->add( 'link' );
+    $link->set( 'Feed link' );
+
+    $feed->description = 'Feed description';
+
+    $item = $feed->add( 'item' );
+    $item->title = 'Title for media file 1';
+    $item->link = 'Link for media file 1';
+    $item->description = 'Description for media file 1';
+
+    $enclosure = $item->add( 'enclosure' );
+    $enclosure->url = 'http://www.example.com/media_file1.mp3';
+    $enclosure->length = 4300;
+    $enclosure->type = 'audio/x-mp3';
+
+    $item = $feed->add( 'item' );
+    $item->title = 'Title for media file 2';
+    $item->link = 'Link for media file 2';
+    $item->description = 'Description for media file 2';
+
+    $enclosure = $item->add( 'enclosure' );
+    $enclosure->url = 'http://www.example.com/media_file2.mp3';
+    $enclosure->length = 6500;
+    $enclosure->type = 'audio/x-mp3';
 
 
 Specifications and RFCs

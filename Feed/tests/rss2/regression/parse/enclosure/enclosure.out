@@ -1,0 +1,21 @@
+<?php
+$feed = new ezcFeed( 'rss2' );
+$feed->title = 'Feed title';
+
+$link = $feed->add( 'link' );
+$link->set( 'Feed link' );
+
+$feed->description = 'Feed description';
+
+$item = $feed->add( 'item' );
+$item->title = 'Item title';
+$item->link = 'Item link';
+$item->description = 'Item description';
+
+$enclosure = $item->add( 'enclosure' );
+$enclosure->url = 'Enclosure url';
+$enclosure->length = 1200;
+$enclosure->type = 'Enclosure type';
+
+return $feed;
+?>

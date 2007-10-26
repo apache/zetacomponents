@@ -61,6 +61,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                                      'description' => array( '#' => 'string' ),
                                                      'width'       => array( '#' => 'string' ),
                                                      'height'      => array( '#' => 'string' ),
+
                                                      'REQUIRED'    => array( 'url', 'title', 'link' ),
                                                      'OPTIONAL'    => array( 'description', 'width', 'height' ),
                                                      ), ),
@@ -79,7 +80,13 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                                      'author'       => array( '#' => 'string' ),
                                                      'category'     => array( '#' => 'string' ),
                                                      'comments'     => array( '#' => 'string' ),
-                                                     'enclosure'    => array( '#' => 'string' ),
+                                                     'enclosure'    => array( '#' => 'none',
+                                                                              'ATTRIBUTES' => array( 'url'    => 'string',
+                                                                                                     'length' => 'string',
+                                                                                                     'type'   => 'string' ),
+                                                                              //'MULTI' => 'enclosures'
+                                                                              ),
+
                                                      'guid'         => array( '#' => 'string',
                                                                               'ATTRIBUTES' => array( 'isPermaLink' => 'string' ) ),
 
@@ -197,7 +204,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
             foreach ( $data as $dataNode )
             {
-                $this->generateNode( $element, $dataNode );
+                $this->generateNode( $this->channel, $element, $dataNode );
             }
         }
     }
@@ -232,7 +239,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                         foreach ( $data as $dataNode )
                         {
-                            $this->generateNode( $element, $dataNode );
+                            $this->generateNode( $this->channel, $element, $dataNode );
                         }
                         break;
                 }
@@ -243,11 +250,12 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     /**
      * Creates an XML node in the XML document being generated.
      *
+     * @param DOMNode $root The root in which to create the node $element
      * @param string $element The name of the node to create
      * @param array(string=>mixed) $dataNode The data for the node to create
      * @ignore
      */
-    protected function generateNode( $element, $dataNode )
+    protected function generateNode( DOMNode $root, $element, $dataNode )
     {
         $attributes = array();
         foreach ( $this->schema->getAttributes( $element ) as $attribute => $type )
@@ -257,13 +265,14 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                 $attributes[$attribute] = $dataNode->$attribute;
             }
         }
+
         if ( count( $attributes ) >= 1 )
         {
-            $this->generateMetaDataWithAttributes( $this->channel, $element, $dataNode, $attributes );
+            $this->generateMetaDataWithAttributes( $root, $element, $dataNode, $attributes );
         }
         else
         {
-            $this->generateMetaData( $this->channel, $element, $dataNode );
+            $this->generateMetaData( $root, $element, $dataNode );
         }
     }
 
@@ -305,7 +314,8 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             {
                 $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
 
-                $metaData = $this->schema->isMulti( 'item', $attribute ) ? $this->get( $this->schema->getMulti( 'item', $attribute ) ) : $item->$attribute;
+                $metaData = $this->schema->isMulti( 'item', $attribute ) ? $this->get( $this->schema->getMulti( 'item', $attribute ), $attribute ) : $item->$attribute;
+
                 if ( !is_null( $metaData ) )
                 {
                     // @todo Add hooks
@@ -318,6 +328,30 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                         case 'published':
                             $this->generateMetaData( $itemTag, $normalizedAttribute, date( 'D, d M Y H:i:s O', $metaData ) );
+                            break;
+
+                        case 'enclosure':
+                            foreach ( $metaData as $dataNode )
+                            {
+                                $attributes = array();
+                                foreach ( $this->schema->getAttributes( 'item', 'enclosure' ) as $attribute => $type )
+                                {
+                                    if ( isset( $dataNode->$attribute ) )
+                                    {
+                                        $attributes[$attribute] = $dataNode->$attribute;
+                                    }
+                                }
+
+                                if ( count( $attributes ) >= 1 )
+                                {
+                                    $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, false, $attributes );
+                                }
+                                else
+                                {
+                                    // @todo Raise exception
+                                }
+                            }
+
                             break;
 
                         default:
@@ -472,7 +506,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     case 'description':
                     case 'author':
                     case 'comments':
-                    case 'enclosure':
                     case 'guid':
                     case 'source':
                         $element->$tagName = $itemChild->textContent;
@@ -483,6 +516,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'category':
+                    case 'enclosure':
                         $subElement = $element->add( $tagName );
                         $subElement->set( $itemChild->textContent );
                         break;
@@ -493,7 +527,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                 foreach ( ezcFeedTools::getAttributes( $itemChild ) as $key => $value )
                 {
-                    if ( in_array( $tagName, array( 'category' ) ) )
+                    if ( in_array( $tagName, array( 'category', 'enclosure' ) ) )
                     {
                         $subElement->$key = $value;
                     }

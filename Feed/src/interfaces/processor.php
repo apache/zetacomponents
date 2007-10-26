@@ -108,7 +108,7 @@ abstract class ezcFeedProcessor
      * @param mixed|array(mixed) $value The value(s) for $element
      * @param array(string=>mixed) $attributes The attributes to add to the node
      */
-    public function generateMetaDataWithAttributes( DOMNode $root, $element, $value, array $attributes )
+    public function generateMetaDataWithAttributes( DOMNode $root, $element, $value = false, array $attributes )
     {
         if ( !is_array( $value ) )
         {
@@ -116,7 +116,14 @@ abstract class ezcFeedProcessor
         }
         foreach ( $value as $valueElement )
         {
-            $meta = $this->xml->createElement( $element, $valueElement );
+            if ( $valueElement === false )
+            {
+                $meta = $this->xml->createElement( $element );
+            }
+            else
+            {
+                $meta = $this->xml->createElement( $element, $valueElement );
+            }
             foreach ( $attributes as $attrName => $attrValue )
             {
                 $attr = $this->xml->createAttribute( $attrName );

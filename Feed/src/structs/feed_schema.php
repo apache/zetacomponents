@@ -39,15 +39,26 @@ class ezcFeedSchema
      * schema.
      *
      * @param string $element The schema element
+     * @param string $subElement The subelement of $element
      * @return array(string)
      */
-    public function getAttributes( $element )
+    public function getAttributes( $element, $subElement = null )
     {
         $result = array();
 
-        if ( isset( $this->schema[$element]['ATTRIBUTES'] ) )
+        if ( $subElement === null )
         {
-            $result = $this->schema[$element]['ATTRIBUTES'];
+            if ( isset( $this->schema[$element]['ATTRIBUTES'] ) )
+            {
+                $result = $this->schema[$element]['ATTRIBUTES'];
+            }
+        }
+        else
+        {
+            if ( isset( $this->schema[$element]['NODES'][$subElement]['ATTRIBUTES'] ) )
+            {
+                $result = $this->schema[$element]['NODES'][$subElement]['ATTRIBUTES'];
+            }
         }
 
         return $result;
@@ -151,6 +162,27 @@ class ezcFeedSchema
         else
         {
             return $this->schema[$element]['NODES'][$subElement]['MULTI'];
+        }
+    }
+
+    /**
+     * Returns if $element does not accept a value for the root node. If $subElement
+     * is present then returns if the subelement $subElement of element $element
+     * accepts a value for the root node.
+     *
+     * @param string $element The schema element
+     * @param string $subElement The subelement of $element
+     * @return bool
+     */
+    public function isEmpty( $element, $subElement = null )
+    {
+        if ( $subElement === null )
+        {
+            return $this->schema[$element]['#'] === 'none';
+        }
+        else
+        {
+            return $this->schema[$element]['NODES'][$subElement]['#'] === 'none';
         }
     }
 

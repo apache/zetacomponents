@@ -93,7 +93,7 @@ class ezcFeedElement
      */
     public function __toString()
     {
-        return '' . $this->data['#'];
+        return isset( $this->data['#'] ) ? '' . $this->data['#'] : '';
     }
 
     /**
@@ -103,7 +103,10 @@ class ezcFeedElement
      */
     public function set( $value )
     {
-        $this->data['#'] = $value;
+        if ( $this->schema['#'] !== 'none' )
+        {
+            $this->data['#'] = $value;
+        }
     }
 
     /**
@@ -125,7 +128,7 @@ class ezcFeedElement
      */
     public function add( $name )
     {
-        $element = new ezcFeedElement( $this->schema );
+        $element = new ezcFeedElement( $this->schema['NODES'][$name] );
         $this->data[$name][] = $element;
         return $element;
     }
