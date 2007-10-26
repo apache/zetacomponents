@@ -76,7 +76,9 @@ abstract class ezcWebdavPluginConfiguration
      * 
      * @return void
      */
-    public abstract function init();
+    public function init()
+    {
+    }
 }
 
 ?>
