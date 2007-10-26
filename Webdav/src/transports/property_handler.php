@@ -129,6 +129,7 @@ class ezcWebdavPropertyHandler
             new ezcWebdavPluginParameters(
                 array(
                     'domElement'  => $element,
+                    'xmlTool'     => $this->getXmlTool(),
                 )
             )
         );
@@ -145,6 +146,7 @@ class ezcWebdavPropertyHandler
                 new ezcWebdavPluginParameters(
                     array(
                         'domElement'  => $element,
+                        'xmlTool'     => $this->getXmlTool(),
                     )
                 )
             );
@@ -159,7 +161,8 @@ class ezcWebdavPropertyHandler
             'afterExtractLiveProperty',
             new ezcWebdavPluginParameters(
                 array(
-                    'property'  => $property,
+                    'property' => $property,
+                    'xmlTool'  => $this->getXmlTool(),
                 )
             )
         );
@@ -184,7 +187,8 @@ class ezcWebdavPropertyHandler
             'beforeExtractDeadProperty',
             new ezcWebdavPluginParameters(
                 array(
-                    'domElement'  => $element,
+                    'domElement' => $element,
+                    'xmlTool'    => $this->getXmlTool(),
                 )
             )
         );
@@ -197,7 +201,8 @@ class ezcWebdavPropertyHandler
             'afterExtractDeadProperty',
             new ezcWebdavPluginParameters(
                 array(
-                    'property'  => $property,
+                    'property' => $property,
+                    'xmlTool'  => $this->getXmlTool(),
                 )
             )
         );
@@ -343,7 +348,8 @@ class ezcWebdavPropertyHandler
                     'beforeSerializeLiveProperty',
                     new ezcWebdavPluginParameters(
                         array(
-                            'property'  => $property,
+                            'property' => $property,
+                            'xmlTool'  => $this->getXmlTool(),
                         )
                     )
                 );
@@ -359,7 +365,9 @@ class ezcWebdavPropertyHandler
                         'serializeUnknownLiveProperty',
                         new ezcWebdavPluginParameters(
                             array(
-                                'property'  => $property,
+                                'property'      => $property,
+                                'xmlTool'       => $this->getXmlTool(),
+                                'parentElement' => $parentElement,
                             )
                         )
                     );
@@ -371,7 +379,8 @@ class ezcWebdavPropertyHandler
                     'afterSerializeLiveProperty',
                     new ezcWebdavPluginParameters(
                         array(
-                            'domElement'  => $propertyElement,
+                            'domElement' => $propertyElement,
+                            'xmlTool'    => $this->getXmlTool(),
                         )
                     )
                 );
@@ -384,7 +393,8 @@ class ezcWebdavPropertyHandler
                     'beforeSerializeDeadProperty',
                     new ezcWebdavPluginParameters(
                         array(
-                            'property'  => $property,
+                            'property' => $property,
+                            'xmlTool'  => $this->getXmlTool(),
                         )
                     )
                 );
@@ -397,7 +407,8 @@ class ezcWebdavPropertyHandler
                     'afterSerializeDeadProperty',
                     new ezcWebdavPluginParameters(
                         array(
-                            'domElement'  => $propertyElement,
+                            'domElement' => $propertyElement,
+                            'xmlTool'    => $this->getXmlTool(),
                         )
                     )
                 );
