@@ -409,38 +409,931 @@ The return value of callbacks assigned to this hook will be ignored and
 therefore may not occur, since processing of additional callbacks will be
 stopped as soon as a return value is send.
 
-
-
-
-
 beforeProcessCopyResponse
+`````````````````````````
+
+This hook is announce directly before a ezcWebdavCopy response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessCopyResponse
+````````````````````````
+
+This hook is announce directly after a ezcWebdavCopy response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessDeleteResponse
+```````````````````````````
+
+This hook is announce directly before a ezcWebdavDelete response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessDeleteResponse
+``````````````````````````
+
+This hook is announce directly after a ezcWebdavDelete response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessErrorResponse
+``````````````````````````
+
+This hook is announce directly before a ezcWebdavError response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessErrorResponse
+````````````````````````
+
+This hook is announce directly after a ezcWebdavError response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessGetCollectionResponse
+``````````````````````````````````
+
+This hook is announce directly before a ezcWebdavGetCollection response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessGetCollectionResponse
+`````````````````````````````````
+
+This hook is announce directly after a ezcWebdavGetCollection response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessGetResourceResponse
+````````````````````````````````
+
+This hook is announce directly before a ezcWebdavGetResource response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessGetResourceResponse
+```````````````````````````````
+
+This hook is announce directly after a ezcWebdavGetResource response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessHeadResponse
+`````````````````````````
+
+This hook is announce directly before a ezcWebdavHead response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessHeadResponse
+````````````````````````
+
+This hook is announce directly after a ezcWebdavHead response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessMakeCollectionResponse
+```````````````````````````````````
+
+This hook is announce directly before a ezcWebdavMakeCollection response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessMakeCollectionResponse
+``````````````````````````````````
+
+This hook is announce directly after a ezcWebdavMakeCollection response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessMoveResponse
+`````````````````````````
+
+This hook is announce directly before a ezcWebdavMove response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessMoveResponse
+````````````````````````
+
+This hook is announce directly after a ezcWebdavMove response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessMultiStatusResponse
+````````````````````````````````
+
+This hook is announce directly before a ezcWebdavMultistatus response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessMultiStatusResponse
+```````````````````````````````
+
+This hook is announce directly after a ezcWebdavMultistatus response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessOptionsResponse
+````````````````````````````
+
+This hook is announce directly before a ezcWebdavOptions response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessOptionsResponse
+```````````````````````````
+
+This hook is announce directly after a ezcWebdavOptions response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessPropFindResponse
+`````````````````````````````
+
+This hook is announce directly before a ezcWebdavPropFind response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessPropFindResponse
+````````````````````````````
+
+This hook is announce directly after a ezcWebdavPropFind response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessPropPatchResponse
+``````````````````````````````
+
+This hook is announce directly before a ezcWebdavPropPatch response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessPropPatchResponse
+`````````````````````````````
+
+This hook is announce directly after a ezcWebdavPropPatch response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 beforeProcessPutResponse
+````````````````````````
+
+This hook is announce directly before a ezcWebdavPut response object is
+serialized and send back to the client. The parameter submitted to the hook is
+the response object that is going to be serialized.
+
+response
+  The response object that is going to be serialized.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 afterProcessPutResponse
+````````````````````````
+
+This hook is announce directly after a ezcWebdavPut response object has been
+serialized to be send back to the client. The parameter submitted to the hook is
+the instance of ezcWebdavDisplayInformation that was created by the processing
+method.
+
+result
+  The ezcWebdavDisplayInformation instance representing the data to send to the
+  client.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
 parseUnknownRequest
+```````````````````
+
+If ezcWebdavTransport receives a request with an unknown request method, this
+hook is announced. The first ezcWebdavRequest object (or ezcWebdavErrorResponse
+on error) returned from any of the assigned callbacks will be used for further
+proceeding and no more callbacks will be performed.
+
+The parameters send by this hook are:
+
+path
+  The path contained in the request URI, already transformed by an
+  ezcWebdavPathFactory, as a string.
+body
+  The body contained in the request as a string.
+
+Both parameters are submitted by reference, so any changes made to them will
+have effects on other mechanisms accessing those. Therefore, all manipulations
+must be performed very carefully.
+
+A return value is only expected, if the request was parsed successfully by the
+plugin or if the plugin wants to take care about the unknown request, but was
+not able to parse it. In the first (success) case the callback must return an
+instance of ezcWebdavRequest, in the second an instance of
+ezcWebdavErrorResponse. If a plugin returns any value beside null, the
+processing of callbacks is stopped and the return value is taken for further
+processing.
+
 handleUnknownResponse
+`````````````````````
+
+This special hook is announced, if ezcWebdavTransport receives an instance of
+ezcWebdavResponse that it can not handle. The first callback that reacts on
+this hook and returns a value beside null will be chosen to handle the
+response. The reacting callback must return an instance of
+ezcWebdavDisplayInformation that contains the information to be send to the
+client.
+
+Parameters send by this hook are:
+
+response
+  The instance of ezcWebdavResponse that shall be serialized.
+
+A return value is only expected, if the response was handled successfully by
+the plugin or if the plugin wants to take care about the unknown response, but
+was not able to handle it. In any case, if the plugin feels responsible for the
+request, it must return an instance of ezcWebdavDisplayInformation which is
+then taken to send information to the client. If a plugin returns any value
+beside null, the processing of callbacks is stopped and the return value is
+taken for further processing.
+
+ezcWebdavPropertyHandler
+------------------------
+
+While the hooks offered by the ezcWebdavTransport class are related to parsing
+and processing ezcWebdavRequest/ezcWebdavResponse objects, the hooks offere by
+ezcWebdavPropertyHandler are related to parsing and processing properties. The
+class offers classes related to dead and live properties as detailed below:
+
+beforeExtractLiveProperty
+`````````````````````````
+
+Live properties are such properties that are validated and taken care of by the
+server instance, in contrast to dead properties which are only stored by the
+server but not validated or even processed.
+
+This hook is announced right before whenever the component attempts to parse a
+live property. This might be either that a request contained the XML
+representation of the property or that a backend needs to restore the property
+from a stored XML representation.
+
+Parameters submitted by this hook are:
+
+domElement
+  The DOM element that contains the live property to parse.
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterExtractLiveProperty
+````````````````````````
+
+Live properties are such properties that are validated and taken care of by the
+server instance, in contrast to dead properties which are only stored by the
+server but not validated or even processed.
+
+This hook is announced right after whenever the component has parsed a live
+property. This might be either that a request contained the XML representation
+of the property or that a backend needs to restore the property from a stored
+XML representation.
+
+Parameters submitted by this hook are:
+
+property
+  The property object that was just parsed (ezcWebdavLiveProperty).
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeExtractDeadProperty
+`````````````````````````
+
+A dead property in WebDAV terms is a named container that contains any
+arbitrary XML data, being attached to a resource. The server will not take any
+care about the contents of a dead property, but just store and restore it on
+request.
+
+This hook is announced right before whenever the component attempts to parse a
+dead property. This might be either that a request contained the XML
+representation of the property or that a backend needs to restore the property
+from a stored XML representation.
+
+Parameters submitted by this hook are:
+
+domElement
+  The DOM element that contains the live property to parse.
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterExtractDeadProperty
+````````````````````````
+
+A dead property in WebDAV terms is a named container that contains any
+arbitrary XML data, being attached to a resource. The server will not take any
+care about the contents of a dead property, but just store and restore it on
+request.
+
+This hook is announced right after whenever the component has parsed a dead
+property. This might be either that a request contained the XML representation
+of the property or that a backend needs to restore the property from a stored
+XML representation.
+
+Parameters submitted by this hook are:
+
+property
+  The property object that was just parsed (ezcWebdavDeadProperty).
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeSerializeLiveProperty
+```````````````````````````
+
+Live properties are such properties that are validated and taken care of by the
+server instance, in contrast to dead properties which are only stored by the
+server but not validated or even processed.
+
+This hook is announced right before whenever the component attempts serialize
+an instance of ezcWebdavLiveProperty to its XML representation. This might
+happen if a property is to be send in a response or if a backend is going to
+store the property in its XML representation.
+
+Parameters submitted by this hook are:
+
+property
+  The property object that is to be serialized (ezcWebdavLiveProperty).
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+afterSerializeLiveProperty
+``````````````````````````
+
+Live properties are such properties that are validated and taken care of by the
+server instance, in contrast to dead properties which are only stored by the
+server but not validated or even processed.
+
+This hook is announced right after whenever the component has serialized
+an instance of ezcWebdavLiveProperty to its XML representation. This might
+happen if a property is to be send in a response or if a backend is going to
+store the property in its XML representation.
+
+Parameters submitted by this hook are:
+
+domElement
+  The DOMElement instance representing the property in XML (ezcWebdavLiveProperty).
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+beforeSerializeDeadProperty
+```````````````````````````
+
+A dead property in WebDAV terms is a named container that contains any
+arbitrary XML data, being attached to a resource. The server will not take any
+care about the contents of a dead property, but just store and restore it on
+request.
+
+This hook is announced right before whenever the component attempts serialize
+an instance of ezcWebdavDeadProperty to its XML representation. This might
+happen if a property is to be send in a response or if a backend is going to
+store the property in its XML representation.
+
+Parameters submitted by this hook are:
+
+property
+  The property object that is to be serialized (ezcWebdavDeadProperty).
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+
+afterSerializeDeadProperty
+``````````````````````````
+
+A dead property in WebDAV terms is a named container that contains any
+arbitrary XML data, being attached to a resource. The server will not take any
+care about the contents of a dead property, but just store and restore it on
+request.
+
+This hook is announced right after whenever the component has serialized
+an instance of ezcWebdavDeadProperty to its XML representation. This might
+happen if a property is to be send in a response or if a backend is going to
+store the property in its XML representation.
+
+Parameters submitted by this hook are:
+
+domElement
+  The DOMElement instance representing the property in XML (ezcWebdavDeadProperty).
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+The return value of callbacks assigned to this hook will be ignored and
+therefore may not occur, since processing of additional callbacks will be
+stopped as soon as a return value is send.
+
+extractUnknownLiveProperty
+``````````````````````````
+
+Live properties are such properties that are validated and taken care of by the
+server instance, in contrast to dead properties which are only stored by the
+server but not validated or even processed.
+
+If the ezcWebdavPropertyHandler attempts to parse a live property from XML,
+which it does not know by itself, this hook is announced. As soon as the first
+callback returns an instance of ezcWebdavLiveProperty, the hook announcement is
+ended and the returned object will be used.
+
+Parameters submitted by this hook are:
+
+domElement
+  The DOMElement instance representing the property in XML (ezcWebdavDeadProperty).
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+A return value from a callback is only expected, if the callback was able to
+parse the live property. In this case, it must return the created instance of
+ezcWebdavLiveProperty, containing the property data. If a callback returned a
+value, no further callbacks will be dispatched.
+
+If a plugin decides to assign a callback to this hook to parse custom live
+properties, it must also assign to the serializeUnknownLiveProperty hook, to
+ensure that the property object can also be serialized back to an XML
+representation.
+
+serializeUnknownLiveProperty
+````````````````````````````
+
+Live properties are such properties that are validated and taken care of by the
+server instance, in contrast to dead properties which are only stored by the
+server but not validated or even processed.
+
+If the ezcWebdavPropertyHandler attempts to serialize a live property to XML,
+which it does not know by itself, this hook is announced. As soon as the first
+callback returns an instance of ezcWebdavLiveProperty, the hook announcement is
+ended and the returned object will be used.
+
+Parameters submitted by this hook are:
+
+property
+  The property object that is to be serialized (ezcWebdavDeadProperty).
+xmlTool
+  The instance of ezcWebdavXmlTool that must be used for any XML related
+  operations.
+parentElement
+  This instance of DOMElement will contaoin the returned DOMElement later. Its
+  ownerDocument must be used to create or import the nodes returned, so that
+  they can be appended to the parentElement. The appending may not be handled
+  by the callback itself.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+A return value from a callback is only expected, if the callback was able to
+serialize the live property. In this case, it must return the created instance
+of DOMElement, containing the property data as XML. If a callback returned a
+value, no further callbacks will be dispatched.
+
+If a plugin decides to assign a callback to this hook to serialize custom live
+properties, it must also assign to the parseUnknownLiveProperty hook, to ensure
+that the property object can also be from an XML representation.
+                 
+ezcWebdavServer
+---------------
+
+The main WebDAV server object receives any request that was parsed by
+ezcWebdavTransport and dispatches it to the backend to use. On the way back it
+receives a response from the backend to pass it to ezcWebdavTransport again for
+serializating the contained and sending it to the client.
+
+To handle unknown requests and responses, as well as to react on certain
+requests or responses, the server object offers 2 important hooks.
+
+receivedRequest
+```````````````
+
+This hook is announced whenever a request is received by the server through
+ezcWebdavTransport. The hook should be used by plugins for 2 reasons:
+
+1. React on request objects without affecting the further process.
+2. React on request objects, but replacing the further process.
+
+If a plugin just wants to be informed about certain requests, it must not
+return a value from its callback. If this is the case, further callbacks
+assigned to this hook will be processed.
+
+In the second case, the plugin wants to take care for processing the request
+itself and must return an instance of ezcWebdavResponse afterwards. If this is
+the case, dispatching of callbacks for this hook is stopped and the
+generatedResponse hook is announced for the response, right before it is send
+to ezcWebdavTransport for being serialized and send. Note that the processing
+of the request by the backend will not take place in this case. If the backend
+should still take care about a request, no return value may be returned by any
+assigned callback.
+
+A plugin may choose to handle a request completly on its own and may use any of
+the public API that is provided by the server, that is create new request
+objects and let them get processed by server and backend.
+
+Parameters submitted to this hook are:
+
+request
+  The instance of ezcWebdavRequest that was received from ezcWebavTransport.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
+
+generatedResponse
+`````````````````
+
+Whenever the server receives an instance of ezcWebdavReponse from either the
+backend or from a plugin callback, this hook will be announced. The hook allows
+plugins to be informed about every response that is send to the client. Plugin
+callbacks can react on these responses or even replace them.
+
+To replace a response, the plugin just needs to exchange the received
+parameter. The callback must not return any value. If it does, the processing
+of further callbacks will be stopped immediatelly, but the returned value will
+be ignored.
+
+If a callback replaced the response object with a different instance of
+ezcWebdavResponse, all further callbacks are affected by this change and will
+receive the new response instead of the initial one.
+
+Parameters submitted to this hook are:
+
+response
+  The instance of ezcWebdavResponse that should be send by ezcWebavTransport.
+
+Any changes made to the parameter will have effects on other mechanisms
+accessing it. Therefore all manipulations must be performed very carefully and
+should be avoided if possible.
 
 
 
