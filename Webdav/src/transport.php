@@ -412,7 +412,7 @@ class ezcWebdavTransport
             'after' . ucfirst( self::$handlingMap[( $responseClass = get_class( $response ) )] ),
             new ezcWebdavPluginParameters(
                 array(
-                    'result'  => &$result,
+                    'result'  => $result,
                 )
             )
         );
