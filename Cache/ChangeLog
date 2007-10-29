@@ -1,4 +1,4 @@
-1.3alpha1 - [RELEASEDATE]
+1.3alpha1 - Monday 29 October 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #10533: ezcCacheManager::getCache does not support delayed
