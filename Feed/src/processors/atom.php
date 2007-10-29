@@ -104,8 +104,9 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
      * @param ezcFeedElement $element The feed element object that will contain the feed item
      * @param DOMElement $xml The XML element object to parse
+     * @ignore
      */
-    public function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
     }
 
@@ -115,8 +116,9 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      *
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed image
      * @param DOMElement $xml The XML element object to parse
+     * @ignore
      */
-    public function parseImage( ezcFeed $feed, DOMElement $xml )
+    protected function parseImage( ezcFeed $feed, DOMElement $xml )
     {
     }
 }

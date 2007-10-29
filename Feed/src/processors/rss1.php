@@ -91,30 +91,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Creates a root node for the XML document being generated.
-     *
-     * @param string $version The RSS version for the root node
-     */
-    public function createRootElement( $version )
-    {
-        $rss = $this->xml->createElementNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:RDF' );
-        $this->channel = $channelTag = $this->xml->createElement( 'channel' );
-        $rss->appendChild( $channelTag );
-        $this->root = $this->xml->appendChild( $rss );
-    }
-
-    /**
-     * Sets the namespace attribute in the XML document being generated.
-     *
-     * @param string $prefix The prefix to use
-     * @param string $namespace The namespace to use
-     */
-    public function generateNamespace( $prefix, $namespace )
-    {
-        $this->root->setAttributeNS( "http://www.w3.org/2000/xmlns/", "xmlns:$prefix", $namespace );
-    }
-
-    /**
      * Returns an XML string from the feed information contained in this
      * processor.
      *
@@ -131,6 +107,32 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         //$this->generateItems();
 
         return $this->xml->saveXML();
+    }
+
+    /**
+     * Creates a root node for the XML document being generated.
+     *
+     * @param string $version The RSS version for the root node
+     * @ignore
+     */
+    protected function createRootElement( $version )
+    {
+        $rss = $this->xml->createElementNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:RDF' );
+        $this->channel = $channelTag = $this->xml->createElement( 'channel' );
+        $rss->appendChild( $channelTag );
+        $this->root = $this->xml->appendChild( $rss );
+    }
+
+    /**
+     * Sets the namespace attribute in the XML document being generated.
+     *
+     * @param string $prefix The prefix to use
+     * @param string $namespace The namespace to use
+     * @ignore
+     */
+    protected function generateNamespace( $prefix, $namespace )
+    {
+        $this->root->setAttributeNS( "http://www.w3.org/2000/xmlns/", "xmlns:$prefix", $namespace );
     }
 
     /**
@@ -393,8 +395,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
      * @param ezcFeedElement $element The feed element object that will contain the feed item
      * @param DOMElement $xml The XML element object to parse
+     * @ignore
      */
-    public function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
         foreach ( $xml->childNodes as $itemChild )
         {
@@ -429,8 +432,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      *
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed image
      * @param DOMElement $xml The XML element object to parse
+     * @ignore
      */
-    public function parseImage( ezcFeed $feed, DOMElement $xml )
+    protected function parseImage( ezcFeed $feed, DOMElement $xml )
     {
         $feed->image = new ezcFeedElement( $this->schema->get( 'image' ) );
         foreach ( $xml->childNodes as $itemChild )
