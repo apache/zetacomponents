@@ -119,4 +119,4 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
         return parent::parsePropFindRequest( $path, $body );
     }
 }
-
+?>

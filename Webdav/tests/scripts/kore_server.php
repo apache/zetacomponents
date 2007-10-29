@@ -158,4 +158,4 @@ catch ( Exception $e )
 file_put_contents( $logDir . 'response_status.xml',  $GLOBALS['EZC_WEBDAV_RESPONSE'] );
 file_put_contents( $logDir . 'response_headers.xml', var_export( $GLOBALS['EZC_WEBDAV_RESPONSE_HEADERS'], true ) );
 file_put_contents( $logDir . 'response_body.xml',    $GLOBALS['EZC_WEBDAV_RESPONSE_BODY'] );
-
+?>
