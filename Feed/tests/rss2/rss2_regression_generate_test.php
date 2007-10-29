@@ -37,6 +37,7 @@ class ezcFeedRss2RegressionGenerateTest extends ezcFeedRegressionTest
     protected function cleanForCompare( $text )
     {
         $text = preg_replace( '@<pubDate>.*?</pubDate>@', '<pubDate>XXX</pubDate>', $text );
+        $text = preg_replace( '@<lastBuildDate>.*?</lastBuildDate>@', '<lastBuildDate>XXX</lastBuildDate>', $text );
         return $text;
     }
 

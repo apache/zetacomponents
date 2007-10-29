@@ -228,9 +228,9 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                 // @todo Add hooks
                 switch ( $element )
                 {
-                    case 'published':
-                    case 'updated':
-                        $this->generateMetaData( $this->channel, $normalizedAttribute, date( 'D, d M Y H:i:s O', $data ) );
+                    case 'pubDate':
+                    case 'lastBuildDate':
+                        $this->generateMetaData( $this->channel, $element, date( 'D, d M Y H:i:s O', (int) $data->__toString() ) );
                         break;
 
                     case 'image':
