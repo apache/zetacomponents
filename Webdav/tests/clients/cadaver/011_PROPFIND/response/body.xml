@@ -4,7 +4,7 @@
     <D:href>http://webdav/</D:href>
     <D:propstat>
       <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0100</D:getlastmodified>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>4096</D:getcontentlength>
         <D:resourcetype>
           <D:collection/>
@@ -25,7 +25,7 @@
     <D:href>http://webdav/collection</D:href>
     <D:propstat>
       <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0100</D:getlastmodified>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>4096</D:getcontentlength>
         <D:resourcetype>
           <D:collection/>
@@ -46,7 +46,7 @@
     <D:href>http://webdav/file.xml</D:href>
     <D:propstat>
       <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0100</D:getlastmodified>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>19</D:getcontentlength>
         <D:resourcetype/>
       </D:prop>
@@ -65,7 +65,7 @@
     <D:href>http://webdav/file.bin</D:href>
     <D:propstat>
       <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0100</D:getlastmodified>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>7</D:getcontentlength>
         <D:resourcetype/>
       </D:prop>
@@ -84,7 +84,7 @@
     <D:href>http://webdav/put_test</D:href>
     <D:propstat>
       <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0100</D:getlastmodified>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>4096</D:getcontentlength>
         <D:resourcetype>
           <D:collection/>

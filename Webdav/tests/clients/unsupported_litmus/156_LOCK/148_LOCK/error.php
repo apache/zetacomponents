@@ -136,7 +136,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -223,7 +223,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -328,7 +328,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -415,7 +415,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -520,7 +520,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -607,7 +607,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -712,7 +712,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -799,7 +799,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -904,7 +904,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -991,7 +991,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1096,7 +1096,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1183,7 +1183,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1288,7 +1288,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1375,7 +1375,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1480,7 +1480,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1567,7 +1567,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1672,7 +1672,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1759,7 +1759,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1864,7 +1864,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -1951,7 +1951,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -2056,7 +2056,7 @@ foo
                         'name' => 'creationdate',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0100',
+                           'backupTime' => 'Tue, 27 May 2003 11:27:00 +0000',
                         )),
                       ),
                        'pluginData' => 
@@ -2143,7 +2143,7 @@ foo
                         'name' => 'getlastmodified',
                         'date' => 
                         ezcWebdavDateTime::__set_state(array(
-                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0100',
+                           'backupTime' => 'Mon, 15 Aug 2005 15:13:00 +0000',
                         )),
                       ),
                        'pluginData' => 

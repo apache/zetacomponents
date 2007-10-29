@@ -70,7 +70,14 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             throw new PHPUnit_Framework_ExpectationFailedException( "No currentTestSet set for test " . __CLASS__ );
         }
 
+        // Store current timezone and switch to UTC for test
+        $oldTimezone = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
+
         $this->runTestSet( $this->currentTestSet );
+
+        // Reset old timezone
+        date_default_timezone_set( $oldTimezone );
     }
 
     protected function runTestSet( $testSetName )
