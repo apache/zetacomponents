@@ -27,7 +27,7 @@ class ezcCacheApcBackend extends ezcCacheMemoryBackend
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'apc' ) )
         {
-            throw new ezcBaseExtensionNotFoundException( 'apc', null, "PHP not configured with --with-apxs2." );
+            throw new ezcBaseExtensionNotFoundException( 'apc', null, "PHP does not have APC support." );
         }
     }
 

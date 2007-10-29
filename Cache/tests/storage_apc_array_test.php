@@ -56,7 +56,7 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'apc' ) )
         {
-            $this->markTestSkipped( "PHP must be compiled with --enable-apxs2." );
+            $this->markTestSkipped( "PHP must have APC support." );
         }
 
         // Class name == <inheriting class> - "Test"

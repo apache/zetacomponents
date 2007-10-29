@@ -54,7 +54,7 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'memcache' ) )
         {
-            throw new ezcBaseExtensionNotFoundException( 'memcache', null, "PHP not configured with --enable-memcache." );
+            throw new ezcBaseExtensionNotFoundException( 'memcache', null, "PHP does not have Memcache support." );
         }
 
         if ( !ezcBaseFeatures::hasExtensionSupport( 'zlib' ) )
