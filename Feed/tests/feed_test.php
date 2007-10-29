@@ -78,6 +78,22 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parse( 'http://ez.no/rss/feed/communitynews' );
     }
 
+    public function testParseBroken()
+    {
+        $dot = DIRECTORY_SEPARATOR;
+        $file = dirname( __FILE__ ) . "{$dot}rss2{$dot}regression{$dot}parse{$dot}incomplete{$dot}broken.in";
+
+        try
+        {
+            $feed = ezcFeed::parse( $file );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedCanNotParseException $e )
+        {
+            $this->assertEquals( "The feed '{$file}' could not be parsed: {$file} is not a valid XML file.", $e->getMessage() );
+        }
+    }
+
     public function testParseContentBroken()
     {
         try
