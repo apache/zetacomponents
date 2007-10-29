@@ -29,44 +29,44 @@
  *
  * A feed object can be created in different ways:
  *  - by calling the constructor with the required feed type. Example:
- *      <code>
- *        $feed = new ezcFeed( 'rss2' );
- *      </code>
+ *  <code>
+ *  $feed = new ezcFeed( 'rss2' );
+ *  </code>
  *  - by parsing an existing XML file or URI. The feed type of the resulting
  *    ezcFeed object will be autodetected. Example:
- *      <code>
- *        $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
- *      </code>
+ *  <code>
+ *  $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
+ *  </code>
  *  - by parsing an XML document stored in a string variable. The feed type of
  *    the resulting ezcFeed object will be autodetected. Example:
- *      <code>
- *        $feed = ezcFeed::parseContent( $xmlString );
- *      </code>
+ *  <code>
+ *  $feed = ezcFeed::parseContent( $xmlString );
+ *  </code>
  *
  * Operations possible upon ezcFeed objects (in the following examples $feed is
  * an existing {@link ezcFeed} object):
  *  - set/get a value from the feed document. Example:
- *      <code>
- *        $feed->title = 'News';
- *        $title = $feed->title;
- *      </code>
+ *  <code>
+ *  $feed->title = 'News';
+ *  $title = $feed->title;
+ *  </code>
  *  - iterate over the items in the feed. Example:
- *      <code>
- *        // retrieve the titles from the feed items
- *        foreach ( $feed->items as $item )
- *        {
- *            $titles[] = $item->title;
- *        }
- *      </code>
+ *  <code>
+ *  // retrieve the titles from the feed items
+ *  foreach ( $feed->items as $item )
+ *  {
+ *      $titles[] = $item->title;
+ *  }
+ *  </code>
  *  - add a new item to the feed. Example:
- *      <code>
- *        $item = $feed->add( 'item' );
- *        $item->title = 'Item title';
- *      </code>
+ *  <code>
+ *  $item = $feed->add( 'item' );
+ *  $item->title = 'Item title';
+ *  </code>
  *  - generate an XML document from the {@link ezcFeed} object. Example:
- *      <code>
- *        $xml = $feed->generate();
- *      </code>
+ *  <code>
+ *  $xml = $feed->generate();
+ *  </code>
  *
  * @property string $title
  *           Required in RSS1, RSS2, ATOM.
