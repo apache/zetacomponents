@@ -123,6 +123,11 @@ class ezcCacheStorageOptionsTest extends ezcCacheTest
 
     public function testStorageProperties()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'memcache' ) )
+        {
+            $this->markTestSkipped( "PHP must have Memcache support." );
+        }
+
         $storage = new ezcCacheStorageMemcacheWrapper( '.', array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 ) );
 
         $this->invalidPropertyTest( $storage, 'options', 'wrong value', 'instance of ezcCacheStorageOptions' );
@@ -133,6 +138,11 @@ class ezcCacheStorageOptionsTest extends ezcCacheTest
 
     public function testStorageOptions()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'memcache' ) )
+        {
+            $this->markTestSkipped( "PHP must have Memcache support." );
+        }
+
         $options = new ezcCacheStorageOptions();
         $storage = new ezcCacheStorageMemcacheWrapper( '.', array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 ) );
 

@@ -39,7 +39,7 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'memcache' ) )
         {
-            $this->markTestSkipped( "PHP must be compiled with --enable-memcache." );
+            $this->markTestSkipped( "PHP must have Memcache support." );
         }
 
         if ( !ezcBaseFeatures::hasExtensionSupport( 'zlib' ) )
