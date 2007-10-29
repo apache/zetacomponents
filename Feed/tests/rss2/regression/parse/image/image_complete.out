@@ -1,0 +1,20 @@
+<?php
+$feed = new ezcFeed( 'rss2' );
+
+$feed->title = 'Feed title';
+
+$link = $feed->add( 'link' );
+$link->set( 'Feed link' );
+
+$feed->description = 'Feed description';
+
+$image = $feed->add( 'image' );
+$image->url = 'Image url';
+$image->title = 'Image title';
+$image->link = 'Image link';
+$image->description = 'Image description';
+$image->width = 50;
+$image->height = 100;
+
+return $feed;
+?>

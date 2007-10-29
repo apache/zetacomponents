@@ -128,7 +128,6 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                     if ( is_array( $subValue ) )
                                     {
                                         $subElement = $element->add( $subKey );
-                                        $subElement->set( 'yyy' );
                                         foreach ( $subValue as $subSubKey => $subSubValue )
                                         {
                                             $subElement->$subSubKey = $subSubValue;

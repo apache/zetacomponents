@@ -231,6 +231,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $this->generateMetaData( $this->channel, $normalizedAttribute, date( 'D, d M Y H:i:s O', $data ) );
                         break;
 
+                    case 'image':
+                        $this->generateImage( $this->get( 'image' ) );
+                        break;
+
                     default:
                         if ( !is_array( $data ) )
                         {
@@ -273,6 +277,37 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
         else
         {
             $this->generateMetaData( $root, $element, $dataNode );
+        }
+    }
+
+    /**
+     * Adds an image node to the XML document being generated.
+     *
+     * @ignore
+     */
+    protected function generateImage( ezcFeedElement $feedElement )
+    {
+        $image = $this->xml->createElement( 'image' );
+        $this->channel->appendChild( $image );
+
+        foreach ( $this->schema->getRequired( 'image' ) as $element )
+        {
+            $data = $this->schema->isMulti( 'image', $element ) ? $this->get( $this->schema->getMulti( 'image', $element ) ) : $feedElement->$element;
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( $element );
+            }
+
+            $this->generateMetaData( $image, $element, $data );
+        }
+
+        foreach ( $this->schema->getOptional( 'image' ) as $element )
+        {
+            $data = $this->schema->isMulti( 'image', $element ) ? $this->get( $this->schema->getMulti( 'image', $element ) ) : $feedElement->$element;
+            if ( !is_null( $data ) )
+            {
+                $this->generateMetaData( $image, $element, $data );
+            }
         }
     }
 
@@ -459,7 +494,8 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'image':
-                        $this->parseImage( $feed, $channelChild );
+                        $image = $feed->add( 'image' );
+                        $this->parseImage( $feed, $image, $channelChild );
                         break;
 
                     default:
@@ -545,11 +581,11 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
      * the provided ezcFeed object.
      *
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed image
+     * @param ezcFeedElement $element The feed element object that will contain the feed image
      * @param DOMElement $xml The XML element object to parse
      */
-    public function parseImage( ezcFeed $feed, DOMElement $xml )
+    public function parseImage( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
-        $feedImage = $feed->newImage();
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
@@ -565,7 +601,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     case 'description':
                     case 'width':
                     case 'height':
-                        $feedImage->$tagName = $itemChild->textContent;
+                        $element->$tagName = $itemChild->textContent;
                         break;
                 }
             }

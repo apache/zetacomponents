@@ -245,7 +245,7 @@ class ezcFeed
      * $item->title = 'Item title';
      * </code>
      *
-     * @param string $name
+     * @param string $name The name of the element to add
      * @return ezcFeedElement
      */
     public function add( $name )

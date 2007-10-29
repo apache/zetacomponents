@@ -14,6 +14,7 @@
 - Added ezcFeedElement instead of ezcFeedItem.
 - Added support for RSS2 enclosure and tutorial on how to use it for creating
   and parsing podcasts.
+- Re-added support for RSS2 image.
 
 
 1.0beta1 - Monday 18 December 2006

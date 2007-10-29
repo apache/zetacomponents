@@ -31,6 +31,14 @@ abstract class ezcFeedProcessor
     protected $feedType;
 
     /**
+     * Holds the feed schema for the current feed type.
+     *
+     * @var array(string=>mixed)
+     * @ignore
+     */
+    protected $schema;
+
+    /**
      * Holds the XML document which is being generated.
      *
      * @var DOMDocument
@@ -202,8 +210,12 @@ abstract class ezcFeedProcessor
             $this->elements[$this->schema->getMulti( $name )][] = $element;
             return $element;
         }
-
-        return null;
+        else
+        {
+            $element = new ezcFeedElement( $this->schema->getSchema( $name ) );
+            $this->elements[$name] = $element;
+            return $element;
+        }
     }
 }
 ?>
