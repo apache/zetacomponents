@@ -283,6 +283,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     /**
      * Adds an image node to the XML document being generated.
      *
+     * @param ezcFeedElement $feedElement The image feed element
      * @ignore
      */
     protected function generateImage( ezcFeedElement $feedElement )
