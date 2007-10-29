@@ -12,6 +12,12 @@
 /**
  * Class providing methods for URL parsing.
  *
+ * Static methods contained in this class:
+ *  - parseQueryString() - It implements the functionality of the PHP function
+ *    parse_str(), but without converting dots to underscores in parameter names.
+ *  - getCurrentUrl() - Returns the current URL as a string from the provided
+ *    array (by default $_SERVER).
+ *
  * @package Url
  * @version //autogen//
  */
