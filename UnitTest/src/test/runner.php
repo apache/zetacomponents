@@ -85,6 +85,11 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $testDbRev->shorthelp = 'Revision information for database logging.';
         $consoleInput->registerOption( $testDbRev );
 
+        // XML Configuration File option
+        $configuration = new ezcConsoleOption( '', 'configuration', ezcConsoleInput::TYPE_STRING );
+        $configuration->shorthelp = "Read configuration from XML file.";
+        $consoleInput->registerOption( $configuration );
+
         // Verbose option
         $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
         $verbose->shorthelp = "Output more verbose information.";
@@ -144,12 +149,12 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         $this->printCredits();
 
-        $params    = array();
-        $whitelist = false;
+        $params = array();
 
         // Set the release. Default is trunk. 
         $release = $consoleInput->getOption( 'release' )->value;
 
+        $config    = $consoleInput->getOption( 'configuration' )->value;
         $logfile   = $consoleInput->getOption( 'log-xml' )->value;
         $coverage  = $consoleInput->getOption( 'coverage-xml' )->value;
         $metrics   = $consoleInput->getOption( 'log-metrics' )->value;
@@ -157,6 +162,11 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $reportDir = $consoleInput->getOption( 'report-dir' )->value;
         $testDbDsn = $consoleInput->getOption( 'test-db-dsn' )->value;
         $testDbRev = $consoleInput->getOption( 'test-db-svnrev' )->value;
+
+        if ( $config )
+        {
+            $params['configuration'] = $config;
+        }
 
         if ( $logfile )
         {
@@ -166,32 +176,27 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         if ( $coverage )
         {
             $params['coverageXML'] = $coverage;
-            $whitelist             = true;
         }
 
         if ( $metrics )
         {
             $params['metricsXML'] = $metrics;
-            $whitelist            = true;
         }
 
         if ( $pmd )
         {
             $params['pmdXML'] = $pmd;
-            $whitelist        = true;
         }
 
         if ( $reportDir )
         {
             $params['reportDirectory'] = $reportDir;
-            $whitelist                 = true;
         }
 
         if ( $testDbDsn && $testDbRev )
         {
             $params['testDatabaseDSN']         = $testDbDsn;
             $params['testDatabaseLogRevision'] = $testDbRev;
-            $whitelist                         = true;
         }
 
         if ( $consoleInput->getOption( "verbose" )->value )
@@ -203,7 +208,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             $params['verbose'] = false;
         }
 
-        $allSuites = $this->prepareTests( $consoleInput->getArguments(), $release, $whitelist );
+        $allSuites = $this->prepareTests( $consoleInput->getArguments(), $release );
 
         $printer = new ezcTestPrinter( $params['verbose'] );
         $this->setPrinter( $printer );
@@ -228,7 +233,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         print( "ezcUnitTest uses the PHPUnit " . PHPUnit_Runner_Version::id() . " framework from Sebastian Bergmann.\n\n" );
     }
 
-    protected function prepareTests( $packages, $release, $whitelist )
+    protected function prepareTests( $packages, $release )
     {
         print( '[Preparing tests]:' );
 
@@ -277,7 +282,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
                 }
             }
 
-            if ( $whitelist && $added )
+            if ( $added )
             {
                 foreach ( glob( $directory . '/' . $package . '/src/*_autoload.php' ) as $autoloadFile )
                 {
