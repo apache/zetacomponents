@@ -178,6 +178,64 @@ The following example shows how to create an RSS2 podcast with 2 media files::
     $enclosure->type = 'audio/x-mp3';
 
 
+Writing feed-independent applications
+=====================================
+
+As each feed type (RSS1, RSS2, ATOM) is different, it can be quite difficult
+to switch a feed generation application from one feed type to another. It is
+therefore important to know what elements are common to all feed type, and how
+the Feed component handles those elements.
+
+The Feed component will ignore elements which are not defined for the current
+feed type (for example if you set the subtitle element, it will be ignored in
+RSS1 because it is not defined in the RSS1 specifications).
+
+
+Elements common to all feed types
+---------------------------------
+
+title
+`````
+
+- Required in all feed types.
+- In ATOM it has an optional attribute 'type' which can be 'text', 'html' or
+  'xhtml'.
+
+
+link
+````
+
+- Required in RSS1 and RSS2.
+- In RSS2 and ATOM can appear multiple times, but in RSS1 can appear only one
+  time.
+
+
+item
+````
+
+- Optional in RSS2 and ATOM, but RSS1 must have at least one item present.
+- Called 'entry' in ATOM (accessed as 'item' through ezcFeed).
+- These sub-elements of item are present in all feed types:
+
+  title
+    Present in all feed types.
+
+  link
+    RSS2 can have multiple links per item.
+
+  description
+    Called 'content' in ATOM (accessed as 'description' through ezcFeed). In
+    ATOM it has other attributes, for example type ('text', 'html').
+
+
+image
+`````
+
+- Optional in all feed types.
+- Called 'logo' in ATOM (accessed as 'image' through ezcFeed).
+- RSS1 and RSS2 have attributes for the image, while ATOM does not have them.
+
+
 Specifications and RFCs
 =======================
 
