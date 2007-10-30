@@ -132,11 +132,32 @@ class ezcGraphFontOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'minFontSize':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 1' );
+                }
+
+                // Ensure min font size is smaller or equal max font size.
+                if ( $propertyValue > $this->properties['maxFontSize'] )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float <= ' . $this->properties['maxFontSize'] );
+                }
+
+                $this->properties[$propertyName] = (float) $propertyValue;
+                break;
+
             case 'maxFontSize':
                 if ( !is_numeric( $propertyValue ) ||
                      ( $propertyValue < 1 ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 1' );
+                }
+
+                // Ensure max font size is greater or equal min font size.
+                if ( $propertyValue < $this->properties['minFontSize'] )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float >= ' . $this->properties['minFontSize'] );
                 }
 
                 $this->properties[$propertyName] = (float) $propertyValue;

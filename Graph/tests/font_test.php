@@ -346,6 +346,28 @@ class ezcGraphFontTest extends ezcGraphTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testFontOptionsPropertyMaxFontSizeLowerThenMinFonSize()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            96,
+            $options->maxFontSize,
+            'Wrong default value for property maxFontSize in class ezcGraphFontOptions'
+        );
+
+        try
+        {
+            $options->maxFontSize = 1;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testFontOptionsPropertyMinimalUsedFont()
     {
         $options = new ezcGraphFontOptions();
@@ -369,6 +391,28 @@ class ezcGraphFontTest extends ezcGraphTestCase
             $options->minimalUsedFont,
             'Setting property value did not work for property minimalUsedFont in class ezcGraphFontOptions'
         );
+    }
+
+    public function testFontOptionsPropertyMinFontSizeGreaterThenMaxFonSize()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            6,
+            $options->minFontSize,
+            'Wrong default value for property minFontSize in class ezcGraphFontOptions'
+        );
+
+        try
+        {
+            $options->minFontSize = 100;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testFontOptionsPropertyColor()
