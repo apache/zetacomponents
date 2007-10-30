@@ -123,6 +123,17 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                 {
                                     $element->set( $subValue );
                                 }
+                                else if ( $subKey === 'MULTI' )
+                                {
+                                    foreach ( $subValue as $multi )
+                                    {
+                                        foreach ( $multi as $subSubKey => $subSubValue )
+                                        {
+                                            $subElement = $element->add( $subSubKey );
+                                            $subElement->set( $subSubValue );
+                                        }
+                                    }
+                                }
                                 else
                                 {
                                     if ( is_array( $subValue ) )

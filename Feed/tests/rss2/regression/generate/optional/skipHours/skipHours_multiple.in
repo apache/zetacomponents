@@ -1,0 +1,9 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( 'Feed link' ),
+              'description' => 'Feed description',
+              'skipHours' => array( array( 'MULTI' => array( array( 'hour' => 0 ),
+                                                             array( 'hour' => 5 ),
+                                                             array( 'hour' => 23 ), ) ), )
+            );
+?>

@@ -1,0 +1,9 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( 'Feed link' ),
+              'description' => 'Feed description',
+              'skipDays' => array( array( 'MULTI' => array( array( 'day' => 'Monday' ),
+                                                            array( 'day' => 'Wednesday' ),
+                                                            array( 'day' => 'Sunday' ), ) ), )
+            );
+?>

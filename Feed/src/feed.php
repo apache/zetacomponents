@@ -188,6 +188,8 @@ class ezcFeed
             case 'id': // ATOM only, required in ATOM
             case 'image': // icon in ATOM
             case 'docs':
+            case 'skipHours': // optional in RSS2
+            case 'skipDays': // optional in RSS2
                 $this->feedProcessor->set( $property, $value );
                 break;
 
@@ -229,6 +231,8 @@ class ezcFeed
             case 'items':
             case 'image': // icon in ATOM
             case 'docs':
+            case 'skipHours': // optional in RSS2
+            case 'skipDays': // optional in RSS2
                 $value = $this->feedProcessor->get( $property );
                 return $value;
 

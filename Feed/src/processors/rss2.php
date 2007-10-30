@@ -68,10 +68,24 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
         'rating'         => array( '#'          => 'string' ),
         'textInput'      => array( '#'          => 'string' ),
-        'skipHours'      => array( '#'          => 'string' ),
-        'skipDays'       => array( '#'          => 'string' ),
 
-        'item'           => array( '#'          => 'node',
+        'skipHours'      => array( '#'          => 'none',
+                                   'NODES'      => array(
+                                                     'hour'        => array( '#' => 'string',
+                                                                             'MULTI' => 'hours' ),
+
+                                                     'OPTIONAL'    => array( 'hour' ),
+                                                     ), ),
+
+        'skipDays'       => array( '#'          => 'none',
+                                   'NODES'      => array(
+                                                     'day'         => array( '#' => 'string',
+                                                                             'MULTI' => 'days' ),
+
+                                                     'OPTIONAL'    => array( 'day' ),
+                                                     ), ),
+
+        'item'           => array( '#'          => 'none',
                                    'NODES'      => array(
                                                      'title'        => array( '#' => 'string' ),
                                                      'link'         => array( '#' => 'string' ),
@@ -237,6 +251,14 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $this->generateImage( $this->get( 'image' ) );
                         break;
 
+                    case 'skipHours':
+                        $this->generateSkipHours( $this->get( 'skipHours' ) );
+                        break;
+
+                    case 'skipDays':
+                        $this->generateSkipDays( $this->get( 'skipDays' ) );
+                        break;
+
                     default:
                         if ( !is_array( $data ) )
                         {
@@ -310,6 +332,54 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             if ( !is_null( $data ) )
             {
                 $this->generateMetaData( $image, $element, $data );
+            }
+        }
+    }
+
+    /**
+     * Adds a skipHours node to the XML document being generated.
+     *
+     * @param ezcFeedElement $feedElement The skipHours feed element
+     * @ignore
+     */
+    protected function generateSkipHours( ezcFeedElement $feedElement )
+    {
+        $tag = $this->xml->createElement( 'skipHours' );
+        $this->channel->appendChild( $tag );
+
+        foreach ( $this->schema->getOptional( 'skipHours' ) as $element )
+        {
+            $data = $feedElement->$element;
+            if ( !is_null( $data ) )
+            {
+                foreach ( $data as $dataNode )
+                {
+                    $this->generateMetaData( $tag, $element, $dataNode->__toString() );
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds a skipDays node to the XML document being generated.
+     *
+     * @param ezcFeedElement $feedElement The skipDays feed element
+     * @ignore
+     */
+    protected function generateSkipDays( ezcFeedElement $feedElement )
+    {
+        $tag = $this->xml->createElement( 'skipDays' );
+        $this->channel->appendChild( $tag );
+
+        foreach ( $this->schema->getOptional( 'skipDays' ) as $element )
+        {
+            $data = $feedElement->$element;
+            if ( !is_null( $data ) )
+            {
+                foreach ( $data as $dataNode )
+                {
+                    $this->generateMetaData( $tag, $element, $dataNode->__toString() );
+                }
             }
         }
     }
@@ -501,6 +571,16 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $this->parseImage( $feed, $image, $channelChild );
                         break;
 
+                    case 'skipHours':
+                        $element = $feed->add( $tagName );
+                        $this->parseSkipHours( $feed, $element, $channelChild );
+                        break;
+
+                    case 'skipDays':
+                        $element = $feed->add( $tagName );
+                        $this->parseSkipDays( $feed, $element, $channelChild );
+                        break;
+
                     default:
                         // check if it's part of a known module/namespace
                 }
@@ -607,6 +687,62 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     case 'width':
                     case 'height':
                         $element->$tagName = $itemChild->textContent;
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Parses the provided XML element object and stores it as a feed element
+     * of type skipHours in the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed element
+     * @param ezcFeedElement $element The feed element object that will contain skipHours
+     * @param DOMElement $xml The XML element object to parse
+     * @ignore
+     */
+    protected function parseSkipHours( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    {
+        foreach ( $xml->childNodes as $itemChild )
+        {
+            if ( $itemChild->nodeType === XML_ELEMENT_NODE )
+            {
+                $tagName = $itemChild->tagName;
+
+                switch ( $tagName )
+                {
+                    case 'hour':
+                        $subElement = $element->add( 'hour' );
+                        $subElement->set( $itemChild->textContent );
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Parses the provided XML element object and stores it as a feed element
+     * of type skipDays in the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed element
+     * @param ezcFeedElement $element The feed element object that will contain skipDays
+     * @param DOMElement $xml The XML element object to parse
+     * @ignore
+     */
+    protected function parseSkipDays( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    {
+        foreach ( $xml->childNodes as $itemChild )
+        {
+            if ( $itemChild->nodeType === XML_ELEMENT_NODE )
+            {
+                $tagName = $itemChild->tagName;
+
+                switch ( $tagName )
+                {
+                    case 'day':
+                        $subElement = $element->add( 'day' );
+                        $subElement->set( $itemChild->textContent );
                         break;
                 }
             }
