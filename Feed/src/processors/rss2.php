@@ -430,8 +430,16 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     switch ( $attribute )
                     {
                         case 'guid':
-                            $permalink = substr( $metaData, 0, 7 ) === 'http://' ? "true" : "false";
-                            $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, array( 'isPermaLink' => $permalink ) );
+                            $attributes = array();
+                            if ( isset( $metaData[0]->isPermaLink ) )
+                            {
+                                $permaLink = ( $metaData[0]->isPermaLink === true ) ? 'true' : 'false';
+                                $attributes = array( 'isPermaLink' => $permaLink );
+                            }
+                            // @todo Investigate if needed to set isPermaLink dependent of the guid
+                            // $permaLink = substr( $metaData[0]->__toString(), 0, 7 ) === 'http://' ? "true" : "false";
+
+                            $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, $attributes );
                             break;
 
                         case 'published':
@@ -442,11 +450,11 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                             foreach ( $metaData as $dataNode )
                             {
                                 $attributes = array();
-                                foreach ( $this->schema->getAttributes( 'item', 'enclosure' ) as $attribute => $type )
+                                foreach ( $this->schema->getAttributes( 'item', $attribute ) as $key => $type )
                                 {
-                                    if ( isset( $dataNode->$attribute ) )
+                                    if ( isset( $dataNode->$key ) )
                                     {
-                                        $attributes[$attribute] = $dataNode->$attribute;
+                                        $attributes[$key] = $dataNode->$key;
                                     }
                                 }
 
@@ -626,7 +634,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     case 'description':
                     case 'author':
                     case 'comments':
-                    case 'guid':
                     case 'source':
                         $element->$tagName = $itemChild->textContent;
                         break;
@@ -641,6 +648,11 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $subElement->set( $itemChild->textContent );
                         break;
 
+                    case 'guid':
+                        $subElement = $element->add( $tagName );
+                        $subElement->set( $itemChild->textContent );
+                        break;
+
                     default:
                         // check if it's part of a known module/namespace
                 }
@@ -650,6 +662,14 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     if ( in_array( $tagName, array( 'category', 'enclosure' ) ) )
                     {
                         $subElement->$key = $value;
+                    }
+                    else if ( in_array( $tagName, array( 'guid' ) ) )
+                    {
+                        if ( $key === 'isPermaLink'
+                             && $value !== null )
+                        {
+                            $subElement->isPermaLink = ( $value === "true" ) ? true : false;
+                        }
                     }
                     else
                     {
