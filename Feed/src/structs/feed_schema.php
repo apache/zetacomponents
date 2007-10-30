@@ -214,7 +214,7 @@ class ezcFeedSchema
      */
     public function getItemsMap()
     {
-        return isset( $this->schema['ITEMS_MAP'] ) ? $this->schema['ITEMS_MAP'] : array();
+        return isset( $this->schema['items']['ITEMS_MAP'] ) ? $this->schema['items']['ITEMS_MAP'] : array();
     }
 }
 ?>

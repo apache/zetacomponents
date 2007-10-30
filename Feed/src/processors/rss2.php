@@ -113,6 +113,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                                                               'enclosure', 'guid', 'pubDate',
                                                                               'source' ),
                                                      ),
+                                   'ITEMS_MAP'      => array( 'published'  => 'pubDate' ),
                                    'MULTI'      => 'items' ),
 
         'REQUIRED'       => array( 'title', 'link', 'description' ),
@@ -130,8 +131,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
         'ELEMENTS_MAP'   => array( 'author'     => 'managingEditor',
                                    'published'  => 'pubDate',
                                    'updated'    => 'lastBuildDate' ),
-
-        'ITEMS_MAP'      => array( 'published'  => 'pubDate' ),
 
         );
 
@@ -442,8 +441,8 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                             $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, $attributes );
                             break;
 
-                        case 'published':
-                            $this->generateMetaData( $itemTag, $normalizedAttribute, date( 'D, d M Y H:i:s O', $metaData ) );
+                        case 'pubDate':
+                            $this->generateMetaData( $itemTag, $normalizedAttribute, date( 'D, d M Y H:i:s O', (int) $metaData->get() ) );
                             break;
 
                         case 'enclosure':
@@ -625,7 +624,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
             {
                 $tagName = $itemChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getItemsMap() );
 
                 switch ( $tagName )
                 {
@@ -638,7 +636,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $element->$tagName = $itemChild->textContent;
                         break;
 
-                    case 'published':
+                    case 'pubDate':
                         $element->$tagName = ezcFeedTools::prepareDate( $itemChild->textContent );
                         break;
 

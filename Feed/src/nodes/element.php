@@ -50,6 +50,9 @@ class ezcFeedElement
      */
     public function __set( $name, $value )
     {
+        $map = isset( $this->schema['ITEMS_MAP'] ) ? $this->schema['ITEMS_MAP'] : array();
+        $name = ezcFeedTools::normalizeName( $name, $map );
+
         if ( isset( $this->schema['ATTRIBUTES'][$name] ) )
         {
             $this->data[$name] = $value;
@@ -70,6 +73,9 @@ class ezcFeedElement
      */
     public function __get( $name )
     {
+        $map = isset( $this->schema['ITEMS_MAP'] ) ? $this->schema['ITEMS_MAP'] : array();
+        $name = ezcFeedTools::normalizeName( $name, $map );
+
         return isset( $this->data[$name] ) ? $this->data[$name] : null;
     }
 

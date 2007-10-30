@@ -49,6 +49,15 @@ class ezcFeedRss2RegressionParseTest extends ezcFeedRegressionTest
             $parsed->updated = 'YYY';
             $expected->updated = 'YYY';
         }
+
+        for ( $i = 0; $i < count( $expected->items ); $i++ )
+        {
+            $item = $expected->items[$i];
+            if ( $expected->items[$i]->published !== $parsed->items[$i]->published )
+            {
+                $item->published = time();
+            }
+        }
     }
 
     public function testRunRegression( $file )
