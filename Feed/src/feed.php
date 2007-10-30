@@ -187,6 +187,7 @@ class ezcFeed
             case 'ttl':
             case 'id': // ATOM only, required in ATOM
             case 'image': // icon in ATOM
+            case 'docs':
                 $this->feedProcessor->set( $property, $value );
                 break;
 
@@ -227,6 +228,7 @@ class ezcFeed
             case 'item':
             case 'items':
             case 'image': // icon in ATOM
+            case 'docs':
                 $value = $this->feedProcessor->get( $property );
                 return $value;
 
