@@ -24,6 +24,8 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 {
     protected $tempDir;
 
+    protected $oldTimezone;
+
 	public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( 'ezcWebdavFileBackendTest' );
@@ -98,10 +100,17 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             // Change this once 64bit systems are common, or we reached year 2038
             2147483647
         );
+
+        // Store current timezone and switch to UTC for test
+        $this->oldTimezone = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
     }
 
     public function tearDown()
     {
+        // Reset old timezone
+        date_default_timezone_set( $this->oldTimezone );
+
         if ( !$this->hasFailed() )
         {
             $this->removeTempDir();
@@ -277,9 +286,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
     }
 
-/*
- *
- * @FIXME
     public function testCollectionGet()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -309,7 +315,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
-*/
 
     public function testResourceDeepGet()
     {
@@ -969,6 +974,11 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         chmod ( $this->tempDir . 'backend/collection', 0 );
 
+        // @TODO: This can be removed with the latest PHPUnit release, but for
+        // now we need it, or the is_file() call on backend/collection/test.txt
+        // will return a wrong cached result.
+        clearstatcache();
+
         $request = new ezcWebdavDeleteRequest( '/collection/test.txt' );
         $request->validateHeaders();
         $response = $backend->delete( $request );
@@ -976,7 +986,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $this->assertEquals(
             $response,
             new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_403,
+                ezcWebdavResponse::STATUS_404,
                 '/collection/test.txt'
             ),
             'Expected response does not match real response.',
@@ -1292,9 +1302,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $this->compareResponse( __FUNCTION__, $response );
     }
 
-/*
- *
- * @FIXME
     public function testPropMimeTypeOnResource()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1343,7 +1350,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
-*/
 
     public function testPropMimeTypeOnResourceWithoutGuessingPriorSet()
     {
@@ -1395,9 +1401,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
     }
 
-/*
- *
- * @FIXME
     public function testPropFindOnCollection()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1421,7 +1424,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $this->compareResponse( __FUNCTION__, $response );
     }
-*/
 
     public function testPropFindNamesOnResource()
     {
@@ -1448,9 +1450,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $this->compareResponse( __FUNCTION__, $response );
     }
 
-/*
- *
- * @FIXME
     public function testPropFindNamesOnCollectionDepthOne()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1463,11 +1462,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $this->compareResponse( __FUNCTION__, $response );
     }
-*/
 
-/*
- *
- * @FIXME
     public function testPropFindNamesOnCollectionDepthInfinite()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1480,7 +1475,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $this->compareResponse( __FUNCTION__, $response );
     }
-*/
 
     public function testPropFindAllPropsOnResource()
     {
@@ -1494,9 +1488,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $this->compareResponse( __FUNCTION__, $response );
     }
 
-/*
- *
- * @FIXME
     public function testPropFindAllPropsOnCollection()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
@@ -1508,7 +1499,6 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
         $this->compareResponse( __FUNCTION__, $response );
     }
-*/
 
     public function testPropPatchAddProperty()
     {
