@@ -108,7 +108,8 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                                                               'ATTRIBUTES' => array( 'isPermaLink' => 'string' ) ),
 
                                                      'pubDate'      => array( '#' => 'string' ),
-                                                     'source'       => array( '#' => 'string' ),
+                                                     'source'       => array( '#' => 'string',
+                                                                              'ATTRIBUTES' => array( 'url' => 'string' ) ),
 
                                                      'AT_LEAST_ONE' => array( 'title', 'description' ),
                                                      'OPTIONAL'     => array( 'title', 'link', 'description',
@@ -493,6 +494,20 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                 }
                             }
 
+                            break;
+
+                        case 'source':
+                            if ( is_array( $metaData ) )
+                            {
+                                $metaData = $metaData[0];
+                            }
+
+                            if ( !isset( $metaData->url ) )
+                            {
+                                throw new ezcFeedRequiredMetaDataMissingException( 'item/source/url' );
+                            }
+                            $attributes = array( 'url' => $metaData->url );
+                            $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, $attributes );
                             break;
 
                         default:
