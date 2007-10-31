@@ -67,7 +67,15 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                                      ), ),
 
         'rating'         => array( '#'          => 'string' ),
-        'textInput'      => array( '#'          => 'string' ),
+        'textInput'      => array( '#'          => 'none',
+                                   'NODES'      => array(
+                                                     'title'       => array( '#' => 'string' ),
+                                                     'description' => array( '#' => 'string' ),
+                                                     'name'        => array( '#' => 'string' ),
+                                                     'link'        => array( '#' => 'string' ),
+
+                                                     'REQUIRED'    => array( 'title', 'description', 'name', 'link' ),
+                                                     ), ),
 
         'skipHours'      => array( '#'          => 'none',
                                    'NODES'      => array(
@@ -262,6 +270,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $this->generateSkipDays( $this->get( 'skipDays' ) );
                         break;
 
+                    case 'textInput':
+                        $this->generateTextInput( $this->get( 'textInput' ) );
+                        break;
+
                     default:
                         if ( !is_array( $data ) )
                         {
@@ -384,6 +396,29 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     $this->generateMetaData( $tag, $element, $dataNode->__toString() );
                 }
             }
+        }
+    }
+
+    /**
+     * Adds an textInput node to the XML document being generated.
+     *
+     * @param ezcFeedElement $feedElement The textInput feed element
+     * @ignore
+     */
+    protected function generateTextInput( ezcFeedElement $feedElement )
+    {
+        $image = $this->xml->createElement( 'textInput' );
+        $this->channel->appendChild( $image );
+
+        foreach ( $this->schema->getRequired( 'textInput' ) as $element )
+        {
+            $data = $data = $this->schema->isMulti( 'image', $element ) ? $this->get( $this->schema->getMulti( 'image', $element ) ) : $feedElement->$element;
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( $element );
+            }
+
+            $this->generateMetaData( $image, $element, $data );
         }
     }
 
@@ -630,6 +665,11 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $this->parseSkipDays( $feed, $element, $channelChild );
                         break;
 
+                    case 'textInput':
+                        $element = $feed->add( $tagName );
+                        $this->parseTextInput( $feed, $element, $channelChild );
+                        break;
+
                     default:
                         // check if it's part of a known module/namespace
                 }
@@ -803,6 +843,36 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     case 'day':
                         $subElement = $element->add( 'day' );
                         $subElement->set( $itemChild->textContent );
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Parses the provided XML element object and stores it as a textInput in
+     * the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a textInput
+     * @param ezcFeedElement $element The feed element object that will contain the textInput
+     * @param DOMElement $xml The XML element object to parse
+     * @ignore
+     */
+    protected function parseTextInput( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    {
+        foreach ( $xml->childNodes as $itemChild )
+        {
+            if ( $itemChild->nodeType === XML_ELEMENT_NODE )
+            {
+                $tagName = $itemChild->tagName;
+
+                switch ( $tagName )
+                {
+                    case 'title': // required in RSS2
+                    case 'description': // required in RSS2
+                    case 'name': // required in RSS2
+                    case 'link': // required in RSS2
+                        $element->$tagName = $itemChild->textContent;
                         break;
                 }
             }

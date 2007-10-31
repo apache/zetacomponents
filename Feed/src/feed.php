@@ -191,6 +191,7 @@ class ezcFeed
             case 'skipHours': // optional in RSS2
             case 'skipDays': // optional in RSS2
             case 'rating':
+            case 'textInput':
                 $this->feedProcessor->set( $property, $value );
                 break;
 
@@ -235,6 +236,7 @@ class ezcFeed
             case 'skipHours': // optional in RSS2
             case 'skipDays': // optional in RSS2
             case 'rating':
+            case 'textInput':
                 $value = $this->feedProcessor->get( $property );
                 return $value;
 

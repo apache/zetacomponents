@@ -1,0 +1,10 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( 'Feed link' ),
+              'description' => 'Feed description',
+              'textInput' => array( array( 'title' => 'TextInput title',
+                                           'description' => 'TextInput description',
+                                           'name' => 'TextInput name',
+                                           'link' => 'TextInput link' ) ),
+            );
+?>
