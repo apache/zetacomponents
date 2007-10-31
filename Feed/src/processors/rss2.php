@@ -595,6 +595,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     case 'generator':
                     case 'ttl':
                     case 'docs':
+                    case 'rating':
                         $feed->$tagName = $channelChild->textContent;
                         break;
 
