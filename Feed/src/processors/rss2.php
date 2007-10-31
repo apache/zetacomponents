@@ -110,7 +110,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                                      'pubDate'      => array( '#' => 'string' ),
                                                      'source'       => array( '#' => 'string' ),
 
-                                                     'AT_LEAST_ONE' => array( 'title', 'link', 'description' ),
+                                                     'AT_LEAST_ONE' => array( 'title', 'description' ),
                                                      'OPTIONAL'     => array( 'title', 'link', 'description',
                                                                               'author', 'category', 'comments',
                                                                               'enclosure', 'guid', 'pubDate',
