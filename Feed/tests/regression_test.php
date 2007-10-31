@@ -138,7 +138,11 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                 {
                                     if ( is_array( $subValue ) )
                                     {
-                                        $subElement = $element->add( $subKey );
+                                        if ( count( $subValue ) === 0 || !isset( $subValue[0] ) )
+                                        {
+                                            $subElement = $element->add( $subKey );
+                                        }
+
                                         foreach ( $subValue as $subSubKey => $subSubValue )
                                         {
                                             if ( $subSubKey === '#' )
@@ -147,7 +151,25 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                             }
                                             else
                                             {
-                                                $subElement->$subSubKey = $subSubValue;
+                                                if ( is_array( $subSubValue ) )
+                                                {
+                                                    $subElement = $element->add( $subKey );
+                                                    foreach ( $subSubValue as $subSubSubKey => $subSubSubValue )
+                                                    {
+                                                        if ( $subSubSubKey === '#' )
+                                                        {
+                                                            $subElement->set( $subSubSubValue );
+                                                        }
+                                                        else
+                                                        {
+                                                            $subElement->$subSubSubKey = $subSubSubValue;
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    $subElement->$subSubKey = $subSubValue;
+                                                }
                                             }
                                         }
                                     }

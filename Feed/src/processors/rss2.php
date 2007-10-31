@@ -92,7 +92,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                                      'description'  => array( '#' => 'string' ),
 
                                                      'author'       => array( '#' => 'string' ),
-                                                     'category'     => array( '#' => 'string' ),
+                                                     'category'     => array( '#' => 'string',
+                                                                              'ATTRIBUTES' => array( 'domain' => 'string' ),
+                                                                              'MULTI' => 'categories' ),
+
                                                      'comments'     => array( '#' => 'string' ),
                                                      'enclosure'    => array( '#' => 'none',
                                                                               'ATTRIBUTES' => array( 'url'    => 'string',
@@ -421,7 +424,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             {
                 $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
 
-                $metaData = $this->schema->isMulti( 'item', $attribute ) ? $this->get( $this->schema->getMulti( 'item', $attribute ), $attribute ) : $item->$attribute;
+                $metaData = $item->$attribute;
 
                 if ( !is_null( $metaData ) )
                 {
@@ -439,6 +442,29 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                             // $permaLink = substr( $metaData[0]->__toString(), 0, 7 ) === 'http://' ? "true" : "false";
 
                             $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, $attributes );
+                            break;
+
+                        case 'category':
+                            foreach ( $metaData as $dataNode )
+                            {
+                                $attributes = array();
+                                foreach ( $this->schema->getAttributes( 'item', $attribute ) as $key => $type )
+                                {
+                                    if ( isset( $dataNode->$key ) )
+                                    {
+                                        $attributes[$key] = $dataNode->$key;
+                                    }
+                                }
+
+                                if ( count( $attributes ) >= 1 )
+                                {
+                                    $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $dataNode, $attributes );
+                                }
+                                else
+                                {
+                                    $this->generateMetaData( $itemTag, $normalizedAttribute, $dataNode );
+                                }
+                            }
                             break;
 
                         case 'pubDate':
