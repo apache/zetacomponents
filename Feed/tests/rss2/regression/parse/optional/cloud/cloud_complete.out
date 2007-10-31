@@ -1,0 +1,19 @@
+<?php
+$feed = new ezcFeed( 'rss2' );
+
+$feed->title = 'Feed title';
+
+$link = $feed->add( 'link' );
+$link->set( 'Feed link' );
+
+$feed->description = 'Feed description';
+
+$cloud = $feed->add( 'cloud' );
+$cloud->domain = 'Cloud domain';
+$cloud->port = 'Cloud port';
+$cloud->path = 'Cloud path';
+$cloud->registerProcedure = 'Cloud procedure';
+$cloud->protocol = 'Cloud protocol';
+
+return $feed;
+?>

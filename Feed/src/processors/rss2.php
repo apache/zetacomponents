@@ -67,6 +67,13 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                                      ), ),
 
         'rating'         => array( '#'          => 'string' ),
+        'cloud'          => array( '#'          => 'none',
+                                   'ATTRIBUTES' => array( 'domain' => 'string',
+                                                          'port' => 'string',
+                                                          'path' => 'string',
+                                                          'registerProcedure' => 'string',
+                                                          'protocol' => 'string' ), ),
+
         'textInput'      => array( '#'          => 'none',
                                    'NODES'      => array(
                                                      'title'       => array( '#' => 'string' ),
@@ -134,6 +141,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                    'category', 'generator', 'docs',
                                    'ttl', 'image', 'rating',
                                    'textInput', 'skipHours', 'skipDays',
+                                   'cloud',
                                  ), // don't include 'item' here
 
         'MULTI'          => array( 'links'      => 'link',
@@ -272,6 +280,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                     case 'textInput':
                         $this->generateTextInput( $this->get( 'textInput' ) );
+                        break;
+
+                    case 'cloud':
+                        $this->generateCloud( $this->get( 'cloud' ) );
                         break;
 
                     default:
@@ -420,6 +432,31 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
             $this->generateMetaData( $image, $element, $data );
         }
+    }
+
+    /**
+     * Adds a cloud node to the XML document being generated.
+     *
+     * @param ezcFeedElement $feedElement The cloud feed element
+     * @ignore
+     */
+    protected function generateCloud( ezcFeedElement $feedElement )
+    {
+        $cloud = $this->xml->createElement( 'cloud' );
+        $this->channel->appendChild( $cloud );
+
+        $attributes = array();
+        foreach ( $this->schema->getAttributes( 'cloud' ) as $element => $value )
+        {
+            $data = $feedElement->$element;
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( $element );
+            }
+            $attributes[$element] = $data;
+        }
+
+        $this->generateMetaDataWithAttributes( $cloud, $element, false, $attributes );
     }
 
     /**
@@ -640,6 +677,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $element->set( $channelChild->textContent );
                         break;
 
+                    case 'cloud':
+                        $element = $feed->add( $tagName );
+                        break;
+
                     case 'published':
                     case 'updated':
                         $feed->$tagName = ezcFeedTools::prepareDate( $channelChild->textContent );
@@ -677,7 +718,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
             foreach ( ezcFeedTools::getAttributes( $channelChild ) as $key => $value )
             {
-                if ( in_array( $tagName, array( 'category' ) ) )
+                if ( in_array( $tagName, array( 'category', 'cloud' ) ) )
                 {
                     $element->$key = $value;
                 }

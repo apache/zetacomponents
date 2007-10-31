@@ -1,0 +1,10 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( 'Feed link' ),
+              'description' => 'Feed description',
+              'cloud' => array( array( 'domain' => 'Cloud domain',
+                                       'port' => 'Cloud port',
+                                       'path' => 'Cloud path',
+                                       'registerProcedure' => 'Cloud procedure' ) ),
+            );
+?>

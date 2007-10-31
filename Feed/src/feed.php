@@ -192,6 +192,7 @@ class ezcFeed
             case 'skipDays': // optional in RSS2
             case 'rating':
             case 'textInput':
+            case 'cloud':
                 $this->feedProcessor->set( $property, $value );
                 break;
 
@@ -237,6 +238,7 @@ class ezcFeed
             case 'skipDays': // optional in RSS2
             case 'rating':
             case 'textInput':
+            case 'cloud':
                 $value = $this->feedProcessor->get( $property );
                 return $value;
 
