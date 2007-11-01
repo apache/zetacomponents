@@ -1,0 +1,12 @@
+<?php
+$feed = new ezcFeed( 'rss1' );
+
+$feed->about = 'Channel about';
+$feed->title = 'Feed title';
+$feed->link = 'Feed link';
+$feed->description = 'Feed description';
+
+$textInput = $feed->add( 'textInput' );
+
+return $feed;
+?>

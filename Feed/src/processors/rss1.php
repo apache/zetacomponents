@@ -70,8 +70,18 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                                                    ),
                                  'MULTI'      => 'items' ),
 
-        'textInput'    => array( '#'          => 'string',
-                                 'ATTRIBUTES' => array( 'resource' => 'string' ) ),
+        'textinput'    => array( '#'          => 'string',
+                                 'ATTRIBUTES' => array( 'about'   => 'string' ),
+                                 
+                                 'NODES'      => array(
+                                                   'title'        => array( '#' => 'string' ),
+                                                   'description'  => array( '#' => 'string' ),
+                                                   'name'         => array( '#' => 'string' ),
+                                                   'link'         => array( '#' => 'string' ),
+
+                                                   'REQUIRED'     => array( 'title', 'description', 'name',
+                                                                            'link' ),
+                                                   ), ),
 
         'ATTRIBUTES'   => array( 'about'      => 'string' ),
 
@@ -108,6 +118,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $this->generateChannel();
         $this->generateItems();
         $this->generateImage();
+        $this->generateTextInput();
 
         return $this->xml->saveXML();
     }
@@ -216,6 +227,25 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
             $this->channel->appendChild( $imageTag );
         }
+
+        $textInput = $this->get( 'textInput' );
+        if ( $textInput !== null )
+        {
+            $textInputTag = $this->xml->createElement( 'textinput' );
+
+            $about = $textInput->about;
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+            }
+
+            $resourceAttr = $this->xml->createAttribute( 'rdf:resource' );
+            $resourceVal = $this->xml->createTextNode( $about );
+            $resourceAttr->appendChild( $resourceVal );
+            $textInputTag->appendChild( $resourceAttr );
+
+            $this->channel->appendChild( $textInputTag );
+        }
     }
 
     /**
@@ -296,6 +326,47 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
                 $attributes = array();
                 $this->generateMetaData( $imageTag, $attribute, $data );
+            }
+        }
+    }
+
+    /**
+     * Adds the feed textinput to the XML document being generated.
+     *
+     * @ignore
+     */
+    protected function generateTextInput()
+    {
+        $textInput = $this->get( 'textInput' );
+        if ( $textInput !== null )
+        {
+            $textInputTag = $this->xml->createElement( 'textinput' );
+            $this->root->appendChild( $textInputTag );
+
+            $data = $textInput->about;
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+            }
+
+            $aboutAttr = $this->xml->createAttribute( 'rdf:about' );
+            $aboutVal = $this->xml->createTextNode( $data );
+            $aboutAttr->appendChild( $aboutVal );
+            $textInputTag->appendChild( $aboutAttr );
+
+            foreach ( $this->schema->getRequired( 'textinput' ) as $attribute )
+            {
+                $data = $textInput->$attribute;
+                if ( is_null( $data ) )
+                {
+                    throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                }
+
+                $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
+                $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
+
+                $attributes = array();
+                $this->generateMetaData( $textInputTag, $attribute, $data );
             }
         }
     }
@@ -395,8 +466,11 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         $this->parseImage( $feed, $image );
                         break;
 
-                    case 'textinput':
-                        // @todo Implement
+                    case 'textInput':
+                        $resource = ezcFeedTools::getAttribute( $channelChild, 'resource' );
+
+                        $textInput = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'textinput', 'about', $resource );
+                        $this->parseTextInput( $feed, $textInput );
                         break;
 
                     default:
@@ -487,6 +561,43 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
             {
                 $image->$key = $value;
+            }
+        }
+    }
+
+    /**
+     * Parses the provided XML element object and stores it as a feed textinput in
+     * the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed textinput
+     * @param DOMElement $xml The XML element object to parse
+     * @ignore
+     */
+    protected function parseTextInput( ezcFeed $feed, DOMElement $xml = null )
+    {
+        $textInput = $feed->add( 'textInput' );
+        if ( $xml !== null )
+        {
+            foreach ( $xml->childNodes as $itemChild )
+            {
+                if ( $itemChild->nodeType == XML_ELEMENT_NODE )
+                {
+                    $tagName = $itemChild->tagName;
+                    switch ( $tagName )
+                    {
+                        case 'title':
+                        case 'description':
+                        case 'name':
+                        case 'link':
+                            $textInput->$tagName = $itemChild->textContent;
+                            break;
+                    }
+                }
+            }
+
+            foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
+            {
+                $textInput->$key = $value;
             }
         }
     }
