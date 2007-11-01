@@ -348,6 +348,11 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 $feed->$tagName->$key = $value;
             }
         }
+
+        foreach ( ezcFeedTools::getAttributes( $channel ) as $key => $value )
+        {
+            $feed->$key = $value;
+        }
         return $feed;
     }
 
