@@ -346,6 +346,10 @@ abstract class ezcQuery
     /**
      * Returns a prepared statement from this query which can be used for execution.
      *
+     * The returned object is a PDOStatement for which you can find extensive
+     * documentation in the PHP manual:
+     * {@link http://php.net/pdostatement-bindcolumn}
+     *
      * prepare() automatically calls doBind() on the statement.
      * @return PDOStatement
      */
