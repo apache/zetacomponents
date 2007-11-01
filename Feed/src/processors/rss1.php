@@ -36,48 +36,45 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         'title'        => array( '#' => 'string' ),
         'link'         => array( '#' => 'string' ),
         'description'  => array( '#' => 'string' ),
-        'items'        => array( '#' => 'node',
+        'items'        => array( '#' => 'none',
                                  'ATTRIBUTES' => array( 'resource' => 'string' ) ),
 
-        'image'        => array( '#' => 'string' ),
-        'textinput'    => array( '#' => 'string',
-                                 'ATTRIBUTES' => array( 'resource' => 'string' ) ),
-
-
-        'image'     => array( '#'          => 'node',
-                              'ATTRIBUTES' => array( 'about'   => 'string' ),
+        'image'        => array( '#'          => 'none',
+                                 'ATTRIBUTES' => array( 'about'   => 'string' ),
                               
-                              'NODES'      => array(
-                                                'title'        => 'string',
-                                                'url'          => 'string',
-                                                'link'         => 'string',
+                                 'NODES'      => array(
+                                                   'title'        => array( '#' => 'string' ),
+                                                   'url'          => array( '#' => 'string' ),
+                                                   'link'         => array( '#' => 'string' ),
 
-                                                'REQUIRED'     => array( 'title', 'url', 'link' ),
-                                                ), ),
+                                                   'REQUIRED'     => array( 'title', 'url', 'link' ),
+                                                   ), ),
 
         // outside channel
-        'item'      => array( '#'          => 'node',
-                              'ATTRIBUTES' => array( 'about'   => 'string',
-                                                     'resource'=> 'string', ),
+        'item'         => array( '#'          => 'none',
+                                 'ATTRIBUTES' => array( 'about'   => 'string',
+                                                        'resource'=> 'string', ),
 
-                              'NODES'      => array(
-                                                'title'        => array( '#' => 'string' ),
-                                                'link'         => array( '#' => 'string' ),
+                                 'NODES'      => array(
+                                                   'title'        => array( '#' => 'string' ),
+                                                   'link'         => array( '#' => 'string' ),
 
-                                                'description'  => array( '#' => 'string' ),
+                                                   'description'  => array( '#' => 'string' ),
 
-                                                'REQUIRED'     => array( 'title', 'link' ),
-                                                'OPTIONAL'     => array( 'description' ),
-                                                ),
-                              'MULTI'      => 'items' ),
+                                                   'REQUIRED'     => array( 'title', 'link' ),
+                                                   'OPTIONAL'     => array( 'description' ),
+                                                   ),
+                                 'MULTI'      => 'items' ),
 
-        'textInput' => array( '#'          => 'string',
-                              'ATTRIBUTES' => array( 'resource' => 'string' ) ),
+        'textInput'    => array( '#'          => 'string',
+                                 'ATTRIBUTES' => array( 'resource' => 'string' ) ),
 
-        'REQUIRED'  => array( 'title', 'link', 'description', 'item' ),
-        'OPTIONAL'  => array( 'image', 'textinput' ),
+        'REQUIRED'     => array( 'title', 'link', 'description', 'item' ),
+        'OPTIONAL'     => array( 'image', 'textinput' ),
 
-        'MULTI'     => array( 'items'      => 'item' ),
+        'MULTI'        => array( 'items'      => 'item' ),
+        
+        'ELEMENTS_MAP' => array( 'textInput'  => 'textinput' ),
 
         );
 
@@ -350,24 +347,16 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         {
                             $resource = ezcFeedTools::getAttribute( $el, 'resource' );
 
-                            if ( $resource !== null )
-                            {
-                                foreach ( $items as $item )
-                                {
-                                    $about = ezcFeedTools::getAttribute( $item, 'about' );
-                                    if ( $about === $resource )
-                                    {
-                                        $element = $feed->add( 'item' );
-                                        $this->parseItem( $feed, $element, $item );
-                                        break;
-                                    }
-                                }
-                            }
-
+                            $item = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'item', 'about', $resource );
+                            $element = $feed->add( 'item' );
+                            $this->parseItem( $feed, $element, $item );
                         }
                         break;
 
                     case 'image':
+                        $resource = ezcFeedTools::getAttribute( $channelChild, 'resource' );
+
+                        $image = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'image', 'about', $resource );
                         $this->parseImage( $feed, $image );
                         break;
 
@@ -434,28 +423,31 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      * @param DOMElement $xml The XML element object to parse
      * @ignore
      */
-    protected function parseImage( ezcFeed $feed, DOMElement $xml )
+    protected function parseImage( ezcFeed $feed, DOMElement $xml = null )
     {
-        $feed->image = new ezcFeedElement( $this->schema->get( 'image' ) );
-        foreach ( $xml->childNodes as $itemChild )
+        $image = $feed->add( 'image' );
+        if ( $xml !== null )
         {
-            if ( $itemChild->nodeType == XML_ELEMENT_NODE )
+            foreach ( $xml->childNodes as $itemChild )
             {
-                $tagName = $itemChild->tagName;
-                switch ( $tagName )
+                if ( $itemChild->nodeType == XML_ELEMENT_NODE )
                 {
-                    case 'title':
-                    case 'link':
-                    case 'url':
-                        $feed->image->$tagName = $itemChild->textContent;
-                        break;
+                    $tagName = $itemChild->tagName;
+                    switch ( $tagName )
+                    {
+                        case 'title':
+                        case 'link':
+                        case 'url':
+                            $image->$tagName = $itemChild->textContent;
+                            break;
+                    }
                 }
             }
-        }
 
-        foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
-        {
-            $feed->image->$key = $value;
+            foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
+            {
+                $image->$key = $value;
+            }
         }
     }
 }

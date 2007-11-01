@@ -63,6 +63,36 @@ class ezcFeedTools
     }
 
     /**
+     * Returns a DOMNode child of $parent with name $nodeName and which has an
+     * attribute $attribute with the value $value. Returns null if no such node
+     * is found.
+     *
+     * @param DOMNode $parent The XML parent node
+     * @param string $nodeName The node name to find
+     * @param string $attribute The attribute of the node
+     * @param mixed $value The value of the attribute
+     * @return DOMNode
+     */
+    public static function getNodeByAttribute( DOMNode $parent, $nodeName, $attribute, $value )
+    {
+        $result = null;
+        $nodes = $parent->getElementsByTagName( $nodeName );
+
+        foreach ( $nodes as $node )
+        {
+            $nodeAttribute = ezcFeedTools::getAttribute( $node, $attribute );
+            if ( $nodeAttribute !== null
+                 && $nodeAttribute === $value )
+            {
+                $result = $node;
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns the provided $date in timestamp format.
      *
      * @param mixed $date A date
