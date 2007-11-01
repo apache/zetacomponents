@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <channel rdf:about="Channel about">
+    <title>Feed title</title>
+    <link>Feed link</link>
+    <description>Feed description</description>
+    <items>
+      <rdf:Seq>
+        <rdf:li resource="Item about"/>
+      </rdf:Seq>
+    </items>
+    <image rdf:resource="Image about"/>
+  </channel>
+  <item rdf:about="Item about">
+    <title>Item title</title>
+    <link>Item link</link>
+  </item>
+  <image rdf:about="Image about">
+    <title>Image title</title>
+    <url>Image url</url>
+    <link>Image link</link>
+  </image>
+</rdf:RDF>

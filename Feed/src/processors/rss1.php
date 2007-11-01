@@ -107,6 +107,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
         $this->generateChannel();
         $this->generateItems();
+        $this->generateImage();
 
         return $this->xml->saveXML();
     }
@@ -196,6 +197,25 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $liTag->appendChild( $resourceAttr );
             $seqTag->appendChild( $liTag );
         }
+
+        $image = $this->get( 'image' );
+        if ( $image !== null )
+        {
+            $imageTag = $this->xml->createElement( 'image' );
+
+            $about = $image->about;
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+            }
+
+            $resourceAttr = $this->xml->createAttribute( 'rdf:resource' );
+            $resourceVal = $this->xml->createTextNode( $about );
+            $resourceAttr->appendChild( $resourceVal );
+            $imageTag->appendChild( $resourceAttr );
+
+            $this->channel->appendChild( $imageTag );
+        }
     }
 
     /**
@@ -235,6 +255,47 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
                 $attributes = array();
                 $this->generateMetaData( $itemTag, $attribute, $data );
+            }
+        }
+    }
+
+    /**
+     * Adds the feed image to the XML document being generated.
+     *
+     * @ignore
+     */
+    protected function generateImage()
+    {
+        $image = $this->get( 'image' );
+        if ( $image !== null )
+        {
+            $imageTag = $this->xml->createElement( 'image' );
+            $this->root->appendChild( $imageTag );
+
+            $data = $image->about;
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+            }
+
+            $aboutAttr = $this->xml->createAttribute( 'rdf:about' );
+            $aboutVal = $this->xml->createTextNode( $data );
+            $aboutAttr->appendChild( $aboutVal );
+            $imageTag->appendChild( $aboutAttr );
+
+            foreach ( $this->schema->getRequired( 'image' ) as $attribute )
+            {
+                $data = $image->$attribute;
+                if ( is_null( $data ) )
+                {
+                    throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                }
+
+                $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
+                $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
+
+                $attributes = array();
+                $this->generateMetaData( $imageTag, $attribute, $data );
             }
         }
     }
