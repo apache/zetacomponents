@@ -33,6 +33,10 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected static $rss1Schema = array(
         // these are actually part of channel: title, link, description, items, image, textinput
+        // the channel also requires the rdf:about attribute
+        'channel'      => array( '#'          => 'none',
+                                 'ATTRIBUTES' => array( 'about' => 'string' ), ),
+
         'title'        => array( '#' => 'string' ),
         'link'         => array( '#' => 'string' ),
         'description'  => array( '#' => 'string' ),
@@ -138,6 +142,19 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateChannel()
     {
+        $channel = $this->get( 'channel' );
+        $data = ( $channel !== null ) ? $channel->about : null;
+
+        if ( is_null( $data ) )
+        {
+            throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+        }
+
+        $aboutAttr = $this->xml->createAttribute( 'rdf:about' );
+        $aboutVal = $this->xml->createTextNode( $data );
+        $aboutAttr->appendChild( $aboutVal );
+        $this->channel->appendChild( $aboutAttr );
+
         foreach ( $this->schema->getRequired() as $element )
         {
             $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
