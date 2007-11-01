@@ -73,6 +73,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         'textInput'    => array( '#'          => 'string',
                                  'ATTRIBUTES' => array( 'resource' => 'string' ) ),
 
+        'ATTRIBUTES'   => array( 'about'      => 'string' ),
+
         'REQUIRED'     => array( 'title', 'link', 'description' ),
         'OPTIONAL'     => array( 'image', 'textinput' ),
 
@@ -142,8 +144,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateChannel()
     {
-        $channel = $this->get( 'channel' );
-        $data = ( $channel !== null ) ? $channel->about : null;
+        $data = $this->get( 'about' );
 
         if ( is_null( $data ) )
         {

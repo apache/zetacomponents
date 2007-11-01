@@ -166,6 +166,17 @@ class ezcFeedSchema
     }
 
     /**
+     * Returns whether the $element is an attribute.
+     *
+     * @param string $element The schema element
+     * @return bool
+     */
+    public function isAttribute( $element )
+    {
+        return isset( $this->schema['ATTRIBUTES'][$element] );
+    }
+
+    /**
      * Returns if $element does not accept a value for the root node. If $subElement
      * is present then returns if the subelement $subElement of element $element
      * accepts a value for the root node.

@@ -158,6 +158,11 @@ abstract class ezcFeedProcessor
             {
                 $this->elements[$this->schema->getMulti( $name )] = array();
             }
+            else if ( $this->schema->isAttribute( $name ) )
+            {
+                $this->elements[$name] = $value;
+                return;
+            }
             else
             {
                 $this->elements[$name] = new ezcFeedElement( $this->schema->getSchema( $name ) );

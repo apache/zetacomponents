@@ -193,6 +193,7 @@ class ezcFeed
             case 'rating':
             case 'textInput':
             case 'cloud':
+            case 'about': // required in RSS1
                 $this->feedProcessor->set( $property, $value );
                 break;
 
@@ -239,6 +240,7 @@ class ezcFeed
             case 'rating':
             case 'textInput':
             case 'cloud':
+            case 'about': // required in RSS1
                 $value = $this->feedProcessor->get( $property );
                 return $value;
 
