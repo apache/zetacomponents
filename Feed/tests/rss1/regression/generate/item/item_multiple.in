@@ -1,0 +1,12 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link' => 'Feed link',
+              'description' => 'Feed description',
+			  'item' => array( array( 'about' => 'Item about 1',
+                                      'title' => 'Item title 1',
+                                      'link' => 'Item link 1' ),
+                               array( 'about' => 'Item about 2',
+                                      'title' => 'Item title 2',
+                                      'link' => 'Item link 2' ), ),
+            );
+?>

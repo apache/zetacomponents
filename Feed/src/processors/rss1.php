@@ -69,7 +69,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         'textInput'    => array( '#'          => 'string',
                                  'ATTRIBUTES' => array( 'resource' => 'string' ) ),
 
-        'REQUIRED'     => array( 'title', 'link', 'description', 'item' ),
+        'REQUIRED'     => array( 'title', 'link', 'description' ),
         'OPTIONAL'     => array( 'image', 'textinput' ),
 
         'MULTI'        => array( 'items'      => 'item' ),
@@ -99,9 +99,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $this->xml->formatOutput = 1;
         $this->createRootElement( '2.0' );
 
-        $this->generateRequired();
-        $this->generateOptional();
-        //$this->generateItems();
+        $this->generateChannel();
+        $this->generateItems();
 
         return $this->xml->saveXML();
     }
@@ -137,7 +136,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      *
      * @ignore
      */
-    protected function generateRequired()
+    protected function generateChannel()
     {
         foreach ( $this->schema->getRequired() as $element )
         {
@@ -155,50 +154,29 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                     $attributes[$attribute] = $data->$attribute;
                 }
             }
-            if ( count( $attributes ) >= 1 )
-            {
-                if ( in_array( $element, array( 'item' ) ) )
-                {
-                    $this->generateMetaDataWithAttributes( $this->root, $element, $data, $attributes );
-                }
-                else
-                {
-                    $this->generateMetaDataWithAttributes( $this->channel, $element, $data, $attributes );
-                }
-            }
-            else
-            {
-                $this->generateMetaData( $this->channel, $element, $data );
-            }
+            $this->generateMetaDataWithAttributes( $this->channel, $element, $data, $attributes );
         }
-    }
 
-    /**
-     * Adds the optional feed elements to the XML document being generated.
-     *
-     * @ignore
-     */
-    protected function generateOptional()
-    {
-        foreach ( $this->schema->getOptional() as $attribute )
+        $items = $this->get( 'items' );
+        if ( count( $items ) === 0 )
         {
-            $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getElementsMap() );
-            $data = $this->schema->isMulti( $attribute ) ? $this->get( $this->schema->getMulti( $attribute ) ) : $this->get( $attribute );
+            throw new ezcFeedRequiredMetaDataMissingException( 'item' );
+        }
 
-            if ( !is_null( $data ) )
-            {
-                // @todo Add hooks
-                switch ( $attribute )
-                {
-                    case 'published':
-                    case 'updated':
-                        $this->generateMetaData( $this->channel, $normalizedAttribute, date( 'D, d M Y H:i:s O', $data ) );
-                        break;
+        $itemsTag = $this->xml->createElement( 'items' );
+        $this->channel->appendChild( $itemsTag );
+        $seqTag = $this->xml->createElement( 'rdf:Seq' );
+        $itemsTag->appendChild( $seqTag );
 
-                    default:
-                        $this->generateMetaData( $this->channel, $normalizedAttribute, $data );
-                }
-            }
+        foreach ( $this->get( 'items' ) as $item )
+        {
+            $about = $item->about;
+            $liTag = $this->xml->createElement( 'rdf:li' );
+            $resourceAttr = $this->xml->createAttribute( 'resource' );
+            $resourceVal = $this->xml->createTextNode( $about );
+            $resourceAttr->appendChild( $resourceVal );
+            $liTag->appendChild( $resourceAttr );
+            $seqTag->appendChild( $liTag );
         }
     }
 
@@ -209,51 +187,36 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateItems()
     {
-        foreach ( $this->get( 'items' ) as $item )
+        foreach ( $this->get( 'items' ) as $element )
         {
             $itemTag = $this->xml->createElement( 'item' );
-            $this->channel->appendChild( $itemTag );
+            $this->root->appendChild( $itemTag );
 
-            $atLeastOneRequiredFeedItemPresent = false;
-            foreach ( $this->schema->getAtLeastOne( 'item' ) as $attribute )
+            $data = $element->about;
+            if ( is_null( $data ) )
             {
-                $data = $this->schema->isMulti( 'item', $attribute ) ? $this->get( $this->schema->getMulti( 'item', $attribute ) ) : $item->$attribute;
-                if ( !is_null( $data ) )
+                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+            }
+
+            $aboutAttr = $this->xml->createAttribute( 'rdf:about' );
+            $aboutVal = $this->xml->createTextNode( $data );
+            $aboutAttr->appendChild( $aboutVal );
+            $itemTag->appendChild( $aboutAttr );
+
+            foreach ( $this->schema->getRequired( 'item' ) as $attribute )
+            {
+                $data = $element->$attribute;
+
+                if ( is_null( $data ) )
                 {
-                    $atLeastOneRequiredFeedItemPresent = true;
-                    break;
+                    throw new ezcFeedRequiredMetaDataMissingException( $attribute );
                 }
-            }
 
-            if ( $atLeastOneRequiredFeedItemPresent === false )
-            {
-                throw new ezcFeedAtLeastOneItemDataRequiredException( $this->schema->getAtLeastOne( 'item' ) );
-            }
-
-            foreach ( $this->schema->getOptional( 'item' ) as $attribute )
-            {
+                $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
                 $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
 
-                $metaData = $this->schema->isMulti( 'item', $attribute ) ? $this->get( $this->schema->getMulti( 'item', $attribute ) ) : $item->$attribute;
-
-                if ( !is_null( $metaData ) )
-                {
-                    // @todo Add hooks
-                    switch ( $attribute )
-                    {
-                        case 'guid':
-                            $permalink = substr( $metaData, 0, 7 ) === 'http://' ? "true" : "false";
-                            $this->generateItemDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, array( 'isPermaLink' => $permalink ) );
-                            break;
-
-                        case 'published':
-                            $this->generateItemData( $itemTag, $normalizedAttribute, date( 'D, d M Y H:i:s O', $metaData ) );
-                            break;
-
-                        default:
-                            $this->generateItemData( $itemTag, $normalizedAttribute, $metaData );
-                    }
-                }
+                $attributes = array();
+                $this->generateMetaData( $itemTag, $attribute, $data );
             }
         }
     }
