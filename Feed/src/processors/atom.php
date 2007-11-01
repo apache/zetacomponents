@@ -53,8 +53,26 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $this->xml = new DOMDocument( '1.0', 'utf-8' );
         $this->xml->formatOutput = 1;
         $this->createRootElement( '2.0' );
+        if ( $this->get( 'title' ) === null )
+        {
+            throw new ezcFeedRequiredMetaDataMissingException( 'title' );
+        }
 
         return $this->xml->saveXML();
+    }
+
+    /**
+     * Creates a root node for the XML document being generated.
+     *
+     * @param string $version The RSS version for the root node
+     * @ignore
+     */
+    protected function createRootElement( $version )
+    {
+        $rss = $this->xml->createElementNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:RDF' );
+        $this->channel = $channelTag = $this->xml->createElement( 'channel' );
+        $rss->appendChild( $channelTag );
+        $this->root = $this->xml->appendChild( $rss );
     }
 
     /**

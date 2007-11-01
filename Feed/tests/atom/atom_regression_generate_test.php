@@ -46,7 +46,7 @@ class ezcFeedAtomRegressionGenerateTest extends ezcFeedRegressionTest
         $outFile = $this->outFileName( $file, '.in', '.out' );
         $expected = trim( file_get_contents( $outFile ) );
         $data = include_once( $file );
-        $feed = $this->createFeed( 'rss1', $data );
+        $feed = $this->createFeed( 'atom', $data );
         try
         {
             $generated = $feed->generate();
