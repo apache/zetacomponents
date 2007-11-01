@@ -295,7 +295,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $xp = new DOMXpath( $xml );
         $set = $xp->query( './namespace::*', $xml->documentElement );
         $this->usedNamespaces = array();
-        $items = $xml->getElementsByTagName( 'item' );
 
         // @todo Parse modules
 
@@ -305,12 +304,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                  && $rssChild->tagName === 'channel' )
             {
                 $channel = $rssChild;
-            }
-
-            if ( $rssChild->nodeType === XML_ELEMENT_NODE
-                 && $rssChild->tagName === 'image' )
-            {
-                $image = $rssChild;
             }
         }
 
