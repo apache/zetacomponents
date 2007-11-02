@@ -31,7 +31,40 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * @var array(string=>mixed)
      * @ignore
      */
-    protected static $atomSchema = array();
+    protected static $atomSchema = array(
+        'id'            => array( '#'         => 'string' ),
+        'title'         => array( '#'         => 'string' ),
+        'updated'       => array( '#'         => 'string' ),
+
+        'author'        => array( '#'         => 'string' ),
+        'link'          => array( '#'         => 'string' ),
+        'category'      => array( '#'         => 'string' ),
+        'contributor'   => array( '#'         => 'none',
+                                  'NODES'     => array(
+                                                   'name' => 'string'
+                                                   ),
+
+                                  'MULTI'     => 'contributors' ),
+
+        'generator'    => array( '#'          => 'string',
+                                 'ATTRIBUTES' => array( 'uri' => 'string',
+                                                        'version' => 'string' ), ),
+
+        'icon'         => array( '#'          => 'string' ),
+        'logo'         => array( '#'          => 'string' ),
+        'rights'       => array( '#'          => 'string' ),
+        'subtitle'     => array( '#'          => 'string' ),
+
+        'REQUIRED'     => array( 'id', 'title', 'updated' ),
+        'OPTIONAL'     => array( 'author', 'link', 'category',
+                                 'contributor', 'generator', 'icon',
+                                 'logo', 'rights', 'subtitle' ),
+
+        'ELEMENTS_MAP' => array( 'image' => 'logo',
+                                 'copyright' => 'rights',
+                                 'description' => 'subtitle',
+                                 'item' => 'entry' ),
+        );
 
     /**
      * Creates a new ATOM processor.
@@ -53,10 +86,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $this->xml = new DOMDocument( '1.0', 'utf-8' );
         $this->xml->formatOutput = 1;
         $this->createRootElement( '2.0' );
-        if ( $this->get( 'title' ) === null )
-        {
-            throw new ezcFeedRequiredMetaDataMissingException( 'title' );
-        }
+        $this->generateRequired();
 
         return $this->xml->saveXML();
     }
@@ -69,10 +99,36 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function createRootElement( $version )
     {
-        $rss = $this->xml->createElementNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:RDF' );
-        $this->channel = $channelTag = $this->xml->createElement( 'channel' );
-        $rss->appendChild( $channelTag );
+        $rss = $this->xml->createElementNS( 'http://www.w3.org/2005/Atom', 'feed' );
+        $this->channel = $rss;
         $this->root = $this->xml->appendChild( $rss );
+    }
+
+    /**
+     * Adds the required feed elements to the XML document being generated.
+     *
+     * @ignore
+     */
+    protected function generateRequired()
+    {
+        foreach ( $this->schema->getRequired() as $element )
+        {
+            $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( $element );
+            }
+
+            if ( !is_array( $data ) )
+            {
+                $data = array( $data );
+            }
+
+            foreach ( $data as $dataNode )
+            {
+                $this->generateMetaData( $this->channel, $element, $dataNode );
+            }
+        }
     }
 
     /**

@@ -1,0 +1,5 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => 'Feed title',
+              'updated' => 'Feed updated' );
+?>
