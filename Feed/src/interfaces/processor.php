@@ -144,6 +144,21 @@ abstract class ezcFeedProcessor
     }
 
     /**
+     * Adds an attribute to the XML node $node.
+     *
+     * @param DOMNode $node The node to add the attribute to
+     * @param string $attribute The name of the attribute to add
+     * @param mixed $value The value of the attribute
+     */
+    public function addAttribute( DOMNode $node, $attribute, $value )
+    {
+        $attr = $this->xml->createAttribute( $attribute );
+        $val = $this->xml->createTextNode( $value );
+        $attr->appendChild( $val );
+        $node->appendChild( $attr );
+    }
+
+    /**
      * Sets the value of element $name to $value based on the feed schema.
      *
      * @param string $name The element name

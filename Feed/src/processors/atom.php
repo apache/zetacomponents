@@ -32,38 +32,45 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * @ignore
      */
     protected static $atomSchema = array(
-        'id'            => array( '#'         => 'string' ),
-        'title'         => array( '#'         => 'string' ),
-        'updated'       => array( '#'         => 'string' ),
+        'id'            => array( '#'          => 'string' ),
+        'title'         => array( '#'          => 'string',
+                                  'ATTRIBUTES' => array( 'type' => 'string' ), ),
 
-        'author'        => array( '#'         => 'string' ),
-        'link'          => array( '#'         => 'string' ),
-        'category'      => array( '#'         => 'string' ),
-        'contributor'   => array( '#'         => 'none',
-                                  'NODES'     => array(
-                                                   'name' => 'string'
-                                                   ),
+        'updated'       => array( '#'          => 'string' ),
 
-                                  'MULTI'     => 'contributors' ),
+        'author'        => array( '#'          => 'string' ),
+        'link'          => array( '#'          => 'string' ),
+        'category'      => array( '#'          => 'string' ),
+        'contributor'   => array( '#'          => 'none',
+                                  'NODES'      => array(
+                                                    'name' => 'string',
+                                                    'email' => 'string',
+                                                    'uri' => 'string',
+                                                    ),
 
-        'generator'    => array( '#'          => 'string',
-                                 'ATTRIBUTES' => array( 'uri' => 'string',
-                                                        'version' => 'string' ), ),
+                                  'REQUIRED'   => array( 'name' ),
+                                  'OPTIONAL'   => array( 'email', 'uri' ),
 
-        'icon'         => array( '#'          => 'string' ),
-        'logo'         => array( '#'          => 'string' ),
-        'rights'       => array( '#'          => 'string' ),
-        'subtitle'     => array( '#'          => 'string' ),
+                                  'MULTI'      => 'contributors' ),
 
-        'REQUIRED'     => array( 'id', 'title', 'updated' ),
-        'OPTIONAL'     => array( 'author', 'link', 'category',
-                                 'contributor', 'generator', 'icon',
-                                 'logo', 'rights', 'subtitle' ),
+        'generator'     => array( '#'          => 'string',
+                                  'ATTRIBUTES' => array( 'uri' => 'string',
+                                                         'version' => 'string' ), ),
 
-        'ELEMENTS_MAP' => array( 'image' => 'logo',
-                                 'copyright' => 'rights',
-                                 'description' => 'subtitle',
-                                 'item' => 'entry' ),
+        'icon'          => array( '#'          => 'string' ),
+        'logo'          => array( '#'          => 'string' ),
+        'rights'        => array( '#'          => 'string' ),
+        'subtitle'      => array( '#'          => 'string' ),
+
+        'REQUIRED'      => array( 'id', 'title', 'updated' ),
+        'OPTIONAL'      => array( 'author', 'link', 'category',
+                                  'contributor', 'generator', 'icon',
+                                  'logo', 'rights', 'subtitle' ),
+
+        'ELEMENTS_MAP'  => array( 'image' => 'logo',
+                                  'copyright' => 'rights',
+                                  'description' => 'subtitle',
+                                  'item' => 'entry' ),
         );
 
     /**
@@ -126,9 +133,62 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
             foreach ( $data as $dataNode )
             {
-                $this->generateMetaData( $this->channel, $element, $dataNode );
+                $this->generateNode( $this->channel, $element, $dataNode );
+
             }
         }
+    }
+
+    /**
+     * Creates an XML node in the XML document being generated.
+     *
+     * @param DOMNode $root The root in which to create the node $element
+     * @param string $element The name of the node to create
+     * @param array(string=>mixed) $dataNode The data for the node to create
+     * @ignore
+     */
+    protected function generateNode( DOMNode $root, $element, $dataNode )
+    {
+        $elementTag = $this->xml->createElement( $element );
+        $root->appendChild( $elementTag );
+
+        $attributes = array();
+        foreach ( $this->schema->getAttributes( $element ) as $attribute => $type )
+        {
+            if ( isset( $dataNode->$attribute ) )
+            {
+                $val = $dataNode->$attribute;
+                if ( $attribute === 'type' )
+                {
+                    switch ( $val )
+                    {
+                        case 'html':
+                            $dataNode->set( htmlspecialchars( $dataNode ) );
+                            $this->addAttribute( $elementTag, 'type', $val );
+                            break;
+
+                        case 'xhtml':
+                            $this->addAttribute( $elementTag, 'type', $val );
+                            $this->addAttribute( $elementTag, 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
+                            $xhtmlTag = $this->xml->createElement( 'xhtml:div', $dataNode->__toString() );
+                            $elementTag->appendChild( $xhtmlTag );
+                            $elementTag = $xhtmlTag;
+                            break;
+
+                        case 'text':
+                        default:
+                            $val = 'text';
+                            $this->addAttribute( $elementTag, 'type', $val );
+                            break;
+
+                    }
+                }
+
+
+            }
+        }
+
+        $elementTag->nodeValue = $dataNode;
     }
 
     /**
