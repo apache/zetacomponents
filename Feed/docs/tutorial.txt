@@ -210,6 +210,13 @@ link
   time.
 
 
+description
+```````````
+
+- Required in RSS1 and RSS2.
+- Called 'subtitle' in ATOM (accessed as 'description' through ezcFeed).
+
+
 item
 ````
 
