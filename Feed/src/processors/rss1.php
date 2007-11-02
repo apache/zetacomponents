@@ -34,9 +34,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
     protected static $rss1Schema = array(
         // these are actually part of channel: title, link, description, items, image, textinput
         // the channel also requires the rdf:about attribute
-        'channel'      => array( '#'          => 'none',
-                                 'ATTRIBUTES' => array( 'about' => 'string' ), ),
-
         'title'        => array( '#' => 'string' ),
         'link'         => array( '#' => 'string' ),
         'description'  => array( '#' => 'string' ),
@@ -83,6 +80,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                                                                             'link' ),
                                                    ), ),
 
+        // the channel/about attribute is required
         'ATTRIBUTES'   => array( 'about'      => 'string' ),
 
         'REQUIRED'     => array( 'title', 'link', 'description' ),
