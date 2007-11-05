@@ -979,7 +979,7 @@ All template functions follow these rules:
 
 Contexts
 --------
-The purpose of the context is simplify the development of the templates and
+The purpose of the context is to simplify the development of the templates and
 make the templates more secure. The context defines the purpose of the template
 output. For example the XHTML context should be set for the templates that
 generate (X)HTML output. 
