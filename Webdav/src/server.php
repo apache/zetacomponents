@@ -104,11 +104,21 @@ class ezcWebdavServer
      * to make the server instance handle the current request. This means, a
      * {@link ezcWebdavTransport} is selected and instantiated through the
      * {@link ezcWebdavServerConfigurationManager} in {@link $this->configurations}.
+     *
+     * The method receives at least an instance of {@link ezcWebdavBackend},
+     * which is used to server the request.
+     *
+     * @param ezcWebdavBackend $backend
+     * @param string $uri
      * 
      * @return void
      */
-    public final function handle( ezcWebdavBackend $backend )
+    public final function handle( ezcWebdavBackend $backend, $uri = null )
     {
+        $uri = ( $uri === null 
+            ? 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']
+            : $uri );
+
         // Perform final setup
         $this->backend = $backend;
         if ( !isset( $_SERVER['HTTP_USER_AGENT'] ) )
@@ -122,7 +132,7 @@ class ezcWebdavServer
         $this->pluginRegistry->initPlugins();
 
         // Parse request into request object
-        $request = $this->transport->parseRequest( 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] );
+        $request = $this->transport->parseRequest( $uri );
         
         if ( $request instanceof ezcWebdavRequest )
         {
