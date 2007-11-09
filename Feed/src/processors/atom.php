@@ -62,7 +62,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         'rights'        => array( '#'          => 'string',
                                   'ATTRIBUTES' => array( 'type' => 'string' ), ),
 
-        'subtitle'      => array( '#'          => 'string' ),
+        'subtitle'      => array( '#'          => 'string',
+                                  'ATTRIBUTES' => array( 'type' => 'string' ), ),
 
         'REQUIRED'      => array( 'id', 'title', 'updated' ),
         'OPTIONAL'      => array( 'author', 'link', 'category',
