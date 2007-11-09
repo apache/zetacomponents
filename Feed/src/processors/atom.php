@@ -59,7 +59,9 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         'icon'          => array( '#'          => 'string' ),
         'logo'          => array( '#'          => 'string' ),
-        'rights'        => array( '#'          => 'string' ),
+        'rights'        => array( '#'          => 'string',
+                                  'ATTRIBUTES' => array( 'type' => 'string' ), ),
+
         'subtitle'      => array( '#'          => 'string' ),
 
         'REQUIRED'      => array( 'id', 'title', 'updated' ),
@@ -94,6 +96,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $this->xml->formatOutput = 1;
         $this->createRootElement( '2.0' );
         $this->generateRequired();
+        $this->generateOptional();
 
         return $this->xml->saveXML();
     }
@@ -142,6 +145,33 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 }
                 $this->generateNode( $this->channel, $element, $dataNode );
 
+            }
+        }
+    }
+
+    /**
+     * Adds the optional feed elements to the XML document being generated.
+     *
+     * @ignore
+     */
+    protected function generateOptional()
+    {
+        foreach ( $this->schema->getOptional() as $element )
+        {
+            $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
+
+            if ( !is_null( $data ) )
+            {
+                if ( !is_array( $data ) )
+                {
+                    $data = array( $data );
+                }
+
+                foreach ( $data as $dataNode )
+                {
+                    $this->generateNode( $this->channel, $element, $dataNode );
+
+                }
             }
         }
     }

@@ -1,0 +1,7 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title' ) ),
+              'updated' => 'Feed updated',
+              'copyright' => array( array( '#' => 'Feed copyright',
+                                           'type' => 'html' ) ) );
+?>
