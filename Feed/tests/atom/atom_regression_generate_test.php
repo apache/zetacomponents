@@ -36,6 +36,7 @@ class ezcFeedAtomRegressionGenerateTest extends ezcFeedRegressionTest
 
     protected function cleanForCompare( $text )
     {
+        $text = preg_replace( '@<updated>.*?</updated>@', '<updated>XXX</updated>', $text );
         return $text;
     }
 

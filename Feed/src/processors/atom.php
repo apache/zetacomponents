@@ -133,6 +133,13 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
             foreach ( $data as $dataNode )
             {
+                switch ( $element )
+                {
+                    case 'updated':
+                        // Sample date: 2003-12-13T18:30:02-05:00
+                        $dataNode->set( date( "c", (int)$dataNode->get() ) );
+                        break;
+                }
                 $this->generateNode( $this->channel, $element, $dataNode );
 
             }
@@ -176,6 +183,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                             break;
 
                         case 'text':
+                            // same as the default case
+
                         default:
                             $val = 'text';
                             $this->addAttribute( $elementTag, 'type', $val );
@@ -183,8 +192,6 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                     }
                 }
-
-
             }
         }
 
