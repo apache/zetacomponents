@@ -45,39 +45,47 @@ TODO
   to last. If the request now takes too much time, it may result in an error,
   since the lock is already gone.
 
-Code TODOs on Thu Oct 18 08:20:15 CEST 2007
-===========================================
+- Some information was provided by the attendees of "Webdav with eZ Components"
+  at the IPC2007:
+  - When a resource is created, clients may provide the getcreationdate
+	property (and other date properties), to keep the original dates in tact.
+	We currently don't support this at all, it seems, and some (Windows)
+	clients seem to provide invalid dates. At least, an attendee described that
+	he got 1970-01-01 after uploading a file to mod_webdav.
+  - Windows' case-insensitivity with filenames must be checked!
+  - Charsets different to UTF-8 must be checked. How do we support them? Do we
+	convert everything that is plain text to UTF-8 for storing? Do we need to
+	overwrite php.ini settings to always send UTF-8? Do we simply store the
+	charset provided and set correct headers on GET? Especially important is to
+	check German and other languages Umlauts.
 
-Webdav/src/tools/xml.php:65:     * @todo This should throw an exception if loading of the XML fails!
-Webdav/src/tools/date_time.php:21: * @todo Remove
-Webdav/src/transports/property_handler.php:106:     * @todo How do we need to take care about different namespaces here?
-Webdav/src/transports/property_handler.php:168:                // @TODO: Should this throw an exception, if the match fails?
-Webdav/src/transports/property_handler.php:224:                // @TODO Implement extension plugins
-Webdav/src/transports/property_handler.php:324:                    // @TODO Need to check for special values here!
-Webdav/src/backends/simple.php:599:                        // @TODO: This assumptions is not particular correct.
-Webdav/src/backends/simple.php:700:        // @TODO: RFC2616 Section 9.6 PUT requires us to send 501 on all
-Webdav/src/backends/simple.php:824:        // @TODO: handle keepalive setting somehow - even the RFC is quite
-Webdav/src/backends/simple.php:920:        // @TODO: handle keepalive setting somehow - even the RFC is quite
-Webdav/src/backends/simple.php:943:        // @TODO: The error generated here should depend on the actual backend
-Webdav/src/backends/simple.php:1046:        // @TODO: Read this from implemented interfaces / features in base class.
-Webdav/src/backends/file.php:537:                // @TODO: Use proper etag hashing stuff
-Webdav/src/backends/file.php:834:            // @TODO: Mind hideDotFiles option
-Webdav/src/transport.php:419:     * @todo Correct exception. Or better: Correct all exception mess!
-Webdav/src/transport.php:536:     * @todo This should be refactored completly and must be made usable for
-Webdav/src/transport.php:570:     * @todo This should be refactored completly and must be made usable for
-Webdav/src/transport.php:596:                // @TODO Add extensiability hook
-Webdav/src/transport.php:874:     * @todo This should be extracted into the LOCK plugin.
-Webdav/src/transport.php:926:        // @TODO is the following not restrictive enough?
-Webdav/src/transport.php:958:     * @todo This should be extracted into the LOCK plugin.
-Webdav/src/transport.php:1141:            // @TODO:
-Webdav/src/transport.php:1427:     * @todo We should possibly offer an ezcWebdavTemplateTiein, which brings
-Webdav/src/transport.php:1451:     * @todo Do we need to set more headers here?
-Webdav/src/transport.php:1508:     * @todo Do we need to set more headers here?
-Webdav/src/server.php:125:            // @todo $this->pluginRegistry->hook( __CLASS__, 'receivedRequest', new ezcWebdavPluginParameters( array( 'request' => $request ) ) );
-Webdav/src/server.php:134:        // @todo $this->pluginRegistry->hook( __CLASS__, 'generatedResponse', new ezcWebdavPluginParameters( array( 'response' => $response ) ) );
-Webdav/src/path_factories/basic.php:43:     * @todo This is a temporary hack to satisfy memory backend and RFC.
-Webdav/src/path_factories/basic.php:82:            // @todo This is a cleanup for the memory backend
-Webdav/src/path_factories/basic.php:88:            // @todo Some clients first send with / and then discover it is not a resource
-Webdav/src/interfaces/response.php:178:        // @TODO: Do we need more standard HTTP headers here?
-Webdav/src/interfaces/request.php:83:        // @todo Implement general header checks here.
-Webdav/tests/clients/rfc/convert.php:69:                        // @TODO Guessed from here, need validation!
+Code TODOs on Sat Nov 10 10:40:11 CET 2007
+==========================================
+
+Webdav/src/backends/simple.php:                        // @TODO: This assumptions is not particular correct.
+Webdav/src/backends/simple.php:        // @TODO: RFC2616 Section 9.6 PUT requires us to send 501 on all
+Webdav/src/backends/simple.php:        // @TODO: handle keepalive setting somehow - even the RFC is quite
+Webdav/src/backends/simple.php:        // @TODO: handle keepalive setting somehow - even the RFC is quite
+Webdav/src/backends/simple.php:        // @TODO: The error generated here should depend on the actual backend
+Webdav/src/backends/file.php:                // @TODO: Use proper etag hashing stuff
+Webdav/src/backends/file.php:            // @TODO: Mind hideDotFiles option
+Webdav/src/interfaces/response.php:        // @TODO: Do we need more standard HTTP headers here?
+Webdav/src/interfaces/request.php:        // @todo Implement general header checks here.
+Webdav/src/path_factories/basic.php:     * @todo This is a temporary hack to satisfy memory backend and RFC.
+Webdav/src/path_factories/basic.php:            // @todo This is a cleanup for the memory backend
+Webdav/src/path_factories/basic.php:            // @todo Some clients first send with / and then discover it is not a resource
+Webdav/src/plugins/lock/transport.php:        // @TODO is the following not restrictive enough?
+Webdav/src/plugins/lock/property_handler.php:                    // @TODO Need to check for special values here!
+Webdav/src/plugins/lock/main.php:        // @TODO anything to do here?
+Webdav/src/plugins/lock/main.php:     * @todo Tie in Authentication to authenticate for locking
+Webdav/src/plugins/lock/main.php:     * @todo A mechanism to determine authorization?
+Webdav/src/plugins/lock/main.php:        // @TODO: Anything to do here?
+Binary file Webdav/src/plugins/lock/.main.php.swp matches
+Webdav/src/tools/xml.php:     * @todo This should throw an exception if loading of the XML fails!
+Webdav/src/tools/date_time.php: * @todo Remove
+Webdav/src/transport.php:            // @TODO:
+Webdav/src/transport.php:     * @todo We should possibly offer an ezcWebdavTemplateTiein, which brings
+Webdav/src/transport.php:     * @todo Do we need to set more headers here?
+Webdav/src/transport.php:     * @todo Do we need to set more headers here?
+Webdav/src/transports/property_handler.php:                // @TODO: Should this throw an exception, if the match fails?
+Webdav/src/transports/header_handler.php:                // @TODO Add plugin hook
