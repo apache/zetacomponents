@@ -36,6 +36,8 @@ return array(
     'ezcTreeVisitorPlainText'                   => 'Tree/visitors/plain_text.php',
     'ezcTreeVisitorXHTML'                       => 'Tree/visitors/xhtml.php',
     'ezcTreeVisitorXHTMLOptions'                => 'Tree/options/visitor_xhtml.php',
+    'ezcTreeVisitorYUI'                         => 'Tree/visitors/yui.php',
+    'ezcTreeVisitorYUIOptions'                  => 'Tree/options/visitor_yui.php',
     'ezcTreeXml'                                => 'Tree/backends/xml.php',
     'ezcTreeXmlInternalDataStore'               => 'Tree/stores/xml_internal.php',
 );

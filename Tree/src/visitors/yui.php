@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTreeVisitorXHTML class.
+ * File containing the ezcTreeVisitorYUI class.
  *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -11,24 +11,21 @@
 
 /**
  * An implementation of the ezcTreeVisitor interface that generates
- * an XHTML representatation of a tree structure.
+ * an XHTML representatation of a tree structure, as YUI wants.
+ * See {link http://developer.yahoo.com/yui/menu}.
  *
  * <code>
  * <?php
- *     $visitor = new ezcTreeVisitorXHTML( 'menu_tree', 'menu' );
+ *     $visitor = new ezcTreeVisitorYUI( 'menu' );
  *     $tree->accept( $visitor );
  *     echo (string) $visitor; // print the plot
  * ?>
  * </code>
  *
- * Shows (something like):
- * <code>
- * </code>
- *
  * @package Tree
  * @version //autogentag//
  */
-class ezcTreeVisitorXHTML implements ezcTreeVisitor
+class ezcTreeVisitorYUI implements ezcTreeVisitor
 {
     /**
      * Holds all the edges of the graph.
@@ -66,15 +63,15 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
     private $treeIdSet;
 
     /**
-     * Constructs a new ezcTreeVisitorXHTML visualizer.
+     * Constructs a new ezcTreeVisitorYUI visualizer.
      *
-     * @param ezcTreeVisitorXHTMLOptions $options
+     * @param ezcTreeVisitorYUIOptions $options
      */
-    public function __construct( ezcTreeVisitorXHTMLOptions $options = null )
+    public function __construct( ezcTreeVisitorYUIOptions $options = null )
     {
         if ( $options === null )
         {
-            $this->options = new ezcTreeVisitorXHTMLOptions;
+            $this->options = new ezcTreeVisitorYUIOptions;
         }
         else
         {
@@ -97,7 +94,7 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
     protected function formatData( $data, $highlight )
     {
         $data = htmlspecialchars( $data );
-        return $highlight ? "<div class=\"highlight\">$data</div>" : $data;
+        return $data;
     }
 
     /**
@@ -109,10 +106,6 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
      */
     public function visit( ezcTreeVisitable $visitable )
     {
-        if ( $visitable instanceof ezcTree )
-        {
-        }
-
         if ( $visitable instanceof ezcTreeNode )
         {
             if ( $this->root === null )
@@ -155,12 +148,14 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
             $text .= str_repeat( '  ', $level + 1 );
 
             $idPart = '';
-            if ( !$this->treeIdSet )
+            if ( $level !== 0 )
             {
-                $idPart = $this->options->xmlId ? " id=\"{$this->options->xmlId}\"" : '';
-                $this->treeIdSet = true;
+                $text .= "<div id='{$id}' class='yuimenu'>\n";
             }
-            $text .= "<ul{$idPart}>\n";
+            $text .= str_repeat( '  ', $level + 2 );
+            $text .= "<div class='bd'>\n";
+            $text .= str_repeat( '  ', $level + 3 );
+            $text .= "<ul>\n";
             foreach ( $children as $child )
             {
                 $path = $child[2]->nodes;
@@ -170,43 +165,49 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
                 }
                 if ( $this->options->selectedNodeLink )
                 {
-                    $path = htmlspecialchars( $this->options->basePath . '/' . array_pop( array_slice( $path, -1 ) ) );
+                    $path = htmlspecialchars( $this->options->basePath . '/' . array_pop( array_slice( $path, -1 ) ), ENT_QUOTES );
                 }
                 else
                 {
-                    $path = htmlspecialchars( $this->options->basePath . '/' . join( '/', $path ) );
+                    $path = htmlspecialchars( $this->options->basePath . '/' . join( '/', $path ), ENT_QUOTES );
                 }
-                $text .= str_repeat( '  ', $level + 2 );
+                $text .= str_repeat( '  ', $level + 4 );
 
                 $data = $this->formatData( $child[1], in_array( $child[0], $this->options->highlightNodeIds ) );
 
-                $linkStart = $linkEnd = '';
-                if ( $this->options->addLinks )
-                {
-                    $linkStart = "<a href=\"{$path}\">";
-                    $linkEnd   = "</a>";
-                }
+                $yuiItemClass =      $level == 0 ? 'yuimenubaritem' : 'yuimenuitem';
+                $yuiItemLabelClass = $level == 0 ? 'yuimenubaritemlabel' : 'yuimenuitemlabel';
 
                 $highlightPart = '';
-                if ( in_array( $child[0], $this->options->subtreeHighlightNodeIds ) )
+                if ( in_array( $child[0], $this->options->highlightNodeIds ) )
                 {
-                    $highlightPart = ' class="highlight"';
+                    $highlightPart = ' highlight';
                 }
+
+                $linkStart = "<a class='{$yuiItemLabelClass}{$highlightPart}' href='{$path}'>";
+                $linkEnd   = "</a>";
 
                 if ( isset( $this->edges[$child[0]] ) )
                 {
-                    $text .= "<li{$highlightPart}>{$linkStart}{$data}{$linkEnd}\n";
-                    $text .= $this->doChildren( $child[0], $level + 2, $levelLast );
-                    $text .= str_repeat( '  ', $level + 2 );
+                    $text .= "<li class='{$yuiItemClass}'>{$linkStart}{$data}{$linkEnd}\n";
+                    $text .= $this->doChildren( $child[0], $level + 4, $levelLast );
+                    $text .= str_repeat( '  ', $level + 4 );
                     $text .= "</li>\n";
                 }
                 else
                 {
-                    $text .= "<li{$highlightPart}>{$linkStart}{$data}{$linkEnd}</li>\n";
+                    $text .= "<li class='{$yuiItemClass}'>{$linkStart}{$data}{$linkEnd}</li>\n";
                 }
             }
-            $text .= str_repeat( '  ', $level + 1);
+            $text .= str_repeat( '  ', $level + 3);
             $text .= "</ul>\n";
+            $text .= str_repeat( '  ', $level + 2 );
+            if ( $level !== 0 )
+            {
+                $text .= "</div>\n";
+                $text .= str_repeat( '  ', $level + 1 );
+            }
+            $text .= "</div>\n";
         }
 
         return $text;
@@ -223,18 +224,28 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
         $tree = '';
         $this->treeIdSet = false;
 
+        $idPart = $this->options->xmlId ? " id=\"{$this->options->xmlId}\"" : '';
+        $tree .= "<div{$idPart} class='yuimenubar yuimenubarnav'>\n";
         if ( $this->options->displayRootNode )
         {
-            $idPart = $this->options->xmlId ? " id=\"{$this->options->xmlId}\"" : '';
-            $tree .= "<ul{$idPart}>\n";
-            $tree .= "<li>{$this->root}</li>\n";
-            $this->treeIdSet = true;
+            $tree .= <<<END
+  <div class='bd'>
+    <ul>
+      <li class='yuimenubaritem'><a class='yuimenubaritemlabel' href='/Hominoidea/Hylobatidae'>{$this->root}</a>
+
+END;
         }
-        $tree .= $this->doChildren( $this->root );
+        $tree .= $this->doChildren( $this->root, 4 * (bool) $this->options->displayRootNode );
         if ( $this->options->displayRootNode )
         {
-            $tree .= "</ul>\n";
+            $tree .= <<<END
+      </li>
+    </ul>
+  </div>
+
+END;
         }
+        $tree .= "</div>\n";
         return $tree;
     }
 }

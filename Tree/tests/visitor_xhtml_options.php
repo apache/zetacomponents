@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcTreeVisitorOptionsTest
+ * ezcTreeVisitorXHTMLOptionsTest
  * 
  * @package Tree
  * @version //autogentag//
@@ -15,7 +15,7 @@
  * @package Tree
  * @subpackage Tests
  */
-class ezcTreeVisitorOptionsTest extends ezcTestCase
+class ezcTreeVisitorXHTMLOptionsTest extends ezcTestCase
 {
     public function testDefaultSettings()
     {
@@ -26,6 +26,7 @@ class ezcTreeVisitorOptionsTest extends ezcTestCase
         self::assertSame( false, $options->displayRootNode );
         self::assertSame( null, $options->xmlId );
         self::assertSame( array(), $options->highlightNodeIds );
+        self::assertSame( array(), $options->subtreeHighlightNodeIds );
         self::assertSame( false, $options->selectedNodeLink );
     }
 
@@ -52,6 +53,7 @@ class ezcTreeVisitorOptionsTest extends ezcTestCase
         $options->displayRootNode = true;
         $options->xmlId = 'menu_tree';
         $options->highlightNodeIds = array( 'root' );
+        $options->subtreeHighlightNodeIds = array( 'root' );
         $options->selectedNodeLink = true;
 
         self::assertSame( '/view', $options->basePath );
@@ -59,6 +61,7 @@ class ezcTreeVisitorOptionsTest extends ezcTestCase
         self::assertSame( true, $options->displayRootNode );
         self::assertSame( 'menu_tree', $options->xmlId );
         self::assertSame( array( 'root' ), $options->highlightNodeIds );
+        self::assertSame( array( 'root' ), $options->subtreeHighlightNodeIds );
         self::assertSame( true, $options->selectedNodeLink );
     }
 
@@ -70,6 +73,7 @@ class ezcTreeVisitorOptionsTest extends ezcTestCase
         $optionsArray['displayRootNode'] = true;
         $optionsArray['xmlId'] = 'menu_tree';
         $optionsArray['highlightNodeIds'] = array( 'root' );
+        $optionsArray['subtreeHighlightNodeIds'] = array( 'root' );
         $optionsArray['selectedNodeLink'] = true;
 
         $options = new ezcTreeVisitorXHTMLOptions( $optionsArray );
@@ -79,6 +83,7 @@ class ezcTreeVisitorOptionsTest extends ezcTestCase
         self::assertSame( true, $options->displayRootNode );
         self::assertSame( 'menu_tree', $options->xmlId );
         self::assertSame( array( 'root' ), $options->highlightNodeIds );
+        self::assertSame( array( 'root' ), $options->subtreeHighlightNodeIds );
         self::assertSame( true, $options->selectedNodeLink );
     }
 
@@ -166,6 +171,20 @@ class ezcTreeVisitorOptionsTest extends ezcTestCase
         }
     }
 
+    public function testSetInvalidSubtreeHighlightNodes()
+    {
+        $options = new ezcTreeVisitorXHTMLOptions;
+        try
+        {
+            $options->subtreeHighlightNodeIds = 42;
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertSame( "The value '42' that you were trying to assign to setting 'subtreeHighlightNodeIds' is invalid. Allowed values are: array(string).", $e->getMessage() );
+        }
+    }
+
     public function testSetUnknownProperty()
     {
         $options = new ezcTreeVisitorXHTMLOptions;
@@ -182,7 +201,7 @@ class ezcTreeVisitorOptionsTest extends ezcTestCase
 
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( "ezcTreeVisitorOptionsTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcTreeVisitorXHTMLOptionsTest" );
     }
 }
 ?>
