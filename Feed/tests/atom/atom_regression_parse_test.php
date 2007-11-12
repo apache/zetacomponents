@@ -36,7 +36,12 @@ class ezcFeedAtomRegressionParseTest extends ezcFeedRegressionTest
 
     protected function cleanForCompare( $expected, $parsed )
     {
-
+        if ( $parsed->updated !== 'string'
+             && $expected->updated !== $parsed->updated )
+        {
+            $parsed->updated = 'YYY';
+            $expected->updated = 'YYY';
+        }
     }
 
     public function testRunRegression( $file )

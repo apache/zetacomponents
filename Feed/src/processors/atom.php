@@ -307,6 +307,10 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         $feed->$tagName = $channelChild->textContent;
                         break;
 
+                    case 'updated':
+                        $feed->$tagName = ezcFeedTools::prepareDate( $channelChild->textContent );
+                        break;
+
                     default:
                         // check if it's part of a known module/namespace
                 }
