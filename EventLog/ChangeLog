@@ -1,4 +1,4 @@
-1.2alpha1 - [RELEASEDATE]
+1.2alpha1 - Monday 12 November 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented feature #10434: unix syslog writer, also works with the windows
