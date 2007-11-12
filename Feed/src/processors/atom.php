@@ -303,6 +303,10 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                         break;
 
+                    case 'id':
+                        $feed->$tagName = $channelChild->textContent;
+                        break;
+
                     default:
                         // check if it's part of a known module/namespace
                 }
