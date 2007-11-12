@@ -1,0 +1,8 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'category' => array( array( 'term' => 'Category term',
+                                          'label' => 'Category label' ) ) );
+?>

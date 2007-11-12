@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>Feed updated</updated>
+  <category term="Category term 1" scheme="Category scheme 1" label="Category label 1"/>
+  <category term="Category term 2" scheme="Category scheme 2" label="Category label 2"/>
+</feed>

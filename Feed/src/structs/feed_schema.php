@@ -65,6 +65,36 @@ class ezcFeedSchema
     }
 
     /**
+     * Returns the required attributes defined for the element $element in this
+     * feed schema.
+     *
+     * @param string $element The schema element
+     * @param string $subElement The subelement of $element
+     * @return array(string)
+     */
+    public function getRequiredAttributes( $element, $subElement = null )
+    {
+        $result = array();
+
+        if ( $subElement === null )
+        {
+            if ( isset( $this->schema[$element]['REQUIRED_ATTRIBUTES'] ) )
+            {
+                $result = $this->schema[$element]['REQUIRED_ATTRIBUTES'];
+            }
+        }
+        else
+        {
+            if ( isset( $this->schema[$element]['NODES'][$subElement]['REQUIRED_ATTRIBUTES'] ) )
+            {
+                $result = $this->schema[$element]['NODES'][$subElement]['REQUIRED_ATTRIBUTES'];
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns the required elements defined for the element $element in this
      * feed schema. If $element is null then it returns the required elements
      * in the root.

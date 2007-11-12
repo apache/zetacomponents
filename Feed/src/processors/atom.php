@@ -40,7 +40,15 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         'author'        => array( '#'          => 'string' ),
         'link'          => array( '#'          => 'string' ),
-        'category'      => array( '#'          => 'string' ),
+        'category'      => array( '#'          => 'none',
+                                  'ATTRIBUTES' => array( 'term' => 'string',
+                                                         'scheme' => 'string',
+                                                         'label' => 'string' ),
+
+                                  'REQUIRED_ATTRIBUTES'   => array( 'term' ),
+                                  
+                                  'MULTI'      => 'categories' ),
+
         'contributor'   => array( '#'          => 'none',
                                   'NODES'      => array(
                                                     'name' => 'string',
@@ -191,6 +199,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $root->appendChild( $elementTag );
 
         $attributes = array();
+        $required = $this->schema->getRequiredAttributes( $element );
+
         foreach ( $this->schema->getAttributes( $element ) as $attribute => $type )
         {
             if ( isset( $dataNode->$attribute ) )
@@ -223,10 +233,21 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                     }
                 }
+                else
+                {
+                    $this->addAttribute( $elementTag, $attribute, $val );
+                }
+            }
+            else if ( in_array( $attribute, $required ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( $attribute );
             }
         }
 
-        $elementTag->nodeValue = $dataNode;
+        if ( !$this->schema->isEmpty( $element ) )
+        {
+            $elementTag->nodeValue = $dataNode;
+        }
     }
 
     /**
@@ -309,6 +330,10 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                     case 'updated':
                         $feed->$tagName = ezcFeedTools::prepareDate( $channelChild->textContent );
+                        break;
+
+                    case 'category':
+                        $element = $feed->add( $tagName );
                         break;
 
                     default:

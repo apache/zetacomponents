@@ -1,0 +1,20 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$category = $feed->add( 'category' );
+$category->term = 'Category term 1';
+$category->scheme = 'Category scheme 1';
+$category->label = 'Category label 1';
+
+$category = $feed->add( 'category' );
+$category->term = 'Category term 2';
+$category->scheme = 'Category scheme 2';
+$category->label = 'Category label 2';
+
+return $feed;
+?>
