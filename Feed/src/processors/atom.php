@@ -297,6 +297,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 switch ( $tagName )
                 {
                     case 'title':
+                    case 'copyright':
                         $type = ezcFeedTools::getAttribute( $channelChild, 'type' );
 
                         switch ( $type )
