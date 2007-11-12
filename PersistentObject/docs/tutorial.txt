@@ -863,7 +863,7 @@ For most relation types, the reverse attribute of the relation definition object
 is set to false by default. You can manually set it. Exceptions are
 ezcPersistentManyToOneRelation relations. This relation type only makes sense
 as a reverse relation for ezcPersistentOneToManyRelation. Therefore, the
-reverse attribute is set to false for ezcPersistentManyToOneRelation and is not
+reverse attribute is set to true for ezcPersistentManyToOneRelation and is not
 publicly accessible for writing.
 
 The following example shows the reverse relation definition for the n:m relations
