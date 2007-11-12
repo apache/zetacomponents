@@ -266,6 +266,61 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $set = $xp->query( './namespace::*', $xml->documentElement );
         $this->usedNamespaces = array();
 
+        foreach ( $channel->childNodes as $channelChild )
+        {
+            if ( $channelChild->nodeType == XML_ELEMENT_NODE )
+            {
+                $tagName = $channelChild->tagName;
+                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
+
+                switch ( $tagName )
+                {
+                    case 'title':
+                        $type = ezcFeedTools::getAttribute( $channelChild, 'type' );
+
+                        switch ( $type )
+                        {
+                            case 'xhtml':
+                                $nodes = $channelChild->childNodes;
+                                if ( $nodes instanceof DOMNodeList )
+                                {
+                                    $contentNode = $nodes->item( 1 );
+                                    $feed->$tagName = $contentNode->nodeValue;
+                                }
+                                break;
+
+                            case 'html':
+                                $feed->$tagName = $channelChild->textContent;
+                                break;
+
+                            case 'text':
+                                // same case as 'default'
+
+                            default:
+                                $feed->$tagName = $channelChild->textContent;
+                                break;
+                        }
+
+                        break;
+
+                    default:
+                        // check if it's part of a known module/namespace
+                }
+            }
+
+            foreach ( ezcFeedTools::getAttributes( $channelChild ) as $key => $value )
+            {
+                if ( in_array( $tagName, array( 'category' ) ) )
+                {
+                    $element->$key = $value;
+                }
+                else
+                {
+                    $feed->$tagName->$key = $value;
+                }
+            }
+        }
+
         return $feed;
     }
 

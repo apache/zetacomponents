@@ -1,0 +1,6 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+return $feed;
+?>
