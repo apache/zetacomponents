@@ -20,7 +20,7 @@ class ezcTranslationComplementEmptyFilter implements ezcTranslationFilter
 {
     /**
      * Singleton instance
-     * @var ezcTranslationFilterBork
+     * @var ezcTranslationComplementEmptyFilter
      */
     static private $instance = null;
 
@@ -32,9 +32,9 @@ class ezcTranslationComplementEmptyFilter implements ezcTranslationFilter
     }
 
     /**
-     * Returns an instance of the class ezcTranslationFilterBork.
+     * Returns an instance of the class ezcTranslationComplementEmptyFilter.
      *
-     * @return ezcTranslationFilterBork Instance of ezcTranslationFilterBork
+     * @return ezcTranslationComplementEmptyFilter Instance of ezcTranslationComplementEmptyFilter
      */
     public static function getInstance()
     {
