@@ -45,6 +45,11 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
         parent::__construct();
     }
 
+    public function getName()
+    {
+        return $this->currentFile;
+    }
+
     public function getFiles()
     {
         return $this->files;
