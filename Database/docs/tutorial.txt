@@ -257,6 +257,31 @@ is usually more efficient as well, since you do not need to escape the data and 
 SQL server does not have to parse it as part of the query string.
 
 
+Character set issues
+====================
+
+This component currently does not deal with character sets support. It
+relies on the different databases' own mechanisms to deal with this.
+For MySQL that means that you might have to set the character set yourself
+on the ezcDatabaseHandler instance with something like::
+
+    $db->query("SET NAMES utf8");
+
+Oracle treats character sets totally different, and their driver needs to
+know which character set to use *before* connecting to the database, or
+starting the database. For this you need to make an environment setting.
+An example of such setting could be::
+
+    export NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+
+The value of the NLS_LANG environment variable differs according to
+locale and character set, please see the `oracle website`__ for some
+default values and a FAQ__.
+
+__ http://download-uk.oracle.com/docs/cd/B19306_01/install.102/b14317/gblsupp.htm#BCEEEJGF
+__ http://www.oracle.com/technology/tech/globalization/htdocs/nls_lang%20faq.htm
+
+
 Notable differences between databases
 =====================================
 

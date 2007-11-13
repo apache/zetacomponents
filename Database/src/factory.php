@@ -36,6 +36,10 @@
  * $dsn = "sqlite://:memory:";        // In memory databases for SQLite.
  * </code>
  *
+ * Note that this class does not deal with character sets automatically, you
+ * have to make sure that you do that yourself. For MySQL that means running
+ * a query "SET NAMES" for example. See the tutorial for some hints on this.
+ *
  * @see create()
  *
  * @package Database
