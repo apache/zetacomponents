@@ -328,6 +328,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                     case 'id':
                     case 'generator':
+                    case 'image':
                         $feed->$tagName = $channelChild->textContent;
                         break;
 

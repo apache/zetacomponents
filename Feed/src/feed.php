@@ -185,7 +185,7 @@ class ezcFeed
             case 'generator':
             case 'ttl':
             case 'id': // ATOM only, required in ATOM
-            case 'image': // icon in ATOM
+            case 'image': // logo in ATOM
             case 'docs':
             case 'skipHours': // optional in RSS2
             case 'skipDays': // optional in RSS2
@@ -231,7 +231,7 @@ class ezcFeed
             case 'id': // ATOM only, required in ATOM
             case 'item':
             case 'items':
-            case 'image': // icon in ATOM
+            case 'image': // logo in ATOM
             case 'docs':
             case 'skipHours': // optional in RSS2
             case 'skipDays': // optional in RSS2
