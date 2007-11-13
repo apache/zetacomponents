@@ -243,6 +243,21 @@ image
 - RSS1 and RSS2 have attributes for the image, while ATOM does not have them.
 
 
+Best practices
+==============
+
+This section lists some useful tips for handling feed documents.
+
+
+ATOM
+----
+
+Media type
+``````````
+
+All ATOM feeds must be identified with the application/atom+xml media type.
+
+
 Specifications and RFCs
 =======================
 
