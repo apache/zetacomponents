@@ -3,5 +3,5 @@ return array( 'id' => 'Feed id',
               'title' => array( array( '#' => 'Feed title',
                                        'type' => '' ) ),
               'updated' => 'Feed updated',
-              'subtitle' => array( array( '#' => 'Feed subtitle' ) ) );
+              'description' => array( array( '#' => 'Feed subtitle' ) ) );
 ?>

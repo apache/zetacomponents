@@ -173,10 +173,9 @@ class ezcFeed
             case 'title': // required in RSS1, RSS2, ATOM
             case 'category':
             case 'categories':
-            case 'subtitle': // ATOM only
             case 'link': // required in RSS2, rdf:about AND link in RSS1
             case 'links': // required in RSS2, rdf:about AND link in RSS1
-            case 'description': // required in RSS1, RSS2
+            case 'description': // required in RSS1, RSS2, subtitle in ATOM
             case 'language':
             case 'copyright': // rights in ATOM
             case 'author': // managingEditor in RSS2, required in ATOM
@@ -218,10 +217,9 @@ class ezcFeed
             case 'title': // required in RSS1, RSS2, ATOM
             case 'category':
             case 'categories':
-            case 'subtitle': // ATOM only
             case 'link': // required in RSS2, rdf:about AND link in RSS1
             case 'links': // required in RSS2, rdf:about AND link in RSS1
-            case 'description': // required in RSS1, RSS2
+            case 'description': // required in RSS1, RSS2, subtitle in ATOM
             case 'language':
             case 'copyright': // rights in ATOM
             case 'author': // managingEditor in RSS2, required in ATOM

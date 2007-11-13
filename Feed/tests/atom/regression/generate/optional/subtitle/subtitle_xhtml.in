@@ -2,6 +2,6 @@
 return array( 'id' => 'Feed id',
               'title' => array( array( '#' => 'Feed title' ) ),
               'updated' => 'Feed updated',
-              'subtitle' => array( array( '#' => 'Feed subtitle',
-                                          'type' => 'xhtml' ) ) );
+              'description' => array( array( '#' => 'Feed subtitle',
+                                             'type' => 'xhtml' ) ) );
 ?>
