@@ -179,6 +179,7 @@ class ezcFeed
             case 'language':
             case 'copyright': // rights in ATOM
             case 'author': // managingEditor in RSS2, required in ATOM
+            case 'contributor': // ATOM only
             case 'webMaster': // RSS2 only
             case 'published': // pubDate in RSS2
             case 'updated':   // lastBuildDate in RSS2, required in ATOM
@@ -224,6 +225,7 @@ class ezcFeed
             case 'language':
             case 'copyright': // rights in ATOM
             case 'author': // managingEditor in RSS2, required in ATOM
+            case 'contributor': // ATOM only
             case 'webMaster': // RSS2 only
             case 'published': // pubDate in RSS2
             case 'updated':   // lastBuildDate in RSS2, required in ATOM

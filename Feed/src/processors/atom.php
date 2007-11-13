@@ -51,13 +51,13 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         'contributor'   => array( '#'          => 'none',
                                   'NODES'      => array(
-                                                    'name' => 'string',
-                                                    'email' => 'string',
-                                                    'uri' => 'string',
-                                                    ),
+                                                    'name' => array( '#' => 'string' ),
+                                                    'email' => array( '#' => 'string' ),
+                                                    'uri' => array( '#' => 'string' ),
 
-                                  'REQUIRED'   => array( 'name' ),
-                                  'OPTIONAL'   => array( 'email', 'uri' ),
+                                                    'REQUIRED'   => array( 'name' ),
+                                                    'OPTIONAL'   => array( 'email', 'uri' ),
+                                                    ),
 
                                   'MULTI'      => 'contributors' ),
 
@@ -176,10 +176,21 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     $data = array( $data );
                 }
 
-                foreach ( $data as $dataNode )
+                switch ( $element )
                 {
-                    $this->generateNode( $this->channel, $element, $dataNode );
+                    case 'contributor':
+                        foreach ( $this->get( 'contributors' ) as $person )
+                        {
+                            $this->generatePerson( $person, $element );
+                        }
+                        break;
 
+                    default:
+                        foreach ( $data as $dataNode )
+                        {
+                            $this->generateNode( $this->channel, $element, $dataNode );
+                        }
+                        break;
                 }
             }
         }
@@ -247,6 +258,39 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         if ( !$this->schema->isEmpty( $element ) )
         {
             $elementTag->nodeValue = $dataNode;
+        }
+    }
+
+    /**
+     * Creates an XML person node in the XML document being generated.
+     *
+     * @param ezcFeedElement $feedElement The person feed element (author, contributor)
+     * @param string $element The name of the node to create
+     * @ignore
+     */
+    protected function generatePerson( ezcFeedElement $feedElement, $element )
+    {
+        $elementTag = $this->xml->createElement( $element );
+        $this->channel->appendChild( $elementTag );
+
+        foreach ( $this->schema->getRequired( $element ) as $child )
+        {
+            $data = $this->schema->isMulti( $element, $child ) ? $this->get( $this->schema->getMulti( $element, $child ) ) : $feedElement->$child;
+            if ( is_null( $data ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( $child );
+            }
+
+            $this->generateMetaData( $elementTag, $child, $data );
+        }
+
+        foreach ( $this->schema->getOptional( $element ) as $child )
+        {
+            $data = $this->schema->isMulti( $element, $child ) ? $this->get( $this->schema->getMulti( $element, $child ) ) : $feedElement->$child;
+            if ( !is_null( $data ) )
+            {
+                $this->generateMetaData( $elementTag, $child, $data );
+            }
         }
     }
 
@@ -341,6 +385,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         $element = $feed->add( $tagName );
                         break;
 
+                    case 'contributor':
+                        $element = $feed->add( $tagName );
+                        $this->parsePerson( $feed, $element, $channelChild, $tagName );
+                        break;
+
                     default:
                         // check if it's part of a known module/namespace
                 }
@@ -376,15 +425,33 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Parses the provided XML element object and stores it as a feed image in
-     * the provided ezcFeed object.
+     * Parses the provided XML element object and stores it as a feed person (author
+     * or contributor - based on $type) in the provided ezcFeed object.
      *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed image
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed person
+     * @param ezcFeedElement $element The feed element object that will contain the feed person
      * @param DOMElement $xml The XML element object to parse
+     * @param string $type The type of the person (author, contributor)
      * @ignore
      */
-    protected function parseImage( ezcFeed $feed, DOMElement $xml )
+    protected function parsePerson( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml, $type )
     {
+        foreach ( $xml->childNodes as $itemChild )
+        {
+            if ( $itemChild->nodeType === XML_ELEMENT_NODE )
+            {
+                $tagName = $itemChild->tagName;
+
+                switch ( $tagName )
+                {
+                    case 'name':
+                    case 'email':
+                    case 'uri':
+                        $element->$tagName = $itemChild->textContent;
+                        break;
+                }
+            }
+        }
     }
 }
 ?>

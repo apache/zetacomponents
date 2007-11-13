@@ -1,0 +1,14 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$contributor = $feed->add( 'contributor' );
+$contributor->email = 'Contributor email';
+$contributor->uri = 'Contributor uri';
+
+return $feed;
+?>
