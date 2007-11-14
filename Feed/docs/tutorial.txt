@@ -258,6 +258,13 @@ Media type
 All ATOM feeds must be identified with the application/atom+xml media type.
 
 
+Self link
+`````````
+
+All ATOM feeds should have a *link* feed element with *rel="self"* which
+points back to the feed itself (with the *href* attribute).
+
+
 Specifications and RFCs
 =======================
 

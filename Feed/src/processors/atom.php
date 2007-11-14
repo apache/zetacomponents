@@ -50,7 +50,18 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                                   'MULTI'      => 'authors' ),
 
-        'link'          => array( '#'          => 'string' ),
+        'link'          => array( '#'          => 'none',
+                                  'ATTRIBUTES' => array( 'href' => 'string',
+                                                         'rel' => 'string',
+                                                         'type' => 'string',
+                                                         'hreflang' => 'string',
+                                                         'title' => 'string',
+                                                         'length' => 'string' ),
+
+                                  'REQUIRED_ATTRIBUTES' => array( 'href' ),
+
+                                  'MULTI'      => 'links' ),
+
         'category'      => array( '#'          => 'none',
                                   'ATTRIBUTES' => array( 'term' => 'string',
                                                          'scheme' => 'string',
@@ -234,6 +245,32 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         }
                         break;
 
+                    case 'link':
+                        $unique = array();
+                        foreach ( $data as $dataNode )
+                        {
+                            if ( ( isset( $dataNode->rel ) && $dataNode->rel === 'alternate' )
+                                 && isset( $dataNode->type )
+                                 && isset( $dataNode->hreflang ) )
+                            {
+                                foreach ( $unique as $obj )
+                                {
+                                    if ( $obj['type'] === $dataNode->type
+                                         && $obj['hreflang'] === $dataNode->hreflang )
+                                    {
+                                        throw new ezcFeedOnlyOneValueAllowedException( 'rel="alternate"' );
+                                    }
+                                }
+
+                                $unique[] = array( 'type' => $dataNode->type,
+                                                   'hreflang' => $dataNode->hreflang );
+
+                            }
+
+                            $this->generateNode( $this->channel, $element, $dataNode );
+                        }
+                        break;
+
                     default:
                         foreach ( $data as $dataNode )
                         {
@@ -266,7 +303,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             if ( isset( $dataNode->$attribute ) )
             {
                 $val = $dataNode->$attribute;
-                if ( $attribute === 'type' )
+                if ( $attribute === 'type' && $element !== 'link' )
                 {
                     switch ( $val )
                     {
@@ -431,6 +468,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'category':
+                    case 'link':
                         $element = $feed->add( $tagName );
                         break;
 
@@ -447,7 +485,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
             foreach ( ezcFeedTools::getAttributes( $channelChild ) as $key => $value )
             {
-                if ( in_array( $tagName, array( 'category' ) ) )
+                if ( in_array( $tagName, array( 'category', 'link' ) ) )
                 {
                     $element->$key = $value;
                 }

@@ -1,0 +1,15 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$link = $feed->add( 'link' );
+$link->href = 'Link href';
+$link->rel = 'Link rel';
+$link->type = 'Link type';
+
+return $feed;
+?>

@@ -1,0 +1,19 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'link' => array( array( 'href' => 'Link href 1',
+                                      'rel' => 'alternate',
+                                      'type' => 'SAME TYPE',
+                                      'hreflang' => 'SAME HREFLANG',
+                                      'title' => 'Link title 1',
+                                      'length' => 'Link length 1' ),
+                               array( 'href' => 'Link href 2',
+                                      'rel' => 'alternate',
+                                      'type' => 'SAME TYPE',
+                                      'hreflang' => 'SAME HREFLANG',
+                                      'title' => 'Link title 2',
+                                      'length' => 'Link length 2' ) ) );
+?>
