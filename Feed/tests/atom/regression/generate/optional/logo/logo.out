@@ -3,5 +3,8 @@
   <id>Feed id</id>
   <title type="text">Feed title</title>
   <updated>Feed updated</updated>
+  <author>
+    <name>Author name</name>
+  </author>
   <logo>Feed logo</logo>
 </feed>

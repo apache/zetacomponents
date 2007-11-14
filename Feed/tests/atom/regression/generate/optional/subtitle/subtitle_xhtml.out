@@ -3,6 +3,9 @@
   <id>Feed id</id>
   <title>Feed title</title>
   <updated>Feed updated</updated>
+  <author>
+    <name>Author name</name>
+  </author>
   <subtitle type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <xhtml:div>Feed subtitle</xhtml:div>
   </subtitle>

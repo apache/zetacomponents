@@ -2,5 +2,6 @@
 return array( 'id' => 'Feed id',
               'title' => array( array( '#' => 'Feed title',
                                        'type' => 'html' ) ),
-              'updated' => 'Feed updated' );
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ), );
 ?>

@@ -1,6 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <id>Feed id</id>
-  <title>Feed title</title>
-  <updated>Feed updated</updated>
-</feed>
+At least one of these attributes is required: author.

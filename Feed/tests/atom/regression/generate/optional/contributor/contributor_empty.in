@@ -3,5 +3,6 @@ return array( 'id' => 'Feed id',
               'title' => array( array( '#' => 'Feed title',
                                        'type' => '' ) ),
               'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
               'contributor' => array( array() ) );
 ?>

@@ -38,7 +38,18 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         'updated'       => array( '#'          => 'string' ),
 
-        'author'        => array( '#'          => 'string' ),
+        'author'        => array( '#'          => 'none',
+                                  'NODES'      => array(
+                                                    'name' => array( '#' => 'string' ),
+                                                    'email' => array( '#' => 'string' ),
+                                                    'uri' => array( '#' => 'string' ),
+
+                                                    'REQUIRED'   => array( 'name' ),
+                                                    'OPTIONAL'   => array( 'email', 'uri' ),
+                                                    ),
+
+                                  'MULTI'      => 'authors' ),
+
         'link'          => array( '#'          => 'string' ),
         'category'      => array( '#'          => 'none',
                                   'ATTRIBUTES' => array( 'term' => 'string',
@@ -78,6 +89,9 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                   'contributor', 'generator', 'icon',
                                   'logo', 'rights', 'subtitle' ),
 
+        // Only if there is one entry which does not contain 'author'
+        'AT_LEAST_ONE'  => array( 'author' ),
+
         'ELEMENTS_MAP'  => array( 'image' => 'logo',
                                   'copyright' => 'rights',
                                   'description' => 'subtitle',
@@ -105,6 +119,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $this->xml->formatOutput = 1;
         $this->createRootElement( '2.0' );
         $this->generateRequired();
+        $this->generateAtLeastOne();
         $this->generateOptional();
 
         return $this->xml->saveXML();
@@ -159,6 +174,33 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
+     * Adds the at-least-one feed elements to the XML document being generated.
+     *
+     * @ignore
+     */
+    protected function generateAtLeastOne()
+    {
+        $atLeastOneRequiredFeedElementPresent = false;
+        foreach ( $this->schema->getAtLeastOne() as $element )
+        {
+            $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
+
+            if ( !is_null( $data ) )
+            {
+                $atLeastOneRequiredFeedElementPresent = true;
+
+                // add checks for entry/author
+                break;
+            }
+        }
+
+        if ( $atLeastOneRequiredFeedElementPresent === false )
+        {
+            throw new ezcFeedAtLeastOneItemDataRequiredException( $this->schema->getAtLeastOne() );
+        }
+    }
+
+    /**
      * Adds the optional feed elements to the XML document being generated.
      *
      * @ignore
@@ -180,6 +222,13 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 {
                     case 'contributor':
                         foreach ( $this->get( 'contributors' ) as $person )
+                        {
+                            $this->generatePerson( $person, $element );
+                        }
+                        break;
+
+                    case 'author':
+                        foreach ( $this->get( 'authors' ) as $person )
                         {
                             $this->generatePerson( $person, $element );
                         }
@@ -386,6 +435,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'contributor':
+                    case 'author':
                         $element = $feed->add( $tagName );
                         $this->parsePerson( $feed, $element, $channelChild, $tagName );
                         break;
