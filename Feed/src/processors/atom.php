@@ -95,6 +95,87 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         'subtitle'      => array( '#'          => 'string',
                                   'ATTRIBUTES' => array( 'type' => 'string' ), ),
 
+        'entry'         => array( '#'          => 'none',
+                                  'NODES'      => array(
+                                                    'id'          => array( '#' => 'string' ),
+                                                    'title'       => array( '#' => 'string',
+                                                                            'ATTRIBUTES' => array( 'type' => 'string' ), ),
+
+                                                    'updated'     => array( '#' => 'string' ),
+
+                                                    'author'      => array( '#' => 'none',
+                                                                            'NODES'      => array(
+                                                                                              'name' => array( '#' => 'string' ),
+                                                                                              'email' => array( '#' => 'string' ),
+                                                                                              'uri' => array( '#' => 'string' ),
+
+                                                                                              'REQUIRED'   => array( 'name' ),
+                                                                                              'OPTIONAL'   => array( 'email', 'uri' ),
+                                                                                              ),
+
+                                                                            'MULTI'      => 'authors' ),
+
+                                                    'content'     => array( '#' => 'string',
+                                                                            'ATTRIBUTES' => array( 'type' => 'string' ), ),
+
+                                                    'link'        => array( '#'          => 'none',
+                                                                            'ATTRIBUTES' => array( 'href' => 'string',
+                                                                                                   'rel' => 'string',
+                                                                                                   'type' => 'string',
+                                                                                                   'hreflang' => 'string',
+                                                                                                   'title' => 'string',
+                                                                                                   'length' => 'string' ),
+
+                                                                            'REQUIRED_ATTRIBUTES' => array( 'href' ),
+
+                                                                            'MULTI'      => 'links' ),
+
+                                                    'summary'     => array( '#' => 'string',
+                                                                            'ATTRIBUTES' => array( 'type' => 'string' ), ),
+
+                                                    'category'    => array( '#' => 'none',
+                                                                            'ATTRIBUTES' => array( 'term' => 'string',
+                                                                                                   'scheme' => 'string',
+                                                                                                   'label' => 'string' ),
+
+                                                                            'REQUIRED_ATTRIBUTES'   => array( 'term' ),
+                                                                              
+                                                                            'MULTI'      => 'categories' ),
+
+                                                    'contributor' => array( '#' => 'none',
+                                                                            'NODES'      => array(
+                                                                                              'name' => array( '#' => 'string' ),
+                                                                                              'email' => array( '#' => 'string' ),
+                                                                                              'uri' => array( '#' => 'string' ),
+
+                                                                                              'REQUIRED'   => array( 'name' ),
+                                                                                              'OPTIONAL'   => array( 'email', 'uri' ),
+                                                                                              ),
+
+                                                                            'MULTI'      => 'contributors' ),
+
+                                                    'published'   => array( '#'          => 'string' ),
+
+                                                    'source'      => array( '#'          => 'none',
+                                                                            'COPY'       => array( 'id', 'title', 'updated',
+                                                                                                   'author', 'link', 'category',
+                                                                                                   'contributor', 'rights' ), ),
+
+                                                    'rights'      => array( '#' => 'string',
+                                                                            'ATTRIBUTES' => array( 'type' => 'string' ), ),
+
+                                                    'REQUIRED'   => array( 'id', 'title', 'updated' ),
+
+                                                    'OPTIONAL'   => array( 'author', 'content', 'link', 'summary',
+                                                                           'category', 'contributor', 'published', 'rights',
+                                                                           'source' ),
+
+                                                    ),
+
+                                  'ITEMS_MAP'  => array( 'copyright' => 'rights', ),
+
+                                  'MULTI'      => 'entries' ),
+
         'REQUIRED'      => array( 'id', 'title', 'updated' ),
         'OPTIONAL'      => array( 'author', 'link', 'category',
                                   'contributor', 'generator', 'icon',
@@ -132,6 +213,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $this->generateRequired();
         $this->generateAtLeastOne();
         $this->generateOptional();
+        $this->generateItems();
 
         return $this->xml->saveXML();
     }
@@ -381,6 +463,55 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
+     * Adds the feed entry elements to the XML document being generated.
+     *
+     * @ignore
+     */
+    protected function generateItems()
+    {
+        $entries = $this->get( 'entries' );
+        if ( $entries === null )
+        {
+            return;
+        }
+
+        $parent = 'entry';
+        foreach ( $entries as $entry )
+        {
+            $entryTag = $this->xml->createElement( $parent );
+            $this->channel->appendChild( $entryTag );
+
+            foreach ( $this->schema->getRequired( $parent ) as $element )
+            {
+                $data = $this->schema->isMulti( $parent, $element ) ? $this->get( $this->schema->getMulti( $parent, $element ) ) : $entry->$element;
+
+                if ( is_null( $data ) )
+                {
+                    throw new ezcFeedRequiredMetaDataMissingException( $element );
+                }
+
+                if ( !is_array( $data ) )
+                {
+                    $data = array( $data );
+                }
+
+                foreach ( $data as $dataNode )
+                {
+                    switch ( $element )
+                    {
+                        case 'updated':
+                            // Sample date: 2003-12-13T18:30:02-05:00
+                            $dataNode->set( date( "c", (int)$dataNode->get() ) );
+                            break;
+                    }
+                    $this->generateNode( $entryTag, $element, $dataNode );
+
+                }
+            }
+        }
+    }
+
+    /**
      * Returns true if the parser can parse the provided XML document object,
      * false otherwise.
      *
@@ -478,6 +609,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         $this->parsePerson( $feed, $element, $channelChild, $tagName );
                         break;
 
+                    case 'item':
+                        $element = $feed->add( $tagName );
+                        $this->parseItem( $feed, $element, $channelChild );
+                        break;
+
                     default:
                         // check if it's part of a known module/namespace
                 }
@@ -510,6 +646,25 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
+        foreach ( $xml->childNodes as $itemChild )
+        {
+            if ( $itemChild->nodeType === XML_ELEMENT_NODE )
+            {
+                $tagName = $itemChild->tagName;
+
+                switch ( $tagName )
+                {
+                    case 'id':
+                    case 'title':
+                        $element->$tagName = $itemChild->textContent;
+                        break;
+
+                    case 'updated':
+                        $element->$tagName = ezcFeedTools::prepareDate( $itemChild->textContent );
+                        break;
+                }
+            }
+        }
     }
 
     /**
