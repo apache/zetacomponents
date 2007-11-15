@@ -18,7 +18,7 @@ Class overview
 This section gives you an overview of the most important classes.
 
 ezcGraphDatabaseDataSet
-  Extends the ezcGraphDataset to read data from a PDOStatement and prepare it
+  Extends the ezcGraphDataSet to read data from a PDOStatement and prepare it
   for the usage as a dataset in the graph component.
 
 Setup
@@ -32,7 +32,7 @@ used in the graphs.
    :literal:
 
 We first include the common autoload file to set up the autoload for
-ezcComponents. Then, in line 5, we connect to a SQLite memory database, we
+eZ Components. Then, in line 5, we connect to a SQLite memory database, we
 later fill up with some data representing a random browser statistic. The
 usage idescription of PDO__ and the `database component`__ can be found at 
 the dedicated documentation pages.
@@ -121,7 +121,7 @@ __ introduction_Graph.html#id2
 More information
 ================
 
-For more information, see the ezcGraphDatabaseTieIn API documentation.
+For more information, see the GraphDatabaseTieIn API documentation.
 
 
 ..

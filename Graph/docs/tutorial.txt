@@ -180,7 +180,7 @@ Lots of bars
 ezcGraph by default reduces the amount of steps shown on an axis to about 10
 steps. This may cause unexpected results for when trying to draw a bar chart
 with more then 10 bars in one dataset. You may overwrite the behaviour by
-manually setting the amount of steps on the x axis.
+manually setting the amount of steps on the x axis::
 
 	<?php
 	// Initialize graph ...
@@ -189,7 +189,7 @@ manually setting the amount of steps on the x axis.
 	?>
 
 This works because all datasets implement the interface Countable. If you want
-to use it for more then one dataset you could do the following:
+to use it for more then one dataset you could do the following::
 
 	<?php
 	// Initialize graph ...
@@ -618,7 +618,7 @@ an axis.
 
 In line 9 a custom renderer is defined used for the labeled x axis. You can
 assign custom axis label renderers on the property $axisLabelRenderer for
-ezcGraphChartAxisElement objects.
+ezcGraphChartElementAxis objects.
 
 The renderer used in this example has custom properties like the rotation of
 the labels, which is set in degree, while the rotation direction depends on

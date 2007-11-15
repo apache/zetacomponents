@@ -28,13 +28,13 @@ $graph->render( 400, 200, 'tutorial_reference_gd.png' );
 <body>
 <?php
 
-echo ezcGraphTools::createImageMap( $graph, 'ezcGraphPieChartMap' );
+echo ezcGraphTools::createImageMap( $graph, 'GraphPieChartMap' );
 
 ?>
     <img
         src="tutorial_reference_gd.png"
         width="400" height="200"
-        usemap="#ezcGraphPieChartMap" />
+        usemap="#GraphPieChartMap" />
 </body>
 </html>
 <?php
