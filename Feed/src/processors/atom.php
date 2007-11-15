@@ -662,6 +662,21 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     case 'updated':
                         $element->$tagName = ezcFeedTools::prepareDate( $itemChild->textContent );
                         break;
+
+                    case 'author':
+                        $subElement = $element->add( $tagName );
+                        foreach ( $itemChild->childNodes as $subChild )
+                        {
+                            if ( $subChild->nodeType === XML_ELEMENT_NODE )
+                            {
+                                $subTagName = $subChild->tagName;
+                                if ( in_array( $subTagName, array( 'name', 'email', 'uri' ) ) )
+                                {
+                                    $subElement->$subTagName = $subChild->textContent;
+                                }
+                            }
+                        }
+                        break;
                 }
             }
         }
