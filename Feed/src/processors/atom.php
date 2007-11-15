@@ -263,7 +263,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         $dataNode->set( date( "c", (int)$dataNode->get() ) );
                         break;
                 }
-                $this->generateNode( $this->channel, $element, $dataNode );
+                $this->generateNode( $this->channel, $element, null, $dataNode );
 
             }
         }
@@ -359,14 +359,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                             }
 
-                            $this->generateNode( $this->channel, $element, $dataNode );
+                            $this->generateNode( $this->channel, $element, null, $dataNode );
                         }
                         break;
 
                     default:
                         foreach ( $data as $dataNode )
                         {
-                            $this->generateNode( $this->channel, $element, $dataNode );
+                            $this->generateNode( $this->channel, $element, null, $dataNode );
                         }
                         break;
                 }
@@ -379,18 +379,27 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      *
      * @param DOMNode $root The root in which to create the node $element
      * @param string $element The name of the node to create
+     * @param string $parent The name of the parent node which contains the node $element
      * @param array(string=>mixed) $dataNode The data for the node to create
      * @ignore
      */
-    protected function generateNode( DOMNode $root, $element, $dataNode )
+    protected function generateNode( DOMNode $root, $element, $parent = null, $dataNode )
     {
         $elementTag = $this->xml->createElement( $element );
         $root->appendChild( $elementTag );
 
-        $attributes = array();
-        $required = $this->schema->getRequiredAttributes( $element );
+        $subElement = $parent;
 
-        foreach ( $this->schema->getAttributes( $element ) as $attribute => $type )
+        if ( $parent !== null )
+        {
+            $subElement = $element;
+            $element = $parent;
+        }
+
+        $attributes = array();
+        $required = $this->schema->getRequiredAttributes( $element, $subElement );
+
+        foreach ( $this->schema->getAttributes( $element, $subElement ) as $attribute => $type )
         {
             if ( isset( $dataNode->$attribute ) )
             {
@@ -433,7 +442,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             }
         }
 
-        if ( !$this->schema->isEmpty( $element ) )
+        if ( !$this->schema->isEmpty( $element, $subElement ) )
         {
             $elementTag->nodeValue = $dataNode;
         }
@@ -504,9 +513,18 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 switch ( $element )
                 {
                     case 'id':
+                        $dataNode = $data;
+                        $this->generateNode( $entryTag, $element, null, $dataNode );
+                        break;
+
                     case 'title':
                         $dataNode = $data;
-                        $this->generateNode( $entryTag, $element, $dataNode );
+                        if ( is_array( $data ) )
+                        {
+                            $dataNode = $data[0];
+                        }
+
+                        $this->generateNode( $entryTag, $element, $parent, $dataNode );
                         break;
 
                     case 'updated':
@@ -514,7 +532,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                         // Sample date: 2003-12-13T18:30:02-05:00
                         $dataNode->set( date( "c", (int)$dataNode->get() ) );
-                        $this->generateNode( $entryTag, $element, $dataNode );
+                        $this->generateNode( $entryTag, $element, null, $dataNode );
                         break;
                 }
             }
@@ -559,7 +577,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                                 }
 
-                                $this->generateNode( $entryTag, $element, $dataNode );
+                                $this->generateNode( $entryTag, $element, null, $dataNode );
                             }
                             break;
                 }
@@ -711,8 +729,39 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 switch ( $tagName )
                 {
                     case 'id':
-                    case 'title':
                         $element->$tagName = $itemChild->textContent;
+                        break;
+
+                    case 'title':
+                        $type = ezcFeedTools::getAttribute( $itemChild, 'type' );
+
+                        switch ( $type )
+                        {
+                            case 'xhtml':
+                                $nodes = $itemChild->childNodes;
+                                if ( $nodes instanceof DOMNodeList )
+                                {
+                                    $contentNode = $nodes->item( 1 );
+                                    $element->$tagName = $contentNode->nodeValue;
+                                }
+                                $element->$tagName->type = $type;
+                                break;
+
+                            case 'html':
+                                $element->$tagName = $itemChild->textContent;
+                                $element->$tagName->type = $type;
+                                break;
+
+                            case 'text':
+                                $element->$tagName = $itemChild->textContent;
+                                $element->$tagName->type = $type;
+                                break;
+
+                            default:
+                                $element->$tagName = $itemChild->textContent;
+                                break;
+                        }
+
                         break;
 
                     case 'updated':
