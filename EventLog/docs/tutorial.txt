@@ -45,11 +45,11 @@ ezcLogMapper
 
 ezcLogFilterSet
   ezcLogFilterSet is an implementation of ezcLogMapper. ezcLogFilterSet
-  contains a set of rules, ezcLogFilterRules. These rules are
-  processed sequentially. In other words, the first assigned rule will be
-  processed first. Each rule determines whether the log message matches the
-  filter rule. If the log message matches, it calls the writer and decide
-  whether the filter set stops processing.
+  contains a set of rules in the form of objects of the class ezcLogFilterRule.
+  These rules are processed sequentially. In other words, the first assigned
+  rule will be processed first. Each rule determines whether the log message
+  matches the filter rule. If the log message matches, it calls the writer and
+  decide whether the filter set stops processing.
 
   The ezcLogFilterSet class is inspired by modern mail application filter
   settings. Normally these mail filter settings sort the incoming
