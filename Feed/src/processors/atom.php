@@ -170,6 +170,9 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                                            'category', 'contributor', 'published', 'rights',
                                                                            'source' ),
 
+                                                    // Only if the feed does not contain 'author'
+                                                    'AT_LEAST_ONE' => array( 'author' ),
+
                                                     ),
 
                                   'ITEMS_MAP'  => array( 'copyright' => 'rights', ),
@@ -273,23 +276,30 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateAtLeastOne()
     {
-        $atLeastOneRequiredFeedElementPresent = false;
-        foreach ( $this->schema->getAtLeastOne() as $element )
-        {
-            $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
+        $needToThrowException = false;
+        $element = 'author';
 
-            if ( !is_null( $data ) )
+        $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
+
+        if ( is_null( $data ) )
+        {
+            // add checks for entry/author
+            $entries = $this->get( 'entries' );
+            if ( $entries === null )
             {
-                $atLeastOneRequiredFeedElementPresent = true;
-
-                // add checks for entry/author
-                break;
+                throw new ezcFeedAtLeastOneItemDataRequiredException( array( 'author' ) );
             }
-        }
 
-        if ( $atLeastOneRequiredFeedElementPresent === false )
-        {
-            throw new ezcFeedAtLeastOneItemDataRequiredException( $this->schema->getAtLeastOne() );
+            foreach ( $entries as $entry )
+            {
+                $authors = $entry->author;
+                if ( $authors === null )
+                {
+                    throw new ezcFeedAtLeastOneItemDataRequiredException( array( 'entry/author' ) );
+                }
+            }
+
+            throw new ezcFeedAtLeastOneItemDataRequiredException( array( 'author' ) );
         }
     }
 
@@ -316,14 +326,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     case 'contributor':
                         foreach ( $this->get( 'contributors' ) as $person )
                         {
-                            $this->generatePerson( $person, $element );
+                            $this->generatePerson( $this->channel, $person, $element );
                         }
                         break;
 
                     case 'author':
                         foreach ( $this->get( 'authors' ) as $person )
                         {
-                            $this->generatePerson( $person, $element );
+                            $this->generatePerson( $this->channel, $person, $element );
                         }
                         break;
 
@@ -432,14 +442,15 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     /**
      * Creates an XML person node in the XML document being generated.
      *
+     * @param DOMNode $root The root in which to create the node $element
      * @param ezcFeedElement $feedElement The person feed element (author, contributor)
      * @param string $element The name of the node to create
      * @ignore
      */
-    protected function generatePerson( ezcFeedElement $feedElement, $element )
+    protected function generatePerson( DOMNode $root, ezcFeedElement $feedElement, $element )
     {
         $elementTag = $this->xml->createElement( $element );
-        $this->channel->appendChild( $elementTag );
+        $root->appendChild( $elementTag );
 
         foreach ( $this->schema->getRequired( $element ) as $child )
         {
@@ -483,29 +494,48 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
             foreach ( $this->schema->getRequired( $parent ) as $element )
             {
-                $data = $this->schema->isMulti( $parent, $element ) ? $this->get( $this->schema->getMulti( $parent, $element ) ) : $entry->$element;
+                $data = $entry->$element;
 
                 if ( is_null( $data ) )
                 {
                     throw new ezcFeedRequiredMetaDataMissingException( $element );
                 }
 
-                if ( !is_array( $data ) )
+                switch ( $element )
                 {
-                    $data = array( $data );
+                    case 'id':
+                    case 'title':
+                        $dataNode = $data;
+                        $this->generateNode( $entryTag, $element, $dataNode );
+                        break;
+
+                    case 'updated':
+                        $dataNode = $data;
+
+                        // Sample date: 2003-12-13T18:30:02-05:00
+                        $dataNode->set( date( "c", (int)$dataNode->get() ) );
+                        $this->generateNode( $entryTag, $element, $dataNode );
+                        break;
+                }
+            }
+
+            foreach ( $this->schema->getOptional( $parent ) as $element )
+            {
+                $data = $entry->$element;
+
+                if ( is_null( $data ) )
+                {
+                    continue;
                 }
 
-                foreach ( $data as $dataNode )
+                switch ( $element )
                 {
-                    switch ( $element )
-                    {
-                        case 'updated':
-                            // Sample date: 2003-12-13T18:30:02-05:00
-                            $dataNode->set( date( "c", (int)$dataNode->get() ) );
-                            break;
-                    }
-                    $this->generateNode( $entryTag, $element, $dataNode );
-
+                    case 'author':
+                        foreach ( $data as $dataNode )
+                        {
+                            $this->generatePerson( $entryTag, $dataNode, $element );
+                        }
+                        break;
                 }
             }
         }
