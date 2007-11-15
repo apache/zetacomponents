@@ -7,8 +7,8 @@ $feed->link = 'Feed link';
 
 $item = $feed->add( 'item' );
 $item->title = 'Item title';
-$item->about = 'Item link';
 $item->link = 'Item link';
+$item->about = 'Item link';
 
 return $feed;
 ?>

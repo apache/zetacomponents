@@ -6,10 +6,10 @@ $feed->link = 'Feed link';
 $feed->description = 'Feed description';
 
 $image = $feed->add( 'image' );
-$image->about = 'Image link';
 $image->title = 'Image title';
 $image->link = 'Image link';
 $image->url = 'Image url';
+$image->about = 'Image link';
 
 return $feed;
 ?>
