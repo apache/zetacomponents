@@ -1,0 +1,31 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$entry = $feed->add( 'entry' );
+$entry->id = 'Entry id';
+$entry->title = 'Entry title';
+$entry->updated = 1195053820;
+
+$link = $entry->add( 'link' );
+$link->href = "Entry link href 1";
+$link->rel = "Entry link rel 1";
+$link->type = "Entry link type 1";
+$link->hreflang = "Entry link hreflang 1";
+$link->title = "Entry link title 1";
+$link->length = "Entry link length 1";
+
+$link = $entry->add( 'link' );
+$link->href = "Entry link href 2";
+$link->rel = "Entry link rel 2";
+$link->type = "Entry link type 2";
+$link->hreflang = "Entry link hreflang 2";
+$link->title = "Entry link title 2";
+$link->length = "Entry link length 2";
+
+return $feed;
+?>

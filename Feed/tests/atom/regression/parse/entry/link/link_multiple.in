@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>Feed updated</updated>
+  <entry>
+    <id>Entry id</id>
+    <title>Entry title</title>
+    <updated>2007-11-14T16:23:40+01:00</updated>
+    <link href="Entry link href 1" rel="Entry link rel 1" type="Entry link type 1" hreflang="Entry link hreflang 1" title="Entry link title 1" length="Entry link length 1"/>
+    <link href="Entry link href 2" rel="Entry link rel 2" type="Entry link type 2" hreflang="Entry link hreflang 2" title="Entry link title 2" length="Entry link length 2"/>
+  </entry>
+</feed>

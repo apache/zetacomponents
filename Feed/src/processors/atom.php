@@ -536,6 +536,32 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                             $this->generatePerson( $entryTag, $dataNode, $element );
                         }
                         break;
+
+                        case 'link':
+                            $unique = array();
+                            foreach ( $data as $dataNode )
+                            {
+                                if ( ( isset( $dataNode->rel ) && $dataNode->rel === 'alternate' )
+                                     && isset( $dataNode->type )
+                                     && isset( $dataNode->hreflang ) )
+                                {
+                                    foreach ( $unique as $obj )
+                                    {
+                                        if ( $obj['type'] === $dataNode->type
+                                             && $obj['hreflang'] === $dataNode->hreflang )
+                                        {
+                                            throw new ezcFeedOnlyOneValueAllowedException( 'rel="alternate"' );
+                                        }
+                                    }
+
+                                    $unique[] = array( 'type' => $dataNode->type,
+                                                       'hreflang' => $dataNode->hreflang );
+
+                                }
+
+                                $this->generateNode( $entryTag, $element, $dataNode );
+                            }
+                            break;
                 }
             }
         }
@@ -705,6 +731,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                     $subElement->$subTagName = $subChild->textContent;
                                 }
                             }
+                        }
+                        break;
+
+                    case 'link':
+                        $subElement = $element->add( $tagName );
+                        foreach ( ezcFeedTools::getAttributes( $itemChild ) as $key => $value )
+                        {
+                            $subElement->$key = $value;
                         }
                         break;
                 }
