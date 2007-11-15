@@ -7,7 +7,7 @@ $link = $feed->add( 'link' );
 $link->set( 'Feed link' );
 
 $feed->description = 'Feed description';
-$feed->generator = null;
+$feed->generator = '';
 
 return $feed;
 ?>

@@ -13,8 +13,8 @@ $image->url = 'Image url';
 $image->title = 'Image title';
 $image->link = 'Image link';
 $image->description = 'Image description';
-$image->width = 50;
-$image->height = 100;
+$image->width = '50';
+$image->height = '100';
 
 return $feed;
 ?>

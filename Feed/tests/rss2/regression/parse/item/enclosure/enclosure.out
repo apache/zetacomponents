@@ -14,7 +14,7 @@ $item->description = 'Item description';
 
 $enclosure = $item->add( 'enclosure' );
 $enclosure->url = 'Enclosure url';
-$enclosure->length = 1200;
+$enclosure->length = '1200';
 $enclosure->type = 'Enclosure type';
 
 return $feed;

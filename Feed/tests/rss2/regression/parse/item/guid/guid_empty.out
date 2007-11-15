@@ -13,7 +13,7 @@ $item->link = 'Item link';
 $item->description = 'Item description';
 
 $guid = $item->add( 'guid' );
-$guid->set( null );
+$guid->set( '' );
 
 return $feed;
 ?>

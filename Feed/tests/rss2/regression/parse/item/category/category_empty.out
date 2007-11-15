@@ -13,7 +13,7 @@ $item->link = 'Item link';
 $item->description = 'Item description';
 
 $category = $item->add( 'category' );
-$category->set( null );
+$category->set( '' );
 
 return $feed;
 ?>

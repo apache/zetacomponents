@@ -9,7 +9,7 @@ $link->set( 'Feed link' );
 $feed->description = 'Feed description';
 $skipHours = $feed->add( 'skipHours' );
 $hour = $skipHours->add( 'hour' );
-$hour->set( 0 );
+$hour->set( '0' );
 
 return $feed;
 ?>

@@ -7,7 +7,7 @@ $link = $feed->add( 'link' );
 $link->set( 'Feed link' );
 
 $feed->description = 'Feed description';
-$feed->ttl = 10;
+$feed->ttl = '10';
 
 return $feed;
 ?>

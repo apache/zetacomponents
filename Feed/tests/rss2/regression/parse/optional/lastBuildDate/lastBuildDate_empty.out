@@ -7,7 +7,7 @@ $link = $feed->add( 'link' );
 $link->set( 'Feed link' );
 
 $feed->description = 'Feed description';
-$feed->updated = null;
+$feed->updated = '';
 
 return $feed;
 ?>

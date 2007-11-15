@@ -11,7 +11,7 @@ $item = $feed->add( 'item' );
 $item->title = 'Item title';
 $item->link = 'Item link';
 $item->description = 'Item description';
-$item->author = null;
+$item->author = '';
 
 return $feed;
 ?>
