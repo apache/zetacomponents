@@ -47,7 +47,7 @@ Returns true if the given *$val* is an integer, otherwise false::
 Returns true.
 
 bool _`is_bool` ( mixed *$val* )
-```````````````````````````````
+````````````````````````````````
 Returns true if the given *$val* is a boolean, otherwise false::
 
     {is_bool( false )}
