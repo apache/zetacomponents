@@ -6,7 +6,7 @@ $feed->title = 'Feed title';
 $feed->title->type = 'text';
 $feed->updated = 'Feed updated';
 
-$feed->icon = null;
+$feed->icon = '';
 
 return $feed;
 ?>

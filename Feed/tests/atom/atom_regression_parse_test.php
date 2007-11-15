@@ -61,7 +61,7 @@ class ezcFeedAtomRegressionParseTest extends ezcFeedRegressionTest
             $parsed = $e->getMessage();
             $expected = trim( file_get_contents( $outFile ) );
         }
-        $this->assertEquals( $expected, $parsed, "The " . basename( $outFile ) . " is not the same as the parsed feed from " . basename( $file ) . "." );
+        $this->assertEquals( var_export( $expected, true ), var_export( $parsed, true ), "The " . basename( $outFile ) . " is not the same as the parsed feed from " . basename( $file ) . "." );
     }
 }
 ?>
