@@ -76,11 +76,11 @@ Like ezcImageConverter, ezcImageAnalyzer is based on handler classes, which
 allow it to utilize different back-ends for image analysis. The currently
 implemented handlers are:
 
-ezcImageAnalyzerHandlerPhp
+ezcImageAnalyzerPhpHandler
   This uses PHP's getimagesize() function (which does not require the GD
   extension!) and can optionally use PHP's Exif extension.
 
-ezcImageAnalyzerHandlerImagemagick
+ezcImageAnalyzerImagemagickHandler
   Here `ImageMagick`_'s "identify" program is used.
 
 Both handlers are activated by default and are capable of determining if their
