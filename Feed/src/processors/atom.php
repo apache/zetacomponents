@@ -116,7 +116,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                                             'MULTI'      => 'authors' ),
 
                                                     'content'     => array( '#' => 'string',
-                                                                            'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                                                            'ATTRIBUTES' => array( 'type' => 'string',
+                                                                                                   'src' => 'string' ), ),
 
                                                     'link'        => array( '#'          => 'none',
                                                                             'ATTRIBUTES' => array( 'href' => 'string',
@@ -780,6 +781,73 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                     $subElement->$subTagName = $subChild->textContent;
                                 }
                             }
+                        }
+                        break;
+
+                    case 'content':
+                        $type = ezcFeedTools::getAttribute( $itemChild, 'type' );
+                        $src = ezcFeedTools::getAttribute( $itemChild, 'src' );
+
+                        switch ( $type )
+                        {
+                            case 'xhtml':
+                                $nodes = $itemChild->childNodes;
+                                if ( $nodes instanceof DOMNodeList )
+                                {
+                                    $contentNode = $nodes->item( 1 );
+                                    $element->$tagName = $contentNode->nodeValue;
+                                }
+                                $element->$tagName->type = $type;
+                                break;
+
+                            case 'html':
+                                $element->$tagName = $itemChild->textContent;
+                                $element->$tagName->type = $type;
+                                break;
+
+                            case 'text':
+                                $element->$tagName = $itemChild->textContent;
+                                $element->$tagName->type = $type;
+                                break;
+
+                            case null:
+                                $element->$tagName = $itemChild->textContent;
+                                break;
+
+                            default:
+                                if ( substr_compare( $type, '+xml', -4, 4, true ) === 0
+                                     || substr_compare( $type, '/xml', -4, 4, true ) === 0 )
+                                {
+                                    foreach ( $itemChild->childNodes as $node )
+                                    {
+                                        if ( $node->nodeType === XML_ELEMENT_NODE )
+                                        {
+                                            $doc = new DOMDocument( '1.0', 'UTF-8' );
+                                            $copyNode = $doc->importNode( $node, true );
+                                            $doc->appendChild( $copyNode );
+                                            $element->$tagName = $doc->saveXML();
+                                            $element->$tagName->type = $type;
+                                            break;
+                                        }
+                                    }
+                                }
+                                else if ( substr_compare( $type, 'text/', 0, 5, true ) === 0 )
+                                {
+                                    $element->$tagName = $itemChild->textContent;
+                                    $element->$tagName->type = $type;
+                                    break;
+                                }
+                                else // base64
+                                {
+                                    $element->$tagName = base64_decode( $itemChild->textContent );
+                                    $element->$tagName->type = $type;
+                                }
+                                break;
+                        }
+
+                        if ( $src !== null )
+                        {
+                            $element->$tagName->src = $src;
                         }
                         break;
 
