@@ -450,6 +450,102 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
+     * Creates an XML node in the XML document being generated.
+     *
+     * @param DOMNode $root The root in which to create the node $element
+     * @param string $element The name of the node to create
+     * @param string $parent The name of the parent node which contains the node $element
+     * @param array(string=>mixed) $dataNode The data for the node to create
+     * @ignore
+     */
+    protected function generateContentNode( DOMNode $root, $element, $parent = null, $dataNode )
+    {
+        $elementTag = $this->xml->createElement( $element );
+        $root->appendChild( $elementTag );
+
+        $subElement = $parent;
+
+        if ( $parent !== null )
+        {
+            $subElement = $element;
+            $element = $parent;
+        }
+
+        $attributes = array();
+        $required = $this->schema->getRequiredAttributes( $element, $subElement );
+
+        foreach ( $this->schema->getAttributes( $element, $subElement ) as $attribute => $type )
+        {
+            if ( isset( $dataNode->$attribute ) )
+            {
+                $val = $dataNode->$attribute;
+                if ( $attribute === 'type' )
+                {
+                    switch ( $val )
+                    {
+                        case 'html':
+                            $dataNode->set( htmlspecialchars( $dataNode ) );
+                            $this->addAttribute( $elementTag, 'type', $val );
+                            break;
+
+                        case 'xhtml':
+                            $this->addAttribute( $elementTag, 'type', $val );
+                            $this->addAttribute( $elementTag, 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
+                            $xhtmlTag = $this->xml->createElement( 'xhtml:div', $dataNode->__toString() );
+                            $elementTag->appendChild( $xhtmlTag );
+                            $elementTag = $xhtmlTag;
+                            break;
+
+                        case 'text':
+                            $this->addAttribute( $elementTag, 'type', $val );
+                            break;
+
+                        default:
+                            if ( substr_compare( $val, '+xml', -4, 4, true ) === 0
+                                 || substr_compare( $val, '/xml', -4, 4, true ) === 0 )
+                            {
+                                // @todo: implement to assign the text in $dataNode as an XML node into $elementTag
+                                $this->addAttribute( $elementTag, 'type', $val );
+                            }
+                            else if ( substr_compare( $val, 'text/', 0, 5, true ) === 0 )
+                            {
+                                $dataNode->set( htmlspecialchars( $dataNode ) );
+                                $this->addAttribute( $elementTag, 'type', $val );
+                                break;
+                            }
+                            else if ( $val !== null )
+                            {
+                                // @todo: make 76 and "\n" options?
+                                $dataNode->set( chunk_split( base64_encode( $dataNode ), 76, "\n" ) );
+                                $this->addAttribute( $elementTag, 'type', $val );
+                            }
+                            else
+                            {
+                                $val = 'text';
+                                $this->addAttribute( $elementTag, 'type', $val );
+                            }
+                            break;
+
+                    }
+                }
+                else
+                {
+                    $this->addAttribute( $elementTag, $attribute, $val );
+                }
+            }
+            else if ( in_array( $attribute, $required ) )
+            {
+                throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+            }
+        }
+
+        if ( !$this->schema->isEmpty( $element, $subElement ) )
+        {
+            $elementTag->nodeValue = $dataNode;
+        }
+    }
+
+    /**
      * Creates an XML person node in the XML document being generated.
      *
      * @param DOMNode $root The root in which to create the node $element
@@ -557,6 +653,16 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         }
 
                         $this->generateNode( $entryTag, $element, $parent, $dataNode );
+                        break;
+
+                    case 'content':
+                        $dataNode = $data;
+                        if ( is_array( $data ) )
+                        {
+                            $dataNode = $data[0];
+                        }
+
+                        $this->generateContentNode( $entryTag, $element, $parent, $dataNode );
                         break;
 
                     case 'author':
