@@ -549,6 +549,16 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                 switch ( $element )
                 {
+                    case 'summary':
+                        $dataNode = $data;
+                        if ( is_array( $data ) )
+                        {
+                            $dataNode = $data[0];
+                        }
+
+                        $this->generateNode( $entryTag, $element, $parent, $dataNode );
+                        break;
+
                     case 'author':
                         foreach ( $data as $dataNode )
                         {
