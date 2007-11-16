@@ -734,6 +734,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'title':
+                    case 'summary':
                         $type = ezcFeedTools::getAttribute( $itemChild, 'type' );
 
                         switch ( $type )
