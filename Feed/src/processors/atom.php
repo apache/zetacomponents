@@ -672,31 +672,31 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         }
                         break;
 
-                        case 'link':
-                            $unique = array();
-                            foreach ( $data as $dataNode )
+                    case 'link':
+                        $unique = array();
+                        foreach ( $data as $dataNode )
+                        {
+                            if ( ( isset( $dataNode->rel ) && $dataNode->rel === 'alternate' )
+                                 && isset( $dataNode->type )
+                                 && isset( $dataNode->hreflang ) )
                             {
-                                if ( ( isset( $dataNode->rel ) && $dataNode->rel === 'alternate' )
-                                     && isset( $dataNode->type )
-                                     && isset( $dataNode->hreflang ) )
+                                foreach ( $unique as $obj )
                                 {
-                                    foreach ( $unique as $obj )
+                                    if ( $obj['type'] === $dataNode->type
+                                         && $obj['hreflang'] === $dataNode->hreflang )
                                     {
-                                        if ( $obj['type'] === $dataNode->type
-                                             && $obj['hreflang'] === $dataNode->hreflang )
-                                        {
-                                            throw new ezcFeedOnlyOneValueAllowedException( 'rel="alternate"' );
-                                        }
+                                        throw new ezcFeedOnlyOneValueAllowedException( 'rel="alternate"' );
                                     }
-
-                                    $unique[] = array( 'type' => $dataNode->type,
-                                                       'hreflang' => $dataNode->hreflang );
-
                                 }
 
-                                $this->generateNode( $entryTag, $element, null, $dataNode );
+                                $unique[] = array( 'type' => $dataNode->type,
+                                                   'hreflang' => $dataNode->hreflang );
+
                             }
-                            break;
+
+                            $this->generateNode( $entryTag, $element, null, $dataNode );
+                        }
+                        break;
                 }
             }
         }
