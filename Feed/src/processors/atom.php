@@ -261,7 +261,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 {
                     case 'updated':
                         // Sample date: 2003-12-13T18:30:02-05:00
-                        $dataNode->set( date( "c", (int)$dataNode->get() ) );
+                        $dataNode->set( date( "c", ezcFeedTools::prepareDate( $dataNode->get() ) ) );
                         break;
                 }
                 $this->generateNode( $this->channel, $element, null, $dataNode );
@@ -628,7 +628,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         $dataNode = $data;
 
                         // Sample date: 2003-12-13T18:30:02-05:00
-                        $dataNode->set( date( "c", (int)$dataNode->get() ) );
+                        $dataNode->set( date( "c", ezcFeedTools::prepareDate( $dataNode->get() ) ) );
                         $this->generateNode( $entryTag, $element, null, $dataNode );
                         break;
                 }

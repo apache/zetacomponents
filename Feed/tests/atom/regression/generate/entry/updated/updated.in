@@ -1,0 +1,11 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'item' => array( array( 'id' => 'Entry id',
+                                      'title' => 'Entry title',
+                                      'content' => 'Entry content',
+									  'updated' => 1195466397 ) ) );
+?>
