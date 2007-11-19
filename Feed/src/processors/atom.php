@@ -707,6 +707,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 switch ( $element )
                 {
                     case 'summary':
+                    case 'rights':
                         $dataNode = $data;
                         if ( is_array( $data ) )
                         {
@@ -919,6 +920,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
             {
                 $tagName = $itemChild->tagName;
+                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getItemsMap() );
 
                 switch ( $tagName )
                 {
@@ -928,6 +930,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                     case 'title':
                     case 'summary':
+                    case 'copyright':
                         $type = ezcFeedTools::getAttribute( $itemChild, 'type' );
 
                         switch ( $type )
