@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>Feed updated</updated>
+  <entry>
+    <id>Entry id</id>
+    <title>Entry title</title>
+    <updated>2007-11-14T16:23:40+01:00</updated>
+    <source>
+      <author>
+        <name>Source author name 1</name>
+        <email>Source author email 1</email>
+        <uri>Source author uri 1</uri>
+      </author>
+      <author>
+        <name>Source author name 2</name>
+        <email>Source author email 2</email>
+        <uri>Source author uri 2</uri>
+      </author>
+    </source>
+  </entry>
+</feed>

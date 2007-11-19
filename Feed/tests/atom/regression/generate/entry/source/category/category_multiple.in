@@ -1,0 +1,17 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'item' => array( array( 'id' => 'Entry id',
+                                      'title' => 'Entry title',
+                                      'updated' => 'Entry updated',
+                                      'content' => 'Entry content',
+									  'source' => array( array( 'category' => array( array( 'term' => 'Source category term 1',
+                                                                                            'scheme' => 'Source category scheme 1',
+                                                                                            'label' => 'Source category label 1', ),
+                                                                                     array( 'term' => 'Source category term 2',
+                                                                                            'scheme' => 'Source category scheme 2',
+                                                                                            'label' => 'Source category label 2', ) ) ) ) ) ) );
+?>

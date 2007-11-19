@@ -40,9 +40,10 @@ class ezcFeedSchema
      *
      * @param string $element The schema element
      * @param string $subElement The subelement of $element
+     * @param string $childElement The subelement of $subElement
      * @return array(string)
      */
-    public function getAttributes( $element, $subElement = null )
+    public function getAttributes( $element, $subElement = null, $childElement = null )
     {
         $result = array();
 
@@ -53,11 +54,18 @@ class ezcFeedSchema
                 $result = $this->schema[$element]['ATTRIBUTES'];
             }
         }
-        else
+        else if ( $childElement === null )
         {
             if ( isset( $this->schema[$element]['NODES'][$subElement]['ATTRIBUTES'] ) )
             {
                 $result = $this->schema[$element]['NODES'][$subElement]['ATTRIBUTES'];
+            }
+        }
+        else
+        {
+            if ( isset( $this->schema[$element]['NODES'][$subElement]['NODES'][$childElement]['ATTRIBUTES'] ) )
+            {
+                $result = $this->schema[$element]['NODES'][$subElement]['NODES'][$childElement]['ATTRIBUTES'];
             }
         }
 
@@ -70,9 +78,10 @@ class ezcFeedSchema
      *
      * @param string $element The schema element
      * @param string $subElement The subelement of $element
+     * @param string $childElement The subelement of $subElement
      * @return array(string)
      */
-    public function getRequiredAttributes( $element, $subElement = null )
+    public function getRequiredAttributes( $element, $subElement = null, $childElement = null )
     {
         $result = array();
 
@@ -83,11 +92,18 @@ class ezcFeedSchema
                 $result = $this->schema[$element]['REQUIRED_ATTRIBUTES'];
             }
         }
-        else
+        else if ( $childElement === null )
         {
             if ( isset( $this->schema[$element]['NODES'][$subElement]['REQUIRED_ATTRIBUTES'] ) )
             {
                 $result = $this->schema[$element]['NODES'][$subElement]['REQUIRED_ATTRIBUTES'];
+            }
+        }
+        else
+        {
+            if ( isset( $this->schema[$element]['NODES'][$subElement]['NODES'][$childElement]['REQUIRED_ATTRIBUTES'] ) )
+            {
+                $result = $this->schema[$element]['NODES'][$subElement]['NODES'][$childElement]['REQUIRED_ATTRIBUTES'];
             }
         }
 
@@ -100,17 +116,27 @@ class ezcFeedSchema
      * in the root.
      *
      * @param string $element The schema element
+     * @param string $subElement The subelement of $element
+     * @param string $childElement The subelement of $subElement
      * @return array(string)
      */
-    public function getRequired( $element = null )
+    public function getRequired( $element = null, $subElement = null, $childElement = null )
     {
         if ( $element === null )
         {
             return isset( $this->schema['REQUIRED'] ) ? $this->schema['REQUIRED'] : array();
         }
-        else
+        else if ( $subElement === null )
         {
             return isset( $this->schema[$element]['NODES']['REQUIRED'] ) ? $this->schema[$element]['NODES']['REQUIRED'] : array();
+        }
+        else if ( $childElement === null )
+        {
+            return isset( $this->schema[$element]['NODES'][$subElement]['NODES']['REQUIRED'] ) ? $this->schema[$element]['NODES'][$subElement]['NODES']['REQUIRED'] : array();
+        }
+        else
+        {
+            return isset( $this->schema[$element]['NODES'][$subElement]['NODES'][$childElement]['NODES']['REQUIRED'] ) ? $this->schema[$element]['NODES'][$subElement]['NODES'][$childElement]['NODES']['REQUIRED'] : array();
         }
     }
 
@@ -120,17 +146,27 @@ class ezcFeedSchema
      * in the root.
      *
      * @param string $element The schema element
+     * @param string $subElement The sub-element of $element
+     * @param string $childElement The subelement of $subElement
      * @return array(string)
      */
-    public function getOptional( $element = null )
+    public function getOptional( $element = null, $subElement = null, $childElement = null )
     {
         if ( $element === null )
         {
             return isset( $this->schema['OPTIONAL'] ) ? $this->schema['OPTIONAL'] : array();
         }
-        else
+        else if ( $subElement === null )
         {
             return isset( $this->schema[$element]['NODES']['OPTIONAL'] ) ? $this->schema[$element]['NODES']['OPTIONAL'] : array();
+        }
+        else if ( $childElement === null )
+        {
+            return isset( $this->schema[$element]['NODES'][$subElement]['NODES']['OPTIONAL'] ) ? $this->schema[$element]['NODES'][$subElement]['NODES']['OPTIONAL'] : array();
+        }
+        else
+        {
+            return isset( $this->schema[$element]['NODES'][$subElement]['NODES'][$childElement]['NODES']['OPTIONAL'] ) ? $this->schema[$element]['NODES'][$subElement]['NODES'][$childElement]['NODES']['OPTIONAL'] : array();
         }
     }
 
@@ -213,17 +249,22 @@ class ezcFeedSchema
      *
      * @param string $element The schema element
      * @param string $subElement The subelement of $element
+     * @param string $childElement The subelement of $subElement
      * @return bool
      */
-    public function isEmpty( $element, $subElement = null )
+    public function isEmpty( $element, $subElement = null, $childElement = null )
     {
         if ( $subElement === null )
         {
             return $this->schema[$element]['#'] === 'none';
         }
-        else
+        else if ( $childElement === null )
         {
             return $this->schema[$element]['NODES'][$subElement]['#'] === 'none';
+        }
+        else
+        {
+            return $this->schema[$element]['NODES'][$subElement]['NODES'][$childElement]['#'] === 'none';
         }
     }
 

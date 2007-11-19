@@ -1,0 +1,17 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'item' => array( array( 'id' => 'Entry id',
+                                      'title' => 'Entry title',
+                                      'updated' => 'Entry updated',
+                                      'content' => 'Entry content',
+									  'source' => array( array( 'author' => array( array( 'name' => 'Source author name 1',
+                                                                                          'email' => 'Source author email 1',
+                                                                                          'uri' => 'Source author uri 1', ),
+                                                                                   array( 'name' => 'Source author name 2',
+                                                                                          'email' => 'Source author email 2',
+                                                                                          'uri' => 'Source author uri 2', )) ) ) ) ) );
+?>

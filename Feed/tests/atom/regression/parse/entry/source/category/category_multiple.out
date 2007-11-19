@@ -1,0 +1,27 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$entry = $feed->add( 'entry' );
+$entry->id = 'Entry id';
+$entry->title = 'Entry title';
+$entry->updated = 1195053820;
+
+$source = $entry->add( 'source' );
+
+$category = $source->add( 'category' );
+$category->term = 'Source category term 1';
+$category->scheme = 'Source category scheme 1';
+$category->label = 'Source category label 1';
+
+$category = $source->add( 'category' );
+$category->term = 'Source category term 2';
+$category->scheme = 'Source category scheme 2';
+$category->label = 'Source category label 2';
+
+return $feed;
+?>

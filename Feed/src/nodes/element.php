@@ -134,6 +134,9 @@ class ezcFeedElement
      */
     public function add( $name )
     {
+        $map = isset( $this->schema['ITEMS_MAP'] ) ? $this->schema['ITEMS_MAP'] : array();
+        $name = ezcFeedTools::normalizeName( $name, $map );
+
         $element = new ezcFeedElement( $this->schema['NODES'][$name] );
         $this->data[$name][] = $element;
         return $element;

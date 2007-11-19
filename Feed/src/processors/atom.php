@@ -158,9 +158,80 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                     'published'   => array( '#'          => 'string' ),
 
                                                     'source'      => array( '#'          => 'none',
-                                                                            'COPY'       => array( 'id', 'title', 'updated',
-                                                                                                   'author', 'link', 'category',
-                                                                                                   'contributor', 'rights' ), ),
+                                                                            'NODES'      => array(
+                                                                                              'id'            => array( '#'          => 'string' ),
+                                                                                              'title'         => array( '#'          => 'string',
+                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string' ), ),
+
+                                                                                              'updated'       => array( '#'          => 'string' ),
+
+                                                                                              'author'        => array( '#'          => 'none',
+                                                                                                                        'NODES'      => array(
+                                                                                                                                          'name' => array( '#' => 'string' ),
+                                                                                                                                          'email' => array( '#' => 'string' ),
+                                                                                                                                          'uri' => array( '#' => 'string' ),
+
+                                                                                                                                          'REQUIRED'   => array( 'name' ),
+                                                                                                                                          'OPTIONAL'   => array( 'email', 'uri' ),
+                                                                                                                                          ),
+
+                                                                                                                        'MULTI'      => 'authors' ),
+
+                                                                                              'link'          => array( '#'          => 'none',
+                                                                                                                        'ATTRIBUTES' => array( 'href' => 'string',
+                                                                                                                                               'rel' => 'string',
+                                                                                                                                               'type' => 'string',
+                                                                                                                                               'hreflang' => 'string',
+                                                                                                                                               'title' => 'string',
+                                                                                                                                               'length' => 'string' ),
+
+                                                                                                                        'REQUIRED_ATTRIBUTES' => array( 'href' ),
+
+                                                                                                                        'MULTI'      => 'links' ),
+
+                                                                                              'category'      => array( '#'          => 'none',
+                                                                                                                        'ATTRIBUTES' => array( 'term' => 'string',
+                                                                                                                                               'scheme' => 'string',
+                                                                                                                                               'label' => 'string' ),
+
+                                                                                                                        'REQUIRED_ATTRIBUTES'   => array( 'term' ),
+                                                                                                                      
+                                                                                                                        'MULTI'      => 'categories' ),
+
+                                                                                              'contributor'   => array( '#'          => 'none',
+                                                                                                                        'NODES'      => array(
+                                                                                                                                          'name' => array( '#' => 'string' ),
+                                                                                                                                          'email' => array( '#' => 'string' ),
+                                                                                                                                          'uri' => array( '#' => 'string' ),
+
+                                                                                                                                          'REQUIRED'   => array( 'name' ),
+                                                                                                                                          'OPTIONAL'   => array( 'email', 'uri' ),
+                                                                                                                                          ),
+
+                                                                                                                        'MULTI'      => 'contributors' ),
+
+                                                                                              'generator'     => array( '#'          => 'string',
+                                                                                                                        'ATTRIBUTES' => array( 'uri' => 'string',
+                                                                                                                                               'version' => 'string' ), ),
+
+                                                                                              'icon'          => array( '#'          => 'string' ),
+                                                                                              'logo'          => array( '#'          => 'string' ),
+                                                                                              'rights'        => array( '#'          => 'string',
+                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string' ), ),
+
+                                                                                              'subtitle'      => array( '#'          => 'string',
+                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string' ), ),
+
+                                                                                              'OPTIONAL'      => array( 'id', 'title', 'updated',
+                                                                                                                        'author', 'link', 'category',
+                                                                                                                        'contributor', 'generator', 'icon',
+                                                                                                                        'logo', 'rights', 'subtitle' ),
+
+                                                                                              ),
+
+                                                                            'ITEMS_MAP' => array( 'image' => 'logo',
+                                                                                                  'copyright' => 'rights',
+                                                                                                  'description' => 'subtitle' ) ),
 
                                                     'rights'      => array( '#' => 'string',
                                                                             'ATTRIBUTES' => array( 'type' => 'string' ), ),
@@ -580,6 +651,116 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
+     * Creates an XML source node in the XML document being generated.
+     *
+     * @param DOMNode $root The root in which to create the source node
+     * @param ezcFeedElement $feedElement The person feed source
+     * @ignore
+     */
+    protected function generateSource( DOMNode $root, ezcFeedElement $feedElement )
+    {
+        $element = 'source';
+        $parent = 'entry';
+        $elementTag = $this->xml->createElement( $element );
+        $root->appendChild( $elementTag );
+
+        foreach ( $this->schema->getOptional( $parent, $element ) as $child )
+        {
+            $data = $feedElement->$child;
+
+            if ( !is_null( $data ) )
+            {
+                if ( !is_array( $data ) )
+                {
+                    $data = array( $data );
+                }
+
+                foreach ( $data as $dataNode )
+                {
+                    $childTag = $this->xml->createElement( $child );
+                    $elementTag->appendChild( $childTag );
+
+                    $attributes = array();
+                    $required = $this->schema->getRequiredAttributes( $parent, $element, $child );
+
+                    foreach ( $this->schema->getRequired( $parent, $element, $child ) as $attribute )
+                    {
+                        $val = $dataNode->$attribute;
+                        if ( is_null( $val ) )
+                        {
+                            throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                        }
+
+                        $this->generateMetaData( $childTag, $attribute, $val );
+                    }
+
+                    foreach ( $this->schema->getOptional( $parent, $element, $child ) as $attribute )
+                    {
+                        $val = $dataNode->$attribute;
+                        if ( !is_null( $val ) )
+                        {
+                            $this->generateMetaData( $childTag, $attribute, $val );
+                        }
+                    }
+
+                    foreach ( $this->schema->getAttributes( $parent, $element, $child ) as $attribute => $type )
+                    {
+                        if ( isset( $dataNode->$attribute ) )
+                        {
+                            $val = $dataNode->$attribute;
+                            if ( $attribute === 'type' && $child !== 'link' )
+                            {
+                                switch ( $val )
+                                {
+                                    case 'html':
+                                        $dataNode->set( htmlspecialchars( $dataNode ) );
+                                        $this->addAttribute( $childTag, 'type', $val );
+                                        break;
+
+                                    case 'xhtml':
+                                        $this->addAttribute( $childTag, 'type', $val );
+                                        $this->addAttribute( $childTag, 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
+                                        $xhtmlTag = $this->xml->createElement( 'xhtml:div', $dataNode->__toString() );
+                                        $childTag->appendChild( $xhtmlTag );
+                                        $childTag = $xhtmlTag;
+                                        break;
+
+                                    case 'text':
+                                        // same as the default case
+
+                                    default:
+                                        $val = 'text';
+                                        $this->addAttribute( $childTag, 'type', $val );
+                                        break;
+
+                                }
+                            }
+                            else
+                            {
+                                $this->addAttribute( $childTag, $attribute, $val );
+                            }
+                        }
+                        else if ( in_array( $attribute, $required ) )
+                        {
+                            throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                        }
+                    }
+
+                    if ( !$this->schema->isEmpty( $parent, $element, $child ) )
+                    {
+                        if ( $child === 'updated' )
+                        {
+                            // Sample date: 2003-12-13T18:30:02-05:00
+                            $dataNode->set( date( "c", ezcFeedTools::prepareDate( $dataNode->get() ) ) );
+                        }
+                        $childTag->nodeValue = $dataNode;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Adds the feed entry elements to the XML document being generated.
      *
      * @ignore
@@ -774,6 +955,16 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         {
                             $this->generateNode( $entryTag, $element, null, $dataNode );
                         }
+                        break;
+
+                    case 'source':
+                        $dataNode = $data;
+                        if ( is_array( $data ) )
+                        {
+                            $dataNode = $data[0];
+                        }
+
+                        $this->generateSource( $entryTag, $dataNode );
                         break;
                 }
             }
@@ -1058,6 +1249,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                             $subElement->$key = $value;
                         }
                         break;
+
+                    case 'source':
+                        $subElement = $element->add( $tagName );
+                        $this->parseSource( $feed, $subElement, $itemChild );
+                        break;
                 }
             }
         }
@@ -1088,6 +1284,97 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     case 'uri':
                         $element->$tagName = $itemChild->textContent;
                         break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Parses the provided XML element object and stores it as a feed source in
+     * the provided ezcFeed object.
+     *
+     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed source
+     * @param ezcFeedElement $element The feed element object that will contain the feed source
+     * @param DOMElement $xml The XML element object to parse
+     * @ignore
+     */
+    protected function parseSource( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    {
+        foreach ( $xml->childNodes as $sourceChild )
+        {
+            if ( $sourceChild->nodeType === XML_ELEMENT_NODE )
+            {
+                $tagName = $sourceChild->tagName;
+                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
+
+                switch ( $tagName )
+                {
+                    case 'title':
+                    case 'copyright':
+                    case 'description':
+                        $type = ezcFeedTools::getAttribute( $sourceChild, 'type' );
+
+                        switch ( $type )
+                        {
+                            case 'xhtml':
+                                $nodes = $sourceChild->childNodes;
+                                if ( $nodes instanceof DOMNodeList )
+                                {
+                                    $contentNode = $nodes->item( 1 );
+                                    $element->$tagName = $contentNode->nodeValue;
+                                }
+                                break;
+
+                            case 'html':
+                                $element->$tagName = $sourceChild->textContent;
+                                break;
+
+                            case 'text':
+                                // same case as 'default'
+
+                            default:
+                                $element->$tagName = $sourceChild->textContent;
+                                break;
+                        }
+
+                        break;
+
+                    case 'id':
+                    case 'generator':
+                    case 'image':
+                    case 'icon':
+                        $element->$tagName = $sourceChild->textContent;
+                        break;
+
+                    case 'updated':
+                        $element->$tagName = ezcFeedTools::prepareDate( $sourceChild->textContent );
+                        break;
+
+                    case 'category':
+                    case 'link':
+                        $subElement = $element->add( $tagName );
+                        break;
+
+                    case 'contributor':
+                    case 'author':
+                        $subElement = $element->add( $tagName );
+                        $this->parsePerson( $feed, $subElement, $sourceChild, $tagName );
+                        break;
+
+                    default:
+                        // check if it's part of a known module/namespace
+                }
+            }
+
+            foreach ( ezcFeedTools::getAttributes( $sourceChild ) as $key => $value )
+            {
+                if ( in_array( $tagName, array( 'category', 'link' ) ) )
+                {
+                    $subElement->$key = $value;
+                }
+                else
+                {
+                    $element->$tagName->$key = $value;
                 }
             }
         }

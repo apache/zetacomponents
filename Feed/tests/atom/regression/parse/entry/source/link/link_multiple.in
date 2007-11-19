@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>Feed updated</updated>
+  <entry>
+    <id>Entry id</id>
+    <title>Entry title</title>
+    <updated>2007-11-14T16:23:40+01:00</updated>
+    <source>
+      <link href="Source link href 1" rel="Source link rel 1" type="Source link type 1" hreflang="Source link hreflang 1" title="Source link title 1" length="Source link length 1"/>
+      <link href="Source link href 2" rel="Source link rel 2" type="Source link type 2" hreflang="Source link hreflang 2" title="Source link title 2" length="Source link length 2"/>
+    </source>
+  </entry>
+</feed>
