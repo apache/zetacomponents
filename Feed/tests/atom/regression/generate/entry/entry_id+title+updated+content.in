@@ -6,9 +6,6 @@ return array( 'id' => 'Feed id',
               'author' => array( array( 'name' => 'Author name' ) ),
               'item' => array( array( 'id' => 'Entry id',
                                       'title' => 'Entry title',
-                                      'updated' => 'Entry updated',
                                       'content' => 'Entry content',
-                                      'author' => array( array( 'name' => 'Entry author name',
-                                                                'email' => 'Entry author email',
-                                                                'uri' => 'Entry author uri' ) ) ) ) );
+									  'updated' => 'Entry updated' ) ) );
 ?>

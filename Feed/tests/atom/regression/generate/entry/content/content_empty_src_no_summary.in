@@ -6,7 +6,5 @@ return array( 'id' => 'Feed id',
               'item' => array( array( 'id' => 'Entry id',
                                       'title' => array( array( '#' => 'Entry title' ) ),
                                       'updated' => 'Entry updated',
-                                      'content' => 'Entry content',
-                                      'summary' => array( array( '#' => 'Entry summary',
-                                                                 'type' => 'xhtml' ) ) ) ) );
+                                      'content' => array( array( 'src' => 'http://ezcomponents.org/files/downloads/ezcomponents-1.0.zip' ) ) ) ) );
 ?>

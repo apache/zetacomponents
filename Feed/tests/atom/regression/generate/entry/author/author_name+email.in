@@ -7,6 +7,7 @@ return array( 'id' => 'Feed id',
               'item' => array( array( 'id' => 'Entry id',
                                       'title' => 'Entry title',
                                       'updated' => 'Entry updated',
+                                      'content' => 'Entry content',
                                       'author' => array( array( 'name' => 'Entry author name',
                                                                 'email' => 'Entry author email' ) ) ) ) );
 ?>

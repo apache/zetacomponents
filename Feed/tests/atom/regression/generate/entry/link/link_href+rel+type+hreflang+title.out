@@ -10,6 +10,7 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>XXX</updated>
+    <content>Entry content</content>
     <link href="Entry link href" rel="Entry link rel" type="Entry link type" hreflang="Entry link hreflang" title="Entry link title"/>
   </entry>
 </feed>

@@ -14,5 +14,6 @@
       <name>Entry author name</name>
       <email>Entry author email</email>
     </author>
+    <content>Entry content</content>
   </entry>
 </feed> 

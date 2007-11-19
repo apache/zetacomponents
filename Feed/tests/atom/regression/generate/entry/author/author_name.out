@@ -13,5 +13,6 @@
     <author>
       <name>Entry author name</name>
     </author>
+    <content>Entry content</content>
   </entry>
 </feed> 

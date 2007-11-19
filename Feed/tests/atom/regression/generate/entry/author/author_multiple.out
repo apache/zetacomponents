@@ -20,5 +20,6 @@
       <email>Entry author email 2</email>
       <uri>Entry author uri 2</uri>
     </author>
+    <content>Entry content</content>
   </entry>
 </feed> 

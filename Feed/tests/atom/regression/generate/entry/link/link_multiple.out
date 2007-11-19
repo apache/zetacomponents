@@ -10,6 +10,7 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>XXX</updated>
+    <content>Entry content</content>
     <link href="Entry link href 1" rel="Entry link rel 1" type="Entry link type 1" hreflang="Entry link hreflang 1" title="Entry link title 1" length="Entry link length 1"/>
     <link href="Entry link href 2" rel="Entry link rel 2" type="Entry link type 2" hreflang="Entry link hreflang 2" title="Entry link title 2" length="Entry link length 2"/>
   </entry>

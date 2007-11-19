@@ -6,5 +6,6 @@ return array( 'id' => 'Feed id',
               'item' => array( array( 'id' => 'Entry id',
                                       'title' => array( array( '#' => 'Entry title' ) ),
                                       'updated' => 'Entry updated',
+                                      'content' => 'Entry content',
                                       'summary' => array( array() ) ) ) );
 ?>

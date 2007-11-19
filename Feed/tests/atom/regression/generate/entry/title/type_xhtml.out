@@ -12,5 +12,6 @@
       <xhtml:div>Entry title</xhtml:div>
     </title>
     <updated>XXX</updated>
+    <content>Entry content</content>
   </entry>
 </feed> 

@@ -634,6 +634,67 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
+            // ensure the ATOM rules are applied
+            $content = $entry->content;
+            if ( is_array( $content ) )
+            {
+                $content = $content[0];
+            }
+            $summary = $entry->summary;
+            $links = $entry->link;
+            $contentPresent = !is_null( $content );
+            $contentSrcPresent = $contentPresent && is_object( $content ) && !is_null( $content->src );
+            $contentBase64 = true;
+            if ( $contentPresent && is_object( $content )
+                 && ( in_array( $content->type, array( 'text', 'html', 'xhtml', null ) )
+                      || substr_compare( $content->type, '+xml', -4, 4, true ) === 0
+                      || substr_compare( $content->type, '/xml', -4, 4, true ) === 0
+                      || substr_compare( $content->type, 'text/', 0, 5, true ) === 0 ) )
+            {
+                $contentBase64 = false;
+            }
+
+            $summaryPresent = !is_null( $summary );
+            $linkAlternatePresent = false;
+            if ( $links !== null )
+            {
+                foreach ( $links as $link )
+                {
+                    if ( $link->rel === 'alternate' )
+                    {
+                        $linkAlternatePresent = true;
+                        break;
+                    }
+                }
+            }
+
+            if ( !$contentPresent )
+            {
+                if ( !$linkAlternatePresent && !$summaryPresent )
+                {
+                    throw new ezcFeedRequiredMetaDataMissingException( 'content' );
+                }
+
+                if ( !$linkAlternatePresent )
+                {
+                    throw new ezcFeedRequiredMetaDataMissingException( 'link rel="alternate"' );
+                }
+
+                if ( !$summaryPresent )
+                {
+                    throw new ezcFeedRequiredMetaDataMissingException( 'summary' );
+                }
+            }
+
+            if ( $contentPresent )
+            {
+                if ( ( $contentSrcPresent || $contentBase64 ) && !$summaryPresent )
+                {
+                    throw new ezcFeedRequiredMetaDataMissingException( 'summary' );
+                }
+            }
+
+
             foreach ( $this->schema->getOptional( $parent ) as $element )
             {
                 $data = $entry->$element;

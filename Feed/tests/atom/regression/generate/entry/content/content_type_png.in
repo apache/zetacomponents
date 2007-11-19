@@ -7,5 +7,6 @@ return array( 'id' => 'Feed id',
                                       'title' => array( array( '#' => 'Entry title' ) ),
                                       'updated' => 'Entry updated',
                                       'content' => array( array( '#' => file_get_contents( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'powered-by-141x32-white.png' ),
-                                                                 'type' => 'image/png' ) ) ) ) );
+                                                                 'type' => 'image/png' ) ),
+                                      'summary' => 'Entry summary' ) ) );
 ?>

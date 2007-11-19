@@ -10,6 +10,7 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>XXX</updated>
+    <content>Entry content</content>
     <summary></summary>
   </entry>
 </feed> 

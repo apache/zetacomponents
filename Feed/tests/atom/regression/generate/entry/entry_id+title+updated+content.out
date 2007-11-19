@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>Feed id</id>
-  <title>Feed title</title>
+  <title type="text">Feed title</title>
   <updated>XXX</updated>
   <author>
     <name>Author name</name>
@@ -10,8 +10,6 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>XXX</updated>
-    <content type="application/x-zip" src="http://ezcomponents.org/files/downloads/ezcomponents-1.0.zip">
-</content>
-    <summary>Entry summary</summary>
+    <content>Entry content</content>
   </entry>
 </feed> 
