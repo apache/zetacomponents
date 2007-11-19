@@ -1,3 +1,9 @@
+# Patch based on work of Lars Jankowski by Oxid esales.
+#
+# Awaiting for inclusion after next stable release.
+# 
+# [x] Received CLA from lars Jankowski
+#
 Index: graph_autoload.php
 ===================================================================
 --- graph_autoload.php	(revision 6760)
