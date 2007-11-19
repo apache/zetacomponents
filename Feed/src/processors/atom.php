@@ -766,6 +766,13 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         $dataNode->set( date( "c", ezcFeedTools::prepareDate( $dataNode->get() ) ) );
                         $this->generateNode( $entryTag, $element, $parent, $dataNode );
                         break;
+
+                    case 'category':
+                        foreach ( $data as $dataNode )
+                        {
+                            $this->generateNode( $entryTag, $element, null, $dataNode );
+                        }
+                        break;
                 }
             }
         }
@@ -1039,6 +1046,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'link':
+                    case 'category':
                         $subElement = $element->add( $tagName );
                         foreach ( ezcFeedTools::getAttributes( $itemChild ) as $key => $value )
                         {

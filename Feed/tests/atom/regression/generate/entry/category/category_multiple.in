@@ -1,0 +1,16 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'item' => array( array( 'id' => 'Entry id',
+                                      'title' => array( array( '#' => 'Entry title' ) ),
+                                      'updated' => 'Entry updated',
+                                      'content' => 'Entry content',
+                                      'category' => array( array( 'term' => 'Entry category term 1',
+                                                                  'scheme' => 'Entry category scheme 1',
+                                                                  'label' => 'Entry category label 1' ),
+                                                           array( 'term' => 'Entry category term 2',
+                                                                  'scheme' => 'Entry category scheme 2',
+                                                                  'label' => 'Entry category label 2' ) ) ) ) );
+?>
