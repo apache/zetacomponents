@@ -1,9 +1,3 @@
-# Patch based on work of Lars Jankowski by Oxid esales.
-#
-# Awaiting for inclusion after next stable release.
-# 
-# [ ] Received CLA from lars Jankowski
-#
 Index: graph_autoload.php
 ===================================================================
 --- graph_autoload.php	(revision 6760)
@@ -37,7 +31,7 @@ Index: interfaces/odometer_renderer.php
 ===================================================================
 --- interfaces/odometer_renderer.php	(revision 0)
 +++ interfaces/odometer_renderer.php	(revision 0)
-@@ -0,0 +1,47 @@
+@@ -0,0 +1,51 @@
 +<?php
 +/**
 + * File containing the ezcGraphRadarRenderer interface
@@ -58,29 +52,33 @@ Index: interfaces/odometer_renderer.php
 +interface ezcGraphOdometerRenderer
 +{
 +    /**
-+     * Render odometer chart content
++     * Render odometer chart
 +     * 
 +     * @param ezcGraphBoundings $boundings 
-+     * @param ezcGraphColor $colorStart 
-+     * @param ezcGraphColor $colorEnd 
-+     * @param ezcGraphColor $borderColor 
-+     * @param ezcGraphColor $markerColor 
-+     * @param int $markerWidth 
-+     * @param int $borderWidth 
-+     * @param float $value 
-+     * @param float $height 
-+     * @return void
++     * @param ezcGraphOdometerChartOptions $options
++     * @return ezcGraphBoundings
 +     */
 +    public function drawOdometer( 
 +        ezcGraphBoundings $boundings, 
-+        ezcGraphColor $colorStart, 
-+        ezcGraphColor $colorEnd, 
-+        ezcGraphColor $borderColor, 
-+        ezcGraphColor $markerColor, 
-+        $markerWidth, 
-+        $borderWidth, 
-+        $value, 
-+        $height
++        ezcGraphChartElementAxis $axis,
++        ezcGraphOdometerChartOptions $options
++    );
++
++    /**
++     * Draw a single odometer marker.
++     *
++     * @param ezcGraphBoundings $boundings
++     * @param ezcGraphCoordinate $position
++     * @param int $symbol
++     * @param ezcGraphColor $color
++     * @param int $width
++     */
++    public function drawOdometerMarker(
++        ezcGraphBoundings $boundings,
++        ezcGraphCoordinate $position,
++        $symbol,
++        ezcGraphColor $color,
++        $width
 +    );
 +}
 +
@@ -397,7 +395,7 @@ Index: renderer/2d.php
 ===================================================================
 --- renderer/2d.php	(revision 6760)
 +++ renderer/2d.php	(working copy)
-@@ -3,71 +3,28 @@
+@@ -3,71 +3,27 @@
   * File containing the two dimensional renderer
   *
   * @package Graph
@@ -465,8 +463,7 @@ Index: renderer/2d.php
 -        ezcGraphStackedBarsRenderer
 +class ezcGraphRenderer2d
 +    extends ezcGraphRenderer
-+    implements ezcGraphRadarRenderer
-+    // , ezcGraphOdometerRenderer
++    implements ezcGraphRadarRenderer, ezcGraphOdometerRenderer
  {
  
      /**
@@ -477,7 +474,7 @@ Index: renderer/2d.php
       * @var array
       */
      protected $pieSegmentLabels = array(
-@@ -77,7 +34,7 @@
+@@ -77,7 +33,7 @@
  
      /**
       * Contains the boundings used for pie segments
@@ -486,7 +483,7 @@ Index: renderer/2d.php
       * @var ezcGraphBoundings
       */
      protected $pieSegmentBoundings = false;
-@@ -85,37 +42,37 @@
+@@ -85,37 +41,37 @@
      /**
       * Array with symbols for post processing, which ensures, that the symbols
       * are rendered topmost.
@@ -532,7 +529,7 @@ Index: renderer/2d.php
       * @param array $options Default option array
       * @return void
       * @ignore
-@@ -126,9 +83,9 @@
+@@ -126,9 +82,9 @@
      }
  
      /**
@@ -545,7 +542,7 @@ Index: renderer/2d.php
       * @throws ezcBasePropertyNotFoundException
       *          If a the value for the property options is not an instance of
       * @return mixed
-@@ -149,7 +106,7 @@
+@@ -149,7 +105,7 @@
       * Draw pie segment
       *
       * Draws a single pie segment
@@ -554,7 +551,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Chart boundings
       * @param ezcGraphContext $context Context of call
       * @param ezcGraphColor $color Color of pie segment
-@@ -236,9 +193,9 @@
+@@ -236,9 +192,9 @@
      /**
       * Draws the collected circle sectors
       *
@@ -566,7 +563,7 @@ Index: renderer/2d.php
       * @return void
       */
      protected function finishCircleSectors()
-@@ -266,7 +223,7 @@
+@@ -266,7 +222,7 @@
          foreach ( $this->circleSectors as $circleSector )
          {
              // Draw circle sector
@@ -575,7 +572,7 @@ Index: renderer/2d.php
                  $circleSector['context'],
                  $this->driver->drawCircleSector(
                      $circleSector['center'],
-@@ -345,10 +302,10 @@
+@@ -345,10 +301,10 @@
      /**
       * Draws the collected pie segment labels
       *
@@ -589,7 +586,7 @@ Index: renderer/2d.php
       * @return void
       */
      protected function finishPieSegmentLabels()
-@@ -416,19 +373,19 @@
+@@ -416,19 +372,19 @@
                  $verticalDistance = ( $center->y - $minHeight - $labelHeight / 2 ) / $radius;
  
                  $labelPosition = new ezcGraphCoordinate(
@@ -613,7 +610,7 @@ Index: renderer/2d.php
                          )
                      ),
                      $minHeight + $labelHeight / 2
-@@ -460,7 +417,7 @@
+@@ -460,7 +416,7 @@
                      );
                  }
  
@@ -622,7 +619,7 @@ Index: renderer/2d.php
                      $label[2],
                      $this->driver->drawTextBox(
                          $label[1],
-@@ -483,9 +440,9 @@
+@@ -483,9 +439,9 @@
      /**
       * Draw the collected line symbols
       *
@@ -634,7 +631,7 @@ Index: renderer/2d.php
       * @return void
       */
      protected function finishLineSymbols()
-@@ -502,12 +459,12 @@
+@@ -502,12 +458,12 @@
              );
          }
      }
@@ -649,7 +646,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Chart boundings
       * @param ezcGraphContext $context Context of call
       * @param ezcGraphColor $color Color of line
-@@ -577,82 +534,10 @@
+@@ -577,82 +533,10 @@
      }
  
      /**
@@ -733,7 +730,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Chart boundings
       * @param ezcGraphContext $context Context of call
       * @param ezcGraphColor $color Color of line
-@@ -789,7 +674,7 @@
+@@ -789,7 +673,7 @@
              {
                  $symbolColor = $color;
              }
@@ -742,7 +739,7 @@ Index: renderer/2d.php
              $this->linePostSymbols[] = array(
                  'boundings' => new ezcGraphBoundings(
                      $boundings->x0 + ( $boundings->width ) * $end->x - $this->options->symbolSize / 2,
-@@ -807,7 +692,7 @@
+@@ -807,7 +691,7 @@
      /**
       * Returns a coordinate in the given bounding box for the given angle
       * radius with the center as base point.
@@ -751,7 +748,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings
       * @param ezcGraphCoordinate $center
       * @param float $angle
-@@ -850,7 +735,7 @@
+@@ -850,7 +734,7 @@
       * Draw radar chart data line
       *
       * Draws a line as a data element in a radar chart
@@ -760,7 +757,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Chart boundings
       * @param ezcGraphContext $context Context of call
       * @param ezcGraphColor $color Color of line
-@@ -933,13 +818,13 @@
+@@ -933,13 +817,13 @@
              );
          }
      }
@@ -777,7 +774,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Chart boundings
       * @param ezcGraphContext $context Context of call
       * @param ezcGraphCoordinate $end Ending point
-@@ -966,7 +851,7 @@
+@@ -966,7 +850,7 @@
      {
          $this->driver->options->font = $font;
          $width = $boundings->width / $dataCount;
@@ -786,7 +783,7 @@ Index: renderer/2d.php
          $dataPoint = new ezcGraphCoordinate(
              $boundings->x0 + ( $boundings->width ) * $end->x,
              $boundings->y0 + ( $boundings->height ) * $end->y
-@@ -999,12 +884,12 @@
+@@ -999,12 +883,12 @@
              );
          }
      }
@@ -801,7 +798,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Bounding of legend
       * @param ezcGraphChartElementLegend $legend Legend to draw;
       * @param int $type Type of legend: Protrait or landscape
-@@ -1016,13 +901,13 @@
+@@ -1016,13 +900,13 @@
          $type = ezcGraph::VERTICAL )
      {
          $labels = $legend->labels;
@@ -818,7 +815,7 @@ Index: renderer/2d.php
                  $legend->symbolSize + 2 * $legend->padding
              );
          }
-@@ -1069,7 +954,7 @@
+@@ -1069,7 +953,7 @@
              $labelPosition->y += ( $type === ezcGraph::VERTICAL ? $labelHeight + $legend->spacing : 0 );
          }
      }
@@ -827,7 +824,7 @@ Index: renderer/2d.php
      /**
       * Draw box
       *
-@@ -1077,7 +962,7 @@
+@@ -1077,7 +961,7 @@
       * and title to each chart element.
       *
       * Optionally a padding and margin for each box can be defined.
@@ -836,7 +833,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Boundings of the box
       * @param ezcGraphColor $background Background color
       * @param ezcGraphColor $borderColor Border color
-@@ -1103,7 +988,7 @@
+@@ -1103,7 +987,7 @@
          $boundings->y0 += $margin;
          $boundings->x1 -= $margin;
          $boundings->y1 -= $margin;
@@ -845,7 +842,7 @@ Index: renderer/2d.php
          if ( $background instanceof ezcGraphColor )
          {
              // Draw box background
-@@ -1181,12 +1066,12 @@
+@@ -1181,12 +1065,12 @@
  
          return $boundings;
      }
@@ -860,7 +857,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Boundings of text
       * @param string $text Text
       * @param int $align Alignement of text
-@@ -1213,7 +1098,7 @@
+@@ -1213,7 +1097,7 @@
       * Draw grid line
       *
       * Draw line for the grid in the chart background
@@ -869,7 +866,7 @@ Index: renderer/2d.php
       * @param ezcGraphCoordinate $start Start point
       * @param ezcGraphCoordinate $end End point
       * @param ezcGraphColor $color Color of the grid line
-@@ -1233,7 +1118,7 @@
+@@ -1233,7 +1117,7 @@
       * Draw step line
       *
       * Draw a step (marker for label position) on a axis.
@@ -878,7 +875,7 @@ Index: renderer/2d.php
       * @param ezcGraphCoordinate $start Start point
       * @param ezcGraphCoordinate $end End point
       * @param ezcGraphColor $color Color of the grid line
-@@ -1248,14 +1133,14 @@
+@@ -1248,14 +1132,14 @@
              1
          );
      }
@@ -896,7 +893,7 @@ Index: renderer/2d.php
       * array with minor steps is expected, which are build like this:
       *  array(
       *      array(
-@@ -1266,13 +1151,13 @@
+@@ -1266,13 +1150,13 @@
       * where the label is optional.
       *
       * The label renderer class defines how the labels are rendered. For more
@@ -914,7 +911,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Boundings of axis
       * @param ezcGraphCoordinate $start Start point of axis
       * @param ezcGraphCoordinate $end Endpoint of axis
-@@ -1428,44 +1313,56 @@
+@@ -1428,44 +1312,56 @@
              'axis' => $axis,
          );
  
@@ -1001,7 +998,7 @@ Index: renderer/2d.php
          }
      }
  
-@@ -1474,7 +1371,7 @@
+@@ -1474,7 +1370,7 @@
       *
       * Draws a background image at the defined position. If repeat is set the
       * background image will be repeated like any texture.
@@ -1010,7 +1007,7 @@ Index: renderer/2d.php
       * @param ezcGraphBoundings $boundings Boundings for the background image
       * @param string $file Filename of background image
       * @param int $position Position of background image
-@@ -1494,8 +1391,8 @@
+@@ -1494,8 +1390,8 @@
          $imageWidth = min( $imageWidth, $boundings->width );
          $imageHeight = min( $imageHeight, $boundings->height );
  
@@ -1021,7 +1018,7 @@ Index: renderer/2d.php
              $boundings->y0
          );
  
-@@ -1507,7 +1404,7 @@
+@@ -1507,7 +1403,7 @@
                  $imagePosition->x = $boundings->x0;
                  break;
              case ( $position & ezcGraph::RIGHT ):
@@ -1030,7 +1027,7 @@ Index: renderer/2d.php
                      $boundings->x1 - $imageWidth,
                      $boundings->x0
                  );
-@@ -1528,7 +1425,7 @@
+@@ -1528,7 +1424,7 @@
                  $imagePosition->y = $boundings->y0;
                  break;
              case ( $position & ezcGraph::BOTTOM ):
@@ -1039,7 +1036,7 @@ Index: renderer/2d.php
                      $boundings->y1 - $imageHeight,
                      $boundings->y0
                  );
-@@ -1546,25 +1443,25 @@
+@@ -1546,25 +1442,25 @@
              $imagePosition->x,
              $imagePosition->y
          );
@@ -1074,7 +1071,7 @@ Index: renderer/2d.php
              $position->x += $imageWidth;
          }
          while ( ( $position->x < $boundings->x1 ) &&
-@@ -1573,7 +1470,7 @@
+@@ -1573,7 +1469,7 @@
  
      /**
       * Call all postprocessing functions
@@ -1083,7 +1080,7 @@ Index: renderer/2d.php
       * @return void
       */
      protected function finish()
-@@ -1584,6 +1481,90 @@
+@@ -1584,6 +1480,88 @@
  
          return true;
      }
@@ -1112,8 +1109,6 @@ Index: renderer/2d.php
 +        // Reset axisspaces to correct values
 +        $this->xAxisSpace = $boundings->width * $oldAxisSpace;
 +        $this->yAxisSpace = ( $boundings->height - $height ) / 2;
-+
-+        var_dump( $this->xAxisSpace, $this->yAxisSpace );
 +
 +        $this->drawAxisLabels();
 +
