@@ -1,0 +1,1176 @@
+# Patch based on work of Lars Jankowski by Oxid esales.
+#
+# Awaiting for inclusion after next stable release.
+# 
+# [ ] Received CLA from lars Jankowski
+#
+Index: graph_autoload.php
+===================================================================
+--- graph_autoload.php	(revision 6760)
++++ graph_autoload.php	(working copy)
+@@ -52,6 +52,7 @@
+     'ezcGraphDriver'                                => 'Graph/interfaces/driver.php',
+     'ezcGraphDriverOptions'                         => 'Graph/options/driver.php',
+     'ezcGraphLineChart'                             => 'Graph/charts/line.php',
++    'ezcGraphOdometerRenderer'                      => 'Graph/interfaces/odometer_renderer.php',
+     'ezcGraphPalette'                               => 'Graph/interfaces/palette.php',
+     'ezcGraphRadarRenderer'                         => 'Graph/interfaces/radar_renderer.php',
+     'ezcGraphRenderer'                              => 'Graph/interfaces/renderer.php',
+@@ -93,6 +94,8 @@
+     'ezcGraphLineChartOptions'                      => 'Graph/options/line_chart.php',
+     'ezcGraphLinearGradient'                        => 'Graph/colors/linear_gradient.php',
+     'ezcGraphNumericDataSet'                        => 'Graph/datasets/numeric.php',
++    'ezcGraphOdoMeterChart'                         => 'Graph/charts/odometer.php',
++    'ezcGraphOdometerChartOptions'                  => 'Graph/options/odometer_chart.php',
+     'ezcGraphPaletteBlack'                          => 'Graph/palette/black.php',
+     'ezcGraphPaletteEz'                             => 'Graph/palette/ez.php',
+     'ezcGraphPaletteEzBlue'                         => 'Graph/palette/ez_blue.php',
+@@ -110,6 +113,7 @@
+     'ezcGraphRenderer3d'                            => 'Graph/renderer/3d.php',
+     'ezcGraphRenderer3dOptions'                     => 'Graph/options/renderer_3d.php',
+     'ezcGraphRotation'                              => 'Graph/math/rotation.php',
++    'ezcGraphSingleDataSet'                         => 'Graph/datasets/single.php',
+     'ezcGraphSvgDriver'                             => 'Graph/driver/svg.php',
+     'ezcGraphSvgDriverOptions'                      => 'Graph/options/svg_driver.php',
+     'ezcGraphTerm'                                  => 'Graph/math/term.php',
+Index: interfaces/odometer_renderer.php
+===================================================================
+--- interfaces/odometer_renderer.php	(revision 0)
++++ interfaces/odometer_renderer.php	(revision 0)
+@@ -0,0 +1,47 @@
++<?php
++/**
++ * File containing the ezcGraphRadarRenderer interface
++ *
++ * @package Graph
++ * @version 1.1
++ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
++        2006 eZ systems as. All rights reserved.
++ * @license http://ez.no/licenses/new_bsd New BSD License
++ */
++/**
++ * Interface which adds the methods required for rendering radar charts to a
++ * renderer
++ *
++ * @version 1.1
++ * @package Graph
++ */
++interface ezcGraphOdometerRenderer
++{
++    /**
++     * Render odometer chart content
++     * 
++     * @param ezcGraphBoundings $boundings 
++     * @param ezcGraphColor $colorStart 
++     * @param ezcGraphColor $colorEnd 
++     * @param ezcGraphColor $borderColor 
++     * @param ezcGraphColor $markerColor 
++     * @param int $markerWidth 
++     * @param int $borderWidth 
++     * @param float $value 
++     * @param float $height 
++     * @return void
++     */
++    public function drawOdometer( 
++        ezcGraphBoundings $boundings, 
++        ezcGraphColor $colorStart, 
++        ezcGraphColor $colorEnd, 
++        ezcGraphColor $borderColor, 
++        ezcGraphColor $markerColor, 
++        $markerWidth, 
++        $borderWidth, 
++        $value, 
++        $height
++    );
++}
++
++?>
+
+Property changes on: interfaces/odometer_renderer.php
+___________________________________________________________________
+Name: svn:eol-style
+   + native
+
+Index: charts/odometer.php
+===================================================================
+--- charts/odometer.php	(revision 0)
++++ charts/odometer.php	(revision 0)
+@@ -0,0 +1,191 @@
++<?php
++/**
++ * File containing the ezcGraphPieChart class
++ *
++ * @package Graph
++ * @version 1.1
++ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
++ * @license http://ez.no/licenses/new_bsd New BSD License
++ */
++
++class ezcGraphOdoMeterChart extends ezcGraphChart
++{
++
++    /**
++     * Constructor
++     *
++     * @param array $options Default option array
++     * @return void
++     * @ignore
++     */
++    public function __construct( array $options = array() )
++    {
++        $this->options = new ezcGraphOdometerChartOptions( $options );
++
++        parent::__construct( $options );
++
++        $this->data = new ezcGraphChartSingleDataContainer( $this );
++
++        $this->addElement( 'axis', new ezcGraphChartElementNumericAxis());
++        $this->elements['axis']->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
++        $this->elements['axis']->position  = ezcGraph::LEFT;
++        $this->elements['axis']->axisSpace = .05;
++    }
++
++    /**
++     * Render the assigned data
++     *
++     * Will renderer all charts data in the remaining boundings after drawing
++     * all other chart elements. The data will be rendered depending on the
++     * settings in the dataset.
++     *
++     * @param ezcGraphRenderer $renderer Renderer
++     * @param ezcGraphBoundings $boundings Remaining boundings
++     * @return void
++     */
++    protected function renderData( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
++    {
++        // Draw the odometer data
++        $dataset = $this->data->rewind();
++
++        foreach ( $dataset as $key => $value )
++        {
++            $renderer->drawOdometerMarker(
++                $boundings,
++                $this->elements['axis']->axisLabelRenderer->modifyChartDataPosition(
++                    new ezcGraphCoordinate(
++                        $this->elements['axis']->getCoordinate( $value ),
++                        0
++                    )
++                ),
++                $dataset->symbol[$key],
++                $dataset->color[$key],
++                $this->options->markerWidth
++            );
++        }
++    }
++
++    /**
++     * Returns the default display type of the current chart type.
++     *
++     * @return int Display type
++     */
++    public function getDefaultDisplayType()
++    {
++        return ezcGraph::ODOMETER;
++    }
++
++    /**
++     * Renders the basic elements of this chart type
++     *
++     * @param int $width
++     * @param int $height
++     * @return void
++     */
++    protected function renderElements( $width, $height )
++    {
++        if ( !count( $this->data ) )
++        {
++            throw new ezcGraphNoDataException();
++        }
++
++        // Set image properties in driver
++        $this->driver->options->width = $width;
++        $this->driver->options->height = $height;
++
++        // no legend
++        $this->renderElement['legend'] = false;
++
++        // Get boundings from parameters
++        $this->options->width = $width;
++        $this->options->height = $height;
++
++        $boundings = new ezcGraphBoundings();
++        $boundings->x1 = $this->options->width;
++        $boundings->y1 = $this->options->height;
++
++        // Get values out the single used dataset to calculate axis boundings
++        $values = array();
++        foreach( $this->data->rewind() as $value )
++        {
++            $values[] = $value;
++        }
++
++        // Set values for Axis
++        $this->elements['axis']->addData( $values );
++        $this->elements['axis']->nullPosition = 0.5 + $this->options->odometerHeight / 2;
++        $this->elements['axis']->calculateAxisBoundings();
++
++        // Render subelements exept axis, which will be drawn together with the
++        // odometer bar
++        foreach ( $this->elements as $name => $element )
++        {
++            // Skip element, if it should not get rendered
++            if ( $this->renderElement[$name] === false ||
++                 $name === 'axis' )
++            {
++                continue;
++            }
++
++            $this->driver->options->font = $element->font;
++            $boundings = $element->render( $this->renderer, $boundings );
++        }
++
++        // Draw basic odometer
++        $this->driver->options->font = $this->elements['axis']->font;
++        $boundings = $this->renderer->drawOdometer( 
++            $boundings,
++            $this->elements['axis'],
++            $this->options
++        );
++
++        // Render graph
++        $this->renderData( $this->renderer, $boundings );
++    }
++
++    /**
++     * Render the pie chart
++     *
++     * Renders the chart into a file or stream. The width and height are
++     * needed to specify the dimensions of the resulting image. For direct
++     * output use 'php://stdout' as output file.
++     *
++     * @param int $width Image width
++     * @param int $height Image height
++     * @param string $file Output file
++     * @apichange
++     * @return void
++     */
++    public function render( $width, $height, $file = null )
++    {
++        $this->renderElements( $width, $height );
++
++        if ( !empty( $file ) )
++        {
++            $this->renderer->render( $file );
++        }
++
++        $this->renderedFile = $file;
++    }
++
++    /**
++     * Renders this chart to direct output
++     *
++     * Does the same as ezcGraphChart::render(), but renders directly to
++     * output and not into a file.
++     *
++     * @param int $width
++     * @param int $height
++     * @apichange
++     * @return void
++     */
++    public function renderToOutput( $width, $height )
++    {
++        // @TODO: merge this function with render an deprecate ommit of third
++        // argument in render() when API break is possible
++        $this->renderElements( $width, $height );
++        $this->renderer->render( null );
++    }
++}
++
++?>
+
+Property changes on: charts/odometer.php
+___________________________________________________________________
+Name: svn:eol-style
+   + native
+
+Index: graph.php
+===================================================================
+--- graph.php	(revision 6760)
++++ graph.php	(working copy)
+@@ -98,6 +98,10 @@
+      * type ezcGraph::BAR.
+      */
+     const BAR = 3;
++    /**
++     * @TODO:
++     */
++    const ODOMETER = 4;
+ 
+     /**
+      * Font type definition. Used for True Type fonts.
+Index: element/axis.php
+===================================================================
+--- element/axis.php	(revision 6760)
++++ element/axis.php	(working copy)
+@@ -19,6 +19,7 @@
+  *           Color of major majorGrid.
+  * @property ezcGraphColor $minorGrid
+  *           Color of minor majorGrid.
++ * @TODO: Move next two options to numeric axis
+  * @property mixed $majorStep
+  *           Labeled major steps displayed on the axis.
+  * @property mixed $minorStep
+Index: options/odometer_chart.php
+===================================================================
+--- options/odometer_chart.php	(revision 0)
++++ options/odometer_chart.php	(revision 0)
+@@ -0,0 +1,62 @@
++<?php
++/**
++ * File containing the ezcGraphPieChartOption class
++ *
++ * @package Graph
++ * @version 1.1
++ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
++ * @license http://ez.no/licenses/new_bsd New BSD License
++ */
++
++class ezcGraphOdometerChartOptions extends ezcGraphChartOptions
++{
++    /**
++     * Constructor
++     *
++     * @param array $options Default option array
++     * @return void
++     * @ignore
++     */
++    public function __construct( array $options = array() )
++    {
++        $this->properties['borderColor']    = ezcGraphColor::create( '#000000' );
++        $this->properties['borderWidth']    = 0;
++
++        $this->properties['startColor']     = ezcGraphColor::create( '#4e9a06A0' );
++        $this->properties['endColor']       = ezcGraphColor::create( '#A40000A0' );
++
++        $this->properties['markerWidth']    = 2;
++
++        $this->properties['odometerHeight'] = 0.5;
++
++        parent::__construct( $options );
++    }
++
++    /**
++     * Set an option value
++     *
++     * @param string $propertyName
++     * @param mixed $propertyValue
++     * @throws ezcBasePropertyNotFoundException
++     *          If a property is not defined in this class
++     * @return void
++     * @ignore
++     */
++    public function __set( $propertyName, $propertyValue )
++    {
++        switch ( $propertyName )
++        {
++            case 'bordercolor':
++            case 'borderwidth':
++            case 'markercolor':
++            case 'markerwidth':
++            case 'odometerheight':
++                 $this->properties[$propertyName] = $propertyValue;
++                break;
++            default:
++                return parent::__set( $propertyName, $propertyValue );
++        }
++    }
++}
++
++?>
+
+Property changes on: options/odometer_chart.php
+___________________________________________________________________
+Name: svn:eol-style
+   + native
+
+Index: renderer/2d.php
+===================================================================
+--- renderer/2d.php	(revision 6760)
++++ renderer/2d.php	(working copy)
+@@ -3,71 +3,28 @@
+  * File containing the two dimensional renderer
+  *
+  * @package Graph
+- * @version //autogentag//
++ * @version 1.1
+  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+         2006 eZ systems as. All rights reserved.
+  * @license http://ez.no/licenses/new_bsd New BSD License
+  */
+ /**
+- * Class to transform chart primitives into image primitives. Renders charts in
+- * a two dimensional view.
++ * Class to transform chart primitives into image primitives
+  *
+- * The class options are defined in the class {@link ezcGraphRenderer2dOptions}
+- * extending the basic renderer options in {@link ezcGraphRendererOptions}.
+- *
+- * <code>
+- *   $graph = new ezcGraphPieChart();
+- *   $graph->palette = new ezcGraphPaletteBlack();
+- *   $graph->title = 'Access statistics';
+- *   $graph->options->label = '%2$d (%3$.1f%%)';
+- *   
+- *   $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
+- *       'Mozilla' => 19113,
+- *       'Explorer' => 10917,
+- *       'Opera' => 1464,
+- *       'Safari' => 652,
+- *       'Konqueror' => 474,
+- *   ) );
+- *   $graph->data['Access statistics']->highlight['Explorer'] = true;
+- *   
+- *   // $graph->renderer = new ezcGraphRenderer2d();
+- *   
+- *   $graph->renderer->options->moveOut = .2;
+- *   
+- *   $graph->renderer->options->pieChartOffset = 63;
+- *   
+- *   $graph->renderer->options->pieChartGleam = .3;
+- *   $graph->renderer->options->pieChartGleamColor = '#FFFFFF';
+- *   $graph->renderer->options->pieChartGleamBorder = 2;
+- *   
+- *   $graph->renderer->options->pieChartShadowSize = 3;
+- *   $graph->renderer->options->pieChartShadowColor = '#000000';
+- *   
+- *   $graph->renderer->options->legendSymbolGleam = .5;
+- *   $graph->renderer->options->legendSymbolGleamSize = .9;
+- *   $graph->renderer->options->legendSymbolGleamColor = '#FFFFFF';
+- *   
+- *   $graph->renderer->options->pieChartSymbolColor = '#BABDB688';
+- *   
+- *   $graph->render( 400, 150, 'tutorial_pie_chart_pimped.svg' );
+- * </code>
+- *
+- * @version //autogentag//
++ * @version 1.1
+  * @package Graph
+  * @mainclass
+  */
+-class ezcGraphRenderer2d 
+-    extends
+-        ezcGraphRenderer
+-    implements
+-        ezcGraphRadarRenderer,
+-        ezcGraphStackedBarsRenderer
++class ezcGraphRenderer2d
++    extends ezcGraphRenderer
++    implements ezcGraphRadarRenderer
++    // , ezcGraphOdometerRenderer
+ {
+ 
+     /**
+      * Pie segment labels divided into two array, containing the labels on the
+      * left and right side of the pie chart center.
+-     * 
++     *
+      * @var array
+      */
+     protected $pieSegmentLabels = array(
+@@ -77,7 +34,7 @@
+ 
+     /**
+      * Contains the boundings used for pie segments
+-     * 
++     *
+      * @var ezcGraphBoundings
+      */
+     protected $pieSegmentBoundings = false;
+@@ -85,37 +42,37 @@
+     /**
+      * Array with symbols for post processing, which ensures, that the symbols
+      * are rendered topmost.
+-     * 
++     *
+      * @var array
+      */
+     protected $linePostSymbols = array();
+ 
+     /**
+-     * Options 
+-     * 
++     * Options
++     *
+      * @var ezcGraphRenderer2dOptions
+      */
+     protected $options;
+ 
+     /**
+-     * Collect axis labels, so that the axis are drawn, when all axis spaces 
++     * Collect axis labels, so that the axis are drawn, when all axis spaces
+      * are known.
+-     * 
++     *
+      * @var array
+      */
+     protected $axisLabels = array();
+ 
+     /**
+-     * Collects circle sectors to draw shadow in background of all circle 
++     * Collects circle sectors to draw shadow in background of all circle
+      * sectors.
+-     * 
++     *
+      * @var array
+      */
+     protected $circleSectors = array();
+ 
+     /**
+      * Constructor
+-     * 
++     *
+      * @param array $options Default option array
+      * @return void
+      * @ignore
+@@ -126,9 +83,9 @@
+     }
+ 
+     /**
+-     * __get 
+-     * 
+-     * @param mixed $propertyName 
++     * __get
++     *
++     * @param mixed $propertyName
+      * @throws ezcBasePropertyNotFoundException
+      *          If a the value for the property options is not an instance of
+      * @return mixed
+@@ -149,7 +106,7 @@
+      * Draw pie segment
+      *
+      * Draws a single pie segment
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Chart boundings
+      * @param ezcGraphContext $context Context of call
+      * @param ezcGraphColor $color Color of pie segment
+@@ -236,9 +193,9 @@
+     /**
+      * Draws the collected circle sectors
+      *
+-     * All circle sectors are collected and drawn later to be able to render 
++     * All circle sectors are collected and drawn later to be able to render
+      * the shadows of the pie segments in the back of all pie segments.
+-     * 
++     *
+      * @return void
+      */
+     protected function finishCircleSectors()
+@@ -266,7 +223,7 @@
+         foreach ( $this->circleSectors as $circleSector )
+         {
+             // Draw circle sector
+-            $this->addElementReference( 
++            $this->addElementReference(
+                 $circleSector['context'],
+                 $this->driver->drawCircleSector(
+                     $circleSector['center'],
+@@ -345,10 +302,10 @@
+     /**
+      * Draws the collected pie segment labels
+      *
+-     * All labels are collected and drawn later to be able to partition the 
+-     * available space for the labels woth knowledge of the overall label 
++     * All labels are collected and drawn later to be able to partition the
++     * available space for the labels woth knowledge of the overall label
+      * count and their required size and optimal position.
+-     * 
++     *
+      * @return void
+      */
+     protected function finishPieSegmentLabels()
+@@ -416,19 +373,19 @@
+                 $verticalDistance = ( $center->y - $minHeight - $labelHeight / 2 ) / $radius;
+ 
+                 $labelPosition = new ezcGraphCoordinate(
+-                    $center->x - 
++                    $center->x -
+                     $sign * (
+                         abs( $verticalDistance ) > 1
+                         // If vertical distance to center is greater then the
+-                        // radius, use the centerline for the horizontal 
++                        // radius, use the centerline for the horizontal
+                         // position
+                         ? max (
+                             5,
+                             abs( $label[0]->x - $center->x )
+                         )
+                         // Else place the label outside of the pie chart
+-                        : ( cos ( asin ( $verticalDistance ) ) * $radius + 
+-                            $symbolSize * (int) $this->options->showSymbol 
++                        : ( cos ( asin ( $verticalDistance ) ) * $radius +
++                            $symbolSize * (int) $this->options->showSymbol
+                         )
+                     ),
+                     $minHeight + $labelHeight / 2
+@@ -460,7 +417,7 @@
+                     );
+                 }
+ 
+-                $this->addElementReference( 
++                $this->addElementReference(
+                     $label[2],
+                     $this->driver->drawTextBox(
+                         $label[1],
+@@ -483,9 +440,9 @@
+     /**
+      * Draw the collected line symbols
+      *
+-     * Symbols for the data lines are collected and delayed to ensure that 
++     * Symbols for the data lines are collected and delayed to ensure that
+      * they are not covered and hidden by other data lines.
+-     * 
++     *
+      * @return void
+      */
+     protected function finishLineSymbols()
+@@ -502,12 +459,12 @@
+             );
+         }
+     }
+-    
++
+     /**
+      * Draw bar
+      *
+      * Draws a bar as a data element in a line chart
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Chart boundings
+      * @param ezcGraphContext $context Context of call
+      * @param ezcGraphColor $color Color of line
+@@ -577,82 +534,10 @@
+     }
+ 
+     /**
+-     * Draw stacked bar
+-     *
+-     * Draws a stacked bar part as a data element in a line chart
+-     * 
+-     * @param ezcGraphBoundings $boundings Chart boundings
+-     * @param ezcGraphContext $context Context of call
+-     * @param ezcGraphColor $color Color of line
+-     * @param ezcGraphCoordinate $start
+-     * @param ezcGraphCoordinate $end
+-     * @param float $stepSize Space which can be used for bars
+-     * @param int $dataNumber Number of dataset
+-     * @param int $dataCount Count of datasets in chart
+-     * @param int $symbol Symbol to draw for line
+-     * @param float $axisPosition Position of axis for drawing filled lines
+-     * @return void
+-     */
+-    public function drawStackedBar(
+-        ezcGraphBoundings $boundings,
+-        ezcGraphContext $context,
+-        ezcGraphColor $color,
+-        ezcGraphCoordinate $start,
+-        ezcGraphCoordinate $position,
+-        $stepSize,
+-        $symbol = ezcGraph::NO_SYMBOL,
+-        $axisPosition = 0. )
+-    {
+-        // Apply margin
+-        $margin = $stepSize * $this->options->barMargin;
+-        $barWidth = $stepSize - $margin;
+-        $offset = - $stepSize / 2 + $margin / 2;
+-
+-        $barPointArray = array(
+-            new ezcGraphCoordinate(
+-                $boundings->x0 + ( $boundings->width ) * $position->x + $offset,
+-                $boundings->y0 + ( $boundings->height ) * $start->y
+-            ),
+-            new ezcGraphCoordinate(
+-                $boundings->x0 + ( $boundings->width ) * $position->x + $offset,
+-                $boundings->y0 + ( $boundings->height ) * $position->y
+-            ),
+-            new ezcGraphCoordinate(
+-                $boundings->x0 + ( $boundings->width ) * $position->x + $offset + $barWidth,
+-                $boundings->y0 + ( $boundings->height ) * $position->y
+-            ),
+-            new ezcGraphCoordinate(
+-                $boundings->x0 + ( $boundings->width ) * $position->x + $offset + $barWidth,
+-                $boundings->y0 + ( $boundings->height ) * $start->y
+-            ),
+-        );
+-
+-        $this->addElementReference(
+-            $context,
+-            $this->driver->drawPolygon(
+-                $barPointArray,
+-                $color,
+-                true
+-            )
+-        );
+-
+-        if ( $this->options->dataBorder > 0 )
+-        {
+-            $darkened = $color->darken( $this->options->dataBorder );
+-            $this->driver->drawPolygon(
+-                $barPointArray,
+-                $darkened,
+-                false,
+-                1
+-            );
+-        }
+-    }
+-    
+-    /**
+      * Draw data line
+      *
+      * Draws a line as a data element in a line chart
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Chart boundings
+      * @param ezcGraphContext $context Context of call
+      * @param ezcGraphColor $color Color of line
+@@ -789,7 +674,7 @@
+             {
+                 $symbolColor = $color;
+             }
+-    
++
+             $this->linePostSymbols[] = array(
+                 'boundings' => new ezcGraphBoundings(
+                     $boundings->x0 + ( $boundings->width ) * $end->x - $this->options->symbolSize / 2,
+@@ -807,7 +692,7 @@
+     /**
+      * Returns a coordinate in the given bounding box for the given angle
+      * radius with the center as base point.
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings
+      * @param ezcGraphCoordinate $center
+      * @param float $angle
+@@ -850,7 +735,7 @@
+      * Draw radar chart data line
+      *
+      * Draws a line as a data element in a radar chart
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Chart boundings
+      * @param ezcGraphContext $context Context of call
+      * @param ezcGraphColor $color Color of line
+@@ -933,13 +818,13 @@
+             );
+         }
+     }
+-    
++
+     /**
+      * Draws a highlight textbox for a datapoint.
+      *
+-     * A highlight textbox for line and bar charts means a box with the current 
++     * A highlight textbox for line and bar charts means a box with the current
+      * value in the graph.
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Chart boundings
+      * @param ezcGraphContext $context Context of call
+      * @param ezcGraphCoordinate $end Ending point
+@@ -966,7 +851,7 @@
+     {
+         $this->driver->options->font = $font;
+         $width = $boundings->width / $dataCount;
+-        
++
+         $dataPoint = new ezcGraphCoordinate(
+             $boundings->x0 + ( $boundings->width ) * $end->x,
+             $boundings->y0 + ( $boundings->height ) * $end->y
+@@ -999,12 +884,12 @@
+             );
+         }
+     }
+-    
++
+     /**
+      * Draw legend
+      *
+      * Will draw a legend in the bounding box
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Bounding of legend
+      * @param ezcGraphChartElementLegend $legend Legend to draw;
+      * @param int $type Type of legend: Protrait or landscape
+@@ -1016,13 +901,13 @@
+         $type = ezcGraph::VERTICAL )
+     {
+         $labels = $legend->labels;
+-        
++
+         // Calculate boundings of each label
+         if ( $type & ezcGraph::VERTICAL )
+         {
+             $labelWidth = $boundings->width;
+-            $labelHeight = min( 
+-                ( $boundings->height ) / count( $labels ) - $legend->spacing, 
++            $labelHeight = min(
++                ( $boundings->height ) / count( $labels ) - $legend->spacing,
+                 $legend->symbolSize + 2 * $legend->padding
+             );
+         }
+@@ -1069,7 +954,7 @@
+             $labelPosition->y += ( $type === ezcGraph::VERTICAL ? $labelHeight + $legend->spacing : 0 );
+         }
+     }
+-    
++
+     /**
+      * Draw box
+      *
+@@ -1077,7 +962,7 @@
+      * and title to each chart element.
+      *
+      * Optionally a padding and margin for each box can be defined.
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Boundings of the box
+      * @param ezcGraphColor $background Background color
+      * @param ezcGraphColor $borderColor Border color
+@@ -1103,7 +988,7 @@
+         $boundings->y0 += $margin;
+         $boundings->x1 -= $margin;
+         $boundings->y1 -= $margin;
+-        
++
+         if ( $background instanceof ezcGraphColor )
+         {
+             // Draw box background
+@@ -1181,12 +1066,12 @@
+ 
+         return $boundings;
+     }
+-    
++
+     /**
+      * Draw text
+      *
+      * Draws the provided text in the boundings
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Boundings of text
+      * @param string $text Text
+      * @param int $align Alignement of text
+@@ -1213,7 +1098,7 @@
+      * Draw grid line
+      *
+      * Draw line for the grid in the chart background
+-     * 
++     *
+      * @param ezcGraphCoordinate $start Start point
+      * @param ezcGraphCoordinate $end End point
+      * @param ezcGraphColor $color Color of the grid line
+@@ -1233,7 +1118,7 @@
+      * Draw step line
+      *
+      * Draw a step (marker for label position) on a axis.
+-     * 
++     *
+      * @param ezcGraphCoordinate $start Start point
+      * @param ezcGraphCoordinate $end End point
+      * @param ezcGraphColor $color Color of the grid line
+@@ -1248,14 +1133,14 @@
+             1
+         );
+     }
+-    
++
+     /**
+      * Draw axis
+      *
+-     * Draws an axis form the provided start point to the end point. A specific 
++     * Draws an axis form the provided start point to the end point. A specific
+      * angle of the axis is not required.
+      *
+-     * For the labeleing of the axis a sorted array with major steps and an 
++     * For the labeleing of the axis a sorted array with major steps and an
+      * array with minor steps is expected, which are build like this:
+      *  array(
+      *      array(
+@@ -1266,13 +1151,13 @@
+      * where the label is optional.
+      *
+      * The label renderer class defines how the labels are rendered. For more
+-     * documentation on this topic have a look at the basic label renderer 
++     * documentation on this topic have a look at the basic label renderer
+      * class.
+      *
+-     * Additionally it can be specified if a major and minor grid are rendered 
+-     * by defining a color for them. Teh axis label is used to add a caption 
++     * Additionally it can be specified if a major and minor grid are rendered
++     * by defining a color for them. Teh axis label is used to add a caption
+      * for the axis.
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Boundings of axis
+      * @param ezcGraphCoordinate $start Start point of axis
+      * @param ezcGraphCoordinate $end Endpoint of axis
+@@ -1428,44 +1313,56 @@
+             'axis' => $axis,
+         );
+ 
++        // Only draw axis labels by default, when axis of each orientation has
++        // already been processed.
+         if ( $this->xAxisSpace && $this->yAxisSpace )
+         {
+-            foreach ( $this->axisLabels as $nr => $axisLabel )
+-            {
+-                $start = $axisLabel['start'];
+-                $end = $axisLabel['end'];
++            $this->drawAxisLabels();
++        }
++    }
+ 
+-                $direction = new ezcGraphVector(
+-                    $end->x - $start->x,
+-                    $end->y - $start->y
+-                );
+-                $direction->unify();
++    /**
++     * Draw all left axis labels
++     * 
++     * @return void
++     */
++    protected function drawAxisLabels()
++    {
++        foreach ( $this->axisLabels as $nr => $axisLabel )
++        {
++            $start = $axisLabel['start'];
++            $end = $axisLabel['end'];
+ 
+-                // Convert elipse to circle for correct angle calculation
+-                $direction->y *= ( $this->xAxisSpace / $this->yAxisSpace );
+-                $angle = $direction->angle( new ezcGraphVector( 0, 1 ) );
++            $direction = new ezcGraphVector(
++                $end->x - $start->x,
++                $end->y - $start->y
++            );
++            $direction->unify();
+ 
+-                $movement = new ezcGraphVector(
+-                    sin( $angle ) * $this->xAxisSpace * ( $direction->x < 0 ? -1 : 1 ),
+-                    cos( $angle ) * $this->yAxisSpace
+-                );
++            // Convert elipse to circle for correct angle calculation
++            $direction->y *= ( $this->xAxisSpace / $this->yAxisSpace );
++            $angle = $direction->angle( new ezcGraphVector( 0, 1 ) );
+ 
+-                $start->x += $movement->x;
+-                $start->y += $movement->y;
+-                $end->x -= $movement->x;
+-                $end->y -= $movement->y;
++            $movement = new ezcGraphVector(
++                sin( $angle ) * $this->xAxisSpace * ( $direction->x < 0 ? -1 : 1 ),
++                cos( $angle ) * $this->yAxisSpace
++            );
+ 
+-                $axisLabel['object']->renderLabels(
+-                    $this,
+-                    $axisLabel['boundings'],
+-                    $start,
+-                    $end,
+-                    $axisLabel['axis']
+-                );
++            $start->x += $movement->x;
++            $start->y += $movement->y;
++            $end->x -= $movement->x;
++            $end->y -= $movement->y;
+ 
+-                // Prevent from redrawing axis on more then 2 axis.
+-                unset( $this->axisLabels[$nr] );
+-            }
++            $axisLabel['object']->renderLabels(
++                $this,
++                $axisLabel['boundings'],
++                $start,
++                $end,
++                $axisLabel['axis']
++            );
++
++            // Prevent from redrawing axis on more then 2 axis.
++            unset( $this->axisLabels[$nr] );
+         }
+     }
+ 
+@@ -1474,7 +1371,7 @@
+      *
+      * Draws a background image at the defined position. If repeat is set the
+      * background image will be repeated like any texture.
+-     * 
++     *
+      * @param ezcGraphBoundings $boundings Boundings for the background image
+      * @param string $file Filename of background image
+      * @param int $position Position of background image
+@@ -1494,8 +1391,8 @@
+         $imageWidth = min( $imageWidth, $boundings->width );
+         $imageHeight = min( $imageHeight, $boundings->height );
+ 
+-        $imagePosition = new ezcGraphCoordinate( 
+-            $boundings->x0, 
++        $imagePosition = new ezcGraphCoordinate(
++            $boundings->x0,
+             $boundings->y0
+         );
+ 
+@@ -1507,7 +1404,7 @@
+                 $imagePosition->x = $boundings->x0;
+                 break;
+             case ( $position & ezcGraph::RIGHT ):
+-                $imagePosition->x = max( 
++                $imagePosition->x = max(
+                     $boundings->x1 - $imageWidth,
+                     $boundings->x0
+                 );
+@@ -1528,7 +1425,7 @@
+                 $imagePosition->y = $boundings->y0;
+                 break;
+             case ( $position & ezcGraph::BOTTOM ):
+-                $imagePosition->y = max( 
++                $imagePosition->y = max(
+                     $boundings->y1 - $imageHeight,
+                     $boundings->y0
+                 );
+@@ -1546,25 +1443,25 @@
+             $imagePosition->x,
+             $imagePosition->y
+         );
+-        
+-        do 
++
++        do
+         {
+             $position->y = $imagePosition->y;
+ 
+-            do 
++            do
+             {
+-                $this->driver->drawImage( 
+-                    $file, 
+-                    $position, 
+-                    $imageWidth, 
+-                    $imageHeight 
++                $this->driver->drawImage(
++                    $file,
++                    $position,
++                    $imageWidth,
++                    $imageHeight
+                 );
+ 
+                 $position->y += $imageHeight;
+             }
+             while ( ( $position->y < $boundings->y1 ) &&
+                     ( $repeat & ezcGraph::VERTICAL ) );
+-            
++
+             $position->x += $imageWidth;
+         }
+         while ( ( $position->x < $boundings->x1 ) &&
+@@ -1573,7 +1470,7 @@
+ 
+     /**
+      * Call all postprocessing functions
+-     * 
++     *
+      * @return void
+      */
+     protected function finish()
+@@ -1584,6 +1481,90 @@
+ 
+         return true;
+     }
++
++
++    /**
++     * Render odometer chart
++     * 
++     * @param ezcGraphBoundings $boundings 
++     * @param ezcGraphOdometerChartOptions $options
++     * @return ezcGraphBoundings
++     */
++    public function drawOdometer( 
++        ezcGraphBoundings $boundings, 
++        ezcGraphChartElementAxis $axis,
++        ezcGraphOdometerChartOptions $options )
++    {
++        $height = $boundings->height * $options->odometerHeight;
++
++        // Draw axis
++        $oldAxisSpace = $axis->axisSpace;
++        $axis->axisSpace = 0;
++
++        $axis->render( $this, $boundings );
++
++        // Reset axisspaces to correct values
++        $this->xAxisSpace = $boundings->width * $oldAxisSpace;
++        $this->yAxisSpace = ( $boundings->height - $height ) / 2;
++
++        var_dump( $this->xAxisSpace, $this->yAxisSpace );
++
++        $this->drawAxisLabels();
++
++        // Reduce size of chart boundings respecting requested odometer height
++        $boundings->x0 += $this->xAxisSpace;
++        $boundings->x1 -= $this->xAxisSpace;
++        $boundings->y0 += $this->yAxisSpace;
++        $boundings->y1 -= $this->yAxisSpace;
++
++        $gradient = new ezcGraphLinearGradient(
++            new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
++            new ezcGraphCoordinate( $boundings->x1, $boundings->y0 ),
++            $options->startColor,
++            $options->endColor
++        );
++
++        // Simply draw box with gradient and optional border
++        $this->drawBox(
++            $boundings,
++            $gradient,
++            $options->borderColor,
++            $options->borderWidth
++        );
++
++        // Return modified chart boundings
++        return $boundings;
++    }
++
++    /**
++     * Draw a single odometer marker.
++     *
++     * @param ezcGraphBoundings $boundings
++     * @param ezcGraphCoordinate $position
++     * @param int $symbol
++     * @param ezcGraphColor $color
++     * @param int $width
++     */
++    public function drawOdometerMarker(
++        ezcGraphBoundings $boundings,
++        ezcGraphCoordinate $position,
++        $symbol,
++        ezcGraphColor $color,
++        $width )
++    {
++        $this->driver->drawLine(
++            new ezcGraphCoordinate(
++                $xPos = $boundings->x0 + ( $position->x * $boundings->width ),
++                $boundings->y0
++            ),
++            new ezcGraphCoordinate(
++                $xPos,
++                $boundings->y1
++            ),
++            $color,
++            $width
++        );
++    }
+ }
+ 
+ ?>
