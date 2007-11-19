@@ -1,0 +1,25 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$entry = $feed->add( 'entry' );
+$entry->id = 'Entry id';
+$entry->title = 'Entry title';
+$entry->updated = 1195053820;
+
+$contributor = $entry->add( 'contributor' );
+$contributor->name = "Entry contributor name 1";
+$contributor->email = "Entry contributor email 1";
+$contributor->uri = "Entry contributor uri 1";
+
+$contributor = $entry->add( 'contributor' );
+$contributor->name = "Entry contributor name 2";
+$contributor->email = "Entry contributor email 2";
+$contributor->uri = "Entry contributor uri 2";
+
+return $feed;
+?>

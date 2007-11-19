@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>XXX</updated>
+  <author>
+    <name>Author name</name>
+  </author>
+  <entry>
+    <id>Entry id</id>
+    <title>Entry title</title>
+    <updated>XXX</updated>
+    <content>Entry content</content>
+    <contributor>
+      <name>Entry contributor name 1</name>
+      <email>Entry contributor email 1</email>
+      <uri>Entry contributor uri 1</uri>
+    </contributor>
+    <contributor>
+      <name>Entry contributor name 2</name>
+      <email>Entry contributor email 2</email>
+      <uri>Entry contributor uri 2</uri>
+    </contributor>
+  </entry>
+</feed> 

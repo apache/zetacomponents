@@ -727,6 +727,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'author':
+                    case 'contributor':
                         foreach ( $data as $dataNode )
                         {
                             $this->generatePerson( $entryTag, $dataNode, $element );
@@ -964,6 +965,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'author':
+                    case 'contributor':
                         $subElement = $element->add( $tagName );
                         foreach ( $itemChild->childNodes as $subChild )
                         {
