@@ -199,6 +199,7 @@ class ezcFeed
                 break;
 
             default:
+                // should check for modules
         }
     }
 
@@ -247,7 +248,7 @@ class ezcFeed
                 return $value;
 
             default:
-                throw new ezcBasePropertyNotFoundException( $property );
+                // should check for modules
         }
     }
 

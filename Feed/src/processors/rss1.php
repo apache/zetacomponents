@@ -473,6 +473,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
                     default:
                         // @todo Check if it's part of a known module/namespace
+                        // continue 2 = ignore modules
+                        continue 2;
                 }
             }
 
@@ -517,6 +519,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
                     default:
                         // @todo Check if it's part of a known module/namespace
+                        // continue = ignore modules
+                        continue;
                 }
             }
         }

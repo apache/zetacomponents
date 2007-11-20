@@ -1076,6 +1076,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                     default:
                         // check if it's part of a known module/namespace
+                        // continue 2 = ignore modules
+                        continue 2;
                 }
             }
 

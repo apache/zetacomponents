@@ -136,20 +136,5 @@ class ezcFeedTest extends ezcFeedTestCase
             $this->assertEquals( $expected, $result );
         }
     }
-
-    public function testFeedProperties()
-    {
-        $feed = new ezcFeed( 'rss2' );
-
-        try
-        {
-            $value = $feed->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
-    }
 }
 ?>
