@@ -379,5 +379,15 @@ class ezcFeed
     {
         return array_keys( self::$supportedFeedTypes );
     }
+
+    /**
+     * Returns the feed type of this feed object (eg. 'rss2').
+     *
+     * @return string
+     */
+    public function getFeedType()
+    {
+        return $this->feedType;
+    }
 }
 ?>

@@ -28,10 +28,25 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( $expected, $types );
     }
 
-    public function testCreateFeedSupported()
+    public function testCreateFeedSupportedRss1()
     {
         $feed = new ezcFeed( 'rss1' );
         $this->assertEquals( 'ezcFeed', get_class( $feed ) );
+        $this->assertEquals( 'rss1', $feed->getFeedType() );
+    }
+
+    public function testCreateFeedSupportedRss2()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $this->assertEquals( 'ezcFeed', get_class( $feed ) );
+        $this->assertEquals( 'rss2', $feed->getFeedType() );
+    }
+
+    public function testCreateFeedSupportedAtom()
+    {
+        $feed = new ezcFeed( 'atom' );
+        $this->assertEquals( 'ezcFeed', get_class( $feed ) );
+        $this->assertEquals( 'atom', $feed->getFeedType() );
     }
 
     public function testCreateFeedNotSupported()
