@@ -5,7 +5,7 @@ $feed->id = 'Feed id';
 $feed->title = 'Feed title';
 $feed->updated = 'Feed updated';
 
-$entry = $feed->add( 'entry' );
+$entry = $feed->add( 'item' );
 $entry->id = 'Entry id';
 $entry->title = 'Entry title';
 $entry->updated = 1195053820;

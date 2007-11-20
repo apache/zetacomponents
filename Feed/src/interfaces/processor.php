@@ -224,16 +224,18 @@ abstract class ezcFeedProcessor
      */
     public function add( $name )
     {
+        $className = ( $name === 'item' ) ? 'ezcFeedItem' : 'ezcFeedElement';
         $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
+
         if ( $this->schema->isMulti( $name ) )
         {
-            $element = new ezcFeedElement( $this->schema->getSchema( $name ) );
+            $element = new $className( $this->schema->getSchema( $name ) );
             $this->elements[$this->schema->getMulti( $name )][] = $element;
             return $element;
         }
         else
         {
-            $element = new ezcFeedElement( $this->schema->getSchema( $name ) );
+            $element = new $className( $this->schema->getSchema( $name ) );
             $this->elements[$name] = $element;
             return $element;
         }

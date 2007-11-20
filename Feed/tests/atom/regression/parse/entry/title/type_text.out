@@ -6,7 +6,7 @@ $feed->title = 'Feed title';
 $feed->title->type = 'text';
 $feed->updated = 'Feed updated';
 
-$entry = $feed->add( 'entry' );
+$entry = $feed->add( 'item' );
 $entry->id = 'Entry id';
 $entry->title = 'Entry title';
 $entry->title->type = 'text';
