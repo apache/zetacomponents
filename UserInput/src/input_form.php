@@ -212,7 +212,7 @@ class ezcInputForm
             $hasVariable = filter_has_var( $this->inputSource, $elementName );
             if ( ! $hasVariable )
             {
-                if ( $inputElement->type == ezcInputFormDefinitionElement::REQUIRED )
+                if ( $inputElement->type === ezcInputFormDefinitionElement::REQUIRED )
                 {
                     throw new ezcInputFormVariableMissingException( $elementName );
                 }
@@ -274,7 +274,7 @@ class ezcInputForm
         }
 
         // There should be atleast one element
-        if ( count( $definition ) == 0 )
+        if ( count( $definition ) === 0 )
         {
             return array( ezcInputForm::DEF_EMPTY, "The definition array is empty" );
         }
@@ -374,7 +374,7 @@ class ezcInputForm
     {
         if ( isset( $this->properties[$propertyName] ) )
         {
-            if ( $this->properties[$propertyName] == ezcInputForm::VALID )
+            if ( $this->properties[$propertyName] === ezcInputForm::VALID )
             {
                 return $this->propertyValues[$propertyName];
             }
@@ -444,7 +444,7 @@ class ezcInputForm
      */
     public function hasValidData( $fieldName )
     {
-        if ( isset( $this->properties[$fieldName] ) && $this->properties[$fieldName] == ezcInputForm::VALID )
+        if ( isset( $this->properties[$fieldName] ) && $this->properties[$fieldName] === ezcInputForm::VALID )
         {
             return true;
         }
@@ -471,7 +471,7 @@ class ezcInputForm
     {
         if ( isset( $this->properties[$fieldName] ) )
         {
-            if ( $this->properties[$fieldName] == ezcInputForm::VALID )
+            if ( $this->properties[$fieldName] === ezcInputForm::VALID )
             {
                 throw new ezcInputFormValidDataAvailableException( $fieldName );
             }
@@ -499,7 +499,7 @@ class ezcInputForm
         $properties = array();
         foreach ( $this->definition as $fieldName => $fieldDefinition )
         {
-            if ( $fieldDefinition->type == ezcInputFormDefinitionElement::OPTIONAL )
+            if ( $fieldDefinition->type === ezcInputFormDefinitionElement::OPTIONAL )
             {
                 $properties[] = $fieldName;
             }
@@ -516,7 +516,7 @@ class ezcInputForm
         $properties = array();
         foreach ( $this->definition as $fieldName => $fieldDefinition )
         {
-            if ( $fieldDefinition->type == ezcInputFormDefinitionElement::REQUIRED )
+            if ( $fieldDefinition->type === ezcInputFormDefinitionElement::REQUIRED )
             {
                 $properties[] = $fieldName;
             }
@@ -533,7 +533,7 @@ class ezcInputForm
         $properties = array();
         foreach ( $this->properties as $fieldName => $fieldStatus )
         {
-            if ( $fieldStatus == ezcInputForm::VALID )
+            if ( $fieldStatus === ezcInputForm::VALID )
             {
                 $properties[] = $fieldName;
             }
@@ -550,7 +550,7 @@ class ezcInputForm
         $properties = array();
         foreach ( $this->properties as $fieldName => $fieldStatus )
         {
-            if ( $fieldStatus == ezcInputForm::INVALID )
+            if ( $fieldStatus === ezcInputForm::INVALID )
             {
                 $properties[] = $fieldName;
             }
