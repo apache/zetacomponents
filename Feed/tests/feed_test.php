@@ -136,5 +136,57 @@ class ezcFeedTest extends ezcFeedTestCase
             $this->assertEquals( $expected, $result );
         }
     }
+
+    public function testParseAtom()
+    {
+        $dot = DIRECTORY_SEPARATOR;
+        $file = dirname( __FILE__ ) . "{$dot}atom{$dot}data{$dot}atom_example_from_specs.xml";
+
+        $feed = ezcFeed::parse( $file );
+
+        $this->assertEquals( 'atom', $feed->getFeedType() );
+    }
+
+    public function testParseRss1()
+    {
+        $dot = DIRECTORY_SEPARATOR;
+        $file = dirname( __FILE__ ) . "{$dot}rss1{$dot}data{$dot}rss1_example_from_specs.xml";
+
+        $feed = ezcFeed::parse( $file );
+
+        $this->assertEquals( 'rss1', $feed->getFeedType() );
+    }
+
+    public function testParseRss2()
+    {
+        $dot = DIRECTORY_SEPARATOR;
+        $file = dirname( __FILE__ ) . "{$dot}rss2{$dot}data{$dot}rss2_example_from_specs.xml";
+
+        $feed = ezcFeed::parse( $file );
+
+        $this->assertEquals( 'rss2', $feed->getFeedType() );
+    }
+
+    public function testParseRss2Podcast1()
+    {
+        $dot = DIRECTORY_SEPARATOR;
+        $file = dirname( __FILE__ ) . "{$dot}rss2{$dot}data{$dot}librivox_podcast.xml";
+
+        $feed = ezcFeed::parse( $file );
+
+        $this->assertEquals( 'rss2', $feed->getFeedType() );
+        $this->assertEquals( 'LibriVox Audiobooks', $feed->title->__toString() );
+    }
+
+    public function testParseRss2Podcast2()
+    {
+        $dot = DIRECTORY_SEPARATOR;
+        $file = dirname( __FILE__ ) . "{$dot}rss2{$dot}data{$dot}woodsongs_old_time_radio_hour.xml";
+
+        $feed = ezcFeed::parse( $file );
+
+        $this->assertEquals( 'rss2', $feed->getFeedType() );
+        $this->assertEquals( 'The Woodsongs Old Time Radio Hour Podcast', $feed->title->__toString() );
+    }
 }
 ?>

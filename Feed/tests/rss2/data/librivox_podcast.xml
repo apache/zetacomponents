@@ -1,0 +1,1878 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+    <channel>
+        <title>LibriVox Audiobooks</title>
+        <description>LibriVox harnesses the power of the many to record audio versions of books in the public domain. This feed links to our current chapter-by-chapter book podcast plus Weekly Poetry and the last book we podcast.  Visit our catalog at http://librivox.org/catalog/ for more books!</description>
+        <link>http://librivox.org</link>
+		  <itunes:category text="Arts">	       
+			<itunes:category text="Literature" />
+			 </itunes:category>
+        <copyright>All librivox recordings are in the public domain.  Enjoy!</copyright>
+        <language>en-us</language>
+        <lastBuildDate>Sat, 11 Feb 2006 17:05:10 -0800</lastBuildDate>
+        <pubDate>Sat, 11 Feb 2006 17:05:04 -0800</pubDate>
+        <itunes:subtitle>Free, public domain audio books, recorded by volunteers</itunes:subtitle>
+        <itunes:summary> LibriVox is a hope, an experiment, and a question: can the net harness a bunch of volunteers to help bring books in the public domain to life? LibriVox wants all books in the public domain to be available, for free, in audio format, on the internet. We are a totally volunteer, open source, free content, public domain project. We get most of our texts from Project Gutenberg. The Internet Archive hosts our audio files. Send comments and questions to librivox@yahoo.ca and visit our catalog at http://librivox.org/librivox-catalogue/ </itunes:summary>
+        <itunes:keywords>librivox, literature, volunteer, books, audio, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+        <itunes:author>Librivox Volunteers</itunes:author>
+        <itunes:owner>
+            <itunes:email>kara@nyip.net</itunes:email>
+            <itunes:name>LibriVox Audiobooks</itunes:name>
+        </itunes:owner>
+        <itunes:image href="http://kayray.org/audiobooks/librivox/librivox_logo.jpg" />
+        <itunes:explicit>no</itunes:explicit>
+<!--
+
+	    	<item>
+            <title>21 - The Adventure of the Missing Three-Quarter, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_22_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_22_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 16 Nov 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Sarah Jennings. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>23:21</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>21 - The Adventure of the Missing Three-Quarter, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_21_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_21_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 14 Nov 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Sarah Jennings. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>19:16</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+-->
+	    	<item>
+            <title>20 - The Adventure of the Golden Pince-Nez, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_20_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_20_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 12 Nov 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>32:45</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>19 - The Adventure of the Golden Pince-Nez, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_19_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_19_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 9 Nov 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>21:47</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>18 - The Adventure of the Three Students, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_18_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_18_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 7 Nov 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by TinyPines. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>16:45</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>17 - The Adventure of the Three Students, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_17_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_17_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 5 Nov 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by TinyPines. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>18:49</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>16 - The Adventure of the Six Napoleons, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_16_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_16_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 2 Nov 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Kristine Mackin. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>28:48</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>15 - The Adventure of the Six Napoleons, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_15_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_15_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 31 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Kristine Mackin. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>18:06</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>14 - The Adventure of Charles Augustus Milverton, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_14_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_14_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 29 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Gesine. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>18:59</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>13 - The Adventure of Charles Augustus Milverton, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_13_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_13_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 26 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Gesine. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>24:40</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>12 - The Adventure of Black Peter, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_12_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_12_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 24 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Laurie Anne Walden. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>25:37</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>11 - The Adventure of Black Peter, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_11_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_11_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 22 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Laurie Anne Walden. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>22:43</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>10 - The Adventure of the Priory School, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_10_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_10_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 19 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Vivian Bush. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>30:35</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>09 - The Adventure of the Priory School, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_09_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_09_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 17 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Vivian Bush. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>33:32</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>08 - The Adventure of the Solitary Cyclist, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_08_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_08_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 15 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Reynard T. Fox. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>26:13</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>07 - The Adventure of the Solitary Cyclist, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_07_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_07_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 12 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Reynard T. Fox. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>23:21</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>06 - The Adventure of the Dancing Men, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_06_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_06_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 10 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Reynard T. Fox. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>32:04</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>05 - The Adventure of the Dancing Men, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_05_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_05_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 8 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Reynard T. Fox. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>28:01</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	   	
+	    	<item>
+            <title>04 - The Adventure of the Norwood Builder, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_04_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_04_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 5 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Zachary Brewster-Geisz. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>28:01</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	    		    		    	
+	    	<item>
+            <title>03 - The Adventure of the Norwood Builder, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_03_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_03_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 3 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Zachary Brewster-Geisz. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>23:41</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	    		    	
+	    	<item>
+            <title>02 - The Adventure of the Empty House, part 2</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_02_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_02_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 1 Oct 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Sibella Denton. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>23:21</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	    		    	
+	    	<item>
+            <title>01 - The Adventure of the Empty House, part 1</title>
+			<link>http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_01_doyle_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/return_holmes_0708_librivox/returnofholmes_01_doyle_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 28 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Return of Sherlock Holmes</itunes:subtitle>
+            <itunes:summary>The Return of Sherlock Holmes, by Sir Arthur Conan Doyle. This section read by Sibella Denton. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>25:56</itunes:duration>
+            <itunes:keywords>librivox, doyle, myster, holmes, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Sir Arthur Conan Doyle</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+		    	   	
+	    	<item>
+            <title>Chapter 14</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_14_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_14_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 26 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Karen Savage. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>20:50</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 13</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_13_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_13_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 24 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Karen Savage. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>24:37</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	    	    	
+	    	<item>
+            <title>Chapter 12</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_12_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_12_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 21 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Karen Savage. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>22:17</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	    	    	
+	    	<item>
+            <title>Chapter 11</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_11_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_11_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 19 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Mark Nelson. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>21:35</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	     	
+	    	<item>
+            <title>Chapter 10</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_10_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_10_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 17 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Leonie Rose. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>16:37</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	    		 	
+	    	<item>
+            <title>Chapter 09</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_09_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_09_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 14 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Mark Nelson. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>24:47</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	    	
+	    	<item>
+            <title>Chapter 08</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_08_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_08_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 12 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Leonie Rose. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>28:16</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>	    	
+	    	
+	    	<item>
+            <title>Chapter 07</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_07_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_07_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 10 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Karen Savage. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>23:00</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	       <item>
+            <title>Chapter 06</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_06_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_06_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 8 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Mark Nelson. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>17:11</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 05</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_05_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_05_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 6 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Mark Nelson. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>17:10</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 04</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_04_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_04_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 4 Sep 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by J. M. Smallheer. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>12:26</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 03</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_03_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_03_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 31 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Ana Simão. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>24:23</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 02</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_02_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_02_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 29 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Ana Simão. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>17:48</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 01</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_01_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_01_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 27 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Ana Simão. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>26:41</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                                             
+           <item>
+            <title>WEEKLY POETRY - To My Cat</title>
+            <link>http://www.archive.org/download/to_my_cat_librivox/tomycat_watson_jmm_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/to_my_cat_librivox/tomycat_watson_jmm_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 26 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>To My Cat</itunes:subtitle>
+            <itunes:summary>To My Cat, by Rosamund Marriott Wilson. Read by Jan MacGillivray. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:12</itunes:duration>
+            <itunes:keywords>librivox, wilson, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Rosamund Marriott Wilsoni</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item>
+           
+	    	<item>
+            <title>Chapter 00</title>
+			<link>http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_00_bradley_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/colors_space_0707_librivox/thecolorsofspace_00_bradley_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 24 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Colors of Space</itunes:subtitle>
+            <itunes:summary>The Colors of Space, by Marion Zimmer Bradley. This section read by Ana Simão. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>1:43</itunes:duration>
+            <itunes:keywords>librivox, bradley, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Marion Zimmer Bradley</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 38</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_38_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_38_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 22 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Michelle Crandall. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>11:23</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 37</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_37_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_37_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 20 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Michelle Crandall. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>47:59</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                               
+           <item>
+            <title>WEEKLY POETRY - My Madonna</title>
+            <link>http://www.archive.org/download/my_madonna_librivox/my_madonna_service_td_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/my_madonna_librivox/my_madonna_service_td_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 19 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>My Madonna</itunes:subtitle>
+            <itunes:summary>My Madonna, by Robert W. Service. Read by Ted Doolittle. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:19</itunes:duration>
+            <itunes:keywords>librivox, service, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Robert W. Service</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item>
+           
+	    	<item>
+            <title>Chapter 36</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_36_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_36_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 17 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Michelle Crandall. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>24:13</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 35</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_35_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_35_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 15 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Michelle Crandall. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>28:18</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 34</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_34_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_34_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 13 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Michelle Crandall. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>58:22</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>      
+                                   
+           <item>
+            <title>WEEKLY POETRY - To Lesbia</title>
+            <link>http://www.archive.org/download/to_lesbia_librivox/tolesbia_catullus_mf_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/to_lesbia_librivox/tolesbia_catullus_mf_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 12 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>To Lesbia</itunes:subtitle>
+            <itunes:summary>To Lesbia, by Caius Valerius Catullus. Read by Micki Folmar. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:19</itunes:duration>
+            <itunes:keywords>librivox, catullus, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Caius Valerius Catullus</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item>
+		
+	    	<item>
+            <title>Chapter 33</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_33_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_33_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 10 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Catharine Eastman. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>38:02</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 32</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_32_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_32_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 8 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Betsie Bush. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>28:47</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 31</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_31_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_31_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 6 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Betsie Bush. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>19:59</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+                                   
+           <item>
+            <title>WEEKLY POETRY - Summer Magic</title>
+            <link>http://www.archive.org/download/summer_magic_librivox/summer_magic_hill_b_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/summer_magic_librivox/summer_magic_hill_b_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 5 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Summer Magic</itunes:subtitle>
+            <itunes:summary>Summer Magic, Leslie Pinckney Hill. Read by Blue. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:19</itunes:duration>
+            <itunes:keywords>librivox, hill, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Leslie Pinckney Hill</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item>
+
+	    	<item>
+            <title>Chapter 30</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_30_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_30_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 3 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Judy Bieber. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>24:04</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 29</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_29_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_29_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 1 Aug 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Becky Miller. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>28:30</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 28</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_28_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_28_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 30 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Lucy Burgoyne. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>50:29</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                        
+           <item>
+            <title>WEEKLY POETRY - Prologue to the Canterbury Tales, Lines 1-18</title>
+            <link>http://www.archive.org/download/canterbury_prologue_librivox/canterbury_prologue_chaucer_krs_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/canterbury_prologue_librivox/canterbury_prologue_chaucer_krs_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 29 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Prologue to the Canterbury Tales, Lines 1-18</itunes:subtitle>
+            <itunes:summary>Prologue to the Canterbury Tales, Lines 1-18, by Geoffrey Chaucer. Read by Karen Savage. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:19</itunes:duration>
+            <itunes:keywords>librivox, chaucer, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Geoffrey Chaucer</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item>
+
+	    	<item>
+            <title>Chapter 27</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_27_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_27_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 27 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Ezwa. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>1:25:26</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 26</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_26_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_26_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 25 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Gesine. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>31:28</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 25</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_25_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_25_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 23 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Lizzie Driver. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>34:21</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                           
+           <item>
+            <title>WEEKLY POETRY - The Name of France</title>
+            <link>http://www.archive.org/download/name_of_france_librivox/name_of_france_dyke_mm_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/name_of_france_librivox/name_of_france_dyke_mm_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 22 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Name of France</itunes:subtitle>
+            <itunes:summary>The Name of France, by Henry van Dyke. Read by radioreader. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:40</itunes:duration>
+            <itunes:keywords>librivox, van dyke, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Henry van Dyke</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item>
+		
+           
+	    	<item>
+            <title>Chapter 24</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_24_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_24_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 20 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Maria Elmvang. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>40:25</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 23</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_23_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_23_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 18 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Peter of Buckinghamshire England. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>34:24</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+	    	<item>
+            <title>Chapter 22</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_22_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_22_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 16 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Peter of Buckinghamshire England. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>25:13</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                
+           <item>
+            <title>WEEKLY POETRY - Kubla Khan</title>
+            <link>http://www.archive.org/download/kublakhan_librivox/kublakhan_coleridge_jsj_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/kublakhan_librivox/kublakhan_coleridge_jsj_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 15 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Kubla Khan</itunes:subtitle>
+            <itunes:summary>Kubla Khan, by Samuel Taylor Coleridge. Read by Jon Scott Jones. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>2:59</itunes:duration>
+            <itunes:keywords>librivox, coleridge, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Samuel Taylor Coleridge</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item>
+           
+	    	<item>
+            <title>Chapter 21</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_21_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_21_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 13 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Sarah Key-DeLyria. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>53:56</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+           <item>
+            <title>Chapter 20</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_20_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_20_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 11 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>39:29</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+           	<item>
+            <title>Chapter 19</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_19_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_19_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 9 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>26:52</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+           <item>
+            <title>WEEKLY POETRY - To the United States of America</title>
+            <link>http://www.archive.org/download/to_united_states_librivox/to_united_states_bridges_njb_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/to_united_states_librivox/to_united_states_bridges_njb_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 8 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>To the United States of America</itunes:subtitle>
+            <itunes:summary>To the United States of America, by Robert Bridges. Read by Nicholas James Bridgewater. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:04</itunes:duration>
+            <itunes:keywords>librivox, bridges, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Robert Bridges</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item> 
+           
+           <item>
+            <title>Chapter 18</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_18_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_18_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 6 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kirsten Ferreri. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>35:02</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+           <item>
+            <title>Chapter 17</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_17_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_17_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 4 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kirsten Ferreri. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>47:02</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+	    	<item>
+            <title>Chapter 16</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_16_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_16_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 2 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kirsten Ferreri. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>21:01</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+       
+	    	<item>
+            <title>Chapter 15</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_15_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_15_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 2 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>26:30</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+           <item>
+            <title>WEEKLY POETRY - Of Alice in Wonderland</title>
+            <link>http://www.archive.org/download/alice_poem_librivox/aliceliddell_carroll_pw_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/alice_poem_librivox/aliceliddell_carroll_pw_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 1 Jul 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Of Alice in Wonderland</itunes:subtitle>
+            <itunes:summary>Of Alice in Wonderland, by Lewis Carroll. Read by Mark William Darbyshire. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:10</itunes:duration>
+            <itunes:keywords>librivox, carroll, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Lewis Carroll</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item> 
+		
+	    	<item>
+            <title>Chapter 14</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_14_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_14_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 29 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>32:40</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 13</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_13_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_13_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 27 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>26:30</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 12</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_12_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_12_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 25 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Cori Samuel. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>28:25</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+         <item>
+            <title>WEEKLY POETRY - Nippon</title>
+            <link>http://www.archive.org/download/nippon_libriviox/nippon_noyes_mr_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/nippon_libriviox/nippon_noyes_mr_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 24 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Nippon</itunes:subtitle>
+            <itunes:summary>Nippon, by Alfred Noyes. Read by Michael Rhys. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:15</itunes:duration>
+            <itunes:keywords>librivox, noyes, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Alfred Noyes</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item> 
+
+	    	<item>
+            <title>Chapter 11</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_11_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_11_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 22 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by David Barnes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>40:41</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 10</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_10_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_10_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 20 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Jennifer Hormell. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>29:51</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 09</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_09_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_09_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 18 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Jennifer Hormell. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>23:50</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+           <item>
+            <title>WEEKLY POETRY - A Pinch of Salt</title>
+            <link>http://www.archive.org/download/pinch_salt/pinch_of_salt_graves_mwd_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/pinch_salt/pinch_of_salt_graves_mwd_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 17 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>A Pinch of Salt</itunes:subtitle>
+            <itunes:summary>A Pinch of Salt, by Robert Graves. Read by Mark William Darbyshire. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:11</itunes:duration>
+            <itunes:keywords>librivox, graves, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Robert Graves</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item> 
+
+	    	<item>
+            <title>Chapter 08</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_08_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_08_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 15 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Jennifer Hormell. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>22:22</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 07</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_07_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_07_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 13 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Jennifer Hormell. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>22:11</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 06</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_06_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_06_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon 11 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kristin LeMoine. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>19:55</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+           <item>
+            <title>WEEKLY POETRY - Dirge for Two Veterans</title>
+            <link>http://www.archive.org/download/dirge_librivox/dirge_whitman_lb_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/dirge_librivox/dirge_whitman_lb_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 10 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Dirge for Two Verterans</itunes:subtitle>
+            <itunes:summary>Dirge for Two Verterans, by Walt Whitman. Read by Lucy Burgoyne. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>2:25</itunes:duration>
+            <itunes:keywords>librivox, whitman, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Walt Whitman</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item> 
+        
+	    	<item>
+            <title>Chapter 05</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_05_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_05_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 8 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Laurie Anne Walden. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>31:07</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>        
+     
+        	<item>
+            <title>Chapter 04</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_04_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_04_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 6 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kymm Zuckert. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>32:20</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+        
+	    	<item>
+            <title>Chapter 03</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_03_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_03_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 4 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>21:18</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+		<item>
+            <title>WEEKLY POETRY - Drinking Alone by Moonlight</title>
+            <link>http://www.archive.org/download/drinking_alone_librivox/drinkingalone_li_cb_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/drinking_alone_librivox/drinkingalone_li_cb_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 3 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Drinking Alone by Moonlight</itunes:subtitle>
+            <itunes:summary>Drinking Alone by Moonlight, by Li Bai (English version translated by Arthur Waley). Read in English and Mandarin by Chu Bei. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>2:03</itunes:duration>
+            <itunes:keywords>librivox, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Li Bai (English version translated by Arthur Waley)</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item> 
+		
+	    	<item>
+            <title>Chapter 02</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_02_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_02_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 1 Jun 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Cagirlwithasoutherndrawl. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>17:59</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	<item>
+            <title>Chapter 01</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_01_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_01_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 30 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Cagirlwithasoutherndrawl. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>12:40</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+          	
+	    	<item>
+            <title>Chapter 00</title>
+			<link>http://www.archive.org/download/jane_eyre_librivox/jane_eyre_00_bronte_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/jane_eyre_librivox/jane_eyre_00_bronte_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 28 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Jane Eyre</itunes:subtitle>
+            <itunes:summary>Jane Eyre, by Charlotte Bronte. This section read by Cagirlwithasoutherndrawl. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>5:57</itunes:duration>
+            <itunes:keywords>librivox, bronte, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Charlotte Bronte</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+           
+		<item>
+            <title>WEEKLY POETRY - The Fisher’s Boy</title>
+            <link>http://www.archive.org/download/fishers_boy_librivox/fishersboy_thoreau_lkm_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/fishers_boy_librivox/fishersboy_thoreau_lkm_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 27 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>The Fisher’s Boy</itunes:subtitle>
+            <itunes:summary>The Fisher’s Boy, by Henry David Thoreau. Today's reading by Leon Mire. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:10</itunes:duration>
+            <itunes:keywords>librivox, thoreau, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Henry David Thoreau</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+		</item>           
+           	
+	    	 <item>
+            <title>22 - Bk2, Ch5, Pt2</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_22_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_22_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 25 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Ancilla. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>30:30</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	 <item>
+            <title>21 - Bk2, Ch5, Pt1</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_21_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_21_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 23 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Claire Goget. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>25:56</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	 <item>
+            <title>20 - Bk2, Ch4</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_20_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_20_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 21 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by J. M. Smallheer. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>19:11</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+				 <item>
+            <title>WEEKLY POETRY - Song</title>
+            <link>http://www.archive.org/download/song_behn.poem/song_behn_jlf_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/song_behn.poem/song_behn_jlf_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 20 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Song</itunes:subtitle>
+            <itunes:summary>Song, by Aphra Behn. Today's reading by Jeanette Ferguson. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:03</itunes:duration>
+            <itunes:keywords>librivox, behn, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Aphra Behn</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+
+	    	 <item>
+            <title>19 - Bk2, Ch3, Pt2</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_19_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_19_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 18 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>19:15</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>18 - Bk2, Ch3, Pt1</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_18_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_18_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 16 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>27:13</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>17 - Bk2, Ch2, Pt2</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_17_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_17_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 14 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by J. M. Smallheer. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>25:25</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+				 <item>
+            <title>WEEKLY POETRY - What think you I take my pen in hand?</title>
+            <link>http://ia350625.us.archive.org/2/items/what_think.poem_librivox/what_think_you_whitman_blbklhjcj_64kb.mp3</link>
+            <enclosure url="http://ia350625.us.archive.org/2/items/what_think.poem_librivox/what_think_you_whitman_blbklhjcj_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 13 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>What think you I take my pen in hand?</itunes:subtitle>
+            <itunes:summary>What think you I take my pen in hand? by Walt Whitman. Today's reading by Betsie Bush, Kristin Hughes, and Julian Jamison. 
+						Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>:51</itunes:duration>
+            <itunes:keywords>librivox, whitman, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Walt Whitman</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+
+	
+	    	 <item>
+            <title>16 - Bk2, Ch2, Pt1</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_16_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_16_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 11 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>20:50</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>15 - Bk1, Ch1, Pt3</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_15_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_15_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 9 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kirsten Ferreri, Claire Goget, James Rye, Jason Oakley, and Ana Simão. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>12:31</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>14 - Bk1, Ch1, Pt2</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_14_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_14_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 7 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>8:51</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+				 <item>
+            <title>WEEKLY POETRY - Foreign Lands</title>
+            <link>http://www.archive.org/download/foreign_lands.poem_librivox/foreign_lands_stevenson_svl_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/foreign_lands.poem_librivox/foreign_lands_stevenson_svl_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 6 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Foreign Lands</itunes:subtitle>
+            <itunes:summary>Foreign Lands by Robert Louis Stevenson. Today's reading by Stephen Lamb. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>:51</itunes:duration>
+            <itunes:keywords>librivox, stevenson, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Robert Louis Stevenson</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+
+	    	 <item>
+            <title>13 - Bk2, Ch1, Pt1</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_13_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_13_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 4 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kirsten Ferreri, Andrew Lebrun, Claire Goget, Rosalind Wills, James Rye, Jason Oakley, and Ana Simão. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>31:26</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>12 - Bk1, Ch4, Pt3</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_12_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_12_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 2 May 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>27:24</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>11 - Bk1, Ch4, Pt2</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_11_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_11_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 30 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Chris Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>27:30</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+				 <item>
+            <title>WEEKLY POETRY - A Dream within a Dream</title>
+            <link>http://www.archive.org/download/dream_within_dream_librivox/dream_within_dream_poe_jb1_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/dream_within_dream_librivox/dream_within_dream_poe_jb1_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 29 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>A Dream within a Dream</itunes:subtitle>
+            <itunes:summary>A Dream within a Dream by Edgar Allan Poe. Today's reading by Joe Brenneman. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:00</itunes:duration>
+            <itunes:keywords>librivox, poe, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Edgar Allan Poe</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+                                
+	    	 <item>
+            <title>10 - Bk1, Ch4, Pt1</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_10_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_10_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 27 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by pww214. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>25:47</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>09 - Bk1, Ch3, Pt3</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_09_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_09_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 25 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>21:27</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>08 - Bk1, Ch3, Pt2</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_08_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_08_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 23 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kara Shallenberg. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>21:26</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+				 <item>
+            <title>WEEKLY POETRY - Dover Beach</title>
+            <link>http://www.archive.org/download/dover_beach.poem/dover_beach_arnold_sv_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/dover_beach.poem/dover_beach_arnold_sv_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 22 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Dover Beach</itunes:subtitle>
+            <itunes:summary>Dover Beach by Matthew Arnold. Today's reading by Squid Varilekova. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>2:12</itunes:duration>
+            <itunes:keywords>librivox, arnold, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Matthew Arnold</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+                                
+	    	 <item>
+            <title>07 - Bk1, Ch3, Pt1</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_07_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_07_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 20 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kirsten Ferreri. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>15:53</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>06 - Bk1, Ch2, Pt3</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_06_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_06_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 18 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kara Shallenberg. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>38:39</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+	    	 <item>
+            <title>05 - Bk1, Ch2, Pt2</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_05_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_05_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 16 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by J. M. Smallheer. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>34:38</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	
+				 <item>
+            <title>WEEKLY POETRY - Beautiful Soup</title>
+            <link>http://www.archive.org/download/beautiful_soup_librivox/beautiful_soup_carroll_smm_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/beautiful_soup_librivox/beautiful_soup_carroll_smm_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 15 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Beautiful Soup</itunes:subtitle>
+            <itunes:summary>Beautiful Soup by Lewis Carroll. Today's reading by Sean McGaughey. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>1:39</itunes:duration>
+            <itunes:keywords>librivox, carroll, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Lewis Carroll</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+                                
+	    	 <item>
+            <title>04 - Bk1, Ch2, Pt1</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_04_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_04_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 13 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Kirsten Ferreri. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>29:49</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+	    	 <item>
+            <title>03 - Bk1, Ch1, Pt3</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_03_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_03_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 11 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>This Side of Paradise, by F. Scott Fitzgerald. This section read by Robin Cotter. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>19:05</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>02 - Bk1, Ch1, Pt2</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_02_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_02_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 9 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>Read by Kara Shallenberg. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>24:38</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>01 - Bk1, Ch1, Pt1</title>
+						<link>http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_01_fitzgerald_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/this_side_paradise_librivox/thissideofparadise_01_fitzgerald_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 6 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>This Side of Paradise</itunes:subtitle>
+            <itunes:summary>Read by Kristin Hughes. Send questions and comments to info@librivox.org</itunes:summary>
+            <itunes:duration>29:00</itunes:duration>
+            <itunes:keywords>librivox, fitzgerald, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>F. Scott Fitzgerald</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>15 - Masters and Masterpieces of Literature</title>
+            <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_15_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_15_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 4 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Kirsten Ferreri. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>4:39</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>14 - English Language</title>
+            <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_14_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_14_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 2 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Denny Sayers. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>14:22</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+
+				 <item>
+            <title>WEEKLY POETRY - I'm Nobody</title>
+            <link>http://www.archive.org/download/im_nobody_librivox/im_nobody_dickinson_zhss_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/im_nobody_librivox/im_nobody_dickinson_zhss_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 1 Apr 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>I'm Nobody</itunes:subtitle>
+            <itunes:summary>Today's reading by Shurtagal. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>:27</itunes:duration>
+            <itunes:keywords>librivox, dickinson, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Emily Dickinson</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+                                
+        	 <item>
+            <title>13 - Choice of Words</title>
+            <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_13_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_13_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 30 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Kara Shallenberg. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>13:33</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>12 - Writing for Newspapers</title>
+						<link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_12_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_12_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 28 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Andrew Lebrun. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>18:59</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>11 - Slang</title>
+            <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_11_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_11_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 26 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Kristin Hughes. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>17:37</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+				 <item>
+            <title>WEEKLY POETRY - O, it was out by Donnycarney</title>
+            <link>http://www.archive.org/download/donnycarney_librivox/o_donnycarney_joyce_ap_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/donnycarney_librivox/o_donnycarney_joyce_ap_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 25 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>O, it was out by Donnycarney</itunes:subtitle>
+            <itunes:summary>Today's reading by Atalanta Pendragonne. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>:36</itunes:duration>
+            <itunes:keywords>librivox, joyce, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>James Joyce</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+                      
+        	 <item>
+            <title>10 - Suggestions</title>
+            <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_10_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_10_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 23 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Esther. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>18:34</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>09 - Style</title>
+            <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_09_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_09_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 21 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Andrew Lebrun. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>27:44</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>08 - Pitfalls to Avoid</title>
+            <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_08_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_08_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 19 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by David Barnes. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>37:21</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+			 
+				 <item>
+            <title>WEEKLY POETRY - Miracles</title>
+            <link>http://www.archive.org/download/miracles_librivox/miracles_whitman_lh_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/miracles_librivox/miracles_whitman_lh_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 18 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Miracles</itunes:subtitle>
+            <itunes:summary>Today's reading by LaVerne Henderson. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>2:04</itunes:duration>
+            <itunes:keywords>librivox, whitman, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Walt Whitman</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+                      
+        	 <item>
+            <title>07 - Errors</title>
+             <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_07_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_07_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 16 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Hugh McGuire. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>26:37</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>06 - Letter Writing</title>
+             <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_06_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_06_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 14 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Rosalind Wills. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>26:31</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>05 - Punctuation</title>
+             <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_05_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_05_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 12 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Kara Shallenberg. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>33:10</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+				 
+				 <item>
+            <title>WEEKLY POETRY - Ophelia</title>
+             <link>http://ia340917.us.archive.org/0/items/ophelia_librivox/ophelia_delamare_js_64kb.mp3</link>
+            <enclosure url="http://ia340917.us.archive.org/0/items/ophelia_librivox/ophelia_delamare_js_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 11 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Ophelia</itunes:subtitle>
+            <itunes:summary>Today's reading by Jennette Selig. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>2:02</itunes:duration>
+            <itunes:keywords>librivox, ophelia, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Walter de la Mare</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+                                            
+						<item>
+            <title>04 - Figurative Language</title>
+             <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_04_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_04_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 9 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Sean McGaughey. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>17:34</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+			<item>
+            <title>03 - The Sentence</title>
+             <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_03_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_03_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 7 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by David Barnes. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>29:20</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	 <item>
+            <title>02 - Essentials of English Grammar</title>
+             <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_02_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_02_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 5 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by Ophelia Darcy. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>40:46</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+				 
+				 <item>
+            <title>WEEKLY POETRY - Abraham Lincoln Walks at Midnight</title>
+             <link>http://www.archive.org/download/abraham_lincoln_walks_librivox/abraham_lincoln_walks_lindsay_cs_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/abraham_lincoln_walks_librivox/abraham_lincoln_walks_lindsay_cs_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Sun, 4 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>Abraham Lincoln Walks at Midnight</itunes:subtitle>
+            <itunes:summary>Today's reading by Cori Samuel. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>2:30</itunes:duration>
+            <itunes:keywords>librivox, lindsay, lincoln, poetry, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Vachel Lindsay</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+						</item>
+                      
+        	 <item>
+            <title>01 - Requirements of Speech</title>
+             <link>http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_01_devlin_64kb.mp3</link>
+            <enclosure url="http://www.archive.org/download/how_to_speak_and_write_correctly_librivox/htsawc_01_devlin_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 2 Mar 2007 12:22:11 -0800</pubDate>
+            <itunes:subtitle>How to Speak and Write Correctly</itunes:subtitle>
+            <itunes:summary>Read by David Barnes. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>12:43</itunes:duration>
+            <itunes:keywords>librivox, devlin, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>Joseph Devlin</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+              					 
+					 <item>
+            <title>Act 3</title>
+            <enclosure url="http://www.archive.org/download/king_lear_librivox/king_lear_3_shakespeare_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Fri, 5 Jan 2007 12:22:11 -0800</pubDate> 
+						<itunes:subtitle>King Lear</itunes:subtitle>
+            <itunes:summary>Act 3. See http://librivox.org/king-lear-by-william-shakespeare/ for the cast list. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>38:38</itunes:duration>
+            <itunes:keywords>librivox, shakespeare, lear, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>William Shakespeare</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+					 
+					 <item>
+            <title>Act 2</title>
+            <enclosure url="http://www.archive.org/download/king_lear_librivox/king_lear_2_shakespeare_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Wed, 3 Jan 2007 12:22:11 -0800</pubDate> 
+						<itunes:subtitle>King Lear</itunes:subtitle>
+            <itunes:summary>Act 2. See http://librivox.org/king-lear-by-william-shakespeare/ for the cast list. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>38:56</itunes:duration>
+            <itunes:keywords>librivox, shakespeare, lear, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>William Shakespeare</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+                      
+        	
+					 <item>
+            <title>Act 1</title>
+            <enclosure url="http://www.archive.org/download/king_lear_librivox/king_lear_1_shakespeare_64kb.mp3" type="audio/mpeg"  ></enclosure>
+            <pubDate>Mon, 1 Jan 2007 12:22:11 -0800</pubDate> 
+						<itunes:subtitle>King Lear</itunes:subtitle>
+            <itunes:summary>Act 1. See http://librivox.org/king-lear-by-william-shakespeare/ for the cast list. Send questions and comments to librivox@yahoo.ca</itunes:summary>
+            <itunes:duration>53:42</itunes:duration>
+            <itunes:keywords>librivox, shakespeare, lear, book, audiobook, free, public, domain, spoken, word, read</itunes:keywords>
+            <itunes:author>William Shakespeare</itunes:author>
+            <itunes:explicit>no</itunes:explicit>
+           </item>
+	           
+    </channel>
+</rss>
