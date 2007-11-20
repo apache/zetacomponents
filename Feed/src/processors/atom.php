@@ -262,7 +262,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         'ELEMENTS_MAP'  => array( 'image' => 'logo',
                                   'copyright' => 'rights',
                                   'description' => 'subtitle',
-                                  'item' => 'entry' ),
+                                  'item' => 'entry',
+                                  'items' => 'entries' ),
         );
 
     /**

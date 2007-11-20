@@ -137,7 +137,7 @@ class ezcFeedTest extends ezcFeedTestCase
         }
     }
 
-    public function testParseAtom()
+    public function testParseAtom1()
     {
         $dot = DIRECTORY_SEPARATOR;
         $file = dirname( __FILE__ ) . "{$dot}atom{$dot}data{$dot}atom_example_from_specs.xml";
@@ -145,6 +145,29 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parse( $file );
 
         $this->assertEquals( 'atom', $feed->getFeedType() );
+    }
+
+    public function testParseAtom2()
+    {
+        $dot = DIRECTORY_SEPARATOR;
+        $file = dirname( __FILE__ ) . "{$dot}atom{$dot}data{$dot}atom_multiple_entries.xml";
+
+        $feed = ezcFeed::parse( $file );
+
+        $this->assertEquals( 'atom', $feed->getFeedType() );
+        $items = $feed->items;
+        $expectedTitles = array(
+            'Atom-Powered Robots Run Amok 1',
+            'Atom-Powered Robots Run Amok 2',
+            );
+
+        $titles = array();
+        foreach ( $items as $item )
+        {
+            $titles[] = $item->title->__toString();
+        }
+
+        $this->assertEquals( $expectedTitles, $titles );
     }
 
     public function testParseRss1()
