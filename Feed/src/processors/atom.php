@@ -1186,7 +1186,15 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                 $nodes = $itemChild->childNodes;
                                 if ( $nodes instanceof DOMNodeList )
                                 {
-                                    $contentNode = $nodes->item( 1 );
+                                    for ( $i = 0; $i < $nodes->length; $i++ )
+                                    {
+                                        if ( $nodes->item( $i ) instanceof DOMElement )
+                                        {
+                                            break;
+                                        }
+                                    }
+
+                                    $contentNode = $nodes->item( $i );
                                     $element->$tagName = $contentNode->nodeValue;
                                 }
                                 $element->$tagName->type = $type;
