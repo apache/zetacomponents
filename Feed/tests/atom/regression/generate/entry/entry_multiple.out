@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>XXX</updated>
+  <author>
+    <name>Author name</name>
+  </author>
+  <entry>
+    <id>Entry id 1</id>
+    <title>Entry title 1</title>
+    <updated>XXX</updated>
+    <content>Entry content 1</content>
+  </entry>
+  <entry>
+    <id>Entry id 2</id>
+    <title>Entry title 2</title>
+    <updated>XXX</updated>
+    <content>Entry content 2</content>
+  </entry>
+</feed> 
