@@ -175,7 +175,7 @@ class ezcAuthenticationGmpLibrary extends ezcAuthenticationBignumLibrary
      * @param resource $a The number to be represented as a string
      * @return string
      */
-    public function __toString( $a )
+    public function toString( $a )
     {
         return gmp_strval( $a );
     }

@@ -209,7 +209,7 @@ class ezcAuthenticationBcmathLibrary extends ezcAuthenticationBignumLibrary
      * @param string $number The number to be represented as a string
      * @return string
      */
-    public function __toString( $number )
+    public function toString( $number )
     {
         return $number;
     }

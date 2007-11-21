@@ -137,7 +137,7 @@ abstract class ezcAuthenticationBignumLibrary
      * @param mixed $a The number to be represented as a string
      * @return string
      */
-    abstract public function __toString( $a );
+    abstract public function toString( $a );
 
     /**
      * Converts a binary value to a decimal value.
@@ -154,7 +154,7 @@ abstract class ezcAuthenticationBignumLibrary
             $dec = $this->add( $this->mul( $dec, 256 ), $i );
             $bin = substr( $bin, 1 );
         }
-        return $this->__toString( $dec );
+        return $this->toString( $dec );
     }
 
     /**
@@ -172,7 +172,7 @@ abstract class ezcAuthenticationBignumLibrary
             $dec = $this->add( $this->mul( $dec, 65536 ), $i );
             $hex = substr( $hex, 4 );
         }
-        return $this->__toString( $dec );
+        return $this->toString( $dec );
     }
 
     /**

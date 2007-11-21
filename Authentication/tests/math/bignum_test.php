@@ -179,8 +179,8 @@ class ezcAuthenticationBignumTest extends ezcAuthenticationTest
         {
             foreach ( self::$$table as $i => $line )
             {
-                $result = $lib->__toString( $lib->$table( $lib->init( $line[0] ), ( $table === 'pow' ) ? $line[1] : $lib->init( $line[1] ) ) );
-                $expected = $lib->__toString( $lib->init( $line[2] ) );
+                $result = $lib->toString( $lib->$table( $lib->init( $line[0] ), ( $table === 'pow' ) ? $line[1] : $lib->init( $line[1] ) ) );
+                $expected = $lib->toString( $lib->init( $line[2] ) );
                 $message = get_class( $lib ) . ": {$table}( {$line[0]}, {$line[1]} ) produced {$result}, expected {$expected}.";
                 $this->assertEquals( $expected, $result, $message );
             }
@@ -198,8 +198,8 @@ class ezcAuthenticationBignumTest extends ezcAuthenticationTest
 
         foreach ( self::$powmod as $i => $line )
         {
-            $result = $lib->__toString( $lib->powmod( $lib->init( $line[0] ), $lib->init( $line[1] ), $lib->init( $line[2] ) ) );
-            $expected = $lib->__toString( $lib->init( $line[3] ) );
+            $result = $lib->toString( $lib->powmod( $lib->init( $line[0] ), $lib->init( $line[1] ), $lib->init( $line[2] ) ) );
+            $expected = $lib->toString( $lib->init( $line[3] ) );
             $message = get_class( $lib ) . ": powmod( {$line[0]}, {$line[1]}, {$line[2]} ) produced {$result}, expected {$expected}.";
             $this->assertEquals( $expected, $result, $message );
         }
@@ -217,7 +217,7 @@ class ezcAuthenticationBignumTest extends ezcAuthenticationTest
         foreach ( self::$gcd as $i => $line )
         {
             $result = $lib->gcd( $lib->init( $line[0] ), $lib->init( $line[1] ) );
-            $result = array( $lib->__toString( $result[0] ), $lib->__toString( $result[1] ), $lib->__toString( $result[2] ) );
+            $result = array( $lib->toString( $result[0] ), $lib->toString( $result[1] ), $lib->toString( $result[2] ) );
             $expected = $line[2];
             $message = get_class( $lib ) . ": gcd( {$line[0]}, {$line[1]} ) produced (" . implode( ',', $result ) . "), expected (" . implode( ',', $expected ) . ").";
             $this->assertEquals( $expected, $result, $message );
@@ -276,8 +276,8 @@ class ezcAuthenticationBignumTest extends ezcAuthenticationTest
         {
             foreach ( self::$$table as $i => $line )
             {
-                $result = $lib->__toString( $lib->$table( $lib->init( $line[0] ), $lib->init( $line[1] ) ) );
-                $expected = $lib->__toString( $lib->init( $line[2] ) );
+                $result = $lib->toString( $lib->$table( $lib->init( $line[0] ), $lib->init( $line[1] ) ) );
+                $expected = $lib->toString( $lib->init( $line[2] ) );
                 $message = get_class( $lib ) . ": {$table}( {$line[0]}, {$line[1]} ) produced {$result}, expected {$expected}.";
                 $this->assertEquals( $expected, $result, $message );
             }
@@ -295,8 +295,8 @@ class ezcAuthenticationBignumTest extends ezcAuthenticationTest
 
         foreach ( self::$powmod as $i => $line )
         {
-            $result = $lib->__toString( $lib->powmod( $lib->init( $line[0] ), $lib->init( $line[1] ), $lib->init( $line[2] ) ) );
-            $expected = $lib->__toString( $lib->init( $line[3] ) );
+            $result = $lib->toString( $lib->powmod( $lib->init( $line[0] ), $lib->init( $line[1] ), $lib->init( $line[2] ) ) );
+            $expected = $lib->toString( $lib->init( $line[3] ) );
             $message = get_class( $lib ) . ": powmod( {$line[0]}, {$line[1]}, {$line[2]} ) produced {$result}, expected {$expected}.";
             $this->assertEquals( $expected, $result, $message );
         }
@@ -314,7 +314,7 @@ class ezcAuthenticationBignumTest extends ezcAuthenticationTest
         foreach ( self::$gcd as $i => $line )
         {
             $result = $lib->gcd( $lib->init( $line[0] ), $lib->init( $line[1] ) );
-            $result = array( $lib->__toString( $result[0] ), $lib->__toString( $result[1] ), $lib->__toString( $result[2] ) );
+            $result = array( $lib->toString( $result[0] ), $lib->toString( $result[1] ), $lib->toString( $result[2] ) );
             $expected = $line[2];
             $message = get_class( $lib ) . ": gcd( {$line[0]}, {$line[1]} ) produced (" . implode( ',', $result ) . "), expected (" . implode( ',', $expected ) . ").";
             $this->assertEquals( $expected, $result, $message );
