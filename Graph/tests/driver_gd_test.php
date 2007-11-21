@@ -146,6 +146,38 @@ class ezcGraphGdDriverTest extends ezcTestImageCase
         );
     }
 
+    public function testDrawLineWithDifferentWidths()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawLine(
+            new ezcGraphCoordinate( 12, 45 ),
+            new ezcGraphCoordinate( 134, 12 ),
+            ezcGraphColor::fromHex( '#3465A4' ),
+            3
+        );
+
+        $this->driver->drawLine(
+            new ezcGraphCoordinate( 12, 35 ),
+            new ezcGraphCoordinate( 134, 2 ),
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
     public function testDrawPolygonThreePointsFilled()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
