@@ -290,6 +290,54 @@ The resulting radar chart shows how minor steps on the rotation axis are drawn
 as grayed out axis and major steps as regular axis. It also obvious that all
 types of data sets can be drawn using radar charts.
 
+Odometer charts
+---------------
+
+Odometer charts can display values on one bar with a gradient using markers, to
+offer a nice way for the viewer to detect where a value is in a defined
+bounding.
+
+.. include:: tutorial/tutorial_odometer_chart.php
+   :literal:
+
+As you can see from the example, the odometer basically behaves like other
+chart types. First we create an object of the class ezcGraphOdometerChart, then
+a title and a dataset is assigned, like always. Similar to pie charts, a
+odometer only accepts one dataset. A legend does not exist for odometers - and
+you may of course assign an array data set, which only contains one element.
+
+.. image:: img/tutorial_odometer_chart.svg.png
+   :alt:   Simple odometer
+
+The result is a bar, filled with some default gradient, and markers as
+indicators for the values on the bar. The axis span is automatically calculated
+for the provided values - you may modify them as usual, but take a look at the
+next example for this.
+
+Custom odometer chart
+~~~~~~~~~~~~~~~~~~~~~
+
+When only using one value in an odometer you may want to configure the span on
+the axis by yourself. You can do so like on any other axis.
+
+.. include:: tutorial/tutorial_custom_odometer_chart.php
+   :literal:
+
+In this example we only assign one value, so we only get one marker in the
+odometer. The we start using the configure options for odometers, defined in
+the ezcGraphOdometerChartOptions class.
+
+The start and end color define the colors used for the background gradient. The
+border options define the border, which is drawn around the chart gradient.
+After this you may configure the width of the markers, and the space, which is
+used for the actual odometer.
+
+Because of the single value we configure the min and max values for the axis,
+which should be used, and a label for the axis.
+
+.. image:: img/tutorial_custom_odometer_chart.svg.png
+   :alt:   Customly configured odometer 
+
 Palettes
 ========
 
