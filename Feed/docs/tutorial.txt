@@ -39,7 +39,7 @@ processor is used to parse and generate that type. The following feed
 processors are supported by the Feed component:
 
 - RSS1 (ezcFeedRss1)
-- RSS2 (ezcFeedRss1)
+- RSS2 (ezcFeedRss2)
 - ATOM (ezcFeedAtom)
 
 A new processor can be defined by creating a class which extends the class
