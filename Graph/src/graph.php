@@ -98,6 +98,10 @@ class ezcGraph
      * type ezcGraph::BAR.
      */
     const BAR = 3;
+    /**
+     * @TODO:
+     */
+    const ODOMETER = 4;
 
     /**
      * Font type definition. Used for True Type fonts.

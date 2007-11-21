@@ -60,8 +60,7 @@ class ezcGraphRenderer2d
     extends
         ezcGraphRenderer
     implements
-        ezcGraphRadarRenderer,
-        ezcGraphStackedBarsRenderer
+        ezcGraphRadarRenderer, ezcGraphStackedBarsRenderer, ezcGraphOdometerRenderer
 {
 
     /**
@@ -1430,42 +1429,52 @@ class ezcGraphRenderer2d
 
         if ( $this->xAxisSpace && $this->yAxisSpace )
         {
-            foreach ( $this->axisLabels as $nr => $axisLabel )
-            {
-                $start = $axisLabel['start'];
-                $end = $axisLabel['end'];
+            $this->drawAxisLabels();
+        }
+    }
 
-                $direction = new ezcGraphVector(
-                    $end->x - $start->x,
-                    $end->y - $start->y
-                );
-                $direction->unify();
+    /**
+     * Draw all left axis labels
+     * 
+     * @return void
+     */
+    protected function drawAxisLabels()
+    {
+        foreach ( $this->axisLabels as $nr => $axisLabel )
+        {
+            $start = $axisLabel['start'];
+            $end = $axisLabel['end'];
 
-                // Convert elipse to circle for correct angle calculation
-                $direction->y *= ( $this->xAxisSpace / $this->yAxisSpace );
-                $angle = $direction->angle( new ezcGraphVector( 0, 1 ) );
+            $direction = new ezcGraphVector(
+                $end->x - $start->x,
+                $end->y - $start->y
+            );
+            $direction->unify();
 
-                $movement = new ezcGraphVector(
-                    sin( $angle ) * $this->xAxisSpace * ( $direction->x < 0 ? -1 : 1 ),
-                    cos( $angle ) * $this->yAxisSpace
-                );
+            // Convert elipse to circle for correct angle calculation
+            $direction->y *= ( $this->xAxisSpace / $this->yAxisSpace );
+            $angle = $direction->angle( new ezcGraphVector( 0, 1 ) );
 
-                $start->x += $movement->x;
-                $start->y += $movement->y;
-                $end->x -= $movement->x;
-                $end->y -= $movement->y;
+            $movement = new ezcGraphVector(
+                sin( $angle ) * $this->xAxisSpace * ( $direction->x < 0 ? -1 : 1 ),
+                cos( $angle ) * $this->yAxisSpace
+            );
 
-                $axisLabel['object']->renderLabels(
-                    $this,
-                    $axisLabel['boundings'],
-                    $start,
-                    $end,
-                    $axisLabel['axis']
-                );
+            $start->x += $movement->x;
+            $start->y += $movement->y;
+            $end->x -= $movement->x;
+            $end->y -= $movement->y;
 
-                // Prevent from redrawing axis on more then 2 axis.
-                unset( $this->axisLabels[$nr] );
-            }
+            $axisLabel['object']->renderLabels(
+                $this,
+                $axisLabel['boundings'],
+                $start,
+                $end,
+                $axisLabel['axis']
+            );
+
+            // Prevent from redrawing axis on more then 2 axis.
+            unset( $this->axisLabels[$nr] );
         }
     }
 
@@ -1583,6 +1592,88 @@ class ezcGraphRenderer2d
         $this->finishLineSymbols();
 
         return true;
+    }
+
+
+    /**
+     * Render odometer chart
+     * 
+     * @param ezcGraphBoundings $boundings 
+     * @param ezcGraphOdometerChartOptions $options
+     * @return ezcGraphBoundings
+     */
+    public function drawOdometer( 
+        ezcGraphBoundings $boundings, 
+        ezcGraphChartElementAxis $axis,
+        ezcGraphOdometerChartOptions $options )
+    {
+        $height = $boundings->height * $options->odometerHeight;
+
+        // Draw axis
+        $oldAxisSpace = $axis->axisSpace;
+        $axis->axisSpace = 0;
+
+        $axis->render( $this, $boundings );
+
+        // Reset axisspaces to correct values
+        $this->xAxisSpace = $boundings->width * $oldAxisSpace;
+        $this->yAxisSpace = ( $boundings->height - $height ) / 2;
+
+        $this->drawAxisLabels();
+
+        // Reduce size of chart boundings respecting requested odometer height
+        $boundings->x0 += $this->xAxisSpace;
+        $boundings->x1 -= $this->xAxisSpace;
+        $boundings->y0 += $this->yAxisSpace;
+        $boundings->y1 -= $this->yAxisSpace;
+
+        $gradient = new ezcGraphLinearGradient(
+            new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
+            new ezcGraphCoordinate( $boundings->x1, $boundings->y0 ),
+            $options->startColor,
+            $options->endColor
+        );
+
+        // Simply draw box with gradient and optional border
+        $this->drawBox(
+            $boundings,
+            $gradient,
+            $options->borderColor,
+            $options->borderWidth
+        );
+
+        // Return modified chart boundings
+        return $boundings;
+    }
+
+    /**
+     * Draw a single odometer marker.
+     *
+     * @param ezcGraphBoundings $boundings
+     * @param ezcGraphCoordinate $position
+     * @param int $symbol
+     * @param ezcGraphColor $color
+     * @param int $width
+     */
+    public function drawOdometerMarker(
+        ezcGraphBoundings $boundings,
+        ezcGraphCoordinate $position,
+        $symbol,
+        ezcGraphColor $color,
+        $width )
+    {
+        $this->driver->drawLine(
+            new ezcGraphCoordinate(
+                $xPos = $boundings->x0 + ( $position->x * $boundings->width ),
+                $boundings->y0
+            ),
+            new ezcGraphCoordinate(
+                $xPos,
+                $boundings->y1
+            ),
+            $color,
+            $width
+        );
     }
 }
 

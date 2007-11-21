@@ -19,6 +19,7 @@
  *           Color of major majorGrid.
  * @property ezcGraphColor $minorGrid
  *           Color of minor majorGrid.
+ * @TODO: Move next two options to numeric axis
  * @property mixed $majorStep
  *           Labeled major steps displayed on the axis.
  * @property mixed $minorStep
