@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphRadarRenderer interface
+ * File containing the ezcGraphOdometerRenderer interface
  *
  * @package Graph
  * @version 1.1

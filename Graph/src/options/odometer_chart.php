@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphPieChartOption class
+ * File containing the ezcGraphOdometerChartOptions class
  *
  * @package Graph
  * @version 1.1
