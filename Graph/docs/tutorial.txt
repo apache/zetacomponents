@@ -241,6 +241,23 @@ line and bar charts.
 .. image:: img/tutorial_bar_options.svg.png
    :alt:   Configured highlight in combined line and bar chart
 
+Stacked bar charts
+~~~~~~~~~~~~~~~~~~
+
+In stacked bar charts, the bars are not drawn next to each other, but
+aggregated in one bar, and the overall bar consumes the space of the sum of all
+single bars.
+
+.. include:: tutorial/tutorial_stacked_bar_chart.php
+   :literal:
+
+To use stacked bar charts, you only need to set the option $stackBars to true.
+In the 3d renderer this will cause all bars to be renderer like with the symbol
+ezcGraph::NO_SYMBOL.
+
+.. image:: img/tutorial_stacked_bar_chart.svg.png
+   :alt:   Bar chart with stacked bars
+
 Radar charts
 ------------
 
