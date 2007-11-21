@@ -37,6 +37,7 @@ require_once 'logarithmical_axis_test.php';
 require_once 'matrix_test.php';
 require_once 'multiple_axis_test.php';
 require_once 'numeric_axis_test.php';
+require_once 'odometer_test.php';
 require_once 'palette_test.php';
 require_once 'pie_test.php';
 require_once 'polynom_test.php';
@@ -87,6 +88,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphMultipleAxisTest::suite() );
         $this->addTest( ezcGraphNumericAxisTest::suite() );
         $this->addTest( ezcGraphNumericDataSetTest::suite() );
+        $this->addTest( ezcGraphOdometerChartTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );
         $this->addTest( ezcGraphPieChartTest::suite() );
         $this->addTest( ezcGraphPolynomTest::suite() );
