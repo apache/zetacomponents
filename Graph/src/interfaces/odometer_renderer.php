@@ -3,7 +3,7 @@
  * File containing the ezcGraphOdometerRenderer interface
  *
  * @package Graph
- * @version 1.1
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
         2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -12,7 +12,7 @@
  * Interface which adds the methods required for rendering radar charts to a
  * renderer
  *
- * @version 1.1
+ * @version //autogentag//
  * @package Graph
  */
 interface ezcGraphOdometerRenderer
