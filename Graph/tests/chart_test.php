@@ -180,6 +180,25 @@ class ezcGraphChartTest extends ezcGraphTestCase
         );
     }
 
+    public function testBarChartWithTwoSingleDataPoint()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $barChart = new ezcGraphBarChart();
+        $barChart->data['test'] = new ezcGraphArrayDataSet(
+            array( 23 )
+        );
+        $barChart->data['test 2'] = new ezcGraphArrayDataSet(
+            array( 5 )
+        );
+        $barChart->render( 400, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testBarChartWithSingleDataPointNumericAxis()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
