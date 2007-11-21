@@ -28,6 +28,7 @@ class ezcGraphOdometerChart extends ezcGraphChart
 
         $this->addElement( 'axis', new ezcGraphChartElementNumericAxis());
         $this->elements['axis']->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
+        $this->elements['axis']->axisLabelRenderer->showZeroValue = true;
         $this->elements['axis']->position  = ezcGraph::LEFT;
         $this->elements['axis']->axisSpace = .05;
     }
