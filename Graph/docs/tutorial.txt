@@ -698,6 +698,62 @@ rotated labels like done in line 11 of the above example.
 The results conatins rotated labels, which enables you to pack a lot more
 labels on one axis.
 
+Additional axis & markers
+-------------------------
+
+Beside the x axis and the y axis you may add additional axis and markers to one
+chart. Also you may assign those additional axis to datasets, so that some
+datasets use different axis then others.
+
+Add markers to chart
+~~~~~~~~~~~~~~~~~~~~
+
+First add some markers to a chart, which only get a label, and reside at some
+user defined position in the chart. You may use them to display data boundings
+on the y axis, or important values on the x axis.
+
+.. include:: tutorial/tutorial_line_chart_markers.php
+   :literal:
+
+You can see a standard line chart, like in the examples before again using the
+wikipedia datasets. In line 15 we add another axis, and configure this one in
+the following lines. The position of an axis defines its origin, so that the
+position ezcGraph::LEFT means, that the axis starts at the left side of the
+graph. You may also use ezcGraph::RIGHT to let the axis start at the right.
+
+The position of the axis may be defined by a float value, which defines the
+percentual position in the chart, calculated from the top left position. After
+this we also define a label for the axis.
+
+.. image:: img/tutorial_line_chart_markers.svg.png
+   :alt:   Line chart with marker
+
+Additional axis
+~~~~~~~~~~~~~~~
+
+As said before, you may not only add additional axis to one chart, but you can
+also assigne datasets to use one of those new axis. This will cause the used
+axis to caclulate its values depending on the assigned datasets and the data to
+orientate at the new axis.
+
+The new axis may also be of a completely different type then the original chart
+axis.
+
+.. include:: tutorial/tutorial_line_chart_additional_axis.php
+   :literal:
+
+In this chart we use a different axis, positioned at the very end of the chart,
+for the norwegian wikipedia data. Due to the different scaling for the englsih
+and norwegian data, you can easily see that the development of articles is very
+similar, on a completely different level.
+
+To use the axis with some dataset, you need to assign the newly created axis to
+one of the both axis properties to the data set. In this case we use the $yAxis
+property - the property $xAxis of course also exists.
+
+.. image:: img/tutorial_line_chart_additional_axis.svg.png
+   :alt:   Line chart with additional axis
+
 Datasets
 ========
 
