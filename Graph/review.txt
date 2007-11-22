@@ -19,3 +19,9 @@ Odometer: Fatal error: Call to undefined method ezcGraphRenderer3d::drawOdometer
 
 [ ] Odometer chart does not do gradient colors in Gd (but probably this is documented).
 
+[ ] ezcGraphOdometerChart has some white space issues (eg. in foreach).
+
+[ ] graph_autoload.php: src/math/term.php is missing (and docanalysis.php tool does
+    not work).
+
+[ ] Some more doc block issues are revealed after running docanalysis.php.
