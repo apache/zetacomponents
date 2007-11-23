@@ -115,7 +115,6 @@ return array(
     'ezcGraphRotation'                              => 'Graph/math/rotation.php',
     'ezcGraphSvgDriver'                             => 'Graph/driver/svg.php',
     'ezcGraphSvgDriverOptions'                      => 'Graph/options/svg_driver.php',
-    'ezcGraphTerm'                                  => 'Graph/math/term.php',
     'ezcGraphTools'                                 => 'Graph/tools.php',
     'ezcGraphTranslation'                           => 'Graph/math/translation.php',
     'ezcGraphVector'                                => 'Graph/math/vector.php',

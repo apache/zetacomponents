@@ -221,6 +221,33 @@ class ezcGraphOdometerChartTest extends ezcGraphTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testOdometerChartPropertyAxis()
+    {
+        $chart = new ezcGraphOdometerChart();
+
+        $this->assertTrue(
+            $chart->axis instanceof ezcGraphChartElementNumericAxis,
+            'Wrong default value for property axis in class ezcGraphOdometerChart'
+        );
+
+        $chart->axis = new ezcGraphChartElementLabeledAxis();
+        $this->assertTrue(
+            $chart->axis instanceof ezcGraphChartElementLabeledAxis,
+            'Setting property value did not work for property axis in class ezcGraphOdometerChart'
+        );
+
+        try
+        {
+            $chart->axis = true;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testRenderOdometer()
     {
         $chart = new ezcGraphOdometerChart();
@@ -327,6 +354,24 @@ class ezcGraphOdometerChartTest extends ezcGraphTestCase
         }
 
         $this->fail( 'Expected ezcGraphNoDataException.' );
+    }
+
+    public function testIncompatibleRenderer()
+    {
+        $chart = new ezcGraphOdometerChart();
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 1, 'sample 5' => 120 ) );
+
+        try
+        {
+            $chart->renderer = new ezcGraphRenderer3d();
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderCompleteOdometer()

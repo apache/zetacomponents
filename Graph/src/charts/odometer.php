@@ -7,7 +7,67 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-
+/**
+ * Class for odometer charts. Can only use one dataset which will be dispalyed
+ * as a odometer chart.
+ *
+ * <code>
+ *  $graph = new ezcGraphOdometerChart();
+ *  $graph->title = 'Custom odometer';
+ *  
+ *  $graph->data['data'] = new ezcGraphArrayDataSet(
+ *      array( 87 )
+ *  );
+ *  
+ *  // Set the marker color
+ *  $graph->data['data']->color[0]  = '#A0000055';
+ *  
+ *  // Set colors for the background gradient
+ *  $graph->options->startColor     = '#2E3436';
+ *  $graph->options->endColor       = '#EEEEEC';
+ *  
+ *  // Define a border for the odometer
+ *  $graph->options->borderWidth    = 2;
+ *  $graph->options->borderColor    = '#BABDB6';
+ *  
+ *  // Set marker width
+ *  $graph->options->markerWidth    = 5;
+ *  
+ *  // Set space, which the odometer may consume
+ *  $graph->options->odometerHeight = .7;
+ *  
+ *  // Set axis span and label
+ *  $graph->axis->min               = 0;
+ *  $graph->axis->max               = 100;
+ *  $graph->axis->label             = 'Coverage  ';
+ *  
+ *  $graph->render( 400, 150, 'custom_odometer_chart.svg' );
+ * </code>
+ *
+ * Each chart consists of several chart elements which represents logical parts
+ * of the chart and can be formatted independently. The odometer chart consists
+ * of:
+ *  - title ( {@link ezcGraphChartElementText} )
+ *  - background ( {@link ezcGraphChartElementBackground} )
+ *
+ * All elements can be configured by accessing them as properties of the chart:
+ *
+ * <code>
+ *  $chart->title->position = ezcGraph::BOTTOM;
+ * </code>
+ *
+ * The chart itself also offers several options to configure the appearance.
+ * The extended configure options are available in 
+ * {@link ezcGraphOdometerChartOptions} extending the {@link
+ * ezcGraphChartOptions}.
+ *
+ * @property ezcGraphOdometerChartOptions $options
+ *           Chart options class
+ *
+ * @version //autogentag//
+ * @package Graph
+ * @mainclass
+ */
 class ezcGraphOdometerChart extends ezcGraphChart
 {
 
@@ -31,6 +91,50 @@ class ezcGraphOdometerChart extends ezcGraphChart
         $this->elements['axis']->axisLabelRenderer->showZeroValue = true;
         $this->elements['axis']->position  = ezcGraph::LEFT;
         $this->elements['axis']->axisSpace = .05;
+    }
+
+    /**
+     * Property write access
+     * 
+     * @throws ezcBasePropertyNotFoundException
+     *          If Option could not be found
+     * @throws ezcBaseValueException
+     *          If value is out of range
+     * @param string $propertyName Option name
+     * @param mixed $propertyValue Option value;
+     * @return void
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue ) 
+    {
+        switch ( $propertyName ) {
+            case 'axis':
+                if ( $propertyValue instanceof ezcGraphChartElementAxis )
+                {
+                    $this->addElement( 'axis', $propertyValue );
+                    $this->elements['axis']->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
+                    $this->elements['axis']->axisLabelRenderer->showZeroValue = true;
+                    $this->elements['axis']->position  = ezcGraph::LEFT;
+                    $this->elements['axis']->axisSpace = .05;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphChartElementAxis' );
+                }
+                break;
+            case 'renderer':
+                if ( $propertyValue instanceof ezcGraphOdometerRenderer )
+                {
+                    parent::__set( $propertyName, $propertyValue );
+                }
+                else 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphOdometerRenderer' );
+                }
+                break;
+            default:
+                parent::__set( $propertyName, $propertyValue );
+        }
     }
 
     /**

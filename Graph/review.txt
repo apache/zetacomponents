@@ -1,7 +1,7 @@
 Some issues in Graph (Alexandru, 22-11-2007)
 ============================================
 
-[ ] If using a 3D renderer with Radar and Odometer (usually nobody does this)
+[x] If using a 3D renderer with Radar and Odometer (usually nobody does this)
     you get 2 different errors:
 
 Radar: ezcBaseValueException: The value 'O:18:"ezcGraphRenderer3d":16:{s:19:"
@@ -10,18 +10,24 @@ Radar: ezcBaseValueException: The value 'O:18:"ezcGraphRenderer3d":16:{s:19:"
 Odometer: Fatal error: Call to undefined method ezcGraphRenderer3d::drawOdometer()
           in /home/as/dev/ezcomponents/trunk/Graph/src/charts/odometer.php on line 137
 
-[ ] ezcGraphOdometerChart has no class doc-block - most likely will end up
+[x] ezcGraphOdometerChart has no class doc-block - most likely will end up
     in the NoPackageName section on http://ezcomponents.org/docs/api/trunk/elementindex.html
     (same with some classes in Webdav). It should also be marked as @mainclass.
 
 [ ] Odometer chart linear gradient looks different in Flash and Svg (more green on
     the left side in Svg and almost no green in Flash, using the default palette).
 
-[ ] Odometer chart does not do gradient colors in Gd (but probably this is documented).
+[x] Odometer chart does not do gradient colors in Gd (but probably this is documented).
+ 
+    # GD can't draw any gradients (in a reasonable time), so yes, it is
+	# documented.
 
 [ ] ezcGraphOdometerChart has some white space issues (eg. in foreach).
 
-[ ] graph_autoload.php: src/math/term.php is missing (and docanalysis.php tool does
+[x] graph_autoload.php: src/math/term.php is missing (and docanalysis.php tool does
     not work).
+
+	# This class is not used anywhere yet, and automatically included. Removed
+	# from autoload file.
 
 [ ] Some more doc block issues are revealed after running docanalysis.php.
