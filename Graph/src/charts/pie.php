@@ -12,8 +12,8 @@
  * pie chart.
  *
  * <code>
- *  // Create a new line chart
- *  $chart = new ezcGraphLineChart();
+ *  // Create a new pie chart
+ *  $chart = new ezcGraphPieChart();
  *
  *  // Add data to line chart
  *  $chart->data['sample dataset'] = new ezcGraphArrayDataSet(
@@ -27,7 +27,7 @@
  *  );
  *
  *  // Render chart with default 2d renderer and default SVG driver
- *  $chart->render( 500, 200, 'line_chart.svg' );
+ *  $chart->render( 500, 200, 'pie_chart.svg' );
  * </code>
  *
  * Each chart consists of several chart elements which represents logical 
