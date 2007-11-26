@@ -48,7 +48,7 @@ class ezcCacheStorageFilePlain extends ezcCacheStorageFile
      * include (or false on failure).
      * 
      * @param string $filename The file to fetch data from.
-     * @return mixed The fetched data or false on failure.
+     * @return string The fetched data or false on failure.
      */
     protected function fetchData( $filename )
     {

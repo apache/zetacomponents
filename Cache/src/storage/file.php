@@ -191,6 +191,10 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      * them. BEWARE: Finding cache data only by ID can be much
      * slower than finding it by ID and attributes.
      *
+     * Note that with the {@link ezcCacheStorageFilePlain} all restored data
+     * will be of type string. If you expect a different data type you need to
+     * perform a cast after restoring.
+     *
      * @param string $id                         The item ID to restore.
      * @param array(string=>string) $attributes  Attributes describing the 
      *                                           data to restore.

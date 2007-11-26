@@ -34,7 +34,7 @@ abstract class ezcCacheMemoryBackend
     /**
      * Fetches the data associated with key $key.
      *
-     * @param mixed $key
+     * @param string $key
      * @return mixed
      */
     abstract public function fetch( $key );
