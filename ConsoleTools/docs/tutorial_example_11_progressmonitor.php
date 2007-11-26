@@ -4,7 +4,7 @@ require_once 'tutorial_autoload.php';
 
 $output = new ezcConsoleOutput();
 
-$status = new ezcConsoleProgressMonitor( $out, 7 );
+$status = new ezcConsoleProgressMonitor( $output, 7 );
 
 $i = 0;
 while( $i++ < 7 ) 
@@ -13,6 +13,6 @@ while( $i++ < 7 )
     $status->addEntry( 'ACTION', "Performed action #{$i}." );
 }
 
-$out->outputLine();
+$output->outputLine();
 
 ?>
