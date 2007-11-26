@@ -14,19 +14,19 @@
  * $server = ezcWebdavServer::getInstance();
  *
  * // Server data using file backend with data in "path/"
- * $server->backend = new ezcWebdavBackendFile( '/path' );
+ * $server->backend = ;
  *
  * // Optionally register aditional transport handlers
  *   
  * // This step is only required, when a user wants to provide own 
  * // implementations for special clients.
- * $server->configurationsi[] = new ezcWebdavServerConfiguration(
+ * $server->configurations[] = new ezcWebdavServerConfiguration(
  *     // Regular expression to match client name
  *     '(Microsoft.*Webdav\s+XP)i',
  *     // Class name of transport handler, extending ezcWebdavTransportHandler
  *     'ezcWebdavMicrosoftTransport'
  * );  
- * $server->configurationsi[] = new ezcWebdavServerConfiguration(
+ * $server->configurations[] = new ezcWebdavServerConfiguration(
  *     // Regular expression to match client name
  *     '(.*Firefox.*)i',
  *     // Class name of transport handler, extending ezcWebdavTransportHandler
@@ -40,11 +40,8 @@
  * );  
  *
  * // Serve requests
- * $server->handle();
+ * $server->handle( new ezcWebdavBackendFile( '/path' ) );
  * </code>
- *
- * @properties ezcWebdavBackend $backend
- *             Data backend used to serve the request.
  *
  * @version //autogentag//
  * @package Webdav
