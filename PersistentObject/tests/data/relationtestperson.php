@@ -42,6 +42,11 @@ $def->relations["RelationTestAddress"]->columnMap     = array(
     new ezcPersistentDoubleTableMap( "id", "person_id", "address_id", "id" ),
 );
 
+$def->relations["RelationTestPerson"]                = new ezcPersistentManyToManyRelation( "PO_persons", "PO_persons", "PO_friends" );
+$def->relations["RelationTestPerson"]->columnMap     = array(
+    new ezcPersistentDoubleTableMap( "id", "id", "friend_id", "id" ),
+);
+
 return $def;
 
 ?>

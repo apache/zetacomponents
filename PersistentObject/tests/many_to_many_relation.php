@@ -512,6 +512,183 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             "Address relation records not deleted correctly on Person delete."
         );
     }
+
+    public function testGetRelatedObjectWithAmbigiousColumn()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+        $res =  RelationTestAddress::__set_state(array(
+            'id' => '1',
+            'street' => 'Httproad 23',
+            'zip' => '12345',
+            'city' => 'Internettown',
+            'type' => 'work',
+        ));
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObject( $person, "RelationTestAddress" ),
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+
+        $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
+        $res = array (
+            0 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '2',
+             'firstname' => 'Frederick',
+             'surname' => 'Ajax',
+             'employer' => '1',
+            )),
+            1 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '3',
+             'firstname' => 'Raymond',
+             'surname' => 'Socialweb',
+             'employer' => '1',
+            )),
+        );
+
+        $this->assertEquals(
+            $res,
+            $friends
+        );
+    }
+
+    public function testRemoveRelatedObjectWithAmbigiousColumn()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+        $res =  RelationTestAddress::__set_state(array(
+            'id' => '1',
+            'street' => 'Httproad 23',
+            'zip' => '12345',
+            'city' => 'Internettown',
+            'type' => 'work',
+        ));
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObject( $person, "RelationTestAddress" ),
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+
+        $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
+        $res = array (
+            0 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '2',
+             'firstname' => 'Frederick',
+             'surname' => 'Ajax',
+             'employer' => '1',
+            )),
+            1 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '3',
+             'firstname' => 'Raymond',
+             'surname' => 'Socialweb',
+             'employer' => '1',
+            )),
+        );
+
+        $this->assertEquals(
+            $res,
+            $friends
+        );
+
+        $this->session->removeRelatedObject( $person, $friends[0] );
+
+        $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
+        $res = array (
+            0 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '3',
+             'firstname' => 'Raymond',
+             'surname' => 'Socialweb',
+             'employer' => '1',
+            )),
+        );
+
+        $this->assertEquals(
+            $res,
+            $friends
+        );
+    }
+    
+    public function testAddRelatedObjectWithAmbigiousColumn()
+    {
+        $person = $this->session->load( "RelationTestPerson", 3 );
+        $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
+
+        $this->assertEquals(
+            array(),
+            $friends
+        );
+        
+        $otherPerson = $this->session->load( "RelationTestPerson", 1 );
+
+        $this->session->addRelatedObject( $person, $otherPerson );
+
+        $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
+        $res = array (
+            0 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '3',
+             'firstname' => 'Raymond',
+             'surname' => 'Socialweb',
+             'employer' => '1',
+            )),
+        );
+    }
+
+    public function testDeleteRelatedObjectWithAmbigiousColumn()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+        $res =  RelationTestAddress::__set_state(array(
+            'id' => '1',
+            'street' => 'Httproad 23',
+            'zip' => '12345',
+            'city' => 'Internettown',
+            'type' => 'work',
+        ));
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObject( $person, "RelationTestAddress" ),
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+
+        $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
+        $res = array (
+            0 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '2',
+             'firstname' => 'Frederick',
+             'surname' => 'Ajax',
+             'employer' => '1',
+            )),
+            1 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '3',
+             'firstname' => 'Raymond',
+             'surname' => 'Socialweb',
+             'employer' => '1',
+            )),
+        );
+
+        $this->assertEquals(
+            $res,
+            $friends
+        );
+
+        $this->session->removeRelatedObject( $person, $friends[0] );
+        $this->session->removeRelatedObject( $person, $friends[1] );
+
+        $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
+
+        $this->assertEquals(
+            array(),
+            $this->session->getRelatedObjects( $person, 'RelationTestPerson' )
+        );
+    }
 }
 
 ?>

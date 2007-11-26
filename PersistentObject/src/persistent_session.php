@@ -483,6 +483,7 @@ class ezcPersistentSession
         $query = $this->createRelationFindQuery( $object, $relatedClass );
         // This method only needs to return 1 object
         $query->limit( 1 );
+
         $resArr = $this->find( $query, $relatedClass );
         if ( sizeof( $resArr ) < 1 )
         {
@@ -1129,9 +1130,10 @@ class ezcPersistentSession
     public function generateAliasMap( ezcPersistentObjectDefinition $def )
     {
         $table = array();
+        $table[$def->idProperty->propertyName] = $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $def->idProperty->columnName );
         foreach ( $def->properties as $prop )
         {
-            $table[$prop->propertyName] = $this->database->quoteIdentifier( $prop->columnName );
+            $table[$prop->propertyName] = $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $prop->columnName );
         }
         $table[$def->class] = $def->table;
         return $table;
@@ -1146,10 +1148,10 @@ class ezcPersistentSession
     public function getColumnsFromDefinition( ezcPersistentObjectDefinition $def )
     {
         $columns = array();
-        $columns[] = $this->database->quoteIdentifier( $def->idProperty->columnName );
+        $columns[] = $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $def->idProperty->columnName );
         foreach ( $def->properties as $property )
         {
-            $columns[] = $this->database->quoteIdentifier( $property->columnName );
+            $columns[] = $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $property->columnName );
         }
         return $columns;
     }

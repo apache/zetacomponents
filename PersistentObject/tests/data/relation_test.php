@@ -33,6 +33,10 @@ class RelationTest
 
         $db->exec( "INSERT INTO " . $db->quoteIdentifier( "PO_birthdays" ) . " (" . $db->quoteIdentifier( "person_id" ) . ", " . $db->quoteIdentifier( "birthday" ) . ") VALUES (1, 327535201)"  );
         $db->exec( "INSERT INTO " . $db->quoteIdentifier( "PO_birthdays" ) . " (" . $db->quoteIdentifier( "person_id" ) . ", " . $db->quoteIdentifier( "birthday" ) . ") VALUES (2, -138243599)" );
+        
+        $db->exec( "INSERT INTO " . $db->quoteIdentifier( "PO_friends" ) . " (" . $db->quoteIdentifier( "id" ) . ", " . $db->quoteIdentifier( "friend_id" ) . ") VALUES (1, 2)" );
+        $db->exec( "INSERT INTO " . $db->quoteIdentifier( "PO_friends" ) . " (" . $db->quoteIdentifier( "id" ) . ", " . $db->quoteIdentifier( "friend_id" ) . ") VALUES (1, 3)" );
+        $db->exec( "INSERT INTO " . $db->quoteIdentifier( "PO_friends" ) . " (" . $db->quoteIdentifier( "id" ) . ", " . $db->quoteIdentifier( "friend_id" ) . ") VALUES (2, 1)" );
     }
 
     /**
@@ -67,6 +71,7 @@ class RelationTest
         $db->exec( "DROP TABLE " . $db->quoteIdentifier( "PO_persons" ) );
         $db->exec( "DROP TABLE " . $db->quoteIdentifier( "PO_persons_addresses" ) );
         $db->exec( "DROP TABLE " . $db->quoteIdentifier( "PO_secondpersons_addresses" ) );
+        $db->exec( "DROP TABLE " . $db->quoteIdentifier( "PO_friends" ) );
         if ( $db->getName() === "oracle" )
         {
             $db->exec( "DROP SEQUENCE " . $db->quoteIdentifier( "PO_addresses_id_seq" ) );
