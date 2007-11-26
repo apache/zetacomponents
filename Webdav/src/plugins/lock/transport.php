@@ -6,6 +6,8 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
  */
 /**
  * Transport layer extension class of the lock plugin.
@@ -17,6 +19,8 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
  */
 class ezcWebdavLockPluginTransport
 {

@@ -6,6 +6,8 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
  */
 /**
  * Plugin configuration class for the LOCK plugin.
@@ -17,6 +19,8 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
  */
 class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
 {
@@ -24,6 +28,23 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
      * Namespace of the LOCK plugin. 
      */
     const NAMESPACE = 'ezcWebdavLockPlugin';
+
+    /**
+     * Main object of the lock plugin. 
+     * 
+     * @var ezcWebdavLockPlugin
+     */
+    private $main;
+
+    /**
+     * Creates a new lock plugin configuration.
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->main = new ezcWebdavLockPlugin();
+    }
 
     /**
      * Returns the hooks this plugin wants to assign to.
@@ -57,7 +78,20 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
      */
     public function getHooks()
     {
-
+        return array(
+            'ezcWebdavTransport' => array(
+                'parseUnknownRequest'   => array( $this->main, 'parseRequest' ),
+                'handleUnknownResponse' => array( $this->main, 'handleResponse' ),
+            ),
+            'ezcWebavPropertyHandler' => array(
+                'extractUnknownLiveProperty'   => array( $this->main, 'parseProperty' ),
+                'serializeUnknownLiveProperty' => array( $this->main, 'parseProperty' ),
+            ),
+            'ezcWebdavServer' => array(
+                'receivedRequest'   => array( $this->main, 'receivedRequest' ),
+                'generatedResponse' => array( $this->main, 'generatedResponse' ),
+            ),
+        );
     }
 
     /**
@@ -71,7 +105,7 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
      */
     public function getNamespace()
     {
-
+        return self::NAMESPACE;
     }
 
     /**
@@ -85,7 +119,6 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
      */
     public function init()
     {
-
     }
 }
 

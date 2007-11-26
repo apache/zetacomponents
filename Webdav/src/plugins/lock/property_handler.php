@@ -1,5 +1,24 @@
 <?php
-
+/**
+ * File containing the ezcWebdavLockPluginPropertyHandler class.
+ *
+ * @package Webdav
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
+ */
+/**
+ * Property handler of the Lock plugin.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
+ */
 class ezcWebdavLockPluginPropertyHandler
 {
     /**
@@ -12,7 +31,7 @@ class ezcWebdavLockPluginPropertyHandler
      * @param DOMElement $domElement 
      * @return ezcWebdavLiveProperty|null
      */
-    public function extractLiveProperty( DOMElement $domElement )
+    public function extractLiveProperty( DOMElement $domElement, ezcWebdavXmlTool $xmlTool )
     {
         $property = null;
         switch ( $domElement->localName )
@@ -153,7 +172,7 @@ class ezcWebdavLockPluginPropertyHandler
      * @param DOMElement $parentElement 
      * @return DOMElement
      */
-    public function serializeLiveProperty( ezcWebdavLiveProperty $property, DOMElement $parentElement )
+    public function serializeLiveProperty( ezcWebdavLiveProperty $property, DOMElement $parentElement, ezcWebdavXmlTool $xmlTool )
     {
         switch ( get_class( $property ) )
         {
@@ -161,7 +180,7 @@ class ezcWebdavLockPluginPropertyHandler
                 $elementName  = 'lockdiscovery';
                 $elementValue = (
                     $property->activeLock !== null 
-                        ? $this->serializeActiveLockContent( $property->activeLock, $parentElement->ownerDocument )
+                        ? $this->serializeActiveLockContent( $property->activeLock, $parentElement->ownerDocument, $xmlTool )
                         : null
                 );
                 break;
@@ -169,14 +188,14 @@ class ezcWebdavLockPluginPropertyHandler
                 $elementName  = 'supportedlock';
                 $elementValue = (
                     $property->lockEntry !== null
-                        ? $this->serializeLockEntryContent( $property->lockEntry, $parentElement->ownerDocument )
+                        ? $this->serializeLockEntryContent( $property->lockEntry, $parentElement->ownerDocument, $xmlTool )
                         : null
                 );
                 break;
         }
 
         $propertyElement = $parentElement->appendChild( 
-            ezcWebdavServer::getInstance()->xmlTool->createDomElement( $parentElement->ownerDocument, $elementName, $property->namespace )
+            $xmlTool->createDomElement( $parentElement->ownerDocument, $elementName, $property->namespace )
         );
 
         if ( $elementValue instanceof DOMDocument )
@@ -207,31 +226,31 @@ class ezcWebdavLockPluginPropertyHandler
      * @param DOMDocument $dom To create the returned DOMElements.
      * @return array(DOMElement)
      */
-    protected function serializeActiveLockContent( array $activeLocks = null, DOMDocument $dom )
+    protected function serializeActiveLockContent( array $activeLocks = null, DOMDocument $dom, ezcWebdavXmlTool $xmlTool )
     {
         $activeLockElements = array();
         foreach ( $activeLocks as $activeLock )
         {
-            $activeLockElement = ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'activelock' );
+            $activeLockElement = $xmlTool->createDomElement( $dom, 'activelock' );
             
             $activeLockElement->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'locktype' )
+                $xmlTool->createDomElement( $dom, 'locktype' )
             )->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement(
+                $xmlTool->createDomElement(
                     $dom, ( $activeLock->lockType === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' )
                 )
             );
             
             $activeLockElement->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'lockscope' )
+                $xmlTool->createDomElement( $dom, 'lockscope' )
             )->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement(
+                $xmlTool->createDomElement(
                     $dom, ( $activeLock->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' )
                 )
             );
             
             $depthElement = $activeLockElement->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'depth' )
+                $xmlTool->createDomElement( $dom, 'depth' )
             );
             
             switch ( $activeLock->depth )
@@ -250,20 +269,20 @@ class ezcWebdavLockPluginPropertyHandler
             if ( $activeLock->owner !== null )
             {
                 $activeLockElement->appendChild(
-                    ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'owner' )
+                    $xmlTool->createDomElement( $dom, 'owner' )
                 )->nodeValue = $activeLock->owner;
             }
 
             $activeLockElement->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'timeout' )
+                $xmlTool->createDomElement( $dom, 'timeout' )
             )->$activeLock->timeout;
 
             foreach ( $activeLock->tokens as $token )
             {
                 $activeLockElement->appendChild(
-                    ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'locktoken' )
+                    $xmlTool->createDomElement( $dom, 'locktoken' )
                 )->appendChild(
-                    ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'href' )
+                    $xmlTool->createDomElement( $dom, 'href' )
                 )->nodeValue = $token;
             }
 
@@ -280,24 +299,24 @@ class ezcWebdavLockPluginPropertyHandler
      * @param DOMDocument $dom To create the returned DOMElements.
      * @return array(DOMElement)
      */
-    protected function serializeLockEntryContent( array $lockEntries = null, DOMDocument $dom )
+    protected function serializeLockEntryContent( array $lockEntries = null, DOMDocument $dom, ezcWebdavXmlTool $xmlTool )
     {
         $lockEntryContentElements = array();
 
         foreach( $lockEntries as $lockEntry )
         {
-            $lockEntryElement = ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'lockentry' );
+            $lockEntryElement = $xmlTool->createDomElement( $dom, 'lockentry' );
             $lockEntryElement->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'lockscope' )
+                $xmlTool->createDomElement( $dom, 'lockscope' )
             )->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement(
+                $xmlTool->createDomElement(
                     $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::SCOPE_EXCLUSIVE ? 'exclusive' : 'shared' )
                 )
             );
             $lockEntryElement->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'locktype' )
+                $xmlTool->createDomElement( $dom, 'locktype' )
             )->appendChild(
-                ezcWebdavServer::getInstance()->xmlTool->createDomElement(
+                $xmlTool->createDomElement(
                     $dom, ( $lockEntry->lockScope === ezcWebdavLockRequest::TYPE_READ ? 'read' : 'write' )
                 )
             );
