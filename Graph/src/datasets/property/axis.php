@@ -18,7 +18,7 @@ class ezcGraphDataSetAxisProperty extends ezcGraphDataSetProperty
     /**
      * Chacks if value is really an axis
      * 
-     * @param &$value 
+     * @param ezcGraphChartElementAxis $value 
      * @return void
      */
     protected function checkValue( &$value )

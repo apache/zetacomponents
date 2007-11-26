@@ -227,7 +227,7 @@ class ezcGraphRenderer3d
      * @param ezcGraphColor $color Color of pie segment
      * @param float $startAngle Start angle
      * @param float $endAngle End angle
-     * @param string $label Label of pie segment
+     * @param mixed $label Label of pie segment
      * @param bool $moveOut Move out from middle for hilighting
      * @return void
      */
@@ -1256,8 +1256,6 @@ class ezcGraphRenderer3d
      * @param ezcGraphCoordinate $start
      * @param ezcGraphCoordinate $position
      * @param float $stepSize Space which can be used for bars
-     * @param int $dataNumber Number of dataset
-     * @param int $dataCount Count of datasets in chart
      * @param int $symbol Symbol to draw for line
      * @param float $axisPosition Position of axis for drawing filled lines
      * @return void
@@ -1697,7 +1695,7 @@ class ezcGraphRenderer3d
      * @param int $borderWidth Border width
      * @param int $margin Margin
      * @param int $padding Padding
-     * @param string $title Title of the box
+     * @param mixed $title Title of the box
      * @param int $titleSize Size of title in the box
      * @return ezcGraphBoundings Remaining inner boundings
      */

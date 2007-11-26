@@ -113,7 +113,7 @@ abstract class ezcGraphRenderer
      * @param ezcGraphColor $color Color of pie segment
      * @param float $startAngle Start angle
      * @param float $endAngle End angle
-     * @param string $label Label of pie segment
+     * @param mixed $label Label of pie segment
      * @param bool $moveOut Move out from middle for hilighting
      * @return void
      */
@@ -250,7 +250,7 @@ abstract class ezcGraphRenderer
      * @param int $borderWidth Border width
      * @param int $margin Margin
      * @param int $padding Padding
-     * @param string $title Title of the box
+     * @param mixed $title Title of the box
      * @param int $titleSize Size of title in the box
      * @return ezcGraphBoundings Remaining inner boundings
      */

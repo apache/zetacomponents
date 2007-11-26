@@ -21,6 +21,7 @@ interface ezcGraphOdometerRenderer
      * Render odometer chart
      * 
      * @param ezcGraphBoundings $boundings 
+     * @param ezcGraphChartElementAxis $axis
      * @param ezcGraphOdometerChartOptions $options
      * @return ezcGraphBoundings
      */

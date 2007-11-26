@@ -28,8 +28,6 @@ interface ezcGraphStackedBarsRenderer
      * @param ezcGraphCoordinate $start
      * @param ezcGraphCoordinate $position
      * @param float $stepSize Space which can be used for bars
-     * @param int $dataNumber Number of dataset
-     * @param int $dataCount Count of datasets in chart
      * @param int $symbol Symbol to draw for line
      * @param float $axisPosition Position of axis for drawing filled lines
      * @return void

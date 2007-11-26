@@ -418,8 +418,8 @@ class ezcGraphLineChart extends ezcGraphChart
      * Check if renderer supports features requested by some special chart
      * options.
      * 
-     * @throw ezcBaseValueException
-     *        If some feature is not supported
+     * @throws ezcBaseValueException
+     *         If some feature is not supported
      *
      * @return void
      */
@@ -638,7 +638,7 @@ class ezcGraphLineChart extends ezcGraphChart
      *
      * @param int $width
      * @param int $height
-     * @apichange
+     * @apichange 
      * @return void
      */
     public function renderToOutput( $width, $height )
