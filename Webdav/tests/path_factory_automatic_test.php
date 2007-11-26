@@ -98,7 +98,7 @@ class ezcWebdavAutomaticPathFactoryTest extends ezcWebdavTestCase
 
         $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            '',
+            '/',
             $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
@@ -150,7 +150,7 @@ class ezcWebdavAutomaticPathFactoryTest extends ezcWebdavTestCase
 
         $factory = new ezcWebdavAutomaticPathFactory();
         $this->assertSame(
-            '',
+            '/',
             $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
@@ -175,12 +175,10 @@ class ezcWebdavAutomaticPathFactoryTest extends ezcWebdavTestCase
         $_SERVER['REQUEST_URI']         = '/path/to/webdav/collection/ressource';
 
         $factory = new ezcWebdavAutomaticPathFactory();
-        try
-        {
-            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] );
-            $this->fail( 'ezcWebdavBrokenRequestUriException expected.' );
-        }
-        catch ( ezcWebdavBrokenRequestUriException $e ) {}
+        $this->assertEquals(
+            '/webdav/collection/ressource',
+            $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
+        );
     }
 }
 ?>

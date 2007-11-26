@@ -118,7 +118,7 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
             unset( $this->collectionPathes[$path] );
         }
 
-        return ( is_string( $path ) ? $path : '/' );
+        return ( is_string( $path ) && $path !== '' ? $path : '/' );
     }
 
     /**
