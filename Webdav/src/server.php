@@ -13,9 +13,6 @@
  * <code>
  * $server = ezcWebdavServer::getInstance();
  *
- * // Server data using file backend with data in "path/"
- * $server->backend = ;
- *
  * // Optionally register aditional transport handlers
  *   
  * // This step is only required, when a user wants to provide own 
@@ -39,9 +36,15 @@
  *     new customWebdavPathFactory()
  * );  
  *
+ * // Server data using file backend with data in "path/"
+ * $backend = new ezcWebdavBackendFile( '/path' );
+ *
  * // Serve requests
- * $server->handle( new ezcWebdavBackendFile( '/path' ) );
+ * $server->handle( $backend );
  * </code>
+ *
+ * @properties ezcWebdavServerConfigurationManager $configurations
+ *             Webdav server configuration manager
  *
  * @version //autogentag//
  * @package Webdav
@@ -117,7 +120,7 @@ class ezcWebdavServer
             : $uri );
 
         // Perform final setup
-        $this->backend = $backend;
+        $this->properties['backend'] = $backend;
         if ( !isset( $_SERVER['HTTP_USER_AGENT'] ) )
         {
             throw new ezcWebdavMissingHeaderException( 'User-Agent' );
@@ -242,11 +245,6 @@ class ezcWebdavServer
                 }
                 break;
             case 'backend':
-                if ( ( $propertyValue instanceof ezcWebdavBackend ) === false )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavBackend' );
-                }
-                break;
             case 'pluginRegistry':
             case 'pathFactory':
             case 'xmlTool':

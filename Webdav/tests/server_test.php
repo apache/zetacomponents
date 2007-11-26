@@ -106,10 +106,9 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         $setValues = array(
             'configurations' => new ezcWebdavServerConfigurationManager(),
-            'backend'        => new ezcWebdavMemoryBackend(),
         );
         $checkValues = array(
-            'backend'         => new ezcWebdavMemoryBackend(),
+            'backend'         => null,
             'configurations'  => new ezcWebdavServerConfigurationManager(),
             'pluginRegistry'  => new ezcWebdavPluginRegistry(),
             'xmlTool'         => null,
@@ -154,7 +153,6 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         $invalidValues = array(
             'configurations' => $typicalFails, 
-            'backend'    => $typicalFails, 
         );
 
         foreach ( $invalidValues as $propertyName => $propertyValues )
