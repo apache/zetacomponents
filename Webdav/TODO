@@ -1,41 +1,11 @@
 TODO
 ====
 
-- Handle external URLs in path factory and backends (Bail out with 502 - Bad
-  Gateway)
-
-- Add validity checks for $name (XML tag) and $namspace (URI) properties to
-  ezcWebdavDeadProperty.
-
-- Desing interface for ezcWebdavTransport extensions (must follow client
-  dispatching)
-
-  - How to deal with unknown properties in the DAV: namespace? We currently
-	just ignore them.
-
-- Check how to deal with namespaces in dead properties.
-
-- Memory backend does not support emulation of client test case rfc/proppatch.
-
-  - Error emulation would need to be highly more flexible.
-
 - ezcWebdavDateTime is a temporary solution for the issue that DateTime is
   currently not correctly serializable. Will this be fixed? We just need it for
   testing, though.
 
-- Client test case litmus/113_props__3_propfind_invalid2 reflects the issue,
-  that we can not reject invalid XML properly. a) the DAV: namespace is invalid
-  by itself. b) DOM does not bail out on loading an XML string without proper
-  XML declaration. WebDAV defines to reject "invalid" issues.
-
-- Header handling needs to be refactored to allow plugins to access them.
-
 - Add test for mime type file info extensions
-
-- We could offer an init hook, which is announced as soon as
-  ezcWebdavServer->init() is called, using it's parameters. This could make
-  sense for plugins to internally store those. But actually it's sugar, because
-  they can also access the data through the server singleton.
 
 - URL encoding, UTF-8 and other charsets?
 
