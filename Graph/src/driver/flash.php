@@ -129,17 +129,26 @@ class ezcGraphFlashDriver extends ezcGraphDriver
 
                     $fill = $shape->addFill( $gradient, SWFFILL_LINEAR_GRADIENT );
 
+                    // Calculate desired length of gradient
+                    $length = sqrt( 
+                        pow( $color->endPoint->x - $color->startPoint->x, 2 ) + 
+                        pow( $color->endPoint->y - $color->startPoint->y, 2 ) 
+                    ); 
+
+                    $fill->scaleTo( $this->modifyCoordinate( $length ) / 32768 , $this->modifyCoordinate( $length ) / 32768 );
                     $fill->rotateTo( 
                         rad2deg( asin( 
-                            ( $color->endPoint->x - $color->startPoint->x ) / 
-                            $length = sqrt( 
-                                pow( $color->endPoint->x - $color->startPoint->x, 2 ) + 
-                                pow( $color->endPoint->y - $color->startPoint->y, 2 ) 
-                            ) 
+                            ( $color->endPoint->x - $color->startPoint->x ) / $length
                         ) + 180 )
                     );
-                    $fill->scaleTo( $this->modifyCoordinate( $length ) / 32768 , $this->modifyCoordinate( $length ) / 32768 );
-                    $fill->moveTo( $this->modifyCoordinate( $color->startPoint->x ), $this->modifyCoordinate( $color->startPoint->y ) );
+                    $fill->moveTo( 
+                        $this->modifyCoordinate( 
+                            ( $color->startPoint->x + $color->endPoint->x ) / 2 
+                        ), 
+                        $this->modifyCoordinate( 
+                            ( $color->startPoint->y + $color->endPoint->y ) / 2 
+                        )
+                    );
 
                     $shape->setLeftFill( $fill );
                     break;
@@ -857,13 +866,18 @@ class ezcGraphFlashDriver extends ezcGraphDriver
         );
 
         // @TODO: User SWFShape::curveTo
-        for ( $angle = $this->options->circleResolution; $angle <= 360; $angle += $this->options->circleResolution )
+        for ( $angle = $this->options->circleResolution; $angle < 360; $angle += $this->options->circleResolution )
         {
             $shape->drawLineTo( 
                 $this->modifyCoordinate( $center->x + cos( deg2rad( $angle ) ) * $width / 2 ), 
                 $this->modifyCoordinate( $center->y + sin( deg2rad( $angle ) ) * $height / 2 )
             );
         }
+
+        $shape->drawLineTo( 
+            $this->modifyCoordinate( $center->x + $width / 2 ), 
+            $this->modifyCoordinate( $center->y )
+        );
 
         $object = $movie->add( $shape );
         $object->setName( $id = 'ezcGraphCircle_' . $this->id++ );
