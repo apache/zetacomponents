@@ -88,19 +88,37 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
     public function parseUriToPath( $uri )
     {
         $requestPath = parse_url( $uri, PHP_URL_PATH );
+        $serverBase = dirname(  $this->serverFile );
 
-        // Check for proper request path
-        if ( strpos( $requestPath, $this->serverFile ) !== 0 )
+        // Check for request path including index.php
+        if ( strpos( $requestPath, $this->serverFile ) === 0 )
         {
-            // Request URI should always start with server file, othwise there
-            // is some rewriting in place, which cannot be handled using this
-            // path factory
-            throw new ezcWebdavBrokenRequestUriException( $requestPath );
+            $path = substr( $requestPath, strlen( $this->serverFile ) );
+        }
+        // Check for request path without index.php, but with some root to cut
+        else if ( $serverBase !== '/' && strpos( $requestPath, $serverBase ) === 0 )
+        {
+            $path = substr( $requestPath, strlen( $serverBase ) );
+            $this->serverFile = $serverBase;
+        }
+        // Already a good path, just use it
+        else
+        {
+            $path = $requestPath;
+            $this->serverFile = '';
         }
 
-        // Get ressource.
-        $path = substr( $requestPath, strlen( $this->serverFile ) );
-        return ( is_string( $path ) ? $path : '' );
+        if ( substr( $path, -1, 1 ) === '/' )
+        {
+            $path = substr( $path, 0, -1 );
+            $this->collectionPathes[$path] = true;
+        }
+        elseif ( isset( $this->collectionPathes[$path] ) )
+        {
+            unset( $this->collectionPathes[$path] );
+        }
+
+        return ( is_string( $path ) ? $path : '/' );
     }
 
     /**
@@ -118,7 +136,8 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
         return 'http://' . $_SERVER['SERVER_NAME'] 
              . ( $_SERVER['SERVER_PORT'] == 80 ? '' : ':' . $_SERVER['SERVER_PORT'] )
              . $this->serverFile
-             . $path;
+             . $path
+             . ( isset( $this->collectionPathes[$path] ) ? '/' : '' );
     }
 }
 
