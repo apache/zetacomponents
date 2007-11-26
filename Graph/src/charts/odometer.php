@@ -211,7 +211,7 @@ class ezcGraphOdometerChart extends ezcGraphChart
 
         // Get values out the single used dataset to calculate axis boundings
         $values = array();
-        foreach( $this->data->rewind() as $value )
+        foreach ( $this->data->rewind() as $value )
         {
             $values[] = $value;
         }
