@@ -1,3 +1,11 @@
+1.3beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- #012022: PersistentObjectDatabaseSchemaTiein not passing it's tests.
+  (Whitespace changes in generated PersistentObject definitions made
+  PersistentObjectDatabaseSchemaTiein fail.)
+
+
 1.3alpha1 - Monday 29 October 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

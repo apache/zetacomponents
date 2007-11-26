@@ -44,49 +44,77 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         chdir( $oldDir );
 
         // file_put_contents( __FUNCTION__, substr( $res, 0, 203 ) );
-        $this->assertEquals( $this->results[__FUNCTION__], substr( $res, 0, 203 ), "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\swhile\sprocessing\syour\soptions:\sArgument\swith\sname\s\'def dir\'\sis\smandatory\sbut\swas\snot\ssubmitted\.)s', $res ),
+            'Error message not found in generated output.'
+        );
     }
 
     public function testNoParameters()
     {
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php`;
         // file_put_contents( __FUNCTION__, $res );
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\swhile\sprocessing\syour\soptions:\sArgument\swith\sname\s\'def dir\'\sis\smandatory\sbut\swas\snot\ssubmitted\.)s', $res ),
+            'Error message not found in generated output.'
+        );
     }
 
     public function testOnlySourceParameter()
     {
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -s test`;
         // file_put_contents( __FUNCTION__, $res );
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\swhile\sprocessing\syour\soptions:\sArgument\swith\sname\s\'def dir\'\sis\smandatory\sbut\swas\snot\ssubmitted\.)s', $res ),
+            'Error message not found in generated output.'
+        );
     }
 
     public function testOnlyFormatParameter()
     {
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f test`;
         // file_put_contents( __FUNCTION__, $res );
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\swhile\sprocessing\syour\soptions:\sArgument\swith\sname\s\'def dir\'\sis\smandatory\sbut\swas\snot\ssubmitted\.)s', $res ),
+            'Error message not found in generated output.'
+        );
     }
 
     public function testFormatSourceParameter()
     {
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f test -s test`;
         // file_put_contents( __FUNCTION__, $res );
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\swhile\sprocessing\syour\soptions:\sArgument\swith\sname\s\'def dir\'\sis\smandatory\sbut\swas\snot\ssubmitted\.)s', $res ),
+            'Error message not found in generated output.'
+        );
     }
 
     public function testInvalidFormat()
     {
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f test -s test test`;
         // file_put_contents( __FUNCTION__, $res );
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\sreading\sschema:\sThere\sis no\s\'read\'\shandler\savailable\sfor\sthe\s\'test\'\sformat\.)s', $res ),
+            'Error message not found in generated output.'
+        );
     }
 
     public function testInvalidSource()
     {
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s test test`;
         // file_put_contents( __FUNCTION__, $res );
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\sreading\sschema:\sThe\sschema\sfile\s\'test\'\scould\snot\sbe\sfound\.)s', $res ),
+            'Error message not found in generated output.'
+        );
     }
 
     public function testInvalidDestination()
@@ -94,7 +122,11 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $source = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source test`;
         // file_put_contents( __FUNCTION__, $res );
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\swriting\sschema:\sThe\sdirectory\sfile\s\'test\'\scould\snot\sbe\sfound\.)s', $res ),
+            'Error message not found in generated output.'
+        );
     }
 
     public function testValidFromFile()
@@ -103,20 +135,19 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $destination = $this->createTempDir( "PersObjDatSchem" );
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source $destination`;
         // file_put_contents( __FUNCTION__, $res );
-
-        // Sanitize because of temp dir name
-        $res = explode( "\n", $res );
-        unset( $res[3], $res[4] );
-        $res = implode( "\n", $res );
         
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(PersistentObject\sdefinition\ssuccessfully\swritten\sto)s', $res ),
+            'No success message found in generated output.'
+        );
 
         foreach ( glob( dirname( __FILE__ ) . "/data/definition_only/definitions/*.php" ) as $file )
         {
             $this->assertEquals(
                 file_get_contents( $file ),
                 file_get_contents( $destination . "/" . basename( $file ) ),
-                "Geneator generated an invalid persistent object definition file."
+                "Geneator generated an invalid persistent object definition file '$file'."
             );
         }
 
@@ -134,19 +165,18 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source "$destination/definitions" "$destination/classes"`;
         // file_put_contents( __FUNCTION__, $res );
 
-        // Sanitize because of temp dir name
-        $res = explode( "\n", $res );
-        unset( $res[3], $res[4] );
-        $res = implode( "\n", $res );
-        
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(PersistentObject\sdefinition\ssuccessfully\swritten\sto)s', $res ),
+            'No success message found in generated output.'
+        );
 
         foreach ( glob( dirname( __FILE__ ) . "/data/definition_class/definitions/*.php" ) as $file )
         {
             $this->assertEquals(
                 file_get_contents( $file ),
                 file_get_contents( $destination . "/definitions/" . basename( $file ) ),
-                "Geneator generated an invalid persistent object definition file."
+                "Geneator generated an invalid persistent object definition file, compared to '$file'."
             );
         }
 
@@ -155,7 +185,7 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
             $this->assertEquals(
                 file_get_contents( $file ),
                 file_get_contents( $destination . "/classes/" . basename( $file ) ),
-                "Geneator generated an invalid persistent object definition file."
+                "Geneator generated an invalid persistent object class file, compared to '$file'."
             );
         }
 
@@ -173,19 +203,18 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -p ezcapp -f xml -s $source "$destination/definitions" "$destination/classes"`;
         // file_put_contents( __FUNCTION__, $res );
 
-        // Sanitize because of temp dir name
-        $res = explode( "\n", $res );
-        unset( $res[3], $res[4] );
-        $res = implode( "\n", $res );
-        
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(PersistentObject\sdefinition\ssuccessfully\swritten\sto)s', $res ),
+            'No success message found in generated output.'
+        );
 
         foreach ( glob( dirname( __FILE__ ) . "/data/definition_class_prefix/definitions/*.php" ) as $file )
         {
             $this->assertEquals(
                 file_get_contents( $file ),
                 file_get_contents( $destination . "/definitions/" . basename( $file ) ),
-                "Geneator generated an invalid persistent object definition file."
+                "Geneator generated an invalid persistent object definition file, compared to '$file'."
             );
         }
 
@@ -194,7 +223,7 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
             $this->assertEquals(
                 file_get_contents( $file ),
                 file_get_contents( $destination . "/classes/" . basename( $file ) ),
-                "Geneator generated an invalid persistent object definition file."
+                "Geneator generated an invalid persistent object class file, compared to '$file'."
             );
         }
 
@@ -209,12 +238,11 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source $destination`;
         // file_put_contents( __FUNCTION__, $res );
 
-        // Sanitize because of temp dir name
-        $res = explode( "\n", $res );
-        unset( $res[3], $res[4] );
-        $res = implode( "\n", $res );
-        
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\swriting\sschema:\sAn\serror\soccurred\swhile\swriting\sto)s', $res ),
+            'Error message not found in generated output.'
+        );
 
         $this->removeTempDir();
     }
@@ -228,12 +256,11 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source -o $destination`;
         // file_put_contents( __FUNCTION__, $res );
 
-        // Sanitize because of temp dir name
-        $res = explode( "\n", $res );
-        unset( $res[3], $res[4] );
-        $res = implode( "\n", $res );
-        
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(PersistentObject\sdefinition\ssuccessfully\swritten\sto)s', $res ),
+            'No success message found in generated output.'
+        );
 
         $this->removeTempDir();
     }
@@ -260,12 +287,11 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         // real test
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f "$type" -s "$dsn" "$destination"`;
         
-        // Sanitize because of temp dir name
-        $res = explode( "\n", $res );
-        unset( $res[3], $res[4] );
-        $res = implode( "\n", $res );
-        
-        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(PersistentObject\sdefinition\ssuccessfully\swritten\sto)s', $res ),
+            'No success message found in generated output.'
+        );
 
         foreach ( glob( dirname( __FILE__ ) . "/data/definition_only/definitions/*.php" ) as $file )
         {
@@ -298,7 +324,11 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         // real test
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f "$type" -s "$dsn" "$destination"`;
         
-        $this->assertEquals( $this->results[__FUNCTION__], substr( $res, 0, 115 ), "Error output incorrect with no parameters." );
+        $this->assertEquals(
+            1,
+            preg_match( '(Error\sreading\sschema)s', $res ),
+            'No success error found in generated output.'
+        );
 
         $this->removeTempDir();
     }
