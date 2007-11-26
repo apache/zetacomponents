@@ -844,17 +844,17 @@ class ezcGraphFlashDriver extends ezcGraphDriver
         $shape = new SWFShape();
         $this->setShapeColor( $shape, $color, 1, $filled );
 
-        $shape->movePenTo( 
-            $this->modifyCoordinate( $center->x + $width / 2 ), 
-            $this->modifyCoordinate( $center->y )
-        );
-
         // Reduce size
         if ( !$filled )
         {
             $width -= 1;
             $height -= 1;
         }
+
+        $shape->movePenTo( 
+            $this->modifyCoordinate( $center->x + $width / 2 ), 
+            $this->modifyCoordinate( $center->y )
+        );
 
         // @TODO: User SWFShape::curveTo
         for ( $angle = $this->options->circleResolution; $angle <= 360; $angle += $this->options->circleResolution )
