@@ -17,9 +17,9 @@ class ezcImageConversionTestCase extends ezcTestImageCase
 
     protected $referencePath;
 
-    public function __construct( $string = "" )
+    public function __construct()
     {
-        parent::__construct( $string );
+        parent::__construct();
         $dataDir = dirname( __FILE__ ) . "/data";
         foreach ( glob( "$dataDir/*" ) as $testFile )
         {
