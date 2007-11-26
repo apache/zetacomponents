@@ -29,33 +29,18 @@ TODO
 	charset provided and set correct headers on GET? Especially important is to
 	check German and other languages Umlauts.
 
-Code TODOs on Sat Nov 10 10:40:11 CET 2007
-==========================================
+Inline todos
+============
 
-Webdav/src/backends/simple.php:                        // @TODO: This assumptions is not particular correct.
-Webdav/src/backends/simple.php:        // @TODO: RFC2616 Section 9.6 PUT requires us to send 501 on all
-Webdav/src/backends/simple.php:        // @TODO: handle keepalive setting somehow - even the RFC is quite
-Webdav/src/backends/simple.php:        // @TODO: handle keepalive setting somehow - even the RFC is quite
-Webdav/src/backends/simple.php:        // @TODO: The error generated here should depend on the actual backend
-Webdav/src/backends/file.php:                // @TODO: Use proper etag hashing stuff
-Webdav/src/backends/file.php:            // @TODO: Mind hideDotFiles option
-Webdav/src/interfaces/response.php:        // @TODO: Do we need more standard HTTP headers here?
-Webdav/src/interfaces/request.php:        // @todo Implement general header checks here.
-Webdav/src/path_factories/basic.php:     * @todo This is a temporary hack to satisfy memory backend and RFC.
-Webdav/src/path_factories/basic.php:            // @todo This is a cleanup for the memory backend
-Webdav/src/path_factories/basic.php:            // @todo Some clients first send with / and then discover it is not a resource
-Webdav/src/plugins/lock/transport.php:        // @TODO is the following not restrictive enough?
-Webdav/src/plugins/lock/property_handler.php:                    // @TODO Need to check for special values here!
-Webdav/src/plugins/lock/main.php:        // @TODO anything to do here?
-Webdav/src/plugins/lock/main.php:     * @todo Tie in Authentication to authenticate for locking
-Webdav/src/plugins/lock/main.php:     * @todo A mechanism to determine authorization?
-Webdav/src/plugins/lock/main.php:        // @TODO: Anything to do here?
-Binary file Webdav/src/plugins/lock/.main.php.swp matches
+Grepped on Mon Nov 26 13:03:57 CET 2007.
+
 Webdav/src/tools/xml.php:     * @todo This should throw an exception if loading of the XML fails!
-Webdav/src/tools/date_time.php: * @todo Remove
-Webdav/src/transport.php:            // @TODO:
 Webdav/src/transport.php:     * @todo We should possibly offer an ezcWebdavTemplateTiein, which brings
 Webdav/src/transport.php:     * @todo Do we need to set more headers here?
 Webdav/src/transport.php:     * @todo Do we need to set more headers here?
-Webdav/src/transports/property_handler.php:                // @TODO: Should this throw an exception, if the match fails?
-Webdav/src/transports/header_handler.php:                // @TODO Add plugin hook
+Webdav/src/plugins/lock/main.php:     * @todo Tie in Authentication to authenticate for locking
+Webdav/src/plugins/lock/main.php:     * @todo A mechanism to determine authorization?
+Webdav/src/path_factories/basic.php:     * @todo This is a temporary hack to satisfy memory backend and RFC.
+Webdav/src/path_factories/basic.php:            // @todo This is a cleanup for the memory backend
+Webdav/src/path_factories/basic.php:            // @todo Some clients first send with / and then discover it is not a resource
+Webdav/src/interfaces/request.php:        // @todo Implement general header checks here.
