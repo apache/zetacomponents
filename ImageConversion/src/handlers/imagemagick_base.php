@@ -142,6 +142,14 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         {
             $this->checkFileName( $newFile );
         }
+        
+        // Check is transparency must be converted
+        if  ( $this->needsTransparencyConversion( $this->getReferenceData( $image, 'mime' ), $mime ) && $options->transparencyReplacementColor !== null )
+        {
+            $this->addFilterOption( $image, '-fill', $this->colorArrayToString( $options->transparencyReplacementColor ) );
+            $this->addFilterOption( $image, '-opaque', 'none' );
+        }
+
         $this->saveCommon( $image, $newFile, $mime );
         
         switch ( $this->getReferenceData( $image, 'mime' ) )
@@ -149,14 +157,14 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
             case "image/jpeg":
                 if ( $options->quality !== null )
                 {
-                    $this->addFilterOption( $image, "quality", $options->quality );
+                    $this->addFilterOption( $image, "-quality", $options->quality );
                 }
             break;
             case "image/png":
                 if ( $options->compression !== null )
                 {
                     // ImageMagick uses qualtiy options here and incorporates filter options
-                    $this->addFilterOption( $image, "quality", $options->compression * 10 );
+                    $this->addFilterOption( $image, "-quality", $options->compression * 10 );
                 }
             break;
         }
@@ -212,6 +220,49 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         }
         // Finish atomic file operation
         copy( $this->getReferenceData( $image, 'resource' ), $this->getReferenceData( $image, 'file' ) );
+    }
+
+    /**
+     * Returns a string representation of the given color array.
+     *
+     * ImageConversion uses arrays to represent color values, in the format:
+     * <code>
+     * array(
+     *      255,
+     *      0,
+     *      0,
+     * )
+     * </code>
+     * This array represents the color red.
+     *
+     * This method takes such a color array and converts it into a string
+     * representation usable by the convert binary. For the above examle it
+     * would be '#FF0000'.
+     * 
+     * @param array $color 
+     * @return void
+     *
+     * @throws ezcBaseValueException
+     *         if one of the color values in the array is invalid (not integer,
+     *         smaller than 0 or larger than 255).
+     */
+    protected function colorArrayToString( array $color )
+    {
+        $colorString = '#';
+        $i = 0;
+        foreach ( $color as $id => $colorVal )
+        {
+            if ( $i++ > 2 )
+            {
+                break;
+            }
+            if ( !is_int( $colorVal ) || $colorVal < 0 || $colorVal > 255 )
+            {
+                throw new ezcBaseValueException( "color[$id]", $color[$id], 'int > 0 and < 256' );
+            }
+            $colorString .= sprintf( '%02x', $colorVal );
+        }
+        return $colorString;
     }
 
     /**

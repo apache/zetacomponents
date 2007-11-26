@@ -111,6 +111,13 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
         {
             $this->checkFileName( $newFile );
         }
+        
+        // Check is transparency must be converted
+        if  ( $this->needsTransparencyConversion( $this->getReferenceData( $image, 'mime' ), $mime ) && $options->transparencyReplacementColor !== null )
+        {
+            $this->replaceTransparency( $image, $options->transparencyReplacementColor );
+        }
+
         $this->saveCommon( $image, isset( $newFile ) ? $newFile : null, isset( $mime ) ? $mime : null );
         $saveFunction = $this->getSaveFunction( $this->getReferenceData( $image, 'mime' ) );
 
@@ -139,6 +146,57 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
         {
             throw new ezcImageFileNotProcessableException( $file, "Unable to save file '{$file}' of type '{$mime}'." );
         }
+    }
+
+    /**
+     * Replaces a transparent background with the given color.
+     *
+     * This method is used to replace the transparent background of an image
+     * with an opaque color when converting from a transparency supporting MIME
+     * type (e.g. image/png) to a MIME type that does not support transparency.
+     *
+     * The color 
+     * 
+     * @param mixed $image 
+     * @param mixed $color 
+     * @return void
+     */
+    protected function replaceTransparency( $image, array $color )
+    {
+        $oldResource = $this->getReferenceData( $image, 'resource' );
+        $width  = imagesx( $oldResource );
+        $height = imagesy( $oldResource );
+        if ( imageistruecolor( $oldResource ) )
+        {
+            $newResource = imagecreatetruecolor( $width, $height  );
+        }
+        else
+        {
+            $newResource = imagecreate( $width, $height );
+        }
+        
+        $bgColor = imagecolorallocate( $newResource, $color[0], $color[1], $color[2] );
+        imagefill( $newResource, 0, 0, $bgColor );
+        
+        // $res = imagecopyresampled(
+        $res = imagecopyresampled(
+            $newResource,           // destination resource 
+            $oldResource,           // source resource
+            0,                      // destination x coord
+            0,                      // destination y coord
+            0,                      // source x coord
+            0,                      // source y coord
+            $width,                 // destination width
+            $height,                // destination height
+            $width,                 // source witdh
+            $height                 // source height
+        );
+        if ( $res === false )
+        {
+            throw new ezcImageFilterFailedException( 'crop', 'Resampling of image failed.' );
+        }
+        imagedestroy( $oldResource );
+        $this->setReferenceData( $image, $newResource, 'resource' );
     }
 
     /**

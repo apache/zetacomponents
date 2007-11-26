@@ -233,5 +233,27 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
             "File saved with too low compression."
         );
     }
+
+    public function testConvertTransparentNonTransparent()
+    {
+
+        $srcPath = $this->testFiles["png_transparent"];
+        $dstPath = $this->getTempPath();
+
+        $ref = $this->handler->load( $srcPath );
+
+        $options = new ezcImageSaveOptions();
+        $options->transparencyReplacementColor = array( 255, 0, 0 );
+
+        $this->handler->save( $ref, $dstPath, 'image/jpeg', $options );
+        
+        $this->handler->close( $ref );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $dstPath,
+             "Converting transparent background failed.",
+            300
+        );
+    }
 }
 ?>

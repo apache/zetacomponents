@@ -459,20 +459,7 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
         {
             throw new ezcBaseValueException( 'width', $width, 'int' );
         }
-        $colorString = '#';
-        $i = 0;
-        foreach ( $color as $id => $colorVal )
-        {
-            if ( $i++ > 2 )
-            {
-                break;
-            }
-            if ( !is_int( $colorVal ) || $colorVal < 0 || $colorVal > 255 )
-            {
-                throw new ezcBaseValueException( "color[$id]", $color[$id], 'int > 0 and < 256' );
-            }
-            $colorString .= sprintf( '%02x', $colorVal );
-        }
+        $colorString = $this->colorArrayToString( $color );
         $this->addFilterOption(
             $this->getActiveReference(),
             '-bordercolor',

@@ -22,6 +22,7 @@ class ezcImageSaveOptionsTest extends ezcTestCase
 
         $this->assertNull( $opt->compression );
         $this->assertNull( $opt->quality );
+        $this->assertNull( $opt->transparencyReplacementColor );
     }
 
     public function testGetAccessFailure()
@@ -43,11 +44,13 @@ class ezcImageSaveOptionsTest extends ezcTestCase
     {
         $opt = new ezcImageSaveOptions();
 
-        $opt->compression = 8;
-        $opt->quality     = 23;
+        $opt->compression                  = 8;
+        $opt->quality                      = 23;
+        $opt->transparencyReplacementColor = array( 23, 42, 13 );
 
-        $this->assertEquals( $opt->compression, 8 );
-        $this->assertEquals( $opt->quality,     23 );
+        $this->assertEquals( $opt->compression,                  8 );
+        $this->assertEquals( $opt->quality,                      23 );
+        $this->assertEquals( $opt->transparencyReplacementColor, array( 23, 42, 13 ) );
     }
 
     public function testSetAccessFailure()
@@ -60,6 +63,13 @@ class ezcImageSaveOptionsTest extends ezcTestCase
         $this->genericSetFailureTest( $opt, "quality", -23 );
         $this->genericSetFailureTest( $opt, "quality", 101 );
         $this->genericSetFailureTest( $opt, "quality", "foo" );
+        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", -23 );
+        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", 101 );
+        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", "foo" );
+        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", new stdClass() );
+        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", array() );
+        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", array( 42, 23 ) );
+        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", array( 'foo' => 42,  'bar' => 23 ) );
 
         try
         {

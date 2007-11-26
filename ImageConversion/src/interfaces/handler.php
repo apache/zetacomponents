@@ -124,7 +124,32 @@ abstract class ezcImageHandler
         {
             throw new ezcImageFileNameInvalidException( $file );
         }
-        
+    }
+
+    /**
+     * Returns if a MIME conversion needs transparent color replacement.
+     *
+     * In case a transparency supporting MIME type (like image/png) is
+     * converted to one that does not support transparency, special steps need
+     * to be performed. This method returns if the given conversion from
+     * $inMime to $outMime is affected by this.
+     *
+     * @param string $inMime 
+     * @param string $outMime 
+     * @return bool
+     */
+    protected function needsTransparencyConversion( $inMime, $outMime )
+    {
+        $transparencyMimes = array(
+            'image/gif' => true,
+            'image/png' => true,
+        );
+        return (
+               $outMime !== null
+            && $inMime !== $outMime
+            && isset( $transparencyMimes[$inMime] )
+            && !isset( $transparencyMimes[$outMime] )
+        );
     }
 
     /**
