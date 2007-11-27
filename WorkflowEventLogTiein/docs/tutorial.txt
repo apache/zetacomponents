@@ -1,0 +1,42 @@
+eZ Components - WorkflowEventLogTiein
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+
+Introduction
+============
+
+The WorkflowEventLogTiein component allows you to log workflow execution into
+files or other storage spaces in different formats using the EventLog
+component.
+
+Class overview
+==============
+
+ezcWorkflowEventLogListener
+  Wrapper for ezcLog that logs workflow events.
+
+
+Usage
+=====
+
+Log workflow execution to a file
+--------------------------------
+
+This example shows how to log workflow execution into a file.
+
+.. include:: example.php
+   :literal:
+
+For more information on using the `EventLog`_ component please refer to its
+documentation.
+
+.. _EventLog: introduction_EventLog.html
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
