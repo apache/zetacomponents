@@ -55,6 +55,8 @@ abstract class ezcGraphDriver
                 {
                     throw new ezcBaseValueException( "options", $propertyValue, "instanceof ezcGraphOptions" );
                 }
+                break;
+
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;

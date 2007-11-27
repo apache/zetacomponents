@@ -23,6 +23,51 @@ class ezcGraphDriverOptionsTest extends ezcTestImageCase
 		return new PHPUnit_Framework_TestSuite( "ezcGraphDriverOptionsTest" );
 	}
 
+    public function testDriverOptionsProperty()
+    {
+        $driver = new ezcGraphSvgDriver();
+
+        $this->assertEquals(
+            new ezcGraphSvgDriverOptions(),
+            $driver->options,
+            'Wrong default value for property options in class ezcGraphSvgDriver'
+        );
+
+        $driver->options = new ezcGraphFlashDriverOptions();
+        $this->assertEquals(
+            new ezcGraphFlashDriverOptions(),
+            $driver->options,
+            'Setting property value did not work for property options in class ezcGraphSvgDriver'
+        );
+
+        try
+        {
+            $driver->options = false;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testDriverUnknownProperty()
+    {
+        $driver = new ezcGraphSvgDriver();
+
+        try
+        {
+            $driver->unknownProperty = false;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+    }
+
     public function testDriverOptionsPropertyWidth()
     {
         $options = new ezcGraphSvgDriverOptions();
