@@ -1279,6 +1279,33 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         );
     }
 
+    public function testDrawChartInTemplateUnknownGroup()
+    {
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->driver->options->templateDocument = dirname( __FILE__ ) . '/data/template.svg';
+        $chart->driver->options->insertIntoGroup = 'not_existing_group';
+
+        try
+        {
+            $chart->render( 500, 300 );
+        }
+        catch ( ezcGraphSvgDriverInvalidIdException $e )
+        {
+            return;
+        }
+
+        $this->fail( 'Expected ezcGraphSvgDriverInvalidIdException.' );
+    }
+
     public function testDrawChartWithCustomPrefix()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
