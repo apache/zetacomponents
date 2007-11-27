@@ -670,6 +670,24 @@ class ezcGraphDateAxisTest extends ezcGraphTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testDateParsingException()
+    {
+        try
+        {
+            $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
+                'invalid time' => 7.78507871321,
+            ) );
+
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphErrorParsingDateException $e )
+        {
+            return;
+        }
+
+        $this->fail( 'Expected ezcGraphErrorParsingDateException.' );
+    }
 }
 
 ?>
