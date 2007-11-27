@@ -253,7 +253,7 @@ class ezcPersistentSession
 
         // init query
         $q = $this->database->createDeleteQuery();
-        $q->setAliases( $this->generateAliasMap( $def ) );
+        $q->setAliases( $this->generateAliasMap( $def, false ) );
         $q->deleteFrom( $this->database->quoteIdentifier( $def->table ) );
 
         return $q;
@@ -304,7 +304,7 @@ class ezcPersistentSession
 
         // init query
         $q = $this->database->createUpdateQuery();
-        $q->setAliases( $this->generateAliasMap( $def ) );
+        $q->setAliases( $this->generateAliasMap( $def, false ) );
         $q->update( $this->database->quoteIdentifier( $def->table ) );
 
         return $q;
@@ -1127,13 +1127,17 @@ class ezcPersistentSession
      * @param ezcPersistentObjectDefinition $def Definition.
      * @return array(string=>string)
      */
-    public function generateAliasMap( ezcPersistentObjectDefinition $def )
+    public function generateAliasMap( ezcPersistentObjectDefinition $def, $prefixTableName = true )
     {
         $table = array();
-        $table[$def->idProperty->propertyName] = $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $def->idProperty->columnName );
+        $table[$def->idProperty->propertyName] = ( $prefixTableName 
+            ? $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $def->idProperty->columnName )
+            : $this->database->quoteIdentifier( $def->idProperty->columnName ) );
         foreach ( $def->properties as $prop )
         {
-            $table[$prop->propertyName] = $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $prop->columnName );
+            $table[$prop->propertyName] = ( $prefixTableName 
+                ? $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $prop->columnName )
+                : $this->database->quoteIdentifier( $prop->columnName ) );
         }
         $table[$def->class] = $def->table;
         return $table;
@@ -1145,13 +1149,17 @@ class ezcPersistentSession
      * @param ezcPersistentObjectDefinition $def Defintion.
      * @return array(int=>string)
      */
-    public function getColumnsFromDefinition( ezcPersistentObjectDefinition $def )
+    public function getColumnsFromDefinition( ezcPersistentObjectDefinition $def, $prefixTableName = true )
     {
         $columns = array();
-        $columns[] = $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $def->idProperty->columnName );
+        $columns[] = ( $prefixTableName 
+            ? $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $def->idProperty->columnName )
+            : $this->database->quoteIdentifier( $def->idProperty->columnName ) );
         foreach ( $def->properties as $property )
         {
-            $columns[] = $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $property->columnName );
+            $columns[] = ( $prefixTableName
+                ? $this->database->quoteIdentifier( $def->table ) . '.' . $this->database->quoteIdentifier( $property->columnName )
+                : $this->database->quoteIdentifier( $property->columnName ) );
         }
         return $columns;
     }

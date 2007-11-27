@@ -704,6 +704,53 @@ class ezcPersistentSessionTest extends ezcTestCase
         
         $this->assertEquals( $res, $def, "ezcPersistentObjectDefinition not deserialized correctly." );
     }
+    
+    public function testTablePrefixingInFindQuery()
+    {
+        $q = $this->session->createFindQuery( 'PersistentTestObject' );
+        $q->where(
+            $q->expr->eq( 'integer', $q->bindValue( 50 ) )
+        );
+        $sql = $q->getQuery();
+        
+        $this->assertNotEquals(
+            false,
+            strpos(
+                $sql,
+                $this->session->database->quoteIdentifier( 'PO_test' ) . '.' . $this->session->database->quoteIdentifier( 'type_integer' )
+            )
+        );
+    }
+    
+    public function testNoTablePrefixingInDeleteQuery()
+    {
+        $q = $this->session->createDeleteQuery( 'PersistentTestObject' );
+        $q->where(
+            $q->expr->eq( 'integer', $q->bindValue( 50 ) )
+        );
+        $sql = $q->getQuery();
+        
+        $this->assertFalse(
+            strpos(
+                $sql,
+                $this->session->database->quoteIdentifier( 'PO_test' ) . '.' . $this->session->database->quoteIdentifier( 'type_integer' )
+            )
+        );
+    }
+    
+    public function testNoTablePrefixingInUpdateQuery()
+    {
+        $q = $this->session->createUpdateQuery( 'PersistentTestObject' );
+        $q->set( 'integer', 50 );
+        $sql = $q->getQuery();
+        
+        $this->assertFalse(
+            strpos(
+                $sql,
+                $this->session->database->quoteIdentifier( 'PO_test' ) . '.' . $this->session->database->quoteIdentifier( 'type_integer' )
+            )
+        );
+    }
 }
 
 ?>
