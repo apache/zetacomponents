@@ -70,9 +70,19 @@ class ezcPersistentObjectProperty
      */
     public static function __set_state( array $array )
     {
-        return new ezcPersistentObjectProperty( $array['columnName'],
-                                                $array['propertyName'],
-                                                $array['propertyType'] );
+        if ( isset( $array['properties'] ) )
+        {
+            return new ezcPersistentObjectProperty( $array['properties']['columnName'],
+                                                    $array['properties']['propertyName'],
+                                                    $array['properties']['propertyType'] );
+        }
+        else
+        {
+            // Old style exports
+            return new ezcPersistentObjectProperty( $array['columnName'],
+                                                    $array['propertyName'],
+                                                    $array['propertyType'] );
+        }
     }
 
     /**

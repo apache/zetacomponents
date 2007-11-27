@@ -21,13 +21,16 @@
 class ezcPersistentOneToOneRelation extends ezcPersistentRelation
 {
     /**
-     * Holds the properties for this class.
+     * Create a new relation.
      *
-     * @var array
+     * @param string $sourceTable      See property $sourceTable
+     * @param string $destinationTable See property $destinationTable
      */
-    private $properties = array(
-        "cascade" => false,
-    );
+    public function __construct( $sourceTable, $destinationTable )
+    {
+        parent::__construct( $sourceTable, $destinationTable );
+        $this->properties['cascade'] = false;
+    }
 
     /**
      * Validates an {@link ezcPersistentRelation::$columnMap} property.
@@ -132,6 +135,22 @@ class ezcPersistentOneToOneRelation extends ezcPersistentRelation
             return true;
         }
         return parent::__isset( ( $propertyName ) );
+    }
+
+    /**
+     * Sets the state after importing an exported object.
+     * 
+     * @param array $state 
+     * @return void
+     */
+    public static function __set_state( array $state )
+    {
+        $rel = new ezcPersistentOneToOneRelation( 
+            $state['properties']['sourceTable'],
+            $state['properties']['destinationTable']
+        );
+        $rel->properties = $state['properties'];
+        return $rel;
     }
 }
 

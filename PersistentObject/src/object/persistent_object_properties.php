@@ -23,7 +23,7 @@ class ezcPersistentObjectProperties extends ArrayObject
      * 
      * @var array(ezcPersistentObjectProperty)
      */
-    private $properties;
+    protected $properties;
 
     /**
      * Create a new instance.
@@ -104,6 +104,27 @@ class ezcPersistentObjectProperties extends ArrayObject
     public function append( $value )
     {
         throw new Exception( 'Operation append is not supported by this object.' );
+    }
+    
+    /**
+     * Sets the state on deserialization.
+     * 
+     * @param array $state
+     * @return ezcPersistentObjectProperties
+     */
+    public static function __set_state( array $state )
+    {
+        $properties = new ezcPersistentObjectProperties();
+        if ( isset( $state['properties'] ) && count( $state ) === 1 )
+        {
+            $properties->exchangeArray( $state['properties'] );
+        }
+        else
+        {
+            // Old style exports
+            $properties->exchangeArray( $state );
+        }
+        return $properties;
     }
 }
 

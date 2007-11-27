@@ -19,11 +19,11 @@
 class ezcPersistentObjectColumns extends ArrayObject
 {
     /**
-     * Stores the relation objects. 
+     * Stores the column objects. 
      * 
      * @var array(ezcPersistentObjectProperty)
      */
-    private $relations;
+    private $columns;
 
     /**
      * Create a new instance.
@@ -33,8 +33,8 @@ class ezcPersistentObjectColumns extends ArrayObject
      */
     public function __construct()
     {
-        $this->relations = array();
-        parent::__construct( $this->relations );
+        $this->columns = array();
+        parent::__construct( $this->columns );
     }
 
     /**
@@ -104,6 +104,27 @@ class ezcPersistentObjectColumns extends ArrayObject
     public function append( $value )
     {
         throw new Exception( 'Operation append is not supported by this object.' );
+    }
+
+    /**
+     * Sets the state on deserialization.
+     * 
+     * @param array $state
+     * @return ezcPersistentObjectColumns
+     */
+    public static function __set_state( array $state )
+    {
+        $columns = new ezcPersistentObjectColumns();
+        if ( isset( $state['columns'] ) && sizeof( $state ) === 1 )
+        {
+            $columns->exchangeArray( $state['columns'] );
+        }
+        else
+        {
+            // Old style exports
+            $columns->exchangeArray( $state );
+        }
+        return $columns;
     }
 }
 

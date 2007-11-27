@@ -21,14 +21,18 @@
 class ezcPersistentManyToOneRelation extends ezcPersistentRelation
 {
     /**
-     * Holds the properties for this class.
+     * Create a new relation.
      *
-     * @var array
+     * @param string $sourceTable      See property $sourceTable
+     * @param string $destinationTable See property $destinationTable
      */
-    private $properties = array(
-        "cascade" => false,
-        "reverse" => true,
-    );
+    public function __construct( $sourceTable, $destinationTable )
+    {
+        parent::__construct( $sourceTable, $destinationTable );
+        $this->properties['cascade'] = false;
+        $this->properties['reverse'] = true;
+    }
+
 
     /**
      * Validates an {@link ezcPersistentRelation::$columnMap} property.
@@ -136,6 +140,22 @@ class ezcPersistentManyToOneRelation extends ezcPersistentRelation
             return true;
         }
         return parent::__isset( ( $propertyName ) );
+    }
+
+    /**
+     * Sets the state after importing an exported object.
+     * 
+     * @param array $state 
+     * @return void
+     */
+    public static function __set_state( array $state )
+    {
+        $rel = new ezcPersistentManyToOneRelation( 
+            $state['properties']['sourceTable'],
+            $state['properties']['destinationTable']
+        );
+        $rel->properties = $state['properties'];
+        return $rel;
     }
 }
 

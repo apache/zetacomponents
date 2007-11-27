@@ -105,6 +105,27 @@ class ezcPersistentObjectRelations extends ArrayObject
     {
         throw new Exception( 'Operation append is not supported by this object.' );
     }
+    
+    /**
+     * Sets the state on deserialization.
+     * 
+     * @param array $state
+     * @return ezcPersistentObjectRelations
+     */
+    public static function __set_state( array $state )
+    {
+        $columns = new ezcPersistentObjectRelations();
+        if ( isset( $state['columns'] ) && count( $state ) === 1 )
+        {
+            $columns->exchangeArray( $state['columns'] );
+        }
+        else
+        {
+            // Old exported objects.
+            $columns->exchangeArray( $state );
+        }
+        return $columns;
+    }
 }
 
 ?>

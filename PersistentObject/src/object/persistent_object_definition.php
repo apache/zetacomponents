@@ -43,7 +43,7 @@ class ezcPersistentObjectDefinition
      * 
      * @var array(string=>mixed)
      */
-    private $propertyArray = array(
+    protected $propertyArray = array(
         'table'      => null,
         'class'      => null,
         'idProperty' => null,
@@ -219,11 +219,29 @@ class ezcPersistentObjectDefinition
      */
     public static function __set_state( array $array )
     {
-        return new ezcPersistentObjectDefinition( $array['table'],
-                                                  $array['class'],
-                                                  $array['properties'],
-                                                  $array['relations'],
-                                                  $array['idProperty'] );
+        if ( isset( $array['propertyArray'] ) && count( $array ) === 1 )
+        {
+            $def =  new ezcPersistentObjectDefinition(
+                $array['propertyArray']['table'],
+                $array['propertyArray']['class']
+            );
+            $def->properties = $array['propertyArray']['properties'];
+            $def->columns    = $array['propertyArray']['columns'];
+            $def->relations  = $array['propertyArray']['relations'];
+            $def->idProperty = $array['propertyArray']['idProperty'];
+        }
+        else
+        {
+            $def = new ezcPersistentObjectDefinition(
+                $array['table'],
+                $array['class'],
+                $array['properties'],
+                $array['relations'],
+                $array['idProperty']
+            );
+            $def->columns = $array['columns'];
+        }
+        return $def;
     }
 }
 ?>

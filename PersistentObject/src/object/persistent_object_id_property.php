@@ -169,10 +169,20 @@ class ezcPersistentObjectIdProperty
      */
     public static function __set_state( array $array )
     {
-        return new ezcPersistentObjectIdProperty( $array['columnName'],
-                                                  $array['propertyName'],
-                                                  $array['visibility'],
-                                                  $array['generator'] );
+        if ( isset( $array['properties'] ) && count( $array ) === 1 )
+        {
+            return new ezcPersistentObjectIdProperty( $array['properties']['columnName'],
+                                                      $array['properties']['propertyName'],
+                                                      $array['properties']['visibility'],
+                                                      $array['properties']['generator'] );
+        }
+        else
+        {
+            return new ezcPersistentObjectIdProperty( $array['columnName'],
+                                                      $array['propertyName'],
+                                                      $array['visibility'],
+                                                      $array['generator'] );
+        }
     }
 }
 

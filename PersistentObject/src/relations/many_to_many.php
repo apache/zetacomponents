@@ -17,15 +17,6 @@
 class ezcPersistentManyToManyRelation extends ezcPersistentRelation
 {
     /**
-     * Holds the properties for this class.
-     *
-     * @var array
-     */
-    private $properties = array(
-        "relationTable" => null
-    );
-
-    /**
      * Constructs a new many to many relation from the table $sourceTable to
      * the table $destinationTable via $relationTable
      *
@@ -35,6 +26,8 @@ class ezcPersistentManyToManyRelation extends ezcPersistentRelation
      */
     public function __construct( $sourceTable, $destinationTable, $relationTable )
     {
+        $this->properties['relationTable'] = null;
+
         $this->sourceTable      = $sourceTable;
         $this->destinationTable = $destinationTable;
         $this->relationTable    = $relationTable;
@@ -143,6 +136,23 @@ class ezcPersistentManyToManyRelation extends ezcPersistentRelation
             return true;
         }
         return parent::__isset( ( $propertyName ) );
+    }
+
+    /**
+     * Sets the state after importing an exported object.
+     * 
+     * @param array $state 
+     * @return void
+     */
+    public static function __set_state( array $state )
+    {
+        $rel = new ezcPersistentManyToManyRelation( 
+            $state['properties']['sourceTable'],
+            $state['properties']['destinationTable'],
+            $state['properties']['relationTable']
+        );
+        $rel->properties = $state['properties'];
+        return $rel;
     }
 }
 

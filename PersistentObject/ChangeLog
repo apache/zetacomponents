@@ -5,6 +5,8 @@
 - Fixed issue #11405: Ambiguous column names when using
   ezcPersistentManyToManyRelation. Column names are now correctly prefixed
   with their corresponding table names.
+- Fixed issue #12082: Restoring a definition from var_export( $definition )
+  PHP code.
 
 
 1.3.1 - Monday 13 August 2007

@@ -11,6 +11,11 @@
 require_once "data/persistent_test_object.php";
 require_once "data/persistent_test_object_no_id.php";
 
+require_once "data/relation_test_address.php";
+require_once "data/relation_test_person.php";
+require_once "data/relation_test_birthday.php";
+require_once "data/relation_test_employer.php";
+
 /**
  * Tests the code manager.
  *
@@ -750,6 +755,38 @@ class ezcPersistentSessionTest extends ezcTestCase
                 $this->session->database->quoteIdentifier( 'PO_test' ) . '.' . $this->session->database->quoteIdentifier( 'type_integer' )
             )
         );
+    }
+    
+    public function testExportImportDefinitions()
+    {
+        $classes = array(
+            'PersistentTestObject',
+            'RelationTestAddress',
+            'RelationTestEmployer',
+            'RelationTestBirthday',
+            'RelationTestPerson',
+        );
+        $dir = $this->createTempDir( 'export' );
+
+        foreach( $classes as $class )
+        {
+            $def = $this->session->definitionManager->fetchDefinition( $class );
+
+            $file = $dir . "/$class.php";
+            
+
+            file_put_contents( $file, "<?php\nreturn " . var_export( $def, true ) . ";\n?>" );
+            $deserialized = require $file;
+
+            $this->assertEquals(
+                $def,
+                $deserialized,
+                "Objects of class $class not exported/imported correctly."
+            );
+
+        }
+
+        $this->removeTempDir();
     }
 }
 

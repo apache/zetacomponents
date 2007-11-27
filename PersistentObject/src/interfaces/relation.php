@@ -30,7 +30,7 @@ abstract class ezcPersistentRelation
      *
      * @var array
      */
-    private $properties = array(
+    protected $properties = array(
         "sourceTable"       => null,
         "destinationTable"  => null,
         "columnMap"         => array(),
