@@ -121,6 +121,29 @@ class ezcGraphGdDriverTest extends ezcTestImageCase
         );
     }
 
+    public function testRenderUnhandledFormat() {
+        $filename = $this->tempDir . __FUNCTION__ . '.jpeg';
+
+        $this->driver->options->imageFormat = IMG_GIF;
+        $this->driver->drawLine(
+            new ezcGraphCoordinate( 12, 45 ),
+            new ezcGraphCoordinate( 134, 12 ),
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        try
+        {
+            $filename = $this->tempDir . __FUNCTION__ . '.jpeg';
+            $this->driver->render( $filename );
+        }
+        catch ( ezcGraphGdDriverUnsupportedImageTypeException $e )
+        {
+            return;
+        }
+
+        $this->fail( 'Expected ezcGraphGdDriverUnsupportedImageTypeException.' );
+    }
+
     public function testDrawLine()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';

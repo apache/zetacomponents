@@ -1182,6 +1182,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
             case IMG_JPEG:
                 imagejpeg( $image, $file, $this->options->jpegQuality );
                 break;
+            default:
+                throw new ezcGraphGdDriverUnsupportedImageTypeException( $this->options->imageFormat );
         }
     }
 }
