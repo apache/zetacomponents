@@ -315,11 +315,6 @@ class ezcGraphFlashDriver extends ezcGraphDriver
      */
     public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align, ezcGraphRotation $rotation = null )
     {
-        if ( $this->options->font->type !== ezcGraph::PALM_FONT )
-        {
-            throw new ezcGraphInvalidFontTypeException( $this->options->font->type, __CLASS__ );
-        }
-
         $padding = $this->options->font->padding + ( $this->options->font->border !== false ? $this->options->font->borderWidth : 0 );
 
         $width = $this->modifyCoordinate( $width - $padding * 2 );

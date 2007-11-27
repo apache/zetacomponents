@@ -21,7 +21,6 @@ return array(
     'ezcGraphInvalidAssignementException'           => 'Graph/exceptions/invalid_assignement.php',
     'ezcGraphInvalidDataException'                  => 'Graph/exceptions/invalid_data.php',
     'ezcGraphInvalidDisplayTypeException'           => 'Graph/exceptions/invalid_display_type.php',
-    'ezcGraphInvalidFontTypeException'              => 'Graph/exceptions/invalid_font.php',
     'ezcGraphInvalidImageFileException'             => 'Graph/exceptions/invalid_image_file.php',
     'ezcGraphMatrixInvalidDimensionsException'      => 'Graph/exceptions/invalid_dimensions.php',
     'ezcGraphMatrixOutOfBoundingsException'         => 'Graph/exceptions/out_of_boundings.php',
