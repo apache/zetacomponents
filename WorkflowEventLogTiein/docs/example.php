@@ -1,8 +1,6 @@
 <?php
 // Set up the logfile writer.
-$writer = new ezcLogUnixFileWriter(
-  dirname( __FILE__ ) . '/data', 'actual.log' 
-);
+$writer = new ezcLogUnixFileWriter( '/tmp/workflow.log' );
 
 $log = ezcLog::getInstance();
 $mapper = $log->getMapper();
