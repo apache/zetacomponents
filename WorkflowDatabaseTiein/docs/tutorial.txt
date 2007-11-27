@@ -1,5 +1,5 @@
-eZ Components - PersistentObjectDatabaseSchemaTiein
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eZ Components - WorkflowDatabaseTiein
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
 
