@@ -36,6 +36,21 @@ class ezcArchiveTest extends ezcArchiveTestCase
         $this->assertFalse( $archive->algorithmCanWrite() );
     }
 
+    public function testRecognizeGnuTar2()
+    {
+        $file = dirname(__FILE__). '/data/gnu_tar.tar';
+        $archive = ezcArchive::open( $file );
+        $this->assertEquals( ezcArchive::TAR_GNU, $archive->getAlgorithm() );
+    }
+
+    public function testRecognizeGnuTar3()
+    {
+        $file = dirname(__FILE__). '/data/gnu_tar2.tar';
+        $archive = ezcArchive::open( $file );
+        $this->assertEquals( ezcArchive::TAR_GNU, $archive->getAlgorithm() );
+    }
+
+
     public function testRecognizeUstar()
     {
         $archive = ezcArchive::open( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar" );
@@ -401,7 +416,6 @@ class ezcArchiveTest extends ezcArchiveTestCase
             // $this->assertEquals( ezcArchiveException::INVALID_PREFIX, $e->getCode() );
         }
     }
-
 
 
 

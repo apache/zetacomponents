@@ -245,14 +245,15 @@ class ezcArchiveMime
      */
     public static function tarContainsFileName( $data )
     {
-       $rest = trim( substr( $data, 0, 100 ), "a..zA..Z0..9/_.\0" );
-
-       if ( strlen( $rest ) == 0 )
-       {
-           return true;
-       }
-
-       return false;
+        return $data[0] != "\0";
+        
+        // $rest = trim( substr( $data, 0, 100 ), "a..zA..Z0..9/_.-\0" );
+        // if ( strlen( $rest ) == 0 )
+        // {
+        //     return true;
+        // }
+        // 
+        // return false;
     }
 }
 ?>
