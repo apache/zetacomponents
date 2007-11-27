@@ -52,13 +52,29 @@ class ezcGraphDriverOptionsTest extends ezcTestImageCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
-    public function testDriverUnknownProperty()
+    public function testDriverSetUnknownProperty()
     {
         $driver = new ezcGraphSvgDriver();
 
         try
         {
             $driver->unknownProperty = false;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+    }
+
+    public function testDriverGetUnknownProperty()
+    {
+        $driver = new ezcGraphSvgDriver();
+
+        try
+        {
+            $driver->unknownProperty;
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
