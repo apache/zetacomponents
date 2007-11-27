@@ -103,7 +103,23 @@ class ezcGraphChartTest extends ezcGraphTestCase
             return true;
         }
 
-        $this->fail( 'Expected ezcGraphInvalidRendererException' );
+        $this->fail( 'Expected ezcBaseValueException' );
+    }
+
+    public function testAccessUnknownElement()
+    {
+        try
+        {
+            $pieChart = new ezcGraphPieChart();
+            //Read
+            $pieChart->unknownElement;
+        }
+        catch ( ezcGraphNoSuchElementException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphNoSuchElementException' );
     }
 
     public function testSetDriver()
@@ -149,6 +165,8 @@ class ezcGraphChartTest extends ezcGraphTestCase
         {
             return true;
         }
+
+        $this->fail( 'Expected ezcGraphNoDataException.' );
     }
 
     public function testBarChartWithoutData()
@@ -162,6 +180,8 @@ class ezcGraphChartTest extends ezcGraphTestCase
         {
             return true;
         }
+
+        $this->fail( 'Expected ezcGraphNoDataException.' );
     }
 
     public function testBarChartWithSingleDataPoint()
