@@ -1,20 +1,18 @@
 1.1alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- In RSS2 the title, link and description nodes of item nodes are not all
-  required, but at least one of title or description nodes is required.
-- The RSS2 image node is created and parsed correctly.
-- The addModule() method in ezcFeed now accepts the name of a module instead
-  the name of a class.
 - Reorganized internal structure of classes.
-- Added support for XML attributes.
-- Added some RSS1 and ATOM support.
-- Added regression tests based on the ones from Template.
 - Added ezcFeedSchema to define different feed types.
 - Added ezcFeedElement instead of ezcFeedItem.
+- Added support for XML attributes for feeds.
+- Added regression tests based on the ones from Template.
+- In RSS2 the title, link and description nodes of item nodes are not all
+  required, but at least one of title or description nodes is required.
 - Added support for RSS2 enclosure and tutorial on how to use it for creating
   and parsing podcasts.
-- Re-added support for RSS2 image.
+- Completed support for creating and parsing RSS2 feeds.
+- Completed support for creating and parsing RSS1 feeds.
+- Completed support for creating and parsing ATOM feeds.
 
 
 1.0beta1 - Monday 18 December 2006
