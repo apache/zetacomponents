@@ -1,0 +1,7 @@
+eZ Components - TreePersistentObjectTiein
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This component does not have a dedicated tutorial, please refer to the `Tree
+tutorial`__ instead.
+
+__ introduction_Tree.html
