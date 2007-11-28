@@ -26,7 +26,7 @@ Log workflow execution to a file
 
 This example shows how to log workflow execution into a file.
 
-.. include:: example.php
+.. include:: tutorial_example.php
    :literal:
 
 For more information on using the `EventLog`_ component please refer to its
