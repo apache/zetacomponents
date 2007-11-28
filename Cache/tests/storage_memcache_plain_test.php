@@ -28,12 +28,7 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
      *
      * @var array(string)
      */
-    protected $data = array(
-        1 => "Test 1 2 3 4 5 6 7 8\\\\",
-        2 => 'La la la 02064 lololo',
-        3 => 12345,
-        4 => 12.3746,
-    );
+    protected $data;
 
     protected function setUp()
     {
@@ -50,6 +45,12 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         // Class name == <inheriting class> - "Test"
         $storageClass = ( $this->storageClass = substr( get_class( $this ), 0, strlen( get_class(  $this ) ) - 4 ) );
         $this->storage = new $storageClass( $this->createTempDir( 'ezcCacheTest' ), array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 ) );
+        $this->data = array(
+                    1 => "Test 1 2 3 4 5 6 7 8\\\\",
+                    2 => 'La la la 02064 lololo',
+                    3 => 12345,
+                    4 => 12.3746,
+                );
     }
 
     // Override test from parent class
