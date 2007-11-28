@@ -1,4 +1,4 @@
-1.3.1beta1 - [RELEASEDATE]
+1.3.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #11029: Converting transparent PNG to JPG cause an strange

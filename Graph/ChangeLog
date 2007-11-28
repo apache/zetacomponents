@@ -1,9 +1,10 @@
 1.2beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented support for odometer charts. Thanks to lars Jankowski from Oxid
+- Fixed issue #12064: Gradients are not rendered correctly in Flash driver.
+- Implemented support for odometer charts. Thanks to Lars Jankowski from Oxid
   esales for the initial patch.
-- Fixed issue #12064: Gradients are not rendered correctly in Flash driver
+
 
 1.2alpha1 - Monday 29 October 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
