@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+include_once( 'data/delayed_init_configuration.php' );
+
 /**
  * @package Url
  * @subpackage Tests
@@ -108,15 +110,6 @@ class ezcUrlConfigurationTest extends ezcTestCase
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcUrlConfigurationTest" );
-    }
-}
-
-class testDelayedInitUrlConfiguration implements ezcBaseConfigurationInitializer
-{
-    static function configureObject( $object )
-    {
-        $object->addOrderedParameter( 'section' );
-        $object->addUnorderedParameter( 'article' );
     }
 }
 ?>
