@@ -25,13 +25,7 @@ class ezcCacheManagerTest extends ezcTestCase
      * @var array
      * @access protected
      */
-    protected $data = array(
-        'ezcCacheStorageFilePlain',
-        'ezcCacheStorageFileArray',
-        'ezcCacheStorageFileEvalArray',
-        'ezcCacheStorageApcPlain',
-        'ezcCacheStorageFileApcArray'
-    );
+    protected $data = array();
     
     /**
      * Temp location for caches.
@@ -51,20 +45,39 @@ class ezcCacheManagerTest extends ezcTestCase
         return new PHPUnit_Framework_TestSuite( "ezcCacheManagerTest" );
     }
 
+    public function __construct()
+    {
+        $this->data = array(
+                        'ezcCacheStorageFilePlain',
+                        'ezcCacheStorageFileArray',
+                        'ezcCacheStorageFileEvalArray',
+                        'ezcCacheStorageApcPlain',
+                        'ezcCacheStorageFileApcArray'
+                        );
+    }
+
     public function testManagerCreateCache_Success()
     {
         foreach ( $this->data as $id => $class ) 
         {
             $location = $this->createTempDir($class);
             ezcCacheManager::createCache( $id, $location, $class );
-            $realCache = ezcCacheManager::getCache( $id );
-            $fakeCache = new $class( realpath( $location ) );
-            $this->assertEquals( 
-                $realCache,
-                $fakeCache, 
-                'Invalid object created from ezcCacheManager. Expected "' . get_class( $realCache )  . '", found "'. get_class( $fakeCache ) .'".'  
-            );
-            unset( $realCache ); unset( $fakeCache );
+
+            try
+            {
+                $realCache = ezcCacheManager::getCache( $id );
+                $fakeCache = new $class( realpath( $location ) );
+                $this->assertEquals( 
+                    $realCache,
+                    $fakeCache, 
+                    'Invalid object created from ezcCacheManager. Expected "' . get_class( $realCache )  . '", found "'. get_class( $fakeCache ) .'".'  
+                );
+                unset( $realCache ); unset( $fakeCache );
+            }
+            catch ( ezcBaseExtensionNotFoundException $e )
+            {
+            }
+
             $this->removeTempDir($location);
         }
         $this->assertTrue( true );
