@@ -1,5 +1,19 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package Debug
+ * @subpackage Tests
+ */
 
+require_once 'test_classes.php';
+
+/**
+ * @package Debug
+ * @subpackage Tests
+ */
 class ezcDebugTest extends ezcTestCase
 {
     private $dbg;
@@ -158,23 +172,4 @@ class ezcDebugTest extends ezcTestCase
         return new PHPUnit_Framework_TestSuite("ezcDebugTest");
     }
 }
-
-
-class TestReporter implements ezcDebugOutputFormatter
-{
-	public function generateOutput( array $timerData, array $writerData)
-	{
-        return array( $timerData, $writerData );
-	}
-}
-
-class MyFakeMapper implements ezcLogMapper
-{
-    public function get( $sev, $src, $cat )
-    {
-        return null;
-    }
-
-}
-
 ?>

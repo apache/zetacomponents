@@ -1,9 +1,21 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package Debug
+ * @subpackage Tests
+ */
 
+require_once 'test_classes.php';
 
+/**
+ * @package Debug
+ * @subpackage Tests
+ */
 class ezcDebugTimerTest extends ezcTestCase
 {
-
     public function testStartStop()
     {
         $timer = new ezcDebugTimer();

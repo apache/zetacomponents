@@ -1,6 +1,17 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package Debug
+ * @subpackage Tests
+ */
 
-
+/**
+ * @package Debug
+ * @subpackage Tests
+ */
 class ezcDebugMemoryWriterTest extends ezcTestCase
 {
 	protected function setUp()
@@ -61,12 +72,9 @@ class ezcDebugMemoryWriterTest extends ezcTestCase
         $this->assertEquals(count( $data ), 6);
     }
 
-
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite("ezcDebugMemoryWriterTest");
+        return new PHPUnit_Framework_TestSuite( "ezcDebugMemoryWriterTest" );
     }
 }
-
-
 ?>
