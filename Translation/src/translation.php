@@ -34,10 +34,11 @@ class ezcTranslation
     /**
      * Constructs the ezcTranslation object.
      *
-     * The constructor receives an array containing the map between the
-     * original string and the translation.
+     * The constructor receives an array containing the translation elements,
+     * and builds up an internal map between the original string and the
+     * accompanying translation data.
      *
-     * @param array(string=>ezcTranslationData) $data
+     * @param array(ezcTranslationData) $data
      */
     function __construct( array $data )
     {
