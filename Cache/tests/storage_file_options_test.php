@@ -9,6 +9,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once 'Cache/tests/test.php';
+
 /**
  * Abstract base test class for ezcCacheStorageFileOptions tests.
  * 
