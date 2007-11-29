@@ -1,6 +1,20 @@
 <?php
-require_once dirname( __FILE__ ) . "/test_case.php";
+/**
+ * ezcImageConversionTestCase
+ *
+ * @package ImageConversion
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
+/**
+ * Base class for ImageConversion tests.
+ *
+ * @package ImageConversion
+ * @version //autogentag//
+ * @subpackage Tests
+ */
 class ezcImageConversionTestCase extends ezcTestImageCase
 {
     // To regenerate all test files, set this to true

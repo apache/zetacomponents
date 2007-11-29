@@ -10,11 +10,6 @@
  */
 
 /**
- * Require basis test case class.
- */
-require_once "test_case.php";
-
-/**
  * Require test suite for ezcImageConverter class.
  */
 require_once 'converter_test.php';
