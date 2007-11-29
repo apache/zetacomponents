@@ -853,6 +853,7 @@ class ezcConsoleTableTest extends ezcTestCase
         $refRow = new ezcConsoleTableRow();
         $refRow->borderFormat = "green";
         
+        // First iteration
         $i = 0;
         foreach ( $table as $id => $row )
         {
@@ -860,7 +861,15 @@ class ezcConsoleTableTest extends ezcTestCase
             $this->assertEquals( $refRow, $row );
         }
         $this->assertEquals( 10, $i, "Not iterated through all rows." );
-        $this->assertEquals( 0, $table->key(), "Table not reset at and of iteration." );
+        
+        // Second iteration
+        $i = 0;
+        foreach ( $table as $id => $row )
+        {
+            $this->assertEquals( $i++, $id );
+            $this->assertEquals( $refRow, $row );
+        }
+        $this->assertEquals( 10, $i, "Not iterated through all rows." );
     }
 
     public function testGetAccessSuccess()
