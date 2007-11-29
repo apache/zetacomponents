@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavDisplayInformation struct.
+ * File containing the ezcWebdavXmlDisplayInformation struct.
  *
  * @package Webdav
  * @version //autogentag//
@@ -24,6 +24,8 @@ class ezcWebdavXmlDisplayInformation extends ezcWebdavDisplayInformation
     /**
      * Creates a new struct.
      * 
+     * This display information must be created with DOMDocument $body.
+     *
      * @param ezcWebdavResponse $response 
      * @param DOMDocument $body 
      * @return void

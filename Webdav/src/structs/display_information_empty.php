@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavDisplayInformation struct.
+ * File containing the ezcWebdavEmptyDisplayInformation struct.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,10 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Display information.
+ * Display information with no body.
  *
  * Used by {@link ezcWebdavTransport} to transport information on displaying a
- * response to the browser.
+ * response to the browser. This display information does not carry a body.
  *
  * @version //autogentag//
  * @package Webdav

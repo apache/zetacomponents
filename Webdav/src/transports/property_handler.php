@@ -8,7 +8,16 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Description missing
+ * Handles the parsing and serailization of live and dead properties.
+ *
+ * An instance of this class is used by {@link ezcWebdavTransport} and {@link
+ * ezcWebdavFileBackend} to parse {@link ezcWebdavLiveProperty} and {@link
+ * ezcWebdavDeadProperty} instances from XML content and to re-serialized
+ * instances of these classes back to XML.
+ *
+ * {@link ezcWebdavTransport} might be configured to use a different property
+ * handler, to adjust the behavior of property handling to specific client
+ * needs. {@link ezcWebdavFileBackend} always uses this default implementation.
  *
  * @package Webdav
  * @version //autogen//
@@ -34,7 +43,15 @@ class ezcWebdavPropertyHandler
      *
      * An instance of this class is capable of handling live and dead WebDAV
      * properties. It can extract properties from requests and generate
-     * response information for properties.
+     * response information for properties. If $xml is not specified, the
+     * instance in {@link ezcWebdavServer} will be used, which propably
+     * underlies client specific adjustments.
+     *
+     * The {@link ezcWebdavXmlTool} instance of {@link ezcWebdavServer} can be
+     * configured using a {@link ezcWebdavServerConfiguration} in the {@link
+     * ezcWebdavServerConfigurationManager} of the {@link ezcWebdavServer}
+     * singleton instance. The XML instance is created as soon as the server is
+     * configured for a specific client.
      * 
      * @param ezcWebdavXmlTool $xml 
      * @return void
@@ -47,6 +64,17 @@ class ezcWebdavPropertyHandler
         }
     }
 
+    /**
+     * Returns the XML tool to work with.
+     *
+     * This method either returns the internally ({@link $xmlTool}) instance of
+     * {@link ezcWebdavXmlTool} or, if this one is not available, the instance
+     * stored in the singleton of {@link ezcWebdavServer}. The latter instance
+     * might be an extended one, which is adjusted to the special needs of a
+     * certain client.
+     * 
+     * @return ezcWebdavXmlTool
+     */
     protected function getXmlTool()
     {
         if ( $this->xmlTool === null )
@@ -64,13 +92,15 @@ class ezcWebdavPropertyHandler
      *
      * The list may contain live properties as well as dead ones. Live
      * properties ({@link ezcWebdavLiveProperty}) as defined in RFC 2518 are
-     * currently recognized. All other properties in the DAV: namespace are
-     * added as dead properties ({@link ezcWebdavDeadProperty}). Dead
-     * properties are parsed in general in any namespace.
+     * currently recognized, except for locking related properties. All other
+     * properties in the DAV: namespace are added as dead properties ({@link
+     * ezcWebdavDeadProperty}). Dead properties are parsed generally in any
+     * namespace.
      *
-     * The properties are stored in the given {@link ezcWebdavPropertyStorage}
-     * $storage. If a $flag value is provided, this one is submitted as the
-     * second parameter to {@link ezcWebdavFlaggedPropertyStorage->attach()}.
+     * The extracted properties are stored in the given {@link
+     * ezcWebdavPropertyStorage} $storage. If a $flag value is provided, this
+     * one is submitted as the second parameter to {@link
+     * ezcWebdavFlaggedPropertyStorage->attach()}.
      *  
      * @param DOMNodeList $domNodes 
      * @param ezcWebdavPropertyStorage $storage
@@ -110,7 +140,7 @@ class ezcWebdavPropertyHandler
     /**
      * Dispatches the extraction of a live property.
      *
-     * This method takes care that the dispatching to the plugin registry takes
+     * This method takes care for dispatching to the plugin registry takes
      * place before and after the actual live property is extracted.
      * Additionally the extractUnknownLiveProperty is announced, if the
      * property could not be parsed internally. If the property still cannot be
@@ -214,7 +244,7 @@ class ezcWebdavPropertyHandler
      * Extract a dead property from a DOMElement.
      *
      * This method is responsible for parsing a {@link ezcWebdavDeadProperty}
-     * (unknown) property from a DOMElement.
+     * (unknown) property from a $domElement.
      * 
      * @param DOMElement $domElement 
      * @return ezcWebdavDeadProperty
@@ -329,8 +359,9 @@ class ezcWebdavPropertyHandler
 
     /**
      * Serializes an object of new ezcWebdavBasicPropertyStorage to XML.
+     *
      * Attaches all properties of the $storage to the $parentElement XML
-     * element.
+     * element in their XML representation.
      * 
      * @param new ezcWebdavPropertyStorage $storage 
      * @param DOMElement $parentElement 
@@ -424,9 +455,11 @@ class ezcWebdavPropertyHandler
 
     /**
      * Extracts the <link /> XML elements.
+     *
      * This method extracts the <link /> XML elements from the <source />
-     * element and returns the corresponding ezcWebdavSourcePropertyLink object
-     * to be used as the content of ezcWebdavSourceProperty.
+     * element and returns the corresponding {@link
+     * ezcWebdavSourcePropertyLink} object to be used as the content of {@link
+     * ezcWebdavSourceProperty}.
      * 
      * @param DOMElement $domElement 
      * @return ezcWebdavSourcePropertyLink
@@ -452,7 +485,10 @@ class ezcWebdavPropertyHandler
 
     /**
      * Returns the XML representation of a dead property.
-     * Returns a DOMElement, representing the content of the given $property.
+     *
+     * Returns a DOMElement, representing the content of the given $property in
+     * XML. The newly created element is also appended as a child to the given
+     * $parentElement.
      * 
      * @param ezcWebdavDeadProperty $property 
      * @param DOMElement $parentElement 
@@ -474,13 +510,18 @@ class ezcWebdavPropertyHandler
 
     /**
      * Returns the XML representation of a live property.
+     *
      * Returns a DOMElement, representing the content of the given $property.
      * The newly created element is also appended as a child to the given
      * $parentElement.
+     *
+     * In case the given property is not recodnized, null is returned to
+     * indicate that a plugin hook must be announced to see if a plugin can
+     * serialize the property.
      * 
      * @param ezcWebdavLiveProperty $property 
      * @param DOMElement $parentElement 
-     * @return DOMElement
+     * @return DOMElement|null
      */
     protected function serializeLiveProperty( ezcWebdavLiveProperty $property, DOMElement $parentElement )
     {
@@ -554,6 +595,11 @@ class ezcWebdavPropertyHandler
 
     /**
      * Serializes an array of ezcWebdavSourcePropertyLink elements to XML.
+     *
+     * This method takes an array of {@link ezcWebdavSourcePropertyLink}
+     * instances, which are serialized to DOMElement objects (using the given
+     * $dom) to be added to a {@link ezcWebdavSourceProperty} XML
+     * representation. The DOMElement instances are returned in an array.
      * 
      * @param array(ezcWebdavSourcePropertyLink) $links 
      * @param DOMDocument $dom To create the returned DOMElements.

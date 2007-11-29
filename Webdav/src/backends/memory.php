@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing a fake memory webdav backend.
+ * File containing the ezcWebdavMemoryBackend class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -9,13 +9,15 @@
  * @access private
  */
 /**
- * Fake backend to serve some virtual content tree, offering options to cause
+ * Backend that only resides in memory.
+ *
+ * Memory backend to serve some virtual content tree, offering options to cause
  * failures in operations, mainly for testing the webdav server.
  *
- * The fake server is constructed from a multidimentional array structure
- * representing the collections and files. The metadata may only be set by
- * appropriate requests to the backend. No information is stored anywhere, so
- * that every reinitialisations gives you a fresh backend.
+ * The content of the backend is constructed from a multidimentional array
+ * structure representing the collections and files. The metadata may only be
+ * set by appropriate requests to the backend. No information is stored
+ * anywhere, so that every reinitialisations gives you a fresh backend.
  *
  * <code>
  *  $backend = new ezcWebdavMemoryBackend();
@@ -31,7 +33,7 @@
  * </code>
  *
  * This backend does not implement any special features to test the servers
- * capabilities to work with thos features.
+ * capabilities to work with those features.
  *
  * @version //autogentag//
  * @package Webdav

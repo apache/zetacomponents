@@ -10,11 +10,11 @@
 /**
  * An instance of this class manages header parsing and handling.
  *
- * An object of this class takes care about headers in the {@link
- * ezcWebdavTransport} to parse incoming headers and serialize outgoing
- * headers.  Like for the {@link ezcWebdavPropertyHandler}, the instance of
- * this class that is used in the current transport layer must be accessable
- * for plugins.
+ * An object of this class takes care about headers in {@link
+ * ezcWebdavTransport}. It is responsible for parsing incoming headers and
+ * serialize outgoing ones. Like for the {@link ezcWebdavPropertyHandler}, the
+ * instance of this class that is used in the current transport layer must be
+ * accessable for plugins.
  *
  * @package Webdav
  * @version //autogen//
@@ -36,13 +36,6 @@ class ezcWebdavHeaderHandler
         'Timeout'        => 'HTTP_TIMEOUT',
         'Server'         => 'SERVER_SOFTWARE',
     );
-
-    /**
-     * Pathfactory to process incoming headers.
-     * 
-     * @var ezcWebdavPathFactory
-     */
-    protected $pathFactory;
 
     /**
      * Returns an array with the given headers.

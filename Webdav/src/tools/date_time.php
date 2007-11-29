@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavezcWebdavDateTime class.
+ * File containing the ezcWebdavDateTime class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -9,9 +9,12 @@
  */
 
 /**
- * This class extends the PHP internal ezcWebdavDateTime class to make it serializable.
- * This class is only needed for testing purposes and should be dropped ASAP,
- * if its parents issue is fixed.
+ * DateTime class with serialization support.
+ *
+ * The PHP 5.2 {@link DateTime} class does not support
+ * serialization/deserialization with maintaining the stored time information.
+ * This class extends DateTime to solve the issue, which is needed especially
+ * when working with persistent {@link ezcWebdavMemoryBackend} instances.
  * 
  * @package Webdav
  * @version //autogen//
@@ -29,11 +32,13 @@ class ezcWebdavDateTime extends DateTime
 
     /**
      * Backup the currently stored time.
-     * This methods backs up the time currently stored in the object as an RCF
-     * 2822 formatted string and returns the name of the stored property in an
-     * array to indicate that it should be serialized.
+     *
+     * This method is called right before serialization of the object. It backs
+     * up the current time information as an RCF 2822 formatted string and
+     * returns the name of the property this value is stored inside as an array
+     * to indicate that this property should be serialized.
      * 
-     * @return array(string)
+     * @return array(int=>string)
      */
     public function __sleep()
     {
@@ -43,6 +48,9 @@ class ezcWebdavDateTime extends DateTime
 
     /**
      * Restores the backeuped time.
+     *
+     * This method is automatically called after deserializing the object and
+     * restores the backed up time information.
      * 
      * @return void
      */

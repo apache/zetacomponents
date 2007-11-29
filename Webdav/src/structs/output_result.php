@@ -8,10 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Display information.
+ * Struct representing a result to display.
  *
- * Used by {@link ezcWebdavTransport} to transport information on displaying a
- * response to the browser.
  *
  * @version //autogentag//
  * @package Webdav

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the microsoft compliant transport mecanism.
+ * File containing the ezcWebdavMicrosoftCompatibleTransport class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Transport layer for Microsoft clients with RFC incompatible handling.
+ * Transport layer for Microsoft clients with RFC incompatiblities.
  *
  * Clients seen, which need this:
  *  - Microsoft Data Access Internet Publishing Provider Cache Manager

@@ -8,7 +8,21 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Description missing
+ * Tool class to work with XML.
+ *
+ * An instance of this tool class is used to perform XML operations while
+ * parsing incoming requests and serializing outgoing responses.
+ *
+ * If a client expects different behavior regarding fundamental XML handling,
+ * this class can be extended. To make it being used for a certain client, the
+ * new class name needs to be specified in an instance of {@link
+ * ezcWebdacServerConfiguration}, which then needs to be registered in the
+ * {@link ezcWebdacServerConfigurationManager} instance, located in the {@link
+ * ezcWebdacServer} singleton instance.
+ *
+ * @properties ezcWebdavNamespaceRegistry $namespaceRegistry
+ *             Registry class that keeps track of used namespace URIs and their
+ *             abbreviations.
  *
  * @package Webdav
  * @version //autogen//
@@ -39,6 +53,11 @@ class ezcWebdavXmlTool
 
     /**
      * Creates a new XML tool.
+     *
+     * Creates an new XML tool instance. If not $namespaceRegistry is provided,
+     * the default {@link ezcWebdavNamespaceRegistry} will be instanciated and
+     * used. The registry can be accessed through the $namespaceRegistry
+     * property.
      * 
      * @param ezcWebdavNamespaceRegistry $namespaceRegistry 
      * @return void
@@ -53,6 +72,7 @@ class ezcWebdavXmlTool
 
     /**
      * Returns a DOMDocument from the given XML.
+     *
      * Creates a new DOMDocument with the options set in the class constants
      * and loads the optionally given $xml string with settings appropriate to
      * work with it. Returns false if the loading fails.

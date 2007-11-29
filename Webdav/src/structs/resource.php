@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the class representing resource structs
+ * File containing the ezcWebdavResource struct.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,7 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Resource struct
+ * Struct class representing a non-collection resource.
+ *
+ * This struct is used to represent non-collection resources, in contrast to
+ * {@link ezcWebdavCollection}, which represents collection resources.
  *
  * @version //autogentag//
  * @package Webdav
@@ -34,14 +37,17 @@ class ezcWebdavResource extends ezcBaseStruct
     /**
      * Live properties of resource.
      * 
-     * @var array
+     * @var ezcWebdavPropertyStorage
      */
     public $liveProperties;
 
     /**
-     * Construct a resource structure from path, properties and contents of a
-     * resource.
+     * Creates a new non-collection resource struct.
      * 
+     * A new non-collection resource struct is crenated, representing the
+     * resource referenced by $path, with the given $liveProperties and
+     * $content.
+     *
      * @param string $path 
      * @param ezcWebdavPropertyStorage $liveProperties 
      * @param string $content 

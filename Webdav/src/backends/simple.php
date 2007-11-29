@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing a abstract simple webdav backend.
+ * File containing the abstract ezcWebdavSimpleBackend class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,12 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * This backend provides the generic handling of requests and dispatches the
+ * Abstract base class for common backend operations.
+ *
+ * This base backend provides the generic handling of requests and dispatches the
  * requuired actions to some basic manipulation methods, which you are required
- * to implement.
+ * to be implemented.
  *
  * This backend does not provide support for extended Webdav features, like
- * compression, or locking handled by the backend, therefore the getFeatures()
+ * compression, or lock handling by the backend, therefore the getFeatures()
  * method is final. If you want to develop a backend which is capable of manual
  * handling those features directly extend from {@link ezcWebdavBackend}.
  *
@@ -31,7 +33,7 @@ abstract class ezcWebdavSimpleBackend
     /**
      * Create a new collection.
      *
-     * Creates a new collection at the given path.
+     * Creates a new collection at the given $path.
      * 
      * @param string $path 
      * @return void
@@ -41,8 +43,8 @@ abstract class ezcWebdavSimpleBackend
     /**
      * Create a new resource.
      *
-     * Creates a new resource at the given path, optionally with the given
-     * content.
+     * Creates a new resource at the given $path, optionally with the given
+     * $content.
      * 
      * @param string $path 
      * @param string $content 
@@ -51,9 +53,10 @@ abstract class ezcWebdavSimpleBackend
     abstract protected function createResource( $path, $content = null );
 
     /**
-     * Set contents of a resource.
+     * Changes contents of a resource.
      *
-     * Change the contents of the given resource to the given content.
+     * This method is used to change the contents of the resource identified by
+     * $path to the given $content.
      * 
      * @param string $path 
      * @param string $content 
@@ -62,7 +65,9 @@ abstract class ezcWebdavSimpleBackend
     abstract protected function setResourceContents( $path, $content );
 
     /**
-     * Get contents of a resource.
+     * Returns the content of a resource.
+     *
+     * Returns the content of the resource identified by $path.
      * 
      * @param string $path 
      * @return string
@@ -70,50 +75,58 @@ abstract class ezcWebdavSimpleBackend
     abstract protected function getResourceContents( $path );
 
     /**
-     * Manually set a property on a resource to request it later.
+     * Manually sets a property on a resource.
+     *
+     * Sets the given $propertyBackup for the resource identified by $path.
      * 
-     * @param string $resource 
+     * @param string $path 
      * @param ezcWebdavProperty $property
      * @return bool
      */
-    abstract public function setProperty( $resource, ezcWebdavProperty $property );
+    abstract public function setProperty( $path, ezcWebdavProperty $property );
 
     /**
-     * Manually remove a property from a resource.
+     * Manually removes a property from a resource.
+     *
+     * Removes the given $property form the resource identified by $path.
      * 
-     * @param string $resource 
+     * @param string $path 
      * @param ezcWebdavProperty $property
      * @return bool
      */
-    abstract public function removeProperty( $resource, ezcWebdavProperty $property );
+    abstract public function removeProperty( $path, ezcWebdavProperty $property );
 
     /**
-     * Reset property storage for a resource.
+     * Resets the property storage for a resource.
+     *
+     * Discardes the current {@link ezcWebdavPropertyStorage} of the resource
+     * identified by $path and replaces it with the given $properties.
      * 
-     * @param string $resource 
+     * @param string $path 
      * @param ezcWebdavPropertyStorage $properties
      * @return bool
      */
-    abstract public function resetProperties( $resource, ezcWebdavPropertyStorage $properties );
+    abstract public function resetProperties( $path, ezcWebdavPropertyStorage $properties );
 
     /**
-     * Manually get a property on a resource.
+     * Returns a property of a resource.
      * 
-     * Get the property with the given name from the given resource. You may
-     * optionally define a namespace to receive the property from.
+     * Returns the property with the given $propertyName, from the resource
+     * identified by $path. You may optionally define a $namespace to receive
+     * the property from.
      *
-     * @param string $resource 
+     * @param string $path 
      * @param string $propertyName 
      * @param string $namespace 
      * @return ezcWebdavProperty
      */
-    abstract public function getProperty( $resource, $propertyName, $namespace = 'DAV:' );
+    abstract public function getProperty( $path, $propertyName, $namespace = 'DAV:' );
 
     /**
-     * Manually get a property on a resource.
+     * Returns all properties for a resource.
      * 
-     * Get all properties for the given resource as a {@link
-     * ezcWebdavBasicPropertyStorage}
+     * Returns all properties for the resource identified by $path as a {@link
+     * ezcWebdavBasicPropertyStorage}.
      *
      * @param string $resource 
      * @return ezcWebdavPropertyStorage

@@ -1,5 +1,36 @@
 <?php
+/**
+ * File containing the ezcWebdavServerConfigurationManager class.
+ *
+ * @package Webdav
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
+/**
+ * Manages and dispatches server configurations.
+ *
+ * An instance of this class is kept in the singleton instance of {@link
+ * ezcWebdavServer} and keeps track of different server configurations to be
+ * used with different clients.
+ *
+ * Several special configurations exist per default:
+ * - MS InternetExplorer compatible
+ * - GNOME Nautilus compatible
+ *
+ * In addtion, a default configuration that behaves RFC compliant is included
+ * as fallback for any other client.
+ *
+ * Configurations can be accessed by the ArrayAccess and Iterator interfaces.
+ * To insert new configurations, the method {@link insertBefore()} should be
+ * used.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 class ezcWebdavServerConfigurationManager implements ArrayAccess, Iterator
 {
     /**
@@ -12,10 +43,12 @@ class ezcWebdavServerConfigurationManager implements ArrayAccess, Iterator
     /**
      * Creates a new dispatcher.
      *
-     * This creates a new dispatcher object and registers the default {@link
-     * ezcWebdavServerConfiguration} automatically. That means, all
-     * following should be added by {@link $this->insertBefore()} to ensure,
-     * this catchall will not break the transfer layer.
+     * This creates a new manager object and registers the default {@link
+     * ezcWebdavServerConfiguration} instances automatically. The last added
+     * configuration is the RFC compliant one, which matches for every client
+     * if no other configurations matched before. That means, all following
+     * should be added by {@link insertBefore()} to ensure, this
+     * catchall will not break the transfer layer.
      * 
      * @return void
      */
@@ -45,7 +78,7 @@ class ezcWebdavServerConfigurationManager implements ArrayAccess, Iterator
      * in {@link $this->configurations} minus 1.
      *
      * If these preconditions do not match for the given $offset, an
-     * ezcBaseValueException is thrown.
+     * {@link ezcBaseValueException} is thrown.
      * 
      * @param ezcWebdavServerConfiguration $config 
      * @param int $offset 

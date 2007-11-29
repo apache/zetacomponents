@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavDisplayInformation struct.
+ * File containing the ezcWebdavStringDisplayInformation class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,10 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Display information.
+ * Display information with string body.
  *
  * Used by {@link ezcWebdavTransport} to transport information on displaying a
- * response to the browser.
+ * response to the browser. This display information carries a string body.
  *
  * @version //autogentag//
  * @package Webdav
@@ -22,8 +22,10 @@ class ezcWebdavStringDisplayInformation extends ezcWebdavDisplayInformation
 {
     
     /**
-     * Creates a new struct.
-     * 
+     * Creates a new display information object.
+     *
+     * This display information must be created with a string $body.
+     *
      * @param ezcWebdavResponse $response 
      * @param string $body 
      * @return void

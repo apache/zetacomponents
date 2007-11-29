@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavPropertyHandler class.
+ * File containing the ezcWebdavNautilusPropertyHandler class.
  *
  * @package Webdav
  * @version //autogen//
@@ -8,7 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Description missing
+ * Property handler adjusted for the GNOME Nautilus client.
+ *
+ * This property handler removes the "charset=..." part form getcontentype
+ * properties, since Nautilus displays them not nicely.
  *
  * @package Webdav
  * @version //autogen//
@@ -17,9 +20,15 @@ class ezcWebdavNautilusPropertyHandler extends ezcWebdavPropertyHandler
 {
     /**
      * Returns the XML representation of a live property.
+     *
      * Returns a DOMElement, representing the content of the given $property.
      * The newly created element is also appended as a child to the given
      * $parentElement.
+     *
+     * This method only takes care for {@link ezcWebdavGetContentTypeProperty}
+     * and does not add the "charset=..." part to the generated XML output,
+     * since Nautilus does not display this nicely. All other properties are
+     * dispatched to the default {@link ezcWebdavPropertyHandler}.
      * 
      * @param ezcWebdavLiveProperty $property 
      * @param DOMElement $parentElement 
