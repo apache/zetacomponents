@@ -95,6 +95,28 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
         }
         $this->fail( "Required exception not thrown on not existing file." );
     }
+
+    public function testCloseSuccess()
+    {
+        $srcPath = $this->testFiles["jpeg"];
+        $ref = $this->handler->load( $srcPath );
+
+        $refProp = $this->getReferences();
+        $tmpFile = $refProp[$ref]["resource"];
+
+        $this->handler->close( $ref );
+
+        $refProp = $this->getReferences();
+
+        $this->assertFalse(
+            isset( $refProp[$ref] ),
+            "Reference not freed successfully."
+        );
+        $this->assertFalse(
+            file_exists( $tmpFile ),
+            "Temporary file not deleted successfully."
+        );
+    }
     
     public function testRemoveTempFilesInDtorSuccess()
     {

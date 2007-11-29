@@ -119,28 +119,6 @@ class ezcImageConversionHandlerTest extends ezcImageConversionTestCase
         $this->fail( "ezcImageFileNameInvalidException not thrown on illigal character $." );
     }
 
-    public function testCloseSuccess()
-    {
-        $srcPath = $this->testFiles["jpeg"];
-        $ref = $this->handler->load( $srcPath );
-
-        $refProp = $this->getReferences();
-        $tmpFile = $refProp[$ref]["resource"];
-
-        $this->handler->close( $ref );
-
-        $refProp = $this->getReferences();
-
-        $this->assertFalse(
-            isset( $refProp[$ref] ),
-            "Reference not freed successfully."
-        );
-        $this->assertFalse(
-            file_exists( $tmpFile ),
-            "Temporary file not deleted successfully."
-        );
-    }
-
     public function testCloseFailure()
     {
         try
