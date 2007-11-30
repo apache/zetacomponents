@@ -14,9 +14,9 @@ MMM DD HH:MM:SS [Debug] [default] [default] Activated node #7(ezcWorkflowNodeAct
 MMM DD HH:MM:SS [Debug] [default] [default] Started thread #3 (3 sibling(s)) for execution #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #8(ezcWorkflowNodeAction) for instance #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #3(ezcWorkflowNodeMultiChoice) for instance #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeSynchronizingMerge) for instance #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeAction) for instance #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #7(ezcWorkflowNodeAction) for instance #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeSynchronizingMerge) for instance #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #8(ezcWorkflowNodeAction) for instance #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #1 for execution #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #2 for execution #1 of workflow "MultiChoiceSynchronizingMerge" (version 1).
