@@ -11,7 +11,6 @@
 /**
  * Require the tests
  */
-require_once 'tree.php';
 require_once 'tree_node.php';
 require_once 'tree_node_list.php';
 require_once 'tree_node_list_iterator.php';

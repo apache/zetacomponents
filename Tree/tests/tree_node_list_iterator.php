@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+require_once 'files/test_classes.php';
+
 /**
  * @package Tree
  * @subpackage Tests

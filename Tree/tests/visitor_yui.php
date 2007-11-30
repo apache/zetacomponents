@@ -9,6 +9,7 @@
  */
 
 require_once 'tree.php';
+require_once 'visitor.php';
 
 /**
  * @package Tree
