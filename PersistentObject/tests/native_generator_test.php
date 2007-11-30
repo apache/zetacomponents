@@ -9,6 +9,7 @@
  */
 
 require_once "data/native_generator_test.php";
+require_once "data/persistent_test_object.php";
 
 /**
  * Tests the code manager.
