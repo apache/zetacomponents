@@ -144,6 +144,21 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         );
     }
 
+    public function testLogParallelSplitSynchronization2()
+    {
+        $this->setUpParallelSplitSynchronization2();
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->start();
+        $this->execution->resume( array( 'foo' => 'bar' ) );
+        $this->execution->resume( array( 'bar' => 'foo' ) );
+
+        $this->assertEquals(
+          $this->readExpected( 'ParallelSplitSynchronization2' ),
+          $this->readActual()
+        );
+    }
+
     public function testLogExclusiveChoiceSimpleMerge()
     {
         $this->setUpExclusiveChoiceSimpleMerge();
