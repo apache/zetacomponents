@@ -50,6 +50,12 @@ class ezcTemplateTest extends ezcTestCase
         $config2->compilePath = $this->compilePath;
     }
 
+    protected function tearDown()
+    {
+        $tc = ezcTemplateConfiguration::getInstance();
+        $tc->executeTemplate = true;
+    }
+
     /**
      * Creates manager with initialised values and check the properties.
      */
