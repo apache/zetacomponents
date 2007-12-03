@@ -45,14 +45,14 @@ class ezcTemplateLocaleTest extends ezcTestCase
 
     public function testFloats()
     {
-        $this->setLocale( LC_ALL, 'de_DE' );
+        $this->setLocale( LC_ALL, 'de_DE', 'de_DE.UTF-8', 'deu', 'german' );
 
         $template = new ezcTemplate();
         $file =  "float.ezt";
         
         // The number 3.14 should not be translated to 3,14. The array size should be one, not two.
         file_put_contents( $this->templatePath . "/". $file, "{array_count(array(3.14))}" );
-        $this->assertEquals(1, $template->process( $file), "Number 3.14 is internally translated to 3,14 when the de_DE locale is used.");
+        $this->assertEquals(1, $template->process( $file ), "Number 3.14 is internally translated to 3,14 when the de_DE locale is used.");
     }
 }
 ?>
