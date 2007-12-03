@@ -274,7 +274,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
             $this->getReferencePath(),
             $dstPath,
              "Converting transparent background failed.",
-            300
+            500
         );
     }
 }

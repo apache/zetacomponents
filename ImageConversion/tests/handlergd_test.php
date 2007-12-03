@@ -311,7 +311,7 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $dstPath,
-            300
+            500
         );
     }
 }
