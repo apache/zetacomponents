@@ -311,6 +311,7 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $dstPath,
+             "Converting transparent background failed.",
             500
         );
     }
