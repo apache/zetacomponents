@@ -72,6 +72,7 @@ class ezcDbHandlerSqlite extends ezcDbHandler
         $this->sqliteCreateFunction( 'floor', array( 'ezcQuerySqliteFunctions', 'floorImpl'), 1 );
         $this->sqliteCreateFunction( 'ceil', array( 'ezcQuerySqliteFunctions', 'ceilImpl'), 1 );
         $this->sqliteCreateFunction( 'concat', array( 'ezcQuerySqliteFunctions', 'concatImpl') );
+        $this->sqliteCreateFunction( 'toUnixTimestamp', array( 'ezcQuerySqliteFunctions', 'toUnixTimestampImpl' ), 1 );
         $this->sqliteCreateFunction( 'now', 'time', 0 );
     }
 

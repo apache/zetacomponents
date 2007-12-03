@@ -976,12 +976,20 @@ class ezcQueryExpressionTest extends ezcTestCase
         $this->assertSame( 4, (int)$stmt->fetchColumn( 0 ) );
     }
 
-    public function testUnixTimestampImpl()
+    public function testUnixTimestampImpl1()
     {
         $this->q->select( $this->e->unixTimestamp( "'2007-05-03 11:54:17'" ) );
         $stmt = $this->q->prepare();
         $stmt->execute();
         $this->assertSame( strtotime( '2007-05-03 11:54:17' ), (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testUnixTimestampImpl2()
+    {
+        $this->q->select( $this->e->unixTimestamp( "'2007-12-03 11:54:17'" ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( strtotime( '2007-12-03 11:54:17' ), (int)$stmt->fetchColumn( 0 ) );
     }
 
     public function testDateSubSecondImpl()

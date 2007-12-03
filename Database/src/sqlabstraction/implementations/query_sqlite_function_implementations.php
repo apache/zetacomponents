@@ -87,5 +87,16 @@ class ezcQuerySqliteFunctions
      {
          return (int) ceil( $number );
      }
+
+     /**
+      * Returns the unix timestamp belonging to a date/time spec
+      *
+      * @param string $spec
+      * @return integer
+      */
+     static public function toUnixTimestampImpl( $spec )
+     {
+         return strtotime( $spec );
+     }
 }
 ?>

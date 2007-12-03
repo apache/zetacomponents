@@ -1,3 +1,11 @@
+1.3.3 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed bug #12152: The SQLite's unixTimestamp() expression function
+  implementation uses the current UTC offset, instead of the UTC offset that
+  belongs to the date for which a Unix timestamp should be generated.
+
+
 1.3.2 - Wednesday 28 November 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

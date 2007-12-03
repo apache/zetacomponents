@@ -99,7 +99,7 @@ class ezcQueryExpressionSqlite extends ezcQueryExpression
         else
         {
             $column = $this->getIdentifier( $column );
-            return " strftime( '%s', {$column} ) - ".date('Z')." ";
+            return " toUnixTimestamp( {$column} ) ";
         }
     }
 
