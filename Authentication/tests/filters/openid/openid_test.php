@@ -687,6 +687,12 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidMockImmediateCaseNullSmartModeFileStore()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) &&
+             !ezcBaseFeatures::hasExtensionSupport( 'gmp' ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --enable-bcmath or --with-gmp.' );
+        }
+
         $credentials = new ezcAuthenticationIdCredentials( self::$url );
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationOpenidOptions();
