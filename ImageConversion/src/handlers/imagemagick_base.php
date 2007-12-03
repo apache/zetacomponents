@@ -146,8 +146,8 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         // Check is transparency must be converted
         if  ( $this->needsTransparencyConversion( $this->getReferenceData( $image, 'mime' ), $mime ) && $options->transparencyReplacementColor !== null )
         {
-            $this->addFilterOption( $image, '-fill', $this->colorArrayToString( $options->transparencyReplacementColor ) );
-            $this->addFilterOption( $image, '-opaque', 'none' );
+            $this->addFilterOption( $image, '-background', $this->colorArrayToString( $options->transparencyReplacementColor ) );
+            $this->addFilterOption( $image, '-flatten' );
         }
 
         $this->saveCommon( $image, $newFile, $mime );
