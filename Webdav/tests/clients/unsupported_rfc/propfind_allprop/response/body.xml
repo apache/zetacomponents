@@ -18,6 +18,24 @@
         <R:author xmlns:R="http://www.foo.bar/boxschema/">
           <R:Name>Hadrian</R:Name>
         </R:author>
+        <D:supportedlock>
+          <D:lockentry>
+            <D:lockscope>
+              <D:exclusive/>
+            </D:lockscope>
+            <D:locktype>
+              <D:write/>
+            </D:locktype>
+          </D:lockentry>
+          <D:lockentry>
+            <D:lockscope>
+              <D:shared/>
+            </D:lockscope>
+            <D:locktype>
+              <D:read/>
+            </D:locktype>
+          </D:lockentry>
+        </D:supportedlock>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -37,6 +55,24 @@
         <R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
           <R:BoxType>Box type B</R:BoxType>
         </R:bigbox>
+        <D:supportedlock>
+          <D:lockentry>
+            <D:lockscope>
+              <D:exclusive/>
+            </D:lockscope>
+            <D:locktype>
+              <D:write/>
+            </D:locktype>
+          </D:lockentry>
+          <D:lockentry>
+            <D:lockscope>
+              <D:shared/>
+            </D:lockscope>
+            <D:locktype>
+              <D:read/>
+            </D:locktype>
+          </D:lockentry>
+        </D:supportedlock>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
