@@ -141,9 +141,10 @@ class ezcDbHandlerOracle extends ezcDbHandler
      * Reimplemented from PDO since PDO is broken using Oracle8.
      *
      * @param string $str
+     * @param int $paramStr
      * @return string
      */
-    public function quote( $str )
+    public function quote( $str, $paramStr = PDO::PARAM_STR )
     {
         // looks like PDO::quote() does not work properly with oci8 driver.
 
