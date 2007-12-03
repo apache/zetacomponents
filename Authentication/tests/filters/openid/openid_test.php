@@ -126,13 +126,16 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function setUp()
     {
+        $this->origGet = $_GET;
+        $this->origServer = $_SERVER;
         $_GET = self::$requestEmpty;
         $_SERVER = self::$server;
     }
 
     public function tearDown()
     {
-
+        $_GET = $this->origGet;
+        $_SERVER = $this->origServer;
     }
 
     public function testOpenidWrapperCheckSignatureSmart()
