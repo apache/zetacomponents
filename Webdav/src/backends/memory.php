@@ -88,7 +88,7 @@ class ezcWebdavMemoryBackend
     /**
      * Construct backend from a given path.
      * 
-     * @param string $path 
+     * @param bool $fakeLiveProperties
      * @return void
      */
     public function __construct( $fakeLiveProperties = true )
@@ -234,6 +234,7 @@ class ezcWebdavMemoryBackend
      * storage.
      * 
      * @param array $contents 
+     * @param string $path
      * @return void
      */
     public function addContents( array $contents, $path = '/' )

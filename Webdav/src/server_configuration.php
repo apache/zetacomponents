@@ -97,6 +97,7 @@ class ezcWebdavServerConfiguration
      * @param string $transportClass
      * @param string $xmlToolClass 
      * @param string $propertyHandlerClass
+     * @param string $headerHandlerClass
      * @param ezcWebdavPathFactory $pathFactory 
      * @return void
      */
@@ -202,8 +203,8 @@ class ezcWebdavServerConfiguration
      *         if the property $name is not defined
      * @throws ezcBaseValueException
      *         if $value is not correct for the property $name
-     * @param string $name
-     * @param mixed $value
+     * @param string $propertyName
+     * @param mixed $propertyValue
      * @ignore
      */
     public function __set( $propertyName, $propertyValue )

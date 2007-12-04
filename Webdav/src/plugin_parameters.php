@@ -28,6 +28,7 @@ class ezcWebdavPluginParameters extends ArrayObject
     /**
      * Create a new paramater storage.
      * 
+     * @param array $data
      * @return void
      */
     public function __construct( array $data = null )

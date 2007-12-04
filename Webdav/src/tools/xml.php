@@ -20,9 +20,9 @@
  * {@link ezcWebdacServerConfigurationManager} instance, located in the {@link
  * ezcWebdacServer} singleton instance.
  *
- * @properties ezcWebdavNamespaceRegistry $namespaceRegistry
- *             Registry class that keeps track of used namespace URIs and their
- *             abbreviations.
+ * @property ezcWebdavNamespaceRegistry $namespaceRegistry
+ *           Registry class that keeps track of used namespace URIs and their
+ *           abbreviations.
  *
  * @package Webdav
  * @version //autogen//
@@ -77,10 +77,9 @@ class ezcWebdavXmlTool
      * and loads the optionally given $xml string with settings appropriate to
      * work with it. Returns false if the loading fails.
      *
-     * @see LIBXML_NOWARNING, LIBXML_NSCLEAN, LIBXML_NOBLANKS
-     *
-     * @param sting $xml 
+     * @param sting $content 
      * @return DOMDocument|false
+     * @see LIBXML_NOWARNING, LIBXML_NSCLEAN, LIBXML_NOBLANKS
      */
     public function createDomDocument( $content = null )
     {

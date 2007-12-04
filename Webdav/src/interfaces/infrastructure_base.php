@@ -25,12 +25,12 @@
  * $this->removePluginData()}. A check if data is available for a given plugin
  * namespace and key can be checked using {@link $this->hasPluginData()}.
  *
+ * NOTE: The plugin API is not public, yet, and will be released in a later
+ * version of this component.
+ *
  * @see ezcWebdavRequest
  * @see ezcWebdavResponse
  * @see ezcWebdavProperty
- *
- * NOTE: The plugin API is not public, yet, and will be released in a later
- * version of this component.
  *
  * @package Webdav
  * @version //autogen//

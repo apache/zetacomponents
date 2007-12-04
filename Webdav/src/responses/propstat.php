@@ -28,7 +28,7 @@ class ezcWebdavPropStatResponse extends ezcWebdavResponse
      * ezcWebdavPropFindResponse} from a property storage ($storage) and
      * optionally an error stutus code, which will default to 200(OK).
      * 
-     * @param ezcWebdavPropertyStorage $properties
+     * @param ezcWebdavPropertyStorage $storage
      * @param int $status 
      * @return void
      */

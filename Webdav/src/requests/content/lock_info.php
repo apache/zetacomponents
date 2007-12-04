@@ -38,6 +38,9 @@ class ezcWebdavRequestLockInfoContent extends ezcWebdavInfrastructureBase
     /**
      * Creates a new instance.
      * 
+     * @param int $lockScope 
+     * @param int $lockType 
+     * @param string $owner 
      * @return void
      */
     public function __construct( $lockScope, $lockType, $owner = null )

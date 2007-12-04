@@ -113,6 +113,7 @@ class ezcWebdavServerConfigurationManager implements ArrayAccess, Iterator
      * has been removed or manipulated incorrectly, an {@link
      * ezcWebdavMissingTransportConfigurationException} might be thrown.
      * 
+     * @param ezcWebdavServer $server
      * @param mixed $userAgent 
      * @return void
      *

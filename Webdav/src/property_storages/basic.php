@@ -158,6 +158,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      * be accessed by simply ommiting the $namespace parameter, since  then the
      * default namespace for live properties ('DAV:') is used.
      * 
+     * @param string $namespace
      * @return array(string=>ezcWebdavProperty)
      */
     public function getProperties( $namespace = 'DAV:' )
@@ -187,7 +188,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      * Returns a property storage, which does only contain properties that are
      * not present in the $properties parameter.
      * 
-     * @param ezcWebdavBasicPropertyStorage $properties 
+     * @param ezcWebdavPropertyStorage $properties 
      * @return ezcWebdavBasicPropertyStorage
      */
     public function diff( ezcWebdavPropertyStorage $properties )
@@ -220,7 +221,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      * which contains all values, which are present in the current and the
      * given $properties property storage.
      * 
-     * @param ezcWebdavBasicPropertyStorage $properties 
+     * @param ezcWebdavPropertyStorage $properties 
      * @return ezcWebdavBasicPropertyStorage
      */
     public function intersect( ezcWebdavPropertyStorage $properties )

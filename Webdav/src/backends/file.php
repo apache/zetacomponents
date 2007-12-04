@@ -73,7 +73,7 @@ class ezcWebdavFileBackend
      * identified by $root. If the given path does not exist or is not a
      * directory, an exception will be thrown.
      *
-     * @param string $path 
+     * @param string $root 
      * @return void
      *
      * @throws ezcBaseFileNotFoundException
@@ -103,7 +103,7 @@ class ezcWebdavFileBackend
      * 
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property propertys is not an instance of
-     * @param string $propertyName The name of the property to get.
+     * @param string $name The name of the property to get.
      * @return mixed The property value.
      *
      * @ignore
@@ -129,8 +129,8 @@ class ezcWebdavFileBackend
      * Sets a property.
      * This method is called when an property is to be set.
      * 
-     * @param string $propertyName The name of the property to set.
-     * @param mixed $propertyValue The property value.
+     * @param string $name The name of the property to set.
+     * @param mixed $value The property value.
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException
@@ -512,7 +512,7 @@ class ezcWebdavFileBackend
      * identified by $path and replaces it with the given $properties.
      * 
      * @param string $path 
-     * @param ezcWebdavPropertyStorage $properties
+     * @param ezcWebdavPropertyStorage $storage
      * @return bool
      */
     public function resetProperties( $path, ezcWebdavPropertyStorage $storage )
@@ -948,7 +948,7 @@ class ezcWebdavFileBackend
      * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
      * lock afterwards.
      * 
-     * @param ezcWebdavGetRequest $request
+     * @param ezcWebdavHeadRequest $request
      * @return ezcWebdavResponse
      */
     public function head( ezcWebdavHeadRequest $request )

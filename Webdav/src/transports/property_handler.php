@@ -103,7 +103,7 @@ class ezcWebdavPropertyHandler
      * ezcWebdavFlaggedPropertyStorage->attach()}.
      *  
      * @param DOMNodeList $domNodes 
-     * @param ezcWebdavPropertyStorage $storage
+     * @param ezcWebdavBasicPropertyStorage $storage
      * @param int $flag
      * @return ezcWebdavBasicPropertyStorage
      */
@@ -358,12 +358,12 @@ class ezcWebdavPropertyHandler
     }
 
     /**
-     * Serializes an object of new ezcWebdavBasicPropertyStorage to XML.
+     * Serializes an object of new ezcWebdavPropertyStorage to XML.
      *
      * Attaches all properties of the $storage to the $parentElement XML
      * element in their XML representation.
      * 
-     * @param new ezcWebdavPropertyStorage $storage 
+     * @param ezcWebdavPropertyStorage $storage 
      * @param DOMElement $parentElement 
      * @return void
      */

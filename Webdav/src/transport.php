@@ -63,7 +63,7 @@
  * <li>{@link ezcWebdavHeadResponse}</li>
  * <li>{@link ezcWebdavMakeCollectionResponse}</li>
  * <li>{@link ezcWebdavMoveResponse}</li>
- * <li>{@link ezcWebdavMultistatusResponse}</li>
+ * <li>{@link ezcWebdavMultiStatusResponse}</li>
  * <li>{@link ezcWebdavOptionsResponse}</li>
  * <li>{@link ezcWebdavPropFindResponse}</li>
  * <li>{@link ezcWebdavPropPatchResponse}</li>
@@ -74,10 +74,9 @@
  * @see ezcWebdavResponse
  * @see ezcWebdavProperty
  *
- * @link http://tools.ietf.org/html/rfc2518 RFC 2518
- *
  * @version //autogentag//
  * @package Webdav
+ * @link http://tools.ietf.org/html/rfc2518 RFC 2518
  */
 class ezcWebdavTransport
 {
@@ -167,6 +166,7 @@ class ezcWebdavTransport
      * ezcWebdavResponse} may be returned instead of an instance of {@link
      * ezcWebdavRequest}. {@link ezcWebdavServer} will handle this correctly.
      *
+     * @param string $uri
      * @return ezcWebdavRequest|ezcWebdavResponse
      */
     public final function parseRequest( $uri )

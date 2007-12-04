@@ -26,7 +26,8 @@ class ezcWebdavGetContentTypeProperty extends ezcWebdavLiveProperty
      * The $mime must be a string representing a valid MIME type (e.g.
      * 'text/plain'). An optional characterset can be defined (e.g. 'UTF-8').
      * 
-     * @param string $mime The mime.
+     * @param string $mime
+     * @param string $charset
      * @return void
      */
     public function __construct( $mime = null, $charset = null )

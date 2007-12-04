@@ -95,6 +95,7 @@ interface ezcWebdavPropertyStorage extends Countable, Iterator
      * be accessed by simply ommiting the $namespace parameter, since  then the
      * default namespace for live properties ('DAV:') is used.
      * 
+     * @param string $namespace 
      * @return array(string=>ezcWebdavProperty)
      */
     public function getProperties( $namespace = 'DAV:' );
@@ -114,7 +115,7 @@ interface ezcWebdavPropertyStorage extends Countable, Iterator
      * Returns a property storage, which does only contain properties that are
      * not present in the $properties parameter.
      * 
-     * @param ezcWebdavBasicPropertyStorage $properties 
+     * @param ezcWebdavPropertyStorage $properties 
      * @return ezcWebdavBasicPropertyStorage
      */
     public function diff( ezcWebdavPropertyStorage $properties );
@@ -128,7 +129,7 @@ interface ezcWebdavPropertyStorage extends Countable, Iterator
      * which contains all values, which are present in the current and the
      * given $properties property storage.
      * 
-     * @param ezcWebdavBasicPropertyStorage $properties 
+     * @param ezcWebdavPropertyStorage $properties 
      * @return ezcWebdavBasicPropertyStorage
      */
     public function intersect( ezcWebdavPropertyStorage $properties );

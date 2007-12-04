@@ -43,9 +43,9 @@
  * $server->handle( $backend );
  * </code>
  *
- * @properties ezcWebdavServerConfigurationManager $configurations
- *             Webdav server configuration manager, which holds and dispatches
- *             configurations that fit for a certain client.
+ * @property ezcWebdavServerConfigurationManager $configurations
+ *           Webdav server configuration manager, which holds and dispatches
+ *           configurations that fit for a certain client.
  *
  * @version //autogentag//
  * @package Webdav
@@ -192,6 +192,7 @@ class ezcWebdavServer
      * @param ezcWebdavPathFactory $pathFactory
      * @param ezcWebdavXmlTool $xmlTool
      * @param ezcWebdavPropertyHandler $propertyHandler
+     * @param ezcWebdavHeaderHandler $headerHandler
      * @param ezcWebdavTransport $transport
      * @access protected
      * @return void

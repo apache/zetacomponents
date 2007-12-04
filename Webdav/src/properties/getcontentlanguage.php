@@ -23,7 +23,7 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavLiveProperty
      *
      * The given array must contain strings that represent language shortcuts.
      * 
-     * @param string $languages The languages.
+     * @param array(string) $languages
      * @return void
      */
     public function __construct( array $languages = array() )

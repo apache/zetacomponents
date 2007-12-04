@@ -189,7 +189,7 @@ abstract class ezcWebdavBackend
      * ezcWebdavErrorResponse} instance on error or an instance of {@link
      * ezcWebdavHeadResponse} on success.
      * 
-     * @param ezcWebdavGetRequest $request
+     * @param ezcWebdavHeadRequest $request
      * @return ezcWebdavResponse
      */
     abstract public function head( ezcWebdavHeadRequest $request );
