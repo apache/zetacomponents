@@ -329,8 +329,7 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
             case self::COLORSPACE_MONOCHROME:
                 $this->addFilterOption(
                     $this->getActiveReference(),
-                    '-monochrome',
-                    ''
+                    '-monochrome'
                 );
                 break;
             case self::COLORSPACE_SEPIA:

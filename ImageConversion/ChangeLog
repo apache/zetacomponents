@@ -4,6 +4,8 @@
 - Fixed issue #12126: ImageConversion test is incorrect.
 - Fixed issue #12160: Conversion of transparent backgrounds does not work on
   certain systems.
+- Fixed issue #12171: Monochrome colorspace conversion does not work on some
+  systems with the ImageMagcik handler.
 
 
 1.3.1 - Wednesday 28 November 2007
