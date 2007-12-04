@@ -21,6 +21,7 @@
  *
  * @version //autogentag//
  * @package Webdav
+ * @mainclass
  */
 abstract class ezcWebdavSimpleBackend
     extends

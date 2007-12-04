@@ -6,7 +6,6 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @access private
  */
 /**
  * Simple file backend which just serves a directory tree through the webdav
@@ -21,7 +20,7 @@
  *
  * @version //autogentag//
  * @package Webdav
- * @access private
+ * @mainclass
  */
 class ezcWebdavFileBackend
     extends
