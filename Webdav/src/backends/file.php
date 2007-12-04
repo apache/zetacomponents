@@ -213,7 +213,10 @@ class ezcWebdavFileBackend
         {
             $fInfo = new fInfo( FILEINFO_MIME );
             $mimeType = $fInfo->file( $this->root . $resource );
-            $fInfo->close();
+
+            // The documentation tells to do this, but it does not work with a
+            // current version of pecl/fileinfo
+            // $fInfo->close();
 
             return $mimeType;
         }
