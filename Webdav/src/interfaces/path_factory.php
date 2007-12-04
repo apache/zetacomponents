@@ -11,9 +11,10 @@
  * Basic path factory interface.
  *
  * An object that implements this interface is meant to be used in {@link
- * ezcWebdavTransportOptions} as the $pathFactory property. The instance of
+ * ezcWebdavServerConfiguration} as the $pathFactory property. The instance of
  * {@link ezcWebdavTransport} utilizes the path factory to translate between
- * external pathes/URIs and internal path representations.
+ * external pathes/URIs and pathes that are usable with the a {@link
+ * ezcWebdavBackend}.
  *
  * You may want to provide custome implementations for different mappings.
  *
@@ -26,15 +27,11 @@
 interface ezcWebdavPathFactory
 {
     /**
-     * Parses the given URI to a locally understandable path.
+     * Parses the given URI to a path suitable to be used in the backend.
      *
      * This method retrieves a URI (either full qualified or relative) and
-     * translates it into a local path, which can be understood by the WebDAV
-     * elements.
-     *
-     * A locally understandable path MUST NOT contain a trailing slash, but
-     * MUST always contain a starting slash. For the root URI the path "/" MUST
-     * be used.
+     * translates it into a local path, which can be understood by the {@link
+     * ezcWebdavBackend} instance used in the {@link ezcWebdavServer}.
      *
      * @param string $uri
      * @return string
@@ -44,9 +41,9 @@ interface ezcWebdavPathFactory
     /**
      * Generates a URI from a local path.
      *
-     * This method receives a local $path string, representing a node in the
-     * local WebDAV store and translates it into a full qualified URI to be
-     * used as external reference.
+     * This method receives a local $path string, representing a resource in
+     * the {@link ezcWebdavBackend} and translates it into a full qualified URI
+     * to be used as external reference.
      * 
      * @param string $path 
      * @return string

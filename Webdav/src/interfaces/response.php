@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the class representing a response from the webdav server.
+ * File containing the ezcWebdavResponse class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -9,6 +9,7 @@
  */
 /**
  * Base class for all response objects.
+ *
  * This base class must be extended by all response representation classes.
  *
  * @property int $status
@@ -23,9 +24,6 @@
  */
 abstract class ezcWebdavResponse
 {
-    /**
-     * Response status codes
-     */
     const STATUS_100            = 100;
     const STATUS_101            = 101;
 
@@ -126,7 +124,7 @@ abstract class ezcWebdavResponse
     );
 
     /**
-     * Container to hold the properties
+     * Properties.
      *
      * @var array(string=>mixed)
      */
@@ -153,13 +151,15 @@ abstract class ezcWebdavResponse
     }
 
     /**
-     * Validates the headers set in this request.
-     * This method is called by ezcWebdavServer after the response object has
-     * been created by an ezcWebdavBackend. It must validate all headers
+     * Validates the headers set in this response.
+     *
+     * This method is called by {@link ezcWebdavServer} after the response object has
+     * been created by an {@link ezcWebdavBackend}. It must validate all headers
      * specific for this request for existance of required headers and validity
-     * of all headers used  by the specific request implementation. The call of
-     * the parent method is *mandatory* to have common WebDAV and HTTP headers
-     * validated, too!
+     * of all headers used  by the specific request implementation. 
+     *
+     * All extending classes, which overwrite this method, *must* call the
+     * parent implementation to ensure that common headers are validated, too!
      *
      * @return void
      *
@@ -175,11 +175,11 @@ abstract class ezcWebdavResponse
         {
             throw new ezcWebdavMissingHeaderException( 'Server' );
         }
-        // @TODO: Do we need more standard HTTP headers here?
     }
 
     /**
      * Sets a header to a specified value.
+     *
      * Sets the value for $header to $headerValue. All processable headers will
      * be validated centrally in {@link validateHeaders()}.
      *
@@ -197,8 +197,9 @@ abstract class ezcWebdavResponse
 
     /**
      * Returns the contents of a specific header.
-     * Returns the content of the header identified with $headerName with the
-     * given name and null if no content for the header is available.
+     *
+     * Returns the content of the header identified with $headerName and null
+     * if no content for the header is available.
      * 
      * @param string $headerName 
      * @return mixed
@@ -210,6 +211,9 @@ abstract class ezcWebdavResponse
 
     /**
      * Returns all headers.
+     *
+     * Returns an array of all headers set in this object, indexed by the
+     * header name.
      * 
      * @return array(string=>string)
      */
@@ -220,6 +224,7 @@ abstract class ezcWebdavResponse
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -262,6 +267,7 @@ abstract class ezcWebdavResponse
 
     /**
      * Property get access.
+     *
      * Simply returns a given property.
      * 
      * @throws ezcBasePropertyNotFoundException
@@ -287,6 +293,7 @@ abstract class ezcWebdavResponse
 
     /**
      * Returns if a property exists.
+     *
      * Returns true if the property exists in the {@link $properties} array
      * (even if it is null) and false otherwise. 
      *
@@ -301,6 +308,9 @@ abstract class ezcWebdavResponse
 
     /**
      * Return valid HTTP response string from error code.
+     *
+     * The response string will be send as a header to the client, indicating
+     * the HTTP version, status code and status message.
      * 
      * @return string
      */

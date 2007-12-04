@@ -10,8 +10,8 @@
 /**
  * Class to map XML namespaces to their shortcuts.
  *
- * An instance of this class is used in {@link ezcWebdavTransport} to keep
- * track of used namespaces and create new ones, if necessary.
+ * An instance of this class is used in {@link ezcWebdavXmlTool} to keep track
+ * of used namespace shortcuts and the creation of new ones, if necessary.
  * 
  * @package Webdav
  * @version //autogen//
@@ -65,7 +65,8 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
     /**
      * Create a new namespace registry.
      *
-     * Registers the standard namespace 'DAV:' with the shortcut 'D'.
+     * Registers the standard namespace 'DAV:' with the shortcut 'D', which is
+     * common in the RFC document.
      * 
      * @return void
      */
@@ -75,11 +76,17 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
     }
 
     /**
-     * Array set access. 
+     * ArrayAccess set access.
+     *
+     * Required by the ArrayAccess interface.
      * 
      * @param string $offset 
      * @param string $value 
      * @return void
+     * @ignore
+     *
+     * @throws ezcBaseValueException
+     *         if the given namespace is already registered.
      */
     public function offsetSet( $offset, $value )
     {
@@ -96,7 +103,9 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
     }
 
     /**
-     * Array get access.
+     * ArrayAccess get access.
+     *
+     * Required by the ArrayAccess interface.
      * 
      * @param string $offset 
      * @return string
@@ -114,6 +123,8 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
     /**
      * Array unset() access.
      *
+     * Required by the ArrayAccess interface.
+     *
      * @param string $offset 
      * @return void
      * @ignore
@@ -129,6 +140,8 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
 
     /**
      * Array isset() access.
+     *
+     * Required by the ArrayAccess interface.
      * 
      * @param string $offset 
      * @return bool
@@ -141,9 +154,10 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
     
     /**
      * Creates a new namespace shortcut.
+     *
      * Produces a new shortcut for a namespace by using {@link
      * $this->shortcutBase} and the first 5 characters of the MD5 hash of the
-     * current microtime. Only returns unused shortczus.
+     * current microtime. Only returns unused shortcuts.
      * 
      * @return string
      */

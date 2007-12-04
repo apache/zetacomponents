@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the resourcetype property class.
+ * File containing the ezcWebdavResourceTypeProperty class.
  *
  * @package Webdav
  * @version //autogenlastmodified//
@@ -24,8 +24,12 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
     
     /**
      * Creates a new ezcWebdavResourceTypeProperty.
+     *
+     * The given $type indicates either a collection or non-collection
+     * resource ({@link self::TYPE_COLLECTION} or {@link
+     * self::TYPE_RESSOURCE}).
      * 
-     * @param int $type {@link self::TYPE_COLLECTION} or {@link self::TYPE_RESSOURCE}.
+     * @param int $type
      * @return void
      */
     public function __construct( $type = null )
@@ -38,6 +42,7 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -70,11 +75,10 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

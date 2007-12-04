@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the class representing a request to the webdav server.
+ * File containing the abstract ezcWebdavRequest class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -9,6 +9,7 @@
  */
 /**
  * Base class for request objects.
+ *
  * This base class must be extended by all request representation classes.
  *
  * @version //autogentag//
@@ -19,16 +20,14 @@
 abstract class ezcWebdavRequest
 {
     /**
-     * Constants for the 'Depth' header and property fields. 
-     *
-     * @see ezcWebdavLockDiscoveryPropertyActiveLock
+     * Constants for the 'Depth' headers and property fields. 
      */
     const DEPTH_ZERO      =  0;
     const DEPTH_ONE       =  1;
     const DEPTH_INFINITY  = -1;
 
     /**
-     * Container to hold the properties
+     * Properties.
      *
      * @var array(string=>mixed)
      */
@@ -44,6 +43,7 @@ abstract class ezcWebdavRequest
 
     /**
      * Indicates wheather the validateHeaders method has already been called.
+     *
      * Otherwise getHeader() will throw an exception because of unvalidated
      * headers.
      * 
@@ -52,7 +52,10 @@ abstract class ezcWebdavRequest
     private $validated = false;
 
     /**
-     * Construct request class with requested URI
+     * Creates a new request object.
+     *
+     * Creates a new request object that refers to the given $requestUri, which
+     * is a path understandable by the {@link ezcWebdavBackend}.
      * 
      * @param string $requestUri 
      * @return void
@@ -64,8 +67,9 @@ abstract class ezcWebdavRequest
 
     /**
      * Validates the headers set in this request.
-     * This method is called by ezcWebdavServer after the request object has
-     * been created by an ezcWebdavTransport. It must validate all headers
+     *
+     * This method is called by {@link ezcWebdavServer} after the request object has
+     * been created by an {@link ezcWebdavTransport}. It must validate all headers
      * specific for this request for existance of required headers and validity
      * of all headers used  by the specific request implementation. The call of
      * the parent method is *mandatory* to have common WebDAV and HTTP headers
@@ -80,13 +84,12 @@ abstract class ezcWebdavRequest
      */
     public function validateHeaders()
     {
-        // @todo Implement general header checks here.
-        
         $this->validated = true;
     }
 
     /**
      * Sets a header to a specified value.
+     *
      * Sets the value for $header to $headerValue. All processable headers will
      * be validated centrally in {@link validateHeaders()}.
      *
@@ -105,6 +108,7 @@ abstract class ezcWebdavRequest
 
     /**
      * Sets a header to a specified value.
+     *
      * Sets the values for the headers given in $headers to the specified
      * values. All processable headers will be validated centrally in {@link
      * validateHeaders()}.
@@ -123,6 +127,7 @@ abstract class ezcWebdavRequest
 
     /**
      * Returns the contents of a specific header.
+     *
      * Returns the content of the header identified with $headerName with the
      * given name and null if no content for the header is available.
      * 
@@ -141,6 +146,7 @@ abstract class ezcWebdavRequest
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -171,6 +177,7 @@ abstract class ezcWebdavRequest
 
     /**
      * Property get access.
+     *
      * Simply returns a given property.
      * 
      * @throws ezcBasePropertyNotFoundException
@@ -196,6 +203,7 @@ abstract class ezcWebdavRequest
 
     /**
      * Returns if a property exists.
+     *
      * Returns true if the property exists in the {@link $properties} array
      * (even if it is null) and false otherwise. 
      *

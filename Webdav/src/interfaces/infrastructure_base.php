@@ -7,7 +7,6 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-
 /**
  * Base class for all infrastructural classes of the Webdav component.
  *
@@ -29,6 +28,9 @@
  * @see ezcWebdavRequest
  * @see ezcWebdavResponse
  * @see ezcWebdavProperty
+ *
+ * NOTE: The plugin API is not public, yet, and will be released in a later
+ * version of this component.
  *
  * @package Webdav
  * @version //autogen//

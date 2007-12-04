@@ -8,9 +8,12 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @access private
  */
-
 /**
  * Class containing the options for the memory backend.
+ *
+ * An instance of this class is created an hold in {@link ezcWebdavMemoryBackend}
+ * instances. Using these options the behavior of the memory backend can be
+ * changed.
  *
  * @property string $failForRegexp
  *           Let operation fail for all ressource paths mathing this regular

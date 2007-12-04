@@ -7,9 +7,12 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-
 /**
  * Class containing the options for the file backend.
+ *
+ * An instance of this class is created an hold in {@link ezcWebdavFileBackend}
+ * instances. Using these options the behavior of the file backend can be
+ * changed.
  *
  * @property bool $noLock
  *           Time to wait between tests, if a lock can be acquired in
@@ -111,4 +114,5 @@ class ezcWebdavFileBackendOptions extends ezcBaseOptions
         }
     }
 }
+
 ?>

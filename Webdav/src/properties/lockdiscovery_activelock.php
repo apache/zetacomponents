@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the lockdiscovery property activeLock class.
+ * File containing the ezcWebdavLockDiscoveryPropertyActiveLock class.
  *
  * @package Webdav
  * @version //autogenlastmodified//
@@ -33,7 +33,14 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
 
     /**
      * Creates a new ezcWebdavSupportedLockPropertyLockentry.
-     * 
+     *
+     * The $lockType indicates the type of lock in the given $lockScope. The
+     * $depth value indicates the depth of collection locks and the free-form
+     * $owner string can be used to specify an identifier for the user owning
+     * the lock. The $timeout object indicates the time when the lock will be
+     * removed and the $tokens array contains all lock tokens that affect this
+     * lock.
+     *
      * @param int           $lockType  Lock type (constant ezcWebdavLockRequest::TYPE_*).
      * @param int           $lockScope Lock scope (constant ezcWebdavLockRequest::SCOPE_*).
      * @param int           $depth     Lock depth (constant ezcWebdavRequest::DEPTH_*).
@@ -60,6 +67,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -114,11 +122,10 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()
@@ -127,9 +134,9 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
     }
 
     /**
-     * Remove all contents from a property.
+     * Removes all contents from a property.
      *
-     * Clear a property, so that it will be recognized as empty later.
+     * Clears the property, so that it will be recognized as empty later.
      * 
      * @return void
      */

@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * File containing the ezcWebdavRequestLockInfoContent class.
+ *
+ * @package Webdav
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 /**
  * Class representing the <lockinfo /> XML element in the LOCK request body.
+ *
  * An instance of this class represents the <lockinfo /> XML element,
  * that may optionally be contained in the body of a LOCK request.
  * 
@@ -12,6 +20,7 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
  *
  * @property int $lockScope Represents the <lockscope /> XML element.
  * @property int $lockType Represents the <locktype /> XML element.

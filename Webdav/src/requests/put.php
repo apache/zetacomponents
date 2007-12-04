@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the class representing a PUT request to the WebDAV server.
+ * File containing the ezcWebdavPutRequest class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,8 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Struct-like class representing all relevant information about a webdav PUT
- * request.
+ * Abstract representation of a PUT request.
+ *
+ * An instance of this class represents the WebDAV PUT request.
  *
  * @property string $body
  *           The request body of a PUT request.
@@ -22,8 +23,8 @@ class ezcWebdavPutRequest extends ezcWebdavRequest
     /**
      * Creates a new PUT request object.
      *
-     * The request is created from the collection, which should be created and
-     * a request body.
+     * The request object indicates, that the given $body should be stored in
+     * the resource identified by $requestUri.
      * 
      * @param string $requestUri
      * @param string $body
@@ -40,6 +41,7 @@ class ezcWebdavPutRequest extends ezcWebdavRequest
 
     /**
      * Validates the headers set in this request.
+     *
      * This method validates that all required headers are available and that
      * all feasible headers for this request have valid values.
      *
@@ -67,6 +69,7 @@ class ezcWebdavPutRequest extends ezcWebdavRequest
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.

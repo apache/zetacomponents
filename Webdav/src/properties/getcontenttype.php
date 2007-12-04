@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the getcontenttype property class.
+ * File containing the ezcWebdavGetContentTypeProperty class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -22,6 +22,9 @@ class ezcWebdavGetContentTypeProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavGetContentTypeProperty.
+     *
+     * The $mime must be a string representing a valid MIME type (e.g.
+     * 'text/plain'). An optional characterset can be defined (e.g. 'UTF-8').
      * 
      * @param string $mime The mime.
      * @return void
@@ -36,6 +39,7 @@ class ezcWebdavGetContentTypeProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -76,11 +80,10 @@ class ezcWebdavGetContentTypeProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

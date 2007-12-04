@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the geteetag property class.
+ * File containing the ezcWebdavGetEtagProperty class.
  *
  * @package Webdav
  * @version //autogenetag//
@@ -20,6 +20,8 @@ class ezcWebdavGetEtagProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavGetEtagProperty.
+     *
+     * The given $etag is used as the ETag.
      * 
      * @param string $etag The etag.
      * @return void
@@ -33,6 +35,7 @@ class ezcWebdavGetEtagProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -65,11 +68,10 @@ class ezcWebdavGetEtagProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

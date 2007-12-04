@@ -7,39 +7,38 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-
 /**
- * Class containing the configuration for a transport.
+ * Class containing the configuration for a specific client.
  *
- * An instance of this class represents the configuration necessary to
- * instanciate a new {@link ezcWebdavTransport} object. The {@link
+ * An instance of this class represents the configuration of {@link
+ * ezcWebdavServer} for a specific client. The {@link
  * ezcWebdavServerConfigurationManager} holds a default set of such objects,
- * representing the transport classes that are known by the Webdav component by
+ * representing the configurations that are known by the Webdav component by
  * default.
  *
  * You can instanciate more objects of this class to add custom configurations
  * and possibly even extend it to support more advanced features.
  *
- * This base class instantiates a transport in the way that is suitable, when
- * requested by the {@link ezcWebdavServerConfigurationManager}. The class may be
- * extended to suite extended transport layer needs. The only premission is,
- * that the getTransportInstance() method returns a functional {@link
- * ezcWebdavTransport} instance.
+ * An object of this class can configure the {@link ezcWebdavServer} instances
+ * in the way that is suitable to serve the requests send by a certain client
+ * and to serialize proper responses for it, when requested by the {@link
+ * ezcWebdavServerConfigurationManager} through the {@link configure()} method.
  *
  * The property $userAgentRegex determines the PCRE that is used to match
- * against the User-Agent HTTP header. If the regex matches, the transport
- * is instanciated and made responsible to handle the request. The default
- * regex will match always and therefore always use the transport
- * configured by this class.
+ * against the User-Agent HTTP header. If the regex matches, the configuration
+ * is used to configure the {@link ezcWebdavServer} instance. The default regex
+ * will match always and therefore always as the last fallback and will make
+ * the server act RFC conform.
  *
  * The $transport property represents the class to be instanciated as the
- * real transport. The default is ezcWebdavTransport, which is the RFC
+ * transport layer. The default is {@link ezcWebdavTransport}, which is the RFC
  * compliant transport implementation.
  *
- * $xmlTool defaults to the ezcWebdavXmlTool class, but may be configured
- * to be a class implementing the same interface or even an extended one.
- * The premission is, that the transport is able to use the instance of
- * this class for XML handling purposes.
+ * $xmlTool defaults to an instance of {@link ezcWebdavXmlTool}, but may be
+ * configured to be a class implementing the same interface or even an extended
+ * one.  The premission is, that the corresponding {@link ezcWebdavTransport}
+ * and {@link ezcWebdavPropertyHandler} are able to use the instance of this
+ * class for XML handling purposes.
  *
  * The property $propertyHandler is responsible for extraction of and
  * serialization to XML of dead and live properties. This may be replaced,
@@ -47,16 +46,15 @@
  *
  * @property string $userAgentRegex
  *           PCRE that is used to match against the User-Agent header. If this
- *           regex matches, this configuration object is used to create the
- *           transport layer classes for the current request, determined by the
- *           other properties.
+ *           regex matches, this configuration object is used to configure the
+ *           {@link ezcWebdavServer} instance, according to the other
+ *           properties.
  * @property string $transportClass
  *           Transport class to instanciate when creating an instance of the
- *           transport layer configured in this object. If the desired
- *           extension of {@link ezcWebdavTransport} is compatible API with the
- *           basic RFC implementation, it can also be used here.
+ *           transport layer configured in this object. 
  * @property ezcWebdavPathFactory $pathFactory
- *           Object used to transform real paths into request paths. Default is
+ *           Object used to transform incoming request URIs into request paths,
+ *           that can be handled by the {@link ezcWebdavBackend}. Default is
  *           {@link ezcWebdavAutomaticPathFactory}. This is the only place
  *           where an object is expected, since transport implementations
  *           should not rely on a specific path factory and that means 1 path
@@ -64,12 +62,12 @@
  * @property string $xmlToolClass
  *           This property defines the {@link ezcWebdavXmlTool} instance to be
  *           used with the {@link ezcWebdavTransport} class configured in
- *           $transport and the {@link ezcWebdavPropertyHandler} class
- *           configured in $propertyHandler.
+ *           $transportClass and the {@link ezcWebdavPropertyHandler} class
+ *           configured in $propertyHandlerClass.
  * @property string $propertyHandlerClass
  *           This property defines the {@link ezcWebdavPropertyHandler} class
  *           to use, when instanciating the {@link ezcWebdavTransport} in
- *           $transport. The class given here will receive $xmlTool as a
+ *           $transportClass. The class given here will receive $xmlTool as a
  *           parameter, to work with.
  *
  * @package Webdav
@@ -87,7 +85,13 @@ class ezcWebdavServerConfiguration
     /**
      * Creates a new instance.
      *
-     * All parameters are strings, representing the specific classes to use.
+     * All parameters are strings, representing the specific classes to use,
+     * exception for $pathFactory, which must be a valid path factory instance.
+     * The classes defined in the other parameters will be set as properties
+     * and instanciated when a server configuration is requested through the
+     * {@link configure()} method, by the {@link
+     * ezcWebdavServerConfigurationManager} instance hold in {@link
+     * ezcWebdavServer}.
      * 
      * @param string $userAgentRegex 
      * @param string $transportClass
@@ -124,10 +128,13 @@ class ezcWebdavServerConfiguration
      * Configures the server for handling a request.
      *
      * This method takes the instance of {@link ezcWebdavServer} in $server and
-     * configures this instance according to the configuration stored in $this.
-     *
+     * configures this instance according to the configuration represented.
      * After calling this method, the {@link ezcWebdavServer} instance in
      * $server is ready to handle a request.
+     *
+     * This method is not intended to be called directly, but by {@link
+     * ezcWebdavServerConfigurationManager}, when requested to configure the
+     * server.
      * 
      * @param ezcWebdavServer $server
      * @return void
@@ -148,9 +155,9 @@ class ezcWebdavServerConfiguration
     /**
      * Checks the availability of all classes to instanciate.
      *
-     * This method checks all classes stored in {@link $this->properties} for
-     * existance and validity. If an error is found, an {@link
-     * ezcBaseValueException} is issued.
+     * This method checks all classes stored in the configuration for existance
+     * and validity. If an error is found, an {@link ezcBaseValueException} is
+     * issued.
      * 
      * @return void
      *
@@ -187,7 +194,9 @@ class ezcWebdavServerConfiguration
     }
 
     /**
-     * Sets the option $name to $value.
+     * Property set access.
+     *
+     * Sets a property.
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the property $name is not defined
@@ -225,6 +234,7 @@ class ezcWebdavServerConfiguration
 
     /**
      * Property get access.
+     *
      * Simply returns a given property.
      * 
      * @throws ezcBasePropertyNotFoundException
@@ -250,6 +260,7 @@ class ezcWebdavServerConfiguration
 
     /**
      * Returns if a property exists.
+     *
      * Returns true if the property exists in the {@link $properties} array
      * (even if it is null) and false otherwise. 
      *
@@ -262,4 +273,5 @@ class ezcWebdavServerConfiguration
         return array_key_exists( $propertyName, $this->properties );
     }
 }
+
 ?>

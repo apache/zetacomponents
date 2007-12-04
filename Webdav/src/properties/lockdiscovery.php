@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the lockdiscovery property class.
+ * File containing the ezcWebdavLockDiscoveryProperty class.
  *
  * @package Webdav
  * @version //autogenlastmodified//
@@ -24,8 +24,11 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavLockDiscoveryProperty.
+     *
+     * The given array must contain instances of {@link
+     * ezcWebdavLockDiscoveryPropertyActiveLock}.
      * 
-     * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock Lock info.
+     * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock
      * @return void
      */
     public function __construct( array $activeLock = null )
@@ -37,6 +40,7 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -69,11 +73,10 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

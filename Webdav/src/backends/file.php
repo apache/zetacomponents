@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing a fake file webdav backend.
+ * File containing the ezcWebdavFileBackend class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,15 +8,23 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Simple file backend which just serves a directory tree through the webdav
- * server. You might want to extend this by user authentication and
- * authorization.
+ * File system based backend.
+ *
+ * This backend serves WebDAV resources from a directory structure in the file
+ * system. It simply handles directories as collection resources and files as
+ * non-collection resources. The path to server resources from is defined
+ * during construction.
  *
  * <code>
  *  $backend = new ezcWebdavFileBackend(
  *      'directory/'
  *  );
  * </code>
+ *
+ * Live properties are partly determined from the file systems itself (like
+ * {@link ezcWebdavGetContentLengthProperty}), others need to be stored like
+ * dead properties. This backend uses a special path for each resource to store
+ * this information in its XML representation.
  *
  * @version //autogentag//
  * @package Webdav
@@ -27,14 +35,14 @@ class ezcWebdavFileBackend
         ezcWebdavSimpleBackend
 {
     /**
-     * Options of the file backend
+     * Options.
      * 
      * @var ezcWebdavFileBackendOptions
      */
     protected $options;
 
     /**
-     * Root directory for webdav contents.
+     * Root directory to serve content from. All pathes are seen relatively to this one.
      * 
      * @var string
      */
@@ -42,9 +50,9 @@ class ezcWebdavFileBackend
 
     /**
      * Names of live properties from the DAV: namespace which will be handled
-     * live, and should not bestored like dead properties.
+     * live, and should not be stored like dead properties.
      * 
-     * @var array
+     * @var array(int=>string)
      */
     protected $handledLiveProperties = array( 
         'getcontentlength', 
@@ -59,10 +67,19 @@ class ezcWebdavFileBackend
     );
 
     /**
-     * Construct backend from a given path.
+     * Creates a new backend instance.
      * 
+     * Creates a new backend to server WebDAV content from the file system path
+     * identified by $root. If the given path does not exist or is not a
+     * directory, an exception will be thrown.
+     *
      * @param string $path 
      * @return void
+     *
+     * @throws ezcBaseFileNotFoundException
+     *         if the given $root does not exist or is not a directory.
+     * @throws ezcBaseFilePermissionException
+     *         if the given $root is not readable.
      */
     public function __construct( $root )
     {
@@ -81,13 +98,20 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Offer access to some of the server properties.
+     * Property get access.
+     * Simply returns a given property.
      * 
      * @throws ezcBasePropertyNotFoundException
-     *         If the property $name is not defined
-     * @param string $name 
-     * @return mixed
+     *         If a the value for the property propertys is not an instance of
+     * @param string $propertyName The name of the property to get.
+     * @return mixed The property value.
+     *
      * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a write-only property.
      */
     public function __get( $name )
     {
@@ -102,15 +126,19 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Sets the option $name to $value.
+     * Sets a property.
+     * This method is called when an property is to be set.
+     * 
+     * @param string $propertyName The name of the property to set.
+     * @param mixed $propertyValue The property value.
+     * @ignore
      *
      * @throws ezcBasePropertyNotFoundException
-     *         if the property $name is not defined
+     *         if the given property does not exist.
      * @throws ezcBaseValueException
-     *         if $value is not correct for the property $name
-     * @param string $name
-     * @param mixed $value
-     * @ignore
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
      */
     public function __set( $name, $value )
     {
@@ -133,7 +161,7 @@ class ezcWebdavFileBackend
     /**
      * Wait and get lock for complete directory tree.
      *
-     * Acquire lock for the complete tree, fore read or write operations. This
+     * Acquire lock for the complete tree for read or write operations. This
      * does not implement any priorities for operations, or check if several
      * read operation may run in parallel. The plain locking should / could be
      * extended by something more sophisticated.
@@ -141,9 +169,9 @@ class ezcWebdavFileBackend
      * If the tree already has been locked, the method waits until the lock can
      * be acquired.
      *
-     * The optional second parameter indicates wheather a read only lock should
-     * be acquired. This may be used by extended implementations, but it is not
-     * used in this implementation.
+     * The optional second parameter $readOnly indicates wheather a read only
+     * lock should be acquired. This may be used by extended implementations,
+     * but it is not used in this implementation.
      *
      * @param bool $readOnly
      * @return void
@@ -178,7 +206,7 @@ class ezcWebdavFileBackend
     /**
      * Free lock.
      *
-     * Frees the lock if the operation ahs been finished.
+     * Frees the lock after the operation has been finished.
      * 
      * @return void
      */
@@ -195,24 +223,24 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Get mime type for resource
+     * Returns the mime type of a resource.
      *
-     * Return the mime type for a resource. If a mime type extension is
-     * available it will be used to read the real mime type, otherwise the
-     * original mime type passed by the client when uploading the file will be
-     * returned. If no mimetype has ever been associated with the file, the
-     * method will just return 'application/octet-stream'.
+     * Return the mime type of the resource identified by $path. If a mime type
+     * extension is available it will be used to read the real mime type,
+     * otherwise the original mime type passed by the client when uploading the
+     * file will be returned. If no mimetype has ever been associated with the
+     * file, the method will just return 'application/octet-stream'.
      * 
-     * @param string $resource 
+     * @param string $path 
      * @return string
      */
-    protected function getMimeType( $resource )
+    protected function getMimeType( $path )
     {
         // Check if extension pecl/fileinfo is usable.
         if ( $this->options->useMimeExts && ezcBaseFeatures::hasExtensionSupport( 'fileinfo' ) )
         {
             $fInfo = new fInfo( FILEINFO_MIME );
-            $mimeType = $fInfo->file( $this->root . $resource );
+            $mimeType = $fInfo->file( $this->root . $path );
 
             // The documentation tells to do this, but it does not work with a
             // current version of pecl/fileinfo
@@ -224,13 +252,13 @@ class ezcWebdavFileBackend
         // Check if extension ext/mime-magic is usable.
         if ( $this->options->useMimeExts && 
              ezcBaseFeatures::hasExtensionSupport( 'mime_magic' ) &&
-             ( $mimeType = mime_content_type( $this->root . $resource ) ) !== false )
+             ( $mimeType = mime_content_type( $this->root . $path ) ) !== false )
         {
             return $mimeType;
         }
 
         // Check if some browser submitted mime type is available.
-        $storage = $this->getPropertyStorage( $resource );
+        $storage = $this->getPropertyStorage( $path );
         $properties = $storage->getAllProperties();
 
         if ( isset( $properties['DAV:']['getcontenttype'] ) )
@@ -243,9 +271,9 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Create a new collection.
+     * Creates a new collection.
      *
-     * Creates a new collection at the given path.
+     * Creates a new collection at the given $path.
      * 
      * @param string $path 
      * @return void
@@ -260,10 +288,10 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Create a new resource.
+     * Creates a new resource.
      *
-     * Creates a new resource at the given path, optionally with the given
-     * content.
+     * Creates a new resource at the given $path, optionally with the given
+     * content. If $content is empty, an empty resource will be created.
      * 
      * @param string $path 
      * @param string $content 
@@ -279,9 +307,10 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Set contents of a resource.
+     * Sets the contents of a resource.
      *
-     * Change the contents of the given resource to the given content.
+     * This method replaces the content of the resource identified by $path
+     * with the submitted $content.
      * 
      * @param string $path 
      * @param string $content 
@@ -294,8 +323,11 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Get contents of a resource.
+     * Returns the contents of a resource.
      * 
+     * This method returns the content of the resource identified by $path as a
+     * string.
+     *
      * @param string $path 
      * @return string
      */
@@ -305,24 +337,21 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Get the storage path for a property.
+     * Returns the storage path for a property.
      *
-     * Get the storage path for a resources property. This depends on the name
-     * of the resource, if it is a directory and the namespace and name of the
-     * property. If the property is omitted, the root directory for the
-     * property storage will be returned. Otherwise the method will return the
-     * path to the property storage file.
+     * Returns the file systems path where properties are stored for the
+     * resource identified by $path. This depends on the name of the resource.
      * 
-     * @param string $resource 
+     * @param string $path 
      * @return string
      */
-    protected function getPropertyStoragePath( $resource )
+    protected function getPropertyStoragePath( $path )
     {
         // Get storage path for properties depending on the type of the
         // ressource.
-        $storagePath = realpath( $this->root . dirname( $resource ) ) 
+        $storagePath = realpath( $this->root . dirname( $path ) ) 
             . '/' . $this->options->propertyStoragePath . '/'
-            . basename( $resource ) . '.xml';
+            . basename( $path ) . '.xml';
 
         // Create property storage if it does not exist yet
         if ( !is_dir( dirname( $storagePath ) ) )
@@ -335,16 +364,17 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Get property storage
+     * Returns the property storage for a resource.
      *
-     * Get property storage for a ressource for one namespace.
+     * Returns the {@link ezcWebdavPropertyStorage} instance containing the
+     * properties for the ressource identified by $path.
      * 
-     * @param string $resource 
+     * @param string $path 
      * @return ezcWebdavBasicPropertyStorage
      */
-    protected function getPropertyStorage( $resource )
+    protected function getPropertyStorage( $path )
     {
-        $storagePath = $this->getPropertyStoragePath( $resource );
+        $storagePath = $this->getPropertyStoragePath( $path );
 
         // If no properties has been stored yet, just return an empty property
         // storage.
@@ -380,19 +410,19 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Store properties back to file
+     * Stores properties for a resource.
      *
-     * Create a new property storage file and store the properties back there.
-     * This depends on the affected resource and the actual properties in the
-     * property storage.
+     * Creates a new property storage file and stores the properties given for
+     * the resource identified by $path.  This depends on the affected resource
+     * and the actual properties in the property storage.
      * 
-     * @param string $resource 
+     * @param string $path 
      * @param ezcWebdavBasicPropertyStorage $storage 
      * @return void
      */
-    protected function storeProperties( $resource, ezcWebdavBasicPropertyStorage $storage )
+    protected function storeProperties( $path, ezcWebdavBasicPropertyStorage $storage )
     {
-        $storagePath = $this->getPropertyStoragePath( $resource );
+        $storagePath = $this->getPropertyStoragePath( $path );
 
         // Create handler structure to read properties
         $handler = new ezcWebdavPropertyHandler(
@@ -415,13 +445,15 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Manually set a property on a resource to request it later.
+     * Manually sets a property on a resource.
+     *
+     * Sets the given $propertyBackup for the resource identified by $path.
      * 
-     * @param string $resource 
+     * @param string $path 
      * @param ezcWebdavProperty $property
      * @return bool
      */
-    public function setProperty( $resource, ezcWebdavProperty $property )
+    public function setProperty( $path, ezcWebdavProperty $property )
     {
         // Check if property is a self handled live property and return an
         // error in this case.
@@ -433,25 +465,27 @@ class ezcWebdavFileBackend
         }
 
         // Get namespace property storage
-        $storage = $this->getPropertyStorage( $resource );
+        $storage = $this->getPropertyStorage( $path );
 
         // Attach property to store
         $storage->attach( $property );
 
         // Store document back
-        $this->storeProperties( $resource, $storage );
+        $this->storeProperties( $path, $storage );
 
         return true;
     }
 
     /**
-     * Manually remove a property from a resource.
+     * Manually removes a property from a resource.
+     *
+     * Removes the given $property form the resource identified by $path.
      * 
-     * @param string $resource 
+     * @param string $path 
      * @param ezcWebdavProperty $property
      * @return bool
      */
-    public function removeProperty( $resource, ezcWebdavProperty $property )
+    public function removeProperty( $path, ezcWebdavProperty $property )
     {
         // Live properties may not be removed.
         if ( $property instanceof ezcWebdavLiveProperty )
@@ -460,43 +494,47 @@ class ezcWebdavFileBackend
         }
 
         // Get namespace property storage
-        $storage = $this->getPropertyStorage( $resource );
+        $storage = $this->getPropertyStorage( $path );
 
         // Attach property to store
         $storage->detach( $property->name, $property->namespace );
 
         // Store document back
-        $this->storeProperties( $resource, $storage );
+        $this->storeProperties( $path, $storage );
 
         return true;
     }
 
     /**
-     * Reset property storage for a resource.
+     * Resets the property storage for a resource.
+     *
+     * Discardes the current {@link ezcWebdavPropertyStorage} of the resource
+     * identified by $path and replaces it with the given $properties.
      * 
-     * @param string $resource 
-     * @param ezcWebdavPropertyStorage $storage
+     * @param string $path 
+     * @param ezcWebdavPropertyStorage $properties
      * @return bool
      */
-    public function resetProperties( $resource, ezcWebdavPropertyStorage $storage )
+    public function resetProperties( $path, ezcWebdavPropertyStorage $storage )
     {
-        $this->storeProperties( $resource, $storage );
+        $this->storeProperties( $path, $storage );
     }
 
     /**
-     * Manually get a property on a resource.
+     * Returns a property of a resource.
      * 
-     * Get the property with the given name from the given resource. You may
-     * optionally define a namespace to receive the property from.
+     * Returns the property with the given $propertyName, from the resource
+     * identified by $path. You may optionally define a $namespace to receive
+     * the property from.
      *
-     * @param string $resource 
+     * @param string $path 
      * @param string $propertyName 
      * @param string $namespace 
      * @return ezcWebdavProperty
      */
-    public function getProperty( $resource, $propertyName, $namespace = 'DAV:' )
+    public function getProperty( $path, $propertyName, $namespace = 'DAV:' )
     {
-        $storage = $this->getPropertyStorage( $resource );
+        $storage = $this->getPropertyStorage( $path );
 
         // Handle dead propreties
         if ( $namespace !== 'DAV:' )
@@ -510,41 +548,41 @@ class ezcWebdavFileBackend
         {
             case 'getcontentlength':
                 $property = new ezcWebdavGetContentLengthProperty();
-                $property->length = ( $this->isCollection( $resource ) ?
+                $property->length = ( $this->isCollection( $path ) ?
                     ezcWebdavGetContentLengthProperty::COLLECTION :
-                    (string) filesize( $this->root . $resource ) );
+                    (string) filesize( $this->root . $path ) );
                 return $property;
 
             case 'getlastmodified':
                 $property = new ezcWebdavGetLastModifiedProperty();
-                $property->date = new ezcWebdavDateTime( '@' . filemtime( $this->root . $resource ) );
+                $property->date = new ezcWebdavDateTime( '@' . filemtime( $this->root . $path ) );
                 return $property;
 
             case 'creationdate':
                 $property = new ezcWebdavCreationDateProperty();
-                $property->date = new ezcWebdavDateTime( '@' . filectime( $this->root . $resource ) );
+                $property->date = new ezcWebdavDateTime( '@' . filectime( $this->root . $path ) );
                 return $property;
 
             case 'displayname':
                 $property = new ezcWebdavDisplayNameProperty();
-                $property->displayName = basename( $resource );
+                $property->displayName = basename( $path );
                 return $property;
 
             case 'getcontenttype':
                 $property = new ezcWebdavGetContentTypeProperty(
-                    $this->getMimeType( $resource )
+                    $this->getMimeType( $path )
                 );
                 return $property;
 
             case 'getetag':
                 $property = new ezcWebdavGetEtagProperty();
                 // @TODO: Use proper etag hashing stuff
-                $property->etag = md5( $resource . filemtime( $this->root . $resource ) );
+                $property->etag = md5( $path . filemtime( $this->root . $path ) );
                 return $property;
 
             case 'resourcetype':
                 $property = new ezcWebdavResourceTypeProperty();
-                $property->type = $this->isCollection( $resource ) ?
+                $property->type = $this->isCollection( $path ) ?
                     ezcWebdavResourceTypeProperty::TYPE_COLLECTION : 
                     ezcWebdavResourceTypeProperty::TYPE_RESSOURCE;
                 return $property;
@@ -565,23 +603,23 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Manually get a property on a resource.
+     * Returns all properties for a resource.
      * 
-     * Get all properties for the given resource as a {@link
-     * ezcWebdavBasicPropertyStorage}
+     * Returns all properties for the resource identified by $path as a {@link
+     * ezcWebdavBasicPropertyStorage}.
      *
-     * @param string $resource 
-     * @return ezcWebdavBasicPropertyStorage
+     * @param string $path 
+     * @return ezcWebdavPropertyStorage
      */
-    public function getAllProperties( $resource )
+    public function getAllProperties( $path )
     {
-        $storage = $this->getPropertyStorage( $resource );
+        $storage = $this->getPropertyStorage( $path );
         
         // Add all live properties to stored properties
         foreach ( $this->handledLiveProperties as $property )
         {
             $storage->attach(
-                $this->getProperty( $resource, $property )
+                $this->getProperty( $path, $property )
             );
         }
 
@@ -592,10 +630,10 @@ class ezcWebdavFileBackend
      * Recursively copy a file or directory.
      *
      * Recursively copy a file or directory in $source to the given
-     * destination. If a depth is given, the operation will stop, if the given
-     * recursion depth is reached. A depth of -1 means no limit, while a depth
-     * of 0 means, that only the current file or directory will be copied,
-     * without any recursion.
+     * $destination. If a $depth is given, the operation will stop as soon as
+     * the given recursion depth is reached. A depth of -1 means no limit,
+     * while a depth of 0 means, that only the current file or directory will
+     * be copied, without any recursion.
      *
      * Returns an empty array if no errors occured, and an array with the files
      * which caused errors otherwise.
@@ -661,11 +699,16 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Copy resources recursively from one path to another.
+     * Copies resources recursively from one path to another.
      *
-     * Returns an array with {@link ezcWebdavErrorResponse}s for all subtree,
-     * where the copy operation failed. Errors subsequent nodes in a subtree
-     * should be ommitted.
+     * Copies the resourced identified by $fromPath recursively to $toPath with
+     * the given $depth, where $depth is one of {@link
+     * ezcWebdavRequest::DEPTH_ZERO}, {@link ezcWebdavRequest::DEPTH_ONE},
+     * {@link ezcWebdavRequest::DEPTH_INFINITY}.
+     *
+     * Returns an array with {@link ezcWebdavErrorResponse}s for all subtrees,
+     * where the copy operation failed. Errors for subsequent resources in a
+     * subtree should be ommitted.
      *
      * If an empty array is return, the operation has been completed
      * successfully.
@@ -700,12 +743,11 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Check recusively if everything can be deleted.
+     * Returns if everything below a path can be deleted recursively.
      *
-     * Check files and directories recursively, if everything can be deleted.
-     *
-     * Returns an empty array if no errors occured, and an array with the files
-     * which caused errors otherwise.
+     * Checks files and directories recursively and returns if everything can
+     * be deleted.  Returns an empty array if no errors occured, and an array
+     * with the files which caused errors otherwise.
      *
      * @param string $source 
      * @return array
@@ -748,9 +790,11 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Delete everything below this path.
+     * Deletes everything below a path.
      *
-     * Returns an error response if the deletion failed, and null on success.
+     * Deletes the resource identified by $path recursively. Returns an
+     * instance of {@link ezcWebdavErrorResponse} if the deletion failed, and
+     * null on success.
      * 
      * @param string $path 
      * @return ezcWebdavErrorResponse
@@ -789,9 +833,9 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Check if node exists.
+     * Returns if a resource exists.
      *
-     * Check if a node exists with the given path.
+     * Returns if a the resource identified by $path exists.
      * 
      * @param string $path 
      * @return bool
@@ -802,9 +846,10 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Check if node is a collection.
+     * Returns if resource is a collection.
      *
-     * Check if the node behind the given path is a collection.
+     * Returns if the resource identified by $path is a collection resource
+     * (true) or a non-collection one (false).
      * 
      * @param string $path 
      * @return bool
@@ -815,16 +860,15 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Get members of collection.
+     * Returns members of collection.
      *
-     * Returns an array with the members of the collection given by the path of
-     * the collection.
-     *
-     * The returned array holds elements which are either ezcWebdavCollection,
-     * or ezcWebdavResource.
+     * Returns an array with the members of the collection identified by $path.
+     * The returned array can contain {@link ezcWebdavCollection}, and {@link
+     * ezcWebdavResource} instances and might also be empty, if the collection
+     * has no members.
      * 
      * @param string $path 
-     * @return array
+     * @return array(ezcWebdavResource|ezcWebdavCollection)
      */
     protected function getCollectionMembers( $path )
     {
@@ -867,13 +911,19 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Required method to serve GET requests.
+     * Serves GET requests.
      *
      * The method receives a {@link ezcWebdavGetRequest} object containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an {@link ezcWebdavErrorResponse} object, or any
-     * other {@link ezcWebdavResponse} objects.
-     * 
+     * relevant information obout the clients request and will return an {@link
+     * ezcWebdavErrorResponse} instance on error or an instance of {@link
+     * ezcWebdavGetResourceResponse} or {@link ezcWebdavGetCollectionResponse}
+     * on success, depending on the type of resource that is referenced by the
+     * request.
+     *
+     * This method acquires the internal lock of the backend, dispatches to
+     * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
+     * lock afterwards.
+     *
      * @param ezcWebdavGetRequest $request
      * @return ezcWebdavResponse
      */
@@ -887,12 +937,16 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Required method to serve HEAD requests.
+     * Serves HEAD requests.
      *
      * The method receives a {@link ezcWebdavHeadRequest} object containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an {@link ezcWebdavErrorResponse} object, or any other
-     * {@link ezcWebdavResponse} objects.
+     * relevant information obout the clients request and will return an {@link
+     * ezcWebdavErrorResponse} instance on error or an instance of {@link
+     * ezcWebdavHeadResponse} on success.
+     *
+     * This method acquires the internal lock of the backend, dispatches to
+     * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
+     * lock afterwards.
      * 
      * @param ezcWebdavGetRequest $request
      * @return ezcWebdavResponse
@@ -907,15 +961,22 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Required method to serve PROPFIND requests.
+     * Serves PROPFIND requests.
      * 
-     * The method receives a {@link ezcWebdavPropFindRequest} object containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an {@link ezcWebdavErrorResponse} object, or any
-     * other {@link ezcWebdavResponse} objects.
+     * The method receives a {@link ezcWebdavPropFindRequest} object containing
+     * all relevant information obout the clients request and will either
+     * return an instance of {@link ezcWebdavErrorResponse} to indicate an error
+     * or a {@link ezcWebdavPropFindResponse} on success. If the referenced
+     * resource is a collection or if some properties produced errors, an
+     * instance of {@link ezcWebdavMultistatusResponse} may be returned.
      *
      * The {@link ezcWebdavPropFindRequest} object contains a definition to
-     * find one or more properties of a given file or collection.
+     * find one or more properties of a given collection or non-collection
+     * resource.
+     *
+     * This method acquires the internal lock of the backend, dispatches to
+     * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
+     * lock afterwards.
      *
      * @param ezcWebdavPropFindRequest $request
      * @return ezcWebdavResponse
@@ -930,12 +991,19 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Required method to serve PROPPATCH requests.
+     * Serves PROPPATCH requests.
      * 
      * The method receives a {@link ezcWebdavPropPatchRequest} object
-     * containing all relevant information obout the clients request and should
-     * either return an error by returning an {@link ezcWebdavErrorResponse}
-     * object, or any other {@link ezcWebdavResponse} objects.
+     * containing all relevant information obout the clients request and will
+     * return an instance of {@link ezcWebdavErrorResponse} on error or a
+     * {@link ezcWebdavPropPatchResponse} response on success. If the
+     * referenced resource is a collection or if only some properties produced
+     * errors, an instance of {@link ezcWebdavMultistatusResponse} may be
+     * returned.
+     *
+     * This method acquires the internal lock of the backend, dispatches to
+     * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
+     * lock afterwards.
      *
      * @param ezcWebdavPropPatchRequest $request
      * @return ezcWebdavResponse
@@ -950,13 +1018,17 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Required method to serve PUT requests.
+     * Serves PUT requests.
      *
-     * The method receives a ezcWebdavPutRequest objects containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an ezcWebdavErrorResponse object, or any other
-     * ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavPutRequest} objects containing all
+     * relevant information obout the clients request and will return an
+     * instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavPutResponse} on success.
      * 
+     * This method acquires the internal lock of the backend, dispatches to
+     * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
+     * lock afterwards.
+     *
      * @param ezcWebdavPutRequest $request 
      * @return ezcWebdavResponse
      */
@@ -970,12 +1042,16 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Required method to serve DELETE requests.
+     * Serves DELETE requests.
      *
-     * The method receives a ezcWebdavDeleteRequest objects containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an ezcWebdavErrorResponse object, or any other
-     * ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavDeleteRequest} objects containing
+     * all relevant information obout the clients request and will return an
+     * instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavDeleteResponse} on success.
+     *
+     * This method acquires the internal lock of the backend, dispatches to
+     * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
+     * lock afterwards.
      * 
      * @param ezcWebdavDeleteRequest $request 
      * @return ezcWebdavResponse
@@ -990,12 +1066,17 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Required method to serve COPY requests.
+     * Serves COPY requests.
      *
-     * The method receives a ezcWebdavCopyRequest objects containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an ezcWebdavErrorResponse object, or any other
-     * ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavCopyRequest} objects containing
+     * all relevant information obout the clients request and will return an
+     * instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavCopyResponse} on success. If only some operations failed, this
+     * method may return an instance of {@link ezcWebdavMultistatusResponse}.
+     *
+     * This method acquires the internal lock of the backend, dispatches to
+     * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
+     * lock afterwards.
      * 
      * @param ezcWebdavCopyRequest $request 
      * @return ezcWebdavResponse
@@ -1010,12 +1091,17 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Required method to serve MOVE requests.
+     * Serves MOVE requests.
      *
-     * The method receives a ezcWebdavMoveRequest objects containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an ezcWebdavErrorResponse object, or any other
-     * ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavMoveRequest} objects containing
+     * all relevant information obout the clients request and will return an
+     * instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavMoveResponse} on success. If only some operations failed, this
+     * method may return an instance of {@link ezcWebdavMultistatusResponse}.
+     *
+     * This method acquires the internal lock of the backend, dispatches to
+     * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
+     * lock afterwards.
      * 
      * @param ezcWebdavMoveRequest $request 
      * @return ezcWebdavResponse
@@ -1030,12 +1116,16 @@ class ezcWebdavFileBackend
     }
 
     /**
-     * Required method to serve MKCOL (make collection) requests.
+     * Serves MKCOL (make collection) requests.
      *
-     * The method receives a ezcWebdavMakeCollectionRequest objects containing
-     * all relevant information obout the clients request and should either
-     * return an error by returning an ezcWebdavErrorResponse object, or any
-     * other ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavMakeCollectionRequest} objects
+     * containing all relevant information obout the clients request and will
+     * return an instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavMakeCollectionResponse} on success.
+     *
+     * This method acquires the internal lock of the backend, dispatches to
+     * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
+     * lock afterwards.
      * 
      * @param ezcWebdavMakeCollectionRequest $request 
      * @return ezcWebdavResponse

@@ -81,8 +81,6 @@ class ezcWebdavXmlTool
      *
      * @param sting $xml 
      * @return DOMDocument|false
-     *
-     * @todo This should throw an exception if loading of the XML fails!
      */
     public function createDomDocument( $content = null )
     {

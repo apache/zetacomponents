@@ -6,7 +6,6 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- *
  * @access private
  */
 /**
@@ -29,7 +28,6 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- *
  * @access private
  */
 class ezcWebdavPluginRegistry
@@ -305,7 +303,7 @@ class ezcWebdavPluginRegistry
      *         accessed for processing through the public $originalException
      *         attribute.
      *
-     * @private
+     * @access private
      */
     public final function announceHook( $class, $hook, ezcWebdavPluginParameters $params )
     {
@@ -338,7 +336,7 @@ class ezcWebdavPluginRegistry
      * 
      * @return void
      *
-     * @private
+     * @access private
      */
     public final function initPlugins()
     {

@@ -7,7 +7,6 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-
 /**
  * Exception thrown if a header to parse is unknown.
  * There seems to be no way to determine headers by their original name in PHP,

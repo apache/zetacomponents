@@ -7,7 +7,6 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-
 /**
  * Exception thrown when a request/response object receives an invalid header value.
  * {@link ezcWebdavRequest::validateHeaders()} will throw this exception, if a

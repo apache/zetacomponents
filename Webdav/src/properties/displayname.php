@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the name property class.
+ * File containing the ezcWebdavDisplayNameProperty.
  *
  * @package Webdav
  * @version //autogentag//
@@ -20,6 +20,8 @@ class ezcWebdavDisplayNameProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavDisplayNameProperty.
+     *
+     * The $name paramater is the display name.
      * 
      * @param string $name The display name.
      * @return void
@@ -33,6 +35,7 @@ class ezcWebdavDisplayNameProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -65,11 +68,10 @@ class ezcWebdavDisplayNameProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

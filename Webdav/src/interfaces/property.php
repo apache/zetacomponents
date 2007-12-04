@@ -27,14 +27,14 @@
 abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
 {
     /**
-     * Container to hold the properties
+     * Properties.
      *
      * @var array(string=>mixed)
      */
     protected $properties;
     
     /**
-     * Creates a new property.
+     * Creates a new property object.
      *
      * Creates a new property by namespace and name.
      * 
@@ -53,6 +53,7 @@ abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
 
     /**
      * Property get access.
+     *
      * Simply returns a given property.
      * 
      * @throws ezcBasePropertyNotFoundException
@@ -77,9 +78,9 @@ abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
     }
     
     /**
-     * Add property validation error.
+     * Indicates that a property has a validation error.
      *
-     * Method called, when a property validation error occured. The error is
+     * Method called, when a property validation error occurs. The error is
      * stored and the property is set as errnous.
      * 
      * @param string $property 
@@ -95,6 +96,7 @@ abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -137,6 +139,7 @@ abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
 
     /**
      * Returns if a property exists.
+     *
      * Returns true if the property exists in the {@link $properties} array
      * (even if it is null) and false otherwise. 
      *
@@ -152,9 +155,9 @@ abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
     /**
      * Check if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * The implementation of this method must return true, if no content is
+     * stored in the property.
      * 
-     * @access public
      * @return bool
      */
     abstract public function hasNoContent();

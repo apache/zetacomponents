@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the class representing a HEAD request to the WebDAV server.
+ * File containing the ezcWebdavHeadRequest class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,8 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Struct-like class representing all relevant information about a webdav HEAD
- * request.
+ * Abstract representation of a HEAD request.
+ *
+ * An instance of this class represents the WebDAV HEAD request.
  *
  * @version //autogentag//
  * @package Webdav

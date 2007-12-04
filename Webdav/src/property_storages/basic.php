@@ -8,10 +8,11 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to manage instances of ezcWebdavProperty.
+ * Container class for ezcWebdavProperty objects.
+ *
  * An instance of this class is used to manage WebDAV properties, namely
  * instances of {@link ezcWebdavProperty}. Properties are structured by their
- * name and the namespace they belong to. 
+ * name and the namespace they reside in.
  * 
  * @package Webdav
  * @version //autogen//
@@ -21,7 +22,8 @@
 class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 {
     /**
-     * Stores the properties.
+     * Stores the WebDAV properties.
+     *
      * The structure of this array is:
      * <code>
      * array(
@@ -66,10 +68,11 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 
     /**
      * Attaches a property to the storage.
+     *
      * Adds the given $property to the storage. The property can later be
-     * accessed by its name in combination with the namespace. Live properties
-     * (and only these) reside in the namespace DAV:, which is the default for
-     * all accessor methods.
+     * accessed by its name in combination with the namespace through the
+     * {@link get()} method. Live properties (and only these) reside in the
+     * namespace DAV:, which is the default for all accessor methods.
      *
      * If a property with the same namespace and name is already contained in
      * the storage, it will be overwritten.
@@ -92,9 +95,11 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
     
     /**
      * Detaches a property from the storage.
-     * Removes the property with the given $name from the storage. If the
-     * property did not exist in the storage, the call is silently ignored. If
-     * no $namespace is given, the default namespace DAV: is used.
+     *
+     * Removes the property with the given $name and $namespace from the
+     * storage. If the property does not exist in the storage, the call is
+     * silently ignored. If no $namespace is given, the default namespace for
+     * live properties ('DAV:') is used.
      * 
      * @param string $name 
      * @param string $namespace
@@ -111,9 +116,10 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
     
     /**
      * Returns if the given property exists in the storage. 
-     * Returns if the property with the given name is contained in the storage.
-     * If the $namespace parameter is omited, the default DAV: namespace is
-     * used.
+     *
+     * Returns if the property with the given $name and $namespace is contained
+     * in the storage.  If the $namespace parameter is omited, the default live
+     * property namespace ('DAV:') is used.
      *
      * @param string $name
      * @param string $namespace
@@ -125,10 +131,12 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
     }
 
     /**
-     * Returns a given property.
-     * Returns the property with the given $name. If the $namespace parameter
-     * is omitted, the default DAV: namespace is used. If the desired property
-     * is not contained in the storage, null is returned.
+     * Returns a property from the storage.
+     *
+     * Returns the property with the given $name and $namespace. If the
+     * $namespace parameter is omitted, the default live property namespace
+     * ('DAV:') namespace is used. If the desired property is not contained in
+     * the storage, null is returned.
      * 
      * @param string $name
      * @param string $namespace
@@ -145,8 +153,10 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 
     /**
      * Returns all properties of a given namespace.
+     *
      * The returned array is indexed by the property names. Live properties can
-     * be accessed by simply ommiting the $namespace parameter.
+     * be accessed by simply ommiting the $namespace parameter, since  then the
+     * default namespace for live properties ('DAV:') is used.
      * 
      * @return array(string=>ezcWebdavProperty)
      */
@@ -161,6 +171,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 
     /**
      * Returns all properties contained in the storage.
+     *
      * Returns the complete array stored in {@link $properties}.
      * 
      * @return array(string=>array(string=>ezcWebdavProperty))
@@ -173,8 +184,8 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
     /**
      * Diff two property storages.
      *
-     * Return the current property storage reduced by the elements in the given
-     * property storage.
+     * Returns a property storage, which does only contain properties that are
+     * not present in the $properties parameter.
      * 
      * @param ezcWebdavBasicPropertyStorage $properties 
      * @return ezcWebdavBasicPropertyStorage
@@ -201,12 +212,13 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
     }
 
     /**
-     * Intersection between two property storages.
+     * Intersects between two property storages.
      *
-     * Calculate and return {@link ezcWebdavBasicPropertyStorage} which returns the
-     * intersection of two property storages. This means a new property storage
-     * will be return which contains all values, which are present in the
-     * current and the gi ven property storage.
+     * Calculate and return an instance of {@link
+     * ezcWebdavBasicPropertyStorage} which contains the intersection of two
+     * property storages. This means a new property storage will be return
+     * which contains all values, which are present in the current and the
+     * given $properties property storage.
      * 
      * @param ezcWebdavBasicPropertyStorage $properties 
      * @return ezcWebdavBasicPropertyStorage
@@ -232,7 +244,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
         return $intersection;
     }
 
-    /**
+    /*
      * Methods required for Countable
      */
 
@@ -240,8 +252,8 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      * Return property count.
      *
      * Implementation required by interface Countable. Count the numbers of
-     * item contained by this class. Will return the item count ignoring their
-     * namespace.
+     * items contained by the instance. Will return the overall item count
+     * ignoring different namespaces.
      * 
      * @return int
      */
@@ -261,9 +273,11 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      */
 
     /**
-     * Implements current() for Iterator
+     * Implements current() for Iterator.
+     *
+     * Returns the currently selected element during iteration with foreach.
      * 
-     * @return mixed
+     * @return ezcWebdavProperty
      */
     public function current()
     {
@@ -286,6 +300,9 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 
     /**
      * Implements key() for Iterator
+     *
+     * Returns the key of the currently selected element during iteration with
+     * foreach.
      * 
      * @return int
      */
@@ -296,6 +313,9 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 
     /**
      * Implements next() for Iterator
+     *
+     * Advances the internal pointer to the next element during iteration with
+     * foreach.
      * 
      * @return mixed
      */
@@ -318,6 +338,9 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 
     /**
      * Implements rewind() for Iterator
+     *
+     * Resets the internal pointer to the first element before iteration with
+     * foreach.
      * 
      * @return void
      */
@@ -328,6 +351,9 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 
     /**
      * Implements valid() for Iterator
+     *
+     * Returns if the internal pointer still points to a valid element when
+     * iteration with foreach. If this method returns false, iteration ends.
      * 
      * @return boolean
      */

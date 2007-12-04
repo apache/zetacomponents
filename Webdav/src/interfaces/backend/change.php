@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the interface for a change enabled backend
+ * File containing the ezcWebdavBackendChange interface.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,12 +8,16 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Interface implemented by backends which support request commonly known as
- * change requests, which are:
+ * Interface implemented by backends which support the DELETE, COPY and MOVE operations.
  *
- * - DELETE
- * - COPY
- * - MOVE
+ * If a backend supports the following request method, it must implement this
+ * interface:
+ *
+ * <ul>
+ *     <li>DELETE</li>
+ *     <li>COPY</li>
+ *     <li>MOVE</li>
+ * </ul>
  *
  * @version //autogentag//
  * @package Webdav
@@ -21,12 +25,12 @@
 interface ezcWebdavBackendChange
 {
     /**
-     * Required method to serve DELETE requests.
+     * Serves DELETE requests.
      *
-     * The method receives a ezcWebdavDeleteRequest objects containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an ezcWebdavErrorResponse object, or any other
-     * ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavDeleteRequest} objects containing
+     * all relevant information obout the clients request and will return an
+     * instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavDeleteResponse} on success.
      * 
      * @param ezcWebdavDeleteRequest $request 
      * @return ezcWebdavResponse
@@ -34,12 +38,13 @@ interface ezcWebdavBackendChange
     public function delete( ezcWebdavDeleteRequest $request );
 
     /**
-     * Required method to serve COPY requests.
+     * Serves COPY requests.
      *
-     * The method receives a ezcWebdavCopyRequest objects containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an ezcWebdavErrorResponse object, or any other
-     * ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavCopyRequest} objects containing
+     * all relevant information obout the clients request and will return an
+     * instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavCopyResponse} on success. If only some operations failed, this
+     * method may return an instance of {@link ezcWebdavMultistatusResponse}.
      * 
      * @param ezcWebdavCopyRequest $request 
      * @return ezcWebdavResponse
@@ -47,12 +52,13 @@ interface ezcWebdavBackendChange
     public function copy( ezcWebdavCopyRequest $request );
 
     /**
-     * Required method to serve MOVE requests.
+     * Serves MOVE requests.
      *
-     * The method receives a ezcWebdavMoveRequest objects containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an ezcWebdavErrorResponse object, or any other
-     * ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavMoveRequest} objects containing
+     * all relevant information obout the clients request and will return an
+     * instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavMoveResponse} on success. If only some operations failed, this
+     * method may return an instance of {@link ezcWebdavMultistatusResponse}.
      * 
      * @param ezcWebdavMoveRequest $request 
      * @return ezcWebdavResponse

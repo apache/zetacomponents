@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the source property class.
+ * File containing the ezcWebdavSourceProperty class.
  *
  * @package Webdav
  * @version //autogenlastmodified//
@@ -20,6 +20,9 @@ class ezcWebdavSourceProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavSourceProperty.
+     *
+     * The given array must contain instances of {@link
+     * ezcWebdavSourcePropertyLink}.
      * 
      * @param array(ezcWebdavSourcePropertyLink) $links
      * @return void
@@ -33,6 +36,7 @@ class ezcWebdavSourceProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -65,12 +69,11 @@ class ezcWebdavSourceProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Remove all contents from a property.
      *
-     * Should return true, if property has no assigned content.
+     * Clear the property, so that it will be recognized as empty later.
      * 
-     * @access public
-     * @return bool
+     * @return void
      */
     public function hasNoContent()
     {
@@ -78,9 +81,9 @@ class ezcWebdavSourceProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Remove all contents from a property.
+     * Removes all contents from a property.
      *
-     * Clear a property, so that it will be recognized as empty later.
+     * Clear the property, so that it will be recognized as empty later.
      * 
      * @return void
      */

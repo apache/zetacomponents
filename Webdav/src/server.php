@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the basic webdav server class
+ * File containing the ezcWebdavServer class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -15,18 +15,18 @@
  *
  * // Optionally register aditional transport handlers
  *   
- * // This step is only required, when a user wants to provide own 
+ * // This step is only required, if you want to add custom or third party extensions
  * // implementations for special clients.
  * $server->configurations[] = new ezcWebdavServerConfiguration(
  *     // Regular expression to match client name
- *     '(Microsoft.*Webdav\s+XP)i',
- *     // Class name of transport handler, extending ezcWebdavTransportHandler
- *     'ezcWebdavMicrosoftTransport'
+ *     '(My.*Webdav\s+Cliengt)i',
+ *     // Class name of transport handler, extending {@link ezcWebdavTransport}
+ *     'myCustomTransportTransport'
  * );  
  * $server->configurations[] = new ezcWebdavServerConfiguration(
  *     // Regular expression to match client name
  *     '(.*Firefox.*)i',
- *     // Class name of transport handler, extending ezcWebdavTransportHandler
+ *     // Class name of transport handler, extending {@link ezcWebdavTransport}
  *     'customWebdavMozillaTransport',
  *     // A custom implementation of {@link ezcWebdavXmlTool}
  *     'customWebdavXmlTool',
@@ -36,15 +36,16 @@
  *     new customWebdavPathFactory()
  * );  
  *
- * // Server data using file backend with data in "path/"
+ * // Serve data using file backend with data in "path/"
  * $backend = new ezcWebdavBackendFile( '/path' );
  *
- * // Serve requests
+ * // Make the server serve WebDAV requests
  * $server->handle( $backend );
  * </code>
  *
  * @properties ezcWebdavServerConfigurationManager $configurations
- *             Webdav server configuration manager
+ *             Webdav server configuration manager, which holds and dispatches
+ *             configurations that fit for a certain client.
  *
  * @version //autogentag//
  * @package Webdav
@@ -69,8 +70,8 @@ class ezcWebdavServer
      * Creates a new instance.
      *
      * The constructor is private due to singleton reasons. Use {@link
-     * self::getInstance()} and then use the properties of the server to adjust
-     * it's configuration.
+     * getInstance()} and then use the properties of the server to adjust its
+     * configuration.
      * 
      * @return void
      */
@@ -80,13 +81,15 @@ class ezcWebdavServer
     }
 
     /**
-     * Singleton retrieval.
+     * Returns singleton instance.
      *
      * The instantiation of 2 WebDAV servers at the same time does not make
-     * sense. Therefore the server is a singleton and its only instance must be
-     * retrieved using this method.
+     * sense and could possibly cause strange effects, like double sending of a
+     * response. Therefore the server implements a singleton and its only
+     * instance must be retrieved using this method. Configuration changes can
+     * then be performed through the properties of this instance.
      * 
-     * @return void
+     * @return ezcWebdavServer
      */
     public static function getInstance()
     {
@@ -98,15 +101,26 @@ class ezcWebdavServer
     }
 
     /**
-     * Makes the Webdav server handle the current request.
+     * Handles the current request.
      *
      * This method is the absolute heart of the Webdav component. It is called
      * to make the server instance handle the current request. This means, a
      * {@link ezcWebdavTransport} is selected and instantiated through the
-     * {@link ezcWebdavServerConfigurationManager} in {@link $this->configurations}.
+     * {@link ezcWebdavServerConfigurationManager} in {@link $configurations}.
+     * This transport (and all other objects, created from the configuration)
+     * is used to parse the incoming request into an instance of {@link
+     * ezcWebdavRequest}, which is then handed to the submitted $backend for
+     * handling. The resulting {@link ezcWebdavResponse} is serialized by the
+     * {@link ezcWebdavTransport} and send back to the client.
      *
      * The method receives at least an instance of {@link ezcWebdavBackend},
-     * which is used to server the request.
+     * which is used to server the request. Optionally, the request URI can be
+     * submitted in $uri. If this is not the case, the request URI is
+     * determined by the server variables
+     * <ul>
+     *  <li>$_SERVER['SERVER_NAME']</li>
+     *  <li>$_SERVER['REQUEST_URI']</li>
+     * </ul>
      *
      * @param ezcWebdavBackend $backend
      * @param string $uri
@@ -169,7 +183,7 @@ class ezcWebdavServer
     }
 
     /**
-     * Initialize the server with the given objects.
+     * Initializes the server with the given objects.
      * 
      * This method is marked proteced, because it is intended to be used by by
      * {@link ezcWebdavServerConfiguration} instances and instances of derived
@@ -179,6 +193,7 @@ class ezcWebdavServer
      * @param ezcWebdavXmlTool $xmlTool
      * @param ezcWebdavPropertyHandler $propertyHandler
      * @param ezcWebdavTransport $transport
+     * @access protected
      * @return void
      */
     public function init(
@@ -221,6 +236,7 @@ class ezcWebdavServer
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -261,6 +277,7 @@ class ezcWebdavServer
 
     /**
      * Property get access.
+     *
      * Simply returns a given property.
      * 
      * @throws ezcBasePropertyNotFoundException
@@ -286,6 +303,7 @@ class ezcWebdavServer
 
     /**
      * Returns if a property exists.
+     *
      * Returns true if the property exists in the {@link $properties} array
      * (even if it is null) and false otherwise. 
      *

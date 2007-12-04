@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the source property class.
+ * File containing the ezcWebdavSourceProperty class.
  *
  * @package Webdav
  * @version //autogenlastmodified//
@@ -22,6 +22,9 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavSourceProperty.
+     *
+     * The $src parameter is the requested path, while the $dst parameter
+     * indicate the source URI.
      * 
      * @param string $src Link source (URI).
      * @param string $dst Link destination (URI).
@@ -37,6 +40,7 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -78,11 +82,10 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

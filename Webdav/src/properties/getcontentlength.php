@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the getcontentlength property class.
+ * File containing the ezcWebdavGetContentLengthProperty class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -28,6 +28,9 @@ class ezcWebdavGetContentLengthProperty extends ezcWebdavLiveProperty
     /**
      * Creates a new ezcWebdavGetContentLengthProperty.
      * 
+     * Creates a new ezcWebdavGetContentLengthProperty with the given length.
+     * The length should be given as a string to avoid integer overflows.
+     *
      * @param string $length The length.
      * @return void
      */
@@ -40,6 +43,7 @@ class ezcWebdavGetContentLengthProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -72,11 +76,10 @@ class ezcWebdavGetContentLengthProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

@@ -8,16 +8,21 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Path factory that automatically detects local settings.
+ * Path factory that automatically determines configuration.
  *
- * This class is necessary to calculate the correct path when a server uses
- * rewrite rules for mapping directories to one or more webdav implementations.
- * The basic class uses pathinfo to parse the requested file / collection.
+ * An object of this class is meant to be used in {@link
+ * ezcWebdavTransportOptions} as the $pathFactory property. The instance of
+ * {@link ezcWebdavTransport} utilizes the path factory to translate between
+ * external pathes/URIs and internal path representations.
  *
- * Request: /path/to/webdav.php/path/to/file
- * Result:  /path/to/file
- *
- * You may want to provide custome implementations for different mappings.
+ * An instance of this class examines several server variables like
+ * <ul>
+ *     <li>$_SERVER['DOCUMENT_ROOT']</li>
+ *     <li>$_SERVER['SCRIPT_FILENAME']</li>
+ * </ul>
+ * to determine the server configuration. It then examines incoming URIs to
+ * determine which parts must be stripped an reconstructs the information when
+ * serializing a path back to a URI.
  *
  * @version //autogentag//
  * @package Webdav
@@ -36,13 +41,10 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
     /**
      * Creates a new path factory.
      * 
-     * Creates a new path factory to be used in ezcWebdavTransportOptions. This
-     * path factory automatically detects information from the running
-     * webserver and tries to automatically determine the suitable values.
-     *
-     * A locally understandable path MUST NOT contain a trailing slash, but
-     * MUST always contain a starting slash. For the root URI the path "/" MUST
-     * be used.
+     * Creates a new path factory to be used in {@link
+     * ezcWebdavServerConfiguration}. This path factory automatically detects
+     * information from the running web server and automatically determines the
+     * suitable values for parsing pathes and generating URIs.
      *
      * @return void
      */
@@ -76,11 +78,15 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
     }
 
     /**
-     * Parses the given URI to a locally understandable path.
+     * Parses the given URI to a path suitable to be used in the backend.
      *
      * This method retrieves a URI (either full qualified or relative) and
-     * translates it into a local path, which can be understood by the WebDAV
-     * elements.
+     * translates it into a local path, which can be understood by the {@link
+     * ezcWebdavBackend} instance used in the {@link ezcWebdavServer}.
+     *
+     * A locally understandable path MUST NOT contain a trailing slash, but
+     * MUST always contain a starting slash. For the root URI the path "/" MUST
+     * be used.
      *
      * @param string $uri
      * @return string
@@ -124,9 +130,9 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
     /**
      * Generates a URI from a local path.
      *
-     * This method receives a local $path string, representing a node in the
-     * local WebDAV store and translates it into a full qualified URI to be
-     * used as external reference.
+     * This method receives a local $path string, representing a resource in
+     * the {@link ezcWebdavBackend} and translates it into a full qualified URI
+     * to be used as external reference.
      * 
      * @param string $path 
      * @return string

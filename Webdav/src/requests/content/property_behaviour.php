@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * File containing the ezcWebdavRequestPropertyBehaviourContent class.
+ *
+ * @package Webdav
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 /**
  * Class representing the <propertybehaviour /> XML element in the COPY/MOVE request body.
+ *
  * An instance of this class represents the <propertybehaviour /> XML element,
  * that may optionally be contained in the body of a COPY or MOVE request.
  * Either of the properties $keepAlive or $omit may be set, but not both of
@@ -22,8 +30,10 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  *
- * @property mixed $keepAlive Represents the <keepalive /> XML element.
- * @property bool $omit Represents the <omit /> XML element.
+ * @property array|int $keepAlive
+ *           Represents the <keepalive /> XML element.
+ * @property bool $omit
+ *           Represents the <omit /> XML element.
  */
 class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavInfrastructureBase
 {
@@ -52,6 +62,7 @@ class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavInfrastructureBa
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -109,6 +120,7 @@ class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavInfrastructureBa
 
     /**
      * Property get access.
+     *
      * Simply returns a given property.
      * 
      * @throws ezcBasePropertyNotFoundException
@@ -134,6 +146,7 @@ class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavInfrastructureBa
 
     /**
      * Returns if a property exists.
+     *
      * Returns true if the property exists in the {@link $properties} array
      * (even if it is null) and false otherwise. 
      *

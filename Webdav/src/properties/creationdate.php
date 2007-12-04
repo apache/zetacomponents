@@ -20,6 +20,8 @@ class ezcWebdavCreationDateProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavCreationDateProperty.
+     *
+     * The given $date object represents the time value stored in the property.
      * 
      * @param ezcWebdavDateTime $date The date value.
      * @return void
@@ -33,6 +35,7 @@ class ezcWebdavCreationDateProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -65,9 +68,9 @@ class ezcWebdavCreationDateProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
      * @access public
      * @return bool

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the live property class.
+ * File containing the ezcWebdavLiveProperty class.
  *
  * @package Webdav
  * @version //autogenetag//
@@ -8,7 +8,11 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * An object of this class represents a Webdav live property.
+ * Abstract base class for live property objects.
+ *
+ * All classes representing live (in the meanining of server maintained)
+ * properties must extend this common base class. Live properties reside in the
+ * 'DAV:' namespace.
  *
  * @version //autogenetag//
  * @package Webdav
@@ -18,8 +22,8 @@ abstract class ezcWebdavLiveProperty extends ezcWebdavProperty
     /**
      * Creates a new live property.
      *
-     * Creates a new live property with its class name as name and in the
-     * default namespace "DAV:".
+     * Creates a new live property with the $name in the default namespace
+     * "DAV:".
      * 
      * @param string $name
      * @return void

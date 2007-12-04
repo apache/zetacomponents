@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the dead property class.
+ * File containing the ezcWebdavDeadProperty class.
  *
  * @package Webdav
  * @version //autogenetag//
@@ -8,7 +8,12 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * An object of this class represents a  Webdav dead property.
+ * An object of this class represents a WebDAV dead property.
+ *
+ * An object of this class is created to represent a dead (in the meaning of
+ * unknown) property. While live properties are validated and maintained by the
+ * server itself, while dead properties are just stored without any further
+ * action.
  *
  * @property string $content
  *           The content of a dead property.
@@ -21,8 +26,8 @@ class ezcWebdavDeadProperty extends ezcWebdavProperty
     /**
      * Creates a new dead property.
      *
-     * Creates a new dead property by namespace, name and optionally its
-     * content.
+     * Creates a new dead property in the given $namespace with the given $name
+     * and optionally containing $content.
      * 
      * @param string $namespace
      * @param string $name
@@ -37,6 +42,7 @@ class ezcWebdavDeadProperty extends ezcWebdavProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -69,11 +75,10 @@ class ezcWebdavDeadProperty extends ezcWebdavProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

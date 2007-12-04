@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the interface for a put enabled backend
+ * File containing the ezcWebdavBackendPut interface.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,7 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Interface implemented by backends which support PUT.
+ * Interface implemented by backends which support the PUT operation.
+ *
+ * If a backend supports the PUT request method, it must implement this
+ * interface.
  *
  * @version //autogentag//
  * @package Webdav
@@ -16,12 +19,12 @@
 interface ezcWebdavBackendPut
 {
     /**
-     * Required method to serve PUT requests.
+     * Serves PUT requests.
      *
-     * The method receives a ezcWebdavPutRequest objects containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an ezcWebdavErrorResponse object, or any other
-     * ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavPutRequest} objects containing all
+     * relevant information obout the clients request and will return an
+     * instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavPutResponse} on success.
      * 
      * @param ezcWebdavPutRequest $request 
      * @return ezcWebdavResponse

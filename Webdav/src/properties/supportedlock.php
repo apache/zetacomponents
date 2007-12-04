@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the supportedlock property class.
+ * File containing the ezcWebdavSupportedLockProperty class.
  *
  * @package Webdav
  * @version //autogenlastmodified//
@@ -24,6 +24,9 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavSourceProperty.
+     *
+     * The $lockEntry parameter must be an array of {@link
+     * ezcWebdavSupportedLockPropertyLockentry} instances.
      * 
      * @param array(ezcWebdavSupportedLockPropertyLockentry) $lockEntry
      * @return void
@@ -37,6 +40,7 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -69,11 +73,10 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

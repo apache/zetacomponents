@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the class representing a MKCOL request to the WebDAV server.
+ * File containing the ezcWebdavMakeCollectionRequest class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,8 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Struct-like class representing all relevant information about a webdav MKCOL
- * request.
+ * Abstract representation of a MKCOL request.
+ *
+ * An instance of this class represents the WebDAV MKCOL request.
  *
  * @property string $body
  *           The request body of a MKCOL request.
@@ -22,8 +23,8 @@ class ezcWebdavMakeCollectionRequest extends ezcWebdavRequest
     /**
      * Creates a new MKCOL request object.
      *
-     * The request is created from the collection, which should be created and
-     * an optional request body.
+     * The request contains of the $requestUri which indicates where a
+     * collection should be created and an optional request $body.
      * 
      * @param string $requestUri
      * @param string $body
@@ -40,6 +41,7 @@ class ezcWebdavMakeCollectionRequest extends ezcWebdavRequest
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.

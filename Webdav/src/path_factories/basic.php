@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the basic webdav path factory class
+ * File containing the ezcWebdavBasicPathFactory class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Basic path factory interface.
+ * Basic path factory.
  *
  * An object of this class is meant to be used in {@link
  * ezcWebdavTransportOptions} as the $pathFactory property. The instance of
@@ -16,10 +16,13 @@
  * external pathes/URIs and internal path representations.
  *
  * This simple implementation of a path factory expects the base URI it should
- * be working on as the ctor parameter. It will translate all incoming URIs to
- * internal pathes and the other way round based on this basis URI.
+ * be working on as the constructor parameter. It will translate all incoming
+ * URIs to internal pathes and the other way round based on this URI.
  *
- * You may want to provide custome implementations for different mappings.
+ * You may want to provide custome implementations for different mappings. The
+ * {@link ezcWebdavAutomaticPathFactory} is a more advanced implementation,
+ * which automatically "guesses" the server configuration and should be
+ * suitable for almost every case.
  *
  * @version //autogentag//
  * @package Webdav
@@ -33,24 +36,23 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
      */
     protected $baseUriParts;
 
-
     /**
      * Caches pathes that are a collection.
      *
-     * Those will get a '/' appended on reserialization. Works only if they had
-     * been unserialized before.
+     * Those will get a '/' appended on re-serialization. Works only if they
+     * had been unserialized before.
      *
-     * @todo This is a temporary hack to satisfy memory backend and RFC.
-     * 
      * @var array(string=>bool)
      */
     protected $collectionPathes = array();
     
     /**
      * Creates a new path factory.
-     * Creates a new object to parse URIs to local pathes. The URL given as a
-     * parameter is used to strip URL/path parts from incoming URIs and add the
-     * specific parts to outgoin ones.
+     *
+     * Creates a new object to parse URIs to local pathes and vice versa. The
+     * URL given as a parameter is used to strip URL and path parts from
+     * incoming URIs {@link parseUriToPath()} and to add the specific parts to
+     * outgoing ones {@link generateUriFromPath()}.
      * 
      * @param string $baseUri 
      * @return void
@@ -61,11 +63,11 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
     }
 
     /**
-     * Parses the given URI to a locally understandable path.
+     * Parses the given URI to a path suitable to be used in the backend.
      *
      * This method retrieves a URI (either full qualified or relative) and
-     * translates it into a local path, which can be understood by the WebDAV
-     * elements.
+     * translates it into a local path, which can be understood by the {@link
+     * ezcWebdavBackend} instance used in the {@link ezcWebdavServer}.
      *
      * A locally understandable path MUST NOT contain a trailing slash, but
      * MUST always contain a starting slash. For the root URI the path "/" MUST
@@ -79,7 +81,6 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
         $requestPath = parse_url( trim( $uri ), PHP_URL_PATH );
         if ( substr( $requestPath, -1, 1 ) === '/' )
         {
-            // @todo This is a cleanup for the memory backend
             $requestPath = substr( $requestPath, 0, -1 );
             $this->collectionPathes[substr( $requestPath, ( isset( $this->baseUriParts['path'] ) ? strlen( $this->baseUriParts['path'] ) : 0 ) )] = true;
         }
@@ -106,9 +107,9 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
     /**
      * Generates a URI from a local path.
      *
-     * This method receives a local $path string, representing a node in the
-     * local WebDAV store and translates it into a full qualified URI to be
-     * used as external reference.
+     * This method receives a local $path string, representing a resource in
+     * the {@link ezcWebdavBackend} and translates it into a full qualified URI
+     * to be used as external reference.
      * 
      * @param string $path 
      * @return string

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the interface for a collection creating backend
+ * File containing the ezcWebdavBackendMakeCollection interface.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,7 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Interface implemented by backends which support the creation of collections.
+ * Interface implemented by backends which support the MKCOL operation.
+ *
+ * If a backend supports the MKCOL request method, it must implement this
+ * interface.
  *
  * @version //autogentag//
  * @package Webdav
@@ -16,12 +19,12 @@
 interface ezcWebdavBackendMakeCollection
 {
     /**
-     * Required method to serve MKCOL (make collection) requests.
+     * Serves MKCOL (make collection) requests.
      *
-     * The method receives a ezcWebdavMakeCollectionRequest objects containing
-     * all relevant information obout the clients request and should either
-     * return an error by returning an ezcWebdavErrorResponse object, or any
-     * other ezcWebdavResponse objects.
+     * The method receives a {@link ezcWebdavMakeCollectionRequest} objects
+     * containing all relevant information obout the clients request and will
+     * return an instance of {@link ezcWebdavErrorResponse} on error or {@link
+     * ezcWebdavMakeCollectionResponse} on success.
      * 
      * @param ezcWebdavMakeCollectionRequest $request 
      * @return ezcWebdavResponse

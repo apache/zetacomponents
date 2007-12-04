@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the getcontentlanguage property class.
+ * File containing the ezcWebdavGetContentLanguageProperty class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -20,6 +20,8 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavGetContentLanguageProperty.
+     *
+     * The given array must contain strings that represent language shortcuts.
      * 
      * @param string $languages The languages.
      * @return void
@@ -33,6 +35,7 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavLiveProperty
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -65,11 +68,10 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()
@@ -78,9 +80,9 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Remove all contents from a property.
+     * Removes all contents from a property.
      *
-     * Clear a property, so that it will be recognized as empty later.
+     * Clears the property, so that it will be recognized as empty later.
      * 
      * @return void
      */

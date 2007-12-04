@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the getlastmodified property class.
+ * File containing the ezcWebdavGetLastModifiedProperty class.
  *
  * @package Webdav
  * @version //autogenlastmodified//
@@ -20,8 +20,11 @@ class ezcWebdavGetLastModifiedProperty extends ezcWebdavLiveProperty
 {
     /**
      * Creates a new ezcWebdavGetLastModifiedProperty.
+     *
+     * The $date parameter indicates the last modification time of the affected
+     * resource.
      * 
-     * @param ezcWebdavDateTime $date The date.
+     * @param ezcWebdavDateTime $date
      * @return void
      */
     public function __construct( ezcWebdavDateTime $date = null )
@@ -65,11 +68,10 @@ class ezcWebdavGetLastModifiedProperty extends ezcWebdavLiveProperty
     }
 
     /**
-     * Check if property has no content.
+     * Returns if property has no content.
      *
-     * Should return true, if property has no assigned content.
+     * Returns true, if the property has no content stored.
      * 
-     * @access public
      * @return bool
      */
     public function hasNoContent()

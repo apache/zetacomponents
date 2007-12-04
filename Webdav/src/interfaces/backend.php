@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the basic webdav backend class
+ * File containing the ezcWebdavBackend class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,16 +8,18 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Base interface for all webdav backends serving the actual data.
+ * Base class to be extended by all backend implementation.
  *
- * The backend is meant to be exxtended by an implementation for your data
+ * The backend is meant to be extended by an implementation for your data
  * storage. It enforces the base features required for each backend and should
- * be extended by further indeterfaces for other access methods, like:
+ * be extended by further interfaces for other access methods, like:
  *
- *  - {@link ezcWebdavBackendPut}
- *  - {@link ezcWebdavBackendChange}
- *  - {@link ezcWebdavBackendMakeCollection}
- *  - {@link ezcWebdavBackendLock}
+ * <ul>
+ *     <li>{@link ezcWebdavBackendPut}</li>
+ *     <li>{@link ezcWebdavBackendChange}</li>
+ *     <li>{@link ezcWebdavBackendMakeCollection}</li>
+ *     <li>{@link ezcWebdavBackendLock}</li>
+ * </ul>
  *
  * @version //autogentag//
  * @package Webdav
@@ -50,8 +52,10 @@ abstract class ezcWebdavBackend
     const MULTIPART             = 16;
 
     /**
-     * Return bitmap of additional features supported by the backend referenced
-     * by constants from the basic ezcWebdavBackend class.
+     * Returns additional features supported by the backend.
+     *
+     * Returns a bitmap of additional features supported by the backend, referenced
+     * by constants from the basic {@link ezcWebdavBackend} class.
      * 
      * @return int
      */
@@ -163,25 +167,27 @@ abstract class ezcWebdavBackend
     }
 
     /**
-     * Required method to serve GET requests.
+     * Serves GET requests.
      *
      * The method receives a {@link ezcWebdavGetRequest} object containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an {@link ezcWebdavErrorResponse} object, or any
-     * other {@link ezcWebdavResponse} objects.
-     * 
+     * relevant information obout the clients request and will return an {@link
+     * ezcWebdavErrorResponse} instance on error or an instance of {@link
+     * ezcWebdavGetResourceResponse} or {@link ezcWebdavGetCollectionResponse}
+     * on success, depending on the type of resource that is referenced by the
+     * request.
+     *
      * @param ezcWebdavGetRequest $request
      * @return ezcWebdavResponse
      */
     abstract public function get( ezcWebdavGetRequest $request );
 
     /**
-     * Required method to serve HEAD requests.
+     * Serves HEAD requests.
      *
      * The method receives a {@link ezcWebdavHeadRequest} object containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an {@link ezcWebdavErrorResponse} object, or any other
-     * {@link ezcWebdavResponse} objects.
+     * relevant information obout the clients request and will return an {@link
+     * ezcWebdavErrorResponse} instance on error or an instance of {@link
+     * ezcWebdavHeadResponse} on success.
      * 
      * @param ezcWebdavGetRequest $request
      * @return ezcWebdavResponse
@@ -189,15 +195,18 @@ abstract class ezcWebdavBackend
     abstract public function head( ezcWebdavHeadRequest $request );
 
     /**
-     * Required method to serve PROPFIND requests.
+     * Serves PROPFIND requests.
      * 
-     * The method receives a {@link ezcWebdavPropFindRequest} object containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an {@link ezcWebdavErrorResponse} object, or any
-     * other {@link ezcWebdavResponse} objects.
+     * The method receives a {@link ezcWebdavPropFindRequest} object containing
+     * all relevant information obout the clients request and will either
+     * return an instance of {@link ezcWebdavErrorResponse} to indicate an error
+     * or a {@link ezcWebdavPropFindResponse} on success. If the referenced
+     * resource is a collection or if some properties produced errors, an
+     * instance of {@link ezcWebdavMultistatusResponse} may be returned.
      *
      * The {@link ezcWebdavPropFindRequest} object contains a definition to
-     * find one or more properties of a given file or collection.
+     * find one or more properties of a given collection or non-collection
+     * resource.
      *
      * @param ezcWebdavPropFindRequest $request
      * @return ezcWebdavResponse
@@ -205,12 +214,15 @@ abstract class ezcWebdavBackend
     abstract public function propFind( ezcWebdavPropFindRequest $request );
 
     /**
-     * Required method to serve PROPPATCH requests.
+     * Serves PROPPATCH requests.
      * 
-     * The method receives a {@link ezcWebdavPropPatchRequest} object containing all
-     * relevant information obout the clients request and should either return
-     * an error by returning an {@link ezcWebdavErrorResponse} object, or any
-     * other {@link ezcWebdavResponse} objects.
+     * The method receives a {@link ezcWebdavPropPatchRequest} object
+     * containing all relevant information obout the clients request and will
+     * return an instance of {@link ezcWebdavErrorResponse} on error or a
+     * {@link ezcWebdavPropPatchResponse} response on success. If the
+     * referenced resource is a collection or if only some properties produced
+     * errors, an instance of {@link ezcWebdavMultistatusResponse} may be
+     * returned.
      *
      * @param ezcWebdavPropPatchRequest $request
      * @return ezcWebdavResponse

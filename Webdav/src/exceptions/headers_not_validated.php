@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavHeadersNotValidatedException class
+ * File containing the ezcWebdavHeadersNotValidatedException class.
  *
  * @package Webdav
  * @version //autogentag//

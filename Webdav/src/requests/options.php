@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the class representing a OPTIONS request to the WebDAV server.
+ * File containing the ezcWebdavOptionsRequest.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,8 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Struct-like class representing all relevant information about a webdav OPTIONS
- * request.
+ * Abstract representation of a OPTIONS request.
+ *
+ * An instance of this class represents the WebDAV OPTIONS request.
  *
  * @version //autogentag//
  * @package Webdav

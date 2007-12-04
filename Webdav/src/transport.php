@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the basic standard compliant transport mecanism.
+ * File containing the ezcWebdavTransport class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,12 +8,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Transport layer mainclas that handles RFC compliant client communication.
+ * Transport layer mainclass that implements RFC compliant client communication.
  *
  * This basis transport class is able to interact with RFC 2518 compliant
  * WebDAV clients. It can parse all request types defined in the RFC into the
  * abstraction layer of the Webdav component, defined by the base classes
- * mentioned below.
+ * mentioned below. An exception are LOCK related requests, which will be
+ * handled by a plugin.
  * 
  * To adjust this base transport layer main class to the needs of
  * RFC-2518-inconform client implementations, there is the powerfull
@@ -92,7 +93,7 @@ class ezcWebdavTransport
      * ezcWebdavPluginRegistry}.
      *
      * @var array(string=>string)
-     * @private
+     * @access private
      */
     static public $parsingMap = array(
         'COPY'      => 'parseCopyRequest',
@@ -114,7 +115,7 @@ class ezcWebdavTransport
      * ezcWebdavPluginRegistry}.
      *
      * @array(string=>string)
-     * @private
+     * @access private
      */
     static public $handlingMap = array(
         'ezcWebdavCopyResponse'           => 'processCopyResponse',
@@ -146,24 +147,25 @@ class ezcWebdavTransport
      * utilized by it to parse the incoming request into an instance of {@link
      * ezcWebdavRequest}.
      *
-     * The submitted URI must be formatted in a way, that the {@link
+     * The submitted $uri must be formatted in a way, that the {@link
      * ezcWebdavPathFactory} (by default this is {@link
      * ezcWebdavAutomaticPathFactory}) can convert it into a path absolute to
-     * the WebDAV repository.
+     * the base of the WebDAV repository.
      *
      * The retrieval of the request body is performed by the {@link
      * retreiveBody()} method, the request method from {@link
      * $_SERVER['REQUEST_METHOD']}. The latter one is mapped through the
-     * {self::$parsingMap} attribute to a local object method.
+     * {@link self::$parsingMap} attribute to a local object method.
      *
      * This method is marked final and may not be overwritten, because it
      * belongs to the essential communication API with {@link ezcWebdavServer}
      * and is responsible to dispatch the {@link ezcWebdavPluginRegistry} hooks
-     * of the transport layer.
+     * of the transport layer. NOTE: The plugin API is not public, yet, and
+     * will be part of a next release.
      *
      * If an error occurs during request parsing, an instance of {@link
      * ezcWebdavResponse} may be returned instead of an instance of {@link
-     * ezcWebdavRequest}.
+     * ezcWebdavRequest}. {@link ezcWebdavServer} will handle this correctly.
      *
      * @return ezcWebdavRequest|ezcWebdavResponse
      */
@@ -239,7 +241,8 @@ class ezcWebdavTransport
      * This method is part of the integral communication API between the WebDAV
      * client and the {@link ezcWebdavServer}. It is declared final to ensure a
      * minimal compatibile API between the extended classes and it is
-     * responsible to dispatch the {@link ezcWebdavPluginRegistry} hooks.
+     * responsible to dispatch the {@link ezcWebdavPluginRegistry} hooks. NOTE:
+     * The plugin API is not public, yet, and will be part of a next release.
      *
      * It currently just maps internally to {@link processResponse()} and
      * passes the result to {@ $this->sendResponse()}. It is not recommended
@@ -290,14 +293,17 @@ class ezcWebdavTransport
      * ezcWebdavErrorResponse::__construct()}.
      *
      * For special exceptions, special responses will be generated:
-     * - ezcWebdavBadRequestException: 400 Bad Request
-     * - ezcWebdavInvalidRequestMethodException: 501 Not Implemented
-     * 
+     * <ul>
+     * <li>ezcWebdavBadRequestException: 400 Bad Request</li>
+     * <li>ezcWebdavInvalidRequestMethodException: 501 Not Implemented</li>
+     * </ul>
+     *
      * Per default, a 500 Internal Server Error response will be generated.
      *
      * Depending on where this is called, the generatedResponse hook will be
      * issued (if during request parsing), but the processErrorResponse hooks
-     * will allways be called.
+     * will allways be called. NOTE: The plugin API is not public, yet, and
+     * will be part of a next release.
      * 
      * @param Exception $e 
      * @param string $uri 
@@ -356,8 +362,6 @@ class ezcWebdavTransport
      * @param ezcWebdavResponse $response 
      * @return ezcWebdavDisplayInformation
      * 
-     * @throws RuntimeException
-     *         if the class of the given object could not be dispatched.
      * @throws ezcWebdavMissingHeaderException
      *         if the generated result is an {@link
      *         ezcWebdavStringDisplayInformation} struct and the contained
@@ -430,6 +434,16 @@ class ezcWebdavTransport
      * 
      * @param ezcWebdavDisplayInformation $info 
      * @return ezcWebdavOutputResult
+     *
+     * @throws ezcWebdavMissingHeaderException
+     *         if the generated result is an {@link
+     *         ezcWebdavStringDisplayInformation} struct and the contained
+     *         {@link ezcWebdavResponse} object has no Content-Type header set.
+     * @throws ezcWebdavInvalidHeaderException
+     *         if the generated result is an {@link
+     *         ezcWebdavEmptyDisplayInformation} and the contained {@link
+     *         ezcWebdavResponse} object has a Content-Type or a Content-Length
+     *         header set.
      */
     protected function flattenResponse( ezcWebdavDisplayInformation $info )
     {
@@ -466,9 +480,9 @@ class ezcWebdavTransport
     }
 
     /**
-     * Finally send out the response.
+     * Finally sends out the response.
      *
-     * This method is called to finally send the response to the browser. It
+     * This method is called to finally send the response to the client. It
      * can be overwritten in test cases to change the behaviour of printing out
      * the result and sending the headers.
      *
@@ -502,9 +516,9 @@ class ezcWebdavTransport
      * Parses the GET request and returns a request object.
      *
      * This method is responsible for parsing the GET request. It retrieves the
-     * current request URI in $path and the request body as $body.  The return
-     * value, if no exception is thrown, is a valid {@link ezcWebdavGet}
-     * object.
+     * current request URI in $path and the request body as $body. The return
+     * value, if no exception is thrown, is a valid {@link
+     * ezcWebdavGetResourceResponse} object.
      *
      * This method may be overwritten to adjust it to special client behaviour.
      * 
@@ -524,7 +538,7 @@ class ezcWebdavTransport
      *
      * This method is responsible for parsing the PUT request. It retrieves the
      * current request URI in $path and the request body as $body.  The return
-     * value, if no exception is thrown, is a valid {@link ezcWebdavPut}
+     * value, if no exception is thrown, is a valid {@link ezcWebdavPutRequest}
      * object.
      *
      * This method may be overwritten to adjust it to special client behaviour.
@@ -554,7 +568,7 @@ class ezcWebdavTransport
      * This method is responsible for parsing the HEAD request. It retrieves
      * the current request URI in $path and the request body as $body.  The
      * return value, if no exception is thrown, is a valid {@link
-     * ezcWebdavHead} object.
+     * ezcWebdavHeadRequest} object.
      *
      * This method may be overwritten to adjust it to special client behaviour.
      * 
@@ -693,13 +707,13 @@ class ezcWebdavTransport
      * The $dom parameter is the DOMDocument where the <propertybehavior />
      * content should be parsed from. The $request object submitted will get
      * the resulting {@link ezcWebdavRequestPropertyBehaviourContent} set into
-     * its {@link $propertyBehavior} property.
+     * its $propertyBehavior property.
      *
      * This method may be overwritten to adjust it to special client behaviour.
      * If you overwrite the {@link $this->processCopyResponse()} or {@link
      * $this->parseMoveRequest()} methods, you might disable this method
      * accedentally. You should explicitly use it there and overwrite it, if
-     * necessary. This makes extending your extension easier.
+     * necessary. This makes extending your extended transport easier.
      * 
      * @param DOMDocument $dom 
      * @param ezcWebdavCopyRequest|ezcWebdavMoveRequest $request 
@@ -966,8 +980,6 @@ class ezcWebdavTransport
      ****************************
      */
 
-    // ezcWebdavMultiStatusResponse
-
     /**
      * Returns display information for a multistatus response object.
      *
@@ -980,10 +992,10 @@ class ezcWebdavTransport
      * processed $response and a {@link DOMDocument} representing the XML
      * response body.
      *
-     * This method utilizes {@link ezcWebdavServer::getInstance()->xmlTool} to perform basic XML operations,
-     * so this is the place to perform such changeds. You should overwrite this
-     * method, if your client has problems specifically with the {@link
-     * ezcWebdavMultiStatusResponse} response.
+     * This method utilizes {@link ezcWebdavServer->xmlTool} to
+     * perform basic XML operations, so this is the place to perform such
+     * changeds. You should overwrite this method, if your client has problems
+     * specifically with the {@link ezcWebdavMultiStatusResponse} response.
      *
      * @param ezcWebdavMultiStatusResponse $response 
      * @return ezcWebdavXmlDisplayInformation
@@ -1009,8 +1021,6 @@ class ezcWebdavTransport
         return new ezcWebdavXmlDisplayInformation( $response, $dom );
     }
 
-    // ezcWebdavPropFindResponse
-
     /**
      * Returns display information for a prop find response object.
      *
@@ -1023,10 +1033,10 @@ class ezcWebdavTransport
      * processed $response and a {@link DOMDocument} representing the XML
      * response body.
      *
-     * This method utilizes {@link ezcWebdavServer::getInstance()->xmlTool} to perform basic XML operations,
-     * so this is the place to perform such changeds. You should overwrite this
-     * method, if your client has problems specifically with the {@link
-     * ezcWebdavPropFindResponse} response.
+     * This method utilizes {@link ezcWebdavServer->xmlTool} to
+     * perform basic XML operations, so this is the place to perform such
+     * changeds. You should overwrite this method, if your client has problems
+     * specifically with the {@link ezcWebdavPropFindResponse} response.
      *
      * @param ezcWebdavPropFindResponse $response 
      * @return ezcWebdavXmlDisplayInformation
@@ -1052,8 +1062,6 @@ class ezcWebdavTransport
         return new ezcWebdavXmlDisplayInformation( $response, $dom );
     }
 
-    // ezcWebdavPropPatchResponse
-
     /**
      * Returns display information for a prop patch response object.
      *
@@ -1072,8 +1080,6 @@ class ezcWebdavTransport
     {
         return new ezcWebdavEmptyDisplayInformation( $response );
     }
-
-    // ezcWebdavCopyResponse
 
     /**
      * Returns display information for a copy response object.
@@ -1094,8 +1100,6 @@ class ezcWebdavTransport
         return new ezcWebdavEmptyDisplayInformation( $response );
     }
 
-    // ezcWebdavMoveResponse
-
     /**
      * Returns display information for a move response object.
      *
@@ -1114,9 +1118,6 @@ class ezcWebdavTransport
     {
         return new ezcWebdavEmptyDisplayInformation( $response );
     }
-
-
-    // ezcWebdavDeleteResponse
 
     /**
      * Returns display information for a delete response object.
@@ -1137,8 +1138,6 @@ class ezcWebdavTransport
         return new ezcWebdavEmptyDisplayInformation( $response );
     }
 
-    // ezcWebdavErrorResponse
-
     /**
      * Returns display information for a error response object.
      *
@@ -1157,10 +1156,10 @@ class ezcWebdavTransport
      * response body. If the $xml parameter is set to false, an empty display
      * information is generated, to indicate that only headers should be send. 
      *
-     * This method utilizes {@link ezcWebdavServer::getInstance()->xmlTool} to perform basic XML operations,
-     * so this is the place to perform such changeds. You should overwrite this
-     * method, if your client has problems specifically with the {@link
-     * ezcWebdavErrorResponse} response.
+     * This method utilizes {@link ezcWebdavServer->xmlTool} to
+     * perform basic XML operations, so this is the place to perform such
+     * changeds. You should overwrite this method, if your client has problems
+     * specifically with the {@link ezcWebdavErrorResponse} response.
      *
      * @param ezcWebdavErrorResponse $response 
      * @param bool $xml DOMDocument in result only generated of true.
@@ -1195,10 +1194,8 @@ class ezcWebdavTransport
         return $res;
     }
 
-    // ezcWebdavGetCollectionResponse
-
     /**
-     * Returns display information for a get response object for a collection.
+     * Returns display information for a get response for a collection.
      *
      * This method returns the display information generated for a $response
      * object of type {@link ezcWebdavGetCollectionResponse}. It returns an
@@ -1220,13 +1217,11 @@ class ezcWebdavTransport
         return new ezcWebdavEmptyDisplayInformation( $response );
     }
 
-    // ezcWebdavGetCollectionResponse
-
     /**
-     * Returns display information for a get response object for a non-collection resource.
+     * Returns display information for a get response on a non-collection.
      *
      * This method returns the display information generated for a $response
-     * object of type {@link ezcWebdavGetResoucreResponse}. It returns an
+     * object of type {@link ezcWebdavGetResourceResponse}. It returns an
      * instance of {@link ezcWebdavDisplayInformation} containing the
      * post-processed response object and the appropriate body.
      *
@@ -1235,7 +1230,6 @@ class ezcWebdavTransport
      *
      * @param ezcWebdavGetResourceResponse $response 
      * @return ezcWebdavStringDisplayInformation
-     * @todo Do we need to set more headers here?
      */
     protected function processGetResourceResponse( ezcWebdavGetResourceResponse $response )
     {
@@ -1250,8 +1244,6 @@ class ezcWebdavTransport
         // Content-Length automatically send by web server
         return new ezcWebdavStringDisplayInformation( $response, $response->resource->content );
     }
-
-    // ezcWebdavPutResponse
 
     /**
      * Returns display information for a put response object.
@@ -1272,8 +1264,6 @@ class ezcWebdavTransport
         return new ezcWebdavEmptyDisplayInformation( $response );
     }
 
-    // ezcWebdavHeadResponse
-
     /**
      * Returns display information for a head response object.
      *
@@ -1292,7 +1282,6 @@ class ezcWebdavTransport
      *
      * @param ezcWebdavHeadResponse $response 
      * @return ezcWebdavEmptyDisplayInformation
-     * @todo Do we need to set more headers here?
      */
     protected function processHeadResponse( ezcWebdavHeadResponse $response )
     {
@@ -1333,8 +1322,6 @@ class ezcWebdavTransport
         return new ezcWebdavEmptyDisplayInformation( $response );
     }
 
-    // ezcWebdavOptionsResponse
-
     /**
      * Returns display information for a options response object.
      *
@@ -1354,8 +1341,6 @@ class ezcWebdavTransport
         return new ezcWebdavEmptyDisplayInformation( $response );
     }
 
-    // ezcWebdavPropStatResponse
-
     /**
      * Returns display information for a prop stat response object.
      *
@@ -1368,10 +1353,10 @@ class ezcWebdavTransport
      * processed $response and a {@link DOMDocument} representing the XML
      * response body.
      *
-     * This method utilizes {@link ezcWebdavServer::getInstance()->xmlTool} to perform basic XML operations,
-     * so this is the place to perform such changeds. You should overwrite this
-     * method, if your client has problems specifically with the {@link
-     * ezcWebdavErrorResponse} response.
+     * This method utilizes {@link ezcWebdavServer->xmlTool} to
+     * perform basic XML operations, so this is the place to perform such
+     * changeds. You should overwrite this method, if your client has problems
+     * specifically with the {@link ezcWebdavPropStatResponse} response.
      *
      * @param ezcWebdavPropStatResponse $response 
      * @return ezcWebdavXmlDisplayInformation
