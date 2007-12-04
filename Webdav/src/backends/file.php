@@ -829,22 +829,28 @@ class ezcWebdavFileBackend
     protected function getCollectionMembers( $path )
     {
         $contents = array();
-        $dh = opendir( $this->root . $path );
         $errors = array();
-        while( $file = readdir( $dh ) )
+
+        $files = glob( $this->root . $path . '/*' );
+
+        if ( $this->options->hideDotFiles === false )
+        {
+            $files = array_merge(
+                $files,
+                glob( $this->root . $path . '/.*' )
+            );
+        }
+
+        foreach ( $files as $file )
         {
             // Skip files used for somethig else...
-            //
-            // @TODO: Mind hideDotFiles option
-            if ( ( $file === '.' ) ||
-                 ( $file === '..' ) ||
-                 ( strpos( $file, $this->options->lockFileName ) !== false ) ||
+            if ( ( strpos( $file, $this->options->lockFileName ) !== false ) ||
                  ( strpos( $file, $this->options->propertyStoragePath ) !== false ) )
             {
                 continue;
             }
 
-            $file = $path . '/' . $file;
+            $file = $path . '/' . basename( $file );
             if ( is_dir( $this->root . $file ) )
             {
                 // Add collection without any childs
@@ -856,7 +862,6 @@ class ezcWebdavFileBackend
                 $contents[] = new ezcWebdavResource( $file );
             }
         }
-        closedir( $dh );
 
         return $contents;
     }
