@@ -1304,8 +1304,8 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
     public function testPropMimeTypeOnResourceNoExt()
     {
-        if ( function_exists( 'finfo_file' ) ||
-             function_exists( 'mime_content_type' ) )
+        if ( ezcBaseFeatures::hasExtensionSupport( 'fileinfo' ) ||
+             ezcBaseFeatures::hasExtensionSupport( 'mime_magic' ) )
         {
             $this->markTestSkipped( 'Test is run only, when no mime type detection is available.' );
         }
@@ -1359,8 +1359,8 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
     public function testPropMimeTypeOnResourceMimeMagicExt()
     {
-        if ( function_exists( 'finfo_file' ) ||
-             !function_exists( 'mime_content_type' ) )
+        if ( ezcBaseFeatures::hasExtensionSupport( 'fileinfo' ) ||
+             !ezcBaseFeatures::hasExtensionSupport( 'mime_magic' ) )
         {
             $this->markTestSkipped( 'Test is run only, when only mime magic extenstion is available.' );
         }
@@ -1414,7 +1414,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
     public function testPropMimeTypeOnResourcePeclFileInfo()
     {
-        if ( !function_exists( 'finfo_file' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'fileinfo' ) )
         {
             $this->markTestSkipped( 'Test is run only, when pecl/fileinfo extenstion is available.' );
         }

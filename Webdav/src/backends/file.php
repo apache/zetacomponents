@@ -209,7 +209,7 @@ class ezcWebdavFileBackend
     protected function getMimeType( $resource )
     {
         // Check if extension pecl/fileinfo is usable.
-        if ( $this->options->useMimeExts && function_exists( 'finfo_file' ) )
+        if ( $this->options->useMimeExts && ezcBaseFeatures::hasExtensionSupport( 'fileinfo' ) )
         {
             $fInfo = new fInfo( FILEINFO_MIME );
             $mimeType = $fInfo->file( $this->root . $resource );
@@ -222,7 +222,7 @@ class ezcWebdavFileBackend
         }
 
         // Check if extension ext/mime-magic is usable.
-        if ( $this->options->useMimeExts && function_exists( 'mime_content_type' ) )
+        if ( $this->options->useMimeExts && ezcBaseFeatures::hasExtensionSupport( 'mime_magic' ) )
         {
             return mime_content_type( $this->root . $resource );
         }
