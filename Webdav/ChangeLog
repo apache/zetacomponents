@@ -1,7 +1,8 @@
 1.0rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #12145: Content-Length header is not detected on Apache
+- Fixed issue #12145: Content-Length header is not detected on Apache.
+- Fixed issue #12085: Webdav docblocks are missing in many classes.
 
 1.0beta1 - Wednesday 28 November 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
