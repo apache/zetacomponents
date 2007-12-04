@@ -27,14 +27,31 @@ class ezcWebdavHeaderHandler
      * @var array(string=>string)
      */
     protected $headerMap = array(
-        'Content-Length' => 'HTTP_CONTENT_LENGTH',
-        'Content-Type'   => 'CONTENT_TYPE',
-        'Depth'          => 'HTTP_DEPTH',
-        'Destination'    => 'HTTP_DESTINATION',
-        'Lock-Token'     => 'HTTP_LOCK_TOKEN',
-        'Overwrite'      => 'HTTP_OVERWRITE',
-        'Timeout'        => 'HTTP_TIMEOUT',
-        'Server'         => 'SERVER_SOFTWARE',
+        'Content-Length' => array( 
+            'HTTP_CONTENT_LENGTH',
+            'CONTENT_LENGTH',
+        ),
+        'Content-Type'   => array( 
+            'CONTENT_TYPE',
+        ),
+        'Depth'          => array( 
+            'HTTP_DEPTH',
+        ),
+        'Destination'    => array( 
+            'HTTP_DESTINATION',
+        ),
+        'Lock-Token'     => array(
+            'HTTP_LOCK_TOKEN',
+        ),
+        'Overwrite'      => array(
+            'HTTP_OVERWRITE',
+        ),
+        'Timeout'        => array(
+            'HTTP_TIMEOUT',
+        ),
+        'Server'         => array(
+            'SERVER_SOFTWARE',
+        ),
     );
 
     /**
@@ -82,10 +99,17 @@ class ezcWebdavHeaderHandler
         {
             throw new ezcWebdavUnknownHeaderException( $headerName );
         }
-        return ( isset( $_SERVER[$this->headerMap[$headerName]] )
-            ? $this->processHeader( $headerName, $_SERVER[$this->headerMap[$headerName]] )
-            : null
-        );
+
+        foreach ( $this->headerMap[$headerName] as $serverHeaderName )
+        {
+            if ( isset( $_SERVER[$serverHeaderName] ) )
+            {
+                return $this->processHeader( $headerName, $_SERVER[$serverHeaderName] );
+            }
+        }
+
+        // Default to null, if header is not available
+        return null;
     }
 
     /**
