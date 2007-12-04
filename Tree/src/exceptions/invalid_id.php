@@ -21,6 +21,7 @@ class ezcTreeInvalidIdException extends ezcTreeException
      * Constructs a new ezcTreeInvalidIdException for the ID $nodeId.
      *
      * @param string $nodeId
+     * @param string $invalidChar
      */
     public function __construct( $nodeId, $invalidChar )
     {
