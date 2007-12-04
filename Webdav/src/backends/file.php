@@ -222,9 +222,11 @@ class ezcWebdavFileBackend
         }
 
         // Check if extension ext/mime-magic is usable.
-        if ( $this->options->useMimeExts && ezcBaseFeatures::hasExtensionSupport( 'mime_magic' ) )
+        if ( $this->options->useMimeExts && 
+             ezcBaseFeatures::hasExtensionSupport( 'mime_magic' ) &&
+             ( $mimeType = mime_content_type( $this->root . $resource ) ) !== false )
         {
-            return mime_content_type( $this->root . $resource );
+            return $mimeType;
         }
 
         // Check if some browser submitted mime type is available.
