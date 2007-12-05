@@ -37,6 +37,7 @@ class ezcTemplateCacheTest extends ezcTestCase
 
     protected function tearDown()
     {
+        $this->removeTempDir();
     }
 
     public function testCacheDirCreation()
@@ -158,7 +159,7 @@ EOM
             $out = $t->process( "cache_block_in_dynamic.tpl");
             $this->fail("Expected an exception");
         }
-        catch( ezcTemplateParserException $e )
+        catch ( ezcTemplateParserException $e )
         {
         }
     }
@@ -443,7 +444,7 @@ EOM
             $out = $t->process( "cache_template_wrong_order.tpl");
             $this->fail("Expected an exception");
         } 
-        catch( Exception $e)
+        catch ( Exception $e)
         {
         }
     }

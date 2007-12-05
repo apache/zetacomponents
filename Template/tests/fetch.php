@@ -12,7 +12,7 @@ class User
         $this->properties["name"] = $name;
         $this->properties["nickname"] = $nickname;
 
-        if( !$this->useSignals ) 
+        if ( !$this->useSignals ) 
         {   
             ezcTemplateConfiguration::getInstance()->cacheManager->read("user", $id );
         }
@@ -34,13 +34,13 @@ class User
 
     public function __get( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case "id":
             case "name":
             case "nickname":
 
-                if( !$this->useSignals ) 
+                if ( !$this->useSignals ) 
                 {   
                     ezcTemplateConfiguration::getInstance()->cacheManager->read("user", $this->properties["id"] );
                 }
@@ -56,7 +56,7 @@ class User
 
     public function __set( $name, $value )
     {
-        switch( $name )
+        switch ( $name )
         {
             case "id":
             case "name":
@@ -102,7 +102,7 @@ class Fetch implements ezcTemplateCustomFunction
         $s = $db->createSelectQuery();
         $s->select( "*")->from("user");
 
-        if( $limit !== null )
+        if ( $limit !== null )
         {
             $s->limit( $limit, $offset );
         }
@@ -116,7 +116,7 @@ class Fetch implements ezcTemplateCustomFunction
         $users = array();
 
         // Execute only when we are creating the template.
-        foreach( $res as $a )
+        foreach ( $res as $a )
         {
             $users[] = new User( $a["id"], $a["name"], $a["nickname"] );
 
@@ -140,7 +140,7 @@ class Fetch implements ezcTemplateCustomFunction
         $res = $statement->fetchAll();
       
         // Execute only when we are creating the template.
-        foreach( $res as $a )
+        foreach ( $res as $a )
         {
             ezcTemplateConfiguration::getInstance()->cacheManager->read("user", $a["id"] );
         }

@@ -54,6 +54,7 @@ class ezcTemplateTest extends ezcTestCase
     {
         $tc = ezcTemplateConfiguration::getInstance();
         $tc->executeTemplate = true;
+        $this->removeTempDir();
     }
 
     /**
@@ -104,7 +105,7 @@ class ezcTemplateTest extends ezcTestCase
             $res = $template->process( "sendVar.ezt" ); # Run again, send->a is not set.
             $this->fail( "Expected an ezcTemplateRuntimeException");
         }
-        catch( ezcTemplateRuntimeException $e)
+        catch ( ezcTemplateRuntimeException $e)
         {
         }
     }
@@ -203,8 +204,10 @@ class ezcTemplateTest extends ezcTestCase
             $out = $template->process( "test.ezt", $conf );
             self::fail("Expected a FileNotWriteableException");
         }
-        catch( ezcTemplateFileNotWriteableException $e )
+        catch ( ezcTemplateFileNotWriteableException $e )
         {
+            chmod($path, 0700 ); // Changed in order to be deleted
+            chmod(dirname( $path ), 0700 ); // Changed in order to be deleted
         }
 
     }
@@ -228,8 +231,9 @@ class ezcTemplateTest extends ezcTestCase
             $out = $template->process( "test2.ezt", $conf );
             self::fail("Expected a FileNotWriteableException");
         }
-        catch( ezcTemplateFileNotWriteableException $e )
+        catch ( ezcTemplateFileNotWriteableException $e )
         {
+            chmod($dir, 0755 ); // Changed in order to be deleted
         }
     }
 
@@ -254,7 +258,7 @@ class ezcTemplateTest extends ezcTestCase
         {
             self::assertEquals( "Hello world2",  $template->process( "test2.ezt", $conf ) );
             self::fail("Expected an exception");
-        } catch( ezcTemplateException $e)
+        } catch ( ezcTemplateException $e)
         {
             self::assertEquals("The requested template file '/this/is/wrong/test2.ezt' does not exist.", $e->getMessage() );
 
@@ -270,7 +274,7 @@ class ezcTemplateTest extends ezcTestCase
             $out = $template->process("test.ezt");
             self::fail("Expected an exception");
         }
-        catch( ezcTemplateException $e)
+        catch ( ezcTemplateException $e)
         {
             self::assertEquals("The external (use) variable", substr($e->getMessage(), 0, 27) );
             self::assertEquals("the application code", substr($e->getMessage(), -20) );
@@ -288,7 +292,7 @@ class ezcTemplateTest extends ezcTestCase
             $out = $template->process("test.ezt");
             self::fail("Expected an exception");
         }
-        catch( ezcTemplateException $e)
+        catch ( ezcTemplateException $e)
         {
             self::assertEquals("The external (use) variable", substr($e->getMessage(), 0, 27) );
             self::assertNotEquals("the application code", substr($e->getMessage(), -20) );

@@ -99,6 +99,7 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
         // Remove tables.
         $db = ezcDbInstance::get(); 
         $db->exec( 'DROP TABLE user' );
+        $this->removeTempDir();
     }
 
     public function testRenewIncludedTemplates()

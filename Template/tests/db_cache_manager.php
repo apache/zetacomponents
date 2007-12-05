@@ -17,9 +17,9 @@ class DbCacheManager implements ezcTemplateCacheManager
 
         $r = $q->fetchAll(); // Strange if there is more than one result.
 
-        if( sizeof( $r ) > 0 )
+        if ( sizeof( $r ) > 0 )
         {
-            foreach( $r as $x )
+            foreach ( $r as $x )
             {
                 $id = $r[0]["id"];
 
@@ -68,7 +68,7 @@ class DbCacheManager implements ezcTemplateCacheManager
 
         $r = $q->fetchAll(); // Expect 0 or 1 result
 
-        if( count($r) == 0 || $r[0]["expired"] == 1 )
+        if ( count($r) == 0 || $r[0]["expired"] == 1 )
         {
             return false;
         }
@@ -79,15 +79,15 @@ class DbCacheManager implements ezcTemplateCacheManager
         $q->execute();
 
         $rows = $q->fetchAll();
-        foreach( $rows as $r )
+        foreach ( $rows as $r )
         {
-            if( !file_exists( $r["value"] ) )
+            if ( !file_exists( $r["value"] ) )
             {
                 print("The file ". $r["value"] ." doesn't exist\n\n");
             }
             else
             {
-                if( filemtime( $r["value"] ) > filemtime( $cacheName ) )
+                if ( filemtime( $r["value"] ) > filemtime( $cacheName ) )
                 {
                     return false;
                 }
@@ -129,7 +129,7 @@ class DbCacheManager implements ezcTemplateCacheManager
 
     public function includeTemplate( $template, $template_path )
     {
-        if( $this->depth >= 0 )
+        if ( $this->depth >= 0 )
         {
             $db = ezcDbInstance::get();
             $id = $this->keys[ $this->depth ]["template_id"];
@@ -152,7 +152,7 @@ class DbCacheManager implements ezcTemplateCacheManager
         $q->execute();
         $rows = $q->fetchAll();
 
-        foreach($rows as $r)
+        foreach ($rows as $r)
         {
             unlink( $r["cache"] );
         }

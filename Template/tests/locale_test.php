@@ -34,6 +34,11 @@ class ezcTemplateLocaleTest extends ezcTestCase
         $config->context = new ezcTemplateNoContext;
     }
 
+    protected function tearDown()
+    {
+        $this->removeTempDir();
+    }
+
     public function testLocale()
     {
         $this->setLocale( LC_ALL, 'de_DE', 'de_DE.UTF-8', 'deu', 'german' );
