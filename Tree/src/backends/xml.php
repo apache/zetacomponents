@@ -232,7 +232,7 @@ class ezcTreeXml extends ezcTree
             $element->setAttributeNode( new DOMAttr( 'prefix', $prefix ) );
         }
 
-        $dom->appendChild($element);
+        $dom->appendChild( $element );
 
         $dom->save( $xmlFile );
         return new ezcTreeXml( $xmlFile, $store, $prefix );

@@ -205,7 +205,7 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
                     $text .= "<li{$highlightPart}>{$linkStart}{$data}{$linkEnd}</li>\n";
                 }
             }
-            $text .= str_repeat( '  ', $level + 1);
+            $text .= str_repeat( '  ', $level + 1 );
             $text .= "</ul>\n";
         }
 

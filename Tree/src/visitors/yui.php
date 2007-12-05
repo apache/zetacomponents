@@ -199,7 +199,7 @@ class ezcTreeVisitorYUI implements ezcTreeVisitor
                     $text .= "<li class='{$yuiItemClass}'>{$linkStart}{$data}{$linkEnd}</li>\n";
                 }
             }
-            $text .= str_repeat( '  ', $level + 3);
+            $text .= str_repeat( '  ', $level + 3 );
             $text .= "</ul>\n";
             $text .= str_repeat( '  ', $level + 2 );
             if ( $level !== 0 )

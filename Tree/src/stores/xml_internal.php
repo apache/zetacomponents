@@ -74,7 +74,7 @@ class ezcTreeXmlInternalDataStore implements ezcTreeXmlDataStore
     {
         $id = $node->id;
         $elem = $this->dom->getElementById( "{$node->tree->prefix}{$id}" );
-        $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item(0);
+        $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item( 0 );
         if ( $dataElem === null )
         {
             throw new ezcTreeDataStoreMissingDataException( $node->id );
@@ -112,7 +112,7 @@ class ezcTreeXmlInternalDataStore implements ezcTreeXmlDataStore
         $elem = $this->dom->getElementById( "{$node->tree->prefix}{$id}" );
 
         // Locate the data element, and remove it
-        $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item(0);
+        $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item( 0 );
         if ( $dataElem !== null )
         {
             $dataElem->parentNode->removeChild( $dataElem );
