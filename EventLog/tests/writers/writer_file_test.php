@@ -8,6 +8,9 @@
  * @subpackage Tests
  */
 
+require_once 'temp_implementation.php';
+require_once 'temp_implementation2.php';
+
 /**
  * @package EventLog
  * @subpackage Tests
@@ -223,39 +226,4 @@ class ezcLogFileWriterTest extends ezcTestCase
          return new PHPUnit_Framework_TestSuite("ezcLogFileWriterTest");
     }
 }
-
-
-class TempImplementation extends ezcLogFileWriter
-{
-    public function __construct($dir, $file = null, $maxSize = 204800, $maxFiles = 3 )
-    {
-        parent::__construct($dir, $file, $maxSize, $maxFiles);
-    }
-
-    public function writeLogMessage( $message, $type, $source, $category, $extraInfo = array() )
-    {
-        $res = print_r( array( "message" => $message, "type" => $type, "source" => $source, "category" => $category ), true );
-        $this->write( $type, $source, $category, $res );
-    }
-}
-
-class TempImplementation2 extends ezcLogFileWriter
-{
-    public function __construct($dir, $file = null, $maxSize = 1, $maxFiles = 1 )
-    {
-        parent::__construct($dir, $file, $maxSize, $maxFiles);
-        // close the open files in order to see if an exception is thrown
-        foreach ( $this->openFiles as $fh )
-        {
-            fclose( $fh );
-        }
-    }
-
-    public function writeLogMessage( $message, $type, $source, $category, $extraInfo = array() )
-    {
-        $res = print_r( array( "message" => $message, "type" => $type, "source" => $source, "category" => $category ), true );
-        $this->write( $type, $source, $category, $res );
-    }
-}
-
 ?>
