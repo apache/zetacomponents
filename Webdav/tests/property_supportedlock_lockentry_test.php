@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/property_test.php';
+require_once dirname( __FILE__ ) . '/webdav_property_test.php';
 
 class ezcWebdavSupportedLockPropertyLockentryTest extends ezcWebdavWebdavPropertyTestCase
 {

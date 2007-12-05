@@ -10,14 +10,6 @@
  */
 
 /**
- * Reqiuire base test
- */
-require_once 'test_case.php';
-
-require_once 'client_test_suite.php';
-require_once 'client_test.php';
-
-/**
  * Require test suites.
  */
 require_once 'backend_memory_test.php';
