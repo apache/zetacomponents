@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+require_once 'template_mock_context.php';
+
 /**
  * @package Template
  * @subpackage Tests
@@ -25,38 +27,6 @@ class ezcTemplateOutputContextTest extends ezcTestCase
     public function testInit()
     {
         $context = new ezcTemplateMockContext;
-    }
-}
-
-/**
- * Sample implementation of an output context, this tests that there are no
- * interface functions which are not implemented.
- */
-class ezcTemplateMockContext implements ezcTemplateOutputContext
-{
-    public function cleanupWhitespace()
-    {
-        return false;
-    }
-
-    public function cleanupEol()
-    {
-        return false;
-    }
-
-    public function indent()
-    {
-        return false;
-    }
-
-    public function transformOutput( ezcTemplateAstNode $node )
-    {
-        return false;
-    }
-
-    public function identifier()
-    {
-        return 'mock';
     }
 }
 
