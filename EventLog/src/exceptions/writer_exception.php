@@ -9,7 +9,7 @@
  */
 
 /**
- * The ezcLogWriterException will be thrown when an {@class ezcLogWriter} or
+ * The ezcLogWriterException will be thrown when an {@link ezcLogWriter} or
  * a subclass encounters an exceptional state.
  *
  * This exception is a container, containing any kind of exception.
