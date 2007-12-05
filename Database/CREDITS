@@ -14,3 +14,18 @@ eZ Components team
 - Vadym Savchuk
 - Tobias Schlitt
 - Alexandru Stanoi
+
+Contributors
+------------
+
+- Joel Arvidsson
+
+  * MS SQL Server support
+
+- Friedel Hill
+
+  * MS SQL Server support
+
+- Christian Michel
+
+  * SQL Having clause
