@@ -14,8 +14,6 @@
  * 
  * @package Webdav
  * @version //autogen//
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  *
  * @access private
  */
@@ -135,7 +133,7 @@ class ezcWebdavLockPlugin
         {
             case ( $params['request'] instanceof ezcWebdavLockRequest ):
                 return $this->handleLockRequest( $params['request'] );
-            case ( $params['request'] instanceof ezcWebdavUnlockRequest )
+            case ( $params['request'] instanceof ezcWebdavUnlockRequest ):
                 return $this->handleUnlockRequest( $params['request'] );
         }
     }
@@ -189,7 +187,7 @@ class ezcWebdavLockPlugin
             {
                 return $res;
             }
-            return $this->accquireLock( $request )
+            return $this->accquireLock( $request );
         }
         // Lock refresh
         else

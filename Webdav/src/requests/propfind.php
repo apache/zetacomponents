@@ -29,8 +29,6 @@
  * 
  * @package Webdav
  * @version //autogen//
- * @copyright PropFindright (C) 2005-2007 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  *
  * @property bool $allProp
  *           Representing the <allprop /> XML element.

@@ -492,7 +492,7 @@ class ezcWebdavTransport
     protected function sendResponse( ezcWebdavOutputResult $output )
     {
         // Sends HTTP headers
-        foreach( $output->headers as $name => $content )
+        foreach ( $output->headers as $name => $content )
         {
             header( "{$name}: {$content}" );
         }
@@ -943,7 +943,7 @@ class ezcWebdavTransport
             // This code destroys the original order of the properties, and only
             // preserves the property order in set or remove groups. This violates
             // the webdav RFC section "8.2 PROPPATCH". 
-            //
+            // 
             // @See http://tools.ietf.org/html/rfc2518#page-31
             for ( $i = 0; $i < $setElements->length; ++$i )
             {

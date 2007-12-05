@@ -676,7 +676,7 @@ class ezcWebdavFileBackend
         // Recurse
         $dh = opendir( $source );
         $errors = array();
-        while( $file = readdir( $dh ) )
+        while ( $file = readdir( $dh ) )
         {
             if ( ( $file === '.' ) ||
                  ( $file === '..' ) )
@@ -770,7 +770,7 @@ class ezcWebdavFileBackend
         // Recurse
         $dh = opendir( $source );
         $errors = array();
-        while( $file = readdir( $dh ) )
+        while ( $file = readdir( $dh ) )
         {
             if ( ( $file === '.' ) ||
                  ( $file === '..' ) )

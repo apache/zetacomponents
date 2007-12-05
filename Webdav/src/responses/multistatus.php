@@ -16,8 +16,6 @@
  *
  * @version //autogentag//
  * @package Webdav
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  */
 class ezcWebdavMultistatusResponse extends ezcWebdavResponse
 {
@@ -44,7 +42,7 @@ class ezcWebdavMultistatusResponse extends ezcWebdavResponse
             // Flatten array structure, if given
             if ( is_array( $param ) )
             {
-                foreach( $param as $value )
+                foreach ( $param as $value )
                 {
                     $responses[] = $value;
                 }

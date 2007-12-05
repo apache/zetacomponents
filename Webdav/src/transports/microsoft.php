@@ -51,7 +51,7 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
         $output->headers['DAV'] = '1, 2';
 
         // Add date namespace to response elements for MS clients
-        //
+        // 
         // Mimic Apache mod_dav behaviour for DAV: namespace
         $output->body = preg_replace(
             '(<D:response([^>]*)>)',

@@ -449,7 +449,7 @@ abstract class ezcWebdavSimpleBackend
 
             // ... and clear and add them to the property name storage.
             $propertyNames = new ezcWebdavBasicPropertyStorage();
-            foreach( $nodeProperties->getAllProperties() as $namespace => $properties )
+            foreach ( $nodeProperties->getAllProperties() as $namespace => $properties )
             {
                 foreach ( $properties as $name => $property )
                 {
@@ -632,7 +632,7 @@ abstract class ezcWebdavSimpleBackend
                     if ( !$this->setProperty( $source, $property ) )
                     {
                         // If update failed, we assume the access has been denied.
-                        //
+                        // 
                         // @TODO: This assumptions is not particular correct.
                         // In case of live properties, which were tried to
                         // update a 409 error would be correct.
@@ -858,7 +858,7 @@ abstract class ezcWebdavSimpleBackend
         }
 
         // All checks are passed, we can actuall copy now.
-        //
+        // 
         // @TODO: handle keepalive setting somehow - even the RFC is quite
         // vague how to handle them exactly.
         $errors = $this->performCopy( $source, $dest, $request->getHeader( 'Depth' ) );
@@ -953,15 +953,15 @@ abstract class ezcWebdavSimpleBackend
         }
 
         // All checks are passed, we can actuall copy now.
-        //
+        // 
         // MOVEd contents should always be copied using infinity depth.
-        //
+        // 
         // @TODO: handle keepalive setting somehow - even the RFC is quite
         // vague how to handle them exactly.
         $errors = $this->performCopy( $source, $dest, ezcWebdavRequest::DEPTH_INFINITY );
 
         // If an error occured we skip deletion of source.
-        //
+        // 
         // @IMPORTANT: This is a definition / assumption made by us, because it
         // is not defined in the RFC how to handle such a case.
         if ( count( $errors ) )
@@ -978,7 +978,7 @@ abstract class ezcWebdavSimpleBackend
 
         // If deletion failed, this has again been caused by the automatic
         // error causing facilities of the backend. Send 423 by choice.
-        //
+        // 
         // @TODO: The error generated here should depend on the actual backend
         // implementation and  not be generated guessing what may fit.
         if ( count( $deletion ) > 0 )

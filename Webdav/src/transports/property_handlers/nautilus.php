@@ -58,7 +58,7 @@ class ezcWebdavNautilusPropertyHandler extends ezcWebdavPropertyHandler
         }
         else if ( is_array( $elementValue ) )
         {
-            foreach( $elementValue as $subValue )
+            foreach ( $elementValue as $subValue )
             {
                 $propertyElement->appendChild( $subValue );
             }

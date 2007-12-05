@@ -580,7 +580,7 @@ class ezcWebdavPropertyHandler
         }
         else if ( is_array( $elementValue ) )
         {
-            foreach( $elementValue as $subValue )
+            foreach ( $elementValue as $subValue )
             {
                 $propertyElement->appendChild( $subValue );
             }
@@ -609,7 +609,7 @@ class ezcWebdavPropertyHandler
     {
         $linkContentElements = array();
 
-        foreach( $links as $link )
+        foreach ( $links as $link )
         {
             $linkElement = $this->getXmlTool()->createDomElement( $dom, 'link' );
             $linkElement->appendChild(

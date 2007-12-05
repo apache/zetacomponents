@@ -16,8 +16,6 @@
  * 
  * @package Webdav
  * @version //autogen//
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  */
 class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 {
@@ -198,7 +196,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
         $diffedProperties = new ezcWebdavBasicPropertyStorage();
         foreach ( $this->properties as $namespace => $properties )
         {
-            foreach( $properties as $name => $property )
+            foreach ( $properties as $name => $property )
             {
                 if ( !isset( $foreign[$namespace][$name] ) )
                 {
@@ -231,7 +229,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
         $intersection = new ezcWebdavBasicPropertyStorage();
         foreach ( $this->properties as $namespace => $properties )
         {
-            foreach( $properties as $name => $property )
+            foreach ( $properties as $name => $property )
             {
                 if ( isset( $foreign[$namespace][$name] ) )
                 {

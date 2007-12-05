@@ -17,8 +17,6 @@
  * 
  * @package Webdav
  * @version //autogen//
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  *
  * @access private
  */
@@ -27,7 +25,7 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
     /**
      * Namespace of the LOCK plugin. 
      */
-    const NAMESPACE = 'ezcWebdavLockPlugin';
+    const NAMESPACE_NAME = 'ezcWebdavLockPlugin';
 
     /**
      * Main object of the lock plugin. 
@@ -105,7 +103,7 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
      */
     public function getNamespace()
     {
-        return self::NAMESPACE;
+        return self::NAMESPACE_NAME;
     }
 
     /**
