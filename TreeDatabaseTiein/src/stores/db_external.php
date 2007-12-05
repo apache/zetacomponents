@@ -237,7 +237,7 @@ class ezcTreeDbExternalTableDataStore implements ezcTreeDbDataStore, ezcTreeXmlD
         // Add set statements
         if ( $this->dataField === null )
         {
-            foreach( $node->data as $field => $value )
+            foreach ( $node->data as $field => $value )
             {
                $q->set( $db->quoteIdentifier( $field ), $q->bindValue( $value ) );
             }

@@ -363,7 +363,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
 
         $s = $q->prepare();
         $s->execute();
-        return (int) $s->fetchColumn(0);
+        return (int) $s->fetchColumn( 0 );
     }
 
     /**
