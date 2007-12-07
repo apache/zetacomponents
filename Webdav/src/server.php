@@ -49,6 +49,7 @@
  *
  * @version //autogentag//
  * @package Webdav
+ * @mainclass
  */
 class ezcWebdavServer
 {

@@ -1,5 +1,5 @@
-eZ component: Webdav, Plugin-Architecture, 1.0
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eZ component: Webdav, Plugin-Architecture
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :Author: Kore Nordmann, Tobias Schlitt
 :Revision: $Rev$
@@ -15,6 +15,10 @@ The scope of this document is to give authors of plugins for the Webdav
 component an introduction on how to implement new plugins. If you just want to
 use the Webdav component, this document does not contain any relevant
 information for you.
+
+.. attention::
+   The Plugin-API is not part of the Webdav component in version 1.0, but will
+   be part of a later release.
 
 Overview
 ========
