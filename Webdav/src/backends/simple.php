@@ -11,8 +11,8 @@
  * Abstract base class for common backend operations.
  *
  * This base backend provides the generic handling of requests and dispatches the
- * requuired actions to some basic manipulation methods, which you are required
- * to be implemented.
+ * required actions to some basic manipulation methods, which you are required
+ * to implement, when extending this base class.
  *
  * This backend does not provide support for extended Webdav features, like
  * compression, or lock handling by the backend, therefore the {@link
