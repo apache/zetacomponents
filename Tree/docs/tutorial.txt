@@ -409,10 +409,56 @@ The result of that is (scaled):
 .. figure:: img/graphviz.png
 
 
+YUI based visualization
+-----------------------
+
+Besides a console and graphical output, there is also a visitor available that
+renders the tree in a YUI_ compatible XHTML output. This can be used to
+automatically populate a YUI_ style menu. The code is pretty much the same,
+except for the addition of the xmlId argument to the constructor of
+ezcTreeVisitorYUI.
+
+.. include:: tutorial_example_yui.php
+   :literal:
+
+However, in order to actually render the menu, you need to have some specific
+javascript in the head element of your HTML. First of all you need to include
+the YUI code::
+
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.3.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.3.1/build/container/container_core-min.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.3.1/build/menu/menu-min.js"></script>
+
+And then you need the following code to turn the generated menu into a YUI menu
+(the {literal} opening and closing tag is required if you use the Template_
+component)::
+
+    <script type="text/javascript">
+    {literal}
+    YAHOO.util.Event.onContentReady('overview', function () {
+        var oMenu = new YAHOO.widget.MenuBar("menu", { autosubmenudisplay: true, showdelay: 200 });
+
+        oMenu.render();
+    });
+    {/literal}
+    </script>
+
+The full (minimal code) looks then like:
+
+.. include:: tutorial_example_yui_full.php
+   :literal:
+
+The result of that is (scaled):
+
+.. figure:: img/yui1.gif
+
+
 .. _DatabaseSchema: introduction_DatabaseSchema.html
 .. _PersistentObject: introduction_PersistentObject.html
+.. _Template: introduction_Template.html
 .. _TreeDatabaseTiein: introduction_TreeDatabaseTiein.html
 .. _TreePersistentObjectTiein: introduction_TreePersistentObjectTiein.html
+.. _YUI: http://developer.yahoo.com/yui/menu/
 
 ..
    Local Variables:
