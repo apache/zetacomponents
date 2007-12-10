@@ -23,7 +23,6 @@ class ezcTreeVisitorYUIOptionsTest extends ezcTestCase
 
         self::assertSame( '', $options->basePath );
         self::assertSame( false, $options->displayRootNode );
-        self::assertSame( null, $options->xmlId );
         self::assertSame( array(), $options->highlightNodeIds );
         self::assertSame( false, $options->selectedNodeLink );
     }
@@ -48,13 +47,11 @@ class ezcTreeVisitorYUIOptionsTest extends ezcTestCase
 
         $options->basePath = '/view';
         $options->displayRootNode = true;
-        $options->xmlId = 'menu_tree';
         $options->highlightNodeIds = array( 'root' );
         $options->selectedNodeLink = true;
 
         self::assertSame( '/view', $options->basePath );
         self::assertSame( true, $options->displayRootNode );
-        self::assertSame( 'menu_tree', $options->xmlId );
         self::assertSame( array( 'root' ), $options->highlightNodeIds );
         self::assertSame( true, $options->selectedNodeLink );
     }
@@ -64,7 +61,6 @@ class ezcTreeVisitorYUIOptionsTest extends ezcTestCase
         $optionsArray = array();
         $optionsArray['basePath'] = '/view';
         $optionsArray['displayRootNode'] = true;
-        $optionsArray['xmlId'] = 'menu_tree';
         $optionsArray['highlightNodeIds'] = array( 'root' );
         $optionsArray['selectedNodeLink'] = true;
 
@@ -72,7 +68,6 @@ class ezcTreeVisitorYUIOptionsTest extends ezcTestCase
 
         self::assertSame( '/view', $options->basePath );
         self::assertSame( true, $options->displayRootNode );
-        self::assertSame( 'menu_tree', $options->xmlId );
         self::assertSame( array( 'root' ), $options->highlightNodeIds );
         self::assertSame( true, $options->selectedNodeLink );
     }
@@ -116,20 +111,6 @@ class ezcTreeVisitorYUIOptionsTest extends ezcTestCase
         catch ( ezcBaseValueException $e )
         {
             self::assertSame( "The value '42' that you were trying to assign to setting 'selectedNodeLink' is invalid. Allowed values are: bool.", $e->getMessage() );
-        }
-    }
-
-    public function testSetInvalidXmlId()
-    {
-        $options = new ezcTreeVisitorYUIOptions;
-        try
-        {
-            $options->xmlId = 42;
-            self::fail( "Expected exception not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            self::assertSame( "The value '42' that you were trying to assign to setting 'xmlId' is invalid. Allowed values are: null or string.", $e->getMessage() );
         }
     }
 

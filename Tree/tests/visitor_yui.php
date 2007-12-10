@@ -17,15 +17,41 @@ require_once 'visitor.php';
  */
 class ezcTreeVisitorYUITest extends ezcTreeVisitorTest
 {
+    public function testBrokenXmlId()
+    {
+        try
+        {
+            $visitor = new ezcTreeVisitorYUI( 42 );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertSame( "The value '42' that you were trying to assign to setting 'xmlId' is invalid. Allowed values are: non-empty string.", $e->getMessage() );
+        }
+    }
+
+    public function testEmptyXmlId()
+    {
+        try
+        {
+            $visitor = new ezcTreeVisitorYUI( '' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertSame( "The value '' that you were trying to assign to setting 'xmlId' is invalid. Allowed values are: non-empty string.", $e->getMessage() );
+        }
+    }
+
     public function testVisitorYUIDefault()
     {
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
         $this->addTestData( $tree );
 
-        $visitor = new ezcTreeVisitorYUI();
+        $visitor = new ezcTreeVisitorYUI( 'productsandservices' );
         $tree->accept( $visitor );
         $expected = <<<END
-<div class='yuimenubar yuimenubarnav'>
+<div id="productsandservices" class='yuimenubar yuimenubarnav'>
       <div class='bd'>
       <ul>
         <li class='yuimenubaritem'><a class='yuimenubaritemlabel' href='/Hylobatidae'>Hylobatidae</a>
@@ -160,12 +186,12 @@ END;
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
         $this->addTestData( $tree );
 
-        $visitor = new ezcTreeVisitorYUI();
+        $visitor = new ezcTreeVisitorYUI( 'productsandservices' );
         $visitor->options->displayRootNode = true;
 
         $tree->accept( $visitor );
         $expected = <<<END
-<div class='yuimenubar yuimenubarnav'>
+<div id="productsandservices" class='yuimenubar yuimenubarnav'>
   <div class='bd'>
     <ul>
       <li class='yuimenubaritem'><a class='yuimenubaritemlabel' href='/Hominoidea/Hylobatidae'>Hominoidea</a>
@@ -308,12 +334,12 @@ END;
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
         $this->addTestData( $tree );
 
-        $visitor = new ezcTreeVisitorYUI();
+        $visitor = new ezcTreeVisitorYUI( 'productsandservices' );
         $visitor->options->selectedNodeLink = true;
 
         $tree->accept( $visitor );
         $expected = <<<END
-<div class='yuimenubar yuimenubarnav'>
+<div id="productsandservices" class='yuimenubar yuimenubarnav'>
       <div class='bd'>
       <ul>
         <li class='yuimenubaritem'><a class='yuimenubaritemlabel' href='/Hylobatidae'>Hylobatidae</a>
@@ -448,13 +474,13 @@ END;
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
         $this->addTestData( $tree );
 
-        $visitor = new ezcTreeVisitorYUI();
+        $visitor = new ezcTreeVisitorYUI( 'productsandservices' );
         $visitor->options->displayRootNode = true;
         $visitor->options->selectedNodeLink = true;
 
         $tree->accept( $visitor );
         $expected = <<<END
-<div class='yuimenubar yuimenubarnav'>
+<div id="productsandservices" class='yuimenubar yuimenubarnav'>
   <div class='bd'>
     <ul>
       <li class='yuimenubaritem'><a class='yuimenubaritemlabel' href='/Hominoidea/Hylobatidae'>Hominoidea</a>
@@ -597,14 +623,14 @@ END;
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
         $this->addTestData( $tree );
 
-        $visitor = new ezcTreeVisitorYUI();
+        $visitor = new ezcTreeVisitorYUI( 'productsandservices' );
         $visitor->options->displayRootNode = true;
         $visitor->options->selectedNodeLink = true;
         $visitor->options->basePath = 'testing';
 
         $tree->accept( $visitor );
         $expected = <<<END
-<div class='yuimenubar yuimenubarnav'>
+<div id="productsandservices" class='yuimenubar yuimenubarnav'>
   <div class='bd'>
     <ul>
       <li class='yuimenubaritem'><a class='yuimenubaritemlabel' href='/Hominoidea/Hylobatidae'>Hominoidea</a>
@@ -747,8 +773,7 @@ END;
         $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
         $this->addTestData( $tree );
 
-        $visitor = new ezcTreeVisitorYUI();
-        $visitor->options->xmlId = 'productsandservices';
+        $visitor = new ezcTreeVisitorYUI( 'productsandservices' );
 
         $tree->fetchNodeById( 'Hylobatidae' )->accept( $visitor );
         $expected = <<<END
@@ -807,11 +832,11 @@ END;
 
         $options = new ezcTreeVisitorYUIOptions;
         $options->highlightNodeIds = array( 'Nomascus', 'Eastern Black Crested Gibbon', 'Hoolock' );
-        $visitor = new ezcTreeVisitorYUI( $options );
+        $visitor = new ezcTreeVisitorYUI( 'monkeys', $options );
 
         $tree->fetchNodeById( 'Hylobatidae' )->accept( $visitor );
         $expected = <<<END
-<div class='yuimenubar yuimenubarnav'>
+<div id="monkeys" class='yuimenubar yuimenubarnav'>
       <div class='bd'>
       <ul>
         <li class='yuimenubaritem'><a class='yuimenubaritemlabel' href='/Hylobatidae/Hylobates'>Hylobates</a>

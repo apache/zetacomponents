@@ -1,3 +1,11 @@
+1.0 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added the xmlId parameter to the YUI visitor constructor, as it is a
+  required argument it does not belong in the options class. 
+- Removed the xmlId option from the ezcTreeVisitorYUIOptions class.
+
+
 1.0beta1 - Wednesday 28 November 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

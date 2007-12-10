@@ -12,7 +12,7 @@
 /**
  * An implementation of the ezcTreeVisitor interface that generates
  * an XHTML representatation of a tree structure, as YUI wants.
- * See {link http://developer.yahoo.com/yui/menu}.
+ * See {@link http://developer.yahoo.com/yui/menu}.
  *
  * <code>
  * <?php
@@ -46,7 +46,7 @@ class ezcTreeVisitorYUI implements ezcTreeVisitor
      *
      * @var string
      */
-    protected $id;
+    protected $xmlId;
 
     /**
      * Holds the XHTML class.
@@ -67,8 +67,13 @@ class ezcTreeVisitorYUI implements ezcTreeVisitor
      *
      * @param ezcTreeVisitorYUIOptions $options
      */
-    public function __construct( ezcTreeVisitorYUIOptions $options = null )
+    public function __construct( $xmlId, ezcTreeVisitorYUIOptions $options = null )
     {
+        if ( !is_string( $xmlId ) || strlen( $xmlId ) === 0 )
+        {
+            throw new ezcBaseValueException( 'xmlId', $xmlId, 'non-empty string' );
+        }
+        $this->xmlId = $xmlId;
         if ( $options === null )
         {
             $this->options = new ezcTreeVisitorYUIOptions;
@@ -224,7 +229,7 @@ class ezcTreeVisitorYUI implements ezcTreeVisitor
         $tree = '';
         $this->treeIdSet = false;
 
-        $idPart = $this->options->xmlId ? " id=\"{$this->options->xmlId}\"" : '';
+        $idPart = " id=\"{$this->xmlId}\"";
         $tree .= "<div{$idPart} class='yuimenubar yuimenubarnav'>\n";
         if ( $this->options->displayRootNode )
         {

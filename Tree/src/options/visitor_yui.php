@@ -18,8 +18,6 @@
  *           Whether the root node should be displayed. The root node will
  *           still be disabled from the links that the visitor create when
  *           $selectedNodeLink is set to true.
- * @property string $xmlId
- *           The ID that should be set on the top level &lt;ul&gt; tag.
  * @property array(string) $highlightNodeIds
  *           Which IDs should have the 'highlight' CSS class added.
  * @property bool $selectedNodeLink
@@ -43,7 +41,6 @@ class ezcTreeVisitorYUIOptions extends ezcBaseOptions
     {
         $this->basePath = '';
         $this->displayRootNode = false;
-        $this->xmlId = null;
         $this->highlightNodeIds = array();
         $this->selectedNodeLink = false;
 
@@ -86,14 +83,6 @@ class ezcTreeVisitorYUIOptions extends ezcBaseOptions
                 if ( !is_array( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'array(string)' );
-                }
-                $this->properties[$name] = $value;
-                break;
-
-            case 'xmlId':
-                if ( !is_null( $value ) && !is_string( $value ) )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'null or string' );
                 }
                 $this->properties[$name] = $value;
                 break;
