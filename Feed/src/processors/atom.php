@@ -573,8 +573,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                             break;
 
                         default:
-                            if ( substr_compare( $val, '+xml', -4, 4, true ) === 0
-                                 || substr_compare( $val, '/xml', -4, 4, true ) === 0 )
+                            if ( preg_match( '@[+/]xml$@', $type ) !== 0 )
                             {
                                 // @todo: implement to assign the text in $dataNode as an XML node into $elementTag
                                 $this->addAttribute( $elementTag, 'type', $val );
@@ -829,8 +828,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             $contentBase64 = true;
             if ( $contentPresent && is_object( $content )
                  && ( in_array( $content->type, array( 'text', 'html', 'xhtml', null ) )
-                      || substr_compare( $content->type, '+xml', -4, 4, true ) === 0
-                      || substr_compare( $content->type, '/xml', -4, 4, true ) === 0
+                      || preg_match( '@[+/]xml$@i', $content->type ) !== 0
                       || substr_compare( $content->type, 'text/', 0, 5, true ) === 0 ) )
             {
                 $contentBase64 = false;
@@ -1216,8 +1214,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                 break;
 
                             default:
-                                if ( substr_compare( $type, '+xml', -4, 4, true ) === 0
-                                     || substr_compare( $type, '/xml', -4, 4, true ) === 0 )
+                                if ( preg_match( '@[+/]xml$@i', $type ) !== 0 )
                                 {
                                     foreach ( $itemChild->childNodes as $node )
                                     {
