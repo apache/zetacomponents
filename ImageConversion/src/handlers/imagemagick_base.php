@@ -399,7 +399,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
                     $this->binary = 'convert.exe';
                     break;
                 default:
-                    throw new ezcImageHandlerNotAvailableException( $this->name, "System '" . PHP_OS . "' not supported by handler '{$this->name}'." );
+                    throw new ezcImageHandlerNotAvailableException( 'ezcImageImagemagickHandler', "System '" . PHP_OS . "' not supported by handler 'ezcImageImagemagickHandler'." );
                     break;
             }
         }
@@ -441,7 +441,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         // Process potential errors
         if ( $return != 0 || strlen( $errorString ) > 0 || strpos( $outputString, 'ImageMagick' ) === false )
         {
-            throw new ezcImageHandlerNotAvailableException( $this->name, 'ImageMagick not installed or not available in PATH variable.' );
+            throw new ezcImageHandlerNotAvailableException( 'ezcImageImagemagickHandler', 'ImageMagick not installed or not available in PATH variable.' );
         }
     }
     
