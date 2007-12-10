@@ -482,7 +482,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     switch ( $val )
                     {
                         case 'html':
-                            $dataNode->set( htmlspecialchars( $dataNode ) );
+                            $dataNode->set( htmlspecialchars( $dataNode->__toString() ) );
                             $this->addAttribute( $elementTag, 'type', $val );
                             break;
 
@@ -517,7 +517,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         if ( !$this->schema->isEmpty( $element, $subElement ) )
         {
-            $elementTag->nodeValue = $dataNode;
+            $elementTag->nodeValue = ( $dataNode instanceof ezcFeedElement ) ? $dataNode->__toString() : (string)$dataNode;
         }
     }
 
@@ -556,7 +556,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     switch ( $val )
                     {
                         case 'html':
-                            $dataNode->set( htmlspecialchars( $dataNode ) );
+                            $dataNode->set( htmlspecialchars( $dataNode->__toString() ) );
                             $this->addAttribute( $elementTag, 'type', $val );
                             break;
 
@@ -581,14 +581,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                             }
                             else if ( substr_compare( $val, 'text/', 0, 5, true ) === 0 )
                             {
-                                $dataNode->set( htmlspecialchars( $dataNode ) );
+                                $dataNode->set( htmlspecialchars( $dataNode->__toString() ) );
                                 $this->addAttribute( $elementTag, 'type', $val );
                                 break;
                             }
                             else if ( $val !== null )
                             {
                                 // @todo: make 76 and "\n" options?
-                                $dataNode->set( chunk_split( base64_encode( $dataNode ), 76, "\n" ) );
+                                $dataNode->set( chunk_split( base64_encode( $dataNode->__toString() ), 76, "\n" ) );
                                 $this->addAttribute( $elementTag, 'type', $val );
                             }
                             else
@@ -613,7 +613,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         if ( !$this->schema->isEmpty( $element, $subElement ) )
         {
-            $elementTag->nodeValue = $dataNode;
+            $elementTag->nodeValue = ( $dataNode instanceof ezcFeedElement) ? $dataNode->__toString() : (string)$dataNode;
         }
     }
 
@@ -714,7 +714,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                 switch ( $val )
                                 {
                                     case 'html':
-                                        $dataNode->set( htmlspecialchars( $dataNode ) );
+                                        $dataNode->set( htmlspecialchars( $dataNode->__toString() ) );
                                         $this->addAttribute( $childTag, 'type', $val );
                                         break;
 
@@ -754,7 +754,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                             // Sample date: 2003-12-13T18:30:02-05:00
                             $dataNode->set( date( "c", ezcFeedTools::prepareDate( $dataNode->get() ) ) );
                         }
-                        $childTag->nodeValue = $dataNode;
+                        $childTag->nodeValue = ($dataNode instanceof ezcFeedElement ) ? $dataNode->__toString() : (string)$dataNode;
                     }
                 }
             }

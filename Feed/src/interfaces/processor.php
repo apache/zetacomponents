@@ -102,7 +102,7 @@ abstract class ezcFeedProcessor
         }
         foreach ( $value as $valueElement )
         {
-            $meta = $this->xml->createElement( $element, $valueElement );
+            $meta = $this->xml->createElement( $element, ( $valueElement instanceof ezcFeedElement ) ? $valueElement->__toString() : (string)$valueElement );
             $root->appendChild( $meta );
         }
     }
@@ -130,7 +130,7 @@ abstract class ezcFeedProcessor
             }
             else
             {
-                $meta = $this->xml->createElement( $element, $valueElement );
+                $meta = $this->xml->createElement( $element, ( $valueElement instanceof ezcFeedElement ) ? $valueElement->__toString() : (string)$valueElement );
             }
             foreach ( $attributes as $attrName => $attrValue )
             {
