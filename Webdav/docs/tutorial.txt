@@ -8,73 +8,73 @@ eZ Components - Webdav
 Introduction
 ============
 
-The webdav component enables you to set up a webdav enabled server, to let
-user upload, modify and download files, through HTTP. The current
-implementation is compativle with `RFC 2518`__ but may be extended through
-plugins to also support other standards.
+The Webdav component allows you to easily set up a WebDAV enabled HTTP server,
+which allows users to upload, modify and download files. The current
+implementation is compatible with `RFC 2518`__ but also supports
+non-standard-conform clients and allows the easy integration of further ones.
 
 __ http://tools.ietf.org/html/rfc2518
 
 The component is intended to support you by providing access to your data
-through HTTP. The data may be stored in the file system, or any other
-imaginable custom data storage. The data will will be served as a virtual
-directory tree to the user.
+through HTTP 1.1. The data may be stored in the file system, or any other
+imaginable custom data storage, being served as a virtual directory tree to the
+user.
 
 Terms
 =====
 
-There are some terms, used in a webdav environment, which slightly differ from
-similar environments.
+There are some terms used in a WebDAV environment, where the meaning slightly
+differs from the usage in similar environments.
 
 Collection
-	When it comes to webdav a collection means a set of files and other
+	When it comes to WebDAV a collection means a set of files and other
 	collections, which may be compared with directories in a normal file
 	system.
 
-Ressource
-	A ressource equals a file, but we use a different term here, to differ
-	between real files on the hard disk, and the virtual ressources (files) in
-	a webdav share.
+Resource
+	A resource equals a file, but we use a different term here, to differ
+	between real files on the hard disk, and the virtual resources (files) in
+	a WebDAV share.
 
 Properties
-	There are several default properties, like the odification time, or file
-	size of webdav ressources, but you may also store and modify custom
-	properties on all ressources.
+	There are several default properties, like the modification time, or file
+	size of WebDAV resources, but you may also store and modify custom
+	properties on all resources.
 
-Set up a webdav server
+Set up a WebDAV server
 ======================
 
-When you want to set up a basic webdav server, you have to consider two steps:
+When you want to set up a basic WebDAV server, you have to consider two steps:
 
-1) You need to configure the webdav server to work correctly with the incoming
-   requests from webdav clients. This means, when need to set up some
+1) You need to configure the WebDAV server to work correctly with the incoming
+   requests from WebDAV clients. This means, when need to set up some
    rewriting for the request paths, which the client sends, to the paths,
-   which are used in our backend.
+   which are used in our back-end.
 
-2) You need to setup the backend, so it points to the ressources you want to
-   share through webdav.
+2) You need to setup the back-end, so it points to the resources you want to
+   share through WebDAV.
 
-Path autodetection
-------------------
+Path auto detection
+-------------------
 
-Using the default path factory, which tries to autodetect your setup and map
-the paths accordingly, you need very few code, to setup your webdav server.
+Using the default path factory, which tries to auto detect your setup and map
+the paths accordingly, you need very few code, to setup your WebDAV server.
 
 .. include:: tutorial/basic_server.php
    :literal:
 
-As you can see in the example, we first create a new webdav server instance.
-Then a file backend is created, which just receives the directory as a
+As you can see in the example, we first create a new WebDAV server instance.
+Then a file back-end is created, which just receives the directory as a
 parameter, where your contents are stored.
 
 Finally we call the method handle() on the ezcWebdavServer, which actually
-parses and responds to the request with the created backend as a parameter.
+parses and responds to the request with the created back-end as a parameter.
 
 Basic path factory
 ------------------
 
 The custom path factory enables you to specify the request path mapping to the
-path of a ressource in the repository. This may be used, if the automatic
+path of a resource in the repository. This may be used, if the automatic
 detection does not work properly in your case.
 
 .. include:: tutorial/basic_path_factory.php
@@ -85,56 +85,56 @@ configuration, you provide the base path, which always will be removed from
 the request URLs.
 
 If you need a more specialized mapping of request paths to repository paths,
-you may write your own path factory, by implmenting the ezcWebdavPathFactory
+you may write your own path factory, by implementing the ezcWebdavPathFactory
 interface, or extending one of the existing path factories.
 
 Testing the server
 ------------------
 
-You may test the server directly with a webdav client of your choice. But the
-most webdav clients provide very bad debugging facilities.
+You may test the server directly with a WebDAV client of your choice. But the
+most WebDAV clients provide very bad debugging facilities.
 
-The webdav client with the most verbose error reporting currently is the
-`command line webdav client cadaver`__, where you might get some information,
+The WebDAV client with the most verbose error reporting currently is the
+`command line WebDAV client cadaver`__, where you might get some information,
 then just failing requests.
 
-__ http://www.webdav.org/cadaver/
+__ http://www.WebDAV.org/cadaver/
 
-The second step you should take is to enable error loging, either by catching
-all exceptions from the webdav and log them to a file, or just enable
+The second step you should take is to enable error logging, either by catching
+all exceptions from the WebDAV and log them to a file, or just enable
 log_errors in your php.ini.
 
-You may also access the webdav server with a browser, since webdav is just an
+You may also access the WebDAV server with a browser, since WebDAV is just an
 extension to the HTTP protocol, you should be able to get valid results out of
 this, and also see possible errors. Remember that collections (or directories)
 does not contain anything, and so you won't see anything in your browser for
 them, when everything goes right - but you should still be able to download
-the files in the webdav share.
+the files in the WebDAV share.
 
-Writing a custom backend
-========================
+Writing a custom back-end
+=========================
 
-The most common way of extending a webdav server is providing a custom backend
-to your data. A backend receives ezcWebdavRequest objects, and generates
+The most common way of extending a WebDAV server is providing a custom back-end
+to your data. A back-end receives ezcWebdavRequest objects, and generates
 ezcWebdavResponse objects, which are displayed again in a web the current
 client will understand it.
 
-There are basically two ways for you to implement a custom backend. On the one
+There are basically two ways for you to implement a custom back-end. On the one
 hand you may implement all the request object handling yourself, by directly
 extending the ezcWebdavBackend, or you may reuse the existing helper class
 ezcWebdavSimpleBackend.
 
-The simple backend
-------------------
+The simple back-end
+-------------------
 
-The simple backend, defined in the class ezcWebdavSimpleBackend, already
+The simple back-end, defined in the class ezcWebdavSimpleBackend, already
 implements all request to response mapping, so you only need to implement
-several methods directly accessing the data in your backend, like the file
-backend does.
+several methods directly accessing the data in your back-end, like the file
+back-end does.
 
-If you need a more fine grained control, or optimzations, you will still need
+If you need a more fine grained control, or optimizations, you will still need
 to extend the basic ezcWebdavBackend class directly. If you want to implement
-a custom backend you could use the file backend, or the memory backend, mainly
+a custom back-end you could use the file back-end, or the memory back-end, mainly
 intended for testing, as an implementation guide.
 
 
