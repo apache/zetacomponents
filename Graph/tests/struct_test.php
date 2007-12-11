@@ -245,7 +245,7 @@ class ezcGraphStructTest extends ezcTestCase
 
         $this->assertSame(
             '( 2.00, 5.00 )',
-            (string) $coordinate,
+            $coordinate->__toString(),
             'Wrong value when converting ezcGraphCoordinate to string.'
         );
     }
