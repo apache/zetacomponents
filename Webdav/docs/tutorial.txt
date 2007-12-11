@@ -129,15 +129,7 @@ The simple backend
 
 The simple backend, defined in the class ezcWebdavSimpleBackend, already
 implements all request to response mapping, so you only need to implement
-several methodds directly accessing the data in your backend, like the file
-backend does.
-
-The simple backend
-------------------
-
-The simple backend, defined in the class ezcWebdavSimpleBackend, already
-implements all request to response mapping, so you only need to implement
-several methodds directly accessing the data in your backend, like the file
+several methods directly accessing the data in your backend, like the file
 backend does.
 
 If you need a more fine grained control, or optimzations, you will still need
