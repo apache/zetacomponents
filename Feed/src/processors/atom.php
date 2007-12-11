@@ -26,7 +26,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     const FEED_TYPE = 'atom';
 
     /**
-     * Holds the definitions for the elements in RSS1.
+     * Holds the definitions for the elements in ATOM.
      *
      * @var array(string=>mixed)
      * @ignore
