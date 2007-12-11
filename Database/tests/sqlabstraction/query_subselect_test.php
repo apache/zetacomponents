@@ -10,6 +10,8 @@
 
 class TestSubSelect extends ezcQuerySelect
 {
+    public $db;
+
     // @todo: Do we need the below? We use them for testing now, but
     // they could come in handy if we want to manipulate SELECT queries in
     // Persistent Object.
