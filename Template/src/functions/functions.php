@@ -385,13 +385,6 @@ class ezcTemplateFunctions
      */
     protected function checkDefinition( $definition, $reflectionParameters )
     {
-        // A bug in the Reflection classes again.
-        // Need to check the current PHP version and create a different behavior. 
-        if ( version_compare( PHP_VERSION, "5.2", "<") )
-        {
-            return;
-        }
-
         if ( !isset( $definition->parameters ) || $definition->parameters === false) return;
 
         $i = 0;
@@ -435,29 +428,12 @@ class ezcTemplateFunctions
     {
         $requiredParameters = 0;
 
-        if ( version_compare( PHP_VERSION, "5.2", "<") )
+        foreach ($reflectionParameters as $p)
         {
-            if ( !isset( $definition->parameters ) || $definition->parameters === false)
-            {
-                throw new ezcTemplateException("PHP 5.2 is needed when the parameter definition is omitted in the CustomFunction definition.");
-            }
-
-            foreach ($definition->parameters as $p)
-            {
-                if ( $p[0] !== '[' ) $requiredParameters++;
-            }
-
-            return $requiredParameters;
+            if ( !$p->isOptional()) $requiredParameters++;
         }
-        else
-        {
-            foreach ($reflectionParameters as $p)
-            {
-                if ( !$p->isOptional()) $requiredParameters++;
-            }
 
-            return $requiredParameters;
-        }
+        return $requiredParameters;
     }
 
     /**
@@ -469,19 +445,7 @@ class ezcTemplateFunctions
      */
     protected function countTotalParameters($definition, $reflectionParameters)
     {
-        if ( version_compare( PHP_VERSION, "5.2", "<") )
-        {
-            if ( !isset( $definition->parameters ) || $definition->parameters === false)
-            {
-                throw new ezcTemplateException("PHP 5.2 is needed when the parameter definition is omitted in the CustomFunction definition.");
-            }
-
-            return sizeof( $definition->parameters);
-        }
-        else
-        {
-            return sizeof( $reflectionParameters );
-        }
+        return sizeof( $reflectionParameters );
     }
 
     /**

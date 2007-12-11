@@ -210,12 +210,6 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
 
         if ( $namedParameter !== false )
         {
-
-            if ( version_compare( PHP_VERSION, "5.2", "<") )
-            {
-                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, "Named parameters are not supported in PHP versions lower than 5.2" );
-            }
-
             if ( isset( $this->functionCall->parameters[$namedParameter] ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, sprintf(ezcTemplateSourceToTstErrorMessages::MSG_NAMED_PARAMETER_ALREADY_ASSIGNED, $namedParameter ) );
