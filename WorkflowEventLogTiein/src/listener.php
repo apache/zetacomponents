@@ -42,7 +42,7 @@ class ezcWorkflowEventLogListener implements ezcWorkflowExecutionListener
      * @param string  $message
      * @param int $type
      */
-    public function notify( $message, $type = self::INFO )
+    public function notify( $message, $type = ezcWorkflowEventLogListener::INFO )
     {
         $this->log->log( $message, $type );
     }
