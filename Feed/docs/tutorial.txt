@@ -255,7 +255,8 @@ ATOM
 Media type
 ``````````
 
-All ATOM feeds must be identified with the application/atom+xml media type.
+All ATOM feeds must be identified with the *application/atom+xml* media type.
+Use the getContentType() method of ezcFeed to get this string.
 
 
 Self link
@@ -263,6 +264,28 @@ Self link
 
 All ATOM feeds should have a *link* feed element with *rel="self"* which
 points back to the feed itself (with the *href* attribute).
+
+
+RSS1
+----
+
+Media type
+``````````
+
+All RSS1 feeds should be identified with the *application/rss+xml* media type
+(although it is not a standard yet). Use the getContentType() method of
+ezcFeed to get this string.
+
+
+RSS2
+----
+
+Media type
+``````````
+
+All RSS2 feeds should be identified with the *application/rss+xml* media type
+(although it is not a standard yet). Use the getContentType() method of
+ezcFeed to get this string.
 
 
 Specifications and RFCs
