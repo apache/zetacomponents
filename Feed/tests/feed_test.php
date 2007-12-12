@@ -33,6 +33,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = new ezcFeed( 'rss1' );
         $this->assertEquals( 'ezcFeed', get_class( $feed ) );
         $this->assertEquals( 'rss1', $feed->getFeedType() );
+        $this->assertEquals( 'application/rss+xml', $feed->getContentType() );
     }
 
     public function testCreateFeedSupportedRss2()
@@ -40,6 +41,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = new ezcFeed( 'rss2' );
         $this->assertEquals( 'ezcFeed', get_class( $feed ) );
         $this->assertEquals( 'rss2', $feed->getFeedType() );
+        $this->assertEquals( 'application/rss+xml', $feed->getContentType() );
     }
 
     public function testCreateFeedSupportedAtom()
@@ -47,6 +49,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = new ezcFeed( 'atom' );
         $this->assertEquals( 'ezcFeed', get_class( $feed ) );
         $this->assertEquals( 'atom', $feed->getFeedType() );
+        $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
     }
 
     public function testCreateFeedNotSupported()
@@ -145,6 +148,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parse( $file );
 
         $this->assertEquals( 'atom', $feed->getFeedType() );
+        $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
     }
 
     public function testParseAtom2()
@@ -178,6 +182,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parse( $file );
 
         $this->assertEquals( 'rss1', $feed->getFeedType() );
+        $this->assertEquals( 'application/rss+xml', $feed->getContentType() );
     }
 
     public function testParseRss2()
@@ -188,6 +193,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parse( $file );
 
         $this->assertEquals( 'rss2', $feed->getFeedType() );
+        $this->assertEquals( 'application/rss+xml', $feed->getContentType() );
     }
 
     public function testParseRss2Podcast1()

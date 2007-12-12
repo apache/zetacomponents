@@ -26,6 +26,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     const FEED_TYPE = 'atom';
 
     /**
+     * Defines the feed content type of this processor.
+     */
+    const CONTENT_TYPE = 'application/atom+xml';
+
+    /**
      * Holds the definitions for the elements in ATOM.
      *
      * @var array(string=>mixed)
@@ -272,6 +277,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     public function __construct()
     {
         $this->feedType = self::FEED_TYPE;
+        $this->contentType = self::CONTENT_TYPE;
         $this->schema = new ezcFeedSchema( self::$atomSchema );
     }
 

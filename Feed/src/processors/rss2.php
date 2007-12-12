@@ -26,6 +26,11 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     const FEED_TYPE = 'rss2';
 
     /**
+     * Defines the feed content type of this processor.
+     */
+    const CONTENT_TYPE = 'application/rss+xml';
+
+    /**
      * Holds the RSS2 feed schema.
      *
      * @var array(string=>mixed)
@@ -160,6 +165,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     public function __construct()
     {
         $this->feedType = self::FEED_TYPE;
+        $this->contentType = self::CONTENT_TYPE;
         $this->schema = new ezcFeedSchema( self::$rss2Schema );
 
         // set default values

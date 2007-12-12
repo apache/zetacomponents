@@ -31,6 +31,14 @@ abstract class ezcFeedProcessor
     protected $feedType;
 
     /**
+     * Holds the feed content type (eg. 'application/rss+xml').
+     *
+     * @var string
+     * @ignore
+     */
+    protected $contentType;
+
+    /**
      * Holds the feed schema for the current feed type.
      *
      * @var array(string=>mixed)
@@ -239,6 +247,17 @@ abstract class ezcFeedProcessor
             $this->elements[$name] = $element;
             return $element;
         }
+    }
+
+    /**
+     * Returns the feed content type of this feed object
+     * (eg. 'application/rss+xml').
+     *
+     * @return string
+     */
+    public function getContentType()
+    {
+        return $this->contentType;
     }
 }
 ?>

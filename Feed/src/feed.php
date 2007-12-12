@@ -125,12 +125,20 @@ class ezcFeed
     protected $feedProcessor;
 
     /**
-     * Holds the feed type.
+     * Holds the feed type (eg. 'rss2').
      *
      * @var string
      * @ignore
      */
     protected $feedType;
+
+    /**
+     * Holds the feed content type (eg. 'application/rss+xml').
+     *
+     * @var string
+     * @ignore
+     */
+    protected $contentType;
 
     /**
      * Creates a new feed of type $type.
@@ -157,6 +165,7 @@ class ezcFeed
 
         $this->feedType = $type;
         $this->feedProcessor = new self::$supportedFeedTypes[$type];
+        $this->contentType = $this->feedProcessor->getContentType();
     }
 
     /**
@@ -389,6 +398,17 @@ class ezcFeed
     public function getFeedType()
     {
         return $this->feedType;
+    }
+
+    /**
+     * Returns the feed content type of this feed object
+     * (eg. 'application/rss+xml').
+     *
+     * @return string
+     */
+    public function getContentType()
+    {
+        return $this->contentType;
     }
 }
 ?>
