@@ -288,6 +288,67 @@ All RSS2 feeds should be identified with the *application/rss+xml* media type
 ezcFeed to get this string.
 
 
+Using feeds in applications
+===========================
+
+Provide access to feeds in a web application
+--------------------------------------------
+
+There are some methods to let the user know that a web application provides a
+web feed, so that the user can save the feed link in his feed aggregator.
+
+
+Automatic feed discovery
+````````````````````````
+
+In the HTML source of every page add this line for RSS (1, 2) feeds::
+
+    <link rel="alternate" type="application/rss+xml" href="url to the feed xml
+    document" title="A title for the feed" />
+
+Or this line for ATOM feeds::
+
+    <link rel="alternate" type="application/atom+xml" href="url to the feed
+    xml document" title="A title for the feed" />
+
+In modern browsers the user will be informed (usually via a small icon in one
+corner of the browser or in the address bar) that the current page has a web
+feed. If the user clicks on this icon his feed aggregator client will start
+and save the link to the feed in its database (if the user's system has a feed
+aggregator client and is configured to handle *application/rss+xml* and
+*application/atom+xml* content with the aggregator).
+
+Multiple feeds can be added to the same page (for example you can provide ATOM
+and RSS2 feeds).
+
+The *title* attribute of the *link* HTML tag can be used to differentiate
+between multiple feeds (for example "News", "Latest offers", etc).
+
+
+Link to the feed document
+`````````````````````````
+
+In the HTML source of every page (usually in the header and/or footer) add
+this line for RSS (1, 2) feeds::
+
+    <a type="application/rss+xml" href="url to the feed document"
+    title="A title for the feed">RSS feed</a>
+
+Or this line for ATOM feeds::
+
+    <a type="application/atom+xml" href="url to the feed document"
+    title="A title for the feed">ATOM feed</a>
+
+The user can drag this link to his feed aggregator, where it will be added to
+the aggregator's database.
+
+It is customary to add the feed icon next to a feed link, so that the user
+finds the feed link easier on the page. See this Mozilla__ page for more
+information about the feed icon.
+
+__ http://www.mozilla.org/foundation/feed-icon-guidelines/
+
+
 Specifications and RFCs
 =======================
 
