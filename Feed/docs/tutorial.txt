@@ -320,7 +320,8 @@ handle *application/rss+xml* and *application/atom+xml* content with the
 aggregator).
 
 Multiple feeds can be added to the same page (for example you can provide ATOM
-and RSS2 feeds).
+and RSS2 feeds). Note: some browsers might not recognize the non-standard
+*application/rss+xml* type and select the ATOM feed by default.
 
 The *title* attribute of the *link* HTML tag can be used to differentiate
 between multiple feeds (for example "News", "Latest offers", etc).
