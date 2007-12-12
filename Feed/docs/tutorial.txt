@@ -349,7 +349,7 @@ more information about the feed icon.
 
 __ http://www.mozilla.org/foundation/feed-icon-guidelines/
 
-.. |feed icon| image:: images/feed-icon-14x14.png
+.. |feed icon| image:: img/feed-icon-14x14.png
 
 
 Specifications and RFCs
