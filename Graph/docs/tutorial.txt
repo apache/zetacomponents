@@ -131,8 +131,8 @@ this aggregated dataset.
 Line charts
 -----------
 
-Line charts are created in the same way as pie charts, only that they
-accept more then one dataset. We are using the default driver, palette and
+Line charts are created in the same way as pie charts, but they
+accept more than one dataset. We are using the default driver, palette and
 renderer in this example.
 
 .. include:: tutorial/tutorial_line_chart.php
@@ -177,9 +177,9 @@ other default values are applied.
 Lots of bars
 ~~~~~~~~~~~~
 
-ezcGraph by default reduces the amount of steps shown on an axis to about 10
-steps. This may cause unexpected results for when trying to draw a bar chart
-with more then 10 bars in one dataset. You may overwrite the behaviour by
+By default, ezcGraph reduces the amount of steps shown on an axis to about 10
+steps. This may cause unexpected results when trying to draw a bar chart
+with more than 10 bars in one dataset. You may override the behaviour by
 manually setting the amount of steps on the x axis::
 
 	<?php
@@ -189,7 +189,7 @@ manually setting the amount of steps on the x axis::
 	?>
 
 This works because all datasets implement the interface Countable. If you want
-to use it for more then one dataset you could do the following::
+to use it for more than one dataset, you could do the following::
 
 	<?php
 	// Initialize graph ...
@@ -235,7 +235,7 @@ In line 20, the size of the highlight boxes is specified and lines 22 to
 24 change the font configuration for the highlight boxes. Highlighting
 works in much the same way as for pie charts, but in line and bar charts it
 makes sense to highlight a complete dataset instead of only one single data
-point. This is due to the fact that there is usually more then one dataset in
+point. This is because there is usually more than one dataset in
 line and bar charts.
 
 .. image:: img/tutorial_bar_options.svg.png
@@ -251,8 +251,8 @@ single bars.
 .. include:: tutorial/tutorial_stacked_bar_chart.php
    :literal:
 
-To use stacked bar charts, you only need to set the option $stackBars to true.
-In the 3d renderer this will cause all bars to be renderer like with the symbol
+To use stacked bar charts, you only need to set the option $stackBars to "true".
+In the 3D renderer this will cause all bars to be rendered with the symbol
 ezcGraph::NO_SYMBOL.
 
 .. image:: img/tutorial_stacked_bar_chart.svg.png
@@ -269,10 +269,10 @@ will be drawn multiple times, rotated around the center point of the chart.
 
 This again is one of the simplest ways to create a radar chart. Nearly all
 options described later are also available in radar charts. The basic
-difference is, that a ezcGraphRadarChart object is created in line 6. The
-radar charts accept multiple data sets, like bar and line charts. In line 14
-the first element of the data set is reassigned as the last element to close
-the circle. You may also not reassign this value to get a radar chart where
+difference is that an ezcGraphRadarChart object is created in line 6.
+Radar charts accept multiple datasets, like bar and line charts. In line 14
+the first element of the dataset is reassigned as the last element to close
+the circle. By not reassigning this value, you can get a radar chart where
 the tails do not join.
 
 .. image:: img/tutorial_radar_chart.svg.png
@@ -281,11 +281,11 @@ the tails do not join.
 Controlling radar axis
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Instead of having a x and a y axis the radar chart has a main axis, which is
-the aequivalent to the y axis in the other charts, and a rotation axis, the
-aequivalent of the x axis. The steps on the rotation axis define the positions
-of the rotated main axis. This way you may use all available data sets and
-axis.
+Instead of having an x and a y axis, the radar chart has a main axis, which is
+the equivalent to the y axis in the other charts, and a rotation axis, the
+equivalent of the x axis. The steps on the rotation axis define the positions
+of the rotated main axis. This way you may use all available datasets and
+axes.
 
 .. include:: tutorial/tutorial_complex_radar_chart.php
    :literal:
@@ -294,24 +294,24 @@ The settings on the graph will be explained later in the tutorial in detail.
 In line 11 the type of the rotation axis is set to a numeric axis, which is
 explained in `Chart elements`_ -> `Axis`_.
 
-For line 15 to 23 a first data set is added with some random data. On the base
-of this data a new data set is build which calculates a polynomial
-interpolation function on the data. This is described in more detail in the
-section `Datasets`_ -> `Average polynomial dataset`_. Finally the default colors
+For line 15 to 23, a dataset is added with some random data. Using this
+data as a base, a new dataset is built, which calculates a polynomial
+interpolation function. This is described in more detail in the
+section `Datasets`_ -> `Average polynomial dataset`_. Lastly, the default colors
 and symbols from the palette are modified.
 
 .. image:: img/tutorial_complex_radar_chart.svg.png
    :alt:   Complex radar chart
 
 The resulting radar chart shows how minor steps on the rotation axis are drawn
-as grayed out axis and major steps as regular axis. It also obvious that all
-types of data sets can be drawn using radar charts.
+as a grayed out axis and major steps as a regular axis. Note that all
+types of datasets can be drawn using radar charts.
 
 Odometer charts
 ---------------
 
-Odometer charts can display values on one bar with a gradient using markers, to
-offer a nice way for the viewer to detect where a value is in a defined
+Odometer charts can display values on one bar with a gradient and markers,
+providing a nice way for the viewer to detect where a value is in a defined
 bounding.
 
 .. include:: tutorial/tutorial_odometer_chart.php
@@ -319,47 +319,48 @@ bounding.
 
 As you can see from the example, the odometer basically behaves like other
 chart types. First we create an object of the class ezcGraphOdometerChart, then
-a title and a dataset is assigned, like always. Similar to pie charts, a
+a title and a dataset is assigned, as per usual. Similar to pie charts, an
 odometer only accepts one dataset. A legend does not exist for odometers - and
-you may of course assign an array data set, which only contains one element.
+you may of course assign an array dataset, containing only one element.
 
 .. image:: img/tutorial_odometer_chart.svg.png
    :alt:   Simple odometer
 
-The result is a bar, filled with some default gradient, and markers as
+The result is a bar, filled with the default gradient, with markers as
 indicators for the values on the bar. The axis span is automatically calculated
-for the provided values - you may modify them as usual, but take a look at the
+for the provided values - you can modify them as usual, but take a look at the
 next example for this.
 
 Custom odometer chart
 ~~~~~~~~~~~~~~~~~~~~~
 
-When only using one value in an odometer you may want to configure the span on
-the axis by yourself. You can do so like on any other axis.
+When using only one value on an odometer chart, you may wish to manually
+configure the span on the axis. You can do this as you normally would with
+any other axis.
 
 .. include:: tutorial/tutorial_custom_odometer_chart.php
    :literal:
 
-In this example we only assign one value, so we only get one marker in the
-odometer. The we start using the configure options for odometers, defined in
+In this example we only assign one value, so we get one marker on the
+odometer. The we start using the configuration options for odometers, defined in
 the ezcGraphOdometerChartOptions class.
 
 The start and end color define the colors used for the background gradient. The
 border options define the border, which is drawn around the chart gradient.
-After this you may configure the width of the markers, and the space, which is
+After this you can configure the width of the markers, and the space
 used for the actual odometer.
 
-Because of the single value we configure the min and max values for the axis,
-which should be used, and a label for the axis.
+We then configure the minimum and maximum values for the axis and a label for
+the axis.
 
 .. image:: img/tutorial_custom_odometer_chart.svg.png
-   :alt:   Customly configured odometer 
+   :alt:   Custom configured odometer 
 
 Palettes
 ========
 
 ezcGraph offers graph palettes to define the overall style properties of
-chart elements. The style properties are similar to the those from CSS:
+chart elements. The style properties are similar to those from CSS:
 
 - color
 - background color
@@ -410,10 +411,10 @@ documentation for the abstract class ezcGraphPalette. In this example we just
 set two colors for the automatic colorization of the datasets and three
 symbols for datasets.
 
-Since we assign more then two datasets, the first assigned color will be reused
+Since we assign more than two datasets, the first assigned color will be reused
 for the third dataset. You can see the usage of the symbols in the legend and
 on the line chart. The line chart displays a symbol for each data point if the
-symbol is set to something different then ezcGraph::NO_SYMBOL.
+symbol is set to something other than ezcGraph::NO_SYMBOL.
 
 .. image:: img/tutorial_modified_palette.svg.png
    :alt:   Combined bar / line chart with modified palette
@@ -437,8 +438,8 @@ it like any predefined palette, as previously explained.
 .. include:: tutorial/tutorial_custom_palette.php
    :literal:
 
-The example now uses the custom palette to format the output. You may include
-palettes using you applications autoload mechanism or just require them like
+The example now uses the custom palette to format the output. You can include
+palettes using your application's autoload mechanism or require them as
 shown in the example above.
 
 .. image:: img/tutorial_custom_palette.svg.png
@@ -457,7 +458,7 @@ the following elements:
 - xAxis
 - yAxis
 
-The palette defines the default formatting of the elements. No only can you set
+The palette defines the default formatting of the elements. Not only can you set
 foreground and background colors for all the elements, but you can also
 define their position in the chart or prevent them from being rendered at
 all.
@@ -497,7 +498,7 @@ captions.
 
 Aside from the font configuration, we set an option for all chart
 elements in line 11 - the background color of the current element. This
-results in a gray background only for the title element.
+results in a gray background for the title element only.
 
 .. image:: img/tutorial_chart_title.svg.png
    :alt:   Font and title configuration in pie chart
@@ -529,14 +530,14 @@ make them blurry.
    :alt:   Pie chart with logo in background
 
 Of course, you could also apply the following settings to the background
-element: background color, borders, margin and padding.
+element: background color, borders, margins and padding.
 
 The legend
 ----------
 
 The legend is shown by default and is automatically generated from the assigned
-data. If you want to disable the legend, you can do this by setting it to
-false (line 9).
+data. If you want to disable the legend, you can do this by setting
+it to "false" (line 9).
 
 .. include:: tutorial/tutorial_chart_legend.php
    :literal:
@@ -549,7 +550,7 @@ Legend configuration options
 
 Other than hiding the legend, you can also place it at the bottom, left or top
 in the chart; you can assign a title for the legend and change the symbol
-sizes; you can additionally assign the legend size.
+sizes; you can additionally set the legend size.
 
 .. include:: tutorial/tutorial_legend_options.php
    :literal:
@@ -594,7 +595,7 @@ You could argue whether such a chart is really useful - but it works. Instead of
 using numeric values, colors are assigned when creating the dataset. The
 labeled axis uses the values in the order they are assigned. Line 11 is
 the first time we actually configure the axis label renderer. The axis label 
-renderer describe how the labels are placed on the axis - the labeled axis 
+renderer describes how the labels are placed on the axis - the labeled axis 
 uses the centered axis label renderer by default, which places the labels 
 centered next to the steps on the axis. The setting in line 11 forces the 
 renderer to show the zero value, even though it interferes with the axis.
@@ -628,8 +629,8 @@ values below and left of the axis.
 Date time axis
 ~~~~~~~~~~~~~~
 
-Earlier in this tutorial, we used a labeled axis for date time data on the
-x-axis in the wikipedia examples. This works fine for evenly-distributed
+Previously in this tutorial, we used a labeled axis for date time data on the
+x-axis in the Wikipedia examples. This works fine for evenly-distributed
 time spans. For other data, you should use the date time axis.
 
 .. include:: tutorial/tutorial_axis_datetime.php
@@ -674,23 +675,23 @@ for all available axis label renderers, but here is an overview:
 Rotated labels on axis
 ~~~~~~~~~~~~~~~~~~~~~~
 
-There is one more new axis label renderer since version 1.1 of ezcGraph - the
-ezcGraphAxisRotatedLabelRenderer which enables you to render rotated labels on
+There is one more new axis label renderer since version 1.1 of ezcGraph -
+ezcGraphAxisRotatedLabelRenderer, which enables you to render rotated labels on
 an axis.
 
 .. include:: tutorial/tutorial_rotated_labels.php
    :literal:
 
-In line 9 a custom renderer is defined used for the labeled x axis. You can
+In line 9, a custom renderer is defined for the labeled x axis. You can
 assign custom axis label renderers on the property $axisLabelRenderer for
 ezcGraphChartElementAxis objects.
 
 The renderer used in this example has custom properties like the rotation of
-the labels, which is set in degree, while the rotation direction depends on
+the labels, which is set in degrees, while the rotation direction depends on
 the direction of the axis.
 
-It makes sense to define more vertical space below the the axis for the
-rotated labels like done in line 11 of the above example.
+It makes sense to define more vertical space below the axis for the
+rotated labels as done in line 11 of the above example.
 
 .. image:: img/tutorial_rotated_labels.svg.png
    :alt:   Date axis example
@@ -701,55 +702,55 @@ labels on one axis.
 Additional axis & markers
 -------------------------
 
-Beside the x axis and the y axis you may add additional axis and markers to one
-chart. Also you may assign those additional axis to datasets, so that some
-datasets use different axis then others.
+Aside from the x axis and the y axis, you can add additional axes and markers to one
+chart. You can also assign these additional axes to datasets, so that some
+datasets use different axes than others.
 
 Add markers to chart
 ~~~~~~~~~~~~~~~~~~~~
 
-First add some markers to a chart, which only get a label, and reside at some
-user defined position in the chart. You may use them to display data boundings
+First, add some markers, which only get a label and reside at some
+user defined position, to a chart. You may use them to display data boundings
 on the y axis, or important values on the x axis.
 
 .. include:: tutorial/tutorial_line_chart_markers.php
    :literal:
 
-You can see a standard line chart, like in the examples before again using the
-wikipedia datasets. In line 15 we add another axis, and configure this one in
-the following lines. The position of an axis defines its origin, so that the
-position ezcGraph::LEFT means, that the axis starts at the left side of the
-graph. You may also use ezcGraph::RIGHT to let the axis start at the right.
+You can see a standard line chart, like in the examples before, using the
+Wikipedia datasets. In line 15 we add another axis, and configure this one in
+the following lines. The position of an axis defines its origin. The
+position ezcGraph::LEFT means that the axis starts at the left side of the
+graph. You can also use ezcGraph::RIGHT to make the axis start on the right.
 
 The position of the axis may be defined by a float value, which defines the
-percentual position in the chart, calculated from the top left position. After
+fractional position in the chart, calculated from the top left position. After
 this we also define a label for the axis.
 
 .. image:: img/tutorial_line_chart_markers.svg.png
    :alt:   Line chart with marker
 
-Additional axis
+Additional axes
 ~~~~~~~~~~~~~~~
 
-As said before, you may not only add additional axis to one chart, but you can
-also assigne datasets to use one of those new axis. This will cause the used
-axis to caclulate its values depending on the assigned datasets and the data to
+As previously noted, you can not only add additional axis to one chart, but you can
+also assign datasets to use one of these new axes. This will cause the
+axis to calculate its values depending on the assigned datasets and the data to
 orientate at the new axis.
 
-The new axis may also be of a completely different type then the original chart
+The new axis may also be of a completely different type than the original chart
 axis.
 
 .. include:: tutorial/tutorial_line_chart_additional_axis.php
    :literal:
 
 In this chart we use a different axis, positioned at the very end of the chart,
-for the norwegian wikipedia data. Due to the different scaling for the englsih
-and norwegian data, you can easily see that the development of articles is very
+for the Norwegian Wikipedia data. Due to the different scaling for the English
+and Norwegian data, you can easily see that the development of articles is very
 similar, on a completely different level.
 
 To use the axis with some dataset, you need to assign the newly created axis to
-one of the both axis properties to the data set. In this case we use the $yAxis
-property - the property $xAxis of course also exists.
+one of the existing axis properties and to the dataset. In this case we use the $yAxis
+property.
 
 .. image:: img/tutorial_line_chart_additional_axis.svg.png
    :alt:   Line chart with additional axis
@@ -757,7 +758,7 @@ property - the property $xAxis of course also exists.
 Datasets
 ========
 
-The datasets receive user data and provide an interface for
+Datasets receive user data and provide an interface for
 ezcGraph to access this data.
 
 Array data
@@ -777,7 +778,7 @@ least squares algorithm.
    :literal:
 
 Here we use two numeric axes, because we only display numeric data in this
-example. First, we create a normal array dataset from some random generated
+example. First, we create a normal array dataset from some randomly generated
 data in line 14. We assign this dataset to the chart to see how well the 
 polynomial fits the random data points.
 
@@ -805,8 +806,8 @@ define the mathematical function used to create the dataset.
 .. include:: tutorial/tutorial_dataset_numeric.php
    :literal:
 
-The numeric dataset constructor receives the start value, the end value for
-the functions input and the function itself using PHP's `callback datatype`__. In
+The numeric dataset constructor receives the start and end values for
+the function's input and the function itself using PHP's `callback datatype`__. In
 this example we create a function on runtime using create_function(), which
 returns the name of the created function (which is a valid callback). The
 code of the created function in line 16 returns sine values for the input in 
@@ -1025,17 +1026,17 @@ element like following example shows.
 		You need a browser capeable of SVG to display this image.
 	</object>
 
-You may optionally specify width and height as attributes in the options
-element. With this standard conform way, the drawback again is, that
-Microsofts Internet Explorer does not support this. With browsers from the 
-Internet Explorer series you may use the proprietary embed element.
+You can optionally specify the width and height as attributes in the options
+element. With this standards-conforming method, the drawback is that
+Microsoft Internet Explorer does not support this. With browsers from the 
+Internet Explorer series, you can use the proprietary embed element.
 
 ::
 
 	<embed src="path/to/image.svg"></embed>
 
-You may not specify an alternative text here, and this will not work with
-Opera and Firefox. If need to support all browsers you may use one of the 
+You cannot specify an alternative text here, and this will not work with
+Opera and Firefox. If you need to support all browsers, you can use one of the 
 common switches to distinguish between browsers.
 
 ::
@@ -1047,7 +1048,7 @@ common switches to distinguish between browsers.
 		<object ... />
 	<![endif]-->
 
-Another alternative for embedding SVGs in your HTML would be using iframes.
+Another alternative for embedding SVGs in your HTML would be to use iframes.
 
 GD driver
 ---------
@@ -1069,7 +1070,7 @@ overcome:
 
 There are some special configuration options for the GD driver. You can
 specify the super sampling rate used, and use different output formats (if
-available with your bundled GD extension) as shown in the lines 13 to 15 in the
+available with your bundled GD extension) as shown in lines 13 to 15 in the
 following example.
 
 .. include:: tutorial/tutorial_driver_gd.php
@@ -1116,8 +1117,8 @@ Element references are created in the renderer. This way it is also possible to
 reference legend symbols and text, data labels and of course the actual data
 elements.
 
-Since ezcGraph 1.1 you can define URLs for data sets and data points which
-will be used, when linking the elements later. You now can use the function
+In ezcGraph version 1.1 and later, you can define URLs for datasets and data
+points that will be used when linking the elements. You now can use the function
 provided in ezcGraphTools to create the image maps and add links into SVG
 images.
 
@@ -1127,11 +1128,11 @@ SVG example
 .. include:: tutorial/tutorial_reference_svg.php
    :literal:
 
-Since ezcGraph 1.1 you can optionally set a custom cursor type used by the
+In ezcGraph version 1.1 and later, you can optionally set a custom cursor type used by the
 browser to indicate that you can click on a surface. The cursor defaults to a
-pointer normally used for links. Everything else you need to do is assigning
-URLs to the data sets or data points like in the lines 17 and 18 and then
-finally call ezcGraphTools::linkSvgElements (line 23) to modify your SVG. The
+pointer normally used for links. You also need to assign
+URLs to the datasets or data points, as in the lines 17 and 18, and then
+call ezcGraphTools::linkSvgElements (line 23) to modify your SVG. The
 result will be a clickable `SVG image`__.
 
 __ img/tutorial_reference_svg.svg
@@ -1146,11 +1147,11 @@ coordinates, which you can use to generate an image map.
 .. include:: tutorial/tutorial_reference_gd.php
    :literal:
 
-In line 20 we associate a URL to the complete data set and in line 21 another
-URL only for the mozilla data point. Those URLs will be used to create the
-image map in line 31. As a second parameter besides the actual graph we can
+In line 20 we associate a URL to the complete dataset and in line 21 another
+URL for the Mozilla data point only. Those URLs will be used to create the
+image map in line 31. In the second parameter on line 31 we can
 provide a name for the image map, which should be used to associate the image
-map to the image as in line 37. The result is a `linked legend and linked
+map to the image in line 37. The result is a `linked legend and linked
 pie chart in your generated bitmap`__.
 
 __ img/tutorial_reference_gd.html
@@ -1158,10 +1159,10 @@ __ img/tutorial_reference_gd.html
 SVG to bitmap conversion
 ------------------------
 
-If you want to benefit from the more beautiful SVG output you may convert the
+If you want to benefit from the more beautiful SVG output you can convert the
 vector graphics to a bitmap format, like PNG or JPEG, on the server side.
-There are several tools capable to do so, but for each you need the
-possibility to execute commands using the exec() function family.
+There are several tools than can do this, but for each you need to be able
+to execute commands using the exec() function family.
 
 - librsvg
   Small memory footprint and advanced SVG support, including filters (which
@@ -1171,9 +1172,9 @@ possibility to execute commands using the exec() function family.
 
   	rsvg input.svg output.png
 
-- imagemagick
-  Installed on most servers out there, but has some issues with transparent
-  backgrounds in SVG documents. Example command with image magick:
+- ImageMagick
+  Installed on most servers, but has some issues with transparent
+  backgrounds in SVG documents. Example command with ImageMagick:
 
   ::
 
@@ -1181,14 +1182,14 @@ possibility to execute commands using the exec() function family.
 
 - Inkscape
   Not available on most servers, but perfect for modifying SVG documents on
-  unix and windows. Requires X to install, but can be run on CLI, too:
+  Unix and Windows. Requires X to install, but can be run on CLI, too:
 
   ::
 
   	inkscape input.svg -e output.png
 
-All three converts can also export to PDF or postscript, and resize the
-document, if wanted. For further details please read the documentation of the
+All three converters can also export to PDF or postscript, and resize the
+document if desired. For further details, please read the documentation of the
 respective tool.
 
 Direct output
@@ -1196,7 +1197,7 @@ Direct output
 
 By default, a graph is rendered to a file, as you normally want to cache
 generated images. ezcGraph also provides a method for the direct output of
-generated charts, but use this with caution.
+generated charts. Use this with caution.
 
 The ezcGraph::renderToOutput() method sends the correct Content-Type header
 for the selected output driver and writes the chart's image data directly to
