@@ -28,8 +28,12 @@
  *   $graph->driver = new ezcGraphGdDriver();
  *   $graph->options->font = 'tutorial_font.ttf';
  *
- *   // Generate a Jpeg with lower quality. The default settings result in a
- *   // better quality image
+ *   // Generate a Jpeg with lower quality. The default settings result in a image
+ *   // with better quality.
+ *   // 
+ *   // The reduction of the supersampling to 1 will result in no anti aliasing of
+ *   // the image. JPEG is not the optimal format for grapics, PNG is far better for
+ *   // this kind of images.
  *   $graph->driver->options->supersampling = 1;
  *   $graph->driver->options->jpegQuality = 100;
  *   $graph->driver->options->imageFormat = IMG_JPEG;
