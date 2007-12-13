@@ -278,7 +278,7 @@ class ezcGraphRenderer2d
                 )
             );
 
-            $darkenedColor = $circleSector['color']->darken( .5 );
+            $darkenedColor = $circleSector['color']->darken( $this->options->dataBorder );
             $this->driver->drawCircleSector(
                 $circleSector['center'],
                 $circleSector['width'],
