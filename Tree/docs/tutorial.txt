@@ -139,7 +139,7 @@ In line 7 we use the ezcTree->fetchChildren() method to find all the direct
 children of the node with the ID "NobleGasses". Then in lines 10 to 13 we create a
 ezcTreeNodeListIterator over the returned ezcTreeNodeList $noble. The first
 parameter is the tree, the second one is the node list, and the third parameter
-specifies whether the data should be prefixed.
+specifies whether the data should be prefetched.
 
 
 Creating and modifying a tree
