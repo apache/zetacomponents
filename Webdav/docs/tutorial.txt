@@ -108,10 +108,12 @@ log_errors in php.ini.
 
 You can also access the WebDAV server with a browser, since WebDAV is just an
 extension to the HTTP protocol. You should be able to get valid results out of
-this, and also see possible errors. Remember that collections (or directories)
-do not contain anything. Therefore, you won't see anything in your browser for
-them when everything goes right, but you should still be able to download
-the files in the WebDAV share.
+this, and also see possible errors. Remember that collections (or directories),
+although they can contain other collections and resources, do not consist of
+any data themselves. Therefore, if everything
+is working properly, you will get a blank page when viewing collections in your
+browser. However, you should still be able to download resources (or files) in
+the WebDAV share.
 
 Writing a custom back-end
 =========================
