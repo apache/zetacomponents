@@ -27,6 +27,10 @@
  * ?>
  * </code>
  *
+ * To use your own implementation of tree nodes, you can override the class
+ * that is used by the tree by setting the nodeClassName property of the
+ * ezcTree class. The class must inherit from this class though.
+ *
  * @property-read string  $id          The ID that uniquely identifies a node
  * @property-read ezcTree $tree        The tree object that this node belongs to
  * @property      mixed   $data        The data belonging to a node
