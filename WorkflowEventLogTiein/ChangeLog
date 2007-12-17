@@ -1,4 +1,4 @@
-1.1 - [RELEASEDATE]
+1.1 - Monday 17 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Changed default value for the ezcWorkflowEventLogListener::notify() method's
