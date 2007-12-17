@@ -1,2 +1,2 @@
 Database: 1.3
-Authentication: 1.1beta1
+Authentication: 1.1
