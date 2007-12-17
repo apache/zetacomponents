@@ -70,6 +70,8 @@ return array(
     'ezcGraphAxisStep'                              => 'Graph/structs/step.php',
     'ezcGraphBarChart'                              => 'Graph/charts/bar.php',
     'ezcGraphBoundings'                             => 'Graph/math/boundings.php',
+    'ezcGraphCairoDriver'                           => 'Graph/driver/cairo.php',
+    'ezcGraphCairoDriverOptions'                    => 'Graph/options/cairo_driver.php',
     'ezcGraphChartElementBackground'                => 'Graph/element/background.php',
     'ezcGraphChartElementDateAxis'                  => 'Graph/axis/date.php',
     'ezcGraphChartElementLabeledAxis'               => 'Graph/axis/labeled.php',
