@@ -1,9 +1,9 @@
 1.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #12238: Graph doc error
-- Fixed issue #12246: Graph: dataBorder doesn't works in 2d renderer for
-  piecharts
+- Fixed issue #12238: Documentation error.
+- Fixed issue #12246: dataBorder doesn't works in 2D renderer for piecharts.
+
 
 1.2beta1 - Wednesday 28 November 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
