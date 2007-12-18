@@ -506,27 +506,6 @@ class ezcGraphFlashDriverTest extends ezcGraphTestCase
         );
     }
 
-    public function testDrawImageOutOfBoundings()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.swf';
-
-        try
-        {
-            $return = $this->driver->drawImage(
-                $this->basePath . $this->testFiles['jpeg'],
-                new ezcGraphCoordinate( 10, 10 ),
-                100,
-                50
-            );
-        } 
-        catch ( ezcGraphFlashBitmapBoundingsException $e )
-        {
-            return true;
-        }
-
-        $this->fail( 'Expected ezcGraphFlashBitmapBoundingsException.' );
-    }
-
     public function testDrawImageGif()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.swf';
@@ -552,31 +531,27 @@ class ezcGraphFlashDriverTest extends ezcGraphTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.swf';
 
-        try
-        {
-            $return = $this->driver->drawImage(
-                $this->basePath . $this->testFiles['png'],
-                new ezcGraphCoordinate( 10, 10 ),
-                177,
-                100
-            );
-        } 
-        catch ( ezcGraphFlashBitmapTypeException $e )
-        {
-            return true;
-        }
+        $return = $this->driver->drawImage(
+            $this->basePath . $this->testFiles['png'],
+            new ezcGraphCoordinate( 10, 10 ),
+            177,
+            100
+        );
 
-        $this->fail( 'Expected ezcGraphFlashBitmapBoundingsException.' );
+        $this->driver->render( $filename );
+
+        $this->swfCompare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
     }
 
     public function testDrawImageJpeg()
     {
-        $this->fail( 'Ends up in a recursive loop somehow caused by PHPUnits error handling and exception conversion.' );
-
         $filename = $this->tempDir . __FUNCTION__ . '.swf';
 
         $this->driver->drawImage(
-            $this->basePath . $this->testFiles['non_interlaced'],
+            $this->basePath . $this->testFiles['jpeg'],
             new ezcGraphCoordinate( 10, 10 ),
             177,
             100

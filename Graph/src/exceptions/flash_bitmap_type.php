@@ -24,7 +24,7 @@ class ezcGraphFlashBitmapTypeException extends ezcGraphException
      */
     public function __construct()
     {
-        parent::__construct( "Flash can only read non interlaced JPEGs." );
+        parent::__construct( "Flash can only read JPEGs and PNGs." );
     }
 }
 

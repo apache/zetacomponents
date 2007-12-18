@@ -889,8 +889,8 @@ class ezcGraphFlashDriver extends ezcGraphDriver
      * 
      * @param mixed $file Image file
      * @param ezcGraphCoordinate $position Top left position
-     * @param mixed $width Width of image in destination image
-     * @param mixed $height Height of image in destination image
+     * @param float $width Width of image in destination image
+     * @param float $height Height of image in destination image
      * @return void
      */
     public function drawImage( $file, ezcGraphCoordinate $position, $width, $height )
@@ -898,25 +898,36 @@ class ezcGraphFlashDriver extends ezcGraphDriver
         $movie = $this->getDocument();
 
         $imageData = getimagesize( $file );
-        if ( $imageData[0] !== $width || $imageData[1] !== $height )
-        {
-            throw new ezcGraphFlashBitmapBoundingsException( $imageData[0], $imageData[1], $width, $height );
-        }
-
-        if ( $imageData[2] !== 2 )
+        if ( ( $imageData[2] !== IMAGETYPE_JPEG ) && ( $imageData[2] !== IMAGETYPE_PNG ) )
         {
             throw new ezcGraphFlashBitmapTypeException( $imageData[2] );
         }
 
-        $image = new SWFBitmap( file_get_contents( 'http://kore.phpugdo.de/jpg.jpeg' ) );
-        $object = $movie->add( $image );
+        // Try to create a new SWFBitmap object from provided file
+        $bitmap = new SWFBitmap( fopen( $file, 'rb' ) );
 
+        // Add the image to the movie
+        $object = $this->movie->add( $bitmap );
+
+        // Image size is calculated on the base of a tick size of 20, so
+        // that we need to transform this, to our tick size.
+        $factor = $this->modifyCoordinate( 1 ) / 20;
+        $object->scale( $factor, $factor );
+
+        // Scale by ratio of requested and original image size
+        $object->scale(
+            $width / $imageData[0],
+            $height / $imageData[1]
+        );
+
+        // Move object to the right position
         $object->moveTo( 
             $this->modifyCoordinate( $position->x ),
             $this->modifyCoordinate( $position->y )
-        ); 
-        $object->setName( $id = 'ezcGraphImage_'. $this->id++ );
+        );
 
+        // Create, set and return unique ID
+        $object->setName( $id = 'ezcGraphImage_'. $this->id++ );
         return $id;
     }
 
