@@ -39,6 +39,7 @@ class ezcGraphTestCase extends ezcTestImageCase
         {
             $content = preg_replace( '/\$[sf]\d+/', '$var', $content );
             $content = preg_replace( '[/\\*.*\\*/]i', '/* Comment irrelevant */', $content );
+            $content = preg_replace( '(BitmapID:.*?,SWFFILL_RADIAL_GRADIENT\\);)s', '/* Inserted bitmap fill */', $content );
 
             $$var = $content;
         }
