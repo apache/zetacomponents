@@ -377,24 +377,35 @@ class ezcGraphCairoDriver extends ezcGraphDriver
         
         // Store current state of context
         cairo_save( $this->context );
-
+        cairo_move_to( $this->context, 0, 0 );
 
         if ( $rotation !== null )
         {
-            cairo_rotate( $this->context, deg2rad( $rotation->getRotation() ) );
-            cairo_move_to( $this->context,
-                $position->x + $rotation->get( 0, 1 ), 
-                $position->y + $rotation->get( 0, 2 ) - $size * .15
+            // Move to the center
+            cairo_translate( $this->context, 
+                $rotation->getCenter()->x, 
+                $rotation->getCenter()->y
+            );
+            // Rotate around text center
+            cairo_rotate( $this->context, 
+                deg2rad( $rotation->getRotation() ) 
+            );
+            // Center the text
+            cairo_translate( $this->context, 
+                $position->x - $rotation->getCenter()->x,
+                $position->y - $rotation->getCenter()->y - $size * .15
             );
         } else {
-            cairo_move_to( $this->context,
+            cairo_translate( $this->context,
                 $position->x,
                 $position->y - $size * .15
             );
         }
 
+        cairo_new_path( $this->context );
         $this->getStyle( $color, true );
         cairo_show_text( $this->context, $text );
+        cairo_stroke( $this->context );
 
         // Restore state of context
         cairo_restore( $this->context );
@@ -419,6 +430,8 @@ class ezcGraphCairoDriver extends ezcGraphDriver
      */
     protected function drawAllTexts()
     {
+        $this->initiliazeSurface();
+
         foreach ( $this->strings as $text )
         {
             $size = $text['font']->minimalUsedFont;
@@ -457,14 +470,15 @@ class ezcGraphCairoDriver extends ezcGraphDriver
 
                 switch ( true )
                 {
-                    case ( $text['align'] & ezcGraph::LEFT ):
-                        $xOffset = 0;
-                        break;
                     case ( $text['align'] & ezcGraph::CENTER ):
                         $xOffset = ( $text['width'] - $width ) / 2;
                         break;
                     case ( $text['align'] & ezcGraph::RIGHT ):
                         $xOffset = $text['width'] - $width;
+                        break;
+                    case ( $text['align'] & ezcGraph::LEFT ):
+                    default:
+                        $xOffset = 0;
                         break;
                 }
 
