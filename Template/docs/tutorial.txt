@@ -954,7 +954,7 @@ Examples::
 
 Functions
 ---------
-The Template language has lots of build-in functions. These
+The Template language has lots of built-in functions. These
 functions are categorized in a few groups: String, Array, Regular expression,
 Type information, and Arithmetic (math) functions. The functions are explained
 in the appendix.
