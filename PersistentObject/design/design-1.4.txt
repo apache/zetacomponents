@@ -16,10 +16,11 @@ PersistentObject component version 1.4.
 The general goal for this version is to implement various features
 described by these issues in our issue tracker:
 
-- #8963  [PersistentObject] Support for composite IDs
+- #8963   Support for composite IDs.
 - #10151  Improved Database and PersistentObject datatype support (especially
-  #binary data)
-- #10373  Several relations to the same table for PersistentObject
+          binary data).
+- #10373  Several relations to the same table for PersistentObject.
+- #010913 Complex data types (e.g. DateTime) for PersistentObject.
 
 Each of the issues and their proposed solutions are explained in a seperate
 chapter in this document.
@@ -252,6 +253,58 @@ An implementation of the example with persons would then look something like:
 The changes do not break BC and require changes in PersistentSession to
 work. An extra if will have to be introduced to check for the existence of
 named relations. This will not harm performance in a significant way.
+
+Complex data types (e.g. DateTime) for PersistentObject.
+========================================================
+
+Background
+----------
+
+Currently, PersistentObject simply loads column values from a database and
+assigns those to PHP object properties. When storing a persistent object, the
+property values are simply stored into their corresponding columns.
+
+A typical example for such a conversion is the DateTime object of PHP 5.2. To
+store date and time values database independantly an integer field is usually
+used, containing unix timestamp information. In the business logic, this is
+somewhat unhandy and an instance of DateTime is desired for comfortable
+handling. The conversion between both date/time representations must currently
+be performed manually. This feature should allow the conversion to be handled
+by PersistentObject transparently.
+
+Design
+------
+
+To support highest flexibility for conversions, a very basic interface is
+introduced, which must be implemented by a class to use its instances as
+"conversion objects". An instance of such a class may then be assigned to an
+instance of ezcPersistentObjectProperty to enable the conversion for it. This
+way, a single conversion object might also be used for multiple properties, to
+reduce the number of objects to be instanciated.
+
+The interface ezcPersistentObjectPropertyConversion defines the following
+methods:
+
+fromDatabase( $databaseValue )
+  This method will be called by ezcPersistentSession right after a value has
+  been read from the database column and before this value gets assigned to the
+  PHP objects property. The $databaseValue parameter will contain the value
+  read from the database. The return value of this method will be assigned to
+  the object property, instead of the original database value.
+toDatabase( $propertyValue )
+  Corresponding to fromDatabase(), this method will be invoked right before
+  object values are stored into the database (on insert and update). The given
+  parameter $propertyValue will contain the object property contents and the
+  value returned by this method will be stored into the database.
+
+For the DateTime example, fromDatabase() will receive the integer unix
+timestamp value and will return a PHP DateTime object. toDatabase() will
+receive an instance of DateTime and return an integer unix timestamp value.
+
+As a reference implementation, the described DateTime conversion will be used.
+If more (generally sensible) conversions are found during the implementation or
+are requested by users, it might happen that additional conversion classes will
+be shipped with this version of PersistentObject.
 
 
 ..
