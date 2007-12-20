@@ -41,6 +41,8 @@ return array(
     'ezcPersistentObjectIdProperty'                       => 'PersistentObject/object/persistent_object_id_property.php',
     'ezcPersistentObjectProperties'                       => 'PersistentObject/object/persistent_object_properties.php',
     'ezcPersistentObjectProperty'                         => 'PersistentObject/object/persistent_object_property.php',
+    'ezcPersistentObjectPropertyConversion'               => 'PersistentObject/interfaces/property_conversion.php',
+    'ezcPersistentObjectPropertyDateTimeConversion'       => 'PersistentObject/object/property_conversions/date.php',
     'ezcPersistentObjectRelations'                        => 'PersistentObject/object/persistent_object_relations.php',
     'ezcPersistentOneToManyRelation'                      => 'PersistentObject/relations/one_to_many.php',
     'ezcPersistentOneToOneRelation'                       => 'PersistentObject/relations/one_to_one.php',

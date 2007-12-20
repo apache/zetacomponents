@@ -31,6 +31,7 @@ require_once( 'object_definition_test.php' );
 require_once( 'object_relations_test.php' );
 require_once( 'object_properties_test.php' );
 require_once( 'object_columns_test.php' );
+require_once 'date_time_conversion_test.php';
 
 /**
  * @package PersistentObject
@@ -63,6 +64,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentObjectRelationsTest::suite() );
         $this->addTest( ezcPersistentObjectPropertiesTest::suite() );
         $this->addTest( ezcPersistentObjectColumnsTest::suite() );
+        $this->addTest( ezcPersistentObjectPropertyDateTimeConversionTest::suite() );
     }
 
     public static function suite()
