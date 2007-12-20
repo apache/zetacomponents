@@ -1,5 +1,7 @@
 <?php
 /**
+ * File containing the ezcPersistentObjectProperty class.
+ *
  * @version //autogen//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -8,6 +10,10 @@
 
 /**
  * Defines a persistent object field.
+ *
+ * An instance of this class is used in a {@link ezcPersisentObjectDefinition}
+ * object to define a relation between an object property and a database
+ * column.
  *
  * @see ezcPersisentObjectDefinition
  *
