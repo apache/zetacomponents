@@ -71,6 +71,7 @@ class ezcWebdavFileBackendOptions extends ezcBaseOptions
      *         if $value is not correct for the property $name
      * @param string $name
      * @param mixed $value
+     * @return void
      * @ignore
      */
     public function __set( $name, $value )

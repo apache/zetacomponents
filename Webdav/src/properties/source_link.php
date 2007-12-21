@@ -3,7 +3,7 @@
  * File containing the ezcWebdavSourceProperty class.
  *
  * @package Webdav
- * @version //autogenlastmodified//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -15,7 +15,7 @@
  * @property string $dst
  *           Destination of the link (URI).
  *
- * @version //autogenlastmodified//
+ * @version //autogentag//
  * @package Webdav
  */
 class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
@@ -45,6 +45,7 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
      * 
      * @param string $propertyName The name of the property to set.
      * @param mixed $propertyValue The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException

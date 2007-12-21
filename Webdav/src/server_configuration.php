@@ -205,6 +205,7 @@ class ezcWebdavServerConfiguration
      *         if $value is not correct for the property $name
      * @param string $propertyName
      * @param mixed $propertyValue
+     * @return void
      * @ignore
      */
     public function __set( $propertyName, $propertyValue )

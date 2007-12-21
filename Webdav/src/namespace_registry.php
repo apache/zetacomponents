@@ -163,7 +163,7 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
     {
         do
         {
-            $shortcut = sprintf( "%s%'05s" , $this->shortcutBase, $this->shortcutCounter++ );
+            $shortcut = sprintf( "%s%'05s", $this->shortcutBase, $this->shortcutCounter++ );
         }
         while ( isset( $this->usedShortcuts[$shortcut] ) === true );
         return $shortcut;

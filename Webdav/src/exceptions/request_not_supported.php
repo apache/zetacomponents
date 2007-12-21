@@ -17,9 +17,11 @@
 class ezcWebdavRequestNotSupportedException extends ezcWebdavException
 {
     /**
-     * Creates a new exception.
+     * Initializes the exception with the given $request and an optional reaon
+     * $message and sets the exception message from it.
      * 
-     * @param string $headerName Name of the missing header.
+     * @param ezcWebdavRequest $request 
+     * @param mixed $message 
      * @return void
      */
     public function __construct( ezcWebdavRequest $request, $message = null )

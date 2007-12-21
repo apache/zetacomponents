@@ -340,7 +340,7 @@ abstract class ezcWebdavSimpleBackend
         $recurseCollections = array( $source );
 
         // Collect children for all collections listed in $recurseCollections.
-        for ( $i = 0; $i < count( $recurseCollections); ++$i )
+        for ( $i = 0; $i < count( $recurseCollections ); ++$i )
         {
             $source = $recurseCollections[$i];
             $childs = $this->getCollectionMembers( $source );
@@ -944,7 +944,7 @@ abstract class ezcWebdavSimpleBackend
              $this->nodeExists( $dest ) )
         {
             $replaced = true;
-            if ( count ( $delteErrors = $this->performDelete( $dest ) ) > 0 )
+            if ( count( $delteErrors = $this->performDelete( $dest ) ) > 0 )
             {
                 return new ezcWebdavMultistatusResponse(
                     $delteErrors

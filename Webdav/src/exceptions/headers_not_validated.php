@@ -17,7 +17,8 @@
 class ezcWebdavHeadersNotValidatedException extends ezcWebdavException
 {
     /**
-     * Constructor
+     * Initializes the exception with the given $header and sets the exception
+     * message from it.
      * 
      * @param string $header
      */

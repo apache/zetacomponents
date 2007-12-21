@@ -196,6 +196,12 @@ class ezcWebdavLockPlugin
         }
     }
 
+    /**
+     * Checks for active locks.
+     * 
+     * @param ezcWebdavLockRequest $request 
+     * @return null|ezcWebdavErrorResponse Null on success.
+     */
     protected function checkLock( ezcWebdavLockRequest $request )
     {
         $propFindRequest = new ezcWebdavPropFindRequest( $request->requestUri );
@@ -227,6 +233,13 @@ class ezcWebdavLockPlugin
         );
     }
 
+    /**
+     * Checks a response for lock violations.
+     * 
+     * @param ezcWebdavLockRequest $request 
+     * @param ezcWebdavResponse $response 
+     * @return null|ezcWebavErrorResponse Null on success.
+     */
     protected function checkLockViolation( ezcWebdavLockRequest $request, ezcWebdavResponse $response )
     {
         if ( $response instanceof ezcWebdavMultistatusResponse )
@@ -252,6 +265,12 @@ class ezcWebdavLockPlugin
         }
     }
 
+    /**
+     * Handle ezcWebdavUnlockRequest objects.
+     * 
+     * @param ezcWebavUnlockRequest $request 
+     * @return void
+     */
     protected function handleUnlockRequest( ezcWebavUnlockRequest $request )
     {
 
@@ -277,6 +296,7 @@ class ezcWebdavLockPlugin
      * 
      * @param string $propertyName The name of the property to set.
      * @param mixed $propertyValue The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException

@@ -17,7 +17,8 @@
 class ezcWebdavMissingServerVariableException extends ezcWebdavException
 {
     /**
-     * Constructor
+     * Initializes the exception with the given $name (the key of the $_SERVER
+     * array) and sets the exception message from it.
      * 
      * @param string $name
      */

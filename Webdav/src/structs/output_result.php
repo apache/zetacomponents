@@ -10,7 +10,6 @@
 /**
  * Struct representing a result to display.
  *
- *
  * @version //autogentag//
  * @package Webdav
  */

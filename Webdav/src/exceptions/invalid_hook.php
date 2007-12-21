@@ -23,7 +23,8 @@
 class ezcWebdavInvalidHookException extends ezcWebdavException
 {
     /**
-     * Creates a new exception.
+     * Initializes the exception with the given $class and $hook (the hook name
+     * that was requested) and sets the exception message from it.
      * 
      * @param string $class
      * @param string $hook

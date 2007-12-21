@@ -22,7 +22,8 @@
 class ezcWebdavMissingHeaderException extends ezcWebdavBadRequestException
 {
     /**
-     * Creates a new exception.
+     * Initializes the exception with the given $headerName and sets the exception
+     * message from it.
      * 
      * @param string $headerName Name of the missing header.
      * @return void

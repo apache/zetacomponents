@@ -24,7 +24,8 @@
 class ezcWebdavBrokenRequestUriException extends ezcWebdavException
 {
     /**
-     * Constructor
+     * Initializes the exception with the given $uri and sets the exception
+     * message from it.
      * 
      * @param string $uri
      */

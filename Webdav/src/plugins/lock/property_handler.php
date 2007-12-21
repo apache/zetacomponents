@@ -27,6 +27,7 @@ class ezcWebdavLockPluginPropertyHandler
      * the received property is not defined in RFC 2518, null is returned.
      * 
      * @param DOMElement $domElement 
+     * @param ezcWebdavXmlTool $xmlTool
      * @return ezcWebdavLiveProperty|null
      */
     public function extractLiveProperty( DOMElement $domElement, ezcWebdavXmlTool $xmlTool )
@@ -168,6 +169,7 @@ class ezcWebdavLockPluginPropertyHandler
      * 
      * @param ezcWebdavLiveProperty $property 
      * @param DOMElement $parentElement 
+     * @param ezcWebdavXmlTool $xmlTool
      * @return DOMElement
      */
     public function serializeLiveProperty( ezcWebdavLiveProperty $property, DOMElement $parentElement, ezcWebdavXmlTool $xmlTool )
@@ -219,9 +221,16 @@ class ezcWebdavLockPluginPropertyHandler
 
     /**
      * Serializes an array of ezcWebdavLockDiscoveryPropertyActiveLock elements to XML.
+     *
+     * Receives an array of {@link ezcWebdavLockDiscoveryPropertyActiveLock}
+     * objects in $activeLocks and serializes them to XML nodes in the received
+     * $dom DOMDocument, using the received {@link ezcWebdavXmlTool} $xmlTool.
+     * The created DOMElement objects are returned as an error for further
+     * processing.
      * 
-     * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $links 
-     * @param DOMDocument $dom To create the returned DOMElements.
+     * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLocks 
+     * @param DOMDocument $dom 
+     * @param ezcWebdavXmlTool $xmlTool
      * @return array(DOMElement)
      */
     protected function serializeActiveLockContent( array $activeLocks = null, DOMDocument $dom, ezcWebdavXmlTool $xmlTool )
@@ -295,6 +304,7 @@ class ezcWebdavLockPluginPropertyHandler
      * 
      * @param array(ezcWebdavSupportedLockPropertyLockentry) $lockEntries 
      * @param DOMDocument $dom To create the returned DOMElements.
+     * @param ezcWebdavXmlTool $xmlTool
      * @return array(DOMElement)
      */
     protected function serializeLockEntryContent( array $lockEntries = null, DOMDocument $dom, ezcWebdavXmlTool $xmlTool )

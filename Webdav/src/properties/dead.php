@@ -3,7 +3,7 @@
  * File containing the ezcWebdavDeadProperty class.
  *
  * @package Webdav
- * @version //autogenetag//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -18,7 +18,7 @@
  * @property string $content
  *           The content of a dead property.
  *
- * @version //autogenetag//
+ * @version //autogentag//
  * @package Webdav
  */
 class ezcWebdavDeadProperty extends ezcWebdavProperty
@@ -47,6 +47,7 @@ class ezcWebdavDeadProperty extends ezcWebdavProperty
      * 
      * @param string $propertyName The name of the property to set.
      * @param mixed $propertyValue The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException

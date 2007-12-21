@@ -159,6 +159,7 @@ class ezcWebdavPluginRegistry
      * registrations of the same namespace will lead to an exception.
      *
      * @param ezcWebdavPluginConfiguration $config
+     * @return void
      *
      * @throws ezcWebdavPluginDoubleRegistrationException
      *         if the namespace of a plugin is registered twice.
@@ -217,6 +218,7 @@ class ezcWebdavPluginRegistry
      * ignored.
      *
      * @param ezcWebdavPluginConfiguration $config
+     * @return void
      */
     public final function unregisterPlugin( ezcWebdavPluginConfiguration $config )
     {

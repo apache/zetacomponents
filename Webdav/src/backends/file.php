@@ -131,6 +131,7 @@ class ezcWebdavFileBackend
      * 
      * @param string $name The name of the property to set.
      * @param mixed $value The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException

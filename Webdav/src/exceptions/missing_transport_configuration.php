@@ -25,7 +25,8 @@
 class ezcWebdavMissingTransportConfigurationException extends ezcWebdavException
 {
     /**
-     * Creates a new exception.
+     * Initializes the exception with the given $userAgent and sets the exception
+     * message from it.
      * 
      * @param string $userAgent Name of the User-Agent header that lead to the exception.
      * @return void

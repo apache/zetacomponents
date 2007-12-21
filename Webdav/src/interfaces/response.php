@@ -12,7 +12,7 @@
  *
  * This base class must be extended by all response representation classes.
  *
- * @property int $status
+ * @property int    $status
  *           Response status code.
  * @property string $responseDescription
  *           Optional user readable response description.
@@ -227,6 +227,7 @@ abstract class ezcWebdavResponse
      * 
      * @param string $propertyName The name of the property to set.
      * @param mixed $propertyValue The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException

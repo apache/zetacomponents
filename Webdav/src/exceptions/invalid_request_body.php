@@ -15,6 +15,14 @@
  */
 class ezcWebdavInvalidRequestBodyException extends ezcWebdavBadRequestException
 {
+    /**
+     * Initializes the exception with the given $method and $reason and sets
+     * the exception message from it.
+     * 
+     * @param mixed $method 
+     * @param mixed $reason 
+     * @return void
+     */
     public function __construct( $method, $reason = null )
     {
         parent::__construct(

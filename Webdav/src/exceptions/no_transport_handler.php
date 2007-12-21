@@ -17,7 +17,8 @@
 class ezcWebdavNotTransportHandlerException extends ezcWebdavException
 {
     /**
-     * Constructor
+     * Initializes the exception with the given $client and sets the exception
+     * message from it.
      * 
      * @param string $client
      */

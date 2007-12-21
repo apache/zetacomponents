@@ -3,7 +3,7 @@
  * File containing the ezcWebdavResourceTypeProperty class.
  *
  * @package Webdav
- * @version //autogenlastmodified//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -13,7 +13,7 @@
  * @property string $type
  *           The resource type (free form).
  *
- * @version //autogenlastmodified//
+ * @version //autogentag//
  * @package Webdav
  */
 class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
@@ -47,6 +47,7 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
      * 
      * @param string $propertyName The name of the property to set.
      * @param mixed $propertyValue The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException

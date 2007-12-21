@@ -3,7 +3,7 @@
  * File containing the ezcWebdavLockDiscoveryPropertyActiveLock class.
  *
  * @package Webdav
- * @version //autogenlastmodified//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  *
@@ -23,7 +23,7 @@
  *           These are originally covered in additional <href> elements, which
  *           is left out here.
  *
- * @version //autogenlastmodified//
+ * @version //autogentag//
  * @package Webdav
  *
  * @access private
@@ -72,6 +72,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * 
      * @param string $propertyName The name of the property to set.
      * @param mixed $propertyValue The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException

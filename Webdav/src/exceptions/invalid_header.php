@@ -9,6 +9,7 @@
  */
 /**
  * Exception thrown when a request/response object receives an invalid header value.
+ *
  * {@link ezcWebdavRequest::validateHeaders()} will throw this exception, if a
  * header, which is essential to the specific request, is not present. {@link
  * ezcWebdavTransport::sendResponse()} will throw this exception if a
@@ -20,7 +21,9 @@
 class ezcWebdavInvalidHeaderException extends ezcWebdavBadRequestException
 {
     /**
-     * Creates a new exception.
+     * Initializes the exception with the given $headerName, $value (the value
+     * of the named header) and $expectedValue and sets the exception message
+     * from it.
      * 
      * @param string $headerName    Name of the affected header.
      * @param string $value         Contained value.

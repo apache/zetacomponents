@@ -16,7 +16,7 @@
  *
  * @property ezcWebdavResource|ezcWebdavCollection $node
  *           Contains the resource affected by the response.
- * @property array(ezcWebdavPropStatResponse) $responses
+ * @property array(ezcWebdavPropStatResponse)      $responses
  *           Contains a list of propstat responses for the node.
  *
  * @version //autogentag//
@@ -82,6 +82,7 @@ class ezcWebdavPropFindResponse extends ezcWebdavResponse
      * 
      * @param string $propertyName The name of the property to set.
      * @param mixed $propertyValue The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException

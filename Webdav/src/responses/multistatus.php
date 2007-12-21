@@ -25,9 +25,6 @@ class ezcWebdavMultistatusResponse extends ezcWebdavResponse
      * Any number of {@link ezcWebdavResponse} objects may be passed as
      * parameters to the constructer.
      * 
-     * @param ezcWebdavResponse $response1
-     * @param ezcWebdavResponse $response2
-     * @param ezcWebdavResponse $response...
      * @return void
      */
     public function __construct()
@@ -89,6 +86,7 @@ class ezcWebdavMultistatusResponse extends ezcWebdavResponse
      * 
      * @param string $propertyName The name of the property to set.
      * @param mixed $propertyValue The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException

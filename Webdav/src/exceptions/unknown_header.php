@@ -19,11 +19,10 @@
 class ezcWebdavUnknownHeaderException extends ezcWebdavException
 {
     /**
-     * Creates a new exception.
+     * Initializes the exception with the given $header and sets the exception
+     * message from it.
      * 
      * @param string $headerName    Name of the affected header.
-     * @param string $value         Contained value.
-     * @param string $expectedValue Expected values.
      * @return void
      */
     public function __construct( $headerName )

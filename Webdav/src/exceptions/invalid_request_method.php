@@ -15,6 +15,13 @@
  */
 class ezcWebdavInvalidRequestMethodException extends ezcWebdavException
 {
+    /**
+     * Initializes the exception with the given $method and sets the exception
+     * message from it.
+     * 
+     * @param mixed $method 
+     * @return void
+     */
     public function __construct( $method )
     {
         parent::__construct( "The HTTP request method '$method' was not understood." );

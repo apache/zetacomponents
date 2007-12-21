@@ -134,6 +134,7 @@ class ezcWebdavMemoryBackend
      *         if $value is not correct for the property $name
      * @param string $name
      * @param mixed $value
+     * @return void
      * @ignore
      */
     public function __set( $name, $value )
@@ -155,7 +156,7 @@ class ezcWebdavMemoryBackend
     }
 
     /**
-     * Return an initial set o fproperties for resources and collections.
+     * Return an initial set of properties for resources and collections.
      *
      * The second parameter indicates wheather the given resource is a
      * collection. The returned properties are used to initialize the property

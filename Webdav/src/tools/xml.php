@@ -121,6 +121,7 @@ class ezcWebdavXmlTool
      * 
      * @param string $propertyName Name of the property.
      * @param mixed $propertyValue  The value for the property.
+     * @return void
      *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of

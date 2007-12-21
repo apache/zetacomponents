@@ -3,7 +3,7 @@
  * File containing the ezcWebdavLiveProperty class.
  *
  * @package Webdav
- * @version //autogenetag//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -14,7 +14,7 @@
  * properties must extend this common base class. Live properties reside in the
  * 'DAV:' namespace.
  *
- * @version //autogenetag//
+ * @version //autogentag//
  * @package Webdav
  */
 abstract class ezcWebdavLiveProperty extends ezcWebdavProperty

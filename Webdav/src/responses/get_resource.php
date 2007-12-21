@@ -46,6 +46,7 @@ class ezcWebdavGetResourceResponse extends ezcWebdavResponse
      * 
      * @param string $propertyName The name of the property to set.
      * @param mixed $propertyValue The property value.
+     * @return void
      * @ignore
      *
      * @throws ezcBasePropertyNotFoundException
