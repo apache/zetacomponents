@@ -37,6 +37,7 @@ class ezcPersistentObjectProperty
 
     /**
      * Holds the properties for this class.
+     *
      * @var array
      */
     private $properties = array(
@@ -46,11 +47,18 @@ class ezcPersistentObjectProperty
     );
 
     /**
-     * Constructs a new PersistentObjectField
+     * Creates a new property definition object.
      *
-     * @param string $columnName The name of the column to map to.
-     * @param string $propertyName The name of the class property to map to.
-     * @param int $type The type of the class property.
+     * Creates a new property definition object from the given values. The
+     * $columnName refers to the name of the database column that, the
+     * $propertyName to the name of the PHP object property it refers to.
+     *
+     * The $type defines the type of the resulting PHP property, but is
+     * currently not taken into account anywhere.
+     *
+     * @param string $columnName
+     * @param string $propertyName
+     * @param int $type
      */
     public function __construct( $columnName   = null,
                                  $propertyName = null,
