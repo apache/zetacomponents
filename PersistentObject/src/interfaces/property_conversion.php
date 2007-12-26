@@ -38,6 +38,10 @@ interface ezcPersistentObjectPropertyConversion
      * This method is called right after a column value has been read from the
      * database, given the $databaseValue. The value returned by this method is
      * then assigned to the persistent objects property.
+     *
+     * For all implementations it should be made sure, that null is accepted
+     * and handled correctly here, to indicate that the database field
+     * contained a null value.
      * 
      * @param mixed $databaseValue Column value.
      * @return mixed Property value.
@@ -50,6 +54,10 @@ interface ezcPersistentObjectPropertyConversion
      * This method is called right before a property value is written to the
      * database, given the $propertyValue. The value returned by this method is
      * then written back to the database.
+     *
+     * Cases where fields may be left empty (null) should always be considered
+     * in this method, The default way to handle a null value should be to
+     * return null again, except if excplicitly desired differently.
      * 
      * @param mixed $propertyValue Property value.
      * @return mixed Column value.

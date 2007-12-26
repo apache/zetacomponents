@@ -1181,6 +1181,7 @@ class ezcPersistentSession
             if ( $name == $def->idProperty->propertyName )
             {
                 $type = $def->idProperty->propertyType;
+                $conv = null;
             }
             else
             {
@@ -1189,10 +1190,15 @@ class ezcPersistentSession
                     continue;
                 }
                 $type = $def->properties[$name]->propertyType;
+                $conv = $def->properties[$name]->conversion;
             }
 
             if ( !is_null( $value ) )
             {
+                if ( !is_null( $conv ) )
+                {
+                    $value = $conv->toDatabase( $value );
+                }
                 switch ( $type )
                 {
                     case ezcPersistentObjectProperty::PHP_TYPE_INT:
@@ -1206,6 +1212,8 @@ class ezcPersistentSession
                         break;
                 }
             }
+
+
             $typedState[$name] = $value;
         }
         return $typedState;

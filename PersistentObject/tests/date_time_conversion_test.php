@@ -42,6 +42,11 @@ class ezcPersistentObjectPropertyDateTimeConversionTest extends ezcTestCase
             $conv->fromDatabase( '327535200' ),
             'Conversion of positive time stamp as string from database failed.'
         );
+
+        $this->assertNull(
+            $conv->fromDatabase( null ),
+            'Conversion of null value failed.'
+        );
     }
 
     public function testFromDatabaseFailure()
@@ -81,6 +86,11 @@ class ezcPersistentObjectPropertyDateTimeConversionTest extends ezcTestCase
             -1000,
             $conv->toDatabase( new DateTime( '@-1000' ) ),
             'Conversion of positive time stamp to database failed.'
+        );
+
+        $this->assertNull(
+            $conv->toDatabase( null ),
+            'Conversion of null value failed.'
         );
     }
     

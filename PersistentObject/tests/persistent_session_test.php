@@ -10,6 +10,7 @@
 
 require_once "data/persistent_test_object.php";
 require_once "data/persistent_test_object_no_id.php";
+require_once "data/persistent_test_object_conversion.php";
 
 require_once "data/relation_test_address.php";
 require_once "data/relation_test_person.php";
@@ -787,6 +788,217 @@ class ezcPersistentSessionTest extends ezcTestCase
         }
 
         $this->removeTempDir();
+    }
+
+    public function testConversionOnLoad()
+    {
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q->where(
+            $q->expr->eq( 
+                $this->session->database->quoteIdentifier( 'type_varchar' ),
+                $q->bindValue( 'Germany' )
+            )
+        );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+
+        $this->assertEquals(
+            1,
+            count( $arr )
+        );
+
+        $this->assertType(
+            'DateTime',
+            $arr[0]->integer
+        );
+
+        $this->assertEquals(
+            '82443000',
+            $arr[0]->integer->format( 'U' )
+        );
+    }
+
+    public function testConversionOnSave()
+    {
+        $obj = new PersistentTestObjectConversion();
+
+        $obj->varchar = 'Foo Bar';
+        $obj->integer = new DateTime( '@327535200' );
+        $obj->decimal = 23.42;
+        $obj->text    = 'Foo Bar Baz';
+
+        $this->session->save( $obj );
+
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q->where(
+            $q->expr->eq( 
+                $this->session->database->quoteIdentifier( 'type_varchar' ),
+                $q->bindValue( 'Foo Bar' )
+            )
+        );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+
+        $this->assertEquals(
+            1,
+            count( $arr )
+        );
+
+        $this->assertType(
+            'DateTime',
+            $arr[0]->integer
+        );
+
+        $this->assertEquals(
+            '327535200',
+            $arr[0]->integer->format( 'U' )
+        );
+    }
+
+    public function testNoConversionOnSave()
+    {
+        $obj = new PersistentTestObjectConversion();
+
+        $obj->varchar = 'Foo Bar';
+        // Leave null
+        // $obj->integer = new DateTime( '@327535200' );
+        $obj->decimal = 23.42;
+        $obj->text    = 'Foo Bar Baz';
+
+        $this->session->save( $obj );
+
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q->where(
+            $q->expr->eq( 
+                $this->session->database->quoteIdentifier( 'type_varchar' ),
+                $q->bindValue( 'Foo Bar' )
+            )
+        );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+
+        $this->assertEquals(
+            1,
+            count( $arr )
+        );
+
+        $this->assertNull(
+            $arr[0]->integer
+        );
+    }
+
+    public function testConversionOnUpdate()
+    {
+        $obj = new PersistentTestObjectConversion();
+
+        $obj->varchar = 'Foo Bar';
+        // Leave null
+        // $obj->integer = new DateTime( '@327535200' );
+        $obj->decimal = 23.42;
+        $obj->text    = 'Foo Bar Baz';
+
+        $this->session->save( $obj );
+
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q->where(
+            $q->expr->eq( 
+                $this->session->database->quoteIdentifier( 'type_varchar' ),
+                $q->bindValue( 'Foo Bar' )
+            )
+        );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+
+        $this->assertEquals(
+            1,
+            count( $arr )
+        );
+
+        $this->assertNull(
+            $arr[0]->integer
+        );
+
+        $arr[0]->integer = new DateTime( '@327535200' );
+
+        $this->session->update( $arr[0] );
+        
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q->where(
+            $q->expr->eq( 
+                $this->session->database->quoteIdentifier( 'type_varchar' ),
+                $q->bindValue( 'Foo Bar' )
+            )
+        );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+
+        $this->assertEquals(
+            1,
+            count( $arr )
+        );
+
+        $this->assertType(
+            'DateTime',
+            $arr[0]->integer
+        );
+
+        $this->assertEquals(
+            '327535200',
+            $arr[0]->integer->format( 'U' )
+        );
+    }
+    
+    public function testNoConversionOnUpdate()
+    {
+        $obj = new PersistentTestObjectConversion();
+
+        $obj->varchar = 'Foo Bar';
+        $obj->integer = new DateTime( '@327535200' );
+        $obj->decimal = 23.42;
+        $obj->text    = 'Foo Bar Baz';
+
+        $this->session->save( $obj );
+
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q->where(
+            $q->expr->eq( 
+                $this->session->database->quoteIdentifier( 'type_varchar' ),
+                $q->bindValue( 'Foo Bar' )
+            )
+        );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+
+        $this->assertEquals(
+            1,
+            count( $arr )
+        );
+        
+        $this->assertType(
+            'DateTime',
+            $arr[0]->integer
+        );
+
+        $this->assertEquals(
+            '327535200',
+            $arr[0]->integer->format( 'U' )
+        );
+
+        $arr[0]->integer = null;
+
+        $this->session->update( $arr[0] );
+        
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q->where(
+            $q->expr->eq( 
+                $this->session->database->quoteIdentifier( 'type_varchar' ),
+                $q->bindValue( 'Foo Bar' )
+            )
+        );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+
+        $this->assertEquals(
+            1,
+            count( $arr )
+        );
+
+        $this->assertNull(
+            $arr[0]->integer
+        );
     }
 }
 

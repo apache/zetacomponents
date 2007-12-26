@@ -17,12 +17,17 @@
  *
  * @see ezcPersisentObjectDefinition
  *
- * @property string $columnName   The name of the database field that stores the
- *                                value.
- * @property string $propertyName The name of the PersistentObject property
- *                                that holds the value in the PHP object.
- * @property int $propertyType    The type of the PHP property. See class 
- *                                constants PHP_TYPE_*.
+ * @property string $columnName
+ *           The name of the database field that stores the value.
+ * @property string $propertyName
+ *           The name of the PersistentObject property that holds the value in
+ *           the PHP object.
+ * @property int $propertyType 
+ *           The type of the PHP property. See class constants PHP_TYPE_*.
+ * @property ezcPersistentObjectPropertyConversion|null $conversion
+ *           A conversion object that will automatically perform conversions on
+ *           load and save of a property value.
+ *
  * @package PersistentObject
  * @version //autogen//
  */
@@ -44,6 +49,7 @@ class ezcPersistentObjectProperty
         'columnName'   => null,
         'propertyName' => null,
         'propertyType' => self::PHP_TYPE_STRING,
+        'conversion'   => null,
     );
 
     /**
@@ -52,9 +58,8 @@ class ezcPersistentObjectProperty
      * Creates a new property definition object from the given values. The
      * $columnName refers to the name of the database column that, the
      * $propertyName to the name of the PHP object property it refers to.
-     *
-     * The $type defines the type of the resulting PHP property, but is
-     * currently not taken into account anywhere.
+     * The $type defines the type of the resulting PHP property, the database
+     * value will be casted accordingly after load.
      *
      * @param string $columnName
      * @param string $propertyName
@@ -62,11 +67,13 @@ class ezcPersistentObjectProperty
      */
     public function __construct( $columnName   = null,
                                  $propertyName = null,
-                                 $type         = self::PHP_TYPE_STRING )
+                                 $type         = self::PHP_TYPE_STRING,
+                                 $conversion   = null )
     {
         $this->columnName   = $columnName;
         $this->propertyName = $propertyName;
         $this->propertyType = $type;
+        $this->conversion   = $conversion;
     }
 
     /**
@@ -88,14 +95,16 @@ class ezcPersistentObjectProperty
         {
             return new ezcPersistentObjectProperty( $array['properties']['columnName'],
                                                     $array['properties']['propertyName'],
-                                                    $array['properties']['propertyType'] );
+                                                    $array['properties']['propertyType'],
+                                                    ( isset( $array['properties']['conversion'] ) ? $array['properties']['conversion'] : null ) );
         }
         else
         {
             // Old style exports
             return new ezcPersistentObjectProperty( $array['columnName'],
                                                     $array['propertyName'],
-                                                    $array['propertyType'] );
+                                                    $array['propertyType'],
+                                                    ( isset( $array['conversion'] ) ? $array['conversion'] : null ) );
         }
     }
 
@@ -152,6 +161,16 @@ class ezcPersistentObjectProperty
                         $propertyName,
                         $propertyValue,
                         'int or null'
+                    );
+                }
+                break;
+            case 'conversion':
+                if ( !( $propertyValue instanceof ezcPersistentObjectPropertyConversion ) && !is_null( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'ezcPersistentObjectPropertyConversion or null'
                     );
                 }
                 break;

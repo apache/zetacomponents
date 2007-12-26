@@ -19,7 +19,7 @@
  * @package PersistentObject
  * @version //autogen//
  */
-class ezcPersistentObjectPropertyDateTimeConversion
+class ezcPersistentObjectPropertyDateTimeConversion implements ezcPersistentObjectPropertyConversion
 {
     /**
      * Converts unix timestamp to DateTime instance.
@@ -32,14 +32,18 @@ class ezcPersistentObjectPropertyDateTimeConversion
      * in unix timestamp representation. A corresponding DateTime object is
      * returned, representing the same date/time value.
      * 
-     * @param int $databaseValue 
-     * @return DateTime
+     * @param int|null $databaseValue 
+     * @return DateTime|null
      *
      * @throws ezcBaseValueException
      *         if the given $databaseValue is not an integer.
      */
     public function fromDatabase( $databaseValue )
     {
+        if ( $databaseValue === null )
+        {
+            return null;
+        }
         if ( !is_int( $databaseValue ) && !is_numeric( $databaseValue ) )
         {
             throw new ezcBaseValueException( 'databaseValue', $databaseValue, 'int' );
@@ -58,19 +62,37 @@ class ezcPersistentObjectPropertyDateTimeConversion
      * date/time value represented by it as an integer value in unix timestamp
      * format.
      * 
-     * @param DateTime $propertyValue 
-     * @return int
+     * @param DateTime|null $propertyValue 
+     * @return int|null
      *
      * @throws ezcBaseValueException
      *         if the given $propertyValue is not an instance of DateTime.
      */
     public function toDatabase( $propertyValue )
     {
+        if ( $propertyValue === null )
+        {
+            return null;
+        }
         if ( !( $propertyValue instanceof DateTime ) )
         {
             throw new ezcBaseValueException( 'propertyValue', $propertyValue, 'DateTime' );
         }
         return $propertyValue->format( 'U' );
+    }
+
+    /**
+     * Method for de-serialization after var_export().
+     *
+     * This methid must be implemented to allow proper de-serialization of
+     * conversion objects, when they are exported using {@link var_export()}.
+     * 
+     * @param array $state 
+     * @return ezcPersistentObjectPropertyConversion
+     */
+    public static function __set_state( array $state )
+    {
+        return new ezcPersistentObjectPropertyDateTimeConversion();
     }
 }
 
