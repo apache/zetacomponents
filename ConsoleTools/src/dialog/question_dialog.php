@@ -155,10 +155,14 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
         $opts = new ezcConsoleQuestionDialogOptions();
         $opts->text = $questionString;
         $opts->showResults = true;
-        $opts->validator = new ezcConsoleQuestionDialogCollectionValidator(
+        $opts->validator = new ezcConsoleQuestionDialogMappingValidator(
             array( "y", "n" ),
             $default,
             ezcConsoleQuestionDialogCollectionValidator::CONVERT_LOWER
+            array(
+                'yes' => 'y',
+                'no'  => 'n',
+            ),
         );
 
         return new ezcConsoleQuestionDialog( $out, $opts );

@@ -106,6 +106,10 @@ require_once 'question_dialog_options_test.php';
 /**
  * Require test suite for ezcConsoleQuestionDialogCollectionValidator class. 
  */
+require_once 'question_dialog_mapping_validator_test.php';
+/**
+ * Require test suite for ezcConsoleQuestionDialogMappingValidator class. 
+ */
 require_once 'question_dialog_collection_validator_test.php';
 /**
  * Require test suite for ezcConsoleQuestionDialogTypeValidator class. 
@@ -170,6 +174,7 @@ class ezcConsoleToolsSuite extends PHPUnit_Framework_TestSuite
 		$this->addTest( ezcConsoleDialogOptionsTest::suite() );
 		$this->addTest( ezcConsoleQuestionDialogOptionsTest::suite() );
 		$this->addTest( ezcConsoleQuestionDialogCollectionValidatorTest::suite() );
+		$this->addTest( ezcConsoleQuestionDialogMappingValidatorTest::suite() );
 		$this->addTest( ezcConsoleQuestionDialogTypeValidatorTest::suite() );
 		$this->addTest( ezcConsoleQuestionDialogRegexValidatorTest::suite() );
 		$this->addTest( ezcConsoleMenuDialogTest::suite() );
