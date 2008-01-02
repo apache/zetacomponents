@@ -95,6 +95,20 @@ The date, severity, source, category and message are shown. The
 source and category are both set to default, because they were not specified in
 the message.
 
+Writing a log message to a database
+-----------------------------------
+
+With the optional EventLogDatabaseTiein_ component it is also possible to write
+log messages to a database table. See the EventLogDatabaseTiein_ tutorial on
+how to use the ezcLogDatabaseWriter_ as writer instead of the
+ezcLogUnixFileWriter_ from this component. You can use both log writers
+at the same time. See the section `Assigning log messages to different files`_
+on how to use different writers simultaneously. 
+
+.. _EventLogDatabaseTiein: introduction_EventLogDatabaseTiein.html
+.. _ezcLogDatabaseWriter: EventLogDatabaseTiein/ezcLogDatabaseWriter.html
+.. _ezcLogUnixFileWriter: EventLog/ezcLogUnixFileWriter.html
+
 
 Assigning sources and categories
 --------------------------------
@@ -169,7 +183,6 @@ on the ezcLog::logHandler() method.
 
 .. _trigger_error: http://www.php.net/trigger_error
 .. _set_error_handler: http://www.php.net/set_error_handler
-.. _EventLogDatabaseTieIn: http://ez.no/doc/components/view/trunk/(file)/introduction_EventLogDatabaseTiein.html
 
 Lazy initialization
 ===================
