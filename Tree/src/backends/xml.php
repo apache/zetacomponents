@@ -255,7 +255,7 @@ class ezcTreeXml extends ezcTree
     public function nodeExists( $nodeId )
     {
         $elem = $this->dom->getElementById( "{$this->properties['prefix']}$nodeId" );
-        return ( $elem !== NULL ) ? true : false;
+        return ( $elem !== null ) ? true : false;
     }
 
     /**
