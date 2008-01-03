@@ -19,7 +19,7 @@
  * <?php
  * class myExecutionHandler extends ezcExecutionBasicErrorHandler
  * {
- *     public static function onError( Exception $exception = NULL )
+ *     public static function onError( Exception $exception = null )
  *     {
  *         echo "Error!\n";
  *         // If you want, you can use the parent's onError method, but that
