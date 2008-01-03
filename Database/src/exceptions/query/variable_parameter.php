@@ -39,7 +39,7 @@ class ezcQueryVariableParameterException extends ezcQueryException
         }
         else if ( $numProvided > 1 )
         {
-            $providedString = "only {$numProvided} was provided";
+            $providedString = "only {$numProvided} were provided";
         }
         $info = "The method '{$method}' expected at least {$expectedString} but {$providedString}.";
         parent::__construct( $info );
