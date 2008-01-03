@@ -145,7 +145,7 @@ abstract class ezcGraphPalette
      */
     protected function checkColor( &$color )
     {
-        if ( $color == NULL )
+        if ( $color == null )
         {
             return ezcGraphColor::fromHex( '#000000FF' );
         }
