@@ -9,16 +9,16 @@
  * @access private
  */
 
-/** 
+/**
  * The ezcArchiveCentralDirectoryHeader class represents the Zip central directory header.
- * 
- * ezcArchiveCentralDirectoryHeader can read the header from an ezcArchiveCharacterFile or ezcArchiveEntry. 
+ *
+ * ezcArchiveCentralDirectoryHeader can read the header from an ezcArchiveCharacterFile or ezcArchiveEntry.
  *
  * The values from the headers are directly accessible via the class properties, and allows
- * reading and writing to specific header values. 
- * 
- * The entire header can be appended to an ezcArchiveCharacterFile again or written to an ezcArchiveFileStructure.  
- * Information may get lost, though. 
+ * reading and writing to specific header values.
+ *
+ * The entire header can be appended to an ezcArchiveCharacterFile again or written to an ezcArchiveFileStructure.
+ * Information may get lost, though.
  *
  * The central directory format[1]:
  *
@@ -26,48 +26,48 @@
  *  [file header 1]
  *  .
  *  .
- *  . 
+ *  .
  *  [file header n]
  *  [digital signature] <-- Optional, TODO: check if implemented.
  * </pre>
  *
- * The Central Directory Header has the following structure: 
+ * The Central Directory Header has the following structure:
  *
  * <pre>
  * + ---+---------+------------+------------------------+------------------------------------+
  * | ID | Offset  | Field size | Property               |  Description                       |
  * +----+---------+------------+------------------------+------------------------------------+
- * |    |  0      | 4          | -                      | Central directory header signature | 
- * |    |  4      | 2          | versionMadeBy          | Version made by                    | 
- * |    |  6      | 2          | versionNeededToExtract | Version needed to extract          | 
- * |    |  8      | 2          | bitFlag                | General purpose bit flag           | 
- * |    |  10     | 2          | compressionMethod      | Compression method                 | 
- * |    |  12     | 2          | lastModFileTime        | Last modification file time        | 
- * |    |  14     | 2          | lastModFileDate        | Last modification file date        | 
- * |    |  16     | 4          | crc                    | crc-32                             | 
- * |    |  20     | 4          | compressedSize         | compressed size                    | 
- * |    |  24     | 4          | uncompressedSize       | uncompressed size                  | 
- * | X: |  26     | 2          | fileNameLength         | file name length                   | 
- * | Y: |  28     | 2          | extraFieldLength       | extra field length                 | 
- * | Z: |  30     | 2          | fileCommentLength      | file comment length                | 
- * |    |  32     | 2          | diskNumberStart        | disk number start                  | 
- * |    |  34     | 2          | internalFileAttributes | internal file attributes           | 
- * |    |  38     | 4          | externalFileAttributes | external file attributes           | 
- * |    |  42     | 4          | relativeHeaderOffset   | relative offset of local header    | 
+ * |    |  0      | 4          | -                      | Central directory header signature |
+ * |    |  4      | 2          | versionMadeBy          | Version made by                    |
+ * |    |  6      | 2          | versionNeededToExtract | Version needed to extract          |
+ * |    |  8      | 2          | bitFlag                | General purpose bit flag           |
+ * |    |  10     | 2          | compressionMethod      | Compression method                 |
+ * |    |  12     | 2          | lastModFileTime        | Last modification file time        |
+ * |    |  14     | 2          | lastModFileDate        | Last modification file date        |
+ * |    |  16     | 4          | crc                    | crc-32                             |
+ * |    |  20     | 4          | compressedSize         | compressed size                    |
+ * |    |  24     | 4          | uncompressedSize       | uncompressed size                  |
+ * | X: |  26     | 2          | fileNameLength         | file name length                   |
+ * | Y: |  28     | 2          | extraFieldLength       | extra field length                 |
+ * | Z: |  30     | 2          | fileCommentLength      | file comment length                |
+ * |    |  32     | 2          | diskNumberStart        | disk number start                  |
+ * |    |  34     | 2          | internalFileAttributes | internal file attributes           |
+ * |    |  38     | 4          | externalFileAttributes | external file attributes           |
+ * |    |  42     | 4          | relativeHeaderOffset   | relative offset of local header    |
  * |    |  46     | X          | fileName               | file name                          |
  * |    |  46+X   | Y          | -                      | extra field                        |
  * |    |  46+X+Y | Z          | comment                | file comment                       |
  * +----+---------+------------+------------------------+------------------------------------+
  * </pre>
  *
- * The columns of the table are: 
+ * The columns of the table are:
  * - ID gives a label to a specific field or row in the table.
  * - Offset describes the start position of a header field.
- * - Field size describes the size of the field in bytes. 
+ * - Field size describes the size of the field in bytes.
  * - Property is the name of the property that will be set by the header field.
- * - Description explains what this field describes. 
+ * - Description explains what this field describes.
  *
- * The central directory signature cannot be changed and is set in the constant {@link const magic}. 
+ * The central directory signature cannot be changed and is set in the constant {@link self::magic}.
  *
  * The extra fields that are implemented and references to extra documentation can be found in
  * the {@link ezcArchivelocalFileHeader}.
@@ -75,7 +75,7 @@
  * @package Archive
  * @version //autogentag//
  * @access private
- */ 
+ */
 class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
 {
     /**
@@ -83,13 +83,13 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
      */
     const magic = 0x02014b50;
 
-    /** 
+    /**
      * Creates and initializes a new header.
      *
-     * If the ezcArchiveCharacterFile $file is null then the header will be empty. 
-     * When an ezcArchiveCharacterFile is given, the file position should be directly after the 
-     * signature of the header. This header will be read from the file and initialized in this class. 
-     * 
+     * If the ezcArchiveCharacterFile $file is null then the header will be empty.
+     * When an ezcArchiveCharacterFile is given, the file position should be directly after the
+     * signature of the header. This header will be read from the file and initialized in this class.
+     *
      * @param ezcArchiveCharacterFile $file
      */
     public function __construct( ezcArchiveCharacterFile $file = null )
@@ -111,7 +111,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
                 "vfileCommentLength/".
                 "vdiskNumberStart/".
                 "vinternalFileAttributes/".
-                "VexternalFileAttributes/".  
+                "VexternalFileAttributes/".
                 "VrelativeHeaderOffset",
                 $file->read( 42 ) );
 
@@ -120,19 +120,18 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
                 $this->properties["comment"] = $file->read( $this->properties["fileCommentLength"] );
 
                 // Append extra field information.
-                $this->setExtraFieldData( $extraField );  
+                $this->setExtraFieldData( $extraField );
         }
         else
         {
             // Some default values:
-            $this->properties["versionMadeBy"] = 791; 
-            $this->properties["versionNeededToExtract"] = 10; 
+            $this->properties["versionMadeBy"] = 791;
+            $this->properties["versionNeededToExtract"] = 10;
             $this->properties["diskNumberStart"] = 0;
             $this->setComment( "" );
         }
     }
 
- 
     /**
      * Sets the property $name to $value.
      *
@@ -147,7 +146,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
     {
         switch ( $name )
         {
-            case "versionMadeBy": 
+            case "versionMadeBy":
             case "versionNeededToExtract":
             case "bitFlag":
             case "compressionMethod":
@@ -158,8 +157,8 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
             case "uncompressedSize":
             case "diskNumberStart":
             case "internalFileAttributes":
-            case "externalFileAttributes":  
-            case "fileName":  
+            case "externalFileAttributes":
+            case "fileName":
             case "relativeHeaderOffset":
                 $this->properties[$name] = $value;
                 break;
@@ -190,7 +189,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
     {
         switch ( $name )
         {
-            case "versionMadeBy": 
+            case "versionMadeBy":
             case "versionNeededToExtract":
             case "bitFlag":
             case "compressionMethod":
@@ -201,7 +200,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
             case "uncompressedSize":
             case "diskNumberStart":
             case "internalFileAttributes":
-            case "externalFileAttributes":  
+            case "externalFileAttributes":
             case "relativeHeaderOffset":
             case "fileNameLength":
             case "extraFieldLength":
@@ -221,7 +220,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
      * @param string $comment
      * @return void
      */
-    public function setComment( $comment ) 
+    public function setComment( $comment )
     {
         $this->properties["comment"] = $comment;
         $this->properties["fileCommentLength"] = strlen( $comment );
@@ -230,7 +229,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
     /**
      * Sets the type to int $type.
      *
-     * The type is a constant from the {@link ezcArchiveEntry}. For example: 
+     * The type is a constant from the {@link ezcArchiveEntry}. For example:
      * ezcArchiveEntry::IS_FIFO.
      * The property externalFileAttributes will be changed to reflect the $type.
      *
@@ -316,7 +315,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
                 return ezcArchiveEntry::IS_SYMBOLIC_LINK;
 
             default:
-                if ( substr( $this->properties["fileName"], -1) == "/" )
+                if ( substr( $this->properties["fileName"], -1 ) == "/" )
                 {
                     return ezcArchiveEntry::IS_DIRECTORY;
                 }
@@ -411,7 +410,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
     /**
      * Sets this header with the values from the {@link ezcArchiveLocalFileHeader}.
      *
-     * The properties that are set: versionNeededToExtract, bitFlag, compressionMethod, 
+     * The properties that are set: versionNeededToExtract, bitFlag, compressionMethod,
      * lastModFileTime, lastModFileDate, crc, compressedSize, uncompressedSize, fileNameLength,
      * and fileName.
      *
@@ -454,18 +453,18 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
 
     /**
      * Serializes this header and appends it to the given ezcArchiveCharacterFile $archiveFile.
-     * 
+     *
      * @param ezcArchiveCharacterFile $archiveFile
      * @return void
      */
     public function writeEncodedHeader( $archiveFile )
     {
-        $this->properties["extraFieldLength" ] = 13; // 9 + 4. 
+        $this->properties["extraFieldLength" ] = 13; // 9 + 4.
 
         $enc = pack( "VvvvvvvVVVvvvvvVV",
-            self::magic,           // V magic number   
-            $this->versionMadeBy,  // v 
-            $this->versionNeededToExtract,  // v 
+            self::magic,           // V magic number
+            $this->versionMadeBy,  // v
+            $this->versionNeededToExtract,  // v
             $this->bitFlag, // v
             $this->compressionMethod, // v
             $this->lastModFileTime, // v
@@ -478,12 +477,12 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
             $this->fileCommentLength , // v Comment
             $this->diskNumberStart ,  // v disknumber start
             $this->internalFileAttributes,  // v Internal attribute
-            $this->externalFileAttributes,  // V external attributes 
-            $this->relativeHeaderOffset       // V relative header offset? 
+            $this->externalFileAttributes,  // V external attributes
+            $this->relativeHeaderOffset       // V relative header offset?
          );
 
          $time = pack( "vvcV", self::EF_TIME, 5, 1, $this->mtime ); // fixme atime?
-         $unix2 = pack( "vv", self::EF_IZUNIX2, 0 ); // Add empty unix2 stamp. 
+         $unix2 = pack( "vv", self::EF_IZUNIX2, 0 ); // Add empty unix2 stamp.
 
          $archiveFile->write( $enc . $this->fileName . $time . $unix2 . $this->comment );
     }

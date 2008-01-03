@@ -1,18 +1,18 @@
 <?php
 /**
  * File containing the ezcArchiveEntryPrefixException class.
- * 
+ *
  * @package Archive
- * @version //autogen//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
  * An exception for an invalid prefix of a file entry.
- * 
+ *
  * @package Archive
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcArchiveEntryPrefixException extends ezcArchiveException
 {
@@ -24,7 +24,7 @@ class ezcArchiveEntryPrefixException extends ezcArchiveException
      */
     public function __construct( $prefix, $fileName )
     {
-        parent::__construct( "The prefix '$prefix' from the file entry '$fileName' is invalid." );
+        parent::__construct( "The prefix '{$prefix}' from the file entry '{$fileName}' is invalid." );
     }
 }
 ?>

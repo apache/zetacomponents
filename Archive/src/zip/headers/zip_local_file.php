@@ -9,16 +9,16 @@
  * @access private
  */
 
-/** 
+/**
  * The ezcArchiveLocalFileHeader class represents the Zip local header.
- * 
- * ezcArchiveLocalFileHeader can read the header from an ezcArchiveCharacterFile or ezcArchiveEntry. 
+ *
+ * ezcArchiveLocalFileHeader can read the header from an ezcArchiveCharacterFile or ezcArchiveEntry.
  *
  * The values from the headers are directly accessible via the class properties, and allows
- * reading and writing to specific header values. 
- * 
- * The entire header can be appended to an ezcArchiveCharacterFile again or written to an ezcArchiveFileStructure.  
- * Information may get lost, though. 
+ * reading and writing to specific header values.
+ *
+ * The entire header can be appended to an ezcArchiveCharacterFile again or written to an ezcArchiveFileStructure.
+ * Information may get lost, though.
  *
  * The overall .ZIP file format[1] :
  *
@@ -26,7 +26,7 @@
  *   [local file header 1]
  *   [file data 1]
  *   [data descriptor 1]
- *   . 
+ *   .
  *   .
  *   [local file header n]
  *   [file data n]
@@ -35,65 +35,65 @@
  *   [end of central directory record]
  * </pre>
  *
- * The Local File Header has the following structure: 
+ * The Local File Header has the following structure:
  *
  * <pre>
  * + ---+--------+------------+-------------------+-------------------------------+
  * | ID | Offset | Field size | Property          |  Description                  |
  * +----+--------+------------+-------------------+-------------------------------+
- * |    |  0     | 4          | -                 | Local file header signature   | 
- * |    |  4     | 2          | version           | Version needed to extract     | 
- * |    |  6     | 2          | bitFlag           | General purpose bit flag      | 
- * |    |  8     | 2          | compressionMethod | Compression method            | 
- * |    |  10    | 2          | lastModFileTime   | Last modification file time   | 
- * |    |  12    | 2          | lastModFileDate   | Last modification file date   | 
- * |    |  14    | 4          | crc               | crc-32                        | 
- * |    |  18    | 4          | compressedSize    | compressed size               | 
- * |    |  22    | 4          | uncompressedSize  | uncompressed size             | 
- * | X  |  26    | 2          | fileNameLength    | file name length              | 
- * | Y  |  28    | 2          | extraFieldLength  | extra field length            | 
+ * |    |  0     | 4          | -                 | Local file header signature   |
+ * |    |  4     | 2          | version           | Version needed to extract     |
+ * |    |  6     | 2          | bitFlag           | General purpose bit flag      |
+ * |    |  8     | 2          | compressionMethod | Compression method            |
+ * |    |  10    | 2          | lastModFileTime   | Last modification file time   |
+ * |    |  12    | 2          | lastModFileDate   | Last modification file date   |
+ * |    |  14    | 4          | crc               | crc-32                        |
+ * |    |  18    | 4          | compressedSize    | compressed size               |
+ * |    |  22    | 4          | uncompressedSize  | uncompressed size             |
+ * | X  |  26    | 2          | fileNameLength    | file name length              |
+ * | Y  |  28    | 2          | extraFieldLength  | extra field length            |
  * |    |  30    | X          | fileName          | file name                     |
  * |    |  30+X  | Y          | -                 | extra field                   |
  * +----+--------+------------+-------------------+-------------------------------+
  * </pre>
  *
- * The columns of the table are: 
+ * The columns of the table are:
  * - ID gives a label to a specific field or row in the table.
  * - Offset describes the start position of a header field.
- * - Field size describes the size of the field in bytes. 
+ * - Field size describes the size of the field in bytes.
  * - Property is the name of the property that will be set by the header field.
- * - Description explains what this field describes. 
+ * - Description explains what this field describes.
  *
- * The local file signature cannot be changed and is set in the constant {@link const magic}. 
+ * The local file signature cannot be changed and is set in the constant {@link self::magic}.
  *
  * The extra fields that are implemented are:
  * - Info-Zip Unix field (old).
  * - Info-Zip Unix field (new).
  * - Universal timestamp.
- * 
+ *
  * Info-Zip Unix field (old):
  * <pre>
  * +--------+------------+------------------------------------+
  * | Offset | Field size |  Description                       |
  * +--------+------------+------------------------------------+
  * |  0     | 2          | Header ID (0x5855)                 |
- * |  2     | 2          | Data size: Full size = 12          | 
- * |  4     | 4          | Last Access Time                   | 
- * |  8     | 4          | Last Modification Time             | 
- * |  12    | 2          | User ID  (Optional if size < 12 )  | 
- * |  14    | 2          | Group ID (Optional if size < 12 )  | 
+ * |  2     | 2          | Data size: Full size = 12          |
+ * |  4     | 4          | Last Access Time                   |
+ * |  8     | 4          | Last Modification Time             |
+ * |  12    | 2          | User ID  (Optional if size < 12 )  |
+ * |  14    | 2          | Group ID (Optional if size < 12 )  |
  * +--------+------------+------------------------------------+
  * </pre>
- * 
+ *
  * Info-Zip Unix field (new):
  * <pre>
  * +--------+------------+--------------------+
  * | Offset | Field size |  Description       |
  * +--------+------------+--------------------+
  * |  0     | 2          | Header ID (0x7855) |
- * |  2     | 2          | Data size.         | 
- * |  4     | 2          | User ID            | 
- * |  6     | 2          | Group ID           | 
+ * |  2     | 2          | Data size.         |
+ * |  4     | 2          | User ID            |
+ * |  6     | 2          | Group ID           |
  * +--------+------------+--------------------+
  * </pre>
  *
@@ -103,14 +103,14 @@
  * | Offset | Field size |  Description            |
  * +--------+------------+-------------------------+
  * |  0     | 2          | Header ID (0x5455)      |
- * |  2     | 2          | Data size.              | 
- * |  4     | 1          | Info bits (flags)       | 
- * |  5     | 4          | Last Modification Time  | 
- * |  9     | 4          | Last Access Time        | 
- * |  13    | 4          | Creation Time           | 
+ * |  2     | 2          | Data size.              |
+ * |  4     | 1          | Info bits (flags)       |
+ * |  5     | 4          | Last Modification Time  |
+ * |  9     | 4          | Last Access Time        |
+ * |  13    | 4          | Creation Time           |
  * +--------+------------+-------------------------+
  * </pre>
- * 
+ *
  * Info bits indicate which fields are set:
  * - bit 0, if set then the modification time is present.
  * - bit 1, if set then the access time is present.
@@ -119,11 +119,11 @@
  * These info bits are ONLY valid for the local file header. The
  * central header has the same Universal Timestamp, but reflects
  * the bits from the local file header!
- * 
- * 
- * See PKWare documentation and InfoZip extra field documentation for more information. 
  *
- * 
+ *
+ * See PKWare documentation and InfoZip extra field documentation for more information.
+ *
+ *
  * [1] PKWARE .ZIP file format specification:
  * <pre>
  * File:    APPNOTE.TXT - .ZIP File Format Specification
@@ -133,11 +133,11 @@
  * </pre>
  *
  * [2] InfoZip distribution contains the file: proginfo/extra.fld
- * 
+ *
  * @package Archive
  * @version //autogentag//
  * @access private
- */ 
+ */
 class ezcArchiveLocalFileHeader
 {
     /**
@@ -147,14 +147,14 @@ class ezcArchiveLocalFileHeader
 
     /**
      * Extra field definition.
-     * 
+     *
      * UNIX Extra Field ID ("UX").
      */
     const EF_IZUNIX  = 0x5855;
 
     /**
      * Extra field definition.
-     * 
+     *
      * Info-ZIP's new Unix( "Ux" ).
      */
     const EF_IZUNIX2 = 0x7855;
@@ -164,42 +164,42 @@ class ezcArchiveLocalFileHeader
      *
      * Universal timestamp( "UT" ).
      */
-    const EF_TIME    = 0x5455;  
+    const EF_TIME    = 0x5455;
 
     /**
      * Minimal UT field contains Flags byte
      */
-    const EB_UT_MINLEN = 1;     
+    const EB_UT_MINLEN = 1;
 
     /**
      * Byte offset of Flags field
      */
-    const EB_UT_FLAGS  = 0;     
+    const EB_UT_FLAGS  = 0;
 
     /**
      * Byte offset of 1st time value
      */
-    const EB_UT_TIME1  = 1;     
+    const EB_UT_TIME1  = 1;
 
     /**
      * mtime present
      */
-    const EB_UT_FL_MTIME = 1;   
+    const EB_UT_FL_MTIME = 1;
 
     /**
      * atime present
      */
-    const EB_UT_FL_ATIME = 2;   
+    const EB_UT_FL_ATIME = 2;
 
     /**
      * ctime present
      */
-    const EB_UT_FL_CTIME = 4;   
+    const EB_UT_FL_CTIME = 4;
 
     /**
      * UT field length.
      */
-    const EB_UT_FL_LEN = 4;     
+    const EB_UT_FL_LEN = 4;
 
     /**
      * Minimal "UX" field contains atime, mtime
@@ -225,7 +225,7 @@ class ezcArchiveLocalFileHeader
      * Byte offset of UID in "UX" field data
      */
     const EB_UX_UID = 8;
-    
+
     /**
      * Byte offset of GID in "UX" field data
      */
@@ -249,7 +249,7 @@ class ezcArchiveLocalFileHeader
     /**
      * Byte offset of valid in "Ux" field data
      */
-    const EB_UX2_VALID =  256;  
+    const EB_UX2_VALID =  256;
 
     /**
      * Holds the properties of this class.
@@ -293,13 +293,13 @@ class ezcArchiveLocalFileHeader
      */
     protected $ctime = false;
 
-    /** 
+    /**
      * Creates and initializes a new header.
      *
-     * If the ezcArchiveCharacterFile $file is null then the header will be empty. 
-     * When an ezcArchiveCharacterFile is given, the file position should be directly after the 
-     * signature of the header. This header will be read from the file and initialized in this class. 
-     * 
+     * If the ezcArchiveCharacterFile $file is null then the header will be empty.
+     * When an ezcArchiveCharacterFile is given, the file position should be directly after the
+     * signature of the header. This header will be read from the file and initialized in this class.
+     *
      * @param ezcArchiveCharacterFile $file
      */
     public function __construct( ezcArchiveCharacterFile $file = null )
@@ -334,10 +334,10 @@ class ezcArchiveLocalFileHeader
                 $file->read( 26 ) );
 
             $this->properties["fileName"] = $file->read( $this->properties["fileNameLength"] );
-            $extraField = $file->read( $this->properties["extraFieldLength"] ); 
+            $extraField = $file->read( $this->properties["extraFieldLength"] );
 
             // Append extra field information.
-            $this->setExtraFieldData( $extraField );  
+            $this->setExtraFieldData( $extraField );
 
             // Skip the file.
             $file->seek( $this->compressedSize, SEEK_CUR );
@@ -346,7 +346,7 @@ class ezcArchiveLocalFileHeader
 
     /**
      * Serializes this header and appends it to the given ezcArchiveCharacterFile $archiveFile.
-     * 
+     *
      * @param ezcArchiveCharacterFile $archiveFile
      * @return void
      */
@@ -356,7 +356,7 @@ class ezcArchiveLocalFileHeader
 
         $enc = pack( "VvvvvvVVVvv",
             self::magic,
-            $this->properties["version"],  
+            $this->properties["version"],
             $this->properties["bitFlag"],
             $this->properties["compressionMethod"],
             $this->properties["lastModFileTime"],
@@ -398,7 +398,7 @@ class ezcArchiveLocalFileHeader
                 break;
 
              case "lastModFileTime":
-             case "lastModFileDate": 
+             case "lastModFileDate":
              case "fileNameLength":
                 throw new ezcBasePropertyReadOnlyException( $name );
 
@@ -427,7 +427,7 @@ class ezcArchiveLocalFileHeader
             case "crc":
             case "compressedSize":
             case "uncompressedSize":
-            case "extraFieldLength": 
+            case "extraFieldLength":
             case "fileNameLength":
             case "fileName":
                 return $this->properties[ $name ];
@@ -453,7 +453,7 @@ class ezcArchiveLocalFileHeader
     /**
      * Sets the modification time to the int $timestamp.
      *
-     * The properties lastModFileTime and lastModFileDate properties will be set. 
+     * The properties lastModFileTime and lastModFileDate properties will be set.
      *
      * @param int $timestamp
      * @return void
@@ -465,7 +465,7 @@ class ezcArchiveLocalFileHeader
     }
 
     /**
-     * Returns an two element array with, respectively, the dos time and dos date, which are converted from 
+     * Returns an two element array with, respectively, the dos time and dos date, which are converted from
      * the given int $timestamp.
      *
      * The DOS time and date format are described here: {@link http://www.vsft.com/hal/dostime.htm}.
@@ -498,7 +498,7 @@ class ezcArchiveLocalFileHeader
      * Returns the timestamp which is converted from an array with, respectively, the dos time and dos date.
      *
      * Expects an array with two elements.
-     * 
+     *
      * The DOS time and date format are described here: {@link http://www.vsft.com/hal/dostime.htm}.
      *
      * @see http://www.vsft.com/hal/dostime.htm
@@ -510,14 +510,14 @@ class ezcArchiveLocalFileHeader
     {
         $dosTime = $array[0];
 
-        $seconds = ( ($dosTime ) & 31 ) * 2 ;  // Bit  0 .. 4 
+        $seconds = ( ($dosTime ) & 31 ) * 2 ;  // Bit  0 .. 4
         $minutes = ( $dosTime >>  5 ) & 63 ;          // Bit  5 .. 10
-        $hours = ( $dosTime >> 11 ) & 31;               // Bit 11 .. 15 
+        $hours = ( $dosTime >> 11 ) & 31;               // Bit 11 .. 15
 
         $dosDate = $array[1];
-        $day =  ( ( $dosDate ) & 31 );          // Bit  0 .. 4 
-        $month = ( $dosDate >>  5 ) & 15 ;            // Bit  5 .. 8 
-        $year = ( ( $dosDate >> 9 ) & 127 ) + 1980;     // Bit  9 .. 15 
+        $day =  ( ( $dosDate ) & 31 );          // Bit  0 .. 4
+        $month = ( $dosDate >>  5 ) & 15 ;            // Bit  5 .. 8
+        $year = ( ( $dosDate >> 9 ) & 127 ) + 1980;     // Bit  9 .. 15
 
         return mktime( $hours, $minutes, $seconds, $month, $day, $year );
     }
@@ -548,8 +548,8 @@ class ezcArchiveLocalFileHeader
     {
         // Fixme, for now only decompressed.
         $this->compressionMethod = $compressionMethod; // FIXME
-        $this->compressedSize = $compressedSize; // FIXME 
-        
+        $this->compressedSize = $compressedSize; // FIXME
+
     }
 
     /**
@@ -617,12 +617,12 @@ class ezcArchiveLocalFileHeader
 
         if ( $entry->isSymLink() )
         {
-            $this->uncompressedSize = strlen( $entry->getLink() ); 
+            $this->uncompressedSize = strlen( $entry->getLink() );
             $this->crc = ezcArchiveChecksums::getCrc32FromString( $entry->getLink() );
         }
         else
         {
-            $this->uncompressedSize = $entry->getSize(); 
+            $this->uncompressedSize = $entry->getSize();
             $this->crc = ezcArchiveChecksums::getCrc32FromFile( $entry->getPath() );
         }
 
@@ -636,7 +636,7 @@ class ezcArchiveLocalFileHeader
      */
     public function getHeaderSize()
     {
-        return 30 + $this->properties["fileNameLength"] + $this->properties["extraFieldLength"]; 
+        return 30 + $this->properties["fileNameLength"] + $this->properties["extraFieldLength"];
     }
 
     /**
@@ -661,15 +661,15 @@ class ezcArchiveLocalFileHeader
             switch ( $dec["id"] )
             {
                 case self::EF_IZUNIX2:
-                    $raw[ "EF_IZUNIX2" ] = $this->getNewInfoZipExtraField( substr( $data, $offset, $dec["length"] ), $dec["length"]  );
+                    $raw[ "EF_IZUNIX2" ] = $this->getNewInfoZipExtraField( substr( $data, $offset, $dec["length"] ), $dec["length"] );
                     break;
 
                 case self::EF_IZUNIX:
-                    $raw[ "EF_IZUNIX" ] = $this->getOldInfoZipExtraField( substr( $data, $offset, $dec["length"] ), $dec["length"]  );
+                    $raw[ "EF_IZUNIX" ] = $this->getOldInfoZipExtraField( substr( $data, $offset, $dec["length"] ), $dec["length"] );
                     break;
 
                 case self::EF_TIME:
-                    $raw[ "EF_TIME" ] = $this->getUniversalTimestampField( substr( $data, $offset, $dec["length"] ), $dec["length"]  );
+                    $raw[ "EF_TIME" ] = $this->getUniversalTimestampField( substr( $data, $offset, $dec["length"] ), $dec["length"] );
                     break;
             }
 

@@ -9,35 +9,35 @@
  * @access private
  */
 
-/** 
+/**
  * The ezcArchiveGnuHeader class represents the Tar Gnu header.
- * 
- * ezcArchiveGnuHeader can read the header from an ezcArchiveBlockFile or ezcArchiveEntry. 
+ *
+ * ezcArchiveGnuHeader can read the header from an ezcArchiveBlockFile or ezcArchiveEntry.
  *
  * The values from the headers are directly accessible via the class properties, and allows
- * reading and writing to specific header values. 
- * 
- * The entire header can be appended to an ezcArchiveBlockFile again or written to an ezcArchiveFileStructure.  
- * Information may get lost, though. 
+ * reading and writing to specific header values.
+ *
+ * The entire header can be appended to an ezcArchiveBlockFile again or written to an ezcArchiveFileStructure.
+ * Information may get lost, though.
  *
  * The header is the {@link ezcArchiveUstarHeader} with the extension that the type can be set to "L" or "K".
  * Respectively, long filename and long link. If the type is set to either "L" or "K", the next block contains the
- * filename or link. The block thereafter repeats the original header but the type is then set to a digit. 
+ * filename or link. The block thereafter repeats the original header but the type is then set to a digit.
  * (No long filename or link).
  *
  * @package Archive
  * @version //autogentag//
  * @access private
- */ 
+ */
 class ezcArchiveGnuHeader extends ezcArchiveUstarHeader
 {
     /**
      * Creates and initializes a new header.
      *
-     * If the ezcArchiveBlockFile $file is null then the header will be empty. 
+     * If the ezcArchiveBlockFile $file is null then the header will be empty.
      * When an ezcArchiveBlockFile is given, the block position should point to the header block.
-     * This header block will be read from the file and initialized in this class. 
-     * 
+     * This header block will be read from the file and initialized in this class.
+     *
      * @param ezcArchiveBlockFile $file
      */
     public function __construct( ezcArchiveBlockFile $file = null )
@@ -88,7 +88,7 @@ class ezcArchiveGnuHeader extends ezcArchiveUstarHeader
      * Reads an extended set of data from the Block file and returns it as a string.
      *
      * Some filenames or link names do not fit in the Ustar header, and are therefor placed in a new block.
-     * This method read the block(s) and returns the data as a string. 
+     * This method read the block(s) and returns the data as a string.
      *
      * @param ezcArchiveBlockFile $file
      * @return string
@@ -110,5 +110,4 @@ class ezcArchiveGnuHeader extends ezcArchiveUstarHeader
         return $data;
     }
 }
-
 ?>

@@ -9,16 +9,16 @@
  * @access private
  */
 
-/** 
+/**
  * The ezcArchivePaxHeader class represents the Tar Pax header.
- * 
- * ezcArchivePaxHeader can read the header from an ezcArchiveBlockFile or ezcArchiveEntry. 
+ *
+ * ezcArchivePaxHeader can read the header from an ezcArchiveBlockFile or ezcArchiveEntry.
  *
  * The values from the headers are directly accessible via the class properties, and allows
- * reading and writing to specific header values. 
- * 
- * The entire header can be appended to an ezcArchiveBlockFile again or written to an ezcArchiveFileStructure.  
- * Information may get lost, though. 
+ * reading and writing to specific header values.
+ *
+ * The entire header can be appended to an ezcArchiveBlockFile again or written to an ezcArchiveFileStructure.
+ * Information may get lost, though.
  *
  * The header is the {@link ezcArchiveUstarHeader} with extra header information described on the following webpage:
  * {@link http://www.opengroup.org/onlinepubs/009695399/utilities/pax.html}
@@ -28,7 +28,7 @@
  * @package Archive
  * @version //autogentag//
  * @access private
- */ 
+ */
 class ezcArchivePaxHeader extends ezcArchiveUstarHeader
 {
     /**
@@ -72,12 +72,12 @@ class ezcArchivePaxHeader extends ezcArchiveUstarHeader
         $result = array();
 
         // next block has the info.
-        $file->next();  
+        $file->next();
 
         $data = $file->current();
 
         $offset = 0;
-        
+
         while ( strcmp( $data[$offset], "\0" ) != 0 )
         {
             $space = strpos( $data, " ", $offset );
@@ -91,12 +91,11 @@ class ezcArchivePaxHeader extends ezcArchiveUstarHeader
 
             $result[ $keyword ] = $value;
 
-            $offset += $length; 
+            $offset += $length;
         }
 
         return $result;
     }
-
 
     /**
      * Creates and initializes a new header.
@@ -145,7 +144,7 @@ class ezcArchivePaxHeader extends ezcArchiveUstarHeader
 
                     case "uid":
                         $this->userId = $value;
-                        break;  // For user IDs larger than 2097151. 
+                        break;  // For user IDs larger than 2097151.
                 }
             }
         }

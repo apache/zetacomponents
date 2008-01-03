@@ -8,13 +8,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-/** 
+/**
  * The ezcArchiveV7Tar class implements the Tar v7 archive format.
  *
  * ezcArchiveV7Tar is a subclass from {@link ezcArchive} that provides the common interface.
  * Tar v7 algorithm specific methods are implemented in this class.
  *
- * ezcArchiveV7Tar reads on creation only the first {@link ezcArchiveEntry} from the archive. 
+ * ezcArchiveV7Tar reads on creation only the first {@link ezcArchiveEntry} from the archive.
  * When needed next entries are read.
  *
  * The V7 Tar algorithm is most basic implementation of Tar. This format has the following characteristics:
@@ -22,12 +22,12 @@
  * - Stores the file permissions.
  * - Stores the owner and group by ID.
  * - Stores the last modification time.
- * - Can archive: regular files and symbolic links. 
+ * - Can archive: regular files and symbolic links.
  * - Maximum file size: 8 Gygabyte.
  *
  * @package Archive
  * @version //autogentag//
- */ 
+ */
 class ezcArchiveV7Tar extends ezcArchive
 {
     /**
@@ -37,17 +37,17 @@ class ezcArchiveV7Tar extends ezcArchive
 
     /**
      * Tar archives have always $blockFactor of blocks.
-     * 
+     *
      * @var int
      */
     protected $blockFactor = 20;
 
     /**
-     * Stores all the headers from the archive. 
+     * Stores all the headers from the archive.
      *
-     * The first header of the archive has index zero. The ezcArchiveV7Header or a subclass from this header 
+     * The first header of the archive has index zero. The ezcArchiveV7Header or a subclass from this header
      * is stored in the array. {@link createTarHeader()} will create the correct header.
-     * 
+     *
      * @var array(ezcArchiveV7Header)
      */
     protected $headers;
@@ -58,7 +58,7 @@ class ezcArchiveV7Tar extends ezcArchive
      * The fileNumber is the index of the array.
      *
      * @var array(int)
-     */ 
+     */
     protected $headerPositions;
 
     /**
@@ -87,14 +87,14 @@ class ezcArchiveV7Tar extends ezcArchive
      *
      * At initialization it sets the blockFactor to $blockFactor. Each tar archive
      * has always $blockFactor of blocks ( 0, $blockFactor, 2 * $blockFactor, etc ).
-     * 
+     *
      * The Tar archive works with blocks, so therefore the first parameter expects
-     * the archive as a blockFile. 
-     * 
+     * the archive as a blockFile.
+     *
      * @param ezcArchiveBlockFile $file
      * @param int $blockFactor
      */
-    public function __construct( ezcArchiveBlockFile $file, $blockFactor = 20 ) 
+    public function __construct( ezcArchiveBlockFile $file, $blockFactor = 20 )
     {
         $this->blockFactor = $blockFactor;
         $this->file = $file;
@@ -105,7 +105,7 @@ class ezcArchiveV7Tar extends ezcArchive
         $this->entriesRead = 0;
         $this->fileNumber = 0;
 
-        $this->hasNullBlocks = $this->file->isNew() ?  false : true;
+        $this->hasNullBlocks = $this->file->isNew() ? false : true;
         $this->addedBlocks = 0;
 
         if ( $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY )
@@ -146,9 +146,9 @@ class ezcArchiveV7Tar extends ezcArchive
 
     /**
      * Creates the a new tar header for this class.
-     * 
-     * Usually this class is reimplemented by other Tar algorithms, and therefore it returns another Tar 
-     * header. 
+     *
+     * Usually this class is reimplemented by other Tar algorithms, and therefore it returns another Tar
+     * header.
      *
      * This method expects an {@link ezcArchiveBlockFile} that points to the header that should be
      * read (and created). If null is given as  block file, an empty header will be created.
@@ -164,8 +164,8 @@ class ezcArchiveV7Tar extends ezcArchive
     /**
      * Read the current entry from the archive.
      *
-     * The current entry from the archive is read, if possible. This method will set the {@link $completed} 
-     * to true, if the end of the archive is reached. The {@link $entriesRead} will be increased, if the 
+     * The current entry from the archive is read, if possible. This method will set the {@link $completed}
+     * to true, if the end of the archive is reached. The {@link $entriesRead} will be increased, if the
      * entry is correctly read.
      *
      * @throws ezcArchiveBlockSizeException
@@ -206,11 +206,11 @@ class ezcArchiveV7Tar extends ezcArchive
             return false;
         }
 
-        $this->headers[ $this->fileNumber ] = $this->createTarHeader( $this->file ); 
+        $this->headers[ $this->fileNumber ] = $this->createTarHeader( $this->file );
         $this->headerPositions[ $this->fileNumber ] = $this->file->key();
 
         // Set the currentEntry information.
-        $struct = new ezcArchiveFileStructure(); 
+        $struct = new ezcArchiveFileStructure();
         $this->headers[ $this->fileNumber ]->setArchiveFileStructure( $struct );
         $this->entries[ $this->fileNumber ] = new ezcArchiveEntry( $struct );
 
@@ -329,7 +329,7 @@ class ezcArchiveV7Tar extends ezcArchive
     }
 
     /**
-     * Appends a file to the archive after the current entry. 
+     * Appends a file to the archive after the current entry.
      *
      * One or multiple files can be added directly after the current file.
      * The remaining entries after the current are removed from the archive!
@@ -349,17 +349,17 @@ class ezcArchiveV7Tar extends ezcArchive
      * $tar->appendToCurrent( array( "/home/rb/file1.txt", "/home/rb/file2.txt" ), "/home/rb/" );
      * </code>
      *
-     * When multiple files are added to the archive at the same time, thus using an array, does not 
-     * necessarily produce the same archive as repeatively adding one file to the archive. 
+     * When multiple files are added to the archive at the same time, thus using an array, does not
+     * necessarily produce the same archive as repeatively adding one file to the archive.
      * For example, the Tar archive format, can detect that files hardlink to each other and will store
      * it in a more efficient way.
-     * 
+     *
      * @throws ezcArchiveWriteException  if one of the files cannot be written to the archive.
      * @throws ezcFileReadException      if one of the files cannot be read from the local filesystem.
      * @throws ezcArchiveException       if the archive is closed.
      *
-     * @param string|array(string) $files  Array or a single path to a file. 
-     * @param string $prefix               First part of the path used in $files. 
+     * @param string|array(string) $files  Array or a single path to a file.
+     * @param string $prefix               First part of the path used in $files.
      * @return bool
      */
     public function appendToCurrent( $files, $prefix )
@@ -368,7 +368,7 @@ class ezcArchiveV7Tar extends ezcArchive
         {
             throw new ezcArchiveException( "The archive is closed" );
         }
-        
+
         if ( $this->file->getFileAccess() !== ezcArchiveFile::READ_WRITE )
         {
             throw new ezcArchiveException( "Cannot appendToCurrent when writing to a read-only, write-only stream (e.g. compress.zlib)." );
@@ -392,9 +392,8 @@ class ezcArchiveV7Tar extends ezcArchive
         return $this->valid();
     }
 
-
-    /** 
-     * Append a file or directory to the end of the archive. Multiple files or directory can 
+    /**
+     * Append a file or directory to the end of the archive. Multiple files or directory can
      * be added to the archive when an array is used as input parameter.
      *
      * @see appendToCurrent()
@@ -419,7 +418,7 @@ class ezcArchiveV7Tar extends ezcArchive
             throw new ezcArchiveException( "Archive is read-only" );
         }
 
-        // Appending to an existing archive with a compressed stream does not work because we have to remove the NULL-blocks. 
+        // Appending to an existing archive with a compressed stream does not work because we have to remove the NULL-blocks.
         if ( $this->hasNullBlocks && $this->file->getFileAccess() !== ezcArchiveFile::READ_WRITE )
         {
             throw new ezcArchiveException( "Cannot append to this archive" );
@@ -444,7 +443,6 @@ class ezcArchiveV7Tar extends ezcArchive
         $this->fileNumber = $originalFileNumber;
         return $this->valid();
      }
-
 
     /**
      * Closes the archive correctly.
@@ -501,11 +499,11 @@ class ezcArchiveV7Tar extends ezcArchive
     }
 
     /**
-     * Appends the given {@link ezcArchiveBlockFile} $file and {@link ezcArchiveEntry} $entry 
-     * to the archive file. 
+     * Appends the given {@link ezcArchiveBlockFile} $file and {@link ezcArchiveEntry} $entry
+     * to the archive file.
      *
-     * The $entry will be used to create the correct header, whereas the $file contains the raw data 
-     * that should be append to the archive. 
+     * The $entry will be used to create the correct header, whereas the $file contains the raw data
+     * that should be append to the archive.
      *
      * @param ezcArchiveEntry $entry
      * @return bool
@@ -518,7 +516,7 @@ class ezcArchiveV7Tar extends ezcArchive
             return false;
         }
 
-        if ( !$this->isEmpty() && $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY)
+        if ( !$this->isEmpty() && $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY )
         {
             // Truncate the next file and don't add the null blocks.
             $this->truncate( $this->fileNumber + 1, false );
@@ -534,7 +532,7 @@ class ezcArchiveV7Tar extends ezcArchive
         }
 
         // Add the new header to the file map.
-        $this->headers[ $this->fileNumber ] = $this->createTarHeader(); 
+        $this->headers[ $this->fileNumber ] = $this->createTarHeader();
         $this->headers[ $this->fileNumber ]->setHeaderFromArchiveEntry( $entry );
 
         // Search the end of the block file, append encoded header, and search for the end-again.
@@ -546,7 +544,7 @@ class ezcArchiveV7Tar extends ezcArchive
 
         // Append the file, if needed.
         $this->addedBlocks += 1;
-        if ( $entry->getSize() > 0 ) 
+        if ( $entry->getSize() > 0 )
         {
             $this->addedBlocks += $this->file->appendFile( $entry->getPath() );
         }
@@ -581,7 +579,7 @@ class ezcArchiveV7Tar extends ezcArchive
             {
                 $this->file->rewind();
             }
-     
+
             while ( $this->file->valid() )
             {
                 $last = $this->file->key();
@@ -598,12 +596,12 @@ class ezcArchiveV7Tar extends ezcArchive
         // Go to the end.
         /*
          */
-       
+
         // echo ("Last block: " . $this->file->getLastBlockNumber() );
 
-        // Need a ftell in the seek. 
+        // Need a ftell in the seek.
         // $this->file->seek( 0, SEEK_END );
-        
+
         $blockNumber =  $last;
 
         // 0  .. 19 => first block.

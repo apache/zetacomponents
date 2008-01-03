@@ -9,50 +9,50 @@
  * @access private
  */
 
-/** 
+/**
  * The ezcArchiveV7Header class represents the Tar V7 header.
- * 
- * ezcArchiveV7Header can read the header from an ezcArchiveBlockFile or ezcArchiveEntry. 
+ *
+ * ezcArchiveV7Header can read the header from an ezcArchiveBlockFile or ezcArchiveEntry.
  *
  * The values from the headers are directly accessible via the class properties, and allows
- * reading and writing to specific header values. 
- * 
- * The entire header can be appended to an ezcArchiveBlockFile again or written to an ezcArchiveFileStructure.  
- * Information may get lost, though. 
+ * reading and writing to specific header values.
  *
- * The V7 Header has the following structure: 
+ * The entire header can be appended to an ezcArchiveBlockFile again or written to an ezcArchiveFileStructure.
+ * Information may get lost, though.
+ *
+ * The V7 Header has the following structure:
  *
  * <pre>
  * +--------+------------+------------------+-----------------------------------------------------------+
  * | Offset | Field size | Property         |  Description                                              |
  * +--------+------------+------------------+-----------------------------------------------------------+
- * |  0     | 100        | fileName         | Name of file                                              | 
- * |  100   | 8          | fileMode         | File mode                                                 | 
- * |  108   | 8          | userId           | Owner user ID                                             | 
- * |  116   | 8          | groupId          | Owner group ID                                            | 
- * |  124   | 12         | fileSize         | Length of file in bytes                                   | 
- * |  136   | 12         | modificationTime | Modify time of file                                       | 
- * |  148   | 8          | checksum         | Checksum for header                                       | 
- * |  156   | 1          | type             | Indicator for links                                       | 
- * |  157   | 100        | linkName         | Name of linked file                                       | 
- * |  257   | 72         | -                | NUL.                                                      | 
+ * |  0     | 100        | fileName         | Name of file                                              |
+ * |  100   | 8          | fileMode         | File mode                                                 |
+ * |  108   | 8          | userId           | Owner user ID                                             |
+ * |  116   | 8          | groupId          | Owner group ID                                            |
+ * |  124   | 12         | fileSize         | Length of file in bytes                                   |
+ * |  136   | 12         | modificationTime | Modify time of file                                       |
+ * |  148   | 8          | checksum         | Checksum for header                                       |
+ * |  156   | 1          | type             | Indicator for links                                       |
+ * |  157   | 100        | linkName         | Name of linked file                                       |
+ * |  257   | 72         | -                | NUL.                                                      |
  * |  329   | 8          | -                | Compatibility with GNU tar: Major device set to: 00000000.|
  * |  337   | 8          | -                | Compatibility with GNU tar: Minor device set to: 00000000.|
  * |  345   | 167        | -                | NUL.                                                      |
  * +--------+------------+------------------+-----------------------------------------------------------+
  * </pre>
  *
- * The columns of the table are: 
+ * The columns of the table are:
  * - Offset describes the start position of a header field.
- * - Field size describes the size of the field. 
+ * - Field size describes the size of the field.
  * - Property is the name of the property that will be set by the header field.
- * - Description explains what this field describes. 
+ * - Description explains what this field describes.
  *
  *
  * @package Archive
  * @version //autogentag//
  * @access private
- */ 
+ */
 class ezcArchiveV7Header
 {
     /**
@@ -74,7 +74,7 @@ class ezcArchiveV7Header
      * Relative byte position that the checksum ends.
      */
     const END_HEADER      = 512;
-    
+
     /**
      * Number of bytes that a block occupies.
      */
@@ -100,7 +100,7 @@ class ezcArchiveV7Header
     {
         switch ( $name )
         {
-            case "fileName": 
+            case "fileName":
             case "fileMode":
             case "userId":
             case "groupId":
@@ -129,7 +129,7 @@ class ezcArchiveV7Header
     {
         switch ( $name )
         {
-            case "fileName": 
+            case "fileName":
             case "fileMode":
             case "userId":
             case "groupId":
@@ -145,12 +145,12 @@ class ezcArchiveV7Header
         }
     }
 
-    /** 
+    /**
      * Creates and initializes a new header.
      *
-     * If the ezcArchiveBlockFile $file is null then the header will be empty. 
+     * If the ezcArchiveBlockFile $file is null then the header will be empty.
      * When an ezcArchiveBlockFile is given, the block position should point to the header block.
-     * This header block will be read from the file and initialized in this class. 
+     * This header block will be read from the file and initialized in this class.
      *
      * @throws ezcArchiveChecksumException
      *         if the checksum from the file did not match the calculated one
@@ -161,7 +161,7 @@ class ezcArchiveV7Header
         // Offset | Field size |  Description
         // ----------------------------------
         //  0     | 100        | Name of file
-        //  100   | 8          | File mode 
+        //  100   | 8          | File mode
         //  108   | 8          | Owner user ID
         //  116   | 8          | Owner group ID
         //  124   | 12         | Length of file in bytes
@@ -200,11 +200,11 @@ class ezcArchiveV7Header
         }
     }
 
-    /** 
+    /**
      * Returns true when the checksum $checksum matches with the header data $rawHeader; otherwise returns false.
      *
      * The checksum is calculated by the {@link ezcArchiveChecksums::getTotalByteValueFromString()}.
-     * 
+     *
      * @param  int    $checksum
      * @param  string $rawHeader
      * @return bool
@@ -220,10 +220,10 @@ class ezcArchiveV7Header
         return ( strcmp( sprintf( "%08x", $checksum ), sprintf( "%08x", $total ) ) == 0 );
     }
 
-    /** 
-     * Returns the encoded header as given as the parameter $encodedHeader but includes the 
+    /**
+     * Returns the encoded header as given as the parameter $encodedHeader but includes the
      * checksum of the header.
-     * 
+     *
      * The encoded header $encodedHeader should have spaces at the place where the checksum should be stored.
      *
      * @param string $encodedHeader
@@ -234,20 +234,19 @@ class ezcArchiveV7Header
         $total = ezcArchiveChecksums::getTotalByteValueFromString( $encodedHeader );
 
         $checksum = pack( "a7", str_pad( decoct( $total ), 6, "0", STR_PAD_LEFT ) );
-        $checksum .= " ";  
- 
+        $checksum .= " ";
+
         $begin = substr( $encodedHeader, 0, 148 );
         $end = substr( $encodedHeader, 156 );
-        
+
         return $begin.$checksum.$end;
     }
-
 
     /**
      * Sets this header with the values from the ezcArchiveEntry $entry.
      *
      * The values that are possible to set from the ezcArchiveEntry $entry are set in this header.
-     * The properties that may change are: fileName, fileMode, userId, groupId, fileSize, modificationTime, 
+     * The properties that may change are: fileName, fileMode, userId, groupId, fileSize, modificationTime,
      * linkName, and type.
      *
      * @param ezcArchiveEntry $entry
@@ -255,13 +254,13 @@ class ezcArchiveV7Header
      */
     public function setHeaderFromArchiveEntry( ezcArchiveEntry $entry )
     {
-        $this->fileName = $entry->getPath( false ); 
+        $this->fileName = $entry->getPath( false );
         $this->fileMode = $entry->getPermissions();
         $this->userId = $entry->getUserId();
         $this->groupId = $entry->getGroupId();
         $this->fileSize = $entry->getSize();
         $this->modificationTime = $entry->getModificationTime();
-        $this->linkName = $entry->getLink( false ); 
+        $this->linkName = $entry->getLink( false );
 
         switch ( $entry->getType() )
         {
@@ -279,7 +278,7 @@ class ezcArchiveV7Header
 
             case ezcArchiveEntry::IS_DIRECTORY:
                 $this->type = 5;
-                break; 
+                break;
 
             // Devices, etc are set to \0.
             default:
@@ -287,15 +286,14 @@ class ezcArchiveV7Header
                 break; // ends up as a \0 character.
         }
 
-
         $length = strlen( $this->fileName );
-        
+
         if ( $entry->getType() == ezcArchiveEntry::IS_DIRECTORY )
         {
            // Make sure that the filename ends with a slash.
            if ( $this->fileName[ $length - 1] != "/" )
            {
-               $this->fileName .= "/"; 
+               $this->fileName .= "/";
            }
         }
         else
@@ -309,7 +307,7 @@ class ezcArchiveV7Header
 
     /**
      * Serializes this header and appends it to the given ezcArchiveBlockFile $archiveFile.
-     * 
+     *
      * @param ezcArchiveBlockFile $archiveFile
      * @return void
      */
@@ -318,7 +316,7 @@ class ezcArchiveV7Header
         // Offset | Field size |  Description
         // ----------------------------------
         //  0     | 100        | Name of file
-        //  100   | 8          | File mode 
+        //  100   | 8          | File mode
         //  108   | 8          | Owner user ID
         //  116   | 8          | Owner group ID
         //  124   | 12         | Length of file in bytes
@@ -331,33 +329,33 @@ class ezcArchiveV7Header
         //  329   | 8          | Compatibility with GNU tar: Major device set to: 00000000.
         //  337   | 8          | Compatibility with GNU tar: Minor device set to: 00000000.
         //  345   | 167        | NUL.
-        //  
+        //
 
         $enc = pack( "a100a8a8a8a12a12a8a1a100a72a8a8a167",
-            $this->fileName,  
-            str_pad( $this->fileMode, 7, "0", STR_PAD_LEFT),
-            str_pad( decoct( $this->userId ), 7, "0", STR_PAD_LEFT),
-            str_pad( decoct( $this->groupId ), 7, "0", STR_PAD_LEFT),
-            str_pad( decoct( $this->fileSize ), 11, "0", STR_PAD_LEFT),
-            str_pad( decoct( $this->modificationTime ), 11, "0", STR_PAD_LEFT),
+            $this->fileName,
+            str_pad( $this->fileMode, 7, "0", STR_PAD_LEFT ),
+            str_pad( decoct( $this->userId ), 7, "0", STR_PAD_LEFT ),
+            str_pad( decoct( $this->groupId ), 7, "0", STR_PAD_LEFT ),
+            str_pad( decoct( $this->fileSize ), 11, "0", STR_PAD_LEFT ),
+            str_pad( decoct( $this->modificationTime ), 11, "0", STR_PAD_LEFT ),
             "        ",
-            $this->type, 
+            $this->type,
             $this->linkName,
-            "", 
-            "0000000", 
-            "0000000", 
+            "",
+            "0000000",
+            "0000000",
             "" );
 
         $enc = $this->setChecksum( $enc );
         $archiveFile->append( $enc );
-    } 
+    }
 
     /**
      * Updates the given ezcArchiveFileStructure $struct with the values from this header.
      *
      * If bool $override is false, this method will not overwrite the values from the ezcArchiveFileStructure $struct.
      * The values that can be set in the archiveFileStructure are: path, gid, uid, type, link, mtime, mode, and size.
-     * 
+     *
      * @param ezcArchiveFileStructure &$struct
      * @param bool $override
      * @return void
@@ -403,7 +401,7 @@ class ezcArchiveV7Header
                 $struct->type = ezcArchiveEntry::IS_DIRECTORY;
             }
         }
-       
+
         if ( !isset( $struct->link ) || $override )
         {
             $struct->link = $this->linkName;
@@ -425,5 +423,4 @@ class ezcArchiveV7Header
         }
     }
 }
-
 ?>

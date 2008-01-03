@@ -9,33 +9,33 @@
  * @access private
  */
 
-/** 
+/**
  * The ezcArchiveUstarHeader class represents the Tar Ustar header.
- * 
- * ezcArchiveUstarHeader can read the header from an ezcArchiveBlockFile or ezcArchiveEntry. 
+ *
+ * ezcArchiveUstarHeader can read the header from an ezcArchiveBlockFile or ezcArchiveEntry.
  *
  * The values from the headers are directly accessible via the class properties, and allows
- * reading and writing to specific header values. 
- * 
- * The entire header can be appended to an ezcArchiveBlockFile again or written to an ezcArchiveFileStructure.  
- * Information may get lost, though. 
+ * reading and writing to specific header values.
  *
- * The Ustar Header has the following structure: 
+ * The entire header can be appended to an ezcArchiveBlockFile again or written to an ezcArchiveFileStructure.
+ * Information may get lost, though.
+ *
+ * The Ustar Header has the following structure:
  *
  * <pre>
  * +--------+------------+-------------------+---------------------------+
  * | Offset | Field size | Property          |  Description              |
  * +--------+------------+-------------------+---------------------------+
- * |  0     | 100        | fileName          | Name of the file          | 
- * |  100   | 8          | fileMode          | File mode                 | 
- * |  108   | 8          | userId            | Owner user ID             | 
- * |  116   | 8          | groupId           | Owner group ID            | 
- * |  124   | 12         | fileSize          | Length of file in bytes   | 
- * |  136   | 12         | modificationTime  | Modify time of file       | 
- * |  148   | 8          | checksum          | Checksum for header       | 
- * |  156   | 1          | type              | Indicator for links       | 
- * |  157   | 100        | linkName          | Name of linked file       | 
- * |  257   | 6          | magic             | USTAR indicator           | 
+ * |  0     | 100        | fileName          | Name of the file          |
+ * |  100   | 8          | fileMode          | File mode                 |
+ * |  108   | 8          | userId            | Owner user ID             |
+ * |  116   | 8          | groupId           | Owner group ID            |
+ * |  124   | 12         | fileSize          | Length of file in bytes   |
+ * |  136   | 12         | modificationTime  | Modify time of file       |
+ * |  148   | 8          | checksum          | Checksum for header       |
+ * |  156   | 1          | type              | Indicator for links       |
+ * |  157   | 100        | linkName          | Name of linked file       |
+ * |  257   | 6          | magic             | USTAR indicator           |
  * |  263   | 2          | version           | USTAR version             |
  * |  265   | 32         | userName          | Owner user name           |
  * |  297   | 32         | groupName         | Owner group name          |
@@ -46,17 +46,17 @@
  * +--------+------------+-------------------+---------------------------+
  * </pre>
  *
- * The columns of the table are: 
+ * The columns of the table are:
  * - Offset describes the start position of a header field.
- * - Field size describes the size of the field. 
+ * - Field size describes the size of the field.
  * - Property is the name of the property that will be set by the header field.
- * - Description explains what this field describes. 
+ * - Description explains what this field describes.
  *
  *
  * @package Archive
  * @version //autogentag//
  * @access private
- */ 
+ */
 class ezcArchiveUstarHeader extends ezcArchiveV7Header
 {
     /**
@@ -72,7 +72,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
     {
         switch ( $name )
         {
-            case "magic": 
+            case "magic":
             case "version":
             case "userName":
             case "groupName":
@@ -97,7 +97,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
     {
         switch ( $name )
         {
-            case "magic": 
+            case "magic":
             case "version":
             case "userName":
             case "groupName":
@@ -110,14 +110,13 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         return parent::__get( $name );
     }
 
-
     /**
      * Creates and initializes a new header.
      *
-     * If the ezcArchiveBlockFile $file is null then the header will be empty. 
+     * If the ezcArchiveBlockFile $file is null then the header will be empty.
      * When an ezcArchiveBlockFile is given, the block position should point to the header block.
-     * This header block will be read from the file and initialized in this class. 
-     * 
+     * This header block will be read from the file and initialized in this class.
+     *
      * @param ezcArchiveBlockFile $file
      */
     public function __construct( ezcArchiveBlockFile $file = null )
@@ -125,7 +124,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
        // Offset | Field size |  Description
         // ----------------------------------
         //  0     | 100        | Name of file
-        //  100   | 8          | File mode 
+        //  100   | 8          | File mode
         //  108   | 8          | Owner user ID
         //  116   | 8          | Owner group ID
         //  124   | 12         | Length of file in bytes
@@ -133,7 +132,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         //  148   | 8          | Checksum for header
         //  156   | 1          | Type flag.
         //  157   | 100        | Name of linked file
-        //  257   | 6          | USTAR indicator. 
+        //  257   | 6          | USTAR indicator.
         //  263   | 2          | USTAR version.
         //  265   | 32         | Owner user name.
         //  297   | 32         | Owner group name.
@@ -158,7 +157,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
      * Sets this header with the values from the ezcArchiveEntry $entry.
      *
      * The values that are possible to set from the ezcArchiveEntry $entry are set in this header.
-     * The properties that may change are: fileName, fileMode, userId, groupId, fileSize, modificationTime, 
+     * The properties that may change are: fileName, fileMode, userId, groupId, fileSize, modificationTime,
      * linkName, and type.
      *
      * @param ezcArchiveEntry $entry
@@ -175,13 +174,13 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         $this->groupId = $entry->getGroupId();
         $this->fileSize = $entry->getSize();
         $this->modificationTime = $entry->getModificationTime();
-        $this->linkName = $entry->getLink( false );  
+        $this->linkName = $entry->getLink( false );
 
         switch ( $entry->getType() )
         {
             case ezcArchiveEntry::IS_FILE:
                 $this->type = 0;
-                break; 
+                break;
 
             case ezcArchiveEntry::IS_LINK:
                 $this->type = 1;
@@ -223,7 +222,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
            // Make sure that the filename ends with a slash.
            if ( $this->fileName[ $length - 1] != "/" )
            {
-               $this->fileName .= "/"; 
+               $this->fileName .= "/";
            }
         }
         else
@@ -239,9 +238,9 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
      * Splits the path $path, if it exceeds 100 tokens, into two parts: $file and $filePrefix.
      *
      * If the path contains more than 100 tokens, it will put the directory name in the $filePrefix and
-     * the fileName into $file. 
+     * the fileName into $file.
      * This is the same method as Gnu Tar splits the file and file prefix.
-     * 
+     *
      * @throws ezcArchiveIoException if the file name cannot be written to the archive.
      * @param string $path
      * @param string &$file
@@ -269,7 +268,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
 
     /**
      * Serializes this header and appends it to the given ezcArchiveBlockFile $archiveFile.
-     * 
+     *
      * @param ezcArchiveBlockFile $archiveFile
      * @return void
      */
@@ -278,7 +277,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         // Offset | Field size |  Description
         // ----------------------------------
         //  0     | 100        | Name of file
-        //  100   | 8          | File mode 
+        //  100   | 8          | File mode
         //  108   | 8          | Owner user ID
         //  116   | 8          | Owner group ID
         //  124   | 12         | Length of file in bytes
@@ -286,7 +285,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         //  148   | 8          | Checksum for header
         //  156   | 1          | Type flag.
         //  157   | 100        | Name of linked file
-        //  257   | 6          | USTAR indicator. 
+        //  257   | 6          | USTAR indicator.
         //  263   | 2          | USTAR version.
         //  265   | 32         | Owner user name.
         //  297   | 32         | Owner group name.
@@ -306,14 +305,14 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         }
 
         $enc = pack( "a100a8a8a8a12a12a8a1a100a6a2a32a32a8a8a155a12",
-            $this->fileName,  
+            $this->fileName,
             str_pad( $this->fileMode, 7, "0", STR_PAD_LEFT),
             str_pad( decoct( $this->userId ), 7, "0", STR_PAD_LEFT),
             str_pad( decoct( $this->groupId ), 7, "0", STR_PAD_LEFT),
             str_pad( decoct( $this->fileSize ), 11, "0", STR_PAD_LEFT),
             str_pad( decoct( $this->modificationTime ), 11, "0", STR_PAD_LEFT),
             "        ",
-            $this->type, 
+            $this->type,
             $this->linkName,
             "ustar",
             "00",

@@ -8,23 +8,23 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-/** 
+/**
  * The ezcArchiveUstarTar class implements the Tar ustar archive format.
  *
  * ezcArchiveUstarTar is a subclass from {@link ezcArchive} that provides the common interface,
  * and {@link ezcArchiveV7Tar} that provides the basic Tar implementation.
  *
- * ezcArchiveUstarTar reads on creation only the first {@link ezcArchiveEntry entry} from the archive. 
+ * ezcArchiveUstarTar reads on creation only the first {@link ezcArchiveEntry entry} from the archive.
  * When needed next entries are read.
  *
  * The Ustar Tar algorithm is an extension of V7 Tar. Ustar has the following extended features:
  * - Filenames up to 255 characters.
  * - Stores the owner and group by ID and Name.
- * - Can archive: regular files, symbolic links, hard links, fifo's, and devices. 
+ * - Can archive: regular files, symbolic links, hard links, fifo's, and devices.
  *
  * @package Archive
  * @version //autogentag//
- */ 
+ */
 class ezcArchiveUstarTar extends ezcArchiveV7Tar implements Iterator
 {
     /**
@@ -32,10 +32,10 @@ class ezcArchiveUstarTar extends ezcArchiveV7Tar implements Iterator
      *
      * At initialization it sets the blockFactor to $blockFactor. Each tar archive
      * has always $blockFactor of blocks ( 0, $blockFactor, 2 * $blockFactor, etc ).
-     * 
+     *
      * The Tar archive works with blocks, so therefore the first parameter expects
-     * the archive as a blockFile. 
-     * 
+     * the archive as a blockFile.
+     *
      * @param ezcArchiveBlockFile $blockFile
      * @param int $blockFactor
      */
@@ -65,10 +65,10 @@ class ezcArchiveUstarTar extends ezcArchiveV7Tar implements Iterator
     {
         return true;
     }
- 
+
     /**
      * Creates the a new ustar tar header for this class.
-     * 
+     *
      * This method expects an {@link ezcArchiveBlockFile} that points to the header that should be
      * read (and created). If null is given as  block file, an empty header will be created.
      *

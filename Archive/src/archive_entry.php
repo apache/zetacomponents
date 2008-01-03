@@ -8,55 +8,55 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-/** 
+/**
  * The ezcArchiveEntry class provides system-independent file information.
  *
- * ezcArchiveEntry provides file information about the file path, it's access rights and whether the file is an 
- * directory, symbolic link, hard link, block-file, etc. The owner name, the group name, the last access time 
+ * ezcArchiveEntry provides file information about the file path, it's access rights and whether the file is an
+ * directory, symbolic link, hard link, block-file, etc. The owner name, the group name, the last access time
  * are also available. ezcArchiveEntry can be used to get the file information directly from the file-system or
- * from an archive. 
+ * from an archive.
  *
  * The main purpose of ezcArchiveEntry is to provide information about:
- * - Files on the file-system that should be appended to the archive. 
+ * - Files on the file-system that should be appended to the archive.
  * - Files currently in the archive that can be extracted to the file-system.
  *
  * Use the {@link getEntryFromFile()} to create an ezcArchiveEntry from a file in the filesystem.
- * Important is that the prefix is set. 
+ * Important is that the prefix is set.
  * This specifies which part of the path should be stripped, before the entry is appended to the archive.
  * See also {@link ezcArchive::append()} or {@link ezcArchive::appendToCurrent()}.
  *
- * When the ezcArchiveEntry is an entry in the archive, the {@link getPath()} method contains always an 
+ * When the ezcArchiveEntry is an entry in the archive, the {@link getPath()} method contains always an
  * relative path, and the prefix is not set.
  *
  * @package Archive
  * @version //autogentag//
- */ 
+ */
 class ezcArchiveEntry
 {
     /**
      * Is a regular file.
      */
-    const IS_FILE = 0; 
+    const IS_FILE = 0;
 
     /**
      * Is a hard link.
      */
-    const IS_LINK = 1; 
+    const IS_LINK = 1;
 
     /**
      * Is a symbolic link.
      */
-    const IS_SYMBOLIC_LINK = 2; 
-    
+    const IS_SYMBOLIC_LINK = 2;
+
     /**
      * Is a character device.
      */
-    const IS_CHARACTER_DEVICE = 3; 
+    const IS_CHARACTER_DEVICE = 3;
 
     /**
      * Is a block device.
      */
-    const IS_BLOCK_DEVICE = 4; 
+    const IS_BLOCK_DEVICE = 4;
 
     /**
      * Is a directory.
@@ -68,15 +68,13 @@ class ezcArchiveEntry
      */
     const IS_FIFO = 6;
 
-    
     /**
      * Not used, is Tar specific?
      */
     const IS_RESERVED = 7;
 
- 
     /**
-     * Contains the file information. 
+     * Contains the file information.
      *
      * @var ezcArchiveFileStructure
      */
@@ -84,29 +82,28 @@ class ezcArchiveEntry
 
     /**
      * The prefix of the file that may be removed from the path.
-     *  
+     *
      * @var string
      */
     protected $prefix;
 
-
     /**
      * Constructs an archiveEntry from the {@link ezcArchiveFileStructure}.
      *
-     * The $struct parameter contains the raw file information. 
-     * This class encapsulates the file information structure and provides convenient methods to retrieve 
+     * The $struct parameter contains the raw file information.
+     * This class encapsulates the file information structure and provides convenient methods to retrieve
      * the information.
-     * 
-     * @param ezcArchiveFileStructure $struct 
+     *
+     * @param ezcArchiveFileStructure $struct
      */
     public function __construct( ezcArchiveFileStructure $struct )
     {
-        $this->fileStructure =  $struct; 
+        $this->fileStructure =  $struct;
     }
 
     /**
      * Returns true when this entry represents a directory.
-     * 
+     *
      * @return bool
      */
     public function isDirectory()
@@ -116,7 +113,7 @@ class ezcArchiveEntry
 
     /**
      * Returns true when this entry represents a file.
-     * 
+     *
      * @return bool
      */
     public function isFile()
@@ -126,7 +123,7 @@ class ezcArchiveEntry
 
     /**
      * Returns true when this entry represents a hard link.
-     * 
+     *
      * @return bool
      */
     public function isHardLink()
@@ -136,7 +133,7 @@ class ezcArchiveEntry
 
     /**
      * Returns true when this entry represents a symbolic link.
-     * 
+     *
      * @return bool
      */
     public function isSymLink()
@@ -146,7 +143,7 @@ class ezcArchiveEntry
 
     /**
      * Returns true when this entry represents a symbolic or a hard link.
-     * 
+     *
      * @return bool
      */
     public function isLink()
@@ -155,7 +152,7 @@ class ezcArchiveEntry
     }
 
     /**
-     * Returns type of the entry. 
+     * Returns type of the entry.
      *
      * @return int   Possible values are: {@link IS_LINK}, {@link IS_SYMBOLIC_LINK}, {@link IS_CHARACTER_DEVICE}, {@link IS_BLOCK_DEVICE},
      * {@link IS_DIRECTORY}, or {@link IS_FIFO}.
@@ -167,7 +164,7 @@ class ezcArchiveEntry
 
     /**
      * Returns the user ID of the entry.
-     * 
+     *
      * @return int
      */
     public function getUserId()
@@ -177,7 +174,7 @@ class ezcArchiveEntry
 
     /**
      * Returns the group ID of the entry.
-     * 
+     *
      * @return int
      */
     public function getGroupId()
@@ -188,12 +185,12 @@ class ezcArchiveEntry
     /**
      * Returns the complete path or path without the prefix.
      *
-     * By default the full path is returned, unless the $withPrefix is set 
+     * By default the full path is returned, unless the $withPrefix is set
      * to true.
      *
      * @param bool $withPrefix
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getPath( $withPrefix = true )
     {
@@ -210,18 +207,18 @@ class ezcArchiveEntry
     /**
      * Returns the path without the prefix.
      *
-     * The path without the prefix is returned. 
+     * The path without the prefix is returned.
      * If the prefix doesn't match with the complete path, the whole path is returned.
      *
      * @param string $completePath
      * @param string $prefix
-     * @return string 
+     * @return string
      */
     private function getPathWithoutPrefix( $completePath, $prefix )
     {
         $prefixLength = strlen( $prefix );
 
-        if ( strcmp( substr( $completePath, 0,  $prefixLength ), $prefix ) == 0 ) 
+        if ( strcmp( substr( $completePath, 0,  $prefixLength ), $prefix ) == 0 )
         {
             $i = 0;
             // Check next character
@@ -241,10 +238,10 @@ class ezcArchiveEntry
     }
 
     /**
-     * Removes the prefix from the path and clears the prefix. 
-     * 
-     * This method is useful when it comes to adding a entry to an archive 
-     * and the complete path to the file is no longer needed. 
+     * Removes the prefix from the path and clears the prefix.
+     *
+     * This method is useful when it comes to adding a entry to an archive
+     * and the complete path to the file is no longer needed.
      */
     public function removePrefixFromPath()
     {
@@ -256,11 +253,11 @@ class ezcArchiveEntry
     /**
      * Returns the link with or without prefix.
      *
-     * This method is similar to {@link getPath()}, but returns the link instead of the path. 
+     * This method is similar to {@link getPath()}, but returns the link instead of the path.
      * If the current does not represents a link, an empty string is returned.
      * Use the {@link isLink()} method to see if the current entry is a link.
      *
-     * @param bool $withPrefix 
+     * @param bool $withPrefix
      */
     public function getLink( $withPrefix = true )
     {
@@ -281,7 +278,7 @@ class ezcArchiveEntry
      */
     public function getPermissions()
     {
-        return $this->fileStructure->mode; 
+        return $this->fileStructure->mode;
     }
 
     /**
@@ -291,7 +288,7 @@ class ezcArchiveEntry
      */
     public function getSize()
     {
-        return $this->fileStructure->size; 
+        return $this->fileStructure->size;
     }
 
     /**
@@ -301,7 +298,7 @@ class ezcArchiveEntry
      */
     public function getModificationTime()
     {
-        return $this->fileStructure->mtime; 
+        return $this->fileStructure->mtime;
     }
 
     /**
@@ -311,11 +308,11 @@ class ezcArchiveEntry
      */
     public function getAccessTime()
     {
-        return $this->fileStructure->atime; 
+        return $this->fileStructure->atime;
     }
 
     /**
-     * Returns the inode. 
+     * Returns the inode.
      *
      * @return int
      */
@@ -325,7 +322,7 @@ class ezcArchiveEntry
     }
 
     /**
-     * Returns the major device number. 
+     * Returns the major device number.
      *
      * @return int
      */
@@ -335,7 +332,7 @@ class ezcArchiveEntry
     }
 
     /**
-     * Returns the minor device number. 
+     * Returns the minor device number.
      *
      * @return int
      */
@@ -347,7 +344,7 @@ class ezcArchiveEntry
     /**
      * Returns the device.
      *
-     * FIXME DEPRECATED? 
+     * FIXME DEPRECATED?
      *
      * @return int
      */
@@ -359,15 +356,15 @@ class ezcArchiveEntry
     /**
      * Returns the permissions as a string.
      *
-     * If the entry has all the permissions, it will return: "rwxrwx" Where the first three letters 
+     * If the entry has all the permissions, it will return: "rwxrwx" Where the first three letters
      * represent the group permissions and the last three letters the user permissions.
-     * 
+     *
      * @return string
      */
     public function getPermissionsString()
     {
         $out = "";
-        
+
         $perm = octdec( $this->getPermissions() );
 
         for ( $i = 6; $i >= 0; $i -= 3 )
@@ -391,7 +388,7 @@ class ezcArchiveEntry
             {
                 $out .= "-";
             }
-            
+
             if ( $part & 1 )
             {
                 $out .= "x";
@@ -406,8 +403,8 @@ class ezcArchiveEntry
 
     /**
      * Returns the type string for the current type of the entry.
-     * 
-     * Returns a type string for the current entry. If the entry is a: 
+     *
+     * Returns a type string for the current entry. If the entry is a:
      * - directory: "d".
      * - file: "-".
      * - symbolic link: "l".
@@ -432,7 +429,7 @@ class ezcArchiveEntry
                 return "h";
 
             default:
-                return "Z"; 
+                return "Z";
         }
     }
 
@@ -447,7 +444,7 @@ class ezcArchiveEntry
     }
 
     /**
-     * Returns the prefix. 
+     * Returns the prefix.
      *
      * @return string
      */
@@ -468,8 +465,8 @@ class ezcArchiveEntry
 
         $out .= " ";
         $out .= $this->getUserId() . " ";
-        $out .= $this->getGroupId() ." ";
-        $out .= str_pad( $this->getSize(), 7, " ", STR_PAD_LEFT )." ";
+        $out .= $this->getGroupId() . " ";
+        $out .= str_pad( $this->getSize(), 7, " ", STR_PAD_LEFT ) . " ";
         $out .= date( "Y-m-d H:i:s ", $this->getModificationTime() );
         $out .= $this->getPath();
 
@@ -491,7 +488,7 @@ class ezcArchiveEntry
         $lstat = lstat( $file );
 
         // Set the file information.
-        $struct = new ezcArchiveFileStructure(); 
+        $struct = new ezcArchiveFileStructure();
 
         $struct->path = $file;
         $struct->gid =  $stat["gid"];
@@ -537,8 +534,8 @@ class ezcArchiveEntry
     /**
      * Returns one or an array of ezcArchiveEntry's from one or multiple files in the file system.
      *
-     * One or multiple ezcArchiveEntry's are created upon the given files. 
-     * The prefix will directly set for the ezcArchiveEntry with $prefix. 
+     * One or multiple ezcArchiveEntry's are created upon the given files.
+     * The prefix will directly set for the ezcArchiveEntry with $prefix.
      *
      * If $files contains a path to a file, then one ezcArchiveEntry will be created and returned.
      * If $files is an array of paths, then all those ezcArchiveEntry's will be created and returned in an array.
@@ -546,25 +543,25 @@ class ezcArchiveEntry
      * When multiple files are given in an array, this method will search for hard links among other files in the array.
      *
      * @throws ezcArchiveEntryPrefixException if the prefix is invalid.
-     * 
-     * @param string|array(string)  $files  
+     *
+     * @param string|array(string)  $files
      * @param string                $prefix
-     * @return ezcArchiveEntry 
+     * @return ezcArchiveEntry
      */
     public static function getEntryFromFile( $files, $prefix )
     {
         $isArray = true;
-        if ( !is_array( $files ) ) 
+        if ( !is_array( $files ) )
         {
             $isArray = false;
             $files = array( $files );
         }
-        
+
         $inodes = array();
         $i = 0;
         foreach ( $files as $file )
         {
-            if ( !file_exists( $file ) && !is_link( $file ) ) 
+            if ( !file_exists( $file ) && !is_link( $file ) )
                 return false;
 
             $struct = self::getFileStructureFromFile( $file );
@@ -585,11 +582,11 @@ class ezcArchiveEntry
             $entry[$i] = new ezcArchiveEntry( $struct );
             $entry[$i]->setPrefix( $prefix );
 
-            if ( isset( $prefix ) && strlen( $prefix ) > 0 ) 
+            if ( isset( $prefix ) && strlen( $prefix ) > 0 )
             {
                 if ( strlen( $entry[$i]->getPath() ) == strlen( $entry[$i]->getPath( false ) ) )
                 {
-                    throw new ezcArchiveEntryPrefixException( $prefix, $file ); 
+                    throw new ezcArchiveEntryPrefixException( $prefix, $file );
                 }
             }
 
@@ -606,7 +603,7 @@ class ezcArchiveEntry
      *                                 {@link ezcArchiveStatMode::S_IFDIR}, {@link ezcArchiveStatMode::S_IFBLK},
      *                                 {@link ezcArchiveStatMode::S_IFREG}, or {@link ezcArchiveStatMode::S_IFLNK}.
      *
-     * @return int                    Possible values are: {@link IS_LINK}, {@link IS_SYMBOLIC_LINK}, {@link IS_CHARACTER_DEVICE}, 
+     * @return int                    Possible values are: {@link IS_LINK}, {@link IS_SYMBOLIC_LINK}, {@link IS_CHARACTER_DEVICE},
      *                                 {@link IS_BLOCK_DEVICE}, {@link IS_DIRECTORY}, or {@link IS_FIFO}.
      */
     protected static function getLinkType( $stat )

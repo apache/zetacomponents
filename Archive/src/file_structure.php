@@ -9,7 +9,7 @@
  * @access private
  */
 
-/** 
+/**
  * The ezcArchiveFileStructure class represents a data structure which contains file information.
  *
  * This class is used as an structure in order to prevent using an hash (or array).
@@ -18,7 +18,7 @@
  * @package Archive
  * @version //autogentag//
  * @access private
- */ 
+ */
 class ezcArchiveFileStructure extends ezcBaseStruct
 {
     /**
@@ -30,21 +30,21 @@ class ezcArchiveFileStructure extends ezcBaseStruct
 
     /**
      * The permissions of the entry.
-     * 
+     *
      * @var int
      */
     public $mode;
 
     /**
      * The user ID.
-     * 
+     *
      * @var int
      */
     public $uid;
 
     /**
      * The group ID.
-     * 
+     *
      * @var int
      */
     public $gid;
@@ -58,15 +58,15 @@ class ezcArchiveFileStructure extends ezcBaseStruct
 
     /**
      * Last access time timestamp.
-     * 
+     *
      * @var int
      */
     public $atime = false;
 
     /**
      * Specifies the type of the entry.
-     * 
-     * @var int  Possible values: {@link ezcArchiveEntry::IS_LINK}, {@link ezcArchiveEntry::IS_SYMBOLIC_LINK}, 
+     *
+     * @var int  Possible values: {@link ezcArchiveEntry::IS_LINK}, {@link ezcArchiveEntry::IS_SYMBOLIC_LINK},
      *           {@link ezcArchiveEntry::IS_CHARACTER_DEVICE}, {@link ezcArchiveEntry::IS_BLOCK_DEVICE},
      *           {@link ezcArchiveEntry::IS_DIRECTORY}, or {@link ezcArchiveEntry::IS_FIFO}.
      */
@@ -76,21 +76,21 @@ class ezcArchiveFileStructure extends ezcBaseStruct
      * The link target.
      *
      * This value is only valid when the {@link $type} indicates an actual link.
-     * 
-     * @var string 
+     *
+     * @var string
      */
     public $link;
 
     /**
      * The file size in bytes.
      *
-     * $var int 
+     * $var int
      */
     public $size;
 
     /**
      * Inode number of the file.
-     * 
+     *
      * $var int
      */
     public $ino;
@@ -109,5 +109,4 @@ class ezcArchiveFileStructure extends ezcBaseStruct
      */
     public $minor;
 }
-
 ?>

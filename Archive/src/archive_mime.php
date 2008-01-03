@@ -31,9 +31,9 @@ class ezcArchiveMime
      *
      * @param string $fileName  Absolute or relative path to the file.
      *
-     * @return int    Possible values are: {@link ezcArchive::ZIP}, 
-     *               {@link ezcArchive::TAR}, {@link ezcArchive::TAR_V7}, {@link ezcArchive::TAR_USTAR}, 
-     *               {@link ezcArchive::TAR_PAX}, {@link ezcArchive::TAR_GNU}. 
+     * @return int    Possible values are: {@link ezcArchive::ZIP},
+     *               {@link ezcArchive::TAR}, {@link ezcArchive::TAR_V7}, {@link ezcArchive::TAR_USTAR},
+     *               {@link ezcArchive::TAR_PAX}, {@link ezcArchive::TAR_GNU}.
      */
     public static function detect( $fileName )
     {
@@ -200,7 +200,7 @@ class ezcArchiveMime
         if ( strcmp( substr( $data, 257, 5 ), "ustar" ) == 0 && strcmp( substr( $data, 263, 2 ), "00" ) == 0 )
         {
             $type = substr( $data, 156, 1 );
-            if ( $type == "x" || $type == "g" ) 
+            if ( $type == "x" || $type == "g" )
             {
                 if ( self::tarContainsFileName( $data ) )
                 {
@@ -246,13 +246,13 @@ class ezcArchiveMime
     public static function tarContainsFileName( $data )
     {
         return $data[0] != "\0";
-        
+
         // $rest = trim( substr( $data, 0, 100 ), "a..zA..Z0..9/_.-\0" );
         // if ( strlen( $rest ) == 0 )
         // {
         //     return true;
         // }
-        // 
+        //
         // return false;
     }
 }

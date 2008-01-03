@@ -1,18 +1,18 @@
 <?php
 /**
  * File containing the ezcArchiveValueException class.
- * 
+ *
  * @package Archive
- * @version //autogen//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
  * Exception thrown when encountering a wrong archive value.
- * 
+ *
  * @package Archive
- * @version //autogen//
+ * @version //autogentag//
  */
 class ezcArchiveValueException extends ezcArchiveException
 {
@@ -32,8 +32,8 @@ class ezcArchiveValueException extends ezcArchiveException
         {
             $value = serialize( $value );
         }
-        
-        $msg = "The value '$value' is incorrect.";
+
+        $msg = "The value '{$value}' is incorrect.";
         if ( $expectedValue )
         {
             $msg .= " Allowed values are: " . $expectedValue . '.';

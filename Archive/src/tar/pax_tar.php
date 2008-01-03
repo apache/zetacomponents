@@ -8,13 +8,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-/** 
+/**
  * The ezcArchivePaxTar class implements the Tar pax or posix archive format.
  *
  * ezcArchivePaxTar is a subclass from {@link ezcArchive} that provides the common interface,
  * and {@link ezcArchiveUstarTar} that provides the basic Tar implementation.
  *
- * ezcArchivePaxTar reads on creation only the first {@link ezcArchiveEntry entry} from the archive. 
+ * ezcArchivePaxTar reads on creation only the first {@link ezcArchiveEntry entry} from the archive.
  * When needed next entries are read.
  *
  * The Pax Tar algorithm is an extension of Ustar Tar. Pax has the following extended features compared to Ustar:
@@ -25,7 +25,7 @@
  *
  * @package Archive
  * @version //autogentag//
- */ 
+ */
 class ezcArchivePaxTar extends ezcArchiveUstarTar
 {
     /**
@@ -33,14 +33,14 @@ class ezcArchivePaxTar extends ezcArchiveUstarTar
      *
      * At initialization it sets the blockFactor to $blockFactor. Each tar archive
      * has always $blockFactor of blocks ( 0, $blockFactor, 2 * $blockFactor, etc ).
-     * 
+     *
      * The Tar archive works with blocks, so therefore the first parameter expects
-     * the archive as a blockFile. 
-     * 
+     * the archive as a blockFile.
+     *
      * @param ezcArchiveBlockFile $blockFile
      * @param int $blockFactor
      */
-    public function __construct( ezcArchiveBlockFile $blockFile, $blockFactor = 20 ) 
+    public function __construct( ezcArchiveBlockFile $blockFile, $blockFactor = 20 )
     {
         parent::__construct( $blockFile, $blockFactor );
     }
@@ -69,7 +69,7 @@ class ezcArchivePaxTar extends ezcArchiveUstarTar
 
     /**
      * Creates the a new pax tar header for this class.
-     * 
+     *
      * This method expects an {@link ezcArchiveBlockFile} that points to the header that should be
      * read (and created). If null is given as  block file, an empty header will be created.
      *

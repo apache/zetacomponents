@@ -14,13 +14,13 @@
  *
  * The file is opened via in constructor and closed via the destructor.
  *
- * The iterator functionality can be used to read characters from and append characters to the file, 
+ * The iterator functionality can be used to read characters from and append characters to the file,
  * so it has the same behaviour as the {@link ezcArchiveBlockFile}.
  *
  * @package Archive
  * @version //autogentag//
  * @access private
- */ 
+ */
 class ezcArchiveCharacterFile extends ezcArchiveFile
 {
     /**
@@ -28,7 +28,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      *
      * @todo FIXME
      *
-     * @var string  
+     * @var string
      */
     private $character;
 
@@ -41,8 +41,8 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
 
     /**
      * Sets the property $name to $value.
-     * 
-     * Because there are no properties available, this method will always 
+     *
+     * Because there are no properties available, this method will always
      * throw an {@link ezcBasePropertyNotFoundException}.
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
@@ -58,8 +58,8 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
 
     /**
      * Returns the property $name.
-     * 
-     * Because there are no properties available, this method will always 
+     *
+     * Because there are no properties available, this method will always
      * throw an {@link ezcBasePropertyNotFoundException}.
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
@@ -73,17 +73,17 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     }
 
     /**
-     * Constructs a new ezcArchiveBlockFile. 
+     * Constructs a new ezcArchiveBlockFile.
      *
-     * The given file name is tried to be opened in read / write mode. 
+     * The given file name is tried to be opened in read / write mode.
      * If that fails, the file will be opened in read-only mode.
      *
-     * If the bool $createIfNotExist is set to true, it will create the file if 
-     * it doesn't exist. 
+     * If the bool $createIfNotExist is set to true, it will create the file if
+     * it doesn't exist.
      *
      * @throws ezcArchiveException if the file cannot be found or opened for any reason.
      *
-     * @param string $fileName 
+     * @param string $fileName
      * @param bool $createIfNotExist
      */
     public function __construct( $fileName, $createIfNotExist = false )
@@ -92,9 +92,9 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         $this->rewind();
     }
 
-    /** 
-     * The destructor will close all open files. 
-     */ 
+    /**
+     * The destructor will close all open files.
+     */
     public function __destruct()
     {
         if ( $this->fp )
@@ -104,7 +104,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     }
 
     /**
-     * Rewinds the current file. 
+     * Rewinds the current file.
      *
      * @return void
      */
@@ -116,7 +116,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     }
 
     /**
-     * Returns the current character if available. 
+     * Returns the current character if available.
      *
      * If the character is not available, the value false is returned.
      *
@@ -132,7 +132,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      *
      * Returns the next character if it exists; otherwise returns false.
      *
-     * @return string  
+     * @return string
      */
     public function next()
     {
@@ -158,7 +158,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      *
      * The first position has the value zero.
      *
-     * @return int 
+     * @return int
      */
     public function key()
     {
@@ -190,10 +190,10 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     /**
      * Appends the string $data after the current position.
      *
-     * The character(s) after the current position are removed and the $data will be 
-     * appended. 
-     * To start from the beginning of the file, call first the truncate() method. 
-     * 
+     * The character(s) after the current position are removed and the $data will be
+     * appended.
+     * To start from the beginning of the file, call first the truncate() method.
+     *
      * @throws  ezcBaseFilePermissionException if the file is opened in read-only mode.
      *
      * @param  string $data
@@ -205,7 +205,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         {
             throw new ezcBaseFilePermissionException( $this->fileName, ezcBaseFilePermissionException::WRITE, "The archive is opened in a read-only mode." );
         }
-        
+
         $pos = ftell( $this->fp );
         ftruncate( $this->fp, $pos );
         $length = $this->writeBytes( $data );
@@ -231,10 +231,10 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      *
      * This method tries to write the $data to the file. Upon failure, this method
      * will retry, until no progress is made anymore. And eventually it will throw
-     * an exception. 
+     * an exception.
      *
      * @throws ezcBaseFileIoException if it is not possible to write to the file.
-     * 
+     *
      * @param string $data
      * @return void
      */
@@ -245,7 +245,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         {
             return; // No bytes to write.
         }
-        
+
         $wl = fwrite( $this->fp, $data );
 
         // Partly written? For example an interrupt can occur when writing a remote file.
@@ -260,7 +260,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
 
         if ( $wl == 0 )
         {
-            throw new ezcBaseFileIoException ( $this->fileName, ezcBaseFileIoException::WRITE, "Retried to write, but no progress was made. Disk full?" ); 
+            throw new ezcBaseFileIoException ( $this->fileName, ezcBaseFileIoException::WRITE, "Retried to write, but no progress was made. Disk full?" );
         }
 
         return $wl;
@@ -268,7 +268,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
 
     /**
      * Truncates the current file to the number of characters $position.
-     * 
+     *
      * If $position is zero, the entire block file will be truncated. After the file is truncated,
      * make sure the current block position is valid. So, do a rewind() after
      * truncating the entire block file.
@@ -284,7 +284,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         {
             $this->isEmpty = true;
         }
-        
+
         if ( $this->position > $position )
         {
             $this->isValid = false;
@@ -292,19 +292,19 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     }
 
     /**
-     * Sets the current character position. 
+     * Sets the current character position.
      *
      * Sets the current character position. The new position is obtained by adding
-     * the $offset amount of characters to the position specified by $whence. 
+     * the $offset amount of characters to the position specified by $whence.
      *
-     * These values are: 
+     * These values are:
      *  SEEK_SET: The first character,
      *  SEEK_CUR: The current character position,
      *  SEEK_END: The last character.
      *
      * The blockOffset can be negative.
      *
-     * @param int $offset 
+     * @param int $offset
      * @param int $whence
      * @return void
      */
@@ -332,7 +332,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         $this->position = $pos - 1;
         $this->next(); // Will set isValid to false, if blockfile is empty.
     }
-    
+
     /**
      * Returns true if the file is empty, otherwise false.
      *
@@ -347,7 +347,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      * Reads current character plus extra. Forward the current pointer.
      *
      * @todo FIXME
-     * 
+     *
      * @param int $bytes
      * @return string
      */
@@ -399,7 +399,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         {
             throw new ezcBaseFilePermissionException( $this->fileName, ezcBaseFilePermissionException::WRITE, "The archive is opened in a read-only mode." );
         }
-       
+
         $pos = ftell( $this->fp );
         if ( $this->valid() )
         {

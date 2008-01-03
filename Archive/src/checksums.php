@@ -9,22 +9,22 @@
  * @access private
  */
 
-/** 
- * The ezcArchiveChecksums is a collection of checksum algorithms. The 
+/**
+ * The ezcArchiveChecksums is a collection of checksum algorithms. The
  * total-byte-value checksum and CRC32 checksum are currently available.
- * 
+ *
  * For each different checksum are two methods available:
  * - Calculate the checksum from a string.
- * - Calculate the checksum from a file. 
- * 
- * The latter will consume less memory since a part of the file is read in 
+ * - Calculate the checksum from a file.
+ *
+ * The latter will consume less memory since a part of the file is read in
  * memory at the time, and will be freed after use. The consequence might be
- * that the checksum from a string is a bit faster. 
+ * that the checksum from a string is a bit faster.
  *
  * @package Archive
  * @version //autogentag//
  * @access private
- */ 
+ */
 class ezcArchiveChecksums
 {
     /**
@@ -33,18 +33,18 @@ class ezcArchiveChecksums
      * @var array(int)
      */
     private static $crc32Table = false;
-    
+
     /**
-     * Calculates the total-byte-value checksum from a string. 
+     * Calculates the total-byte-value checksum from a string.
      *
-     * Returns the total ASCII value from all characters in the data string. 
+     * Returns the total ASCII value from all characters in the data string.
      * Example 1: For example:
      *
      * <code>
      * $crc = ezcArchiveChecksums::getTotalByteValueFromFile( "abc" );
-     * // $crc contains the value: 141 + 142 + 143 = 426 
+     * // $crc contains the value: 141 + 142 + 143 = 426
      * </code>
-     * 
+     *
      * @param string $data  Character string.
      * @return int The total byte value.
      *
@@ -63,16 +63,16 @@ class ezcArchiveChecksums
     }
 
     /**
-     * Calculates the total-byte-value checksum from a file. 
+     * Calculates the total-byte-value checksum from a file.
      *
-     * Returns the total ASCII value from all characters in the data string. 
+     * Returns the total ASCII value from all characters in the data string.
      * For example:
      *
      * <code>
      * $crc = ezcArchiveChecksums::getTotalByteValueFromFile( "abc" );
-     * // $crc contains the value: 141 + 142 + 143 = 426 
+     * // $crc contains the value: 141 + 142 + 143 = 426
      * </code>
-     * 
+     *
      * @param string $fileName The file to use
      * @return int Value which contains the total byte value.
      */
@@ -103,8 +103,8 @@ class ezcArchiveChecksums
 
    /**
     * Calculates the (official) CRC-32 polynomial from a $data string as input.
-    * 
-    * @param string $data 
+    *
+    * @param string $data
     * @return int The calculated CRC-32.
     */
     public static function getCrc32FromString( $data )
@@ -115,7 +115,7 @@ class ezcArchiveChecksums
     /**
      * Calculates the (official) CRC-32 polynomial from a file.
      *
-     * This method is taken from the PHP user comments 
+     * This method is taken from the PHP user comments
      * (http://no.php.net/manual/en/function.crc32.php).
      *
      * @param string $fileName Absolute or relative path to the file.
@@ -130,7 +130,7 @@ class ezcArchiveChecksums
 
         // Once the lookup table has been filled in by the two functions above,
         // this function creates all CRCs using only the lookup table.
- 
+
         // You need unsigned variables because negative values
         // introduce high bits where zero bits are required.
         // PHP doesn't have unsigned integers:
@@ -138,12 +138,12 @@ class ezcArchiveChecksums
 
         // Start out with all bits set high.
         $crc = 0xffffffff;
- 
+
         if ( ( $fp = fopen( $fileName ,'rb' ) ) === false )
         {
             return false;
         }
- 
+
         // Perform the algorithm on each character in file
         while ( true )
         {
@@ -154,9 +154,9 @@ class ezcArchiveChecksums
             }
             $crc = ( ( $crc >> 8 ) & 0x00ffffff ) ^ self::$crc32Table[( $crc & 0xFF ) ^ ord( $i )];
         }
-        
+
         @fclose( $fp );
-        
+
         // Exclusive OR the result with the beginning value.
         return $crc ^ 0xffffffff;
     }
@@ -167,7 +167,7 @@ class ezcArchiveChecksums
      * Builds the lookup table array. This is the official polynomial used by
      * CRC-32 in PKZip, WinZip and Ethernet.
      *
-     * This method is taken from the PHP user comments 
+     * This method is taken from the PHP user comments
      * (http://no.php.net/manual/en/function.crc32.php).
      */
     protected static function crc32InitTable()
@@ -202,9 +202,9 @@ class ezcArchiveChecksums
      * @return int
      */
     protected static function crc32Reflect( $ref, $ch )
-    {   
+    {
         $value = 0;
-        
+
         // Swap bit 0 for bit 7, bit 1 for bit 6, etc.
         for ( $i = 1; $i < ( $ch + 1 ); ++$i )
         {

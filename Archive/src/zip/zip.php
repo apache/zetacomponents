@@ -8,14 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-/** 
+/**
  * The ezcArchiveZip class implements the Zip archive format.
  *
  * ezcArchiveZip is a subclass from {@link ezcArchive} that provides the common interface.
  * Zip algorithm specific methods are implemented in this class.
  *
- * ezcArchiveZip tries on creation to read the entire archive. Every {@link ezcArchiveEntry} 
- * will be appended to the {@link ezcArchive::$entries} array. ({@link ezcArchiveTarV7} archive format 
+ * ezcArchiveZip tries on creation to read the entire archive. Every {@link ezcArchiveEntry}
+ * will be appended to the {@link ezcArchive::$entries} array. ({@link ezcArchiveTarV7} archive format
  * reads only anentry when needed the first time.)
  *
  * All the archive entries are read, because we need to find the {@link ezcArchiveCentralDirectoryHeader central directory}
@@ -27,39 +27,39 @@
  * - The Unix Extra field.
  * - The Unix Extra field 2.
  * - The Universal Timestamp field.
- * 
+ *
  * @package Archive
  * @version //autogentag//
- */ 
+ */
 class ezcArchiveZip extends ezcArchive implements Iterator
 {
     /**
-     * Stores the byte number where the local file header starts for each entry. 
+     * Stores the byte number where the local file header starts for each entry.
      *
      * @var array(int)
-     */ 
-    protected $localHeaderPositions;  
+     */
+    protected $localHeaderPositions;
 
     /**
      * Stores the {@link ezcArchiveLocalFileHeader} for each entry.
      *
      * @var array(ezcArchiveLocalFileHeader)
-     */ 
+     */
     protected $localHeaders;
 
     /**
-     * Stores the byte number where the central directory header starts 
+     * Stores the byte number where the central directory header starts
      * (fileNumber is the index of the array).
      *
      * @var array(int)
-     */ 
-    protected $centralHeaderPositions;  
+     */
+    protected $centralHeaderPositions;
 
     /**
      * Stores the {@link ezcArchiveCentralDirectoryHeader} for each entry.
      *
      * @var array(ezcArchiveCentralDirectoryHeader)
-     */ 
+     */
     protected $centralHeaders;
 
     /**
@@ -116,12 +116,12 @@ class ezcArchiveZip extends ezcArchive implements Iterator
 
     /**
      * Reads the entire archive and creates all the entries.
-     * 
+     *
      * To find the central directory structure we need to read all the headers.
      * Some algorithms search backwards, but these don't expect comments at the end
      * of the archive.
      *
-     * The central directory structure gives us extra information about the 
+     * The central directory structure gives us extra information about the
      * stored file like: symlinks and permissions.
      *
      * @throws ezcArchiveException
@@ -136,7 +136,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         $this->centralHeaders = array();
 
         // read the central end headers
-        
+
         $this->file->seek( -22, SEEK_END );
         $filesize = $this->file->key() + 22;
         $endRecordPosition = $filesize - 22;
@@ -192,14 +192,14 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         {
             throw new ezcArchiveException( "Unable to determine the central directory start." );
         }
-        
+
         $this->file->seek( $endRecordPosition - $this->endRecord->centralDirectorySize );
         $sig = $this->file->read( 4 );
 
         $i = 0;
         while ( ezcArchiveCentralDirectoryHeader::isSignature( $sig ) )
         {
-            $this->centralHeaderPositions[$i] = $this->file->key() - 4; 
+            $this->centralHeaderPositions[$i] = $this->file->key() - 4;
             $this->centralHeaders[$i] = new ezcArchiveCentralDirectoryHeader( $this->file );
 
             $sig = $this->file->read( 4 );
@@ -214,8 +214,8 @@ class ezcArchiveZip extends ezcArchive implements Iterator
 
         for ( $i = 0; $i < $this->entriesRead; $i++ )
         {
-            $struct = new ezcArchiveFileStructure(); 
-            
+            $struct = new ezcArchiveFileStructure();
+
             // $this->localHeaders[$i]->setArchiveFileStructure( $struct );
             $this->centralHeaders[$i]->setArchiveFileStructure( $struct );
 
@@ -263,13 +263,13 @@ class ezcArchiveZip extends ezcArchive implements Iterator
      *
      * @param int $fileNumber
      * @return string
-     */ 
+     */
     public function getFileData( $fileNumber )
     {
         $pos = $this->localHeaderPositions[ $fileNumber ];
         $header = $this->getLocalHeader( $fileNumber );
 
-        $newPos = $pos + $header->getHeaderSize(); 
+        $newPos = $pos + $header->getHeaderSize();
         $this->file->seek( $newPos );
 
         // Read all the data.
@@ -288,7 +288,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         if ( !isset( $this->localHeaders[$fileNumber] ) )
         {
             // Read the local header
-            // 
+            //
             $this->file->seek( $this->localHeaderPositions[$fileNumber] );
 
             $sig = $this->file->read( 4 );
@@ -298,7 +298,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
                 throw new ezcArchiveException( "Zip file corrupt?" );
             }
 
-            $this->localHeaders[$fileNumber] = new ezcArchiveLocalFileHeader( $this->file ); 
+            $this->localHeaders[$fileNumber] = new ezcArchiveLocalFileHeader( $this->file );
         }
 
         return $this->localHeaders[$fileNumber];
@@ -311,7 +311,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
      * If the data is compressed or deflated it will be, respectively, decompressed or inflated.
      *
      * @throws ezcArchiveChecksumException if the checksum is invalid from the created file.
-     * 
+     *
      * @param   int     $fileNumber
      * @param   string  $writeTo
      * @return  void
@@ -329,11 +329,11 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         // Append the stream filter.
         switch ( $header->compressionMethod )
         {
-            case 8:  $this->file->appendStreamFilter( "zlib.inflate" ); break;   
-            case 12: $this->file->appendStreamFilter( "bzip2.decompress" ); break; 
+            case 8:  $this->file->appendStreamFilter( "zlib.inflate" ); break;
+            case 12: $this->file->appendStreamFilter( "bzip2.decompress" ); break;
         }
         */
-        
+
         $data = $this->file->read( $header->compressedSize );
 
         /*
@@ -342,7 +342,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         // Then we can write the file directly from the archive without copying it entirely to memory.
         // Unfortunately, this method segfaults for me.
 
-        if ( $header->compressionMethod == 8  || $header->compressionMethod == 12)
+        if ( $header->compressionMethod == 8  || $header->compressionMethod == 12 )
         {
             $this->file->removeStreamFilter();
         }
@@ -358,7 +358,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
 
                 case 12:
                     $data = bzdecompress( $data );
-                    break; 
+                    break;
             }
         }
 
@@ -375,7 +375,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
     }
 
     /**
-     * Appends a file to the archive after the current entry. 
+     * Appends a file to the archive after the current entry.
      *
      * One or multiple files can be added directly after the current file.
      * The remaining entries after the current are removed from the archive!
@@ -395,26 +395,26 @@ class ezcArchiveZip extends ezcArchive implements Iterator
      * $tar->appendToCurrent( array( "/home/rb/file1.txt", "/home/rb/file2.txt" ), "/home/rb/" );
      * </code>
      *
-     * When multiple files are added to the archive at the same time, thus using an array, does not 
-     * necessarily produce the same archive as repeatively adding one file to the archive. 
+     * When multiple files are added to the archive at the same time, thus using an array, does not
+     * necessarily produce the same archive as repeatively adding one file to the archive.
      * For example, the Tar archive format, can detect that files hardlink to each other and will store
      * it in a more efficient way.
-     * 
+     *
      * @throws ezcArchiveException            if the archive is closed or read-only
      * @throws ezcBaseFileNotFoundException   if one of the specified files is missing
      * @throws ezcBaseFilePermissionException if the archive is not writable
      *
-     * @param string|array(string) $files  Array or a single path to a file. 
-     * @param string $prefix               First part of the path used in $files. 
+     * @param string|array(string) $files  Array or a single path to a file.
+     * @param string $prefix               First part of the path used in $files.
      * @return bool
      */
     public function appendToCurrent( $files, $prefix )
     {
         if ( !$this->isWritable() )
         {
-            throw new ezcBaseFilePermissionException( $this->file->getFileName(), ezcBaseFilePermissionException::WRITE, "Archive is read-only" ); 
+            throw new ezcBaseFilePermissionException( $this->file->getFileName(), ezcBaseFilePermissionException::WRITE, "Archive is read-only" );
         }
-        
+
         // Current position valid?
         if ( !$this->isEmpty() && !$this->valid() )
         {
@@ -429,13 +429,13 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         // Check whether the files are correct.
         foreach ( $files as $file )
         {
-            if ( !file_exists( $file ) && !is_link( $file ) ) 
+            if ( !file_exists( $file ) && !is_link( $file ) )
             {
                 throw new ezcBaseFileNotFoundException( $file );
             }
         }
 
-        // Search for all the entries, because otherwise hardlinked files show up as an ordinary file. 
+        // Search for all the entries, because otherwise hardlinked files show up as an ordinary file.
         $entries = ezcArchiveEntry::getEntryFromFile( $files, $prefix );
 
         if ( $this->isEmpty() )
@@ -461,7 +461,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
            // Set local header position
             $this->localHeaderPositions[$cur ] = $this->file->getPosition();
 
-            // Set local header 
+            // Set local header
             $this->localHeaders[ $cur ] =  new ezcArchiveLocalFileHeader();
             $this->localHeaders[ $cur ]->setHeaderFromArchiveEntry( $entry );
 
@@ -472,11 +472,11 @@ class ezcArchiveZip extends ezcArchive implements Iterator
             }
             else
             {
-                // FIXME, File in memory, compression level always 8, add constants. 
+                // FIXME, File in memory, compression level always 8, add constants.
                 $fileData = gzdeflate( file_get_contents( $entry->getPath() ) );
-                $this->localHeaders[ $cur ]->setCompression( 8, strlen( $fileData)  ); 
+                $this->localHeaders[ $cur ]->setCompression( 8, strlen( $fileData)  );
             }
- 
+
             $this->localHeaders[ $cur ]->writeEncodedHeader( $this->file );
 
             // Write link or file.
@@ -489,7 +489,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
             $this->centralHeaders[ $cur ]->setHeaderFromArchiveEntry( $entry );
             $this->centralHeaders[ $cur ]->relativeHeaderOffset = $this->localHeaderPositions[ $cur ];
 
-            // Set the entry. 
+            // Set the entry.
             $entry->removePrefixFromPath();
             $this->entries[ $cur ] = $entry;
         }
@@ -515,14 +515,14 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         // Write the end record.
         $this->endRecord = new ezcArchiveCentralDirectoryEndHeader();
         $this->endRecord->centralDirectoryStart = $this->centralHeaderPositions[0];
-        $this->endRecord->centralDirectorySize = $this->file->getPosition() - $this->centralHeaderPositions[0] ; 
+        $this->endRecord->centralDirectorySize = $this->file->getPosition() - $this->centralHeaderPositions[0];
 
         $this->endRecord->totalCentralDirectoryEntries = $cur + 1;
         $this->endRecord->writeEncodedHeader( $this->file );
-    } 
+    }
 
     /**
-     * Appends a file or directory to the end of the archive. Multiple files or directory can 
+     * Appends a file or directory to the end of the archive. Multiple files or directory can
      * be added to the archive when an array is used as input parameter.
      *
      * @see appendToCurrent()
@@ -542,7 +542,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         }
 
         $this->seek( 0, SEEK_END );
-        $this->appendToCurrent( $files, $prefix ); 
+        $this->appendToCurrent( $files, $prefix );
      }
 
     /**
@@ -608,10 +608,10 @@ class ezcArchiveZip extends ezcArchive implements Iterator
 
             $this->entriesRead = $fileNumber;
 
-            $this->setEndRecord(); 
-            $this->endRecord->writeEncodedHeader( $this->file ); 
+            $this->setEndRecord();
+            $this->endRecord->writeEncodedHeader( $this->file );
 
-            $this->fileNumber = $originalFileNumber; 
+            $this->fileNumber = $originalFileNumber;
             return $this->valid();
         }
     }
@@ -641,7 +641,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
     /**
      * Creates and sets a new {@link ezcArchiveCentralDirectoryEndHeader}.
      *
-     * The new {@link ezcArchiveCentralDirectoryEndHeader} is based on the current file position, 
+     * The new {@link ezcArchiveCentralDirectoryEndHeader} is based on the current file position,
      * the centralHeaderPositions, and the number of entries read.
      *
      * @return void
@@ -650,7 +650,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
     {
         $this->endRecord = new ezcArchiveCentralDirectoryEndHeader();
         $this->endRecord->centralDirectoryStart = $this->centralHeaderPositions[0];
-        $this->endRecord->centralDirectorySize = $this->file->getPosition() - $this->centralHeaderPositions[0] ; 
+        $this->endRecord->centralDirectorySize = $this->file->getPosition() - $this->centralHeaderPositions[0];
 
         $this->endRecord->totalCentralDirectoryEntries = $this->entriesRead;
     }

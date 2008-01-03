@@ -8,13 +8,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-/** 
+/**
  * The ezcArchiveGnuTar class implements the GNU Tar archive format.
  *
  * ezcArchiveGnuTar is a subclass from {@link ezcArchive} that provides the common interface,
  * and {@link ezcArchiveUstarTar} that provides the basic Tar implementation.
  *
- * ezcArchiveGnuTar reads on creation only the first {@link ezcArchiveEntry entry} from the archive. 
+ * ezcArchiveGnuTar reads on creation only the first {@link ezcArchiveEntry entry} from the archive.
  * When needed next entries are read.
  *
  * The Gnu Tar algorithm is an extension of Ustar Tar. Gnu has the following extended features compared to Ustar:
@@ -27,7 +27,7 @@
  *
  * @package Archive
  * @version //autogentag//
- */ 
+ */
 class ezcArchiveGnuTar extends ezcArchiveUstarTar
 {
     /**
@@ -35,14 +35,14 @@ class ezcArchiveGnuTar extends ezcArchiveUstarTar
      *
      * At initialization it sets the blockFactor to $blockFactor. Each tar archive
      * has always $blockFactor of blocks ( 0, $blockFactor, 2 * $blockFactor, etc ).
-     * 
+     *
      * The Tar archive works with blocks, so therefore the first parameter expects
-     * the archive as a blockFile. 
-     * 
+     * the archive as a blockFile.
+     *
      * @param ezcArchiveBlockFile $blockFile
      * @param int $blockFactor
      */
-    public function __construct( ezcArchiveBlockFile $blockFile, $blockFactor = 20 ) 
+    public function __construct( ezcArchiveBlockFile $blockFile, $blockFactor = 20 )
     {
         parent::__construct( $blockFile, $blockFactor );
     }
@@ -71,7 +71,7 @@ class ezcArchiveGnuTar extends ezcArchiveUstarTar
 
     /**
      * Creates the a new pax tar header for this class.
-     * 
+     *
      * This method expects an {@link ezcArchiveBlockFile} that points to the header that should be
      * read (and created). If null is given as  block file, an empty header will be created.
      *
