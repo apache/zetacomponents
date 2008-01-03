@@ -234,7 +234,7 @@ class ezcTemplateFunctions
             {
                 if ( self::isSubstitution( $pIn ) )
                 {
-                    // Skip the optional parameter if the value is NULL.
+                    // Skip the optional parameter if the value is null.
                     if ( $parameterMap[$pIn] !== null )
                     {
                         $pOut[] = $parameterMap[ $pIn ];
