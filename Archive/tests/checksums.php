@@ -1,5 +1,18 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 
+/**
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 class ezcArchiveChecksumTest extends ezcTestCase
 {
     public $testString = "abcdefghijklmnopqrstuvwxyz";
@@ -20,10 +33,9 @@ class ezcArchiveChecksumTest extends ezcTestCase
         $byteValueExpected = ezcArchiveChecksums::getTotalByteValueFromString( file_get_contents( "$dir/byte_value_file.txt" ) );
         $byteValue = ezcArchiveChecksums::getTotalByteValueFromFile( "$dir/byte_value_file.txt" );
 
-        $this->assertEquals( $byteValueExpected, $byteValue);
+        $this->assertEquals( $byteValueExpected, $byteValue );
     }
 
- 
     public function testCrc32FromString()
     {
         $crc = ezcArchiveChecksums::getCrc32FromString( $this->testString );
@@ -43,14 +55,9 @@ class ezcArchiveChecksumTest extends ezcTestCase
         $this->assertEquals( $crcExpected, $crc);
     }
 
-
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( "ezcArchiveChecksumTest" );
+        return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
-
-
 }
-
-
 ?>

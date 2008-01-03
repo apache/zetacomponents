@@ -1,14 +1,27 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 
 require_once( dirname( __FILE__ ) . "/../testdata.php" );
 require_once(dirname(__FILE__) . "/../archive_test_case.php");
 
+/**
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 class ezcArchiveZlibTest extends ezcArchiveTestCase
 {
     protected function setUp()
     {
         $this->createTempDir( "ezcArchive_" );
-        date_default_timezone_set("UTC"); 
+        date_default_timezone_set( "UTC" ); 
     }
 
     protected function tearDown()
@@ -19,12 +32,12 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
     public function testCreateTar()
     {
         $dir = $this->getTempDir();
-        $archive = ezcArchive::open( "$dir/mytar.tar", ezcArchive::TAR_USTAR);
+        $archive = ezcArchive::open( "$dir/mytar.tar", ezcArchive::TAR_USTAR );
         file_put_contents( "$dir/a.txt", "Hello world!" );
-        $archive->append( "$dir/a.txt", $dir);
+        $archive->append( "$dir/a.txt", $dir );
         $archive->close();
 
-        exec("tar -cf $dir/gnutar.tar --format=ustar -C $dir a.txt");
+        exec( "tar -cf $dir/gnutar.tar --format=ustar -C $dir a.txt" );
 
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( "$dir/mytar.tar" ) );
     }
@@ -32,13 +45,13 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
     public function testCreateGzippedTar()
     {
         $dir = $this->getTempDir();
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
+        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR );
         file_put_contents( "$dir/a.txt", "Hello world!" );
-        $archive->append( "$dir/a.txt", $dir);
+        $archive->append( "$dir/a.txt", $dir );
         $archive->close();
 
-        exec("tar -cf $dir/gnutar.tar --format=ustar -C $dir a.txt");
-        exec("gunzip $dir/mytar.tar.gz");
+        exec( "tar -cf $dir/gnutar.tar --format=ustar -C $dir a.txt" );
+        exec( "gunzip $dir/mytar.tar.gz" );
 
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( "$dir/mytar.tar" ) );
     }
@@ -47,26 +60,26 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
     {
         // Create an archive with one file.
         $dir = $this->getTempDir();
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
+        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR );
         file_put_contents( "$dir/a.txt", "Hello world!" );
-        $archive->append( "$dir/a.txt", $dir);
+        $archive->append( "$dir/a.txt", $dir );
         $archive->close();
 
         // Reopen it and append another file.
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
+        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR );
 
-        try 
+        try
         {
-            $archive->append( "$dir/a.txt", $dir);
-            $this->fail( "Expected a 'cannot-append' exception");
-        } 
+            $archive->append( "$dir/a.txt", $dir );
+            $this->fail( "Expected a 'cannot-append' exception" );
+        }
         catch ( ezcArchiveException $e )
         {
 
         }
         $archive->close();
     }
-  
+
     public function testCreateNewGzippedTarArchiveTogetherWithReadingEntries()
     {
         $dir = $this->getTempDir();
@@ -76,35 +89,33 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
         file_put_contents( "$dir/b.txt", "BBBBBBBBBBB" );
         file_put_contents( "$dir/c.txt", "CCCCCCCCCCC" );
 
-
         // Create a new archive
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
-        $archive->append( "$dir/a.txt", $dir);
+        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR );
+        $archive->append( "$dir/a.txt", $dir );
         $archive->rewind();
         $a = $archive->current();
-        $this->assertEquals( "a.txt", $a->getPath(false) );
+        $this->assertEquals( "a.txt", $a->getPath( false ) );
 
         $archive->rewind();
-        $archive->append( "$dir/b.txt", $dir);
+        $archive->append( "$dir/b.txt", $dir );
 
         $a = $archive->current();
-        $this->assertEquals( "a.txt", $a->getPath(false) );
+        $this->assertEquals( "a.txt", $a->getPath( false ) );
 
         $a = $archive->next();
-        $this->assertEquals( "b.txt", $a->getPath(false) );
+        $this->assertEquals( "b.txt", $a->getPath( false ) );
 
         $archive->rewind();
         $archive->close();
 
-
         // Reopen it and append another file.
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
+        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR );
 
-        try 
+        try
         {
-            $archive->append( "$dir/a.txt", $dir);
-            $this->fail( "Expected a 'cannot-append' exception");
-        } 
+            $archive->append( "$dir/a.txt", $dir );
+            $this->fail( "Expected a 'cannot-append' exception" );
+        }
         catch ( ezcArchiveException $e )
         {
 
@@ -115,13 +126,13 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
     public function testAppendToCurrentException()
     {
         $dir = $this->getTempDir();
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
+        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR );
         file_put_contents( "$dir/a.txt", "AAAAAAAAAAA" );
 
         try
         {
-            $archive->appendToCurrent( "$dir/a.txt", $dir);
-            $this->fail( "Except an exception that the file couldn't be appended.");
+            $archive->appendToCurrent( "$dir/a.txt", $dir );
+            $this->fail( "Except an exception that the file couldn't be appended." );
         }
         catch ( ezcArchiveException $e )
         {
@@ -131,7 +142,7 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
     public function testCloseException()
     {
         $dir = $this->getTempDir();
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
+        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR );
         file_put_contents( "$dir/a.txt", "AAAAAAAAAAA" );
         $archive->append( "$dir/a.txt", $dir );
         $archive->close();
@@ -139,7 +150,7 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
         try
         {
             $archive->append( "$dir/a.txt", $dir );
-            $this->fail( "Except an exception that the file couldn't be appended.");
+            $this->fail( "Except an exception that the file couldn't be appended." );
         }
         catch ( ezcArchiveException $e )
         {
@@ -149,7 +160,7 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
     public function testListing()
     {
         $dir = $this->getTempDir();
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
+        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR );
         file_put_contents( "$dir/a.txt", "AAAAAAAAAAA" );
         $archive->append( "$dir/a.txt", $dir );
         file_put_contents( "$dir/a.txt", "AAAAAAAAAAA" );
@@ -160,13 +171,9 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
 
     }
 
-
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( "ezcArchiveZlibTest" );
+        return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
-
 }
-
-
 ?>

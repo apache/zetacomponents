@@ -1,24 +1,35 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 
 require_once( "v7_tar_test.php" );
 
-    // Extend the V7 tests!
-    // Everything should also work with the Ustar test.
-class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
+/**
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
+class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest // Extend the V7 tests (should work with Ustar also)
 {
     protected function setUp()
     {
-        date_default_timezone_set("UTC"); 
+        date_default_timezone_set( "UTC" ); 
         $this->tarFormat = "ustar";
         $this->tarMimeFormat = ezcArchive::TAR_USTAR;
 
-        $this->createTempDir("ezcArchive_");
+        $this->createTempDir( "ezcArchive_" );
 
-        $this->file = $this->createTempFile("tar_ustar_2_textfiles.tar");
+        $this->file = $this->createTempFile( "tar_ustar_2_textfiles.tar" );
         $blockFile = new ezcArchiveBlockFile( $this->file );
         $this->archive = new ezcArchiveUstarTar( $blockFile );
 
-        $this->complexFile = $this->createTempFile("tar_ustar_file_dir_symlink_link.tar");
+        $this->complexFile = $this->createTempFile( "tar_ustar_file_dir_symlink_link.tar" );
         $blockFile = new ezcArchiveBlockFile( $this->complexFile );
         $this->complexArchive = new ezcArchiveUstarTar( $blockFile );
         unset( $blockFile );
@@ -43,10 +54,13 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         $this->assertEquals( ezcArchive::NONE, ezcArchiveUstarTar::canHandle( $v7File ) );
     }
     */
- 
+
     public function testLongFileName()
     {
-        if ( !$this->canWrite ) return;
+        if ( !$this->canWrite )
+        {
+            return;
+        }
 
         $dir = $this->getTempDir();
 
@@ -61,52 +75,55 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
             $pathItemLen = 70;
         }
 
-        for( $i = 0; $i < $pathItemLen; $i++)
+        for ( $i = 0; $i < $pathItemLen; $i++ )
         {
-            $filename .= ($i % 10);
+            $filename .= ( $i % 10 );
         }
 
         mkdir( "$dir/$filename" );
         mkdir( "$dir/$filename/$filename" );
 
-        touch("$dir/$filename/$filename/$filename");
+        touch( "$dir/$filename/$filename/$filename" );
 
         $bf = new ezcArchiveBlockFile( "$dir/myarchive.tar", true );
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat ); 
 
         $archive->appendToCurrent( "$dir/$filename/$filename/$filename", $dir );
         $archive->close();
- 
-        exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir $filename/$filename/$filename");
+
+        exec( "tar -cf $dir/gnutar.tar --format=" . $this->tarFormat . " -C $dir $filename/$filename/$filename" );
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( "$dir/myarchive.tar" ) );
 
-        unset($archive);
-        unset($bf);
+        unset( $archive );
+        unset( $bf );
     }
 
     public function testLongFilenameException()
     {
-        if ( !$this->canWrite ) return;
+        if ( !$this->canWrite )
+        {
+            return;
+        }
 
         $dir = $this->getTempDir();
 
         $filename = "";
 
         // $filename too long.
-        for( $i = 0; $i < 101; $i++)
+        for ( $i = 0; $i < 101; $i++ )
         {
-            $filename .= ($i % 10);
+            $filename .= ( $i % 10 );
         }
 
-        touch("$dir/$filename");
+        touch( "$dir/$filename" );
 
         $bf = new ezcArchiveBlockFile( "$dir/myarchive.tar", true );
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat ); 
 
-        try 
+        try
         {
             $archive->appendToCurrent( "$dir/$filename", $dir );
-            $this->fail("Expected a 'filename too long' exception.");
+            $this->fail( "Expected a 'filename too long' exception." );
         }
         catch ( ezcArchiveException $e )
         {
@@ -119,8 +136,8 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         $dir = $this->getTempDir();
 
         // Can we create a character device?
-        if (!ezcBaseFeatures::hasFunction('posix_mknod') ||
-            !posix_mknod( "$dir/can_create_character_device", POSIX_S_IFCHR | 0777, 5, 1 )) 
+        if (!ezcBaseFeatures::hasFunction( 'posix_mknod' ) ||
+            !posix_mknod( "$dir/can_create_character_device", POSIX_S_IFCHR | 0777, 5, 1 ) )
         {
             // Failed, skip the test.
             return;
@@ -128,29 +145,28 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
 
         unlink( "$dir/can_create_character_device" );
 
-        $org = dirname(__FILE__) . "/../data/tar_ustar_character_device.tar" ;
-        copy( $org, $dir ."/tar_ustar_character_device.tar");
+        $org = dirname(__FILE__) . "/../data/tar_ustar_character_device.tar";
+        copy( $org, $dir . "/tar_ustar_character_device.tar" );
 
-        $bf = new ezcArchiveBlockFile( $dir. "/tar_ustar_character_device.tar" );
+        $bf = new ezcArchiveBlockFile( $dir . "/tar_ustar_character_device.tar" );
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
 
         $archive->extractCurrent( $dir );
 
         // Zero device should be here..
-        $this->assertEquals("\0\0\0\0\0\0\0\0\0\0", file_get_contents( "$dir/myzero", false, null, 0, 10));
+        $this->assertEquals( "\0\0\0\0\0\0\0\0\0\0", file_get_contents( "$dir/myzero", false, null, 0, 10 ) );
 
         unlink( "$dir/myzero" );
-        
     }
 
     public function testExtractFIFO()
     {
         $dir = $this->getTempDir();
 
-        $org = dirname(__FILE__) . "/../data/tar_ustar_fifo.tar" ;
-        copy( $org, $dir ."/tar_ustar_fifo.tar");
+        $org = dirname(__FILE__) . "/../data/tar_ustar_fifo.tar";
+        copy( $org, $dir . "/tar_ustar_fifo.tar" );
 
-        $bf = new ezcArchiveBlockFile( $dir. "/tar_ustar_fifo.tar" );
+        $bf = new ezcArchiveBlockFile( $dir . "/tar_ustar_fifo.tar" );
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
 
         $archive->extractCurrent( $dir );
@@ -162,10 +178,12 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         unlink( "$dir/myfifo" );
     }
 
-   
     public function testAppendToCurrentAtEndOfArchive()
     {
-        if ( !$this->canWrite ) return;
+        if ( !$this->canWrite )
+        {
+            return;
+        }
 
         $dir = $this->getTempDir();
 
@@ -173,21 +191,24 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
         $archive->extractCurrent( $dir );
 
-        copy( $this->file, $dir."/gnutar.tar" );
-        
-        $archive->seek(0, SEEK_END); // File number two.
+        copy( $this->file, $dir . "/gnutar.tar" );
+
+        $archive->seek( 0, SEEK_END ); // File number two.
         $archive->appendToCurrent( "$dir/file1.txt", $dir );
         $archive->close();
 
         // Do the same with gnu tar.
-        exec("tar -rf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file1.txt");
+        exec( "tar -rf $dir/gnutar.tar --format=" . $this->tarFormat . " -C $dir file1.txt" );
 
-        $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($this->file ) );
+        $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( $this->file ) );
     }
 
     public function testAppendToCurrentCharacterDevice()
     {
-        if ( !$this->canWrite ) return;
+        if ( !$this->canWrite )
+        {
+            return;
+        }
 
         $dir = $this->getTempDir();
 
@@ -201,29 +222,37 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         {
             $archive->appendToCurrent( "/dev/zero", "/dev/" );
             $archive->close();
-            
+
             // Do the same with gnu tar.
-            exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C /dev/ zero");
+            exec( "tar -cf $dir/gnutar.tar --format=" . $this->tarFormat . " -C /dev/ zero" );
             $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( $chartar ) );
-        } catch ( ezcArchiveException $e)
+        }
+        catch ( ezcArchiveException $e )
         {
-            if ( $e->getMessage() != "Cannot add a device to the TAR because the device type cannot be determined. Your system / PHP version does not support 'st_blksize'.") 
+            if ( $e->getMessage() != "Cannot add a device to the TAR because the device type cannot be determined. Your system / PHP version does not support 'st_blksize'." )
             {
-                $this->fail("Unexpected exception: " . $e->getMessage());
+                $this->fail( "Unexpected exception: " . $e->getMessage() );
             }
-            
-            $s = stat("/dev/zero");
+
+            $s = stat( "/dev/zero" );
             if ( $s["rdev"] != -1 )
             {
-                $this->fail("This exception is only valid when the stat()['rdev'] is not available.");
+                $this->fail( "This exception is only valid when the stat()['rdev'] is not available." );
             }
         }
     }
 
     public function testAppendToCurrentFifo()
     {
-        if ( !$this->canWrite ) return;
-        if ( !ezcBaseFeatures::hasFunction('posix_mknod') ) return;
+        if ( !$this->canWrite )
+        {
+            return;
+        }
+
+        if ( !ezcBaseFeatures::hasFunction( 'posix_mknod' ) )
+        {
+            return;
+        }
 
         $dir = $this->getTempDir();
 
@@ -232,14 +261,13 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         $fifo = "$dir/my_fifo.tar";
         $bf = new ezcArchiveBlockFile( $fifo, true );
 
-        $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat ); 
+        $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
 
         $archive->appendToCurrent( "$dir/myfifo", "$dir" );
         $archive->close();
 
-        
         // Do the same with gnu tar.
-        exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir/ myfifo");
+        exec( "tar -cf $dir/gnutar.tar --format=" . $this->tarFormat . " -C $dir/ myfifo" );
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( $fifo ) );
 
         unlink( "$dir/myfifo" );
@@ -247,8 +275,7 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
 
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite("ezcArchiveUstarTarTest");
+        return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 }
-
 ?>

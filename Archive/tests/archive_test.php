@@ -1,14 +1,27 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 
 require_once( dirname( __FILE__ ) . "/testdata.php" );
 require_once(dirname(__FILE__) . "/archive_test_case.php");
 
+/**
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 class ezcArchiveTest extends ezcArchiveTestCase
 {
     protected function setUp()
     {
         $this->createTempDir( "ezcArchive_" );
-        date_default_timezone_set("UTC"); 
+        date_default_timezone_set( "UTC" );
     }
 
     protected function tearDown()
@@ -50,7 +63,6 @@ class ezcArchiveTest extends ezcArchiveTestCase
         $this->assertEquals( ezcArchive::TAR_GNU, $archive->getAlgorithm() );
     }
 
-
     public function testRecognizeUstar()
     {
         $archive = ezcArchive::open( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar" );
@@ -83,7 +95,7 @@ class ezcArchiveTest extends ezcArchiveTestCase
 
     public function testExtractAll()
     {
-        // Just choose one type. The specific algorithms are already tested. 
+        // Just choose one type. The specific algorithms are already tested.
         $dir = $this->getTempDir();
         $archive = ezcArchive::open( dirname( __FILE__ ) . "/data/tar_pax_2_textfiles.tar" );
         $archive->extract( $dir );
@@ -92,14 +104,13 @@ class ezcArchiveTest extends ezcArchiveTestCase
         $this->assertTrue( file_exists( "$dir/file1.txt" ) );
         $this->assertTrue( file_exists( "$dir/file2.txt" ) );
     }
-    
 
-    // Extracting works fine. But adding files breaks. 
+    // Extracting works fine. But adding files breaks.
     public function testReadGzippedTarAuto()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar");
-        
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+
         exec( "gzip $dir/mytar.tar" );
         $archive = ezcArchive::open( "$dir/mytar.tar.gz" );
         $archive->extract( $dir );
@@ -109,17 +120,17 @@ class ezcArchiveTest extends ezcArchiveTestCase
         $this->assertTrue( file_exists( "$dir/file2.txt" ) );
     }
 
-    // Extracting works fine. But adding files breaks. 
-    
+    // Extracting works fine. But adding files breaks.
+
     public function testReadGzippedTar()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar");
-        
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+
         exec( "gzip $dir/mytar.tar" );
         $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz" );
         $archive->extract( $dir );
-       
+
         clearstatcache();
         $this->assertTrue( file_exists( "$dir/file1.txt" ) );
         $this->assertTrue( file_exists( "$dir/file2.txt" ) );
@@ -133,8 +144,8 @@ class ezcArchiveTest extends ezcArchiveTestCase
         }
 
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar");
-        
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+
         exec( "bzip2 $dir/mytar.tar" );
         $archive = ezcArchive::open( "compress.bzip2://$dir/mytar.tar.bz2" );
         // echo ( $archive );
@@ -155,8 +166,8 @@ class ezcArchiveTest extends ezcArchiveTestCase
         }
 
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar");
-        
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+
         exec( "bzip2 $dir/mytar.tar" );
         $archive = ezcArchive::open( "$dir/mytar.tar.bz2" );
 
@@ -171,8 +182,8 @@ class ezcArchiveTest extends ezcArchiveTestCase
     public function readBzippedGzippedTar()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar");
-        
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+
         exec( "gzip $dir/mytar.tar" );
         exec( "bzip2 $dir/mytar.tar.gz" );
         $archive = ezcArchive::open( "$dir/mytar.tar.gz.bz2" );
@@ -184,18 +195,17 @@ class ezcArchiveTest extends ezcArchiveTestCase
         $this->assertTrue( file_exists( "$dir/file2.txt" ) );
     }
 
- 
     public function testTarIncorrectBlockSizeException()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/infozip_2_textfiles.zip", "$dir/mytar.tar");
-        
+        copy( dirname( __FILE__ ) . "/data/infozip_2_textfiles.zip", "$dir/mytar.tar" );
+
         try
         {
             $archive = ezcArchive::open( "$dir/mytar.tar", ezcArchive::TAR_V7 );
             $entry = $archive->current();
-            $this->fail("This is not an Tar, so throw an exception");
-        } 
+            $this->fail( "This is not an Tar, so throw an exception" );
+        }
         catch ( ezcArchiveBlockSizeException $e )
         {
         }
@@ -214,11 +224,11 @@ class ezcArchiveTest extends ezcArchiveTestCase
         {
             $archive = ezcArchive::open( "compress.bzip2://$dir/mytar.tar.bz2" );
 
-            file_put_contents( "$dir/file3.txt", "Hahaha");
-            $archive->appendToCurrent( "$dir/file3.txt", $dir);
-            $this->fail( "Read only exception expected");
+            file_put_contents( "$dir/file3.txt", "Hahaha" );
+            $archive->appendToCurrent( "$dir/file3.txt", $dir );
+            $this->fail( "Read only exception expected" );
         }
-        catch (ezcArchiveUnknownTypeException $e )
+        catch ( ezcArchiveUnknownTypeException $e )
         {
         }
     }
@@ -227,34 +237,33 @@ class ezcArchiveTest extends ezcArchiveTestCase
     public function testWriteBzippedTarAuto()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar");
-        
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+
         exec( "bzip2 $dir/mytar.tar" );
         $archive = ezcArchive::open( "$dir/mytar.tar.bz2" );
 
         try
         {
-            file_put_contents( "$dir/file3.txt", "Hahaha");
-            $archive->appendToCurrent( "$dir/file3.txt", $dir);
-            $this->fail( "Read only exception expected");
+            file_put_contents( "$dir/file3.txt", "Hahaha" );
+            $archive->appendToCurrent( "$dir/file3.txt", $dir );
+            $this->fail( "Read only exception expected" );
         }
-        catch (ezcBaseFilePermissionException $e )
+        catch ( ezcBaseFilePermissionException $e )
         {
             // Expect read-only exception.
         }
     }
      */
 
-
     /*
     public function testGzippedGzippedTar()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/tar_pax_2_textfiles.tar", "$dir/mytar.tar");
-        
+        copy( dirname( __FILE__ ) . "/data/tar_pax_2_textfiles.tar", "$dir/mytar.tar" );
+
         exec( "gzip $dir/mytar.tar" );
 
-        rename( "$dir/mytar.tar.gz", "$dir/mytar.tar.a");
+        rename( "$dir/mytar.tar.gz", "$dir/mytar.tar.a" );
         exec( "gzip $dir/mytar.tar.a" );
         $archive = ezcArchive::open( "$dir/mytar.tar.a.gz" );
         $archive->extract( $dir );
@@ -270,8 +279,8 @@ class ezcArchiveTest extends ezcArchiveTestCase
         $dir = $this->getTempDir();
 
         // Filesize is smaller than the blocksize.
-        copy(  dirname( __FILE__ ) . "/data/infozip_2_textfiles.zip", "$dir/myzip.zip");
-        
+        copy( dirname( __FILE__ ) . "/data/infozip_2_textfiles.zip", "$dir/myzip.zip" );
+
         try
         {
             // File size too small.
@@ -279,7 +288,7 @@ class ezcArchiveTest extends ezcArchiveTestCase
             $archive->extract( $dir );
             $this->fail( "Exception expected since we cannot extract a Zip archive with the Tar handler. ");
         }
-        catch (ezcArchiveException $e)
+        catch ( ezcArchiveException $e )
         {
             // Okay.
         }
@@ -288,8 +297,8 @@ class ezcArchiveTest extends ezcArchiveTestCase
     public function testForceUstarTarPart2()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/infozip_file_dir_symlink_link.zip", "$dir/myzip.zip");
-        
+        copy( dirname( __FILE__ ) . "/data/infozip_file_dir_symlink_link.zip", "$dir/myzip.zip");
+
         try
         {
             // CRC is incorrect.
@@ -308,10 +317,10 @@ class ezcArchiveTest extends ezcArchiveTestCase
     {
         $dir = $this->getTempDir();
         $archive = ezcArchive::open( "$dir/myzip.zip", ezcArchive::ZIP );
-        file_put_contents( "$dir/bla.txt", "Hello world");
-        file_put_contents( "$dir/bla2.txt", "Hello world2");
-        $archive->append("$dir/bla.txt", "$dir");
-        $archive->append("$dir/bla2.txt", "$dir");
+        file_put_contents( "$dir/bla.txt", "Hello world" );
+        file_put_contents( "$dir/bla2.txt", "Hello world2" );
+        $archive->append( "$dir/bla.txt", "$dir" );
+        $archive->append( "$dir/bla2.txt", "$dir" );
 
         $archive->rewind();
         $this->assertEquals( "bla.txt", $archive->current()->getPath() );
@@ -330,58 +339,57 @@ class ezcArchiveTest extends ezcArchiveTestCase
         {
         }
     }
-    
-/* Doesn't work, because we cannot read and write to an gzipped file at the same time.
- */
+
+    /* Doesn't work, because we cannot read and write to an gzipped file at the same time.
+     */
     /*
     public function testCreateNewGzippedTar()
     {
         $dir = $this->getTempDir();
         $archive = ezcArchive::open( "compress.zlib://$dir/my.tar.gz", ezcArchive::TAR );
 
-        file_put_contents( "$dir/bla.txt", "Hello world");
-        file_put_contents( "$dir/bla2.txt", "Hello world2");
-        $archive->append("$dir/bla.txt", "$dir");
-        $archive->append("$dir/bla2.txt", "$dir");
+        file_put_contents( "$dir/bla.txt", "Hello world" );
+        file_put_contents( "$dir/bla2.txt", "Hello world2" );
+        $archive->append("$dir/bla.txt", "$dir" );
+        $archive->append("$dir/bla2.txt", "$dir" );
 
         // First check: okay in archive.
         $archive->rewind();
         $this->assertEquals( "bla.txt", $archive->current()->getPath() );
         $this->assertEquals( "bla2.txt", $archive->next()->getPath() );
 
-
-        // Second check: Reread the archive..  and read it. 
+        // Second check: Reread the archive..  and read it.
         $archive = ezcArchive::open( "$dir/my.tar.gz" );
         $this->assertEquals( "bla.txt", $archive->current()->getPath() );
         $this->assertEquals( "bla2.txt", $archive->next()->getPath() );
     }
-*/
-//    */
+    */
+    //    */
 
     public function testWinzipExtract()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/winzip_1_textfile.zip", "$dir/myzip.zip");
+        copy( dirname( __FILE__ ) . "/data/winzip_1_textfile.zip", "$dir/myzip.zip" );
 
         $archive = ezcArchive::open( "$dir/myzip.zip" );
         $archive->extract( $dir );
 
         $this->assertEquals( "Hello world 2!!", file_get_contents( "$dir/ray2.txt" ) );
     }
- 
+
     public function testWinzipAppend()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/winzip_1_textfile.zip", "$dir/myzip.zip");
+        copy( dirname( __FILE__ ) . "/data/winzip_1_textfile.zip", "$dir/myzip.zip" );
 
         $archive = ezcArchive::open( "$dir/myzip.zip" );
-        file_put_contents( "$dir/myfile.txt", "Hi");
+        file_put_contents( "$dir/myfile.txt", "Hi" );
         $archive->append( "$dir/myfile.txt", $dir );
 
         $archive->rewind();
         $this->assertEquals( "ray2.txt", $archive->current()->getPath() );
         $this->assertEquals( "myfile.txt", $archive->next()->getPath() );
- 
+
         unset( $archive );
 
         $archive = ezcArchive::open( "$dir/myzip.zip" );
@@ -402,14 +410,14 @@ class ezcArchiveTest extends ezcArchiveTestCase
     public function testAppendWithWrongPrefix()
     {
         $dir = $this->getTempDir();
-        copy(  dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar");
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
         $archive = ezcArchive::open( "$dir/mytar.tar" );
 
-        file_put_contents( "$dir/haha.txt", "Hahahah");
+        file_put_contents( "$dir/haha.txt", "Hahahah" );
 
         try
         {
-            $archive->append( "$dir/haha.txt", "aap");
+            $archive->append( "$dir/haha.txt", "aap" );
         }
         catch ( ezcArchiveEntryPrefixException $e )
         {
@@ -417,14 +425,9 @@ class ezcArchiveTest extends ezcArchiveTestCase
         }
     }
 
-
-
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( "ezcArchiveTest");
+        return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
-
 }
-
-
 ?>

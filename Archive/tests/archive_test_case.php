@@ -1,4 +1,18 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
+
+/**
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 abstract class ezcArchiveTestCase extends ezcTestCase
 {
     public function compareDirectories( $expectedDir, $testDir )
@@ -10,7 +24,7 @@ abstract class ezcArchiveTestCase extends ezcTestCase
 
         $this->assertEquals( count( $expectedFileList ), count( $testFileList ), "The amount of files in the archive are different.");
 
-        for( $i = 0; $i < sizeof( $expectedFileList ); $i++)
+        for ( $i = 0; $i < sizeof( $expectedFileList ); $i++)
         {
             $expFile = $expectedFileList[$i];
             $testFile = $testFileList[$i];
@@ -61,5 +75,4 @@ abstract class ezcArchiveTestCase extends ezcTestCase
         return $folderContents;
     }
 }
-
 ?>

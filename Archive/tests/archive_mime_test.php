@@ -1,6 +1,18 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 
-
+/**
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 class ezcArchiveMimeTest extends ezcTestCase
 {
     protected function setUp()
@@ -31,7 +43,6 @@ class ezcArchiveMimeTest extends ezcTestCase
 
         $this->assertEquals( ezcArchive::BZIP2, ezcArchiveMime::detect( "$dir/my.tar.bz2" ) );
     }
-
 
     public function testRecognizeZip()
     {
@@ -73,11 +84,9 @@ class ezcArchiveMimeTest extends ezcTestCase
         $this->assertEquals( ezcArchive::TAR_GNU, ezcArchiveMime::detect( "$dir/my.tar" ) );
     }
 
-
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( "ezcArchiveMimeTest" );
+        return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 }
-
 ?>

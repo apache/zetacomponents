@@ -1,4 +1,18 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
+
+/**
+ * @package Archive
+ * @version //autogen//
+ * @subpackage Tests
+ */
 class ezcArchiveTestData
 {
     protected $tempDir;
@@ -17,7 +31,7 @@ class ezcArchiveTestData
 
     public function createTempFile( $file )
     {
-        $original = dirname(__FILE__) . "/../data/$file" ;
+        $original = dirname(__FILE__) . "/../data/$file";
 
         $tmpFile = $this->getTempDir() . "/$file";
         copy( $original, $tmpFile );
@@ -25,10 +39,9 @@ class ezcArchiveTestData
         return $tmpFile;
     }
 
-
     public function getFileName( $type )
     {
-        $file = $this->version. "_$type.".$this->extension;
+        $file = $this->version . "_$type." . $this->extension;
 
         if ( isset( $this->usedFiles[$file] ) )
         {
@@ -36,11 +49,10 @@ class ezcArchiveTestData
         }
 
         $this->usedFiles[$file] = true;
-        copy( $this->dataDir ."/". $file, $this->tempDir ."/". $file );
+        copy( $this->dataDir . "/" . $file, $this->tempDir . "/" . $file );
 
-        return $this->tempDir ."/". $file;
+        return $this->tempDir . "/" . $file;
     }
-
 
     public function getCharFile( $type )
     {
@@ -53,7 +65,6 @@ class ezcArchiveTestData
         return new ezcArchiveZip( $this->getCharFile( $type ) );
     }
 
-
     public function getNewCharFile( $type )
     {
         return new ezcArchiveCharacterFile ( $type, true );
@@ -63,10 +74,5 @@ class ezcArchiveTestData
     {
         return new ezcArchiveZip( $this->getNewCharFile( $type ) );
     }
-
-
-
-
 }
-
 ?>
