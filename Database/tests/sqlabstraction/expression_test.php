@@ -260,6 +260,19 @@ class ezcQueryExpressionTest extends ezcTestCase
         catch ( ezcQueryVariableParameterException $e ) {}
     }
 
+    public function testInEmptyArray()
+    {
+        try
+        {
+            $this->e->in( 'id', array() );
+            $this->fail( "Expected exception not thrown" );
+        }
+        catch ( ezcQueryInvalidParameterException $e )
+        {
+            $this->assertEquals( "Argument '2' of method 'in' expects a non-empty array but an empty array was provided.", $e->getMessage() );
+        }
+    }
+
     public function testInSingle()
     {
         $reference = "id IN ( 1 )";
@@ -283,7 +296,31 @@ class ezcQueryExpressionTest extends ezcTestCase
         $reference = "id IN ( '1', '2' )";
         $this->assertEquals( $reference, $this->e->in( 'id', '1', '2' ) );
     }
-    
+
+    public function testInSingleArray()
+    {
+        $reference = "id IN ( 1 )";
+        $this->assertEquals( $reference, $this->e->in( 'id', array( 1 ) ) );
+    }
+
+    public function testInMultiArray()
+    {
+        $reference = "id IN ( 1, 2 )";
+        $this->assertEquals( $reference, $this->e->in( 'id', array( 1, 2 ) ) );
+    }
+
+    public function testInMultiStringArray()
+    {
+        $reference = "id IN ( 'foo', 'bar' )";
+        $this->assertEquals( $reference, $this->e->in( 'id', array( 'foo', 'bar' ) ) );
+    }
+
+    public function testInMultiNumericStringArray()
+    {
+        $reference = "id IN ( '1', '2' )";
+        $this->assertEquals( $reference, $this->e->in( 'id', array( '1', '2' ) ) );
+    }
+
     public function testInStringQuoting()
     {
         if ( $this->db->getName() == 'mysql' ) 

@@ -12,6 +12,7 @@
 return array(
     'ezcQueryException'              => 'Database/exceptions/query_exception.php',
     'ezcQueryInvalidException'       => 'Database/exceptions/query/invalid.php',
+    'ezcQueryInvalidParameterException' => 'Database/exceptions/query/invalid_parameter.php',
     'ezcQueryVariableParameterException' => 'Database/exceptions/query/variable_parameter.php',
     'ezcQuery'                       => 'Database/sqlabstraction/query.php',
     'ezcQueryExpression'             => 'Database/sqlabstraction/expression.php',

@@ -239,12 +239,13 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
 
     /**
      * Returns the SQL to check if a value is one in a set of
-     * given values..
+     * given values.
      *
      * in() accepts an arbitrary number of parameters. The first parameter
      * must always specify the value that should be matched against. Successive
-     * must contain a logical expression or an array with logical expressions.
-     * These expressions will be matched against the first parameter.
+     * parameters must contain a logical expression or an array with logical
+     * expressions.  These expressions will be matched against the first
+     * parameter.
      *
      * Example:
      * <code>
@@ -256,8 +257,10 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
      * implementation creates a list of combined IN() expressions to bypass 
      * this limitation.
      *
-     * @throws ezcDbAbstractionException if called with less than two parameters..
-     * @param string $column the value that should be matched against
+     * @throws ezcQueryVariableParameterException if called with less than two
+     *         parameters.
+     * @throws ezcQueryInvalidParameterException if the 2nd parameter is an
+     *         empty array.
      * @param string|array(string) values that will be matched against $column
      * @return string logical expression
      */
@@ -267,6 +270,11 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
         if ( count( $args ) < 2 )
         {
             throw new ezcQueryVariableParameterException( 'in', count( $args ), 2 );
+        }
+
+        if ( is_array( $args[1] ) && count( $args[1] ) == 0 )
+        {
+            throw new ezcQueryInvalidParameterException( 'in', 2, 'empty array', 'non-empty array' );
         }
 
         $values = ezcQuerySelect::arrayFlatten( array_slice( $args, 1 ) );

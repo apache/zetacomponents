@@ -538,8 +538,9 @@ class ezcQueryExpression
      *
      * in() accepts an arbitrary number of parameters. The first parameter
      * must always specify the value that should be matched against. Successive
-     * must contain a logical expression or an array with logical expressions.
-     * These expressions will be matched against the first parameter.
+     * parameters must contain a logical expression or an array with logical
+     * expressions.  These expressions will be matched against the first
+     * parameter.
      *
      * Example:
      * <code>
@@ -552,7 +553,10 @@ class ezcQueryExpression
      * in resulting SQL query and saves time of converting strings to
      * numbers inside RDBMS.
      *
-     * @throws ezcDbAbstractionException if called with less than two parameters..
+     * @throws ezcQueryVariableParameterException if called with less than two
+     *         parameters.
+     * @throws ezcQueryInvalidParameterException if the 2nd parameter is an
+     *         empty array.
      * @param string $column the value that should be matched against
      * @param string|array(string) $... values that will be matched against $column
      * @return string logical expression
@@ -563,6 +567,11 @@ class ezcQueryExpression
         if ( count( $args ) < 2 )
         {
             throw new ezcQueryVariableParameterException( 'in', count( $args ), 2 );
+        }
+
+        if ( is_array( $args[1] ) && count( $args[1] ) == 0 )
+        {
+            throw new ezcQueryInvalidParameterException( 'in', 2, 'an empty array', 'a non-empty array' );
         }
 
         $values = ezcQuerySelect::arrayFlatten( array_slice( $args, 1 ) );
