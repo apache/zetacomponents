@@ -162,7 +162,7 @@ class ezcInputForm
      * @param array(ezcInputFormDefinitionElement) $definition
      * @param string $characterEncoding
      */
-    public function __construct( $inputSource, $definition, $characterEncoding = NULL )
+    public function __construct( $inputSource, $definition, $characterEncoding = null )
     {
         if ( ( $returnValue = ezcInputForm::validateDefinition( $definition ) ) !== true )
         {
