@@ -116,8 +116,9 @@ abstract class ezcQuery
     /**
      * Sets the aliases $aliases for this object.
      *
-     * The aliases should be in the form array( "aliasName" => "databaseName" ). Table and
-     * column aliases can be mixed in the array.
+     * The aliases should be in the form array( "aliasName" => "databaseName" )
+     * Each alias defines a relation between a user-defined name and a name
+     * in the database. This is supported for table names as column names.
      *
      * The aliases can be used to substitute the column and table names with more
      * friendly names. The substitution is done when the query is built, not using
@@ -125,14 +126,66 @@ abstract class ezcQuery
      *
      * Example of a select query with aliases:
      * <code>
+     * <?php
      * $q->setAliases( array( 'Identifier' => 'id', 'Company' => 'company' ) );
-     * $this->q->select( 'Company' )->from( 'table' )->where( $q->expr->eq( 'Identifier', 5 ) );
+     * $q->select( 'Company' )
+     *   ->from( 'table' )
+     *   ->where( $q->expr->eq( 'Identifier', 5 ) );
      * echo $q->getQuery();
+     * ?>
      * </code>
      *
      * This example will output SQL similar to:
      * <code>
      * SELECT company FROM table WHERE id = 5
+     * </code>
+     *
+     * Aliasses also take effect for composite names in the form
+     * tablename.columnname as the following example shows:
+     * <code>
+     * <?php
+     * $q->setAliases( array( 'Order' => 'orders', 'Recipient' => 'company' ) );
+     * $q->select( 'Order.Recipient' )
+     *   ->from( 'Order' );
+     * echo $q->getQuery();
+     * ?>
+     * </code>
+     *
+     * This example will output SQL similar to:
+     * <code>
+     * SELECT orders.company FROM orders;
+     * </code>
+     *
+     * It is even possible to have an alias point to a table name/column name
+     * combination. This will only work for alias names without a . (dot):
+     * <code>
+     * <?php
+     * $q->setAliases( array( 'Order' => 'orders', 'Recipient' => 'orders.company' ) );
+     * $q->select( 'Recipient' )
+     *   ->from( 'Order' );
+     * echo $q->getQuery();
+     * ?>
+     * </code>
+     *
+     * This example will output SQL similar to:
+     * <code>
+     * SELECT orders.company FROM orders;
+     * </code>
+     *
+     * In the following example, the Recipient alias will not be used, as it is
+     * points to a fully qualified name - the Order alias however is used:
+     * <code>
+     * <?php
+     * $q->setAliases( array( 'Order' => 'orders', 'Recipient' => 'orders.company' ) );
+     * $q->select( 'Order.Recipient' )
+     *   ->from( 'Order' );
+     * echo $q->getQuery();
+     * ?>
+     * </code>
+     *
+     * This example will output SQL similar to:
+     * <code>
+     * SELECT orders.Recipient FROM orders;
      * </code>
      *
      * @param array(string=>string) $aliases
@@ -169,19 +222,40 @@ abstract class ezcQuery
     {
         $aliasParts = explode( '.', $alias );
         $identifiers = array();
-        foreach ( $aliasParts as $singleAliasName )
+        // If the alias consists of one part, then we just look it up in the
+        // array. If we find it, we use it, otherwise we return the name as-is
+        // and assume it's just a column name. The alias target can be a fully
+        // qualified name (table.column).
+        if ( count( $aliasParts ) == 1 )
         {
             if ( $this->aliases !== null &&
-                array_key_exists( $singleAliasName, $this->aliases ) )
+                array_key_exists( $alias, $this->aliases ) )
             {
-                $identifiers[]= $this->aliases[$singleAliasName];
+                $alias = $this->aliases[$alias];
             }
-            else
+            return $alias;
+        }
+        // If the passed name consist of two parts, we need to check all parts
+        // of the passed-in name for aliases, because an alias can be made for
+        // both a table name and a column name. For each element we try to find
+        // whether we have an alias mapping. Unlike the above case, the alias
+        // target can in this case *not* consist of a fully qualified name as
+        // this would introduce another part of the name (with two dots).
+        for ( $i = 0; $i < count( $aliasParts ); $i++ )
+        {
+            if ( $this->aliases !== null &&
+                array_key_exists( $aliasParts[$i], $this->aliases ) )
             {
-                $identifiers[]= $singleAliasName;
+                // We only use the found alias if the alias target is not a fully
+                // qualified name (table.column).
+                $tmpAlias = $this->aliases[$aliasParts[$i]];
+                if ( count( explode( '.', $tmpAlias ) ) === 1 )
+                {
+                    $aliasParts[$i] = $this->aliases[$aliasParts[$i]];
+                }
             }
         }
-        $alias = join( '.', $identifiers );
+        $alias = join( '.', $aliasParts );
         return $alias;
     }
 

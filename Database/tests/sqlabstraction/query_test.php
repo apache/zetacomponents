@@ -84,6 +84,93 @@ class ezcQueryTest extends ezcTestCase
         $this->assertEquals( 'MyTable', $this->q->id( 'MyTable' ) );
     }
 
+    public function testGetIdentifierWithAlias()
+    {
+        $aliases = array( 'id' => 'table2.id' );
+        $this->q->setAliases( $aliases );
+
+        $this->assertEquals( 'table2.id', $this->q->id( 'id' ) );
+        $this->assertEquals( 'table1.id', $this->q->id( 'table1.id' ) );
+    }
+
+    public function testTableAlias()
+    {
+        $q = ezcDbInstance::get()->createSelectQuery();
+        $reference = 'SELECT column FROM table1';
+
+        $q->setAliases( array( 't_alias' => 'table1' ) );
+        $q->select( 'column' )->from( 't_alias' );
+
+        $this->assertEquals( $reference, $q->getQuery() );
+    }
+
+    public function testColumnAlias1()
+    {
+        $q = ezcDbInstance::get()->createSelectQuery();
+        $reference = 'SELECT column1 FROM table1';
+
+        $q->setAliases( array( 'c_alias1' => 'column1' ) );
+        $q->select( 'c_alias1' )->from( 'table1' );
+
+        $this->assertEquals( $reference, $q->getQuery() );
+    }
+
+    public function testColumnAlias2()
+    {
+        $q = ezcDbInstance::get()->createSelectQuery();
+        $reference = 'SELECT column1, column2 FROM table1';
+
+        $q->setAliases( array( 'c_alias1' => 'column1' ) );
+        $q->select( 'c_alias1', 'column2' )->from( 'table1' );
+
+        $this->assertEquals( $reference, $q->getQuery() );
+    }
+
+    public function testColumnAlias3()
+    {
+        $q = ezcDbInstance::get()->createSelectQuery();
+        $reference = 'SELECT column1, column2 FROM table1';
+
+        $q->setAliases( array( 'c_alias1' => 'column1', 'c_alias2' => 'column2' ) );
+        $q->select( 'c_alias1', 'c_alias2' )->from( 'table1' );
+
+        $this->assertEquals( $reference, $q->getQuery() );
+    }
+
+    public function testTableAndColumnAlias1()
+    {
+        $q = ezcDbInstance::get()->createSelectQuery();
+        $reference = 'SELECT column1 FROM table1';
+
+        $q->setAliases( array( 't_column1' => 'column1', 't_alias' => 'table1' ) );
+        $q->select( 't_column1' )->from( 't_alias' );
+
+        $this->assertEquals( $reference, $q->getQuery() );
+    }
+
+    public function testTableAndColumnAlias2()
+    {
+        $q = ezcDbInstance::get()->createSelectQuery();
+        $reference = 'SELECT table1.column1 FROM table1';
+
+        $q->setAliases( array( 't_column1' => 'column1', 't_alias' => 'table1' ) );
+        $q->select( 't_alias.t_column1' )->from( 't_alias' );
+
+        $this->assertEquals( $reference, $q->getQuery() );
+    }
+
+    public function testTableAndColumnAlias3()
+    {
+        $q = ezcDbInstance::get()->createSelectQuery();
+        $reference = 'SELECT orders.Recipient FROM orders';
+
+        $q->setAliases( array( 'Order' => 'orders', 'Recipient' => 'orders.company' ) );
+        $q->select( 'Order.Recipient' )
+          ->from( 'Order' );
+
+        $this->assertEquals( $reference, $q->getQuery() );
+    }
+
     public function testBindValue()
     {
         $value = 42;

@@ -1596,6 +1596,32 @@ class ezcQueryExpressionTest extends ezcTestCase
         $this->assertEquals( $reference, $this->q->getQuery() );
     }
 
+    public function testTableAlias()
+    {
+        $reference = 'SELECT * FROM table1, table2 WHERE table1.column < table2.id';
+        
+        $this->q->setAliases( array( 't_alias' => 'table1' ) );
+        
+        $this->q->select( '*' )
+        ->from( 't_alias', 'table2' )
+        ->where( $this->q->expr->lt('t_alias.column', 'table2.id' ) );
+        
+        $this->assertEquals( $reference, $this->q->getQuery() );
+    }
+
+    public function testColumnAlias()
+    {
+        $reference = 'SELECT * FROM table1, table2 WHERE table1.column < table2.id';
+        
+        $this->q->setAliases( array( 'c_alias' => 'column' ) );
+        
+        $this->q->select( '*' )
+        ->from( 'table1', 'table2' )
+        ->where( $this->q->expr->lt('table1.c_alias', 'table2.id' ) );
+        
+        $this->assertEquals( $reference, $this->q->getQuery() );
+    }
+
     public function testPositionImplWithAlias()
     {
         $this->q->setAliases( array( 'text' => 'company' ) );

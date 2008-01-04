@@ -114,19 +114,40 @@ class ezcQueryExpression
     {
         $aliasParts = explode( '.', $alias );
         $identifiers = array();
-        foreach ( $aliasParts as $singleAliasName )
+        // If the alias consists of one part, then we just look it up in the
+        // array. If we find it, we use it, otherwise we return the name as-is
+        // and assume it's just a column name. The alias target can be a fully
+        // qualified name (table.column).
+        if ( count( $aliasParts ) == 1 )
         {
             if ( $this->aliases !== null &&
-                array_key_exists( $singleAliasName, $this->aliases ) )
+                array_key_exists( $alias, $this->aliases ) )
             {
-                $identifiers[]= $this->aliases[$singleAliasName];
+                $alias = $this->aliases[$alias];
             }
-            else
+            return $alias;
+        }
+        // If the passed name consist of two parts, we need to check all parts
+        // of the passed-in name for aliases, because an alias can be made for
+        // both a table name and a column name. For each element we try to find
+        // whether we have an alias mapping. Unlike the above case, the alias
+        // target can in this case *not* consist of a fully qualified name as
+        // this would introduce another part of the name (with two dots).
+        for ( $i = 0; $i < count( $aliasParts ); $i++ )
+        {
+            if ( $this->aliases !== null &&
+                array_key_exists( $aliasParts[$i], $this->aliases ) )
             {
-                $identifiers[]= $singleAliasName;
+                // We only use the found alias if the alias target is not a fully
+                // qualified name (table.column).
+                $tmpAlias = $this->aliases[$aliasParts[$i]];
+                if ( count( explode( '.', $tmpAlias ) ) === 1 )
+                {
+                    $aliasParts[$i] = $this->aliases[$aliasParts[$i]];
+                }
             }
         }
-        $alias = join( '.', $identifiers );
+        $alias = join( '.', $aliasParts );
         return $alias;
     }
 

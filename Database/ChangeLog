@@ -1,8 +1,10 @@
 1.3.4 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed bug #11266: ezcQueryExpression->in( 'colname', array() ) produces a
+- Fixed issue #11266: ezcQueryExpression->in( 'colname', array() ) produces a
   strange exception message.
+- Fixed issue #11786: quoteIdentifier() incorrectly quotes unambiguous
+  identifiers.
 
 
 1.3.3 - Wednesday 05 December 2007
