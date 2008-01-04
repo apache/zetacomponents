@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the Graph component.
  *
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -13,7 +13,6 @@ return array(
     'ezcGraphException'                             => 'Graph/exceptions/exception.php',
     'ezcGraphDatasetAverageInvalidKeysException'    => 'Graph/exceptions/invalid_keys.php',
     'ezcGraphErrorParsingDateException'             => 'Graph/exceptions/date_parsing.php',
-    'ezcGraphFlashBitmapBoundingsException'         => 'Graph/exceptions/flash_bitmap_boundings.php',
     'ezcGraphFlashBitmapTypeException'              => 'Graph/exceptions/flash_bitmap_type.php',
     'ezcGraphFontRenderingException'                => 'Graph/exceptions/font_rendering.php',
     'ezcGraphGdDriverUnsupportedImageTypeException' => 'Graph/exceptions/unsupported_image_type.php',
