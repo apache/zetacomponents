@@ -90,7 +90,7 @@ class ezcDatabaseHandlerTest extends ezcTestCase
         );
     }
 
-    public function testMsqlIdentifierQuotingUntouched()
+    public function testMssqlIdentifierQuotingUntouched()
     {
         $db = ezcDbInstance::get();
         if ( get_class( $db ) != 'ezcDbHandlerMssql' ) 
@@ -102,7 +102,7 @@ class ezcDatabaseHandlerTest extends ezcTestCase
         $this->assertEquals( $quoteChars[0].'ezctesttable'.$quoteChars[1], $db->quoteIdentifier( 'ezctesttable' ));
     }
 
-    public function testMsqlIdentifierQuotingCompliant()
+    public function testMssqlIdentifierQuotingCompliant()
     {
         $db = ezcDbInstance::get();
         if ( get_class( $db ) != 'ezcDbHandlerMssql' ) 
@@ -114,7 +114,7 @@ class ezcDatabaseHandlerTest extends ezcTestCase
         $this->assertEquals( '"ezctesttable"', $db->quoteIdentifier( 'ezctesttable' ));
     }
 
-    public function testMsqlIdentifierQuotingLegacy()
+    public function testMssqlIdentifierQuotingLegacy()
     {
         $db = ezcDbInstance::get();
         if ( get_class( $db ) != 'ezcDbHandlerMssql' ) 
@@ -126,7 +126,8 @@ class ezcDatabaseHandlerTest extends ezcTestCase
         $this->assertEquals( '[ezctesttable]', $db->quoteIdentifier( 'ezctesttable' ));
     }
         
-    public function testMsqlIdentifierQuotingImpl(){
+    public function testMssqlIdentifierQuotingImpl()
+    {
         $db = ezcDbInstance::get();
         if ( get_class( $db ) != 'ezcDbHandlerMssql' ) 
         {
