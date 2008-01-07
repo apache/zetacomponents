@@ -152,7 +152,20 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     protected function calculateMinimum( $min, $max )
     {
-        $this->properties['min'] = floor( $min / $this->properties['majorStep'] ) * $this->properties['majorStep'];
+        if ( $this->properties['max'] === null )
+        {
+            $this->properties['min'] = floor( $min / $this->properties['majorStep'] ) * $this->properties['majorStep'];
+        }
+        else
+        {
+            $calculatedMin = $this->properties['max'];
+            
+            do {
+                $calculatedMin -= $this->properties['majorStep'];
+            } while ( $calculatedMin > $min );
+
+            $this->properties['min'] = $calculatedMin;
+        }
     }
 
     /**
@@ -165,7 +178,13 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     protected function calculateMaximum( $min, $max )
     {
-        $this->properties['max'] = ceil( $max / $this->properties['majorStep'] ) * $this->properties['majorStep'];
+        $calculatedMax = $this->properties['min'];
+        
+        do {
+            $calculatedMax += $this->properties['majorStep'];
+        } while ( $calculatedMax < $max );
+
+        $this->properties['max'] = $calculatedMax;
     }
 
     /**
