@@ -1000,6 +1000,22 @@ class ezcPersistentSessionTest extends ezcTestCase
             $arr[0]->integer
         );
     }
+
+    /**
+     * Test case for issue #12108.
+     */
+    public function testMissingReverseColumnLookup()
+    {
+        // Load def without def manager
+        $def = require dirname( __FILE__ ) . '/data/persistenttestobject.php';
+        
+        try
+        {
+            ezcPersistentStateTransformer::rowToStateArray( array(), $def );
+            $this->fail( 'Exception not thrown on state transformation without proper reverse-lookup.' );
+        }
+        catch ( ezcPersistentObjectException $e ) {}
+    }
 }
 
 ?>

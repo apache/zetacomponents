@@ -35,11 +35,19 @@ class ezcPersistentStateTransformer
      */
     public static function rowToStateArray( array $row, ezcPersistentObjectDefinition $def )
     {
+        // Sanity check for reverse-lookup
+        // Issue #12108
+        if ( count( $def->columns ) === 0 )
+        {
+            throw new ezcPersistentObjectException(
+                "The PersistentObject definition for class {$def->class} was not initialized correctly.",
+                'Missing reverse lookup for columns. Check the definition manager.'
+            );
+        }
+
         $result = array();
         foreach ( $row as $key => $value )
         {
-            // todo: everything in $row is of type string
-            // should we convert to the correct PHP type?
             if ( $key == $def->idProperty->columnName )
             {
                 $result[$def->idProperty->propertyName] = $value;
