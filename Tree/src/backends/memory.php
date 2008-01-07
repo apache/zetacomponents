@@ -53,6 +53,13 @@ class ezcTreeMemory extends ezcTree
     private $rootNode;
 
     /**
+     * Stores the last auto generated ID that was used.
+     *
+     * @var integer $autoNodeId
+     */
+    private $autoNodeId = 0;
+
+    /**
      * Constructs a new ezcTreeMemory object.
      *
      * The store that is used for data storage should be passed as the
@@ -63,6 +70,18 @@ class ezcTreeMemory extends ezcTree
     protected function __construct( ezcTreeMemoryDataStore $store )
     {
         $this->properties['store'] = $store;
+        $this->properties['autoId'] = false;
+    }
+
+    /**
+     * This method generates the next node ID.
+     *
+     * @return integer
+     */
+    protected function generateNodeID()
+    {
+        $this->autoNodeId++;
+        return $this->autoNodeId;
     }
 
     /**

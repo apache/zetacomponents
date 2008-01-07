@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tree xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data" prefix="id" lastNodeId="8">
+  <node id="id1">
+    <etd:data>Beatrix</etd:data>
+    <node id="id2">
+      <etd:data>Willem-Alexander</etd:data>
+      <node id="id4">
+        <etd:data>Catharina</etd:data>
+      </node>
+      <node id="id5">
+        <etd:data>Alexia</etd:data>
+      </node>
+      <node id="id6">
+        <etd:data>Ariane</etd:data>
+      </node>
+    </node>
+    <node id="id3">
+      <etd:data>Friso</etd:data>
+      <node id="id7">
+        <etd:data>Luana</etd:data>
+      </node>
+      <node id="id8">
+        <etd:data>Zaria</etd:data>
+      </node>
+    </node>
+  </node>
+</tree>

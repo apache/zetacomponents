@@ -18,6 +18,9 @@
  * first one 'id' will contain the node's ID, the second one 'parent_id' the ID
  * of the node's parent. Both fields should be of the same database field type.
  * Supported field types are either integer or a string type.
+ * In order to use auto-generated IDs, the 'id' field needs to be an
+ * auto-incrementing integer field, by using either an auto-increment field, or
+ * a sequence.
  *
  * @property-read ezcTreeDbDataStore $store
  *                The data store that is used for retrieving/storing data.
@@ -366,6 +369,22 @@ class ezcTreeDbParentChild extends ezcTreeDb
     }
 
     /**
+     * Creates the query to insert an empty node into the database, so that the last-inserted ID can be obtained.
+     *
+     * @return ezcQueryInsert
+     */
+    protected function createAddEmptyNodeQuery()
+    {
+        $db = $this->dbh;
+
+        $q = $db->createInsertQuery();
+        $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) )
+          ->set( 'parent_id', $q->bindValue( null ) );
+
+        return $q;
+    }
+
+    /**
      * Adds the node $childNode as child of the node with ID $parentId.
      *
      * @param string $parentId
@@ -379,11 +398,8 @@ class ezcTreeDbParentChild extends ezcTreeDb
             return;
         }
 
-        $db = $this->dbh;
-
-        $q = $db->createInsertQuery();
-        $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) )
-          ->set( 'parent_id', $q->bindValue( $parentId ) )
+        $q = $this->createAddNodeQuery( $childNode->id );
+        $q->set( 'parent_id', $q->bindValue( $parentId ) )
           ->set( 'id', $q->bindValue( $childNode->id ) );
         $s = $q->prepare();
         $s->execute();

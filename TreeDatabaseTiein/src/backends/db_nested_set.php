@@ -20,6 +20,9 @@
  * Supported field types are either integer or a string type.  The other two
  * fields "lft" and "rgt" will store the left and right values that the
  * algorithm requires. These two fields should be of an integer type.
+ * In order to use auto-generated IDs, the 'id' field needs to be an
+ * auto-incrementing integer field, by using either an auto-increment field, or
+ * a sequence.
  *
  * @property-read ezcTreeDbDataStore $store
  *                The data store that is used for retrieving/storing data.
@@ -201,6 +204,23 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
     }
 
     /**
+     * Creates the query to insert an empty node into the database, so that the last-inserted ID can be obtained.
+     *
+     * @return ezcQueryInsert
+     */
+    protected function createAddEmptyNodeQuery()
+    {
+        $db = $this->dbh;
+
+        $q = $db->createInsertQuery();
+        $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) )
+          ->set( 'lft', 0 )
+          ->set( 'rgt', 0 );
+
+        return $q;
+    }
+
+    /**
      * Updates the left and right values of the nodes that are added while
      * adding a whole subtree as child of a node.
      *
@@ -285,9 +305,8 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
         //     id = $childNode->id,
         //     lft = $newLeft,
         //     rgt = $newRight
-        $q = $db->createInsertQuery();
-        $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) )
-          ->set( 'parent_id', $q->bindValue( $parentId ) )
+        $q = $this->createAddNodeQuery( $childNode->id );
+        $q->set( 'parent_id', $q->bindValue( $parentId ) )
           ->set( 'id', $q->bindValue( $childNode->id ) )
           ->set( 'lft', $q->bindValue( $newLeft ) )
           ->set( 'rgt', $q->bindValue( $newRight ) );

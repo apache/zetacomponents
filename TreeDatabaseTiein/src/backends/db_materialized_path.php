@@ -20,6 +20,9 @@
  * Supported field types are either integer or a string type. The third field
  * 'path' will contain the path string. This should be a text field. The size
  * of the field determines the maximum depth the tree can have.
+ * In order to use auto-generated IDs, the 'id' field needs to be an
+ * auto-incrementing integer field, by using either an auto-increment field, or
+ * a sequence.
  *
  * @property-read ezcTreeDbDataStore $store
  *                The data store that is used for retrieving/storing data.
@@ -494,6 +497,22 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
     }
 
     /**
+     * Creates the query to insert an empty node into the database, so that the last-inserted ID can be obtained.
+     *
+     * @return ezcQueryInsert
+     */
+    protected function createAddEmptyNodeQuery()
+    {
+        $db = $this->dbh;
+
+        $q = $db->createInsertQuery();
+        $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) )
+          ->set( 'path', 0 );
+
+        return $q;
+    }
+
+    /**
      * Adds the node $childNode as child of the node with ID $parentId.
      *
      * @param string $parentId
@@ -512,9 +531,8 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         // Fetch parent information
         list( $parentParentId, $path ) = $this->fetchNodeInformation( $parentId );
 
-        $q = $db->createInsertQuery();
-        $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) )
-          ->set( 'parent_id', $q->bindValue( $parentId ) )
+        $q = $this->createAddNodeQuery( $childNode->id );
+        $q->set( 'parent_id', $q->bindValue( $parentId ) )
           ->set( 'id', $q->bindValue( $childNode->id ) )
           ->set( 'path', $q->bindValue( $path . $this->properties['separationChar'] . $childNode->id ) );
         $s = $q->prepare();

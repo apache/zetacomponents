@@ -250,6 +250,78 @@ class ezcTreeXmlTest extends ezcTreeTest
         self::assertSame( "Camels", $camelus->data );
     }
 
+    public function testReloadAutoGenId()
+    {
+        $tree = ezcTreeXml::create(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+        $tree->autoId = true;
+
+        $root = $tree->createNode( null, "Camelinae" );
+        $tree->setRootNode( $root );
+
+        $root->addChild( $tree->createNode( null, "Lama" ) );
+        $root->addChild( $tree->createNode( null, "Vicugna" ) );
+        $root->addChild( $tree->createNode( null, "Camelus" ) );
+
+        // start over
+        $tree = new ezcTreeXml(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+
+        $root = $tree->getRootNode();
+        $newNode = $tree->createNode( null, "Oempa" );
+        $root->addChild( $newNode );
+
+        $camelus = $tree->fetchNodeById( 5 );
+        self::assertSame( "Oempa", $camelus->data );
+    }
+
+    public function testReloadAutoGenIdWithPrefix()
+    {
+        $tree = ezcTreeXml::create(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore(),
+            'ezc'
+        );
+        $tree->autoId = true;
+
+        $root = $tree->createNode( null, "Camelinae" );
+        $tree->setRootNode( $root );
+
+        $root->addChild( $tree->createNode( null, "Lama" ) );
+        $root->addChild( $tree->createNode( null, "Vicugna" ) );
+        $root->addChild( $tree->createNode( null, "Camelus" ) );
+
+        // start over
+        $tree = new ezcTreeXml(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+        $root = $tree->getRootNode();
+        $newNode = $tree->createNode( null, "Oempa" );
+        $root->addChild( $newNode );
+
+        $camelus = $tree->fetchNodeById( 5 );
+        self::assertSame( "Oempa", $camelus->data );
+
+        // start over
+        $tree = new ezcTreeXml(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+        $root = $tree->fetchNodeById( 5 );
+        $newNode = $tree->createNode( null, "Loempa" );
+        $root->addChild( $newNode );
+
+        $camelus = $tree->fetchNodeById( 5 );
+        self::assertSame( "Oempa", $camelus->data );
+        $camelus = $tree->fetchNodeById( 6 );
+        self::assertSame( "Loempa", $camelus->data );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeXmlTest" );

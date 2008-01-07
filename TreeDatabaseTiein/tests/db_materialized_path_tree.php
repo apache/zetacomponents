@@ -50,24 +50,24 @@ class ezcTreeDbMaterializedPathTest extends ezcDbTreeTest
         }
     }
 
-    protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data' )
+    protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data', $indexTableSuffix = '' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
         $tree = ezcTreeDbMaterializedPath::create(
             $this->dbh,
-            'materialized_path',
+            'materialized_path' . $indexTableSuffix,
             $store
         );
         $this->emptyTables();
         return $tree;
     }
 
-    protected function setUpTestTree( $dataTable = 'data', $dataField = 'data' )
+    protected function setUpTestTree( $dataTable = 'data', $dataField = 'data', $indexTableSuffix = '' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
         $tree = new ezcTreeDbMaterializedPath(
             $this->dbh,
-            'materialized_path',
+            'materialized_path' . $indexTableSuffix,
             $store
         );
         return $tree;

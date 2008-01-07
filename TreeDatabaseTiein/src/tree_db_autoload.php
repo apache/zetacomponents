@@ -10,6 +10,7 @@
  */
 
 return array(
+    'ezcTreeDbInvalidSchemaException' => 'TreeDatabaseTiein/exceptions/invalid_schema.php',
     'ezcTreeDb'                       => 'TreeDatabaseTiein/backends/db.php',
     'ezcTreeDbDataStore'              => 'TreeDatabaseTiein/stores/db.php',
     'ezcTreeDbParentChild'            => 'TreeDatabaseTiein/backends/db_parent_child.php',

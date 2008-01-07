@@ -165,6 +165,27 @@ ezcTreeDbExternalTableDataStore->__construct().  Lines 10 to 13 proceed to add
 two new nodes to the $rootNode and lines 15-26 add further nodes to the
 $nonMetal and $nobleGasses nodes.
 
+Auto-generated IDs
+``````````````````
+
+The Tree component also supports auto-generated IDs for tree nodes. In order to
+let the component generate IDs for you, you need to set the Tree property
+"autoId" to "true". In the example below we create another tree structure, but
+let the Tree component generate the IDs automatically:
+
+.. include:: tutorial_example_create_auto_id.php
+   :literal:
+
+The main change compared to the previous example is the setting of autoId to
+true in line 6. When autoId is set, the ID argument to ezcTree::createNode()
+can be null. In that case an ID is automatically generated.
+
+This property *must* be set immediately after instantiating the tree, unless an
+already existing tree is opened through the ezcTreeXml class. For database
+backends, there are a few extra requirements for the schema. The "id" field
+should be defined as an auto-increment integer field, or an integer field
+linked with a sequence.
+
 
 Back-ends
 =========

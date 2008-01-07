@@ -62,6 +62,66 @@ return array (
         )),
       ),
     )),
+    'materialized_path_auto' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 128,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => true,
+           'unsigned' => false,
+        )),
+        'parent_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 128,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'path' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 1000,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+      'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+          'indexFields' => 
+          array (
+            'id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+          'primary' => true,
+          'unique' => true,
+        )),
+        'path_auto' => 
+        ezcDbSchemaIndex::__set_state(array(
+          'indexFields' => 
+          array (
+            'path' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+          'primary' => false,
+          'unique' => true,
+        )),
+      ),
+    )),
     'data' => 
     ezcDbSchemaTable::__set_state(array(
        'fields' => 

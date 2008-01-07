@@ -50,24 +50,24 @@ class ezcTreeDbNestedSetTest extends ezcDbTreeTest
         }
     }
 
-    protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data' )
+    protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data', $indexTableSuffix = '' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
         $tree = ezcTreeDbNestedSet::create(
             $this->dbh,
-            'nested_set',
+            'nested_set' . $indexTableSuffix,
             $store
         );
         $this->emptyTables();
         return $tree;
     }
 
-    protected function setUpTestTree( $dataTable = 'data', $dataField = 'data' )
+    protected function setUpTestTree( $dataTable = 'data', $dataField = 'data', $indexTableSuffix = '' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
         $tree = new ezcTreeDbNestedSet(
             $this->dbh,
-            'nested_set',
+            'nested_set' . $indexTableSuffix,
             $store
         );
         return $tree;

@@ -59,6 +59,11 @@ class ezcTreeXml extends ezcTree
         </attribute>
       </optional>
       <optional>
+        <attribute name="lastNodeId">
+          <data type="string"/>
+        </attribute>
+      </optional>
+      <optional>
         <ref name="node"/>
       </optional>
     </element>
@@ -97,6 +102,13 @@ class ezcTreeXml extends ezcTree
      * @var string $xmlFile
      */
     private $xmlFile;
+
+    /**
+     * Stores the last auto generated ID that was used.
+     *
+     * @var integer $autoNodeId
+     */
+    private $autoNodeId = 0;
 
     /**
      * Constructs a new ezcTreeXml object from the XML data in $xmlFile and using
@@ -142,11 +154,20 @@ class ezcTreeXml extends ezcTree
         $document = $dom->documentElement;
         $prefix = $document->getAttribute( 'prefix' );
 
+        // Figure out the last auto generated ID
+        $autoId = false;
+        $this->autoNodeId = $document->getAttribute( 'lastNodeId' );
+        if ( $this->autoNodeId !== "" )
+        {
+            $autoId = true;
+        }
+
         // Set member variables
         $this->dom = $dom;
         $this->xmlFile = $xmlFile;
         $this->properties['store'] = $store;
         $this->properties['prefix'] = $prefix;
+        $this->properties['autoId'] = $autoId;
     }
 
     /**
@@ -244,6 +265,25 @@ class ezcTreeXml extends ezcTree
     public function saveFile()
     {
         $this->dom->save( $this->xmlFile );
+    }
+
+    /**
+     * This method generates the next node ID.
+     *
+     * It uses the stored last generated ID, and also stores this in an
+     * attribute on the root node so that it can be correctly incremented
+     * without having to search for the last generated ID in the whole tree.
+     *
+     * @return integer
+     */
+    protected function generateNodeID()
+    {
+        $this->autoNodeId++;
+
+        $document = $this->dom->documentElement;
+        $document->setAttributeNode( new DOMAttr( 'lastNodeId', $this->autoNodeId ) );
+
+        return $this->autoNodeId;
     }
 
     /**

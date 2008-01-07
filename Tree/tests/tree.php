@@ -17,7 +17,7 @@ require_once 'files/test_classes.php';
  * @package Tree
  * @subpackage Tests
  */
-class ezcTreeTest extends ezcTestCase
+abstract class ezcTreeTest extends ezcTestCase
 {
     public function testGetRootNode1()
     {
@@ -955,6 +955,60 @@ class ezcTreeTest extends ezcTestCase
             next( $nodes );
         }
     }
+
+    public function testTreeNullIdWithoutAutogen()
+    {
+        $tree = $this->setUpEmptyTestTree();
+        try
+        {
+            $root = $tree->createNode( null, 'Hominoidea' );
+            self::fail( "Expected exception not thrown" );
+        }
+        catch ( ezcTreeInvalidIdException $e )
+        {
+            self::assertSame( "The node ID '' contains the invalid character ''.", $e->getMessage() );
+        }
+    }
+
+    public function testTreeNullIdWithAutogen()
+    {
+        $tree = $this->setUpEmptyTestTree( 'data', 'data', '_auto' );
+        $tree->autoId = true;
+        $root = $tree->createNode( null, 'Paenungulata' );
+        self::assertSame( "1", $root->id );
+        $tree->setRootNode( $root );
+
+        $newNode = $tree->createNode( null, 'Hyracoidea' );
+        $root->addChild( $newNode );
+        self::assertSame( "2", $newNode->id );
+
+        $newNode = $tree->createNode( null, 'Proboscidea' );
+        $root->addChild( $newNode );
+        self::assertSame( "3", $newNode->id );
+    }
+
+    public function testTreeNullIdWithAutogenWithReload()
+    {
+        $tree = $this->setUpEmptyTestTree( 'data', 'data', '_auto' );
+        $tree->autoId = true;
+        $root = $tree->createNode( null, 'Paenungulata' );
+        $tree->setRootNode( $root );
+
+        $newNode = $tree->createNode( null, 'Hyracoidea' );
+        $root->addChild( $newNode );
+
+        $newNode = $tree->createNode( null, 'Proboscidea' );
+        $root->addChild( $newNode );
+        self::assertSame( "3", $newNode->id );
+
+        // start over
+        $tree = $this->setUpTestTree( 'data', 'data', '_auto' );
+        $tree->autoId = true;
+
+        // fetch a node
+        $node = $tree->fetchNodeById( 3 );
+    }
+
 }
 
 ?>

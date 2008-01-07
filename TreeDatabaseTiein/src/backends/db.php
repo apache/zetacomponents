@@ -57,6 +57,68 @@ abstract class ezcTreeDb extends ezcTree
         $this->dbh = $dbh;
         $this->indexTableName = $indexTableName;
         $this->properties['store'] = $store;
+        $this->properties['autoId'] = false;
+    }
+
+    /**
+     * Creates the query to insert an empty node into the database, so that the last-inserted ID can be obtained.
+     *
+     * @return ezcQueryInsert
+     */
+    abstract protected function createAddEmptyNodeQuery();
+
+    /**
+     * Creates the query to insert/update an empty node in the database.
+     *
+     * The query is constructed for the child with ID $id
+     *
+     * @param mixed $id
+     * @return ezcQuery
+     */
+    protected function createAddNodeQuery( $id )
+    {
+        $db = $this->dbh;
+
+        if ( $this->properties['autoId'] )
+        {
+            $q = $db->createUpdateQuery();
+            $q->update( $db->quoteIdentifier( $this->indexTableName ) )
+              ->where( $q->expr->eq( 'id', $q->bindValue( $id ) ) );
+        }
+        else
+        {
+            $q = $db->createInsertQuery();
+            $q->insertInto( $db->quoteIdentifier( $this->indexTableName ) );
+        }
+        return $q;
+    }
+
+    /**
+     * This method generates the next node ID.
+     *
+     * It does so by inserting a new empty node into the database, and uses
+     * lastInsertId() to obtain the ID for the newly inserted node.
+     *
+     * @return integer
+     */
+    protected function generateNodeID()
+    {
+        $db = $this->dbh;
+        $q = $this->createAddEmptyNodeQuery();
+
+        $s = $q->prepare();
+
+        try
+        {
+            $s->execute();
+        }
+        catch ( PDOException $e )
+        {
+            throw new ezcTreeDbInvalidSchemaException( "generating a new node ID", $e->getMessage() );
+        }
+
+        $r = $db->lastInsertId( $this->indexTableName . '_id_seq' );
+        return $r;
     }
 
     /**

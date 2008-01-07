@@ -48,6 +48,9 @@
  * @property      string              $nodeClassName
  *                Which class is used as tree node - this class *must* inherit
  *                the ezcTreeNode class.
+ * @property      boolean             $autoId
+ *                When set to true, you can add nodes to the database without
+ *                setting the ID. This only works with numeric keys however.
  * 
  * @package Tree
  * @version //autogentag//
@@ -122,6 +125,14 @@ abstract class ezcTree implements ezcTreeVisitable
             case 'store':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
+            case 'autoId':
+                if ( !is_bool( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'boolean' );
+                }
+                $this->properties[$name] = $value;
+                break;
+
             case 'nodeClassName':
                 if ( !is_string( $value ) )
                 {
@@ -156,6 +167,7 @@ abstract class ezcTree implements ezcTreeVisitable
     {
         switch ( $name )
         {
+            case 'autoId':
             case 'store':
             case 'nodeClassName':
                 return isset( $this->properties[$name] );
@@ -178,6 +190,13 @@ abstract class ezcTree implements ezcTreeVisitable
     }
 
     /**
+     * This method generates the next node ID.
+     *
+     * @return integer
+     */
+    abstract protected function generateNodeID();
+
+    /**
      * Creates a new tree node with node ID $nodeId and $data.
      *
      * This method returns by default an object of the ezcTreeNode class, 
@@ -191,6 +210,17 @@ abstract class ezcTree implements ezcTreeVisitable
      */
     public function createNode( $nodeId, $data )
     {
+        if ( $nodeId === null )
+        {
+            if ( $this->properties['autoId'] )
+            {
+                $nodeId = $this->generateNodeID();
+            }
+            else
+            {
+                throw new ezcTreeInvalidIdException( null, '' );
+            }
+        }
         $this->checkNodeID( $nodeId );
         $className = $this->properties['nodeClassName'];
         return new $className( $this, $nodeId, $data );
@@ -219,7 +249,7 @@ abstract class ezcTree implements ezcTreeVisitable
      * Returns the node identified by the ID $nodeId.
      *
      * @param string $nodeId
-     * @throws ezcTreeInvalidIdException if there is no node with ID $nodeId
+     * @throws ezcTreeUnknownIdException if there is no node with ID $nodeId
      * @return ezcTreeNode
      */
     public function fetchNodeById( $nodeId )

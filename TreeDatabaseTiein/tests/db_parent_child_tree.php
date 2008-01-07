@@ -49,24 +49,24 @@ class ezcTreeDbParentChildTest extends ezcDbTreeTest
         }
     }
 
-    protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data' )
+    protected function setUpEmptyTestTree( $dataTable = 'data', $dataField = 'data', $indexTableSuffix = '' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
         $tree = ezcTreeDbParentChild::create(
             $this->dbh,
-            'parent_child',
+            'parent_child' . $indexTableSuffix,
             $store
         );
         $this->emptyTables();
         return $tree;
     }
 
-    protected function setUpTestTree( $dataTable = 'data', $dataField = 'data' )
+    protected function setUpTestTree( $dataTable = 'data', $dataField = 'data', $indexTableSuffix = '' )
     {
         $store = new ezcTreeDbExternalTableDataStore( $this->dbh, $dataTable, 'id', $dataField );
         $tree = new ezcTreeDbParentChild(
             $this->dbh,
-            'parent_child',
+            'parent_child' . $indexTableSuffix,
             $store
         );
         return $tree;
