@@ -73,6 +73,9 @@
  *           Color used for gleam on pie charts.
  * @property float $pieChartGleamBorder
  *           Do not draw gleam on an outer border of this size.
+ * @property bool $syncAxisFonts
+ *           Synchronize fonts of axis. With the defaut true value, the only
+ *           the fonts of the yAxis will be used.
  * 
  * @version //autogentag//
  * @package Graph
@@ -107,6 +110,7 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
         $this->properties['legendSymbolGleamColor'] = ezcGraphColor::fromHex( '#FFFFFF' );
         $this->properties['pieVerticalSize'] = .5;
         $this->properties['pieHorizontalSize'] = .25;
+        $this->properties['syncAxisFonts'] = true;
 
         parent::__construct( $options );
     }
@@ -174,11 +178,12 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
                 break;
 
             case 'showSymbol':
+            case 'syncAxisFonts':
                 if ( !is_bool( $propertyValue ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
                 }
-                $this->properties['showSymbol'] = (bool) $propertyValue;
+                $this->properties[$propertyName] = (bool) $propertyValue;
                 break;
 
             case 'pieChartOffset':

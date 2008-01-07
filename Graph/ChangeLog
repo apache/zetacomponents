@@ -5,6 +5,7 @@
 - Fixed issue #12254: Bad property-check for strokeLineJoin in SVG driver
 - Fixed issue #12295: Broken automatic scaling with manually set min value,
   not divisible by major step
+- Fixed issue #11777: Optionally independent axis font configuration
 
 1.2 - Monday 17 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

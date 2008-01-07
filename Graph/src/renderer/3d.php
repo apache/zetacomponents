@@ -2225,6 +2225,13 @@ class ezcGraphRenderer3d
         {
             foreach ( $this->axisLabels as $axisLabel )
             {
+                // If font should not be synchronized, use font configuration from
+                // each axis
+                if ( $this->options->syncAxisFonts === false )
+                {
+                    $this->driver->options->font = $axisLabel['axis']->font;
+                }
+
                 switch ( $axisLabel['axis']->position )
                 {
                     case ezcGraph::RIGHT:

@@ -1440,6 +1440,13 @@ class ezcGraphRenderer2d
     {
         foreach ( $this->axisLabels as $nr => $axisLabel )
         {
+            // If font should not be synchronized, use font configuration from
+            // each axis
+            if ( $this->options->syncAxisFonts === false )
+            {
+                $this->driver->options->font = $axisLabel['axis']->font;
+            }
+
             $start = $axisLabel['start'];
             $end = $axisLabel['end'];
 

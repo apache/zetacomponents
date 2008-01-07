@@ -2191,6 +2191,35 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testRendererOptionsPropertySyncAxisFonts()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            true,
+            $options->syncAxisFonts,
+            'Wrong default value for property syncAxisFonts in class ezcGraphRendererOptions'
+        );
+
+        $options->syncAxisFonts = false;
+        $this->assertSame(
+            false,
+            $options->syncAxisFonts,
+            'Setting property value did not work for property syncAxisFonts in class ezcGraphRendererOptions'
+        );
+
+        try
+        {
+            $options->syncAxisFonts = 42;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testRendererOptionsPropertySymbolSize()
     {
         $options = new ezcGraphRendererOptions();
