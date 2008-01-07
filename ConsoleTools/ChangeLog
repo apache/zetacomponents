@@ -7,6 +7,13 @@
   ezcConsoleQuestionCollectionValidator and is now used for the
   yes-no-question.
 
+1.3.2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #11435: ConsoleInput does not reset $option->value;. The newly
+  added reset() method can in addtion be used to manually reset all option and
+  argument values.
+
 1.3.1 - Wednesday 28 November 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

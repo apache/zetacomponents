@@ -165,6 +165,12 @@ class ezcConsoleInput
      */
     private $arguments = array();
 
+    /**
+     * Wether the process() method has already been called.
+     * 
+     * @var bool
+     */
+    private $processed = false;
 
     /**
      * Indicates if an option was submitted, that has the isHelpOption flag set.
@@ -476,6 +482,12 @@ class ezcConsoleInput
      */ 
     public function process( array $args = null )
     {
+        if ( $this->processed )
+        {
+            $this->reset();
+        }
+        $this->processed = true;
+
         if ( !isset( $args ) )
         {
             $args = isset( $argv ) ? $argv : isset( $_SERVER['argv'] ) ? $_SERVER['argv'] : array();
@@ -514,6 +526,30 @@ class ezcConsoleInput
         }
         $this->processArguments( $args, $i );
         $this->checkRules();
+    }
+
+    /**
+     * Resets all option and argument values.
+     *
+     * This method is called automatically by {@link process()}, if this method
+     * is called twice or more, and may also be used to manually reset the
+     * values of all registered {@ezcConsoleOption} and {@link
+     * ezcConsoleArgument} objects.
+     */
+    public function reset()
+    {
+        foreach ( $this->options as $option )
+        {
+            $option->value = false;
+        }
+        if ( $this->argumentDefinition !== null )
+        {
+            foreach ( $this->argumentDefinition as $argument )
+            {
+                $argument->value = null;
+            }
+        }
+        $this->arguments = array();
     }
 
     /**
