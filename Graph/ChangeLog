@@ -6,6 +6,7 @@
 - Fixed issue #12295: Broken automatic scaling with manually set min value,
   not divisible by major step
 - Fixed issue #11777: Optionally independent axis font configuration
+- Fixed issue #12326: Per datapoint colors not used with bar charts
 
 1.2 - Monday 17 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

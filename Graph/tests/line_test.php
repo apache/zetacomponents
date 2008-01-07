@@ -956,6 +956,32 @@ class ezcGraphLineChartTest extends ezcGraphTestCase
         );
     }
 
+    public function testBarChartDataPointColors()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphBarChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->color['Mozilla'] = '#204a874F';
+        $chart->data['sample']->color['Opera']   = '#4e9a064F';
+
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testLineChartUnsyncedFonts()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

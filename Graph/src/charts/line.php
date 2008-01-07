@@ -367,7 +367,7 @@ class ezcGraphLineChart extends ezcGraphChart
                         $renderer->drawBar(
                             $boundings,
                             new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
-                            $data->color->default,
+                            $data->color[$key],
                             $point,
                             $width,
                             $nr[$data->displayType->default],
