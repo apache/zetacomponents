@@ -1656,9 +1656,9 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
             'Wrong default value for property strokeLineJoin in class ezcGraphSvgDriverOptions'
         );
 
-        $options->strokeLineJoin = 'butt';
+        $options->strokeLineJoin = 'miter';
         $this->assertSame(
-            'butt',
+            'miter',
             $options->strokeLineJoin,
             'Setting property value did not work for property strokeLineJoin in class ezcGraphSvgDriverOptions'
         );

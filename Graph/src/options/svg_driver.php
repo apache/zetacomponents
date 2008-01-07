@@ -139,8 +139,8 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
             case 'strokeLineJoin':
                 $values = array(
                     'round',
-                    'butt',
-                    'square',
+                    'miter',
+                    'bevel',
                     'inherit',
                 );
 
