@@ -45,5 +45,25 @@ class ezcTemplateCacheTstNode extends ezcTemplateExpressionTstNode
     {
         return array( 'templateCache' => $this->templateCache);
     }
+
+    /**
+     * Checks if the given node can be attached to its parent.
+     *
+     * @throws ezcTemplateParserException if the node cannot be attached.
+     * @param ezcTemplateTstNode $parentElement
+     * @return void
+     */
+    public function canAttachToParent( $parentElement )
+    {
+        // Must be TYPE_CACHE_TEMPLATE and in the root, not in a template block
+
+        $p = $parentElement;
+
+        if ( $this->type === self::TYPE_CACHE_TEMPLATE && !$p instanceof ezcTemplateProgramTstNode )
+        {
+            throw new ezcTemplateParserException( $this->source, $this->startCursor, $this->startCursor, 
+                "{cache_template} cannot be declared inside a template block." );
+        }
+    }
 }
 ?>

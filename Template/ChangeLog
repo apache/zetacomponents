@@ -8,6 +8,8 @@
 - Made named parameters work with PHP 5.1.6.
 - Fixed issue #12289: String function str_last_index documented, but not
   defined.
+- Fixed issue #12323: Using {cache_template} inside a block will now throw an
+  exception.
 
 
 1.2 - Monday 02 July 2007

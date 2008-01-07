@@ -449,6 +449,22 @@ EOM
         }
     }
 
+    public function testCacheTemplateInBlock()
+    {
+        $t = new ezcTemplate( );
+        $t->send->user = new TestUser( "Bernard", "Black" );
+
+        try
+        {
+            $out = $t->process( "cache_template_in_block.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch ( Exception $e )
+        {
+            $this->assertNotEquals( false, strpos( $e->getMessage(), '{cache_template} cannot be declared inside a template block' ) );
+        }
+    }
+
     public function testFunctionAsKey()
     {
         $t = new ezcTemplate( );
