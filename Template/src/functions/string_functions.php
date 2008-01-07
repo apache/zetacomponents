@@ -150,8 +150,8 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             
             // str_last_index( $sl, $sr [, $index] )
             // strrpos( $sl, $sr [, $index ] )
-            case "str_index_of": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%haystack", "%needle", "[%index]" ), 
-                self::functionCall( "strpos", array( "%haystack", "%needle", "[%index]" ) ) );
+            case "str_last_index": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%haystack", "%needle", "[%index]" ), 
+                self::functionCall( "strrpos", array( "%haystack", "%needle", "[%index]" ) ) );
              
             // str_is_empty( $s )
             // strlen( $s ) === 0

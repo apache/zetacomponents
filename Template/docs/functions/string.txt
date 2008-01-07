@@ -299,13 +299,13 @@ function returns false if the *$search* string couldn't be found in the *$source
 
     {str_last_index( "Don't you dare use the word 'party' as a verb in this shop!", "party" )}
     {str_last_index( "Don't you dare use the word 'party' as a verb in this shop!", "a" )}
-    {str_last_index( "Don't you dare use the word 'party' as a verb in this shop!", "a", 38 )}
+    {str_last_index( "Don't you dare use the word 'party' as a verb in this shop!", "a", -25 )}
 
 Outputs::
 
     29
     39
-    36
+    30
 
 See also str_index_of_ (), str_contains_ (), str_starts_with_ (), str_ends_with_ ().
 

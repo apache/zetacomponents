@@ -17,6 +17,7 @@
 16. {str_at( "abcdefg", 1)}
 17. {str_fill( "ab", 3)}
 18. {str_index_of( "abcdefgcdab", "def")} {str_index_of( "abcdefgcdab", "cd", 5 ) }
+18.2. {str_last_index( "abcdefgcdab", "ab")} {str_last_index( "abcdefgcdab", "ab", -5 ) }
 19. {str_is_empty( "" )} {str_is_empty("") !== false}
 20. {str_pad_left( "abc", 5, ".." )}
 
