@@ -321,8 +321,50 @@ the named issues. The public API of ezcPersistentSession will not be affected
 by this, but only delegation might happen internally, without being visible to
 the user of the API.
 
-Issues
+Design
 ------
+
+To reduce the pure number of method implementations in this class, the
+following new classes are suggested to group the functionality:
+
+- ezcPersistentLoadHandler
+  - public function load( $class, $id )
+  - public function loadIfExists( $class, $id )
+  - public function loadIntoObject( $pObject, $id )
+  - public function refresh( $pObject )
+  - public function find( ezcQuerySelect $query, $class )
+  - public function findIterator( ezcQuerySelect $query, $class )
+  - public function getRelatedObjects( $object, $relatedClass )
+  - public function getRelatedObject( $object, $relatedClass )
+  - public function createFindQuery( $class )
+  - public function createRelationFindQuery( $object, $relatedClass )
+
+- ezcPersistentSaveHandler
+  - public function save( $pObject )
+  - public function update( $pObject )
+  - public function saveOrUpdate( $pObject )
+  - public function addRelatedObject( $object, $relatedObject )
+  - public function createUpdateQuery( $class )
+  - public function updateFromQuery( ezcQueryUpdate $query )
+  - private function saveInternal( $pObject, $doPersistenceCheck = true,
+  - private function updateInternal( $pObject, $doPersistenceCheck = true )
+
+- ezcPersistentDeleteHandler
+  - public function delete( $pObject )
+  - public function removeRelatedObject( $object, $relatedObject )
+  - public function createDeleteQuery( $class )
+  - public function deleteFromQuery( ezcQueryDelete $query )
+  - private function cascadeDelete( $object, $relatedClass, ezcPersistentRelation $relation )
+
+These classes will just act as method containers. An instance of each clas will
+be held in a virtual-property of the ezcPersistentSession instance. All will
+receive the ezcPersistentSession instance as a ctor parameter, to be able to
+interact with it and the remaining classes.
+
+The methods stubs of ezcPersistentSession will remain as they are, dispatching
+to the newly created classes instances to perform the actual work. Methods for
+common operations (like executing a query and checking the result) will be
+consolidated into ezcPersistentSession.
 
 
 
