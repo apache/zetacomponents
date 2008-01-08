@@ -11,7 +11,7 @@
 /**
  * ezcPersistentObjectRelations class.
  * 
- * @private
+ * @access private
  *
  * @package PersistentObject
  * @version //autogen//
