@@ -10,6 +10,10 @@
   defined.
 - Fixed issue #12323: Using {cache_template} inside a block will now throw an
   exception.
+- Fixed issue #11056:
+
+  * {dynamic} is only allowed after {cache_template} or in {cache_block}.
+  * corrected documentation in regard to TTL vs. ttl.
 
 
 1.2 - Monday 02 July 2007

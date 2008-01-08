@@ -465,6 +465,126 @@ EOM
         }
     }
 
+    public function testCacheTemplateAfterDynamic()
+    {
+        $t = new ezcTemplate();
+
+        try
+        {
+            $out = $t->process( "cache_template_after_dynamic.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch ( ezcTemplateParserException $e )
+        {
+            $this->assertNotEquals( false, strpos( $e->getMessage(), '{dynamic} can only be a child of {cache_template} or a {cache_block} block' ) );
+        }
+    }
+
+    public function testCacheTemplateAfterDynamicInBlock()
+    {
+        $t = new ezcTemplate();
+
+        try
+        {
+            $out = $t->process( "cache_template_after_dynamic_in_block.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch ( ezcTemplateParserException $e )
+        {
+            $this->assertNotEquals( false, strpos( $e->getMessage(), '{dynamic} can only be a child of {cache_template} or a {cache_block} block' ) );
+        }
+    }
+
+    public function testCacheDynamicBeforeCacheBlock()
+    {
+        $t = new ezcTemplate();
+
+        try
+        {
+            $out = $t->process( "cache_dynamic_before_cache_block.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch ( ezcTemplateParserException $e )
+        {
+            $this->assertNotEquals( false, strpos( $e->getMessage(), '{dynamic} can only be a child of {cache_template} or a {cache_block} block' ) );
+        }
+    }
+
+    public function testCacheDynamicAfterCacheBlock()
+    {
+        $t = new ezcTemplate();
+
+        try
+        {
+            $out = $t->process( "cache_dynamic_after_cache_block.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch ( ezcTemplateParserException $e )
+        {
+            $this->assertNotEquals( false, strpos( $e->getMessage(), '{dynamic} can only be a child of {cache_template} or a {cache_block} block' ) );
+        }
+    }
+
+    public function testCacheDynamicInBlockBeforeCacheBlock()
+    {
+        $t = new ezcTemplate();
+
+        try
+        {
+            $out = $t->process( "cache_dynamic_in_block_before_cache_block.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch ( ezcTemplateParserException $e )
+        {
+            $this->assertNotEquals( false, strpos( $e->getMessage(), '{dynamic} can only be a child of {cache_template} or a {cache_block} block' ) );
+        }
+    }
+
+    public function testCacheDynamicInBlockAfterCacheBlock()
+    {
+        $t = new ezcTemplate();
+
+        try
+        {
+            $out = $t->process( "cache_dynamic_in_block_after_cache_block.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch ( ezcTemplateParserException $e )
+        {
+            $this->assertNotEquals( false, strpos( $e->getMessage(), '{dynamic} can only be a child of {cache_template} or a {cache_block} block' ) );
+        }
+    }
+
+    public function testCacheDynamicInIncludeInCacheBlock()
+    {
+        $t = new ezcTemplate();
+
+        try
+        {
+            $out = $t->process( "cache_dynamic_in_include_in_cache_block.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch ( ezcTemplateParserException $e )
+        {
+            $this->assertNotEquals( false, strpos( $e->getMessage(), '{dynamic} can only be a child of {cache_template} or a {cache_block} block' ) );
+        }
+    }
+
+    public function testCacheDynamicInIncludeAfterCacheTemplate()
+    {
+        $t = new ezcTemplate();
+
+        try
+        {
+            $out = $t->process( "cache_dynamic_in_include_after_cache_template.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch ( ezcTemplateParserException $e )
+        {
+            $this->assertNotEquals( false, strpos( $e->getMessage(), '{dynamic} can only be a child of {cache_template} or a {cache_block} block' ) );
+        }
+    }
+
     public function testFunctionAsKey()
     {
         $t = new ezcTemplate( );

@@ -26,11 +26,50 @@ class ezcTemplateDynamicBlockTstNode extends ezcTemplateBlockTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end );
+        $this->name = 'dynamic';
     }
 
     public function getTreeProperties()
     {
         return array( );
+    }
+
+    /**
+     * Checks if the given node can be attached to its parent.
+     *
+     * @throws ezcTemplateParserException if the node cannot be attached.
+     * @param ezcTemplateTstNode $parentElement
+     * @return void
+     */
+    public function canAttachToParent( $parentElement )
+    {
+        // Must at least have one parent with cache_block, or be after cache_template
+
+        $p = $parentElement;
+
+        while ( !$p instanceof ezcTemplateProgramTstNode )
+        {
+            if ( $p instanceof ezcTemplateCacheBlockTstNode )
+            {
+                return; // Perfect, we are inside a cache_block
+            }
+
+            $p = $p->parentBlock;
+        }
+
+        if ( $p instanceof ezcTemplateProgramTstNode )
+        {
+            foreach ( $p->children as $node )
+            {
+                if ( $node instanceof ezcTemplateCacheTstNode )
+                {
+                    return; // Perfect, we are after cache_template
+                }
+            }
+        }
+
+        throw new ezcTemplateParserException( $this->source, $this->startCursor, $this->startCursor, 
+            "{" . $this->name . "} can only be a child of {cache_template} or a {cache_block} block." );
     }
 }
 ?>
