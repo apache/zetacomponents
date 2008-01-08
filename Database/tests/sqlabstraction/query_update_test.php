@@ -199,6 +199,77 @@ class ezcQueryUpdateTest extends ezcTestCase
         $this->assertEquals( 70, (int)$result[1][3] );
     }
 
+    // test for bug 10777
+    function testUpdateWithFalseTest()
+    {
+        // create the database
+        $db = ezcDbInstance::get();
+        // open schema
+        $schema = ezcDbSchema::createFromFile( 'array', dirname( __FILE__ ) . '/files/bug10777.dba' );
+        $schema->writeToDb( $db );
+
+        // insert data
+        $q = $db->createInsertQuery();
+        $s = $q->insertInto( 'bug10777' )
+               ->set( 'bar', $q->bindValue( false, null, PDO::PARAM_BOOL ) )
+               ->prepare();
+        $s->execute();
+        $q = $db->createInsertQuery();
+        $s = $q->insertInto( 'bug10777' )
+               ->set( 'bar', $q->bindValue( true ) )
+               ->prepare();
+        $s->execute();
+
+        // first test: select with where being false.
+        $q = $db->createSelectQuery();
+        $s = $q->select( 'bar' )
+               ->from( 'bug10777' )
+               ->where( $q->expr->eq( 'bar', $q->bindValue( false, null, PDO::PARAM_BOOL ) ) )
+               ->prepare();
+        $s->execute();
+        $s->bindColumn( 1, $returnValue, PDO::PARAM_BOOL );
+        $s->fetch( PDO::FETCH_BOUND );
+        self::assertEquals( false, $returnValue );
+
+        // second test: update with set to true
+        $q = $db->createUpdateQuery();
+        $s = $q->update( 'bug10777' )
+               ->set( 'bar', $q->bindValue( true, null, PDO::PARAM_BOOL ) )
+               ->prepare();
+        $s->execute();
+
+        $q = $db->createSelectQuery();
+        $s = $q->select( 'bar' )
+               ->from( 'bug10777' )
+               ->prepare();
+        $s->execute();
+        $s->bindColumn( 1, $returnValue, PDO::PARAM_BOOL );
+
+        $s->fetch( PDO::FETCH_BOUND );
+        self::assertEquals( true, $returnValue );
+        $s->fetch( PDO::FETCH_BOUND );
+        self::assertEquals( true, $returnValue );
+
+        // third test: update with set to false
+        $q = $db->createUpdateQuery();
+        $s = $q->update( 'bug10777' )
+               ->set( 'bar', $q->bindValue( false, null, PDO::PARAM_BOOL ) )
+               ->prepare();
+        $s->execute();
+
+        $q = $db->createSelectQuery();
+        $s = $q->select( 'bar' )
+               ->from( 'bug10777' )
+               ->prepare();
+        $s->execute();
+        $s->bindColumn( 1, $returnValue, PDO::PARAM_BOOL );
+
+        $s->fetch( PDO::FETCH_BOUND );
+        self::assertEquals( false, $returnValue );
+        $s->fetch( PDO::FETCH_BOUND );
+        self::assertEquals( false, $returnValue );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcQueryUpdateTest' );
