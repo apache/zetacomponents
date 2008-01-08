@@ -189,7 +189,7 @@ and introduces the usage of bind parameters in the query:
 
 The query will fetch the first ten quotes by Robert Foster, sorted by the quote itself.
 Note that string parameters must either be bound using 
-ezcQuery::bindParam()/ezcQueryBindValue() or escaped and quoted manually.
+ezcQuery::bindParam()/ezcQuery::BindValue() or escaped and quoted manually.
 
 As you can see, logical expressions are built up using the expression object of
 the type ezcQueryExpression. Note that the methods for logical *or* and *and* are
