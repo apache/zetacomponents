@@ -143,6 +143,24 @@ schema. This is shown in the following example:
 .. include:: tutorial_example_04.php
    :literal:
 
+Restrictions
+============
+
+To keep the compability between different relational database management
+systems, there are restrictions you have to cope with:
+
+- Lowercase column names
+  
+  As some RDBMS always do not store column names case sensitive, but return and
+  store them completely as upper case letters, ezcDatabase converts all column
+  names to lower case to offer a uniform interface.
+
+- Field types
+
+  You are limited to an amount of field types common to all RDBMS, or for which
+  at least some kind of mapping exists for all RDBMS.
+
+@TODO: Mapping table (issue #10975).
 
 
 ..

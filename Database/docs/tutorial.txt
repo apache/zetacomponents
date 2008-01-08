@@ -333,6 +333,17 @@ Instead, you should use bindParameter() to achieve the same effect: ::
   - difference in allowed field length
   - difference in what you can compare (e.g TRUE =! 0)
 
+Restrictions
+============
+
+To keep the compability between different relational database management
+systems, there are restrictions you have to cope with:
+
+- Lowercase column names
+  
+  As some RDBMS always do not store column names case sensitive, but return and
+  strore them completely as upper case letters, ezcDatabase converts all column
+  names to lower case to offer a uniform interface.
 
 Adding support for a new database
 =================================
