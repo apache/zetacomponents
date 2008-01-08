@@ -14,6 +14,7 @@
 
   * {dynamic} is only allowed after {cache_template} or in {cache_block}.
   * corrected documentation in regard to TTL vs. ttl.
+  * fixed the cache file names in Windows (replace '\' with '-').
 
 
 1.2 - Monday 02 July 2007

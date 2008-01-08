@@ -60,7 +60,24 @@ class ezcTemplateCacheTest extends ezcTestCase
             $this->fail( "Expected the directory to exists: " . $cacheDir );
         }
     }
-    
+
+    public function testCacheBlockFileCreation()
+    {
+        $config = ezcTemplateConfiguration::getInstance();
+
+        $cacheDir = $config->compilePath . DIRECTORY_SEPARATOR . "cached_templates";
+
+        $t = new ezcTemplate();
+        $t->send->user = new TestUser( "Bernard", "Black" );
+        $t->process( "subfolder/subsubfolder/cache_block_simple.tpl");
+
+        $this->assertEquals( true, file_exists( $config->compilePath . "/cached_templates/-subfolder-subsubfolder-cache_block_simple.tpl[cb0]" ) );
+        if ( !file_exists( $config->compilePath . DIRECTORY_SEPARATOR . "cached_templates" ) )
+        {
+            $this->fail( "Expected the directory to exists: " . $cacheDir );
+        }
+    }
+
     // /////////////////////////////////////////////////////////////////////////////////////////
     // Cache blocks
     

@@ -202,7 +202,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
                 $fileName = $rpStream;
             }
 
-            $this->cacheBaseName = $this->template->usedConfiguration->compilePath . DIRECTORY_SEPARATOR . $this->template->usedConfiguration->cachedTemplatesPath . DIRECTORY_SEPARATOR . str_replace( '/', "-", $fileName ); 
+            $this->cacheBaseName = $this->template->usedConfiguration->compilePath . DIRECTORY_SEPARATOR . $this->template->usedConfiguration->cachedTemplatesPath . DIRECTORY_SEPARATOR . str_replace( DIRECTORY_SEPARATOR, "-", $fileName ); 
         }
 
         return $this->cacheBaseName;
