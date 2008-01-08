@@ -16,18 +16,18 @@ PersistentObject component version 1.4.
 The general goal for this version is to implement various features
 described by these issues in our issue tracker:
 
-- #8963   Support for composite IDs.
-- #10151  Improved Database and PersistentObject datatype support (especially
-          binary data).
-- #10373  Several relations to the same table for PersistentObject.
-- #010913 Complex data types (e.g. DateTime) for PersistentObject.
+- #8963: Support for composite IDs.
+- #10151: Improved Database and PersistentObject datatype support (especially
+  binary data).
+- #10373: Several relations to the same table for PersistentObject.
+- #10913: Complex data types (e.g. DateTime) for PersistentObject.
+- #12287: ezcPersistentSession refactoring.
 
 Each of the issues and their proposed solutions are explained in a seperate
 chapter in this document.
 
-
 Support for composite IDs (and composite properties in general) [#8963]
-======================================================================
+=======================================================================
 
 Note: This section is not finished. Please read the discussion on the bug to
 see if it will be implemented at all.
@@ -73,8 +73,6 @@ Design
       // to specify/implement that... :)
     }
     
-    
-    
     ezcPersistentCompositeProperty
     {
       // array of ezcPersistentObjectColumn
@@ -90,8 +88,6 @@ Design
     ezcPersistentSession::loadIfExist( $class, $id ) since $id can now be composite
     ezcPersistentSession::loadIntoObject( $pObject, $id ) since $id can now be composite
     
-
-
 Open questions
 --------------
 
@@ -126,9 +122,9 @@ as a fix for issue `#010943`_.
 
 .. _`#010943`: http://issues.ez.no/IssueView.php?Id=10943
 
-
 Design
 ------
+
 The proposed solution is to add a columnType property for all definitions where
 a column is defined. The columnType can be one of the PDO PARAM_ type
 parameters and directly defines the parameter type provided to PDO when
@@ -138,9 +134,9 @@ This currently affects:
 - ezcPersistentObjectIdProperty
 - ezcPersistentObjectProperty
 
-
 Open questions
 --------------
+
 It would be nice to make large binary data available as a resource both for
 writing and reading. PDO::PARAM_LOB can handle this if used together with 
 PDO::FETCH_BOUND. Should we, and how do we make this available to the user?
@@ -254,8 +250,8 @@ The changes do not break BC and require changes in PersistentSession to
 work. An extra if will have to be introduced to check for the existence of
 named relations. This will not harm performance in a significant way.
 
-Complex data types (e.g. DateTime) for PersistentObject.
-========================================================
+Complex data types (e.g. DateTime) for PersistentObject [#10913]
+================================================================
 
 Background
 ----------
@@ -305,6 +301,29 @@ As a reference implementation, the described DateTime conversion will be used.
 If more (generally sensible) conversions are found during the implementation or
 are requested by users, it might happen that additional conversion classes will
 be shipped with this version of PersistentObject.
+
+
+ezcPersistentSession refactoring [#12287]
+=========================================
+
+Background
+----------
+
+The ezcPersistentSession class is the very heart of the PersistentObject
+component. It contains the complete application logic of the component,
+structured in many public (25) and a few protected and private (5) methods
+consisting of  more than 1200 lines of code and documentation.
+
+The mass of code starts getting unmaintainable by now and some code-synergies
+could be realized between different methods. Therefore a refactoring of the
+class and its surrounding classes will be described in this section to solve
+the named issues. The public API of ezcPersistentSession will not be affected
+by this, but only delegation might happen internally, without being visible to
+the user of the API.
+
+Issues
+------
+
 
 
 ..
