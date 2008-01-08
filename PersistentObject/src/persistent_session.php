@@ -37,7 +37,7 @@ class ezcPersistentSession
      * Constructs a new persistent session that works on the database $db.
      *
      * The $manager provides valid persistent object definitions to the
-     * session.
+     * session. The $db will be used to perform all database operations.
      *
      * @param ezcDbHandler $db
      * @param ezcPersistentDefinitionManager $manager
@@ -51,9 +51,12 @@ class ezcPersistentSession
     /**
      * Sets the property $name to $value.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property does not exist.
+     *
      * @param string $name
      * @param mixed $value
+     *
      * @ignore
      */
     public function __set( $name, $value )
@@ -74,9 +77,12 @@ class ezcPersistentSession
     /**
      * Returns the property $name.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property does not exist.
+     *
      * @param string $name
      * @return mixed
+     *
      * @ignore
      */
     public function __get( $name )
@@ -97,18 +103,20 @@ class ezcPersistentSession
     /**
      * Deletes the persistent object $pObject.
      *
-     * This method will perform a DELETE query based on the identifier
-     * of the persistent object.
-     * After delete() the identifier in $pObject will be reset to null.
-     * It is possible to save() $pObject afterwords. The object will then
-     * be stored with a new id.
-     * If you defined relations for the given object, these will be checked
-     * to be defined as cascading. If cascading is configured, the related
-     * objects with this relation will be deleted, too.
+     * This method will perform a DELETE query based on the identifier of the
+     * persistent object $pObject. After delete() the ID property of $pObject
+     * will be reset to null. It is possible to {@link save()} $pObject
+     * afterwards.  $pObject will then be stored with a new ID.
+     *
+     * If you defined relations for the given object, these will be checked to
+     * be defined as cascading. If cascading is configured, the related objects
+     * with this relation will be deleted, too.
      *
      * Relations that support cascading are:
-     * - {@link ezcPersistenOneToManyRelation}
-     * - {@link ezcPersistenOneToOne}
+     * <ul>
+     * <li>{@link ezcPersistenOneToManyRelation}</li>
+     * <li>{@link ezcPersistenOneToOne}</li>
+     * </ul>
      *
      * @throws ezcPersistentDefinitionNotFoundxception
      *         if $the object is not recognized as a persistent object.
@@ -181,14 +189,14 @@ class ezcPersistentSession
 
     /**
      * Perform the cascading of deletes on a specific relation.
-     * This method checks a given relation of a given object for necessary
+     *
+     * This method checks a given $relation of a given $object for necessary
      * actions on a cascaded delete and performs them.
      *
      * @param object $object                  The persistent object.
      * @param string $relatedClass            The class of the related persistent
      *                                        object.
      * @param ezcPersistentRelation $relation The relation to check.
-     * @return void
      *
      * @todo Revise cascading code. So far it sends 1 delete statement per
      *       object but we can also collect them table wise and send just 1
@@ -243,8 +251,11 @@ class ezcPersistentSession
      * $session->deleteFromQuery( $q );
      * </code>
      *
-     * @throws ezcPersistentObjectException if there is no such persistent class.
+     * @throws ezcPersistentObjectException
+     *         if there is no such persistent class.
+     *
      * @param string $class
+     *
      * @return ezcQueryDelete
      */
     public function createDeleteQuery( $class )
@@ -262,7 +273,7 @@ class ezcPersistentSession
     /**
      * Deletes persistent objects using the query $query.
      *
-     * The $query should be created using createDeleteQuery().
+     * The $query should be created using {@link createDeleteQuery()}.
      *
      * Currently this method only executes the provided query. Future
      * releases PersistentSession may introduce caching of persistent objects.
@@ -271,9 +282,10 @@ class ezcPersistentSession
      * advisable to always use this method when running custom delete queries on
      * persistent objects.
      *
-     * @throws ezcPersistentQueryException if the delete query failed.
+     * @throws ezcPersistentQueryException
+     *         if the delete query failed.
+     *
      * @param ezcQueryDelete $query
-     * @return void
      */
     public function deleteFromQuery( ezcQueryDelete $query )
     {
@@ -294,8 +306,11 @@ class ezcPersistentSession
      * The query is initialized to update the correct table and
      * it is only neccessary to set the correct values.
      *
-     * @throws ezcPersistentDefinitionNotFoundException if there is no such persistent class.
+     * @throws ezcPersistentDefinitionNotFoundException
+     *         if there is no such persistent class.
+     *
      * @param string $class
+     *
      * @return ezcQueryUpdate
      */
     public function createUpdateQuery( $class )
@@ -322,9 +337,10 @@ class ezcPersistentSession
      * advisable to always use this method when running custom delete queries on
      * persistent objects.
      *
-     * @throws ezcPersistentQueryException if the update query failed.
+     * @throws ezcPersistentQueryException
+     *         if the update query failed.
+     *
      * @param ezcQueryUpdate $query
-     * @return void
      */
     public function updateFromQuery( ezcQueryUpdate $query )
     {
@@ -342,7 +358,9 @@ class ezcPersistentSession
     /**
      * Returns a select query for the given persistent object $class.
      *
-     * The query is initialized to fetch all columns from the correct table.
+     * The query is initialized to fetch all columns from the correct table and
+     * has correct alias mappings between columns and property names of the
+     * persistent $class.
      *
      * Example:
      * <code>
@@ -350,8 +368,11 @@ class ezcPersistentSession
      * $allPersons = $session->find( $q, 'Person' );
      * </code>
      *
-     * @throws ezcPersistentObjectException if there is no such persistent class.
+     * @throws ezcPersistentObjectException
+     *         if there is no such persistent class.
+     *
      * @param string $class
+     *
      * @return ezcQuerySelect
      */
     public function createFindQuery( $class )
@@ -370,14 +391,18 @@ class ezcPersistentSession
     /**
      * Returns the result of the query $query as a list of objects.
      *
+     * Returns the persistent objects found for $class using the submitted
+     * $query. $query should be created using {@link createFindQuery()} to
+     * ensure correct alias mappings and can be manipulated as needed.
+     *
      * Example:
      * <code>
      * $q = $session->createFindQuery( 'Person' );
      * $allPersons = $session->find( $q, 'Person' );
      * </code>
      *
-     * If you are retrieving large result set, consider using findIterator()
-     * instead.
+     * If you are retrieving large result set, consider using {@link
+     * findIterator()} instead.
      *
      * Example:
      * <code>
@@ -390,11 +415,15 @@ class ezcPersistentSession
      * }
      * </code>
      *
-     * @throws ezcPersistentDefinitionNotFoundException if there is no such persistent class.
-     * @throws ezcPersistentQueryException if the find query failed
+     * @throws ezcPersistentDefinitionNotFoundException
+     *         if there is no such persistent class.
+     * @throws ezcPersistentQueryException
+     *         if the find query failed.
+     *
      * @param ezcQuerySelect $query
      * @param string $class
-     * @return array(object)
+     *
+     * @return array(object($class))
      */
     public function find( ezcQuerySelect $query, $class )
     {
@@ -423,11 +452,13 @@ class ezcPersistentSession
     }
 
     /**
-     * Returns the related objects of a given class for an object.
+     * Returns the related objects of a given $relatedClass for an $object.
+     *
      * This method returns the related objects of type $relatedClass for the
-     * object $object. This method (in contrast to {@link getRelatedObject()})
-     * always returns an array of result objects, no matter if only 1 object
-     * was found (e.g. {@link ezcPersistentManyToOneRelation}).
+     * given $object. This method (in contrast to {@link getRelatedObject()})
+     * always returns an array of found objects, no matter if only 1 object
+     * was found (e.g. {@link ezcPersistentManyToOneRelation}), none or several
+     * ({@link ezcPersistentManyToManyRelation}).
      *
      * Example:
      * <code>
@@ -437,12 +468,16 @@ class ezcPersistentSession
      * </code>
      *
      * Relations that should preferably be used with this method are:
-     * - {@link ezcPersistentOneToManyRelation}
-     * - {@link ezcPersistentManyToManyRelation}
+     * <ul>
+     * <li>{@link ezcPersistentOneToManyRelation}</li>
+     * <li>{@link ezcPersistentManyToManyRelation}</li>
+     * </ul>
+     * For other relation types {@link getRelatedObject()} is recommended.
      *
-     * @param mixed $object         The object to fetch related objects for.
-     * @param mixed $relatedClass   The class of the related objects to fetch.
-     * @return array(int=>object)
+     * @param object $object
+     * @param string $relatedClass
+     *
+     * @return array(int=>object($relatedClass))
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
@@ -454,11 +489,14 @@ class ezcPersistentSession
     }
 
     /**
-     * Returns the related object of a given class for an object.
+     * Returns the related object of a given $relatedClass for an $object.
+     *
      * This method returns the related object of type $relatedClass for the
      * object $object. This method (in contrast to {@link getRelatedObjects()})
-     * always a single result object, no matter if more objects could be found
-     * (e.g. {@link ezcPersistentOneToManyRelation}).
+     * always returns a single result object, no matter if more related objects
+     * could be found (e.g. {@link ezcPersistentOneToManyRelation}). If no
+     * related object is found, an exception is thrown, while {@link
+     * getRelatedObjects()} just returns an empty array in this case.
      *
      * Example:
      * <code>
@@ -468,12 +506,16 @@ class ezcPersistentSession
      * </code>
      *
      * Relations that should preferably be used with this method are:
-     * - {ezcPersistentManyToOneRelation}
-     * - {ezcPersistentOneToOneRelation}
+     * <ul>
+     * <li>{@link ezcPersistentManyToOneRelation}</ li>
+     * <li>{@link ezcPersistentOneToOneRelation}</li>
+     * </ul>
+     * For other relation types {@link getRelatedObjects()} is recommended.
      *
-     * @param object $object         The object to fetch related objects for.
-     * @param string $relatedClass   The class of the related objects to fetch.
-     * @return object
+     * @param object $object
+     * @param string $relatedClass
+     *
+     * @return object($relatedClass)
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
@@ -494,12 +536,15 @@ class ezcPersistentSession
 
     /**
      * Returns the base query for retrieving related objects.
+     *
      * See {@link getRelatedObject()} and {@link getRelatedObjects()}. Can be
      * modified by additional where conditions and simply be used with
-     * {@link find()} and the related class name.
+     * {@link find()} and the related class name, to retrieve a sub-set of
+     * related objects.
      *
-     * @param object $object       Object to find related objects for.
-     * @param string $relatedClass Class of the related objects to find.
+     * @param object $object
+     * @param string $relatedClass
+     *
      * @return ezcDbSelectQuery
      *
      * @throws ezcPersistentRelationNotFoundException
@@ -557,17 +602,20 @@ class ezcPersistentSession
 
     /**
      * Create a relation between $object and $relatedObject.
-     * This method is used to create a relation between the given source $object
-     * and the desired $relatedObject. The related object is not stored in the
-     * database automatically, only the desired properties are set. An
-     * exception is {@ezcPersistentManyToManyRelation}s, where the
-     * relation record is stored automatically.
      *
-     * @param object $object        The object to create a relation from.
-     * @param object $relatedObject The object to create a relation to.
+     * This method is used to create a relation between the given source
+     * $object and the desired $relatedObject. The related object is not stored
+     * in the database automatically, only the desired properties are set. An
+     * exception is {@ezcPersistentManyToManyRelation}s, where the relation
+     * record is stored automatically and there is no need to store
+     * $relatedObject explicitly after establishing the relation.
+     *
+     * @param object $object
+     * @param object $relatedObject
      *
      * @throws ezcPersistentRelationOperationNotSupportedException
-     *         if a relation to create is marked as "reverse".
+     *         if a relation to create is marked as "reverse" {@link
+     *         ezcPersistentRelation->reverse}.
      * @throws ezcPersistentRelationNotFoundException
      *         if the deisred relation is not defined.
      */
@@ -646,11 +694,12 @@ class ezcPersistentSession
 
     /**
      * Removes the relation between $object and $relatedObject.
-     * This method is used to delete an existing relation between 2 objects. Like
-     * {@link addRelatedObject} this method does not store the related object
-     * after removing its relation properties (unset), except for
-     * {@link ezcPersistentManyToManyRelation}s, for which the relation record
-     * is deleted from the database.
+     *
+     * This method is used to delete an existing relation between 2 objects.
+     * Like {@link addRelatedObject()} this method does not store the related
+     * object after removing its relation properties (unset), except for {@link
+     * ezcPersistentManyToManyRelation()}s, for which the relation record is
+     * deleted from the database.
      *
      * @param object $object        Source object of the relation.
      * @param object $relatedObject Related object.
@@ -726,22 +775,29 @@ class ezcPersistentSession
     }
 
     /**
-     * Returns the result of the query $query for the class $class
-     * as an object iterator.
+     * Returns the result of $query for the $class as an iterator.
      *
-     * This method is similar to find() but returns an iterator
-     * instead of a list of objects. This is useful if you are going
-     * to loop over the objects and just need them one at the time.
-     * Because you only instantiate one object is is faster than find().
+     * This method is similar to {@link find()} but returns an {@link
+     * ezcPersistentFindIterator} instead of an array of objects. This is
+     * useful if you are going to loop over the objects and just need them one
+     * at the time.  Because you only instantiate one object it is faster than
+     * {@link find()}. In addition, only 1 record is retrieved from the
+     * database in each iteration, which may reduce the data transfered between
+     * the database and PHP, if you iterate only through a small subset of the
+     * affected records.
      *
-     * Note that if you do not loop over the complete result set you must
-     * call flush() on the iterator before issuing another query.
+     * Note that if you do not loop over the complete result set you must call
+     * {@link ezcPersistentFindIterator::flush()} before issuing another query.
      *
-     * @throws ezcPersistentDefinitionNotFoundException if there is no such persistent class.
-     * @throws ezcPersistentQueryException if the find query failed
+     * @throws ezcPersistentDefinitionNotFoundException
+     *         if there is no such persistent class.
+     * @throws ezcPersistentQueryException
+     *         if the find query failed.
+     *
      * @param ezcQuerySelect $query
      * @param string $class
-     * @return Iterator
+     *
+     * @return ezcPersistentFindIterator
      */
     public function findIterator( ezcQuerySelect $query, $class )
     {
@@ -761,10 +817,14 @@ class ezcPersistentSession
     /**
      * Returns the persistent object of class $class with id $id.
      *
-     * @throws ezcPersistentObjectException if the object is not available.
-     * @throws ezcPersistentObjectException if there is no such persistent class.
+     * @throws ezcPersistentObjectException
+     *         if the object is not available.
+     * @throws ezcPersistentObjectException
+     *         if there is no such persistent class.
+     *
      * @param string $class
      * @param int $id
+     *
      * @return object
      */
     public function load( $class, $id )
@@ -778,12 +838,12 @@ class ezcPersistentSession
     /**
      * Returns the persistent object of class $class with id $id.
      *
-     * This method is equivalent to load() except that it returns
-     * null instead of throwing an exception if the object does not
-     * exist.
+     * This method is equivalent to {@link load()} except that it returns null
+     * instead of throwing an exception if the object does not exist.
      *
      * @param string $class
      * @param int $id
+     *
      * @return object|null
      */
     public function loadIfExists( $class, $id )
@@ -806,12 +866,15 @@ class ezcPersistentSession
      * The class of the persistent object to load is determined by the class
      * of $pObject.
      *
-     * @throws ezcPersistentObjectException if the object is not available.
-     * @throws ezcPersistentDefinitionNotFoundException if $pObject is not of a valid persistent object type.
-     * @throws ezcPersistentQueryException if the find query failed
+     * @throws ezcPersistentObjectException
+     *         if the object is not available.
+     * @throws ezcPersistentDefinitionNotFoundException
+     *         if $pObject is not of a valid persistent object type.
+     * @throws ezcPersistentQueryException
+     *         if the find query failed.
+     *
      * @param object $pObject
      * @param int $id
-     * @return void
      */
     public function loadIntoObject( $pObject, $id )
     {
@@ -859,15 +922,18 @@ class ezcPersistentSession
     /**
      * Syncronizes the contents of $pObject with those in the database.
      *
-     * Note that calling this method is equavalent with calling
-     * loadIntoObject on $pObject with the id of $pObject. Any
-     * changes made to $pObject prior to calling refresh() will be discarded.
+     * Note that calling this method is equavalent with calling {@link
+     * loadIntoObject()} on $pObject with the id of $pObject. Any changes made
+     * to $pObject prior to calling refresh() will be discarded.
      *
-     * @throws ezcPersistentObjectException if $pObject is not of a valid persistent object type.
-     * @throws ezcPersistentObjectException if $pObject is not persistent already
-     * @throws ezcPersistentObjectException if the select query failed.
+     * @throws ezcPersistentObjectException
+     *         if $pObject is not of a valid persistent object type.
+     * @throws ezcPersistentObjectException
+     *         if $pObject is not persistent already.
+     * @throws ezcPersistentObjectException
+     *         if the select query failed.
+     *
      * @param object $pObject
-     * @return void
      */
     public function refresh( $pObject )
     {
@@ -890,12 +956,17 @@ class ezcPersistentSession
      *
      * The correct ID is set to $pObject.
      *
-     * @throws ezcPersistentObjectException if $pObject is not of a valid persistent object type.
-     * @throws ezcPersistentObjectException if $pObject is already stored to the database.
-     * @throws ezcPersistentObjectException if it was not possible to generate a unique identifier for the new object
-     * @throws ezcPersistentObjectException if the insert query failed.
+     * @throws ezcPersistentObjectException if $pObject
+     *         is not of a valid persistent object type.
+     * @throws ezcPersistentObjectException if $pObject
+     *         is already stored to the database.
+     * @throws ezcPersistentObjectException
+     *         if it was not possible to generate a unique identifier for the
+     *         new object.
+     * @throws ezcPersistentObjectException
+     *         if the insert query failed.
+     *
      * @param object $pObject
-     * @return void
      */
     public function save( $pObject )
     {
@@ -908,14 +979,19 @@ class ezcPersistentSession
      * If $doPersistenceCheck is set this function will check if the object is persistent before
      * saving. If not, the check is omitted. The correct ID is set to $pObject.
      *
-     * @throws ezcPersistentObjectException if $pObject is not of a valid persistent object type.
-     * @throws ezcPersistentObjectException if $pObject is already stored to the database.
-     * @throws ezcPersistentObjectException if it was not possible to generate a unique identifier for the new object
-     * @throws ezcPersistentObjectException if the insert query failed.
+     * @throws ezcPersistentObjectException
+     *         if $pObject is not of a valid persistent object type.
+     * @throws ezcPersistentObjectException
+     *         if $pObject is already stored to the database.
+     * @throws ezcPersistentObjectException
+     *         if it was not possible to generate a unique identifier for the
+     *         new object.
+     * @throws ezcPersistentObjectException
+     *         if the insert query failed.
+     *
      * @param object $pObject
      * @param bool $doPersistenceCheck
      * @param ezcPersistentIdentifierGenerator $idGenerator
-     * @return void
      */
     private function saveInternal( $pObject, $doPersistenceCheck = true,
                                    ezcPersistentIdentifierGenerator $idGenerator = null )
@@ -987,15 +1063,20 @@ class ezcPersistentSession
     }
 
     /**
-     * Saves or update the persistent object $pObject to the database.
+     * Saves or updates the persistent object $pObject to the database.
      *
-     * If the object is a new object an INSERT INTO query will be executed. If the
-     * object is persistent already it will be updated with an UPDATE query.
+     * If the object is a new object an INSERT INTO query will be executed. If
+     * the object is persistent already it will be updated with an UPDATE
+     * query.
      *
-     * @throws ezcPersistentDefinitionNotFoundException if the definition of the persistent object could not be loaded
-     * @throws ezcPersistentObjectException if $pObject is not of a valid persistent object type.
-     * @throws ezcPersistentObjectException if any of the definition requirements are not met.
-     * @throws ezcPersistentObjectException if the insert or update query failed.
+     * @throws ezcPersistentDefinitionNotFoundException
+     *         if the definition of the persistent object could not be loaded.
+     * @throws ezcPersistentObjectException
+     *         if $pObject is not of a valid persistent object type.
+     * @throws ezcPersistentObjectException
+     *         if any of the definition requirements are not met.
+     * @throws ezcPersistentObjectException
+     *         if the insert or update query failed.
      * @param object $pObject
      * @return void
      */
@@ -1101,25 +1182,6 @@ class ezcPersistentSession
         }
     }
 
-// ignore this for now
-    /*
-     * Goes through the requirements of the array $state and and check that the requirements
-     * set in $def are met.
-     *
-     * Currently this method checks if a field marked as required is set to null.
-     * If this is the case this method will replace it with the default value if present.
-     * If it is not possible to meet the requirements an exception is thrown.
-     *
-     * @param array $row
-     * @param ezcPersistentObjectDefinition $def
-     * @return void
-     */
-//    protected function meetRequirements( array &$state, ezcPersistentObjectDefinition $def )
-//    {
-//        foreach ( $state as $key => $value )
-//    }
-
-
     /**
      * Returns a hash map between property and column name for the given definition $def.
      * The alias map can be used with the query classes.
@@ -1212,7 +1274,6 @@ class ezcPersistentSession
                         break;
                 }
             }
-
 
             $typedState[$name] = $value;
         }
