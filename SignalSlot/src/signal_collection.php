@@ -49,7 +49,7 @@ class ezcSignalCollection
      *
      * @var ezcSignalStaticConnectionsBase
      */
-    private static $staticConnectionsHolder = NULL;
+    private static $staticConnectionsHolder = null;
 
     /**
      * Holds the options for this signal collection
@@ -89,7 +89,7 @@ class ezcSignalCollection
     }
 
     /**
-     * Returns the current provider of static connections or NULL if there is none.
+     * Returns the current provider of static connections or null if there is none.
      *
      * @return ezcSignalStaticConnectionsBase
      */
@@ -215,7 +215,7 @@ class ezcSignalCollection
         }
 
         // static connections
-        if ( self::$staticConnectionsHolder == NULL ) // custom static connections class
+        if ( self::$staticConnectionsHolder == null ) // custom static connections class
         {
             if ( count( ezcSignalStaticConnections::getInstance()->getConnections( $this->identifier, $signal ) ) > 0 )
             {
@@ -269,7 +269,7 @@ class ezcSignalCollection
 
         // check if there are any static connections
         $priStaticConnections = array();
-        if ( self::$staticConnectionsHolder == NULL )
+        if ( self::$staticConnectionsHolder == null )
         {
             $priStaticConnections = ezcSignalStaticConnections::getInstance()->getConnections( $this->identifier, $signal );
         }
