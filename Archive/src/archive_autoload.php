@@ -15,7 +15,6 @@ return array(
     'ezcArchiveChecksumException'         => 'Archive/exceptions/archive_checksum.php',
     'ezcArchiveEmptyException'            => 'Archive/exceptions/archive_empty.php',
     'ezcArchiveEntryPrefixException'      => 'Archive/exceptions/archive_entry_prefix.php',
-    'ezcArchiveFileException'             => 'Archive/exceptions/file_exception.php',
     'ezcArchiveInternalException'         => 'Archive/exceptions/archive_internal_exception.php',
     'ezcArchiveIoException'               => 'Archive/exceptions/archive_io.php',
     'ezcArchiveUnknownTypeException'      => 'Archive/exceptions/archive_unknown_type.php',
