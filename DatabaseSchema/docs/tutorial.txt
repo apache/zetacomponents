@@ -11,6 +11,12 @@ relational databases. DatabaseSchema can read and write the
 structure from and to several databases (such as MySQL, SQLite and Oracle) and
 also read and write in two web language files (XML and PHP).
 
+The main intention of the component is to extract an already existing schema
+from a database, and compare it with either a predefined schema to check for
+any changes. Although the component does allow you to create the schema
+manually through the API, it is often easier to create the schema yourself in a
+database, and then extract the data from it.
+
 DatabaseSchema can also generate PersistentObject definition
 files. For further information, please refer to the API documentation of
 ezcPersistentObjectDefinition and ezcPersistentObjectSchemaGenerator.
