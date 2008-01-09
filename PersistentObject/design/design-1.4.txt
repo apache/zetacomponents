@@ -356,16 +356,38 @@ following new classes are suggested to group the functionality:
   - public function deleteFromQuery( ezcQueryDelete $query )
   - private function cascadeDelete( $object, $relatedClass, ezcPersistentRelation $relation )
 
-These classes will just act as method containers. An instance of each clas will
+These classes will just act as method containers. An instance of each class will
 be held in a virtual-property of the ezcPersistentSession instance. All will
 receive the ezcPersistentSession instance as a ctor parameter, to be able to
 interact with it and the remaining classes.
 
 The methods stubs of ezcPersistentSession will remain as they are, dispatching
-to the newly created classes instances to perform the actual work. Methods for
-common operations (like executing a query and checking the result) will be
-consolidated into ezcPersistentSession.
+to instances of the newly created classes, which will then perform the actual
+work.
 
+Some common methods will be left in ezcPersistentSession, defined as public but
+marked as private (lack of friendship relations for PHP classes). In addition,
+the code of the outsourced methods will be consolidated into new, common
+methods (like executing a query and checking the result, optional checks of
+getState() methods, ...) of ezcPersistentSession, where possible.
+
+Notes and ideas
+---------------
+
+This refactoring approach will obviously have an impact on performance, since
+for each public method call on ezcPersistentSession there will be an additional
+method invocation added. In addition, the consolidiation of common code into
+helper methods (held on ezcPersistentSession) will impact performance. On the
+other hand, the extraction of methods from ezcPersistentSession into
+handler-classes will raise the maintainability of the whole component and the
+consolidation of common code will reduce the complexity of the implemented
+methods, which also raises maintainability, code-reuse and error-tollerance. In
+addition, it makes the implementation of new features easier.
+
+An idea would be to instanciate the newly created handler classes only when
+needed (via virtual-property checks), which would reduce the ammount of code to
+load on instantiating ezcPersistentSession and the memory usage occupied by
+objects.
 
 
 ..
