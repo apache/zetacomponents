@@ -52,7 +52,7 @@
       </field>
       <index>
         <name>message_category_rel</name>
-        <unqiue>true</unqiue>
+        <unique>true</unique>
         <field>
           <name>message_id</name>
           <sorting>ascending</sorting>
@@ -76,7 +76,7 @@
       </field>
       <index>
         <name>session_id</name>
-        <unqiue>true</unqiue>
+        <unique>true</unique>
         <field>
           <name>session_id</name>
           <sorting>ascending</sorting>
