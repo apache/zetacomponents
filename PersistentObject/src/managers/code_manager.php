@@ -52,9 +52,9 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
     public function __construct( $dir )
     {
         // append trailing / to $dir if it does not exist.
-        if ( substr( $dir, strlen( $dir ) - 1, 1) != '/' )
+        if ( substr( $dir, -1 ) != DIRECTORY_SEPARATOR )
         {
-            $dir .= '/';
+            $dir .= DIRECTORY_SEPARATOR;
         }
         $this->dir = $dir;
     }

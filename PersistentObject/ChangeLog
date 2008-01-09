@@ -1,6 +1,7 @@
 1.3.4 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #12053: Optimized substr() call.
 - Fixed issue #12108: ezcPersistentStateTransformer::rowToStateArray() relying
   on definitions with reverse properties set, but it's not automatic.
 
