@@ -9,21 +9,21 @@
  */
 
 /**
- * Tests the ezcPersistentObjectPropertyDateTimeConversion class.
+ * Tests the ezcPersistentPropertyDateTimeConverter class.
  *
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentObjectPropertyDateTimeConversionTest extends ezcTestCase
+class ezcPersistentPropertyDateTimeConverterTest extends ezcTestCase
 {
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( 'ezcPersistentObjectPropertyDateTimeConversionTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcPersistentPropertyDateTimeConverterTest' );
     }
 
     public function testFromDatabaseSuccess()
     {
-        $conv = new ezcPersistentObjectPropertyDateTimeConversion();
+        $conv = new ezcPersistentPropertyDateTimeConverter();
 
         $this->assertEquals(
             new DateTime( '@327535200' ),
@@ -51,7 +51,7 @@ class ezcPersistentObjectPropertyDateTimeConversionTest extends ezcTestCase
 
     public function testFromDatabaseFailure()
     {
-        $conv = new ezcPersistentObjectPropertyDateTimeConversion();
+        $conv = new ezcPersistentPropertyDateTimeConverter();
 
         $values = array(
             'Test string',
@@ -66,7 +66,7 @@ class ezcPersistentObjectPropertyDateTimeConversionTest extends ezcTestCase
             try
             {
                 $res = $conv->fromDatabase( $value );
-                $this->fail( 'Exception not thrown on illegal conversion of type ' . gettype( $value ) );
+                $this->fail( 'Exception not thrown on illegal converter of type ' . gettype( $value ) );
             }
             catch ( ezcBaseValueException $e ) {}
         }
@@ -74,7 +74,7 @@ class ezcPersistentObjectPropertyDateTimeConversionTest extends ezcTestCase
 
     public function testToDatabaseSuccess()
     {
-        $conv = new ezcPersistentObjectPropertyDateTimeConversion();
+        $conv = new ezcPersistentPropertyDateTimeConverter();
 
         $this->assertEquals(
             327535200,
@@ -96,7 +96,7 @@ class ezcPersistentObjectPropertyDateTimeConversionTest extends ezcTestCase
     
     public function testToDatabaseFailure()
     {
-        $conv = new ezcPersistentObjectPropertyDateTimeConversion();
+        $conv = new ezcPersistentPropertyDateTimeConverter();
 
         $values = array(
             23,
@@ -113,7 +113,7 @@ class ezcPersistentObjectPropertyDateTimeConversionTest extends ezcTestCase
             try
             {
                 $res = $conv->toDatabase( $value );
-                $this->fail( 'Exception not thrown on illegal conversion of type ' . gettype( $value ) );
+                $this->fail( 'Exception not thrown on illegal converter of type ' . gettype( $value ) );
             }
             catch ( ezcBaseValueException $e ) {}
         }

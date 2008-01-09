@@ -26,7 +26,7 @@ $def->properties['integer'] = new ezcPersistentObjectProperty;
 $def->properties['integer']->columnName = 'type_integer';
 $def->properties['integer']->propertyName = 'integer';
 $def->properties['integer']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
-$def->properties['integer']->conversion = new ezcPersistentObjectPropertyDateTimeConversion();
+$def->properties['integer']->converter = new ezcPersistentPropertyDateTimeConverter();
 
 $def->properties['decimal'] = new ezcPersistentObjectProperty;
 $def->properties['decimal']->columnName = 'type_decimal';

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentObjectPropertyDateTimeConversion class.
+ * File containing the ezcPersistentPropertyDateTimeConverter class.
  *
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
@@ -9,7 +9,7 @@
  */
 
 /**
- * Property conversion class for date/time values.
+ * Property converter class for date/time values.
  *
  * An instance of this class can be used with {@link
  * ezcPersistentObjectProperty} in a {@link ezcPersistentObjectDefinition} to
@@ -19,7 +19,7 @@
  * @package PersistentObject
  * @version //autogen//
  */
-class ezcPersistentObjectPropertyDateTimeConversion implements ezcPersistentObjectPropertyConversion
+class ezcPersistentPropertyDateTimeConverter implements ezcPersistentPropertyConverter
 {
     /**
      * Converts unix timestamp to DateTime instance.
@@ -85,14 +85,14 @@ class ezcPersistentObjectPropertyDateTimeConversion implements ezcPersistentObje
      * Method for de-serialization after var_export().
      *
      * This methid must be implemented to allow proper de-serialization of
-     * conversion objects, when they are exported using {@link var_export()}.
+     * converter objects, when they are exported using {@link var_export()}.
      * 
      * @param array $state 
-     * @return ezcPersistentObjectPropertyConversion
+     * @return ezcPersistentPropertyConverter
      */
     public static function __set_state( array $state )
     {
-        return new ezcPersistentObjectPropertyDateTimeConversion();
+        return new ezcPersistentPropertyDateTimeConverter();
     }
 }
 

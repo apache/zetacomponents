@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentObjectPropertyConversion class.
+ * File containing the ezcPersistentPropertyConverter class.
  *
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
@@ -9,10 +9,10 @@
  */
 
 /**
- * Interface that must be implemented by property conversion classes.
+ * Interface that must be implemented by property converter classes.
  *
  * This is the base interface that needs to be implemented by property
- * conversion classes. A property conversion object can be assigned to a {@link
+ * converter classes. A property converter object can be assigned to a {@link
  * ezcPersistentObjectProperty} instance, to enable automatic manipulation of
  * database values.
  *
@@ -23,14 +23,14 @@
  * toDatabase()} method will be called, receiving the current property value,
  * and the return value of this method will be stored into the database.
  *
- * The same property conversion object might be assigend to several {@link
+ * The same property converter object might be assigend to several {@link
  * ezcPersistentObjectProperty} instances to reduce the number of needed
  * objects.
  * 
  * @package PersistentObject
  * @version //autogen//
  */
-interface ezcPersistentObjectPropertyConversion
+interface ezcPersistentPropertyConverter
 {
     /**
      * Converts the database value given to the property value.
@@ -68,10 +68,10 @@ interface ezcPersistentObjectPropertyConversion
      * Method for de-serialization after var_export().
      *
      * This methid must be implemented to allow proper de-serialization of
-     * conversion objects, when they are exported using {@link var_export()}.
+     * converter objects, when they are exported using {@link var_export()}.
      * 
      * @param array $state 
-     * @return ezcPersistentObjectPropertyConversion
+     * @return ezcPersistentPropertyConverter
      */
     public static function __set_state( array $state );
 

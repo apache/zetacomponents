@@ -1252,7 +1252,7 @@ class ezcPersistentSession
                     continue;
                 }
                 $type = $def->properties[$name]->propertyType;
-                $conv = $def->properties[$name]->conversion;
+                $conv = $def->properties[$name]->converter;
             }
 
             if ( !is_null( $value ) )

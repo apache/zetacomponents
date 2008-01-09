@@ -37,7 +37,7 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
                 'columnName'   => null,
                 'propertyName' => null,
                 'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_STRING,
-                'conversion'   => null
+                'converter'   => null
             ),
             'properties',
             $property
@@ -48,14 +48,14 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             'column',
             'property',
             ezcPersistentObjectProperty::PHP_TYPE_INT,
-            new ezcPersistentObjectPropertyDateTimeConversion()
+            new ezcPersistentPropertyDateTimeConverter()
         );
         $this->assertAttributeEquals(
             array(
                 'columnName'   => 'column',
                 'propertyName' => 'property',
                 'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_INT,
-                'conversion'   => new ezcPersistentObjectPropertyDateTimeConversion(),
+                'converter'   => new ezcPersistentPropertyDateTimeConverter(),
             ),
             'properties',
             $property
@@ -70,7 +70,7 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
                 23,
                 'foo',
                 ezcPersistentObjectProperty::PHP_TYPE_INT,
-                new ezcPersistentObjectPropertyDateTimeConversion()
+                new ezcPersistentPropertyDateTimeConverter()
             );
             $this->fail( 'ezcBaseValueException not thrown on invalid value for parameter $columnName.' );
         }
@@ -81,7 +81,7 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
                 'foo',
                 23,
                 ezcPersistentObjectProperty::PHP_TYPE_INT,
-                new ezcPersistentObjectPropertyDateTimeConversion()
+                new ezcPersistentPropertyDateTimeConverter()
             );
             $this->fail( 'ezcBaseValueException not thrown on invalid value for parameter $propertyName.' );
         }
@@ -92,7 +92,7 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
                 'foo',
                 'bar',
                 'baz',
-                new ezcPersistentObjectPropertyDateTimeConversion()
+                new ezcPersistentPropertyDateTimeConverter()
             );
             $this->fail( 'ezcBaseValueException not thrown on invalid value of type string for parameter $type.' );
         }
@@ -116,7 +116,7 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             'column',
             'property',
             ezcPersistentObjectProperty::PHP_TYPE_INT,
-            new ezcPersistentObjectPropertyDateTimeConversion()
+            new ezcPersistentPropertyDateTimeConverter()
         );
 
         $this->assertEquals(
@@ -132,8 +132,8 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             $property->propertyType
         );
         $this->assertEquals(
-            new ezcPersistentObjectPropertyDateTimeConversion(),
-            $property->conversion
+            new ezcPersistentPropertyDateTimeConverter(),
+            $property->converter
         );
     }
 
@@ -143,7 +143,7 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             'column',
             'property',
             ezcPersistentObjectProperty::PHP_TYPE_INT,
-            new ezcPersistentObjectPropertyDateTimeConversion()
+            new ezcPersistentPropertyDateTimeConverter()
         );
         try
         {
@@ -162,7 +162,7 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         $property->columnName   = 'column';
         $property->propertyName ='property';
         $property->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
-        $property->conversion   = new ezcPersistentObjectPropertyDateTimeConversion();
+        $property->converter   = new ezcPersistentPropertyDateTimeConverter();
 
         $this->assertEquals(
             'column',
@@ -177,13 +177,13 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             $property->propertyType
         );
         $this->assertEquals(
-            new ezcPersistentObjectPropertyDateTimeConversion(),
-            $property->conversion
+            new ezcPersistentPropertyDateTimeConverter(),
+            $property->converter
         );
         
-        $property->conversion   = null;
+        $property->converter   = null;
         $this->assertNull(
-            $property->conversion
+            $property->converter
         );
     }
     
@@ -207,7 +207,7 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         );
         $this->assertSetPropertyFails(
             $property,
-            'conversion',
+            'converter',
             array( true, false, 'foo', 23.42, array(), new stdClass() )
         );
     }
@@ -228,8 +228,8 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             'Property $propertyType seems not to be set.'
         );
         $this->assertTrue(
-            isset( $property->conversion ),
-            'Property $conversion seems not to be set.'
+            isset( $property->converter ),
+            'Property $converter seems not to be set.'
         );
     }
 

@@ -24,8 +24,8 @@
  *           the PHP object.
  * @property int $propertyType 
  *           The type of the PHP property. See class constants PHP_TYPE_*.
- * @property ezcPersistentObjectPropertyConversion|null $conversion
- *           A conversion object that will automatically perform conversions on
+ * @property ezcPersistentPropertyConverter|null $converter
+ *           A converter object that will automatically perform converters on
  *           load and save of a property value.
  *
  * @package PersistentObject
@@ -49,7 +49,7 @@ class ezcPersistentObjectProperty
         'columnName'   => null,
         'propertyName' => null,
         'propertyType' => self::PHP_TYPE_STRING,
-        'conversion'   => null,
+        'converter'   => null,
     );
 
     /**
@@ -68,12 +68,12 @@ class ezcPersistentObjectProperty
     public function __construct( $columnName   = null,
                                  $propertyName = null,
                                  $type         = self::PHP_TYPE_STRING,
-                                 $conversion   = null )
+                                 $converter   = null )
     {
         $this->columnName   = $columnName;
         $this->propertyName = $propertyName;
         $this->propertyType = $type;
-        $this->conversion   = $conversion;
+        $this->converter   = $converter;
     }
 
     /**
@@ -96,7 +96,7 @@ class ezcPersistentObjectProperty
             return new ezcPersistentObjectProperty( $array['properties']['columnName'],
                                                     $array['properties']['propertyName'],
                                                     $array['properties']['propertyType'],
-                                                    ( isset( $array['properties']['conversion'] ) ? $array['properties']['conversion'] : null ) );
+                                                    ( isset( $array['properties']['converter'] ) ? $array['properties']['converter'] : null ) );
         }
         else
         {
@@ -104,7 +104,7 @@ class ezcPersistentObjectProperty
             return new ezcPersistentObjectProperty( $array['columnName'],
                                                     $array['propertyName'],
                                                     $array['propertyType'],
-                                                    ( isset( $array['conversion'] ) ? $array['conversion'] : null ) );
+                                                    ( isset( $array['converter'] ) ? $array['converter'] : null ) );
         }
     }
 
@@ -164,13 +164,13 @@ class ezcPersistentObjectProperty
                     );
                 }
                 break;
-            case 'conversion':
-                if ( !( $propertyValue instanceof ezcPersistentObjectPropertyConversion ) && !is_null( $propertyValue ) )
+            case 'converter':
+                if ( !( $propertyValue instanceof ezcPersistentPropertyConverter ) && !is_null( $propertyValue ) )
                 {
                     throw new ezcBaseValueException(
                         $propertyName,
                         $propertyValue,
-                        'ezcPersistentObjectPropertyConversion or null'
+                        'ezcPersistentPropertyConverter or null'
                     );
                 }
                 break;

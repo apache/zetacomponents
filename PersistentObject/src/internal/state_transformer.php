@@ -55,8 +55,8 @@ class ezcPersistentStateTransformer
             else
             {
                 $result[$def->columns[$key]->propertyName] = ( 
-                    !is_null( $def->columns[$key]->conversion )
-                        ? $def->columns[$key]->conversion->fromDatabase( $value )
+                    !is_null( $def->columns[$key]->converter )
+                        ? $def->columns[$key]->converter->fromDatabase( $value )
                         : $value );
             }
         }

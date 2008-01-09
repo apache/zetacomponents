@@ -64,7 +64,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentObjectRelationsTest::suite() );
         $this->addTest( ezcPersistentObjectPropertiesTest::suite() );
         $this->addTest( ezcPersistentObjectColumnsTest::suite() );
-        $this->addTest( ezcPersistentObjectPropertyDateTimeConversionTest::suite() );
+        $this->addTest( ezcPersistentPropertyDateTimeConverterTest::suite() );
     }
 
     public static function suite()
