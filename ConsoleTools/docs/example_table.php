@@ -46,7 +46,7 @@ $data = array( 1, 2, 3, 4 );
 foreach ( $data as $value )
 {
      // Create a new row each time and set it's contents to the actual value
-     $table[][0]->content = $value;
+     $table[][0]->content = "$value";
 }
 
 // Set another border format for our headline row
