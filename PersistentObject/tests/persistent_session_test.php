@@ -10,7 +10,7 @@
 
 require_once "data/persistent_test_object.php";
 require_once "data/persistent_test_object_no_id.php";
-require_once "data/persistent_test_object_conversion.php";
+require_once "data/persistent_test_object_converter.php";
 
 require_once "data/relation_test_address.php";
 require_once "data/relation_test_person.php";
@@ -792,14 +792,14 @@ class ezcPersistentSessionTest extends ezcTestCase
 
     public function testConversionOnLoad()
     {
-        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
             $q->expr->eq( 
                 $this->session->database->quoteIdentifier( 'type_varchar' ),
                 $q->bindValue( 'Germany' )
             )
         );
-        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConverter' );
 
         $this->assertEquals(
             1,
@@ -819,7 +819,7 @@ class ezcPersistentSessionTest extends ezcTestCase
 
     public function testConversionOnSave()
     {
-        $obj = new PersistentTestObjectConversion();
+        $obj = new PersistentTestObjectConverter();
 
         $obj->varchar = 'Foo Bar';
         $obj->integer = new DateTime( '@327535200' );
@@ -828,14 +828,14 @@ class ezcPersistentSessionTest extends ezcTestCase
 
         $this->session->save( $obj );
 
-        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
             $q->expr->eq( 
                 $this->session->database->quoteIdentifier( 'type_varchar' ),
                 $q->bindValue( 'Foo Bar' )
             )
         );
-        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConverter' );
 
         $this->assertEquals(
             1,
@@ -855,7 +855,7 @@ class ezcPersistentSessionTest extends ezcTestCase
 
     public function testNoConversionOnSave()
     {
-        $obj = new PersistentTestObjectConversion();
+        $obj = new PersistentTestObjectConverter();
 
         $obj->varchar = 'Foo Bar';
         // Leave null
@@ -865,14 +865,14 @@ class ezcPersistentSessionTest extends ezcTestCase
 
         $this->session->save( $obj );
 
-        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
             $q->expr->eq( 
                 $this->session->database->quoteIdentifier( 'type_varchar' ),
                 $q->bindValue( 'Foo Bar' )
             )
         );
-        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConverter' );
 
         $this->assertEquals(
             1,
@@ -886,7 +886,7 @@ class ezcPersistentSessionTest extends ezcTestCase
 
     public function testConversionOnUpdate()
     {
-        $obj = new PersistentTestObjectConversion();
+        $obj = new PersistentTestObjectConverter();
 
         $obj->varchar = 'Foo Bar';
         // Leave null
@@ -896,14 +896,14 @@ class ezcPersistentSessionTest extends ezcTestCase
 
         $this->session->save( $obj );
 
-        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
             $q->expr->eq( 
                 $this->session->database->quoteIdentifier( 'type_varchar' ),
                 $q->bindValue( 'Foo Bar' )
             )
         );
-        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConverter' );
 
         $this->assertEquals(
             1,
@@ -918,14 +918,14 @@ class ezcPersistentSessionTest extends ezcTestCase
 
         $this->session->update( $arr[0] );
         
-        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
             $q->expr->eq( 
                 $this->session->database->quoteIdentifier( 'type_varchar' ),
                 $q->bindValue( 'Foo Bar' )
             )
         );
-        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConverter' );
 
         $this->assertEquals(
             1,
@@ -945,7 +945,7 @@ class ezcPersistentSessionTest extends ezcTestCase
     
     public function testNoConversionOnUpdate()
     {
-        $obj = new PersistentTestObjectConversion();
+        $obj = new PersistentTestObjectConverter();
 
         $obj->varchar = 'Foo Bar';
         $obj->integer = new DateTime( '@327535200' );
@@ -954,14 +954,14 @@ class ezcPersistentSessionTest extends ezcTestCase
 
         $this->session->save( $obj );
 
-        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
             $q->expr->eq( 
                 $this->session->database->quoteIdentifier( 'type_varchar' ),
                 $q->bindValue( 'Foo Bar' )
             )
         );
-        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConverter' );
 
         $this->assertEquals(
             1,
@@ -982,14 +982,14 @@ class ezcPersistentSessionTest extends ezcTestCase
 
         $this->session->update( $arr[0] );
         
-        $q = $this->session->createFindQuery( 'PersistentTestObjectConversion' );
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
             $q->expr->eq( 
                 $this->session->database->quoteIdentifier( 'type_varchar' ),
                 $q->bindValue( 'Foo Bar' )
             )
         );
-        $arr = $this->session->find( $q, 'PersistentTestObjectConversion' );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConverter' );
 
         $this->assertEquals(
             1,

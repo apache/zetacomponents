@@ -31,7 +31,7 @@ require_once( 'object_definition_test.php' );
 require_once( 'object_relations_test.php' );
 require_once( 'object_properties_test.php' );
 require_once( 'object_columns_test.php' );
-require_once 'date_time_conversion_test.php';
+require_once 'property_date_time_converter_test.php';
 
 /**
  * @package PersistentObject

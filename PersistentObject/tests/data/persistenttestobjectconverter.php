@@ -7,7 +7,7 @@
 // build definition
 $def = new ezcPersistentObjectDefinition();
 $def->table = "PO_test";
-$def->class = "PersistentTestObjectConversion";
+$def->class = "PersistentTestObjectConverter";
 
 $def->idProperty = new ezcPersistentObjectIdProperty;
 $def->idProperty->columnName = 'id';
