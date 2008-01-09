@@ -28,6 +28,6 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Konqueror' => 474,
 ) );
 
-$graph->render( 400, 200, 'tutorial_dirver_gd.jpg' );
+$graph->render( 400, 200, 'tutorial_driver_gd.jpg' );
 
 ?>
