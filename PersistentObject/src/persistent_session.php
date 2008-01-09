@@ -131,7 +131,7 @@ class ezcPersistentSession
     {
         $class = get_class( $pObject );
         $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
-        $state = $pObject->getState();
+        $state = $this->getObjectState( $pObject );
         $idValue = $state[$def->idProperty->propertyName];
 
         // check that the object is persistent already
@@ -167,19 +167,12 @@ class ezcPersistentSession
 
         try
         {
-            $stmt = $q->prepare();
-            $stmt->execute();
-            if ( $stmt->errorCode() != 0 )
-            {
-                throw new ezcPersistentQueryException( "The delete query failed.", $q );
-            }
+            $this->performQuery( $q, true );
         }
-        catch ( PDOException $e )
+        catch ( Exception $e )
         {
-            // Need to rollbak manually here, if we are on the first transaction
-            // level
             $this->database->rollback();
-            throw new ezcPersistentQueryException( $e->getMessage(), $q );
+            throw $e;
         }
 
         // After recursion of cascades everything should be fine here, or this
@@ -289,15 +282,7 @@ class ezcPersistentSession
      */
     public function deleteFromQuery( ezcQueryDelete $query )
     {
-        try
-        {
-            $stmt = $query->prepare();
-            $stmt->execute();
-        }
-        catch ( PDOException $e )
-        {
-            throw new ezcPersistentQueryException( $e->getMessage(), $query );
-        }
+        $this->performQuery( $query );
     }
 
     /**
@@ -344,15 +329,7 @@ class ezcPersistentSession
      */
     public function updateFromQuery( ezcQueryUpdate $query )
     {
-        try
-        {
-            $stmt = $query->prepare();
-            $stmt->execute();
-        }
-        catch ( PDOException $e )
-        {
-            throw new ezcPersistentQueryException( $e->getMessage(), $query );
-        }
+        $this->performQuery( $query );
     }
 
     /**
@@ -429,23 +406,16 @@ class ezcPersistentSession
     {
         $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
 
-        try
-        {
-            $stmt = $query->prepare();
-            $stmt->execute();
-            $rows = $stmt->fetchAll( PDO::FETCH_ASSOC );
-        }
-        catch ( PDOException $e )
-        {
-            throw new ezcPersistentQueryException( $e->getMessage(), $query );
-        }
+        $rows = $this->performQuery( $query )->fetchAll( PDO::FETCH_ASSOC );
 
         // convert all the rows states and then objects
         $result = array();
         foreach ( $rows as $row )
         {
             $object = new $def->class;
-            $object->setState( ezcPersistentStateTransformer::rowToStateArray( $row, $def ) );
+            $object->setState(
+                ezcPersistentStateTransformer::rowToStateArray( $row, $def )
+            );
             $result[] = $object;
         }
         return $result;
@@ -561,7 +531,7 @@ class ezcPersistentSession
 
         $query = $this->createFindQuery( $relatedClass );
 
-        $objectState = $object->getState();
+        $objectState = $this->getObjectState( $object );
 
         switch ( ( $relationClass = get_class( $relation ) ) )
         {
@@ -626,8 +596,8 @@ class ezcPersistentSession
 
         $relatedClass = get_class( $relatedObject );
 
-        $objectState = $object->getState();
-        $relatedObjectState = $relatedObject->getState();
+        $objectState = $this->getObjectState( $object );
+        $relatedObjectState = $this->getObjectState( $relatedObject );
 
         if ( !isset( $def->relations[$relatedClass] ) )
         {
@@ -677,15 +647,7 @@ class ezcPersistentSession
                         $insertColumns[] = $map->relationDestinationColumn;
                     }
                 }
-                try
-                {
-                    $stmt = $q->prepare();
-                    $stmt->execute();
-                }
-                catch ( PDOException $e )
-                {
-                    throw new ezcPersistentQueryException( $e->getMessage(), $q );
-                }
+                $this->performQuery( $q );
                 break;
         }
 
@@ -730,8 +692,8 @@ class ezcPersistentSession
             );
         }
 
-        $objectState = $object->getState();
-        $relatedObjectState = $relatedObject->getState();
+        $objectState = $this->getObjectState( $object );
+        $relatedObjectState = $this->getObjectState( $relatedObject );
 
         $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
         switch ( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
@@ -759,15 +721,7 @@ class ezcPersistentSession
                         )
                     );
                 }
-                try
-                {
-                    $stmt = $q->prepare();
-                    $stmt->execute();
-                }
-                catch ( PDOException $e )
-                {
-                    throw new ezcPersistentQueryException( $e->getMessage(), $q );
-                }
+                $this->performQuery( $q );
                 break;
         }
 
@@ -801,16 +755,8 @@ class ezcPersistentSession
      */
     public function findIterator( ezcQuerySelect $query, $class )
     {
-        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
-        try
-        {
-            $stmt = $query->prepare();
-            $stmt->execute();
-        }
-        catch ( PDOException $e )
-        {
-            throw new ezcPersistentQueryException( $e->getMessage(), $query );
-        }
+        $def  = $this->definitionManager->fetchDefinition( $class ); // propagate exception
+        $stmt = $this->performQuery( $query );
         return new ezcPersistentFindIterator( $stmt, $def );
     }
 
@@ -884,17 +830,9 @@ class ezcPersistentSession
             ->from( $this->database->quoteIdentifier( $def->table ) )
             ->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
                                    $q->bindValue( $id ) ) );
-        try
-        {
-            $stmt = $q->prepare();
-            $stmt->execute();
-        }
-        catch ( PDOException $e )
-        {
-            throw new ezcPersistentQueryException( $e->getMessage(), $q );
-        }
 
-        $row = $stmt->fetch( PDO::FETCH_ASSOC );
+        $stmt = $this->performQuery( $q );
+        $row  = $stmt->fetch( PDO::FETCH_ASSOC );
         $stmt->closeCursor();
         if ( $row !== false ) // we got a result
         {
@@ -904,11 +842,17 @@ class ezcPersistentSession
             // to execute custom code to get into an invalid state.
             try
             {
-                $state = ezcPersistentStateTransformer::rowToStateArray( $row, $def );
+                $state = ezcPersistentStateTransformer::rowToStateArray(
+                    $row,
+                    $def
+                );
             }
             catch ( Exception $e )
             {
-                throw new ezcPersistentObjectException( "The row data could not be correctly converted to set data.", "Most probably there is something wrong with a custom rowToStateArray implementation" );
+                throw new ezcPersistentObjectException(
+                    "The row data could not be correctly converted to set data.",
+                    "Most probably there is something wrong with a custom rowToStateArray implementation"
+                );
             }
             $pObject->setState( $state );
         }
@@ -938,7 +882,7 @@ class ezcPersistentSession
     public function refresh( $pObject )
     {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
-        $state = $pObject->getState();
+        $state = $this->getObjectState( $pObject );
         $idValue = $state[$def->idProperty->propertyName];
         if ( $idValue !== null )
         {
@@ -997,7 +941,7 @@ class ezcPersistentSession
                                    ezcPersistentIdentifierGenerator $idGenerator = null )
     {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) );// propagate exception
-        $state = $this->filterAndCastState( $pObject->getState(), $def );
+        $state = $this->filterAndCastState( $this->getObjectState( $pObject ), $def );
         $idValue = $state[$def->idProperty->propertyName];
 
         // fetch the id generator
@@ -1037,13 +981,12 @@ class ezcPersistentSession
         // execute the insert query
         try
         {
-            $stmt = $q->prepare();
-            $stmt->execute();
+            $this->performQuery( $q );
         }
-        catch ( PDOException $e )
+        catch ( Exception $e )
         {
             $this->database->rollback();
-            throw new ezcPersistentObjectException( "The insert query failed.", $e->getMessage() );
+            throw $e;
         }
 
         // fetch the newly created id, and set it to the object
@@ -1083,7 +1026,7 @@ class ezcPersistentSession
     public function saveOrUpdate( $pObject )
     {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) );// propagate exception
-        $state = $pObject->getState();
+        $state = $this->getObjectState( $pObject );
 
         // fetch the id generator
         $idGenerator = null;
@@ -1137,7 +1080,7 @@ class ezcPersistentSession
     private function updateInternal( $pObject, $doPersistenceCheck = true )
     {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
-        $state = $this->filterAndCastState( $pObject->getState(), $def );
+        $state = $this->filterAndCastState( $this->getObjectState( $pObject ), $def );
         $idValue = $state[$def->idProperty->propertyName];
 
         // fetch the id generator
@@ -1171,15 +1114,8 @@ class ezcPersistentSession
         }
         $q->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
                                  $q->bindValue( $idValue ) ) );
-        try
-        {
-            $stmt = $q->prepare();
-            $stmt->execute();
-        }
-        catch ( PDOException $e )
-        {
-            throw new ezcPersistentQueryException( $e->getMessage(), $q );
-        }
+
+        $this->performQuery( $q );
     }
 
     /**
@@ -1278,6 +1214,53 @@ class ezcPersistentSession
             $typedState[$name] = $value;
         }
         return $typedState;
+    }
+
+    /**
+     * Returns the object state.
+     *
+     * This method wraps around $object->getState() to add optional sanity
+     * checks to this call, like a correct return type of getState() and
+     * correct keys and values in the returned array.
+     * 
+     * @param object $object 
+     * @return array
+     */
+    private function getObjectState( $object )
+    {
+        // @todo Chekcs about object state should be added here, configurable.
+        return $object->getState();
+    }
+
+    /**
+     * Performs the given query.
+     *
+     * Performs the $query, checks for errors and throws an exception in case.
+     * Returns the generated statement object on success.
+     * 
+     * @param ezcQuery $q 
+     * @return PDOStatement
+     */
+    private function performQuery( ezcQuery $q )
+    {
+        $this->database->beginTransaction();
+        try
+        {
+            $stmt = $q->prepare();
+            $stmt->execute();
+            if ( ( $errCode = $stmt->errorCode() ) != 0 )
+            {
+                $this->database->rollback();
+                throw new ezcPersistentQueryException( "The query returned error code $errCode.", $q );
+            }
+            $this->database->commit();
+            return $stmt;
+        }
+        catch ( PDOException $e )
+        {
+            $this->database->rollback();
+            throw new ezcPersistentQueryException( $e->getMessage(), $q );
+        }
     }
 }
 ?>
