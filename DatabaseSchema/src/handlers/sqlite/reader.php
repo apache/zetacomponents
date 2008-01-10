@@ -121,6 +121,14 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
             if ( $row[4] != '' )
             {
                 $fieldDefault = $row[4];
+                if ( $fieldType == 'text' )
+                {
+                    // strip enclosing single quotes if needed
+                    if ( $fieldDefault[0] == "'" && substr( $fieldDefault, -1 ) == "'" )
+                    {
+                        $fieldDefault = substr( $fieldDefault, 1, -1 );
+                    }
+                }
             }
 
             $fieldAutoIncrement = false;
