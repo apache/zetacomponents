@@ -49,24 +49,24 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
      */
     public function delete( $object )
     {
-        $class = get_class( $object );
-        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
-        $state = $this->session->getObjectState( $object );
+        $class   = get_class( $object );
+        $def     = $this->definitionManager->fetchDefinition( $class );
+        $state   = $this->session->getObjectState( $object );
         $idValue = $state[$def->idProperty->propertyName];
 
-        // check that the object is persistent already
+        // Check that the object is persistent already.
+        // The < 0 check results from the times where only numeric IDs were allowed.
         if ( $idValue == null || $idValue < 0 )
         {
-            $class = get_class( $object );
             throw new ezcPersistentObjectNotPersistentException( $class );
         }
 
-        // Transaction savety for exceptions thrown while cascading
+        // Transaction safety for exceptions thrown while cascading.
         $this->database->beginTransaction();
 
         try
         {
-            // check for cascading relations to follow
+            // Check for cascading relations to follow.
             foreach ( $def->relations as $relatedClass => $relation )
             {
                 $this->cascadeDelete( $object, $relatedClass, $relation );
@@ -74,20 +74,26 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
         }
         catch ( Exception $e )
         {
-            // Roll back the current transaction on any exception
+            // Roll back the current transaction on any exception.
             $this->database->rollback();
             throw $e;
         }
 
-        // create and execute query
+        // Create and execute query.
         $q = $this->database->createDeleteQuery();
-        $q->deleteFrom( $this->database->quoteIdentifier( $def->table ) )
-            ->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
-                                   $q->bindValue( $idValue ) ) );
+        $q->deleteFrom( 
+            $this->database->quoteIdentifier( $def->table )
+          )
+          ->where(
+            $q->expr->eq(
+                $this->database->quoteIdentifier( $def->idProperty->columnName ),
+                $q->bindValue( $idValue )
+            ) 
+        );
 
         try
         {
-            $this->session->performQuery( $q, true );
+            $this->session->performQuery( $q );
         }
         catch ( Exception $e )
         {
@@ -119,11 +125,12 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
      */
     public function removeRelatedObject( $object, $relatedObject )
     {
-        $class = get_class( $object );
-        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
-
+        $class        = get_class( $object );
         $relatedClass = get_class( $relatedObject );
+        $def          = $this->definitionManager->fetchDefinition( $class );
+        $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
 
+        // Sanity checks.
         if ( !isset( $def->relations[$relatedClass] ) )
         {
             throw new ezcPersistentRelationNotFoundException( $class, $relatedClass );
@@ -138,32 +145,47 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
             );
         }
 
-        $objectState = $this->session->getObjectState( $object );
+        $objectState        = $this->session->getObjectState( $object );
         $relatedObjectState = $this->session->getObjectState( $relatedObject );
 
-        $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
         switch ( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
         {
             case "ezcPersistentOneToManyRelation":
             case "ezcPersistentOneToOneRelation":
                 foreach ( $relation->columnMap as $map )
                 {
-                    $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] = null;
+                    $relatedObjectState[
+                        $relatedDef->columns[$map->destinationColumn]->propertyName
+                    ] = null;
                 }
                 break;
             case "ezcPersistentManyToManyRelation":
                 $q = $this->database->createDeleteQuery();
-                $q->deleteFrom( $this->database->quoteIdentifier( $relation->relationTable ) );
+                $q->deleteFrom(
+                    $this->database->quoteIdentifier( $relation->relationTable )
+                );
                 foreach ( $relation->columnMap as $map )
                 {
                     $q->where(
                         $q->expr->eq(
-                            $this->database->quoteIdentifier( $map->relationSourceColumn ),
-                            $q->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
+                            $this->database->quoteIdentifier(
+                                $map->relationSourceColumn
+                            ),
+                            $q->bindValue(
+                                $objectState[
+                                    $def->columns[$map->sourceColumn]->propertyName
+                                ]
+                            )
                         ),
                         $q->expr->eq(
-                            $this->database->quoteIdentifier( $map->relationDestinationColumn ),
-                            $q->bindValue( $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] )
+                            $this->database->quoteIdentifier(
+                                $map->relationDestinationColumn
+                            ),
+                            $q->bindValue(
+                                $relatedObjectState[
+                                    $relatedDef->columns[$map->destinationColumn]->propertyName
+                                ] 
+                            )
                         )
                     );
                 }
@@ -218,9 +240,8 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
      */
     public function createDeleteQuery( $class )
     {
-        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class );
 
-        // init query
         $q = $this->database->createDeleteQuery();
         $q->setAliases( $this->session->generateAliasMap( $def, false ) );
         $q->deleteFrom( $this->database->quoteIdentifier( $def->table ) );
@@ -248,9 +269,13 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
         // Remove relation records for ManyToMany relations
         if ( $relation instanceof ezcPersistentManyToManyRelation )
         {
-            foreach ( $this->session->loadHandler->getRelatedObjects( $object, $relatedClass ) as $relatedObject )
+            $relatedObjects = $this->session->loadHandler->getRelatedObjects(
+                $object,
+                $relatedClass
+            );
+            foreach ( $relatedObjects as $relatedObject )
             {
-                // Need to determine the correct direction for removal
+                // Determine the correct direction for removal.
                 if ( $relation->reverse === true  )
                 {
                     $this->removeRelatedObject( $relatedObject, $object );
@@ -261,8 +286,12 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
                 }
             }
         }
+
+        // Actually remove related objects
         if ( isset( $relation->cascade ) && $relation->cascade === true )
         {
+            // Reverse relations never cascade
+            // @todo: Is this correct? Or do we need to cascade reverse here?
             if ( isset( $relation->reverse ) && $relation->reverse === true )
             {
                 throw new ezcPersistentRelationOperationNotSupported(
@@ -272,7 +301,11 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
                     "Reverse relations do not support cascading."
                 );
             }
-            foreach ( $this->session->loadHandler->getRelatedObjects( $object, $relatedClass ) as $relatedObject )
+            $relatedObjects = $this->session->loadHandler->getRelatedObjects(
+                $object,
+                $relatedClass
+            );
+            foreach ( $relatedObjects as $relatedObject )
             {
                 $this->delete( $relatedObject );
             }
