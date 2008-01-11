@@ -383,7 +383,7 @@ class ezcTemplate
     {
         if ( !is_dir( $path ) )
         {
-            $created = @mkdir( $path, 0700, true );
+            $created = @mkdir( $path, 0777, true );
             if ( !$created )
             {
                 throw new ezcTemplateFileNotWriteableException( $path );

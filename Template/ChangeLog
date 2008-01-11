@@ -18,6 +18,10 @@
 
 - Fixed issue #12368: ezcTemplateConfiguration::addExtension() did not
   check for invalid arguments correctly.
+- Implemented issue #10940: Possibility to set default permissions to
+  the compiled templates and generated cache files, by using the 0777 mode for
+  creating the directories in which the compiled templates are stored. This
+  mode is still modified by the umask.
 
 
 1.2 - Monday 02 July 2007
