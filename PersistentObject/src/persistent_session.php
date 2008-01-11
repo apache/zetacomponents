@@ -44,325 +44,87 @@ class ezcPersistentSession
      */
     public function __construct( ezcDbHandler $db, ezcPersistentDefinitionManager $manager )
     {
-        $this->properties['database'] = $db;
+        $this->properties['database']          = $db;
         $this->properties['definitionManager'] = $manager;
+        $this->properties['loadHandler']       = new ezcPersistentLoadHandler( $this );
+        $this->properties['saveHandler']       = new ezcPersistentSaveHandler( $this );
+        $this->properties['deleteHandler']     = new ezcPersistentDeleteHandler( $this );
     }
 
     /**
-     * Sets the property $name to $value.
+     * Returns the persistent object of class $class with id $id.
      *
-     * @throws ezcBasePropertyNotFoundException
-     *         if the property does not exist.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @ignore
-     */
-    public function __set( $name, $value )
-    {
-        switch ( $name )
-        {
-            case 'database':
-            case 'definitionManager':
-                throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
-                break;
-            default:
-                throw new ezcBasePropertyNotFoundException( $name );
-                break;
-        }
-
-    }
-
-    /**
-     * Returns the property $name.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         if the property does not exist.
-     *
-     * @param string $name
-     * @return mixed
-     *
-     * @ignore
-     */
-    public function __get( $name )
-    {
-        switch ( $name )
-        {
-            case 'database':
-            case 'definitionManager':
-                return isset( $this->properties[$name] ) ? $this->properties[$name] : null;
-                break;
-
-            default:
-                throw new ezcBasePropertyNotFoundException( $name );
-                break;
-        }
-    }
-
-    /**
-     * Deletes the persistent object $object.
-     *
-     * This method will perform a DELETE query based on the identifier of the
-     * persistent object $object. After delete() the ID property of $object
-     * will be reset to null. It is possible to {@link save()} $object
-     * afterwards.  $object will then be stored with a new ID.
-     *
-     * If you defined relations for the given object, these will be checked to
-     * be defined as cascading. If cascading is configured, the related objects
-     * with this relation will be deleted, too.
-     *
-     * Relations that support cascading are:
-     * <ul>
-     * <li>{@link ezcPersistenOneToManyRelation}</li>
-     * <li>{@link ezcPersistenOneToOne}</li>
-     * </ul>
-     *
-     * @throws ezcPersistentDefinitionNotFoundxception
-     *         if $the object is not recognized as a persistent object.
-     * @throws ezcPersistentObjectNotPersistentException
-     *         if the object is not persistent already.
-     * @throws ezcPersistentQueryException
-     *         if the object could not be deleted.
-     *
-     * @param object $object The persistent object to delete.
-     */
-    public function delete( $object )
-    {
-        $class = get_class( $object );
-        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
-        $state = $this->getObjectState( $object );
-        $idValue = $state[$def->idProperty->propertyName];
-
-        // check that the object is persistent already
-        if ( $idValue == null || $idValue < 0 )
-        {
-            $class = get_class( $object );
-            throw new ezcPersistentObjectNotPersistentException( $class );
-        }
-
-        // Transaction savety for exceptions thrown while cascading
-        $this->database->beginTransaction();
-
-        try
-        {
-            // check for cascading relations to follow
-            foreach ( $def->relations as $relatedClass => $relation )
-            {
-                $this->cascadeDelete( $object, $relatedClass, $relation );
-            }
-        }
-        catch ( Exception $e )
-        {
-            // Roll back the current transaction on any exception
-            $this->database->rollback();
-            throw $e;
-        }
-
-        // create and execute query
-        $q = $this->database->createDeleteQuery();
-        $q->deleteFrom( $this->database->quoteIdentifier( $def->table ) )
-            ->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
-                                   $q->bindValue( $idValue ) ) );
-
-        try
-        {
-            $this->performQuery( $q, true );
-        }
-        catch ( Exception $e )
-        {
-            $this->database->rollback();
-            throw $e;
-        }
-
-        // After recursion of cascades everything should be fine here, or this
-        // final commit call should perform the rollback ordered by a deeper level
-        $this->database->commit();
-    }
-
-    /**
-     * Perform the cascading of deletes on a specific relation.
-     *
-     * This method checks a given $relation of a given $object for necessary
-     * actions on a cascaded delete and performs them.
-     *
-     * @param object $object                  The persistent object.
-     * @param string $relatedClass            The class of the related persistent
-     *                                        object.
-     * @param ezcPersistentRelation $relation The relation to check.
-     *
-     * @todo Revise cascading code. So far it sends 1 delete statement per
-     *       object but we can also collect them table wise and send just 1
-     *       for each table.
-     */
-    private function cascadeDelete( $object, $relatedClass, ezcPersistentRelation $relation )
-    {
-        // Remove relation records for ManyToMany relations
-        if ( $relation instanceof ezcPersistentManyToManyRelation )
-        {
-            foreach ( $this->getRelatedObjects( $object, $relatedClass ) as $relatedObject )
-            {
-                // Need to determine the correct direction for removal
-                if ( $relation->reverse === true  )
-                {
-                    $this->removeRelatedObject( $relatedObject, $object );
-                }
-                else
-                {
-                    $this->removeRelatedObject( $object, $relatedObject );
-                }
-            }
-        }
-        if ( isset( $relation->cascade ) && $relation->cascade === true )
-        {
-            if ( isset( $relation->reverse ) && $relation->reverse === true )
-            {
-                throw new ezcPersistentRelationOperationNotSupported(
-                    $class,
-                    $relatedClass,
-                    "cascade on delete",
-                    "Reverse relations do not support cascading."
-                );
-            }
-            foreach ( $this->getRelatedObjects( $object, $relatedClass ) as $relatedObject )
-            {
-                $this->delete( $relatedObject );
-            }
-        }
-    }
-
-    /**
-     * Returns a delete query for the given persistent object $class.
-     *
-     * The query is initialized to delete from the correct table and
-     * it is only neccessary to set the where clause.
-     *
-     * Example:
-     * <code>
-     * $q = $session->createDeleteQuery( 'Person' );
-     * $q->where( $q->expr->gt( 'age', $q->bindValue( 15 ) ) );
-     * $session->deleteFromQuery( $q );
-     * </code>
-     *
+     * @throws ezcPersistentObjectException
+     *         if the object is not available.
      * @throws ezcPersistentObjectException
      *         if there is no such persistent class.
      *
      * @param string $class
+     * @param int $id
      *
-     * @return ezcQueryDelete
+     * @return object
      */
-    public function createDeleteQuery( $class )
+    public function load( $class, $id )
     {
-        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
-
-        // init query
-        $q = $this->database->createDeleteQuery();
-        $q->setAliases( $this->generateAliasMap( $def, false ) );
-        $q->deleteFrom( $this->database->quoteIdentifier( $def->table ) );
-
-        return $q;
+        return $this->loadHandler->load( $class, $id );
     }
 
     /**
-     * Deletes persistent objects using the query $query.
+     * Returns the persistent object of class $class with id $id.
      *
-     * The $query should be created using {@link createDeleteQuery()}.
+     * This method is equivalent to {@link load()} except that it returns null
+     * instead of throwing an exception if the object does not exist.
      *
-     * Currently this method only executes the provided query. Future
-     * releases PersistentSession may introduce caching of persistent objects.
-     * When caching is introduced it will be required to use this method to run
-     * cusom delete queries. To avoid being incompatible with future releases it is
-     * advisable to always use this method when running custom delete queries on
-     * persistent objects.
+     * @param string $class
+     * @param int $id
      *
-     * @throws ezcPersistentQueryException
-     *         if the delete query failed.
-     *
-     * @param ezcQueryDelete $query
+     * @return object|null
      */
-    public function deleteFromQuery( ezcQueryDelete $query )
+    public function loadIfExists( $class, $id )
     {
-        $this->performQuery( $query );
+        return $this->loadHandler->loadIfExists( $class, $id );
     }
 
     /**
-     * Returns an update query for the given persistent object $class.
+     * Loads the persistent object with the id $id into the object $object.
      *
-     * The query is initialized to update the correct table and
-     * it is only neccessary to set the correct values.
+     * The class of the persistent object to load is determined by the class
+     * of $object.
      *
+     * @throws ezcPersistentObjectException
+     *         if the object is not available.
      * @throws ezcPersistentDefinitionNotFoundException
-     *         if there is no such persistent class.
-     *
-     * @param string $class
-     *
-     * @return ezcQueryUpdate
-     */
-    public function createUpdateQuery( $class )
-    {
-        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
-
-        // init query
-        $q = $this->database->createUpdateQuery();
-        $q->setAliases( $this->generateAliasMap( $def, false ) );
-        $q->update( $this->database->quoteIdentifier( $def->table ) );
-
-        return $q;
-    }
-
-    /**
-     * Updates persistent objects using the query $query.
-     *
-     * The $query should be created using createUpdateQuery().
-     *
-     * Currently this method only executes the provided query. Future
-     * releases PersistentSession may introduce caching of persistent objects.
-     * When caching is introduced it will be required to use this method to run
-     * cusom delete queries. To avoid being incompatible with future releases it is
-     * advisable to always use this method when running custom delete queries on
-     * persistent objects.
-     *
+     *         if $object is not of a valid persistent object type.
      * @throws ezcPersistentQueryException
-     *         if the update query failed.
+     *         if the find query failed.
      *
-     * @param ezcQueryUpdate $query
+     * @param object $object
+     * @param int $id
      */
-    public function updateFromQuery( ezcQueryUpdate $query )
+    public function loadIntoObject( $object, $id )
     {
-        $this->performQuery( $query );
+        return $this->loadHandler->loadIntoObject( $object, $id );
     }
 
     /**
-     * Returns a select query for the given persistent object $class.
+     * Syncronizes the contents of $object with those in the database.
      *
-     * The query is initialized to fetch all columns from the correct table and
-     * has correct alias mappings between columns and property names of the
-     * persistent $class.
-     *
-     * Example:
-     * <code>
-     * $q = $session->createFindQuery( 'Person' );
-     * $allPersons = $session->find( $q, 'Person' );
-     * </code>
+     * Note that calling this method is equavalent with calling {@link
+     * loadIntoObject()} on $object with the id of $object. Any changes made
+     * to $object prior to calling refresh() will be discarded.
      *
      * @throws ezcPersistentObjectException
-     *         if there is no such persistent class.
+     *         if $object is not of a valid persistent object type.
+     * @throws ezcPersistentObjectException
+     *         if $object is not persistent already.
+     * @throws ezcPersistentObjectException
+     *         if the select query failed.
      *
-     * @param string $class
-     *
-     * @return ezcQuerySelect
+     * @param object $object
      */
-    public function createFindQuery( $class )
+    public function refresh( $object )
     {
-        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
-
-        // init query
-        $q = $this->database->createSelectQuery();
-        $q->setAliases( $this->generateAliasMap( $def ) );
-        $q->select( $this->getColumnsFromDefinition( $def ) )
-            ->from( $this->database->quoteIdentifier( $def->table ) );
-
-        return $q;
+        return $this->loadHandler->refresh( $object );
     }
 
     /**
@@ -404,21 +166,37 @@ class ezcPersistentSession
      */
     public function find( ezcQuerySelect $query, $class )
     {
-        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
+        return $this->loadHandler->find( $query, $class );
+    }
 
-        $rows = $this->performQuery( $query )->fetchAll( PDO::FETCH_ASSOC );
-
-        // convert all the rows states and then objects
-        $result = array();
-        foreach ( $rows as $row )
-        {
-            $object = new $def->class;
-            $object->setState(
-                ezcPersistentStateTransformer::rowToStateArray( $row, $def )
-            );
-            $result[] = $object;
-        }
-        return $result;
+    /**
+     * Returns the result of $query for the $class as an iterator.
+     *
+     * This method is similar to {@link find()} but returns an {@link
+     * ezcPersistentFindIterator} instead of an array of objects. This is
+     * useful if you are going to loop over the objects and just need them one
+     * at the time.  Because you only instantiate one object it is faster than
+     * {@link find()}. In addition, only 1 record is retrieved from the
+     * database in each iteration, which may reduce the data transfered between
+     * the database and PHP, if you iterate only through a small subset of the
+     * affected records.
+     *
+     * Note that if you do not loop over the complete result set you must call
+     * {@link ezcPersistentFindIterator::flush()} before issuing another query.
+     *
+     * @throws ezcPersistentDefinitionNotFoundException
+     *         if there is no such persistent class.
+     * @throws ezcPersistentQueryException
+     *         if the find query failed.
+     *
+     * @param ezcQuerySelect $query
+     * @param string $class
+     *
+     * @return ezcPersistentFindIterator
+     */
+    public function findIterator( ezcQuerySelect $query, $class )
+    {
+        return $this->loadHandler->findIterator( $query, $class );
     }
 
     /**
@@ -454,8 +232,7 @@ class ezcPersistentSession
      */
     public function getRelatedObjects( $object, $relatedClass )
     {
-        $query = $this->createRelationFindQuery( $object, $relatedClass );
-        return $this->find( $query, $relatedClass );
+        return $this->loadHandler->getRelatedObjects( $object, $relatedClass );
     }
 
     /**
@@ -492,16 +269,32 @@ class ezcPersistentSession
      */
     public function getRelatedObject( $object, $relatedClass )
     {
-        $query = $this->createRelationFindQuery( $object, $relatedClass );
-        // This method only needs to return 1 object
-        $query->limit( 1 );
+        return $this->loadHandler->getRelatedObject( $object, $relatedClass );
+    }
 
-        $resArr = $this->find( $query, $relatedClass );
-        if ( sizeof( $resArr ) < 1 )
-        {
-            throw new ezcPersistentRelatedObjectNotFoundException( $object, $relatedClass );
-        }
-        return $resArr[0];
+    /**
+     * Returns a select query for the given persistent object $class.
+     *
+     * The query is initialized to fetch all columns from the correct table and
+     * has correct alias mappings between columns and property names of the
+     * persistent $class.
+     *
+     * Example:
+     * <code>
+     * $q = $session->createFindQuery( 'Person' );
+     * $allPersons = $session->find( $q, 'Person' );
+     * </code>
+     *
+     * @throws ezcPersistentObjectException
+     *         if there is no such persistent class.
+     *
+     * @param string $class
+     *
+     * @return ezcQuerySelect
+     */
+    public function createFindQuery( $class )
+    {
+        return $this->loadHandler->createFindQuery( $class );
     }
 
     /**
@@ -522,52 +315,66 @@ class ezcPersistentSession
      */
     public function createRelationFindQuery( $object, $relatedClass )
     {
-        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
-        if ( !isset( $def->relations[$relatedClass] ) )
-        {
-            throw new ezcPersistentRelationNotFoundException( $class, $relatedClass );
-        }
-        $relation = $def->relations[$relatedClass];
+        return $this->loadHandler->createRelationFindQuery( $object, $relatedClass );
+    }
 
-        $query = $this->createFindQuery( $relatedClass );
+    /**
+     * Saves the new persistent object $object to the database using an INSERT INTO query.
+     *
+     * The correct ID is set to $object.
+     *
+     * @throws ezcPersistentObjectException if $object
+     *         is not of a valid persistent object type.
+     * @throws ezcPersistentObjectException if $object
+     *         is already stored to the database.
+     * @throws ezcPersistentObjectException
+     *         if it was not possible to generate a unique identifier for the
+     *         new object.
+     * @throws ezcPersistentObjectException
+     *         if the insert query failed.
+     *
+     * @param object $object
+     */
+    public function save( $object )
+    {
+        return $this->saveHandler->save( $object );
+    }
 
-        $objectState = $this->getObjectState( $object );
+    /**
+     * Saves the new persistent object $object to the database using an UPDATE query.
+     *
+     * @throws ezcPersistentDefinitionNotFoundException if $object is not of a valid persistent object type.
+     * @throws ezcPersistentObjectNotPersistentException if $object is not stored in the database already.
+     * @throws ezcPersistentQueryException
+     * @param object $object
+     * @return void
+     */
+    public function update( $object )
+    {
+        return $this->saveHandler->update( $object );
+    }
 
-        switch ( ( $relationClass = get_class( $relation ) ) )
-        {
-            case "ezcPersistentOneToManyRelation":
-            case "ezcPersistentManyToOneRelation":
-            case "ezcPersistentOneToOneRelation":
-                foreach ( $relation->columnMap as $map )
-                {
-                    $query->where(
-                        $query->expr->eq(
-                            $this->database->quoteIdentifier( "{$map->destinationColumn}" ),
-                            $query->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
-                        )
-                    );
-                }
-                break;
-            case "ezcPersistentManyToManyRelation":
-                $query->from( $this->database->quoteIdentifier( $relation->relationTable ) );
-                foreach ( $relation->columnMap as $map )
-                {
-                    $query->where(
-                        $query->expr->eq(
-                            $this->database->quoteIdentifier( $relation->relationTable ) . "." . $this->database->quoteIdentifier( $map->relationSourceColumn ),
-                            $query->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
-                        ),
-                        $query->expr->eq(
-                            $this->database->quoteIdentifier( $relation->relationTable ) . "." . $this->database->quoteIdentifier( $map->relationDestinationColumn ),
-                            $this->database->quoteIdentifier( $relation->destinationTable ) . "." . $this->database->quoteIdentifier( $map->destinationColumn )
-                        )
-                    );
-                }
-                break;
-            default:
-                throw new ezcPersistentRelationInvalidException( $relationClass );
-        }
-        return $query;
+    /**
+     * Saves or updates the persistent object $object to the database.
+     *
+     * If the object is a new object an INSERT INTO query will be executed. If
+     * the object is persistent already it will be updated with an UPDATE
+     * query.
+     *
+     * @throws ezcPersistentDefinitionNotFoundException
+     *         if the definition of the persistent object could not be loaded.
+     * @throws ezcPersistentObjectException
+     *         if $object is not of a valid persistent object type.
+     * @throws ezcPersistentObjectException
+     *         if any of the definition requirements are not met.
+     * @throws ezcPersistentObjectException
+     *         if the insert or update query failed.
+     * @param object $object
+     * @return void
+     */
+    public function saveOrUpdate( $object )
+    {
+        return $this->saveHandler->saveOrUpdate( $object );
     }
 
     /**
@@ -591,67 +398,79 @@ class ezcPersistentSession
      */
     public function addRelatedObject( $object, $relatedObject )
     {
-        $class = get_class( $object );
-        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
+        return $this->saveHandler->addRelatedObject( $object, $relatedObject );
+    }
 
-        $relatedClass = get_class( $relatedObject );
+    /**
+     * Returns an update query for the given persistent object $class.
+     *
+     * The query is initialized to update the correct table and
+     * it is only neccessary to set the correct values.
+     *
+     * @throws ezcPersistentDefinitionNotFoundException
+     *         if there is no such persistent class.
+     *
+     * @param string $class
+     *
+     * @return ezcQueryUpdate
+     */
+    public function createUpdateQuery( $class )
+    {
+        return $this->saveHandler->createUpdateQuery( $class );
+    }
 
-        $objectState = $this->getObjectState( $object );
-        $relatedObjectState = $this->getObjectState( $relatedObject );
+    /**
+     * Updates persistent objects using the query $query.
+     *
+     * The $query should be created using createUpdateQuery().
+     *
+     * Currently this method only executes the provided query. Future
+     * releases PersistentSession may introduce caching of persistent objects.
+     * When caching is introduced it will be required to use this method to run
+     * cusom delete queries. To avoid being incompatible with future releases it is
+     * advisable to always use this method when running custom delete queries on
+     * persistent objects.
+     *
+     * @throws ezcPersistentQueryException
+     *         if the update query failed.
+     *
+     * @param ezcQueryUpdate $query
+     */
+    public function updateFromQuery( ezcQueryUpdate $query )
+    {
+        return $this->saveHandler->updateFromQuery( $query );
+    }
 
-        if ( !isset( $def->relations[$relatedClass] ) )
-        {
-            throw new ezcPersistentRelationNotFoundException( $class, $relatedClass );
-        }
-        if ( isset( $def->relations[$relatedClass]->reverse ) && $def->relations[$relatedClass]->reverse === true )
-        {
-            throw new ezcPersistentRelationOperationNotSupportedException(
-                $class,
-                $relatedClass,
-                "addRelatedObject",
-                "Relation is a reverse relation."
-            );
-        }
-
-        $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
-        switch ( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
-        {
-            case "ezcPersistentOneToManyRelation":
-            case "ezcPersistentOneToOneRelation":
-                foreach ( $relation->columnMap as $map )
-                {
-                    $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] =
-                        $objectState[$def->columns[$map->sourceColumn]->propertyName];
-                }
-                break;
-            case "ezcPersistentManyToManyRelation":
-                $q = $this->database->createInsertQuery();
-                $q->insertInto( $this->database->quoteIdentifier( $relation->relationTable ) );
-                $insertColumns = array();
-                foreach ( $relation->columnMap as $map )
-                {
-                    if ( in_array( $map->relationSourceColumn, $insertColumns ) === false )
-                    {
-                        $q->set(
-                            $this->database->quoteIdentifier( $map->relationSourceColumn ),
-                            $q->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
-                        );
-                        $insertColumns[] = $map->relationSourceColumn;
-                    }
-                    if ( in_array( $map->relationDestinationColumn, $insertColumns ) === false )
-                    {
-                        $q->set(
-                            $this->database->quoteIdentifier( $map->relationDestinationColumn ),
-                            $q->bindValue( $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] )
-                        );
-                        $insertColumns[] = $map->relationDestinationColumn;
-                    }
-                }
-                $this->performQuery( $q );
-                break;
-        }
-
-        $relatedObject->setState( $relatedObjectState );
+    /**
+     * Deletes the persistent object $object.
+     *
+     * This method will perform a DELETE query based on the identifier of the
+     * persistent object $object. After delete() the ID property of $object
+     * will be reset to null. It is possible to {@link save()} $object
+     * afterwards.  $object will then be stored with a new ID.
+     *
+     * If you defined relations for the given object, these will be checked to
+     * be defined as cascading. If cascading is configured, the related objects
+     * with this relation will be deleted, too.
+     *
+     * Relations that support cascading are:
+     * <ul>
+     * <li>{@link ezcPersistenOneToManyRelation}</li>
+     * <li>{@link ezcPersistenOneToOne}</li>
+     * </ul>
+     *
+     * @throws ezcPersistentDefinitionNotFoundxception
+     *         if $the object is not recognized as a persistent object.
+     * @throws ezcPersistentObjectNotPersistentException
+     *         if the object is not persistent already.
+     * @throws ezcPersistentQueryException
+     *         if the object could not be deleted.
+     *
+     * @param object $object The persistent object to delete.
+     */
+    public function delete( $object )
+    {
+        return $this->deleteHandler->delete( $object );
     }
 
     /**
@@ -673,450 +492,56 @@ class ezcPersistentSession
      */
     public function removeRelatedObject( $object, $relatedObject )
     {
-        $class = get_class( $object );
-        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
-
-        $relatedClass = get_class( $relatedObject );
-
-        if ( !isset( $def->relations[$relatedClass] ) )
-        {
-            throw new ezcPersistentRelationNotFoundException( $class, $relatedClass );
-        }
-        if ( isset( $def->relations[$relatedClass]->reverse ) && $def->relations[$relatedClass]->reverse === true )
-        {
-            throw new ezcPersistentRelationOperationNotSupportedException(
-                $class,
-                $relatedClass,
-                "deleteRelation",
-                "Relation is a reverse relation."
-            );
-        }
-
-        $objectState = $this->getObjectState( $object );
-        $relatedObjectState = $this->getObjectState( $relatedObject );
-
-        $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
-        switch ( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
-        {
-            case "ezcPersistentOneToManyRelation":
-            case "ezcPersistentOneToOneRelation":
-                foreach ( $relation->columnMap as $map )
-                {
-                    $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] = null;
-                }
-                break;
-            case "ezcPersistentManyToManyRelation":
-                $q = $this->database->createDeleteQuery();
-                $q->deleteFrom( $this->database->quoteIdentifier( $relation->relationTable ) );
-                foreach ( $relation->columnMap as $map )
-                {
-                    $q->where(
-                        $q->expr->eq(
-                            $this->database->quoteIdentifier( $map->relationSourceColumn ),
-                            $q->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
-                        ),
-                        $q->expr->eq(
-                            $this->database->quoteIdentifier( $map->relationDestinationColumn ),
-                            $q->bindValue( $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] )
-                        )
-                    );
-                }
-                $this->performQuery( $q );
-                break;
-        }
-
-        $relatedObject->setState( $relatedObjectState );
+        return $this->deleteHandler->removeRelatedObject( $object, $relatedObject );
     }
 
     /**
-     * Returns the result of $query for the $class as an iterator.
+     * Deletes persistent objects using the query $query.
      *
-     * This method is similar to {@link find()} but returns an {@link
-     * ezcPersistentFindIterator} instead of an array of objects. This is
-     * useful if you are going to loop over the objects and just need them one
-     * at the time.  Because you only instantiate one object it is faster than
-     * {@link find()}. In addition, only 1 record is retrieved from the
-     * database in each iteration, which may reduce the data transfered between
-     * the database and PHP, if you iterate only through a small subset of the
-     * affected records.
+     * The $query should be created using {@link createDeleteQuery()}.
      *
-     * Note that if you do not loop over the complete result set you must call
-     * {@link ezcPersistentFindIterator::flush()} before issuing another query.
+     * Currently this method only executes the provided query. Future
+     * releases PersistentSession may introduce caching of persistent objects.
+     * When caching is introduced it will be required to use this method to run
+     * cusom delete queries. To avoid being incompatible with future releases it is
+     * advisable to always use this method when running custom delete queries on
+     * persistent objects.
      *
-     * @throws ezcPersistentDefinitionNotFoundException
-     *         if there is no such persistent class.
      * @throws ezcPersistentQueryException
-     *         if the find query failed.
+     *         if the delete query failed.
      *
-     * @param ezcQuerySelect $query
-     * @param string $class
-     *
-     * @return ezcPersistentFindIterator
+     * @param ezcQueryDelete $query
      */
-    public function findIterator( ezcQuerySelect $query, $class )
+    public function deleteFromQuery( ezcQueryDelete $query )
     {
-        $def  = $this->definitionManager->fetchDefinition( $class ); // propagate exception
-        $stmt = $this->performQuery( $query );
-        return new ezcPersistentFindIterator( $stmt, $def );
+        return $this->deleteHandler->deleteFromQuery( $query );
     }
 
     /**
-     * Returns the persistent object of class $class with id $id.
+     * Returns a delete query for the given persistent object $class.
      *
-     * @throws ezcPersistentObjectException
-     *         if the object is not available.
+     * The query is initialized to delete from the correct table and
+     * it is only neccessary to set the where clause.
+     *
+     * Example:
+     * <code>
+     * $q = $session->createDeleteQuery( 'Person' );
+     * $q->where( $q->expr->gt( 'age', $q->bindValue( 15 ) ) );
+     * $session->deleteFromQuery( $q );
+     * </code>
+     *
      * @throws ezcPersistentObjectException
      *         if there is no such persistent class.
      *
      * @param string $class
-     * @param int $id
      *
-     * @return object
+     * @return ezcQueryDelete
      */
-    public function load( $class, $id )
+    public function createDeleteQuery( $class )
     {
-        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
-        $object = new $def->class;
-        $this->loadIntoObject( $object, $id );
-        return $object;
+        return $this->deleteHandler->createDeleteQuery( $class );
     }
 
-    /**
-     * Returns the persistent object of class $class with id $id.
-     *
-     * This method is equivalent to {@link load()} except that it returns null
-     * instead of throwing an exception if the object does not exist.
-     *
-     * @param string $class
-     * @param int $id
-     *
-     * @return object|null
-     */
-    public function loadIfExists( $class, $id )
-    {
-        $result = null;
-        try
-        {
-            $result = $this->load( $class, $id );
-        }
-        catch ( Exception $e )
-        {
-            // eat, we return null on error
-        }
-        return $result;
-    }
-
-    /**
-     * Loads the persistent object with the id $id into the object $object.
-     *
-     * The class of the persistent object to load is determined by the class
-     * of $object.
-     *
-     * @throws ezcPersistentObjectException
-     *         if the object is not available.
-     * @throws ezcPersistentDefinitionNotFoundException
-     *         if $object is not of a valid persistent object type.
-     * @throws ezcPersistentQueryException
-     *         if the find query failed.
-     *
-     * @param object $object
-     * @param int $id
-     */
-    public function loadIntoObject( $object, $id )
-    {
-        $def = $this->definitionManager->fetchDefinition( get_class( $object ) ); // propagate exception
-        $q = $this->database->createSelectQuery();
-        $q->select( $this->getColumnsFromDefinition( $def ) )
-            ->from( $this->database->quoteIdentifier( $def->table ) )
-            ->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
-                                   $q->bindValue( $id ) ) );
-
-        $stmt = $this->performQuery( $q );
-        $row  = $stmt->fetch( PDO::FETCH_ASSOC );
-        $stmt->closeCursor();
-        if ( $row !== false ) // we got a result
-        {
-            // we could check if there was more than one result here
-            // but we don't because of the overhead and since the Persistent
-            // Object would be faulty by design in that case and the user would have
-            // to execute custom code to get into an invalid state.
-            try
-            {
-                $state = ezcPersistentStateTransformer::rowToStateArray(
-                    $row,
-                    $def
-                );
-            }
-            catch ( Exception $e )
-            {
-                throw new ezcPersistentObjectException(
-                    "The row data could not be correctly converted to set data.",
-                    "Most probably there is something wrong with a custom rowToStateArray implementation"
-                );
-            }
-            $object->setState( $state );
-        }
-        else
-        {
-            $class = get_class( $object );
-            throw new ezcPersistentQueryException( "No object of class '$class' with id '$id'." );
-        }
-    }
-
-    /**
-     * Syncronizes the contents of $object with those in the database.
-     *
-     * Note that calling this method is equavalent with calling {@link
-     * loadIntoObject()} on $object with the id of $object. Any changes made
-     * to $object prior to calling refresh() will be discarded.
-     *
-     * @throws ezcPersistentObjectException
-     *         if $object is not of a valid persistent object type.
-     * @throws ezcPersistentObjectException
-     *         if $object is not persistent already.
-     * @throws ezcPersistentObjectException
-     *         if the select query failed.
-     *
-     * @param object $object
-     */
-    public function refresh( $object )
-    {
-        $def = $this->definitionManager->fetchDefinition( get_class( $object ) ); // propagate exception
-        $state = $this->getObjectState( $object );
-        $idValue = $state[$def->idProperty->propertyName];
-        if ( $idValue !== null )
-        {
-            $this->loadIntoObject( $object, $idValue );
-        }
-        else
-        {
-            $class = get_class( $object );
-            throw new ezcPersistentObjectNotPersistentException( $class );
-        }
-    }
-
-    /**
-     * Saves the new persistent object $object to the database using an INSERT INTO query.
-     *
-     * The correct ID is set to $object.
-     *
-     * @throws ezcPersistentObjectException if $object
-     *         is not of a valid persistent object type.
-     * @throws ezcPersistentObjectException if $object
-     *         is already stored to the database.
-     * @throws ezcPersistentObjectException
-     *         if it was not possible to generate a unique identifier for the
-     *         new object.
-     * @throws ezcPersistentObjectException
-     *         if the insert query failed.
-     *
-     * @param object $object
-     */
-    public function save( $object )
-    {
-        $this->saveInternal( $object );
-    }
-
-    /**
-     * Saves the new persistent object $object to the database using an INSERT INTO query.
-     *
-     * If $doPersistenceCheck is set this function will check if the object is persistent before
-     * saving. If not, the check is omitted. The correct ID is set to $object.
-     *
-     * @throws ezcPersistentObjectException
-     *         if $object is not of a valid persistent object type.
-     * @throws ezcPersistentObjectException
-     *         if $object is already stored to the database.
-     * @throws ezcPersistentObjectException
-     *         if it was not possible to generate a unique identifier for the
-     *         new object.
-     * @throws ezcPersistentObjectException
-     *         if the insert query failed.
-     *
-     * @param object $object
-     * @param bool $doPersistenceCheck
-     * @param ezcPersistentIdentifierGenerator $idGenerator
-     */
-    private function saveInternal( $object, $doPersistenceCheck = true,
-                                   ezcPersistentIdentifierGenerator $idGenerator = null )
-    {
-        $def = $this->definitionManager->fetchDefinition( get_class( $object ) );// propagate exception
-        $state = $this->filterAndCastState( $this->getObjectState( $object ), $def );
-        $idValue = $state[$def->idProperty->propertyName];
-
-        // fetch the id generator
-        if ( $idGenerator == null && ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
-        {
-            $idGenerator = new $def->idProperty->generator->class;
-            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
-            {
-                throw new ezcPersistentIdentifierGenerationException( get_class( $object ),
-                                                                      "Could not initialize identifier generator: ". "{$def->idProperty->generator->class} ." );
-            }
-        }
-
-        if ( $doPersistenceCheck == true && $idGenerator->checkPersistence( $def, $this->database, $state ) )
-        {
-            $class = get_class( $object );
-            throw new ezcPersistentObjectAlreadyPersistentException( $class );
-        }
-
-
-        // set up and execute the query
-        $q = $this->database->createInsertQuery();
-        $q->insertInto( $this->database->quoteIdentifier( $def->table ) );
-        foreach ( $state as $name => $value )
-        {
-            if ( $name != $def->idProperty->propertyName ) // skip the id field
-            {
-                // set each of the properties
-                $q->set( $this->database->quoteIdentifier( $def->properties[$name]->columnName ), $q->bindValue( $value ) );
-            }
-        }
-
-        $this->database->beginTransaction();
-        // let presave id generator do its work
-        $idGenerator->preSave( $def, $this->database, $q );
-
-        // execute the insert query
-        try
-        {
-            $this->performQuery( $q );
-        }
-        catch ( Exception $e )
-        {
-            $this->database->rollback();
-            throw $e;
-        }
-
-        // fetch the newly created id, and set it to the object
-        $id = $idGenerator->postSave( $def, $this->database );
-        if ( $id === null )
-        {
-            $this->database->rollback();
-            throw new ezcPersistentIdentifierGenerationException( $def->class );
-        }
-
-        // everything seems to be fine, lets commit the queries to the database
-        // and update the object with its newly created id.
-        $this->database->commit();
-
-        $state[$def->idProperty->propertyName] = $id;
-        $object->setState( $state );
-    }
-
-    /**
-     * Saves or updates the persistent object $object to the database.
-     *
-     * If the object is a new object an INSERT INTO query will be executed. If
-     * the object is persistent already it will be updated with an UPDATE
-     * query.
-     *
-     * @throws ezcPersistentDefinitionNotFoundException
-     *         if the definition of the persistent object could not be loaded.
-     * @throws ezcPersistentObjectException
-     *         if $object is not of a valid persistent object type.
-     * @throws ezcPersistentObjectException
-     *         if any of the definition requirements are not met.
-     * @throws ezcPersistentObjectException
-     *         if the insert or update query failed.
-     * @param object $object
-     * @return void
-     */
-    public function saveOrUpdate( $object )
-    {
-        $def = $this->definitionManager->fetchDefinition( get_class( $object ) );// propagate exception
-        $state = $this->getObjectState( $object );
-
-        // fetch the id generator
-        $idGenerator = null;
-        if ( ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
-        {
-            $idGenerator = new $def->idProperty->generator->class;
-            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
-            {
-                throw new ezcPersistentIdentifierGenerationException( get_class( $object ),
-                                                                      "Could not initialize identifier generator: ". "{$def->idProperty->generator->class} ." );
-            }
-        }
-
-        if ( !$idGenerator->checkPersistence( $def, $this->database, $state ) )
-        {
-            $this->saveInternal( $object, false, $idGenerator );
-        }
-        else
-        {
-            $this->updateInternal( $object, false );
-        }
-    }
-
-    /**
-     * Saves the new persistent object $object to the database using an UPDATE query.
-     *
-     * @throws ezcPersistentDefinitionNotFoundException if $object is not of a valid persistent object type.
-     * @throws ezcPersistentObjectNotPersistentException if $object is not stored in the database already.
-     * @throws ezcPersistentQueryException
-     * @param object $object
-     * @return void
-     */
-    public function update( $object )
-    {
-        $this->updateInternal( $object );
-    }
-
-    /**
-     * Saves the new persistent object $object to the database using an UPDATE query.
-     *
-     * If $doPersistenceCheck is set this function will check if the object is persistent before
-     * saving. If not, the check is omitted.
-     *
-     * @throws ezcPersistentDefinitionNotFoundException if $object is not of a valid persistent object type.
-     * @throws ezcPersistentObjectNotPersistentException if $object is not stored in the database already.
-     * @throws ezcPersistentQueryException
-     * @param object $object
-     * @param bool $doPersistenceCheck
-     * @return void
-     */
-    private function updateInternal( $object, $doPersistenceCheck = true )
-    {
-        $def = $this->definitionManager->fetchDefinition( get_class( $object ) ); // propagate exception
-        $state = $this->filterAndCastState( $this->getObjectState( $object ), $def );
-        $idValue = $state[$def->idProperty->propertyName];
-
-        // fetch the id generator
-        $idGenerator = null;
-        if ( ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
-        {
-            $idGenerator = new $def->idProperty->generator->class;
-            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
-            {
-                throw new ezcPersistentIdentifierGenerationException( get_class( $object ),
-                                                                      "Could not initialize identifier generator: ". "{$def->idProperty->generator->class} ." );
-            }
-        }
-
-        if ( $doPersistenceCheck == true && !$idGenerator->checkPersistence( $def, $this->database, $state ) )
-        {
-            $class = get_class( $object );
-            throw new ezcPersistentObjectNotPersistentException( get_class( $object ) );
-        }
-
-        // set up and execute the query
-        $q = $this->database->createUpdateQuery();
-        $q->update( $this->database->quoteIdentifier( $def->table ) );
-        foreach ( $state as $name => $value )
-        {
-            if ( $name != $def->idProperty->propertyName ) // skip the id field
-            {
-                // set each of the properties
-                $q->set( $this->database->quoteIdentifier( $def->properties[$name]->columnName ), $q->bindValue( $value ) );
-            }
-        }
-        $q->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
-                                 $q->bindValue( $idValue ) ) );
-
-        $this->performQuery( $q );
-    }
 
     /**
      * Returns a hash map between property and column name for the given definition $def.
@@ -1163,60 +588,6 @@ class ezcPersistentSession
     }
 
     /**
-     * Filters out all properties not in the definition and casts the
-     * values to native PHP types.
-     *
-     * @param array(string=>string) $state
-     * @param ezcPersistentObjectDefinition $def
-     * @return array(string=>mixed)
-     */
-    private function filterAndCastState( array $state, ezcPersistentObjectDefinition $def )
-    {
-        $typedState = array();
-        foreach ( $state as $name => $value )
-        {
-            $type = null;
-            if ( $name == $def->idProperty->propertyName )
-            {
-                $type = $def->idProperty->propertyType;
-                $conv = null;
-            }
-            else
-            {
-                if ( !isset( $def->properties[$name] ) )
-                {
-                    continue;
-                }
-                $type = $def->properties[$name]->propertyType;
-                $conv = $def->properties[$name]->converter;
-            }
-
-            if ( !is_null( $value ) )
-            {
-                if ( !is_null( $conv ) )
-                {
-                    $value = $conv->toDatabase( $value );
-                }
-                switch ( $type )
-                {
-                    case ezcPersistentObjectProperty::PHP_TYPE_INT:
-                        $value = (int) $value;
-                        break;
-                    case ezcPersistentObjectProperty::PHP_TYPE_FLOAT:
-                        $value = (float) $value;
-                        break;
-                    case ezcPersistentObjectProperty::PHP_TYPE_STRING:
-                        $value = (string) $value;
-                        break;
-                }
-            }
-
-            $typedState[$name] = $value;
-        }
-        return $typedState;
-    }
-
-    /**
      * Returns the object state.
      *
      * This method wraps around $object->getState() to add optional sanity
@@ -1225,8 +596,10 @@ class ezcPersistentSession
      * 
      * @param object $object 
      * @return array
+     *
+     * @access private
      */
-    private function getObjectState( $object )
+    public function getObjectState( $object )
     {
         // @todo Chekcs about object state should be added here, configurable.
         return $object->getState();
@@ -1240,8 +613,10 @@ class ezcPersistentSession
      * 
      * @param ezcQuery $q 
      * @return PDOStatement
+     *
+     * @access private
      */
-    private function performQuery( ezcQuery $q )
+    public function performQuery( ezcQuery $q )
     {
         $this->database->beginTransaction();
         try
@@ -1261,6 +636,76 @@ class ezcPersistentSession
             $this->database->rollback();
             throw new ezcPersistentQueryException( $e->getMessage(), $q );
         }
+    }
+
+    /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property does not exist.
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        switch ( $name )
+        {
+            case 'database':
+            case 'definitionManager':
+            case 'loadHandler':
+            case 'saveHandler':
+            case 'deleteHandler':
+                throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+                break;
+        }
+
+    }
+
+    /**
+     * Property get access.
+     *
+     * Simply returns a given property.
+     * 
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property propertys is not an instance of
+     * @param string $propertyName The name of the property to get.
+     * @return mixed The property value.
+     *
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a write-only property.
+     */
+    public function __get( $propertyName )
+    {
+        if ( $this->__isset( $propertyName ) === true )
+        {
+            return $this->properties[$propertyName];
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Returns if a property exists.
+     *
+     * Returns true if the property exists in the {@link $properties} array
+     * (even if it is null) and false otherwise. 
+     *
+     * @param string $propertyName Option name to check for.
+     * @return void
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
     }
 }
 ?>
