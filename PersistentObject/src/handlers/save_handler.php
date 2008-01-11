@@ -1,4 +1,12 @@
 <?php
+/**
+ * File containing the ezcPersistentDeleteHandler class.
+ *
+ * @package PersistentObject
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
 /**
  * Helper class for ezcPersistentSession to handle object saving.
@@ -10,25 +18,8 @@
  * @version //autogen//
  * @access private
  */
-class ezcPersistentSaveHandler
+class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
 {
-    /**
-     * Session object this instance belongs to.
-     * 
-     * @var ezcPersistentSession
-     */
-    private $session;
-
-    /**
-     * Creates a new save handler.
-     * 
-     * @param ezcPersistentSession $session 
-     */
-    public function __construct( ezcPersistentSession $session )
-    {
-        $this->session = $session;
-    }
-
     /**
      * Saves the new persistent object $object to the database using an INSERT INTO query.
      *
@@ -85,7 +76,7 @@ class ezcPersistentSaveHandler
      */
     public function saveOrUpdate( $object )
     {
-        $def = $this->session->definitionManager->fetchDefinition( get_class( $object ) );// propagate exception
+        $def = $this->definitionManager->fetchDefinition( get_class( $object ) );// propagate exception
         $state = $this->session->getObjectState( $object );
 
         // fetch the id generator
@@ -100,7 +91,7 @@ class ezcPersistentSaveHandler
             }
         }
 
-        if ( !$idGenerator->checkPersistence( $def, $this->session->database, $state ) )
+        if ( !$idGenerator->checkPersistence( $def, $this->database, $state ) )
         {
             $this->saveInternal( $object, false, $idGenerator );
         }
@@ -132,7 +123,7 @@ class ezcPersistentSaveHandler
     public function addRelatedObject( $object, $relatedObject )
     {
         $class = get_class( $object );
-        $def = $this->session->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
+        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
 
         $relatedClass = get_class( $relatedObject );
 
@@ -153,7 +144,7 @@ class ezcPersistentSaveHandler
             );
         }
 
-        $relatedDef = $this->session->definitionManager->fetchDefinition( get_class( $relatedObject ) );
+        $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
         switch ( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
         {
             case "ezcPersistentOneToManyRelation":
@@ -165,15 +156,15 @@ class ezcPersistentSaveHandler
                 }
                 break;
             case "ezcPersistentManyToManyRelation":
-                $q = $this->session->database->createInsertQuery();
-                $q->insertInto( $this->session->database->quoteIdentifier( $relation->relationTable ) );
+                $q = $this->database->createInsertQuery();
+                $q->insertInto( $this->database->quoteIdentifier( $relation->relationTable ) );
                 $insertColumns = array();
                 foreach ( $relation->columnMap as $map )
                 {
                     if ( in_array( $map->relationSourceColumn, $insertColumns ) === false )
                     {
                         $q->set(
-                            $this->session->database->quoteIdentifier( $map->relationSourceColumn ),
+                            $this->database->quoteIdentifier( $map->relationSourceColumn ),
                             $q->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
                         );
                         $insertColumns[] = $map->relationSourceColumn;
@@ -181,7 +172,7 @@ class ezcPersistentSaveHandler
                     if ( in_array( $map->relationDestinationColumn, $insertColumns ) === false )
                     {
                         $q->set(
-                            $this->session->database->quoteIdentifier( $map->relationDestinationColumn ),
+                            $this->database->quoteIdentifier( $map->relationDestinationColumn ),
                             $q->bindValue( $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] )
                         );
                         $insertColumns[] = $map->relationDestinationColumn;
@@ -209,12 +200,12 @@ class ezcPersistentSaveHandler
      */
     public function createUpdateQuery( $class )
     {
-        $def = $this->session->definitionManager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
 
         // init query
-        $q = $this->session->database->createUpdateQuery();
+        $q = $this->database->createUpdateQuery();
         $q->setAliases( $this->session->generateAliasMap( $def, false ) );
-        $q->update( $this->session->database->quoteIdentifier( $def->table ) );
+        $q->update( $this->database->quoteIdentifier( $def->table ) );
 
         return $q;
     }
@@ -264,7 +255,7 @@ class ezcPersistentSaveHandler
     private function saveInternal( $object, $doPersistenceCheck = true,
                                    ezcPersistentIdentifierGenerator $idGenerator = null )
     {
-        $def = $this->session->definitionManager->fetchDefinition( get_class( $object ) );// propagate exception
+        $def = $this->definitionManager->fetchDefinition( get_class( $object ) );// propagate exception
         $state = $this->filterAndCastState( $this->session->getObjectState( $object ), $def );
         $idValue = $state[$def->idProperty->propertyName];
 
@@ -279,7 +270,7 @@ class ezcPersistentSaveHandler
             }
         }
 
-        if ( $doPersistenceCheck == true && $idGenerator->checkPersistence( $def, $this->session->database, $state ) )
+        if ( $doPersistenceCheck == true && $idGenerator->checkPersistence( $def, $this->database, $state ) )
         {
             $class = get_class( $object );
             throw new ezcPersistentObjectAlreadyPersistentException( $class );
@@ -287,20 +278,20 @@ class ezcPersistentSaveHandler
 
 
         // set up and execute the query
-        $q = $this->session->database->createInsertQuery();
-        $q->insertInto( $this->session->database->quoteIdentifier( $def->table ) );
+        $q = $this->database->createInsertQuery();
+        $q->insertInto( $this->database->quoteIdentifier( $def->table ) );
         foreach ( $state as $name => $value )
         {
             if ( $name != $def->idProperty->propertyName ) // skip the id field
             {
                 // set each of the properties
-                $q->set( $this->session->database->quoteIdentifier( $def->properties[$name]->columnName ), $q->bindValue( $value ) );
+                $q->set( $this->database->quoteIdentifier( $def->properties[$name]->columnName ), $q->bindValue( $value ) );
             }
         }
 
-        $this->session->database->beginTransaction();
+        $this->database->beginTransaction();
         // let presave id generator do its work
-        $idGenerator->preSave( $def, $this->session->database, $q );
+        $idGenerator->preSave( $def, $this->database, $q );
 
         // execute the insert query
         try
@@ -309,21 +300,21 @@ class ezcPersistentSaveHandler
         }
         catch ( Exception $e )
         {
-            $this->session->database->rollback();
+            $this->database->rollback();
             throw $e;
         }
 
         // fetch the newly created id, and set it to the object
-        $id = $idGenerator->postSave( $def, $this->session->database );
+        $id = $idGenerator->postSave( $def, $this->database );
         if ( $id === null )
         {
-            $this->session->database->rollback();
+            $this->database->rollback();
             throw new ezcPersistentIdentifierGenerationException( $def->class );
         }
 
         // everything seems to be fine, lets commit the queries to the database
         // and update the object with its newly created id.
-        $this->session->database->commit();
+        $this->database->commit();
 
         $state[$def->idProperty->propertyName] = $id;
         $object->setState( $state );
@@ -344,7 +335,7 @@ class ezcPersistentSaveHandler
      */
     private function updateInternal( $object, $doPersistenceCheck = true )
     {
-        $def = $this->session->definitionManager->fetchDefinition( get_class( $object ) ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( get_class( $object ) ); // propagate exception
         $state = $this->filterAndCastState( $this->session->getObjectState( $object ), $def );
         $idValue = $state[$def->idProperty->propertyName];
 
@@ -360,24 +351,24 @@ class ezcPersistentSaveHandler
             }
         }
 
-        if ( $doPersistenceCheck == true && !$idGenerator->checkPersistence( $def, $this->session->database, $state ) )
+        if ( $doPersistenceCheck == true && !$idGenerator->checkPersistence( $def, $this->database, $state ) )
         {
             $class = get_class( $object );
             throw new ezcPersistentObjectNotPersistentException( get_class( $object ) );
         }
 
         // set up and execute the query
-        $q = $this->session->database->createUpdateQuery();
-        $q->update( $this->session->database->quoteIdentifier( $def->table ) );
+        $q = $this->database->createUpdateQuery();
+        $q->update( $this->database->quoteIdentifier( $def->table ) );
         foreach ( $state as $name => $value )
         {
             if ( $name != $def->idProperty->propertyName ) // skip the id field
             {
                 // set each of the properties
-                $q->set( $this->session->database->quoteIdentifier( $def->properties[$name]->columnName ), $q->bindValue( $value ) );
+                $q->set( $this->database->quoteIdentifier( $def->properties[$name]->columnName ), $q->bindValue( $value ) );
             }
         }
-        $q->where( $q->expr->eq( $this->session->database->quoteIdentifier( $def->idProperty->columnName ),
+        $q->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
                                  $q->bindValue( $idValue ) ) );
 
         $this->session->performQuery( $q );

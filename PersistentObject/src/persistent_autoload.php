@@ -26,6 +26,7 @@ return array(
     'ezcPersistentIdentifierGenerator'                    => 'PersistentObject/interfaces/identifier_generator.php',
     'ezcPersistentPropertyConverter'                      => 'PersistentObject/interfaces/property_converter.php',
     'ezcPersistentRelation'                               => 'PersistentObject/interfaces/relation.php',
+    'ezcPersistentSessionHandler'                         => 'PersistentObject/interfaces/handler.php',
     'ezcPersistentCacheManager'                           => 'PersistentObject/managers/cache_manager.php',
     'ezcPersistentCodeManager'                            => 'PersistentObject/managers/code_manager.php',
     'ezcPersistentDeleteHandler'                          => 'PersistentObject/handlers/delete_handler.php',

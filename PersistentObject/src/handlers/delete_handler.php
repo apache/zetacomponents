@@ -1,4 +1,12 @@
 <?php
+/**
+ * File containing the ezcPersistentDeleteHandler class.
+ *
+ * @package PersistentObject
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
 /**
  * Helper class for ezcPersistentSession to handle object deleting.
@@ -10,25 +18,8 @@
  * @version //autogen//
  * @access private
  */
-class ezcPersistentDeleteHandler
+class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
 {
-    /**
-     * Session object this instance belongs to.
-     * 
-     * @var ezcPersistentSession
-     */
-    private $session;
-
-    /**
-     * Creates a new delete handler.
-     * 
-     * @param ezcPersistentSession $session 
-     */
-    public function __construct( ezcPersistentSession $session )
-    {
-        $this->session = $session;
-    }
-
     /**
      * Deletes the persistent object $object.
      *
@@ -59,7 +50,7 @@ class ezcPersistentDeleteHandler
     public function delete( $object )
     {
         $class = get_class( $object );
-        $def = $this->session->definitionManager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
         $state = $this->session->getObjectState( $object );
         $idValue = $state[$def->idProperty->propertyName];
 
@@ -71,7 +62,7 @@ class ezcPersistentDeleteHandler
         }
 
         // Transaction savety for exceptions thrown while cascading
-        $this->session->database->beginTransaction();
+        $this->database->beginTransaction();
 
         try
         {
@@ -84,14 +75,14 @@ class ezcPersistentDeleteHandler
         catch ( Exception $e )
         {
             // Roll back the current transaction on any exception
-            $this->session->database->rollback();
+            $this->database->rollback();
             throw $e;
         }
 
         // create and execute query
-        $q = $this->session->database->createDeleteQuery();
-        $q->deleteFrom( $this->session->database->quoteIdentifier( $def->table ) )
-            ->where( $q->expr->eq( $this->session->database->quoteIdentifier( $def->idProperty->columnName ),
+        $q = $this->database->createDeleteQuery();
+        $q->deleteFrom( $this->database->quoteIdentifier( $def->table ) )
+            ->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
                                    $q->bindValue( $idValue ) ) );
 
         try
@@ -100,13 +91,13 @@ class ezcPersistentDeleteHandler
         }
         catch ( Exception $e )
         {
-            $this->session->database->rollback();
+            $this->database->rollback();
             throw $e;
         }
 
         // After recursion of cascades everything should be fine here, or this
         // final commit call should perform the rollback ordered by a deeper level
-        $this->session->database->commit();
+        $this->database->commit();
     }
 
     /**
@@ -129,7 +120,7 @@ class ezcPersistentDeleteHandler
     public function removeRelatedObject( $object, $relatedObject )
     {
         $class = get_class( $object );
-        $def = $this->session->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
+        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
 
         $relatedClass = get_class( $relatedObject );
 
@@ -150,7 +141,7 @@ class ezcPersistentDeleteHandler
         $objectState = $this->session->getObjectState( $object );
         $relatedObjectState = $this->session->getObjectState( $relatedObject );
 
-        $relatedDef = $this->session->definitionManager->fetchDefinition( get_class( $relatedObject ) );
+        $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
         switch ( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
         {
             case "ezcPersistentOneToManyRelation":
@@ -161,17 +152,17 @@ class ezcPersistentDeleteHandler
                 }
                 break;
             case "ezcPersistentManyToManyRelation":
-                $q = $this->session->database->createDeleteQuery();
-                $q->deleteFrom( $this->session->database->quoteIdentifier( $relation->relationTable ) );
+                $q = $this->database->createDeleteQuery();
+                $q->deleteFrom( $this->database->quoteIdentifier( $relation->relationTable ) );
                 foreach ( $relation->columnMap as $map )
                 {
                     $q->where(
                         $q->expr->eq(
-                            $this->session->database->quoteIdentifier( $map->relationSourceColumn ),
+                            $this->database->quoteIdentifier( $map->relationSourceColumn ),
                             $q->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
                         ),
                         $q->expr->eq(
-                            $this->session->database->quoteIdentifier( $map->relationDestinationColumn ),
+                            $this->database->quoteIdentifier( $map->relationDestinationColumn ),
                             $q->bindValue( $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] )
                         )
                     );
@@ -227,12 +218,12 @@ class ezcPersistentDeleteHandler
      */
     public function createDeleteQuery( $class )
     {
-        $def = $this->session->definitionManager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
 
         // init query
-        $q = $this->session->database->createDeleteQuery();
+        $q = $this->database->createDeleteQuery();
         $q->setAliases( $this->session->generateAliasMap( $def, false ) );
-        $q->deleteFrom( $this->session->database->quoteIdentifier( $def->table ) );
+        $q->deleteFrom( $this->database->quoteIdentifier( $def->table ) );
 
         return $q;
     }

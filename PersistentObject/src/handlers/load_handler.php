@@ -1,4 +1,12 @@
 <?php
+/**
+ * File containing the ezcPersistentLoadHandler class
+ *
+ * @package PersistentObject
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
 /**
  * Helper class for ezcPersistentSession to handle object loading.
@@ -10,25 +18,8 @@
  * @version //autogen//
  * @access private
  */
-class ezcPersistentLoadHandler
+class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
 {
-    /**
-     * Session object this instance belongs to.
-     * 
-     * @var ezcPersistentSession
-     */
-    private $session;
-
-    /**
-     * Creates a new load handler.
-     * 
-     * @param ezcPersistentSession $session 
-     */
-    public function __construct( ezcPersistentSession $session )
-    {
-        $this->session = $session;
-    }
-
     /**
      * Returns the persistent object of class $class with id $id.
      *
@@ -44,7 +35,7 @@ class ezcPersistentLoadHandler
      */
     public function load( $class, $id )
     {
-        $def = $this->session->definitionManager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
         $object = new $def->class;
         $this->loadIntoObject( $object, $id );
         return $object;
@@ -93,11 +84,11 @@ class ezcPersistentLoadHandler
      */
     public function loadIntoObject( $object, $id )
     {
-        $def = $this->session->definitionManager->fetchDefinition( get_class( $object ) ); // propagate exception
-        $q = $this->session->database->createSelectQuery();
+        $def = $this->definitionManager->fetchDefinition( get_class( $object ) ); // propagate exception
+        $q = $this->database->createSelectQuery();
         $q->select( $this->session->getColumnsFromDefinition( $def ) )
-            ->from( $this->session->database->quoteIdentifier( $def->table ) )
-            ->where( $q->expr->eq( $this->session->database->quoteIdentifier( $def->idProperty->columnName ),
+            ->from( $this->database->quoteIdentifier( $def->table ) )
+            ->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
                                    $q->bindValue( $id ) ) );
 
         $stmt = $this->session->performQuery( $q );
@@ -150,7 +141,7 @@ class ezcPersistentLoadHandler
      */
     public function refresh( $object )
     {
-        $def = $this->session->definitionManager->fetchDefinition( get_class( $object ) ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( get_class( $object ) ); // propagate exception
         $state = $this->session->getObjectState( $object );
         $idValue = $state[$def->idProperty->propertyName];
         if ( $idValue !== null )
@@ -203,7 +194,7 @@ class ezcPersistentLoadHandler
      */
     public function find( ezcQuerySelect $query, $class )
     {
-        $def = $this->session->definitionManager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
 
         $rows = $this->session->performQuery( $query )->fetchAll( PDO::FETCH_ASSOC );
 
@@ -247,7 +238,7 @@ class ezcPersistentLoadHandler
      */
     public function findIterator( ezcQuerySelect $query, $class )
     {
-        $def  = $this->session->definitionManager->fetchDefinition( $class ); // propagate exception
+        $def  = $this->definitionManager->fetchDefinition( $class ); // propagate exception
         $stmt = $this->session->performQuery( $query );
         return new ezcPersistentFindIterator( $stmt, $def );
     }
@@ -357,13 +348,13 @@ class ezcPersistentLoadHandler
      */
     public function createFindQuery( $class )
     {
-        $def = $this->session->definitionManager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
 
         // init query
-        $q = $this->session->database->createSelectQuery();
+        $q = $this->database->createSelectQuery();
         $q->setAliases( $this->session->generateAliasMap( $def ) );
         $q->select( $this->session->getColumnsFromDefinition( $def ) )
-            ->from( $this->session->database->quoteIdentifier( $def->table ) );
+            ->from( $this->database->quoteIdentifier( $def->table ) );
 
         return $q;
     }
@@ -386,7 +377,7 @@ class ezcPersistentLoadHandler
      */
     public function createRelationFindQuery( $object, $relatedClass )
     {
-        $def = $this->session->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
+        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
         if ( !isset( $def->relations[$relatedClass] ) )
         {
             throw new ezcPersistentRelationNotFoundException( $class, $relatedClass );
@@ -406,24 +397,24 @@ class ezcPersistentLoadHandler
                 {
                     $query->where(
                         $query->expr->eq(
-                            $this->session->database->quoteIdentifier( "{$map->destinationColumn}" ),
+                            $this->database->quoteIdentifier( "{$map->destinationColumn}" ),
                             $query->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
                         )
                     );
                 }
                 break;
             case "ezcPersistentManyToManyRelation":
-                $query->from( $this->session->database->quoteIdentifier( $relation->relationTable ) );
+                $query->from( $this->database->quoteIdentifier( $relation->relationTable ) );
                 foreach ( $relation->columnMap as $map )
                 {
                     $query->where(
                         $query->expr->eq(
-                            $this->session->database->quoteIdentifier( $relation->relationTable ) . "." . $this->session->database->quoteIdentifier( $map->relationSourceColumn ),
+                            $this->database->quoteIdentifier( $relation->relationTable ) . "." . $this->database->quoteIdentifier( $map->relationSourceColumn ),
                             $query->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
                         ),
                         $query->expr->eq(
-                            $this->session->database->quoteIdentifier( $relation->relationTable ) . "." . $this->session->database->quoteIdentifier( $map->relationDestinationColumn ),
-                            $this->session->database->quoteIdentifier( $relation->destinationTable ) . "." . $this->session->database->quoteIdentifier( $map->destinationColumn )
+                            $this->database->quoteIdentifier( $relation->relationTable ) . "." . $this->database->quoteIdentifier( $map->relationDestinationColumn ),
+                            $this->database->quoteIdentifier( $relation->destinationTable ) . "." . $this->database->quoteIdentifier( $map->destinationColumn )
                         )
                     );
                 }

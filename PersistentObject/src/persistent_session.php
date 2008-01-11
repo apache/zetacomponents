@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentSession class
+ * File containing the ezcPersistentSession class.
  *
  * @package PersistentObject
  * @version //autogen//
