@@ -316,6 +316,47 @@ class ezcTemplateTest extends ezcTestCase
         self::assertEquals(1, count(glob($tc->compilePath . "/compiled_templates/xhtml-*/*.php")) );
     }
 
+    public function testAddExtensionTestWrong1()
+    {
+        $c = new ezcTemplateConfiguration();
+        try
+        {
+            $c->addExtension( 'foo' );
+            self::fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertEquals( "The value 'foo' that you were trying to assign to argument 'customClass' is invalid. Allowed values are: string with classname that implements the ezcTemplateCustomBlock or ezcTemplateCustomFunction interface.", $e->getMessage() );
+        }
+    }
+
+    public function testAddExtensionTestWrong2()
+    {
+        $c = new ezcTemplateConfiguration();
+        try
+        {
+            $c->addExtension( array( 'foo' ) );
+            self::fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertEquals( "The value 'a:1:{i:0;s:3:\"foo\";}' that you were trying to assign to argument 'customClass' is invalid. Allowed values are: string with classname that implements the ezcTemplateCustomBlock or ezcTemplateCustomFunction interface.", $e->getMessage() );
+        }
+    }
+
+    public function testAddExtensionTestWrong3()
+    {
+        $c = new ezcTemplateConfiguration();
+        try
+        {
+            $c->addExtension( 'ezcTemplateConfiguration' );
+            self::fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertEquals( "The value 'ezcTemplateConfiguration' that you were trying to assign to argument 'customClass' is invalid. Allowed values are: string with classname that implements the ezcTemplateCustomBlock or ezcTemplateCustomFunction interface.", $e->getMessage() );
+        }
+    }
 
 }
 

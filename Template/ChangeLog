@@ -16,6 +16,9 @@
   * corrected documentation in regard to TTL vs. ttl.
   * fixed the cache file names in Windows (replace '\' with '-').
 
+- Fixed issue #12368: ezcTemplateConfiguration::addExtension() did not
+  check for invalid arguments correctly.
+
 
 1.2 - Monday 02 July 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

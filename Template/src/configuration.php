@@ -151,7 +151,7 @@ class ezcTemplateConfiguration
      * @param string $value
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
-     * @return void
+     * @throws ezcBaseValueException if the desired property value is out of range.
      * @ignore
      */
     public function __set( $name, $value )
@@ -284,8 +284,9 @@ class ezcTemplateConfiguration
     }
 
     /**
-     * Adds custom tags or function to the customBlock or customFunction property and 
-     * indirectly add the custom extension to the template language. 
+     * Adds custom tags or functions to the customBlock or customFunction
+     * property and indirectly adds the custom extension to the template
+     * language. 
      *
      * The parameter $customBlockClass expects a class that implements either 
      * the interface ezcTemplateCustomBlock, ezcTemplateCustomFunction, or both.
@@ -296,14 +297,16 @@ class ezcTemplateConfiguration
      * {@link ezcTemplateConfiguration::customFunctions $customFunctions} property.
      *
      * @param string $customClass
-     * @throws ezcTemplateCustomBlockException if the $customClass parameter is not a string.
-     * @return void
+     * @throws ezcBaseValueException if the $customClass parameter is not a
+     *         string, or when the classname that it represents does not
+     *         implement either the ezcTemplateCustomBlock or
+     *         ezcTemplateCustomFunction interface.
      */
     public function addExtension( $customClass )
     {
-        if ( !is_string( $customClass ) )
+        if ( !is_string( $customClass ) || !ezcBaseFeatures::classExists( $customClass, true ) )
         {
-            throw new ezcTemplateCustomBlockException( "Could not add the extension $customClass, because the given value is not a string." );
+            throw new ezcBaseValueException( 'customClass', $customClass, 'string with classname that implements the ezcTemplateCustomBlock or ezcTemplateCustomFunction interface', 'argument' );
         }
 
         $implements = class_implements( $customClass );
@@ -321,9 +324,9 @@ class ezcTemplateConfiguration
             $added = true;
         }
 
-        if ( !$added)
+        if ( !$added )
         {
-            throw new ezcTemplateCustomBlockException( "Could not add the extension $customClass. Does it implement ezcTemplateCustomBlock or ezcTemplateCustomFunction?" );
+            throw new ezcBaseValueException( 'customClass', $customClass, 'string with classname that implements the ezcTemplateCustomBlock or ezcTemplateCustomFunction interface', 'argument' );
         }
     }
 
