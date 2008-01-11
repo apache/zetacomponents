@@ -5,6 +5,8 @@
 - Fixed issue #12316: Numbers in own component prefix not possible.
 - Fixed issue #12329: ezcBaseFeatures::findExecutableInPath's return value
   does not include the extension to the executable at the end on Windows.
+- Added an optional argument to the ezcBaseValueException constructor to allow
+  the exception to be used for non-property/setting type violations as well.
 
 
 1.4 - Monday 17 December 2007
