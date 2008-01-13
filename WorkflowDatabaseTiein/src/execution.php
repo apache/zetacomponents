@@ -65,8 +65,8 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $query = $this->db->createInsertQuery();
 
         $query->insertInto( 'execution' )
-              ->set( 'workflow_id',       $query->bindValue( (int)$this->workflow->id ) )
-              ->set( 'execution_parent',  $query->bindValue( (int)$parentId ) )
+              ->set( 'workflow_id', $query->bindValue( (int)$this->workflow->id ) )
+              ->set( 'execution_parent', $query->bindValue( (int)$parentId ) )
               ->set( 'execution_started', $query->bindValue( time() ) )
               ->set( 'execution_variables', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->variables ) ) )
               ->set( 'execution_waiting_for', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->waitingFor ) ) )
@@ -103,11 +103,11 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
             $query = $this->db->createInsertQuery();
 
             $query->insertInto( 'execution_state' )
-                  ->set( 'execution_id',        $query->bindValue( (int)$this->id ) )
-                  ->set( 'node_id',             $query->bindValue( (int)$node->getId() ) )
-                  ->set( 'node_state',          $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $node->getState() ) ) )
+                  ->set( 'execution_id', $query->bindValue( (int)$this->id ) )
+                  ->set( 'node_id', $query->bindValue( (int)$node->getId() ) )
+                  ->set( 'node_state', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $node->getState() ) ) )
                   ->set( 'node_activated_from', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $node->getActivatedFrom() ) ) )
-                  ->set( 'node_thread_id',      $query->bindValue( (int)$node->getThreadId() ) );
+                  ->set( 'node_thread_id', $query->bindValue( (int)$node->getThreadId() ) );
 
             $statement = $query->prepare();
             $statement->execute();
