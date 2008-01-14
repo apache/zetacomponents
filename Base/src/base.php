@@ -46,7 +46,7 @@ class ezcBase
      *
      * @var string
      */
-    protected static $packageDir;
+    protected static $packageDir = null;
 
     /**
      * Stores info with additional paths where autoload files and classes for
@@ -209,14 +209,19 @@ class ezcBase
     }
 
     /**
-     * Returns the path to the autoload directory. The path depends on
-     * the installation of the ezComponents. The SVN version has different
-     * paths than the PEAR installed version. (For now).
+     * Figures out the base path of the eZ Components installation.
      *
-     * @return string
+     * It stores the path that it finds in a static member variable. The path
+     * depends on the installation method of the eZ Components. The SVN version
+     * has a different path than the PEAR installed version.
      */
     protected static function setPackageDir()
     {
+        if ( ezcBase::$packageDir !== null )
+        {
+            return;
+        }
+
         // Get the path to the components.
         $baseDir = dirname( __FILE__ );
 
@@ -548,7 +553,7 @@ class ezcBase
         if ( $prefix === null )
         {
             $array = array( 'basePath' => $basePath, 'autoloadDirPath' => $autoloadDirPath );
- 
+
             // add info to the list of extra dirs
             ezcBase::$repositoryDirs[] = $array;
         }
@@ -558,10 +563,22 @@ class ezcBase
             {
                 throw new ezcBaseDoubleClassRepositoryPrefixException( $prefix, $basePath, $autoloadDirPath );
             }
- 
+
             // add info to the list of extra dirs, and use the prefix to identify the new repository.
             ezcBase::$repositoryDirs[$prefix] = array( 'basePath' => $basePath, 'autoloadDirPath' => $autoloadDirPath );
         }
+    }
+
+    /**
+     * Returns the base path of the eZ Components installation
+     *
+     * @return string
+     */
+    public static function getInstallationPath()
+    {
+        self::setPackageDir();
+
+        return realpath( self::$packageDir );
     }
 }
 ?>

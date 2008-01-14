@@ -467,6 +467,13 @@ class ezcBaseTest extends ezcTestCase
         }
     }
 
+    public function testGetInstallationPath()
+    {
+        $path = ezcBase::getInstallationPath();
+        $pathParts = explode( DIRECTORY_SEPARATOR, $path );
+        self::assertEquals( array( 'trunk' ), array_splice( $pathParts, -1 ) );
+    }
+
     public function setup()
     {
         $options = new ezcBaseAutoloadOptions;
