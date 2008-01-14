@@ -1,4 +1,4 @@
-1.4.1 - [RELEASEDATE]
+1.4.1 - Monday 14 January 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #11448: ezc_bootsrap.php uses relative paths. 
