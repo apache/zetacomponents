@@ -8,7 +8,7 @@
   yes-no-question.
 
 
-1.3.2 - [RELEASEDATE]
+1.3.2 - Monday 14 January 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #11435: ConsoleInput does not reset $option->value;. The newly
