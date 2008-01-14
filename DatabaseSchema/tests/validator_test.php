@@ -116,6 +116,80 @@ class ezcDatabaseSchemaValidatorTest extends ezcTestCase
         self::assertEquals( $expected, ezcDbSchemaValidator::validate( $schema ) );
     }
 
+    public function testForDuplicateIndexName1()
+    {
+        $schema = new ezcDbSchema(
+            array(
+                'table1' => new ezcDbSchemaTable(
+                    array (
+                        'field1' => new ezcDbSchemaField( 'integer' ),
+                    ),
+                    array (
+                        'index1' => new ezcDbSchemaIndex( array ( 'field1' => new ezcDbSchemaIndexField() ) ),
+                    )
+                ),
+                'table2' => new ezcDbSchemaTable(
+                    array (
+                        'field1' => new ezcDbSchemaField( 'integer' ),
+                    ),
+                    array (
+                        'index1' => new ezcDbSchemaIndex( array ( 'field1' => new ezcDbSchemaIndexField() ) ),
+                    )
+                ),
+            )
+        );
+
+        $expected = array(
+            "The index name 'index1' is not unique. It exists for the tables: 'table1', 'table2'.",
+        );
+        self::assertEquals( $expected, ezcDbSchemaValidator::validate( $schema ) );
+    }
+
+    public function testForDuplicateIndexName2()
+    {
+        $schema = new ezcDbSchema(
+            array(
+                'table1' => new ezcDbSchemaTable(
+                    array (
+                        'field1' => new ezcDbSchemaField( 'integer' ),
+                    ),
+                    array (
+                        'index1' => new ezcDbSchemaIndex( array ( 'field1' => new ezcDbSchemaIndexField() ) ),
+                    )
+                ),
+                'table2' => new ezcDbSchemaTable(
+                    array (
+                        'field1' => new ezcDbSchemaField( 'integer' ),
+                    ),
+                    array (
+                        'index2' => new ezcDbSchemaIndex( array ( 'field1' => new ezcDbSchemaIndexField() ) ),
+                    )
+                ),
+                'table3' => new ezcDbSchemaTable(
+                    array (
+                        'field1' => new ezcDbSchemaField( 'integer' ),
+                    ),
+                    array (
+                        'index1' => new ezcDbSchemaIndex( array ( 'field1' => new ezcDbSchemaIndexField() ) ),
+                    )
+                ),
+                'table4' => new ezcDbSchemaTable(
+                    array (
+                        'field1' => new ezcDbSchemaField( 'integer' ),
+                    ),
+                    array (
+                        'index1' => new ezcDbSchemaIndex( array ( 'field1' => new ezcDbSchemaIndexField() ) ),
+                    )
+                ),
+            )
+        );
+
+        $expected = array(
+            "The index name 'index1' is not unique. It exists for the tables: 'table1', 'table3', 'table4'.",
+        );
+        self::assertEquals( $expected, ezcDbSchemaValidator::validate( $schema ) );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaValidatorTest' );

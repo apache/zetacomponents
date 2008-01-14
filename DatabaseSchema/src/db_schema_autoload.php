@@ -44,6 +44,7 @@ return array(
     'ezcDbSchemaIndexFieldsValidator'            => 'DatabaseSchema/validators/index_fields.php',
     'ezcDbSchemaMysqlReader'                     => 'DatabaseSchema/handlers/mysql/reader.php',
     'ezcDbSchemaMysqlWriter'                     => 'DatabaseSchema/handlers/mysql/writer.php',
+    'ezcDbSchemaNonUniqueIndexNameValidator'     => 'DatabaseSchema/validators/non_unique_index_name.php',
     'ezcDbSchemaOptions'                         => 'DatabaseSchema/options/schema.php',
     'ezcDbSchemaOracleReader'                    => 'DatabaseSchema/handlers/oracle/reader.php',
     'ezcDbSchemaOracleWriter'                    => 'DatabaseSchema/handlers/oracle/writer.php',
