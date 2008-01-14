@@ -225,6 +225,89 @@ class ezcPersistentObjectDefinitionTest extends ezcTestCase
             'Property $foo seems to be set.'
         );
     }
+
+    // http://ez.no/bugs/view/9189
+    // http://ez.no/bugs/view/9187
+    public function testPersistentObjectDefinitionStruct()
+    {
+        $property = new ezcPersistentObjectProperty(
+            "test column",
+            "test property",
+            ezcPersistentObjectProperty::PHP_TYPE_INT
+        );
+
+        $generator = new ezcPersistentGeneratorDefinition(
+            "test class",
+            array( "param" => 123 )
+        );
+
+        $idProperty = new ezcPersistentObjectIdProperty(
+            "test column",
+            "test property",
+            null,
+            $generator
+        );
+
+        $def = new ezcPersistentObjectDefinition(
+            "test table",
+            "test class",
+            array( 'test' => $property ),
+            array(),
+            $idProperty
+        );
+
+        $res = ezcPersistentObjectDefinition::__set_state(array(
+           'table' => 'test table',
+           'class' => 'test class',
+           'idProperty' => 
+          ezcPersistentObjectIdProperty::__set_state(array(
+             'columnName' => 'test column',
+             'propertyName' => 'test property',
+             'visibility' => NULL,
+             'generator' => 
+            ezcPersistentGeneratorDefinition::__set_state(array(
+               'class' => 'test class',
+               'params' => 
+              array (
+                'param' => 123,
+              ),
+            )),
+          )),
+           'properties' => 
+          array (
+            'test' => 
+            ezcPersistentObjectProperty::__set_state(array(
+               'columnName' => 'test column',
+               'propertyName' => 'test property',
+               'propertyType' => 2,
+            )),
+          ),
+           'columns' => 
+          array (
+          ),
+           'relations' => 
+          array (
+          ),
+        ));
+        
+        $this->assertEquals( $res, $def, "ezcPersistentObjectDefinition not deserialized correctly." );
+    }
+
+    /**
+     * Test case for issue #12108.
+     */
+    public function testMissingReverseColumnLookup()
+    {
+        // Load def without def manager
+        $def = require dirname( __FILE__ ) . '/data/persistenttestobject.php';
+        
+        try
+        {
+            ezcPersistentStateTransformer::rowToStateArray( array(), $def );
+            $this->fail( 'Exception not thrown on state transformation without proper reverse-lookup.' );
+        }
+        catch ( ezcPersistentObjectException $e ) {}
+    }
 }
 
 

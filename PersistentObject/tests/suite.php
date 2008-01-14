@@ -14,7 +14,13 @@
 require_once( 'managers/code_manager_test.php' );
 require_once( 'managers/cache_manager_test.php' );
 require_once( 'managers/multi_manager_test.php' );
-require_once( 'persistent_session_test.php' );
+
+require_once( 'persistent_session_delete_test.php' );
+require_once( 'persistent_session_find_test.php' );
+require_once( 'persistent_session_load_test.php' );
+require_once( 'persistent_session_misc_test.php' );
+require_once( 'persistent_session_save_test.php' );
+
 require_once( 'find_iterator_test.php' );
 require_once( 'manual_generator_test.php' );
 require_once( 'native_generator_test.php' );
@@ -47,7 +53,11 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentCodeManagerTest::suite() );
         $this->addTest( ezcPersistentCacheManagerTest::suite() );
         $this->addTest( ezcPersistentMultiManagerTest::suite() );
-        $this->addTest( ezcPersistentSessionTest::suite() );
+        $this->addTest( ezcPersistentSessionDeleteTest::suite() );
+        $this->addTest( ezcPersistentSessionFindTest::suite() );
+        $this->addTest( ezcPersistentSessionLoadTest::suite() );
+        $this->addTest( ezcPersistentSessionMiscTest::suite() );
+        $this->addTest( ezcPersistentSessionSaveTest::suite() );
         $this->addTest( ezcPersistentFindIteratorTest::suite() );
         $this->addTest( ezcPersistentManualGeneratorTest::suite() );
         $this->addTest( ezcPersistentNativeGeneratorTest::suite() );
