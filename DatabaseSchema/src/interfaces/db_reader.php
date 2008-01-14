@@ -13,7 +13,7 @@
  * @package DatabaseSchema
  * @version //autogen//
  */
-interface ezcDbSchemaDbReader extends ezcDbSchemaReader
+abstract class ezcDbSchemaDbReader implements ezcDbSchemaReader
 {
     /**
      * Returns an ezcDbSchema created from the database schema in the database referenced by $db
@@ -25,6 +25,10 @@ interface ezcDbSchemaDbReader extends ezcDbSchemaReader
      * @param ezcDbHandler $db
      * @return ezcDbSchema
      */
-    public function loadFromDb( ezcDbHandler $db );
+    public function loadFromDb( ezcDbHandler $db )
+    {
+        $this->db = $db;
+        return new ezcDbSchema( $this->fetchSchema() );
+    }
 }
 ?>

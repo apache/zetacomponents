@@ -33,55 +33,17 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     );
 
     /**
-     * Returns what type of schema writer this class implements.
-     *
-     * This method always returns ezcDbSchema::DATABASE
-     *
-     * @return int
-     */
-    public function getWriterType()
-    {
-        return ezcDbSchema::DATABASE;
-    }
-
-    /**
-     * Creates tables defined in $dbSchema in the database referenced by $db.
-     *
-     * This method uses {@link convertToDDL} to create SQL for the schema
-     * definition and then executes the return SQL statements on the database
-     * handler $db.
-     *
-     * @todo check for failed transaction
-     *
-     * @param ezcDbHandler $db
-     * @param ezcDbSchema  $dbSchema
-     */
-    public function saveToDb( ezcDbHandler $db, ezcDbSchema $dbSchema )
-    {
-        $db->beginTransaction();
-        foreach ( $this->convertToDDL( $dbSchema ) as $query )
-        {
-            if ( $this->isQueryAllowed( $db, $query ) ) 
-            {
-                $db->exec( $query );
-            }
-        }
-        $db->commit();
-    }
-
-    /**
      * Checks if query allowed.
      *
      * Perform testing if table exist for DROP TABLE query 
      * to avoid stoping execution while try to drop not existent table.
      * 
-     * @param ezcDbHandler    $db
-     * @param string $query
+     * @param ezcDbHandler $db
+     * @param string       $query
      * 
-     *
      * @return boolean false if query should not be executed.
      */
-    private function isQueryAllowed( ezcDbHandler $db, $query )
+    public function isQueryAllowed( ezcDbHandler $db, $query )
     {
         if ( strstr( $query, 'AUTO_INCREMENT' ) ) // detect AUTO_INCREMENT and return imediately. Will process later.
         {
@@ -114,25 +76,6 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         }
 
         return true;
-    }
-
-    /**
-     * Returns the definition in $dbSchema as database specific SQL DDL queries.
-     *
-     * @param ezcDbSchema $dbSchema
-     *
-     * @return array(string)
-     */
-    public function convertToDDL( ezcDbSchema $dbSchema )
-    {
-        $this->schema = $dbSchema->getSchema();
-
-        // reset queries
-        $this->queries = array();
-        $this->context = array();
-
-        $this->generateSchemaAsSql();
-        return $this->queries;
     }
 
     /**

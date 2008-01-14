@@ -27,7 +27,7 @@ interface ezcDbSchemaDbWriter extends ezcDbSchemaWriter
      * @param ezcDbHandler $db
      * @param ezcDbSchema  $schema
      */
-    public function saveToDb( ezcDbHandler $db, ezcDbSchema $schema );
+    public function saveToDb( ezcDbHandler $db, ezcDbSchema $dbSchema );
 
     /**
      * Returns an array with SQL DDL statements that creates the database definition in $dbSchema
@@ -40,5 +40,18 @@ interface ezcDbSchemaDbWriter extends ezcDbSchemaWriter
      * @return array(string)
      */
     public function convertToDDL( ezcDbSchema $dbSchema );
+
+    /**
+     * Checks if the query is allowed.
+     *
+     * Perform testing if table exist for DROP TABLE query 
+     * to avoid stoping execution while try to drop not existent table. 
+     * 
+     * @param ezcDbHandler $db
+     * @param string       $query
+     * 
+     * @return boolean
+     */
+    public function isQueryAllowed( ezcDbHandler $db, $query );
 }
 ?>

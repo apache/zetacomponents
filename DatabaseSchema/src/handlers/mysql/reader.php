@@ -14,7 +14,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
+class ezcDbSchemaMysqlReader extends ezcDbSchemaDbReader
 {
     /**
      * Contains a type map from MySQL native types to generic DbSchema types.
@@ -71,18 +71,6 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     }
 
     /**
-     * Returns a ezcDbSchema object from the database that is referenced with $db.
-     *
-     * @param ezcDbHandler $db
-     * @return ezcDbSchema
-     */
-    public function loadFromDb( ezcDbHandler $db )
-    {
-        $this->db = $db;
-        return new ezcDbSchema( $this->fetchSchema() );
-    }
-
-    /**
      * Loops over all the tables in the database and extracts schema information.
      *
      * This method extracts information about a database's schema from the
@@ -90,19 +78,26 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
      *
      * @return ezcDbSchema
      */
-    private function fetchSchema()
+    protected function fetchSchema()
     {
         $schemaDefinition = array();
 
         $tables = $this->db->query( "SHOW TABLES" )->fetchAll();
         array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
 
+        // strip out the prefix and only return tables with the prefix set.
+        $prefix = ezcDbSchema::$options->tableNamePrefix;
+
         foreach ( $tables as $tableName )
         {
-            $fields  = $this->fetchTableFields( $tableName );
-            $indexes = $this->fetchTableIndexes( $tableName );
+            $tableNameWithoutPrefix = substr( $tableName, strlen( $prefix ) );
+            if ( $prefix === '' || $tableName !== $tableNameWithoutPrefix )
+            {
+                $fields  = $this->fetchTableFields( $tableName );
+                $indexes = $this->fetchTableIndexes( $tableName );
 
-            $schemaDefinition[$tableName] = ezcDbSchema::createNewTable( $fields, $indexes );
+                $schemaDefinition[$tableNameWithoutPrefix] = ezcDbSchema::createNewTable( $fields, $indexes );
+            }
         }
 
         return $schemaDefinition;

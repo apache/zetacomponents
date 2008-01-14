@@ -152,6 +152,7 @@ class ezcDbSchema
      */
     static public function createFromDb( ezcDbHandler $db )
     {
+        self::initOptions();
         $className = ezcDbSchemaHandlerManager::getReaderByFormat( $db->getName() );
         $reader = new $className();
         self::checkSchemaReader( $reader, self::DATABASE );
@@ -202,6 +203,7 @@ class ezcDbSchema
      */
     public function writeToDb( ezcDbHandler $db )
     {
+        self::initOptions();
         $className = ezcDbSchemaHandlerManager::getWriterByFormat( $db->getName() );
         $writer = new $className();
         self::checkSchemaWriter( $writer, self::DATABASE );
@@ -226,6 +228,7 @@ class ezcDbSchema
      */
     public function convertToDDL( $db )
     {
+        self::initOptions();
         if ( $db instanceof ezcDbHandler )
         {
             $db = $db->getName();

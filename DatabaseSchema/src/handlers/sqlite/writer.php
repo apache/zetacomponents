@@ -13,7 +13,7 @@
  *
  * @package DatabaseSchema
  */
-class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbSchemaDiffDbWriter
+class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter
 {
     /**
      * Contains a type map from DbSchema types to SQLite native types.
@@ -45,43 +45,17 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     }
 
     /**
-     * Creates tables defined in $dbSchema in the database referenced by $db.
-     *
-     * This method uses {@link convertToDDL} to create SQL for the schema
-     * definition and then executes the return SQL statements on the database
-     * handler $db.
-     *
-     * @todo check for failed transaction
-     *
-     * @param ezcDbHandler $db
-     * @param ezcDbSchema  $dbSchema
-     */
-    public function saveToDb( ezcDbHandler $db, ezcDbSchema $dbSchema )
-    {
-        $db->beginTransaction();
-        foreach ( $this->convertToDDL( $dbSchema ) as $query )
-        {
-            if ( $this->isQueryAllowed( $db, $query ) ) 
-            {
-                $db->exec( $query );
-            }
-        }
-        $db->commit();
-    }
-
-    /**
-     * Checks if sertain query allowed.
+     * Checks if certain query allowed.
      *
      * Perform testing if table exist for DROP TABLE query 
      * to avoid stoping execution while try to drop not existent table.
      * 
-     * @param ezcDbHandler    $db
-     * @param string $query
-     * 
+     * @param ezcDbHandler $db
+     * @param string       $query
      *
      * @return boolean false if query should not be executed.
      */
-    private function isQueryAllowed( ezcDbHandler $db, $query )
+    public function isQueryAllowed( ezcDbHandler $db, $query )
     {
         if ( strstr($query, 'DROP COLUMN') || strstr($query, 'CHANGE') ) // detecting DROP COLUMN clause or field CHANGE clause 
         {
@@ -108,26 +82,6 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         return true;
     }
 
-
-    /**
-     * Returns the definition in $dbSchema as database specific SQL DDL queries.
-     *
-     * @param ezcDbSchema $dbSchema
-     *
-     * @return array(string)
-     */
-    public function convertToDDL( ezcDbSchema $dbSchema )
-    {
-        $this->schema = $dbSchema->getSchema();
-
-        // reset queries
-        $this->queries = array();
-        $this->context = array();
-
-        $this->generateSchemaAsSql();
-        return $this->queries;
-    }
-
     /**
      * Returns what type of schema difference writer this class implements.
      *
@@ -139,7 +93,6 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     {
         return ezcDbSchema::DATABASE;
     }
-
     /**
      * Applies the differences defined in $dbSchemaDiff to the database referenced by $db.
      *
@@ -463,7 +416,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      */
     protected function generateCreateTableSqlStatement( $tableName )
     {
-        return "CREATE TABLE '$tableName'";
+        return "CREATE TABLE '{$tableName}'";
     }
 
     /**

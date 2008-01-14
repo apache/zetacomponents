@@ -41,6 +41,7 @@ class ezcDbSchemaOptions extends ezcBaseOptions
         $this->properties['fieldClassName'] = 'ezcDbSchemaField';
         $this->properties['indexClassName'] = 'ezcDbSchemaIndex';
         $this->properties['indexFieldClassName'] = 'ezcDbSchemaIndexField';
+        $this->properties['tableNamePrefix'] = '';
         parent::__construct( $options );
     }
 
@@ -87,6 +88,14 @@ class ezcDbSchemaOptions extends ezcBaseOptions
                     throw new ezcBaseInvalidParentClassException( $parentClassMap[$propertyName], $propertyValue );
                 }
 
+                $this->properties[$propertyName] = $propertyValue;
+                break;
+
+            case 'tableNamePrefix':
+                if ( !is_string( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                }
                 $this->properties[$propertyName] = $propertyValue;
                 break;
 

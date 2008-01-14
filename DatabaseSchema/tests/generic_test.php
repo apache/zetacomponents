@@ -51,6 +51,38 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
         return $tables;
     }
 
+    private static function getSchemaWithPrefixedTableNames()
+    {
+        $tables = array(
+            'prefix_bugdb' => new ezcDbSchemaTable(
+                array (
+                    'id' => new ezcDbSchemaField( 'integer', false, true, null, true ),
+                    'bug_type' => new ezcDbSchemaField( 'text', 32, true ),
+                    'severity' => new ezcDbSchemaField( 'integer', false, true, 0 ),
+                    'sdesc'    => new ezcDbSchemaField( 'text', 80, true ),
+                    'ldesc'    => new ezcDbSchemaField( 'clob', false, true ),
+                    'php_version' => new ezcDbSchemaField( 'text', 100, true ),
+                ),
+                array (
+                    'bug_type' => new ezcDbSchemaIndex( array ( 'bug_type' => new ezcDbSchemaIndexField() ), false, false ),
+                    'php_version' => new ezcDbSchemaIndex( array ( 'php_version' => new ezcDbSchemaIndexField() ) ),
+                    'primary'  => new ezcDbSchemaIndex( array ( 'id' => new ezcDbSchemaIndexField() ), true ),
+                )
+            ),
+            'prefix_bugdb_comments' => new ezcDbSchemaTable(
+                array (
+                    'bug_id' => new ezcDbSchemaField( 'integer', false, true, 0 ),
+                    'comment' => new ezcDbSchemaField( 'clob', false, true ),
+                    'email' => new ezcDbSchemaField( 'text', 32 ),
+                ),
+                array (
+                    'email' => new ezcDbSchemaIndex( array ( 'email' => new ezcDbSchemaIndexField() ) ),
+                )
+            ),
+        );
+        return $tables;
+    }
+
     public function testSimple()
     {
         $schema = new ezcDbSchema( self::getSchema() );
@@ -302,5 +334,57 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
         self::assertEquals( $file_orig, $file_dump );
     }
 
+    public function testWriteWithPrefixReadWithPrefix()
+    {
+        xdebug_break();
+        $optionsWithPrefix = new ezcDbSchemaOptions;
+        $optionsWithPrefix->tableNamePrefix = 'prefix_';
+        $schema = new ezcDbSchema( self::getSchema() );
+
+        ezcDbSchema::setOptions( $optionsWithPrefix );
+        $schema->writeToDb( $this->db );
+
+        ezcDbSchema::setOptions( $optionsWithPrefix );
+        $newSchema = ezcDbSchema::createFromDb( $this->db );
+
+        self::assertEquals( $schema, $newSchema );
+    }
+
+    public function testWriteWithPrefixReadWithoutPrefix()
+    {
+        xdebug_break();
+        $optionsWithoutPrefix = new ezcDbSchemaOptions;
+        $optionsWithoutPrefix->tableNamePrefix = '';
+        $optionsWithPrefix = new ezcDbSchemaOptions;
+        $optionsWithPrefix->tableNamePrefix = 'prefix_';
+        $schema = new ezcDbSchema( self::getSchema() );
+        $schemaWithPrefix = new ezcDbSchema( self::getSchemaWithPrefixedTableNames() );
+
+        ezcDbSchema::setOptions( $optionsWithPrefix );
+        $schema->writeToDb( $this->db );
+
+        ezcDbSchema::setOptions( $optionsWithoutPrefix );
+        $newSchema = ezcDbSchema::createFromDb( $this->db );
+
+        self::assertEquals( $schemaWithPrefix, $newSchema );
+    }
+
+    public function testWriteWithoutPrefixReadWithPrefix()
+    {
+        $optionsWithoutPrefix = new ezcDbSchemaOptions;
+        $optionsWithoutPrefix->tableNamePrefix = '';
+        $optionsWithPrefix = new ezcDbSchemaOptions;
+        $optionsWithPrefix->tableNamePrefix = 'prefix_';
+
+        $schema = new ezcDbSchema( self::getSchema() );
+        $schemaWithPrefix = new ezcDbSchema( self::getSchemaWithPrefixedTableNames() );
+
+        ezcDbSchema::setOptions( $optionsWithoutPrefix );
+        $schemaWithPrefix->writeToDb( $this->db );
+
+        ezcDbSchema::setOptions( $optionsWithPrefix );
+        $newSchema = ezcDbSchema::createFromDb( $this->db );
+        self::assertEquals( $schema, $newSchema );
+    }
 }
 ?>

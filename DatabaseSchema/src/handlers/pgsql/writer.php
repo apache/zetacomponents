@@ -33,18 +33,6 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     );
 
     /**
-     * Returns what type of schema writer this class implements.
-     *
-     * This method always returns ezcDbSchema::DATABASE
-     *
-     * @return int
-     */
-    public function getWriterType()
-    {
-        return ezcDbSchema::DATABASE;
-    }
-
-    /**
      * Creates tables defined in $dbSchema in the database referenced by $db.
      *
      * If table already exists it will be removed first.
@@ -99,13 +87,13 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      * Perform testing if table exist for DROP TABLE query 
      * to avoid stoping execution while try to drop not existent table.
      * 
-     * @param ezcDbHandler    $db
-     * @param string $query
+     * @param ezcDbHandler $db
+     * @param string       $query
      * 
      *
      * @return boolean false if query should not be executed.
      */
-    private function isQueryAllowed( ezcDbHandler $db, $query )
+    public function isQueryAllowed( ezcDbHandler $db, $query )
     {
         if ( substr( $query, 0, 10 ) == 'DROP TABLE' )
         {
@@ -128,25 +116,6 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
             return false;
         }
         return true;
-    }
-
-    /**
-     * Returns the definition in $dbSchema as database specific SQL DDL queries.
-     *
-     * @param ezcDbSchema $dbSchema
-     *
-     * @return array(string)
-     */
-    public function convertToDDL( ezcDbSchema $dbSchema )
-    {
-        $this->schema = $dbSchema->getSchema();
-
-        // reset queries
-        $this->queries = array();
-        $this->context = array();
-
-        $this->generateSchemaAsSql();
-        return $this->queries;
     }
 
     /**
@@ -217,7 +186,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateCreateTableSqlStatement( $tableName )
     {
-        return "CREATE TABLE \"$tableName\"";
+        return "CREATE TABLE \"{$tableName}\"";
     }
 
     /**
