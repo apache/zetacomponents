@@ -11,6 +11,7 @@
 require_once 'data/persistent_test_object.php';
 require_once 'data/persistent_test_object_no_id.php';
 require_once 'data/persistent_test_object_converter.php';
+require_once 'data/persistent_test_object_invalid_state.php';
 
 require_once 'data/relation_test_address.php';
 require_once 'data/relation_test_person.php';

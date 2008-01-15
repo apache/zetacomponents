@@ -2,6 +2,9 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Refactored ezcPersistentSession.
+- Fixed issue #10205: binding variables with an undeclared var doesn't throw
+  an exception. If getState() on a persistent object does not return an array
+  an exception is thrown now.
 
 
 1.3.4 - Monday 14 January 2008

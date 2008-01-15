@@ -144,6 +144,51 @@ class ezcPersistentSessionMiscTest extends ezcPersistentSessionTest
 
         $this->removeTempDir();
     }
+
+    public function testInvalidStateException()
+    {
+        $obj = new PersistentTestObjectInvalidState();
+        
+        $obj->state = null;
+        try
+        {
+            $this->session->save( $obj );
+            $this->fail( 'Exception not thrown with state null.' );
+        }
+        catch( ezcPersistentInvalidObjectStateException $e ) {}
+        
+        $obj->state = 23;
+        try
+        {
+            $this->session->save( $obj );
+            $this->fail( 'Exception not thrown with state integer.' );
+        }
+        catch( ezcPersistentInvalidObjectStateException $e ) {}
+        
+        $obj->state = new stdClass();
+        try
+        {
+            $this->session->save( $obj );
+            $this->fail( 'Exception not thrown with state object.' );
+        }
+        catch( ezcPersistentInvalidObjectStateException $e ) {}
+        
+        $obj->state = 'foo';
+        try
+        {
+            $this->session->save( $obj );
+            $this->fail( 'Exception not thrown with state string.' );
+        }
+        catch( ezcPersistentInvalidObjectStateException $e ) {}
+        
+        $obj->state = true;
+        try
+        {
+            $this->session->save( $obj );
+            $this->fail( 'Exception not thrown with state bool.' );
+        }
+        catch( ezcPersistentInvalidObjectStateException $e ) {}
+    }
 }
 
 ?>

@@ -16,6 +16,7 @@ return array(
     'ezcPersistentIdentifierGenerationException'          => 'PersistentObject/exceptions/identifier_generation.php',
     'ezcPersistentObjectAlreadyPersistentException'       => 'PersistentObject/exceptions/already_persistent.php',
     'ezcPersistentObjectNotPersistentException'           => 'PersistentObject/exceptions/not_persistent.php',
+    'ezcPersistentInvalidObjectStateException'            => 'PersistentObject/exceptions/invalid_object_state.php',
     'ezcPersistentQueryException'                         => 'PersistentObject/exceptions/query_exception.php',
     'ezcPersistentRelatedObjectNotFoundException'         => 'PersistentObject/exceptions/related_object_not_found.php',
     'ezcPersistentRelationInvalidException'               => 'PersistentObject/exceptions/relation_invalid.php',

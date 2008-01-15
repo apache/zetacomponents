@@ -601,8 +601,16 @@ class ezcPersistentSession
      */
     public function getObjectState( $object )
     {
-        // @todo Chekcs about object state should be added here, configurable.
-        return $object->getState();
+        // Common sanity check.
+        if ( !is_array( $state = $object->getState() ) )
+        {
+            throw new ezcPersistentInvalidObjectStateException(
+                $object,
+                'Is type ' . gettype( $state ) . ' instead of array.'
+            );
+        }
+        // @todo: Add more optional sanity checks.
+        return $state;
     }
 
     /**
