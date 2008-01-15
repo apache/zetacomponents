@@ -131,23 +131,37 @@ parameters and directly defines the parameter type provided to PDO when
 building the queries.
 
 This currently affects:
-- ezcPersistentObjectIdProperty
-- ezcPersistentObjectProperty
+- ezcPersistentObjectIdProperty (definition)
+- ezcPersistentObjectProperty (definition)
+- ezcPersistentSession (usage)
 
 Open questions
 --------------
 
-It would be nice to make large binary data available as a resource both for
-writing and reading. PDO::PARAM_LOB can handle this if used together with 
-PDO::FETCH_BOUND. Should we, and how do we make this available to the user?
-Write support will most probably work out of the box. If the value is a
-resource the whole file will be read automatically by PDO as long as PARAM_LOB
-is used.
+> It would be nice to make large binary data available as a resource both for
+> writing and reading. PDO::PARAM_LOB can handle this if used together with 
+> PDO::FETCH_BOUND. Should we, and how do we make this available to the user?
+> Write support will most probably work out of the box. If the value is a
+> resource the whole file will be read automatically by PDO as long as PARAM_LOB
+> is used.
 
-Should we use the PDO::PARAM_BOOL/INT by default? That is do we actually
-want to require to use this for anything else than PARAM_LOB since ints/bools
-etc. actually work fine already. What does using these parameters gain us.
+This is not possible with the current design for PersistentObject, since we
+only bind values and not parameters. We could only support this in the load()
+method, where the SELECT query is build completly internally and cannot be
+modified by the user. Everywhere else we would need to keep track of the bound
+variables and can not rely on correctly bound parameters when using find(). In
+addition, this functionality seems to be broken in MySQL and SQLite (see:
+http://bugs.php.net/bug.php?id=40913).
 
+
+> Should we use the PDO::PARAM_BOOL/INT by default? That is do we actually
+> want to require to use this for anything else than PARAM_LOB since ints/bools
+> etc. actually work fine already. What does using these parameters gain us.
+
+It does not work for those parameter types in all cases (referring to DR) so we
+should support all of them. Since ezcDbQuery::bindValue() uses
+PDO::PARAM_STRING as default, we can silently rely on this as the default for
+PersistentObject definitions, too.
 
 Several relations to the same table for PersistentObject [#10373]
 =================================================================
