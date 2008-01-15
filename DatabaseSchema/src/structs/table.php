@@ -17,12 +17,17 @@ class ezcDbSchemaTable extends ezcBaseStruct
     /**
      * A list of all the fields in this table.
      *
+     * The array is indexed with the field name.
+     *
      * @var array(string=>ezcDbSchemaField)
      */
     public $fields;
 
     /**
      * A list of all the indexes on this table.
+     *
+     * The array is indexed with the index name, where the index with the name
+     * 'primary' is a special one describing the primairy key.
      *
      * @var array(string=>ezcDbSchemaIndex)
      */

@@ -242,6 +242,9 @@ class ezcDbSchema
     /**
      * Returns the internal schema by reference.
      *
+     * The method returns an array where the key is the table name, and the
+     * value the table definition stored in a ezcDbSchemaTable struct.
+     *
      * @return array(string=>ezcDbSchemaTable)
      */
     public function &getSchema()

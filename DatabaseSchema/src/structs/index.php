@@ -17,6 +17,8 @@ class ezcDbSchemaIndex extends ezcBaseStruct
     /**
      * The fields that make up this index
      *
+     * The array is indexed with the name of the field.
+     *
      * @var array(string=>ezcDbSchemaIndexField)
      */
     public $indexFields;
