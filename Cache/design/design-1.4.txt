@@ -1,0 +1,137 @@
+eZ component: Cache, Design, 1.4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Frederik Holljen
+:Revision: $Rev: 3576 $
+:Date: $Date: 2006-09-25 13:44:15 +0400 (Mon, 25 Sep 2006) $
+:Status: Draft
+
+.. contents::
+
+=====
+Scope
+=====
+
+The scope of this document is to describe the proposed enhancements for the
+Cache component version 1.4.
+
+The general goal for this version is to implement the features described by
+the following issues in the issue tracker:
+
+- #10531: ezcCacheStorageFile is inefficient when reading the same cache
+  repeatedly.
+
+==================================================================================
+ezcCacheStorageFile is inefficient when reading the same cache repeatedly [#10531]
+==================================================================================
+
+----------
+Background
+----------
+
+The class ezcCacheStorageFile is the base class for file system based caching
+and implements common methods for these kinds of caches. The problem described
+in the issue is, that if 1 cache item is requested multiple times from the
+cache, it will always be read from the file system again instead of being
+cached in memory additionally.
+
+The posted example source is: ::
+
+    while ($i < 1000)
+    {
+        $cache->restore( $id );
+        $i++;
+    }
+
+While this example is utopic, it clearly shows the issue: The cache data is
+read 1000 times from the file system instead of being cached in memory in
+addition.
+
+------
+Design
+------
+
+Since this issue (currently) only affects file system based caches,
+implementing a solution in ezcCacheStorageFile is sensible. The solution
+proposed in the issue is not sufficient, which is because this design is
+written.
+
+The caching in memory should be an optional part of ezcCacheStorageFile so a
+new option $inMemoryCaching will be introduced, which is false per default. If
+this option is switched to true, additional memory caching will be switched on.
+
+Additional memory caching means, that before data will be read from a cache
+file, a memory data structure will be checked for this specific data, which
+might either have been generated earlier in this request or may already have
+been read once.
+
+The data structures used internally in ezcCacheFileStorage are explained in the
+`Data structures`_ section, while the logic to be implemented is describe in
+the `Algorithms`_ part of this document.
+
+---------------
+Data structures
+---------------
+
+The caching itself will be realized by a look-up array which stores instances
+of ezcCacheStorageMemoryDataStruct, indexed by the file path of the original
+cache item. The $time attribute of the data struct is set to the mtime of the
+associated file on read and is compared each time data should be restored, to
+keep the memory cache consistent with the file system correspondant. This is
+necessary, because a different process might alter or invalidate the cached
+data, even if it is not outdated, yet.
+
+----------
+Algorithms
+----------
+
+The second level caching is trivial for the store() and delete() methods.
+However, the logic in the restore() method is not that trivial to ensure that
+the memory cache is kept consistent with the file system variant. The current
+behaviour of ezcCacheFileStorage is changed to the following, if
+$inMemoryCaching is switched on:
+
+store()
+-------
+
+1. Determine the file name.
+2. Store data in this file.
+3. Store data in memory with the mtime of the file.
+
+restore()
+---------
+
+- Determine the file name.
+- Check file mtime and $ttl for expired cache.
+  If expired:
+  - Delete cache file.
+  - Check if in memory cache has data.
+    If yes:
+    - Delete in memory data.
+  - Return false.
+- Check the memory cache.
+  If item is found:
+  - Check assigend time with file mtime.
+    If is the same:
+    - Return memory data.
+  - Delete memory data.
+- Restore data from cache file.
+- Store data in memory cache.
+- Return data.
+
+delete()
+--------
+
+- Check memory cache.
+  If has data:
+  - Delete memory cache.
+- Delete cache file.
+
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
