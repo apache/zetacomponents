@@ -300,6 +300,8 @@ class ezcFeed
      *
      * @throws ezcBaseFileNotFoundException
      *         If the XML file at $uri could not be found.
+     * @throws ezcFeedCanNotParseException
+     *         If the content at $uri is not a valid XML document.
      *
      * @param string $uri An URI which stores an XML document
      * @return ezcFeed
