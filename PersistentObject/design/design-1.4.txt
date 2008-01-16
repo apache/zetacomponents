@@ -1,6 +1,7 @@
 eZ component: PersistentObject, Design, 1.4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :Author: Frederik Holljen
+         Tobias Schlitt
 :Revision: $Rev: 3576 $
 :Date: $Date: 2006-09-25 13:44:15 +0400 (Mon, 25 Sep 2006) $
 :Status: Draft
@@ -16,7 +17,6 @@ PersistentObject component version 1.4.
 The general goal for this version is to implement various features
 described by these issues in our issue tracker:
 
-- #8963: Support for composite IDs.
 - #10151: Improved Database and PersistentObject datatype support (especially
   binary data).
 - #10373: Several relations to the same table for PersistentObject.
@@ -25,72 +25,6 @@ described by these issues in our issue tracker:
 
 Each of the issues and their proposed solutions are explained in a seperate
 chapter in this document.
-
-Support for composite IDs (and composite properties in general) [#8963]
-=======================================================================
-
-Note: This section is not finished. Please read the discussion on the bug to
-see if it will be implemented at all.
-
-Background
-----------
-
-Currently PersistentObject only supports single primary keys for the underlying
-database structure through the definition struct
-ezcPersistentObjectIdProperty. This proposal adds a mechanism to
-PersistentObject to support primary keys that consist of several table columns.
-
-TODO: Discuss difference between composite and multi column. We want
-multicolumn keys and composite properties. Split into one more task.
-
-Design
-------
-
-::
-    ezcPersistentObjectColumn
-    {
-       public $columnName;
-       public $columnType;
-    }
-    
-    ezcPersistentObjectIdProperty
-    {
-      // deprecated
-      public $columnName;
-      public $visibility;  
-    
-      // ezcPersistentObjectColumn
-      public $column;
-    }
-    
-    ezcPersistentObjectMultiColumnId
-    {
-      // array of ezcPersistentObjectIdProperty
-      public $ids;// Note: automatic text generator on the ids.
-      // This is because any form of sequence
-      // does not make sense. (Unless someone
-      // can tell me otherwise and tell me how
-      // to specify/implement that... :)
-    }
-    
-    ezcPersistentCompositeProperty
-    {
-      // array of ezcPersistentObjectColumn
-      public $columns;
-      public $filter;  // covered by different spec.
-      public $propertyName;
-      public $propertyType;
-    }
-    
-    Required API changes:
-    ezcPersistentIdentifierGenerator::postSave() if we want to use it to return the ids. (Like we do now)
-    ezcPersistentSession::load( $class, $id ) since $id can now be composite
-    ezcPersistentSession::loadIfExist( $class, $id ) since $id can now be composite
-    ezcPersistentSession::loadIntoObject( $pObject, $id ) since $id can now be composite
-    
-Open questions
---------------
-
 
 Improved datatype support (especially binary data) [#10151]
 ===========================================================
