@@ -331,8 +331,8 @@ class ezcFeed
      *
      * Example of parsing an XML document stored in a string:
      * <code>
-     * // $xmlString contains a valid XML document
-     * $feed = ezcFeed::parse( $xmlString );
+     * // $xmlString contains a valid XML string
+     * $feed = ezcFeed::parseContent( $xmlString );
      * </code>
      *
      * @throws ezcFeedParseErrorException
