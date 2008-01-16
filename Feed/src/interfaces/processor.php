@@ -101,6 +101,7 @@ abstract class ezcFeedProcessor
      * @param DOMNode $root The root in which to create the node $element
      * @param string $element The name of the XML element
      * @param mixed|array(mixed) $value The value(s) for $element
+     * @ignore
      */
     public function generateMetaData( DOMNode $root, $element, $value )
     {
@@ -123,6 +124,7 @@ abstract class ezcFeedProcessor
      * @param string $element The name of the XML element
      * @param mixed|array(mixed) $value The value(s) for $element
      * @param array(string=>mixed) $attributes The attributes to add to the node
+     * @ignore
      */
     public function generateMetaDataWithAttributes( DOMNode $root, $element, $value = false, array $attributes )
     {
@@ -228,7 +230,7 @@ abstract class ezcFeedProcessor
      * feed schema allows this (returns null if the schema does not allow it).
      *
      * @param string $name The element name
-     * @return ezcFeedelement|null
+     * @return ezcFeedElement|null
      */
     public function add( $name )
     {
