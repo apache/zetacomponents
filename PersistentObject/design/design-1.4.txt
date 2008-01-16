@@ -178,18 +178,18 @@ An implementation of the example with persons would then look something like:
 
 ::
    $personRelations = new ezcPersistentRelationCollection;
-   $def->relations[Person] = $personRelations;
+   $def->relations['Person'] = $personRelations;
 
-   $personRelations['mother'] = new ezcPersistentOneToOneRelation( "persons",
+   $personRelations['Mother'] = new ezcPersistentOneToOneRelation( "persons",
                                                                    "persons" );
-   $personRelations['mother']->columnMap = array( 
+   $personRelations['Mother']->columnMap = array( 
                                            new ezcPersistentSingleTableMap(
                                                "id",
                                                "mother_id" ) );
 
-   $personRelations['father'] = new ezcPersistentOneToOneRelation( "persons",
+   $personRelations['Father'] = new ezcPersistentOneToOneRelation( "persons",
                                                                    "persons" );
-   $personRelations['father']->columnMap = array( 
+   $personRelations['Father']->columnMap = array( 
                                            new ezcPersistentSingleTableMap(
                                                "id",
                                                "father_id" ) );
