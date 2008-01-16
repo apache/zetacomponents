@@ -1,8 +1,8 @@
 eZ component: Cache, Design, 1.4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:Author:
-:Revision:
-:Date:
+$Author$
+$Revision$
+$Date$
 :Status: Draft
 
 .. contents::
