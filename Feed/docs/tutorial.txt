@@ -277,6 +277,13 @@ All RSS1 feeds should be identified with the *application/rss+xml* media type
 ezcFeed to get this string.
 
 
+Self link
+`````````
+
+All RSS1 feeds are required to have the *about* attribute which points back to
+the feed itself.
+
+
 RSS2
 ----
 
