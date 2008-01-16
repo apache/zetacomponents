@@ -19,11 +19,13 @@
  * $confFiles = ezcBaseFile::findRecursive( "/etc", array( '@\.conf$@' ) );
  *
  * // lists all autoload files in the components source tree and excludes the
- * // ones in the autoload subdirectory.
+ * // ones in the autoload subdirectory. Statistics are returned in the $stats
+ * // variable which is passed by reference.
  * $files = ezcBaseFile::findRecursive(
  *     "/dat/dev/ezcomponents",
  *     array( '@src/.*_autoload.php$@' ),
- *     array( '@/autoload/@' )
+ *     array( '@/autoload/@' ),
+ *     $stats
  * );
  *
  * // lists all binaries in /bin except the ones starting with a "g"
@@ -44,10 +46,14 @@ class ezcBaseFile
      * $includeFilters to include only specific files, and $excludeFilters to
      * exclude certain files from being returned. The function will always go
      * into subdirectories even if the entry would not have passed the filters.
+     * If you pass an empty array to the $statistics argument, the function
+     * will in details about the number of files found into the 'count' array
+     * element, and the total filesize in the 'size' array element.
      *
-     * @param string $sourceDir
-     * @param array(string) $includeFilters
-     * @param array(string) $excludeFilters
+     * @param string         $sourceDir
+     * @param array(string)  $includeFilters
+     * @param array(string)  $excludeFilters
+     * @param array()       &$statistics
      *
      * @throws ezcBaseFileNotFoundException if the $sourceDir directory is not
      *         a directory or does not exist.
@@ -55,7 +61,7 @@ class ezcBaseFile
      *         not be opened for reading.
      * @return array
      */
-    static public function findRecursive( $sourceDir, array $includeFilters = array(), array $excludeFilters = array() )
+    static public function findRecursive( $sourceDir, array $includeFilters = array(), array $excludeFilters = array(), &$statistics = null )
     {
         if ( !is_dir( $sourceDir ) )
         {
@@ -67,6 +73,13 @@ class ezcBaseFile
         {
             throw new ezcBaseFilePermissionException( $sourceDir, ezcBaseFileException::READ );
         }
+
+        // init statistics array
+        if ( !is_array( $statistics ) )
+        {
+            $statistics['size']  = 0;
+            $statistics['count'] = 0;
+        }
         
         while ( ( $entry = $d->read() ) !== false )
         {
@@ -75,14 +88,20 @@ class ezcBaseFile
                 continue;
             }
 
-            if ( is_dir( $sourceDir . DIRECTORY_SEPARATOR . $entry ) )
+            $fileInfo = @stat( $sourceDir . DIRECTORY_SEPARATOR . $entry );
+            if ( !$fileInfo )
+            {
+                $fileInfo = array( 'size' => 0, 'mode' => 0 );
+            }
+
+            if ( $fileInfo['mode'] & 0x4000 )
             {
                 // We need to ignore the Permission exceptions here as it can
                 // be normal that a directory can not be accessed. We only need
                 // the exception if the top directory could not be read.
                 try
                 {
-                    $subList = self::findRecursive( $sourceDir . DIRECTORY_SEPARATOR . $entry, $includeFilters, $excludeFilters );
+                    $subList = self::findRecursive( $sourceDir . DIRECTORY_SEPARATOR . $entry, $includeFilters, $excludeFilters, $statistics );
                     $elements = array_merge( $elements, $subList );
                 }
                 catch ( ezcBaseFilePermissionException $e )
@@ -117,6 +136,9 @@ class ezcBaseFile
                 if ( $ok )
                 {
                     $elements[] = $sourceDir . DIRECTORY_SEPARATOR . $entry;
+                    echo "{$entry} = {$fileInfo['size']}\n";
+                    $statistics['count']++;
+                    $statistics['size'] += $fileInfo['size'];
                 }
             }
         }

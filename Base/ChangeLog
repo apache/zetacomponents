@@ -1,6 +1,9 @@
 1.5alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Implemented issue #8529: Added a by-reference argument to
+  ezcBaseFile::findRecursive that returns statistsics (count and total size)
+  of all files that are returned by this function.
 - Implemented issue #11506: Added the static method
   ezcBase::getInstallationPath().
 
