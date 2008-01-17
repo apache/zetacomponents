@@ -139,19 +139,29 @@ have the optional parameter appended to them. The affected methods and their
 new signatures are:
 
 ::
-    ezcPersistentSession::getRelatedObject( object $object, string $className,
-                                            string $relationName = null )
+    ezcPersistentSession::getRelatedObject(
+        object $object,
+        string $className,
+        string $relationName = null
+    )
 
-    ezcPersistentSession::getRelatedObjects( object $object, string $className,
-                                             string $relationName = null )
+    ezcPersistentSession::getRelatedObjects(
+        object $object,
+        string $className,
+        string $relationName = null
+    )
 
-    ezcPersistentSession::addRelatedObject( object $object, 
-                                            object $relationObject,
-                                            string $relationName = null );
+    ezcPersistentSession::addRelatedObject(
+        object $object, 
+        object $relationObject,
+        string $relationName = null
+    );
 
-    ezcPersistentSession::removeRelatedObject( object $object, 
-                                               object $relationObject,
-                                               string $relationName = null );
+    ezcPersistentSession::removeRelatedObject(
+        object $object, 
+        object $relationObject,
+        string $relationName = null
+    );
 
 The new parameter makes it possible to reach one new exceptional state:
 
@@ -180,19 +190,28 @@ An implementation of the example with persons would then look something like:
    $personRelations = new ezcPersistentRelationCollection;
    $def->relations['Person'] = $personRelations;
 
-   $personRelations['Mother'] = new ezcPersistentOneToOneRelation( "persons",
-                                                                   "persons" );
-   $personRelations['Mother']->columnMap = array( 
-                                           new ezcPersistentSingleTableMap(
-                                               "id",
-                                               "mother_id" ) );
+   $personRelations['Mother'] = new ezcPersistentOneToOneRelation(
+        "persons",
+        "persons"
+   );
 
-   $personRelations['Father'] = new ezcPersistentOneToOneRelation( "persons",
-                                                                   "persons" );
+   $personRelations['Mother']->columnMap = array( 
+       new ezcPersistentSingleTableMap(
+           "id",
+           "mother_id"
+       )
+   );
+
+   $personRelations['Father'] = new ezcPersistentOneToOneRelation(
+       "persons",
+       "persons"
+   );
    $personRelations['Father']->columnMap = array( 
-                                           new ezcPersistentSingleTableMap(
-                                               "id",
-                                               "father_id" ) );
+       new ezcPersistentSingleTableMap(
+           "id",
+           "father_id"
+       )
+   );
 
 The changes do not break BC and require changes in PersistentSession to
 work. An extra if will have to be introduced to check for the existence of
