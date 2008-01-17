@@ -189,6 +189,33 @@ class ezcPersistentSessionMiscTest extends ezcPersistentSessionTest
         }
         catch( ezcPersistentInvalidObjectStateException $e ) {}
     }
+
+    public function testObjectDefinitionSerialization()
+    {
+        $persistentClasses = array(
+            'PersistentTestObject',
+            'PersistentTestObjectConverter',
+            'RelationTestAddress',
+            'RelationTestBirthday',
+            'RelationTestEmployer',
+            'RelationTestPerson',
+            'RelationTestSecondPerson',
+        );
+
+        foreach( $persistentClasses as $persistentClass )
+        {
+            $original = $this->session->definitionManager->fetchDefinition( 'RelationTestPerson' );
+            $export   = 'return ' . var_export( $original, true ) . ';';
+            $import   = eval( $export );
+
+            $this->assertEquals(
+                $original,
+                $import,
+                "Persistent object definition not correctly deserialized for class $persistentClass."
+            );
+
+        }
+    }
 }
 
 ?>
