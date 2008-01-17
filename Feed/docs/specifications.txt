@@ -1,21 +1,334 @@
-Feed RFCs
----------
+Feed specifications
+~~~~~~~~~~~~~~~~~~~
 
 This document lists the various feed types supported by the Feed component,
-and the related specifications documents and RFCs.
+general information about each feed type, and the related specifications
+documents and RFCs.
+
+.. contents:: Table of Contents
 
 
-Feed types
-==========
+ATOM
+====
 
-1. `RSS 1.0`__
-2. `RSS 2.0`__
-3. `ATOM`__ (RFC 4287)
+Specifications
+--------------
 
-__ http://web.resource.org/rss/1.0/spec
-__ http://www.rssboard.org/rss-specification
-__ http://atompub.org/rfc4287.html
+`RFC 4287`_
 
+
+Content type
+------------
+
+All ATOM feeds should be identified with the *application/atom+xml* content
+type.
+
+
+Structure
+---------
+
+General information:
+ - All elements must be in the http://www.w3.org/2005/Atom namespace
+ - The top level element is called *feed*
+ - All timestamps must conform to `RFC 3339`_ (eg. 2003-12-13T18:30:02Z)
+ - Unless otherwise specified, all values must be plain text
+ - *xml:lang* may be used to identify the language of text
+ - *xml:base* may be used to control how relative URIs are resolved
+
+Sample ATOM feed::
+
+  <?xml version="1.0" encoding="utf-8"?>
+  <feed xmlns="http://www.w3.org/2005/Atom">
+
+    <title>Example Feed</title>
+    <link href="http://example.org/"/>
+    <updated>2003-12-13T18:30:02Z</updated>
+    <author>
+      <name>John Doe</name>
+    </author>
+    <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
+
+    <entry>
+      <title>Atom-Powered Robots Run Amok</title>
+      <link href="http://example.org/2003/12/13/atom03"/>
+      <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+      <updated>2003-12-13T18:30:02Z</updated>
+      <summary>Some text.</summary>
+    </entry>
+
+  </feed>
+
+
+Feed elements
+-------------
+
+.. _ATOM-id:
+
+id
+``
+
+A universally unique and permanent URI for a feed. For example, it can be an
+Internet domain name.
+
+Equivalents: `ATOM-id`_, `RSS1-about`_, RSS2-none.
+
+
+.. _ATOM-title:
+
+title
+`````
+
+Human readable title for the feed. For example, it can be the same as the
+website title.
+
+Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
+
+
+.. _ATOM-updated:
+
+updated
+```````
+
+The last time the feed was updated.
+
+Must conform to `RFC 3339`_ (eg. 2003-12-13T18:30:02Z).
+
+Equivalents: `ATOM-updated`_, RSS1-none, `RSS2-lastBuildDate`_.
+
+
+.. _ATOM-author:
+
+author
+``````
+
+One author of the feed.
+
+Multiple authors can appear.
+
+One author must be present unless all items contain at least one author.
+
+Required elements: *name*. Optional elements: *uri*, *email*.
+
+Example::
+
+  <author>
+    <name>John Doe</name>
+    <uri>http://example.com/~johndoe</uri>
+    <email>JohnDoe@example.com</email>
+  </author>
+
+Equivalents: `ATOM-author`_, RSS1-none, `RSS2-managingEditor`_.
+
+
+.. _ATOM-link:
+
+link
+````
+
+The URL to the HTML website corresponding to the channel.
+
+Multiple links can appear.
+
+Required attributes: *href*. Optional attributes: *rel* (possible values:
+*alternate*, *enclosure*, *related*, *self*, *via*), *type*, *hreflang*,
+*title*, *length*).
+
+A link back to the feed itself must be present (with *rel="self"*).
+
+A maximum of one link with *rel="alternate"* can appear per *type* and
+*hreflang*.
+
+Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
+
+
+.. _ATOM-entry:
+
+entry
+`````
+
+Feed entry.
+
+Multiple entries can appear.
+
+Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
+
+
+.. _ATOM-subtitle:
+
+subtitle
+````````
+
+A short description of the feed.
+
+Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
+
+
+Item elements
+-------------
+
+
+RSS1
+====
+
+Specifications
+--------------
+
+`RSS1`_
+
+
+Feed elements
+-------------
+
+.. _RSS1-about:
+
+about
+`````
+
+A universally unique and permanent URI for a feed. For example, it can be an
+Internet domain name.
+
+Equivalents: `ATOM-id`_, `RSS1-about`_, RSS2-none.
+
+
+.. _RSS1-title:
+
+title
+`````
+
+Human readable title for the feed. For example, it can be the same as the
+website title.
+
+Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
+
+
+.. _RSS1-description:
+
+description
+```````````
+
+A short description of the feed.
+
+Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
+
+
+.. _RSS1-link:
+
+link
+````
+
+The URL to the HTML website corresponding to the channel.
+
+Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
+
+
+.. _RSS1-item:
+
+item
+````
+
+Feed entry.
+
+Multiple entries can appear.
+
+At least one item must appear.
+
+Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
+
+
+Item elements
+-------------
+
+
+RSS2
+====
+
+Specifications
+--------------
+
+`RSS1`_
+
+
+Feed elements
+-------------
+
+.. _RSS2-title:
+
+title
+`````
+
+Human readable title for the feed. For example, it can be the same as the
+website title.
+
+Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
+
+
+.. _RSS2-description:
+
+description
+```````````
+
+A short description of the feed.
+
+Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
+
+
+.. _RSS2-link:
+
+link
+````
+
+The URL to the HTML website corresponding to the channel.
+
+Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
+
+
+.. _RSS2-item:
+
+item
+````
+
+Feed entry.
+
+Multiple entries can appear.
+
+At least one item must appear.
+
+Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
+
+
+.. _RSS2-lastBuildDate:
+
+lastBuildDate
+`````````````
+
+The last time the feed was updated.
+
+Must conform to `RFC 822`_ (eg. Sat, 07 Sep 2002 09:42:31 GMT).
+
+Equivalents: `ATOM-updated`_, RSS1-none, `RSS2-lastBuildDate`_.
+
+
+.. _RSS2-managingEditor:
+
+managingEditor
+``````````````
+
+One author of the feed.
+
+Equivalents: `ATOM-author`_, RSS1-none, `RSS2-managingEditor`_.
+
+
+Item elements
+-------------
+
+
+.. _RSS1: http://web.resource.org/rss/1.0/spec
+.. _RSS2: http://www.rssboard.org/rss-specification
+.. _RFC 4287: http://atompub.org/rfc4287.html
+
+
+.. _RFC 3339: http://www.faqs.org/rfcs/rfc3339.html
+.. _RFC 822: http://www.faqs.org/rfcs/rfc822.html
 
 
 
