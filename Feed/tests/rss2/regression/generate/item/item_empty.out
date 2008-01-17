@@ -1,1 +1,1 @@
-At least one of these attributes is required: title, description.
+At least one of these elements is required: /rss/item/title, /rss/item/description.

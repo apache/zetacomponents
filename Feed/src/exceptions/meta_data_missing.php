@@ -24,7 +24,7 @@ class ezcFeedRequiredMetaDataMissingException extends ezcFeedException
      */
     public function __construct( $attribute )
     {
-        parent::__construct( "There was no data submitted for required channel attribute '{$attribute}'." );
+        parent::__construct( "There is no data for required element '{$attribute}'." );
     }
 }
 ?>

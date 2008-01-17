@@ -235,7 +235,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( $element );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/{$element}" );
             }
 
             if ( !is_array( $data ) )
@@ -353,7 +353,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             $data = $this->schema->isMulti( 'image', $element ) ? $this->get( $this->schema->getMulti( 'image', $element ) ) : $feedElement->$element;
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( $element );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/image/{$element}" );
             }
 
             $this->generateMetaData( $image, $element, $data );
@@ -430,10 +430,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getRequired( 'textInput' ) as $element )
         {
-            $data = $data = $this->schema->isMulti( 'image', $element ) ? $this->get( $this->schema->getMulti( 'image', $element ) ) : $feedElement->$element;
+            $data = $data = $this->schema->isMulti( 'textInput', $element ) ? $this->get( $this->schema->getMulti( 'textInput', $element ) ) : $feedElement->$element;
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( $element );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/textInput/{$element}" );
             }
 
             $this->generateMetaData( $image, $element, $data );
@@ -457,7 +457,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             $data = $feedElement->$element;
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( $element );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/cloud/{$element}" );
             }
             $attributes[$element] = $data;
         }
@@ -496,7 +496,12 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
             if ( $atLeastOneRequiredFeedItemPresent === false )
             {
-                throw new ezcFeedAtLeastOneItemDataRequiredException( $this->schema->getAtLeastOne( 'item' ) );
+                $requiredElements = $this->schema->getAtLeastOne( 'item' );
+                for ( $i = 0; $i < count( $requiredElements ); $i++ )
+                {
+                    $requiredElements[$i] = "/{$this->root->nodeName}/item/{$requiredElements[$i]}";
+                }
+                throw new ezcFeedAtLeastOneItemDataRequiredException( $requiredElements );
             }
 
             foreach ( $this->schema->getOptional( 'item' ) as $attribute )
@@ -582,7 +587,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                             if ( !isset( $metaData->url ) )
                             {
-                                throw new ezcFeedRequiredMetaDataMissingException( 'item/source/url' );
+                                throw new ezcFeedRequiredMetaDataMissingException( '/rss/item/source/url' );
                             }
                             $attributes = array( 'url' => $metaData->url );
                             $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, $attributes );

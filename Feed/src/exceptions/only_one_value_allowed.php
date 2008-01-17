@@ -24,7 +24,7 @@ class ezcFeedOnlyOneValueAllowedException extends ezcFeedException
      */
     public function __construct( $attribute )
     {
-        parent::__construct( "The attribute '{$attribute}' supports only singular values." );
+        parent::__construct( "The element '{$attribute}' cannot appear more than once." );
     }
 }
 ?>

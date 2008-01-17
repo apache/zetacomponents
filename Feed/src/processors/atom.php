@@ -325,7 +325,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( $element );
+                throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$element}" );
             }
 
             if ( !is_array( $data ) )
@@ -366,7 +366,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             $entries = $this->get( 'entries' );
             if ( $entries === null )
             {
-                throw new ezcFeedAtLeastOneItemDataRequiredException( array( 'author' ) );
+                throw new ezcFeedAtLeastOneItemDataRequiredException( array( '/feed/author' ) );
             }
 
             foreach ( $entries as $entry )
@@ -374,11 +374,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 $authors = $entry->author;
                 if ( $authors === null )
                 {
-                    throw new ezcFeedAtLeastOneItemDataRequiredException( array( 'entry/author' ) );
+                    throw new ezcFeedAtLeastOneItemDataRequiredException( array( '/feed/entry/author' ) );
                 }
             }
 
-            throw new ezcFeedAtLeastOneItemDataRequiredException( array( 'author' ) );
+            throw new ezcFeedAtLeastOneItemDataRequiredException( array( '/feed/author' ) );
         }
     }
 
@@ -429,7 +429,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                     if ( $obj['type'] === $dataNode->type
                                          && $obj['hreflang'] === $dataNode->hreflang )
                                     {
-                                        throw new ezcFeedOnlyOneValueAllowedException( 'rel="alternate"' );
+                                        throw new ezcFeedOnlyOneValueAllowedException( '/feed/link@rel="alternate"' );
                                     }
                                 }
 
@@ -475,6 +475,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             $element = $parent;
         }
 
+        $parentNode = ( $root->nodeName === 'entry' ) ? '/feed' : '';
+
         $attributes = array();
         $required = $this->schema->getRequiredAttributes( $element, $subElement );
 
@@ -517,7 +519,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             }
             else if ( in_array( $attribute, $required ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                throw new ezcFeedRequiredMetaDataMissingException( "{$parentNode}/{$root->nodeName}/{$element}/@{$attribute}" );
             }
         }
 
@@ -612,7 +614,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             }
             else if ( in_array( $attribute, $required ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$root->nodeName}/{$element}/{$attribute}" );
             }
         }
 
@@ -634,13 +636,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
         $elementTag = $this->xml->createElement( $element );
         $root->appendChild( $elementTag );
+        $parentNode = ( $root->nodeName === 'entry' ) ? '/feed' : '';
 
         foreach ( $this->schema->getRequired( $element ) as $child )
         {
             $data = $this->schema->isMulti( $element, $child ) ? $this->get( $this->schema->getMulti( $element, $child ) ) : $feedElement->$child;
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( $child );
+                throw new ezcFeedRequiredMetaDataMissingException( "{$parentNode}/{$root->nodeName}/{$element}/{$child}" );
             }
 
             $this->generateMetaData( $elementTag, $child, $data );
@@ -694,7 +697,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         $val = $dataNode->$attribute;
                         if ( is_null( $val ) )
                         {
-                            throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                            throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$parent}/{$element}/{$child}/{$attribute}" );
                         }
 
                         $this->generateMetaData( $childTag, $attribute, $val );
@@ -748,7 +751,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         }
                         else if ( in_array( $attribute, $required ) )
                         {
-                            throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                            throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$parent}/{$element}/{$child}/@{$attribute}" );
                         }
                     }
 
@@ -791,7 +794,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                 if ( is_null( $data ) )
                 {
-                    throw new ezcFeedRequiredMetaDataMissingException( $element );
+                    throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$parent}/{$element}" );
                 }
 
                 switch ( $element )
@@ -858,17 +861,17 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             {
                 if ( !$linkAlternatePresent && !$summaryPresent )
                 {
-                    throw new ezcFeedRequiredMetaDataMissingException( 'content' );
+                    throw new ezcFeedRequiredMetaDataMissingException( '/feed/entry/content' );
                 }
 
                 if ( !$linkAlternatePresent )
                 {
-                    throw new ezcFeedRequiredMetaDataMissingException( 'link rel="alternate"' );
+                    throw new ezcFeedRequiredMetaDataMissingException( '/feed/entry/link@rel="alternate"' );
                 }
 
                 if ( !$summaryPresent )
                 {
-                    throw new ezcFeedRequiredMetaDataMissingException( 'summary' );
+                    throw new ezcFeedRequiredMetaDataMissingException( '/feed/entry/summary' );
                 }
             }
 
@@ -876,7 +879,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             {
                 if ( ( $contentSrcPresent || $contentBase64 ) && !$summaryPresent )
                 {
-                    throw new ezcFeedRequiredMetaDataMissingException( 'summary' );
+                    throw new ezcFeedRequiredMetaDataMissingException( '/feed/entry/summary' );
                 }
             }
 
@@ -934,7 +937,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                     if ( $obj['type'] === $dataNode->type
                                          && $obj['hreflang'] === $dataNode->hreflang )
                                     {
-                                        throw new ezcFeedOnlyOneValueAllowedException( 'rel="alternate"' );
+                                        throw new ezcFeedOnlyOneValueAllowedException( '/feed/entry/link@rel="alternate"' );
                                     }
                                 }
 

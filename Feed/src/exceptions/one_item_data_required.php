@@ -26,7 +26,7 @@ class ezcFeedAtLeastOneItemDataRequiredException extends ezcFeedException
     public function __construct( $attributes )
     {
         $attributes = implode( ', ', $attributes );
-        parent::__construct( "At least one of these attributes is required: {$attributes}." );
+        parent::__construct( "At least one of these elements is required: {$attributes}." );
     }
 }
 ?>

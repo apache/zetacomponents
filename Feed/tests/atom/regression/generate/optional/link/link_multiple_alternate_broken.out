@@ -1,1 +1,1 @@
-The attribute 'rel="alternate"' supports only singular values.
+The element '/feed/link@rel="alternate"' cannot appear more than once.

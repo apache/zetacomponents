@@ -164,7 +164,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
         if ( is_null( $data ) )
         {
-            throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+            throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/@about" );
         }
 
         $aboutAttr = $this->xml->createAttribute( 'rdf:about' );
@@ -177,7 +177,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( $element );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/{$element}" );
             }
 
             $attributes = array();
@@ -194,7 +194,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $items = $this->get( 'items' );
         if ( count( $items ) === 0 )
         {
-            throw new ezcFeedRequiredMetaDataMissingException( 'item' );
+            throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/item" );
         }
 
         $itemsTag = $this->xml->createElement( 'items' );
@@ -221,7 +221,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $about = $image->about;
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/image/@about" );
             }
 
             $resourceAttr = $this->xml->createAttribute( 'rdf:resource' );
@@ -240,7 +240,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $about = $textInput->about;
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/textinput/@about" );
             }
 
             $resourceAttr = $this->xml->createAttribute( 'rdf:resource' );
@@ -267,7 +267,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $data = $element->about;
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/item/@about" );
             }
 
             $aboutAttr = $this->xml->createAttribute( 'rdf:about' );
@@ -281,7 +281,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
                 if ( is_null( $data ) )
                 {
-                    throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                    throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/item/{$attribute}" );
                 }
 
                 $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
@@ -309,7 +309,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $data = $image->about;
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/image/@about" );
             }
 
             $aboutAttr = $this->xml->createAttribute( 'rdf:about' );
@@ -322,7 +322,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 $data = $image->$attribute;
                 if ( is_null( $data ) )
                 {
-                    throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                    throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/image/{$attribute}" );
                 }
 
                 $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
@@ -350,7 +350,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $data = $textInput->about;
             if ( is_null( $data ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( 'about' );
+                throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/textinput/@about" );
             }
 
             $aboutAttr = $this->xml->createAttribute( 'rdf:about' );
@@ -363,7 +363,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 $data = $textInput->$attribute;
                 if ( is_null( $data ) )
                 {
-                    throw new ezcFeedRequiredMetaDataMissingException( $attribute );
+                    throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/textinput/{$attribute}" );
                 }
 
                 $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
