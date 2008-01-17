@@ -136,7 +136,6 @@ class ezcBaseFile
                 if ( $ok )
                 {
                     $elements[] = $sourceDir . DIRECTORY_SEPARATOR . $entry;
-                    echo "{$entry} = {$fileInfo['size']}\n";
                     $statistics['count']++;
                     $statistics['size'] += $fileInfo['size'];
                 }
