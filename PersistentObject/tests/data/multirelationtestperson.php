@@ -43,6 +43,7 @@ $relations['mothers_children'] = new ezcPersistentOneToManyRelation(
 $relations['mothers_children']->columnMap = array(
     new ezcPersistentSingleTableMap( 'id', 'mother' )
 );
+$relations['mothers_children']->cascade = true;
 
 $relations['mother'] = new ezcPersistentManyToOneRelation(
     'PO_person',

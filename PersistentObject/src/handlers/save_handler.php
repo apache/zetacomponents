@@ -131,7 +131,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
      * @throws ezcPersistentRelationNotFoundException
      *         if the deisred relation is not defined.
      */
-    public function addRelatedObject( $object, $relatedObject )
+    public function addRelatedObject( $object, $relatedObject, $relationName = null )
     {
         $class        = get_class( $object );
         $relatedClass = get_class( $relatedObject );
@@ -140,7 +140,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
         $objectState        = $this->session->getObjectState( $object );
         $relatedObjectState = $this->session->getObjectState( $relatedObject );
 
-        // Sanity checks.
+        // Sanity check
         if ( !isset( $def->relations[$relatedClass] ) )
         {
             throw new ezcPersistentRelationNotFoundException(
@@ -148,10 +148,29 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                 $relatedClass
             );
         }
-        if (
-            isset( $def->relations[$relatedClass]->reverse ) 
-            && $def->relations[$relatedClass]->reverse === true
-        )
+
+        $relation = $def->relations[$relatedClass];
+        
+        // New multi-relations for a single class
+        if ( $relation instanceof ezcPersistentRelationCollection )
+        {
+            if ( $relationName === null )
+            {
+                throw new ezcPersistentUndeterministicRelationException( $relatedClass );
+            }
+            if ( !isset( $relation[$relationName] ) )
+            {
+                throw new ezcPersistentRelationNotFoundException(
+                    $class,
+                    $relatedClass,
+                    $relationName
+                );
+            }
+            $relation = $relation[$relationName];
+        }
+
+        // Another sanity check
+        if ( isset( $relation->reverse ) && $relation->reverse )
         {
             throw new ezcPersistentRelationOperationNotSupportedException(
                 $class,
@@ -162,7 +181,6 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
         }
 
         $relatedDef = $this->definitionManager->fetchDefinition( $relatedClass );
-        $relation   = $def->relations[$relatedClass];
 
         switch ( get_class( $relation ) )
         {

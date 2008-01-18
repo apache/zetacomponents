@@ -217,6 +217,76 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
             'Siblings not correctly found for MultiRelationTestPerson 3'
         );
     }
+
+    public function testSave()
+    {
+        $newChild = new MultiRelationTestPerson();
+        $newChild->name = "New child";
+
+        $this->session->save( $newChild );
+
+        $this->assertEquals(
+            6,
+            $newChild->id,
+            'New MultiRelationTestPerson saved with incorrect ID.'
+        );
+    }
+
+    public function testAddRelatedObjectOneToManySuccess()
+    {
+        $newChild = new MultiRelationTestPerson();
+        $newChild->name = "New child";
+
+        $this->session->save( $newChild );
+
+        $mother = $this->session->load( 'MultiRelationTestPerson', 1 );
+
+        $this->session->addRelatedObject( $mother, $newChild, 'mothers_children' );
+        
+        $this->assertEquals(
+            $mother->id,
+            $newChild->mother,
+            'New MultiRelationTestPerson child not added correctly'
+        );
+    }
+
+    public function testAddRelatedObjectManyToManySuccess()
+    {
+        $newSibling = new MultiRelationTestPerson();
+        $newSibling->name = "New child";
+
+        $this->session->save( $newSibling );
+
+        $sibling = $this->session->load( 'MultiRelationTestPerson', 3 );
+
+        $this->session->addRelatedObject( $sibling, $newSibling, 'siblings' );
+
+        $q = $this->session->database->createSelectQuery();
+        $q->select( '*' )
+          ->from( 'PO_sibling' )
+          ->where(
+            $q->expr->eq(
+                $this->session->database->quoteIdentifier( 'sibling' ),
+                $q->bindValue( $newSibling->id )
+            )
+          );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $rows = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        $this->assertEquals(
+            1,
+            count( $rows ),
+            'Incorrect number of relation records.'
+        );
+
+        $this->assertEquals(
+            $sibling->id,
+            $rows[0]['person'],
+            'Incorrect perso ID in relation record.'
+        );
+    }
 }
 
 ?>

@@ -399,8 +399,14 @@ class ezcPersistentSession
      * record is stored automatically and there is no need to store
      * $relatedObject explicitly after establishing the relation.
      *
+     * If there are multiple relations defined between the class of $object and
+     * $relatedObject (via {@link ezcPersistentRelationCollection}), the
+     * $relationName parameter becomes mandatory to determine, which exact
+     * relation should be used.
+     *
      * @param object $object
      * @param object $relatedObject
+     * @param string $relationName
      *
      * @throws ezcPersistentRelationOperationNotSupportedException
      *         if a relation to create is marked as "reverse" {@link
@@ -408,9 +414,9 @@ class ezcPersistentSession
      * @throws ezcPersistentRelationNotFoundException
      *         if the deisred relation is not defined.
      */
-    public function addRelatedObject( $object, $relatedObject )
+    public function addRelatedObject( $object, $relatedObject, $relatioName = null )
     {
-        return $this->saveHandler->addRelatedObject( $object, $relatedObject );
+        return $this->saveHandler->addRelatedObject( $object, $relatedObject, $relatioName );
     }
 
     /**
