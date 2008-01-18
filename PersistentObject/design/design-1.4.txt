@@ -165,7 +165,7 @@ new signatures are:
 
 The new parameter makes it possible to reach one new exceptional state:
 
-- ezcPersistentUnderministicRelationException is thrown when several relations
+- ezcPersistentUndeterministicRelationException is thrown when several relations
   to one class is defined but no relation name is used.
 
 Definition Design
