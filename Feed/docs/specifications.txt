@@ -29,6 +29,8 @@ Feed elements
 +-----------------------+----------------------------+---------------------------+
 | |ATOM-link|_ !*       | |RSS1-link|_ !             | |RSS2-link|_ !            |
 +-----------------------+----------------------------+---------------------------+
+| |ATOM-logo|_ ?        | |RSS1-image|_ ?            | |RSS2-image|_ ?           |
++-----------------------+----------------------------+---------------------------+
 | |ATOM-rights|_ ?      | x                          | |RSS2-copyright|_ ?       |
 +-----------------------+----------------------------+---------------------------+
 | x                     | x                          | |RSS2-ttl|_ ?             |
@@ -211,6 +213,20 @@ A maximum of one link with ``rel="alternate"`` can appear per *type* and
 *hreflang*.
 
 Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
+
+
+.. _ATOM-logo:
+
+ATOM/logo
+`````````
+
+An image associated with the feed. The value is an URL to an image.
+
+Optional.
+
+Can appear only once.
+
+Equivalents: `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
 
 
 .. _ATOM-rights:
@@ -505,6 +521,25 @@ Can appear only once.
 Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
 
 
+.. _RSS1-image:
+
+RSS1/image
+``````````
+
+An image associated with the feed.
+
+Optional.
+
+Can appear only once.
+
+Has the required attribute *about*, which should have the same value as the
+*url* sub-element.
+
+Has 3 required sub-elements: *title*, *link*, *url*.
+
+Equivalents: `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
+
+
 .. _RSS1-item:
 
 RSS1/item
@@ -677,6 +712,24 @@ Required.
 Can appear only once.
 
 Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
+
+
+.. _RSS2-image:
+
+RSS2/image
+``````````
+
+An image associated with the feed.
+
+Optional.
+
+Can appear only once.
+
+Has 3 required sub-elements: *title*, *link*, *url*.
+
+Has 3 optional sub-elements: *width*, *height*, *description*.
+
+Equivalents: `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
 
 
 .. _RSS2-item:
@@ -967,6 +1020,7 @@ Resources
 .. |ATOM-entry| replace:: entry
 .. |ATOM-id| replace:: id
 .. |ATOM-link| replace:: link
+.. |ATOM-logo| replace:: logo
 .. |ATOM-rights| replace:: rights
 .. |ATOM-subtitle| replace:: subtitle
 .. |ATOM-title| replace:: title
@@ -984,6 +1038,7 @@ Resources
 
 .. |RSS1-about| replace:: about
 .. |RSS1-description| replace:: description
+.. |RSS1-image| replace:: image
 .. |RSS1-item| replace:: item
 .. |RSS1-link| replace:: link
 .. |RSS1-title| replace:: title
@@ -996,6 +1051,7 @@ Resources
 .. |RSS2-cloud| replace:: cloud
 .. |RSS2-copyright| replace:: copyright
 .. |RSS2-description| replace:: description
+.. |RSS2-image| replace:: image
 .. |RSS2-item| replace:: item
 .. |RSS2-lastBuildDate| replace:: lastBuildDate
 .. |RSS2-link| replace:: link
@@ -1006,7 +1062,6 @@ Resources
 .. |RSS2-textInput| replace:: textInput
 .. |RSS2-title| replace:: title
 .. |RSS2-ttl| replace:: ttl
-
 
 .. |RSS2-item-author| replace:: author
 .. |RSS2-item-comments| replace:: comments
