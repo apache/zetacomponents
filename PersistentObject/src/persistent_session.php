@@ -222,17 +222,23 @@ class ezcPersistentSession
      * </ul>
      * For other relation types {@link getRelatedObject()} is recommended.
      *
+     * If multiple relations are defined for the $relatedClass (using {@link
+     * ezcPersistentRelationCollection}), the parameter $relationName becomes
+     * mandatory to determine which relation definition to use. For normal
+     * relations, this parameter is silently ignored.
+     *
      * @param object $object
      * @param string $relatedClass
+     * @param string $relationName
      *
      * @return array(int=>object($relatedClass))
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      */
-    public function getRelatedObjects( $object, $relatedClass )
+    public function getRelatedObjects( $object, $relatedClass, $relationName = null )
     {
-        return $this->loadHandler->getRelatedObjects( $object, $relatedClass );
+        return $this->loadHandler->getRelatedObjects( $object, $relatedClass, $relationName );
     }
 
     /**
@@ -259,17 +265,23 @@ class ezcPersistentSession
      * </ul>
      * For other relation types {@link getRelatedObjects()} is recommended.
      *
+     * If multiple relations are defined for the $relatedClass (using {@link
+     * ezcPersistentRelationCollection}), the parameter $relationName becomes
+     * mandatory to determine which relation definition to use. For normal
+     * relations, this parameter is silently ignored.
+     *
      * @param object $object
      * @param string $relatedClass
+     * @param string $relationName
      *
      * @return object($relatedClass)
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      */
-    public function getRelatedObject( $object, $relatedClass )
+    public function getRelatedObject( $object, $relatedClass, $relationName = null )
     {
-        return $this->loadHandler->getRelatedObject( $object, $relatedClass );
+        return $this->loadHandler->getRelatedObject( $object, $relatedClass, $relationName );
     }
 
     /**

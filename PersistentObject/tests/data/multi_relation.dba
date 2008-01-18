@@ -1,0 +1,108 @@
+<?php return array (
+  0 => 
+  array (
+    'PO_person' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'father' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => true,
+           'unsigned' => false,
+        )),
+        'mother' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'name' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 100,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+      ),
+    )),
+    'PO_sibling' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'person' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'sibling' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'person' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'sibling' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+      ),
+    )),
+  ),
+  1 => 
+  array (
+  ),
+); ?>

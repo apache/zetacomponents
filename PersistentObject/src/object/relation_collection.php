@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentObjectRelations class.
+ * File containing the ezcPersistentRelationCollection class.
  *
  * @package PersistentObject
  * @version //autogentag//
@@ -9,14 +9,14 @@
  */
 
 /**
- * ezcPersistentObjectRelations class.
+ * ezcPersistentRelationCollection class.
  * 
  * @access private
  *
  * @package PersistentObject
  * @version //autogen//
  */
-class ezcPersistentObjectRelations extends ArrayObject
+class ezcPersistentRelationCollection extends ArrayObject
 {
     /**
      * Stores the relation objects. 
@@ -46,9 +46,9 @@ class ezcPersistentObjectRelations extends ArrayObject
      */
     public function offsetSet( $offset, $value )
     {
-        if ( !( $value instanceof ezcPersistentRelation ) && !( $value instanceof ezcPersistentRelationCollection ) )
+        if ( ( $value instanceof ezcPersistentRelation ) === false )
         {
-            throw new ezcBaseValueException( 'value', $value, 'ezcPersistentRelation or ezcPersistentRelationCollection' );
+            throw new ezcBaseValueException( 'value', $value, 'ezcPersistentRelation' );
         }
         if ( !is_string( $offset ) || strlen( $offset ) < 1 )
         {
@@ -68,9 +68,9 @@ class ezcPersistentObjectRelations extends ArrayObject
     {
         foreach ( $array as $offset => $value )
         {
-            if ( !( $value instanceof ezcPersistentRelation ) && !( $value instanceof ezcPersistentRelationCollection ) )
+            if ( ( $value instanceof ezcPersistentRelation ) === false )
             {
-                throw new ezcBaseValueException( 'value', $value, 'ezcPersistentRelation or ezcPersistentRelationCollection' );
+                throw new ezcBaseValueException( 'value', $value, 'ezcPersistentRelation' );
             }
             if ( !is_string( $offset ) || strlen( $offset ) < 1 )
             {
@@ -110,20 +110,12 @@ class ezcPersistentObjectRelations extends ArrayObject
      * Sets the state on deserialization.
      * 
      * @param array $state
-     * @return ezcPersistentObjectRelations
+     * @return ezcPersistentRelationCollection
      */
     public static function __set_state( array $state )
     {
-        $relations = new ezcPersistentObjectRelations();
-        if ( isset( $state['columns'] ) && count( $state ) === 1 )
-        {
-            $relations->exchangeArray( $state['columns'] );
-        }
-        else
-        {
-            // Old exported objects.
-            $relations->exchangeArray( $state );
-        }
+        $relations = new ezcPersistentRelationCollection();
+        $relations->exchangeArray( $state );
         return $relations;
     }
 }

@@ -285,17 +285,23 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * </ul>
      * For other relation types {@link getRelatedObject()} is recommended.
      *
+     * If multiple relations are defined for the $relatedClass (using {@link
+     * ezcPersistentRelationCollection}), the parameter $relationName becomes
+     * mandatory to determine which relation definition to use. For normal
+     * relations, this parameter is silently ignored.
+     *
      * @param object $object
      * @param string $relatedClass
+     * @param string $relationName
      *
      * @return array(int=>object($relatedClass))
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      */
-    public function getRelatedObjects( $object, $relatedClass )
+    public function getRelatedObjects( $object, $relatedClass, $relationName = null )
     {
-        $query = $this->createRelationFindQuery( $object, $relatedClass );
+        $query = $this->createRelationFindQuery( $object, $relatedClass, $relationName );
         return $this->find( $query, $relatedClass );
     }
 
@@ -323,17 +329,23 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * </ul>
      * For other relation types {@link getRelatedObjects()} is recommended.
      *
+     * If multiple relations are defined for the $relatedClass (using {@link
+     * ezcPersistentRelationCollection}), the parameter $relationName becomes
+     * mandatory to determine which relation definition to use. For normal
+     * relations, this parameter is silently ignored.
+     *
      * @param object $object
      * @param string $relatedClass
+     * @param string $relationName
      *
      * @return object($relatedClass)
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      */
-    public function getRelatedObject( $object, $relatedClass )
+    public function getRelatedObject( $object, $relatedClass, $relationName = null )
     {
-        $query = $this->createRelationFindQuery( $object, $relatedClass );
+        $query = $this->createRelationFindQuery( $object, $relatedClass, $relationName );
         // This method only needs to return 1 object
         $query->limit( 1 );
 
@@ -393,15 +405,22 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * {@link find()} and the related class name, to retrieve a sub-set of
      * related objects.
      *
+     * If multiple relations exist to the same PHP class (defined using a
+     * {@link ezcPersistentRelationCollection}), the optional parameter
+     * $relationName becomes mandatory to determine the relation to use for
+     * fetching objects. If the parameter is not submitted, an exception will
+     * be thrown. For normal relations this parameter will be silently ignored.
+     *
      * @param object $object
      * @param string $relatedClass
+     * @param string $relationName
      *
      * @return ezcDbSelectQuery
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      */
-    public function createRelationFindQuery( $object, $relatedClass )
+    public function createRelationFindQuery( $object, $relatedClass, $relationName = null )
     {
         $class = get_class( $object );
         $def   = $this->definitionManager->fetchDefinition( $class );
@@ -414,6 +433,25 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
             );
         }
         $relation    = $def->relations[$relatedClass];
+
+        // New multi-relations for a single class
+        if ( $relation instanceof ezcPersistentRelationCollection )
+        {
+            if ( $relationName === null )
+            {
+                throw new ezcPersistentUndeterministicRelationException( $relatedClass );
+            }
+            if ( !isset( $relation[$relationName] ) )
+            {
+                throw new ezcPersistentRelationNotFoundException(
+                    $class,
+                    $relatedClass,
+                    $relationName
+                );
+            }
+            $relation = $relation[$relationName];
+        }
+
         $query       = $this->createFindQuery( $relatedClass );
         $objectState = $this->session->getObjectState( $object );
 

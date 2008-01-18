@@ -25,9 +25,12 @@ class ezcPersistentRelationNotFoundException extends ezcPersistentObjectExceptio
      * @param string $relatedClass
      * @return void
      */
-    public function __construct( $class, $relatedClass )
+    public function __construct( $class, $relatedClass, $relationName = null )
     {
-        parent::__construct( "Class '{$class}' does not have a relation to '{$relatedClass}'" );
+        parent::__construct(
+            "Class '{$class}' does not have a relation to '{$relatedClass}'"
+                . ( $relationName !== null ? " with name '$relationName'." : '.' )
+        );
     }
 }
 ?>
