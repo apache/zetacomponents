@@ -804,6 +804,23 @@ Can appear only once.
 Equivalents: ATOM-none, RSS1-none, `RSS2-rating`_.
 
 
+.. _RSS2-skipDays:
+
+RSS2/skipDays
+`````````````
+
+A hint for aggregators telling them which days they can skip when reading the
+feed.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Can have up to 7 *day* elements, each with a value from ``Monday`` to ``Sunday``.
+
+Equivalents: ATOM-none, RSS1-none, `RSS2-skipDays`_.
+
+
 .. _RSS2-skipHours:
 
 RSS2/skipHours
@@ -820,23 +837,6 @@ Can have up to 24 *hour* elements, each with an integer value from ``\0``
 (midnight) to ``23``.
 
 Equivalents: ATOM-none, RSS1-none, `RSS2-skipHours`_.
-
-
-.. _RSS2-skipDays:
-
-RSS2/skipDays
-`````````````
-
-A hint for aggregators telling them which days they can skip when reading the
-feed.
-
-Optional (not recommended).
-
-Can appear only once.
-
-Can have up to 7 *day* elements, each with a value from ``Monday`` to ``Sunday``.
-
-Equivalents: ATOM-none, RSS1-none, `RSS2-skipDays`_.
 
 
 .. _RSS2-textInput:
@@ -1057,8 +1057,8 @@ Resources
 .. |RSS2-link| replace:: link
 .. |RSS2-managingEditor| replace:: managingEditor
 .. |RSS2-rating| replace:: rating
-.. |RSS2-skipHours| replace:: skipHours
 .. |RSS2-skipDays| replace:: skipDays
+.. |RSS2-skipHours| replace:: skipHours
 .. |RSS2-textInput| replace:: textInput
 .. |RSS2-title| replace:: title
 .. |RSS2-ttl| replace:: ttl
