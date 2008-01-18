@@ -29,6 +29,8 @@ Feed elements
 +-----------------------+----------------------------+---------------------------+
 | |ATOM-link|_ !*       | |RSS1-link|_ !             | |RSS2-link|_ !            |
 +-----------------------+----------------------------+---------------------------+
+| |ATOM-rights|_ ?      | x                          | |RSS2-copyright|_ ?       |
++-----------------------+----------------------------+---------------------------+
 | |ATOM-entry|_ ?*      | |RSS1-item|_ !*            | |RSS2-item|_ !*           |
 +-----------------------+----------------------------+---------------------------+
 
@@ -57,6 +59,8 @@ Item elements
 | |ATOM-entry-summary|_ !   | |RSS1-item-description|_ !   | |RSS2-item-description|_ !   |
 +---------------------------+------------------------------+------------------------------+
 | |ATOM-entry-published|_ ? | x                            | |RSS2-item-pubDate|_ ?       |
++---------------------------+------------------------------+------------------------------+
+| |ATOM-entry-rights|_ ?    | x                            | x                            |
 +---------------------------+------------------------------+------------------------------+
 
 | ! = required
@@ -193,6 +197,23 @@ A maximum of one link with ``rel="alternate"`` can appear per *type* and
 *hreflang*.
 
 Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
+
+
+.. _ATOM-rights:
+
+ATOM/rights
+```````````
+
+Copyright information for the feed.
+
+Optional.
+
+Can appear only once.
+
+Has an optional attribute *type* with possible values ``text`` (default),
+``html``, ``xhtml``.
+
+Equivalents: `ATOM-rights`_, RSS1-none, `RSS2-copyright`_.
 
 
 .. _ATOM-subtitle:
@@ -353,6 +374,24 @@ Must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``).
 Equivalents: `ATOM-entry-published`_, RSS1-none, `RSS2-item-pubDate`_.
 
 
+.. _ATOM-entry-rights:
+
+ATOM/entry/rights
+`````````````````
+
+Copyright information for the feed entry.
+
+Optional.
+
+Can appear only once.
+
+Has an optional attribute *type* with possible values ``text`` (default),
+``html``, ``xhtml``.
+
+Equivalents: `ATOM-entry-rights`_, RSS1-none, RSS2-none (`RSS2-copyright`_ for
+the whole feed).
+
+
 .. _ATOM-entry-summary:
 
 ATOM/entry/summary
@@ -478,6 +517,20 @@ Required.
 Can appear only once.
 
 Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
+
+
+.. _RSS2-copyright:
+
+RSS2/copyright
+``````````````
+
+Copyright information for the feed.
+
+Optional.
+
+Can appear only once.
+
+Equivalents: `ATOM-rights`_, RSS1-none, `RSS2-copyright`_.
 
 
 .. _RSS1-title:
@@ -783,6 +836,7 @@ Resources
 .. |ATOM-entry| replace:: entry
 .. |ATOM-id| replace:: id
 .. |ATOM-link| replace:: link
+.. |ATOM-rights| replace:: rights
 .. |ATOM-subtitle| replace:: subtitle
 .. |ATOM-title| replace:: title
 .. |ATOM-updated| replace:: updated
@@ -792,6 +846,7 @@ Resources
 .. |ATOM-entry-id| replace:: id
 .. |ATOM-entry-link| replace:: link
 .. |ATOM-entry-published| replace:: published
+.. |ATOM-entry-rights| replace:: rights
 .. |ATOM-entry-summary| replace:: summary
 .. |ATOM-entry-title| replace:: title
 .. |ATOM-entry-updated| replace:: updated
@@ -807,6 +862,7 @@ Resources
 .. |RSS1-item-link| replace:: link
 .. |RSS1-item-title| replace:: title
 
+.. |RSS2-copyright| replace:: copyright
 .. |RSS2-description| replace:: description
 .. |RSS2-item| replace:: item
 .. |RSS2-lastBuildDate| replace:: lastBuildDate
