@@ -461,6 +461,28 @@ abstract class ezcQuery
     }
 
     /**
+     * Return SQL string for query.
+     *
+     * Typecasting to (string) should be used to make __toString() to be called
+     * with PHP 5.1.  This will not be needed in PHP 5.2 and higher when this
+     * object is used in a string context.
+     *
+     * Example:
+     * <code>
+     * $q->select('*')
+     *   ->from( 'table1' )
+     *   ->where ( $q->expr->eq( 'name', $q->bindValue( "Beeblebrox" ) ) );
+     * echo $q, "\n";
+     * </code>
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getQuery();
+    }
+
+    /**
      * Returns the query string for this query object.
      *
      * @throws ezcQueryInvalidException if it was not possible to build a valid query.

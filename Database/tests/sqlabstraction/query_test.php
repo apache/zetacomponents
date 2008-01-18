@@ -190,5 +190,18 @@ class ezcQueryTest extends ezcTestCase
         $this->assertEquals( ':ezcValue2', $this->q->bindParam( $value ) );
         $this->assertEquals( ':ezcValue3', $this->q->bindValue( $value ) );
     }
+
+    public function testToString()
+    {
+        $q = ezcDbInstance::get()->createSelectQuery();
+        $reference = 'SELECT orders.Recipient FROM orders';
+
+        $q->setAliases( array( 'Order' => 'orders', 'Recipient' => 'orders.company' ) );
+        $q->select( 'Order.Recipient' )
+          ->from( 'Order' );
+
+        $this->assertEquals( $reference, (string) $q );
+        $this->assertEquals( $q->getQuery(), (string) $q );
+    }
 }
 ?>
