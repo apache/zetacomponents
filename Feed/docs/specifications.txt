@@ -395,6 +395,13 @@ Specifications
 `RSS1`_
 
 
+Content type
+------------
+
+All RSS1 feeds should be identified with the *application/rss+xml* content
+type (not a standard yet).
+
+
 Feed elements
 -------------
 
@@ -538,7 +545,14 @@ RSS2
 Specifications
 --------------
 
-`RSS1`_
+`RSS2`_
+
+
+Content type
+------------
+
+All RSS1 feeds should be identified with the *application/rss+xml* content
+type (not a standard yet).
 
 
 Feed elements
@@ -797,4 +811,3 @@ Resources
    fill-column: 79
    End: 
    vim: et syn=rst tw=79
-
