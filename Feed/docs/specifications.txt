@@ -36,26 +36,29 @@ Feed elements
 | * = special requirements
 | ? = no equivalence
 
-.. |ATOM-id| replace:: id
-.. |ATOM-title| replace:: title
-.. |ATOM-updated| replace:: updated
-.. |ATOM-author| replace:: author
-.. |ATOM-subtitle| replace:: subtitle
-.. |ATOM-link| replace:: link
-.. |ATOM-entry| replace:: entry
 
-.. |RSS1-about| replace:: about
-.. |RSS1-title| replace:: title
-.. |RSS1-description| replace:: description
-.. |RSS1-link| replace:: link
-.. |RSS1-item| replace:: item
+Item elements
+-------------
 
-.. |RSS2-title| replace:: title
-.. |RSS2-lastBuildDate| replace:: lastBuildDate
-.. |RSS2-managingEditor| replace:: managingEditor
-.. |RSS2-description| replace:: description
-.. |RSS2-link| replace:: link
-.. |RSS2-item| replace:: item
++---------------------------+------------------------------+------------------------------+
+|       ATOM                |           RSS1               |          RSS2                |
++===========================+==============================+==============================+
+| |ATOM-entry-id|_ R        | |RSS1-item-about|_ R         | |RSS2-item-guid|_            |
++---------------------------+------------------------------+------------------------------+
+| |ATOM-entry-title|_ R     | |RSS1-item-title|_ R         | |RSS2-item-title|_ R         |
++---------------------------+------------------------------+------------------------------+
+| |ATOM-entry-updated|_ R   | ?                            | |RSS2-item-pubDate|_         |
++---------------------------+------------------------------+------------------------------+
+| |ATOM-entry-author|_ R*   | ?                            | |RSS2-item-author|_          |
++---------------------------+------------------------------+------------------------------+
+| |ATOM-entry-link|_        | |RSS1-item-link|_ R          | |RSS2-item-link|_ R          |
++---------------------------+------------------------------+------------------------------+
+| |ATOM-entry-summary|_ R*  | |RSS1-item-description|_ R   | |RSS2-item-description|_ R   |
++---------------------------+------------------------------+------------------------------+
+
+| R = required
+| * = special requirements
+| ? = no equivalence
 
 
 ATOM
@@ -83,7 +86,8 @@ General information:
  - All timestamps must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``)
  - Unless otherwise specified, all values must be plain text
  - *xml:lang* may be used to identify the language of text
- - *xml:base* may be used to control how relative URIs are resolved
+ - *xml:base* may be used to control how relative URIs are resolved (not
+   recommended)
 
 Sample ATOM feed::
 
@@ -114,38 +118,44 @@ Feed elements
 
 .. _ATOM-id:
 
-id
-``
+ATOM/id
+```````
 
 A universally unique and permanent URI for a feed. For example, it can be an
 Internet domain name.
 
 Required.
 
+Can appear only once.
+
 Equivalents: `ATOM-id`_, `RSS1-about`_, RSS2-none.
 
 
 .. _ATOM-title:
 
-title
-`````
+ATOM/title
+``````````
 
 Human readable title for the feed. For example, it can be the same as the
 website title.
 
 Required.
 
+Can appear only once.
+
 Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
 
 .. _ATOM-updated:
 
-updated
-```````
+ATOM/updated
+````````````
 
 The last time the feed was updated.
 
 Required.
+
+Can appear only once.
 
 Must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``).
 
@@ -154,8 +164,8 @@ Equivalents: `ATOM-updated`_, RSS1-none, `RSS2-lastBuildDate`_.
 
 .. _ATOM-author:
 
-author
-``````
+ATOM/author
+```````````
 
 One author of the feed.
 
@@ -179,20 +189,20 @@ Equivalents: `ATOM-author`_, RSS1-none, `RSS2-managingEditor`_.
 
 .. _ATOM-link:
 
-link
-````
+ATOM/link
+`````````
 
 The URL to the HTML website corresponding to the channel.
 
-Required: a link back to the feed itself must be present (with *rel="self"*).
+Required: a link back to the feed itself must be present (with ``rel="self"``).
 
 Multiple links can appear.
 
 Required attributes: *href*. Optional attributes: *rel* (possible values:
-*alternate*, *enclosure*, *related*, *self*, *via*), *type*, *hreflang*,
-*title*, *length*).
+``alternate`` (default), ``enclosure``, ``related``, ``self``, ``via``),
+*type*, *hreflang*, *title*, *length*).
 
-A maximum of one link with *rel="alternate"* can appear per *type* and
+A maximum of one link with ``rel="alternate"`` can appear per *type* and
 *hreflang*.
 
 Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
@@ -200,10 +210,12 @@ Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 .. _ATOM-entry:
 
-entry
-`````
+ATOM/entry
+``````````
 
 Feed entry.
+
+Optional.
 
 Multiple entries can appear.
 
@@ -212,16 +224,120 @@ Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
 .. _ATOM-subtitle:
 
-subtitle
-````````
+ATOM/subtitle
+`````````````
 
 A short description of the feed.
+
+Optional.
+
+Can appear only once.
 
 Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
 
 
 Item elements
 -------------
+
+.. _ATOM-entry-id:
+
+ATOM/entry/id
+`````````````
+
+A unique identifier in respect to other *id* values of entries in the feed. It
+identifies the entry.
+
+Required.
+
+Can appear only once.
+
+Equivalents: `ATOM-entry-id`_, `RSS1-item-about`_, `RSS2-item-guid`_.
+
+
+.. _ATOM-entry-title:
+
+ATOM/entry/title
+````````````````
+
+A title for the feed item.
+
+Required.
+
+Can appear only once.
+
+Has an optional attribute *type* with possible values ``text`` (default),
+``html``, ``xml``.
+
+Equivalents: `ATOM-entry-title`_, `RSS1-item-title`_, `RSS2-item-title`_.
+
+
+.. _ATOM-entry-updated:
+
+ATOM/entry/updated
+``````````````````
+
+
+.. _ATOM-entry-author:
+
+ATOM/entry/author
+`````````````````
+
+
+.. _ATOM-entry-link:
+
+ATOM/entry/link
+```````````````
+
+
+.. _ATOM-entry-summary:
+
+ATOM/entry/summary
+``````````````````
+
+A short description for the feed item.
+
+Required. Can be substituted with |ATOM-entry-content|_ (not recommended).
+
+Can appear only once.
+
+Has an optional attribute *type* with possible values ``text`` (default),
+``html``, ``xhtml``.
+
+Equivalents: `ATOM-entry-summary`_/`ATOM-entry-content`_, `RSS1-item-description`_,
+`RSS2-item-description`_.
+
+
+.. _ATOM-entry-content:
+
+ATOM/entry/content
+``````````````````
+
+A short description for the feed item.
+
+Required. Can be substituted with |ATOM-entry-summary|_ (recommended).
+
+Can appear only once.
+
+Has an optional attribute *type* with possible values ``text`` (default),
+``html``, ``xhtml``.
+
+Has an optional attribute *src* which specifies the URI where the full content
+is located.
+
+If *src* is present, the *type* attribute, if present, is the media type of the
+content.
+
+Otherwise, if the type attribute ends in ``+xml`` or ``/xml``, then an XML
+document of this type is contained inline.
+
+Otherwise, if the type attribute starts with ``text``, then an escaped document
+of this type is contained inline.
+
+Otherwise, a base64 encoded document of the indicated media type is contained
+inline.
+
+Equivalents: `ATOM-entry-summary`_/`ATOM-entry-content`_, `RSS1-item-description`_,
+`RSS2-item-description`_.
 
 
 RSS1
@@ -238,58 +354,66 @@ Feed elements
 
 .. _RSS1-about:
 
-about
-`````
+RSS1/about
+``````````
 
 A universally unique and permanent URI for a feed. For example, it can be an
 Internet domain name.
 
 Required.
 
+Can appear only once.
+
 Equivalents: `ATOM-id`_, `RSS1-about`_, RSS2-none.
 
 
 .. _RSS1-title:
 
-title
-`````
+RSS1/title
+``````````
 
 Human readable title for the feed. For example, it can be the same as the
 website title.
 
 Required.
 
+Can appear only once.
+
 Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
 
 .. _RSS1-description:
 
-description
-```````````
+RSS1/description
+````````````````
 
 A short description of the feed.
 
 Required.
+
+Can appear only once.
 
 Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
 
 
 .. _RSS1-link:
 
-link
-````
+RSS1/link
+`````````
 
 The URL to the HTML website corresponding to the channel.
 
 Required.
+
+Can appear only once.
 
 Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
 .. _RSS1-item:
 
-item
-````
+RSS1/item
+`````````
 
 Feed entry.
 
@@ -302,6 +426,56 @@ Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
 Item elements
 -------------
+
+.. _RSS1-item-about:
+
+RSS1/item/about
+```````````````
+
+A unique identifier in respect to other *about* values in the feed. It
+identifies the item. Should be identical to the *link* value of the item, if
+possible.
+
+Required.
+
+Can appear only once.
+
+Equivalents: `ATOM-entry-id`_, `RSS1-item-about`_, `RSS2-item-guid`_.
+
+
+.. _RSS1-item-title:
+
+RSS1/item/title
+```````````````
+
+A title for the feed item.
+
+Required.
+
+Can appear only once.
+
+Equivalents: `ATOM-entry-title`_, `RSS1-item-title`_, `RSS2-item-title`_.
+
+
+.. _RSS1-item-link:
+
+RSS1/item/link
+``````````````
+
+
+.. _RSS1-item-description:
+
+RSS1/item/description
+`````````````````````
+
+A short description of the feed item.
+
+Required.
+
+Can appear only once.
+
+Equivalents: `ATOM-entry-summary`_, `RSS1-item-description`_,
+`RSS2-item-description`_.
 
 
 RSS2
@@ -318,45 +492,51 @@ Feed elements
 
 .. _RSS2-title:
 
-title
-`````
+RSS2/title
+``````````
 
 Human readable title for the feed. For example, it can be the same as the
 website title.
 
 Required.
 
+Can appear only once.
+
 Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
 
 .. _RSS2-description:
 
-description
-```````````
+RSS2/description
+````````````````
 
 A short description of the feed.
 
 Required.
+
+Can appear only once.
 
 Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
 
 
 .. _RSS2-link:
 
-link
-````
+RSS2/link
+`````````
 
 The URL to the HTML website corresponding to the channel.
 
 Required.
+
+Can appear only once.
 
 Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
 .. _RSS2-item:
 
-item
-````
+RSS2/item
+`````````
 
 Feed entry.
 
@@ -369,10 +549,14 @@ Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
 .. _RSS2-lastBuildDate:
 
-lastBuildDate
-`````````````
+RSS2/lastBuildDate
+``````````````````
 
 The last time the feed was updated.
+
+Optional.
+
+Can appear only once.
 
 Must conform to `RFC 822`_ (eg. ``Sat, 07 Sep 2002 09:42:31 GMT``).
 
@@ -381,16 +565,84 @@ Equivalents: `ATOM-updated`_, RSS1-none, `RSS2-lastBuildDate`_.
 
 .. _RSS2-managingEditor:
 
-managingEditor
-``````````````
+RSS2/managingEditor
+```````````````````
 
 One author of the feed.
+
+Optional.
+
+Can appear only once.
 
 Equivalents: `ATOM-author`_, RSS1-none, `RSS2-managingEditor`_.
 
 
 Item elements
 -------------
+
+.. _RSS2-item-guid:
+
+RSS2/item/guid
+``````````````
+
+A unique identifier in respect to other *guid* values of items in the feed. It
+identifies the item.
+
+Optional.
+
+Can appear only once.
+
+Has an optional attribute *isPermaLink* with possible values ``true`` or
+``false`` (default), which specifies if the *guid* value is an URL.
+
+Equivalents: `ATOM-entry-id`_, `RSS1-item-about`_, `RSS2-item-guid`_.
+
+
+.. _RSS2-item-title:
+
+RSS2/item/title
+```````````````
+
+A title for the feed item.
+
+Required.
+
+Can appear only once.
+
+Equivalents: `ATOM-entry-title`_, `RSS1-item-title`_, `RSS2-item-title`_.
+
+
+.. _RSS2-item-pubDate:
+
+RSS2/item/pubDate
+`````````````````
+
+
+.. _RSS2-item-author:
+
+RSS2/item/author
+````````````````
+
+
+.. _RSS2-item-link:
+
+RSS2/item/link
+``````````````
+
+
+.. _RSS2-item-description:
+
+RSS2/item/description
+`````````````````````
+
+A short description of the feed item.
+
+Required.
+
+Can appear only once.
+
+Equivalents: `ATOM-entry-summary`_, `RSS1-item-description`_,
+`RSS2-item-description`_.
 
 
 Resources
@@ -408,6 +660,49 @@ Resources
 
 .. _RFC 3339: http://www.faqs.org/rfcs/rfc3339.html
 .. _RFC 822: http://www.faqs.org/rfcs/rfc822.html
+
+
+
+.. |ATOM-id| replace:: id
+.. |ATOM-title| replace:: title
+.. |ATOM-updated| replace:: updated
+.. |ATOM-author| replace:: author
+.. |ATOM-subtitle| replace:: subtitle
+.. |ATOM-link| replace:: link
+.. |ATOM-entry| replace:: entry
+
+.. |RSS1-about| replace:: about
+.. |RSS1-title| replace:: title
+.. |RSS1-description| replace:: description
+.. |RSS1-link| replace:: link
+.. |RSS1-item| replace:: item
+
+.. |RSS2-title| replace:: title
+.. |RSS2-lastBuildDate| replace:: lastBuildDate
+.. |RSS2-managingEditor| replace:: managingEditor
+.. |RSS2-description| replace:: description
+.. |RSS2-link| replace:: link
+.. |RSS2-item| replace:: item
+
+.. |ATOM-entry-id| replace:: id
+.. |ATOM-entry-title| replace:: title
+.. |ATOM-entry-updated| replace:: updated
+.. |ATOM-entry-author| replace:: author
+.. |ATOM-entry-link| replace:: link
+.. |ATOM-entry-summary| replace:: summary
+.. |ATOM-entry-content| replace:: content
+
+.. |RSS1-item-about| replace:: about
+.. |RSS1-item-title| replace:: title
+.. |RSS1-item-link| replace:: link
+.. |RSS1-item-description| replace:: description
+
+.. |RSS2-item-guid| replace:: guid
+.. |RSS2-item-title| replace:: title
+.. |RSS2-item-pubDate| replace:: pubDate
+.. |RSS2-item-author| replace:: author
+.. |RSS2-item-link| replace:: link
+.. |RSS2-item-description| replace:: description
 
 
 
