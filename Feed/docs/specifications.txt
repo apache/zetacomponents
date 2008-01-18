@@ -365,7 +365,7 @@ Required.
 Can appear only once.
 
 Has an optional attribute *type* with possible values ``text`` (default),
-``html``, ``xml``.
+``html``, ``xhtml``.
 
 Equivalents: `ATOM-entry-title`_, `RSS1-item-title`_, `RSS2-item-title`_.
 
