@@ -17,13 +17,13 @@ Feed elements
 +-----------------------+----------------------------+---------------------------+
 |       ATOM            |           RSS1             |          RSS2             |
 +=======================+============================+===========================+
-| |ATOM-id|_ !          | |RSS1-about|_ !            | -                         |
+| |ATOM-id|_ !          | |RSS1-about|_ !            | x                         |
 +-----------------------+----------------------------+---------------------------+
 | |ATOM-title|_ !       | |RSS1-title|_ !            | |RSS2-title|_ !           |
 +-----------------------+----------------------------+---------------------------+
-| |ATOM-updated|_ !     | -                          | |RSS2-lastBuildDate|_ ?   |
+| |ATOM-updated|_ !     | x                          | |RSS2-lastBuildDate|_ ?   |
 +-----------------------+----------------------------+---------------------------+
-| |ATOM-author|_ !*     | -                          | |RSS2-managingEditor|_ ?  |
+| |ATOM-author|_ !*     | x                          | |RSS2-managingEditor|_ ?  |
 +-----------------------+----------------------------+---------------------------+
 | |ATOM-subtitle|_ ?    | |RSS1-description|_ !      | |RSS2-description|_ !     |
 +-----------------------+----------------------------+---------------------------+
@@ -35,7 +35,7 @@ Feed elements
 | ! = required
 | ? = optional
 | * = can appear multiple times
-| - = no equivalence
+| x = no equivalence
 
 
 Item elements
@@ -48,9 +48,9 @@ Item elements
 +---------------------------+------------------------------+------------------------------+
 | |ATOM-entry-title|_ !     | |RSS1-item-title|_ !         | |RSS2-item-title|_ !         |
 +---------------------------+------------------------------+------------------------------+
-| |ATOM-entry-updated|_ !   | -                            | |RSS2-item-pubDate|_ ?       |
+| |ATOM-entry-updated|_ !   | x                            | |RSS2-item-pubDate|_ ?       |
 +---------------------------+------------------------------+------------------------------+
-| |ATOM-entry-author|_ !*   | -                            | |RSS2-item-author|_ ?        |
+| |ATOM-entry-author|_ !*   | x                            | |RSS2-item-author|_ ?        |
 +---------------------------+------------------------------+------------------------------+
 | |ATOM-entry-link|_ !*     | |RSS1-item-link|_ !          | |RSS2-item-link|_ !          |
 +---------------------------+------------------------------+------------------------------+
@@ -60,7 +60,7 @@ Item elements
 | ! = required
 | ? = optional
 | * = can appear multiple times
-| - = no equivalence
+| x = no equivalence
 
 
 ATOM
@@ -278,6 +278,16 @@ Equivalents: `ATOM-entry-title`_, `RSS1-item-title`_, `RSS2-item-title`_.
 ATOM/entry/updated
 ``````````````````
 
+The last time the feed entry was updated.
+
+Required.
+
+Can appear only once.
+
+Must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``).
+
+Equivalents: `ATOM-entry-updated`_, RSS1-none, `RSS2-item-pubDate`_.
+
 
 .. _ATOM-entry-author:
 
@@ -301,7 +311,7 @@ Example::
     <email>JohnDoe@example.com</email>
   </author>
 
-Equivalents: `ATOM-entry-author`_, RSS1-none, `RSS2-item-managingEditor`_.
+Equivalents: `ATOM-entry-author`_, RSS1-none, `RSS2-item-author`_.
 
 
 .. _ATOM-entry-link:
@@ -453,7 +463,7 @@ RSS1/item
 
 Feed entry.
 
-Required: at least one item must appear.
+Required.
 
 Multiple entries can appear.
 
@@ -584,7 +594,7 @@ RSS2/item
 
 Feed entry.
 
-Required: at least one item must appear.
+Required.
 
 Multiple entries can appear.
 
@@ -660,6 +670,16 @@ Equivalents: `ATOM-entry-title`_, `RSS1-item-title`_, `RSS2-item-title`_.
 
 RSS2/item/pubDate
 `````````````````
+
+The last time the feed item was updated.
+
+Optional.
+
+Can appear only once.
+
+Must conform to `RFC 822`_ (eg. ``Sat, 07 Sep 2002 09:42:31 GMT``).
+
+Equivalents: `ATOM-entry-updated`_, RSS1-none, `RSS2-item-pubDate`_.
 
 
 .. _RSS2-item-author:
