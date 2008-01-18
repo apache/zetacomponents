@@ -8,6 +8,56 @@ documents and RFCs.
 .. contents:: Table of Contents
 
 
+Feeds equivalence
+=================
+
+Feed elements
+-------------
+
++---------------------+----------------------------+-------------------------+
+|       ATOM          |           RSS1             |          RSS2           |
++=====================+============================+=========================+
+| |ATOM-id|_ R        | |RSS1-about|_ R            | ?                       |
++---------------------+----------------------------+-------------------------+
+| |ATOM-title|_ R     | |RSS1-title|_ R            | |RSS2-title|_ R         |
++---------------------+----------------------------+-------------------------+
+| |ATOM-updated|_ R   | ?                          | |RSS2-lastBuildDate|_   |
++---------------------+----------------------------+-------------------------+
+| |ATOM-author|_ R*   | ?                          | |RSS2-managingEditor|_  |
++---------------------+----------------------------+-------------------------+
+| |ATOM-subtitle|_    | |RSS1-description|_ R      | |RSS2-description|_ R   |
++---------------------+----------------------------+-------------------------+
+| |ATOM-link|_ R      | |RSS1-link|_ R             | |RSS2-link|_ R          |
++---------------------+----------------------------+-------------------------+
+| |ATOM-entry|_       | |RSS1-item|_ R             | |RSS2-item|_ R          |
++---------------------+----------------------------+-------------------------+
+
+| R = required
+| * = special requirements
+| ? = no equivalence
+
+.. |ATOM-id| replace:: id
+.. |ATOM-title| replace:: title
+.. |ATOM-updated| replace:: updated
+.. |ATOM-author| replace:: author
+.. |ATOM-subtitle| replace:: subtitle
+.. |ATOM-link| replace:: link
+.. |ATOM-entry| replace:: entry
+
+.. |RSS1-about| replace:: about
+.. |RSS1-title| replace:: title
+.. |RSS1-description| replace:: description
+.. |RSS1-link| replace:: link
+.. |RSS1-item| replace:: item
+
+.. |RSS2-title| replace:: title
+.. |RSS2-lastBuildDate| replace:: lastBuildDate
+.. |RSS2-managingEditor| replace:: managingEditor
+.. |RSS2-description| replace:: description
+.. |RSS2-link| replace:: link
+.. |RSS2-item| replace:: item
+
+
 ATOM
 ====
 
@@ -30,7 +80,7 @@ Structure
 General information:
  - All elements must be in the http://www.w3.org/2005/Atom namespace
  - The top level element is called *feed*
- - All timestamps must conform to `RFC 3339`_ (eg. 2003-12-13T18:30:02Z)
+ - All timestamps must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``)
  - Unless otherwise specified, all values must be plain text
  - *xml:lang* may be used to identify the language of text
  - *xml:base* may be used to control how relative URIs are resolved
@@ -70,6 +120,8 @@ id
 A universally unique and permanent URI for a feed. For example, it can be an
 Internet domain name.
 
+Required.
+
 Equivalents: `ATOM-id`_, `RSS1-about`_, RSS2-none.
 
 
@@ -81,6 +133,8 @@ title
 Human readable title for the feed. For example, it can be the same as the
 website title.
 
+Required.
+
 Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
 
@@ -91,7 +145,9 @@ updated
 
 The last time the feed was updated.
 
-Must conform to `RFC 3339`_ (eg. 2003-12-13T18:30:02Z).
+Required.
+
+Must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``).
 
 Equivalents: `ATOM-updated`_, RSS1-none, `RSS2-lastBuildDate`_.
 
@@ -103,9 +159,10 @@ author
 
 One author of the feed.
 
-Multiple authors can appear.
+Required: one author must be present unless all items contain at least one
+author.
 
-One author must be present unless all items contain at least one author.
+Multiple authors can appear.
 
 Required elements: *name*. Optional elements: *uri*, *email*.
 
@@ -127,13 +184,13 @@ link
 
 The URL to the HTML website corresponding to the channel.
 
+Required: a link back to the feed itself must be present (with *rel="self"*).
+
 Multiple links can appear.
 
 Required attributes: *href*. Optional attributes: *rel* (possible values:
 *alternate*, *enclosure*, *related*, *self*, *via*), *type*, *hreflang*,
 *title*, *length*).
-
-A link back to the feed itself must be present (with *rel="self"*).
 
 A maximum of one link with *rel="alternate"* can appear per *type* and
 *hreflang*.
@@ -187,6 +244,8 @@ about
 A universally unique and permanent URI for a feed. For example, it can be an
 Internet domain name.
 
+Required.
+
 Equivalents: `ATOM-id`_, `RSS1-about`_, RSS2-none.
 
 
@@ -198,6 +257,8 @@ title
 Human readable title for the feed. For example, it can be the same as the
 website title.
 
+Required.
+
 Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
 
@@ -207,6 +268,8 @@ description
 ```````````
 
 A short description of the feed.
+
+Required.
 
 Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
 
@@ -218,6 +281,8 @@ link
 
 The URL to the HTML website corresponding to the channel.
 
+Required.
+
 Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
@@ -228,9 +293,9 @@ item
 
 Feed entry.
 
-Multiple entries can appear.
+Required: at least one item must appear.
 
-At least one item must appear.
+Multiple entries can appear.
 
 Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
@@ -259,6 +324,8 @@ title
 Human readable title for the feed. For example, it can be the same as the
 website title.
 
+Required.
+
 Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
 
@@ -268,6 +335,8 @@ description
 ```````````
 
 A short description of the feed.
+
+Required.
 
 Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
 
@@ -279,6 +348,8 @@ link
 
 The URL to the HTML website corresponding to the channel.
 
+Required.
+
 Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
@@ -289,9 +360,9 @@ item
 
 Feed entry.
 
-Multiple entries can appear.
+Required: at least one item must appear.
 
-At least one item must appear.
+Multiple entries can appear.
 
 Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
@@ -303,7 +374,7 @@ lastBuildDate
 
 The last time the feed was updated.
 
-Must conform to `RFC 822`_ (eg. Sat, 07 Sep 2002 09:42:31 GMT).
+Must conform to `RFC 822`_ (eg. ``Sat, 07 Sep 2002 09:42:31 GMT``).
 
 Equivalents: `ATOM-updated`_, RSS1-none, `RSS2-lastBuildDate`_.
 
@@ -320,6 +391,14 @@ Equivalents: `ATOM-author`_, RSS1-none, `RSS2-managingEditor`_.
 
 Item elements
 -------------
+
+
+Resources
+=========
+
+- `RFC 4287`_ ATOM specifications.
+- `RSS1`_ specifications.
+- `RSS2`_ specifications.
 
 
 .. _RSS1: http://web.resource.org/rss/1.0/spec
