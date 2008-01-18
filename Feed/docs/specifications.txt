@@ -31,6 +31,18 @@ Feed elements
 +-----------------------+----------------------------+---------------------------+
 | |ATOM-rights|_ ?      | x                          | |RSS2-copyright|_ ?       |
 +-----------------------+----------------------------+---------------------------+
+| x                     | x                          | |RSS2-ttl|_ ?             |
++-----------------------+----------------------------+---------------------------+
+| x                     | x                          | |RSS2-skipHours|_ ?       |
++-----------------------+----------------------------+---------------------------+
+| x                     | x                          | |RSS2-skipDays|_ ?        |
++-----------------------+----------------------------+---------------------------+
+| x                     | x                          | |RSS2-rating|_ ?          |
++-----------------------+----------------------------+---------------------------+
+| x                     | x                          | |RSS2-cloud|_ ?           |
++-----------------------+----------------------------+---------------------------+
+| x                     | x                          | |RSS2-textInput|_ ?       |
++-----------------------+----------------------------+---------------------------+
 | |ATOM-entry|_ ?*      | |RSS1-item|_ !*            | |RSS2-item|_ !*           |
 +-----------------------+----------------------------+---------------------------+
 
@@ -61,6 +73,8 @@ Item elements
 | |ATOM-entry-published|_ ? | x                            | |RSS2-item-pubDate|_ ?       |
 +---------------------------+------------------------------+------------------------------+
 | |ATOM-entry-rights|_ ?    | x                            | x                            |
++---------------------------+------------------------------+------------------------------+
+| x                         | x                            | |RSS2-item-comments|_ ?      |
 +---------------------------+------------------------------+------------------------------+
 
 | ! = required
@@ -622,12 +636,34 @@ Specifications
 Content type
 ------------
 
-All RSS1 feeds should be identified with the *application/rss+xml* content
+All RSS2 feeds should be identified with the *application/rss+xml* content
 type (not a standard yet).
 
 
 Feed elements
 -------------
+
+.. _RSS2-cloud:
+
+RSS2/cloud
+``````````
+
+Allows processes to register with a cloud to be notified of updates to the
+channel, implementing a lightweight publish-subscribe protocol for RSS feeds.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Has the required attributes: *domain*, *port*, *path*, *registerProcedure*,
+*protocol*.
+
+Example::
+
+  <cloud domain="rpc.sys.com" port="80" path="/RPC2" registerProcedure="myCloud.rssPleaseNotify" protocol="xml-rpc" />
+
+Equivalents: ATOM-none, RSS1-none, `RSS2-cloud`_.
+
 
 .. _RSS2-description:
 
@@ -701,6 +737,71 @@ Can appear only once.
 Equivalents: `ATOM-author`_, RSS1-none, `RSS2-managingEditor`_.
 
 
+.. _RSS2-rating:
+
+RSS2/rating
+```````````
+
+The `PICS`_ rating for the channel.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Equivalents: ATOM-none, RSS1-none, `RSS2-rating`_.
+
+
+.. _RSS2-skipHours:
+
+RSS2/skipHours
+``````````````
+
+A hint for aggregators telling them which hours they can skip when reading the
+feed.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Can have up to 24 *hour* elements, each with an integer value from ``\0``
+(midnight) to ``23``.
+
+Equivalents: ATOM-none, RSS1-none, `RSS2-skipHours`_.
+
+
+.. _RSS2-skipDays:
+
+RSS2/skipDays
+`````````````
+
+A hint for aggregators telling them which days they can skip when reading the
+feed.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Can have up to 7 *day* elements, each with a value from ``Monday`` to ``Sunday``.
+
+Equivalents: ATOM-none, RSS1-none, `RSS2-skipDays`_.
+
+
+.. _RSS2-textInput:
+
+RSS2/textInput
+``````````````
+
+Specifies a text input box that can be displayed with the feed.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Has four required sub-elements: *title*, *description*, *name*, *link*.
+
+Equivalents: ATOM-none, RSS1-none, `RSS2-textInput`_.
+
+
 .. _RSS2-title:
 
 RSS2/title
@@ -714,6 +815,21 @@ Required.
 Can appear only once.
 
 Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
+
+
+.. _RSS2-ttl:
+
+RSS2/ttl
+````````
+
+Number of minutes that indicates how long a channel can be cached before
+refreshing from the source.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Equivalents: ATOM-none, RSS1-none, `RSS2-ttl`_.
 
 
 Item elements
@@ -736,6 +852,20 @@ example::
   <author>John Doe (john.doe@example.com)</author>
 
 Equivalents: `ATOM-entry-author`_, RSS1-none, `RSS2-item-author`_.
+
+
+.. _RSS2-item-comments:
+
+RSS2/item/comments
+``````````````````
+
+A link to a webpage for comments.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Equivalents: ATOM-none, RSS1-none, `RSS2-item-comments`_.
 
 
 .. _RSS2-item-description:
@@ -830,6 +960,7 @@ Resources
 
 .. _RFC 3339: http://www.faqs.org/rfcs/rfc3339.html
 .. _RFC 822: http://www.faqs.org/rfcs/rfc822.html
+.. _PICS: http://www.w3.org/PICS/
 
 
 .. |ATOM-author| replace:: author
@@ -862,15 +993,23 @@ Resources
 .. |RSS1-item-link| replace:: link
 .. |RSS1-item-title| replace:: title
 
+.. |RSS2-cloud| replace:: cloud
 .. |RSS2-copyright| replace:: copyright
 .. |RSS2-description| replace:: description
 .. |RSS2-item| replace:: item
 .. |RSS2-lastBuildDate| replace:: lastBuildDate
 .. |RSS2-link| replace:: link
 .. |RSS2-managingEditor| replace:: managingEditor
+.. |RSS2-rating| replace:: rating
+.. |RSS2-skipHours| replace:: skipHours
+.. |RSS2-skipDays| replace:: skipDays
+.. |RSS2-textInput| replace:: textInput
 .. |RSS2-title| replace:: title
+.. |RSS2-ttl| replace:: ttl
+
 
 .. |RSS2-item-author| replace:: author
+.. |RSS2-item-comments| replace:: comments
 .. |RSS2-item-description| replace:: description
 .. |RSS2-item-guid| replace:: guid
 .. |RSS2-item-link| replace:: link
