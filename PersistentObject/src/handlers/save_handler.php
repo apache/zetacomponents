@@ -235,7 +235,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
      */
     public function updateFromQuery( ezcQueryUpdate $query )
     {
-        $this->session->performQuery( $query );
+        $this->session->performQuery( $query, true );
     }
 
     /**
@@ -418,7 +418,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
             )
         );
 
-        $this->session->performQuery( $q );
+        $this->session->performQuery( $q, true );
     }
 
     /**
@@ -530,7 +530,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                 $insertColumns[] = $map->relationDestinationColumn;
             }
         }
-        $this->session->performQuery( $q );
+        $this->session->performQuery( $q, true );
     }
 }
 

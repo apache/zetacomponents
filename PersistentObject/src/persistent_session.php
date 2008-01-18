@@ -617,31 +617,45 @@ class ezcPersistentSession
      * Performs the given query.
      *
      * Performs the $query, checks for errors and throws an exception in case.
-     * Returns the generated statement object on success.
+     * Returns the generated statement object on success. If the $transaction
+     * parameter is set to true, the query is excuted transaction save.
      * 
      * @param ezcQuery $q 
+     * @param bool $transaction
      * @return PDOStatement
      *
      * @access private
      */
-    public function performQuery( ezcQuery $q )
+    public function performQuery( ezcQuery $q, $transaction = false )
     {
-        $this->database->beginTransaction();
+        if ( $transaction )
+        {
+            $this->database->beginTransaction();
+        }
         try
         {
             $stmt = $q->prepare();
             $stmt->execute();
             if ( ( $errCode = $stmt->errorCode() ) != 0 )
             {
-                $this->database->rollback();
+                if ( $transaction )
+                {
+                    $this->database->rollback();
+                }
                 throw new ezcPersistentQueryException( "The query returned error code $errCode.", $q );
             }
-            $this->database->commit();
+            if ( $transaction )
+            {
+                $this->database->commit();
+            }
             return $stmt;
         }
         catch ( PDOException $e )
         {
-            $this->database->rollback();
+            if ( $transaction )
+            {
+                $this->database->rollback();
+            }
             throw new ezcPersistentQueryException( $e->getMessage(), $q );
         }
     }

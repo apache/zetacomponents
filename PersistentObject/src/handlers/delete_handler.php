@@ -189,7 +189,7 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
                         )
                     );
                 }
-                $this->session->performQuery( $q );
+                $this->session->performQuery( $q, true );
                 break;
         }
 
@@ -215,7 +215,7 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
      */
     public function deleteFromQuery( ezcQueryDelete $query )
     {
-        $this->session->performQuery( $query );
+        $this->session->performQuery( $query, true );
     }
 
     /**
