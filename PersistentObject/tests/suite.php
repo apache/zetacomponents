@@ -28,7 +28,7 @@ require_once( 'persistent_session_instance_test.php' );
 require_once( 'one_to_many_relation_test.php' );
 require_once( 'many_to_one_relation_test.php' );
 require_once( 'one_to_one_relation_test.php' );
-require_once( 'many_to_many_relation.php' );
+require_once( 'many_to_many_relation_test.php' );
 require_once( 'keyword_test.php' );
 require_once( 'string_identifier_test.php' );
 require_once( 'object_property_test.php' );
