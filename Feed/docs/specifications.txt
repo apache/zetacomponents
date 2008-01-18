@@ -14,27 +14,28 @@ Feeds equivalence
 Feed elements
 -------------
 
-+---------------------+----------------------------+-------------------------+
-|       ATOM          |           RSS1             |          RSS2           |
-+=====================+============================+=========================+
-| |ATOM-id|_ R        | |RSS1-about|_ R            | ?                       |
-+---------------------+----------------------------+-------------------------+
-| |ATOM-title|_ R     | |RSS1-title|_ R            | |RSS2-title|_ R         |
-+---------------------+----------------------------+-------------------------+
-| |ATOM-updated|_ R   | ?                          | |RSS2-lastBuildDate|_   |
-+---------------------+----------------------------+-------------------------+
-| |ATOM-author|_ R*   | ?                          | |RSS2-managingEditor|_  |
-+---------------------+----------------------------+-------------------------+
-| |ATOM-subtitle|_    | |RSS1-description|_ R      | |RSS2-description|_ R   |
-+---------------------+----------------------------+-------------------------+
-| |ATOM-link|_ R      | |RSS1-link|_ R             | |RSS2-link|_ R          |
-+---------------------+----------------------------+-------------------------+
-| |ATOM-entry|_       | |RSS1-item|_ R             | |RSS2-item|_ R          |
-+---------------------+----------------------------+-------------------------+
++-----------------------+----------------------------+---------------------------+
+|       ATOM            |           RSS1             |          RSS2             |
++=======================+============================+===========================+
+| |ATOM-id|_ !          | |RSS1-about|_ !            | -                         |
++-----------------------+----------------------------+---------------------------+
+| |ATOM-title|_ !       | |RSS1-title|_ !            | |RSS2-title|_ !           |
++-----------------------+----------------------------+---------------------------+
+| |ATOM-updated|_ !     | -                          | |RSS2-lastBuildDate|_ ?   |
++-----------------------+----------------------------+---------------------------+
+| |ATOM-author|_ !*     | -                          | |RSS2-managingEditor|_ ?  |
++-----------------------+----------------------------+---------------------------+
+| |ATOM-subtitle|_ ?    | |RSS1-description|_ !      | |RSS2-description|_ !     |
++-----------------------+----------------------------+---------------------------+
+| |ATOM-link|_ !*       | |RSS1-link|_ !             | |RSS2-link|_ !            |
++-----------------------+----------------------------+---------------------------+
+| |ATOM-entry|_ ?*      | |RSS1-item|_ !*            | |RSS2-item|_ !*           |
++-----------------------+----------------------------+---------------------------+
 
-| R = required
-| * = special requirements
-| ? = no equivalence
+| ! = required
+| ? = optional
+| * = can appear multiple times
+| - = no equivalence
 
 
 Item elements
@@ -43,22 +44,23 @@ Item elements
 +---------------------------+------------------------------+------------------------------+
 |       ATOM                |           RSS1               |          RSS2                |
 +===========================+==============================+==============================+
-| |ATOM-entry-id|_ R        | |RSS1-item-about|_ R         | |RSS2-item-guid|_            |
+| |ATOM-entry-id|_ !        | |RSS1-item-about|_ !         | |RSS2-item-guid|_ ?          |
 +---------------------------+------------------------------+------------------------------+
-| |ATOM-entry-title|_ R     | |RSS1-item-title|_ R         | |RSS2-item-title|_ R         |
+| |ATOM-entry-title|_ !     | |RSS1-item-title|_ !         | |RSS2-item-title|_ !         |
 +---------------------------+------------------------------+------------------------------+
-| |ATOM-entry-updated|_ R   | ?                            | |RSS2-item-pubDate|_         |
+| |ATOM-entry-updated|_ !   | -                            | |RSS2-item-pubDate|_ ?       |
 +---------------------------+------------------------------+------------------------------+
-| |ATOM-entry-author|_ R*   | ?                            | |RSS2-item-author|_          |
+| |ATOM-entry-author|_ !*   | -                            | |RSS2-item-author|_ ?        |
 +---------------------------+------------------------------+------------------------------+
-| |ATOM-entry-link|_        | |RSS1-item-link|_ R          | |RSS2-item-link|_ R          |
+| |ATOM-entry-link|_ !*     | |RSS1-item-link|_ !          | |RSS2-item-link|_ !          |
 +---------------------------+------------------------------+------------------------------+
-| |ATOM-entry-summary|_ R*  | |RSS1-item-description|_ R   | |RSS2-item-description|_ R   |
+| |ATOM-entry-summary|_ !   | |RSS1-item-description|_ !   | |RSS2-item-description|_ !   |
 +---------------------------+------------------------------+------------------------------+
 
-| R = required
-| * = special requirements
-| ? = no equivalence
+| ! = required
+| ? = optional
+| * = can appear multiple times
+| - = no equivalence
 
 
 ATOM
@@ -192,7 +194,7 @@ Equivalents: `ATOM-author`_, RSS1-none, `RSS2-managingEditor`_.
 ATOM/link
 `````````
 
-The URL to the HTML website corresponding to the channel.
+An URL to the HTML website corresponding to the channel.
 
 Required: a link back to the feed itself must be present (with ``rel="self"``).
 
@@ -200,7 +202,7 @@ Multiple links can appear.
 
 Required attributes: *href*. Optional attributes: *rel* (possible values:
 ``alternate`` (default), ``enclosure``, ``related``, ``self``, ``via``),
-*type*, *hreflang*, *title*, *length*).
+*type*, *hreflang*, *title*, *length*.
 
 A maximum of one link with ``rel="alternate"`` can appear per *type* and
 *hreflang*.
@@ -282,11 +284,45 @@ ATOM/entry/updated
 ATOM/entry/author
 `````````````````
 
+One author of the feed entry.
+
+Required: one author must be present in each entry in case the feed does not
+contain an author.
+
+Multiple authors can appear.
+
+Required elements: *name*. Optional elements: *uri*, *email*.
+
+Example::
+
+  <author>
+    <name>John Doe</name>
+    <uri>http://example.com/~johndoe</uri>
+    <email>JohnDoe@example.com</email>
+  </author>
+
+Equivalents: `ATOM-entry-author`_, RSS1-none, `RSS2-item-managingEditor`_.
+
 
 .. _ATOM-entry-link:
 
 ATOM/entry/link
 ```````````````
+
+An to the related to the feed entry.
+
+Required.
+
+Multiple links can appear.
+
+Required attributes: *href*. Optional attributes: *rel* (possible values:
+``alternate`` (default), ``enclosure``, ``related``, ``self``, ``via``),
+*type*, *hreflang*, *title*, *length*.
+
+A maximum of one link with ``rel="alternate"`` can appear per *type* and
+*hreflang*.
+
+Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
 .. _ATOM-entry-summary:
@@ -462,6 +498,14 @@ Equivalents: `ATOM-entry-title`_, `RSS1-item-title`_, `RSS2-item-title`_.
 RSS1/item/link
 ``````````````
 
+The URL to the HTML website corresponding to the feed item.
+
+Required.
+
+Can appear only once.
+
+Equivalents: `ATOM-entry-link`_, `RSS1-item-link`_, `RSS2-item-link`_.
+
 
 .. _RSS1-item-description:
 
@@ -623,11 +667,32 @@ RSS2/item/pubDate
 RSS2/item/author
 ````````````````
 
+The email address of the person who created the feed item.
+
+Optional.
+
+Can appear only once.
+
+It is a good practice to include the name and email of the author, for
+example::
+
+  <author>John Doe (john.doe@example.com)</author>
+
+Equivalents: `ATOM-entry-author`_, RSS1-none, `RSS2-item-author`_.
+
 
 .. _RSS2-item-link:
 
 RSS2/item/link
 ``````````````
+
+The URL to the HTML website corresponding to the feed item.
+
+Required.
+
+Can appear only once.
+
+Equivalents: `ATOM-entry-link`_, `RSS1-item-link`_, `RSS2-item-link`_.
 
 
 .. _RSS2-item-description:
