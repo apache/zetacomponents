@@ -150,7 +150,7 @@ ATOM/entry
 
 Feed entry.
 
-Optional.
+Optional (recommended).
 
 Multiple entries can appear.
 
@@ -200,7 +200,7 @@ ATOM/subtitle
 
 A short description of the feed.
 
-Optional.
+Optional (recommended).
 
 Can appear only once.
 
@@ -593,7 +593,7 @@ RSS2/lastBuildDate
 
 The last time the feed was updated.
 
-Optional.
+Optional (recommended).
 
 Can appear only once.
 
@@ -623,7 +623,7 @@ RSS2/managingEditor
 
 One author of the feed.
 
-Optional.
+Optional (recommended).
 
 Can appear only once.
 
@@ -655,7 +655,7 @@ RSS2/item/author
 
 The email address of the person who created the feed item.
 
-Optional.
+Optional (recommended).
 
 Can appear only once.
 
@@ -690,7 +690,7 @@ RSS2/item/guid
 A unique identifier in respect to other *guid* values of items in the feed. It
 identifies the item.
 
-Optional.
+Optional (recommended).
 
 Can appear only once.
 
@@ -721,7 +721,7 @@ RSS2/item/pubDate
 
 The last time the feed item was updated.
 
-Optional.
+Optional (recommended).
 
 Can appear only once.
 
