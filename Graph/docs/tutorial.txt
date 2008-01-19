@@ -1023,7 +1023,7 @@ element like following example shows.
 
 ::
 
-	<object date="path/to/image.svg" type="image/svg+xml">
+	<object data="path/to/image.svg" type="image/svg+xml">
 		You need a browser capeable of SVG to display this image.
 	</object>
 
