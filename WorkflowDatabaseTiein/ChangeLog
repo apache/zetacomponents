@@ -1,3 +1,6 @@
+- Fixed issue #12403: Multiple construction of
+  ezcWorkflowDatabaseDefinitionStorage.
+
 1.1 - Monday 17 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
