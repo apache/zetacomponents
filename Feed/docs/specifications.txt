@@ -31,6 +31,8 @@ Feed elements
 +-----------------------+----------------------------+---------------------------+
 | |ATOM-logo|_ ?        | |RSS1-image|_ ?            | |RSS2-image|_ ?           |
 +-----------------------+----------------------------+---------------------------+
+| |ATOM-category|_ ?*   | x                          | |RSS2-category|_ ?*       |
++-----------------------+----------------------------+---------------------------+
 | |ATOM-rights|_ ?      | x                          | |RSS2-copyright|_ ?       |
 +-----------------------+----------------------------+---------------------------+
 | x                     | x                          | |RSS2-ttl|_ ?             |
@@ -73,6 +75,8 @@ Item elements
 | |ATOM-entry-summary|_ !   | |RSS1-item-description|_ !   | |RSS2-item-description|_ !   |
 +---------------------------+------------------------------+------------------------------+
 | |ATOM-entry-published|_ ? | x                            | |RSS2-item-pubDate|_ ?       |
++---------------------------+------------------------------+------------------------------+
+| |ATOM-entry-category|_ ?* | x                            | |RSS2-item-category|_ ?*     |
 +---------------------------+------------------------------+------------------------------+
 | |ATOM-entry-rights|_ ?    | x                            | x                            |
 +---------------------------+------------------------------+------------------------------+
@@ -165,6 +169,24 @@ Example::
   </author>
 
 Equivalents: `ATOM-author`_, RSS1-none, `RSS2-managingEditor`_.
+
+
+.. _ATOM-category:
+
+ATOM/category
+`````````````
+
+A category for the feed.
+
+Optional.
+
+Multiple categories can appear.
+
+Has one required attribute: *term*.
+
+Has 2 optional attributes: *scheme*, *label*.
+
+Equivalents: `ATOM-category`_, RSS1-none, `RSS2-category`_.
 
 
 .. _ATOM-entry:
@@ -319,6 +341,24 @@ Example::
   </author>
 
 Equivalents: `ATOM-entry-author`_, RSS1-none, `RSS2-item-author`_.
+
+
+.. _ATOM-entry-category:
+
+ATOM/entry/category
+```````````````````
+
+A category for the feed entry.
+
+Optional.
+
+Multiple categories can appear.
+
+Has one required attribute: *term*.
+
+Has 2 optional attributes: *scheme*, *label*.
+
+Equivalents: `ATOM-entry-category`_, RSS1-none, `RSS2-item-category`_.
 
 
 .. _ATOM-entry-content:
@@ -689,6 +729,24 @@ type (not a standard yet).
 Feed elements
 -------------
 
+.. _RSS2-category:
+
+RSS2/category
+`````````````
+
+A category for the feed.
+
+Optional.
+
+Multiple categories can appear.
+
+Has one optional attribute: *domain*.
+
+The value of the category element must be specified.
+
+Equivalents: `ATOM-category`_, RSS1-none, `RSS2-category`_.
+
+
 .. _RSS2-cloud:
 
 RSS2/cloud
@@ -932,6 +990,24 @@ example::
 Equivalents: `ATOM-entry-author`_, RSS1-none, `RSS2-item-author`_.
 
 
+.. _RSS2-item-category:
+
+RSS2/item/category
+``````````````````
+
+A category for the feed.
+
+Optional.
+
+Multiple categories can appear.
+
+Has one optional attribute: *domain*.
+
+The value of the category element must be specified.
+
+Equivalents: `ATOM-entry-category`_, RSS1-none, `RSS2-item-category`_.
+
+
 .. _RSS2-item-comments:
 
 RSS2/item/comments
@@ -1058,6 +1134,7 @@ Resources
 
 
 .. |ATOM-author| replace:: author
+.. |ATOM-category| replace:: category
 .. |ATOM-entry| replace:: entry
 .. |ATOM-id| replace:: id
 .. |ATOM-link| replace:: link
@@ -1068,6 +1145,7 @@ Resources
 .. |ATOM-updated| replace:: updated
 
 .. |ATOM-entry-author| replace:: author
+.. |ATOM-entry-category| replace:: category
 .. |ATOM-entry-content| replace:: content
 .. |ATOM-entry-id| replace:: id
 .. |ATOM-entry-link| replace:: link
@@ -1091,6 +1169,7 @@ Resources
 .. |RSS1-item-title| replace:: title
 
 .. |RSS2-cloud| replace:: cloud
+.. |RSS2-category| replace:: category
 .. |RSS2-copyright| replace:: copyright
 .. |RSS2-description| replace:: description
 .. |RSS2-image| replace:: image
@@ -1106,6 +1185,7 @@ Resources
 .. |RSS2-ttl| replace:: ttl
 
 .. |RSS2-item-author| replace:: author
+.. |RSS2-item-category| replace:: category
 .. |RSS2-item-comments| replace:: comments
 .. |RSS2-item-description| replace:: description
 .. |RSS2-item-enclosure| replace:: enclosure
