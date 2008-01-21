@@ -45,6 +45,8 @@ Feed elements
 +-----------------------+----------------------------+---------------------------+
 | x                     | x                          | |RSS2-cloud|_ ?           |
 +-----------------------+----------------------------+---------------------------+
+| x                     | x                          | |RSS2-webMaster|_ ?       |
++-----------------------+----------------------------+---------------------------+
 | x                     | |RSS1-textinput|_ ?        | |RSS2-textInput|_ ?       |
 +-----------------------+----------------------------+---------------------------+
 | |ATOM-entry|_ ?*      | |RSS1-item|_ !*            | |RSS2-item|_ !*           |
@@ -968,6 +970,20 @@ Can appear only once.
 Equivalents: ATOM-none, RSS1-none, `RSS2-ttl`_.
 
 
+.. _RSS2-webMaster:
+
+RSS2/webMaster
+``````````````
+
+The email address of the webmaster responsible for the feed.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Equivalents: ATOM-none, RSS1-none, `RSS2-webMaster`_.
+
+
 Item elements
 -------------
 
@@ -1183,6 +1199,7 @@ Resources
 .. |RSS2-textInput| replace:: textInput
 .. |RSS2-title| replace:: title
 .. |RSS2-ttl| replace:: ttl
+.. |RSS2-webMaster| replace:: webMaster
 
 .. |RSS2-item-author| replace:: author
 .. |RSS2-item-category| replace:: category
