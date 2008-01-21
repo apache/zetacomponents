@@ -280,31 +280,41 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
      * @param object $object                  The persistent object.
      * @param string $relatedClass            The class of the related persistent
      *                                        object.
-     * @param ezcPersistentRelation $relation The relation to check.
+     * @param ezcPersistentRelation|ezcPersistentRelationCollection $relation The relation to check.
      *
      * @todo Revise cascading code. So far it sends 1 delete statement per
      *       object but we can also collect them table wise and send just 1
      *       for each table.
      */
-    private function cascadeDelete( $object, $relatedClass, ezcPersistentRelation $relation )
+    private function cascadeDelete( $object, $relatedClass, $relation, $relationName = null )
     {
+        // New multi-relations for a single class
+        if ( $relation instanceof ezcPersistentRelationCollection )
+        {
+            foreach( $relation as $relationName => $realRelation )
+            {
+                $this->cascadeDelete( $object, $relatedClass, $realRelation, $relationName );
+            }
+        }
+
         // Remove relation records for ManyToMany relations
         if ( $relation instanceof ezcPersistentManyToManyRelation )
         {
             $relatedObjects = $this->session->loadHandler->getRelatedObjects(
                 $object,
-                $relatedClass
+                $relatedClass,
+                $relationName
             );
             foreach ( $relatedObjects as $relatedObject )
             {
                 // Determine the correct direction for removal.
                 if ( $relation->reverse === true  )
                 {
-                    $this->removeRelatedObject( $relatedObject, $object );
+                    $this->removeRelatedObject( $relatedObject, $object, $relationName );
                 }
                 else
                 {
-                    $this->removeRelatedObject( $object, $relatedObject );
+                    $this->removeRelatedObject( $object, $relatedObject, $relationName );
                 }
             }
         }
@@ -325,7 +335,8 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
             }
             $relatedObjects = $this->session->loadHandler->getRelatedObjects(
                 $object,
-                $relatedClass
+                $relatedClass,
+                $relationName
             );
             foreach ( $relatedObjects as $relatedObject )
             {

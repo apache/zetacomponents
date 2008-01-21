@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Refactored ezcPersistentSession.
+- Implemented enhancement #10373: Several relations to the same table for
+  PersistentObject.
 - Fixed issue #10205: binding variables with an undeclared var doesn't throw
   an exception. If getState() on a persistent object does not return an array
   an exception is thrown now.

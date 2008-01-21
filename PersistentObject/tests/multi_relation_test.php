@@ -414,6 +414,83 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
             'Incorrect number of relation records after removing all siblings.'
         );
     }
+
+    public function testDeleteCascade()
+    {
+        $mother   = $this->session->load( 'MultiRelationTestPerson', 1 );
+
+        $this->session->delete( $mother );
+
+        $q = $this->session->createFindQuery( 'MultiRelationTestPerson' );
+        $q->where(
+            $q->expr->eq(
+                'mother',
+                $q->bindValue( 1 )
+            )
+          );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $rows = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        $this->assertEquals(
+            0,
+            count( $rows ),
+            "Cascading while deleting MultiRelationTestPerson mother did not work."
+        );
+    }
+
+    public function testDeleteNoCascade()
+    {
+        $father   = $this->session->load( 'MultiRelationTestPerson', 2 );
+
+        $this->session->delete( $father );
+
+        $q = $this->session->createFindQuery( 'MultiRelationTestPerson' );
+        $q->where(
+            $q->expr->eq(
+                'father',
+                $q->bindValue( 2 )
+            )
+          );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $rows = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        $this->assertNotEquals(
+            0,
+            count( $rows ),
+            "Cascaded while deleting MultiRelationTestPerson father while cascade was not desired."
+        );
+    }
+
+    public function testRemoveRelatioRecordsOnDeleteSiblings()
+    {
+        $child    = $this->session->load( 'MultiRelationTestPerson', 3 );
+
+        $this->session->delete( $child );
+
+        $q = $this->session->database->createSelectQuery();
+        $q->select( '*' )
+          ->from( 'PO_sibling' )
+          ->where(
+            $q->expr->eq(
+                $this->session->database->quoteIdentifier( 'person' ),
+                $q->bindValue( $child->id )
+            )
+          );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $rows = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        $this->assertEquals(
+            0,
+            count( $rows ),
+            'Incorrect number of relation records after removing all siblings.'
+        );
+    }
 }
 
 ?>
