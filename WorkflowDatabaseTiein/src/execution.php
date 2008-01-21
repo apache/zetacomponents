@@ -136,7 +136,10 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $this->cleanupTable( 'execution' );
         $this->cleanupTable( 'execution_state' );
 
-        $this->db->commit();
+        if ( !$this->isCancelled() )
+        {
+            $this->db->commit();
+        }
     }
 
     /**

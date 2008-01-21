@@ -1,3 +1,5 @@
+- Implemented issue #10941: Support for the Cancel Case workflow pattern.
+
 - Fixed issue #12403: Multiple construction of
   ezcWorkflowDatabaseDefinitionStorage.
 

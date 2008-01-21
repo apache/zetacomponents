@@ -344,5 +344,31 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
           $this->readActual()
         );
     }
+
+    public function testLogParallelSplitCancelCaseActionActionSynchronization()
+    {
+        $this->setUpCancelCase( 'first' );
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'ParallelSplitCancelCaseActionActionSynchronization' ),
+          $this->readActual()
+        );
+    }
+
+    public function testLogParallelSplitActionActionCancelCaseSynchronization()
+    {
+        $this->setUpCancelCase( 'last' );
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'ParallelSplitActionActionCancelCaseSynchronization' ),
+          $this->readActual()
+        );
+    }
 }
 ?>
