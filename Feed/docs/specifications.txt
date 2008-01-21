@@ -43,7 +43,7 @@ Feed elements
 +-----------------------+----------------------------+---------------------------+
 | x                     | x                          | |RSS2-cloud|_ ?           |
 +-----------------------+----------------------------+---------------------------+
-| x                     | x                          | |RSS2-textInput|_ ?       |
+| x                     | |RSS1-textinput|_ ?        | |RSS2-textInput|_ ?       |
 +-----------------------+----------------------------+---------------------------+
 | |ATOM-entry|_ ?*      | |RSS1-item|_ !*            | |RSS2-item|_ !*           |
 +-----------------------+----------------------------+---------------------------+
@@ -568,18 +568,23 @@ Can appear only once.
 Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
-.. _RSS2-copyright:
+.. _RSS1-textinput:
 
-RSS2/copyright
+RSS1/textinput
 ``````````````
 
-Copyright information for the feed.
+Specifies a text input box that can be displayed with the feed.
 
-Optional.
+Optional (not recommended).
 
 Can appear only once.
 
-Equivalents: `ATOM-rights`_, RSS1-none, `RSS2-copyright`_.
+Has the required attribute *about*, which should have the same value as the
+*link* sub-element.
+
+Has four required sub-elements: *title*, *description*, *name*, *link*.
+
+Equivalents: ATOM-none, `RSS1-textinput`_, `RSS2-textInput`_.
 
 
 .. _RSS1-title:
@@ -698,6 +703,20 @@ Example::
   <cloud domain="rpc.sys.com" port="80" path="/RPC2" registerProcedure="myCloud.rssPleaseNotify" protocol="xml-rpc" />
 
 Equivalents: ATOM-none, RSS1-none, `RSS2-cloud`_.
+
+
+.. _RSS2-copyright:
+
+RSS2/copyright
+``````````````
+
+Copyright information for the feed.
+
+Optional.
+
+Can appear only once.
+
+Equivalents: `ATOM-rights`_, RSS1-none, `RSS2-copyright`_.
 
 
 .. _RSS2-description:
@@ -852,7 +871,7 @@ Can appear only once.
 
 Has four required sub-elements: *title*, *description*, *name*, *link*.
 
-Equivalents: ATOM-none, RSS1-none, `RSS2-textInput`_.
+Equivalents: ATOM-none, `RSS1-textinput`_, `RSS2-textInput`_.
 
 
 .. _RSS2-title:
@@ -1041,6 +1060,7 @@ Resources
 .. |RSS1-image| replace:: image
 .. |RSS1-item| replace:: item
 .. |RSS1-link| replace:: link
+.. |RSS1-textinput| replace:: textinput
 .. |RSS1-title| replace:: title
 
 .. |RSS1-item-about| replace:: about
