@@ -214,7 +214,8 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     }
 
     /**
-     * Returns the table in a string.
+     * Returns the table in an array.
+     *
      * Returns the entire table as an array of printable lines. Each element of
      * the array represents a physical line of the drawn table, including all
      * borders and stuff, so you can simply print the table using
@@ -239,6 +240,16 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     public function outputTable() 
     {
         echo implode( PHP_EOL, $this->generateTable() );
+    }
+
+    /**
+     * Returns the table in a string.
+     *
+     * @return void
+     */
+    public function __toString()
+    {
+        return implode( PHP_EOL, $this->generateTable() );
     }
 
     /**

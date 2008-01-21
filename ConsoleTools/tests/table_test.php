@@ -998,11 +998,16 @@ class ezcConsoleTableTest extends ezcTestCase
         $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . $refFile . '.dat';
         // To prepare test files, uncomment this block
         // file_put_contents( $refFile, implode( PHP_EOL, $table->getTable() ) );
-        
+
         // For test assertion, uncomment this block
         $this->assertEquals(
             file_get_contents( $refFile ),
             implode( PHP_EOL, $table->getTable() ),
+            'Table not correctly generated for ' . $refFile . '.'
+        );
+        $this->assertEquals(
+            file_get_contents( $refFile ),
+            (string) $table,
             'Table not correctly generated for ' . $refFile . '.'
         );
 
