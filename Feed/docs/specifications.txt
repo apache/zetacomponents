@@ -51,6 +51,8 @@ Feed elements
 +-----------------------+----------------------------+---------------------------+
 | x                     | |RSS1-textinput|_ ?        | |RSS2-textInput|_ ?       |
 +-----------------------+----------------------------+---------------------------+
+| |ATOM-icon|_ ?        | x                          | x                         |
++-----------------------+----------------------------+---------------------------+
 | |ATOM-entry|_ ?*      | |RSS1-item|_ !*            | |RSS2-item|_ !*           |
 +-----------------------+----------------------------+---------------------------+
 
@@ -221,6 +223,20 @@ Can appear only once.
 Has 2 optional attributes: *url*, *version*.
 
 Equivalents: `ATOM-generator`_, RSS1-none, `RSS2-generator`_.
+
+
+.. _ATOM-icon:
+
+ATOM/icon
+`````````
+
+An icon for a feed, similar with favicon.ico for websites.
+
+Optional.
+
+Can appear only once.
+
+Equivalents: `ATOM-icon`_, RSS1-none, RSS2-none.
 
 
 .. _ATOM-id:
@@ -1185,6 +1201,7 @@ Resources
 .. |ATOM-category| replace:: category
 .. |ATOM-entry| replace:: entry
 .. |ATOM-generator| replace:: generator
+.. |ATOM-icon| replace:: icon
 .. |ATOM-id| replace:: id
 .. |ATOM-link| replace:: link
 .. |ATOM-logo| replace:: logo
