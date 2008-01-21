@@ -46,7 +46,7 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
 
     public function teardown()
     {
-        // MultiRelationTestPerson::cleanup();
+        MultiRelationTestPerson::cleanup();
     }
 
     public function testLoad()
@@ -97,6 +97,20 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
             4,
             $persons[1]->id,
             'First MultiRelationTestPerson object not found correctly.'
+        );
+    }
+
+    public function testSave()
+    {
+        $newChild = new MultiRelationTestPerson();
+        $newChild->name = "New child";
+
+        $this->session->save( $newChild );
+
+        $this->assertEquals(
+            6,
+            $newChild->id,
+            'New MultiRelationTestPerson saved with incorrect ID.'
         );
     }
 
@@ -218,18 +232,21 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
         );
     }
 
-    public function testSave()
+    public function testAddObjectsFailureWithoutRelationName()
     {
         $newChild = new MultiRelationTestPerson();
         $newChild->name = "New child";
 
         $this->session->save( $newChild );
 
-        $this->assertEquals(
-            6,
-            $newChild->id,
-            'New MultiRelationTestPerson saved with incorrect ID.'
-        );
+        $mother = $this->session->load( 'MultiRelationTestPerson', 1 );
+
+        try
+        {
+            $this->session->addRelatedObject( $mother, $newChild );
+            $this->fail( 'Exception not thrown on addRelatedObject() without relation name.' );
+        }
+        catch ( ezcPersistentUndeterministicRelationException $e ) {}
     }
 
     public function testAddRelatedObjectOneToManySuccess()
@@ -285,6 +302,116 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
             $sibling->id,
             $rows[0]['person'],
             'Incorrect perso ID in relation record.'
+        );
+    }
+    
+    public function testRemoveObjectsFailureWithoutRelationName()
+    {
+        $mother   = $this->session->load( 'MultiRelationTestPerson', 1 );
+        $children = $this->session->getRelatedObjects( $mother, 'MultiRelationTestPerson', 'mothers_children' );
+
+        try
+        {
+            $this->session->removeRelatedObject( $mother, $children[0] );
+            $this->fail( 'Exception not thrown on removeRelatedObject() without relation name.' );
+        }
+        catch ( ezcPersistentUndeterministicRelationException $e ) {}
+    }
+
+    public function testRemoveRelatedObjectSuccessMotherChildren()
+    {
+        $mother   = $this->session->load( 'MultiRelationTestPerson', 1 );
+        $children = $this->session->getRelatedObjects( $mother, 'MultiRelationTestPerson', 'mothers_children' );
+
+        foreach( $children as $child )
+        {
+            $this->session->removeRelatedObject( $mother, $child, 'mothers_children' );
+
+            $this->assertNull(
+                $child->mother,
+                "MultiRelationTestPerson child {$child->id} not correctly removed from mother."
+            );
+            $this->assertNotNull(
+                $child->father,
+                "MultiRelationTestPerson child {$child->id} also removed from father instead from mother only."
+            );
+        }
+    }
+
+    public function testRemoveRelatedObjectSuccessFatherChildren()
+    {
+        $father   = $this->session->load( 'MultiRelationTestPerson', 2 );
+        $children = $this->session->getRelatedObjects( $father, 'MultiRelationTestPerson', 'fathers_children' );
+
+        foreach( $children as $child )
+        {
+            $this->session->removeRelatedObject( $father, $child, 'fathers_children' );
+
+            $this->assertNull(
+                $child->father,
+                "MultiRelationTestPerson child {$child->id} not correctly removed from father."
+            );
+            $this->assertNotNull(
+                $child->mother,
+                "MultiRelationTestPerson child {$child->id} also removed from mother instead from father only."
+            );
+        }
+    }
+    
+    public function testRemoveRelatedObjectFailureChildMother()
+    {
+        $child   = $this->session->load( 'MultiRelationTestPerson', 3 );
+        $mother = $this->session->getRelatedObject( $child, 'MultiRelationTestPerson', 'mother' );
+        
+        try
+        {
+            $this->session->removeRelatedObject( $child, $mother, 'mother' );
+            $this->fail( "MultiRelationTestPerson correctly removed from mother although relation is marked reverse." );
+        }
+        catch ( ezcPersistentRelationOperationNotSupportedException $e ) {}
+    }
+    
+    public function testRemoveRelatedObjectFailureChildFather()
+    {
+        $child  = $this->session->load( 'MultiRelationTestPerson', 4 );
+        $father = $this->session->getRelatedObject( $child, 'MultiRelationTestPerson', 'father' );
+        
+        try
+        {
+            $this->session->removeRelatedObject( $child, $father, 'father' );
+            $this->fail( "MultiRelationTestPerson correctly removed from father although relation is marked reverse." );
+        }
+        catch ( ezcPersistentRelationOperationNotSupportedException $e ) {}
+    }
+
+    public function testRemoveRelatedObjectSuccessSiblings()
+    {
+        $child    = $this->session->load( 'MultiRelationTestPerson', 3 );
+        $siblings = $this->session->getRelatedObjects( $child, 'MultiRelationTestPerson', 'siblings' );
+
+        foreach ( $siblings as $sibling )
+        {
+            $this->session->removeRelatedObject( $child, $sibling, 'siblings' );
+        }
+
+        $q = $this->session->database->createSelectQuery();
+        $q->select( '*' )
+          ->from( 'PO_sibling' )
+          ->where(
+            $q->expr->eq(
+                $this->session->database->quoteIdentifier( 'person' ),
+                $q->bindValue( $child->id )
+            )
+          );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $rows = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        $this->assertEquals(
+            0,
+            count( $rows ),
+            'Incorrect number of relation records after removing all siblings.'
         );
     }
 }

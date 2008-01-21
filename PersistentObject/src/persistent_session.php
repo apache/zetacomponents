@@ -414,9 +414,9 @@ class ezcPersistentSession
      * @throws ezcPersistentRelationNotFoundException
      *         if the deisred relation is not defined.
      */
-    public function addRelatedObject( $object, $relatedObject, $relatioName = null )
+    public function addRelatedObject( $object, $relatedObject, $relationName = null )
     {
-        return $this->saveHandler->addRelatedObject( $object, $relatedObject, $relatioName );
+        return $this->saveHandler->addRelatedObject( $object, $relatedObject, $relationName );
     }
 
     /**
@@ -508,9 +508,9 @@ class ezcPersistentSession
      * @throws ezcPersistentRelationNotFoundException
      *         if the deisred relation is not defined.
      */
-    public function removeRelatedObject( $object, $relatedObject )
+    public function removeRelatedObject( $object, $relatedObject, $relationName = null )
     {
-        return $this->deleteHandler->removeRelatedObject( $object, $relatedObject );
+        return $this->deleteHandler->removeRelatedObject( $object, $relatedObject, $relationName );
     }
 
     /**

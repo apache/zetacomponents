@@ -123,19 +123,41 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
      * @throws ezcPersistentRelationNotFoundException
      *         if the deisred relation is not defined.
      */
-    public function removeRelatedObject( $object, $relatedObject )
+    public function removeRelatedObject( $object, $relatedObject, $relationName = null )
     {
         $class        = get_class( $object );
         $relatedClass = get_class( $relatedObject );
+
         $def          = $this->definitionManager->fetchDefinition( $class );
-        $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
+        $relatedDef   = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
 
         // Sanity checks.
         if ( !isset( $def->relations[$relatedClass] ) )
         {
             throw new ezcPersistentRelationNotFoundException( $class, $relatedClass );
         }
-        if ( isset( $def->relations[$relatedClass]->reverse ) && $def->relations[$relatedClass]->reverse === true )
+
+        $relation = $def->relations[$relatedClass];
+        
+        // New multi-relations for a single class
+        if ( $relation instanceof ezcPersistentRelationCollection )
+        {
+            if ( $relationName === null )
+            {
+                throw new ezcPersistentUndeterministicRelationException( $relatedClass );
+            }
+            if ( !isset( $relation[$relationName] ) )
+            {
+                throw new ezcPersistentRelationNotFoundException(
+                    $class,
+                    $relatedClass,
+                    $relationName
+                );
+            }
+            $relation = $relation[$relationName];
+        }
+        
+        if ( isset( $relation->reverse ) && $relation->reverse === true )
         {
             throw new ezcPersistentRelationOperationNotSupportedException(
                 $class,
@@ -148,7 +170,7 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
         $objectState        = $this->session->getObjectState( $object );
         $relatedObjectState = $this->session->getObjectState( $relatedObject );
 
-        switch ( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
+        switch ( get_class( $relation ) )
         {
             case "ezcPersistentOneToManyRelation":
             case "ezcPersistentOneToOneRelation":
