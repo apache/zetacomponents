@@ -49,6 +49,8 @@ Feed elements
 +-------------------------+----------------------------+---------------------------+
 | x                       | x                          | |RSS2-webMaster|_ ?       |
 +-------------------------+----------------------------+---------------------------+
+| x                       | x                          | |RSS2-language|_ ?        |
++-------------------------+----------------------------+---------------------------+
 | x                       | |RSS1-textinput|_ ?        | |RSS2-textInput|_ ?       |
 +-------------------------+----------------------------+---------------------------+
 | |ATOM-icon|_ ?          | x                          | x                         |
@@ -113,7 +115,7 @@ Specifications
 Content type
 ------------
 
-All ATOM feeds should be identified with the *application/atom+xml* content
+All ATOM feeds should be identified with the ``application/atom+xml`` content
 type.
 
 
@@ -619,7 +621,7 @@ Specifications
 Content type
 ------------
 
-All RSS1 feeds should be identified with the *application/rss+xml* content
+All RSS1 feeds should be identified with the ``application/rss+xml`` content
 type (not a standard yet).
 
 
@@ -810,7 +812,7 @@ Specifications
 Content type
 ------------
 
-All RSS2 feeds should be identified with the *application/rss+xml* content
+All RSS2 feeds should be identified with the ``application/rss+xml`` content
 type (not a standard yet).
 
 
@@ -931,6 +933,23 @@ Multiple entries can appear.
 Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
 
+.. _RSS2-language:
+
+RSS2/language
+`````````````
+
+The language for the feed.
+
+Optional (recommended).
+
+Can appear only once.
+
+A list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes.
+
+Equivalents: ATOM-*xml:lang* for each element, RSS1-none, `RSS2-language`_.
+
+
 .. _RSS2-lastBuildDate:
 
 RSS2/lastBuildDate
@@ -1018,7 +1037,7 @@ Optional (not recommended).
 
 Can appear only once.
 
-Can have up to 24 *hour* elements, each with an integer value from ``\0``
+Can have up to 24 *hour* elements, each with an integer value from `` 0``
 (midnight) to ``23``.
 
 Equivalents: ATOM-none, RSS1-none, `RSS2-skipHours`_.
@@ -1295,6 +1314,7 @@ Resources
 .. |RSS2-generator| replace:: generator
 .. |RSS2-image| replace:: image
 .. |RSS2-item| replace:: item
+.. |RSS2-language| replace:: language
 .. |RSS2-lastBuildDate| replace:: lastBuildDate
 .. |RSS2-link| replace:: link
 .. |RSS2-managingEditor| replace:: managingEditor
