@@ -60,10 +60,6 @@ class ezcTreeVisitorGraphViz implements ezcTreeVisitor
      */
     public function visit( ezcTreeVisitable $visitable )
     {
-        if ( $visitable instanceof ezcTree )
-        {
-        }
-
         if ( $visitable instanceof ezcTreeNode )
         {
             $id = $this->createId( $visitable );
