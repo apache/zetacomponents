@@ -84,6 +84,14 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
         switch ( $propertyName )
         {
             case 'lineThickness':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ) 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties[$propertyName] = (int) $propertyValue;
+                break;
             case 'symbolSize':
             case 'highlightSize':
                 if ( !is_numeric( $propertyValue ) ||
