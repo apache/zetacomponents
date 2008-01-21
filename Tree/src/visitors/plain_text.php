@@ -109,10 +109,6 @@ class ezcTreeVisitorPlainText implements ezcTreeVisitor
      */
     public function visit( ezcTreeVisitable $visitable )
     {
-        if ( $visitable instanceof ezcTree )
-        {
-        }
-
         if ( $visitable instanceof ezcTreeNode )
         {
             if ( $this->root === null )
