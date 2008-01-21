@@ -7,6 +7,8 @@
   not divisible by major step
 - Fixed issue #11777: Optionally independent axis font configuration
 - Fixed issue #12326: Per datapoint colors not used with bar charts
+- Fixed issue #12405: Highlightfontsize reduced when padding > 0 in highlight
+  font options
 
 
 1.2 - Monday 17 December 2007
