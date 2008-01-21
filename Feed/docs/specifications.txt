@@ -35,6 +35,8 @@ Feed elements
 +-----------------------+----------------------------+---------------------------+
 | |ATOM-rights|_ ?      | x                          | |RSS2-copyright|_ ?       |
 +-----------------------+----------------------------+---------------------------+
+| |ATOM-generator|_ ?   | x                          | |RSS2-generator|_ ?       |
++-----------------------+----------------------------+---------------------------+
 | x                     | x                          | |RSS2-ttl|_ ?             |
 +-----------------------+----------------------------+---------------------------+
 | x                     | x                          | |RSS2-skipHours|_ ?       |
@@ -203,6 +205,22 @@ Optional (recommended).
 Multiple entries can appear.
 
 Equivalents: `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
+
+
+.. _ATOM-generator:
+
+ATOM/generator
+``````````````
+
+Indicates the software used to generate the feed.
+
+Optional.
+
+Can appear only once.
+
+Has 2 optional attributes: *url*, *version*.
+
+Equivalents: `ATOM-generator`_, RSS1-none, `RSS2-generator`_.
 
 
 .. _ATOM-id:
@@ -799,6 +817,20 @@ Can appear only once.
 Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
 
 
+.. _RSS2-generator:
+
+RSS2/generator
+``````````````
+
+Indicates the software used to generate the feed.
+
+Optional.
+
+Can appear only once.
+
+Equivalents: `ATOM-generator`_, RSS1-none, `RSS2-generator`_.
+
+
 .. _RSS2-image:
 
 RSS2/image
@@ -1152,6 +1184,7 @@ Resources
 .. |ATOM-author| replace:: author
 .. |ATOM-category| replace:: category
 .. |ATOM-entry| replace:: entry
+.. |ATOM-generator| replace:: generator
 .. |ATOM-id| replace:: id
 .. |ATOM-link| replace:: link
 .. |ATOM-logo| replace:: logo
@@ -1188,6 +1221,7 @@ Resources
 .. |RSS2-category| replace:: category
 .. |RSS2-copyright| replace:: copyright
 .. |RSS2-description| replace:: description
+.. |RSS2-generator| replace:: generator
 .. |RSS2-image| replace:: image
 .. |RSS2-item| replace:: item
 .. |RSS2-lastBuildDate| replace:: lastBuildDate
