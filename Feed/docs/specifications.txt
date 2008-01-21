@@ -78,6 +78,8 @@ Item elements
 +---------------------------+------------------------------+------------------------------+
 | x                         | x                            | |RSS2-item-comments|_ ?      |
 +---------------------------+------------------------------+------------------------------+
+| |ATOM-entry-link|_ !*     | x                            | |RSS2-item-enclosure|_ ?     |
++---------------------------+------------------------------+------------------------------+
 
 | ! = required
 | ? = optional
@@ -385,7 +387,11 @@ Required attributes: *href*. Optional attributes: *rel* (possible values:
 A maximum of one link with ``rel="alternate"`` can appear per *type* and
 *hreflang*.
 
-Equivalents: `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
+Recommended only one ``rel="enclosure"`` link to keep compatibility with RSS2
+|RSS2-item-enclosure|_.
+
+Equivalents: `ATOM-entry-link`_, `RSS1-item-link`_, `RSS2-item-link`_/
+`RSS2-item-enclosure`_.
 
 
 .. _ATOM-entry-published:
@@ -955,6 +961,22 @@ Equivalents: `ATOM-entry-summary`_, `RSS1-item-description`_,
 `RSS2-item-description`_.
 
 
+.. _RSS2-item-enclosure:
+
+RSS2/item/enclosure
+```````````````````
+
+A link to a multimedia file attached to the feed item.
+
+Optional.
+
+Can appear only once.
+
+Has 3 required attributes: *url*, *length*, *type*.
+
+Equivalents: `ATOM-entry-link`_, RSS1-none, `RSS2-item-enclosure`_.
+
+
 .. _RSS2-item-guid:
 
 RSS2/item/guid
@@ -1086,6 +1108,7 @@ Resources
 .. |RSS2-item-author| replace:: author
 .. |RSS2-item-comments| replace:: comments
 .. |RSS2-item-description| replace:: description
+.. |RSS2-item-enclosure| replace:: enclosure
 .. |RSS2-item-guid| replace:: guid
 .. |RSS2-item-link| replace:: link
 .. |RSS2-item-pubDate| replace:: pubDate
