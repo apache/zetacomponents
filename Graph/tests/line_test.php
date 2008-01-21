@@ -935,6 +935,38 @@ class ezcGraphLineChartTest extends ezcGraphTestCase
         );
     }
 
+    public function testLineChartThickLinesPerDataSet()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->options->lineThickness = 4;
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+        $chart->data['sample 2'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 2375,
+            'IE' => 145,
+            'Opera' => 804,
+            'wget' => 131,
+            'Safari' => 1287,
+        ) );
+
+        $chart->data['sample']->lineThickness = 2;
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testLineChartThickLines3d()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

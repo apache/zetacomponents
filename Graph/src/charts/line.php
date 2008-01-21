@@ -307,7 +307,7 @@ class ezcGraphLineChart extends ezcGraphChart
                             $data->color[$key],
                             $fillColor,
                             $yAxisNullPosition,
-                            $this->options->lineThickness
+                            ( $data->lineThickness->default ? $data->lineThickness->default : $this->options->lineThickness )
                         );
                         break;
                     case ( $data->displayType->default === ezcGraph::BAR ) &&

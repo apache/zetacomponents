@@ -75,6 +75,7 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
         $this->properties['label'] = new ezcGraphDataSetStringProperty( $this );
         $this->properties['color'] = new ezcGraphDataSetColorProperty( $this );
         $this->properties['symbol'] = new ezcGraphDataSetIntProperty( $this );
+        $this->properties['lineThickness'] = new ezcGraphDataSetIntProperty( $this );
         $this->properties['highlight'] = new ezcGraphDataSetBooleanProperty( $this );
         $this->properties['highlightValue'] = new ezcGraphDataSetStringProperty( $this );
         $this->properties['displayType'] = new ezcGraphDataSetIntProperty( $this );
@@ -108,6 +109,7 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
             case 'url':
             case 'color':
             case 'symbol':
+            case 'lineThickness':
             case 'highlight':
             case 'highlightValue':
             case 'displayType':
