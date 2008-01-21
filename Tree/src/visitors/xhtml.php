@@ -15,7 +15,9 @@
  *
  * <code>
  * <?php
- *     $visitor = new ezcTreeVisitorXHTML( 'menu_tree', 'menu' );
+ *     $options = new ezcTreeVisitorXHTMLOptions;
+ *     $options->xmlId = 'menu_tree';
+ *     $visitor = new ezcTreeVisitorXHTML( $options );
  *     $tree->accept( $visitor );
  *     echo (string) $visitor; // print the plot
  * ?>
@@ -45,25 +47,18 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
     protected $root = null;
 
     /**
-     * Holds the XML ID.
-     *
-     * @var string
-     */
-    protected $id;
-
-    /**
-     * Holds the XHTML class.
-     *
-     * @var string
-     */
-    protected $class;
-
-    /**
      * Whether the XML ID has been set.
      *
      * @var bool
      */
     private $treeIdSet;
+
+    /**
+     * Holds the options for this class
+     *
+     * @var ezcTreeVisitorXHTMLOptions
+     */
+    protected $options;
 
     /**
      * Constructs a new ezcTreeVisitorXHTML visualizer.

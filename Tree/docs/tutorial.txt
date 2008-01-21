@@ -409,6 +409,46 @@ The output is::
       ├─Br
       └─I
 
+XHTML-based visualization
+-------------------------
+
+The ezcTreeVisitorXHTML class implements another visitor that renders the trees
+as nested XHTML lists. In the following example we render the same tree again
+with the default options for this visitor:
+
+.. include:: tutorial_example_xhtml.php
+   :literal:
+
+This outputs the following XHTML::
+
+  <ul>
+    <li><a href="/idNonMetals">Non-Metals</a>
+      <ul>
+        <li><a href="/idNonMetals/idH">Hydrogen</a></li>
+        <li><a href="/idNonMetals/idC">Carbon</a></li>
+        <li><a href="/idNonMetals/idN">Nitrogen</a></li>
+        <li><a href="/idNonMetals/idO">Oxygen</a></li>
+        <li><a href="/idNonMetals/idP">Phosphorus</a></li>
+        <li><a href="/idNonMetals/idS">Sulfur</a></li>
+        <li><a href="/idNonMetals/idSe">Selenium</a></li>
+      </ul>
+    </li>
+    <li><a href="/idNobleGasses">Noble Gasses</a>
+      <ul>
+        <li><a href="/idNobleGasses/idF">Fluorine</a></li>
+        <li><a href="/idNobleGasses/idCl">Chlorine</a></li>
+        <li><a href="/idNobleGasses/idBr">Bromine</a></li>
+        <li><a href="/idNobleGasses/idI">Iodine</a></li>
+      </ul>
+    </li>
+  </ul>
+
+
+The ezcTreeVisitorXHTML visitor allows some options that can be set through the
+constructor. Options include whether links should be added (addLinks), whether
+the root node should be shown (displayRootNode) and others. The options are
+documented with the ezcTreeVisitorXHTMLOptions class.
+
 
 GraphViz-based visualization
 ----------------------------
@@ -471,6 +511,10 @@ The full (but minimal) code looks then like:
 The result of this is as follows (scaled):
 
 .. figure:: img/yui1.gif
+
+The ezcTreeVisitorYUI visitor allows some options that can be set through the
+constructor. The options are documented with the ezcTreeVisitorYUIOptions
+class.
 
 
 .. _DatabaseSchema: introduction_DatabaseSchema.html

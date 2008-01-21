@@ -18,10 +18,10 @@
  *           Whether links should be generated or not.
  * @property bool $displayRootNode
  *           Whether the root node should be displayed. The root node will
- *           still be disabled from the links that the visitor create when
+ *           still be disabled from the links that the visitor creates when
  *           $selectedNodeLink is set to true.
  * @property string $xmlId
- *           The ID that should be set on the top level &lt;ul&gt; tag.
+ *           The ID that should be set on the top level <ul> tag.
  * @property array(string) $highlightNodeIds
  *           Which IDs should have the 'highlight' CSS class added.
  * @property array(string) $subtreeHighlightNodeIds

@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #12139: Allow tree node keys to be auto-generated.
+- Fixed issue #12395: Tree docs lacking XHTML visualizaton.
 
 
 1.0 - Monday 17 December 2007
