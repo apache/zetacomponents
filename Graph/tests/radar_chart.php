@@ -47,19 +47,6 @@ class ezcGraphRadarChartTest extends ezcGraphTestCase
         }
     }
 
-    protected function getRandomData( $count, $min = 0, $max = 1000, $randomize = 23 )
-    {
-        // Make data reproducible
-        mt_srand( $randomize );
-
-        for ( $i = 0; $i < $count; ++$i )
-        {
-            $data[] = mt_rand( $min, $max );
-        }
-
-        return $data;
-    }
-
     public function testDrawMultipleAxis()
     {
         $chart = new ezcGraphRadarChart();

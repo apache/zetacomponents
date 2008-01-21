@@ -53,6 +53,19 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         }
     }
 
+    protected function getRandomData( $count, $min = 500, $max = 2000, $randomize = 23 )
+    {
+        $data = parent::getRandomData( $count, $min, $max, $randomize );
+
+        foreach ( $data as $k => $v )
+        {
+            $data[(string) ($k + 2000)] = $v;
+            unset( $data[$k] );
+        }
+
+        return $data;
+    }
+
     public function testRenderTextBoxes()
     {
         $chart = new ezcGraphLineChart();
@@ -233,14 +246,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $labelCount = 30;
-
-        // Make this reproducible
-        mt_srand( 23 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 23 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
@@ -264,14 +270,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $labelCount = 20;
-
-        // Make this reproducible
-        mt_srand( 23 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 23 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
@@ -295,14 +294,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $labelCount = 10;
-
-        // Make this reproducible
-        mt_srand( 23 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 23 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
@@ -326,14 +318,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $labelCount = 30;
-
-        // Make this reproducible
-        mt_srand( 23 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 23 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );

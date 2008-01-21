@@ -44,6 +44,19 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
         }
     }
 
+    protected function getRandomData( $count, $min = 0, $max = 1000, $randomize = 23 )
+    {
+        $data = parent::getRandomData( $count, $min, $max, $randomize );
+
+        foreach ( $data as $k => $v )
+        {
+            $data[(string) ($k + 2000)] = $v;
+            unset( $data[$k] );
+        }
+
+        return $data;
+    }
+
     public function testFactoryLabeledAxis()
     {
         $chart = new ezcGraphLineChart();
@@ -320,14 +333,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
     public function testAutomaticLabelingWithLotsOfLabels2()
     {
         $labelCount = 31;
-
-        // Make this reproducible
-        mt_srand( 2 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 2 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
@@ -354,14 +360,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
     public function testAutomaticLabelingWithLotsOfLabels3()
     {
         $labelCount = 32;
-
-        // Make this reproducible
-        mt_srand( 2 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 2 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
@@ -387,14 +386,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
     public function testAutomaticLabelingWithLotsOfLabels4()
     {
         $labelCount = 165;
-
-        // Make this reproducible
-        mt_srand( 2 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 2 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
@@ -443,14 +435,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $labelCount = 32;
-
-        // Make this reproducible
-        mt_srand( 2 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 2 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
@@ -497,14 +482,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $labelCount = 4;
-
-        // Make this reproducible
-        mt_srand( 2 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 2 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
@@ -525,14 +503,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $labelCount = 4;
-
-        // Make this reproducible
-        mt_srand( 2 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 2 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
@@ -553,14 +524,7 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $labelCount = 35;
-
-        // Make this reproducible
-        mt_srand( 2 );
-
-        for ( $i = 0; $i < $labelCount; ++$i )
-        {
-            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
-        }
+        $data = $this->getRandomData( $labelCount, 500, 2000, 2 );
 
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
