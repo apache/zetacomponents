@@ -67,7 +67,7 @@ class ezcTreeVisitorYUI implements ezcTreeVisitor
      *
      * @var ezcTreeVisitorYUIOptions
      */
-    protected $options;
+    public $options;
 
     /**
      * Constructs a new ezcTreeVisitorYUI visualizer.

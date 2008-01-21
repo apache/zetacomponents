@@ -58,7 +58,7 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
      *
      * @var ezcTreeVisitorXHTMLOptions
      */
-    protected $options;
+    public $options;
 
     /**
      * Constructs a new ezcTreeVisitorXHTML visualizer.
