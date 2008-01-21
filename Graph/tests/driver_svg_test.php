@@ -1529,7 +1529,7 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
-        $this->driver->options->strokeLineJoin = 'square';
+        $this->driver->options->strokeLineJoin = 'bevel';
         $this->driver->options->strokeLineCap = 'square';
         $this->driver->options->shapeRendering = 'optimizeSpeed';
         $this->driver->options->colorRendering = 'optimizeSpeed';
