@@ -86,7 +86,7 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
      */
     public function __get( $key )
     {
-        if ( isset( $this->properties[$key] ) === true )
+        if ( isset( $this->properties[$key] ) )
         {
             return $this->properties[$key];
         }

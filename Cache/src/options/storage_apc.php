@@ -71,7 +71,7 @@ class ezcCacheStorageApcOptions extends ezcBaseOptions
      */
     public function __get( $name )
     {
-        if ( isset( $this->properties[$name] ) === true )
+        if ( isset( $this->properties[$name] ) )
         {
             return $this->properties[$name];
         }
