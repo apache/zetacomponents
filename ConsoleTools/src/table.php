@@ -245,7 +245,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     /**
      * Returns the table in a string.
      *
-     * @return void
+     * @return string
      */
     public function __toString()
     {
