@@ -837,7 +837,8 @@ class ezcGraphFontTest extends ezcGraphTestCase
 
     public function testUTF8SpecialCharsFlash()
     {
-        $this->fail( 'No support for UTF-8 chars in SWFTextField. SWFText is not usable by driver for other reasons.' );
+        $this->markTestSkipped( 'No support for UTF-8 chars in SWFTextField. SWFText is not usable by driver for other reasons.' );
+
         $filename = $this->tempDir . __FUNCTION__ . '.swf';
 
         $driver = new ezcGraphFlashDriver();
