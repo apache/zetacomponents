@@ -162,9 +162,19 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     protected function cleanupTable( $tableName )
     {
         $query = $this->db->createDeleteQuery();
+        $query->deleteFrom( $tableName );
 
-        $query->deleteFrom( $tableName )
-              ->where( $query->expr->eq( 'execution_id', $query->bindValue( (int)$this->id ) ) );
+        $id = $query->expr->eq( 'execution_id', $query->bindValue( (int)$this->id ) );
+
+        if ( $tableName == 'execution' )
+        {
+            $parent = $query->expr->eq( 'execution_parent', $query->bindValue( (int)$this->id ) );
+            $query->where( $query->expr->lOr( $id, $parent ) );
+        }
+        else
+        {
+            $query->where( $id );
+        }
 
         $statement = $query->prepare();
         $statement->execute();
