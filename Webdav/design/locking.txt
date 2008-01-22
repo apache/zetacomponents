@@ -1,0 +1,302 @@
+eZ component: Webdav lock support, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: Kore Nordmann, Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+=====
+Scope
+=====
+
+The scope of this document is to design locking for the Webdav component. RFC
+2518 defines a complex locking scheme for WebDAV server implementations, which
+is optional to be implemented. This document describes the design of lock
+support for the eZ Webdav component, which is to be implemented for the
+components 1.1 release.
+
+============
+Introduction
+============
+
+Locking allows a WebDAV client to gain exclusive access to a resource
+(collection or non-collection) to avoid the "lost update problem". This means
+that a client can define to have exclusive access to a resource for a certain
+time, where no other client may gain access to this resource.
+
+The WebDAV RFC distinguishes locks by 2 essential properties: The scope of the
+lock (shared vs. exclusive) and the type of the lock (write vs. read), while
+for the type only a write lock is specified. Using an exclusive lock the client
+ensures that he has absolutly exclusive access to the locked resource. With a
+shared lock it is possible the multiple clients take part in one and the same
+lock. More information on lock scopes are provided later.
+
+============
+RFC overview
+============
+
+This section tries to summarize the important facts about locking mentioned in
+RFC 2518 in various places, enhanced by first pre-considerations of design and
+implementation issues associated with them.
+
+Lock types
+==========
+
+The WebDAV RFC distinguishes between read and write locks, while only write
+locks are defined in detail. The RFC explains, that "the syntax is extensible,
+and permits the eventual specification of locking for other access types".
+
+A write lock determines that the locking principle may exclusively write to the
+affected resources. Reading is possibly for every other client, too. If a
+client that does not hold a specific lock tries to perform a writing operation
+to a resource which is locked by another client, this operation must fail.
+
+Lock scopes
+===========
+
+The WebDAV RFC specifies 2 different scopes for locking:
+
+- Exclusive
+- Shared
+
+For an exclusive lock exactly 1 client may hold a lock on a specific resource
+and only this client is allowed to perform the affected operations on the
+locked resource. For a shared lock it is possible that multiple clients take
+part in the lock (group editing). Every client that takes part in a shared lock
+may perform the affected operations on the locked resource.
+
+WebDAV does not provide any channel to allow communication between the clients
+involved into a shared lock. The communication of these clients must be handled
+externally.
+
+Lock tokens
+===========
+
+A lock token identifies a specific lock uniquely across all resources for all
+times. Whenever a successful LOCK request was processed, it returns the
+specific lock token for this lock. The lock token associates the locking client
+with the locked resource. Therefore multiple lock tokens might be assigned to a
+single resource, if the lock is a shared lock.
+
+A lock token must be unique throughout all resources for all times. The WebDAV
+RFC therefore defines a lock token scheme, which can optionally be used by the
+server. The so called "opaquelocktoekn" scheme makes use of UUID_, as defined
+in `ISO-11578`_. A `PECL package for UUIDs`_ is available.
+
+.. _`UUID`: http://en.wikipedia.org/wiki/UUID
+.. _`ISO-11578`: http://www.iso.ch/cate/d2229.html
+.. _`PECL package for UUIDs`: http://pecl.php.net/package/uuid
+
+Since the opaquelocktoken scheme is not mandatory, the code snippet ::
+
+    $token = md5( uniqid( rand(), true ) ); 
+
+could be used as an alternative to provide the necessary amount of uniqueness. 
+To create a lock token that, a this way generated ID could be appended to the
+URI of the affected resource to provide transparency of the source of a lock
+token. For example: http://webdav/foo/bar.txt#<id>.
+
+Every client that can access the WebDAV server has access to lock tokens
+through the LOCKDISCOVERY request method, so the lock must be bound to a
+different authentication mechanism. An owner string is submitted with the LOCK
+request, which might help here.
+
+Affected requests
+=================
+
+Locks affect several request, beside the explicitly lock related reuqests. The
+following 2 sections summarize the affected request methods and give a short
+overview about how these are affected.
+
+Dedicated methods
+-----------------
+
+LOCK
+  The LOCK method is used to initially establish a lock and to refresh locks.
+
+UNLOCK
+  The UNLOCK method is used to release a specific lock before it times out
+  automatically.
+
+Affected base methods
+---------------------
+
+The following methods may only be performed on a locked resource if the
+performing client owns the specific lock.
+
+- PUT
+- POST
+- PROPPATCH
+- MOVE
+- DELETE
+- MKCOL
+
+In addition the PROPFIND request is affected by lock support, since lock
+information is visible to every client through the LOCKDISCOVERY and
+SUPPORTEDLOCK properties.
+
+Locking resources
+=================
+
+Both types of resources (non-collection and collection resources) can be
+locked. This section describes differences for both types and other points
+directly related to locking resources.
+
+Non-collection resources
+------------------------
+
+A non collection resource can be affected directly or indirectly by a lock. In
+the first case a client has issued a LOCK request explicitly for this resource,
+only locking this single resource. The second case occurs, if a client locked a
+collection resource and the non-collection resource is a direct or in-direct
+descendant of it. For detailed information on this topic see the next section
+about locking if collection resources.
+
+Collections
+-----------
+
+The LOCK request allows the 'Depth' header to be set to specifiy the depth of
+the created lock. A depth value of ZERO means, that only the affected
+collection itself is locked. This might be sensible to add new resources to
+this collection. The depth value INFINITY means that the created lock affects
+all children of the collection in addition and recursivle all further
+descendants of the collection. This way it is possible to lock a complete
+sub-tree of the WebDAV repository.
+
+Any lock (no matter which depth) on a collection prevents the addition and
+removal of direct members of this collection by non-lock-owners. This affects
+the following methods:
+
+- PUT
+- POST
+- MKCOL
+- DELETE
+
+If a collection should be locked and any of its members is already locked, this
+conflicts with the lock to be set and must result in an 423 error (Locked).
+Memebers that are newly created inside a locked collection or copied/moved to
+it are automatically included to the lock. This affects infinity-depth locks as
+well as zero-depth ones for direct children of the locked collection.
+
+Lock null resources
+-------------------
+
+A write lock might be accquired to a resource that does not (yet) exist. This
+is called a "lock null resource". A lock null resource only supports the
+methods:
+
+- PUT
+- MKCOL
+- OPTIONS
+- PROPFIND
+- LOCK
+- UNLOCK
+
+All other methods must return 404 (Not found) or 405 (Method not allowed).
+
+The properties of a null resource are mostly empty, except there must be
+LOCKDISCOVERY and SUPPORTEDLOCK properties. If PUT or MKCOL are issued, a null
+resource becomes a normal one. The RFC does not state if the lock stays on this
+newly created (real) resource or if it is removed.
+
+COPY/MOVE
+---------
+
+Both methods destroy locks. If a resource is moved to a locked collection, it
+is automatically added to the lock (same client assumed). Both will not work,
+if the destination is locked but no lock is owned by the client.
+
+Refresh
+=======
+
+A LOCK request must not occur twice. To refresh a lock, clients send a LOCK
+request with empty body and an If header that specifies the lock tokens to
+refresh locks for. If this occurs, the timers of the lock must be reset. A
+Timeout header might be send by the client, but the server may savely ignore
+these and simply perform a refresh as it desires.
+
+===========
+Open issues
+===========
+
+Authentication
+==============
+
+The problem
+-----------
+
+We currently do not support any authentication mechanism in the Webdav
+component. To realize locking, we need to support at least 1 authenticattion
+model in the component.
+
+Solution attempts
+-----------------
+
+A possibility to integrate this would be a WebdavAuthenticationTiein, while
+supporting certain mechanisms like OpenID and TypeKey could be impossible
+(WebDAV clients usualy don't support standard HTTP browsing).  However,
+realizing this tie-in is a dedicated task and will consume quite some ammount
+of time.
+
+An intermediate solution could be to rely on certain client-provided data, like
+the client IP address. This is a very insecure authentication theme, but it
+will at least help us to identify the owner of a lock in some way. Another
+problem here are users which perform WebDAV operations through a proxy server.
+
+Lock null resources
+===================
+
+The problem
+------------
+
+For our special case this means, that we need to "physically" create
+lock-null resources in the utilized backend, to make it persist during
+requests, whenever a null-lock is acquired. This lock-null resource must
+not appear as a real resource to the client (e.g. must not have a
+correct content type and must not responde to GET requests). If the
+resource is unlocked again, it must be removed from the backend again.
+
+In our internal handling, that means, that we need to intervene any of
+the operations not supported by a lock-null resource (e.g. COPY, MOVE,
+PROPPATCH) requests to check is a lock-null resource is affected and
+remove it potentially or forbid the operation. Furthermore, we need to
+intervene any operation that is supported by a lock-null resource to
+remove potential information from responses that must not be available
+for lock-null resources. This will mean a lot of internally generated
+requests to the backend and a lot of processing of the backend generated
+responses.
+
+For example, if a MOVE request is issued by a client, we need to check
+the whole affected directory tree for lock-null resources and remove
+those from the destination and send a special error code for them in the
+response.
+
+Atomicity of operations also comes into play here, since our internal
+requests to the backend might interfer with other external requests. For
+example, a null-lock might be acquired by the client while we are
+internally checking the correctness of a MOVE request (race-condition).
+
+Solution attempts
+-----------------
+
+I currently do not see a full solution for this problem, still there are
+some ideas in my mind, that might be helpful. For lock-null resources we
+can invent a special dead-property namespace to indicate such resources.
+If a special (for lock-null resources forbidden) operation occurs, we
+can easily check for them using a PROPFIND request. Creating and
+maintaining lock-null resources should then be not problem.
+
+For the race-condition issue, we'll definitly need support in the
+backend, because I see no other solution attemt here to ensure the
+consistency.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
