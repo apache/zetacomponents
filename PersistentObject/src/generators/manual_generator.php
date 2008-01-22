@@ -78,6 +78,15 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
      */
     public function preSave( ezcPersistentObjectDefinition $def, ezcDbHandler $db, ezcQueryInsert $q )
     {
+        // Sanity check.
+        // ID must have been stored during the persistence check before inserting the object.
+        if ( $this->id === null )
+        {
+            throw new ezcPersistentIdentifierGenerationException(
+                $def->class,
+                'ezcPersistentManualGenerator expects the ID to be present before saving.'
+            );
+        }
         $q->set( $db->quoteIdentifier( $def->idProperty->columnName ), $q->bindValue( $this->id ) );
     }
 

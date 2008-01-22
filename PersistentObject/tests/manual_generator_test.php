@@ -62,10 +62,9 @@ class ezcPersistentManualGeneratorTest extends ezcTestCase
         try
         {
             $this->session->save( $object );
+            $this->fail( "Did not get exception when saving with null id." );
         }
-        catch ( ezcPersistentIdentifierGenerationException $e ){ return; } /* MySQL doesn't fail the insert query for some reason */
-        catch ( ezcPersistentObjectException $e ){ return; } /* Other databases do */
-        $this->fail( "Did not get exception when saving with null id." );
+        catch ( ezcPersistentIdentifierGenerationException $e ){} 
     }
 
     // test save single
