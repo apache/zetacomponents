@@ -280,7 +280,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         );
     }
 
-    public function testNonInteractiveSubWorkflow()
+    public function testLogNonInteractiveSubWorkflow()
     {
         $this->setUpStartEnd();
         $this->definition->save( $this->workflow );
@@ -295,7 +295,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         );
     }
 
-    public function testInteractiveSubWorkflow()
+    public function testLogInteractiveSubWorkflow()
     {
         $this->setUpStartInputEnd();
         $this->definition->save( $this->workflow );
@@ -312,7 +312,7 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         );
     }
 
-    public function testLoadWorkflowWithSubWorkflowAndVariablePassing()
+    public function testLogWorkflowWithSubWorkflowAndVariablePassing()
     {
         $definition = new ezcWorkflowDefinitionStorageXml(
           dirname( dirname( dirname( __FILE__ ) ) ) . '/Workflow/tests/data/'
