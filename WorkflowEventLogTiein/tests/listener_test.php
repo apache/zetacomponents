@@ -332,6 +332,21 @@ class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
         );
     }
 
+    public function testLogWorkflowWithCancelCaseSubWorkflow()
+    {
+        $this->setUpCancelCase( 'last' );
+        $this->definition->save( $this->workflow );
+        $this->setUpWorkflowWithSubWorkflow( 'ParallelSplitActionActionCancelCaseSynchronization' );
+        $this->definition->save( $this->workflow );
+        $this->execution->workflow = $this->workflow;
+        $this->execution->start();
+
+        $this->assertEquals(
+          $this->readExpected( 'WorkflowWithCancelCaseSubWorkflow' ),
+          $this->readActual()
+        );
+    }
+
     public function testLogNestedLoops()
     {
         $this->setUpNestedLoops();
