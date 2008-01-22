@@ -92,7 +92,7 @@ class ezcWebdavLockPlugin
      */
     public function extractUnknownLiveProperty( ezcWebdavPluginParameters $params )
     {
-        $this->propertyHandler->extractUnknownLiveProperty(
+        return $this->propertyHandler->extractUnknownLiveProperty(
             $params['domElement'],
             $params['xmlTool']
         );
@@ -111,7 +111,7 @@ class ezcWebdavLockPlugin
      */
     public function serializeUnknownLiveProperty( ezcWebdavPluginParameters $params )
     {
-        $this->propertyHandler->serializeUnknownLiveProperty(
+        return $this->propertyHandler->serializeUnknownLiveProperty(
             $params['property'],
             $params['parentElement'],
             $params['xmlTool']
@@ -119,10 +119,21 @@ class ezcWebdavLockPlugin
     }
 
     /**
-     * Callback for the hook ezcWebdavServer::receivedRequest().;
+     * Callback for the hook ezcWebdavServer::receivedRequest().
      *
      * Parameters are:
      * - ezcWebdavRequest request
+     *
+     * Needs to react directly on:
+     * - ezcWebdavLockRequest
+     * - ezcWebdavUnlockRequest
+     *
+     * Needs to check if lock violations occur on:
+     * - ezcWebdavCopyRequest
+     * - ezcWebdavMoveRequest
+     * - ezcWebdavMakeCollectionRequest
+     * - ezcWebdavPropPatchRequest
+     * - ezcWebdavPutRequest
      * 
      * @param ezcWebdavPluginParameters $params 
      * @return void
@@ -347,7 +358,7 @@ class ezcWebdavLockPlugin
      */
     public function __get( $propertyName )
     {
-        if ( $this->__isset( $propertyName ) === true )
+        if ( $this->__isset( $propertyName ) )
         {
             return $this->properties[$propertyName];
         }
