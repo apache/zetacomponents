@@ -86,10 +86,11 @@ class ezcWebdavXmlTool
         $dom = new DOMDocument( self::XML_VERSION, self::XML_ENCODING );
         if ( $content !== null )
         {
-            if ( $dom->loadXML(
+            if ( !$dom->loadXML(
                     $content,
                     LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS
-                 ) === false )
+                 )
+            )
             {
                 return false;
             }
@@ -134,7 +135,7 @@ class ezcWebdavXmlTool
         switch ( $propertyName )
         {
             case 'namespaceRegistry':
-                if ( ( $propertyValue instanceof ezcWebdavNamespaceRegistry ) === false )
+                if ( !( $propertyValue instanceof ezcWebdavNamespaceRegistry ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavNamespaceRegistry' );
                 }
@@ -157,7 +158,7 @@ class ezcWebdavXmlTool
      */
     public function __get( $propertyName )
     {
-        if ( $this->__isset( $propertyName ) === false )
+        if ( !$this->__isset( $propertyName ) )
         {
             throw new ezcBasePropertyNotFoundException( $propertyName );
         }

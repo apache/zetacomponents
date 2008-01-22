@@ -60,7 +60,7 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'lockEntry':
-                if ( is_array( $propertyValue ) === false && $propertyValue !== null )
+                if ( !is_array( $propertyValue ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'array(ezcWebdavSupportedLockPropertyLockentry)' );
                 }

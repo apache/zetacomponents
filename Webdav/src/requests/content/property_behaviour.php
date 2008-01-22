@@ -80,7 +80,7 @@ class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavInfrastructureBa
         switch ( $propertyName )
         {
             case 'keepAlive':
-                if ( is_array( $propertyValue ) === false && $propertyValue !== self::ALL && $propertyValue !== null )
+                if ( !is_array( $propertyValue ) && $propertyValue !== self::ALL && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException(
                         $propertyName,
@@ -98,7 +98,7 @@ class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavInfrastructureBa
                 }
                 break;
             case 'omit':
-                if ( is_bool( $propertyValue ) === false )
+                if ( !is_bool( $propertyValue ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
                 }
@@ -136,7 +136,7 @@ class ezcWebdavRequestPropertyBehaviourContent extends ezcWebdavInfrastructureBa
      */
     public function __get( $propertyName )
     {
-        if ( $this->__isset( $propertyName ) === true )
+        if ( $this->__isset( $propertyName ) )
         {
             return $this->properties[$propertyName];
         }

@@ -54,11 +54,11 @@ class ezcWebdavPutRequest extends ezcWebdavRequest
      */
     public function validateHeaders()
     {
-        if ( isset( $this->headers['Content-Length'] ) === false )
+        if ( !isset( $this->headers['Content-Length'] ) )
         {
             throw new ezcWebdavMissingHeaderException( 'Content-Length' );
         }
-        if ( isset( $this->headers['Content-Type'] ) === false )
+        if ( !isset( $this->headers['Content-Type'] ) )
         {
             $this->setHeader( 'Content-Type', 'application/octet-stream' );
         }

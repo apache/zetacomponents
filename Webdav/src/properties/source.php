@@ -56,7 +56,7 @@ class ezcWebdavSourceProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'links':
-                if ( is_array( $propertyValue ) === false )
+                if ( !is_array( $propertyValue ) )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'array(ezcWebdavSourcePropertyLink)' );
                 }

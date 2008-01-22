@@ -55,7 +55,7 @@ class ezcWebdavGetLastModifiedProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'date':
-                if ( ( $propertyValue instanceof ezcWebdavDateTime ) === false && $propertyValue !== null )
+                if ( !( $propertyValue instanceof ezcWebdavDateTime ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime' );
                 }

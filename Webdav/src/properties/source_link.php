@@ -60,7 +60,7 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'src':
-                if ( is_string( $propertyValue ) === false && $propertyValue !== null )
+                if ( !is_string( $propertyValue ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'string' );
                 }
@@ -69,7 +69,7 @@ class ezcWebdavSourcePropertyLink extends ezcWebdavLiveProperty
                 break;
 
             case 'dst':
-                if ( is_string( $propertyValue ) === false && $propertyValue !== null )
+                if ( !is_string( $propertyValue ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'string' );
                 }

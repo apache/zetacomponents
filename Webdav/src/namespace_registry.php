@@ -111,7 +111,7 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
      */
     public function offsetGet( $offset )
     {
-        if ( isset( $this->namespaceMap[$offset] ) === false )
+        if ( !isset( $this->namespaceMap[$offset] ) )
         {
             $this[$offset] = $this->newShortcut();
         }
@@ -165,7 +165,7 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
         {
             $shortcut = sprintf( "%s%'05s", $this->shortcutBase, $this->shortcutCounter++ );
         }
-        while ( isset( $this->usedShortcuts[$shortcut] ) === true );
+        while ( isset( $this->usedShortcuts[$shortcut] ) );
         return $shortcut;
     }
 }

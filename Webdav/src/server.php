@@ -258,7 +258,7 @@ class ezcWebdavServer
         switch ( $propertyName )
         {
             case 'configurations':
-                if ( ( $propertyValue instanceof ezcWebdavServerConfigurationManager ) === false )
+                if ( !( $propertyValue instanceof ezcWebdavServerConfigurationManager ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavServerConfigurationManager' );
                 }
@@ -297,7 +297,7 @@ class ezcWebdavServer
      */
     public function __get( $propertyName )
     {
-        if ( $this->__isset( $propertyName ) === true )
+        if ( $this->__isset( $propertyName ) )
         {
             return $this->properties[$propertyName];
         }

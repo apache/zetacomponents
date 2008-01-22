@@ -57,7 +57,7 @@ class ezcWebdavOptionsResponse extends ezcWebdavResponse
      */
     public function validateHeaders()
     {
-        if ( isset( $this->headers['DAV'] ) === false )
+        if ( !isset( $this->headers['DAV'] ) )
         {
             throw new ezcWebdavMissingHeaderException( 'DAV' );
         }

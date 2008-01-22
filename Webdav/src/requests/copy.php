@@ -80,7 +80,7 @@ class ezcWebdavCopyRequest extends ezcWebdavRequest
         switch ( $propertyName )
         {
             case 'propertyBehaviour':
-                if ( ( $propertyValue instanceof ezcWebdavRequestPropertyBehaviourContent ) === false && $propertyValue !== null )
+                if ( !( $propertyValue instanceof ezcWebdavRequestPropertyBehaviourContent ) && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavRequestPropertyBehaviourContent' );
                 }
@@ -106,12 +106,12 @@ class ezcWebdavCopyRequest extends ezcWebdavRequest
      */
     public function validateHeaders()
     {
-        if ( isset( $this->headers['Destination'] ) === false )
+        if ( !isset( $this->headers['Destination'] ) )
         {
             throw new ezcWebdavMissingHeaderException( 'Destination' );
         }
 
-        if ( isset( $this->headers['Overwrite'] ) === false )
+        if ( !isset( $this->headers['Overwrite'] ) )
         {
             throw new ezcWebdavMissingHeaderException( 'Overwrite' );
         }
@@ -125,7 +125,7 @@ class ezcWebdavCopyRequest extends ezcWebdavRequest
             );
         }
         
-        if ( isset( $this->headers['Depth'] ) === false )
+        if ( !isset( $this->headers['Depth'] ) )
         {
             throw new ezcWebdavMissingHeaderException( 'Depth' );
         }

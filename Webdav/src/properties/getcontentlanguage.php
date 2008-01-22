@@ -55,7 +55,7 @@ class ezcWebdavGetContentLanguageProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'languages':
-                if ( is_array( $propertyValue ) === false )
+                if ( !is_array( $propertyValue ) )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'string' );
                 }

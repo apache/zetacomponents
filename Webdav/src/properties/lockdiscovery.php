@@ -60,7 +60,7 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'activeLock':
-                if ( is_array( $propertyValue ) === false && $propertyValue !== null )
+                if ( !is_array( $propertyValue ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'array(ezcWebdavLockDiscoveryPropertyActiveLock)' );
                 }

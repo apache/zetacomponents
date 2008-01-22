@@ -93,25 +93,25 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
                 }
                 break;
             case 'owner':
-                if ( is_string( $propertyValue ) === false && $propertyValue !== null )
+                if ( !is_string( $propertyValue ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'string' );
                 }
                 break;
             case 'timeout':
-                if ( ( $propertyValue instanceof ezcWebdavDateTime ) === false && $propertyValue !== null )
+                if ( !( $propertyValue instanceof ezcWebdavDateTime ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime' );
                 }
                 break;
             case 'timeout':
-                if ( ( $propertyValue instanceof ezcWebdavDateTime ) === false && $propertyValue !== null )
+                if ( !( $propertyValue instanceof ezcWebdavDateTime ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime' );
                 }
                 break;
             case 'tokens':
-                if ( is_array( $propertyValue ) === false )
+                if ( !is_array( $propertyValue ) )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'array(string)' );
                 }

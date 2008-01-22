@@ -85,7 +85,7 @@ class ezcWebdavPropFindRequest extends ezcWebdavRequest
         switch ( $propertyName )
         {
             case 'allProp':
-                if ( is_bool( $propertyValue ) === false )
+                if ( !is_bool( $propertyValue ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
                 }
@@ -95,7 +95,7 @@ class ezcWebdavPropFindRequest extends ezcWebdavRequest
                 }
                 break;
             case 'propName':
-                if ( is_bool( $propertyValue ) === false )
+                if ( !is_bool( $propertyValue ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
                 }
@@ -105,7 +105,7 @@ class ezcWebdavPropFindRequest extends ezcWebdavRequest
                 }
                 break;
             case 'prop':
-                if ( ( $propertyValue instanceof ezcWebdavPropertyStorage ) === false && $propertyValue !== null )
+                if ( !( $propertyValue instanceof ezcWebdavPropertyStorage ) && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavPropertyStorage' );
                 }
@@ -134,7 +134,7 @@ class ezcWebdavPropFindRequest extends ezcWebdavRequest
      */
     public function validateHeaders()
     {
-        if ( isset( $this->headers['Depth'] ) === false )
+        if ( !isset( $this->headers['Depth'] ) )
         {
             throw new ezcWebdavMissingHeaderException( 'Depth' );
         }

@@ -55,7 +55,7 @@ class ezcWebdavGetEtagProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'etag':
-                if ( is_string( $propertyValue ) === false && $propertyValue !== null )
+                if ( !is_string( $propertyValue ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'string' );
                 }

@@ -61,8 +61,8 @@ class ezcWebdavFlaggedPropertyStorage extends ezcWebdavBasicPropertyStorage
     public function attach( ezcWebdavProperty $property, $flag = 0 )
     {
         // Update list of ordered properties
-        if ( ( isset( $this->properties[$property->namespace] ) === false ) ||
-             ( isset( $this->properties[$property->namespace][$property->name] ) === false ) )
+        if ( !isset( $this->properties[$property->namespace] ) ||
+             !isset( $this->properties[$property->namespace][$property->name] ) )
         {
             $this->propertyOrder[$this->propertyOrderNextId++] = array( $property->namespace, $property->name );
         }
@@ -86,8 +86,8 @@ class ezcWebdavFlaggedPropertyStorage extends ezcWebdavBasicPropertyStorage
      */
     public function detach( $name, $namespace = 'DAV:' )
     {
-        if ( ( isset( $this->properties[$namespace] ) === true ) &&
-             ( isset( $this->properties[$namespace][$name] ) === true ) )
+        if ( isset( $this->properties[$namespace] ) &&
+             isset( $this->properties[$namespace][$name] ) )
         {
             unset( $this->properties[$namespace][$name] );
             unset( $this->flags[$namespace][$name] );
@@ -110,8 +110,8 @@ class ezcWebdavFlaggedPropertyStorage extends ezcWebdavBasicPropertyStorage
      */
     public function getFlag( $name, $namespace = 'DAV:' )
     {
-        if ( ( isset( $this->properties[$namespace] ) === true ) &&
-             ( isset( $this->properties[$namespace][$name] ) === true ) )
+        if ( isset( $this->properties[$namespace] ) &&
+             isset( $this->properties[$namespace][$name] ) )
         {
             return $this->flags[$namespace][$name];
         }

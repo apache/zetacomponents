@@ -253,7 +253,7 @@ class ezcWebdavServerConfiguration
      */
     public function __get( $propertyName )
     {
-        if ( $this->__isset( $propertyName ) === true )
+        if ( $this->__isset( $propertyName ) )
         {
             return $this->properties[$propertyName];
         }

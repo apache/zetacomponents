@@ -79,7 +79,7 @@ class ezcWebdavPropPatchRequest extends ezcWebdavRequest
         switch ( $propertyName )
         {
             case 'updates':
-                if ( ( $propertyValue instanceof ezcWebdavFlaggedPropertyStorage ) === false )
+                if ( !( $propertyValue instanceof ezcWebdavFlaggedPropertyStorage ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavFlaggedPropertyStorage' );
                 }

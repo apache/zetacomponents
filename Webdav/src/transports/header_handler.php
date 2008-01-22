@@ -95,7 +95,7 @@ class ezcWebdavHeaderHandler
      */
     public function parseHeader( $headerName )
     {
-        if ( isset( $this->headerMap[$headerName] ) === false )
+        if ( !isset( $this->headerMap[$headerName] ) )
         {
             throw new ezcWebdavUnknownHeaderException( $headerName );
         }

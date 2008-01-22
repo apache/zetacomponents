@@ -281,21 +281,21 @@ class ezcWebdavPropertyHandler
         {
             case 'creationdate':
                 $property = new ezcWebdavCreationDateProperty();
-                if ( empty( $domElement->nodeValue ) === false )
+                if ( !empty( $domElement->nodeValue ) )
                 {
                     $property->date = new ezcWebdavDateTime( $domElement->nodeValue );
                 }
                 break;
             case 'displayname':
                 $property = new ezcWebdavDisplayNameProperty();
-                if ( empty( $domElement->nodeValue ) === false )
+                if ( !empty( $domElement->nodeValue ) )
                 {
                     $property->displayName = $domElement->nodeValue;
                 }
                 break;
             case 'getcontentlanguage':
                 $property = new ezcWebdavGetContentLanguageProperty();
-                if ( empty( $domElement->nodeValue ) === false )
+                if ( !empty( $domElement->nodeValue ) )
                 {
                     // e.g. 'de, en'
                     $property->languages = array_map( 'trim', explode( ',', $domElement->nodeValue ) );
@@ -303,7 +303,7 @@ class ezcWebdavPropertyHandler
                 break;
             case 'getcontentlength':
                 $property = new ezcWebdavGetContentLengthProperty();
-                if ( empty( $domElement->nodeValue ) === false )
+                if ( !empty( $domElement->nodeValue ) )
                 {
                     $property->length = trim( $domElement->nodeValue );
                 }
@@ -312,7 +312,7 @@ class ezcWebdavPropertyHandler
                 $property = new ezcWebdavGetContentTypeProperty();
                 // @TODO: Should this throw an exception, if the match fails?
                 // Currently, the property stays empty and the backend needs to handle this
-                if ( empty( $domElement->nodeValue ) === false 
+                if ( !empty( $domElement->nodeValue ) 
                   && preg_match( self::GETCONTENTTYPE_REGEX, $domElement->nodeValue, $matches ) > 0 )
                 {
                     $property->mime    = $matches['mime'];
@@ -325,28 +325,28 @@ class ezcWebdavPropertyHandler
                 break;
             case 'getetag':
                 $property = new ezcWebdavGetEtagProperty();
-                if ( empty( $domElement->nodeValue ) === false )
+                if ( !empty( $domElement->nodeValue ) )
                 {
                     $property->etag = $domElement->nodeValue;
                 }
                 break;
             case 'getlastmodified':
                 $property = new ezcWebdavGetLastModifiedProperty();
-                if ( empty( $domElement->nodeValue ) === false )
+                if ( !empty( $domElement->nodeValue ) )
                 {
                     $property->date = new ezcWebdavDateTime( $domElement->nodeValue );
                 }
                 break;
             case 'resourcetype':
                 $property = new ezcWebdavResourceTypeProperty();
-                if ( empty( $domElement->nodeValue ) === false )
+                if ( !empty( $domElement->nodeValue ) )
                 {
                     $property->type = $domElement->nodeValue;
                 }
                 break;
             case 'source':
                 $property = new ezcWebdavSourceProperty();
-                if ( $domElement->hasChildNodes() === true )
+                if ( $domElement->hasChildNodes() )
                 {
                     $property->links = $this->extractLinkContent( $domElement );
                 }

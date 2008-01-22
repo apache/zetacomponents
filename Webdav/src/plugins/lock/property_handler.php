@@ -37,14 +37,14 @@ class ezcWebdavLockPluginPropertyHandler
         {
             case 'lockdiscovery':
                 $property = new ezcWebdavLockDiscoveryProperty();
-                if ( $domElement->hasChildNodes() === true )
+                if ( $domElement->hasChildNodes() )
                 {
                     $property->activeLock = $this->extractActiveLockContent( $domElement );
                 }
                 break;
             case 'supportedlock':
                 $property = new ezcWebdavSupportedLockProperty();
-                if ( $domElement->hasChildNodes() === true )
+                if ( $domElement->hasChildNodes() )
                 {
                     $property->links = $this->extractLockEntryContent( $domElement );
                 }
@@ -70,7 +70,7 @@ class ezcWebdavLockPluginPropertyHandler
         $activelockElement = $domElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'activelock' )->item( 0 );
         for ( $i = 0; $i < $activelockElement->childNodes->length; ++$i )
         {
-            if ( ( ( $currentElement = $activelockElement->childNodes->item( $i ) ) instanceof DOMElement ) === false )
+            if ( !( ( $currentElement = $activelockElement->childNodes->item( $i ) ) instanceof DOMElement ) )
             {
                 // Skip non element children
                 continue;

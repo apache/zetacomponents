@@ -81,8 +81,8 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
     public function attach( ezcWebdavProperty $property )
     {
         // Update list of ordered properties
-        if ( ( isset( $this->properties[$property->namespace] ) === false ) ||
-             ( isset( $this->properties[$property->namespace][$property->name] ) === false ) )
+        if ( !isset( $this->properties[$property->namespace] ) ||
+             !isset( $this->properties[$property->namespace][$property->name] ) )
         {
             $this->propertyOrder[$this->propertyOrderNextId++] = array( $property->namespace, $property->name );
         }
@@ -105,8 +105,8 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      */
     public function detach( $name, $namespace = 'DAV:' )
     {
-        if ( ( isset( $this->properties[$namespace] ) === true ) &&
-             ( isset( $this->properties[$namespace][$name] ) === true ) )
+        if ( isset( $this->properties[$namespace] ) &&
+             isset( $this->properties[$namespace][$name] ) )
         {
             unset( $this->properties[$namespace][$name] );
         }
@@ -142,7 +142,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      */
     public function get( $name, $namespace = 'DAV:' )
     {
-        if ( isset( $this->properties[$namespace][$name] ) === true )
+        if ( isset( $this->properties[$namespace][$name] ) )
         {
             return $this->properties[$namespace][$name];
         }
@@ -161,7 +161,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      */
     public function getProperties( $namespace = 'DAV:' )
     {
-        if ( isset( $this->properties[$namespace] ) === false )
+        if ( !isset( $this->properties[$namespace] ) )
         {
             return array();
         }

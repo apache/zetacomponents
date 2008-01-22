@@ -101,7 +101,7 @@ class ezcWebdavLockRequest extends ezcWebdavRequest
         switch ( $propertyName )
         {
             case 'lockInfo':
-                if ( ( $propertyValue instanceof ezcWebdavRequestLockInfoContent ) === false && $propertyValue !== null )
+                if ( !( $propertyValue instanceof ezcWebdavRequestLockInfoContent ) && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavRequestLockInfoContent or null' );
                 }
@@ -126,7 +126,7 @@ class ezcWebdavLockRequest extends ezcWebdavRequest
      */
     public function validateHeaders()
     {
-        if ( isset( $this->headers['Depth'] ) === false )
+        if ( !isset( $this->headers['Depth'] ) )
         {
             throw new ezcWebdavMissingHeaderException( 'Depth' );
         }

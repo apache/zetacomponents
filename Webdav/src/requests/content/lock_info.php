@@ -93,7 +93,7 @@ class ezcWebdavRequestLockInfoContent extends ezcWebdavInfrastructureBase
                 }
                 break;
             case 'owner':
-                if ( is_string( $propertyValue ) === false && $propertyValue !== null )
+                if ( !is_string( $propertyValue ) && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException(
                         $propertyName,
@@ -126,7 +126,7 @@ class ezcWebdavRequestLockInfoContent extends ezcWebdavInfrastructureBase
      */
     public function __get( $propertyName )
     {
-        if ( $this->__isset( $propertyName ) === true )
+        if ( $this->__isset( $propertyName ) )
         {
             return $this->properties[$propertyName];
         }

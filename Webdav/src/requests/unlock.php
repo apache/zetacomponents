@@ -34,7 +34,7 @@ class ezcWebdavUnlockRequest extends ezcWebdavRequest
      */
     public function validateHeaders()
     {
-        if ( isset( $this->headers['Lock-Token'] ) === false )
+        if ( !isset( $this->headers['Lock-Token'] ) )
         {
             throw new ezcWebdavMissingHeaderException( 'Lock-Token' );
         }
