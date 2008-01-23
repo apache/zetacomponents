@@ -1251,7 +1251,7 @@ Can appear only once.
 It is a good practice to include the name and email of the author, for
 example::
 
-  <author>John Doe (john.doe@example.com)</author>
+  <author>john.doe@example.com (John Doe)</author>
 
 Equivalents: `ATOM-entry-author`_, RSS1-none, `RSS2-item-author`_.
 
