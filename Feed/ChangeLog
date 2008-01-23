@@ -14,6 +14,7 @@
 - Completed support for creating and parsing RSS1 feeds.
 - Completed support for creating and parsing ATOM feeds.
 - Added the getContentType() method in ezcFeed to return its Content-Type.
+- Added support for ATOM xml:lang attribute.
 
 
 1.0beta1 - Monday 18 December 2006

@@ -127,7 +127,10 @@ General information:
  - The top level element is called *feed*
  - All timestamps must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``)
  - Unless otherwise specified, all values must be plain text
- - *xml:lang* may be used to identify the language of text
+ - *xml:lang* may be used to identify the language of text (the property
+   *language* for the ATOM elements |ATOM-rights|_, |ATOM-subtitle|_,
+   |ATOM-title|_, |ATOM-entry-content|_, |ATOM-entry-rights|_,
+   |ATOM-entry-summary|_, |ATOM-entry-title|_).
  - *xml:base* may be used to control how relative URIs are resolved (not
    recommended)
 
@@ -333,6 +336,10 @@ Can appear only once.
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
 
+Has an optional attribute *lang* which specifies the language of the text. A
+list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes.
+
 Equivalents: `ATOM-rights`_, RSS1-none, `RSS2-copyright`_.
 
 
@@ -346,6 +353,13 @@ A short description of the feed.
 Optional (recommended).
 
 Can appear only once.
+
+Has an optional attribute *type* with possible values ``text`` (default),
+``html``, ``xhtml``.
+
+Has an optional attribute *lang* which specifies the language of the text. A
+list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes.
 
 Equivalents: `ATOM-subtitle`_, `RSS1-description`_, `RSS2-description`_.
 
@@ -361,6 +375,13 @@ website title.
 Required.
 
 Can appear only once.
+
+Has an optional attribute *type* with possible values ``text`` (default),
+``html``, ``xhtml``.
+
+Has an optional attribute *lang* which specifies the language of the text. A
+list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes.
 
 Equivalents: `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
@@ -443,6 +464,10 @@ Has an optional attribute *type* with possible values ``text`` (default),
 
 Has an optional attribute *src* which specifies the URI where the full content
 is located.
+
+Has an optional attribute *lang* which specifies the language of the text. A
+list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes.
 
 If *src* is present, the *type* attribute, if present, is the media type of the
 content.
@@ -554,6 +579,10 @@ Can appear only once.
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
 
+Has an optional attribute *lang* which specifies the language of the text. A
+list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes.
+
 Equivalents: `ATOM-entry-rights`_, RSS1-none, RSS2-none (`RSS2-copyright`_ for
 the whole feed).
 
@@ -572,6 +601,10 @@ Can appear only once.
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
 
+Has an optional attribute *lang* which specifies the language of the text. A
+list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes.
+
 Equivalents: `ATOM-entry-summary`_/`ATOM-entry-content`_, `RSS1-item-description`_,
 `RSS2-item-description`_.
 
@@ -589,6 +622,10 @@ Can appear only once.
 
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
+
+Has an optional attribute *lang* which specifies the language of the text. A
+list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes.
 
 Equivalents: `ATOM-entry-title`_, `RSS1-item-title`_, `RSS2-item-title`_.
 

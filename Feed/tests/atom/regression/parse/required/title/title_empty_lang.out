@@ -1,0 +1,6 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+$feed->title = '';
+$feed->title->language = 'no';
+return $feed;
+?>

@@ -1,0 +1,14 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$feed->description = 'Feed subtitle';
+$feed->description->type = 'text';
+$feed->description->language = 'no';
+
+return $feed;
+?>

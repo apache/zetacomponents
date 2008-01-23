@@ -39,7 +39,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     protected static $atomSchema = array(
         'id'            => array( '#'          => 'string' ),
         'title'         => array( '#'          => 'string',
-                                  'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                  'ATTRIBUTES' => array( 'type' => 'string',
+                                                         'language' => 'string' ), ),
 
         'updated'       => array( '#'          => 'string' ),
 
@@ -73,7 +74,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                          'label' => 'string' ),
 
                                   'REQUIRED_ATTRIBUTES'   => array( 'term' ),
-                                  
+
                                   'MULTI'      => 'categories' ),
 
         'contributor'   => array( '#'          => 'none',
@@ -95,16 +96,19 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         'icon'          => array( '#'          => 'string' ),
         'logo'          => array( '#'          => 'string' ),
         'rights'        => array( '#'          => 'string',
-                                  'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                  'ATTRIBUTES' => array( 'type' => 'string',
+                                                         'language' => 'string' ), ),
 
         'subtitle'      => array( '#'          => 'string',
-                                  'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                  'ATTRIBUTES' => array( 'type' => 'string',
+                                                         'language' => 'string' ), ),
 
         'entry'         => array( '#'          => 'none',
                                   'NODES'      => array(
                                                     'id'          => array( '#' => 'string' ),
                                                     'title'       => array( '#' => 'string',
-                                                                            'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                                                            'ATTRIBUTES' => array( 'type' => 'string',
+                                                                                                   'language' => 'string' ), ),
 
                                                     'updated'     => array( '#' => 'string' ),
 
@@ -122,7 +126,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                                                     'content'     => array( '#' => 'string',
                                                                             'ATTRIBUTES' => array( 'type' => 'string',
-                                                                                                   'src' => 'string' ), ),
+                                                                                                   'src' => 'string',
+                                                                                                   'language' => 'string' ), ),
 
                                                     'link'        => array( '#'          => 'none',
                                                                             'ATTRIBUTES' => array( 'href' => 'string',
@@ -137,7 +142,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                                             'MULTI'      => 'links' ),
 
                                                     'summary'     => array( '#' => 'string',
-                                                                            'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                                                            'ATTRIBUTES' => array( 'type' => 'string',
+                                                                                                   'language' => 'string' ), ),
 
                                                     'category'    => array( '#' => 'none',
                                                                             'ATTRIBUTES' => array( 'term' => 'string',
@@ -145,7 +151,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                                                                    'label' => 'string' ),
 
                                                                             'REQUIRED_ATTRIBUTES'   => array( 'term' ),
-                                                                              
+
                                                                             'MULTI'      => 'categories' ),
 
                                                     'contributor' => array( '#' => 'none',
@@ -166,7 +172,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                                             'NODES'      => array(
                                                                                               'id'            => array( '#'          => 'string' ),
                                                                                               'title'         => array( '#'          => 'string',
-                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string',
+                                                                                                                                               'language' => 'string' ), ),
 
                                                                                               'updated'       => array( '#'          => 'string' ),
 
@@ -200,7 +207,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                                                                                                                'label' => 'string' ),
 
                                                                                                                         'REQUIRED_ATTRIBUTES'   => array( 'term' ),
-                                                                                                                      
+
                                                                                                                         'MULTI'      => 'categories' ),
 
                                                                                               'contributor'   => array( '#'          => 'none',
@@ -222,10 +229,12 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                                                               'icon'          => array( '#'          => 'string' ),
                                                                                               'logo'          => array( '#'          => 'string' ),
                                                                                               'rights'        => array( '#'          => 'string',
-                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string',
+                                                                                                                                               'language' => 'string' ), ),
 
                                                                                               'subtitle'      => array( '#'          => 'string',
-                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string',
+                                                                                                                                               'language' => 'string' ), ),
 
                                                                                               'OPTIONAL'      => array( 'id', 'title', 'updated',
                                                                                                                         'author', 'link', 'category',
@@ -239,7 +248,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                                                                                   'description' => 'subtitle' ) ),
 
                                                     'rights'      => array( '#' => 'string',
-                                                                            'ATTRIBUTES' => array( 'type' => 'string' ), ),
+                                                                            'ATTRIBUTES' => array( 'type' => 'string',
+                                                                                                   'language' => 'string' ), ),
 
                                                     'REQUIRED'   => array( 'id', 'title', 'updated' ),
 
@@ -252,7 +262,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                                                     ),
 
-                                  'ITEMS_MAP'  => array( 'copyright' => 'rights', ),
+                                  'ITEMS_MAP'  => array( 'copyright' => 'rights',
+                                                         'description' => 'summary' ),
 
                                   'MULTI'      => 'entries' ),
 
@@ -512,6 +523,17 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                     }
                 }
+                else if ( $attribute === 'language' && $dataNode->language !== null )
+                {
+                    if ( $dataNode->type === 'xhtml' )
+                    {
+                        $this->addAttribute( $elementTag->parentNode, 'lang', $dataNode->language );
+                    }
+                    else
+                    {
+                        $this->addAttribute( $elementTag, 'lang', $dataNode->language );
+                    }
+                }
                 else
                 {
                     $this->addAttribute( $elementTag, $attribute, $val );
@@ -605,6 +627,17 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                             }
                             break;
 
+                    }
+                }
+                else if ( $attribute === 'language' && $dataNode->language !== null )
+                {
+                    if ( $dataNode->type === 'xhtml' )
+                    {
+                        $this->addAttribute( $elementTag->parentNode, 'lang', $dataNode->language );
+                    }
+                    else
+                    {
+                        $this->addAttribute( $elementTag, 'lang', $dataNode->language );
                     }
                 }
                 else
@@ -742,6 +775,17 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                         $this->addAttribute( $childTag, 'type', $val );
                                         break;
 
+                                }
+                            }
+                            else if ( $attribute === 'language' && $dataNode->language !== null )
+                            {
+                                if ( $dataNode->type === 'xhtml' )
+                                {
+                                    $this->addAttribute( $childTag->parentNode, 'lang', $dataNode->language );
+                                }
+                                else
+                                {
+                                    $this->addAttribute( $childTag, 'lang', $dataNode->language );
                                 }
                             }
                             else
@@ -1095,6 +1139,10 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 {
                     $element->$key = $value;
                 }
+                else if ( $key === 'lang' )
+                {
+                    $feed->$tagName->language = $value;
+                }
                 else
                 {
                     $feed->$tagName->$key = $value;
@@ -1130,7 +1178,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'title':
-                    case 'summary':
+                    case 'description':
                     case 'copyright':
                         $type = ezcFeedTools::getAttribute( $itemChild, 'type' );
 
@@ -1159,6 +1207,12 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                             default:
                                 $element->$tagName = $itemChild->textContent;
                                 break;
+                        }
+
+                        $language = ezcFeedTools::getAttribute( $itemChild, 'lang' );
+                        if ( $language !== null )
+                        {
+                            $element->$tagName->language = $language;
                         }
 
                         break;
@@ -1256,6 +1310,13 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         {
                             $element->$tagName->src = $src;
                         }
+
+                        $language = ezcFeedTools::getAttribute( $itemChild, 'lang' );
+                        if ( $language !== null )
+                        {
+                            $element->$tagName->language = $language;
+                        }
+
                         break;
 
                     case 'link':
@@ -1388,6 +1449,10 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 if ( in_array( $tagName, array( 'category', 'link' ) ) )
                 {
                     $subElement->$key = $value;
+                }
+                else if ( $key === 'lang' )
+                {
+                    $element->$tagName->language = $value;
                 }
                 else
                 {

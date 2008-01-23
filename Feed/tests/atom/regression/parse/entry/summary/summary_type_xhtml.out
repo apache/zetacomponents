@@ -10,8 +10,8 @@ $entry->id = 'Entry id';
 $entry->title = 'Entry title';
 $entry->updated = 1195053820;
 
-$entry->summary = 'Entry summary';
-$entry->summary->type = 'xhtml';
+$entry->description = 'Entry summary';
+$entry->description->type = 'xhtml';
 
 return $feed;
 ?>

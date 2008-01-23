@@ -1,0 +1,21 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id';
+$entry->title = 'Entry title';
+$entry->updated = 1195053820;
+
+$entry->content = '<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://www.w3.org/2005/Atom">Entry content</root>
+';
+$entry->content->type = 'application/atom+xml';
+$entry->content->language = 'no';
+
+return $feed;
+?>

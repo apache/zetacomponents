@@ -10,7 +10,7 @@ $entry->id = 'Entry id';
 $entry->title = 'Entry title';
 $entry->updated = 1195053820;
 
-$entry->summary = 'Entry summary';
+$entry->description = 'Entry summary';
 
 return $feed;
 ?>

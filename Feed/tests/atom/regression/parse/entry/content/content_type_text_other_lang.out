@@ -1,0 +1,37 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id';
+$entry->title = 'Entry title';
+$entry->updated = 1195053820;
+
+$entry->content = '
+\documentclass[12pt]{article}
+\title{\LaTeX}
+\date{}
+\begin{document}
+  \maketitle \LaTeX{} is a document preparation system for the \TeX{} 
+  typesetting program. It offers programmable desktop publishing 
+  features and extensive facilities for automating most aspects of 
+  typesetting and desktop publishing, including numbering and 
+  cross-referencing, tables and figures, page layout, bibliographies, 
+  and much more. \LaTeX{} was originally written in 1984 by Leslie 
+  Lamport and has become the dominant method for using \TeX; few 
+  people write in plain \TeX{} anymore. The current version is 
+  \LaTeXe.
+  \newline
+  % This is a comment, it is not shown in the final output.
+  % The following shows a little of the typesetting power of LaTeX
+\end{document}
+';
+$entry->content->type = 'text/x-tex';
+$entry->content->language = 'no';
+
+return $feed;
+?>

@@ -1,0 +1,30 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'item' => array( array( 'id' => 'Entry id',
+                                      'title' => array( array( '#' => 'Entry title' ) ),
+                                      'updated' => 'Entry updated',
+                                      'content' => array( array( '#' => '
+\documentclass[12pt]{article}
+\title{\LaTeX}
+\date{}
+\begin{document}
+  \maketitle \LaTeX{} is a document preparation system for the \TeX{}
+  typesetting program. It offers programmable desktop publishing
+  features and extensive facilities for automating most aspects of
+  typesetting and desktop publishing, including numbering and
+  cross-referencing, tables and figures, page layout, bibliographies,
+  and much more. \LaTeX{} was originally written in 1984 by Leslie
+  Lamport and has become the dominant method for using \TeX; few
+  people write in plain \TeX{} anymore. The current version is
+  \LaTeXe.
+  \newline
+  % This is a comment, it is not shown in the final output.
+  % The following shows a little of the typesetting power of LaTeX
+\end{document}
+',
+                                                                 'language' => 'no',
+                                                                 'type' => 'text/x-tex' ) ) ) ) );
+?>
