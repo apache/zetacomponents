@@ -269,7 +269,8 @@ abstract class ezcTemplateTreeOutput
                     $start = 1;
                     $text .= $lines[0] . "\n";
                 }
-                for ( $line = $start; $line < count( $lines ); ++$line )
+                $linesCount = count( $lines );
+                for ( $line = $start; $line < $linesCount; ++$line )
                 {
                     if ( $line > $start )
                         $text .= "\n";
