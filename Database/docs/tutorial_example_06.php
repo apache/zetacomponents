@@ -22,7 +22,7 @@ $stmt->execute();
 // delete
 $q = $db->createDeleteQuery();
 $q->deleteFrom( 'quotes' )
-  ->where( $q->expr->eq( $q->bindValue( 'Robert Foster' ) ) );
+  ->where( $q->expr->eq( 'name', $q->bindValue( 'Robert Foster' ) ) );
 $stmt = $q->prepare();
 $stmt->execute();
 ?>
