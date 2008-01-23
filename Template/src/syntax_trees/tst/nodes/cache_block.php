@@ -39,7 +39,9 @@ class ezcTemplateCacheBlockTstNode extends ezcTemplateBlockTstNode
 
     public function getTreeProperties()
     {
-        return array();
+        return array( 'keys'      => $this->keys,
+                      'ttl'       => $this->ttl,
+                      'children'  => $this->children );
     }
 }
 ?>
