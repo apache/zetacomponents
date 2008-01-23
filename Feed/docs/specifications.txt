@@ -1122,6 +1122,11 @@ Optional (recommended).
 
 Can appear only once.
 
+It is a good practice to include the name and email of the managing editor,
+for example::
+
+  <managingEditor>john.doe@example.com (John Doe)</managingEditor>
+
 Equivalents: `ATOM-author`_, RSS1-none, `RSS2-managingEditor`_.
 
 
@@ -1230,6 +1235,11 @@ The email address of the webmaster responsible for the feed.
 Optional (not recommended).
 
 Can appear only once.
+
+It is a good practice to include the name and email of the webmaster,
+for example::
+
+  <webMaster>john.doe@example.com (John Doe)</webMaster>
 
 Equivalents: ATOM-none, RSS1-none, `RSS2-webMaster`_.
 
