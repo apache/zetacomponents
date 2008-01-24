@@ -11,6 +11,6 @@
     <title>Entry title</title>
     <updated>XXX</updated>
     <content>Entry content</content>
-    <summary lang="no"></summary>
+    <summary xml:lang="no"></summary>
   </entry>
 </feed> 

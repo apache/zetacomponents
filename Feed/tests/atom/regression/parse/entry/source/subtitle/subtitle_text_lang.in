@@ -8,7 +8,7 @@
     <title>Entry title</title>
     <updated>2007-11-14T16:23:40+01:00</updated>
     <source>
-      <subtitle type="text" lang="no">Source subtitle</subtitle>
+      <subtitle type="text" xml:lang="no">Source subtitle</subtitle>
     </source>
   </entry>
 </feed>

@@ -6,5 +6,5 @@
   <author>
     <name>Author name</name>
   </author>
-  <rights lang="no">Feed rights</rights>
+  <rights xml:lang="no">Feed rights</rights>
 </feed>

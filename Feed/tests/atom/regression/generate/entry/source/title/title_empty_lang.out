@@ -12,7 +12,7 @@
     <updated>XXX</updated>
     <content>Entry content</content>
     <source>
-      <title lang="no"></title>
+      <title xml:lang="no"></title>
     </source>
   </entry>
 </feed> 

@@ -5,7 +5,7 @@
   <updated>Feed updated</updated>
   <entry>
     <id>Entry id</id>
-    <title lang="no">Entry title</title>
+    <title xml:lang="no">Entry title</title>
     <updated>2007-11-14T16:23:40+01:00</updated>
   </entry>
 </feed>

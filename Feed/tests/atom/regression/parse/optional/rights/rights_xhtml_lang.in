@@ -3,7 +3,7 @@
   <id>Feed id</id>
   <title type="text">Feed title</title>
   <updated>Feed updated</updated>
-  <rights type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" lang="no">
+  <rights type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="no">
     <xhtml:div>Feed rights</xhtml:div>
   </rights>
 </feed>

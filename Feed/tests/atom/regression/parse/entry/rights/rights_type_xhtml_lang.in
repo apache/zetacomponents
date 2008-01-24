@@ -7,7 +7,7 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>2007-11-14T16:23:40+01:00</updated>
-    <rights type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" lang="no">
+    <rights type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="no">
       <xhtml:div>Entry rights</xhtml:div>
     </rights>
   </entry>

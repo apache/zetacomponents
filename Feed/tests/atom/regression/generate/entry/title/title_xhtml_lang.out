@@ -8,7 +8,7 @@
   </author>
   <entry>
     <id>Entry id</id>
-    <title type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" lang="no">
+    <title type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="no">
       <xhtml:div>Entry title</xhtml:div>
     </title>
     <updated>XXX</updated>

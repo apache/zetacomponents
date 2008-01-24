@@ -7,7 +7,7 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>2007-11-14T16:23:40+01:00</updated>
-    <content type="application/xml" lang="no">
+    <content type="application/xml" xml:lang="no">
       <root>Entry content</root>
     </content>
   </entry>

@@ -7,6 +7,6 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>2007-11-14T16:23:40+01:00</updated>
-    <rights type="text" lang="no">Entry rights</rights>
+    <rights type="text" xml:lang="no">Entry rights</rights>
   </entry>
 </feed>

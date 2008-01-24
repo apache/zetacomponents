@@ -8,7 +8,7 @@
   </author>
   <entry>
     <id>Entry id</id>
-    <title type="html" lang="no">Entry title</title>
+    <title type="html" xml:lang="no">Entry title</title>
     <updated>XXX</updated>
     <content>Entry content</content>
   </entry>

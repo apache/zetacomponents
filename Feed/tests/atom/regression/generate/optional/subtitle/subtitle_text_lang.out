@@ -6,5 +6,5 @@
   <author>
     <name>Author name</name>
   </author>
-  <subtitle type="text" lang="no">Feed subtitle</subtitle>
+  <subtitle type="text" xml:lang="no">Feed subtitle</subtitle>
 </feed>

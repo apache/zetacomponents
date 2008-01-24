@@ -8,7 +8,7 @@
     <title>Entry title</title>
     <updated>2007-11-14T16:23:40+01:00</updated>
     <source>
-      <rights type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" lang="no">
+      <rights type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="no">
         <xhtml:div>Source rights</xhtml:div>
       </rights>
     </source>

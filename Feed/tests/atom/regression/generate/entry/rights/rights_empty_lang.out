@@ -11,6 +11,6 @@
     <title>Entry title</title>
     <updated>XXX</updated>
     <content>Entry content</content>
-    <rights lang="no"></rights>
+    <rights xml:lang="no"></rights>
   </entry>
 </feed> 

@@ -10,7 +10,7 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>XXX</updated>
-    <content type="application/x-zip" src="http://ezcomponents.org/files/downloads/ezcomponents-1.0.zip" lang="no">
+    <content type="application/x-zip" src="http://ezcomponents.org/files/downloads/ezcomponents-1.0.zip" xml:lang="no">
 </content>
     <summary>Entry summary</summary>
   </entry>

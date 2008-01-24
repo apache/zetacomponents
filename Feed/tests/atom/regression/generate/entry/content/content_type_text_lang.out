@@ -10,6 +10,6 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>XXX</updated>
-    <content type="text" lang="no">Entry content</content>
+    <content type="text" xml:lang="no">Entry content</content>
   </entry>
 </feed> 

@@ -12,7 +12,7 @@
     <updated>XXX</updated>
     <content>Entry content</content>
     <source>
-      <rights type="text" lang="no">Source rights</rights>
+      <rights type="text" xml:lang="no">Source rights</rights>
     </source>
   </entry>
 </feed> 

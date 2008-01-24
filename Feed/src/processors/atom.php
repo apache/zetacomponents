@@ -527,11 +527,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 {
                     if ( $dataNode->type === 'xhtml' )
                     {
-                        $this->addAttribute( $elementTag->parentNode, 'lang', $dataNode->language );
+                        $this->addAttribute( $elementTag->parentNode, 'xml:lang', $dataNode->language );
                     }
                     else
                     {
-                        $this->addAttribute( $elementTag, 'lang', $dataNode->language );
+                        $this->addAttribute( $elementTag, 'xml:lang', $dataNode->language );
                     }
                 }
                 else
@@ -633,11 +633,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 {
                     if ( $dataNode->type === 'xhtml' )
                     {
-                        $this->addAttribute( $elementTag->parentNode, 'lang', $dataNode->language );
+                        $this->addAttribute( $elementTag->parentNode, 'xml:lang', $dataNode->language );
                     }
                     else
                     {
-                        $this->addAttribute( $elementTag, 'lang', $dataNode->language );
+                        $this->addAttribute( $elementTag, 'xml:lang', $dataNode->language );
                     }
                 }
                 else
@@ -781,11 +781,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                             {
                                 if ( $dataNode->type === 'xhtml' )
                                 {
-                                    $this->addAttribute( $childTag->parentNode, 'lang', $dataNode->language );
+                                    $this->addAttribute( $childTag->parentNode, 'xml:lang', $dataNode->language );
                                 }
                                 else
                                 {
-                                    $this->addAttribute( $childTag, 'lang', $dataNode->language );
+                                    $this->addAttribute( $childTag, 'xml:lang', $dataNode->language );
                                 }
                             }
                             else

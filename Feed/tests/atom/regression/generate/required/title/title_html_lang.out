@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>Feed id</id>
-  <title type="html" lang="no">Feed title</title>
+  <title type="html" xml:lang="no">Feed title</title>
   <updated>Feed updated</updated>
   <author>
     <name>Author name</name>

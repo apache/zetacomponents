@@ -7,7 +7,7 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>2007-11-14T16:23:40+01:00</updated>
-    <content type="text/x-tex" lang="no">
+    <content type="text/x-tex" xml:lang="no">
 \documentclass[12pt]{article}
 \title{\LaTeX}
 \date{}

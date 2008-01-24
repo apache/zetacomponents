@@ -11,7 +11,7 @@
     <title>Entry title</title>
     <updated>XXX</updated>
     <content>Entry content</content>
-    <rights type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" lang="no">
+    <rights type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="no">
       <xhtml:div>Entry rights</xhtml:div>
     </rights>
   </entry>

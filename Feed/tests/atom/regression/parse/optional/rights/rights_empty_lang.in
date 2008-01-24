@@ -3,5 +3,5 @@
   <id>Feed id</id>
   <title type="text">Feed title</title>
   <updated>Feed updated</updated>
-  <rights lang="no"/>
+  <rights xml:lang="no"/>
 </feed>

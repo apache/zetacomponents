@@ -7,6 +7,6 @@
     <id>Entry id</id>
     <title>Entry title</title>
     <updated>2007-11-14T16:23:40+01:00</updated>
-    <content type="text" lang="no">Entry content</content>
+    <content type="text" xml:lang="no">Entry content</content>
   </entry>
 </feed>

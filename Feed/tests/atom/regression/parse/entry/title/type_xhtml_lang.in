@@ -5,7 +5,7 @@
   <updated>Feed updated</updated>
   <entry>
     <id>Entry id</id>
-    <title type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" lang="no">
+    <title type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="no">
       <xhtml:div>Entry title</xhtml:div>
     </title>
     <updated>2007-11-14T16:23:40+01:00</updated>
