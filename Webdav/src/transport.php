@@ -113,7 +113,7 @@ class ezcWebdavTransport
      * Need public access here to retrieve this in {@link
      * ezcWebdavPluginRegistry}.
      *
-     * @array(string=>string)
+     * @var array(string=>string)
      * @access private
      */
     static public $handlingMap = array(
