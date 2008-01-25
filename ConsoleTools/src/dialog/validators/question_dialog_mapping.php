@@ -71,7 +71,7 @@ class ezcConsoleQuestionDialogMappingValidator extends ezcConsoleQuestionDialogC
      * @param array(string) $collection The collection of valid results.
      * @param mixed $default    Optional default value.
      * @param int $conversion   CONVERT_* constant.
-     * @paran array(string=>string) $map
+     * @param array(string=>string) $map
      * @return void
      */
     public function __construct( array $collection, $default = null, $conversion = self::CONVERT_NONE, $map = array() )

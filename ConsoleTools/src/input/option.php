@@ -159,7 +159,8 @@ class ezcConsoleOption
         $arguments = true,
         $mandatory = false,
         $isHelpOption = false
-    ) {
+    )
+    {
         $this->properties['short'] = '';
         $this->properties['long'] = '';
         $this->properties['arguments'] = $arguments;

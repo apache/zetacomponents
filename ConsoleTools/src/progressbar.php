@@ -413,7 +413,7 @@ class ezcConsoleProgressbar
         $this->numSteps = ( int ) round( $this->max / $this->properties['options']->step );
         // Calculate measures
         $this->measures['fixedCharSpace'] = strlen( $this->stripEscapeSequences( $this->insertValues() ) );
-        if ( strpos( $this->properties['options']->formatString,'%max%' ) !== false )
+        if ( strpos( $this->properties['options']->formatString, '%max%' ) !== false )
         {
             $this->measures['maxSpace'] = strlen( sprintf( $this->properties['options']->maxFormat, $this->max ) );
 

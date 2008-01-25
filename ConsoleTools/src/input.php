@@ -501,12 +501,12 @@ class ezcConsoleInput
                 $this->preprocessLongOption( $args, $i );
             }
             // Check for parameter
-            if ( substr( $args[$i], 0, 1) === '-' && $this->hasOption( preg_replace( '/^-*/', '', $args[$i] ) ) !== false )
+            if ( substr( $args[$i], 0, 1 ) === '-' && $this->hasOption( preg_replace( '/^-*/', '', $args[$i] ) ) !== false )
             {
                 $this->processOptions( $args, $i );
             }
             // Looks like parameter, but is not available??
-            elseif ( substr( $args[$i], 0, 1) === '-' && trim( $args[$i] ) !== '--' )
+            elseif ( substr( $args[$i], 0, 1 ) === '-' && trim( $args[$i] ) !== '--' )
             {
                 throw new ezcConsoleOptionNotExistsException( $args[$i] );
             }
