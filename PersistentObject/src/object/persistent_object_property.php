@@ -27,6 +27,11 @@
  * @property ezcPersistentPropertyConverter|null $converter
  *           A converter object that will automatically perform converters on
  *           load and save of a property value.
+ * @property int $databaseType
+ *           Type of the database column, as defined by PDO constants: {@link
+ *           PDO::PARAM_BOOL}, {@link PDO::PARAM_INT}, {@link PDO::PARAM_STR}
+ *           (default as defined by {@link ezcQuery::bindValue()}) or {@link
+ *           PDO::PARAM_LOB} (important for binary data).
  *
  * @package PersistentObject
  * @version //autogen//
@@ -50,6 +55,7 @@ class ezcPersistentObjectProperty
         'propertyName' => null,
         'propertyType' => self::PHP_TYPE_STRING,
         'converter'    => null,
+        'databaseType' => PDO::PARAM_STR,
     );
 
     /**
@@ -65,15 +71,19 @@ class ezcPersistentObjectProperty
      * @param string $propertyName
      * @param int $type
      */
-    public function __construct( $columnName   = null,
-                                 $propertyName = null,
-                                 $type         = self::PHP_TYPE_STRING,
-                                 $converter    = null )
+    public function __construct(
+        $columnName   = null,
+        $propertyName = null,
+        $type         = self::PHP_TYPE_STRING,
+        $converter    = null,
+        $databaseType = PDO::PARAM_STR
+    )
     {
         $this->columnName   = $columnName;
         $this->propertyName = $propertyName;
         $this->propertyType = $type;
         $this->converter    = $converter;
+        $this->databaseType = $databaseType;
     }
 
     /**
@@ -93,18 +103,24 @@ class ezcPersistentObjectProperty
     {
         if ( isset( $array['properties'] ) )
         {
-            return new ezcPersistentObjectProperty( $array['properties']['columnName'],
-                                                    $array['properties']['propertyName'],
-                                                    $array['properties']['propertyType'],
-                                                    ( isset( $array['properties']['converter'] ) ? $array['properties']['converter'] : null ) );
+            return new ezcPersistentObjectProperty(
+                $array['properties']['columnName'],
+                $array['properties']['propertyName'],
+                $array['properties']['propertyType'],
+                ( isset( $array['properties']['converter'] ) ? $array['properties']['converter'] : null ),
+                ( isset( $array['properties']['databaseType'] ) ? $array['properties']['databaseType'] : PDO::PARAM_STR )
+            );
         }
         else
         {
             // Old style exports
-            return new ezcPersistentObjectProperty( $array['columnName'],
-                                                    $array['propertyName'],
-                                                    $array['propertyType'],
-                                                    ( isset( $array['converter'] ) ? $array['converter'] : null ) );
+            return new ezcPersistentObjectProperty(
+                $array['columnName'],
+                $array['propertyName'],
+                $array['propertyType'],
+                ( isset( $array['converter'] ) ? $array['converter'] : null ),
+                ( isset( $array['databaseType'] ) ? $array['databaseType'] : PDO::PARAM_STR )
+            );
         }
     }
 
@@ -171,6 +187,16 @@ class ezcPersistentObjectProperty
                         $propertyName,
                         $propertyValue,
                         'ezcPersistentPropertyConverter or null'
+                    );
+                }
+                break;
+            case 'databaseType':
+                if ( $propertyValue !== PDO::PARAM_STR && $propertyValue !== PDO::PARAM_LOB && $propertyValue !== PDO::PARAM_INT && PDO::PARAM_BOOL )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'PDO::PARAM_STR, PDO::PARAM_LOB, PDO::PARAM_INT or PDO::PARAM_BOOL'
                     );
                 }
                 break;

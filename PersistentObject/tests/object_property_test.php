@@ -37,7 +37,8 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
                 'columnName'   => null,
                 'propertyName' => null,
                 'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_STRING,
-                'converter'   => null
+                'converter'    => null,
+                'databaseType' => PDO::PARAM_STR,
             ),
             'properties',
             $property
@@ -48,14 +49,16 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             'column',
             'property',
             ezcPersistentObjectProperty::PHP_TYPE_INT,
-            new ezcPersistentPropertyDateTimeConverter()
+            new ezcPersistentPropertyDateTimeConverter(),
+            PDO::PARAM_LOB
         );
         $this->assertAttributeEquals(
             array(
                 'columnName'   => 'column',
                 'propertyName' => 'property',
                 'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_INT,
-                'converter'   => new ezcPersistentPropertyDateTimeConverter(),
+                'converter'    => new ezcPersistentPropertyDateTimeConverter(),
+                'databaseType' => PDO::PARAM_LOB,
             ),
             'properties',
             $property
@@ -70,7 +73,8 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
                 23,
                 'foo',
                 ezcPersistentObjectProperty::PHP_TYPE_INT,
-                new ezcPersistentPropertyDateTimeConverter()
+                new ezcPersistentPropertyDateTimeConverter(),
+                PDO::PARAM_LOB
             );
             $this->fail( 'ezcBaseValueException not thrown on invalid value for parameter $columnName.' );
         }
@@ -81,7 +85,8 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
                 'foo',
                 23,
                 ezcPersistentObjectProperty::PHP_TYPE_INT,
-                new ezcPersistentPropertyDateTimeConverter()
+                new ezcPersistentPropertyDateTimeConverter(),
+                PDO::PARAM_LOB
             );
             $this->fail( 'ezcBaseValueException not thrown on invalid value for parameter $propertyName.' );
         }
@@ -90,22 +95,36 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         {
             $property = new ezcPersistentObjectProperty(
                 'foo',
-                'bar',
+                'foo',
                 'baz',
-                new ezcPersistentPropertyDateTimeConverter()
+                new ezcPersistentPropertyDateTimeConverter(),
+                PDO::PARAM_LOB
             );
-            $this->fail( 'ezcBaseValueException not thrown on invalid value of type string for parameter $type.' );
+            $this->fail( 'ezcBaseValueException not thrown on invalid value for parameter $propertyType.' );
         }
         catch ( ezcBaseValueException $e ) {}
         try
         {
             $property = new ezcPersistentObjectProperty(
                 'foo',
-                'bar',
-                'baz',
-                'bam'
+                'foo',
+                ezcPersistentObjectProperty::PHP_TYPE_INT,
+                'bam',
+                PDO::PARAM_LOB
             );
-            $this->fail( 'ezcBaseValueException not thrown on invalid value of type string for parameter $type.' );
+            $this->fail( 'ezcBaseValueException not thrown on invalid value parameter $converter.' );
+        }
+        catch ( ezcBaseValueException $e ) {}
+        try
+        {
+            $property = new ezcPersistentObjectProperty(
+                'foo',
+                'foo',
+                ezcPersistentObjectProperty::PHP_TYPE_INT,
+                new ezcPersistentPropertyDateTimeConverter(),
+                23
+            );
+            $this->fail( 'ezcBaseValueException not thrown on invalid value for parameter $databaseType.' );
         }
         catch ( ezcBaseValueException $e ) {}
     }
@@ -116,7 +135,8 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             'column',
             'property',
             ezcPersistentObjectProperty::PHP_TYPE_INT,
-            new ezcPersistentPropertyDateTimeConverter()
+            new ezcPersistentPropertyDateTimeConverter(),
+            PDO::PARAM_LOB
         );
 
         $this->assertEquals(
@@ -135,6 +155,10 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             new ezcPersistentPropertyDateTimeConverter(),
             $property->converter
         );
+        $this->assertEquals(
+            PDO::PARAM_LOB,
+            $property->databaseType
+        );
     }
 
     public function testGetAccessFailure()
@@ -143,7 +167,8 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             'column',
             'property',
             ezcPersistentObjectProperty::PHP_TYPE_INT,
-            new ezcPersistentPropertyDateTimeConverter()
+            new ezcPersistentPropertyDateTimeConverter(),
+            PDO::PARAM_LOB
         );
         try
         {
@@ -162,7 +187,8 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         $property->columnName   = 'column';
         $property->propertyName ='property';
         $property->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
-        $property->converter   = new ezcPersistentPropertyDateTimeConverter();
+        $property->converter    = new ezcPersistentPropertyDateTimeConverter();
+        $property->databaseType = PDO::PARAM_LOB;
 
         $this->assertEquals(
             'column',
@@ -179,6 +205,10 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         $this->assertEquals(
             new ezcPersistentPropertyDateTimeConverter(),
             $property->converter
+        );
+        $this->assertEquals(
+            PDO::PARAM_LOB,
+            $property->databaseType
         );
         
         $property->converter   = null;
@@ -210,6 +240,11 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
             'converter',
             array( true, false, 'foo', 23.42, array(), new stdClass() )
         );
+        $this->assertSetPropertyFails(
+            $property,
+            'databaseType',
+            array( true, false, 'foo', 23, 23.42, array(), new stdClass() )
+        );
     }
 
     public function testIssetAccessSuccess()
@@ -230,6 +265,10 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         $this->assertTrue(
             isset( $property->converter ),
             'Property $converter seems not to be set.'
+        );
+        $this->assertTrue(
+            isset( $property->databaseType ),
+            'Property $databaseType seems not to be set.'
         );
     }
 

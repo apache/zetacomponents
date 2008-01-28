@@ -29,6 +29,12 @@
  *                                - ezcPersistentSequenceGenerator
  *                                - ezcPersistentManualGenerator
  *                                - ezcPersistentNativeGenerator
+ * @property int $databaseType
+ *           Type of the database column, as defined by PDO constants: {@link
+ *           PDO::PARAM_BOOL}, {@link PDO::PARAM_INT}, {@link PDO::PARAM_STR}
+ *           (default as defined by {@link ezcQuery::bindValue()}) or {@link
+ *           PDO::PARAM_LOB} (important for binary data).
+ *
  * @package PersistentObject
  * @version //autogen//
  */
@@ -44,6 +50,7 @@ class ezcPersistentObjectIdProperty
         'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_INT,
         'generator'    => null,
         'visibility'   => null,
+        'databaseType' => PDO::PARAM_STR,
     );
 
     /**
@@ -55,17 +62,21 @@ class ezcPersistentObjectIdProperty
      * @param ezcPersistentGeneratorDefinition $generator Definition of the identifier generator
      * @param int $propertyType See {@link ezcPersistentObjectProperty} for possible values.
      */
-    public function __construct( $columnName = null,
-                                 $propertyName = null,
-                                 $visibility = null,
-                                 ezcPersistentGeneratorDefinition $generator = null,
-                                 $propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT )
+    public function __construct( 
+        $columnName = null,
+        $propertyName = null,
+        $visibility = null,
+        ezcPersistentGeneratorDefinition $generator = null,
+        $propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT,
+        $databaseType = PDO::PARAM_STR
+    )
     {
         $this->columnName   = $columnName;
         $this->propertyName = $propertyName;
         $this->visibility   = $visibility;
         $this->generator    = $generator;
         $this->propertyType = $propertyType;
+        $this->databaseType = $databaseType;
     }
 
     /**
@@ -135,6 +146,16 @@ class ezcPersistentObjectIdProperty
                     );
                 }
                 break;
+            case 'databaseType':
+                if ( $propertyValue !== PDO::PARAM_STR && $propertyValue !== PDO::PARAM_LOB && $propertyValue !== PDO::PARAM_INT && PDO::PARAM_BOOL )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'PDO::PARAM_STR, PDO::PARAM_LOB, PDO::PARAM_INT or PDO::PARAM_BOOL'
+                    );
+                }
+                break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;
@@ -171,17 +192,23 @@ class ezcPersistentObjectIdProperty
     {
         if ( isset( $array['properties'] ) && count( $array ) === 1 )
         {
-            return new ezcPersistentObjectIdProperty( $array['properties']['columnName'],
-                                                      $array['properties']['propertyName'],
-                                                      $array['properties']['visibility'],
-                                                      $array['properties']['generator'] );
+            return new ezcPersistentObjectIdProperty(
+                $array['properties']['columnName'],
+                $array['properties']['propertyName'],
+                $array['properties']['visibility'],
+                $array['properties']['generator'],
+                ( isset( $array['properties']['databaseType'] ) ? $array['properties']['databaseType'] : PDO::PARAM_STR )
+            );
         }
         else
         {
-            return new ezcPersistentObjectIdProperty( $array['columnName'],
-                                                      $array['propertyName'],
-                                                      $array['visibility'],
-                                                      $array['generator'] );
+            return new ezcPersistentObjectIdProperty(
+                $array['columnName'],
+                $array['propertyName'],
+                $array['visibility'],
+                $array['generator'],
+                ( isset( $array['databaseType'] ) ? $array['databaseType'] : PDO::PARAM_STR )
+            );
         }
     }
 }
