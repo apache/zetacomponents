@@ -49,7 +49,7 @@ class ezcPersistentObjectProperty
         'columnName'   => null,
         'propertyName' => null,
         'propertyType' => self::PHP_TYPE_STRING,
-        'converter'   => null,
+        'converter'    => null,
     );
 
     /**
@@ -68,12 +68,12 @@ class ezcPersistentObjectProperty
     public function __construct( $columnName   = null,
                                  $propertyName = null,
                                  $type         = self::PHP_TYPE_STRING,
-                                 $converter   = null )
+                                 $converter    = null )
     {
         $this->columnName   = $columnName;
         $this->propertyName = $propertyName;
         $this->propertyType = $type;
-        $this->converter   = $converter;
+        $this->converter    = $converter;
     }
 
     /**
