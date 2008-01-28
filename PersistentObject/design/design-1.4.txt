@@ -87,6 +87,8 @@ variables and can not rely on correctly bound parameters when using find(). In
 addition, this functionality seems to be broken in MySQL and SQLite (see:
 http://bugs.php.net/bug.php?id=40913).
 
+As discussed on the mailinglist: No support for FETCH_BOUND, because of missing
+architecture infrastructure.
 
 > Should we use the PDO::PARAM_BOOL/INT by default? That is do we actually
 > want to require to use this for anything else than PARAM_LOB since ints/bools
