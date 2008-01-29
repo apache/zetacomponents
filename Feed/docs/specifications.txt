@@ -1727,12 +1727,12 @@ Resources
 =========
 
 - `RFC 4287`_ ATOM specifications.
-- `RSS1`_ specifications.
-- `RSS2`_ specifications.
+- `RSS1 specifications`_.
+- `RSS2 specifications`_.
 
 
-.. _RSS1: http://web.resource.org/rss/1.0/spec
-.. _RSS2: http://www.rssboard.org/rss-specification
+.. _RSS1 specifications: http://web.resource.org/rss/1.0/spec
+.. _RSS2 specifications: http://www.rssboard.org/rss-specification
 .. _RFC 4287: http://atompub.org/rfc4287.html
 
 
