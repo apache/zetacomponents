@@ -133,8 +133,8 @@ ezcFeed/cloud
 Allows processes to register with a cloud to be notified of updates to the
 channel, implementing a lightweight publish-subscribe protocol for RSS feeds.
 
-Optional (not recommended). Only `RSS2`_ feeds will have the cloud element
-after generating the feed. It will be ignored for the other feed types
+Optional (not recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
 (`RSS1`_, `ATOM`_).
 
 Can appear only once.
@@ -261,11 +261,38 @@ ezcFeed/rating
 ezcFeed/skipDays
 ````````````````
 
+A hint for aggregators telling them which days they can skip when reading the
+feed.
+
+Optional (not recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `ATOM`_).
+
+Can appear only once.
+
+Can have up to 7 *day* elements, each with a value from ``Monday`` to ``Sunday``.
+
+Equivalents: `ezcFeed-skipDays`_, ATOM-none, RSS1-none, `RSS2-skipDays`_.
+
 
 .. _ezcFeed-skipHours:
 
 ezcFeed/skipHours
 `````````````````
+
+A hint for aggregators telling them which hours they can skip when reading the
+feed.
+
+Optional (not recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `ATOM`_).
+
+Can appear only once.
+
+Can have up to 24 *hour* elements, each with an integer value from `` 0``
+(midnight) to ``23``. The value ``24`` can also be used for midnight.
+
+Equivalents: `ezcFeed-skipHours`_, ATOM-none, RSS1-none, `RSS2-skipHours`_.
 
 
 .. _ezcFeed-textInput:
