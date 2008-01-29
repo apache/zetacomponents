@@ -133,25 +133,34 @@ ezcFeed/cloud
 Allows processes to register with a cloud to be notified of updates to the
 channel, implementing a lightweight publish-subscribe protocol for RSS feeds.
 
-Optional (not recommended).
+Optional (not recommended). Only `RSS2`_ feeds will have the cloud element
+after generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `ATOM`_).
 
 Can appear only once.
 
 Has the required attributes: *domain*, *port*, *path*, *registerProcedure*,
 *protocol*.
 
-Example::
+Create example::
 
   // $feed is an ezcFeed object
-  $feed->add( 'cloud' );
-  $feed->domain = 'rpc.sys.com';
-  $feed->port = 80;
-  $feed->path = '/RPC2';
-  $feed->registerProcedure = 'myCloud.rssPleaseNotify';
-  $feed->protocol = 'xml-rpc';
+  $cloud = $feed->add( 'cloud' );
+  $cloud->domain = 'rpc.sys.com';
+  $cloud->port = 80;
+  $cloud->path = '/RPC2';
+  $cloud->registerProcedure = 'myCloud.rssPleaseNotify';
+  $cloud->protocol = 'xml-rpc';
 
-Only `RSS2`_ feeds will have the cloud element after generating the feed. It
-will be ignored for the other feed types (`RSS1`_, `ATOM`_).
+Parse example::
+
+  // $feed is an ezcFeed object
+  $cloud = $feed->cloud;
+  $domain = $cloud->domain;
+  $port = $cloud->port;
+  $path = $cloud->path;
+  $registerProcedure = $cloud->registerProcedure;
+  $protocol = $cloud->protocol;
 
 Equivalents: `ezcFeed-cloud`_, ATOM-none, RSS1-none, `RSS2-cloud`_.
 
@@ -202,6 +211,31 @@ ezcFeed/image
 
 ezcFeed/item
 ````````````
+
+Feed entry.
+
+Optional (recommended) for ATOM. Required for RSS1 and RSS2.
+
+Multiple entries can appear.
+
+Create example::
+
+  // $feed is an ezcFeed object
+  $item = $feed->add( 'item' );
+
+  // set $item properties, for example:
+  $item->title = 'Item title';
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  foreach ( $feed->items as $item )
+  {
+      // get $item properties, for example:
+      $title = $item->title;
+  }
+
+Equivalents: `ezcFeed-item`_, `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
 
 .. _ezcFeed-language:
