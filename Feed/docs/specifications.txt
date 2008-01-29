@@ -75,7 +75,7 @@ Item elements
 | |ezcFeed-item-id|_ !            | |ATOM-entry-id|_ !            | |RSS1-item-about|_ !         | |RSS2-item-guid|_ ?          |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-title|_ !         | |ATOM-entry-title|_ !         | |RSS1-item-title|_ !         | |RSS2-item-title|_ !         |
-+---------------------------------+------------------------------+------------------------------++------------------------------+
++---------------------------------+-------------------------------+------------------------------++-----------------------------+
 | |ezcFeed-item-updated|_ !       | |ATOM-entry-updated|_ !       | x                            | x                            |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-author|_ !*       | |ATOM-entry-author|_ !*       | x                            | |RSS2-item-author|_ ?        |
@@ -113,21 +113,15 @@ Specifications
 Feed elements
 -------------
 
-.. _ezcFeed-author:
-
-ezcFeed/author
+ezcFeed-author
 ``````````````
 
 
-.. _ezcFeed-category:
-
-ezcFeed/category
+ezcFeed-category
 ````````````````
 
 
-.. _ezcFeed-cloud:
-
-ezcFeed/cloud
+ezcFeed-cloud
 `````````````
 
 Allows processes to register with a cloud to be notified of updates to the
@@ -165,51 +159,35 @@ Parse example::
 Equivalents: `ezcFeed-cloud`_, ATOM-none, RSS1-none, `RSS2-cloud`_.
 
 
-.. _ezcFeed-contributor:
-
-ezcFeed/contributor
+ezcFeed-contributor
 ```````````````````
 
 
-.. _ezcFeed-copyright:
-
-ezcFeed/copyright
+ezcFeed-copyright
 `````````````````
 
 
-.. _ezcFeed-description:
-
-ezcFeed/description
+ezcFeed-description
 ```````````````````
 
 
-.. _ezcFeed-generator:
-
-ezcFeed/generator
+ezcFeed-generator
 `````````````````
 
 
-.. _ezcFeed-icon:
-
-ezcFeed/icon
+ezcFeed-icon
 ````````````
 
 
-.. _ezcFeed-id:
-
-ezcFeed/id
+ezcFeed-id
 ``````````
 
 
-.. _ezcFeed-image:
-
-ezcFeed/image
+ezcFeed-image
 `````````````
 
 
-.. _ezcFeed-item:
-
-ezcFeed/item
+ezcFeed-item
 ````````````
 
 Feed entry.
@@ -238,27 +216,19 @@ Parse example::
 Equivalents: `ezcFeed-item`_, `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
 
-.. _ezcFeed-language:
-
-ezcFeed/language
+ezcFeed-language
 ````````````````
 
 
-.. _ezcFeed-link:
-
-ezcFeed/link
+ezcFeed-link
 ````````````
 
 
-.. _ezcFeed-rating:
-
-ezcFeed/rating
+ezcFeed-rating
 ``````````````
 
 
-.. _ezcFeed-skipDays:
-
-ezcFeed/skipDays
+ezcFeed-skipDays
 ````````````````
 
 A hint for aggregators telling them which days they can skip when reading the
@@ -272,12 +242,28 @@ Can appear only once.
 
 Can have up to 7 *day* elements, each with a value from ``Monday`` to ``Sunday``.
 
+Create example::
+
+  // $feed is an ezcFeed object
+  $skip = $feed->add( 'skipDays' );
+  $day = $skip->add( 'day' );
+  $day->set( 'Monday' );
+  $day = $skip->add( 'day' );
+  $day->set( 'Friday' );
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  $days = array( 'Monday' => false, /*...*/ 'Sunday' => false );
+  foreach ( $feed->skipDays as $skip )
+  {
+      $days[$skip->get()] = true;
+  }
+
 Equivalents: `ezcFeed-skipDays`_, ATOM-none, RSS1-none, `RSS2-skipDays`_.
 
 
-.. _ezcFeed-skipHours:
-
-ezcFeed/skipHours
+ezcFeed-skipHours
 `````````````````
 
 A hint for aggregators telling them which hours they can skip when reading the
@@ -289,114 +275,98 @@ generating the feed. It will be ignored for the other feed types
 
 Can appear only once.
 
-Can have up to 24 *hour* elements, each with an integer value from `` 0``
+Can have up to 24 *hour* elements, each with an integer value from ``0``
 (midnight) to ``23``. The value ``24`` can also be used for midnight.
+
+Create example::
+
+  // $feed is an ezcFeed object
+  $skip = $feed->add( 'skipHours' );
+  $day = $skip->add( 'hour' );
+  $day->set( '1' );
+  $day = $skip->add( 'hour' );
+  $day->set( '7' );
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  $hours = array( '0' => false, /*...*/ '24' => false );
+  foreach ( $feed->skipHours as $skip )
+  {
+      $hours[$skip->get()] = true;
+  }
 
 Equivalents: `ezcFeed-skipHours`_, ATOM-none, RSS1-none, `RSS2-skipHours`_.
 
 
-.. _ezcFeed-textInput:
-
-ezcFeed/textInput
+ezcFeed-textInput
 `````````````````
 
 
-.. _ezcFeed-title:
-
-ezcFeed/title
+ezcFeed-title
 `````````````
 
 
-.. _ezcFeed-ttl:
-
-ezcFeed/ttl
+ezcFeed-ttl
 ```````````
 
 
-.. _ezcFeed-updated:
-
-ezcFeed/updated
+ezcFeed-updated
 ```````````````
 
 
-.. _ezcFeed-webMaster:
-
-ezcFeed/webMaster
+ezcFeed-webMaster
 `````````````````
 
 
 Item elements
 -------------
 
-.. _ezcFeed-item-author:
-
-ezcFeed/item/author
+ezcFeed-item-author
 ```````````````````
 
 
-.. _ezcFeed-item-category:
-
-ezcFeed/item/category
+ezcFeed-item-category
 `````````````````````
 
 
-.. _ezcFeed-item-comments:
-
-ezcFeed/item/comments
+ezcFeed-item-comments
 `````````````````````
 
 
-.. _ezcFeed-item-contributor:
-
-ezcFeed/item/contributor
+ezcFeed-item-contributor
 ````````````````````````
 
 
-.. _ezcFeed-item-copyright:
-
-ezcFeed/item/copyright
+ezcFeed-item-copyright
 ``````````````````````
 
 
-.. _ezcFeed-item-description:
-
-ezcFeed/item/description
+ezcFeed-item-description
 ````````````````````````
 
 
-.. _ezcFeed-item-enclosure:
-
-ezcFeed/item/enclosure
+ezcFeed-item-enclosure
 ``````````````````````
 
 
-.. _ezcFeed-item-id:
-
-ezcFeed/item/id
+ezcFeed-item-id
 ```````````````
 
 
-.. _ezcFeed-item-link:
-
-ezcFeed/item/link
+ezcFeed-item-link
 `````````````````
 
 
-.. _ezcFeed-item-published:
-
-ezcFeed/item/published
+ezcFeed-item-published
 ``````````````````````
 
 
-.. _ezcFeed-item-title:
-
-ezcFeed/item/title
+ezcFeed-item-title
 ``````````````````
 
 
-.. _ezcFeed-item-updated:
-
-ezcFeed/item/updated
+ezcFeed-item-updated
 ````````````````````
 
 
@@ -458,9 +428,7 @@ Sample ATOM feed::
 Feed elements
 -------------
 
-.. _ATOM-author:
-
-ATOM/author
+ATOM-author
 ```````````
 
 One author of the feed.
@@ -484,9 +452,7 @@ Equivalents: `ezcFeed-author`_, `ATOM-author`_, RSS1-none,
 `RSS2-managingEditor`_.
 
 
-.. _ATOM-category:
-
-ATOM/category
+ATOM-category
 `````````````
 
 A category for the feed.
@@ -503,9 +469,7 @@ Equivalents: `ezcFeed-category`_, `ATOM-category`_, RSS1-none,
 `RSS2-category`_.
 
 
-.. _ATOM-contributor:
-
-ATOM/contributor
+ATOM-contributor
 ````````````````
 
 One contributor of the feed.
@@ -528,9 +492,7 @@ Equivalents: `ezcFeed-contributor`_, `ATOM-contributor`_, RSS1-none,
 RSS2-none.
 
 
-.. _ATOM-entry:
-
-ATOM/entry
+ATOM-entry
 ``````````
 
 Feed entry.
@@ -542,9 +504,7 @@ Multiple entries can appear.
 Equivalents: `ezcFeed-item`_, `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
 
-.. _ATOM-generator:
-
-ATOM/generator
+ATOM-generator
 ``````````````
 
 Indicates the software used to generate the feed.
@@ -559,9 +519,7 @@ Equivalents: `ezcFeed-generator`_, `ATOM-generator`_, RSS1-none,
 `RSS2-generator`_.
 
 
-.. _ATOM-icon:
-
-ATOM/icon
+ATOM-icon
 `````````
 
 An icon for a feed, similar with favicon.ico for websites.
@@ -573,9 +531,7 @@ Can appear only once.
 Equivalents: `ezcFeed-icon`_, `ATOM-icon`_, RSS1-none, RSS2-none.
 
 
-.. _ATOM-id:
-
-ATOM/id
+ATOM-id
 ```````
 
 A universally unique and permanent URI for a feed. For example, it can be an
@@ -588,9 +544,7 @@ Can appear only once.
 Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, RSS2-none.
 
 
-.. _ATOM-link:
-
-ATOM/link
+ATOM-link
 `````````
 
 An URL to the HTML website corresponding to the channel.
@@ -609,9 +563,7 @@ A maximum of one link with ``rel="alternate"`` can appear per *type* and
 Equivalents: `ezcFeed-link`_, `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
-.. _ATOM-logo:
-
-ATOM/logo
+ATOM-logo
 `````````
 
 An image associated with the feed. The value is an URL to an image.
@@ -623,9 +575,7 @@ Can appear only once.
 Equivalents: `ezcFeed-image`_, `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
 
 
-.. _ATOM-rights:
-
-ATOM/rights
+ATOM-rights
 ```````````
 
 Copyright information for the feed.
@@ -645,9 +595,7 @@ Equivalents: `ezcFeed-copyright`_, `ATOM-rights`_, RSS1-none,
 `RSS2-copyright`_.
 
 
-.. _ATOM-subtitle:
-
-ATOM/subtitle
+ATOM-subtitle
 `````````````
 
 A short description of the feed.
@@ -667,9 +615,7 @@ Equivalents: `ezcFeed-description`_, `ATOM-subtitle`_, `RSS1-description`_,
 `RSS2-description`_.
 
 
-.. _ATOM-title:
-
-ATOM/title
+ATOM-title
 ``````````
 
 Human readable title for the feed. For example, it can be the same as the
@@ -689,9 +635,7 @@ http://www.rssboard.org/rss-language-codes.
 Equivalents: `ezcFeed-title`_, `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
 
-.. _ATOM-updated:
-
-ATOM/updated
+ATOM-updated
 ````````````
 
 The last time the feed was updated.
@@ -708,9 +652,7 @@ Equivalents: `ezcFeed-updated`_, `ATOM-updated`_, RSS1-none, `RSS2-lastBuildDate
 Item elements
 -------------
 
-.. _ATOM-entry-author:
-
-ATOM/entry/author
+ATOM-entry-author
 `````````````````
 
 One author of the feed entry.
@@ -734,9 +676,7 @@ Equivalents: `ezcFeed-item-author`_, `ATOM-entry-author`_, RSS1-none,
 `RSS2-item-author`_.
 
 
-.. _ATOM-entry-category:
-
-ATOM/entry/category
+ATOM-entry-category
 ```````````````````
 
 A category for the feed entry.
@@ -753,9 +693,7 @@ Equivalents: `ezcFeed-item-category`_, `ATOM-entry-category`_, RSS1-none,
 `RSS2-item-category`_.
 
 
-.. _ATOM-entry-content:
-
-ATOM/entry/content
+ATOM-entry-content
 ``````````````````
 
 A short description for the feed item.
@@ -790,9 +728,7 @@ Equivalents: `ezcFeed-item-description`_, `ATOM-entry-summary`_/
 `ATOM-entry-content`_, `RSS1-item-description`_, `RSS2-item-description`_.
 
 
-.. _ATOM-entry-contributor:
-
-ATOM/entry/contributor
+ATOM-entry-contributor
 ``````````````````````
 
 One contributor of the feed entry.
@@ -815,9 +751,7 @@ Equivalents: `ezcFeed-item-contributor`_, `ATOM-entry-contributor`_,
 RSS1-none, RSS2-none.
 
 
-.. _ATOM-entry-id:
-
-ATOM/entry/id
+ATOM-entry-id
 `````````````
 
 A unique identifier in respect to other *id* values of entries in the feed. It
@@ -831,9 +765,7 @@ Equivalents: `ezcFeed-item-id`_, `ATOM-entry-id`_, `RSS1-item-about`_,
 `RSS2-item-guid`_.
 
 
-.. _ATOM-entry-link:
-
-ATOM/entry/link
+ATOM-entry-link
 ```````````````
 
 An to the related to the feed entry.
@@ -857,9 +789,7 @@ Equivalents: `ezcFeed-item-link`_/`ezcFeed-item-enclosure`_,
 `RSS2-item-enclosure`_.
 
 
-.. _ATOM-entry-published:
-
-ATOM/entry/published
+ATOM-entry-published
 ````````````````````
 
 The time the feed item was published.
@@ -874,9 +804,7 @@ Equivalents: `ezcFeed-item-published`_, `ATOM-entry-published`_, RSS1-none,
 `RSS2-item-pubDate`_.
 
 
-.. _ATOM-entry-rights:
-
-ATOM/entry/rights
+ATOM-entry-rights
 `````````````````
 
 Copyright information for the feed entry.
@@ -896,9 +824,7 @@ Equivalents: `ezcFeed-item-copyright`_, `ATOM-entry-rights`_, RSS1-none,
 RSS2-none (`RSS2-copyright`_ for the whole feed).
 
 
-.. _ATOM-entry-summary:
-
-ATOM/entry/summary
+ATOM-entry-summary
 ``````````````````
 
 A short description for the feed item.
@@ -918,9 +844,7 @@ Equivalents: `ezcFeed-item-description`_, `ATOM-entry-summary`_/
 `ATOM-entry-content`_, `RSS1-item-description`_, `RSS2-item-description`_.
 
 
-.. _ATOM-entry-title:
-
-ATOM/entry/title
+ATOM-entry-title
 ````````````````
 
 A title for the feed item.
@@ -940,9 +864,7 @@ Equivalents: `ezcFeed-item-title`_, `ATOM-entry-title`_, `RSS1-item-title`_,
 `RSS2-item-title`_.
 
 
-.. _ATOM-entry-updated:
-
-ATOM/entry/updated
+ATOM-entry-updated
 ``````````````````
 
 The last time the feed entry was updated.
@@ -1034,9 +956,7 @@ Sample RSS1 feed::
 Feed elements
 -------------
 
-.. _RSS1-about:
-
-RSS1/about
+RSS1-about
 ``````````
 
 A universally unique and permanent URI for a feed. For example, it can be an
@@ -1049,9 +969,7 @@ Can appear only once.
 Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, RSS2-none.
 
 
-.. _RSS1-description:
-
-RSS1/description
+RSS1-description
 ````````````````
 
 A short description of the feed.
@@ -1064,9 +982,7 @@ Equivalents: `ezcFeed-description`_, `ATOM-subtitle`_, `RSS1-description`_,
 `RSS2-description`_.
 
 
-.. _RSS1-image:
-
-RSS1/image
+RSS1-image
 ``````````
 
 An image associated with the feed.
@@ -1083,9 +999,7 @@ Has 3 required sub-elements: *title*, *link*, *url*.
 Equivalents: `ezcFeed-image`_, `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
 
 
-.. _RSS1-item:
-
-RSS1/item
+RSS1-item
 `````````
 
 Feed entry.
@@ -1097,9 +1011,7 @@ Multiple entries can appear.
 Equivalents: `ezcFeed-item`_, `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
 
-.. _RSS1-link:
-
-RSS1/link
+RSS1-link
 `````````
 
 The URL to the HTML website corresponding to the channel.
@@ -1111,9 +1023,7 @@ Can appear only once.
 Equivalents: `ezcFeed-link`_, `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
-.. _RSS1-textinput:
-
-RSS1/textinput
+RSS1-textinput
 ``````````````
 
 Specifies a text input box that can be displayed with the feed.
@@ -1131,9 +1041,7 @@ Equivalents: `ezcFeed-textInput`_, ATOM-none, `RSS1-textinput`_,
 `RSS2-textInput`_.
 
 
-.. _RSS1-title:
-
-RSS1/title
+RSS1-title
 ``````````
 
 Human readable title for the feed. For example, it can be the same as the
@@ -1149,9 +1057,7 @@ Equivalents: `ezcFeed-title`_, `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 Item elements
 -------------
 
-.. _RSS1-item-about:
-
-RSS1/item/about
+RSS1-item-about
 ```````````````
 
 A unique identifier in respect to other *about* values in the feed. It
@@ -1166,9 +1072,7 @@ Equivalents: `ezcFeed-item-id`_, `ATOM-entry-id`_, `RSS1-item-about`_,
 `RSS2-item-guid`_.
 
 
-.. _RSS1-item-description:
-
-RSS1/item/description
+RSS1-item-description
 `````````````````````
 
 A short description of the feed item.
@@ -1181,9 +1085,7 @@ Equivalents: `ezcFeed-item-description`_, `ATOM-entry-summary`_,
 `RSS1-item-description`_, `RSS2-item-description`_.
 
 
-.. _RSS1-item-link:
-
-RSS1/item/link
+RSS1-item-link
 ``````````````
 
 The URL to the HTML website corresponding to the feed item.
@@ -1196,9 +1098,7 @@ Equivalents: `ezcFeed-item-link`_, `ATOM-entry-link`_, `RSS1-item-link`_,
 `RSS2-item-link`_.
 
 
-.. _RSS1-item-title:
-
-RSS1/item/title
+RSS1-item-title
 ```````````````
 
 A title for the feed item.
@@ -1266,9 +1166,7 @@ Sample RSS2 feed::
 Feed elements
 -------------
 
-.. _RSS2-category:
-
-RSS2/category
+RSS2-category
 `````````````
 
 A category for the feed.
@@ -1285,9 +1183,7 @@ Equivalents: `ezcFeed-category`_, `ATOM-category`_, RSS1-none,
 `RSS2-category`_.
 
 
-.. _RSS2-cloud:
-
-RSS2/cloud
+RSS2-cloud
 ``````````
 
 Allows processes to register with a cloud to be notified of updates to the
@@ -1307,9 +1203,7 @@ Example::
 Equivalents: `ezcFeed-cloud`_, ATOM-none, RSS1-none, `RSS2-cloud`_.
 
 
-.. _RSS2-copyright:
-
-RSS2/copyright
+RSS2-copyright
 ``````````````
 
 Copyright information for the feed.
@@ -1322,9 +1216,7 @@ Equivalents: `ezcFeed-copyright`_, `ATOM-rights`_, RSS1-none,
 `RSS2-copyright`_.
 
 
-.. _RSS2-description:
-
-RSS2/description
+RSS2-description
 ````````````````
 
 A short description of the feed.
@@ -1337,9 +1229,7 @@ Equivalents: `ezcFeed-description`_, `ATOM-subtitle`_, `RSS1-description`_,
 `RSS2-description`_.
 
 
-.. _RSS2-generator:
-
-RSS2/generator
+RSS2-generator
 ``````````````
 
 Indicates the software used to generate the feed.
@@ -1352,9 +1242,7 @@ Equivalents: `ezcFeed-generator`_, `ATOM-generator`_, RSS1-none,
 `RSS2-generator`_.
 
 
-.. _RSS2-image:
-
-RSS2/image
+RSS2-image
 ``````````
 
 An image associated with the feed.
@@ -1370,9 +1258,7 @@ Has 3 optional sub-elements: *width*, *height*, *description*.
 Equivalents: `ezcFeed-image`_, `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
 
 
-.. _RSS2-item:
-
-RSS2/item
+RSS2-item
 `````````
 
 Feed entry.
@@ -1384,9 +1270,7 @@ Multiple entries can appear.
 Equivalents: `ezcFeed-item`_, `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
 
-.. _RSS2-language:
-
-RSS2/language
+RSS2-language
 `````````````
 
 The language for the feed.
@@ -1402,9 +1286,7 @@ Equivalents: `ezcFeed-language`_, ATOM-*xml:lang* for each element, RSS1-none,
 `RSS2-language`_.
 
 
-.. _RSS2-lastBuildDate:
-
-RSS2/lastBuildDate
+RSS2-lastBuildDate
 ``````````````````
 
 The last time the feed was updated.
@@ -1419,9 +1301,7 @@ Equivalents: `ezcFeed-updated`_, `ATOM-updated`_, RSS1-none,
 `RSS2-lastBuildDate`_.
 
 
-.. _RSS2-link:
-
-RSS2/link
+RSS2-link
 `````````
 
 The URL to the HTML website corresponding to the channel.
@@ -1433,9 +1313,7 @@ Can appear only once.
 Equivalents: `ezcFeed-link`_, `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
-.. _RSS2-managingEditor:
-
-RSS2/managingEditor
+RSS2-managingEditor
 ```````````````````
 
 One author of the feed.
@@ -1453,9 +1331,7 @@ Equivalents: `ezcFeed-author`_, `ATOM-author`_, RSS1-none,
 `RSS2-managingEditor`_.
 
 
-.. _RSS2-rating:
-
-RSS2/rating
+RSS2-rating
 ```````````
 
 The `PICS`_ rating for the channel.
@@ -1467,9 +1343,7 @@ Can appear only once.
 Equivalents: `ezcFeed-rating`_, ATOM-none, RSS1-none, `RSS2-rating`_.
 
 
-.. _RSS2-skipDays:
-
-RSS2/skipDays
+RSS2-skipDays
 `````````````
 
 A hint for aggregators telling them which days they can skip when reading the
@@ -1484,9 +1358,7 @@ Can have up to 7 *day* elements, each with a value from ``Monday`` to ``Sunday``
 Equivalents: `ezcFeed-skipDays`_, ATOM-none, RSS1-none, `RSS2-skipDays`_.
 
 
-.. _RSS2-skipHours:
-
-RSS2/skipHours
+RSS2-skipHours
 ``````````````
 
 A hint for aggregators telling them which hours they can skip when reading the
@@ -1496,15 +1368,13 @@ Optional (not recommended).
 
 Can appear only once.
 
-Can have up to 24 *hour* elements, each with an integer value from `` 0``
+Can have up to 24 *hour* elements, each with an integer value from ``0``
 (midnight) to ``23``. The value ``24`` can also be used for midnight.
 
 Equivalents: `ezcFeed-skipHours`_, ATOM-none, RSS1-none, `RSS2-skipHours`_.
 
 
-.. _RSS2-textInput:
-
-RSS2/textInput
+RSS2-textInput
 ``````````````
 
 Specifies a text input box that can be displayed with the feed.
@@ -1519,9 +1389,7 @@ Equivalents: `ezcFeed-textInput`_, ATOM-none, `RSS1-textinput`_,
 `RSS2-textInput`_.
 
 
-.. _RSS2-title:
-
-RSS2/title
+RSS2-title
 ``````````
 
 Human readable title for the feed. For example, it can be the same as the
@@ -1534,9 +1402,7 @@ Can appear only once.
 Equivalents: `ezcFeed-title`_, `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
 
-.. _RSS2-ttl:
-
-RSS2/ttl
+RSS2-ttl
 ````````
 
 Number of minutes that indicates how long a channel can be cached before
@@ -1549,9 +1415,7 @@ Can appear only once.
 Equivalents: `ezcFeed-ttl`_, ATOM-none, RSS1-none, `RSS2-ttl`_.
 
 
-.. _RSS2-webMaster:
-
-RSS2/webMaster
+RSS2-webMaster
 ``````````````
 
 The email address of the webmaster responsible for the feed.
@@ -1571,9 +1435,7 @@ Equivalents: `ezcFeed-webMaster`_, ATOM-none, RSS1-none, `RSS2-webMaster`_.
 Item elements
 -------------
 
-.. _RSS2-item-author:
-
-RSS2/item/author
+RSS2-item-author
 ````````````````
 
 The email address of the person who created the feed item.
@@ -1591,9 +1453,7 @@ Equivalents: `ezcFeed-item-author`_, `ATOM-entry-author`_, RSS1-none,
 `RSS2-item-author`_.
 
 
-.. _RSS2-item-category:
-
-RSS2/item/category
+RSS2-item-category
 ``````````````````
 
 A category for the feed.
@@ -1610,9 +1470,7 @@ Equivalents: `ezcFeed-item-category`_, `ATOM-entry-category`_, RSS1-none,
 `RSS2-item-category`_.
 
 
-.. _RSS2-item-comments:
-
-RSS2/item/comments
+RSS2-item-comments
 ``````````````````
 
 A link to a webpage for comments.
@@ -1625,9 +1483,7 @@ Equivalents: `ezcFeed-item-comments`_, ATOM-none, RSS1-none,
 `RSS2-item-comments`_.
 
 
-.. _RSS2-item-description:
-
-RSS2/item/description
+RSS2-item-description
 `````````````````````
 
 A short description of the feed item.
@@ -1640,9 +1496,7 @@ Equivalents: `ezcFeed-item-description`_, `ATOM-entry-summary`_,
 `RSS1-item-description`_, `RSS2-item-description`_.
 
 
-.. _RSS2-item-enclosure:
-
-RSS2/item/enclosure
+RSS2-item-enclosure
 ```````````````````
 
 A link to a multimedia file attached to the feed item.
@@ -1657,9 +1511,7 @@ Equivalents: `ezcFeed-item-enclosure`_, `ATOM-entry-link`_, RSS1-none,
 `RSS2-item-enclosure`_.
 
 
-.. _RSS2-item-guid:
-
-RSS2/item/guid
+RSS2-item-guid
 ``````````````
 
 A unique identifier in respect to other *guid* values of items in the feed. It
@@ -1676,9 +1528,7 @@ Equivalents: `ezcFeed-item-id`_, `ATOM-entry-id`_, `RSS1-item-about`_,
 `RSS2-item-guid`_.
 
 
-.. _RSS2-item-link:
-
-RSS2/item/link
+RSS2-item-link
 ``````````````
 
 The URL to the HTML website corresponding to the feed item.
@@ -1691,9 +1541,7 @@ Equivalents: `ezcFeed-item-link`_, `ATOM-entry-link`_, `RSS1-item-link`_,
 `RSS2-item-link`_.
 
 
-.. _RSS2-item-pubDate:
-
-RSS2/item/pubDate
+RSS2-item-pubDate
 `````````````````
 
 The time the feed item was published.
@@ -1708,9 +1556,7 @@ Equivalents: `ezcFeed-item-published`_, `ATOM-entry-published`_, RSS1-none,
 `RSS2-item-pubDate`_.
 
 
-.. _RSS2-item-title:
-
-RSS2/item/title
+RSS2-item-title
 ```````````````
 
 A title for the feed item.
