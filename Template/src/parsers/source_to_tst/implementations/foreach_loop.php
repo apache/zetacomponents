@@ -131,9 +131,14 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
                 } 
 
-                if ( $matchIncrement ) $el->increment[] = $this->lastParser->element;
-                else $el->decrement[] = $this->lastParser->element;
-
+                if ( $matchIncrement )
+                {
+                    $el->increment[] = $this->lastParser->element;
+                }
+                else
+                {
+                    $el->decrement[] = $this->lastParser->element;
+                }
 
                 $this->findNextElement();
             }

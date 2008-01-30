@@ -565,7 +565,5 @@ interface ezcTemplateTstNodeVisitor
      * @return void
      */
     public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $node );
-
-
 }
 ?>

@@ -121,7 +121,6 @@ class ezcTemplateTestRegressionSuite extends PHPUnit_Framework_TestSuite
         $test->setCurrentFile( $file );
         $this->addTest( $test );
     }
-
 }
 
 ?>
