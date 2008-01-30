@@ -8,227 +8,234 @@ Program
 
 The template language starts with the non-terminal token: "Program".
 
-::
+.. parsed-literal::
 
-  Program             ::= Code EOF
+  Program             ::= Code_ EOF
 
-  Code                ::= ( Text | Block )*
+  _`Code`                ::= ( Text_ | Block_ )*
 
-  Text                ::= TextBlock
-                      |   LiteralBlock
-                      |   DelimiterBlock
+  _`Text`                ::= TextBlock_
+                      |   LiteralBlock_
+                      |   DelimiterBlock_
 
 
-  Block               ::= CommentBlock 
-                      |   DeclarationBlock
-                      |   ModifyingBlock
-                      |   OutputBlock
-                      |   LiteralBlock
-                      |   CycleBlock
-                      |   LoopBlock
-                      |   CodeFlowBlock
+  _`Block`               ::= CommentBlock_ 
+                      |   DeclarationBlock_
+                      |   ModifyingBlock_
+                      |   OutputBlock_
+                      |   LiteralBlock_
+                      |   CycleBlock_
+                      |   LoopBlock_
+                      |   CodeFlowBlock_
 
 Text blocks
 -----------
-::
 
-  TextBlock           ::= ( ~'{' | '\'! '{' )*
+.. parsed-literal::
 
-  LiteralBlock        ::= '{' 'literal' '}' Graphic* '{' '/literal' '}'
+  _`TextBlock`           ::= ( ~'{' | '\'! '{' )*
 
-  DelimiterBlock      :==  '{ldelim}' | '{rdelim}'
+  _`LiteralBlock`        ::= '{' 'literal' '}' Graphic_ * '{' '/literal' '}'
+
+  _`DelimiterBlock`      :==  '{ldelim}' | '{rdelim}'
 
 
 Blocks
 ------
-::
 
-  CommentBlock        ::= '{*' Graphic* '*}'
+.. parsed-literal::
 
-  DeclarationBlock    ::= '{' 'var' SubDefineBlock '}'
-                      |   '{' 'cycle' SubDefineBlock '}' 
-                      |   '{' 'use' SubDefineBlock '}'
+  _`CommentBlock`        ::= '{\*' Graphic_ * '\*}'
 
-  SubDefineBlock      ::= PrimaryVariable ( '=' Expression )? ( ',' SubDefineBlock )?
+  _`DeclarationBlock`    ::= '{' 'var' SubDefineBlock_ '}'
+                      |   '{' 'cycle' SubDefineBlock_ '}' 
+                      |   '{' 'use' SubDefineBlock_ '}'
 
-  ModifyingBlock      ::= '{' SubAssignBlock (',' SubAssignBlock)* '}'
+  _`SubDefineBlock`      ::= PrimaryVariable_ ( '=' Expression_ )? ( ',' SubDefineBlock_ )?
 
-  SubAssignBlock      ::= AssignmentExpr | IncrementExpr | DecrementExpr
+  _`ModifyingBlock`      ::= '{' SubAssignBlock_ (',' SubAssignBlock_)* '}'
 
-  AssignmentExpr      ::= PrimaryVariable ( '=' | CombinedAssignment) Expression
+  _`SubAssignBlock`      ::= AssignmentExpr_ | IncrementExpr_ | DecrementExpr_
 
-  IncrementExpr       ::= ( ( '++' PrimaryVariable ) | ( PrimaryVariable '++' ) )
+  _`AssignmentExpr`      ::= PrimaryVariable_ ( '=' | CombinedAssignment_) Expression_
 
-  DecrementExpr       ::= ( ( '--' PrimaryVariable ) | ( PrimaryVariable '--' ) )
+  _`IncrementExpr`       ::= ( ( '++' PrimaryVariable_ ) | ( PrimaryVariable '++' ) )
 
-  OutputBlock         ::= '{' Expression '}'
+  _`DecrementExpr`       ::= ( ( '--' PrimaryVariable_ ) | ( PrimaryVariable '--' ) )
 
-  CycleBlock          ::= '{' 'increment' PrimaryVariable ( ',' PrimaryVariable )* '}'
-                      |   '{' 'decrement' PrimaryVariable ( ',' PrimaryVariable )* '}'
-                      |   '{' 'reset' PrimaryVariable ( ',' PrimaryVariable )* '}'
+  _`OutputBlock`         ::= '{' Expression_ '}'
+
+  _`CycleBlock`          ::= '{' 'increment' PrimaryVariable_ ( ',' PrimaryVariable_ )* '}'
+                      |   '{' 'decrement' PrimaryVariable_ ( ',' PrimaryVariable_ )* '}'
+                      |   '{' 'reset' PrimaryVariable_ ( ',' PrimaryVariable_ )* '}'
 
 
 Loop control
 ------------
-::
 
-  LoopBlock           ::= ForeachStatement
+.. parsed-Literal::
+
+  _`LoopBlock`           ::= ForeachStatement
                       |   WhileStatement
 
-  ForeachStatement    ::= '{' 'foreach' Expression 'as' PrimaryVariable ('=>' PrimaryVariable)? (Cycle)* (OffsetAndLimit)? '}' Code '{' '/foreach' '}'
+  _`ForeachStatement`    ::= '{' 'foreach' Expression_ 'as' PrimaryVariable_ ('=>' PrimaryVariable_)? (Cycle_)* (OffsetAndLimit_)? '}' Code_ '{' '/foreach' '}'
 
-  WhileStatement      ::= '{' 'while' Expression '}' Code '{' '/while' '}'
+  _`WhileStatement`      ::= '{' 'while' Expression_ '}' Code_ '{' '/while' '}'
 
-  Cycle               ::= ('increment' | 'decrement') PrimaryVariable (',' PrimaryVariable)* 
+  _`Cycle`               ::= ('increment' | 'decrement') PrimaryVariable_ (',' PrimaryVariable_)* 
 
-  OffsetAndLimit      ::= ('offset' Expression)? ('limit' Expression)?
+  _`OffsetAndLimit`      ::= ('offset' Expression_)? ('limit' Expression_)?
 
 
 Code flow control
 -----------------
-::
 
-  CodeFlowBlock       ::= IfStatement
-                      |   SwitchStatement
-                      |   IncludeStatement
-                      |   DelimiterStatement
+.. parsed-Literal::
+
+  _`CodeFlowBlock`       ::= IfStatement_
+                      |   SwitchStatement_
+                      |   IncludeStatement_
+                      |   DelimiterStatement_
                       |   '{break}'
                       |   '{skip}'
                       |   '{continue}'
-                      |   ReturnStatement
+                      |   ReturnStatement_
 
 
-  IfStatement         ::= '{' 'if' Expression '}' Code (ElseIf)* (Else)? '{' '/if' '}' 
-  ElseIf              ::= '{' 'elseif' Expression '}' Code
-  Else                ::= '{' 'else' '}' Code 
+  _`IfStatement`         ::= '{' 'if' Expression_ '}' Code_ (ElseIf_)* (Else_)? '{' '/if' '}' 
+  _`ElseIf`              ::= '{' 'elseif' Expression_ '}' Code_
+  _`Else`                ::= '{' 'else' '}' Code_ 
 
-  SwitchStatement     ::= '{' 'switch' Expression '}' (Case)* (DefaultCase)? '{' '/switch' '}'
+  _`SwitchStatement`     ::= '{' 'switch' Expression_ '}' (Case_)* (DefaultCase_)? '{' '/switch' '}'
 
-  Case                ::= '{' 'case' Literal ( ',' Literal)* '}' Code '{' '/case' '}'
+  _`Case`                ::= '{' 'case' Literal_ ( ',' Literal_)* '}' Code_ '{' '/case' '}'
 
-  DefaultCase         ::= '{' 'default' '}' Code '{' '/default' '}'
+  _`DefaultCase`         ::= '{' 'default' '}' Code_ '{' '/default' '}'
                      
-  IncludeStatement    ::= '{' 'include' Expression ('send' ExprAsPrimVarList)? ('receive' PrimVarAsPrimVarList)? '}'
+  _`IncludeStatement`    ::= '{' 'include' Expression_ ('send' ExprAsPrimVarList_)? ('receive' PrimVarAsPrimVarList_)? '}'
 
-  DelimiterStatement  ::= '{' 'delimiter' (modulo Expression ('is' Expression)? )? '}' Code '{' '/delimiter' '}'
+  _`DelimiterStatement`  ::= '{' 'delimiter' (modulo Expression_ ('is' Expression_)? )? '}' Code_ '{' '/delimiter' '}'
 
-  ReturnStatement     ::= '{' 'return' ExprAsPrimVarList '}' 
+  _`ReturnStatement`     ::= '{' 'return' ExprAsPrimVarList_ '}' 
 
-  ExprAsPrimVarList   ::=  ( Expression 'as' PrimaryVariable | PrimaryVariable ) (',' ExprAsPrimVarList)?
+  _`ExprAsPrimVarList`   ::=  ( Expression_ 'as' PrimaryVariable_ | PrimaryVariable_ ) (',' ExprAsPrimVarList_)?
 
-  PrimVarAsPrimVarList::=  PrimaryVariable ('as' PrimaryVariable)? (',' PrimVarAsPrimVarList)?
+  _`PrimVarAsPrimVarList`::=  PrimaryVariable_ ('as' PrimaryVariable_)? (',' PrimVarAsPrimVarList_)?
 
 
 
 Expression
 ----------
-::
 
-  Expression          ::= PreUnaryExpression (BinaryOperator Expression)?
+.. parsed-Literal::
 
-  PreUnaryExpression  ::= '++' PrimaryVariable
-                      |   '--' PrimaryVariable
-                      |   UnaryExpression
-                      |   Expression 'instanceof' Identifier 
-                      |   ArrayDeclaration
+  _`Expression`          ::= PreUnaryExpression_ (BinaryOperator_ Expression_)?
 
-  ArrayDeclaration    ::= 'array' '(' ( (Expression '=>')? Expression ( ',' Expression )* (',')? )? ')'
-                      |   Expression '..' Expression
+  _`PreUnaryExpression`  ::= '++' PrimaryVariable_
+                      |   '--' PrimaryVariable_
+                      |   UnaryExpression_
+                      |   Expression_ 'instanceof' Identifier_
+                      |   ArrayDeclaration_
 
-
-  UnaryExpression     ::= ( UnaryOperator )* PostFixExpression
-
-  PostFixExpression   ::= PrimaryVariable ( '++' | '--' )?
-                      |   Literal
-                      |   FunctionCall
-                      |   '(' Expression ')'
+  _`ArrayDeclaration`    ::= 'array' '(' ( (Expression_ '=>')? Expression_ ( ',' Expression_ )* (',')? )? ')'
+                      |   Expression_ '..' Expression_
 
 
-  PrimaryVariable     ::= '$' Identifier ( '[' Expression ']' | '->' Expression )*
+  _`UnaryExpression`     ::= ( UnaryOperator_ )* PostFixExpression_
 
-  FunctionCall        ::= Identifier '(' (ParameterList)? ')'  
+  _`PostFixExpression`   ::= PrimaryVariable_ ( '++' | '--' )?
+                      |   Literal_
+                      |   FunctionCall_
+                      |   '(' Expression_ ')'
+
+
+  _`PrimaryVariable`     ::= '$' Identifier_ ( '[' Expression_ ']' | '->' Expression_ )*
+
+  _`FunctionCall`        ::= Identifier_ '(' (ParameterList_)? ')'  
                                                                   
-  ParameterList       ::= Expression ( ',' Expression )* 
+  _`ParameterList`       ::= Expression_ ( ',' Expression_ )* 
 
-  Identifier          ::= Letter ( Letter | Digit | '_' )*
+  _`Identifier`          ::= Letter_ ( Letter_ | Digit_ | '_' )*
 
 
 Basic literals
 --------------
-::
 
-  Literal              ::= NumeralLiteral 
-                       |   StringLiteral 
-                       |   BooleanLiteral
-                       |   NullLiteral
+.. parsed-Literal::
 
-  NumeralLiteral       ::=  HexLiteral | OctLiteral | FloatLiteral
+  _`Literal`              ::= NumeralLiteral_ 
+                       |   StringLiteral_ 
+                       |   BooleanLiteral_
+                       |   NullLiteral_
 
-  HexLiteral           ::= '0x' HexDigit+
+  _`NumeralLiteral`       ::=  HexLiteral_ | OctLiteral_ | FloatLiteral_
 
-  OctLiteral           ::= '0' OctDigit+
+  _`HexLiteral`           ::= '0x' HexDigit_ +
 
-  FloatLiteral         ::= NonZeroDigit Digit* ( '.' Digit+ )? (('e'|'E') ('+'|'-')? Digit+)?
+  _`OctLiteral`           ::= '0' OctDigit_ +
 
-  StringLiteral        ::= '"' Graphic* '"' 
-                       |   "'" Graphic* "'"
+  _`FloatLiteral`         ::= NonZeroDigit_ Digit_ * ( '.' Digit_ + )? (('e'|'E') ('+'|'-')? Digit_ + )?
 
-  BooleanLiteral       ::= 'true'
+  _`StringLiteral`        ::= '"' Graphic_ * '"' 
+                       |   "'" Graphic_ * "'"
+
+  _`BooleanLiteral`       ::= 'true'
                        |   'false'
 
-  NullLiteral          ::= 'null'
+  _`NullLiteral`          ::= 'null'
 
 
 Lexicon
 -------
-::
 
-  Comment             ::= '//' Graphic* ( EOL | '}' )
-                      |   '/*' Graphic* '*/'
+.. parsed-Literal::
 
-  Graphic             ::= Digit | Letter | Blank | Operators | Assignment | CombinedAssignment | RemainingCharSet
+  _`Comment`             ::= '\/\/' Graphic_ * ( EOL_ | '}' )
+                      |   '/\*' Graphic_ * '\*/'
 
-  EOL                 ::= end-of-line
+  _`Graphic`             ::= Digit_ | Letter_ | Blank_ | Operators_ | Assignment_ | CombinedAssignment_ | RemainingCharSet_
 
-  EOF                 ::= end-of-file
+  _`EOL`                 ::= end-of-line
 
-  Blank               ::= Tab | Space 
+  _`EOF`                 ::= end-of-file
 
-  NewLine             ::= '\n'
+  _`Blank`               ::= Tab_ | Space_
 
-  Space               ::= ' '
+  _`NewLine`             ::= '\n'
 
-  Tab                 ::= '\t'
+  _`Space`               ::= ' '
 
-  Letter              ::= 'a' ... 'z' | 'A' ... 'Z'  
+  _`Tab`                 ::= '\t'
 
-  Hexdigit            ::= '0' .. '9' | 'A' .. 'F'
+  _`Letter`              ::= 'a' ... 'z' | 'A' ... 'Z'  
 
-  Octdigit            ::= '0' .. '8'
+  _`Hexdigit`            ::= '0' .. '9' | 'A' .. 'F'
 
-  NonZeroDigit        ::= '1' .. '9' 
+  _`Octdigit`            ::= '0' .. '8'
 
-  Digit               ::= '0' | NonZeroDigit
+  _`NonZeroDigit`        ::= '1' .. '9' 
 
-  Assignment          ::= '='
+  _`Digit`               ::= '0' | NonZeroDigit_
 
-  CombinedAssignment  ::= '+=' | '-='  | '*=' | '/=' | '%=' | '.=' 
+  _`Assignment`          ::= '='
 
-  Operators           ::= BinaryOperator | UnaryOperator | '++' | '--'
+  _`CombinedAssignment`  ::= '+=' | '-='  | '\*=' | '/=' | '%=' | '.=' 
 
-  BinaryOperator      ::= ArithmeticOperator | ComparisonOperator | BooleanOperator | StringOperator
+  _`Operators`           ::= BinaryOperator_ | UnaryOperator_ | '++' | '--'
 
-  ArithmeticOperator  ::= '+'  | '-'   | '*' | '/' | '%' 
+  _`BinaryOperator`      ::= ArithmeticOperator_ | ComparisonOperator_ | BooleanOperator_ | StringOperator_
 
-  ComparisonOperator  ::= '==' | '===' | '!=' | '!==' | '<' | '<=' | '>' | '>=' 
+  _`ArithmeticOperator`  ::= '+'  | '-'   | '*' | '/' | '%' 
 
-  BooleanOperator     ::= '&&' | '||'
+  _`ComparisonOperator`  ::= '==' | '===' | '!=' | '!==' | '<' | '<=' | '>' | '>=' 
 
-  StringOperator      ::= '.'
+  _`BooleanOperator`     ::= '&&' | '||'
 
-  UnaryOperator       ::= '+'  | '-'   | '!'
+  _`StringOperator`      ::= '.'
 
-  RemainingCharSet    ::= '.' | ':' | ';' | ',' | '~' | '(' | ')' | '[' | ']' | '{' | '}' | '_' | '|' | "'" | '"' | '`' | '#' | '$' | '@'
+  _`UnaryOperator`       ::= '+'  | '-'   | '!'
+
+  _`RemainingCharSet`    ::= '.' | ':' | ';' | ',' | '~' | '(' | ')' | '[' | ']' | '{' | '}' | '_' | '|' | "'" | '"' | '`' | '#' | '$' | '@'
 
 
 
