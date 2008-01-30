@@ -1,0 +1,22 @@
+<!DOCTYPE TS>
+<TS>
+<context>
+    <name>test</name>
+    <message>
+        <source>Test 1</source>
+        <translation>Test Eén</translation>
+    </message>
+    <message>
+        <source>Test 1 %1 %2 %3</source>
+        <translation>Test Eén (%1, %3, %2)</translation>
+    </message>
+    <message>
+        <source>Test 1 %un %deux %trois</source>
+        <translation>Test Eén (%un, %trois, %deux)</translation>
+    </message>
+    <message>
+        <source>Test with quotes in result</source>
+        <translation>He that loves to be flattered is worthy o'%hvem.</translation>
+    </message>
+</context>
+</TS>
