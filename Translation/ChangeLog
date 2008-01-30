@@ -1,3 +1,12 @@
+1.2alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented issue #9973: Added a translation compiler to convert a string in
+  the original language, to the translated one without substituting
+  parameters. This is to have translation support for the Template
+  component.
+
+
 1.1.6 - Wednesday 05 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
