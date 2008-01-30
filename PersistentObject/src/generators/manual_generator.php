@@ -45,9 +45,14 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
 
         // check if there is an object with this id already
         $q = $db->createSelectQuery();
-        $q->select( '*' )->from( $db->quoteIdentifier( $def->table ) )
-            ->where( $q->expr->eq( $db->quoteIdentifier( $def->idProperty->columnName ),
-                                   $q->bindValue( $this->id ) ) );
+        $q->select( '*' )->from(
+            $db->quoteIdentifier( $def->table )
+        )->where(
+            $q->expr->eq(
+                $db->quoteIdentifier( $def->idProperty->columnName ),
+                $q->bindValue( $this->id )
+            )
+        );
         try
         {
             $stmt = $q->prepare();
@@ -87,7 +92,10 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
                 'ezcPersistentManualGenerator expects the ID to be present before saving.'
             );
         }
-        $q->set( $db->quoteIdentifier( $def->idProperty->columnName ), $q->bindValue( $this->id ) );
+        $q->set(
+            $db->quoteIdentifier( $def->idProperty->columnName ),
+            $q->bindValue( $this->id )
+        );
     }
 
     /**
