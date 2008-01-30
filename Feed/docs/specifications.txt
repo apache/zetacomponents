@@ -170,6 +170,40 @@ ezcFeed-copyright
 ezcFeed-description
 ```````````````````
 
+A short description of the feed.
+
+Required.
+
+Can appear only once.
+
+`ATOM`_ has an optional attribute *type* with possible values ``text``
+(default), ``html``, ``xhtml``.
+
+`ATOM`_ has an optional attribute *lang* which specifies the language of the
+text. A list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes. This attribute is accessed through
+ezcFeed as *language*.
+
+The *type* and *lang* `ATOM`_ attributes won't appear in the generated feed
+when creating `RSS1`_ and `RSS2`_ feeds.
+
+Create example::
+
+  // $feed is an ezcFeed object
+  $feed->description = 'Feed description';
+  $feed->description->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
+  $feed->description->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  $description = $feed->description;
+  $type = $feed->description->type; // ATOM only
+  $language = $feed->description->language; // ATOM only
+
+Equivalents: `ezcFeed-description`_, `ATOM-subtitle`_, `RSS1-description`_,
+`RSS2-description`_.
+
 
 ezcFeed-generator
 `````````````````
@@ -302,9 +336,77 @@ Equivalents: `ezcFeed-skipHours`_, ATOM-none, RSS1-none, `RSS2-skipHours`_.
 ezcFeed-textInput
 `````````````````
 
+Specifies a text input box that can be displayed with the feed.
+
+Optional (not recommended).
+
+Can appear only once. Only `RSS1`_ and `RSS2`_ feeds will have this element
+after generating the feed. It will be ignored for `ATOM`_.
+
+For `RSS1`_ it has the required attribute *about*, which should have the same
+value as the *link* sub-element.
+
+Has four required sub-elements: *title*, *description*, *name*, *link* (same
+for `RSS1`_ and `RSS2`_).
+
+Create example::
+
+  // $feed is an ezcFeed object
+  $textInput = $feed->add( 'textInput' );
+  $textInput->title = 'Text input title';
+  $textInput->description = 'Text input description';
+  $textInput->name = 'Text input name';
+  $textInput->link = 'Text input link';
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  $textInput = $feed->textInput;
+  $title = $textInput->title;
+  $description = $textInput->description;
+  $name = $textInput->name;
+  $link = $textInput->link;
+
+Equivalents: `ezcFeed-textInput`_, ATOM-none, `RSS1-textinput`_,
+`RSS2-textInput`_.
+
 
 ezcFeed-title
 `````````````
+
+Human readable title for the feed. For example, it can be the same as the
+website title.
+
+Required.
+
+Can appear only once.
+
+`ATOM`_ has an optional attribute *type* with possible values ``text``
+(default), ``html``, ``xhtml``.
+
+`ATOM`_ has an optional attribute *lang* which specifies the language of the
+text. A list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes. This attribute is accessed through
+ezcFeed as *language*.
+
+The *type* and *lang* `ATOM`_ attributes won't appear in the generated feed
+when creating `RSS1`_ and `RSS2`_ feeds.
+
+Create example::
+
+  // $feed is an ezcFeed object
+  $feed->title = 'Feed title';
+  $feed->title->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
+  $feed->title->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  $title = $feed->title;
+  $type = $feed->title->type; // ATOM only
+  $language = $feed->title->language; // ATOM only
+
+Equivalents: `ezcFeed-title`_, `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
 
 ezcFeed-ttl
