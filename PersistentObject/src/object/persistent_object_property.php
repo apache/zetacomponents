@@ -191,7 +191,7 @@ class ezcPersistentObjectProperty
                 }
                 break;
             case 'databaseType':
-                if ( $propertyValue !== PDO::PARAM_STR && $propertyValue !== PDO::PARAM_LOB && $propertyValue !== PDO::PARAM_INT && PDO::PARAM_BOOL )
+                if ( $propertyValue !== PDO::PARAM_STR && $propertyValue !== PDO::PARAM_LOB && $propertyValue !== PDO::PARAM_INT && $propertyValue !== PDO::PARAM_BOOL )
                 {
                     throw new ezcBaseValueException(
                         $propertyName,
