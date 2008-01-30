@@ -325,7 +325,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                     $this->database->quoteIdentifier(
                         $def->properties[$name]->columnName
                     ), 
-                    $q->bindValue( $value )
+                    $q->bindValue( $value, null, $def->properties[$name]->databaseType )
                 );
             }
         }
@@ -423,7 +423,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                 $q->set(
                     $this->database->quoteIdentifier(
                         $def->properties[$name]->columnName ),
-                        $q->bindValue( $value )
+                        $q->bindValue( $value, null, $def->properties[$name]->databaseType )
                     );
             }
         }
@@ -432,7 +432,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                 $this->database->quoteIdentifier(
                     $def->idProperty->columnName
                 ),
-                $q->bindValue( $idValue )
+                $q->bindValue( $idValue, null, $def->idProperty->databaseType )
             )
         );
 
@@ -528,7 +528,9 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                     $q->bindValue(
                         $objectState[
                             $def->columns[$map->sourceColumn]->propertyName
-                        ]
+                        ],
+                        null,
+                        $def->columns[$map->sourceColumn]->databaseType
                     )
                 );
                 $insertColumns[] = $map->relationSourceColumn;
@@ -542,7 +544,9 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                     $q->bindValue(
                         $relatedObjectState[
                             $relatedDef->columns[$map->destinationColumn]->propertyName
-                        ]
+                        ],
+                        null,
+                        $relatedDef->columns[$map->destinationColumn]->databaseType
                     )
                 );
                 $insertColumns[] = $map->relationDestinationColumn;

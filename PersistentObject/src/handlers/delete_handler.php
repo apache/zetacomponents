@@ -87,7 +87,7 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
           ->where(
             $q->expr->eq(
                 $this->database->quoteIdentifier( $def->idProperty->columnName ),
-                $q->bindValue( $idValue )
+                $q->bindValue( $idValue, null, $def->idProperty->databaseType )
             ) 
         );
 
@@ -196,7 +196,9 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
                             $q->bindValue(
                                 $objectState[
                                     $def->columns[$map->sourceColumn]->propertyName
-                                ]
+                                ],
+                                null,
+                                $def->columns[$map->sourceColumn]->databaseType
                             )
                         ),
                         $q->expr->eq(
@@ -206,7 +208,9 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
                             $q->bindValue(
                                 $relatedObjectState[
                                     $relatedDef->columns[$map->destinationColumn]->propertyName
-                                ] 
+                                ],
+                                null,
+                                $relatedDef->columns[$map->destinationColumn]->databaseType
                             )
                         )
                     );

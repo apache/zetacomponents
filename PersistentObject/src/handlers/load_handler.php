@@ -99,7 +99,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
         )->where(
             $q->expr->eq(
                 $this->database->quoteIdentifier( $def->idProperty->columnName ),
-                $q->bindValue( $id )
+                $q->bindValue( $id, null, $def->idProperty->databaseType )
             )
         );
 
@@ -504,7 +504,9 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
                         $map->destinationColumn
                     ),
                     $query->bindValue(
-                        $objectState[$def->columns[$map->sourceColumn]->propertyName]
+                        $objectState[$def->columns[$map->sourceColumn]->propertyName],
+                        null,
+                        $def->columns[$map->sourceColumn]->databaseType
                     )
                 )
             );
@@ -540,7 +542,9 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
                         . "." 
                         . $this->database->quoteIdentifier( $map->relationSourceColumn ),
                     $query->bindValue(
-                        $objectState[$def->columns[$map->sourceColumn]->propertyName]
+                        $objectState[$def->columns[$map->sourceColumn]->propertyName],
+                        null,
+                        $def->columns[$map->sourceColumn]->databaseType
                     )
                 ),
                 $query->expr->eq(

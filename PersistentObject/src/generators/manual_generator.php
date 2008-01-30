@@ -50,7 +50,7 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
         )->where(
             $q->expr->eq(
                 $db->quoteIdentifier( $def->idProperty->columnName ),
-                $q->bindValue( $this->id )
+                $q->bindValue( $this->id, null, $def->idProperty->databaseType )
             )
         );
         try
@@ -94,7 +94,7 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
         }
         $q->set(
             $db->quoteIdentifier( $def->idProperty->columnName ),
-            $q->bindValue( $this->id )
+            $q->bindValue( $this->id, null, $def->idProperty->databaseType )
         );
     }
 
