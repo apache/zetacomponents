@@ -1,4 +1,4 @@
-mock:1:2: Unknown block <str_len>.
+mock:1:2: Unknown block 'str_len'.
 
 {str_len "abc" )}
  ^

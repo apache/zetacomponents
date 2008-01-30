@@ -1,4 +1,4 @@
-mock:2:2: Unknown block <while_>.
+mock:2:2: Unknown block 'while_'.
 
 {while_}
  ^

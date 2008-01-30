@@ -1,4 +1,4 @@
-mock:2:2: Unknown block <_rdelim>.
+mock:2:2: Unknown block '_rdelim'.
 
 {_rdelim}
  ^

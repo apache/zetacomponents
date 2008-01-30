@@ -1,4 +1,4 @@
-mock:2:2: Unknown block <adelimiter_>.
+mock:2:2: Unknown block 'adelimiter_'.
 
 {adelimiter_}
  ^

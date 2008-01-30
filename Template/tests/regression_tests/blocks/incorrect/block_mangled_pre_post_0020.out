@@ -1,4 +1,4 @@
-mock:2:2: Unknown block <continue_>.
+mock:2:2: Unknown block 'continue_'.
 
 {continue_}
  ^

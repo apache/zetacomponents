@@ -1,4 +1,4 @@
-mock:2:6: Unknown custom block parameter <Hello>.
+mock:2:6: Unknown custom block parameter 'Hello'.
 
 {cblock
 Hello

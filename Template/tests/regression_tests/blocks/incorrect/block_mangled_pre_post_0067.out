@@ -1,4 +1,4 @@
-mock:2:2: Unknown block <adefault>.
+mock:2:2: Unknown block 'adefault'.
 
 {adefault}
  ^

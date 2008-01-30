@@ -1,4 +1,4 @@
-mock:2:2: Unknown block <areset_>.
+mock:2:2: Unknown block 'areset_'.
 
 {areset_}
  ^

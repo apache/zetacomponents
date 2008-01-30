@@ -1,4 +1,4 @@
-mock:2:2: Unknown block <ardelim_>.
+mock:2:2: Unknown block 'ardelim_'.
 
 {ardelim_}
  ^

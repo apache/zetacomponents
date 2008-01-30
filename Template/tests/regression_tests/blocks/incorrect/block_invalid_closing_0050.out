@@ -1,4 +1,4 @@
-mock:3:3: Unknown block <fals>.
+mock:3:3: Unknown block 'fals'.
 
 {/fals $foo}
   ^

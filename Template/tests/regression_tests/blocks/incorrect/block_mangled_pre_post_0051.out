@@ -1,4 +1,4 @@
-mock:2:2: Unknown block <avar>.
+mock:2:2: Unknown block 'avar'.
 
 {avar}
  ^

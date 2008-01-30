@@ -83,7 +83,7 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_DEFAULT_DUPLICATE                 = "Expecting {/switch}. ('default' can be available only once in the switch)";
     const MSG_DEFAULT_LAST                      = "Expecting {/switch}. ('default' is expected to be the last case of the switch.)";
 
-    const MSG_UNKNOWN_BLOCK                     = "Unknown block <%s>.";
+    const MSG_UNKNOWN_BLOCK                     = "Unknown block '%s'.";
     const MSG_UNKNOWN_FUNCTION                  = "Unknown function call: '%s'";
     const MSG_EXPECT_PARAMETER                  = "Function call: '%s' has not enough parameters. Need an additional '%s' parameter.";
     const MSG_TOO_MANY_PARAMETERS               = "Function call: '%s' has too many parameters.";
@@ -104,16 +104,16 @@ class ezcTemplateSourceToTstErrorMessages
 
     const MSG_OBJECT_FUNCTION_CALL_NOT_ALLOWED  = "Calling a method from an imported object is not allowed.";
 
-    const MSG_MISSING_CUSTOM_BLOCK_PARAMETER     = "Missing the required custom block parameter <%s>."; 
-    const MSG_UNKNOWN_CUSTOM_BLOCK_PARAMETER     = "Unknown custom block parameter <%s>."; 
-    const MSG_REASSIGNMENT_CUSTOM_BLOCK_PARAMETER = "The custom block parameter <%s> is already assigned."; 
+    const MSG_MISSING_CUSTOM_BLOCK_PARAMETER     = "Missing the required custom block parameter '%s'."; 
+    const MSG_UNKNOWN_CUSTOM_BLOCK_PARAMETER     = "Unknown custom block parameter '%s'."; 
+    const MSG_REASSIGNMENT_CUSTOM_BLOCK_PARAMETER = "The custom block parameter '%s' is already assigned."; 
 
     const MSG_CLOSING_BLOCK_NOW_ALLOWED = "This block cannot be closed.";
 
     const MSG_NO_SOURCE_CODE = "No source code found in the source object, cannot parse it.";
 
     // Custom block specific error messages
-    const MSG_EXPECT_REQUIRED_OR_OPTIONAL_PARAMETER_DEFINITION_IN_CUSTOM_BLOCK = "The custom block definition specifies the startExpressionName <%s> but this name could not be found in either the optionalParameters or the requiredParameters array.";
+    const MSG_EXPECT_REQUIRED_OR_OPTIONAL_PARAMETER_DEFINITION_IN_CUSTOM_BLOCK = "The custom block definition specifies the startExpressionName '%s' but this name could not be found in either the optionalParameters or the requiredParameters array.";
 
     const MSG_EXPECT_CLOSING_BLOCK_COMMENT       = "Could not find the closing block comment '*}' that belongs to this opening block comment.";
     const MSG_EXPECT_CLOSING_MULTILINE_COMMENT   = "Could not find the closing comment '*/' that belongs to this opening comment.";

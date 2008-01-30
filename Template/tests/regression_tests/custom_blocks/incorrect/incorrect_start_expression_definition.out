@@ -1,4 +1,4 @@
-mock:1:36: The custom block definition specifies the startExpressionName <start_expresssion> but this name could not be found in either the optionalParameters or the requiredParameters array.
+mock:1:36: The custom block definition specifies the startExpressionName 'start_expresssion' but this name could not be found in either the optionalParameters or the requiredParameters array.
 
 {nesting_incorrect_startexpression "bla"}
                                    ^

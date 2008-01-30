@@ -1,4 +1,4 @@
-mock:2:2: Unknown block <array_>.
+mock:2:2: Unknown block 'array_'.
 
 {array_}
  ^
