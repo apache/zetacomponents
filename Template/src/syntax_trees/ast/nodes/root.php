@@ -53,6 +53,13 @@ class ezcTemplateRootAstNode extends ezcTemplateBodyAstNode
     public $charset = false;
 
     /**
+     * The current translation context in effect.
+     *
+     * @var string
+     */
+    public $translationContext = null;
+
+    /**
      * Initialize with function name code and optional arguments
      *
      * @param array(ezcTemplateAstNode) $statements

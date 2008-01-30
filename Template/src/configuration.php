@@ -98,6 +98,7 @@ class ezcTemplateConfiguration
 
                                   'sourceCharset' => "UTF-8",
                                   'targetCharset' => "UTF-8",
+                                  'translation' => null,
                               );
     /**
      * Returns the value of the property $name.
@@ -123,6 +124,7 @@ class ezcTemplateConfiguration
             case 'compiledTemplatesPath':     // Relative path to the compilePath
             case 'sourceCharset':
             case 'targetCharset':
+            case 'translation':
             case 'checkModifiedTemplates':
             case 'executeTemplate':
                 return $this->properties[$name];
@@ -191,6 +193,7 @@ class ezcTemplateConfiguration
             case 'compiledTemplatesPath':
             case 'sourceCharset':
             case 'targetCharset':
+            case 'translation':
             // case 'cacheSystem':
             case 'checkModifiedTemplates': 
             case 'executeTemplate':
@@ -220,6 +223,7 @@ class ezcTemplateConfiguration
             case 'disableCache': 
             case 'sourceCharset':
             case 'targetCharset':
+            case 'translation':
                 return true;
 
             case 'cacheManager': 

@@ -1,0 +1,4 @@
+mock:1:36: Expecting a closing curly bracket: '}'
+
+{tr "test" context "foo" vars true => "foo"}
+                                   ^

@@ -1,0 +1,4 @@
+mock:1:51: Expecting a closing curly bracket: '}' ('context' can be available only once in a tr statement).
+
+{tr "Derick lives at %number %street" context "un" context "deux"}
+                                                  ^

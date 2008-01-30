@@ -772,6 +772,28 @@ class ezcTemplateTstWalker implements ezcTemplateTstNodeVisitor
 
 
     /**
+     * visitTranslationTstNode
+     *
+     * @param ezcTemplateCacheBlockTstNode $node
+     * @return void
+     */
+    public function visitTranslationTstNode( ezcTemplateTranslationTstNode $node )
+    {
+    }
+
+
+    /**
+     * visitTranslationContextTstNode
+     *
+     * @param ezcTemplateCacheBlockTstNode $node
+     * @return void
+     */
+    public function visitTranslationContextTstNode( ezcTemplateTranslationContextTstNode $node )
+    {
+    }
+
+
+    /**
      * Calls the accept method on the given tst node. The return value
      * replaces the $node.
      *

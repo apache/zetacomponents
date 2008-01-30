@@ -719,8 +719,6 @@ abstract class ezcTemplateSourceToTstParser
      * - type - The base name of the element parser, e.g. 'Expresssion' becomes
      *          'ezcTemplateExpressionSourceToTstParser'.
      *
-     * Note: The element parser is invoked by using parseRequiredType().
-     *
      * @param array(array) $sequence The expected sequence to be found.
      * @return array(ezcTemplateTstNode)
      */
@@ -774,30 +772,41 @@ abstract class ezcTemplateSourceToTstParser
                 }
             }
 
-            $parserClass = 'ezcTemplate' . $item['type'] . 'SourceToTstParser';
-            $comment = false;
-            if ( isset( $item['comment'] ) )
+            if ( $item['type'] == 'Character' )
             {
-                $comment = $item['comment'];
-            }
-
-            $parser = new $parserClass( $this->parser, $this, null );
-            if ( !$this->parseRequiredType( $parser, null, false ) )
-            {
-                return false;
-            }
-            if ( $parser instanceof ezcTemplateExpressionSourceToTstParser )
-            {
-                $rootOperator = $parser->currentOperator;
-                if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
+                $parser = null;
+                if ( !$cursor->match( $item['args'] ) )
                 {
-                    $rootOperator = $rootOperator->getRoot();
+                    return false;
                 }
-                $elements[] = $rootOperator;
             }
             else
             {
-                $elements = array_merge( $elements, $parser->elements );
+                $parserClass = 'ezcTemplate' . $item['type'] . 'SourceToTstParser';
+                $comment = false;
+                if ( isset( $item['comment'] ) )
+                {
+                    $comment = $item['comment'];
+                }
+
+                $parser = new $parserClass( $this->parser, $this, null );
+                if ( !$this->parseRequiredType( $parser, null, false ) )
+                {
+                    return false;
+                }
+                if ( $parser instanceof ezcTemplateExpressionSourceToTstParser )
+                {
+                    $rootOperator = $parser->currentOperator;
+                    if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
+                    {
+                        $rootOperator = $rootOperator->getRoot();
+                    }
+                    $elements[] = $rootOperator;
+                }
+                else
+                {
+                    $elements = array_merge( $elements, $parser->elements );
+                }
             }
         }
         return $elements;

@@ -1,0 +1,4 @@
+mock:1:52: Expecting a 'context' parameter, or a default context set with {tr_context}.
+
+{tr "Derick lives at %number %street" comment "un"}
+                                                   ^

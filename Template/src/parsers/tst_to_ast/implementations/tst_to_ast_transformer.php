@@ -415,7 +415,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      * @param ezcTemplateAstNode $node
      * @return ezcTemplateAstNode
      */
-    private function assignToOutput( $node )
+    protected function assignToOutput( $node )
     {
         return $this->outputVariable->getConcatAst( $node );
     }
@@ -2088,5 +2088,70 @@ throw new ezcTemplateRuntimeException( sprintf(\"". ezcTemplateSourceToTstErrorM
         return $this->appendFunctionCallRecursively( $type, "array_fill_range", true );
     }
 
+    public function visitTranslationTstNode( ezcTemplateTranslationTstNode $node )
+    {
+        $string = $node->string->accept( $this );
+
+        // convert arguments
+        $index = 1;
+        $compileArray = new ezcTemplateLiteralArrayAstNode();
+        if ( $node->variables !== null )
+        {
+            $array  = $node->variables->accept( $this );
+            $compileArray = clone $array;
+
+            foreach ( $compileArray->value as $key => $value )
+            {
+                $compileArray->value[$key] = $value;
+
+                // Make the numerical indexes 1 based
+                if ( !isset( $compileArray->keys[$key] ) )
+                {
+                    $compileArray->keys[$key] = new ezcTemplateLiteralAstNode( $index );
+                    $index++;
+                }
+                if ( is_numeric( $compileArray->keys[$key]->value ))
+                {
+                    $index = ( (int) $compileArray->keys[$key]->value ) + 1;
+                    $compileArray->keys[$key]->value = (int) $compileArray->keys[$key]->value;
+                }
+            }
+        }
+
+        // check for the translation context. If we have one, we use it. If we
+        // don't have one, we check whether there is one set through a
+        // tr_context block. If not, we default to an empty string.
+        if ( $node->context !== null )
+        {
+            $context = $node->context->accept( $this );
+        }
+        else
+        {
+            if ( $this->programNode->translationContext !== null )
+            {
+                $context = new ezcTemplateLiteralAstNode( $this->programNode->translationContext->value );
+            }
+            else
+            {
+                throw new ezcTemplateParserException( $node->source, $node->startCursor, $node->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_NO_TRANSLATION_CONTEXT );
+            }
+        }
+
+        return $this->assignToOutput(
+            new ezcTemplateFunctionCallAstNode( 'ezcTemplateTranslationProvider::translate', array( $string, $context, $compileArray ) ) 
+        );
+    }
+
+    /**
+     * visitTranslationContextTstNode
+     *
+     * @param ezcTemplateTranslationContextTstNode $node
+     * @return ezcTemplateNopAstNode
+     */
+    public function visitTranslationContextTstNode( ezcTemplateTranslationContextTstNode $node )
+    {
+        $this->programNode->translationContext = new ezcTemplateLiteralAstNode( $node->context->value );
+        return new ezcTemplateNopAstNode();
+    }
 }
 ?>

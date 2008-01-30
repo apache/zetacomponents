@@ -1,0 +1,1 @@
+{tr "test" context "foo" vars 3 == "foo"}

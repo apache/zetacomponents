@@ -25,6 +25,7 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_EXPECT_EXPRESSION_NOT_IDENTIFIER  = "Expecting an expression, not an identifier. (Braces missing?)";
     const MSG_EXPECT_OPERAND                    = "Expecting an operand.";
     const MSG_EXPECT_LITERAL                    = "Expecting a literal value.";
+    const MSG_EXPECT_STRING                     = "Expecting a string.";
     const MSG_EXPECT_MODULO                     = "Expecting a modulo";
     const MSG_EXPECT_NON_MODIFYING_OPERAND      = "Expecting an operand without a pre- or post operator.";
     const MSG_EXPECT_VARIABLE                   = "Expecting a variable";
@@ -73,7 +74,11 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_EXPECT_ARRAY                      = "Expecting an array.";
     const MSG_EXPECT_VALUE_NOT_ARRAY            = "Expecting a value and not an array.";
     const MSG_PARAMETER_EXPECTS_EXPRESSION      = "Parameter %s expects a value.";
+    const MSG_EXPECT_ASSIGNMENT                 = "Expecting the assignment operator '='.";
 
+    const MSG_CONTEXT_DUPLICATE                 = "Expecting a closing curly bracket: '}' ('context' can be available only once in a tr statement).";
+    const MSG_COMMENT_DUPLICATE                 = "Expecting a closing curly bracket: '}' ('comment' can be available only once in a tr statement).";
+    const MSG_NO_TRANSLATION_CONTEXT            = "Expecting a 'context' parameter, or a default context set with {tr_context}.";
 
     const MSG_DEFAULT_DUPLICATE                 = "Expecting {/switch}. ('default' can be available only once in the switch)";
     const MSG_DEFAULT_LAST                      = "Expecting {/switch}. ('default' is expected to be the last case of the switch.)";

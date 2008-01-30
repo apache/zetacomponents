@@ -1,0 +1,10 @@
+{tr "Test II: %1 %twee %2" context "un" vars 2 => "et", 'twee' => "to", 1 => "tre"}
+
+{tr "Test II: %1 %twee %2" context "un" vars "et", 'twee' => "to", "tre"}
+
+{tr "Test II: %1 %twee %2" context "un" vars 'twee' => "et", "to", 2 => "tre"}
+
+{tr "Test II: %1 %twee %2" context "un" vars '2' => "et", 'twee' => "to", '1' => "tre"}
+
+{tr "Test II: %1 %twee %2" context "un" vars "1" => "et", "to", 'twee' => "tre"}
+

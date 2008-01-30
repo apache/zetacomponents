@@ -470,10 +470,19 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $programNode->appendStatement( new ezcTemplatePhpCodeAstNode( '$_ezcCacheKeys = array();' ."\n" ) );
         $cacheBlock = $cacheBlock === false ? "" : "[cb".$cacheBlock . "]";
 
+        // add the normal cache keys
         foreach ( $cacheKeys as $key => $value )
         {
             $programNode->appendStatement( new ezcTemplatePhpCodeAstNode( '$_ezcCacheKeys[\''.$key.'\'] = '. 'is_object( $'.$value.' ) && method_exists( $'.$value.', "cacheKey" ) ? $'.$value.'->cacheKey() : $'.  $value . ";\n" ) );
 
+            $hasCacheKey = true;
+        }
+
+        // in case we are using translations, we need to add the current locale as cache key
+        if ( $this->template->usedConfiguration->translation !== null )
+        {
+            $programNode->appendStatement( new ezcTemplatePhpCodeAstNode( '$_ezcCacheKeys[\'languageLocale\'] = $this->template->usedConfiguration->translation->locale;' . "\n" ) );
+            $cacheKeys['languageLocale'] = 'dummy';
             $hasCacheKey = true;
         }
 
@@ -708,6 +717,99 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         return $statements->statements;
     }
 
+    public function visitTranslationTstNode( ezcTemplateTranslationTstNode $node )
+    {
+        // if we're not in a cache block, call the normal (non-cached) TST->AST convertor
+        if ( !$this->cacheLevel )
+        {
+            return parent::visitTranslationTstNode( $node );
+        }
+
+        // convert arguments
+        $string = $node->string->accept( $this );
+
+        // check for the translation context. If we have one, we use it. If we
+        // don't have one, we check whether there is one set through a
+        // tr_context block. If not, we default to an empty string.
+        if ( $node->context !== null )
+        {
+            $context = $node->context->accept( $this );
+        }
+        else
+        {
+            if ( $this->programNode->translationContext !== null )
+            {
+                $context = new ezcTemplateLiteralAstNode( $this->programNode->translationContext->value );
+            }
+            else
+            {
+                $context = new ezcTemplateLiteralAstNode( '' );
+            }
+        }
+
+        // the array of parameters we need to do something special with, so we
+        // retrieve it and clone so that we can mangle it as much as we want.
+        $compileArray = new ezcTemplateLiteralArrayAstNode();
+        if ( $node->variables !== null )
+        {
+            $array  = $node->variables->accept( $this );
+            $compileArray = clone $array;
+
+            foreach ( $compileArray->value as $key => $value )
+            {
+                $g = new ezcTemplateAstToPhpStringGenerator( $this->template->usedConfiguration );
+                $value->accept( $g );
+
+                $newValue = new ezcTemplateLiteralAstNode( $g->getString() );
+                $compileArray->value[$key] = $newValue;
+
+                // Make the numerical indexes 1 based
+                if ( !isset( $compileArray->keys[$key] ) )
+                {
+                    $compileArray->keys[$key] = new ezcTemplateLiteralAstNode( $index );
+                    $index++;
+                }
+                if ( is_numeric( $compileArray->keys[$key]->value ))
+                {
+                    $index = ( (int) $compileArray->keys[$key]->value ) + 1;
+                    $compileArray->keys[$key]->value = (int) $compileArray->keys[$key]->value;
+                }
+            }
+        }
+
+        // return all the generated nodes
+        return array(
+            new ezcTemplateEolCommentAstNode( " ---> start {tr}" ),
+
+            // we reset the output and total vars here
+            $this->_fwriteVarExportVariable( self::INTERNAL_PREFIX . "output", true, false),
+            $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total" . $this->cacheLevel ),
+            $this->_assignEmptyString( self::INTERNAL_PREFIX . "output" ),
+
+            // the code that ends up in the cache block
+            new ezcTemplateGenericStatementAstNode(
+                new ezcTemplateConcatOperatorAstNode(
+                    new ezcTemplateConcatOperatorAstNode(
+                        new ezcTemplateConcatAssignmentOperatorAstNode(
+                            $this->getFp(), new ezcTemplateLiteralAstNode( "\$" . self::INTERNAL_PREFIX . 'output' . " .= " ) 
+                        ),
+                        new ezcTemplateFunctionCallAstNode( 'ezcTemplateTranslationProvider::compile', array( $string, $context, $compileArray ) ) 
+                    ),
+                    new ezcTemplateLiteralAstNode( ";\n" )
+                ) 
+            ),
+
+            // the code that is executed during template compilation
+            new ezcTemplateGenericStatementAstNode(
+                new ezcTemplateConcatAssignmentOperatorAstNode(
+                    $this->createVariableNode( 'total' . $this->cacheLevel ), 
+                    new ezcTemplateFunctionCallAstNode( 'ezcTemplateTranslationProvider::translate', array( $string, $context, $array ) ) 
+                )
+            ),
+
+            new ezcTemplateEolCommentAstNode( " <--- stop {tr}" ),
+        );
+    }
 }
 
 ?>

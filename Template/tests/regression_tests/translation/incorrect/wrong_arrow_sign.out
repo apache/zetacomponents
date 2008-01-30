@@ -1,0 +1,4 @@
+mock:1:33: Expecting a valid variable definition (String => Expression; Integer => Expression; or Expression).
+
+{tr "test" context "foo" vars 3 == "foo"}
+                                ^

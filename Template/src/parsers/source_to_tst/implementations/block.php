@@ -81,7 +81,7 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
 
             // Check for internal blocks which are known to not support closing markers.
             // foreach|while|if|switch|case|default|delimiter|literal|dynamic|cache_template
-            $matches = $cursor->pregMatchComplete( "#^(elseif|else|include|return|break|continue|skip|increment|decrement|reset|once|var|use|cycle|ldelim|rdelim)(?:[^a-zA-Z0-9_])#" );
+            $matches = $cursor->pregMatchComplete( "#^(tr|tr_context|elseif|else|include|return|break|continue|skip|increment|decrement|reset|once|var|use|cycle|ldelim|rdelim)(?:[^a-zA-Z0-9_])#" );
             if ( $matches !== false )
             {
                 throw new ezcTemplateParserException( $this->parser->source,

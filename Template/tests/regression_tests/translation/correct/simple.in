@@ -1,0 +1,11 @@
+{tr "test" context "un"}
+
+{tr
+"test"
+context
+"un"
+}
+
+{tr "Derick's" context "un"}
+
+{tr 'Derick\'s' context "un"}
