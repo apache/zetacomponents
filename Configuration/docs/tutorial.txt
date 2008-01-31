@@ -300,7 +300,7 @@ The values of settings are generally strings, with the exception of:
 
        "This contains \"quote\" characters"
 
-  b) *\\\\* which will be replaced with the backslash character (\)::
+  b) *\\\\* which will be replaced with the backslash character (\\)::
 
        "This contains a backslash \\"
 
