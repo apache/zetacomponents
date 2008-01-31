@@ -373,6 +373,7 @@ can be specified as a parameter when calling the function.
 
 For example, if the $_SERVER array has these fields::
 
+    <?php
     $_SERVER = array(
         'HTTPS' => '1',
         'HTTP_HOST' => 'www.example.com',
@@ -381,10 +382,11 @@ For example, if the $_SERVER array has these fields::
         );
 
     $url = ezcUrlTools::getCurrentUrl();
+    ?>
 
 Then $url will be::
 
-    http://www.example.com/index.php
+    https://www.example.com/index.php
 
 parseQueryString
 ----------------
@@ -394,8 +396,10 @@ without converting the dots to underscores in query parameter names.
 
 Example::
 
+    <?php
     $params = ezcUrlTools::parseQueryString(
         'openid.nonce=123456&foo[]=bar&foo[]=baz' );
+    ?>
 
 Then $params will be::
 
