@@ -261,6 +261,31 @@ ezcFeed-link
 ezcFeed-rating
 ``````````````
 
+The `PICS`_ rating for the channel.
+
+Optional (not recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `ATOM`_).
+
+Can appear only once.
+
+Create example::
+
+  // $feed is an ezcFeed object
+  $feed->rating = '(PICS-1.1 "http://www.gcf.org/v2.5" labels 
+                    on "1994.11.05T08:15-0500" 
+                    exp "1995.12.31T23:59-0000" 
+                    for "http://www.greatdocs.com/foo.html" 
+                    by "George Sanderson, Jr." 
+                    ratings (suds 0.5 density 0 color/hue 1))';
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  $rating = $feed->rating;
+
+Equivalents: `ezcFeed-rating`_, ATOM-none, RSS1-none, `RSS2-rating`_.
+
 
 ezcFeed-skipDays
 ````````````````
@@ -800,12 +825,13 @@ ATOM-entry-content
 
 A short description for the feed item.
 
-Required. Can be substituted with |ATOM-entry-summary|_ (recommended).
+Optional (not recommended). It is required if |ATOM-entry-summary|_ is
+absent). Can be substituted with |ATOM-entry-summary|_ (recommended).
 
 Can appear only once.
 
 Has an optional attribute *type* with possible values ``text`` (default),
-``html``, ``xhtml``.
+``html``, ``xhtml``, or other mime values, depending on the data it contains.
 
 Has an optional attribute *src* which specifies the URI where the full content
 is located.
