@@ -56,12 +56,10 @@ class ezcDebugHtmlFormatter implements ezcDebugOutputFormatter
      */
     public function generateOutput( array $writerData, array $timerData )
     {
-        $str = '';
-        $str .= "<style type=\"text/css\">\n@import url(\"debug.css\");\n</style>\n\n";
-        $str .=  "<table cellspacing='0'>\n";
-
+        $str = '<div class="ezc-debug-output">';
         $str .= $this->getLog( $writerData );
         $str .= $this->getTimingsAccumulator( $timerData );
+        $str .= "</div>\n";
         return $str;
     }
 
@@ -73,19 +71,22 @@ class ezcDebugHtmlFormatter implements ezcDebugOutputFormatter
      */
     public function getLog( array $writerData )
     {
-        $str = '';
+        $str = "<table class='log'>\n";
         foreach ( $writerData as $w )
         {
-            $str .= "<tr>\n";
-            $str .= "\t<td class='debugheader' valign='top'>";
-            $str .= "<b><font color=\"". ( isset( $this->verbosityColors[$w->verbosity]) ? $this->verbosityColors[$w->verbosity] : "" )."\">";
-            $str .= $w->verbosity;
-            $str .= ":</font>{$w->source}::{$w->category}</b></td>\n";
-            $str .= "\t<td class='debugheader' valign='top'>{$w->datetime}</td>\n";
-            $str .= "</tr>\n";
-            $str .= "<tr>\n";
-            $str .= "\t<td class='debugbody' colspan='2'><pre>\n{$w->message}\n\t</pre></td>\n";
-            $str .= "</tr>\n";
+            $color = isset( $this->verbosityColors[$w->verbosity]) ? $this->verbosityColors[$w->verbosity] : "";
+            $date = date( 'Y-m-d H:i:s O', $w->datetime );
+            $str .= <<<ENDT
+<tr class='debugheader'>
+    <td class='source'>
+        <span class='verbosity{$w->verbosity}'>{$w->verbosity}: {$w->source}::{$w->category}</span>
+    </td>
+    <td class='date'>{$date}</td>
+</tr>
+<tr class='debugbody'>
+    <td colspan='2'>{$w->message}</td>
+</tr>
+ENDT;
         }
         $str .= "</table>\n";
 
@@ -104,56 +105,75 @@ class ezcDebugHtmlFormatter implements ezcDebugOutputFormatter
 
         if ( sizeof( $groups ) > 0 )
         {
-            $str = "<table style='border: 1px dashed black;' cellspacing='0'>\n<tr><th>&nbsp;Timings</th><th>&nbsp;Elapsed</th>".
-                   "<th>&nbsp;Percent</th><th>&nbsp;Count</th><th>&nbsp;Average</th></tr>\n";
+            $str = <<<ENDT
+<table class='accumulator'>
+    <tr>
+        <th>Timings</th>
+        <th>Elapsed</th>
+        <th>Percent</th>
+        <th>Count</th>
+        <th>Average</th>
+    </tr>
 
-            $isFirst = true;
+ENDT;
+
             foreach ( $groups as $groupName => $group )
             {
-                if ( !$isFirst )
-                {
-                    $str .= "<tr><td>&nbsp;</td></tr>";
-                    $str .= "\n";
-                }
-                else
-                {
-                    $isFirst = false;
-                }
-     
-                $str .= "<tr><td class='timingpoint1'><b>$groupName</b></td><td class='timingpoint1'>&nbsp;</td><td class='timingpoint1'>&nbsp;</td>".
-                        "<td class='timingpoint1'>&nbsp;</td><td class='timingpoint1'>&nbsp;</td></tr>\n";
+                $str .= <<<ENDT
+    <tr class='group-header'>
+        <th colspan='5'>{$groupName}</th>
+    </tr>
+
+ENDT;
 
                 // Calculate the total time.
                 foreach ( $group->elements as $name => $element )
                 {
-                    $str .= "<tr><td class='timingpoint1'>$name</td>" .
-                        "<td class='timingpoint1'>" . sprintf( '%.5f', $element->elapsedTime ) . "</td>" .
-                        "<td class='timingpoint1' align='right'>". sprintf( '%.2f', (100 * ($element->elapsedTime / $group->elapsedTime ) ) ) ."</td>" .
-                        "<td class='timingpoint1' align='right'>{$element->count}</td>" .
-                        "<td class='timingpoint1' align='right'>" . sprintf( '%.5f', ( $element->elapsedTime / $element->count ) ) .
-                        "</td></tr>\n";
+                    $elapsedTime = sprintf( '%.5f', $element->elapsedTime );
+                    $percent = sprintf( '%.2f', (100 * ($element->elapsedTime / $group->elapsedTime ) ) );
+                    $average = sprintf( '%.5f', ( $element->elapsedTime / $element->count ) );
+                    $str .= <<<ENDT
+    <tr class='group'>
+        <td class='tp-name'>{$name}</td>
+        <td class='tp-elapsed'>{$elapsedTime}</td>
+        <td class='tp-percent'>{$percent} %</td>
+        <td class='tp-count'>{$element->count}</td>
+        <td class='tp-average'>{$average}</td>
+    </tr>
 
+ENDT;
                    foreach ( $element->switchTime as $switch )
                    {
-                       $elapsedTime = $switch->time - $element->startTime;
+                       $elapsedTime = sprintf( '%.5f', $switch->time - $element->startTime );
+                       $percent = sprintf( '%.2f', ( 100 * ( $elapsedTime / $group->elapsedTime ) ) );
 
-                       $str .= "<tr><td class='timingpoint1'>&nbsp;&nbsp;&nbsp;&nbsp;{$switch->name}</td>" .
-                       "<td class='timingpoint1'>" . sprintf( '%.5f', $elapsedTime ) . "</td>" .
-                            "<td class='timingpoint1' align='right'>". sprintf( '%.2f', (100 * ($elapsedTime / $group->elapsedTime ) ) ) ."</td>" .
-                            "<td class='timingpoint1' align='right'>-</td>" .
-                            "<td class='timingpoint1' align='right'>-</td></tr>\n";
+                       $str .= <<<ENDT
+    <tr class='switch'>
+        <td class='tp-name'>{$switch->name}</td>
+        <td class='tp-elapsed'>{$elapsedTime}</td>
+        <td class='tp-percent'>{$percent} %</td>
+        <td class='tp-empty'>-</td>
+        <td class='tp-empty'>-</td>
+    </tr>
+
+ENDT;
                    }
                 }
-                $str .= "\n";
 
                 if ( $group->count > 1 )
                 {
-                    $str .= "<tr><td class='timingpoint1'><b>Total:</b></td>" .
-                        "<td class='timingpoint1'>" . sprintf( '%.5f', $group->elapsedTime ) . "</td>" .
-                        "<td class='timingpoint1' align='right'>100.00</td>" .
-                        "<td class='timingpoint1' align='right'>{$group->count}</td>" .
-                        "<td class='timingpoint1' align='right'>" . sprintf( '%.5f', ( $group->elapsedTime / $group->count ) ) .
-                        "</td></tr>\n";
+                    $elapsedTime = sprintf( '%.5f', $group->elapsedTime );
+                    $average = sprintf( '%.5f', ( $group->elapsedTime / $group->count ) );
+                    $str .= <<<ENDT
+    <tr class='totals'>
+        <th class='tp-total'>Total:</th>
+        <td class='tp-elapsed'>{$elapsedTime}</td>
+        <td class='tp-percent'>100.00 %</td>
+        <td class='tp-count'>{$group->count}</td>
+        <td class='tp-average'>{$average}</td>
+    </tr>
+
+ENDT;
                 }
            }
 

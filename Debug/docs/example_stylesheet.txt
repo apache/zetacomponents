@@ -1,0 +1,78 @@
+
+
+    .ezc-debug-output .group-header, .ezc-debug-output .debugheader
+    {
+        text-align: left;
+        background-color: #dddddd;
+    }
+
+    .ezc-debug-output .group-header th, .ezc-debug-output .debugheader th
+    {
+        border-top: solid 1px gray;
+    }
+
+    .ezc-debug-output td.source
+    {
+        font-weight: bold;
+    }
+
+    .ezc-debug-output th, .ezc-debug-output td
+    {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+
+    .ezc-debug-output tr.totals
+    {
+        text-align: left;
+        font-weight: bold;
+        background-color: #eeeeee;
+    }
+
+    .ezc-debug-output td.tp-elapsed, .ezc-debug-output td.tp-percent, .ezc-debug-output td.tp-average
+    {
+        text-align: right;
+    }
+
+    .ezc-debug-output td.tp-count
+    {
+        text-align: center;
+    }
+
+    .ezc-debug-output td.tp-empty
+    {
+        display: none;
+    }
+
+    .ezc-debug-output tr.switch
+    {
+        font-style: italic;
+        font-size: 90%;
+    }
+
+    .ezc-debug-output tr.switch td.tp-name
+    {
+        padding-left: 2em;
+    }
+
+    .ezc-debug-output table
+    {
+        margin-bottom: 2em;
+        border: 1px solid gray;
+        border-spacing: 0;
+    }
+
+    .ezc-debug-output span.verbosity1
+    {
+        color: #ff0000;
+    }
+
+    .ezc-debug-output span.verbosity2
+    {
+        color: #dd6622;
+    }
+
+    .ezc-debug-output span.verbosity3
+    {
+        color: #fc8f1c;
+    }

@@ -90,7 +90,8 @@ methods:
 .. include:: tutorial_timers.php
    :literal:
 
-The output is as follows:
+The output is as follows (if the CSS stylesheet is used that is available
+through "Example Stylesheet" in the menu):
 
 .. image:: img/debug_tutorial_timers.png
 
@@ -114,7 +115,8 @@ example:
 .. include:: tutorial_recursive_timers.php
    :literal:
 
-The resulting output is as follows:
+The resulting output is as follows (if the CSS stylesheet is used that is available
+through "Example Stylesheet" in the menu):
 
 .. image:: img/debug_tutorial_recursive_timers.png
 

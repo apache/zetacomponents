@@ -63,7 +63,7 @@ class ezcDebugMemoryWriter implements ezcLogWriter
         $log->severity = $severity;
         $log->source = $source;
         $log->category = $category;
-        $log->datetime = date( 'M d H:i:s' );
+        $log->datetime = time();
 
         if ( is_array( $extraInfo ) )
         {

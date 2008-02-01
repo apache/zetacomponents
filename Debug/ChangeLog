@@ -1,3 +1,11 @@
+1.1.1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #12427: Changed output rendering of the debug formatter to not
+  include a stylesheet by default, but instead the formatter now includes easy
+  overridable CSS classes.
+
+
 1.1 - Monday 02 July 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

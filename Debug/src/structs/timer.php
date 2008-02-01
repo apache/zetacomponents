@@ -85,7 +85,46 @@ class ezcDebugTimerStruct extends ezcBaseStruct
      *
      * @var int
      */
-    public $stopNumber;   
+    public $stopNumber;
+
+    /**
+     * Constructs a new ezcDebugSwitchTimerStruct
+     *
+     * @param string $name
+     */
+    public function __construct( $name = null, $source = null, $group = null, $switchTime = null, $startTime = null, $stopTime = null, $elapsedTime = null, $startNumber = null, $stopNumber = null )
+    {
+        $this->name = $name;
+        $this->source = $source;
+        $this->group = $group;
+        $this->switchTime = $switchTime;
+        $this->startTime = $startTime;
+        $this->stopTime = $stopTime;
+        $this->elapsedTime = $elapsedTime;
+        $this->startNumber = $startNumber;
+        $this->stopNumber = $stopNumber;
+    }
+
+    /**
+     * Returns a new instance of this class with the data specified by $array.
+     *
+     * $array contains all the data members of this class in the form:
+     * array('member_name'=>value).
+     *
+     * __set_state makes this class exportable with var_export.
+     * var_export() generates code, that calls this method when it
+     * is parsed with PHP.
+     *
+     * @param array(string=>mixed)
+     * @return ezcDebugSwitchTimerStruct
+     */
+    static public function __set_state( array $array )
+    {
+        return new ezcDebugTimerStruct(
+             $array['name'], $array['source'], $array['group'], $array['switchTime'], $array['startTime'],
+             $array['stopTime'], $array['elapsedTime'], $array['startNumber'], $array['stopNumber'] 
+        );
+    }
 }
 
 ?>

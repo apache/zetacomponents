@@ -1,0 +1,74 @@
+<div class="ezc-debug-output"><table class='log'>
+<tr class='debugheader'>
+    <td class='source'>
+        <span class='verbosity1'>1: content::sql</span>
+    </td>
+    <td class='date'>2008-02-01 12:49:51 +0000</td>
+</tr>
+<tr class='debugbody'>
+    <td colspan='2'>SELECT contentobject_id, login, email, password_hash, password_hash_type
+ FROM ezuser
+ WHERE contentobject_id='10'</td>
+</tr><tr class='debugheader'>
+    <td class='source'>
+        <span class='verbosity2'>2: content::sql</span>
+    </td>
+    <td class='date'>2008-02-01 12:49:51 +0000</td>
+</tr>
+<tr class='debugbody'>
+    <td colspan='2'>SELECT DISTINCT ezdiscountrule.id
+ FROM ezdiscountrule,
+ ezuser_discountrule
+ WHERE ezuser_discountrule.contentobject_id = '10' AND
+ezuser_discountrule.discountrule_id = ezdiscountrule.id</td>
+</tr></table>
+<table class='accumulator'>
+    <tr>
+        <th>Timings</th>
+        <th>Elapsed</th>
+        <th>Percent</th>
+        <th>Count</th>
+        <th>Average</th>
+    </tr>
+    <tr class='group-header'>
+        <th colspan='5'>html_reporter_test</th>
+    </tr>
+    <tr class='group'>
+        <td class='timingpoint-name'>my query</td>
+        <td class='timingpoint-elapsed'>0.00005</td>
+        <td class='timingpoint-percent'>11.09 %</td>
+        <td class='timingpoint-count'>3</td>
+        <td class='timingpoint-average'>0.00002</td>
+    </tr>
+    <tr class='group'>
+        <td class='timingpoint-name'>replace mysql</td>
+        <td class='timingpoint-elapsed'>0.00003</td>
+        <td class='timingpoint-percent'>6.94 %</td>
+        <td class='timingpoint-count'>2</td>
+        <td class='timingpoint-average'>0.00002</td>
+    </tr>
+    <tr class='group'>
+        <td class='timingpoint-name'>Script</td>
+        <td class='timingpoint-elapsed'>0.00038</td>
+        <td class='timingpoint-percent'>81.97 %</td>
+        <td class='timingpoint-count'>1</td>
+        <td class='timingpoint-average'>0.00038</td>
+    </tr>
+    <tr class='totals'>
+        <th class='timingpoint-total'>Total:</th>
+        <td class='timingpoint-elapsed'>0.00046</td>
+        <td class='timingpoint-percent'>100.00 %</td>
+        <td class='timingpoint-count'>6</td>
+        <td class='timingpoint-average'>0.00008</td>
+    </tr>
+    <tr class='group-header'>
+        <th colspan='5'>content</th>
+    </tr>
+    <tr class='group'>
+        <td class='timingpoint-name'>Timing module</td>
+        <td class='timingpoint-elapsed'>0.00032</td>
+        <td class='timingpoint-percent'>100.00 %</td>
+        <td class='timingpoint-count'>1</td>
+        <td class='timingpoint-average'>0.00032</td>
+    </tr>
+</table></div>

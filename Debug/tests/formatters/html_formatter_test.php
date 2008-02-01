@@ -23,18 +23,13 @@ class ezcDebugHtmlFormatterTest extends ezcTestCase
         $struct = new HtmlReporterDataStructures();
 
         $out = $html->generateOutput($struct->getLogStructure(), $struct->getTimeStructure());
-
-
-        /*
-        $fh = fopen("output.html", "w");
-        fwrite( $fh, $out);
-        fclose($fh);
-        */
+        $expected = file_get_contents( dirname( __FILE__ ) . '/output/output.html' );
+        self::assertEquals( $expected, $out );
     }
 
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite(__CLASS__);
+        return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 }
 ?>
