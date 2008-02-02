@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Can render axis labels rotated, so that more axis labels fir on one axis.
+ * Can render axis labels rotated, so that more axis labels fit on one axis.
  * Produces best results if the axis space was increased, so that more spcae is
  * available below the axis.
  *
