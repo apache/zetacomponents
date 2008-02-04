@@ -73,7 +73,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationContextRead
+class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationContextRead, ezcTranslationContextWrite
 {
     /**
      * The last read context, as read by next() method.
@@ -102,6 +102,20 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
      * @var resource
      */
     private $xmlParser = null;
+
+    /**
+     * Contains the DOM tree for modifications while writing a new translation file
+     *
+     * @var DomDocument
+     */
+    private $dom;
+
+    /**
+     * Contains the locale used for writing a new translation file
+     *
+     * @var string
+     */
+    private $writeLocale = null;
 
     /**
      * Container to hold the properties
@@ -190,7 +204,7 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
     }
 
     /**
-     * Creates an SimpleXML parser object for the locale $locale..
+     * Creates an SimpleXML parser object for the locale $locale.
      *
      * You can set the class of the returned object through the $returnClass
      * parameter. That class should extend the SimpleXMLElement class.
@@ -220,6 +234,39 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
     }
 
     /**
+     * Creates a DOM parser object for the locale $locale.
+     *
+     * This function checks if the <i>location</i> setting is made, if the file
+     * with the filename as returned by buildTranslationFileName() exists and
+     * creates a DOM parser object for this file. If the setting
+     * is not made, it throws an exception. IF the file does not exist, a new
+     * DomDocument is created.
+     *
+     * @param string $locale
+     * @return object The created parser.
+     */
+    public function openTranslationFileForWriting( $locale )
+    {
+        $filename = $this->buildTranslationFileName( $locale );
+        if ( !file_exists( $filename ) )
+        {
+            $dom = new DOMDocument( '1.0', 'UTF-8' );
+            $dom->formatOutput = true;
+            $root = $dom->createElement( 'TS' );
+            $dom->appendChild( $root );
+        }
+        else
+        {
+            $dom = new DOMDocument( '1.0', 'UTF-8' );
+            $dom->formatOutput = true;
+            $dom->load( $filename );
+            $root = $dom->getElementsByTagName( 'TS' )->item( 0 );
+        }
+
+        return $dom;
+    }
+
+    /**
      * Returns the data from the XML element $message as an
      * ezcTranslationData object.
      *
@@ -246,7 +293,15 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
         $translation = strlen( $translation ) ? $translation : false;
         $comment = strlen( $comment ) ? $comment : false;
 
-        return new ezcTranslationData( $source, $translation, $comment, $status );
+        $location = $message->location;
+        $file = $line = false;
+        if ( $location )
+        {
+            $file = trim( (string) $location['filename'] );
+            $line = trim( (string) $location['line'] );
+        }
+
+        return new ezcTranslationData( $source, $translation, $comment, $status, $file, $line );
     }
 
 
@@ -325,6 +380,127 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
     public function deinitReader()
     {
         $this->xmlParser = null;
+    }
+
+    /**
+     * Stores a context.
+     *
+     * This method stores the context that it received to the backend specified
+     * storage place.
+     *
+     * @throws ezcTranslationWriterNotInitializedException when the writer is
+     *         not initialized with initWriter().
+     * @param string $context The context's name
+     * @param array(ezcTranslationData)  $data The context's translation map
+     * @return void
+     */
+    public function storeContext( $context, array $data )
+    {
+        if ( is_null( $this->dom ) )
+        {
+            throw new ezcTranslationWriterNotInitializedException();
+        }
+        foreach ( $data as $key => $cachedElement )
+        {
+            if ( $cachedElement->status == ezcTranslationData::OBSOLETE )
+            {
+                unset( $data[$key] );
+            }
+        }
+
+        $dom = $this->dom;
+        $root = $dom->getElementsByTagName( 'TS' )->item( 0 );
+
+        // find the context element
+        $xpath = new DOMXPath( $dom );
+        $result = $xpath->query( '//context/name[text()="' . htmlspecialchars( $context ) . '"]' );
+
+        // If the context does not exist, we create a node for it; otherwise we just use it.
+        if ( !$result->length )
+        {
+            $contextNode = $dom->createElement( 'context' );
+            $nameNode = $dom->createElement( 'name', htmlspecialchars( $context ) );
+            $contextNode->appendChild( $nameNode );
+            $root->appendChild( $contextNode );
+        }
+        else
+        {
+            $contextNode = $result->item( 0 )->parentNode;
+        }
+
+        // for every entry, we add a new message
+        foreach ( $data as $info )
+        {
+            // check if the string is already there, if so, remove it first
+            $xpath = new DOMXPath( $dom );
+            $result = $xpath->query( '//message/source[text()="' . htmlspecialchars( $info->original ) . '"]', $contextNode );
+            if ( $result->length )
+            {
+                $node = $result->item( 0 )->parentNode;
+                $contextNode->removeChild( $node );
+            }
+
+            // create the new element
+            $message = $dom->createElement( 'message' );
+            $source = $dom->createElement( 'source', htmlspecialchars( $info->original ) ); 
+            $message->appendChild( $source );
+
+            $translation = $dom->createElement( 'translation', htmlspecialchars( $info->translation ) );
+            switch ( $info->status )
+            {
+                case ezcTranslationData::UNFINISHED:
+                    $translation->setAttribute( 'type', 'unfinished' );
+                    break;
+                case ezcTranslationData::OBSOLETE:
+                    $translation->setAttribute( 'type', 'obsolete' );
+                    break;
+            }
+            $message->appendChild( $translation );
+
+            if ( $info->comment )
+            {
+                $comment = $dom->createElement( 'comment', htmlspecialchars( $info->comment ) );
+                $message->appendChild( $comment );
+            }
+
+            if ( $info->filename && $info->line )
+            {
+                $location = $dom->createElement( 'location' );
+                $location->setAttribute( 'filename', $info->filename );
+                $location->setAttribute( 'line', $info->line );
+                $message->appendChild( $location );
+            }
+
+            $contextNode->appendChild( $message );
+        }
+    }
+
+    /**
+     * Initializes the writer to write to locale $locale.
+     *
+     * Opens the translation file.
+     *
+     * @throws ezcTranslationNotConfiguredException if the option <i>format</i>
+     *         is not set before this method is called.
+     *
+     * @param string $locale
+     * @return void
+     */
+    public function initWriter( $locale )
+    {
+        $this->dom = $this->openTranslationFileForWriting( $locale );
+        $this->writeLocale = $locale;
+    }
+
+    /**
+     * Deinitializes the writer
+     *
+     * @return void
+     */
+    public function deinitWriter()
+    {
+        $filename = $this->buildTranslationFileName( $this->writeLocale );
+        $this->dom->save( $filename );
     }
 
     /**

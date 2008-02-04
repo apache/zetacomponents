@@ -62,19 +62,46 @@ class ezcTranslationData extends ezcBaseStruct
     public $status;
 
     /**
+     * The filename the string was found in
+     *
+     * @var string
+     */
+    public $filename;
+
+    /**
+     * The line where the string is
+     *
+     * @var integer
+     */
+    public $line;
+
+    /**
+     * The column where the string is
+     *
+     * @var integer
+     */
+    public $column;
+
+    /**
      * Constructs an ezcTranslationData object.
      *
      * @param string $original
      * @param string $translation
      * @param string $comment
      * @param int $status
+     * @param string $filename
+     * @param int $line
+     * @param int $column
      */
-    function __construct( $original, $translation, $comment, $status )
+    function __construct( $original, $translation, $comment, $status, $filename = null, $line = null, $column = null )
     {
         $this->original = $original;
         $this->translation = $translation;
         $this->comment = $comment;
         $this->status = $status;
+        $this->filename = $filename;
+        $this->line = $line;
+        $this->column = $column;
     }
 
     /**
@@ -93,7 +120,7 @@ class ezcTranslationData extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcTranslationData( $array['original'], $array['translation'], $array['comment'], $array['status'] );
+        return new ezcTranslationData( $array['original'], $array['translation'], $array['comment'], $array['status'], $array['filename'], $array['line'], $array['column'] );
     }
 }
 ?>

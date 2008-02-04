@@ -4,6 +4,7 @@
     <message>
         <source>Node ID: %node_id Visibility: %visibility</source>
         <translation>Knoop ID: %node_id Zichtbaar: %visibility</translation>
+        <location filename="test.ezt" line="85"/>
     </message>
 </context>
 <context>

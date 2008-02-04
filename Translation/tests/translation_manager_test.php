@@ -23,7 +23,7 @@ class ezcTranslationManagerTest extends ezcTestCase
         $trm = new ezcTranslationManager( $backend );
         $context = $trm->getContext( 'nl-nl', 'contentstructuremenu/show_content_structure' );
 
-        $expected = new ezcTranslation( array( new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Knoop ID: %node_id Zichtbaar: %visibility', false, ezcTranslationData::TRANSLATED ) ) );
+        $expected = new ezcTranslation( array( new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Knoop ID: %node_id Zichtbaar: %visibility', false, ezcTranslationData::TRANSLATED, 'test.ezt', 85 ) ) );
         self::assertEquals( $expected, $context );
     }
 
@@ -34,7 +34,7 @@ class ezcTranslationManagerTest extends ezcTestCase
         $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
 
         $trm = new ezcTranslationManager( $backend );
-        $expected = new ezcTranslation( array( new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Knoop ID: %node_id Zichtbaar: %visibility', false, ezcTranslationData::TRANSLATED ) ) );
+        $expected = new ezcTranslation( array( new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Knoop ID: %node_id Zichtbaar: %visibility', false, ezcTranslationData::TRANSLATED, 'test.ezt', 85 ) ) );
 
         $context1 = $trm->getContext( 'nl-nl', 'contentstructuremenu/show_content_structure' );
         self::assertEquals( $expected, $context1 );

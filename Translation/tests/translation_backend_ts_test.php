@@ -188,7 +188,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
         $context = $backend->getContext( 'nl-nl', 'contentstructuremenu/show_content_structure' );
 
-        $expected = array( new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Knoop ID: %node_id Zichtbaar: %visibility', false, ezcTranslationData::TRANSLATED ) );
+        $expected = array( new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Knoop ID: %node_id Zichtbaar: %visibility', false, ezcTranslationData::TRANSLATED, 'test.ezt', 85 ) );
         self::assertEquals( $expected, $context );
     }
 
@@ -380,6 +380,133 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         {
             self::assertEquals( "The reader is not initialized with the initReader() method.", $e->getMessage() );
         }
+    }
+
+    public function testAddTranslation1()
+    {
+        $currentDir = dirname( __FILE__ );
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+        $context[] = new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        $backend->initWriter( 'nb-no' );
+        $backend->storeContext( 'contentstructuremenu/show_content_structure', $context );
+        $backend->deinitWriter();
+
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+        unlink( "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $expected = array(
+            new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Node-ID: %node_id Synlig/skjult: %visibility', false, ezcTranslationData::TRANSLATED ),
+            new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 ),
+        );
+        self::assertEquals( $expected, $context );
+    }
+
+    public function testAddTranslation2()
+    {
+        $currentDir = dirname( __FILE__ );
+
+        // cp for test
+        copy( "{$currentDir}/files/translations/nb-no.xml", "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $context = array();
+        $context[] = new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        $backend->initWriter( 'nb-no' );
+        $backend->storeContext( 'contentstructuremenu/show_content_structure', $context );
+        $backend->deinitWriter();
+
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+        unlink( "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $expected = array(
+            new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Node-ID: %node_id Synlig/skjult: %visibility', false, ezcTranslationData::TRANSLATED ),
+            new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 ),
+        );
+        self::assertEquals( $expected, $context );
+    }
+
+    public function testAddTranslation3()
+    {
+        $currentDir = dirname( __FILE__ );
+
+        // cp for test
+        copy( "{$currentDir}/files/translations/nb-no.xml", "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $context = array();
+        $context[] = new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        $backend->initWriter( 'nb-no' );
+        $backend->storeContext( 'number_two', $context );
+        $backend->deinitWriter();
+
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+        $expected = array(
+            new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Node-ID: %node_id Synlig/skjult: %visibility', false, ezcTranslationData::TRANSLATED ),
+        );
+
+        $context = $backend->getContext( 'nb-no', 'number_two' );
+        $expected = array(
+            new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 ),
+        );
+        unlink( "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        self::assertEquals( $expected, $context );
+    }
+
+    public function testChangeTranslation1()
+    {
+        $currentDir = dirname( __FILE__ );
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+        $context[] = new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        $backend->initWriter( 'nb-no' );
+        $backend->storeContext( 'contentstructuremenu/show_content_structure', $context );
+        $backend->deinitWriter();
+
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+
+        unlink( "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $expected = array(
+            new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 ),
+        );
+        self::assertEquals( $expected, $context );
+    }
+
+    public function testChangeAndAddTranslation1()
+    {
+        $currentDir = dirname( __FILE__ );
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+        $context[] = new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+        $context[] = new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 6 );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        $backend->initWriter( 'nb-no' );
+        $backend->storeContext( 'contentstructuremenu/show_content_structure', $context );
+        $backend->deinitWriter();
+
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+
+        unlink( "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $expected = array(
+            new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 ),
+            new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 6 ),
+        );
+        self::assertEquals( $expected, $context );
     }
 
     public static function suite()
