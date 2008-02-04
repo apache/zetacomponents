@@ -278,6 +278,8 @@ class ezcFeed
     /**
      * Creates a new feed of type $type.
      *
+     * The $type value is one of {@link self::$supportedFeedTypes}.
+     *
      * Example:
      * <code>
      * // create an RSS2 feed
@@ -287,7 +289,7 @@ class ezcFeed
      * @throws ezcFeedUnsupportedTypeException
      *         If the passed $type is an unsupported feed type.
      *
-     * @param string $type The feed type
+     * @param string $type The feed type. See {@link self::$supportedFeedTypes} for possible values
      */
     public function __construct( $type )
     {
