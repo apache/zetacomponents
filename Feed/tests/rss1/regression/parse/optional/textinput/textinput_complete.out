@@ -1,6 +1,7 @@
 <?php
 $feed = new ezcFeed( 'rss1' );
 
+$feed->id = 'Channel about';
 $feed->title = 'Feed title';
 $feed->link = 'Feed link';
 $feed->description = 'Feed description';
@@ -11,8 +12,6 @@ $textInput->description = 'Textinput description';
 $textInput->name = 'Textinput name';
 $textInput->link = 'Textinput link';
 $textInput->about = 'Textinput about';
-
-$feed->about = 'Channel about';
 
 return $feed;
 ?>

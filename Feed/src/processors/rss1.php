@@ -93,7 +93,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
         'MULTI'        => array( 'items'      => 'item' ),
         
-        'ELEMENTS_MAP' => array( 'textInput'  => 'textinput' ),
+        'ELEMENTS_MAP' => array( 'textInput'  => 'textinput',
+                                 'id'         => 'about' ),
 
         );
 
@@ -160,7 +161,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateChannel()
     {
-        $data = $this->get( 'about' );
+        $data = $this->get( 'id' );
 
         if ( is_null( $data ) )
         {
@@ -429,6 +430,12 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             throw new ezcFeedParseErrorException( "No channel tag" );
         }
 
+        foreach ( ezcFeedTools::getAttributes( $channel ) as $key => $value )
+        {
+            $tagName = ezcFeedTools::deNormalizeName( $key, $this->schema->getElementsMap() );
+            $feed->$tagName = $value;
+        }
+
         foreach ( $channel->childNodes as $channelChild )
         {
             if ( $channelChild->nodeType == XML_ELEMENT_NODE )
@@ -490,10 +497,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             }
         }
 
-        foreach ( ezcFeedTools::getAttributes( $channel ) as $key => $value )
-        {
-            $feed->$key = $value;
-        }
         return $feed;
     }
 

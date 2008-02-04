@@ -194,7 +194,7 @@ class ezcFeed
             case 'updated':   // lastBuildDate in RSS2, required in ATOM
             case 'generator':
             case 'ttl':
-            case 'id': // ATOM only, required in ATOM
+            case 'id': // required in ATOM, about in RSS1, ignored in RSS2
             case 'image': // logo in ATOM
             case 'icon': // only in ATOM
             case 'docs':
@@ -203,7 +203,6 @@ class ezcFeed
             case 'rating':
             case 'textInput':
             case 'cloud':
-            case 'about': // required in RSS1
                 $this->feedProcessor->set( $property, $value );
                 break;
 
@@ -241,7 +240,7 @@ class ezcFeed
             case 'updated':   // lastBuildDate in RSS2, required in ATOM
             case 'generator':
             case 'ttl':
-            case 'id': // ATOM only, required in ATOM
+            case 'id': // required in ATOM, about in RSS1, ignored in RSS2
             case 'item':
             case 'items':
             case 'image': // logo in ATOM
@@ -252,7 +251,6 @@ class ezcFeed
             case 'rating':
             case 'textInput':
             case 'cloud':
-            case 'about': // required in RSS1
                 $value = $this->feedProcessor->get( $property );
                 return $value;
 

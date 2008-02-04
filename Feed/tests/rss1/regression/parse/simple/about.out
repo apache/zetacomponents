@@ -1,7 +1,7 @@
 <?php
 $feed = new ezcFeed( 'rss1' );
 
-$feed->about = 'Channel about';
+$feed->id = 'Channel about';
 
 return $feed;
 ?>
