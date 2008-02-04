@@ -45,6 +45,8 @@ Feed elements
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-rating|_ ?        | x                       | x                          | |RSS2-rating|_ ?          |
 +----------------------------+-------------------------+----------------------------+---------------------------+
+| |ezcFeed-published|_ ?     | x                       | x                          | |RSS2-pubDate|_ ?         |
++----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-cloud|_ ?         | x                       | x                          | |RSS2-cloud|_ ?           |
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-webMaster|_ ?     | x                       | x                          | |RSS2-webMaster|_ ?       |
@@ -256,6 +258,33 @@ ezcFeed-language
 
 ezcFeed-link
 ````````````
+
+
+ezcFeed-published
+`````````````````
+
+The time the feed was published.
+
+Optional (not recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `ATOM`_).
+
+Can appear only once.
+
+Must conform be a Unix timestamp. It will be converted to the datetime format
+required by each feed type.
+
+Create example::
+
+  // $feed is an ezcFeed object
+  $feed->published = now();
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  $published = $feed->published;
+
+Equivalents: `ezcFeed-published`_, ATOM-none, RSS1-none, `RSS2-pubDate`_.
 
 
 ezcFeed-rating
@@ -1459,6 +1488,20 @@ Equivalents: `ezcFeed-author`_, `ATOM-author`_, RSS1-none,
 `RSS2-managingEditor`_.
 
 
+RSS2-pubDate
+````````````
+
+The time the feed was published.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Must conform to `RFC 822`_ (eg. ``Sat, 07 Sep 2002 09:42:31 GMT``).
+
+Equivalents: `ezcFeed-published`_, ATOM-none, RSS1-none, `RSS2-pubDate`_.
+
+
 RSS2-rating
 ```````````
 
@@ -1728,6 +1771,7 @@ Resources
 .. |ezcFeed-item| replace:: item
 .. |ezcFeed-language| replace:: language
 .. |ezcFeed-link| replace:: link
+.. |ezcFeed-published| replace:: published
 .. |ezcFeed-rating| replace:: rating
 .. |ezcFeed-skipDays| replace:: skipDays
 .. |ezcFeed-skipHours| replace:: skipHours
@@ -1800,6 +1844,7 @@ Resources
 .. |RSS2-lastBuildDate| replace:: lastBuildDate
 .. |RSS2-link| replace:: link
 .. |RSS2-managingEditor| replace:: managingEditor
+.. |RSS2-pubDate| replace:: pubDate
 .. |RSS2-rating| replace:: rating
 .. |RSS2-skipDays| replace:: skipDays
 .. |RSS2-skipHours| replace:: skipHours
