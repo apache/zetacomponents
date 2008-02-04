@@ -68,36 +68,171 @@
  *  $xml = $feed->generate();
  *  </code>
  *
- * @property string $title
- *           Required in RSS1, RSS2, ATOM.
- * @property string $subtitle
- *           ATOM only.
- * @property string $link
- *           Required in RSS2, rdf:about AND link in RSS1.
- * @property string $description
- *           Required in RSS1, RSS2.
- * @property string $language
- *           Language string.
- * @property string $copyright
- *           Rights in ATOM.
  * @property string $author
- *           Same as managingEditor in RSS2, required in ATOM.
- * @property string $webMaster
- *           RSS2 only.
- * @property string $published
- *           Same as pubDate in RSS2.
- * @property string $updated
- *           Same as lastBuildDate in RSS2, required in ATOM.
+ *           One author of the feed.
+ *           ATOM-author (required, multiple),
+ *           RSS1-none,
+ *           RSS2-managingEditor (optional, recommended, single).
+ * @property string $authors
+ *           Access to the multiple $author values. Example:
+ *           <code>
+ *           foreach ( $feed->authors as $author )
+ *           {
+ *               //use the ezcFeedElement $author
+ *           }
+ *           </code>
  * @property string $category
- *           Category string.
+ *           A category for the feed.
+ *           ATOM-category (optional, multiple),
+ *           RSS1-none,
+ *           RSS2-category (optional, multiple).
+ * @property string $categories
+ *           Access to the multiple $category values. Example:
+ *           <code>
+ *           foreach ( $feed->categories as $category )
+ *           {
+ *               //use the ezcFeedElement $category
+ *           }
+ *           </code>
+ * @property string $cloud
+ *           Allows processes to register with a cloud to be notified of updates
+ *           to the channel, implementing a lightweight publish-subscribe
+ *           protocol for RSS feeds.
+ *           ATOM-none,
+ *           RSS1-none,
+ *           RSS2-cloud (optional, not recommended, single).
+ * @property string $contributor
+ *           One contributor for the feed.
+ *           ATOM-contributor (optional, not recommended, multiple),
+ *           RSS1-none,
+ *           RSS2-none.
+ * @property string $contributors
+ *           Access to the multiple $contributor values. Example:
+ *           <code>
+ *           foreach ( $feed->contributors as $contributor )
+ *           {
+ *               //use the ezcFeedElement $contributor
+ *           }
+ *           </code>
+ * @property string $copyright
+ *           Copyright information for the feed.
+ *           ATOM-rights (optional, single),
+ *           RSS1-none,
+ *           RSS2-copyright (optional, single).
+ * @property string $description
+ *           A short description of the feed.
+ *           ATOM-subtitle (required, single),
+ *           RSS1-description (required, single),
+ *           RSS2-description (required, single).
+ * @property string $docs
+ *           An URL that points to the documentation for the format used in the
+ *           feed file.
+ *           ATOM-none,
+ *           RSS1-none,
+ *           RSS2-docs (optional, not recommended, single) - usual value is
+ *           {@link http://www.rssboard.org/rss-specification}.
  * @property string $generator
- *           Generator string.
- * @property string $ttl
- *           Time-to-live.
- * @property string $image
- *           Same as icon in ATOM.
+ *           Indicates the software used to generate the feed.
+ *           ATOM-generator (optional, single),
+ *           RSS1-none,
+ *           RSS2-generator (optional, single).
+ * @property string $icon
+ *           An icon for a feed, similar with favicon.ico for websites.
+ *           ATOM-icon (optional, not recommended, single),
+ *           RSS1-none,
+ *           RSS2-none.
  * @property string $id
- *           ATOM only, required in ATOM.
+ *           A universally unique and permanent identifier for a feed. For
+ *           example, it can be an Internet domain name.
+ *           ATOM-id (required, single),
+ *           RSS1-about (required, single),
+ *           RSS2-none.
+ * @property string $image
+ *           An image associated with the feed
+ *           ATOM-logo (optional, single),
+ *           RSS1-image (optional, single),
+ *           RSS2-image (optional, single).
+ * @property-read ezcFeedItem $item
+ *           A feed item.
+ *           ATOM-entry (optional, recommended, multiple),
+ *           RSS1-item (required, multiple),
+ *           RSS2-item (required, multiple).
+ * @property-read array(ezcFeedItem) $items
+ *           The items contained in the feed. Example:
+ *           <code>
+ *           foreach ( $feed->items as $item )
+ *           {
+ *               //use the ezcFeedItem $item
+ *           }
+ *           </code>
+ * @property string $language
+ *           The language for the feed.
+ *           ATOM-xml:lang attribute for title, description, copyright, content,
+ *           comments (optional, single) - accessed as language through ezcFeed,
+ *           RSS1-none,
+ *           RSS2-language (optional, single).
+ * @property string $link
+ *           An URL to the HTML website corresponding to the channel.
+ *           ATOM-link (required one link with rel='self', multiple),
+ *           RSS1-link (required, single),
+ *           RSS2-link (required, single).
+ * @property string $links
+ *           Access to the multiple $link values. Example:
+ *           <code>
+ *           foreach ( $feed->links as $link )
+ *           {
+ *               //use the ezcFeedElement $link
+ *           }
+ *           </code>
+ * @property string $published
+ *           The time the feed was published.
+ *           ATOM-none,
+ *           RSS1-none,
+ *           RSS2-pubDate (optional, not recommended, single).
+ * @property string $rating
+ *           The {@link http://www.w3.org/PICS/ PICS} rating for the channel.
+ *           ATOM-none,
+ *           RSS1-none,
+ *           RSS2-rating (optional, not recommended, single).
+ * @property string $skipDays
+ *           A hint for aggregators telling them which days they can skip when
+ *           reading the feed.
+ *           ATOM-none,
+ *           RSS1-none,
+ *           RSS2-skipDays (optional, not recommended, single).
+ * @property string $skipHours
+ *           A hint for aggregators telling them which hours they can skip when
+ *           reading the feed.
+ *           ATOM-none,
+ *           RSS1-none,
+ *           RSS2-skipHours (optional, not recommended, single).
+ * @property string $textInput
+ *           Specifies a text input box that can be displayed with the feed.
+ *           ATOM-none,
+ *           RSS1-textinput (optional, not recommended, single),
+ *           RSS2-textInput (optional, not recommended, single).
+ * @property string $title
+ *           Human readable title for the feed. For example, it can be the same
+ *           as the website title.
+ *           ATOM-title (required, single),
+ *           RSS1-title (required, single),
+ *           RSS2-title (required, single).
+ * @property string $ttl
+ *           Number of minutes that indicates how long a channel can be cached
+ *           before refreshing from the source.
+ *           ATOM-none,
+ *           RSS1-none,
+ *           RSS2-ttl (optional, not recommended, single).
+ * @property string $updated
+ *           The last time the feed was updated.
+ *           ATOM-updated (required, single),
+ *           RSS1-none,
+ *           RSS2-lastBuildDate (optional, recommended, single).
+ * @property string $webMaster
+ *           The email address of the webmaster responsible for the feed.
+ *           ATOM-none,
+ *           RSS1-none,
+ *           RSS2-webMaster (optional, not recommended, single).
  *
  * @package Feed
  * @version //autogentag//
@@ -179,30 +314,32 @@ class ezcFeed
     {
         switch ( $property )
         {
-            case 'title': // required in RSS1, RSS2, ATOM
+            case 'author':
+            case 'authors':
             case 'category':
             case 'categories':
-            case 'link': // required in RSS2, rdf:about AND link in RSS1
-            case 'links': // required in RSS2, rdf:about AND link in RSS1
-            case 'description': // required in RSS1, RSS2, subtitle in ATOM
-            case 'language':
-            case 'copyright': // rights in ATOM
-            case 'author': // managingEditor in RSS2, required in ATOM
-            case 'contributor': // ATOM only
-            case 'webMaster': // RSS2 only
-            case 'published': // pubDate in RSS2
-            case 'updated':   // lastBuildDate in RSS2, required in ATOM
-            case 'generator':
-            case 'ttl':
-            case 'id': // required in ATOM, about in RSS1, ignored in RSS2
-            case 'image': // logo in ATOM
-            case 'icon': // only in ATOM
-            case 'docs':
-            case 'skipHours': // optional in RSS2
-            case 'skipDays': // optional in RSS2
-            case 'rating':
-            case 'textInput':
             case 'cloud':
+            case 'contributor':
+            case 'contributors':
+            case 'copyright':
+            case 'description':
+            case 'docs':
+            case 'generator':
+            case 'icon':
+            case 'id':
+            case 'image':
+            case 'language':
+            case 'link':
+            case 'links':
+            case 'published':
+            case 'rating':
+            case 'skipDays':
+            case 'skipHours':
+            case 'textInput':
+            case 'title':
+            case 'ttl':
+            case 'updated':
+            case 'webMaster':
                 $this->feedProcessor->set( $property, $value );
                 break;
 
@@ -225,32 +362,34 @@ class ezcFeed
     {
         switch ( $property )
         {
-            case 'title': // required in RSS1, RSS2, ATOM
+            case 'author':
+            case 'authors':
             case 'category':
             case 'categories':
-            case 'link': // required in RSS2, rdf:about AND link in RSS1
-            case 'links': // required in RSS2, rdf:about AND link in RSS1
-            case 'description': // required in RSS1, RSS2, subtitle in ATOM
-            case 'language':
-            case 'copyright': // rights in ATOM
-            case 'author': // managingEditor in RSS2, required in ATOM
-            case 'contributor': // ATOM only
-            case 'webMaster': // RSS2 only
-            case 'published': // pubDate in RSS2
-            case 'updated':   // lastBuildDate in RSS2, required in ATOM
+            case 'cloud':
+            case 'contributor':
+            case 'contributors':
+            case 'copyright':
+            case 'description':
+            case 'docs':
             case 'generator':
-            case 'ttl':
-            case 'id': // required in ATOM, about in RSS1, ignored in RSS2
+            case 'icon':
+            case 'id':
+            case 'image':
             case 'item':
             case 'items':
-            case 'image': // logo in ATOM
-            case 'icon': // only in ATOM
-            case 'docs':
-            case 'skipHours': // optional in RSS2
-            case 'skipDays': // optional in RSS2
+            case 'language':
+            case 'link':
+            case 'links':
+            case 'published':
             case 'rating':
+            case 'skipDays':
+            case 'skipHours':
             case 'textInput':
-            case 'cloud':
+            case 'title':
+            case 'ttl':
+            case 'updated':
+            case 'webMaster':
                 $value = $this->feedProcessor->get( $property );
                 return $value;
 
