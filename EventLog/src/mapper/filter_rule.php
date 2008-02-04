@@ -188,6 +188,7 @@ class ezcLogFilterRule
     /**
      * Returns the bits set in $mask as separate values in an array.
      *
+     * @param int $mask
      * @return array(int)
      */
     protected function getMaskArray( $mask )

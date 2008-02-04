@@ -30,7 +30,7 @@ class ezcLogWriterException extends ezcBaseException
     /**
      * Constructs a new ezcLogWriterException with the original exception $e.
      *
-     * @param Exception $e;
+     * @param Exception $e
      */
     public function __construct( Exception $e )
     {

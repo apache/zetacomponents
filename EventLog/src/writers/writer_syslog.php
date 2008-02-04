@@ -79,9 +79,9 @@ class ezcLogSyslogWriter implements ezcLogWriter
      * @param int $severity
      *        ezcLog::DEBUG, ezcLog::SUCCESS_AUDIT, ezcLog::FAILED_AUDIT, ezcLog::INFO, ezcLog::NOTICE,
      *        ezcLog::WARNING, ezcLog::ERROR or ezcLog::FATAL.
-     * $param string $source
+     * @param string $source
      * @param string $category
-     * @param array(string=>string) $optional
+     * @param array(string=>string) $extraInfo
      */
     public function writeLogMessage( $message, $severity, $source, $category, $extraInfo = array() )
     {

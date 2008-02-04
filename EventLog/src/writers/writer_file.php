@@ -100,8 +100,8 @@ abstract class ezcLogFileWriter implements ezcLogWriter
      *
      * @param string $logDirectory
      * @param string $defaultFile
-     * @param string $maxLogRotationSize
-     * @param string $maxLogFiles
+     * @param int $maxLogRotationSize
+     * @param int $maxLogFiles
      */
     public function __construct( $logDirectory, $defaultFile = null, $maxLogRotationSize = 204800, $maxLogFiles = 3 )
     {
@@ -179,6 +179,7 @@ abstract class ezcLogFileWriter implements ezcLogWriter
      *
      * If the maximum file size is exceeded, the file will be rotated before opening.
      *
+     * @param string $fileName
      * @return resource
      */
     protected function openFile( $fileName )
@@ -216,6 +217,7 @@ abstract class ezcLogFileWriter implements ezcLogWriter
     /**
      * Rotates a log and returns true upon success.
      *
+     * @param string $fileName
      * @return bool
      */
     protected function rotateLog( $fileName )

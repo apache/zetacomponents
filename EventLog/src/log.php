@@ -338,7 +338,7 @@ class ezcLog
     /** 
      * Returns an instance of the current ezcLogMapper.
      *
-     * return ezcLogMapper
+     * @return ezcLogMapper
      */
     public function getMapper()
     {
@@ -500,7 +500,7 @@ class ezcLog
      * includes the Merchant ID. 
      *
      * @param array(string) $sources
-     * @param array(string => string) $attributes
+     * @param array(string=>string) $attributes
      */
     public function setSourceAttributes ( $sources, $attributes )
     {

@@ -44,7 +44,7 @@ class ezcLogUnixFileWriter extends ezcLogFileWriter
      * 
      * @param string $message 
      * @param int $eventType 
-     * @param string $eventType 
+     * @param string $eventSource 
      * @param string $eventCategory 
      * @param array(string=>string) $extraInfo
      */
