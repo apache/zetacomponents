@@ -39,6 +39,8 @@ Feed elements
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-ttl|_ ?           | x                       | x                          | |RSS2-ttl|_ ?             |
 +----------------------------+-------------------------+----------------------------+---------------------------+
+| |ezcFeed-docs|_ ?          | x                       | x                          | |RSS2-docs|_ ?            |
++----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-skipHours|_ ?     | x                       | x                          | |RSS2-skipHours|_ ?       |
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-skipDays|_ ?      | x                       | x                          | |RSS2-skipDays|_ ?        |
@@ -205,6 +207,30 @@ Parse example::
 
 Equivalents: `ezcFeed-description`_, `ATOM-subtitle`_, `RSS1-description`_,
 `RSS2-description`_.
+
+
+ezcFeed-docs
+````````````
+
+An URL that points to the documentation for the format used in the feed file.
+
+Optional (not recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `ATOM`_).
+
+Can appear only once.
+
+Create example::
+
+  // $feed is an ezcFeed object
+  $feed->docs = 'http://www.rssboard.org/rss-specification';
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  $docs = $feed->docs;
+
+Equivalents: `ezcFeed-docs`_, ATOM-none, RSS1-none, `RSS2-docs`_.
 
 
 ezcFeed-generator
@@ -1386,6 +1412,19 @@ Equivalents: `ezcFeed-description`_, `ATOM-subtitle`_, `RSS1-description`_,
 `RSS2-description`_.
 
 
+RSS2-docs
+`````````
+
+An URL that points to the documentation for the format used in the RSS file. It
+is usually http://www.rssboard.org/rss-specification.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Equivalents: `ezcFeed-docs`_, ATOM-none, RSS1-none, `RSS2-docs`_.
+
+
 RSS2-generator
 ``````````````
 
@@ -1764,6 +1803,7 @@ Resources
 .. |ezcFeed-contributor| replace:: contributor
 .. |ezcFeed-copyright| replace:: copyright
 .. |ezcFeed-description| replace:: description
+.. |ezcFeed-docs| replace:: docs
 .. |ezcFeed-generator| replace:: generator
 .. |ezcFeed-icon| replace:: icon
 .. |ezcFeed-id| replace:: id
@@ -1837,6 +1877,7 @@ Resources
 .. |RSS2-category| replace:: category
 .. |RSS2-copyright| replace:: copyright
 .. |RSS2-description| replace:: description
+.. |RSS2-docs| replace:: docs
 .. |RSS2-generator| replace:: generator
 .. |RSS2-image| replace:: image
 .. |RSS2-item| replace:: item
