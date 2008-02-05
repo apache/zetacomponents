@@ -3,6 +3,7 @@
 
 - Implemented feature #11979: Line width configurable per data set.
 - Implemented feature #12382: Enhance line chart to allow invisible lines.
+- Fixed issue #12483: Average dataset does not work with a single value.
 
 
 1.2.1 - Monday 21 January 2008

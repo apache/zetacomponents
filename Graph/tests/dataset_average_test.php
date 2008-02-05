@@ -58,6 +58,37 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         );
     }
 
+    public function testCreateDatasetFromSingleElementDataset()
+    {
+        $arrayDataSet = new ezcGraphArrayDataSet( array( 1 => 1 ) );
+
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet );
+
+        $polynom = $averageDataSet->getPolynom();
+
+        $this->assertEquals(
+            '1',
+            $polynom->__toString()
+        );
+    }
+
+    public function testCreateDatasetFromSingleElementDatasetRender()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+
+        $chart->data['src'] = new ezcGraphArrayDataSet( array( 1 => 1 ) );
+        $chart->data['avg'] = new ezcGraphDataSetAveragePolynom( $chart->data['src'] );
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testCreateDatasetFromDataset2()
     {
         $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );

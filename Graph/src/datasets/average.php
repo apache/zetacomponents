@@ -152,6 +152,11 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
 
         foreach ( $this->source as $key => $value )
         {
+            if ( !is_numeric( $key ) )
+            {
+                throw new ezcGraphDatasetAverageInvalidKeysException();
+            }
+
             if ( ( $this->min === false ) || ( $this->min > $key ) )
             {
                 $this->min = (float) $key;
@@ -283,11 +288,6 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     final public function next()
     {
-        if ( $this->min === $this->max )
-        {
-            throw new ezcGraphDatasetAverageInvalidKeysException();
-        }
-
         if ( ++$this->position >= $this->resolution )
         {
             return false;
@@ -324,6 +324,12 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
     final public function valid()
     {
         $polynom = $this->getPolynom();
+
+        if ( $this->min >= $this->max )
+        {
+            return false;
+        }
+
         return ( ( $this->getKey() >= $this->min ) && ( $this->getKey() <= $this->max ) );
     }
 
