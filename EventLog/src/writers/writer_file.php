@@ -13,10 +13,11 @@
  * system.
  *
  * The main purpose is to keep track of the various log files and support 
- * log rotation. The file format of the log should be implemented in a subclass.
+ * log rotation, although log rotation can also be disabled. The file format of
+ * the log should be implemented in a subclass.
  * 
- * The following example implements a new log writer that writes the output in ({@link print_r()} format) 
- * to a file:
+ * The following example implements a new log writer that writes the output in
+ * ({@link print_r()} format) to a file:
  * <code>
  * class MyLogWriter extends ezcLogFileWriter
  * {
@@ -67,7 +68,8 @@ abstract class ezcLogFileWriter implements ezcLogWriter
     protected $logDirectory;
 
     /**
-     * Maximum file size before rotation.
+     * Maximum file size before rotation, or false when log rotation is disabled.
+     *
      *
      * @var int
      */
@@ -91,12 +93,12 @@ abstract class ezcLogFileWriter implements ezcLogWriter
      * If the file $defaultFile is not null, log messages that are not {@link map() mapped}
      * to any file are written to this $defaultFile. If $defaultFile is null, then
      * log messages are discarded.
-
      *
      * Set $maxLogRotationSize to specify the maximum size of a logfile. When the
      * maximum size is reached, the log will be rotated. $maxLogFiles sets the maximum 
      * number of rotated log files. The oldest rotated log will be removed when the
-     * maxLogFiles exceeds.
+     * $maxLogFiles exceeds. Log rotation can be disabled by setting
+     * $maxLogRotationSize to false.
      *
      * @param string $logDirectory
      * @param string $defaultFile
@@ -184,15 +186,14 @@ abstract class ezcLogFileWriter implements ezcLogWriter
      */
     protected function openFile( $fileName )
     {
-        if ( isset( $this->openFiles[$fileName] ) )
+        $path = $this->logDirectory . "/". $fileName;
+        if ( isset( $this->openFiles[$path] ) )
         {
-            return $this->openFiles[$fileName];
+            return $this->openFiles[$path];
         }
 
         clearstatcache();
-        $path = $this->logDirectory . "/". $fileName;
-        if ( file_exists( $path ) &&
-            ( filesize( $path ) >= $this->maxSize ) )
+        if ( $this->maxSize !== false && file_exists( $path ) && ( filesize( $path ) >= $this->maxSize ) )
         {
             $this->rotateLog( $fileName );
         }

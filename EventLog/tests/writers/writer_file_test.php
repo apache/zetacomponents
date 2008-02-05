@@ -154,6 +154,24 @@ class ezcLogFileWriterTest extends ezcTestCase
         $this->assertEquals(print_r($msg, true), file_get_contents( $this->getTempDir() . "/default.log.1") );
     }
 
+    public function testLogRotateDisabled()
+    {
+        $msg = array("message" => "1234567890123456789012345",
+                     "type" => 1,
+                     "source" => "s",
+                     "category" => "c");
+
+        for ( $i = 0; $i < 50000; $i++ )
+        {
+            $this->writer = new TempImplementation($this->getTempDir(), $this->logFile, false);
+
+            $this->writer->writeLogMessage( $msg["message"], $msg["type"], $msg["source"], $msg["category"]);
+            clearstatcache();
+        }
+        $this->assertTrue(file_exists( $this->getTempDir() ."/default.log"), "Log rotation messes up the default log file." );
+        $this->assertFalse(file_exists( $this->getTempDir() ."/default.log.1"), "Expected that the log files don't rotate." );
+    }
+
     public function testMaxLogFiles()
     {
         $msg = array("message" => "1234567890",
