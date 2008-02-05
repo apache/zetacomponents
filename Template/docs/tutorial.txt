@@ -1547,7 +1547,97 @@ This template outputs::
     
     <b>Hello world</b>
 
+Translation Constructs
+----------------------
 
+Translation constructs allow you to embed translatable strings in your
+templates. Every construct requires at least a string and a context, the
+context can however be set by default to be valid for subsequent translatable
+string entries.
+
+tr_context
+``````````
+Is used to set a default translation context. All tr_ entries below this
+construct will then use this translation context if none is specified
+explicitly. Information on contexts can be found in the `Qt Linguist format
+specification`__.
+
+This construct is used like::
+
+    {tr_context "admin/forget_password"}
+
+Each template can have multiple tr_context statements. The default context that
+is set with this construct is valid until the next one is encountered.
+
+__ Translation_linguist-format.html#contexts
+
+
+tr
+``
+The tr construct defines a translatable string, the simplest form of this
+construct is::
+
+    {tr "String to translate"}
+
+This will only work however, if there is a default context set with
+`tr_context`_. In case there is none set, you have to specify it yourself with
+the "context" parameter. The following two templates are equivalent::
+
+    {tr_context "admin/forget_password"}
+    {tr "String to translate"}
+
+and::
+
+    {tr "String to translate" context "admin/forget_password"}
+
+When a translator translates a text, it is sometimes useful to have slightly
+more information than just the context and the string itself. The tr construct
+therefore allows to add a comment to the translatable string with the "comment"
+parameter. This has no effect on how the tr construct is interpreted however.
+An example::
+
+    {tr "Login" context "user/login" comment "Text before login input box"}
+
+In many occasions, the translatable strings allow positional or named
+parameters to allow for changing the order of arguments. For example
+the English string "Search for 'appelmoes' returned 3 matches" can be
+translated in Dutch as: "Er zijn 3 items gevonden bij het zoeken naar
+'appelmoes'". A simple concatenation mechanism of multiple translatable strings
+would no longer work. The tr construct supports parameterized strings in two
+different ways: with numerical replacement identifiers (such as %1 and %2) and
+with associative identifiers (such as %search_string and %matches). The
+following example illustrates how this is done in the simplest possible way::
+
+    {tr "Search for '%1' returned '%2' matches" vars 'appelmoes', 3}
+
+If no key is specified for variables, like in the above example, they are
+automatically given numbers, starting by 1. It is also possible to add specific
+positions to variables, like::
+
+    {tr "Search for '%1' returned '%2' matches" vars 2 => 'appelmoes', 1 => 3}
+
+This is perhaps not so useful for positional parameters like here, but it is
+necessary for named parameters as illustrated in the example here::
+
+    {tr "Search for '%what' returned '%matchcount' matches" vars 'what' => 'appelmoes', 'matchcount' => 3}
+
+It is of course also possible to mix those two cases::
+
+    {tr "Search for '%1' returned '%matchcount' matches" vars 'matchcount' => 3, 'appelmoes'}
+
+or::
+
+    {tr "Search for '%1' returned '%matchcount' matches" vars 'appelmoes', 'matchcount' => 3}
+
+Variables without any key, are always given positional identifiers in
+sequential order. When doing so, variables with a named key are ignored, while
+variables with a numerical key reset the next number in the auto-numbering
+sequence to the number of the key. The following example shows that::
+
+    {tr "%1 %2 %3 %4 context "test" vars 3 => 'three', 'four', 1 => 'one', 'two'}
+
+For information on how to setup translations for your templates, please refer
+to the section `Translations`_.
 
 Extensions
 ==========
@@ -2871,6 +2961,44 @@ cache file is newer than the requested cache file.
 
 The complete code of the include mechanism is documented in the cache manager
 interface.
+
+Translations
+============
+
+With the tr_context_ and tr_ template constructs you can add translatable
+strings to you application. For them to work you have to take a few steps. 
+
+First of all, you need to make sure that you have the TranslationTemplate and
+Translation_ components installed as well. The TranslationTemplate component
+provides the glue between the Template component and the Translation component.
+
+Then you have to configure the template system with the correct configuration for
+translations::
+
+    <?php
+    // Create a normal template configuration and create the translation configuration
+    $tc = new ezcTemplateConfiguration;
+    $tc->translation = ezcTemplateTranslationConfiguration::getInstance();
+
+    // Create a translation manager, and assign it to the template translation
+    // configuration
+    $backend = new ezcTranslationTsBackend( dirname( __FILE__ ). '/translations' );
+    $backend->setOptions( array( 'format' => '[LOCALE].xml' ) );
+    $manager = new ezcTranslationManager( $backend );
+    $tc->translation->manager = $manager;
+
+    // Set the locale to use
+    $tc->translation->locale = $locale;
+    ?>
+
+.. _Translation: introduction_Translation.html
+
+More information on how to configure the ezcTranslationManager can be found in
+the documentation of the Translation_ component. Of course, the template configuration
+can also be made through `Lazy initialization`_.
+
+After the template system knows about the translations, it will use the
+Translation component's mechanism to fetch translations.
 
 
 More information

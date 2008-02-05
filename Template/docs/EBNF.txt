@@ -27,6 +27,7 @@ The template language starts with the non-terminal token: "Program".
                       |   CycleBlock_
                       |   LoopBlock_
                       |   CodeFlowBlock_
+                      |   TranslationBlock_
 
 Text blocks
 -----------
@@ -122,6 +123,22 @@ Code flow control
 
   _`PrimVarAsPrimVarList`::=  PrimaryVariable_ ('as' PrimaryVariable_)? (',' PrimVarAsPrimVarList_)?
 
+
+Translations
+------------
+
+.. parsed-Literal::
+
+  _`TranslationBlock`               ::= TranslationContextStatement_ | TranslationStatement_
+
+  _`TranslationContextStatement`    ::= '{' 'tr_context' StringLiteral_ '}'
+
+  _`TranslationStatement`           ::= '{' 'tr' StringLiteral_ ('context' StringLiteral_)? ('comment' StringLiteral_)? TranslationVars_? '}'
+
+  _`TranslationVars`                ::= 'vars' TranslationVarList_
+  _`TranslationVarList`             ::= TranslationVar_ | TranslationVar_ ',' TranslationVarList_
+  _`TranslationVar`                 ::= TranslationVarKey_? Expression_
+  _`TranslationVarKey`              ::= ( StringLiteral_ | NumeralLiteral_ ) '=>'
 
 
 Expression
