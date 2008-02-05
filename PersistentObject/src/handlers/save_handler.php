@@ -486,6 +486,9 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                     case ezcPersistentObjectProperty::PHP_TYPE_FLOAT:
                         $value = (float) $value;
                         break;
+                    case ezcPersistentObjectProperty::PHP_TYPE_BOOL:
+                        $value = (bool) $value;
+                        break;
                     case ezcPersistentObjectProperty::PHP_TYPE_STRING:
                         $value = (string) $value;
                         break;

@@ -21,7 +21,7 @@ $def->idProperty->databaseType = PDO::PARAM_INT;
 $def->properties['bool'] = new ezcPersistentObjectProperty;
 $def->properties['bool']->columnName = 'bool';
 $def->properties['bool']->propertyName = 'bool';
-$def->properties['bool']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+$def->properties['bool']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_BOOL;
 $def->properties['bool']->databaseType = PDO::PARAM_BOOL;
 
 $def->properties['int'] = new ezcPersistentObjectProperty;

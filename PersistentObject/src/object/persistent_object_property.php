@@ -40,10 +40,11 @@ class ezcPersistentObjectProperty
 {
 
     const PHP_TYPE_STRING = 1;
-    const PHP_TYPE_INT = 2;
-    const PHP_TYPE_FLOAT = 3;
-    const PHP_TYPE_ARRAY = 4;
+    const PHP_TYPE_INT    = 2;
+    const PHP_TYPE_FLOAT  = 3;
+    const PHP_TYPE_ARRAY  = 4;
     const PHP_TYPE_OBJECT = 5;
+    const PHP_TYPE_BOOL   = 6;
 
     /**
      * Holds the properties for this class.
