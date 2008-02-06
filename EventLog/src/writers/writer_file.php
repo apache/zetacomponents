@@ -168,7 +168,8 @@ abstract class ezcLogFileWriter implements ezcLogWriter
         {
             if ( !is_null( $this->defaultFile ) )
             {
-                if ( fwrite( $this->openFiles[$this->defaultFile], $string ) === false )
+                $path = $this->logDirectory . "/". $this->defaultFile;
+                if ( fwrite( $this->openFiles[$path], $string ) === false )
                 {
                     throw new ezcLogWriterException( new ezcBaseFileIoException( $this->defaultFile, ezcBaseFileIoException::WRITE ) );
                 }
@@ -211,7 +212,7 @@ abstract class ezcLogFileWriter implements ezcLogWriter
             }
         }
 
-        $this->openFiles[$fileName] = $fh;
+        $this->openFiles[$path] = $fh;
         return $fh;
     }
 

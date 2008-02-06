@@ -26,5 +26,11 @@ class TempImplementation extends ezcLogFileWriter
         $res = print_r( array( "message" => $message, "type" => $type, "source" => $source, "category" => $category ), true );
         $this->write( $type, $source, $category, $res );
     }
+
+    public function openFile( $fileName )
+    {
+        return parent::openFile( $fileName );
+    }
+
 }
 ?>
