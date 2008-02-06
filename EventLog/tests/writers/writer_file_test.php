@@ -33,7 +33,6 @@ class ezcLogFileWriterTest extends ezcTestCase
         $this->removeTempDir();
     }
     
-/*
     // This test was used to check for bug #9603, and it is commented out because
     // the code throws warnings for fwrite() and fclose()
     public function testWriteNotDefault()
@@ -48,9 +47,9 @@ class ezcLogFileWriterTest extends ezcTestCase
         }
         catch ( ezcLogWriterException $e )
         {
+            self::assertSame( "An error occurred while writing to 'broken.log'.", $e->getMessage() );
         }
     }
-*/
 
     // Check if can be written to the temporary file.
     public function testSelf()
