@@ -14,6 +14,7 @@ The available log writers are:
 
 - ezcLogUnixFileWriter, which writes log messages to a file in a *Unix* file
   format.
+- ezcLogSyslogWriter, which writes log messages to syslog.
 - ezcLogDatabaseWriter, which writes log messages to the database. This is
   available in the EventLogDatabaseTieIn_ component.
 
