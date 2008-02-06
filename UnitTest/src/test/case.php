@@ -136,12 +136,13 @@ abstract class ezcTestCase extends PHPUnit_Framework_TestCase
             try
             {
                 $object->$propertyName = $value;
-                $this->fail( "Setting property $propertyName to $value did not fail." );
             }
             catch ( Exception $e )
             {
                 continue;
             }
+
+            $this->fail( "Setting property $propertyName to $value did not fail." );
         }
     }
 }
