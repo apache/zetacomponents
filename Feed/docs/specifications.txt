@@ -82,6 +82,8 @@ Item elements
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-comments|_ ?      | x                             | x                            | |RSS2-item-comments|_ ?      |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
+| |ezcFeed-item-content|_ ?       | |ATOM-entry-content|_ ?       | x                            | x                            |
++---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-contributor|_ ?*  | |ATOM-entry-contributor|_ ?*  | x                            | x                            |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-copyright|_ ?     | |ATOM-entry-rights|_ ?        | x                            | x                            |
@@ -514,6 +516,43 @@ ezcFeed-item-category
 
 ezcFeed-item-comments
 `````````````````````
+
+ezcFeed-item-content
+````````````````````
+
+A short description for the feed item.
+
+Optional (not recommended). Only `ATOM`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `RSS2`_). Can be substituted with |ezcFeed-item-description|_
+(recommended).
+
+Can appear only once.
+
+Has an optional attribute *type* with possible values ``text`` (default),
+``html``, ``xhtml``, or other mime values, depending on the data it contains.
+
+Has an optional attribute *src* which specifies the URI where the full content
+is located.
+
+Has an optional attribute *lang* which specifies the language of the text. A
+list of allowed languages can be found here:
+http://www.rssboard.org/rss-language-codes.
+
+If *src* is present, the *type* attribute, if present, is the media type of the
+content.
+
+Otherwise, if the type attribute ends in ``+xml`` or ``/xml``, then an XML
+document of this type is contained inline.
+
+Otherwise, if the type attribute starts with ``text``, then an escaped document
+of this type is contained inline.
+
+Otherwise, a base64 encoded document of the indicated media type is contained
+inline.
+
+Equivalents: `ezcFeed-item-content`_/`ezcFeed-item-description`_,
+`ATOM-entry-content`_, RSS1-none, RSS2-none.
 
 
 ezcFeed-item-contributor
@@ -1824,6 +1863,7 @@ Resources
 .. |ezcFeed-item-author| replace:: author
 .. |ezcFeed-item-category| replace:: category
 .. |ezcFeed-item-comments| replace:: comments
+.. |ezcFeed-item-content| replace:: content
 .. |ezcFeed-item-contributor| replace:: contributor
 .. |ezcFeed-item-copyright| replace:: copyright
 .. |ezcFeed-item-description| replace:: description
