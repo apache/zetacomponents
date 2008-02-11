@@ -16,6 +16,7 @@
 - Added the getContentType() method in ezcFeed to return its Content-Type.
 - Added support for ATOM xml:lang attribute.
 - The RSS1 about attribute is accessed as id through ezcFeed.
+- Added support for the Content module.
 
 
 1.0beta1 - Monday 18 December 2006

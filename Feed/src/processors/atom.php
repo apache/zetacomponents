@@ -820,6 +820,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateItems()
     {
+        $supportedModules = ezcFeed::getSupportedModules();
         $entries = $this->get( 'entries' );
         if ( $entries === null )
         {
@@ -1020,6 +1021,15 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
                 }
             }
+
+            foreach ( $supportedModules as $module => $class )
+            {
+                if ( $entry->hasModule( $module ) )
+                {
+                    $this->addAttribute( $this->root, 'xmlns:' . $entry->$module->getNamespacePrefix(), $entry->$module->getNamespace() );
+                    $entry->$module->generate( $this->xml, $entryTag );
+                }
+            }
         }
     }
 
@@ -1054,11 +1064,6 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
         $feed = new ezcFeed( self::FEED_TYPE );
         $channel = $xml->documentElement;
-
-        $this->usedPrefixes = array();
-        $xp = new DOMXpath( $xml );
-        $set = $xp->query( './namespace::*', $xml->documentElement );
-        $this->usedNamespaces = array();
 
         foreach ( $channel->childNodes as $channelChild )
         {
@@ -1164,6 +1169,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
+        $supportedModules = ezcFeed::getSupportedModules();
+        $supportedModulesPrefixes = ezcFeed::getSupportedModulesPrefixes();
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
@@ -1331,6 +1338,19 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     case 'source':
                         $subElement = $element->add( $tagName );
                         $this->parseSource( $feed, $subElement, $itemChild );
+                        break;
+
+                    default:
+                        if ( strpos( $tagName, ':' ) !== false )
+                        {
+                            list( $prefix, $key ) = split( ':', $tagName );
+                            $moduleName = isset( $supportedModulesPrefixes[$prefix] ) ? $supportedModulesPrefixes[$prefix] : null;
+                            if ( isset( $supportedModules[$moduleName] ) )
+                            {
+                                $module = $element->hasModule( $moduleName ) ? $element->$moduleName : $element->addModule( $moduleName );
+                                $module->$key = $module->parse( $key, $itemChild->textContent );
+                            }
+                        }
                         break;
                 }
             }

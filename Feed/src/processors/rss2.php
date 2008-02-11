@@ -212,18 +212,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Sets the namespace attribute in the XML document being generated.
-     *
-     * @param string $prefix The prefix to use
-     * @param string $namespace The namespace to use
-     * @ignore
-     */
-    protected function generateNamespace( $prefix, $namespace )
-    {
-        $this->root->setAttributeNS( "http://www.w3.org/2000/xmlns/", "xmlns:{$prefix}", $namespace );
-    }
-
-    /**
      * Adds the required feed elements to the XML document being generated.
      *
      * @ignore
@@ -472,6 +460,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateItems()
     {
+        $supportedModules = ezcFeed::getSupportedModules();
         $items = $this->get( 'items' );
         if ( $items === null )
         {
@@ -598,6 +587,15 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     }
                 }
             }
+
+            foreach ( $supportedModules as $module => $class )
+            {
+                if ( $item->hasModule( $module ) )
+                {
+                    $this->addAttribute( $this->root, 'xmlns:' . $item->$module->getNamespacePrefix(), $item->$module->getNamespace() );
+                    $item->$module->generate( $this->xml, $itemTag );
+                }
+            }
         }
     }
 
@@ -640,11 +638,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
         $feed = new ezcFeed( self::FEED_TYPE );
         $rssChildren = $xml->documentElement->childNodes;
         $channel = null;
-
-        // figure out modules
-        $this->usedPrefixes = array();
-        $xp = new DOMXpath( $xml );
-        $set = $xp->query( './namespace::*', $xml->documentElement );
 
         foreach ( $rssChildren as $rssChild )
         {
@@ -755,11 +748,14 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
+        $supportedModules = ezcFeed::getSupportedModules();
+        $supportedModulesPrefixes = ezcFeed::getSupportedModulesPrefixes();
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
             {
                 $tagName = $itemChild->tagName;
+                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getItemsMap() );
 
                 switch ( $tagName )
                 {
@@ -772,7 +768,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $element->$tagName = $itemChild->textContent;
                         break;
 
-                    case 'pubDate':
+                    case 'published':
                         $element->$tagName = ezcFeedTools::prepareDate( $itemChild->textContent );
                         break;
 
@@ -789,7 +785,17 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                     default:
                         // check if it's part of a known module/namespace
-                        // continue 2 = ignore modules
+                        if ( strpos( $tagName, ':' ) !== false )
+                        {
+                            list( $prefix, $key ) = split( ':', $tagName );
+                            $moduleName = isset( $supportedModulesPrefixes[$prefix] ) ? $supportedModulesPrefixes[$prefix] : null;
+                            if ( isset( $supportedModules[$moduleName] ) )
+                            {
+                                $module = $element->hasModule( $moduleName ) ? $element->$moduleName : $element->addModule( $moduleName );
+                                $module->$key = $module->parse( $key, $itemChild->textContent );
+                            }
+                        }
+                        // continue 2 = ignore modules when getting attributes below
                         continue 2;
                 }
 

@@ -143,18 +143,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Sets the namespace attribute in the XML document being generated.
-     *
-     * @param string $prefix The prefix to use
-     * @param string $namespace The namespace to use
-     * @ignore
-     */
-    protected function generateNamespace( $prefix, $namespace )
-    {
-        $this->root->setAttributeNS( "http://www.w3.org/2000/xmlns/", "xmlns:$prefix", $namespace );
-    }
-
-    /**
      * Adds the required feed elements to the XML document being generated.
      *
      * @ignore
@@ -260,6 +248,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateItems()
     {
+        $supportedModules = ezcFeed::getSupportedModules();
         foreach ( $this->get( 'items' ) as $element )
         {
             $itemTag = $this->xml->createElement( 'item' );
@@ -290,6 +279,15 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
                 $attributes = array();
                 $this->generateMetaData( $itemTag, $attribute, $data );
+            }
+
+            foreach ( $supportedModules as $module => $class )
+            {
+                if ( $element->hasModule( $module ) )
+                {
+                    $this->addAttribute( $this->root, 'xmlns:' . $element->$module->getNamespacePrefix(), $element->$module->getNamespace() );
+                    $element->$module->generate( $this->xml, $itemTag );
+                }
             }
         }
     }
@@ -409,11 +407,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $rssChildren = $xml->documentElement->childNodes;
         $channel = null;
 
-        $this->usedPrefixes = array();
-        $xp = new DOMXpath( $xml );
-        $set = $xp->query( './namespace::*', $xml->documentElement );
-        $this->usedNamespaces = array();
-
         // @todo Parse modules
 
         foreach ( $rssChildren as $rssChild )
@@ -511,6 +504,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
+        $supportedModules = ezcFeed::getSupportedModules();
+        $supportedModulesPrefixes = ezcFeed::getSupportedModulesPrefixes();
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType == XML_ELEMENT_NODE )
@@ -527,8 +522,18 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     default:
-                        // @todo Check if it's part of a known module/namespace
-                        // continue = ignore modules
+                        // check if it's part of a known module/namespace
+                        if ( strpos( $tagName, ':' ) !== false )
+                        {
+                            list( $prefix, $key ) = split( ':', $tagName );
+                            $moduleName = isset( $supportedModulesPrefixes[$prefix] ) ? $supportedModulesPrefixes[$prefix] : null;
+                            if ( isset( $supportedModules[$moduleName] ) )
+                            {
+                                $module = $element->hasModule( $moduleName ) ? $element->$moduleName : $element->addModule( $moduleName );
+                                $module->$key = $module->parse( $key, $itemChild->textContent );
+                            }
+                        }
+                        // continue = ignore modules when getting attributes below
                         continue;
                 }
             }

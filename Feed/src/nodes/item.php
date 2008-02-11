@@ -18,6 +18,13 @@
 class ezcFeedItem extends ezcFeedElement
 {
     /**
+     * Holds the modules used by this feed item.
+     *
+     * @var array(ezcFeedModule)
+     */
+    protected $modules = array();
+
+    /**
      * Constructs a new ezcFeedElement object.
      *
      * @param array(string=>mixed) $schema The sub-schema that defines this element
@@ -36,6 +43,12 @@ class ezcFeedItem extends ezcFeedElement
      */
     public function __set( $name, $value )
     {
+        $supportedModules = ezcFeed::getSupportedModules();
+        if ( isset( $supportedModules[$name] ) )
+        {
+            $this->modules[$name] = $value;
+            return;
+        }
         parent::__set( $name, $value );
     }
 
@@ -48,6 +61,18 @@ class ezcFeedItem extends ezcFeedElement
      */
     public function __get( $name )
     {
+        $supportedModules = ezcFeed::getSupportedModules();
+        if ( isset( $supportedModules[$name] ) )
+        {
+            if ( isset( $this->$name ) )
+            {
+                return $this->modules[$name];
+            }
+            else
+            {
+                throw new ezcFeedUndefinedModuleException( $name );
+            }
+        }
         return parent::__get( $name );
     }
 
@@ -60,18 +85,47 @@ class ezcFeedItem extends ezcFeedElement
      */
     public function __isset( $name )
     {
+        $supportedModules = ezcFeed::getSupportedModules();
+        if ( isset( $supportedModules[$name] ) )
+        {
+            return isset( $this->modules[$name] );
+        }
         return parent::__isset( $name );
     }
 
     /**
-     * Returns the text stored in the feed element.
+     * Adds a new module to this item and returns it.
      *
-     * @return string
-     * @ignore
+     * @TODO check if module is already added, maybe return the existing module
+     *
+     * @param string $name The name of the module to add
+     * @return ezcFeedModule
      */
-    public function __toString()
+    public function addModule( $name )
     {
-        return parent::__toString();
+        $this->$name = ezcFeedModule::create( $name, 'item' );
+        return $this->$name;
+    }
+
+    /**
+     * Returns true if the module $name is loaded, false otherwise.
+     *
+     * @param string $name The name of the module to check if loaded for this item
+     * @return bool
+     */
+    public function hasModule( $name )
+    {
+        return isset( $this->modules[$name] );
+    }
+
+    /**
+     * Returns an array with all the modules defined for this feed item.
+     *
+     * @return array(ezcFeedModule)
+     */
+    public function getModules()
+    {
+        return $this->modules;
     }
 }
 ?>

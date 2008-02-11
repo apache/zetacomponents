@@ -1,0 +1,19 @@
+<?php
+$feed = new ezcFeed( 'rss2' );
+$feed->title = 'Feed title';
+
+$link = $feed->add( 'link' );
+$link->set( 'Feed link' );
+
+$feed->description = 'Feed description';
+
+$item = $feed->add( 'item' );
+$item->title = 'Item title';
+$item->link = 'Item link';
+$item->description = 'Item description';
+
+$module = $item->addModule( 'Content' );
+$module->encoded = 'Content \'encoded\' & &#039;translated&#039; into <html> "special" &quot;characters&quot;';
+
+return $feed;
+?>

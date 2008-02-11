@@ -63,6 +63,20 @@
  *  $item = $feed->add( 'item' );
  *  $item->title = 'Item title';
  *  </code>
+ *  - add a new module to the feed item. Example:
+ *  <code>
+ *  $item = $feed->add( 'item' );
+ *  $module = $item->addModule( 'Content' );
+ *  $content->encoded = 'text content which will be encoded';
+ *  </code>
+ *  - iterate over the loaded modules in a feed item. Example:
+ *  <code>
+ *  // display the namespaces of the modules loaded in the feed item $item
+ *  foreach ( $item->getModules() as $moduleName => $module )
+ *  {
+ *      echo $module->getNamespace();
+ *  }
+ *  </code>
  *  - generate an XML document from the {@link ezcFeed} object. Example:
  *  <code>
  *  $xml = $feed->generate();
@@ -249,6 +263,24 @@ class ezcFeed
         'rss1' => 'ezcFeedRss1',
         'rss2' => 'ezcFeedRss2',
         'atom' => 'ezcFeedAtom',
+    );
+
+    /**
+     * Holds a list of all supported modules.
+     *
+     * @var array(string=>string)
+     */
+    protected static $supportedModules = array(
+        'Content' => 'ezcFeedContentModule',
+    );
+
+    /**
+     * Holds a list of all supported modules prefixes.
+     *
+     * @var array(string=>string)
+     */
+    protected static $supportedModulesPrefixes = array(
+        'content' => 'Content',
     );
 
     /**
@@ -529,6 +561,28 @@ class ezcFeed
     public static function getSupportedTypes()
     {
         return array_keys( self::$supportedFeedTypes );
+    }
+
+    /**
+     * Returns the supported feed modules ({@link self::$supportedModules}
+     * array).
+     *
+     * @return array(string)
+     */
+    public static function getSupportedModules()
+    {
+        return self::$supportedModules;
+    }
+
+    /**
+     * Returns the supported feed modules prefixes
+     * ({@link self::$supportedModulesPrefixes} array).
+     *
+     * @return array(string)
+     */
+    public static function getSupportedModulesPrefixes()
+    {
+        return self::$supportedModulesPrefixes;
     }
 
     /**

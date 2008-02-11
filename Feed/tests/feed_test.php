@@ -217,5 +217,42 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( 'rss2', $feed->getFeedType() );
         $this->assertEquals( 'The Woodsongs Old Time Radio Hour Podcast', $feed->title->__toString() );
     }
+
+    public function testCreateModuleNotSupported()
+    {
+        try
+        {
+            $module = ezcFeedModule::create( 'unsupported_module' );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedUnsupportedModuleException $e )
+        {
+            $this->assertEquals( "The module 'unsupported_module' is not supported.", $e->getMessage() );
+        }
+    }
+
+    public function testGetItemModules()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $item = $feed->add( 'item' );
+        $module = $item->addModule( 'Content' );
+        $modules = $item->getModules();
+        $this->assertEquals( 'ezcFeedContentModule', get_class( $modules['Content'] ) );
+    }
+
+    public function testGetItemModuleNotDefinedYet()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $item = $feed->add( 'item' );
+        try
+        {
+            $module = $item->Content;
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedUndefinedModuleException $e )
+        {
+            $this->assertEquals( "The module 'Content' is not defined yet.", $e->getMessage() );
+        }
+    }
 }
 ?>

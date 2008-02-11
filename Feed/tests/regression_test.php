@@ -111,6 +111,7 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
     protected function createFeed( $type, $data )
     {
         $feed = new ezcFeed( $type );
+        $supportedModules = ezcFeed::getSupportedModules();
         if ( is_array( $data ) )
         {
             foreach ( $data as $property => $value )
@@ -119,7 +120,14 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                 {
                     foreach ( $value as $val )
                     {
-                        $element = $feed->add( $property );
+                        if ( isset( $supportedModules[$property] ) )
+                        {
+                            $element = $feed->addModule( $property );
+                        }
+                        else
+                        {
+                            $element = $feed->add( $property );
+                        }
                         if ( is_array( $val ) )
                         {
                             foreach ( $val as $subKey => $subValue )
@@ -134,7 +142,15 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                     {
                                         foreach ( $multi as $subSubKey => $subSubValue )
                                         {
-                                            $subElement = $element->add( $subSubKey );
+                                            if ( isset( $supportedModules[$subSubKey] ) )
+                                            {
+                                                $subElement = $element->addModule( $subSubKey );
+                                            }
+                                            else
+                                            {
+                                                $subElement = $element->add( $subSubKey );
+                                            }
+
                                             $subElement->set( $subSubValue );
                                         }
                                     }
@@ -145,7 +161,14 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                     {
                                         if ( count( $subValue ) === 0 || !isset( $subValue[0] ) )
                                         {
-                                            $subElement = $element->add( $subKey );
+                                            if ( isset( $supportedModules[$subKey] ) )
+                                            {
+                                                $subElement = $element->addModule( $subKey );
+                                            }
+                                            else
+                                            {
+                                                $subElement = $element->add( $subKey );
+                                            }
                                         }
 
                                         foreach ( $subValue as $subSubKey => $subSubValue )
@@ -158,7 +181,14 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                             {
                                                 if ( is_array( $subSubValue ) )
                                                 {
-                                                    $subElement = $element->add( $subKey );
+                                                    if ( isset( $supportedModules[$subKey] ) )
+                                                    {
+                                                        $subElement = $element->addModule( $subKey );
+                                                    }
+                                                    else
+                                                    {
+                                                        $subElement = $element->add( $subKey );
+                                                    }
                                                     foreach ( $subSubValue as $subSubSubKey => $subSubSubValue )
                                                     {
                                                         if ( $subSubSubKey === '#' )
@@ -171,7 +201,14 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                                             {
                                                                 foreach ( $subSubSubValue as $subSubSubSubKey => $subSubSubSubValue )
                                                                 {
-                                                                    $subSubElement = $subElement->add( $subSubSubKey );
+                                                                    if ( isset( $supportedModules[$subSubSubKey] ) )
+                                                                    {
+                                                                        $subSubElement = $subElement->addModule( $subSubSubKey );
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        $subSubElement = $subElement->add( $subSubSubKey );
+                                                                    }
                                                                     foreach ( $subSubSubSubValue as $subSubSubSubSubKey => $subSubSubSubSubValue )
                                                                     {
                                                                         if ( $subSubSubSubSubKey === '#' )
