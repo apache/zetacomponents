@@ -72,7 +72,7 @@ class ezcDebug
 {
     /**
      * Instance of the singleton ezcDebug object.
-    *
+     *
      * Use the getInstance() method to retrieve the instance.
      *
      * @var ezcDebug
