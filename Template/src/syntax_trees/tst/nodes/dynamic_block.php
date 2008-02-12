@@ -31,7 +31,7 @@ class ezcTemplateDynamicBlockTstNode extends ezcTemplateBlockTstNode
 
     public function getTreeProperties()
     {
-        return array( );
+        return array( 'children' => $this->children );
     }
 
     /**

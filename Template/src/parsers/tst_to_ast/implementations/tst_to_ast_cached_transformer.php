@@ -330,7 +330,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
     protected function insertInCache( $cb, $type )
     {
-        foreach ( $type->elements as $element )
+        foreach ( $type->children as $element )
         {
             $astNode = $element->accept( $this );
             if ( !is_array( $astNode ) )
@@ -385,10 +385,10 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $this->prepareProgram(); // Program operations, nothing to do with caching.
         
         // Start inserting nodes, until the CacheTstNode is found.
-        $elemLen = sizeof( $type->elements);
+        $elemLen = sizeof( $type->children);
         for( $i = 0; $i < $elemLen; $i++)
         {
-            $element = $type->elements[$i];
+            $element = $type->children[$i];
             if ( $element instanceof ezcTemplateCacheTstNode )
             {
                 break;
@@ -417,10 +417,10 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $newType = array();
         for ($k = $i; $k < $elemLen; $k++)
         {
-            $newType[] = $type->elements[$k];
+            $newType[] = $type->children[$k];
         }
 
-        $type->elements = $newType;
+        $type->children = $newType;
         $cacheKeys = $this->translateCacheKeys($this->cacheTemplate->keys);
         $this->addCacheKeys( $this->programNode, $cacheKeys );
         $ttl = $this->translateTTL($this->cacheTemplate->ttl);
@@ -619,7 +619,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
        
         $this->isInDynamicBlock = true;
-        $tmp = new ezcTemplateDynamicBlockAstNode( $this->createBody( $node->elements ) );
+        $tmp = new ezcTemplateDynamicBlockAstNode( $this->createBody( $node->children ) );
         $tmp->escapeSingleQuote = true;
         $newStatement[] = $tmp;
         $this->isInDynamicBlock = false;
@@ -717,6 +717,12 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         return $statements->statements;
     }
 
+    /**
+     * visitTranslationTstNode
+     *
+     * @param ezcTemplateTranslationTstNode $node
+     * @return ezcTemplateNopAstNode
+     */
     public function visitTranslationTstNode( ezcTemplateTranslationTstNode $node )
     {
         // if we're not in a cache block, call the normal (non-cached) TST->AST convertor

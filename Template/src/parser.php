@@ -232,9 +232,6 @@ class ezcTemplateParser
             $this->whitespaceRemoval->trimProgram( $parser->program );
         }
 
-        // temporary compatability
-        $parser->program->elements = $parser->program->children;
-
         return $parser->program;
     }
 

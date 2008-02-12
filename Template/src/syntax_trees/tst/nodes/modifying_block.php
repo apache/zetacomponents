@@ -30,14 +30,6 @@ class ezcTemplateModifyingBlockTstNode extends ezcTemplateBlockTstNode
     public $endBracket;
 
     /**
-     * Array of all child elements.
-     * Note: Temporary compatability with $children
-     *
-     * @var array
-     */
-    public $elements;
-
-    /**
      * The node starting the modifying expression.
      *
      * @var ezcTemplateExpressionTstNode

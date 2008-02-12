@@ -134,10 +134,6 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
     {
         // Also accept the Delimiter TSTNode.
         $this->children[] = $element;
-
-        // temporary compatability
-        $this->elements = $this->children;
-
     }
 }
 ?>

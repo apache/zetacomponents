@@ -31,7 +31,8 @@ class ezcTemplateCaptureTstNode extends ezcTemplateBlockTstNode
 
     public function getTreeProperties()
     {
-        return array( 'variable'  => $this->variable);
+        return array( 'variable'  => $this->variable,
+                      'children'  => $this->children );
     }
     
 }

@@ -151,11 +151,11 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
             $this->block = new ezcTemplateModifyingBlockTstNode( $this->parser->source, clone $this->startCursor, $cursor );
             $this->block->startBracket = $this->startBracket;
             $this->block->endBracket = $this->endBracket;
-            $this->block->elements = $oldBlock->elements;
+            $this->block->children = $oldBlock->children;
         }
 
         $this->block->expressionRoot = $rootOperator;
-        $this->block->elements = array( $rootOperator );
+        $this->block->children = array( $rootOperator );
         $this->appendElement( $this->block );
 
         return true;

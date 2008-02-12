@@ -60,7 +60,6 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
             }
 
             $this->children[] = $element;
-            $this->elements = $this->children;
             return true;
 
 

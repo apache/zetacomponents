@@ -23,12 +23,10 @@ class ezcTemplateFetchCacheInformation extends ezcTemplateTstWalker
     public $cacheKeys = array();
     public $hasTTL = false;
 
-
     public function __construct()
     {
         parent::__construct();
     }
-
 
     public function visitCacheTstNode( ezcTemplateCacheTstNode $node )
     {
@@ -46,16 +44,5 @@ class ezcTemplateFetchCacheInformation extends ezcTemplateTstWalker
             $this->hasTTL = true;
         }
     }
-
- 
-
-
-
-
-
-
-
 }
-
-
 ?>

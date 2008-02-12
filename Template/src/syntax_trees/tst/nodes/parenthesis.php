@@ -32,14 +32,6 @@ class ezcTemplateParenthesisTstNode extends ezcTemplateExpressionTstNode
     public $endBracket;
 
     /**
-     * Array of all child elements.
-     * Note: Temporary compatability with $children
-     *
-     * @var array
-     */
-    public $elements;
-
-    /**
      * The root of the parsed parenthesis expression.
      */
     public $expressionRoot;

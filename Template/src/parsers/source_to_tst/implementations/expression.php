@@ -182,7 +182,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         $this->rootOperator = $rootOperator;
 
         // Make sure element list contains the root
-        $this->elements = array( $this->rootOperator );
+        $this->children = array( $this->rootOperator );
     }
 
     /**

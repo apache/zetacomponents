@@ -27,6 +27,8 @@ abstract class ezcTemplateTstNode
      */
     public $source;
 
+    public $children;
+
     /**
      * The starting point for the node specified with a cursor
      *
@@ -201,9 +203,12 @@ abstract class ezcTemplateTstNode
     {
         $class = get_class( $this );
         $visit = "visit" . substr( $class, 11 );
-
-        $res = $visitor->$visit( $this );
-        return $res;
+        if ( is_callable( array( $visitor, $visit ) ) )
+        {
+            $res = $visitor->$visit( $this );
+            return $res;
+        }
+        return $this;
     }
 }
 ?>

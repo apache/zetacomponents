@@ -26,14 +26,6 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     public $children;
 
     /**
-     * Array of all child elements.
-     * Note: Temporary compatability with $children
-     *
-     * @var array
-     */
-    public $elements;
-
-    /**
      * Is true if this block is a closing block (ie. {/...}), false otherwise.
      * @var bool
      */
@@ -92,7 +84,6 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     {
         parent::__construct( $source, $start, $end );
         $this->children = array();
-        $this->elements = array();
         $this->isClosingBlock = false;
         $this->parentBlock = null;
         $this->closingCursor = null;
@@ -292,9 +283,6 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
 
 
         $this->children[] = $element;
-
-        // temporary compatability
-        $this->elements = $this->children;
 
         return true;
 

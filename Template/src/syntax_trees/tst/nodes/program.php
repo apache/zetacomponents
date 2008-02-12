@@ -18,13 +18,6 @@
 class ezcTemplateProgramTstNode extends ezcTemplateBlockTstNode
 {
     /**
-     * Array of all elements.
-     *
-     * @var array
-     */
-    public $elements;
-
-    /**
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {

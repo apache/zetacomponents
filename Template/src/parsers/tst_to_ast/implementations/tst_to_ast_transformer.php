@@ -594,7 +594,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         {
             $this->prepareProgram();
 
-            foreach ( $type->elements as $element )
+            foreach ( $type->children as $element )
             {
                 $astNode = $element->accept( $this );
                 if ( !is_array( $astNode ) )
@@ -662,7 +662,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $result[] = $this->outputVariable->getInitializationAst();
 
             // execute all the 'children' in the custom block.
-            foreach ( $type->elements as $element )
+            foreach ( $type->children as $element )
             {
                 $r = $element->accept( $this );
                 // It could be an array :-(. Should change this one time to a pseudo node.
@@ -763,7 +763,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      */
     public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $node )
     {
-        $t = $this->createBody( $node->elements );
+        $t = $this->createBody( $node->children );
         return $t->statements; 
     }
 
@@ -775,7 +775,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      */
     public function visitCacheBlockTstNode( ezcTemplateCacheBlockTstNode $node )
     {
-        $t = $this->createBody( $node->elements );
+        $t = $this->createBody( $node->children );
         return $t->statements; 
     }
  
@@ -833,7 +833,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $result[] = $this->outputVariable->getInitializationAst();
 
         // execute all the 'children' in the custom block.
-        foreach ( $node->elements as $element )
+        foreach ( $node->children as $element )
         {
             $r = $element->accept( $this );
             if ( is_array( $r ) )
@@ -1115,7 +1115,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $limitVar = null;
 
         // Process body.
-        $body = $this->createBody( $type->elements );
+        $body = $this->createBody( $type->children );
         $astNode = array();
         $i = 0;
 
@@ -1268,7 +1268,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $this->delimCounterVar->push( $this->getUniqueVariableName( "delim" ) );
         $this->delimOutputVar->push( $this->getUniqueVariableName( "delimOut" ) );
 
-        $body = $this->createBody( $type->elements );
+        $body = $this->createBody( $type->children );
         $astNode = array();
         $i = 0;
 
@@ -2088,6 +2088,12 @@ throw new ezcTemplateRuntimeException( sprintf(\"". ezcTemplateSourceToTstErrorM
         return $this->appendFunctionCallRecursively( $type, "array_fill_range", true );
     }
 
+    /**
+     * visitTranslationTstNode
+     *
+     * @param ezcTemplateTranslationTstNode $node
+     * @return ezcTemplateNopAstNode
+     */
     public function visitTranslationTstNode( ezcTemplateTranslationTstNode $node )
     {
         $string = $node->string->accept( $this );
