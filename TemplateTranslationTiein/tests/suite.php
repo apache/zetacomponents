@@ -13,6 +13,7 @@
  */
 require_once 'configuration.php';
 require_once 'provider.php';
+require_once 'extracter.php';
 
 /**
  * @package TemplateTranslationTiein
@@ -27,6 +28,7 @@ class ezcTemplateTranslationTieinSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcTemplateTranslationConfigurationTest::suite() );
         $this->addTest( ezcTemplateTranslationProviderTest::suite() );
+        $this->addTest( ezcTemplateTranslationExtracterTest::suite() );
     }
 
     public static function suite()

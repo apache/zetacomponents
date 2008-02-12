@@ -14,5 +14,6 @@ return array(
     'ezcTemplateTranslationManagerNotConfiguredException' => 'TemplateTranslationTiein/exceptions/manager_not_configured.php',
     'ezcTemplateTranslationConfiguration'                 => 'TemplateTranslationTiein/configuration.php',
     'ezcTemplateTranslationProvider'                      => 'TemplateTranslationTiein/provider.php',
+    'ezcTemplateTranslationStringExtracter'               => 'TemplateTranslationTiein/visitors/string_extracter.php',
 );
 ?>
