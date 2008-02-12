@@ -44,10 +44,8 @@ class ezcDebugTest extends ezcTestCase
 
             default:               
                     print( "$errstr in $errfile on line $errline\n" ); break;
-       }
+        }
     }
-
-
 
     // Messages are already tested in DebugMemoryWriterTest.
     // Quick test if the basics work.
@@ -105,8 +103,6 @@ class ezcDebugTest extends ezcTestCase
         */
     }
 
-
-
     public function testDefaultSourceAndCategory()
     {
         $dbg = $this->dbg;
@@ -125,7 +121,6 @@ class ezcDebugTest extends ezcTestCase
         $this->assertEquals(2, count( $struct[0] ) );
         $this->assertEquals("bla",  $struct[0][1]->source );
     }
-    
 
     public function testIndependentFromEventLog()
     {
