@@ -6,17 +6,31 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @access private
  */
 /**
  * A visiter that can be used to extract translatable strings from a template.
  *
  * Implements the ezcTemplateTstNodeVisiter interface for visiting the nodes
- * and generating the appropriate ast nodes for them.
+ * and extracting translatable strings from them. It can be used like:
+ *
+ * <code>
+ * <?php
+ * $file = dirname( __FILE__ ) . '/test_files/test.ezt';
+ * $source = new ezcTemplateSourceCode( $file, $file );
+ * $source->load();
+ * 
+ * $parser = new ezcTemplateParser( $source, new ezcTemplate() );
+ * $tst = $parser->parseIntoNodeTree();
+ * 
+ * $et = new ezcTemplateTranslationStringExtracter( $parser );
+ * $eted = $tst->accept( $et );
+ * 
+ * $tr = $et->getTranslation();
+ * ?>
+ * </code>
  *
  * @package TemplateTranslation
  * @version //autogen//
- * @access private
  */
 class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
 {
@@ -49,7 +63,6 @@ class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
      * visitTranslationTstNode
      *
      * @param ezcTemplateTranslationTstNode $node
-     * @return ezcTemplateNopAstNode
      */
     public function visitTranslationTstNode( ezcTemplateTranslationTstNode $node )
     {
@@ -84,12 +97,10 @@ class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
      * visitTranslationContextTstNode
      *
      * @param ezcTemplateTranslationContextTstNode $node
-     * @return ezcTemplateNopAstNode
      */
     public function visitTranslationContextTstNode( ezcTemplateTranslationContextTstNode $node )
     {
         $this->translationContext = $node->context->value;
-        return new ezcTemplateNopAstNode();
     }
 
     /**
