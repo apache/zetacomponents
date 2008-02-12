@@ -70,6 +70,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                                                    'REQUIRED'     => array( 'title', 'link' ),
                                                    'OPTIONAL'     => array( 'description' ),
                                                    ),
+
+                                 'ITEMS_MAP'  => array( 'id'  => 'about' ),
+
                                  'MULTI'      => 'items' ),
 
         'textinput'    => array( '#'          => 'string',
@@ -193,7 +196,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->get( 'items' ) as $item )
         {
-            $about = $item->about;
+            $about = $item->id;
             $liTag = $this->xml->createElement( 'rdf:li' );
             $resourceAttr = $this->xml->createAttribute( 'resource' );
             $resourceVal = $this->xml->createTextNode( $about );
@@ -254,7 +257,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $itemTag = $this->xml->createElement( 'item' );
             $this->root->appendChild( $itemTag );
 
-            $data = $element->about;
+            $data = $element->id;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/item/@about" );
@@ -506,6 +509,13 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
     {
         $supportedModules = ezcFeed::getSupportedModules();
         $supportedModulesPrefixes = ezcFeed::getSupportedModulesPrefixes();
+
+        foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
+        {
+            $tagName = ezcFeedTools::deNormalizeName( $key, $this->schema->getItemsMap() );
+            $element->$tagName = $value;
+        }
+
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType == XML_ELEMENT_NODE )
@@ -537,11 +547,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         continue;
                 }
             }
-        }
-
-        foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
-        {
-            $element->$key = $value;
         }
     }
 

@@ -7,10 +7,10 @@ $feed->description = 'Feed description';
 $feed->link = 'Feed link';
 
 $item = $feed->add( 'item' );
+$item->id = 'Item link';
 $item->title = 'Item title';
 $item->link = 'Item link';
 $item->description = 'Item description';
-$item->about = 'Item link';
 
 $module = $item->addModule( 'Content' );
 $module->encoded = 'Content \'encoded\' & \'translated\' into <html> "special" "characters"';
