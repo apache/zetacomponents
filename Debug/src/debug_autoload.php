@@ -15,6 +15,7 @@ return array(
     'ezcDebugHtmlFormatter'     => 'Debug/formatters/html_formatter.php',
     'ezcDebugMemoryWriter'      => 'Debug/writers/memory_writer.php',
     'ezcDebugMessage'           => 'Debug/debug_message.php',
+    'ezcDebugOptions'           => 'Debug/options.php',
     'ezcDebugStructure'         => 'Debug/structs/debug_structure.php',
     'ezcDebugSwitchTimerStruct' => 'Debug/structs/switch_timer.php',
     'ezcDebugTimer'             => 'Debug/debug_timer.php',

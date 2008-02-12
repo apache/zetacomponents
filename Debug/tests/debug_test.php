@@ -47,6 +47,60 @@ class ezcDebugTest extends ezcTestCase
         }
     }
 
+    public function testGetAccessSuccess()
+    {
+        $this->assertEquals(
+            new ezcDebugOptions(),
+            $this->dbg->options,
+            'Property $options does not have proper default value.'
+        );
+    }
+
+    public function testGetAccessFailures()
+    {
+        try
+        {
+            echo $this->dbg->foobar;
+            $this->fail( 'Exception not thrown on get access to unknown property $foobar.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {}
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $this->assertSetProperty(
+            $this->dbg,
+            'options',
+            array( new ezcDebugOptions(), )
+        );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $this->assertSetPropertyFails(
+            $this->dbg,
+            'options',
+            array( null, true, 23, 23.42, 'foobar', array(), new stdClass )
+        );
+    }
+
+    public function testIssetAccessSuccess()
+    {
+        $this->assertTrue(
+            isset( $this->dbg->options ),
+            'Property $options does not seem to be set.'
+        );
+    }
+
+    public function testIssetAccessFailure()
+    {
+        $this->assertFalse(
+            isset( $this->dbg->foobar ),
+            'Property $foobar seems to be set.'
+        );
+    }
+
     // Messages are already tested in DebugMemoryWriterTest.
     // Quick test if the basics work.
     public function testSimpleMessage()

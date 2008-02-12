@@ -14,6 +14,7 @@
 
 require_once "debug_delayed_init_test.php";
 require_once "debug_test.php";
+require_once "debug_options_test.php";
 require_once "debug_timer_test.php";
 require_once "writers/memory_writer_test.php";
 require_once "formatters/html_formatter_test.php";
@@ -33,6 +34,7 @@ class ezcDebugSuite extends PHPUnit_Framework_TestSuite
 		$this->addTest( ezcDebugMemoryWriterTest::suite() );
 		$this->addTest( ezcDebugTimerTest::suite() );
 		$this->addTest( ezcDebugTest::suite() );
+		$this->addTest( ezcDebugOptionsTest::suite() );
 		$this->addTest( ezcDebugHtmlFormatterTest::suite() );
 	}
 

@@ -71,6 +71,13 @@
 class ezcDebug
 {
     /**
+     * Properties. 
+     * 
+     * @var array(string=>mixed)
+     */
+    protected $properties = array();
+
+    /**
      * Instance of the singleton ezcDebug object.
      *
      * Use the getInstance() method to retrieve the instance.
@@ -114,6 +121,8 @@ class ezcDebug
      */
     private function __construct()
     {
+        $this->options = new ezcDebugOptions();
+
         $original = ezcLog::getInstance();
 
         $this->log = clone( $original ); 
@@ -132,28 +141,60 @@ class ezcDebug
 
 
     /**
-     * Throws always an {@link ezcBasePropertyNotFoundException}. 
+     * Property get access.
      *
      * @throws ezcBasePropertyNotFoundException
-     * @param string $name
+     *         If the given property could not be found.
+     * @param string $propertyName
      * @ignore
      */
-    public function __get( $name )
+    public function __get( $propertyName )
     {
-        throw new ezcBasePropertyNotFoundException( $name );
+        if ( $this->__isset( $propertyName ) )
+        {
+            return $this->properties[$propertyName];
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
     }
 
     /**
-     * Throws always an {@link ezcBasePropertyNotFoundException}. 
+     * Property set access.
      *
      * @throws ezcBasePropertyNotFoundException
-     * @param string $name
-     * @param string $value
+     * @param string $propertyName
+     * @param string $propertyValue
      * @ignore
      */
-    public function __set( $name, $value )
+    public function __set( $propertyName, $propertyValue )
     {
-        throw new ezcBasePropertyNotFoundException( $name );
+        switch ( $propertyName )
+        {
+            case 'options':
+                if ( !( $propertyValue instanceof ezcDebugOptions ) )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'ezcDebugOptions'
+                    );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
+
+    /**
+     * Property isset access. 
+     * 
+     * @param string $propertyName 
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
     }
 
 
