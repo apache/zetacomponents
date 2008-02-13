@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #10753: ezcDbQuery should implement __toString().
+- Implemented issue #12540: subselect support for other query types besides
+  SELECT.
 
 
 1.3.4 - Monday 14 January 2008

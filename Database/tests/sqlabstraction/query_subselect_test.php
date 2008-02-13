@@ -177,6 +177,43 @@ class ezcQuerySubSelectTest extends ezcTestCase
         $this->assertEquals( "SELECT somecol FROM quiz WHERE question IN ( ( SELECT id FROM question WHERE quiz = :ezcValue1 ) )", $q->getQuery() );
     }
 
+    public function testSubselectWithUpdate()
+    {
+        $db = ezcDbInstance::get();
+        $q = $db->createUpdateQuery();
+        $q->update( 'quiz' )->set( 'somecol', $q->bindValue( 'test' ) );
+
+        $qQuestions = $q->subSelect();
+        $qQuestions->select( 'id' )->from( 'question' )->where(
+            $qQuestions->expr->eq( 'quiz', $qQuestions->bindValue( 1 ) )
+        );
+
+        $q->where(
+            $q->expr->in( 'question', $qQuestions )
+        );
+
+        $this->assertEquals( "UPDATE quiz SET somecol = :ezcValue1 WHERE question IN ( ( SELECT id FROM question WHERE quiz = :ezcValue2 ) )", $q->getQuery() );
+    }
+
+
+    public function testSubselectWithDelete()
+    {
+        $db = ezcDbInstance::get();
+        $q = $db->createDeleteQuery();
+        $q->deleteFrom( 'quiz' );
+
+        $qQuestions = $q->subSelect();
+        $qQuestions->select( 'id' )->from( 'question' )->where(
+            $qQuestions->expr->eq( 'quiz', $qQuestions->bindValue( 1 ) )
+        );
+
+        $q->where(
+            $q->expr->in( 'question', $qQuestions )
+        );
+
+        $this->assertEquals( "DELETE FROM quiz WHERE question IN ( ( SELECT id FROM question WHERE quiz = :ezcValue1 ) )", $q->getQuery() );
+    }
+
 
     public static function suite()
     {

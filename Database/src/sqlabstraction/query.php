@@ -483,6 +483,20 @@ abstract class ezcQuery
     }
 
     /**
+     * Returns the ezcQuerySubSelect query object.
+     *
+     * This method creates new ezcQuerySubSelect object
+     * that could be used for building correct
+     * subselect inside query.
+     *
+     * @return ezcQuerySubSelect
+     */
+    public function subSelect()
+    {
+        return new ezcQuerySubSelect( $this );
+    }
+
+    /**
      * Returns the query string for this query object.
      *
      * @throws ezcQueryInvalidException if it was not possible to build a valid query.

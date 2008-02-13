@@ -895,20 +895,6 @@ class ezcQuerySelect extends ezcQuery
         return $query;
     }
 
-    /**
-     * Returns the ezcQuerySubSelect query object.
-     *
-     * This method creates new ezcQuerySubSelect object
-     * that could be used for building correct
-     * subselect inside query.
-     *
-     * @return ezcQuerySubSelect
-     */
-    public function subSelect()
-    {
-        return new ezcQuerySubSelect( $this );
-    }
-
 }
 
 ?>
