@@ -11,11 +11,14 @@ class DbCacheManager implements ezcTemplateCacheManager
         // INSERT NEW cache.
         $db = ezcDbInstance::get();
 
-        $q = $db->prepare("SELECT id FROM cache_templates WHERE cache = :cache" );
-        $q->bindValue( ":cache", $cachePath );
-        $q->execute();
+        $q = $db->createSelectQuery();
+        $s = $q->select( 'id' )
+               ->from( $db->quoteIdentifier( 'cache_templates' ) )
+               ->where( $q->expr->eq( $db->quoteIdentifier( 'cache' ), $q->bindValue( $cachePath ) ) )
+               ->prepare();
+        $s->execute();
 
-        $r = $q->fetchAll(); // Strange if there is more than one result.
+        $r = $s->fetchAll(); // Strange if there is more than one result.
 
         if ( sizeof( $r ) > 0 )
         {
@@ -24,21 +27,26 @@ class DbCacheManager implements ezcTemplateCacheManager
                 $id = $r[0]["id"];
 
                 // Reset the expired IDs.
-                $s = $db->prepare( "UPDATE cache_templates SET expired=0 WHERE id = :id" );
-                $s->bindValue( ":id", $r[0]["id"] );
+                $q = $db->createUpdateQuery();
+                $s = $q->update( $db->quoteIdentifier( 'cache_templates' ) )
+                       ->set( $db->quoteIdentifier( 'expired' ), 0 )
+                       ->where( $q->expr->eq( $db->quoteIdentifier( 'id' ), $q->bindValue( $r[0]['id'] ) ) )
+                       ->prepare();
                 $s->execute();
             }
         }
         else
         {
-            $q = $db->prepare("INSERT INTO cache_templates VALUES( '', :cache, 0)" );
-            $q->bindValue( ":cache", $cachePath );
-            $q->execute();
-            $id = $db->lastInsertId();
-
+            $q = $db->createInsertQuery();
+            $s = $q->insertInto( $db->quoteIdentifier( 'cache_templates' ) )
+                   ->set( $db->quoteIdentifier( 'cache' ), $q->bindValue( $cachePath ) )
+                   ->set( $db->quoteIdentifier( 'expired' ), $q->bindValue( 0 ) )
+                   ->prepare();
+            $s->execute();
+            $id = $db->lastInsertId( 'id_seq' );
 
             // Insert your own template in the value table.
-            $q = $db->prepare("REPLACE INTO cache_values VALUES(:id, :name, :value)" ); 
+            $q = $db->prepare("INSERT INTO cache_values(template_id, name, value) VALUES(:id, :name, :value)" ); 
             $q->bindValue( ":id", $id );
             $q->bindValue( ":name", "include" );
             $q->bindValue( ":value", $templatePath );
@@ -100,12 +108,25 @@ class DbCacheManager implements ezcTemplateCacheManager
 
     public function update($name, $value)
     {
-
         $db = ezcDbInstance::get();
-        $s = $db->prepare( "UPDATE cache_templates, cache_values SET cache_templates.expired=1 WHERE cache_templates.id = cache_values.template_id AND cache_values.name = :name AND cache_values.value = :value" );
-        $s->bindValue( ":name", $name );
-        $s->bindValue( ":value", $value );
+
+        $q = $db->createUpdateQuery();
+        $sq = $q->subSelect();
+        $sq->select( $db->quoteIdentifier( 'id' ) )
+           ->from( $db->quoteIdentifier( 'cache_values' ) )
+           ->where( $sq->expr->lAnd(
+                 $sq->expr->eq( $db->quoteIdentifier( 'name' ), $sq->bindValue( $name ) ),
+                 $sq->expr->eq( $db->quoteIdentifier( 'value' ), $sq->bindValue( $value ) )
+             ));
+
+        $q->update( $db->quoteIdentifier( 'cache_templates' ) )
+               ->set( $db->quoteIdentifier( 'expired' ), 1  )
+               ->where( $q->expr->in( $db->quoteIdentifier( 'id' ), $sq ) );
+        $s = $q->prepare();
         $s->execute();
+//        $s = $db->prepare( "UPDATE cache_templates, cache_values SET cache_templates.expired=1 WHERE cache_templates.id = cache_values.template_id AND cache_values.name = :name AND cache_values.value = :value" );
+//        $s->bindValue( ":name", $name );
+//        $s->bindValue( ":value", $value );
 
  
     }
@@ -115,8 +136,14 @@ class DbCacheManager implements ezcTemplateCacheManager
         $db = ezcDbInstance::get();
         for($i =0; $i < $this->depth; $i++)
         { 
+            $s = $db->prepare( "DELETE FROM cache_values WHERE template_id = :id AND name = :name AND value = :value" );
+            $s->bindValue( ":id", $this->keys[$i]["template_id"] );
+            $s->bindValue( ":name", $name );
+            $s->bindValue( ":value", $value );
+            $s->execute();
+
             // From user_list, when cache is created. 
-            $s = $db->prepare( "REPLACE INTO cache_values VALUES ( :id, :name, :value )" );
+            $s = $db->prepare( "INSERT INTO cache_values(template_id, name, value) VALUES ( :id, :name, :value )" );
             $s->bindValue( ":id", $this->keys[$i]["template_id"] );
             $s->bindValue( ":name", $name );
             $s->bindValue( ":value", $value );
@@ -135,7 +162,13 @@ class DbCacheManager implements ezcTemplateCacheManager
             $id = $this->keys[ $this->depth ]["template_id"];
 
             // Insert your parent template in the value table.
-            $q = $db->prepare("REPLACE INTO cache_values VALUES(:id, :name, :value)" ); 
+            $s = $db->prepare( "DELETE FROM cache_values WHERE template_id = :id AND name = :name AND value = :value" );
+            $s->bindValue( ":id", $id );
+            $s->bindValue( ":name", "include" );
+            $s->bindValue( ":value", $template_path );
+            $s->execute();
+
+            $q = $db->prepare("INSERT INTO cache_values(template_id, name, value) VALUES(:id, :name, :value)" ); 
             $q->bindValue( ":id", $id );
             $q->bindValue( ":name", "include" );
             $q->bindValue( ":value", $template_path );
@@ -157,12 +190,18 @@ class DbCacheManager implements ezcTemplateCacheManager
             unlink( $r["cache"] );
         }
 
-        $db->exec("DELETE FROM cache_values USING cache_values, cache_templates WHERE cache_templates.id = cache_values.template_id AND cache_templates.expired = 1  ");
+        $db = ezcDbInstance::get();
+
+        // DELETE FROM cache_values WHERE template_id IN ( SELECT id FROM cache_templates WHERE expired = 1 );
+        $q = $db->createDeleteQuery();
+        $sq = $q->subSelect();
+        $sq->select( 'id' )->from( 'cache_templates' )->where( $sq->expr->eq( $db->quoteIdentifier( 'expired' ), $sq->bindValue( 1 ) ) );
+        $q->deleteFrom( $db->quoteIdentifier( 'cache_values' ) )->where( $q->expr->in( $db->quoteIdentifier( 'template_id' ), $sq ) );
+        $s = $q->prepare();
+        $s->execute();
+
         $db->exec("DELETE FROM cache_templates WHERE cache_templates.expired = 1");
     }
-
-
-
 }
 
 ?>

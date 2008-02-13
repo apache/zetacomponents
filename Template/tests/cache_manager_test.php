@@ -29,6 +29,8 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
 
     protected function setUp()
     {
+        $tables = array( 'user', 'cache_templates', 'cache_values' );
+
         // Get the DB instance
         try
         {
@@ -50,24 +52,20 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
 
         // Create tables.
         //
-        try
+        foreach ( $tables as $table )
         {
-            $db->exec( 'DROP TABLE user' );
+            try
+            {
+                $db->exec( "DROP TABLE $table" );
+            }
+            catch ( Exception $e )
+            {
+            } // eat
         }
-        catch ( Exception $e ) {} // eat
 
-        try
-        {
-            $db->exec( 'DROP TABLE cache_templates' );
-        }
-        catch ( Exception $e ) {} // eat
-
-        try
-        {
-            $db->exec( 'DROP TABLE cache_values' );
-        }
-        catch ( Exception $e ) {} // eat
-
+        $schema = ezcDbSchema::createFromFile( 'xml', dirname( __FILE__ ) . '/cache-manager-schema.xml' );
+        $schema->writeToDb( $db );
+/*
 
         $db->exec( "CREATE TABLE cache_templates ( id int(10) unsigned NOT NULL auto_increment, 
                     cache varchar(255) NOT NULL, 
@@ -85,20 +83,46 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
                     name varchar(50) NOT NULL, 
                     nickname varchar(30) NOT NULL,
                     PRIMARY KEY  (id) )" );
-
+*/
         // insert some data
+        $iq = $db->createInsertQuery();
+        $s = $iq->insertInto( $db->quoteIdentifier( 'user' ) )
+           ->set( $db->quoteIdentifier( 'id' ), 1 )
+           ->set( $db->quoteIdentifier( 'name' ), $iq->bindValue( 'Raymond' ) )
+           ->set( $db->quoteIdentifier( 'nickname' ), $iq->bindValue( 'sunRay' ) )
+           ->prepare();
+        $s->execute();
+       
+        $iq = $db->createInsertQuery();
+        $s = $iq->insertInto( $db->quoteIdentifier( 'user' ) )
+           ->set( $db->quoteIdentifier( 'id' ), 2 )
+           ->set( $db->quoteIdentifier( 'name' ), $iq->bindValue( 'Derick' ) )
+           ->set( $db->quoteIdentifier( 'nickname' ), $iq->bindValue( 'Tiger' ) )
+           ->prepare();
+        $s->execute();
+       
+        $iq = $db->createInsertQuery();
+        $s = $iq->insertInto( $db->quoteIdentifier( 'user' ) )
+           ->set( $db->quoteIdentifier( 'id' ), 3 )
+           ->set( $db->quoteIdentifier( 'name' ), $iq->bindValue( 'Jan' ) )
+           ->set( $db->quoteIdentifier( 'nickname' ), $iq->bindValue( 'Amos' ) )
+           ->prepare();
+        $s->execute();
+      /* 
         $db->exec ( "INSERT INTO `user` (`id`, `name`, `nickname`) VALUES 
                     (1, 'Raymond', 'sunRay'),
                     (2, 'Derick', 'Tiger'),
                     (3, 'Jan', 'Amos')" );
-
+*/
     }
 
     protected function tearDown()
     {
         // Remove tables.
         $db = ezcDbInstance::get(); 
-        $db->exec( 'DROP TABLE user' );
+//        $db->exec( 'DROP TABLE cache_templates' );
+//        $db->exec( 'DROP TABLE cache_values' );
+//        $db->exec( 'DROP TABLE user' );
         $this->removeTempDir();
     }
 
@@ -118,7 +142,7 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
         $t->send->a = "Bla";
         $r = $t->process( "cache_simple_include.tpl" );
         $this->assertEquals( "\nBernard\nHello world\n", $r );
-
+xdebug_break();
         // Simulate someone edits the template
         sleep(1); // Otherwise the mtime is the same.
         file_put_contents( $this->tempDir . "/hello_world.tpl", "Goodbye cruel world!");
