@@ -7,6 +7,9 @@
   component.
 - Implemented issue #10912: Add translation entries.
 - Added support for the new location element in Linguist version 1.1 files.
+- Added support for the keepObsolete option for the TsBackend. With this
+  enabled, the obsolete translations are not dropped while reading contexts.
+  This is both useful for testing as well as for manipulating TS files.
 
 
 1.1.6 - Wednesday 05 December 2007

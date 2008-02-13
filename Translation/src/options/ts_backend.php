@@ -24,6 +24,9 @@
  *           filename for the translation file to be
  *           "translations/nl_NL.xml" if the nl_NL locale is
  *           requested.
+ * @property bool $keepObsolete
+ *           When this option is set to "true" the reader will not drop
+ *           translation messages with the "obsolete" type set.
  * 
  * @package Translation
  * @version //autogentag//
@@ -46,6 +49,7 @@ class ezcTranslationTsBackendOptions extends ezcBaseOptions
     public function __construct( $array = array() )
     {
         $this->properties['format'] = '[LOCALE].xml';
+        $this->properties['keepObsolete'] = false;
         parent::__construct( $array );
     }
 
@@ -72,6 +76,7 @@ class ezcTranslationTsBackendOptions extends ezcBaseOptions
                 }
                 break;
             case 'format':
+            case 'keepObsolete':
                 break;
             default:
                 throw new ezcBaseSettingNotFoundException( $propertyName );

@@ -282,7 +282,14 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
         }
         else if ( $message->translation['type'] == 'obsolete' )
         {
-            return null;
+            if ( $this->options->keepObsolete )
+            {
+                $status = ezcTranslationData::OBSOLETE;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         $source = trim( (string) $message->source );
@@ -400,13 +407,6 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
         {
             throw new ezcTranslationWriterNotInitializedException();
         }
-        foreach ( $data as $key => $cachedElement )
-        {
-            if ( $cachedElement->status == ezcTranslationData::OBSOLETE )
-            {
-                unset( $data[$key] );
-            }
-        }
 
         $dom = $this->dom;
         $root = $dom->getElementsByTagName( 'TS' )->item( 0 );
@@ -499,6 +499,10 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
      */
     public function deinitWriter()
     {
+        if ( is_null( $this->dom ) )
+        {
+            throw new ezcTranslationWriterNotInitializedException();
+        }
         $filename = $this->buildTranslationFileName( $this->writeLocale );
         $this->dom->save( $filename );
     }

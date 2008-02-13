@@ -216,6 +216,19 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         self::assertEquals( $expected, $context );
     }
 
+    public function testGetContextKeepObsolete()
+    {
+        $currentDir = dirname( __FILE__ );
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $backend->setOptions( array ( 'format' => '[LOCALE].xml', 'keepObsolete' => true ) );
+        $context = $backend->getContext( 'nl-nl', 'design/admin/collaboration/group_tree' );
+
+        $expected = array(
+            new ezcTranslationData( 'Groups', 'Groepen', false, ezcTranslationData::OBSOLETE )
+        );
+        self::assertEquals( $expected, $context );
+    }
+
     public function testGetMissingContext()
     {
         $currentDir = dirname( __FILE__ );
@@ -461,6 +474,56 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         self::assertEquals( $expected, $context );
     }
 
+    public function testNonInitWriter1()
+    {
+        $currentDir = dirname( __FILE__ );
+
+        // cp for test
+        copy( "{$currentDir}/files/translations/nb-no.xml", "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $context = array();
+        $context[] = new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+
+        unlink( "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        try
+        {
+            $backend->storeContext( 'number_two', $context );
+            self::assertEquals( "Expected exception not thrown." );
+        }
+        catch ( ezcTranslationWriterNotInitializedException $e )
+        {
+            self::assertEquals( "The writer is not initialized with the initWriter() method.", $e->getMessage() );
+        }
+    }
+
+    public function testNonInitWriter2()
+    {
+        $currentDir = dirname( __FILE__ );
+
+        // cp for test
+        copy( "{$currentDir}/files/translations/nb-no.xml", "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $context = array();
+        $context[] = new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+
+        unlink( "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        try
+        {
+            $backend->deinitWriter();
+            self::assertEquals( "Expected exception not thrown." );
+        }
+        catch ( ezcTranslationWriterNotInitializedException $e )
+        {
+            self::assertEquals( "The writer is not initialized with the initWriter() method.", $e->getMessage() );
+        }
+    }
+
     public function testChangeTranslation1()
     {
         $currentDir = dirname( __FILE__ );
@@ -505,6 +568,31 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         $expected = array(
             new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 ),
             new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 6 ),
+        );
+        self::assertEquals( $expected, $context );
+    }
+
+    public function testAddTranslation4()
+    {
+        $currentDir = dirname( __FILE__ );
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+        $context[] = new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::OBSOLETE, 'test.ezt', 5 );
+        $context[] = new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::UNFINISHED, 'test.ezt', 6 );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml', 'keepObsolete' => true ) );
+        $backend->initWriter( 'nb-no' );
+        $backend->storeContext( 'contentstructuremenu/show_content_structure', $context );
+        $backend->deinitWriter();
+
+        $context = $backend->getContext( 'nb-no', 'contentstructuremenu/show_content_structure' );
+
+        unlink( "{$currentDir}/files/translations/nb-no.test.xml" );
+
+        $expected = array(
+            new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::OBSOLETE, 'test.ezt', 5 ),
+            new ezcTranslationData( 'Test string to be added', 'Test string die wordt toegevoegd', 'comment', ezcTranslationData::UNFINISHED, 'test.ezt', 6 ),
         );
         self::assertEquals( $expected, $context );
     }
