@@ -1,9 +1,23 @@
 <?php
+/**
+ * File contaning the ezcTestRunner class.
+ *
+ * @package UnitTest
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
+/**
+ * Test runner to run eZ Components test suites.
+ *
+ * @package UnitTest
+ * @version //autogentag//
+ */
 class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 {
     const SUITE_FILENAME = "tests/suite.php";

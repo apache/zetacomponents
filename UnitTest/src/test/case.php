@@ -1,9 +1,23 @@
 <?php
+/**
+ * File contaning the abstract ezcTestCase class.
+ *
+ * @package UnitTest
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
+/**
+ * Abstract base class for all eZ Components test cases.
+ *
+ * @package UnitTest
+ * @version //autogentag//
+ */
 abstract class ezcTestCase extends PHPUnit_Framework_TestCase
 {
     /**

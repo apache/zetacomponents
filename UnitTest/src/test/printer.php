@@ -1,9 +1,23 @@
 <?php
+/**
+ * File contaning the ezcTestPrinter class.
+ *
+ * @package UnitTest
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
+/**
+ * Test printer class.
+ *
+ * @package UnitTest
+ * @version //autogentag//
+ */
 class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
 {
     public function __construct( $verbose = false )

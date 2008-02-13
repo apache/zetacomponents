@@ -1,8 +1,8 @@
 <?php
 /**
- * File contaning the image comparision constraint.
+ * File contaning the ezcTestConstraintSimilarImage class.
  *
- * @package Graph
+ * @package UnitTest
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -13,9 +13,10 @@ require_once 'PHPUnit/Util/Filter.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * Constraint for image comparison.
+ * Constraint class for image comparison.
  *
- * @package Unittest
+ * @package UnitTest
+ * @version //autogentag//
  */
 class ezcTestConstraintSimilarImage extends PHPUnit_Framework_Constraint
 {
