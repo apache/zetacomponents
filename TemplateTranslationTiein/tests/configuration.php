@@ -104,6 +104,26 @@ class ezcTemplateTranslationConfigurationTest extends ezcTestCase
         }
     }
 
+    public function testIsset()
+    {
+        $t = ezcTemplateTranslationConfiguration::getInstance();
+        $t->manager = null;
+
+        self::assertEquals( false, isset( $t->manager ) );
+        self::assertEquals( true, isset( $t->locale ) );
+
+        $t->manager = new ezcTranslationManager( new ezcTranslationTsBackend( '.' ) );
+        self::assertType( 'ezcTranslationManager', $t->manager );
+        self::assertEquals( true, isset( $t->manager ) );
+    }
+
+    public function testIssetUnknownProperty()
+    {
+        xdebug_break();
+        $t = ezcTemplateTranslationConfiguration::getInstance();
+        self::assertEquals( false, isset( $t->notHere ) );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( 'ezcTemplateTranslationConfigurationTest' );
