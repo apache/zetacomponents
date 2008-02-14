@@ -11,7 +11,6 @@
 require "db_cache_manager.php";
 require "fetch.php";
 
-
 /**
  * @package Template
  * @subpackage Tests
@@ -51,7 +50,6 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
         $config->cacheManager = new DbCacheManager();
 
         // Create tables.
-        //
         foreach ( $tables as $table )
         {
             try
@@ -65,25 +63,7 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
 
         $schema = ezcDbSchema::createFromFile( 'xml', dirname( __FILE__ ) . '/cache-manager-schema.xml' );
         $schema->writeToDb( $db );
-/*
 
-        $db->exec( "CREATE TABLE cache_templates ( id int(10) unsigned NOT NULL auto_increment, 
-                    cache varchar(255) NOT NULL, 
-                    expired tinyint(4),
-                    PRIMARY KEY  (id) )" );
-
-
-        $db->exec( "CREATE TABLE cache_values ( template_id int(10) unsigned NOT NULL, 
-                    name varchar(50) NOT NULL, 
-                    value varchar(255),
-                    PRIMARY KEY (template_id, name, value) )" );
-
-
-        $db->exec( "CREATE TABLE user ( id int(10) unsigned NOT NULL auto_increment, 
-                    name varchar(50) NOT NULL, 
-                    nickname varchar(30) NOT NULL,
-                    PRIMARY KEY  (id) )" );
-*/
         // insert some data
         $iq = $db->createInsertQuery();
         $s = $iq->insertInto( $db->quoteIdentifier( 'user' ) )
@@ -108,12 +88,6 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
            ->set( $db->quoteIdentifier( 'nickname' ), $iq->bindValue( 'Amos' ) )
            ->prepare();
         $s->execute();
-      /* 
-        $db->exec ( "INSERT INTO `user` (`id`, `name`, `nickname`) VALUES 
-                    (1, 'Raymond', 'sunRay'),
-                    (2, 'Derick', 'Tiger'),
-                    (3, 'Jan', 'Amos')" );
-*/
     }
 
     protected function tearDown()
@@ -142,7 +116,7 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
         $t->send->a = "Bla";
         $r = $t->process( "cache_simple_include.tpl" );
         $this->assertEquals( "\nBernard\nHello world\n", $r );
-xdebug_break();
+
         // Simulate someone edits the template
         sleep(1); // Otherwise the mtime is the same.
         file_put_contents( $this->tempDir . "/hello_world.tpl", "Goodbye cruel world!");
@@ -239,7 +213,7 @@ xdebug_break();
         $r = $t->process("show_users_cache_block.ezt");
         $this->assertEquals( "\n\n\n\n1 Raymond bla\n\n2 Derick Tiger\n\n3 Jan Amos\n", $r );
     }
-
+/*
     public function testCacheKeys()
     {
         $t = new ezcTemplate();
@@ -248,31 +222,25 @@ xdebug_break();
         $t->send->id = 1;
         $t->send->name = "aaa";
         $r = $t->process("cache_manager_with_keys.tpl");
+        ezcTemplateConfiguration::getInstance()->cacheManager->register("user", 1 );
 
-
-/*
-        $this->assertEquals( "\n\n\n\n1 Raymond sunRay\n\n2 Derick Tiger\n\n3 Jan Amos\n", $r );
+        $this->assertEquals( "\n\n\n1\naaa\n", $r );
 
         // Update a single user. 
-        $db = ezcDbInstance::get(); 
-        $db->exec( 'UPDATE user SET nickname="bla" WHERE id=1' );
+        $t->send->id = 1;
+        $t->send->name = "bla";
 
         // Still cached.
-        $r =  $t->process("show_users.ezt");
-        $this->assertEquals( "\n\n\n\n1 Raymond sunRay\n\n2 Derick Tiger\n\n3 Jan Amos\n", $r );
+        $r = $t->process("cache_manager_with_keys.tpl");
+        $this->assertEquals( "\n\n\n1\naaa\n", $r );
 
         // Send a update signal to the configuration manager.
         ezcTemplateConfiguration::getInstance()->cacheManager->update("user", 1 );
 
-        $r = $t->process("show_users.ezt");
-        $this->assertEquals( "\n\n\n\n1 Raymond bla\n\n2 Derick Tiger\n\n3 Jan Amos\n", $r );
- */
+        $r = $t->process("cache_manager_with_keys.tpl");
+        $this->assertEquals( "\n\n\n1\nbla\n", $r );
     }
-
-
-
-
-
+*/
 }
 
 ?>
