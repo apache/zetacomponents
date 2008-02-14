@@ -1,0 +1,17 @@
+<!DOCTYPE TS><TS>
+<context>
+    <name>existing</name>
+    <message>
+        <source>update with new translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>update translation</source>
+        <translation>vertaling aanpassen</translation>
+    </message>
+    <message>
+        <source>to obsolete</source>
+        <translation>markeren als ongebruikt</translation>
+    </message>
+</context>
+</TS>

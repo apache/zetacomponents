@@ -78,8 +78,6 @@ field, but we recommend to use the `ISO639-1`_ language code, followed by a _
 (underscore), followed by the ISO3166_ country code. For example, use nb_NO.xml for
 Bokmål/Norway or nl_BE.xml for Dutch/Belgium.
 
-Example 1
----------
 .. include:: tutorial_example_01.php
    :literal:
 
@@ -96,6 +94,9 @@ will simply return the ezcTranslation object. If the context is not in the
 cache, it will defer the retrieving to the backend, store the results in its
 cache and return the context.
 
+Parameterized strings
+=====================
+
 In many cases, there are parameters to your translated strings, for example to
 fill in the name of an article. In this case, a solution would be to separate the
 translatable string into two parts, then concatenate them together with the
@@ -109,13 +110,10 @@ numerical replacement identifiers (such as %1 and %2) and with associative
 identifiers (such as %search_string and %matches). The following example
 illustrates how this is done.
 
-Example 2
----------
-
 .. include:: tutorial_example_02.php
    :literal:
 
-The first lines are the same as in `Example 1`_. In this case, however, we retrieve
+The first lines are the same as in the previous example. In this case, however, we retrieve
 an ezcTranslation object for the same context for two different locales (in
 line 8 and 9). In lines 11 and 12, we request the translation for "Search for
 '%search_string' returned %matches matches.". This sentence has two parameters
@@ -154,9 +152,6 @@ at least the original strings (often in English) the Translation component uses 
 Filters are applied after the backend retrieves the data, but before it is placed
 in the internal cache of the manager. 
 
-Example 3a
-----------
-
 .. include:: tutorial_example_03.php
    :literal:
 
@@ -171,14 +166,11 @@ filter mangles non-finished or non-translated text so that it is obvious which
 text is translatable but not yet translated. The "Leet" filter renders your
 text using Leetspeak_. Both filters are demonstrated in the following example:
 
-Example 3b
-----------
-
 .. include:: tutorial_example_03b.php
    :literal:
 
 Lines 4 to 8 show the usage of ezcTranslationBorkFilter and lines 10 to 14
-show the usage of ezcTranslationLeetFilter. The output of this script is: ::
+show the usage of ezcTranslationLeetFilter. The output of this script is::
 
     header1
     [Seerch for 'appelmoes' retoorned 4 metches.]
@@ -204,9 +196,6 @@ ezcTranslationContextRead interface provide this functionality in the form of
 an iterator. The ezcTranslationTsBackend is such a class. Using this interface
 is extremely easy, as you will see in the next example.
 
-Example 4
----------
-
 .. include:: tutorial_example_04.php
    :literal:
 
@@ -228,16 +217,13 @@ TranslationCacheTiein_ component.
 Using the cache backend is similar to using the Ts backend, as is shown in
 the next example:
 
-Example 5
----------
-
 .. include:: tutorial_example_05.php
    :literal:
 
-Instead of setting up the Ts backend, we have to instantiate ezcCacheStorageFileArray
-(line 4), which we then pass as the sole parameter to the constructor of
-ezcTranslationCacheBackend_ (line 5). Lines 7 to 13 are exactly the same as
-in `Example 1`_.
+Instead of setting up the Ts backend, we have to instantiate
+ezcCacheStorageFileArray (line 4), which we then pass as the sole parameter to
+the constructor of ezcTranslationCacheBackend_ (line 5). Lines 7 to 13 are
+exactly the same as in the first example.
 
 When you try to run this script an ezcTranslationContextNotAvailableException
 exception is thrown because we did not put any contents in the cache yet.
@@ -246,26 +232,76 @@ interface. Using that, combined with a class that implements the ezcTranslationC
 interface (such as ezcTranslationTsBackend), you can fill the cache in a
 memory efficient way. The next example demonstrates how this is done. 
 
-Example 6
----------
-
 .. include:: tutorial_example_06.php
    :literal:
 
-In lines 4 to 6 we set up the reader interface, like we did in
-`Example 4`_. Then we continue in lines 8 to 10 to initialize the writer. You
+In lines 4 to 6 we set up the reader interface, like we did in the previous 
+example. Then we continue in lines 8 to 10 to initialize the writer. You
 should keep the locale for both the reader and writer the same. In line 12, we
 use a foreach() loop to iterate over all the contexts through the
 reader interface. We use the ezcTranslationContextWrite::storeContext()
 method in line 14 to store the retrieved context object to the cache. After we
 iterate over all the contexts and store them, we initialize the reader and
-writer in lines 17-18. After you run this script, the script from `Example 5`_
-would also work (as the cache now has all the contexts).
+writer in lines 17-18. After you run this script, the script from the previous
+example would also work (as the cache now has all the contexts).
 
 .. _ezcTranslationCacheBackend: TranslationCacheTiein/ezcTranslationCacheBackend.html
 .. _ezcCacheStorageFileArray: Cache/ezcCacheStorageFileArray.html
 .. _Cache: introduction_Cache.html
 .. _TranslationCacheTiein: introduction_TranslationCacheTiein.html
+
+Manipulating translation files
+==============================
+
+It is possible to use the Translation component to modify translation files in
+the Linguist format as well. The TS backend implements the
+ezcTranslationContextWrite interface as well. Modifications happen on context
+level, which means it is not possible right now to remove whole contexts from
+the translation files. Updating and adding strings to a context, as well as
+adding a whole new context is supported. To show how to do this, we take the
+following TS file as starting point:
+
+.. include:: translations/mod-example-nl_NL.xml
+   :literal:
+
+And use the following script to update it:
+
+.. include:: tutorial_example_07.php
+   :literal:
+
+After running, the output is::
+
+    <?xml version="1.0"?>
+    <!DOCTYPE TS>
+    <TS>
+      <context>
+        <name>existing</name>
+        <message>
+          <source>added</source>
+          <translation>toegevoeg</translation>
+          <comment>comment</comment>
+        </message>
+        <message>
+          <source>update with new translation</source>
+          <translation>ingevuld</translation>
+        </message>
+        <message>
+          <source>update translation</source>
+          <translation>bijgewerkt</translation>
+        </message>
+        <message>
+          <source>to obsolete</source>
+          <translation type="obsolete">markeren als ongebruikt</translation>
+        </message>
+      </context>
+      <context>
+        <name>new</name>
+        <message>
+          <source>new string</source>
+          <translation>nieuwe string</translation>
+        </message>
+      </context>
+    </TS>
 
 More information
 ================
