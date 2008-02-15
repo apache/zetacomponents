@@ -20,16 +20,8 @@
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcDebugPhpStacktraceIterator
+class ezcDebugPhpStacktraceIterator extends ezcDebugStacktraceIterator
 {
-    protected function prepare( $stackTrace )
-    {
-        return parent::prepare(
-            // Pop first 2 elements to ignore log() and getStackTrace() calls
-            array_slice( $stackTrace, 2 )
-        );
-    }
-
     /**
      * Unifies a stack element for being returned to the formatter.
      *
@@ -59,9 +51,10 @@ class ezcDebugPhpStacktraceIterator
     {
         // Not to be set in the unified version
         unset( $stackElement['type'] );
+        unset( $stackElement['object'] );
 
         // Unify args -> params
-        $stackElement['params'] = self::dumpVariables( $stackElement['args'] );
+        $stackElement['params'] = self::convertArgsToParams( $stackElement['args'] );
         unset( $stackElement['args'] );
         
         return $stackElement;

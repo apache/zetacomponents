@@ -74,17 +74,20 @@ abstract class ezcDebugStacktraceIterator implements Iterator, ArrayAccess, Coun
      * ezcDebugStacktraceIterator::__construct()} before the stack trace is
      * stored in the corresponding property. The given array can be manipulated
      * as needed to prepare the trace and the array to store internally must be
-     * returned.
-     * 
+     * returned. The basic implementation removes $removeElements number of
+     * elements from the start of the trace array and reduces the array to
+     * {@link ezcDebugOptions::$stackTraceDepth} elements.
+     * * 
      * @param mixed $stackTrace 
      * @return array The stack trace to store.
      */
-    protected function prepare( $stackTrace )
+    protected function prepare( $stackTrace, $removeElements )
     {
-        if ( $this->options->stackTraceDepth !== 0 )
-        {
-            return array_slice( $stackTrace, 0, $this->options->stackTraceDepth );
-        }
+        return array_slice(
+            $stackTrace,
+            $removeElements,
+            ( ( $elementCount = $this->options->stackTraceDepth ) === 0 ? null : $elementCount )
+        );
     }
 
     /**
@@ -94,13 +97,14 @@ abstract class ezcDebugStacktraceIterator implements Iterator, ArrayAccess, Coun
      * prepare the stack trace before storing it.
      * 
      * @param mixed $stackTrace 
+     * @param int $removeElements
      * @param ezcDebugOptions $options
      * @return void
      */
-    public final function __construct( array $stackTrace, ezcDebugOptions $options )
+    public final function __construct( $stackTrace, $removeElements = 2, ezcDebugOptions $options )
     {
         $this->options    = $options;
-        $this->stackTrace = $this->prepare( $stackTrace, $options );
+        $this->stackTrace = $this->prepare( $stackTrace, $removeElements );
     }
 
     /**

@@ -333,13 +333,17 @@ class ezcDebug
         if ( extension_loaded( 'xdebug' ) )
         {
             return new ezcDebugXdebugStacktraceIterator(
-                xdebug_get_function_stack()
+                xdebug_get_function_stack(),
+                2,
+                $this->options
             );
         }
         else
         {
             return new ezcDebugPhpStacktraceIterator(
-                debug_backtrace()
+                debug_backtrace(),
+                2,
+                $this->options
             );
         }
     }
