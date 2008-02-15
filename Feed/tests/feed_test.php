@@ -160,6 +160,14 @@ class ezcFeedTest extends ezcFeedTestCase
         }
     }
 
+    public function testParseModuleNotRecognized()
+    {
+        $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><unsupported_module:element>Content</unsupported_module:element></feed>' );
+        $this->assertEquals( 'ezcFeed', get_class( $feed ) );
+        $this->assertEquals( 'atom', $feed->getFeedType() );
+        $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
+    }
+
     public function testParseAtom1()
     {
         $dot = DIRECTORY_SEPARATOR;
