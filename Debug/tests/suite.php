@@ -18,7 +18,7 @@ require_once "debug_options_test.php";
 require_once "debug_timer_test.php";
 require_once "writers/memory_writer_test.php";
 require_once "formatters/html_formatter_test.php";
-require_once "php_stacktrace_iterator_test.php";
+require_once "variable_dump_tool_test.php";
 
 /**
  * @package Debug
