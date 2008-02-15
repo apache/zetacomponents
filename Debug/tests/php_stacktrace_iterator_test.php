@@ -8,39 +8,7 @@
  * @subpackage Tests
  */
 
-class DebugTestDumpObject
-{
-    private $private;
-
-    protected $protected;
-
-    public $public;
-
-    public function __construct( $private, $protected, $public )
-    {
-        $this->private   = $private;
-        $this->protected = $protected;
-        $this->public    = $public;
-    }
-}
-
-class DebugTestDumpObjectExtended extends DebugTestDumpObject
-{
-    private $extendedPrivate;
-
-    protected $extendedProtected;
-
-    public $extendedPublic;
-
-    public function __construct( $private, $protected, $public, $extendedPrivate, $extendedProtected, $extendedPublic )
-    {
-        $this->extendedPrivate   = $extendedPrivate;
-        $this->extendedProtected = $extendedProtected;
-        $this->extendedPublic    = $extendedPublic;
-        parent::__construct( $private, $protected, $public );
-    }
-}
-
+require_once 'classes/debug_test_dump_extended_object.php';
 
 /**
  * Test suite for the ezcDebugOptions class.
@@ -48,7 +16,7 @@ class DebugTestDumpObjectExtended extends DebugTestDumpObject
  * @package Debug
  * @subpackage Tests
  */
-class ezcDebugPhpStacktraceIteratorTest extends ezcTestCase
+class ezcDebugVariableDumpToolTest extends ezcTestCase
 {
     public static function suite()
     {
@@ -62,11 +30,11 @@ class ezcDebugPhpStacktraceIteratorTest extends ezcTestCase
 
         $this->assertEquals(
             'TRUE',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $true )
+            ezcDebugVariableDumpTool::dumpVariable( $true )
         );
         $this->assertEquals(
             'FALSE',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $false )
+            ezcDebugVariableDumpTool::dumpVariable( $false )
         );
     }
 
@@ -78,15 +46,15 @@ class ezcDebugPhpStacktraceIteratorTest extends ezcTestCase
         
         $this->assertEquals(
             '0',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $a )
+            ezcDebugVariableDumpTool::dumpVariable( $a )
         );
         $this->assertEquals(
             '23',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $b )
+            ezcDebugVariableDumpTool::dumpVariable( $b )
         );
         $this->assertEquals(
             '-42',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $c )
+            ezcDebugVariableDumpTool::dumpVariable( $c )
         );
     }
 
@@ -100,23 +68,23 @@ class ezcDebugPhpStacktraceIteratorTest extends ezcTestCase
         
         $this->assertEquals(
             '0',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $a )
+            ezcDebugVariableDumpTool::dumpVariable( $a )
         );
         $this->assertEquals(
             '23',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $b )
+            ezcDebugVariableDumpTool::dumpVariable( $b )
         );
         $this->assertEquals(
             '-42',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $c )
+            ezcDebugVariableDumpTool::dumpVariable( $c )
         );
         $this->assertEquals(
             '23.42',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $d )
+            ezcDebugVariableDumpTool::dumpVariable( $d )
         );
         $this->assertEquals(
             '-42.23',
-            ezcDebugPhpStacktraceIterator::dumpVariable( $e )
+            ezcDebugVariableDumpTool::dumpVariable( $e )
         );
     }
 
@@ -127,11 +95,11 @@ class ezcDebugPhpStacktraceIteratorTest extends ezcTestCase
 
         $this->assertEquals(
             "'foo'",
-            ezcDebugPhpStacktraceIterator::dumpVariable( $a )
+            ezcDebugVariableDumpTool::dumpVariable( $a )
         );
         $this->assertEquals(
             "''",
-            ezcDebugPhpStacktraceIterator::dumpVariable( $b )
+            ezcDebugVariableDumpTool::dumpVariable( $b )
         );
     }
 
@@ -146,7 +114,7 @@ array (0 => 23, 1 => 42.23, 2 => TRUE, 3 => FALSE, 4 => 'test', 5 => 'foo bar ba
 EOT;
         $this->assertEquals(
             $res,
-            ezcDebugPhpStacktraceIterator::dumpVariable( $arr )
+            ezcDebugVariableDumpTool::dumpVariable( $arr )
         );
     }
 
@@ -173,7 +141,7 @@ array (0 => 23, 'foo bar' => array (1 => '293', 2 => 234223, 'foo' => array (0 =
 EOT;
         $this->assertEquals(
             $res,
-            ezcDebugPhpStacktraceIterator::dumpVariable( $arr )
+            ezcDebugVariableDumpTool::dumpVariable( $arr )
         );
     }
 
@@ -187,27 +155,27 @@ EOT;
 
         $this->assertEquals(
             $res,
-            ezcDebugPhpStacktraceIterator::dumpVariable( $obj )
+            ezcDebugVariableDumpTool::dumpVariable( $obj )
         );
     }
 
     public function testDumpExtendedObject()
     {
-        $obj = new DebugTestDumpObjectExtended( 23, 42.23, 'foo bar baz', 42, true, false );
+        $obj = new DebugTestDumpExtendedObject( 23, 42.23, 'foo bar baz', 42, true, false );
 
         $res = <<<EOT
-class DebugTestDumpObjectExtended { private \$extendedPrivate = 42; protected \$extendedProtected = TRUE; public \$extendedPublic = FALSE; protected \$protected = 42.23; public \$public = 'foo bar baz' }
+class DebugTestDumpExtendedObject { private \$extendedPrivate = 42; protected \$extendedProtected = TRUE; public \$extendedPublic = FALSE; protected \$protected = 42.23; public \$public = 'foo bar baz' }
 EOT;
 
         $this->assertEquals(
             $res,
-            ezcDebugPhpStacktraceIterator::dumpVariable( $obj )
+            ezcDebugVariableDumpTool::dumpVariable( $obj )
         );
     }
 
     public function testDumpExtendedObjectComplex()
     {
-        $obj = new DebugTestDumpObjectExtended(
+        $obj = new DebugTestDumpExtendedObject(
             array(),
             42.23,
             'foo bar baz',
@@ -227,7 +195,7 @@ EOT;
             true,
             array(
                 new DebugTestDumpObject(
-                    new DebugTestDumpObjectExtended( 1, 2, 3, 4, 5, 6 ),
+                    new DebugTestDumpExtendedObject( 1, 2, 3, 4, 5, 6 ),
                     array( true, false, 'string' ),
                     new DebugTestDumpObject( 'a', 2, 'c' )
                 ),
@@ -235,12 +203,12 @@ EOT;
         );
 
         $res = <<<EOT
-class DebugTestDumpObjectExtended { private \$extendedPrivate = array (0 => 1, 1 => 2, 2 => array (0 => class stdClass {  }, 1 => 'some text', 2 => class stdClass {  }, 3 => 23, 4 => array (0 => NULL, 1 => NULL, 2 => TRUE, 3 => FALSE, 4 => NULL, 5 => 23)), 3 => 3, 4 => 4); protected \$extendedProtected = TRUE; public \$extendedPublic = array (0 => class DebugTestDumpObject { private \$private = class DebugTestDumpObjectExtended { private \$extendedPrivate = 4; protected \$extendedProtected = 5; public \$extendedPublic = 6; protected \$protected = 2; public \$public = 3 }; protected \$protected = array (0 => TRUE, 1 => FALSE, 2 => 'string'); public \$public = class DebugTestDumpObject { private \$private = 'a'; protected \$protected = 2; public \$public = 'c' } }); protected \$protected = 42.23; public \$public = 'foo bar baz' }
+class DebugTestDumpExtendedObject { private \$extendedPrivate = array (0 => 1, 1 => 2, 2 => array (0 => class stdClass {  }, 1 => 'some text', 2 => class stdClass {  }, 3 => 23, 4 => array (0 => NULL, 1 => NULL, 2 => TRUE, 3 => FALSE, 4 => NULL, 5 => 23)), 3 => 3, 4 => 4); protected \$extendedProtected = TRUE; public \$extendedPublic = array (0 => class DebugTestDumpObject { private \$private = class DebugTestDumpExtendedObject { private \$extendedPrivate = 4; protected \$extendedProtected = 5; public \$extendedPublic = 6; protected \$protected = 2; public \$public = 3 }; protected \$protected = array (0 => TRUE, 1 => FALSE, 2 => 'string'); public \$public = class DebugTestDumpObject { private \$private = 'a'; protected \$protected = 2; public \$public = 'c' } }); protected \$protected = 42.23; public \$public = 'foo bar baz' }
 EOT;
 
         $this->assertEquals(
             $res,
-            ezcDebugPhpStacktraceIterator::dumpVariable( $obj )
+            ezcDebugVariableDumpTool::dumpVariable( $obj )
         );
     }
     
@@ -252,7 +220,7 @@ EOT;
 
         $this->assertEquals(
             "resource({$matches['id']}) of type (stream)",
-            ezcDebugPhpStacktraceIterator::dumpVariable( $res )
+            ezcDebugVariableDumpTool::dumpVariable( $res )
         );
     }
 }

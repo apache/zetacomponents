@@ -23,5 +23,6 @@ return array(
     'ezcDebugSwitchTimerStruct'     => 'Debug/structs/switch_timer.php',
     'ezcDebugTimer'                 => 'Debug/debug_timer.php',
     'ezcDebugTimerStruct'           => 'Debug/structs/timer.php',
+    'ezcDebugVariableDumpTool'      => 'Debug/tools/dump.php',
 );
 ?>

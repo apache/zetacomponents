@@ -37,7 +37,7 @@ class ezcDebugSuite extends PHPUnit_Framework_TestSuite
 		$this->addTest( ezcDebugTest::suite() );
 		$this->addTest( ezcDebugOptionsTest::suite() );
 		$this->addTest( ezcDebugHtmlFormatterTest::suite() );
-		$this->addTest( ezcDebugPhpStacktraceIteratorTest::suite() );
+		$this->addTest( ezcDebugVariableDumpToolTest::suite() );
 	}
 
     public static function suite()
