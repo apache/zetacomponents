@@ -12,6 +12,10 @@
 /**
  * Container for feed module data.
  *
+ * Currently implemented by these feed modules:
+ *  - Content ({@link ezcFeedContentModule})
+ *  - DublinCore ({@link ezcFeedDublinCoreModule})
+ *
  * @package Feed
  * @version //autogentag//
  */
@@ -50,9 +54,10 @@ abstract class ezcFeedModule
      */
     public function __set( $name, $value )
     {
-        if ( in_array( $name, $this->schema[$this->level] ) )
+        if ( isset( $this->schema[$this->level][$name] ) )
         {
-            $this->properties[$name] = $value;
+            $node = $this->add( $name );
+            $node->set( $value );
         }
         else
         {
@@ -69,7 +74,7 @@ abstract class ezcFeedModule
      */
     public function __get( $name )
     {
-        if ( in_array( $name, $this->schema[$this->level] ) )
+        if ( isset( $this->schema[$this->level][$name] ) )
         {
             return $this->properties[$name];
         }
@@ -88,13 +93,37 @@ abstract class ezcFeedModule
      */
     public function __isset( $name )
     {
-        if ( in_array( $name, $this->schema[$this->level] ) )
+        if ( isset( $this->schema[$this->level][$name] ) )
         {
             return isset( $this->properties[$name] );
         }
         else
         {
             return false;
+        }
+    }
+
+    /**
+     * Adds a new ezcFeedElement element with name $name to this module and
+     * returns it.
+     *
+     * @throws ezcFeedUnsupportedElementException
+     *         if trying to add an element which is not supported.
+     *
+     * @param string $name The element name
+     * @return ezcFeedElement
+     */
+    public function add( $name )
+    {
+        if ( isset( $this->schema[$this->level][$name] ) )
+        {
+            $node = new ezcFeedElement( $this->schema[$this->level][$name] );
+            $this->properties[$name][] = $node;
+            return $node;
+        }
+        else
+        {
+            throw new ezcFeedUnsupportedElementException( $name );
         }
     }
 
@@ -126,13 +155,13 @@ abstract class ezcFeedModule
     abstract public function generate( DOMDocument $xml, DOMNode $root );
 
     /**
-     * Parses the $value and returns a converted value if required based on $name.
+     * Parses the XML element $node and creates a feed element in the current
+     * module with name $name.
      *
      * @param string $name The name of the element belonging to the module
-     * @param mixed $value The value which needs to be converted
-     * @return mixed
+     * @param DOMElement $node The XML child from which to take the values for $name
      */
-    abstract public function parse( $name, $value );
+    abstract public function parse( $name, $node );
 
     /** 
      * Returns the module name.

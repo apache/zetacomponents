@@ -46,7 +46,12 @@ class ezcFeedContentModule extends ezcFeedModule
      */
     protected $schema = array(
         'feed' => array(),
-        'item' => array( 'encoded' ) );
+        'item' => array( 'encoded' => array( '#' => 'string' ),
+                         'encoding'  => array( '#' => 'string' ), // not supported
+                         'format'  => array( '#' => 'string' ), // not supported
+                         'item'  => array( '#' => 'string' ), // not supported
+                         'items'  => array( '#' => 'string' ), // not supported
+                         ) );
 
     /**
      * Constructs a new ezcFeedContentModule object.
@@ -66,39 +71,43 @@ class ezcFeedContentModule extends ezcFeedModule
      */
     public function generate( DOMDocument $xml, DOMNode $root )
     {
-        foreach ( $this->schema[$this->level] as $element )
+        foreach ( $this->schema[$this->level] as $element => $schema )
         {
             if ( isset( $this->$element ) )
             {
-                $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $element );
-                $root->appendChild( $elementTag );
-
-                switch ( $element )
+                foreach ( $this->$element as $values )
                 {
-                    case 'encoded':
-                        $elementTag->nodeValue = htmlspecialchars( $this->$element, ENT_NOQUOTES );
-                        break;
+                    $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $element );
+                    $root->appendChild( $elementTag );
+
+                    switch ( $element )
+                    {
+                        case 'encoded':
+                            $elementTag->nodeValue = htmlspecialchars( $values->__toString(), ENT_NOQUOTES );
+                            break;
+                    }
                 }
             }
         }
     }
 
     /**
-     * Parses the $value and returns a converted value if required based on $name.
+     * Parses the XML element $node and creates a feed element in the current
+     * module with name $name.
      *
      * @param string $name The name of the element belonging to the module
-     * @param mixed $value The value which needs to be converted
-     * @return mixed
+     * @param DOMElement $node The XML child from which to take the values for $name
      */
-    public function parse( $element, $value )
+    public function parse( $name, $node )
     {
-        switch ( $element )
+        $element = $this->add( $name );
+        $value = $node->textContent;
+
+        switch ( $name )
         {
             case 'encoded':
-                return htmlspecialchars_decode( $value, ENT_NOQUOTES );
-
-            default:
-                return $value;
+                $element->set( htmlspecialchars_decode( $value, ENT_NOQUOTES ) );
+                break;
         }
     }
 

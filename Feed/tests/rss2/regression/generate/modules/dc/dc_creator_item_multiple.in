@@ -1,0 +1,14 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( 'Feed link' ),
+              'description' => 'Feed description',
+			  'item' => array( array( 'title' => 'Item title 1',
+                                      'link' => 'Item link 1',
+                                      'description' => 'Item description 1',
+                                      'DublinCore' => array( array( 'creator' => 'DC creator 1' ) ) ),
+			                   array( 'title' => 'Item title 2',
+                                      'link' => 'Item link 2',
+                                      'description' => 'Item description 2',
+                                      'DublinCore' => array( array( 'creator' => 'DC creator 2' ) )  ) ),
+            );
+?>

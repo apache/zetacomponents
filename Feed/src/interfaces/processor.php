@@ -154,6 +154,50 @@ abstract class ezcFeedProcessor
     }
 
     /**
+     * Creates elements for all modules loaded, and adds the namespaces required
+     * by the modules in the XML document being generated.
+     *
+     * @param ezcFeedItem $item The feed item containing the modules
+     * @param DOMElement $node The XML element in which to add the module elements
+     * @ignore
+     */
+    public function generateModules( ezcFeedItem $item, DOMElement $node )
+    {
+        foreach ( ezcFeed::getSupportedModules() as $module => $class )
+        {
+            if ( $item->hasModule( $module ) )
+            {
+                $this->addAttribute( $this->root, 'xmlns:' . $item->$module->getNamespacePrefix(), $item->$module->getNamespace() );
+                $item->$module->generate( $this->xml, $node );
+            }
+        }
+    }
+
+    /**
+     * Parses the XML element $node and creates modules in the feed item $item.
+     *
+     * @param ezcFeedItem $item The feed item which will contain the modules
+     * @param DOMElement $node The XML element from which to get the module elements
+     * @param string $tagName The XML tag name (if it contains ':' it will be considered part of a module)
+     * @ignore
+     */
+    public function parseModules( ezcFeedItem $item, DOMElement $node, $tagName )
+    {
+        $supportedModules = ezcFeed::getSupportedModules();
+        $supportedModulesPrefixes = ezcFeed::getSupportedModulesPrefixes();
+        if ( strpos( $tagName, ':' ) !== false )
+        {
+            list( $prefix, $key ) = split( ':', $tagName );
+            $moduleName = isset( $supportedModulesPrefixes[$prefix] ) ? $supportedModulesPrefixes[$prefix] : null;
+            if ( isset( $supportedModules[$moduleName] ) )
+            {
+                $module = $item->hasModule( $moduleName ) ? $item->$moduleName : $item->addModule( $moduleName );
+                $module->parse( $key, $node );
+            }
+        }
+    }
+
+    /**
      * Adds an attribute to the XML node $node.
      *
      * @param DOMNode $node The node to add the attribute to

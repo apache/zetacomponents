@@ -185,13 +185,12 @@ Can appear only once.
 `ATOM`_ has an optional attribute *type* with possible values ``text``
 (default), ``html``, ``xhtml``.
 
-`ATOM`_ has an optional attribute *lang* which specifies the language of the
-text. A list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes. This attribute is accessed through
-ezcFeed as *language*.
+`ATOM`_ has an optional attribute *xml:lang* which specifies the language of
+the text. A list of allowed languages can be found here:
+`RSS language codes`_. This attribute is accessed through ezcFeed as *language*.
 
-The *type* and *lang* `ATOM`_ attributes won't appear in the generated feed
-when creating `RSS1`_ and `RSS2`_ feeds.
+The *type* and *xml:lang* `ATOM`_ attributes won't appear in the generated
+feed when creating `RSS1`_ and `RSS2`_ feeds.
 
 Create example::
 
@@ -466,13 +465,12 @@ Can appear only once.
 `ATOM`_ has an optional attribute *type* with possible values ``text``
 (default), ``html``, ``xhtml``.
 
-`ATOM`_ has an optional attribute *lang* which specifies the language of the
-text. A list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes. This attribute is accessed through
-ezcFeed as *language*.
+`ATOM`_ has an optional attribute *xml:lang* which specifies the language of
+the text. A list of allowed languages can be found here:
+`RSS language codes`_. This attribute is accessed through ezcFeed as *language*.
 
-The *type* and *lang* `ATOM`_ attributes won't appear in the generated feed
-when creating `RSS1`_ and `RSS2`_ feeds.
+The *type* and *xml:lang* `ATOM`_ attributes won't appear in the generated
+feed when creating `RSS1`_ and `RSS2`_ feeds.
 
 Create example::
 
@@ -535,9 +533,9 @@ Has an optional attribute *type* with possible values ``text`` (default),
 Has an optional attribute *src* which specifies the URI where the full content
 is located.
 
-Has an optional attribute *lang* which specifies the language of the text. A
-list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes.
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here:
+`RSS language codes`_.
 
 If *src* is present, the *type* attribute, if present, is the media type of the
 content.
@@ -808,9 +806,8 @@ Can appear only once.
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
 
-Has an optional attribute *lang* which specifies the language of the text. A
-list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes.
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_.
 
 Equivalents: `ezcFeed-copyright`_, `ATOM-rights`_, RSS1-none,
 `RSS2-copyright`_.
@@ -828,9 +825,8 @@ Can appear only once.
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
 
-Has an optional attribute *lang* which specifies the language of the text. A
-list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes.
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_.
 
 Equivalents: `ezcFeed-description`_, `ATOM-subtitle`_, `RSS1-description`_,
 `RSS2-description`_.
@@ -849,9 +845,8 @@ Can appear only once.
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
 
-Has an optional attribute *lang* which specifies the language of the text. A
-list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes.
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_.
 
 Equivalents: `ezcFeed-title`_, `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
@@ -930,9 +925,9 @@ Has an optional attribute *type* with possible values ``text`` (default),
 Has an optional attribute *src* which specifies the URI where the full content
 is located.
 
-Has an optional attribute *lang* which specifies the language of the text. A
-list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes.
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here:
+`RSS language codes`_.
 
 If *src* is present, the *type* attribute, if present, is the media type of the
 content.
@@ -990,7 +985,7 @@ Equivalents: `ezcFeed-item-id`_, `ATOM-entry-id`_, `RSS1-item-about`_,
 ATOM-entry-link
 ```````````````
 
-An to the related to the feed entry.
+A link to a resource related to the feed entry.
 
 Required.
 
@@ -1038,9 +1033,8 @@ Can appear only once.
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
 
-Has an optional attribute *lang* which specifies the language of the text. A
-list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes.
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_.
 
 Equivalents: `ezcFeed-item-copyright`_, `ATOM-entry-rights`_, RSS1-none,
 RSS2-none (`RSS2-copyright`_ for the whole feed).
@@ -1058,9 +1052,8 @@ Can appear only once.
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
 
-Has an optional attribute *lang* which specifies the language of the text. A
-list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes.
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_.
 
 Equivalents: `ezcFeed-item-description`_, `ATOM-entry-summary`_/
 `ATOM-entry-content`_, `RSS1-item-description`_, `RSS2-item-description`_.
@@ -1078,9 +1071,8 @@ Can appear only once.
 Has an optional attribute *type* with possible values ``text`` (default),
 ``html``, ``xhtml``.
 
-Has an optional attribute *lang* which specifies the language of the text. A
-list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes.
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_.
 
 Equivalents: `ezcFeed-item-title`_, `ATOM-entry-title`_, `RSS1-item-title`_,
 `RSS2-item-title`_.
@@ -1514,8 +1506,7 @@ Optional (recommended).
 
 Can appear only once.
 
-A list of allowed languages can be found here:
-http://www.rssboard.org/rss-language-codes.
+A list of allowed languages can be found here: `RSS language codes`_.
 
 Equivalents: `ezcFeed-language`_, ATOM-*xml:lang* for each element, RSS1-none,
 `RSS2-language`_.
@@ -1856,6 +1847,260 @@ Parse example::
   $text = $item->Content->encoded;
 
 
+DublinCore module
+=================
+
+Specifications
+--------------
+
+`DublinCore specifications`_
+
+
+Feed elements
+-------------
+
+
+Item elements
+-------------
+
+DublinCore-item-contributor
+```````````````````````````
+
+An entity responsible for making contributions to the resource. Usually the
+name of a person, organization or service.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+Create example::
+
+  $feed = new ezcFeed( 'rss2' );
+  $item = $feed->add( 'item' );
+  $module = $item->addModule( 'DublinCore' );
+  $element = $module->add( 'contributor' );
+  $element->set( 'Contributor name' );
+  $element->language = 'no'; // optional language specification
+
+Parse example::
+
+  // $item is a feed item (ezcFeedItem)
+  foreach ( $item->DublinCore->contributor as $element )
+  {
+      echo $element->__toString();
+      echo $element->language;
+  }
+
+
+DublinCore-item-coverage
+````````````````````````
+
+The spatial or temporal topic of the resource, the spatial applicability of
+the resource, or the jurisdiction under which the resource is relevant. A
+recommended practice is to use a controlled vocabulary such as `TGN`_.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-creator
+```````````````````````
+
+An entity responsible for making the resource. Usually the name of a person or
+organization.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-date
+````````````````````
+
+A point or period of time associated with an event in the lifecycle of the
+resource. Usual date format is `ISO 8601`_.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-description
+```````````````````````````
+
+A description of the resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-format
+``````````````````````
+
+The file format, physical medium, or dimensions of the resource. Recommended
+best practices is to use a controlled vocabulary such as the list of
+`Internet Media Types`_ (MIME).
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-identifier
+``````````````````````````
+
+An unambiguous reference to the resource within a given context.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-language
+````````````````````````
+
+A language of the resource. Recommended best practice is to use a controlled
+vocabulary such as `RFC 4646`_.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-publisher
+`````````````````````````
+
+An entity responsible for making the resource available. Usually the name of a
+person, organization or service.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-relation
+````````````````````````
+
+A related resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-rights
+``````````````````````
+
+Information about rights held in and over the resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-source
+``````````````````````
+
+A related resource from which the described resource is derived.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-subject
+```````````````````````
+
+The topic of the resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-title
+`````````````````````
+
+The name given to the resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-item-type
+````````````````````
+
+The nature or genre of the resource. Recommended best practice is to use a
+controlled vocabulary such as the `DCMI Type Vocabulary`_.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
 Resources
 =========
 
@@ -1877,11 +2122,17 @@ Modules
 .. _RFC 4287: http://atompub.org/rfc4287.html
 
 .. _Content specifications: http://purl.org/rss/1.0/modules/content/
+.. _DublinCore specifications: http://dublincore.org/documents/dces/
 
 .. _RFC 3339: http://www.faqs.org/rfcs/rfc3339.html
 .. _RFC 822: http://www.faqs.org/rfcs/rfc822.html
 .. _PICS: http://www.w3.org/PICS/
-
+.. _TGN: http://www.getty.edu/research/tools/vocabulary/tgn/index.html
+.. _ISO 8601: http://www.w3.org/TR/NOTE-datetime
+.. _Internet Media Types: http://www.iana.org/assignments/media-types/
+.. _RFC 4646: http://www.faqs.org/rfcs/rfc4646.html
+.. _DCMI Type Vocabulary: http://dublincore.org/documents/dcmi-type-vocabulary/
+.. _RSS language codes: http://www.rssboard.org/rss-language-codes
 
 .. |ezcFeed-author| replace:: author
 .. |ezcFeed-category| replace:: category

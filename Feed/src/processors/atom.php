@@ -820,8 +820,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateItems()
     {
-        $supportedModules = ezcFeed::getSupportedModules();
-        $entries = $this->get( 'entries' );
+        $entries = $this->get( 'items' );
         if ( $entries === null )
         {
             return;
@@ -1022,14 +1021,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            foreach ( $supportedModules as $module => $class )
-            {
-                if ( $entry->hasModule( $module ) )
-                {
-                    $this->addAttribute( $this->root, 'xmlns:' . $entry->$module->getNamespacePrefix(), $entry->$module->getNamespace() );
-                    $entry->$module->generate( $this->xml, $entryTag );
-                }
-            }
+            $this->generateModules( $entry, $entryTag );
         }
     }
 
@@ -1169,8 +1161,6 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
-        $supportedModules = ezcFeed::getSupportedModules();
-        $supportedModulesPrefixes = ezcFeed::getSupportedModulesPrefixes();
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
@@ -1341,16 +1331,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     default:
-                        if ( strpos( $tagName, ':' ) !== false )
-                        {
-                            list( $prefix, $key ) = split( ':', $tagName );
-                            $moduleName = isset( $supportedModulesPrefixes[$prefix] ) ? $supportedModulesPrefixes[$prefix] : null;
-                            if ( isset( $supportedModules[$moduleName] ) )
-                            {
-                                $module = $element->hasModule( $moduleName ) ? $element->$moduleName : $element->addModule( $moduleName );
-                                $module->$key = $module->parse( $key, $itemChild->textContent );
-                            }
-                        }
+                        $this->parseModules( $element, $itemChild, $tagName );
                         break;
                 }
             }

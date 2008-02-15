@@ -201,14 +201,7 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                                             {
                                                                 foreach ( $subSubSubValue as $subSubSubSubKey => $subSubSubSubValue )
                                                                 {
-                                                                    if ( isset( $supportedModules[$subSubSubKey] ) )
-                                                                    {
-                                                                        $subSubElement = $subElement->addModule( $subSubSubKey );
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        $subSubElement = $subElement->add( $subSubSubKey );
-                                                                    }
+                                                                    $subSubElement = $subElement->add( $subSubSubKey );
                                                                     foreach ( $subSubSubSubValue as $subSubSubSubSubKey => $subSubSubSubSubValue )
                                                                     {
                                                                         if ( $subSubSubSubSubKey === '#' )

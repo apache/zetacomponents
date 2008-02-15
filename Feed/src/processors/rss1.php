@@ -251,7 +251,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function generateItems()
     {
-        $supportedModules = ezcFeed::getSupportedModules();
         foreach ( $this->get( 'items' ) as $element )
         {
             $itemTag = $this->xml->createElement( 'item' );
@@ -284,14 +283,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 $this->generateMetaData( $itemTag, $attribute, $data );
             }
 
-            foreach ( $supportedModules as $module => $class )
-            {
-                if ( $element->hasModule( $module ) )
-                {
-                    $this->addAttribute( $this->root, 'xmlns:' . $element->$module->getNamespacePrefix(), $element->$module->getNamespace() );
-                    $element->$module->generate( $this->xml, $itemTag );
-                }
-            }
+            $this->generateModules( $element, $itemTag );
         }
     }
 
@@ -507,9 +499,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
-        $supportedModules = ezcFeed::getSupportedModules();
-        $supportedModulesPrefixes = ezcFeed::getSupportedModulesPrefixes();
-
         foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
         {
             $tagName = ezcFeedTools::deNormalizeName( $key, $this->schema->getItemsMap() );
@@ -533,16 +522,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
                     default:
                         // check if it's part of a known module/namespace
-                        if ( strpos( $tagName, ':' ) !== false )
-                        {
-                            list( $prefix, $key ) = split( ':', $tagName );
-                            $moduleName = isset( $supportedModulesPrefixes[$prefix] ) ? $supportedModulesPrefixes[$prefix] : null;
-                            if ( isset( $supportedModules[$moduleName] ) )
-                            {
-                                $module = $element->hasModule( $moduleName ) ? $element->$moduleName : $element->addModule( $moduleName );
-                                $module->$key = $module->parse( $key, $itemChild->textContent );
-                            }
-                        }
+                        $this->parseModules( $element, $itemChild, $tagName );
+
                         // continue = ignore modules when getting attributes below
                         continue;
                 }

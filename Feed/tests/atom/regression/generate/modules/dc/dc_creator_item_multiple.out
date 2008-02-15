@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>XXX</updated>
+  <author>
+    <name>Author name</name>
+  </author>
+  <entry>
+    <id>Entry id 1</id>
+    <title>Entry title 1</title>
+    <updated>XXX</updated>
+    <content>Entry content 1</content>
+    <dc:creator>DC creator 1</dc:creator>
+  </entry>
+  <entry>
+    <id>Entry id 2</id>
+    <title>Entry title 2</title>
+    <updated>XXX</updated>
+    <content>Entry content 2</content>
+    <dc:creator>DC creator 2</dc:creator>
+  </entry>
+</feed> 

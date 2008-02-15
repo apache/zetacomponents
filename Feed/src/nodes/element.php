@@ -129,6 +129,9 @@ class ezcFeedElement
      * Adds a new ezcFeedElement element with name $name to this element and
      * returns it.
      *
+     * @throws ezcFeedUnsupportedElementException
+     *         if trying to add an element which is not supported.
+     *
      * @param string $name The element name
      * @return ezcFeedelement
      */
@@ -137,9 +140,16 @@ class ezcFeedElement
         $map = isset( $this->schema['ITEMS_MAP'] ) ? $this->schema['ITEMS_MAP'] : array();
         $name = ezcFeedTools::normalizeName( $name, $map );
 
-        $element = new ezcFeedElement( $this->schema['NODES'][$name] );
-        $this->data[$name][] = $element;
-        return $element;
+        if ( isset( $this->schema['NODES'][$name] ) )
+        {
+            $element = new ezcFeedElement( $this->schema['NODES'][$name] );
+            $this->data[$name][] = $element;
+            return $element;
+        }
+        else
+        {
+            throw new ezcFeedUnsupportedElementException( $name );
+        }
     }
 }
 ?>

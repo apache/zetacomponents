@@ -96,7 +96,7 @@ class ezcFeedItem extends ezcFeedElement
     /**
      * Adds a new module to this item and returns it.
      *
-     * @TODO check if module is already added, maybe return the existing module
+     * @todo check if module is already added, maybe return the existing module
      *
      * @param string $name The name of the module to add
      * @return ezcFeedModule

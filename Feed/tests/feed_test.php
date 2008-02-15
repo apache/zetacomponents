@@ -52,6 +52,26 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
     }
 
+    public function testCreateModuleContent()
+    {
+        $feed = new ezcFeed( 'atom' );
+        $item = $feed->add( 'item' );
+        $module = $item->addModule( 'Content' );
+        $this->assertEquals( 'Content', $module->getModuleName() );
+        $this->assertEquals( 'http://purl.org/rss/1.0/modules/content/', $module->getNamespace() );
+        $this->assertEquals( 'content', $module->getNamespacePrefix() );
+    }
+
+    public function testCreateModuleDublinCore()
+    {
+        $feed = new ezcFeed( 'atom' );
+        $item = $feed->add( 'item' );
+        $module = $item->addModule( 'DublinCore' );
+        $this->assertEquals( 'DublinCore', $module->getModuleName() );
+        $this->assertEquals( 'http://purl.org/dc/elements/1.1/', $module->getNamespace() );
+        $this->assertEquals( 'dc', $module->getNamespacePrefix() );
+    }
+
     public function testCreateFeedNotSupported()
     {
         try
@@ -228,6 +248,37 @@ class ezcFeedTest extends ezcFeedTestCase
         catch ( ezcFeedUnsupportedModuleException $e )
         {
             $this->assertEquals( "The module 'unsupported_module' is not supported.", $e->getMessage() );
+        }
+    }
+
+    public function testAddElementNotSupported()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $item = $feed->add( 'item' );
+        try
+        {
+            $item->add( 'unsupported_element' );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedUnsupportedElementException $e )
+        {
+            $this->assertEquals( "The feed element 'unsupported_element' is not supported.", $e->getMessage() );
+        }
+    }
+
+    public function testAddElementNotSupportedInModule()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $item = $feed->add( 'item' );
+        $module = $item->addModule( 'Content' );
+        try
+        {
+            $module->add( 'unsupported_element' );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedUnsupportedElementException $e )
+        {
+            $this->assertEquals( "The feed element 'unsupported_element' is not supported.", $e->getMessage() );
         }
     }
 

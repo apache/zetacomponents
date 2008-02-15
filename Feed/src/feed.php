@@ -27,6 +27,16 @@
  * {@link ezcFeedProcessor} and implements the interface {@link ezcFeedParser},
  * and adding it to the {@link self::$supportedFeedTypes} array.
  *
+ * The following modules are supported by the Feed component:
+ *  - Content (ezcFeedContentModule) -
+ *    {@link http://purl.org/rss/1.0/modules/content/ Specifications}
+ *  - DublinCore ({@link ezcFeedDublinCoreModule}) -
+ *    {@link http://dublincore.org/documents/dces/ Specifications}
+ *
+ * A new module can be defined by creating a class which extends the class
+ * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}
+ * and {@link self::$supportedModulesPrefixes} arrays.
+ *
  * A feed object can be created in different ways:
  *  - by calling the constructor with the required feed type. Example:
  *  <code>
@@ -271,7 +281,8 @@ class ezcFeed
      * @var array(string=>string)
      */
     protected static $supportedModules = array(
-        'Content' => 'ezcFeedContentModule',
+        'Content'    => 'ezcFeedContentModule',
+        'DublinCore' => 'ezcFeedDublinCoreModule',
     );
 
     /**
@@ -281,6 +292,7 @@ class ezcFeed
      */
     protected static $supportedModulesPrefixes = array(
         'content' => 'Content',
+        'dc'      => 'DublinCore',
     );
 
     /**
