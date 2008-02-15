@@ -10,15 +10,18 @@
  */
 
 return array(
-    'ezcDebugOutputFormatter'   => 'Debug/interfaces/formatter.php',
-    'ezcDebug'                  => 'Debug/debug.php',
-    'ezcDebugHtmlFormatter'     => 'Debug/formatters/html_formatter.php',
-    'ezcDebugMemoryWriter'      => 'Debug/writers/memory_writer.php',
-    'ezcDebugMessage'           => 'Debug/debug_message.php',
-    'ezcDebugOptions'           => 'Debug/options.php',
-    'ezcDebugStructure'         => 'Debug/structs/debug_structure.php',
-    'ezcDebugSwitchTimerStruct' => 'Debug/structs/switch_timer.php',
-    'ezcDebugTimer'             => 'Debug/debug_timer.php',
-    'ezcDebugTimerStruct'       => 'Debug/structs/timer.php',
+    'ezcDebugException'             => 'Debug/exceptions/exception.php',
+    'ezcDebugOutputFormatter'       => 'Debug/interfaces/formatter.php',
+    'ezcDebug'                      => 'Debug/debug.php',
+    'ezcDebugHtmlFormatter'         => 'Debug/formatters/html_formatter.php',
+    'ezcDebugMemoryWriter'          => 'Debug/writers/memory_writer.php',
+    'ezcDebugMessage'               => 'Debug/debug_message.php',
+    'ezcDebugOptions'               => 'Debug/options.php',
+    'ezcDebugPhpStacktraceIterator' => 'Debug/stacktrace/php_iterator.php',
+    'ezcDebugStacktraceIterator'    => 'Debug/interfaces/stacktrace_iterator.php',
+    'ezcDebugStructure'             => 'Debug/structs/debug_structure.php',
+    'ezcDebugSwitchTimerStruct'     => 'Debug/structs/switch_timer.php',
+    'ezcDebugTimer'                 => 'Debug/debug_timer.php',
+    'ezcDebugTimerStruct'           => 'Debug/structs/timer.php',
 );
 ?>

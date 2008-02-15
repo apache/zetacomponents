@@ -316,11 +316,32 @@ class ezcDebug
      * @param array(string=>string) $extraInfo
      * @return void
      */
-    public function log( $message, $verbosity, array $extraInfo = array() )
+    public function log( $message, $verbosity, array $extraInfo = array(), $stackTrace = false )
     {
         // Add the verbosity
         $extraInfo = array_merge( array( "verbosity" => $verbosity ), $extraInfo );
+        if ( $this->options->stackTrace === true || $stackTrace === true )
+        {
+            $extraInfo['stackTrace'] = $this->getStackTrace();
+        }
         $this->log->log( $message, ezcLog::DEBUG, $extraInfo );
+    }
+
+    private function getStackTrace()
+    {
+        $stackTrace = array();
+        if ( extension_loaded( 'xdebug' ) )
+        {
+            return new ezcDebugXdebugStacktraceIterator(
+                xdebug_get_function_stack()
+            );
+        }
+        else
+        {
+            return new ezcDebugPhpStacktraceIterator(
+                debug_backtrace()
+            );
+        }
     }
 
     /**

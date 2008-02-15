@@ -18,6 +18,7 @@ require_once "debug_options_test.php";
 require_once "debug_timer_test.php";
 require_once "writers/memory_writer_test.php";
 require_once "formatters/html_formatter_test.php";
+require_once "php_stacktrace_iterator_test.php";
 
 /**
  * @package Debug
@@ -36,6 +37,7 @@ class ezcDebugSuite extends PHPUnit_Framework_TestSuite
 		$this->addTest( ezcDebugTest::suite() );
 		$this->addTest( ezcDebugOptionsTest::suite() );
 		$this->addTest( ezcDebugHtmlFormatterTest::suite() );
+		$this->addTest( ezcDebugPhpStacktraceIteratorTest::suite() );
 	}
 
     public static function suite()
