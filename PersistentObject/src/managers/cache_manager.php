@@ -9,7 +9,7 @@
  */
 
 /**
- * Caches fetched definition so they don't have to be read from the original source
+ * Caches fetched definitions so they don't have to be read from the original source
  * for each use.
  *
  * The cache is typically used to wrap around another ezcPersistentDefinitionManager
@@ -21,7 +21,7 @@
 class ezcPersistentCacheManager extends ezcPersistentDefinitionManager
 {
     /**
-     * Holds the manager that fetches definitions..
+     * Holds the manager that fetches definitions.
      *
      * @var ezcPersistentDefinitionManager
      */
@@ -30,7 +30,7 @@ class ezcPersistentCacheManager extends ezcPersistentDefinitionManager
     /**
      * Holds the persistent object definitions that are currently cached.
      *
-     * @var array($className=>ezcPersistentDefinition)
+     * @var array($className=>ezcPersistentObjectDefinition)
      */
     private $cache = array();
 
@@ -52,7 +52,7 @@ class ezcPersistentCacheManager extends ezcPersistentDefinitionManager
      *
      * @throws ezcPersistentDefinitionNotFoundException if no such definition can be found.
      * @param string $class
-     * @return ezcPersistentDefinition
+     * @return ezcPersistentObjectDefinition
      */
     public function fetchDefinition( $class )
     {

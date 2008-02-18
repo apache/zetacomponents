@@ -11,10 +11,10 @@
 /**
  * Handles persistent object definitions in plain code style.
  *
- * Each definition must be in a separate file in the directory specified to
- * the constructor. The filename must be the same as the lowercase name of the
- * persistent object class with .php appended. Each file should return the definition of one persistent
- * object class.
+ * Each definition must be in a separate file in the directory specified to the
+ * constructor. The filename must be the same as the lowercase name of the
+ * persistent object class with .php appended. Each file should return the
+ * definition of one persistent object class.
  *
  * Example exampleclass.php:
  * <code>
@@ -35,14 +35,6 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
      * @var string
      */
     private $dir;
-
-    /**
-     * Holds the loaded persistent object classes as an array of the format:
-     * array('class_name_lower_case' => ezcPersistentObjectDefinition )
-     *
-     * @var array(string=>ezcPersistentObjectDefinition)
-     */
-//    private $definitions = array();
 
     /**
      * Constructs a new code manager that will look for persistent object definitions in the directory $dir.
