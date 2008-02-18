@@ -608,7 +608,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
         {
             return false;
         }
-        if ( $xml->documentElement->getAttribute( 'version' ) !== "2.0" )
+        if ( !in_array( $xml->documentElement->getAttribute( 'version' ), array( '0.91', '0.92', '2.0' ) ) )
         {
             return false;
         }

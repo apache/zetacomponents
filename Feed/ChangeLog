@@ -18,6 +18,8 @@
 - The RSS1 about attribute is accessed as id through ezcFeed.
 - Added support for the Content module.
 - Added support for the DublinCore module.
+- Fixed issue #12557: added parse support for version 0.91 and 0.92 RSS feeds
+  (considered as RSS2 feeds).
 
 
 1.0beta1 - Monday 18 December 2006

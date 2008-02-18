@@ -262,6 +262,22 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( 'The Woodsongs Old Time Radio Hour Podcast', $feed->title->__toString() );
     }
 
+    public function testParseRss2Version091()
+    {
+        $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss version="0.91"><channel><title>RSS 0.91</title><item><title>Item 0.91</title></item></channel></rss>' );
+        $this->assertEquals( 'rss2', $feed->getFeedType() );
+        $this->assertEquals( 'RSS 0.91', $feed->title->__toString() );
+        $this->assertEquals( 'Item 0.91', $feed->items[0]->title->__toString() );
+    }
+
+    public function testParseRss2Version092()
+    {
+        $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss version="0.92"><channel><title>RSS 0.92</title><item><title>Item 0.92</title></item></channel></rss>' );
+        $this->assertEquals( 'rss2', $feed->getFeedType() );
+        $this->assertEquals( 'RSS 0.92', $feed->title->__toString() );
+        $this->assertEquals( 'Item 0.92', $feed->items[0]->title->__toString() );
+    }
+
     public function testCreateModuleNotSupported()
     {
         try
