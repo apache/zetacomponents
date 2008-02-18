@@ -47,10 +47,6 @@ class ezcFeedContentModule extends ezcFeedModule
     protected $schema = array(
         'feed' => array(),
         'item' => array( 'encoded' => array( '#' => 'string' ),
-                         'encoding'  => array( '#' => 'string' ), // not supported
-                         'format'  => array( '#' => 'string' ), // not supported
-                         'item'  => array( '#' => 'string' ), // not supported
-                         'items'  => array( '#' => 'string' ), // not supported
                          ) );
 
     /**
@@ -100,14 +96,17 @@ class ezcFeedContentModule extends ezcFeedModule
      */
     public function parse( $name, $node )
     {
-        $element = $this->add( $name );
-        $value = $node->textContent;
-
-        switch ( $name )
+        if ( $this->isElementAllowed( $name ) )
         {
-            case 'encoded':
-                $element->set( htmlspecialchars_decode( $value, ENT_NOQUOTES ) );
-                break;
+            $element = $this->add( $name );
+            $value = $node->textContent;
+
+            switch ( $name )
+            {
+                case 'encoded':
+                    $element->set( htmlspecialchars_decode( $value, ENT_NOQUOTES ) );
+                    break;
+            }
         }
     }
 

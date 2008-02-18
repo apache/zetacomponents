@@ -200,30 +200,33 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
      */
     public function parse( $name, $node )
     {
-        $element = $this->add( $name );
-        $value = $node->textContent;
-
-        switch ( $name )
+        if ( $this->isElementAllowed( $name ) )
         {
-            case 'date':
-                $element->set( ezcFeedTools::prepareDate( $value ) );
-                break;
+            $element = $this->add( $name );
+            $value = $node->textContent;
 
-            default:
-                $element->set( $value );
-        }
-
-        foreach ( ezcFeedTools::getAttributes( $node ) as $attr => $value )
-        {
-            switch ( $attr )
+            switch ( $name )
             {
-                case 'lang':
-                    $element->language = $value;
+                case 'date':
+                    $element->set( ezcFeedTools::prepareDate( $value ) );
                     break;
 
                 default:
-                    $element->$attr = $value;
-                    break;
+                    $element->set( $value );
+            }
+
+            foreach ( ezcFeedTools::getAttributes( $node ) as $attr => $value )
+            {
+                switch ( $attr )
+                {
+                    case 'lang':
+                        $element->language = $value;
+                        break;
+
+                    default:
+                        $element->$attr = $value;
+                        break;
+                }
             }
         }
     }

@@ -168,6 +168,22 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
     }
 
+    public function testParseContentModuleElementNotRecognized()
+    {
+        $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><entry><content:unsupported_element>Content</content:unsupported_element></entry></feed>' );
+        $this->assertEquals( 'ezcFeed', get_class( $feed ) );
+        $this->assertEquals( 'atom', $feed->getFeedType() );
+        $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
+    }
+
+    public function testParseDCModuleElementNotRecognized()
+    {
+        $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><entry><dc:unsupported_element>Content</dc:unsupported_element></entry></feed>' );
+        $this->assertEquals( 'ezcFeed', get_class( $feed ) );
+        $this->assertEquals( 'atom', $feed->getFeedType() );
+        $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
+    }
+
     public function testParseAtom1()
     {
         $dot = DIRECTORY_SEPARATOR;

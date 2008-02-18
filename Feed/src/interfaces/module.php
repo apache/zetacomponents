@@ -54,7 +54,7 @@ abstract class ezcFeedModule
      */
     public function __set( $name, $value )
     {
-        if ( isset( $this->schema[$this->level][$name] ) )
+        if ( $this->isElementAllowed( $name ) )
         {
             $node = $this->add( $name );
             $node->set( $value );
@@ -74,7 +74,7 @@ abstract class ezcFeedModule
      */
     public function __get( $name )
     {
-        if ( isset( $this->schema[$this->level][$name] ) )
+        if ( $this->isElementAllowed( $name ) )
         {
             return $this->properties[$name];
         }
@@ -93,7 +93,7 @@ abstract class ezcFeedModule
      */
     public function __isset( $name )
     {
-        if ( isset( $this->schema[$this->level][$name] ) )
+        if ( $this->isElementAllowed( $name ) )
         {
             return isset( $this->properties[$name] );
         }
@@ -101,6 +101,18 @@ abstract class ezcFeedModule
         {
             return false;
         }
+    }
+
+    /**
+     * Returns true if the element $name is allowed in the current module at the
+     * current level (feed or item), and false otherwise.
+     *
+     * @param string $name The element name to check if allowed in the current module and level (feed or item)
+     * @return bool
+     */
+    public function isElementAllowed( $name )
+    {
+        return isset( $this->schema[$this->level][$name] );
     }
 
     /**
@@ -115,7 +127,7 @@ abstract class ezcFeedModule
      */
     public function add( $name )
     {
-        if ( isset( $this->schema[$this->level][$name] ) )
+        if ( $this->isElementAllowed( $name ) )
         {
             $node = new ezcFeedElement( $this->schema[$this->level][$name] );
             $this->properties[$name][] = $node;
