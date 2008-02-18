@@ -2214,9 +2214,7 @@ class ezcConsoleInputTest extends ezcTestCase
         );
     }
 
-    /**
-     * See issue #012561
-     */
+    // Issue #012561 : getSynopsis() bugs when at least 2 options don't have short-names.
     public function testGetSynopsisLongOptionsWithoutShortNames()
     {
         $input = new ezcConsoleInput();
