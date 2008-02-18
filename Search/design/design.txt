@@ -1,0 +1,183 @@
+eZ Component: Search, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: Derick Rethans
+:Revision: $Rev$
+:Date: $Date$
+
+.. contents::
+
+Design description
+==================
+
+The search component provides an interface to allow for multiple search
+backends. For this to work, abstraction on several levels is required. First of
+all, the definition of document fields; and secondly the search query syntax.
+The logic is very similar to that of PersistentObject, where a mapping is made
+between class properties and database fields. For search a mapping is needed
+between class properties and search index fields. Finding persistent objects is
+done through the Database's component SQL abstraction to allow for multiple SQL
+dialects. The Search component requires something as well to allow for
+different search query dialects, similarly to what the Database component
+provides. Therefore the use of the search component will mostly be modeled
+after the design of the Database and PersistentObject components.
+
+
+Classes
+=======
+
+ezcSearchSession
+----------------
+
+ezcSearchSession is the main runtime interface for indexing and searching
+documents. Documents can be indexed calling index(), and searching for
+documents is done through find(). Unlike with the PersistentObject component,
+find() does not simply return an array of objects for each of the found
+documents. Instead it returns an ezcSearchResult object containing information
+about the search result. The find() method accepts as parameter an object of
+class ezcSearchFindQuery (or one of it's children). This query object is created by
+calling the createFindQuery() method on this class. Besides createFindQuery(),
+a method to create a query for deleting indexed documents will be provided too.
+The classes representing documents need to implement an interface though that
+specifies getState() and setState() - something we forgot for
+PersistentObject.
+
+
+ezcSearchSessionInstance
+------------------------
+
+Holds search session instances for global access throughout an application. 
+
+ezcSearchDefinitionManager
+--------------------------
+
+Loads definition files that describe document types with all their fields. It
+depends on the backend on how those definitions are mapped to search engine
+specific fields/options.
+
+ezcSearchDocumentDefinition
+---------------------------
+
+Describes all the fields of one document type. It is loaded by the
+ezcSearchDefinitionManager and used by the backends to both index and find
+documents from the search backends. For each document field it stores a
+ezcSearchObjectProperty. It also defines a field with which a document
+can be uniquely identified, as well as a default search field. In future
+versions it could also group fields for easier searching of multiple fields
+etc.
+
+ezcSearchHandler
+----------------
+
+The base class that all search backends implement. The handlers now how to
+communicate to the backends, generate correct search query strings, and how to
+present results. Handlers can also accept search-backend specific options. For
+the first version only ezcSearchSolrHandler is planned, while later versions
+might also have backends for Google, Yahoo! etc. A backend does not have to
+implement the index(), createDeleteQuery() and delete() methods, as they are
+not available for every handler. Therefore the search handlers can optionally
+implement the interface ezcSearchIndexHandler.
+
+
+ezcSearchSolrHandler
+--------------------
+
+An implementation of ezcSearchHandler that communicates with Apache
+Lucene/Solr. This will be the reference implementation.
+
+
+ezcSearchQuery
+--------------
+
+Implements a fluent language to query the search index. The methods are all
+quite the same as ezcDbQuery. This class is inherited by ezcSearchFindQuery and
+ezcSearchDeleteQuery for searching in, or deleting from the search
+index.
+
+
+Data structures
+===============
+
+ezcSearchObjectProperty
+    Defines the name of the document field, its type and a hint for the field
+    name in the search index. 
+
+ezcSearchResult
+    Provides meta data about the search (time, number of results, etc.) as well
+    as an array of the found results. Depending on the database backend, the
+    array of found documents can be of different classes, as the document types
+    could be different.
+
+Example Usage
+=============
+
+::
+
+    <?php
+    $backend = new ezcSearchSolrHandler( 'localhost', 6983 );
+    $session = new ezcSearchSession(
+                   $backend,
+                   new ezcSearchDefinitionManager( 'path/to/definitions' ) 
+               );
+
+    // indexing a document
+    $session->index( $document );
+
+    // finding documents where name = Derick
+    $q = $session->createFindQuery();
+    $q->find( $q->eq( 'name', "Derick" ) );
+    $ret = $session->find( $q );
+
+    // finding documents where any field contains Derick, from row 10 and 7
+    // rows long
+    $q = $session->createFindQuery();
+    $q->find( $q->eq( '*', "Derick" ) );
+    $ret = $session->find( $q )->limit( 7, 10 );
+
+    // finding documents where text contains Derick and Tiger, only
+    // having name as returned field, and order by published date.
+    $q = $session->createFindQuery();
+    $q->select( 'name' )
+      ->find( $q->and(
+                  $q->eq( 'text', "Derick" ),
+                  $q->eq( 'text', 'Tiger' )
+            )
+        )
+      ->orderBy( 'published' );
+    $ret = $session->find( $q );
+
+    // finding documents where text contains Derick or Tiger
+    $q = $session->createFindQuery();
+    $q->find( $q->in( 'text', array( 'Derick', 'Tiger' ) ) );
+    $ret = $session->find( $q );
+
+    // finding documents containing 'Ramius' published between 2007-01-01 and
+    // 2007-12-31
+    $q = $session->createFindQuery();
+    $q->find( $q->and(
+                  $q->eq( 'text', 'Ramius' ),
+                  $q->between( 'published',
+                      new DateTime( '2007-01-01' ), // DateTime object
+                      strtotime( "2007-12-31" )     // timestamp
+                      ) 
+                  )
+            );
+    $ret = $session->find( $q );
+
+    // finding documents containing 'plane' and putting facets on the
+    // categories, limiting result set to 8 and facets to 4
+    $q = $session->createFindQuery();
+    $q->find( $q->eq( 'description', 'plane' ) )
+      ->limit( 8 )
+      ->facet( 'category' )->limit( 4 );
+
+    ?>
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 78
+   End: 
+   vim: et syn=rst tw=79

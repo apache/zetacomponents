@@ -1,0 +1,78 @@
+eZ Component: Search, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: Derick Rethans
+:Revision: $Revision$
+:Date: $Date$
+
+Introduction
+============
+
+Description
+-----------
+
+The Search component provides an interface to index and query documents with
+different search engine backends. Searching is becoming an integral part of
+web sites, this is becoming an important feature.
+
+
+Requirements
+============
+
+The components should implement an API that supports multiple backends.
+Towards all backends the same API should work to index and search for
+documents.
+
+Document
+--------
+
+The format of the documents that can be indexed, and search for, need to be
+able to be defined by the component. Hereby we think about specifying the
+different fields that form a document. Each of the fields should be mapped to
+a data type that the different backends understand.  The document
+specification should allow for easy definition, and the same specification
+should be used for both indexing and searching for documents. The
+specification could also re-map field names and data types to field names
+and data types that the backends understand.
+
+Indexing
+--------
+
+Indexing should be done by sending the documents to an indexer. Indexing
+should support both blocking, and non-blocking mode, depending on what the
+search engine backend supports.  The search component must support XML for
+backend communication.
+
+Searching
+---------
+
+Searching documents is primarily term based. One or multiple terms are
+provided, and the search result list contains only documents containing those
+term.
+
+Facets_ should be supported, and the available facets should be the document
+fields, and facets queries within the document fields. 
+
+General
+-------
+
+For querying the index, some mechanism for handling permissions should be
+supported to limit the search results.
+
+The query API should allow for easy searches, similar to an SQL query.
+Therefore a similar interface as Database's SQL abstraction would be a
+preferred querying language. This querying interface should allow for
+abstractions of differences in search backend querying dialects. Searches
+should also allow for limitation of meta data, such as publication date/time.
+
+
+Special considerations
+======================
+
+It is important that as many backends could be supported through this
+component, so it is important that the external API does not prevent some
+functionalities of the backends to be exposed.  The component will only deal
+with UTF-8 strings, just like all the other components.
+
+
+.. _facets: http://www.searchtools.com/info/faceted-metadata.html
