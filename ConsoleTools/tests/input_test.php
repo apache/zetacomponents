@@ -2213,7 +2213,36 @@ class ezcConsoleInputTest extends ezcTestCase
             'Program synopsis not generated correctly.'
         );
     }
-    
+
+    /**
+     * See issue #012561
+     */
+    public function testGetSynopsisLongOptionsWithoutShortNames()
+    {
+        $input = new ezcConsoleInput();
+        $input->registerOption(
+            new ezcConsoleOption(
+                "",
+                "set-dericktory",
+                ezcConsoleInput::TYPE_NONE
+            )
+        );
+
+        $input->registerOption(
+            new ezcConsoleOption(
+                "",
+                "set-directoby",
+                ezcConsoleInput::TYPE_NONE
+            )
+        );
+
+        $this->assertEquals( 
+            '$ '.$_SERVER['argv'][0].' [--set-dericktory] [--set-directoby]  [[--] <args>]',
+            $input->getSynopsis(),
+            'Program synopsis not generated correctly.'
+        );
+    }
+
     public function testGetSynopsisNewArgumentsSimple()
     {
         $this->input->argumentDefinition = new ezcConsoleArguments();

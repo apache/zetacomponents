@@ -797,7 +797,7 @@ class ezcConsoleInput
      */
     public function getSynopsis( array $optionNames = null )
     {
-        $usedOptions = array();
+        $usedOptions = array( 'short' => array(), 'long' => array() );
         $allowsArgs = true;
         $synopsis = '$ ' . ( isset( $argv ) && sizeof( $argv ) > 0 ? $argv[0] : $_SERVER['argv'][0] ) . ' ';
         foreach ( $this->getOptions() as $option )
@@ -907,9 +907,10 @@ class ezcConsoleInput
         $synopsis = '';
 
         // Break after a nesting level of 2
-        if ( $depth++ > 2 || in_array( $option->short, $usedOptions ) ) return $synopsis;
+        if ( $depth++ > 2 || ( in_array( $option->short, $usedOptions['short'] ) && in_array( $option->long, $usedOptions['long'] ) ) ) return $synopsis;
         
-        $usedOptions[] = $option->short;
+        $usedOptions['short'][] = $option->short;
+        $usedOptions['long'][]  = $option->long;
         
         $synopsis .= $option->short !== "" ? "-{$option->short}" : "--{$option->long}";
 
