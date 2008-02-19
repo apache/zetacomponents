@@ -329,7 +329,6 @@ class ezcDebug
 
     private function getStackTrace()
     {
-        $stackTrace = array();
         if ( extension_loaded( 'xdebug' ) )
         {
             return new ezcDebugXdebugStacktraceIterator(
