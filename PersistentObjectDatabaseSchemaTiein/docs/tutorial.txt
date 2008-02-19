@@ -141,13 +141,8 @@ More information
 ================
 
 For more information, see the API documentation of
-ezcPersistentObjectDefinition_, ezcPersistentObjectProperty_, ezcDbSchema_ and
-ezcDbschemaPersistentWriter_.
-
-.. _ezcPersistentObjectDefinition: PersistentObject/ezcPersistentObjectDefinition.html
-.. _ezcPersistentObjectProperty: PersistentObject/ezcPersistentObjectProperty.html
-.. _ezcDbSchema: DatabaseSchema/ezcDbSchema.html
-.. _ezcDbSchemaPersistentWriter: DatabaseSchema/ezcDbschemaPersistentWriter.html
+ezcPersistentObjectDefinition, ezcPersistentObjectProperty, ezcDbSchema and
+ezcDbschemaPersistentWriter.
 
 
 
