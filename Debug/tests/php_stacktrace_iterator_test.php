@@ -69,5 +69,4 @@ class ezcDebugPhpStacktraceIteratorTest extends ezcTestCase
     }
 }
 
-
 ?>
