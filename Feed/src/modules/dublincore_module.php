@@ -142,7 +142,7 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
                          ) );
 
     /**
-     * Constructs a new ezcFeedContentModule object.
+     * Constructs a new ezcFeedDublinCoreModule object.
      *
      * @param string $level The level of the data container ('feed' or 'item')
      */
