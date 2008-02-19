@@ -29,10 +29,11 @@
  * $text = $item->Content->encoded;
  * </code>
  *
- * @property string $encoded
- *                  Item-level container for text. The text is stored in a feed by
- *                  applying htmlspecialchars() with ENT_NOQUOTES and restored from
- *                  a feed with htmlspecialchars_decode() with ENT_NOQUOTES.
+ * @property ezcFeedElement $encoded
+ *                          Item-level container for text. The text is stored
+ *                          in a feed by applying htmlspecialchars() with
+ *                          ENT_NOQUOTES and restored from a feed with
+ *                          htmlspecialchars_decode() with ENT_NOQUOTES.
  *
  * @package Feed
  * @version //autogentag//

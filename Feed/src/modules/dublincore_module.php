@@ -35,53 +35,62 @@
  * }
  * </code>
  *
- * @property string $contributor
- *                  An entity responsible for making contributions to the resource.
- *                  Usually the name of a person, organization or service.
- * @property string $coverage
- *                  The spatial or temporal topic of the resource, the spatial
- *                  applicability of the resource, or the jurisdiction under which
- *                  the resource is relevant. A recommended practice is to use a
- *                  controlled vocabulary such as
- *                  {@link http://www.getty.edu/research/tools/vocabulary/tgn/index.html TGN}.
- * @property string $creator
- *                  An entity responsible for making the resource.
- *                  Usually the name of a person or organization.
- * @property int    $date
- *                  A point or period of time associated with an event in the
- *                  lifecycle of the resource. It is a Unix timestamp, which will
- *                  be converted to an {@link http://www.w3.org/TR/NOTE-datetime ISO 8601}
- *                  date when generating the feed.
- * @property string $description
- *                  A description of the resource.
- * @property string $format
- *                  The file format, physical medium, or dimensions of the resource.
- *                  Recommended best practices is to use a controlled vocabulary such as the list of
- *                  {@link http://www.iana.org/assignments/media-types/ Internet Media Types}
- *                  (MIME).
- * @property string $identifier
- *                  An unambiguous reference to the resource within a given context.
- * @property string $language
- *                  A language of the resource.
- *                  Recommended best practice is to use a controlled vocabulary
- *                  such as {@link http://www.faqs.org/rfcs/rfc4646.html RFC 4646}.
- * @property string $publisher
- *                  An entity responsible for making the resource available.
- *                  Usually the name of a person, organization or service.
- * @property string $relation
- *                  A related resource.
- * @property string $rights
- *                  Information about rights held in and over the resource.
- * @property string $source
- *                  A related resource from which the described resource is derived.
- * @property string $subject
- *                  The topic of the resource.
- * @property string $title
- *                  The name given to the resource.
- * @property string $type
- *                  The nature or genre of the resource.
- *                  Recommended best practice is to use a controlled vocabulary such as the
- *                  {@link http://dublincore.org/documents/dcmi-type-vocabulary/ DCMI Type Vocabulary}
+ * @property ezcFeedElement $contributor
+ *                          An entity responsible for making contributions to
+ *                          the resource.
+ *                          Usually the name of a person, organization or service.
+ * @property ezcFeedElement $coverage
+ *                          The spatial or temporal topic of the resource, the
+ *                          spatial applicability of the resource, or the
+ *                          jurisdiction under which the resource is relevant.
+ *                          A recommended practice is to use a controlled
+ *                          vocabulary such as
+ *                          {@link http://www.getty.edu/research/tools/vocabulary/tgn/index.html TGN}.
+ * @property ezcFeedElement $creator
+ *                          An entity responsible for making the resource.
+ *                          Usually the name of a person or organization.
+ * @property ezcFeedElement $date
+ *                          A point or period of time associated with an event
+ *                          in the lifecycle of the resource. It is a Unix
+ *                          timestamp, which will be converted to an
+ *                          {@link http://www.w3.org/TR/NOTE-datetime ISO 8601}
+ *                          date when generating the feed.
+ * @property ezcFeedElement $description
+ *                          A description of the resource.
+ * @property ezcFeedElement $format
+ *                          The file format, physical medium, or dimensions of
+ *                          the resource.
+ *                          Recommended best practices is to use a controlled
+ *                          vocabulary such as the list of
+ *                          {@link http://www.iana.org/assignments/media-types/ Internet Media Types}
+ *                          (MIME).
+ * @property ezcFeedElement $identifier
+ *                          An unambiguous reference to the resource within a
+ *                          given context.
+ * @property ezcFeedElement $language
+ *                          A language of the resource.
+ *                          Recommended best practice is to use a controlled
+ *                          vocabulary such as
+ *                          {@link http://www.faqs.org/rfcs/rfc4646.html RFC 4646}.
+ * @property ezcFeedElement $publisher
+ *                          An entity responsible for making the resource available.
+ *                          Usually the name of a person, organization or service.
+ * @property ezcFeedElement $relation
+ *                          A related resource.
+ * @property ezcFeedElement $rights
+ *                          Information about rights held in and over the resource.
+ * @property ezcFeedElement $source
+ *                          A related resource from which the described resource
+ *                          is derived.
+ * @property ezcFeedElement $subject
+ *                          The topic of the resource.
+ * @property ezcFeedElement $title
+ *                          The name given to the resource.
+ * @property ezcFeedElement $type
+ *                          The nature or genre of the resource.
+ *                          Recommended best practice is to use a controlled
+ *                          vocabulary such as the
+ *                          {@link http://dublincore.org/documents/dcmi-type-vocabulary/ DCMI Type Vocabulary}
  *
  * @package Feed
  * @version //autogentag//
