@@ -7,9 +7,9 @@ Introduction
 ============
 
 The PersistentObjectDatabaseSchemaTiein component allows you to generate 
-template PersistentObject definition files from a database structure or a
-DatabaseSchema schema file. You will most likely have to adjust the
-PersistentObject definitions afterwards.
+template PersistentObject definition files and php classes from a database
+structure or a DatabaseSchema schema file. You will most likely have to
+adjust the PersistentObject definitions afterwards.
 
 For more information regarding PersistentObject definition files, please refer
 to the API documentation for ezcPersistentObjectDefinition. Details on
@@ -20,10 +20,13 @@ Synopsis
 
 ::
 
-    $ php rungenerator.php -s <string> -f <string> [-h] [--] <target_directory>
+    $ PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -s <string> \
+      -f <string> [-o] [-p <string>] [-h] [--] <string:def dir> \
+      [<string:class dir>]
 
 The component contains an executable script, which can be called using the PHP
-command line interpreter (CLI). You have to provide two options:
+command line interpreter (CLI). You have to provide at least the following two
+options and the "def dir" argument.
 
 -s / --source <string>
   This option determines the source DatabaseSchema file from which to generate
@@ -33,15 +36,25 @@ command line interpreter (CLI). You have to provide two options:
   Examples are 'xml' and 'array'. For a full list of valid formats, please
   refer to the `DatabaseSchema API`_ documentation.
 
+The "def dir" argument defines where the generated PersistentObject
+definitions are stored. The optional "class dir" argument can be used to
+define another directory, where class stubs for the generated defintions are
+created in. Additional options that might be useful are:
+ 
+-o / --overwrite
+  If this option is set, files will be overwriten if they alreday exist. The
+  default behaviour is not to overwrite any files.
+-p / --prefix <string>
+  Using this option you can define a unique prefix that will be prepended to
+  all class names, and class file names, if appliable.
+
 .. _`DatabaseSchema API`: classtrees_DatabaseSchema.html
 
-There is also a help option available that can be accessed with -h or 
---help. 
+The -h / --help option gives you some information on these options and
+arguments, too.
 
-The 'target_directory' argument specifies the directory where the
-PersistentObject definitions are stored. Make sure that script can write to
-this target directory. 
- 
+Make sure that the script can write to its target directories in respect to
+permissions and accessability.
 
 Usage
 =====
@@ -61,10 +74,10 @@ information, please refer to the `DatabaseSchema API`_ documentation.
 Once you have a valid DatabaseSchema file, you should create a directory
 where your PersistentObject definitions will be stored. Then you can use the
 rungenerator.php script to create the template definition files. Use the following
-command::
+command ::
 
     $ php PersistentObjectDatabaseSchemaTiein/rungenerator.php \
-        -s path/to/schema.file -f array path/to/persistentobject/definition/dir/
+      -s path/to/schema.file -f array path/to/persistentobject/definition/dir/
 
 You have to replace the paths according to the example. The -s parameter
 defines where the DatabaseSchema definition file can be found. The -f option
@@ -73,30 +86,40 @@ definition; another common format is XML. The last part of the command line
 call specifies the target directory to store the generated PersistentObject
 definitions.
 
-Customizing definitions
-=======================
+It is also possible to generate class stubs for the defined persistent objects
+at the same time by specifying the "class dir" argument. To do so, create a
+directory where your classes will be stored and add it to the command ::
+
+    $ php PersistentObjectDatabaseSchemaTiein/rungenerator.php \
+      -s path/to/schema.file -f array path/to/definition/dir/ \
+      path/to/classes/dir/
+
+Customizing definitions and classes
+===================================
 
 The generator script assumes that the names of your PersistentObject classes
-and their properties map exactly to the same table and column names of your database
-structure. For example, a table called ez_persistent_objects with the column
-persistent_object_id results in a class ez_persistent_objects and the property
-persistent_object_id. 
+and their properties map exactly to the same table and column names of your
+database structure. For example, a table called ez_persistent_objects with the
+column persistent_object_id results in a class ez_persistent_objects and the
+property persistent_object_id. 
 
-If you want a different mapping, you can edit the generated
-PersistentObject files manually. The class to table name mapping is done
-through the properties of the main ezcPersistentObjectDefinition object. The
-"table" property should be correct as it is taken from the database definition.
-Adjust the "class" property according to your needs.
+If you want a different mapping, you can edit the generated PersistentObject
+files manually. The class to table name mapping is done through the properties
+of the main ezcPersistentObjectDefinition object. The "table" property should
+be correct as it is taken from the database definition.  Adjust the "class"
+property according to your needs.
 
-*Note*: If you change the class name of a PersistentObject definition, you have
-to rename the file name accordingly. The file name for a PersistentObject
+*Note*: If you change the class name of a PersistentObject definition, you
+have to rename the file name accordingly. The file name for a PersistentObject
 definition must be the same as the class name, completely in lowercase.
 
-The same procedure applies to the property definition of your
-persistent objects. The column name for object property mapping is defined by the
+The same procedure applies to the property definition of your persistent
+objects. The column name to object property mapping is defined by the
 ezcPersistentObjectProperty class. The "columnName" property of the definition
-objects should be correct as it is taken from your database schema
-file. You can adjust the "propertyName" properties according to your needs.
+objects should be correct as it is taken from your database schema file. You
+can adjust the "propertyName" properties according to your needs. *Note*: You
+propably need to adjust the property names in generated class stubs and the
+setState() and getState() methods accordingly.
 
 The generator script guesses the PHP types of your PersistentObject properties.
 It uses the following mapping:
@@ -111,16 +134,15 @@ It uses the following mapping:
 :blob:      ezcPersistentObjectProperty::PHP_TYPE_STRING
 :clob:      ezcPersistentObjectProperty::PHP_TYPE_STRING
 
-If the mappings are incorrect, you can adjust the "propertyType" properties of
-your ezcPersistentObjectProperty definitions.
-
+If the mappings are incorrect for your special case, you can adjust the
+"propertyType" properties of your ezcPersistentObjectProperty definitions.
 
 More information
 ================
 
 For more information, see the API documentation of
-ezcPersistentObjectDefinition_, ezcPersistentObjectProperty_,
-ezcDbSchema_ and ezcDbschemaPersistentWriter_.
+ezcPersistentObjectDefinition_, ezcPersistentObjectProperty_, ezcDbSchema_ and
+ezcDbschemaPersistentWriter_.
 
 .. _ezcPersistentObjectDefinition: PersistentObject/ezcPersistentObjectDefinition.html
 .. _ezcPersistentObjectProperty: PersistentObject/ezcPersistentObjectProperty.html
