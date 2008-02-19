@@ -137,7 +137,7 @@ EOT;
         );
 
         $res = <<<EOT
-array (0 => 23, 'foo bar' => array (1 => '293', 2 => 234223, 'foo' => array (0 => 1, 1 => 2, 2 => 3, 3 => 4, 4 => 5, 5 => array (), 8 => 23, 9 => 'foo', 10 => array (0 => 23, 1 => 42))), 1 => 42.23, 'a' => TRUE, 'd' => FALSE, 23 => 'test', 24 => 'foo bar baz')
+array (0 => 23, 'foo bar' => array (1 => '293', 2 => 234223, 'foo' => array (0 => 1, 1 => 2, 2 => 3, 3 => 4, 4 => 5, 5 => array (...), 8 => 23, 9 => 'foo', 10 => array (...))), 1 => 42.23, 'a' => TRUE, 'd' => FALSE, 23 => 'test', 24 => 'foo bar baz')
 EOT;
         $this->assertEquals(
             $res,

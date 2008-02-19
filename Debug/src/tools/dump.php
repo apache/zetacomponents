@@ -81,26 +81,38 @@ class ezcDebugVariableDumpTool
      */
     private static function dumpArray( array $arg, $maxData, $maxChildren, $maxDepth )
     {
-        $max = min( count( $arg ), $maxChildren );
-    
-        $results = array();
-        reset( $arg );
-        for ( $i = 0; $i < $max; ++$i )
+        $arrayContent = '';
+
+        if ( $maxDepth != 0 )
         {
-            $results[] =
-                self::dumpVariable( key( $arg ), $maxData, $maxChildren, $maxDepth - 1 )
-                . ' => '
-                . self::dumpVariable( current( $arg ), $maxData, $maxChildren, $maxDepth - 1 );
-            next( $arg );
+            $max = min( count( $arg ), $maxChildren );
+        
+            $results = array();
+            reset( $arg );
+            for ( $i = 0; $i < $max; ++$i )
+            {
+                $results[] =
+                    self::dumpVariable( key( $arg ), $maxData, $maxChildren, $maxDepth - 1 )
+                    . ' => '
+                    . self::dumpVariable( current( $arg ), $maxData, $maxChildren, $maxDepth - 1 );
+                next( $arg );
+            }
+
+            if ( $max < count( $arg ) )
+            {
+                $results[] = '...';
+            }
+
+            $arrayContent = implode( ', ', $results );
+        }
+        else
+        {
+            $arrayContent = '...';
         }
 
-        if ( $max < count( $arg ) )
-        {
-            $results[] = '...';
-        }
         
         return sprintf(
-            'array (%s)', implode( ', ', $results )
+            'array (%s)', $arrayContent
         );
     }
 
@@ -118,31 +130,42 @@ class ezcDebugVariableDumpTool
     private static function dumpObject( $arg, $maxData, $maxChildren, $maxDepth )
     {
         $refObj   = new ReflectionObject( $arg );
-        $refProps = $refObj->getProperties();
 
-        $max = min(
-            count( $refProps ),
-            $maxChildren
-        );
-        
-        $results = array();
-        reset( $refProps );
-        for( $i = 0; $i < $max; $i++ )
+        $objectContent = '';
+        if ( $maxDepth != 0 )
         {
-            $refProp = current( $refProps );
-            $results[] = sprintf(
-                '%s $%s = %s',
-                self::getPropertyVisibility( $refProp ),
-                $refProp->getName(),
-                self::getPropertyValue( $refProp, $arg, $maxDepth - 1 )
+            $refProps = $refObj->getProperties();
+
+            $max = min(
+                count( $refProps ),
+                $maxChildren
             );
-            next( $refProps );
+            $results = array();
+
+            reset( $refProps );
+            for( $i = 0; $i < $max; $i++ )
+            {
+                $refProp = current( $refProps );
+                $results[] = sprintf(
+                    '%s $%s = %s',
+                    self::getPropertyVisibility( $refProp ),
+                    $refProp->getName(),
+                    self::getPropertyValue( $refProp, $arg, $maxDepth - 1 )
+                );
+                next( $refProps );
+            }
+            $objectContent = implode( '; ', $results );
         }
+        else
+        {
+            $objectContent = '...';
+        }
+
         
         return sprintf(
             'class %s { %s }',
             $refObj->getName(),
-            implode( '; ', $results )
+            $objectContent
         );
     }
 
