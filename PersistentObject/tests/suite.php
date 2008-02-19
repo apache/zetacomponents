@@ -11,32 +11,32 @@
 /**
  * Including the tests
  */
-require_once( 'managers/code_manager_test.php' );
-require_once( 'managers/cache_manager_test.php' );
-require_once( 'managers/multi_manager_test.php' );
+require_once 'managers/code_manager_test.php';
+require_once 'managers/cache_manager_test.php';
+require_once 'managers/multi_manager_test.php';
 
-require_once( 'persistent_session_delete_test.php' );
-require_once( 'persistent_session_find_test.php' );
-require_once( 'persistent_session_load_test.php' );
-require_once( 'persistent_session_misc_test.php' );
-require_once( 'persistent_session_save_test.php' );
+require_once 'persistent_session_delete_test.php';
+require_once 'persistent_session_find_test.php';
+require_once 'persistent_session_load_test.php';
+require_once 'persistent_session_misc_test.php';
+require_once 'persistent_session_save_test.php';
 
-require_once( 'find_iterator_test.php' );
-require_once( 'manual_generator_test.php' );
-require_once( 'native_generator_test.php' );
-require_once( 'persistent_session_instance_test.php' );
-require_once( 'one_to_many_relation_test.php' );
-require_once( 'many_to_one_relation_test.php' );
-require_once( 'one_to_one_relation_test.php' );
-require_once( 'many_to_many_relation_test.php' );
-require_once( 'keyword_test.php' );
-require_once( 'string_identifier_test.php' );
-require_once( 'object_property_test.php' );
-require_once( 'object_id_property_test.php' );
-require_once( 'object_definition_test.php' );
-require_once( 'object_relations_test.php' );
-require_once( 'object_properties_test.php' );
-require_once( 'object_columns_test.php' );
+require_once 'find_iterator_test.php';
+require_once 'manual_generator_test.php';
+require_once 'native_generator_test.php';
+require_once 'persistent_session_instance_test.php';
+require_once 'one_to_many_relation_test.php';
+require_once 'many_to_one_relation_test.php';
+require_once 'one_to_one_relation_test.php';
+require_once 'many_to_many_relation_test.php';
+require_once 'keyword_test.php';
+require_once 'string_identifier_test.php';
+require_once 'object_property_test.php';
+require_once 'object_id_property_test.php';
+require_once 'object_definition_test.php';
+require_once 'object_relations_test.php';
+require_once 'object_properties_test.php';
+require_once 'object_columns_test.php';
 require_once 'property_date_time_converter_test.php';
 
 require_once 'database_type_test.php';
