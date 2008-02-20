@@ -23,7 +23,14 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
 
     function setUp()
     {
-        $this->solr = new ezcSearchSolrHandler;
+        try
+        {
+            $this->solr = new ezcSearchSolrHandler;
+        }
+        catch ( ezcSearchCanNotConnectException $e )
+        {
+            self::markTestSkipped( 'Solr is not running.' );
+        }
     }
 
     function testUnableToConnect()
@@ -36,7 +43,7 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
         }
         catch ( ezcSearchCanNotConnectException $e )
         {
-            self::assertEquals( "Could not connect to 'solr' at 'http://localhost:58983//solr'.", $e->getMessage() );
+            self::assertEquals( "Could not connect to 'solr' at 'http://localhost:58983/solr'.", $e->getMessage() );
         }
     }
 

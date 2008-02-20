@@ -40,7 +40,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $this->connection = @stream_socket_client( "tcp://{$this->host}:{$this->port}" );
         if ( !$this->connection )
         {
-            throw new ezcSearchCanNotConnectException( 'solr', "http://{$this->host}:{$this->port}/{$this->location}" );
+            throw new ezcSearchCanNotConnectException( 'solr', "http://{$this->host}:{$this->port}{$this->location}" );
         }
 
     }
