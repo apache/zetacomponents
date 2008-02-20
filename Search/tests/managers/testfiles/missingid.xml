@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<document>
+    <field type="string" boost="2">title</field>
+    <field type="text">summary</field>
+    <field type="html">body</field>
+    <field type="date">published</field>
+</document>

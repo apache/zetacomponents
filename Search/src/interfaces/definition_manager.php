@@ -18,7 +18,7 @@
  * @version //autogen//
  * @package Search
  */
-interface ezcPersistentDefinitionManager
+interface ezcSearchDefinitionManager
 {
     /**
      * Returns the definition of the document type $type.
