@@ -218,6 +218,39 @@ refresh locks for. If this occurs, the timers of the lock must be reset. A
 Timeout header might be send by the client, but the server may savely ignore
 these and simply perform a refresh as it desires.
 
+===================
+Plugin design draft
+===================
+
+This section describes a potential realization of locking through a plugin for
+the Webdav component. This plugin will make use of the, not yet officially
+released, plugin API.
+
+Design goals
+============
+
+This design drafts goal is to build a lock plugin that is almost completly
+independant from the used backend. In this sense, the requirements to be
+fulfilled by a backend must be cut down as far as possible. Beside that, the
+plugin should provide the largest possible compatibility to clients. However a
+plugin that hooks into the parsing process cannot provide the same client
+compatibility mechanisms as the base Webdav transport layer.
+
+Hooks
+=====
+
+The plugin needs to assign to several hooks offered by the plugin API, which
+will be described roughly in this section.
+
+parseUnknownRequest (ezcWebdavTransport)
+----------------------------------------
+
+The requests LOCK and UNLOCK are dedicated to the locking mechanism. Therefore
+the plugin needs to hook inro parseUnknownRequest and parse the incoming
+requests into (new) correscponding request objects.
+
+
+
 ===========
 Open issues
 ===========
