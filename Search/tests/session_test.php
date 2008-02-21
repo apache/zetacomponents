@@ -25,7 +25,14 @@ class ezcSearchSessionTest extends ezcTestCase
 
     public function setUp()
     {
-        $this->backend = new ezcSearchSolrHandler();
+        try
+        {
+            $this->backend = new ezcSearchSolrHandler;
+        }
+        catch ( ezcSearchCanNotConnectException $e )
+        {
+            self::markTestSkipped( 'Solr is not running.' );
+        }
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
         $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ),
                 '<delete><query>timestamp:[* TO *]</query></delete>' );
