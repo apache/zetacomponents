@@ -31,6 +31,10 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
         {
             self::markTestSkipped( 'Solr is not running.' );
         }
+        $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ),
+                '<delete><query>timestamp:[* TO *]</query></delete>' );
+        $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ),
+                '<commit/>' );
     }
 
     function testUnableToConnect()

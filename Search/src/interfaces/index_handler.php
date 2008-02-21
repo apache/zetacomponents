@@ -16,7 +16,7 @@
  */
 interface ezcSearchIndexHandler
 {
-    public function index( $document );
+    public function index( ezcSearchDocumentDefinition $definition, $document );
     public function createDeleteQuery();
     public function delete( ezcSearchDeleteQuery $query );
 }

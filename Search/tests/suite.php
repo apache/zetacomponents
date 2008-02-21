@@ -11,8 +11,9 @@
 /**
  * Including the tests
  */
-require_once 'handlers/solr_test.php';
-require_once 'managers/xml_test.php';
+require 'handlers/solr_test.php';
+require 'managers/xml_test.php';
+require 'session_test.php';
 
 /**
  * @package Search
@@ -27,6 +28,7 @@ class ezcSearchSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcSearchXmlDefinitionManager::suite() );
         $this->addTest( ezcSearchHandlerSolrTest::suite() );
+        $this->addTest( ezcSearchSessionTest::suite() );
     }
 
     public static function suite()

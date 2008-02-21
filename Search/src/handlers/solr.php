@@ -179,8 +179,67 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
     {
     }
 
-    public function index( $document )
+    private function mapFieldType( $name, $type )
     {
+        $map = array(
+            ezcSearchDocumentDefinition::STRING => '_s',
+            ezcSearchDocumentDefinition::TEXT => '_t',
+            ezcSearchDocumentDefinition::HTML => '_h',
+            ezcSearchDocumentDefinition::DATE => '_dt',
+        );
+        return $name . $map[$type];
+    }
+
+    private function mapFieldValue( $type, $value )
+    {
+        switch( $type )
+        {
+            case ezcSearchDocumentDefinition::DATE:
+                if ( is_numeric( $value ) )
+                {
+                    $d = new DateTime( "@$value" );
+                    return $d->format( 'Y-m-d\TH:i:s\Z' );
+                }
+                else
+                {
+                    try
+                    {
+                        $d = new DateTime( $value );
+                    }
+                    catch ( Exception $e )
+                    {
+                        throw new ezcSearchInvalidValueException( $type, $value );
+                    }
+                    return $d->format( 'Y-m-d\TH:i:s\Z' );
+                }
+            default:
+                return $value;
+        }
+    }
+
+    public function index( ezcSearchDocumentDefinition $definition, $document )
+    {
+        $xml = new XmlWriter();
+        $xml->openMemory();
+        $xml->startElement( 'add' );
+        $xml->startElement( 'doc' );
+        $xml->startElement( 'field' );
+        $xml->writeAttribute( 'name', 'id' );
+        $xml->text( $document[$definition->idProperty] );
+        $xml->endElement();
+        foreach ( $definition->fields as $field )
+        {
+            $xml->startElement( 'field' );
+            $xml->writeAttribute( 'name', $this->mapFieldType( $field->field, $field->type ) );
+            $xml->text( $this->mapFieldValue( $field->type, $document[$field->field] ) );
+            $xml->endElement();
+        }
+        $xml->endElement();
+        $xml->endElement();
+        $doc = $xml->outputMemory( true );
+
+        $r = $this->sendRawPostCommand( 'update', array( 'wt' => 'json' ), $doc );
+//        $r = $this->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
     }
 
     public function createDeleteQuery()

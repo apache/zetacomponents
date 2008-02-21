@@ -42,9 +42,6 @@ class ezcSearchSession
     {
         $this->properties['handler']           = $handler;
         $this->properties['definitionManager'] = $manager;
-        $this->properties['findHandler']       = new ezcPersistentFindHandler( $this );
-        $this->properties['indexHandler']      = new ezcPersistentIndexHandler( $this );
-        $this->properties['deleteHandler']     = new ezcPersistentDeleteHandler( $this );
     }
 
     /**
@@ -152,7 +149,14 @@ class ezcSearchSession
      */
     public function index( $document )
     {
-        return $this->indexHandler->index( $document );
+        $class = get_class( $document );
+        $def   = $this->definitionManager->fetchDefinition( $class );
+        $state = $document->getState();
+        if ( $state[$def->idProperty] == null )
+        {
+            $document->setState( array( $def->idProperty => uniqid() ) );
+        }
+        $this->handler->index( $def, $document->getState() );
     }
 
     /**
@@ -165,8 +169,8 @@ class ezcSearchSession
      */
     public function update( $document )
     {
-		$this->indexHandler->delete( $document );
-        return $this->indexHandler->index( $document );
+		$this->delete( $document );
+        return $this->index( $document );
     }
 
     /**
