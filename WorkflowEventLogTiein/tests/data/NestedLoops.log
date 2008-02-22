@@ -6,27 +6,23 @@ MMM DD HH:MM:SS [Debug] [default] [default] Executed node #1(ezcWorkflowNodeStar
 MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "1" for execution #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #3(ezcWorkflowNodeLoop) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #2(ezcWorkflowNodeVariableSet) for instance #1 of workflow "NestedLoops" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Started thread #1 (1 sibling(s)) for execution #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeVariableSet) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #3(ezcWorkflowNodeLoop) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Set variable "j" to "1" for execution #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeLoop) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeVariableSet) for instance #1 of workflow "NestedLoops" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Started thread #2 (parent: 1, 1 sibling(s)) for execution #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #6(ezcWorkflowNodeVariableIncrement) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeLoop) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Set variable "j" to "2" for execution #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeLoop) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #6(ezcWorkflowNodeVariableIncrement) for instance #1 of workflow "NestedLoops" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Started thread #3 (parent: 2, 1 sibling(s)) for execution #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #7(ezcWorkflowNodeVariableIncrement) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeLoop) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "2" for execution #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #3(ezcWorkflowNodeLoop) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #7(ezcWorkflowNodeVariableIncrement) for instance #1 of workflow "NestedLoops" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Started thread #4 (parent: 3, 1 sibling(s)) for execution #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #8(ezcWorkflowNodeEnd) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #3(ezcWorkflowNodeLoop) for instance #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #8(ezcWorkflowNodeEnd) for instance #1 of workflow "NestedLoops" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #4 for execution #1 of workflow "NestedLoops" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #0 for execution #1 of workflow "NestedLoops" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Ended execution #1 of workflow "NestedLoops" (version 1).
