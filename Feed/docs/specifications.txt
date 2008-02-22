@@ -2110,6 +2110,17 @@ Specifications
 `iTunes specifications`_
 
 
+Recommendations
+---------------
+
+- All values should be plain text (no markup or HTML)
+- Values are limited to 255 characters, except for *summary* which can be up
+  to 4000 characters
+- Whitespace in values is significant, i.e. it will show in `iTunes`_, so
+  don't add leading or trailing whitespace to your values
+- CDATA sections are strongly discouraged
+
+
 Feed elements
 -------------
 
@@ -2121,6 +2132,9 @@ The author of a podcast.
 Optional.
 
 Can appear only once.
+
+If missing, `iTunes`_ will use the *author* / *managingEditor* element from
+the feed (|ezcFeed-author|_).
 
 
 iTunes-block
@@ -2171,6 +2185,9 @@ Optional.
 Can appear only once.
 
 The URL to the image is specified in the attribute *href*.
+
+If missing, `iTunes`_ will use the *image* element from the feed
+(|ezcFeed-image|_).
 
 
 iTunes-keywords
@@ -2231,6 +2248,8 @@ Optional.
 
 Can appear only once.
 
+If missing, `iTunes`_ will use the *description* element from the feed
+(|ezcFeed-description|_).
 
 
 Item elements
@@ -2294,12 +2313,12 @@ Can appear only once.
 
 The URL to the image is specified in the attribute *href*.
 
-NOTE: The `iTunes specifications` say that image is supported at podcast-level
-only, but there are many podcasts using image at podcast entry (item) level
-also, and there are software applications supporting that too. Use image at
-item-level at your own risk, as some software applications might not support
-it. The Feed component supports parsing and generating feeds with image at
-both podcast-level and item-level.
+NOTE: The `iTunes specifications`_ say that image is supported at
+podcast-level only, but there are many podcasts using image at podcast entry
+(item) level also, and there are software applications supporting that too.
+Use *image* at item-level at your own risk, as some software applications
+might not support it. The Feed component supports parsing and generating
+feeds with image at both podcast-level and item-level.
 
 
 iTunes-item-keywords
@@ -2334,6 +2353,8 @@ Optional.
 
 Can appear only once.
 
+If missing, `iTunes`_ will use the *description* element from the feed
+(|ezcFeed-item-description|_).
 
 
 Resources
@@ -2372,6 +2393,7 @@ Modules
 .. _DCMI Type Vocabulary: http://dublincore.org/documents/dcmi-type-vocabulary/
 .. _RSS language codes: http://www.rssboard.org/rss-language-codes
 .. _iTunes categories: http://www.apple.com/itunes/store/podcaststechspecs.html#categories
+.. _iTunes: http://www.apple.com/itunes/
 
 .. |ezcFeed-author| replace:: author
 .. |ezcFeed-category| replace:: category
