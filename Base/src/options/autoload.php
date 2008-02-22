@@ -17,7 +17,9 @@
  *           component are loaded as well (except for Exception classes).
  * @property bool $debug
  *           If debug is enabled then the autoload method will show exceptions
- *           when a class can not be found.
+ *           when a class can not be found. Because exceptions are ignored by
+ *           PHP in the autoload handler, you have to catch them in autoload()
+ *           yourself and do something with the exception message.
  *
  * @package Base
  * @version //autogen//

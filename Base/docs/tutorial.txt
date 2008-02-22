@@ -23,7 +23,7 @@ described in a separate article. Please refer to the `Components Introduction`_
 for instructions on installation and configuration of the eZ Components library
 and the Base component.
 
-.. _Components Introduction: http://ez.no/community/articles/an_introduction_to_ez_components
+.. _Components Introduction: /docs/install
 
 
 Usage
@@ -43,6 +43,23 @@ ezcBase supports an option that enables this behavior::
     $options->debug = true;
     ezcBase::setOptions( $options );
     ?>
+
+**Warning**: Exceptions are ignored when they are thrown from an autoload()
+handler in PHP. In order to see the exception message that is thrown when a
+class can not be found, you need to catch the exception *in* the autoload()
+handler. Your autoload() function could then look like::
+
+    function __autoload( $className )
+    {
+        try
+        {
+            ezcBase::autoload( $className );
+        }
+        catch ( Exception $e )
+        {
+            echo $e->getMessage();
+        }
+    }
 
 Preloading
 ----------
