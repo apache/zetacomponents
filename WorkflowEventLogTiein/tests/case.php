@@ -13,7 +13,7 @@ require_once 'WorkflowDatabaseTiein/tests/case.php';
  * @package WorkflowEventLogTiein
  * @subpackage Tests
  */
-abstract class WorkflowEventLogTieinTestCase extends ezcWorkflowDatabaseTieinTestCase
+abstract class ezcWorkflowEventLogTieinTestCase extends ezcWorkflowDatabaseTieinTestCase
 {
     protected $log;
 

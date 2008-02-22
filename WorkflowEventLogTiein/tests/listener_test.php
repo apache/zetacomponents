@@ -14,7 +14,7 @@ require_once 'Workflow/tests/execution.php';
  * @package WorkflowEventLogTiein
  * @subpackage Tests
  */
-class ezcWorkflowEventLogTieinListenerTest extends WorkflowEventLogTieinTestCase
+class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestCase
 {
     protected $execution;
 
