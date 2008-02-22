@@ -1,26 +1,48 @@
-eZ component: Webdav lock support, Design
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eZ component: Webdav, Design, 1.2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Author: Kore Nordmann, Tobias Schlitt
+:Author: Tobias Schlitt
 :Revision: $Rev$
 :Date: $Date$
 :Status: Draft
 
 .. contents::
 
-=====
 Scope
-=====
+^^^^^
 
-The scope of this document is to design locking for the Webdav component. RFC
-2518 defines a complex locking scheme for WebDAV server implementations, which
-is optional to be implemented. This document describes the design of lock
-support for the eZ Webdav component, which is to be implemented for the
-components 1.1 release.
+The scope of this document is to describe the enhancements for the Webdav
+component version 1.2.
 
-============
-Introduction
-============
+The general goal for this version is to support locking as described in RFC
+2518. To achieve this, the if-header must be parsed and respected by the Webdav
+component. This currently is not the case. The if-header must also be used to
+respect Etags, which is not an integral part of the locking feature. However,
+the support of Etags is part of this design, too. 
+
+The following issues are covered in this design:
+
+- Webdav does not provide ETags and does not honor the if-header with them
+  (#12583).
+- Lock support (#12286).
+
+Common concerns
+^^^^^^^^^^^^^^^
+
+This section introduces common concerns of the issues covered in this design
+document and the features resulting from them. Especually the if-header and its
+support in the Webdav component are described.
+
+
+Etag support
+^^^^^^^^^^^^
+
+This section describes the support of Etags in the Webdav component, including
+the usage of the if-header with Etags and the generation and sending of the
+Etag header.
+
+Lock support
+^^^^^^^^^^^^
 
 Locking allows a WebDAV client to gain exclusive access to a resource
 (collection or non-collection) to avoid the "lost update problem". This means
