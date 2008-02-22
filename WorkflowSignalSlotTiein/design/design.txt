@@ -1,0 +1,19 @@
+eZ publish Enterprise Component: WorkflowSignalSlotTiein, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Sebastian Bergmann
+:Revision: $Revision$
+:Date: $Date$
+
+Design Description
+==================
+
+The WorkflowSignalSlotTiein uses the SignalSlot component to emit signals
+triggered by the Workflow component.
+
+
+Main Classes
+============
+
+The ezcWorkflowSignalSlotPlugin class extends the abstract base class for
+workflow engine plugins, ezcWorkflowExecutionPlugin, and uses an instance of the
+ezcSignalCollection class to emit its signals.
