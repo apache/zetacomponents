@@ -364,7 +364,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 0, $this->receiver->stack['afterVariableUnset'] );
     }
 
-    public function testExclusiveChoiceWithElseSimpleMerge()
+    public function testSignalsForExclusiveChoiceWithElseSimpleMerge()
     {
         $this->setUpExclusiveChoiceWithElseSimpleMerge();
         $this->execution->workflow = $this->workflow;
@@ -388,7 +388,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 0, $this->receiver->stack['afterVariableUnset'] );
     }
 
-    public function testExclusiveChoiceWithUnconditionalOutNodeSimpleMerge()
+    public function testSignalsForExclusiveChoiceWithUnconditionalOutNodeSimpleMerge()
     {
         $this->setUpExclusiveChoiceWithUnconditionalOutNodeSimpleMerge();
         $this->execution->workflow = $this->workflow;
@@ -481,7 +481,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 0, $this->receiver->stack['afterVariableUnset'] );
     }
 
-    public function testNonInteractiveSubWorkflow()
+    public function testSignalsForNonInteractiveSubWorkflow()
     {
         $this->setUpWorkflowWithSubWorkflow( 'StartEnd' );
         $this->execution->definitionStorage = $this->definition;
@@ -505,7 +505,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 0, $this->receiver->stack['afterVariableUnset'] );
     }
 
-    public function testInteractiveSubWorkflow()
+    public function testSignalsForInteractiveSubWorkflow()
     {
         $this->setUpWorkflowWithSubWorkflow( 'StartInputEnd' );
         $this->execution->definitionStorage = $this->definition;
@@ -530,7 +530,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 0, $this->receiver->stack['afterVariableUnset'] );
     }
 
-    public function testWorkflowWithCancelCaseSubWorkflow()
+    public function testSignalsForWorkflowWithCancelCaseSubWorkflow()
     {
         $this->setUpWorkflowWithSubWorkflow( 'ParallelSplitActionActionCancelCaseSynchronization' );
         $this->execution->definitionStorage = $this->definition;
