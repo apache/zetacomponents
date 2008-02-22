@@ -170,6 +170,36 @@ class ezcFeedTest extends ezcFeedTestCase
         }
     }
 
+    public function testParseRss2NoVersion()
+    {
+        try
+        {
+            $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss><channel><title>RSS no version</title><item><title>Item no version</title></item></channel></rss>' );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedCanNotParseException $e )
+        {
+            $expected = "' could not be parsed: Feed type not recognized.";
+            $result = substr( $e->getMessage(), strlen( $e->getMessage() ) - 48 );
+            $this->assertEquals( $expected, $result );
+        }
+    }
+
+    public function testParseRss2UnsupportedVersion()
+    {
+        try
+        {
+            $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss version="unsupported version"><channel><title>RSS unsupported version</title><item><title>Item unsupported version</title></item></channel></rss>' );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedCanNotParseException $e )
+        {
+            $expected = "' could not be parsed: Feed type not recognized.";
+            $result = substr( $e->getMessage(), strlen( $e->getMessage() ) - 48 );
+            $this->assertEquals( $expected, $result );
+        }
+    }
+
     public function testParseModuleNotRecognized()
     {
         $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><unsupported_module:element>Content</unsupported_module:element></feed>' );
