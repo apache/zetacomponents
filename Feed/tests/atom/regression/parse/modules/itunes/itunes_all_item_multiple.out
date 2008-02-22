@@ -1,0 +1,48 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id 1';
+$entry->title = 'Entry title 1';
+$entry->updated = 1195053820;
+
+$module = $entry->addModule( 'iTunes' );
+
+$module->author = 'iTunes item author 1';
+$module->block = 'iTunes item block 1';
+$module->duration = 'iTunes item duration 1';
+$module->explicit = 'iTunes item explicit 1';
+
+$image = $module->add( 'image' );
+$image->href = 'iTunes item image 1';
+
+$module->keywords = 'iTunes item keywords 1';
+$module->subtitle = 'iTunes item subtitle 1';
+$module->summary = 'iTunes item summary 1';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id 2';
+$entry->title = 'Entry title 2';
+$entry->updated = 1195053820;
+
+$module = $entry->addModule( 'iTunes' );
+
+$module->author = 'iTunes item author 2';
+$module->block = 'iTunes item block 2';
+$module->duration = 'iTunes item duration 2';
+$module->explicit = 'iTunes item explicit 2';
+
+$image = $module->add( 'image' );
+$image->href = 'iTunes item image 2';
+
+$module->keywords = 'iTunes item keywords 2';
+$module->subtitle = 'iTunes item subtitle 2';
+$module->summary = 'iTunes item summary 2';
+
+return $feed;
+?>

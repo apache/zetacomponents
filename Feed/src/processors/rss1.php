@@ -124,6 +124,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $this->createRootElement( '2.0' );
 
         $this->generateChannel();
+        $this->generateFeedModules( $this->channel );
         $this->generateItems();
         $this->generateImage();
         $this->generateTextInput();
@@ -474,7 +475,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
                     default:
                         // @todo Check if it's part of a known module/namespace
-                        // continue 2 = ignore modules
+                        $this->parseModules( $feed, $channelChild, $tagName );
+
+                        // continue 2 = ignore modules when getting attributes below
                         continue 2;
                 }
             }

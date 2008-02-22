@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>Feed updated</updated>
+  <entry>
+    <id>Entry id</id>
+    <title>Entry title</title>
+    <updated>2007-11-14T16:23:40+01:00</updated>
+    <itunes:author>iTunes item author</itunes:author>
+    <itunes:block>iTunes item block</itunes:block>
+    <itunes:duration>iTunes item duration</itunes:duration>
+    <itunes:explicit>iTunes item explicit</itunes:explicit>
+    <itunes:image href="iTunes item image"/>
+    <itunes:keywords>iTunes item keywords</itunes:keywords>
+    <itunes:subtitle>iTunes item subtitle</itunes:subtitle>
+    <itunes:summary>iTunes item summary</itunes:summary>
+  </entry>
+</feed>

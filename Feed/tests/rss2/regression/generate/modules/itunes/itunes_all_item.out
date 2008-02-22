@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>Feed title</title>
+    <link>Feed link</link>
+    <description>Feed description</description>
+    <pubDate>XXX</pubDate>
+    <generator>eZ Components</generator>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <item>
+      <title>Item title</title>
+      <link>Item link</link>
+      <description>Item description</description>
+      <itunes:author>iTunes item author</itunes:author>
+      <itunes:block>iTunes item block</itunes:block>
+      <itunes:duration>iTunes item duration</itunes:duration>
+      <itunes:explicit>iTunes item explicit</itunes:explicit>
+      <itunes:image href="iTunes item image"/>
+      <itunes:keywords>iTunes item keywords</itunes:keywords>
+      <itunes:subtitle>iTunes item subtitle</itunes:subtitle>
+      <itunes:summary>iTunes item summary</itunes:summary>
+    </item>
+  </channel>
+</rss>

@@ -15,6 +15,7 @@
  * Currently implemented by these feed modules:
  *  - Content ({@link ezcFeedContentModule})
  *  - DublinCore ({@link ezcFeedDublinCoreModule})
+ *  - iTunes ({@link ezcFeedITunesModule})
  *
  * @package Feed
  * @version //autogentag//
@@ -173,7 +174,7 @@ abstract class ezcFeedModule
      * @param string $name The name of the element belonging to the module
      * @param DOMElement $node The XML child from which to take the values for $name
      */
-    abstract public function parse( $name, $node );
+    abstract public function parse( $name, DOMElement $node );
 
     /** 
      * Returns the module name.

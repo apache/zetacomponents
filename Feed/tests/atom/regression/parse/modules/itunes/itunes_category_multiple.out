@@ -1,0 +1,30 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$module = $feed->addModule( 'iTunes' );
+
+$category = $module->add( 'category' );
+$subCategory = $category->add( 'category' );
+$subCategory->text = 'iTunes feed sub-category 1';
+$category->text = 'iTunes feed category 1';
+
+$category = $module->add( 'category' );
+$category->text = 'iTunes feed category 2';
+
+$category = $module->add( 'category' );
+$subCategory = $category->add( 'category' );
+$subCategory->text = 'iTunes feed sub-category 3';
+$category->text = 'iTunes feed category 3';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id';
+$entry->title = 'Entry title';
+$entry->updated = 1195053820;
+
+return $feed;
+?>

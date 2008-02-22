@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel rdf:about="Channel about">
+    <title>Feed title</title>
+    <description>Feed description</description>
+    <link>Feed link</link>
+    <items>
+      <rdf:Seq>
+        <rdf:li resource="Item link 1"/>
+        <rdf:li resource="Item link 2"/>
+      </rdf:Seq>
+	</items>
+  </channel>
+  <item rdf:about="Item link 1">
+    <title>Item title 1</title>
+    <link>Item link 1</link>
+    <description>Item description 1</description>
+    <itunes:author>iTunes item author 1</itunes:author>
+    <itunes:block>iTunes item block 1</itunes:block>
+    <itunes:duration>iTunes item duration 1</itunes:duration>
+    <itunes:explicit>iTunes item explicit 1</itunes:explicit>
+    <itunes:image href="iTunes item image 1"/>
+    <itunes:keywords>iTunes item keywords 1</itunes:keywords>
+    <itunes:subtitle>iTunes item subtitle 1</itunes:subtitle>
+    <itunes:summary>iTunes item summary 1</itunes:summary>
+  </item>
+  <item rdf:about="Item link 2">
+    <title>Item title 2</title>
+    <link>Item link 2</link>
+    <description>Item description 2</description>
+    <itunes:author>iTunes item author 2</itunes:author>
+    <itunes:block>iTunes item block 2</itunes:block>
+    <itunes:duration>iTunes item duration 2</itunes:duration>
+    <itunes:explicit>iTunes item explicit 2</itunes:explicit>
+    <itunes:image href="iTunes item image 2"/>
+    <itunes:keywords>iTunes item keywords 2</itunes:keywords>
+    <itunes:subtitle>iTunes item subtitle 2</itunes:subtitle>
+    <itunes:summary>iTunes item summary 2</itunes:summary>
+  </item>
+</rdf:RDF>

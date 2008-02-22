@@ -101,6 +101,7 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
      * Holds the schema for this feed module.
      *
      * @var array(string)
+     * @ignore
      */
     protected $schema = array(
         'feed' => array(),
@@ -207,7 +208,7 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
      * @param string $name The name of the element belonging to the module
      * @param DOMElement $node The XML child from which to take the values for $name
      */
-    public function parse( $name, $node )
+    public function parse( $name, DOMElement $node )
     {
         if ( $this->isElementAllowed( $name ) )
         {
@@ -230,10 +231,6 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
                 {
                     case 'lang':
                         $element->language = $value;
-                        break;
-
-                    default:
-                        $element->$attr = $value;
                         break;
                 }
             }

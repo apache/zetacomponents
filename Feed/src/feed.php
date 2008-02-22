@@ -32,6 +32,8 @@
  *    {@link http://purl.org/rss/1.0/modules/content/ Specifications}
  *  - DublinCore ({@link ezcFeedDublinCoreModule}) -
  *    {@link http://dublincore.org/documents/dces/ Specifications}
+ *  - iTunes ({@link ezcFeedITunesModule}) -
+ *    {@link http://www.apple.com/itunes/store/podcaststechspecs.html Specifications}
  *
  * A new module can be defined by creating a class which extends the class
  * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}
@@ -258,6 +260,9 @@
  *           RSS1-none,
  *           RSS2-webMaster (optional, not recommended, single).
  *
+ * @todo parse() and parseContent() should(?) handle common broken XML files
+ *       (for example if the first line is not <?xml version="1.0"?>)
+ *
  * @package Feed
  * @version //autogentag//
  * @mainclass
@@ -283,6 +288,7 @@ class ezcFeed
     protected static $supportedModules = array(
         'Content'    => 'ezcFeedContentModule',
         'DublinCore' => 'ezcFeedDublinCoreModule',
+        'iTunes'     => 'ezcFeedITunesModule',
     );
 
     /**
@@ -293,6 +299,7 @@ class ezcFeed
     protected static $supportedModulesPrefixes = array(
         'content' => 'Content',
         'dc'      => 'DublinCore',
+        'itunes'  => 'iTunes',
     );
 
     /**
@@ -390,7 +397,12 @@ class ezcFeed
                 break;
 
             default:
-                // should check for modules
+                $supportedModules = ezcFeed::getSupportedModules();
+                if ( isset( $supportedModules[$property] ) )
+                {
+                    $this->feedProcessor->setModule( $property, $value );
+                    return;
+                }
         }
     }
 
@@ -440,8 +452,105 @@ class ezcFeed
                 return $value;
 
             default:
-                // should check for modules
+                $supportedModules = ezcFeed::getSupportedModules();
+                if ( isset( $supportedModules[$property] ) )
+                {
+                    if ( isset( $this->$property ) )
+                    {
+                        return $this->feedProcessor->getModule( $property );
+                    }
+                    else
+                    {
+                        throw new ezcFeedUndefinedModuleException( $property );
+                    }
+                }
         }
+    }
+
+    /**
+     * Returns if the property $name is set.
+     *
+     * @param string $name The property name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'author':
+            case 'authors':
+            case 'category':
+            case 'categories':
+            case 'cloud':
+            case 'contributor':
+            case 'contributors':
+            case 'copyright':
+            case 'description':
+            case 'docs':
+            case 'generator':
+            case 'icon':
+            case 'id':
+            case 'image':
+            case 'item':
+            case 'items':
+            case 'language':
+            case 'link':
+            case 'links':
+            case 'published':
+            case 'rating':
+            case 'skipDays':
+            case 'skipHours':
+            case 'textInput':
+            case 'title':
+            case 'ttl':
+            case 'updated':
+            case 'webMaster':
+                $value = $this->feedProcessor->get( $name );
+                return ( $value === null );
+
+            default:
+                $supportedModules = ezcFeed::getSupportedModules();
+                if ( isset( $supportedModules[$name] ) )
+                {
+                    return $this->hasModule( $name );;
+                }
+        }
+    }
+
+    /**
+     * Adds a new module to this item and returns it.
+     *
+     * @todo check if module is already added, maybe return the existing module
+     *
+     * @param string $name The name of the module to add
+     * @return ezcFeedModule
+     */
+    public function addModule( $name )
+    {
+        $this->$name = ezcFeedModule::create( $name, 'feed' );
+        return $this->$name;
+    }
+
+    /**
+     * Returns true if the module $name is loaded, false otherwise.
+     *
+     * @param string $name The name of the module to check if loaded for this item
+     * @return bool
+     */
+    public function hasModule( $name )
+    {
+        return $this->feedProcessor->hasModule( $name );
+    }
+
+    /**
+     * Returns an array with all the modules loaded at feed-level.
+     *
+     * @return array(ezcFeedModule)
+     */
+    public function getModules()
+    {
+        return $this->feedProcessor->getModules();
     }
 
     /**

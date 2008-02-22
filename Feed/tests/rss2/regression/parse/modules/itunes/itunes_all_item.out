@@ -1,0 +1,30 @@
+<?php
+$feed = new ezcFeed( 'rss2' );
+$feed->title = 'Feed title';
+
+$link = $feed->add( 'link' );
+$link->set( 'Feed link' );
+
+$feed->description = 'Feed description';
+
+$item = $feed->add( 'item' );
+$item->title = 'Item title';
+$item->link = 'Item link';
+$item->description = 'Item description';
+
+$module = $item->addModule( 'iTunes' );
+
+$module->author = 'iTunes item author';
+$module->block = 'iTunes item block';
+$module->duration = 'iTunes item duration';
+$module->explicit = 'iTunes item explicit';
+
+$image = $module->add( 'image' );
+$image->href = 'iTunes item image';
+
+$module->keywords = 'iTunes item keywords';
+$module->subtitle = 'iTunes item subtitle';
+$module->summary = 'iTunes item summary';
+
+return $feed;
+?>

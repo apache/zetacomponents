@@ -1,0 +1,38 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$module = $feed->addModule( 'iTunes' );
+
+$module->author = 'iTunes feed author';
+$module->block = 'iTunes feed block';
+
+$category = $module->add( 'category' );
+$category->text = 'iTunes feed category';
+
+$module->explicit = 'iTunes feed explicit';
+
+$image = $module->add( 'image' );
+$image->href = 'iTunes feed image';
+
+$module->keywords = 'iTunes feed keywords';
+$module->newfeedurl = 'iTunes feed new-feed-url';
+
+$owner = $module->add( 'owner' );
+$owner->email = 'iTunes feed owner email';
+$owner->name = 'iTunes feed owner name';
+
+$module->subtitle = 'iTunes feed subtitle';
+$module->summary = 'iTunes feed summary';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id';
+$entry->title = 'Entry title';
+$entry->updated = 1195053820;
+
+return $feed;
+?>

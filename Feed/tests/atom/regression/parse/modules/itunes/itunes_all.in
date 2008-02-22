@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>Feed updated</updated>
+  <itunes:author>iTunes feed author</itunes:author>
+  <itunes:block>iTunes feed block</itunes:block>
+  <itunes:category text="iTunes feed category"/>
+  <itunes:explicit>iTunes feed explicit</itunes:explicit>
+  <itunes:image href="iTunes feed image"/>
+  <itunes:keywords>iTunes feed keywords</itunes:keywords>
+  <itunes:new-feed-url>iTunes feed new-feed-url</itunes:new-feed-url>
+  <itunes:owner>
+    <itunes:email>iTunes feed owner email</itunes:email>
+    <itunes:name>iTunes feed owner name</itunes:name>
+  </itunes:owner>
+  <itunes:subtitle>iTunes feed subtitle</itunes:subtitle>
+  <itunes:summary>iTunes feed summary</itunes:summary>
+  <entry>
+    <id>Entry id</id>
+    <title>Entry title</title>
+    <updated>2007-11-14T16:23:40+01:00</updated>
+    <itunes:author>iTunes item author</itunes:author>
+    <itunes:block>iTunes item block</itunes:block>
+    <itunes:duration>iTunes item duration</itunes:duration>
+    <itunes:explicit>iTunes item explicit</itunes:explicit>
+    <itunes:image href="iTunes item image"/>
+    <itunes:keywords>iTunes item keywords</itunes:keywords>
+    <itunes:subtitle>iTunes item subtitle</itunes:subtitle>
+    <itunes:summary>iTunes item summary</itunes:summary>
+  </entry>
+</feed>

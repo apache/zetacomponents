@@ -72,6 +72,16 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( 'dc', $module->getNamespacePrefix() );
     }
 
+    public function testCreateModuleITunes()
+    {
+        $feed = new ezcFeed( 'atom' );
+        $item = $feed->add( 'item' );
+        $module = $item->addModule( 'iTunes' );
+        $this->assertEquals( 'iTunes', $module->getModuleName() );
+        $this->assertEquals( 'http://www.itunes.com/dtds/podcast-1.0.dtd', $module->getNamespace() );
+        $this->assertEquals( 'itunes', $module->getNamespacePrefix() );
+    }
+
     public function testCreateFeedNotSupported()
     {
         try

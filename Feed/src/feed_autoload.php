@@ -28,6 +28,7 @@ return array(
     'ezcFeedAtom'                                => 'Feed/processors/atom.php',
     'ezcFeedContentModule'                       => 'Feed/modules/content_module.php',
     'ezcFeedDublinCoreModule'                    => 'Feed/modules/dublincore_module.php',
+    'ezcFeedITunesModule'                        => 'Feed/modules/itunes_module.php',
     'ezcFeedItem'                                => 'Feed/nodes/item.php',
     'ezcFeedRss1'                                => 'Feed/processors/rss1.php',
     'ezcFeedRss2'                                => 'Feed/processors/rss2.php',

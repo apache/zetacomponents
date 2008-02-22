@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel rdf:about="Channel about">
+    <title>Feed title</title>
+    <description>Feed description</description>
+    <link>Feed link</link>
+    <items>
+      <rdf:Seq>
+        <rdf:li resource="Item link"/>
+      </rdf:Seq>
+	</items>
+  </channel>
+  <item rdf:about="Item link">
+    <title>Item title</title>
+    <link>Item link</link>
+    <description>Item description</description>
+    <itunes:author>iTunes item author</itunes:author>
+    <itunes:block>iTunes item block</itunes:block>
+    <itunes:duration>iTunes item duration</itunes:duration>
+    <itunes:explicit>iTunes item explicit</itunes:explicit>
+    <itunes:image href="iTunes item image"/>
+    <itunes:keywords>iTunes item keywords</itunes:keywords>
+    <itunes:subtitle>iTunes item subtitle</itunes:subtitle>
+    <itunes:summary>iTunes item summary</itunes:summary>
+  </item>
+</rdf:RDF>

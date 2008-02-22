@@ -60,6 +60,7 @@ The following modules are supported by the Feed component:
 
 - Content (ezcFeedContentModule)
 - DublinCore (ezcFeedDublinCoreModule)
+- iTunes (ezcFeedITunesModule)
 
 A new module can be defined by creating a class which extends the class
 ezcFeedModule, and adding it to the ezcFeed::$supportedModules and
@@ -168,12 +169,17 @@ The following example shows how to parse an RSS2 podcast::
             $media[] = array(
                'url' => isset( $enclosure->url ) ? $enclosure->url : 'not defined',
                'length' => isset( $enclosure->length ) ? $enclosure->length : 'not defined',
-               'type' => isset( $enclosure->type ) ? $enclosure->type : 'not defined' );
+               'type' => isset( $enclosure->type ) ? $enclosure->type : 'not defined',
+               'duration' => isset( $item->iTunes ) && isset(
+               $item->iTunes->duration ) ? $item->iTunes->duration : 'not
+               defined' );
         }
     }
 
 After running the code, the array $media will contain the URL, length and type
-of the media files specified in the feed.
+of the media files specified in the feed, and the duration taken from the
+`iTunes`_ module contained in the feed (if available). See the
+`specifications`_ section for more information about the `iTunes`_ module.
 
 
 Create an RSS2 podcast
@@ -209,6 +215,73 @@ The following example shows how to create an RSS2 podcast with 2 media files::
     $enclosure->url = 'http://www.example.com/media_file2.mp3';
     $enclosure->length = 6500;
     $enclosure->type = 'audio/x-mp3';
+
+
+Using the iTunes module
+```````````````````````
+
+A feed should be described with iTunes elements in order to be used as a
+podcast in the music player `iTunes`_. The previous example becomes as follows
+::
+
+    $feed = new ezcFeed( 'rss2' );
+
+    $feed->title = 'Feed title';
+
+    $link = $feed->add( 'link' );
+    $link->set( 'Feed link' );
+
+    $feed->description = 'Feed description';
+
+    $iTunes = $feed->addModule( 'iTunes' );
+
+    // add an image for the podcast
+    $image = $iTunes->add( 'image' );
+    $image->href = 'URL of the image file';
+
+    $iTunes->keywords = 'keyword1,keyword2,keyword3';
+
+    // add the podcast in one or more categories + sub-categories
+    // see http://www.apple.com/itunes/store/podcaststechspecs.html#categories
+    // for iTunes categories
+    $category = $iTunes->add( 'category' );
+    $category->text = 'iTunes category';
+    $subCategory = $category->add( 'category' );
+    $subCategory->text = 'iTunes sub-category';
+
+    $item = $feed->add( 'item' );
+    $item->title = 'Title for media file 1';
+    $item->link = 'Link for media file 1';
+    $item->description = 'Description for media file 1';
+
+    $enclosure = $item->add( 'enclosure' );
+    $enclosure->url = 'http://www.example.com/media_file1.mp3';
+    $enclosure->length = 4300;
+    $enclosure->type = 'audio/x-mp3';
+
+    $iTunes = $item->addModule( 'iTunes' );
+    $iTunes->author = 'Author name';
+
+    // set a duration of 3 min 51 sec for this enclosure
+    $iTunes->duration = '03:51';
+    $iTunes->keywords = 'keyword1,keyword2';
+
+    $item = $feed->add( 'item' );
+    $item->title = 'Title for media file 2';
+    $item->link = 'Link for media file 2';
+    $item->description = 'Description for media file 2';
+
+    $enclosure = $item->add( 'enclosure' );
+    $enclosure->url = 'http://www.example.com/media_file2.mp3';
+    $enclosure->length = 6500;
+    $enclosure->type = 'audio/x-mp3';
+
+    $iTunes = $item->addModule( 'iTunes' );
+    $iTunes->author = 'Author name';
+
+    // set a duration of 1 hour 4 min 30 sec for this enclosure
+    $iTunes->duration = '01:04:30';
+    $iTunes->keywords = 'keyword1';
 
 
 Writing feed-independent applications
@@ -393,6 +466,12 @@ __ http://www.mozilla.org/foundation/feed-icon-guidelines/
 .. |feed icon| image:: img/feed-icon-14x14.png
 
 
+Feed validation
+===============
+
+Feeds should be validated against a `feed validator`_.
+
+
 Specifications and RFCs
 =======================
 
@@ -400,6 +479,9 @@ For a list of supported RFCs and specifications of the feed types and modules,
 please see the `specifications`_ page.
 
 .. _specifications: Feed_specifications.html
+.. _feed validator: http://validator.w3.org/feed/
+
+.. _iTunes: http://www.apple.com/itunes/
 
 
 

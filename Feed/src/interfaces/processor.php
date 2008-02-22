@@ -79,6 +79,14 @@ abstract class ezcFeedProcessor
     protected $elements;
 
     /**
+     * Holds the modules used by this feed item.
+     *
+     * @var array(ezcFeedModule)
+     * @ignore
+     */
+    protected $modules = array();
+
+    /**
      * Holds the prefixes used in the feed generation process.
      *
      * @var array(string)
@@ -154,14 +162,57 @@ abstract class ezcFeedProcessor
     }
 
     /**
-     * Creates elements for all modules loaded, and adds the namespaces required
-     * by the modules in the XML document being generated.
+     * Returns true if the module $name is loaded, false otherwise.
+     *
+     * @param string $name The name of the module to check if loaded at feed-level
+     * @return bool
+     */
+    public function hasModule( $name )
+    {
+        return isset( $this->modules[$name] );
+    }
+
+    /**
+     * Returns the loaded module $name.
+     *
+     * @param string $name The name of the module to return
+     * @return ezcFeedModule
+     */
+    public function getModule( $name )
+    {
+        return $this->modules[$name];
+    }
+
+    /**
+     * Returns an array with all the modules loaded at feed-level.
+     *
+     * @return array(ezcFeedModule)
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
+    /**
+     * Associates the module $module with the name $name.
+     *
+     * @param string $name The name of the module associate
+     * @param ezcFeedModule $module The module to set under the name $name
+     */
+    public function setModule( $name, ezcFeedModule $module )
+    {
+        $this->modules[$name] = $module;
+    }
+
+    /**
+     * Creates elements for all modules loaded at item-level, and adds the
+     * namespaces required by the modules in the XML document being generated.
      *
      * @param ezcFeedItem $item The feed item containing the modules
      * @param DOMElement $node The XML element in which to add the module elements
      * @ignore
      */
-    public function generateModules( ezcFeedItem $item, DOMElement $node )
+    public function generateModules( $item, DOMElement $node )
     {
         foreach ( ezcFeed::getSupportedModules() as $module => $class )
         {
@@ -174,14 +225,34 @@ abstract class ezcFeedProcessor
     }
 
     /**
-     * Parses the XML element $node and creates modules in the feed item $item.
+     * Creates elements for all modules loaded at feed-level, and adds the
+     * namespaces required by the modules in the XML document being generated.
      *
-     * @param ezcFeedItem $item The feed item which will contain the modules
+     * @param DOMElement $node The XML element in which to add the module elements
+     * @ignore
+     */
+    public function generateFeedModules( DOMElement $node )
+    {
+        foreach ( ezcFeed::getSupportedModules() as $module => $class )
+        {
+            if ( $this->hasModule( $module ) )
+            {
+                $this->addAttribute( $this->root, 'xmlns:' . $this->modules[$module]->getNamespacePrefix(), $this->modules[$module]->getNamespace() );
+                $this->modules[$module]->generate( $this->xml, $node );
+            }
+        }
+    }
+
+    /**
+     * Parses the XML element $node and creates modules in the feed or
+     * feed item $item.
+     *
+     * @param ezcFeedItem|ezcFeed $item The feed or feed item which will contain the modules
      * @param DOMElement $node The XML element from which to get the module elements
      * @param string $tagName The XML tag name (if it contains ':' it will be considered part of a module)
      * @ignore
      */
-    public function parseModules( ezcFeedItem $item, DOMElement $node, $tagName )
+    public function parseModules( $item, DOMElement $node, $tagName )
     {
         $supportedModules = ezcFeed::getSupportedModules();
         $supportedModulesPrefixes = ezcFeed::getSupportedModulesPrefixes();

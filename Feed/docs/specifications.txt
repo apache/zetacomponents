@@ -2101,6 +2101,241 @@ A list of allowed languages can be found here: `RSS language codes`_. This
 attribute is accessed as *language*.
 
 
+iTunes module
+=============
+
+Specifications
+--------------
+
+`iTunes specifications`_
+
+
+Feed elements
+-------------
+
+iTunes-author
+`````````````
+
+The author of a podcast.
+
+Optional.
+
+Can appear only once.
+
+
+iTunes-block
+````````````
+
+Prevents a podcast to appear in the podcast listing.
+
+Optional.
+
+Can appear only once.
+
+Valid values are ``yes`` and ``no``, default ``no``.
+
+
+iTunes-category
+```````````````
+
+Categories for a podcast.
+
+Optional.
+
+Can appear multiple times. Categories can have sub-categories.
+
+The ampersands (``&``) in categories must be escaped to ``&amp;``.
+
+Valid `iTunes categories`_ values. A maximum of 3 categories are recommended.
+
+
+iTunes-explicit
+```````````````
+
+Specifies if a podcast contains explicit content.
+
+Optional.
+
+Can appear only once.
+
+Valid values are ``clean``, ``no`` and ``yes``, default ``no``.
+
+
+iTunes-image
+````````````
+
+A link to an image for the podcast.
+
+Optional.
+
+Can appear only once.
+
+The URL to the image is specified in the attribute *href*.
+
+
+iTunes-keywords
+```````````````
+
+A list of keywords for a podcast.
+
+Optional.
+
+Can appear only once.
+
+The keywords should be separated by commas. A maximum of 12 keywords is
+recommended.
+
+
+iTunes-new-feed-url
+```````````````````
+
+A new URL for the podcast.
+
+Optional.
+
+Can appear only once.
+
+Accessed as *newfeedurl*.
+
+Recommendation: the old URL of the podcast should redirect to the new URL.
+
+
+iTunes-owner
+````````````
+
+The owner of the podcast.
+
+Optional.
+
+Can appear only once.
+
+Has the sub-elements *email* and *name*.
+
+
+iTunes-subtitle
+```````````````
+
+Short description of the podcast.
+
+Optional.
+
+Can appear only once.
+
+
+iTunes-summary
+``````````````
+
+Longer description of a podcast.
+
+Optional.
+
+Can appear only once.
+
+
+
+Item elements
+-------------
+
+iTunes-item-author
+``````````````````
+
+The author of a podcast entry.
+
+Optional.
+
+Can appear only once.
+
+
+iTunes-item-block
+`````````````````
+
+Prevents a podcast entry to appear in the podcast listing.
+
+Optional.
+
+Can appear only once.
+
+Valid values are ``yes`` and ``no``, default ``no``.
+
+
+iTunes-item-duration
+````````````````````
+
+The duration of a podcast entry.
+
+Optional.
+
+Can appear only once.
+
+Can be specified as ``HH:MM:SS``, ``H:MM:SS``, ``MM:SS``, ``M:SS`` or ``S``
+(H = hours, M = minutes, S = seconds).
+
+
+iTunes-item-explicit
+````````````````````
+
+Specifies if a podcast entry contains explicit content.
+
+Optional.
+
+Can appear only once.
+
+Valid values are ``clean``, ``no`` and ``yes``, default ``no``.
+
+
+iTunes-item-image
+`````````````````
+
+A link to an image for the podcast entry.
+
+Optional.
+
+Can appear only once.
+
+The URL to the image is specified in the attribute *href*.
+
+NOTE: The `iTunes specifications` say that image is supported at podcast-level
+only, but there are many podcasts using image at podcast entry (item) level
+also, and there are software applications supporting that too. Use image at
+item-level at your own risk, as some software applications might not support
+it. The Feed component supports parsing and generating feeds with image at
+both podcast-level and item-level.
+
+
+iTunes-item-keywords
+````````````````````
+
+A list of keywords for a podcast entry.
+
+Optional.
+
+Can appear only once.
+
+The keywords should be separated by commas. A maximum of 12 keywords is
+recommended.
+
+
+iTunes-item-subtitle
+````````````````````
+
+Short description of a podcast entry.
+
+Optional.
+
+Can appear only once.
+
+
+iTunes-item-summary
+```````````````````
+
+Longer description of a podcast entry.
+
+Optional.
+
+Can appear only once.
+
+
+
 Resources
 =========
 
@@ -2115,6 +2350,8 @@ Modules
 -------
 
 - `Content specifications`_.
+- `DublinCore specifications`_.
+- `iTunes specifications`_.
 
 
 .. _RSS1 specifications: http://web.resource.org/rss/1.0/spec
@@ -2123,6 +2360,7 @@ Modules
 
 .. _Content specifications: http://purl.org/rss/1.0/modules/content/
 .. _DublinCore specifications: http://dublincore.org/documents/dces/
+.. _iTunes specifications: http://www.apple.com/itunes/store/podcaststechspecs.html
 
 .. _RFC 3339: http://www.faqs.org/rfcs/rfc3339.html
 .. _RFC 822: http://www.faqs.org/rfcs/rfc822.html
@@ -2133,6 +2371,7 @@ Modules
 .. _RFC 4646: http://www.faqs.org/rfcs/rfc4646.html
 .. _DCMI Type Vocabulary: http://dublincore.org/documents/dcmi-type-vocabulary/
 .. _RSS language codes: http://www.rssboard.org/rss-language-codes
+.. _iTunes categories: http://www.apple.com/itunes/store/podcaststechspecs.html#categories
 
 .. |ezcFeed-author| replace:: author
 .. |ezcFeed-category| replace:: category
