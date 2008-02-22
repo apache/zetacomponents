@@ -224,6 +224,42 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
     }
 
+    public function testParseAtomUnsupportedModule()
+    {
+        $dot = DIRECTORY_SEPARATOR;
+        $file = dirname( __FILE__ ) . "{$dot}atom{$dot}data{$dot}atom_example_from_specs.xml";
+
+        $feed = ezcFeed::parse( $file );
+
+        try
+        {
+            $module = $feed->unsupported_module;
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedUnsupportedModuleException $e )
+        {
+            $this->assertEquals( "The module 'unsupported_module' is not supported.", $e->getMessage() );
+        }
+    }
+
+    public function testParseAtomUndefinedModule()
+    {
+        $dot = DIRECTORY_SEPARATOR;
+        $file = dirname( __FILE__ ) . "{$dot}atom{$dot}data{$dot}atom_example_from_specs.xml";
+
+        $feed = ezcFeed::parse( $file );
+
+        try
+        {
+            $module = $feed->iTunes;
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedUndefinedModuleException $e )
+        {
+            $this->assertEquals( "The module 'iTunes' is not defined yet.", $e->getMessage() );
+        }
+    }
+
     public function testParseAtom1()
     {
         $dot = DIRECTORY_SEPARATOR;
@@ -233,6 +269,8 @@ class ezcFeedTest extends ezcFeedTestCase
 
         $this->assertEquals( 'atom', $feed->getFeedType() );
         $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
+        $this->assertEquals( false, isset( $feed->skipDays ) );
+        $this->assertEquals( false, isset( $feed->unsupportedModule ) );
     }
 
     public function testParseAtom2()
@@ -289,6 +327,9 @@ class ezcFeedTest extends ezcFeedTestCase
 
         $this->assertEquals( 'rss2', $feed->getFeedType() );
         $this->assertEquals( 'LibriVox Audiobooks', $feed->title->__toString() );
+
+        $modules = $feed->getModules();
+        $this->assertEquals( true, isset( $modules['iTunes'] ) );
     }
 
     public function testParseRss2Podcast2()

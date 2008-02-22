@@ -465,6 +465,8 @@ class ezcFeed
                     }
                 }
         }
+
+        throw new ezcFeedUnsupportedModuleException( $property );
     }
 
     /**
@@ -507,7 +509,7 @@ class ezcFeed
             case 'updated':
             case 'webMaster':
                 $value = $this->feedProcessor->get( $name );
-                return ( $value === null );
+                return ( $value !== null );
 
             default:
                 $supportedModules = ezcFeed::getSupportedModules();
@@ -516,6 +518,8 @@ class ezcFeed
                     return $this->hasModule( $name );;
                 }
         }
+
+        return false;
     }
 
     /**
