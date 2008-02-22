@@ -2133,8 +2133,7 @@ Optional.
 
 Can appear only once.
 
-If missing, `iTunes`_ will use the *author* / *managingEditor* element from
-the feed (|ezcFeed-author|_).
+If missing, `iTunes`_ will use the |ezcFeed-author|_ element from the feed.
 
 
 iTunes-block
@@ -2186,8 +2185,8 @@ Can appear only once.
 
 The URL to the image is specified in the attribute *href*.
 
-If missing, `iTunes`_ will use the *image* element from the feed
-(|ezcFeed-image|_).
+If missing, `iTunes`_ will use the |ezcFeed-image|_ element from the feed.
+
 
 
 iTunes-keywords
@@ -2248,8 +2247,8 @@ Optional.
 
 Can appear only once.
 
-If missing, `iTunes`_ will use the *description* element from the feed
-(|ezcFeed-description|_).
+If missing, `iTunes`_ will use the |ezcFeed-description|_ element from the
+feed.
 
 
 Item elements
@@ -2353,8 +2352,8 @@ Optional.
 
 Can appear only once.
 
-If missing, `iTunes`_ will use the *description* element from the feed
-(|ezcFeed-item-description|_).
+If missing, `iTunes`_ will use the |ezcFeed-item-description|_ element from
+the feed.
 
 
 Resources
