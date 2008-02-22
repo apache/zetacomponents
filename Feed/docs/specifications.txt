@@ -2157,9 +2157,45 @@ Optional.
 
 Can appear multiple times. Categories can have sub-categories.
 
+The category name is specified in the attribute *text*.
+
 The ampersands (``&``) in categories must be escaped to ``&amp;``.
 
-Valid `iTunes categories`_ values. A maximum of 3 categories are recommended.
+Valid values for categories are found in the `iTunes categories`_ section of
+the `iTunes specifications`_. A maximum of 3 categories are recommended.
+
+Create example::
+
+  // $feed is an ezcFeed object
+  $iTunes = $feed->addModule( 'iTunes' );
+
+  // add the podcast in one or more categories + sub-categories
+  $category = $iTunes->add( 'category' );
+  $category->text = 'iTunes category';
+  $subCategory = $category->add( 'category' );
+  $subCategory->text = 'iTunes sub-category';
+
+Parse example::
+
+  // $feed is an ezcFeed object
+  if ( isset( $feed->iTunes ) )
+  {
+      $iTunes = $feed->iTunes;
+      if ( isset( $iTunes->category ) )
+      {
+          foreach ( $iTunes->category as $category )
+          {
+              echo $category->text;
+              if ( isset( $category->category ) )
+              {
+                  foreach ( $category->category as $subCategory )
+                  {
+                      echo $subCategory->text;
+                  }
+              }
+          }
+      }
+  }
 
 
 iTunes-explicit
@@ -2186,7 +2222,6 @@ Can appear only once.
 The URL to the image is specified in the attribute *href*.
 
 If missing, `iTunes`_ will use the |ezcFeed-image|_ element from the feed.
-
 
 
 iTunes-keywords

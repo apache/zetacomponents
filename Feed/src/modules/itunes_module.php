@@ -28,13 +28,23 @@
  *
  * Parse example:
  * <code>
- * // $item is an ezcFeedItem object
- * foreach ( $item->iTunes->category as $category )
+ * // $feed is an ezcFeed object
+ * if ( isset( $feed->iTunes ) )
  * {
- *     echo $category->text;
- *     foreach ( $category->category as $subCategory )
+ *     $iTunes = $feed->iTunes;
+ *     if ( isset( $iTunes->category ) )
  *     {
- *          echo $subCategory->text;
+ *         foreach ( $iTunes->category as $category )
+ *         {
+ *             echo $category->text;
+ *             if ( isset( $category->category ) )
+ *             {
+ *                 foreach ( $category->category as $subCategory )
+ *                 {
+ *                     echo $subCategory->text;
+ *                 }
+ *             }
+ *         }
  *     }
  * }
  * </code>
