@@ -28,7 +28,11 @@ interface ezcImageThumbnailFilters
      * down, keeping the original ratio and keeping the image larger as the
      * given range, if necessary. Overhead for the target range is cropped from
      * both sides equally.
-     * 
+     *
+     * If you are looking for a filter that just resizes your image to
+     * thumbnail size, you should consider the {@link
+     * ezcImageGeometryFilters::scale()} filter.
+     *
      * @param int $width  Width of the thumbnail.
      * @param int $height Height of the thumbnail.
      */
@@ -50,6 +54,10 @@ interface ezcImageThumbnailFilters
      *      2 => <blue value>,
      * );
      * </code>
+     *
+     * If you are looking for a filter that just resizes your image to
+     * thumbnail size, you should consider the {@link
+     * ezcImageGeometryFilters::scale()} filter.
      * 
      * @param int $width  Width of the thumbnail.
      * @param int $height Height of the thumbnail.
