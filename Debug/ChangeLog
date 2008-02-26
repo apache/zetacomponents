@@ -1,6 +1,10 @@
-1.1.1 - [RELEASEDATE]
+1.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Implemented enhancement #10701: Getting a readable backtrace. The
+  ezcDebug->log() method now allows you to selectively add a stack trace to
+  debug log messages. The new ezcDebugOptions class allows to globally switch
+  on stack traces for all log messages.
 - Fixed issue #12427: Changed output rendering of the debug formatter to not
   include a stylesheet by default, but instead the formatter now includes easy
   overridable CSS classes.

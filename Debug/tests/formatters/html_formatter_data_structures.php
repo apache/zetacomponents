@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+require 'input/class.php';
+
 /**
  * Class used in the test suite.
  *
@@ -140,6 +142,40 @@ class HtmlReporterDataStructures
           )),
         );
         return $time;
+    }
+
+    public function getLogStructureWithPhpStacktrace()
+    {
+        $rawTrace = require 'input/stacktrace_php.php';
+        $stacktrace = new ezcDebugPhpStacktraceIterator(
+            $rawTrace,
+            0,
+            new ezcDebugOptions()
+        );
+        $log = $this->getLogStructure();
+
+        foreach ( $log as $logItem )
+        {
+            $logItem->stackTrace = $stacktrace;
+        }
+        return $log;
+    }
+
+    public function getLogStructureWithXdebugStacktrace()
+    {
+        $rawTrace = require 'input/stacktrace_xdebug.php';
+        $stacktrace = new ezcDebugXdebugStacktraceIterator(
+            $rawTrace,
+            0,
+            new ezcDebugOptions()
+        );
+        $log = $this->getLogStructure();
+
+        foreach ( $log as $logItem )
+        {
+            $logItem->stackTrace = $stacktrace;
+        }
+        return $log;
     }
 
     protected function mySQLFunction(&$time)

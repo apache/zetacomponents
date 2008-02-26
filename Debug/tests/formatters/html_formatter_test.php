@@ -27,6 +27,40 @@ class ezcDebugHtmlFormatterTest extends ezcTestCase
         self::assertEquals( $expected, $out );
     }
 
+    public function testHtmlWithPhpStacktrace()
+    {
+        $html = new ezcDebugHtmlFormatter();
+
+        $struct = new HtmlReporterDataStructures();
+
+        $out = $html->generateOutput(
+            $struct->getLogStructureWithPhpStacktrace(),
+            $struct->getTimeStructure()
+        );
+        // file_put_contents( dirname( __FILE__ ) . '/output/output_with_php_stacktrace.html', $out );
+        $expected = file_get_contents(
+            dirname( __FILE__ ) . '/output/output_with_php_stacktrace.html'
+        );
+        $this->assertEquals( $expected, $out );
+    }
+
+    public function testHtmlWithXdebugStacktrace()
+    {
+        $html = new ezcDebugHtmlFormatter();
+
+        $struct = new HtmlReporterDataStructures();
+
+        $out = $html->generateOutput(
+            $struct->getLogStructureWithXdebugStacktrace(),
+            $struct->getTimeStructure()
+        );
+        file_put_contents( dirname( __FILE__ ) . '/output/output_with_xdebug_stacktrace.html', $out );
+        $expected = file_get_contents(
+            dirname( __FILE__ ) . '/output/output_with_xdebug_stacktrace.html'
+        );
+        $this->assertEquals( $expected, $out );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );

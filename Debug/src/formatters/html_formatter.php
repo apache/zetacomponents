@@ -87,10 +87,59 @@ class ezcDebugHtmlFormatter implements ezcDebugOutputFormatter
     <td colspan='2'>{$w->message}</td>
 </tr>
 ENDT;
+            if ( isset( $w->stackTrace ) )
+            {
+                $str .= "<tr class='debugstacktrace'>";
+                $str .= "<td colspan='2'>";
+                $str .= $this->formatStackTrace( $w->stackTrace );
+                $str .= "</td>";
+                $str .= "</tr>";
+            }
         }
         $str .= "</table>\n";
 
         return $str;
+    }
+
+    public function formatStackTrace( ezcDebugStacktraceIterator $stackTrace )
+    {
+        $res = <<<EOT
+<table class='stacktrace'>
+<tr>
+    <td class='stacktraceno'>
+        #
+    </td>
+    <td class='stacktracefunction'>
+        Function
+    </td>
+    <td class='stacktracelocation'>
+        Location
+    </td>
+</tr>
+EOT;
+        foreach ( $stackTrace as $index => $element )
+        {
+            $function = ( isset( $element['class'] ) ? "{$element['class']}::" : '' )
+                . $element['function'] . '('
+                . implode( ', ', $element['params'] )
+                . ')';
+            $location = "{$element['file']}:{$element['line']}";
+            $res .= <<<EOT
+<tr>
+    <td class='stacktraceno'>
+        $index
+    </td>
+    <td class='stacktracefunction'>
+        $function
+    </td>
+    <td class='stacktracelocation'>
+        $location
+    </td>
+</tr>
+EOT;
+        }
+        $res .= "</table>\n";
+        return  $res;
     }
 
     /**

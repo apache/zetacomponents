@@ -64,6 +64,18 @@ class ezcDebugStructure
     }
 
     /**
+     * Returns if the given property isset.
+     * 
+     * @param string $name 
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        return array_key_exists( $name, $this->properties );
+    }
+
+    /**
      * Generates string output of the debug messages.
      *
      * The output generated is each value listed in the form "'key' => 'value'".

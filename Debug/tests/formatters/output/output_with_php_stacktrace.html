@@ -1,0 +1,178 @@
+<div class="ezc-debug-output"><table class='log'>
+<tr class='debugheader'>
+    <td class='source'>
+        <span class='verbosity1'>1: content::sql</span>
+    </td>
+    <td class='date'>2008-02-01 12:49:51 +0000</td>
+</tr>
+<tr class='debugbody'>
+    <td colspan='2'>SELECT contentobject_id, login, email, password_hash, password_hash_type
+ FROM ezuser
+ WHERE contentobject_id='10'</td>
+</tr><tr class='debugstacktrace'><td colspan='2'><table class='stacktrace'>
+<tr>
+    <td class='stacktraceno'>
+        #
+    </td>
+    <td class='stacktracefunction'>
+        Function
+    </td>
+    <td class='stacktracelocation'>
+        Location
+    </td>
+</tr><tr>
+    <td class='stacktraceno'>
+        0
+    </td>
+    <td class='stacktracefunction'>
+        DebugTestFormatterClass::testStatic()
+    </td>
+    <td class='stacktracelocation'>
+        /home/dotxp/dev/PHP/actual/ezcomponents/trunk/backtrace.php:38
+    </td>
+</tr><tr>
+    <td class='stacktraceno'>
+        1
+    </td>
+    <td class='stacktracefunction'>
+        DebugTestFormatterClass::fooBaz(23, array (0 => 23, 1 => NULL, 2 => 1, 3 => 2, 4 => array (0 => 'a', 1 => 'b', 2 => TRUE, 3 => class DebugTestFormatterContainerClass {  }), 5 => array (0 => 23.42, 1 => FALSE, 2 => NULL, 3 => 'test', 4 => array (0 => 'deep', 1 => 'deeper', 2 => 'deepest'))))
+    </td>
+    <td class='stacktracelocation'>
+        /home/dotxp/dev/PHP/actual/ezcomponents/trunk/backtrace.php:33
+    </td>
+</tr><tr>
+    <td class='stacktraceno'>
+        2
+    </td>
+    <td class='stacktracefunction'>
+        DebugTestFormatterClass::fooBar()
+    </td>
+    <td class='stacktracelocation'>
+        /home/dotxp/dev/PHP/actual/ezcomponents/trunk/backtrace.php:69
+    </td>
+</tr><tr>
+    <td class='stacktraceno'>
+        3
+    </td>
+    <td class='stacktracefunction'>
+        testDebugFormatter('test')
+    </td>
+    <td class='stacktracelocation'>
+        /home/dotxp/dev/PHP/actual/ezcomponents/trunk/backtrace.php:72
+    </td>
+</tr></table>
+</td></tr><tr class='debugheader'>
+    <td class='source'>
+        <span class='verbosity2'>2: content::sql</span>
+    </td>
+    <td class='date'>2008-02-01 12:49:51 +0000</td>
+</tr>
+<tr class='debugbody'>
+    <td colspan='2'>SELECT DISTINCT ezdiscountrule.id
+ FROM ezdiscountrule,
+ ezuser_discountrule
+ WHERE ezuser_discountrule.contentobject_id = '10' AND
+ezuser_discountrule.discountrule_id = ezdiscountrule.id</td>
+</tr><tr class='debugstacktrace'><td colspan='2'><table class='stacktrace'>
+<tr>
+    <td class='stacktraceno'>
+        #
+    </td>
+    <td class='stacktracefunction'>
+        Function
+    </td>
+    <td class='stacktracelocation'>
+        Location
+    </td>
+</tr><tr>
+    <td class='stacktraceno'>
+        0
+    </td>
+    <td class='stacktracefunction'>
+        DebugTestFormatterClass::testStatic()
+    </td>
+    <td class='stacktracelocation'>
+        /home/dotxp/dev/PHP/actual/ezcomponents/trunk/backtrace.php:38
+    </td>
+</tr><tr>
+    <td class='stacktraceno'>
+        1
+    </td>
+    <td class='stacktracefunction'>
+        DebugTestFormatterClass::fooBaz(23, array (0 => 23, 1 => NULL, 2 => 1, 3 => 2, 4 => array (0 => 'a', 1 => 'b', 2 => TRUE, 3 => class DebugTestFormatterContainerClass {  }), 5 => array (0 => 23.42, 1 => FALSE, 2 => NULL, 3 => 'test', 4 => array (0 => 'deep', 1 => 'deeper', 2 => 'deepest'))))
+    </td>
+    <td class='stacktracelocation'>
+        /home/dotxp/dev/PHP/actual/ezcomponents/trunk/backtrace.php:33
+    </td>
+</tr><tr>
+    <td class='stacktraceno'>
+        2
+    </td>
+    <td class='stacktracefunction'>
+        DebugTestFormatterClass::fooBar()
+    </td>
+    <td class='stacktracelocation'>
+        /home/dotxp/dev/PHP/actual/ezcomponents/trunk/backtrace.php:69
+    </td>
+</tr><tr>
+    <td class='stacktraceno'>
+        3
+    </td>
+    <td class='stacktracefunction'>
+        testDebugFormatter('test')
+    </td>
+    <td class='stacktracelocation'>
+        /home/dotxp/dev/PHP/actual/ezcomponents/trunk/backtrace.php:72
+    </td>
+</tr></table>
+</td></tr></table>
+<table class='accumulator'>
+    <tr>
+        <th>Timings</th>
+        <th>Elapsed</th>
+        <th>Percent</th>
+        <th>Count</th>
+        <th>Average</th>
+    </tr>
+    <tr class='group-header'>
+        <th colspan='5'>html_reporter_test</th>
+    </tr>
+    <tr class='group'>
+        <td class='tp-name'>my query</td>
+        <td class='tp-elapsed'>0.00005</td>
+        <td class='tp-percent'>11.09 %</td>
+        <td class='tp-count'>3</td>
+        <td class='tp-average'>0.00002</td>
+    </tr>
+    <tr class='group'>
+        <td class='tp-name'>replace mysql</td>
+        <td class='tp-elapsed'>0.00003</td>
+        <td class='tp-percent'>6.94 %</td>
+        <td class='tp-count'>2</td>
+        <td class='tp-average'>0.00002</td>
+    </tr>
+    <tr class='group'>
+        <td class='tp-name'>Script</td>
+        <td class='tp-elapsed'>0.00038</td>
+        <td class='tp-percent'>81.97 %</td>
+        <td class='tp-count'>1</td>
+        <td class='tp-average'>0.00038</td>
+    </tr>
+    <tr class='totals'>
+        <th class='tp-total'>Total:</th>
+        <td class='tp-elapsed'>0.00046</td>
+        <td class='tp-percent'>100.00 %</td>
+        <td class='tp-count'>6</td>
+        <td class='tp-average'>0.00008</td>
+    </tr>
+    <tr class='group-header'>
+        <th colspan='5'>content</th>
+    </tr>
+    <tr class='group'>
+        <td class='tp-name'>Timing module</td>
+        <td class='tp-elapsed'>0.00032</td>
+        <td class='tp-percent'>100.00 %</td>
+        <td class='tp-count'>1</td>
+        <td class='tp-average'>0.00032</td>
+    </tr>
+</table></div>
