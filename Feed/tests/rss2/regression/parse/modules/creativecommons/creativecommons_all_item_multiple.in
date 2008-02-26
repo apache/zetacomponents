@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" version="2.0">
+  <channel>
+    <title>Feed title</title>
+    <link>Feed link</link>
+    <description>Feed description</description>
+	<creativeCommons:license>CreativeCommons license feed</creativeCommons:license>
+    <item>
+      <title>Item title 1</title>
+      <link>Item link 1</link>
+      <description>Item description 1</description>
+      <creativeCommons:license>CreativeCommons license item 1</creativeCommons:license>
+    </item>
+    <item>
+      <title>Item title 2</title>
+      <link>Item link 2</link>
+      <description>Item description 2</description>
+      <creativeCommons:license>CreativeCommons license item 2</creativeCommons:license>
+    </item>
+  </channel>
+</rss>

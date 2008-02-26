@@ -1,0 +1,19 @@
+<?php
+$feed = new ezcFeed( 'rss1' );
+
+$feed->id = 'Channel about';
+$feed->title = 'Feed title';
+$feed->description = 'Feed description';
+$feed->link = 'Feed link';
+
+$module = $feed->addModule( 'CreativeCommons' );
+$module->license = 'CreativeCommons license feed';
+
+$item = $feed->add( 'item' );
+$item->id = 'Item link';
+$item->title = 'Item title';
+$item->link = 'Item link';
+$item->description = 'Item description';
+
+return $feed;
+?>

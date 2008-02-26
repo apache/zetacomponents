@@ -62,6 +62,16 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( 'content', $module->getNamespacePrefix() );
     }
 
+    public function testCreateModuleCreativeCommons()
+    {
+        $feed = new ezcFeed( 'atom' );
+        $item = $feed->add( 'item' );
+        $module = $item->addModule( 'CreativeCommons' );
+        $this->assertEquals( 'CreativeCommons', $module->getModuleName() );
+        $this->assertEquals( 'http://backend.userland.com/creativeCommonsRssModule', $module->getNamespace() );
+        $this->assertEquals( 'creativeCommons', $module->getNamespacePrefix() );
+    }
+
     public function testCreateModuleDublinCore()
     {
         $feed = new ezcFeed( 'atom' );

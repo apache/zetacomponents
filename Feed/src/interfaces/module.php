@@ -13,9 +13,14 @@
  * Container for feed module data.
  *
  * Currently implemented by these feed modules:
- *  - Content ({@link ezcFeedContentModule})
- *  - DublinCore ({@link ezcFeedDublinCoreModule})
- *  - iTunes ({@link ezcFeedITunesModule})
+ *  - Content ({@link ezcFeedContentModule}) -
+ *    {@link http://purl.org/rss/1.0/modules/content/ Specifications}
+ *  - DublinCore ({@link ezcFeedDublinCoreModule}) -
+ *    {@link http://dublincore.org/documents/dces/ Specifications}
+ *  - iTunes ({@link ezcFeedITunesModule}) -
+ *    {@link http://www.apple.com/itunes/store/podcaststechspecs.html Specifications}
+ *  - CreativeCommons ({@link ezcFeedCreativeCommonsModule}) -
+ *    {@link http://backend.userland.com/creativeCommonsRssModule Specifications}
  *
  * @package Feed
  * @version //autogentag//

@@ -59,6 +59,7 @@ Supported feed modules
 The following modules are supported by the Feed component:
 
 - Content (ezcFeedContentModule)
+- CreativeCommons (ezcFeedCreativeCommonsModule)
 - DublinCore (ezcFeedDublinCoreModule)
 - iTunes (ezcFeedITunesModule)
 

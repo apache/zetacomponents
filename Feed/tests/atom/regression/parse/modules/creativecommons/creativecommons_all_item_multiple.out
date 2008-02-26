@@ -1,0 +1,28 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->updated = 'Feed updated';
+
+$module = $feed->addModule( 'CreativeCommons' );
+$module->license = 'CreativeCommons license feed';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id 1';
+$entry->title = 'Entry title 1';
+$entry->updated = 1195053820;
+
+$module = $entry->addModule( 'CreativeCommons' );
+$module->license = 'CreativeCommons license item 1';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id 2';
+$entry->title = 'Entry title 2';
+$entry->updated = 1195053820;
+
+$module = $entry->addModule( 'CreativeCommons' );
+$module->license = 'CreativeCommons license item 2';
+
+return $feed;
+?>

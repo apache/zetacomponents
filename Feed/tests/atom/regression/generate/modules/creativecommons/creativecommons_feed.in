@@ -1,0 +1,12 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'CreativeCommons' => array( array( 'license' => 'CreativeCommons license feed' ) ),
+              'item' => array( array( 'id' => 'Entry id',
+                                      'title' => 'Entry title',
+                                      'content' => 'Entry content',
+									  'updated' => 'Entry updated', ), ) );
+?>

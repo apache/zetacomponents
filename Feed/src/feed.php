@@ -28,12 +28,14 @@
  * and adding it to the {@link self::$supportedFeedTypes} array.
  *
  * The following modules are supported by the Feed component:
- *  - Content (ezcFeedContentModule) -
+ *  - Content ({@link ezcFeedContentModule}) -
  *    {@link http://purl.org/rss/1.0/modules/content/ Specifications}
  *  - DublinCore ({@link ezcFeedDublinCoreModule}) -
  *    {@link http://dublincore.org/documents/dces/ Specifications}
  *  - iTunes ({@link ezcFeedITunesModule}) -
  *    {@link http://www.apple.com/itunes/store/podcaststechspecs.html Specifications}
+ *  - CreativeCommons ({@link ezcFeedCreativeCommonsModule}) -
+ *    {@link http://backend.userland.com/creativeCommonsRssModule Specifications}
  *
  * A new module can be defined by creating a class which extends the class
  * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}
@@ -286,9 +288,10 @@ class ezcFeed
      * @var array(string=>string)
      */
     protected static $supportedModules = array(
-        'Content'    => 'ezcFeedContentModule',
-        'DublinCore' => 'ezcFeedDublinCoreModule',
-        'iTunes'     => 'ezcFeedITunesModule',
+        'Content'         => 'ezcFeedContentModule',
+        'CreativeCommons' => 'ezcFeedCreativeCommonsModule',
+        'DublinCore'      => 'ezcFeedDublinCoreModule',
+        'iTunes'          => 'ezcFeedITunesModule',
     );
 
     /**
@@ -297,9 +300,10 @@ class ezcFeed
      * @var array(string=>string)
      */
     protected static $supportedModulesPrefixes = array(
-        'content' => 'Content',
-        'dc'      => 'DublinCore',
-        'itunes'  => 'iTunes',
+        'content'         => 'Content',
+        'creativeCommons' => 'CreativeCommons',
+        'dc'              => 'DublinCore',
+        'itunes'          => 'iTunes',
     );
 
     /**

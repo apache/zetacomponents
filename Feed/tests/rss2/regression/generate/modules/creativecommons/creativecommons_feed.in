@@ -1,0 +1,10 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( 'Feed link' ),
+              'description' => 'Feed description',
+              'CreativeCommons' => array( array( 'license' => 'CreativeCommons license feed' ) ),
+              'item' => array( array( 'title' => 'Item title',
+                                      'link' => 'Item link',
+                                      'description' => 'Item description', ), ),
+            );
+?>

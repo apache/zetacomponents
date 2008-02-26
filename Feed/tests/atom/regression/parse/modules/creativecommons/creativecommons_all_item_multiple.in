@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule">
+  <id>Feed id</id>
+  <title>Feed title</title>
+  <updated>Feed updated</updated>
+  <creativeCommons:license>CreativeCommons license feed</creativeCommons:license>
+  <entry>
+    <id>Entry id 1</id>
+    <title>Entry title 1</title>
+    <updated>2007-11-14T16:23:40+01:00</updated>
+    <creativeCommons:license>CreativeCommons license item 1</creativeCommons:license>
+  </entry>
+  <entry>
+    <id>Entry id 2</id>
+    <title>Entry title 2</title>
+    <updated>2007-11-14T16:23:40+01:00</updated>
+    <creativeCommons:license>CreativeCommons license item 2</creativeCommons:license>
+  </entry>
+</feed>

@@ -1,0 +1,18 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( '#' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'CreativeCommons' => array( array( 'license' => 'CreativeCommons license feed' ) ),
+              'item' => array( array( 'id' => 'Entry id 1',
+                                      'title' => 'Entry title 1',
+                                      'content' => 'Entry content 1',
+									  'updated' => 'Entry updated 1',
+                                      'CreativeCommons' => array( array( 'license' => 'CreativeCommons license item 1' ) ) ),
+                               array( 'id' => 'Entry id 2',
+                                      'title' => 'Entry title 2',
+                                      'content' => 'Entry content 2',
+									  'updated' => 'Entry updated 2',
+                                      'CreativeCommons' => array( array( 'license' => 'CreativeCommons license item 2' ) ) ) ) );
+?>
