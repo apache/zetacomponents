@@ -153,6 +153,8 @@ class ezcSearchSession
      *
      * As transactions can be nested, this method will only call commit when
      * all the nested transactions have been ended.
+     *
+     * @throws ezcSearchTransactionException if no transaction is active.
      */
     public function commit()
     {

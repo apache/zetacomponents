@@ -72,9 +72,15 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      *
      * As transactions can be nested, this method will only call commit when
      * all the nested transactions have been ended.
+     *
+     * @throws ezcSearchTransactionException if no transaction is active.
      */
     public function commit()
     {
+        if ( $this->inTransaction < 1 )
+        {
+            throw new ezcSearchTransactionException( 'Cannot commit without a transaction.' );
+        }
         $this->inTransaction--;
 
         if ( $this->inTransaction == 0 )

@@ -15,6 +15,7 @@ return array(
     'ezcSearchDefinitionInvalidException'           => 'Search/exceptions/definition_invalid.php',
     'ezcSearchDefinitionMissingIdPropertyException' => 'Search/exceptions/missing_id.php',
     'ezcSearchDefinitionNotFoundException'          => 'Search/exceptions/definition_not_found.php',
+    'ezcSearchTransactionException'                 => 'Search/exceptions/transaction.php',
     'ezcSearchDefinitionManager'                    => 'Search/interfaces/definition_manager.php',
     'ezcSearchHandler'                              => 'Search/interfaces/handler.php',
     'ezcSearchIndexHandler'                         => 'Search/interfaces/index_handler.php',
