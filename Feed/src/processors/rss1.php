@@ -141,6 +141,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
     protected function createRootElement( $version )
     {
         $rss = $this->xml->createElementNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:RDF' );
+        $this->addAttribute( $rss, 'xmlns', 'http://purl.org/rss/1.0/' );
+
         $this->channel = $channelTag = $this->xml->createElement( 'channel' );
         $rss->appendChild( $channelTag );
         $this->root = $this->xml->appendChild( $rss );
