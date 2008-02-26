@@ -181,6 +181,35 @@ Examples::
    this includes several methods like COPY and MOVE, but also PROPFIND with a
    Depth header other than 0.
 
+Validation
+==========
+
+The purpose of entity tags is to ensure, that a certain operation is only
+performed, if a resource resides in a certain state. This state is defined by
+an entity tag. Most likely, this applies to the GET operation in combination
+with caching for pure HTTP/1.1. However, in combination with the WebDAV
+extension, validation of entity tags might also be necessary for operations
+like PUT and others.
+
+The HTTP/1.1 RFC defines 2 different validator schemes: Strong and weak
+validators. Entity tags are generally considered strong validators, since they
+should change as soon as the affected resource changes its state. However, the
+protocol provides a way to declare entity tags to be weak validators, as
+described in the ETag header above.
+
+.. Note::
+   We should not make use of this way of weaking entity tags, but always provide
+   the strong method.
+
+Caches (like proxy servers and browser caches) use additional methods to
+validate their content. The most common way here is to use the Last-Modified
+header in addition, which indicates the last modification time of the resource.
+
+
+-- Note::
+   We need to decide if we should support this validator in addition. This
+   would also involve more headers to react on, like If-Modified-Since. This is
+   not mandatory.
 
 Lock support
 ^^^^^^^^^^^^
