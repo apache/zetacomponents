@@ -53,6 +53,12 @@ class ezcDebugXdebugStacktraceIteratorTest extends ezcTestCase
         $res = require 'data/xdebug_stacktrace_iterator_test__testSimpleTrace.php';
         foreach ( $itr as $key => $value )
         {
+            // Remove 'file' keys to not store system dependant pathes.
+            $this->assertTrue(
+                isset( $value['file'] )
+            );
+            unset( $value['file'] );
+
             $this->assertEquals(
                 $res[$key],
                 $value,

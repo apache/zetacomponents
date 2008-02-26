@@ -45,6 +45,15 @@ class ezcDebugPhpStacktraceIteratorTest extends ezcTestCase
         $res = require 'data/php_stacktrace_iterator_test__testSimpleTrace.php';
         foreach ( $itr as $key => $value )
         {
+
+// @todo: Weird PHP bug: There is no 'file' key in one of the stack elements.
+//            $this->assertTrue(
+//                isset( $value['file'] )
+//            );
+
+            // Remove 'file' keys to not store system dependant pathes.
+            unset( $value['file'] );
+
             $this->assertEquals(
                 $res[$key],
                 $value,

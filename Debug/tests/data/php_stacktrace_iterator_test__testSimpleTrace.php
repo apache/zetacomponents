@@ -3,7 +3,6 @@
 return array (
   0 => 
   array (
-    'file' => '/home/dotxp/dev/ez/ezcomponents/trunk/Debug/tests/php_stacktrace_iterator_test.php',
     'line' => 23,
     'function' => 'getDeeperStackTrace',
     'class' => 'ezcDebugPhpStacktraceIteratorTest',
@@ -15,7 +14,6 @@ return array (
   ),
   1 => 
   array (
-    'file' => '/home/dotxp/dev/ez/ezcomponents/trunk/Debug/tests/php_stacktrace_iterator_test.php',
     'line' => 40,
     'function' => 'getStackTrace',
     'class' => 'ezcDebugPhpStacktraceIteratorTest',
@@ -35,7 +33,6 @@ return array (
   ),
   3 => 
   array (
-    'file' => '/home/dotxp/dev/PHP/phpunit/branches/release/3.2/PHPUnit/Framework/TestCase.php',
     'line' => 449,
     'function' => 'invoke',
     'class' => 'ReflectionMethod',
@@ -46,7 +43,6 @@ return array (
   ),
   4 => 
   array (
-    'file' => '/home/dotxp/dev/PHP/phpunit/branches/release/3.2/PHPUnit/Framework/TestCase.php',
     'line' => 376,
     'function' => 'runTest',
     'class' => 'PHPUnit_Framework_TestCase',
