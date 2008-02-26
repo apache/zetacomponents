@@ -28,6 +28,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
     public $location;
 
     /**
+     * Stores the transaction nesting depth.
+     *
+     * @var integer
+     */
+    private $inTransaction;
+
+    /**
      * Creates a new Solr handler connection
      *
      * @param string
@@ -38,11 +45,42 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $this->port = $port;
         $this->location = $location;
         $this->connection = @stream_socket_client( "tcp://{$this->host}:{$this->port}" );
+        $this->inTransaction = 0;
         if ( !$this->connection )
         {
             throw new ezcSearchCanNotConnectException( 'solr', "http://{$this->host}:{$this->port}{$this->location}" );
         }
 
+    }
+
+    /**
+     * Starts a transaction for indexing.
+     *
+     * When using a transaction, the amount of processing that solr does
+     * decreases, increasing indexing performance. Without this, the component
+     * sends a commit after every document that is indexed. Transactions can be
+     * nested, when commit() is called the same number of times as
+     * beginTransaction(), the component sends a commit.
+     */
+    public function beginTransaction()
+    {
+        $this->inTransaction++;
+    }
+
+    /**
+     * Ends a transaction and calls commit.
+     *
+     * As transactions can be nested, this method will only call commit when
+     * all the nested transactions have been ended.
+     */
+    public function commit()
+    {
+        $this->inTransaction--;
+
+        if ( $this->inTransaction == 0 )
+        {
+            $this->runCommit();
+        }
     }
 
     public function getLine( $maxLength = false )
@@ -270,6 +308,14 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $values;
     }
 
+    /**
+     * Runs a commit command to tell solr we're done indexing.
+     */
+    protected function runCommit()
+    {
+        $r = $this->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
+    }
+
     public function index( ezcSearchDocumentDefinition $definition, $document )
     {
         $xml = new XmlWriter();
@@ -296,7 +342,10 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $doc = $xml->outputMemory( true );
 
         $r = $this->sendRawPostCommand( 'update', array( 'wt' => 'json' ), $doc );
-        $r = $this->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
+        if ( $this->inTransaction == 0 )
+        {
+            $this->runCommit();
+        }
     }
 
     public function createDeleteQuery()

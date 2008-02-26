@@ -62,11 +62,12 @@ class ezcSearchSessionTest extends ezcTestCase
         $a = new Article( null, 'Test Article', 'This is an article to test', 'the body of the article', time() );
 
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+        $session->beginTransaction();
         for ( $i = 0; $i < 100; $i++ )
         {
             $session->index( $a );
         }
-        $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
+        $session->commit();
 
         $r = $this->backend->search( 'Article', 'title_t' );
         self::assertEquals( 1, $r->resultCount );
@@ -81,7 +82,7 @@ class ezcSearchSessionTest extends ezcTestCase
         $session->index( $a );
         $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
 
-        $r = $this->backend->search( 'Rethans', 'author_t', array( 'summary_t', 'title_t', 'body_t' ), array( 'author_t', 'title_t', 'score', 'summary_t', 'published_dt' ), array( 'author_t', 'title_t', 'score', 'summary_t', 'published_dt' ) );
+        $r = $this->backend->search( 'Rethans', 'author_t', array( 'summary_t', 'title_t', 'body_t' ), array( 'author_t', 'title_t', 'score', 'summary_t', 'published_dt' ), array( 'author_t', 'title_t', 'score', 'summary_t' ) );
         self::assertEquals( 1, $r->resultCount );
     }
 }

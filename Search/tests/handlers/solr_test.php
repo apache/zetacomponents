@@ -102,7 +102,7 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
         $r = $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<add><doc><field name="id">cfe5cc06-9b07-4e4b-930e-7e99f5202570</field><field name="name_s">solr</field></doc></add>' );
         $r = $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
 
-        $r = $this->solr->search( 'solr', 'name_s', array( 'id', 'name_s', 'score' ) );
+        $r = $this->solr->search( 'solr', 'name_s', array( 'id', 'name_s' ), array( 'id', 'name_s', 'score' ) );
         self::assertEquals( 1, $r->resultCount );
 
         $r = $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<delete><id>cfe5cc06-9b07-4e4b-930e-7e99f5202570</id></delete>' );

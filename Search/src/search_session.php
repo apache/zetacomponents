@@ -135,6 +135,30 @@ class ezcSearchSession
     }
 
     /**
+     * Starts a transaction for indexing.
+     *
+     * When using a transaction, the amount of processing that solr does
+     * decreases, increasing indexing performance. Without this, the component
+     * sends a commit after every document that is indexed. Transactions can be
+     * nested, when commit() is called the same number of times as
+     * beginTransaction(), the component sends a commit.
+     */
+    public function beginTransaction()
+    {
+        $this->handler->beginTransaction();
+    }
+
+    /**
+     * Ends a transaction and calls commit.
+     *
+     * As transactions can be nested, this method will only call commit when
+     * all the nested transactions have been ended.
+     */
+    public function commit()
+    {
+        $this->handler->commit();
+    }
+    /**
      * Indexes the new document $document to the search index.
      *
      * @throws ezcSearchException if $document
