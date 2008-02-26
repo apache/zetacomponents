@@ -17,8 +17,8 @@ component version 1.2.
 The general goal for this version is to support locking as described in RFC
 2518. To achieve this, the if-header must be parsed and respected by the Webdav
 component. This currently is not the case. The if-header must also be used to
-respect Etags, which is not an integral part of the locking feature. However,
-the support of Etags is part of this design, too. 
+respect entity tags, which is not an integral part of the locking feature. However,
+the support of entity tags is part of this design, too. 
 
 The following issues are covered in this design:
 
@@ -30,33 +30,33 @@ Common concerns
 ^^^^^^^^^^^^^^^
 
 This section introduces common concerns of the issues covered in this design
-document and the features resulting from them. Especually the if-header and its
+document and the features resulting from them. Especially the if-header and its
 support in the Webdav component are described.
 
 
-Etag support
-^^^^^^^^^^^^
+Entity tag support
+^^^^^^^^^^^^^^^^^^
 
-This section describes the support of Etags in the Webdav component, including
-the usage of the if-header with Etags and the generation and sending of the
-Etag header.
+This section describes the support of entity tags in the Webdav component, including
+the usage of the if-header with entity tags and the generation and sending of the
+ETag header.
 
 ============
 RFC Overview
 ============
 
-Etags (Entity Tags) are generally used in the HTTP/1.1 protocol to provide a
-mechanism of validating that a resource is in the same state. Whenever the
-state of a resource changes, its Etag needs to change. In following, the
-definition of the HTTP/1.1 validation mechanisms in general, the defintion of
-an Etag and the definition of the ETag-header are described. In addition the
-usage of Etags in the Webdav RFC is described.
+Entity tags are generally used in the HTTP/1.1 protocol to provide a mechanism
+of validating that a resource is in the same state. Whenever the state of a
+resource changes, its entity tag needs to change. In following, the definition
+of the HTTP/1.1 validation mechanisms in general, the definition of an entity
+tag and the definition of the ETag-header are described. In addition the usage
+of entity tags in the Webdav RFC is described.
 
 Entity Tags
 ===========
 
 Section 3.11 of the HTTP/1.1 RFC describes entity tags. These strings identify
-(tag) the state of a recource, named "entities" in the RFC. The entity tag
+(tag) the state of a resource, named "entities" in the RFC. The entity tag
 consists of a quoted string and an optional weakness modifier. The quoted
 string must be unique for each state. ::
 
@@ -84,7 +84,7 @@ Headers
 =======
 
 The following section describes the headers that are affected by entity tags
-and how the server should repect them.
+and how the server should respect them.
 
 If-Match
 --------
@@ -97,11 +97,11 @@ The header format is defined as follows (14.24): ::
 
        If-Match = "If-Match" ":" ( "*" | 1#entity-tag )
 
-The If-Match header in general asumes that the affected resource exists, if it
+The If-Match header in general assumes that the affected resource exists, if it
 does not, the request must fail since no entity is there to compare the given
 criteria too (no entity exists). The header either specifies "*", to indicate
 that an entity must exist, whichever that is. Alternatively any number of
-entity tags can be given, devided by ",". If one of the given tags match the
+entity tags can be given, divided by ",". If one of the given tags match the
 current state of the resource, the method is performed as if not If-Match
 header was given. Else the method must fail with 412 (Precondition failed).
 
@@ -112,7 +112,7 @@ of multiple If-* headers is undefined.
 
 .. Note::
    We should just throw all If-* headers away if a combination of the occurs,
-   so the backend does not need to deal with it.
+   so the back-end does not need to deal with it.
 
 Examples: ::
 
@@ -148,7 +148,7 @@ Examples: ::
 If-Range
 --------
 
-The If-Range header does only make sense to be repected, if the server supports
+The If-Range header does only make sense to be respected, if the server supports
 partial GET requests and resuming of such. Since the Webdav component does not
 support this, yet, the header will be ignored.
 
@@ -175,7 +175,7 @@ Examples::
       ETag: ""
 
 .. Attention::
-   The following is an asumption that should be verified somehow. It seems that
+   The following is an assumption that should be verified somehow. It seems that
    the ETag header is only defined for a single resource, which indicates that
    responses that affect multiple resources should not contain it.  For Webdav
    this includes several methods like COPY and MOVE, but also PROPFIND with a
@@ -198,7 +198,7 @@ protocol provides a way to declare entity tags to be weak validators, as
 described in the ETag header above.
 
 .. Note::
-   We should not make use of this way of weaking entity tags, but always provide
+   We should not make use of this way of "weaking" entity tags, but always provide
    the strong method.
 
 Caches (like proxy servers and browser caches) use additional methods to
@@ -228,16 +228,16 @@ involved and combined.
 
 The last modification time in combination with the file size should be a
 sufficient combination of data to generate an entity tag from. The Lighttpd
-webserver uses this information on a configurable basis, too. In addition it
+web server uses this information on a configurable basis, too. In addition it
 can use the inode of the file for entity tag generation. Since inodes are
-operating system dependant and only available for file system based backends,
+operating system dependent and only available for file system based back ends,
 they will not be used in our entity tag generation scheme.
 
 Since entity tags in WebDAV are also available through the getetag
-live-property, a common way is needed to generate the etags for the headers and
-the property. The ezcWebdavSimpleBackend will therefore request the getetag
-property from the extending backend and use it's value for the headers and
-validation.
+live-property, a common way is needed to generate the entity tags for the
+headers and the property. The ezcWebdavSimpleBackend will therefore request the
+getetag property from the extending back end and use it's value for the headers
+and validation.
 
 The current generation of entity tags in ezcWebdavFileBackend will be replaced
 by a mechanism that uses the last modification time and the size of the file.
@@ -248,7 +248,7 @@ combination with its URI.
 Header handling
 ===============
 
-The handling of Etag related headers must take place in several different
+The handling of entity tag related headers must take place in several different
 architecture levels of the Webdav component.
 
 Transport layer
@@ -267,13 +267,13 @@ ezcWebdavHeaderHandler will check if both of these headers are set. If this is
 the case, both headers will be silently discarded, since such a combination is
 undefined.
 
-Both headers can contain a list of weak/non-weak etags or the "*" value, to
-indicate that the resource must just exists, no matter in which state. To
+Both headers can contain a list of weak/non-weak entity tags or the "*" value,
+to indicate that the resource must just exists, no matter in which state. To
 represent this in PHP, the parsed headers will be represented either as an
 array of string values or as the boolean value true. The headers will be parsed
 into every request object automatically, if they are set.
 
-The backend layer must take responsibility for interpreting the headers and
+The back end layer must take responsibility for interpreting the headers and
 their values.
 
 In addition, ezcWebdavHeaderHandler must take care of serializing an ETag
@@ -281,18 +281,18 @@ header, if this one is present in a response object. Since the ETag header may
 only contain the string value of an entity tag, this mechanism is already
 implemented in the response processing.
 
-Backend layer
--------------
+Back end layer
+--------------
 
 The interpretation of incoming If-Match and If-None-Match headers must be done
-in the backend. The implementation will take place in the
+in the back end. The implementation will take place in the
 ezcWebdavSimpleBackend class. With every incoming request, no matter which
 request method is used, the If-Match and If-None-Match headers will be honored
 in the following way:
 
-If the backend determines that an If-Match header is set, it will:
+If the back end determines that an If-Match header is set, it will:
 
-- Check if all pre-conditions (except the If-Match) are fulfilled.
+- Check if all preconditions (except the If-Match) are fulfilled.
   - If not, return a corresponding error response.
 - Check if the If-Match value is a boolean true.
   - Check if the requested path exists.
@@ -303,9 +303,9 @@ If the backend determines that an If-Match header is set, it will:
     - If *none* matches, cancel the method and return 412 (Precondition Failed).
 - Process the method as if the If-Match header was not set.
 
-If the backend determines that an If-None-Match header is set, it will:
+If the back end determines that an If-None-Match header is set, it will:
 
-- Check if all pre-conditions (except the If-Match) are fulfilled.
+- Check if all preconditions (except the If-Match) are fulfilled.
   - If not, return a corresponding error response.
 - Check if the If-Match value is a boolean true.
   - Check if the requested path exists.
@@ -316,10 +316,10 @@ If the backend determines that an If-None-Match header is set, it will:
     - If *any* matches, cancel the method and return 412 (Precondition Failed).
 - Process the method as if the If-None-Match header was not set.
 
-Since this behaviour will be implemented within the ezcWebdavSimpleBackend
-class, it automatically works with all extending backend classes. Backends that
-do not extend ezcWebdavSimpleBackend will have to take care for these headers
-on their own.
+Since this behavior will be implemented within the ezcWebdavSimpleBackend
+class, it automatically works with all extending back end classes. Back ends
+that do not extend ezcWebdavSimpleBackend will have to take care for these
+headers on their own.
 
 Lock support
 ^^^^^^^^^^^^
@@ -332,7 +332,7 @@ time, where no other client may gain access to this resource.
 The WebDAV RFC distinguishes locks by 2 essential properties: The scope of the
 lock (shared vs. exclusive) and the type of the lock (write vs. read), while
 for the type only a write lock is specified. Using an exclusive lock the client
-ensures that he has absolutly exclusive access to the locked resource. With a
+ensures that he has absolutely exclusive access to the locked resource. With a
 shared lock it is possible the multiple clients take part in one and the same
 lock. More information on lock scopes are provided later.
 
@@ -409,7 +409,7 @@ request, which might help here.
 Affected requests
 =================
 
-Locks affect several request, beside the explicitly lock related reuqests. The
+Locks affect several request, beside the explicitly lock related requests. The
 following 2 sections summarize the affected request methods and give a short
 overview about how these are affected.
 
@@ -460,13 +460,12 @@ about locking if collection resources.
 Collections
 -----------
 
-The LOCK request allows the 'Depth' header to be set to specifiy the depth of
+The LOCK request allows the 'Depth' header to be set to specify the depth of
 the created lock. A depth value of ZERO means, that only the affected
 collection itself is locked. This might be sensible to add new resources to
-this collection. The depth value INFINITY means that the created lock affects
-all children of the collection in addition and recursivle all further
-descendants of the collection. This way it is possible to lock a complete
-sub-tree of the WebDAV repository.
+this collection. The depth value INFINITY means that the created lock
+recursively affects all descendants of the collection. This way it is possible
+to lock a complete sub-tree of the WebDAV repository.
 
 Any lock (no matter which depth) on a collection prevents the addition and
 removal of direct members of this collection by non-lock-owners. This affects
@@ -479,14 +478,14 @@ the following methods:
 
 If a collection should be locked and any of its members is already locked, this
 conflicts with the lock to be set and must result in an 423 error (Locked).
-Memebers that are newly created inside a locked collection or copied/moved to
+Members that are newly created inside a locked collection or copied/moved to
 it are automatically included to the lock. This affects infinity-depth locks as
 well as zero-depth ones for direct children of the locked collection.
 
 Lock null resources
 -------------------
 
-A write lock might be accquired to a resource that does not (yet) exist. This
+A write lock might be acquired to a resource that does not (yet) exist. This
 is called a "lock null resource". A lock null resource only supports the
 methods:
 
@@ -517,7 +516,7 @@ Refresh
 A LOCK request must not occur twice. To refresh a lock, clients send a LOCK
 request with empty body and an If header that specifies the lock tokens to
 refresh locks for. If this occurs, the timers of the lock must be reset. A
-Timeout header might be send by the client, but the server may savely ignore
+Timeout header might be send by the client, but the server may safely ignore
 these and simply perform a refresh as it desires.
 
 ===================
@@ -531,9 +530,9 @@ released, plugin API.
 Design goals
 ============
 
-This design drafts goal is to build a lock plugin that is almost completly
-independant from the used backend. In this sense, the requirements to be
-fulfilled by a backend must be cut down as far as possible. Beside that, the
+This design drafts goal is to build a lock plugin that is almost completely
+independent from the used back end. In this sense, the requirements to be
+fulfilled by a back end must be cut down as far as possible. Beside that, the
 plugin should provide the largest possible compatibility to clients. However a
 plugin that hooks into the parsing process cannot provide the same client
 compatibility mechanisms as the base Webdav transport layer.
@@ -548,8 +547,8 @@ parseUnknownRequest (ezcWebdavTransport)
 ----------------------------------------
 
 The requests LOCK and UNLOCK are dedicated to the locking mechanism. Therefore
-the plugin needs to hook inro parseUnknownRequest and parse the incoming
-requests into (new) correscponding request objects.
+the plugin needs to hook into parseUnknownRequest and parse the incoming
+requests into (new) corresponding request objects.
 
 
 
@@ -568,7 +567,7 @@ since the can be obtained by every client with access to the repository through
 the lockdiscovery property. Therefore, a server must provide its own
 authentication scheme. We currently do not support any authentication mechanism
 in the Webdav component. To realize locking, we need to support at least 1
-authenticattion model in the component.
+authentication model in the component.
 
 Solution attempt
 ----------------
@@ -578,7 +577,7 @@ HTTP-Auth. Therefore the HTTP-Auth information should be integrated into every
 request object, if provided. To check this information, an interface should be
 provided that provides the following capabilities:
 
-- Information of the assignement of a new lock token to a specific HTTP-Auth
+- Information of the assignment of a new lock token to a specific HTTP-Auth
   user.
 - Removal of a lock token.
 - Answer to the question if a certain user may perform an action with a given
@@ -604,11 +603,11 @@ The problem
 ------------
 
 For our special case this means, that we need to "physically" create
-lock-null resources in the utilized backend, to make it persist during
+lock-null resources in the utilized back end, to make it persist during
 requests, whenever a null-lock is acquired. This lock-null resource must
 not appear as a real resource to the client (e.g. must not have a
-correct content type and must not responde to GET requests). If the
-resource is unlocked again, it must be removed from the backend again.
+correct content type and must not respond to GET requests). If the
+resource is unlocked again, it must be removed from the back end again.
 
 In our internal handling, that means, that we need to intervene any of
 the operations not supported by a lock-null resource (e.g. COPY, MOVE,
@@ -617,7 +616,7 @@ remove it potentially or forbid the operation. Furthermore, we need to
 intervene any operation that is supported by a lock-null resource to
 remove potential information from responses that must not be available
 for lock-null resources. This will mean a lot of internally generated
-requests to the backend and a lot of processing of the backend generated
+requests to the back end and a lot of processing of the back end generated
 responses.
 
 For example, if a MOVE request is issued by a client, we need to check
@@ -626,7 +625,7 @@ those from the destination and send a special error code for them in the
 response.
 
 Atomicity of operations also comes into play here, since our internal
-requests to the backend might interfer with other external requests. For
+requests to the back end might interfere with other external requests. For
 example, a null-lock might be acquired by the client while we are
 internally checking the correctness of a MOVE request (race-condition).
 
@@ -635,13 +634,13 @@ Solution attempts
 
 I currently do not see a full solution for this problem, still there are
 some ideas in my mind, that might be helpful. For lock-null resources we
-can invent a special dead-property namespace to indicate such resources.
+can invent a special dead-property name space to indicate such resources.
 If a special (for lock-null resources forbidden) operation occurs, we
 can easily check for them using a PROPFIND request. Creating and
 maintaining lock-null resources should then be not problem.
 
-For the race-condition issue, we'll definitly need support in the
-backend, because I see no other solution attemt here to ensure the
+For the race-condition issue, we'll definitely need support in the
+back end, because I see no other solution attempt here to ensure the
 consistency.
 
 
