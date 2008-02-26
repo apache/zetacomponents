@@ -211,6 +211,116 @@ header in addition, which indicates the last modification time of the resource.
    would also involve more headers to react on, like If-Modified-Since. This is
    not mandatory.
 
+======
+Design
+======
+
+The following design only refers to the support of entity tags as defined in
+the HTTP/1.1 RFC. This includes the headers mentioned in the above RFC overview
+and the generation and comparison of entity tags.
+
+Entity tag generation
+=====================
+
+The generation of an entity tag requires uniqueness for the state of a resource
+(the so-called entity), To achieve this, multiple data of the resource and be
+involved and combined.
+
+The last modification time in combination with the file size should be a
+sufficient combination of data to generate an entity tag from. The Lighttpd
+webserver uses this information on a configurable basis, too. In addition it
+can use the inode of the file for entity tag generation. Since inodes are
+operating system dependant and only available for file system based backends,
+they will not be used in our entity tag generation scheme.
+
+Since entity tags in WebDAV are also available through the getetag
+live-property, a common way is needed to generate the etags for the headers and
+the property. The ezcWebdavSimpleBackend will therefore request the getetag
+property from the extending backend and use it's value for the headers and
+validation.
+
+The current generation of entity tags in ezcWebdavFileBackend will be replaced
+by a mechanism that uses the last modification time and the size of the file.
+It currently uses the path, which is not reliable and does not belong into the
+entity tag. Entity tags are only valid for a single resource and only in
+combination with its URI.
+
+Header handling
+===============
+
+The handling of Etag related headers must take place in several different
+architecture levels of the Webdav component.
+
+Transport layer
+---------------
+
+The transport layer needs to be able to parse the request headers and to
+serialize the response headers back. Therefore the ezcWebdavHeaderHandler class
+will be adjusted.
+
+The class must parse the following new request headers:
+
+- If-Match
+- If-None-Match
+
+ezcWebdavHeaderHandler will check if both of these headers are set. If this is
+the case, both headers will be silently discarded, since such a combination is
+undefined.
+
+Both headers can contain a list of weak/non-weak etags or the "*" value, to
+indicate that the resource must just exists, no matter in which state. To
+represent this in PHP, the parsed headers will be represented either as an
+array of string values or as the boolean value true. The headers will be parsed
+into every request object automatically, if they are set.
+
+The backend layer must take responsibility for interpreting the headers and
+their values.
+
+In addition, ezcWebdavHeaderHandler must take care of serializing an ETag
+header, if this one is present in a response object. Since the ETag header may
+only contain the string value of an entity tag, this mechanism is already
+implemented in the response processing.
+
+Backend layer
+-------------
+
+The interpretation of incoming If-Match and If-None-Match headers must be done
+in the backend. The implementation will take place in the
+ezcWebdavSimpleBackend class. With every incoming request, no matter which
+request method is used, the If-Match and If-None-Match headers will be honored
+in the following way:
+
+If the backend determines that an If-Match header is set, it will:
+
+- Check if all pre-conditions (except the If-Match) are fulfilled.
+  - If not, return a corresponding error response.
+- Check if the If-Match value is a boolean true.
+  - Check if the requested path exists.
+    - If it *does not*, cancel the method and return 412 (Precondition Failed).
+- Check if the If-Match value is an array of strings.
+  - Retrieve the affected resources getetag property and compare it with all
+    strings in the array.
+    - If *none* matches, cancel the method and return 412 (Precondition Failed).
+- Process the method as if the If-Match header was not set.
+
+If the backend determines that an If-None-Match header is set, it will:
+
+- Check if all pre-conditions (except the If-Match) are fulfilled.
+  - If not, return a corresponding error response.
+- Check if the If-Match value is a boolean true.
+  - Check if the requested path exists.
+    - If it *does*, cancel the method and return 412 (Precondition Failed).
+- Check if the If-Match value is an array of strings.
+  - Retrieve the affected resources getetag property and compare it with all
+    strings in the array.
+    - If *any* matches, cancel the method and return 412 (Precondition Failed).
+- Process the method as if the If-None-Match header was not set.
+
+Since this behaviour will be implemented within the ezcWebdavSimpleBackend
+class, it automatically works with all extending backend classes. Backends that
+do not extend ezcWebdavSimpleBackend will have to take care for these headers
+on their own.
+
 Lock support
 ^^^^^^^^^^^^
 
