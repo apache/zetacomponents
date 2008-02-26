@@ -74,14 +74,14 @@ class ezcSearchSessionTest extends ezcTestCase
 
     public function testIndexDocument3()
     {
-        $d = file_get_contents( '/tmp/ezcomponents-2007.2.1/WorkflowEventLogTiein/ezcWorkflowEventLogListener.html' );
-        $a = new Article( null, 'Test Article', 'This is an article to test', $d, time() );
+        $d = file_get_contents( dirname( __FILE__ ) . '/../../../docs/guidelines/implementation.txt' );
+        $a = new Article( null, 'Test Article', 'This is Rethans an article to test', $d, time(), array( 'Derick Rethans', 'Legolas Rethans' ) );
 
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
         $session->index( $a );
         $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
 
-        $r = $this->backend->search( 'Article', 'title_t' );
+        $r = $this->backend->search( 'Rethans', 'author_t', array( 'summary_t', 'title_t', 'body_t' ), array( 'author_t', 'title_t', 'score', 'summary_t', 'published_dt' ), array( 'author_t', 'title_t', 'score', 'summary_t', 'published_dt' ) );
         self::assertEquals( 1, $r->resultCount );
     }
 }

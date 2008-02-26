@@ -86,6 +86,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
 
         // read http header
         $line = '';
+        $chunked = false;
         while ( $line != "\r\n" )
         {
             $line = $this->getLine();
@@ -93,16 +94,43 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             {
                 $expectedLength = $m[1];
             }
+
+            if ( preg_match( '@Transfer-Encoding: chunked@', $line ) )
+            {
+                $chunked = true;
+            }
         }
 
-        // read http content
-        $size = 1;
         $data = '';
-        while ( $size < $expectedLength )
+        $chunkLength = -1;
+        // read http content with chunked encoding
+        if ( $chunked )
         {
-            $line = $this->getLine( $expectedLength );
-            $size += strlen( $line );
-            $data .= $line;
+            while ( $chunkLength !== 0 )
+            {
+                // fetch chunk length
+                $line = $this->getLine();
+                $chunkLength = hexdec( $line );
+
+                $size = 1;
+                while ( $size < $chunkLength )
+                {
+                    $line = $this->getLine( $chunkLength );
+                    $size += strlen( $line );
+                    $data .= $line;
+                }
+                $line = $this->getLine();
+            }
+        }
+        else // without chunked encoding
+        {
+            $size = 1;
+            while ( $size < $expectedLength )
+            {
+                $line = $this->getLine( $expectedLength );
+                $size += strlen( $line );
+                $data .= $line;
+            }
         }
         return $data;
     }
@@ -148,12 +176,31 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $data;
     }
 
-    public function search( $queryString, $defaultField, $fieldList = array() )
+    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
     {
-        $queryFlags = array( 'q' => $queryString, 'wt' => 'json', 'df' => $defaultField );
-        if ( count( $fieldList ) )
+        if ( count( $searchFieldList ) > 0 )
         {
-            $queryFlags['fl'] = join( ' ', $fieldList );
+            $queryString = '';
+            foreach ( $searchFieldList as $searchField )
+            {
+                $queryString .= "$searchField:$queryWord ";
+            }
+        }
+        else
+        {
+            $queryString = $queryWord;
+        }
+        $queryFlags = array( 'q' => $queryString, 'wt' => 'json', 'df' => $defaultField );
+        if ( count( $returnFieldList ) )
+        {
+            $returnFieldList[] = 'score';
+            $queryFlags['fl'] = join( ' ', $returnFieldList );
+        }
+        if ( count( $highlightFieldList ) )
+        {
+            $queryFlags['hl'] = 'true';
+            $queryFlags['hl.snippets'] = 10;
+            $queryFlags['hl.fl'] = join( ' ', $highlightFieldList );
         }
 
         $result = $this->sendRawGetCommand( 'select', $queryFlags );
@@ -184,37 +231,43 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $map = array(
             ezcSearchDocumentDefinition::STRING => '_s',
             ezcSearchDocumentDefinition::TEXT => '_t',
-            ezcSearchDocumentDefinition::HTML => '_h',
+            ezcSearchDocumentDefinition::HTML => '_t',
             ezcSearchDocumentDefinition::DATE => '_dt',
         );
         return $name . $map[$type];
     }
 
-    private function mapFieldValue( $type, $value )
+    private function mapFieldValue( $field, $values )
     {
-        switch( $type )
+        if ( !is_array( $values ) )
         {
-            case ezcSearchDocumentDefinition::DATE:
-                if ( is_numeric( $value ) )
-                {
-                    $d = new DateTime( "@$value" );
-                    return $d->format( 'Y-m-d\TH:i:s\Z' );
-                }
-                else
-                {
-                    try
-                    {
-                        $d = new DateTime( $value );
-                    }
-                    catch ( Exception $e )
-                    {
-                        throw new ezcSearchInvalidValueException( $type, $value );
-                    }
-                    return $d->format( 'Y-m-d\TH:i:s\Z' );
-                }
-            default:
-                return $value;
+            $values = array( $values );
         }
+        foreach ( $values as &$value )
+        {
+            switch( $field->type )
+            {
+                case ezcSearchDocumentDefinition::DATE:
+                    if ( is_numeric( $value ) )
+                    {
+                        $d = new DateTime( "@$value" );
+                        $value = $d->format( 'Y-m-d\TH:i:s\Z' );
+                    }
+                    else
+                    {
+                        try
+                        {
+                            $d = new DateTime( $value );
+                        }
+                        catch ( Exception $e )
+                        {
+                            throw new ezcSearchInvalidValueException( $type, $value );
+                        }
+                        $value = $d->format( 'Y-m-d\TH:i:s\Z' );
+                    }
+            }
+        }
+        return $values;
     }
 
     public function index( ezcSearchDocumentDefinition $definition, $document )
@@ -229,17 +282,21 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $xml->endElement();
         foreach ( $definition->fields as $field )
         {
-            $xml->startElement( 'field' );
-            $xml->writeAttribute( 'name', $this->mapFieldType( $field->field, $field->type ) );
-            $xml->text( $this->mapFieldValue( $field->type, $document[$field->field] ) );
-            $xml->endElement();
+            $value = $this->mapFieldValue( $field, $document[$field->field] );
+            foreach ( $value as $fieldValue )
+            {
+                $xml->startElement( 'field' );
+                $xml->writeAttribute( 'name', $this->mapFieldType( $field->field, $field->type ) );
+                $xml->text( $fieldValue );
+                $xml->endElement();
+            }
         }
         $xml->endElement();
         $xml->endElement();
         $doc = $xml->outputMemory( true );
 
         $r = $this->sendRawPostCommand( 'update', array( 'wt' => 'json' ), $doc );
-//        $r = $this->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
+        $r = $this->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
     }
 
     public function createDeleteQuery()

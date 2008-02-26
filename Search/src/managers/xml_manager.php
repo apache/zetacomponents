@@ -88,7 +88,7 @@ class ezcSearchXmlManager implements ezcSearchDefinitionManager
                 throw new ezcSearchDefinitionInvalidException( 'XML', $documentType, $path, "Unknown type: {$type}" );
             }
             $type = $this->typeMap[$type];
-            $fields[(string) $field] = new ezcSearchDefinitionDocumentField( (string) $field, $type, (float) $field['boost'] );
+            $fields[(string) $field] = new ezcSearchDefinitionDocumentField( (string) $field, $type, (float) $field['boost'], (bool) $field['inResult'] );
         }
         $def->fields = $fields;
 

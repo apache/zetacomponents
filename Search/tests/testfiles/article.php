@@ -6,15 +6,17 @@ class Article
     private $summary;
     private $body;
     private $published;
+    private $author;
 
 
-    function __construct( $id, $title, $summary, $body, $published )
+    function __construct( $id, $title, $summary, $body, $published, $author = null )
     {
         $this->id = $id;
         $this->title = $title;
         $this->summary = $summary;
         $this->body = $body;
         $this->published = $published;
+        $this->author = $author;
     }
 
     function getState()
@@ -25,6 +27,7 @@ class Article
             'summary' => $this->summary,
             'body' => $this->body,
             'published' => $this->published,
+            'author' => $this->author,
         );
     }
 
