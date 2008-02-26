@@ -1010,14 +1010,6 @@ abstract class ezcWebdavSimpleBackend
     {
         $collection = $request->requestUri;
 
-        if ( $request->body !== null )
-        {
-            return new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_415,
-                $collection
-            );
-        }
-
         // If resource already exists, the collection cannot be created and a
         // 405 is thrown.
         if ( $this->nodeExists( $collection ) )
