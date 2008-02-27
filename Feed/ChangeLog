@@ -23,6 +23,7 @@
 - Added support for the iTunes module.
 - Added support for the CreativeCommons module.
 - Added the required xmlns attribute when creating RSS1 feeds.
+- Added parse support for version 0.93 and 0.94 RSS feeds.
 
 
 1.0beta1 - Monday 18 December 2006
