@@ -33,6 +33,184 @@ This section introduces common concerns of the issues covered in this design
 document and the features resulting from them. Especially the if-header and its
 support in the Webdav component are described.
 
+============
+RFC Overview
+============
+
+In addition to the headers If-Match and If-None-Match, which are described in
+the HTTP/1.1 RFC, RFC 2518 (WebDAV) describes the If-Header. The If header is
+used to define conditional actions by the client, similar to the 2 headers
+named before. However, it is constructed in a much more complex and weird way.
+
+If header
+=========
+
+The If header is described with the following pseudo EBNF: ::
+
+   If = "If" ":" ( 1*No-tag-list | 1*Tagged-list)
+   No-tag-list = List
+   Tagged-list = Resource 1*List
+   Resource = Coded-URL
+   List = "(" 1*(["Not"](State-token | "[" entity-tag "]")) ")"
+   State-token = Coded-URL
+   Coded-URL = "<" absoluteURI ">"
+
+It may contain entity tags (see `Entity tag support`_), lock tokens (see `Lock
+tokens`_) and combination of both. In addition the header may contain
+additional resource URIs to affect not only the main request URI. Luckily, the
+If header either containes a tagged list (including affected resource URIs) or
+a no-tag list (without resource URIs). It cannot contain a combination of
+those.
+
+Both lists (tagged and no-tag) contain a not limmited number of lock tokens
+and/or entity tags and maybe prefixed by the keyword "Not". This indicates that the
+affected method may only be executed if the condition defined in the list does
+not match. This works similar to the If-None-Match header, specified by the
+HTTP/1.1 RFC.
+
+To illustrate this complex definition some more, some examples are presented
+and explained in following.
+
+No-tag list
+------------
+
+::
+
+   If: (<locktoken:a-write-lock-token> ["I am an ETag"]) (["I am another ETag"])
+
+This If header consists of 2 no-tag lists (it does not contain any resource
+URIs). The first list consists of a lock token and an entity tag, the second
+only contains an entity tag. The semantics of this example is, that the method
+containing this If header may only be executed if
+
+- either the first combination of lock token and entity tag is matched
+- or if the second entity tag is matched.
+
+Note that the first list item describes a logical AND operation, while the
+whole list concatenates its items by logical OR.
+
+Tagged list
+-----------
+
+::
+
+   COPY /resource1 HTTP/1.1
+   Host: www.foo.bar
+   Destination: http://www.foo.bar/resource2
+   If: <http://www.foo.bar/resource1> (<locktoken:a-write-lock-token>
+   [W/"A weak ETag"]) (["strong ETag"])
+   <http://www.bar.bar/random>(["another strong ETag"])
+
+This example does not only show an If header with a tagged list, but also a
+context where this could make some sense: The COPY method affects several
+resources at once. It works at least on a source (the request URI) and a
+destination (see Destination header), Additionally it can affect whole
+sub-tress, using the Depth header.
+
+The If header in this case affects 2 resources, while one of the defined
+conditions will be checked and the other won't. The first list affects the
+request URI and contains 2 elements concatenated with logical OR. The first
+item consists of an AND-combination of a lock token and an entity tag. The
+second only contains an entity tag. This is similar to the example shown above
+for the no-tag list. Except that it contains the "tagging" URI. For the
+second tag only an entity tag is listed. Anyway, this condition would not be
+checked in the request but simply be ignored, since the resource in the tag is
+not affected by the resource.
+
+Not
+---
+
+::
+
+   If: (Not <locktoken:write1> <locktoken:write2>)
+
+This simple If header only shows the definition of a "Not" affected list. The
+keyword must occur at the very begining of the affected list item. This item
+contains 2 lock tokens combined with logical AND. In clear words the requested
+affected by this If header will be executed if non of the affected resources is
+locked by either of the specified lock tokens.
+
+=========================
+Plugin based design draft
+=========================
+
+This section tries to design the honoring of the If header in the Webdav
+component using a plugin based approach for lock handling. This works
+corresponding to the pluin approach described in `Plugin design draft`_.
+
+It is not possibly to exctract all parts of locking support into the lock
+plugin, since the If header must be parsed in one go. Since this can also
+contain entity tags, which do belong into the main component, it cannot be
+parsed exclusively in the lock plugin.
+
+Transport layer
+===============
+
+The transport layer needs to parse the If header. Since the header can contain
+entity tags and lock tokens, the parsing needs to take place inside
+ezcWebdavHeaderHandler itself and cannot be part of the plugin. The If header
+is the most complex header that needed to be parsed so far. All other parsed
+headers either contained a string value or a simply to process other scalar
+value. To encapsulate the If header correctly some new classes need to be
+invented which are described in following:
+
+::
+
+    abstract class ezcWebdavIfHeaderList implements ArrayAccess
+    {
+        protected ezcWebdavIfHeaderListItems[] $items;
+    }
+
+    class ezcWebdavIfHeaderTaggedList extends ezcWebdavIfHeaderList
+    {
+
+    }
+
+    class ezcWebdavIfHeaderNoTagList extends ezcWebdavIfHeaderList
+    {
+
+    }
+
+These classes represent the lists provided in an If header. Both are accessed
+through the ArrayAccess interface. The keys used to query the object are
+resource pathes (not URIs!).
+
+An ezcWebdavIfHeaderList object will return an array of
+ezcWebdavIfHeaderListItem objects on read access through ArrayAccess. This
+array represents the OR concatenation of the items. The item class realizes the
+OR combination and is described further below.
+
+The ezcWebdavIfHeaderTaggedList will return the list items defined for the resource
+path given via ArrayAccess and only those for the given path (an empty array of
+none were defined for this path. In contrast to that,
+ezcWebdavIfHeaderNoTagList will return all list items for *every* resource
+path, since the lists applies to all resources.
+
+This way of abstracting tagged lists and no-tag lists allows a unified usage of
+both classes in deeper layers of the Webdav component (plugin or backend).
+
+::
+
+    class ezcWebdavIfHeaderListItem
+    {
+        public function __construct(
+            array $lockTokens = array(),
+            array $eTags = array(),
+            bool $negated = false
+        );
+
+        property-read array $lockTokens;
+        property-read array $eTags;
+        property-read bool  $negated;
+    }
+
+An instance of this class represents a list item, which can combines several
+entity tags ($eTag) and lock tokens ($lockTokens). In addition it can be
+defined to be negated ($negated === true). The combination represented by such
+an object is a logical AND combination. 
+
+Usage examples
+--------------
 
 Entity tag support
 ^^^^^^^^^^^^^^^^^^
