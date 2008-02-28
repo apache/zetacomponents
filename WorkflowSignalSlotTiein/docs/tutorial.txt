@@ -1,0 +1,52 @@
+eZ Components - WorkflowSignalSlotTiein
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+
+Introduction
+============
+
+The WorkflowSignalSlotTiein component allows you to hook into the workflow
+execution into using the SignalSlot component.
+
+Class overview
+==============
+
+ezcWorkflowSignalSlotPlugin
+  Emits signals for the workflow engine's plugin hooks.
+
+
+Usage
+=====
+
+Connect all signals to the slots provided by an object
+------------------------------------------------------
+
+This example shows how to connect all signals to the slots provided by an
+object.
+
+.. include:: tutorial_example.php
+   :literal:
+
+This is a dummy implementation of the MyReceiver class.
+
+.. include:: tutorial_receiver.php
+   :literal:
+
+Slots that receive an ezcWorkflowSignalSlotReturnValue object are special in the
+way that they can control if and how the current execution step will be
+performed. For more information on this advice mechanism please refer to the
+documentation of the workflow engine plugin system.
+
+For more information on using the `SignalSlot`_ component please refer to its
+documentation.
+
+.. _SignalSlot: introduction_SignalSlot.html
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
