@@ -12,6 +12,7 @@
  * A workflow execution engine plugin that emits signals.
  *
  * @property ezcWorkflowSignalSlotPluginOptions $options
+ * @property ezcSignalCollection                $signals
  *
  * @package WorkflowSignalSlotTiein
  * @version //autogen//
@@ -35,28 +36,17 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function __construct()
     {
-        $this->options = new ezcWorkflowSignalSlotPluginOptions;
-    }
-
-    /**
-     * @return ezcSignalCollection
-     */
-    public function signals()
-    {
-        if ( $this->signals === null )
-        {
-            $this->signals = new ezcSignalCollection;
-        }
-
-        return $this->signals;
+        $this->properties['options'] = new ezcWorkflowSignalSlotPluginOptions;
+        $this->properties['signals'] = new ezcSignalCollection;
     }
 
     /**
      * Property get access.
      *
+     * @param string $propertyName
+     * @return mixed
      * @throws ezcBasePropertyNotFoundException
      *         If the given property could not be found.
-     * @param string $propertyName
      * @ignore
      */
     public function __get( $propertyName )
@@ -71,9 +61,14 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
     /**
      * Property set access.
      *
-     * @throws ezcBasePropertyNotFoundException
      * @param string $propertyName
      * @param string $propertyValue
+     * @throws ezcBasePropertyNotFoundException
+     *         If the given property could not be found.
+     * @throws ezcBaseValueException 
+     *         If the value for the property options is not an ezcWorkflowSignalSlotPluginOptions object.
+     * @throws ezcBaseValueException 
+     *         If the value for the property signals is not an ezcSignalCollection object.
      * @ignore
      */
     public function __set( $propertyName, $propertyValue )
@@ -87,6 +82,17 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
                         $propertyName,
                         $propertyValue,
                         'ezcWorkflowSignalSlotPluginOptions'
+                    );
+                }
+                break;
+
+            case 'signals':
+                if ( !( $propertyValue instanceof ezcSignalCollection ) )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'ezcSignalCollection'
                     );
                 }
                 break;
@@ -115,7 +121,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterExecutionStarted( ezcWorkflowExecution $execution )
     {
-        $this->signals()->emit( $this->options['afterExecutionStarted'], $execution );
+        $this->properties['signals']->emit( $this->options['afterExecutionStarted'], $execution );
     }
 
     /**
@@ -125,7 +131,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterExecutionSuspended( ezcWorkflowExecution $execution )
     {
-        $this->signals()->emit( $this->options['afterExecutionSuspended'], $execution );
+        $this->properties['signals']->emit( $this->options['afterExecutionSuspended'], $execution );
     }
 
     /**
@@ -135,7 +141,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterExecutionResumed( ezcWorkflowExecution $execution )
     {
-        $this->signals()->emit( $this->options['afterExecutionResumed'], $execution );
+        $this->properties['signals']->emit( $this->options['afterExecutionResumed'], $execution );
     }
 
     /**
@@ -145,7 +151,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterExecutionCancelled( ezcWorkflowExecution $execution )
     {
-        $this->signals()->emit( $this->options['afterExecutionCancelled'], $execution );
+        $this->properties['signals']->emit( $this->options['afterExecutionCancelled'], $execution );
     }
 
     /**
@@ -155,7 +161,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterExecutionEnded( ezcWorkflowExecution $execution )
     {
-        $this->signals()->emit( $this->options['afterExecutionEnded'], $execution );
+        $this->properties['signals']->emit( $this->options['afterExecutionEnded'], $execution );
     }
 
     /**
@@ -169,7 +175,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
     {
         $return = new ezcWorkflowSignalSlotReturnValue;
 
-        $this->signals()->emit( $this->options['beforeNodeActivated'], $execution, $node, $return );
+        $this->properties['signals']->emit( $this->options['beforeNodeActivated'], $execution, $node, $return );
 
         return $return->value;
     }
@@ -182,7 +188,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterNodeActivated( ezcWorkflowExecution $execution, ezcWorkflowNode $node )
     {
-        $this->signals()->emit( $this->options['afterNodeActivated'], $execution, $node );
+        $this->properties['signals']->emit( $this->options['afterNodeActivated'], $execution, $node );
     }
 
     /**
@@ -193,7 +199,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterNodeExecuted( ezcWorkflowExecution $execution, ezcWorkflowNode $node )
     {
-        $this->signals()->emit( $this->options['afterNodeExecuted'], $execution, $node );
+        $this->properties['signals']->emit( $this->options['afterNodeExecuted'], $execution, $node );
     }
 
     /**
@@ -206,7 +212,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterRolledBackServiceObject( ezcWorkflowExecution $execution, ezcWorkflowNode $node, ezcWorkflowRollbackableServiceObject $serviceObject, $success )
     {
-        $this->signals()->emit( $this->options['afterRolledBackServiceObject'], $execution, $node, $serviceObject, $success );
+        $this->properties['signals']->emit( $this->options['afterRolledBackServiceObject'], $execution, $node, $serviceObject, $success );
     }
 
     /**
@@ -219,7 +225,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterThreadStarted( ezcWorkflowExecution $execution, $threadId, $parentId, $numSiblings )
     {
-        $this->signals()->emit( $this->options['afterThreadStarted'], $execution, $threadId, $parentId, $numSiblings );
+        $this->properties['signals']->emit( $this->options['afterThreadStarted'], $execution, $threadId, $parentId, $numSiblings );
     }
 
     /**
@@ -230,7 +236,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterThreadEnded( ezcWorkflowExecution $execution, $threadId )
     {
-        $this->signals()->emit( $this->options['afterThreadEnded'], $execution, $threadId );
+        $this->properties['signals']->emit( $this->options['afterThreadEnded'], $execution, $threadId );
     }
 
     /**
@@ -245,7 +251,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
     {
         $return = new ezcWorkflowSignalSlotReturnValue( $value );
 
-        $this->signals()->emit( $this->options['beforeVariableSet'], $execution, $variableName, $value, $return );
+        $this->properties['signals']->emit( $this->options['beforeVariableSet'], $execution, $variableName, $value, $return );
 
         return $return->value;
     }
@@ -259,7 +265,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterVariableSet( ezcWorkflowExecution $execution, $variableName, $value )
     {
-        $this->signals()->emit( $this->options['afterVariableSet'], $execution, $variableName, $value );
+        $this->properties['signals']->emit( $this->options['afterVariableSet'], $execution, $variableName, $value );
     }
 
     /**
@@ -273,7 +279,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
     {
         $return = new ezcWorkflowSignalSlotReturnValue;
 
-        $this->signals()->emit( $this->options['beforeVariableUnset'], $execution, $variableName, $return );
+        $this->properties['signals']->emit( $this->options['beforeVariableUnset'], $execution, $variableName, $return );
 
         return $return->value;
     }
@@ -286,7 +292,7 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      */
     public function afterVariableUnset( ezcWorkflowExecution $execution, $variableName )
     {
-        $this->signals()->emit( $this->options['afterVariableUnset'], $execution, $variableName );
+        $this->properties['signals']->emit( $this->options['afterVariableUnset'], $execution, $variableName );
     }
 }
 ?>

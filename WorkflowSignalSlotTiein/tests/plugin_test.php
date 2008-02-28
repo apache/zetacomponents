@@ -38,7 +38,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->execution->addPlugin( $this->plugin );
 
         $this->receiver = new ezcWorkflowSignalSlotTestReceiver;
-        $this->signals = $this->plugin->signals();
+        $this->signals = $this->plugin->signals;
 
         $this->signals->connect( 'afterExecutionStarted', array( $this->receiver, 'afterExecutionStarted' ) );
         $this->signals->connect( 'afterExecutionSuspended', array( $this->receiver, 'afterExecutionSuspended' ) );
