@@ -1,3 +1,24 @@
+eZ component: Webdav, RFC overview, 1.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: Kore Nordmann, Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+Scope
+~~~~~
+
+This document tries to summarize the major points of `RFC 2518`_, which seem
+important for the realization of the Webdav component of eZ Components in
+version 1.0. This document does not contain any design decisions, but only
+rephrased contents of the original RFC document. For the design document please
+refer to design.txt.
+
+.. _`RFC 2518`: http://www.ietf.org/rfc/rfc2518.txt
+
 General
 ~~~~~~~
 
