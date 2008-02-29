@@ -226,7 +226,7 @@ here.
 
 This example shows a tagged list in the If header, which will be parsed into an
 instance of ezcWebdavIfHeaderTaggedList will be created from it in the
-`Transport layer`_. The access to this object in the backend or the lock plugin
+Transport layer. The access to this object in the backend or the lock plugin
 will look as follows: ::
 
     $res1items = $ifHeader['/resource1'];
@@ -311,8 +311,8 @@ tag conditions a second time.
 Backend layer
 =============
 
-The backend receives the parsed If header as described in the `Transport
-layer`_ section through the $headers property of the request object. We cannot
+The backend receives the parsed If header as described in the Transport
+layer section through the $headers property of the request object. We cannot
 enforce the honoring of the If header, so back ends do not neccessarily honor
 them. However, it should be properly documented that this header exists and is
 must be honored if shipped with a request.
@@ -404,7 +404,7 @@ Entity tags are used in HTTP/1.1 in combination with the following headers:
   - If-Match
   - If-None-Match
   - If-Range
--Response
+- Response
   - ETag
 
 Since the Webdav component will generate the entity tag, we should ensure to
@@ -623,27 +623,43 @@ in the following way:
 If the back end determines that an If-Match header is set, it will:
 
 - Check if all preconditions (except the If-Match) are fulfilled.
+
   - If not, return a corresponding error response.
+
 - Check if the If-Match value is a boolean true.
+  
   - Check if the requested path exists.
-    - If it *does not*, cancel the method and return 412 (Precondition Failed).
+  
+  - If it *does not*, cancel the method and return 412 (Precondition Failed).
+
 - Check if the If-Match value is an array of strings.
+  
   - Retrieve the affected resources getetag property and compare it with all
     strings in the array.
-    - If *none* matches, cancel the method and return 412 (Precondition Failed).
+  
+  - If *none* matches, cancel the method and return 412 (Precondition Failed).
+
 - Process the method as if the If-Match header was not set.
 
 If the back end determines that an If-None-Match header is set, it will:
 
 - Check if all preconditions (except the If-Match) are fulfilled.
+  
   - If not, return a corresponding error response.
+
 - Check if the If-Match value is a boolean true.
+  
   - Check if the requested path exists.
+    
     - If it *does*, cancel the method and return 412 (Precondition Failed).
+
 - Check if the If-Match value is an array of strings.
+  
   - Retrieve the affected resources getetag property and compare it with all
     strings in the array.
+    
     - If *any* matches, cancel the method and return 412 (Precondition Failed).
+
 - Process the method as if the If-None-Match header was not set.
 
 Since this behavior will be implemented within the ezcWebdavSimpleBackend
