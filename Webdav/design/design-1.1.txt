@@ -195,8 +195,8 @@ both classes in deeper layers of the Webdav component (plugin or backend).
     {
         public function __construct(
             array $lockTokens = array(),
-            array $eTags = array(),
-            bool $negated = false
+            array $eTags      = array(),
+            bool $negated     = false
         );
 
         property-read array $lockTokens;
@@ -209,8 +209,160 @@ entity tags ($eTag) and lock tokens ($lockTokens). In addition it can be
 defined to be negated ($negated === true). The combination represented by such
 an object is a logical AND combination. 
 
-Usage examples
---------------
+Code examples
+-------------
+
+Some small code examples to illustrate the above class design will be showen
+here.
+
+::
+
+   COPY /resource1 HTTP/1.1
+   Host: www.foo.bar
+   Destination: http://www.foo.bar/resource2
+   If: <http://www.foo.bar/resource1> (<locktoken:a-write-lock-token>
+   [W/"A weak ETag"]) (["strong ETag"])
+   <http://www.bar.bar/random>(["another strong ETag"])
+
+This example shows a tagged list in the If header, which will be parsed into an
+instance of ezcWebdavIfHeaderTaggedList will be created from it in the
+`Transport layer`_. The access to this object in the backend or the lock plugin
+will look as follows: ::
+
+    $res1items = $ifHeader['/resource1'];
+
+    $res2items = $ifHeader['/resource2'];
+
+    $randomItems = $ifHeader['/random'];
+
+The $res1items variable will contain an array reflecting the conditions
+specified for http://www.foo.bar/resource1. The $res2items variable will
+contain an empty array since no conditions were defined for this resource.
+While the $randomItems variable should normally not be requested (since the
+resource is not affected) it would contain the corresponding list items for the
+http://www.bar.bar/random resource.
+
+In contrast, the following reqeuest would return an instance of
+ezcWebdavIfHeaderNoTagList for the contained If header: ::
+
+   COPY /resource1 HTTP/1.1
+   Host: www.foo.bar
+   Destination: http://www.foo.bar/resource2
+   If: (<locktoken:a-write-lock-token> [W/"A weak ETag"]) (["strong ETag"])
+   (["another strong ETag"])
+
+Taking the same accesses to the corresponding $ifHeader variable as shown above
+will result in all 3 variables containing the same values: All 3 list items
+will be contained, since the If header does not use tagging to specify which
+resources are affected by the conditions.
+
+Plugin
+======
+
+If the lock plugin is active, it needs to hook into every affected request (see
+`Affected base methods`_) and check the If header conditions. The check does
+not only affect the checking of locktoken conditions, but also the check of
+etag validation, because both condition types are combineable.
+
+The procedure (in pseudo code) is as follows: ::
+
+    lock backend;
+    foreach ( <range of affected resources> as <basse resource> )
+    {
+        create propfind request for <base resource>;
+        set request properties to <getetag> and <lockdiscovery>;
+        set depth according to incoming request;
+        send request to backend;
+        foreach ( <resources in response> as <resource> )
+        {
+            if ( <resource> does not conform to If header )
+            {
+                return <precondition failed response>;
+            }
+        }
+    }
+    discard If header;
+    unlock backend;
+
+The If header needs to be discarded after correct validation of all entity
+tag/lock token conditions. This avoids that the backend checks for the entity
+tag conditions a second time.
+
+.. Note::
+   The checking of both (lock token and entity tag) conditions is necessary in
+   this case, although it results in a small part of code-duplication.
+
+.. Warning::
+   The behaviour showen here does not conform to 100% with the WebDAV RFC,
+   which states that the "If header is intended to have similar functionality
+   to the If- Match header defined in section 14.25 of [RFC2068]". If this is
+   taken literally, the lock plugin would need to check if a request would fail
+   without the If header before checking the If header itself. This would
+   result in unmanageable overhead and code duplication.
+
+.. Warning::
+   Actually the backend would have need to be locked completly, in case an If
+   header occured and was succesfully checked by the lock plugin. This complete
+   lock must be held until the corresponding response was created by the
+   backend. Else there is a race condition in the time frame after the lock
+   checking until the backend starts processing. This can lead to extremly
+   strange results in high-load environments.
+
+Backend layer
+=============
+
+The backend receives the parsed If header as described in the `Transport
+layer`_ section through the $headers property of the request object. We cannot
+enforce the honoring of the If header, so back ends do not neccessarily honor
+them. However, it should be properly documented that this header exists and is
+must be honored if shipped with a request.
+
+If a backend takes care for the header, it may only use the $eTag and $negated
+properties and must ignore the $lockTokens property. The latter one is used
+exclusively in the lock plugin. In case the lock plugin is active, the back end
+should never receive any If header. The If header will then be processed
+exclusively by the lock plugin.
+
+If the backend pays attention to the If header, it must honor it for every
+request and every resource path that is accessed during execution of the
+request. To include the checking of the If header into request processing the
+following algorith must be used (pseudo-code): ::
+
+    lock backend;
+    if ( preconditions for request without If header are not fulfilled )
+    {
+        return <corresponding error response>;
+    }
+    foreach ( <affected resources> as <resource> )
+    {
+        if ( If header not fulfilled for <resource> )
+        {
+            return <precondition failed error response>;
+        }
+    }
+    process request;
+    unlock backend;
+    return <corresponding response>;
+
+
+The backend does not need to take care of If headers, if the lock plugin is
+installed. In this case, the lock plugin will take over the complete check for
+the If headers conditions and remove the header from the request object
+afterwards.
+
+Infrastructure
+==============
+
+The ezcWebdavRequest class does currently not support the removal of headers as
+required by the lock plugin. A method ::
+    
+    public removeHeader( $headerName )
+
+needs therefore to be added. This method also needs to invalidate the headers
+internally in the class, so that a manual revalidation using validateHeaders()
+needs to occur. Since the lock plugin will remove the If header before the
+request object passes ezcWebdavServer, the headers are validated anyways there.
+
 
 Entity tag support
 ^^^^^^^^^^^^^^^^^^
