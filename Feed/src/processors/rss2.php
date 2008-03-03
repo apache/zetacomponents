@@ -137,7 +137,8 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                                                               'enclosure', 'guid', 'pubDate',
                                                                               'source' ),
                                                      ),
-                                   'ITEMS_MAP'      => array( 'published'  => 'pubDate' ),
+                                   'ITEMS_MAP'      => array( 'published'  => 'pubDate',
+                                                              'id'         => 'guid' ),
                                    'MULTI'      => 'items' ),
 
         'REQUIRED'       => array( 'title', 'link', 'description' ),
@@ -771,7 +772,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $subElement->set( $itemChild->textContent );
                         break;
 
-                    case 'guid':
+                    case 'id':
                         $subElement = $element->add( $tagName );
                         $subElement->set( $itemChild->textContent );
                         break;
@@ -790,7 +791,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     {
                         $subElement->$key = $value;
                     }
-                    else if ( in_array( $tagName, array( 'guid' ) ) )
+                    else if ( in_array( $tagName, array( 'id' ) ) )
                     {
                         if ( $key === 'isPermaLink'
                              && $value !== null )

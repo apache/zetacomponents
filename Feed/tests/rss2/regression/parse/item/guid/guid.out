@@ -12,7 +12,7 @@ $item->title = 'Item title';
 $item->link = 'Item link';
 $item->description = 'Item description';
 
-$guid = $item->add( 'guid' );
+$guid = $item->add( 'id' );
 $guid->set( 'Item guid' );
 
 return $feed;

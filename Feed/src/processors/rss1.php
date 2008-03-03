@@ -286,6 +286,19 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 $this->generateMetaData( $itemTag, $attribute, $data );
             }
 
+            foreach ( $this->schema->getOptional( 'item' ) as $attribute )
+            {
+                $data = $element->$attribute;
+                if ( !is_null( $data ) )
+                {
+                    $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
+                    $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
+
+                    $attributes = array();
+                    $this->generateMetaData( $itemTag, $attribute, $data );
+                }
+            }
+
             $this->generateModules( $element, $itemTag );
         }
     }
