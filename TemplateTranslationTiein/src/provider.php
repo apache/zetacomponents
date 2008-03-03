@@ -56,3 +56,4 @@ class ezcTemplateTranslationProvider
         return $translation;
     }
 }
+?>

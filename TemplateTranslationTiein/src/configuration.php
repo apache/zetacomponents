@@ -135,3 +135,4 @@ class ezcTemplateTranslationConfiguration
         return parent::__isset( $name );
     }
 }
+?>
