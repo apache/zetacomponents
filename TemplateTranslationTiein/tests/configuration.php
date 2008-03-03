@@ -119,7 +119,6 @@ class ezcTemplateTranslationConfigurationTest extends ezcTestCase
 
     public function testIssetUnknownProperty()
     {
-        xdebug_break();
         $t = ezcTemplateTranslationConfiguration::getInstance();
         self::assertEquals( false, isset( $t->notHere ) );
     }
