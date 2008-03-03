@@ -91,7 +91,9 @@
  *      echo $module->getNamespace();
  *  }
  *  </code>
- *  - generate an XML document from the {@link ezcFeed} object. Example:
+ *  - generate an XML document from the {@link ezcFeed} object. The result
+ * string should be saved to a file, and a link to a file made accessible to
+ * users of the application. Example:
  *  <code>
  *  $xml = $feed->generate();
  *  </code>

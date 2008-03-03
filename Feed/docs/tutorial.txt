@@ -210,7 +210,9 @@ Possible feed operations:
         echo $module->getNamespace();
     }
 
-- generate an XML document from the ezcFeed object. Example::
+- generate an XML document from the ezcFeed object. The result string should be
+  saved to a file, and a link to a file made accessible. See
+  `Provide access to feeds in a web application`_. Example::
 
     $xml = $feed->generate();
 
@@ -473,6 +475,9 @@ containing an RSS2 feed with the values read from *data/news.txt*:
 .. include:: examples/feed_creator/data/news.xml
    :literal:
 
+See the section `Provide access to feeds in a web application`_ for details on
+how to provide access to the generated XML feed.
+
 
 Best practices
 ==============
@@ -490,13 +495,6 @@ All ATOM feeds must be identified with the *application/atom+xml* media type.
 Use the getContentType() method of ezcFeed to get this string.
 
 
-Self link
-`````````
-
-All ATOM feeds should have a *link* feed element with *rel="self"* which
-points back to the feed itself (with the *href* attribute).
-
-
 RSS1
 ----
 
@@ -506,13 +504,6 @@ Media type
 All RSS1 feeds should be identified with the *application/rss+xml* media type
 (although it is not a standard yet). Use the getContentType() method of
 ezcFeed to get this string.
-
-
-Self link
-`````````
-
-All RSS1 feeds are required to have the *about* attribute which points back to
-the feed itself.
 
 
 RSS2
