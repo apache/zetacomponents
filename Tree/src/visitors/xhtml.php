@@ -165,7 +165,8 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
                 }
                 if ( $this->options->selectedNodeLink )
                 {
-                    $path = htmlspecialchars( $this->options->basePath . '/' . array_pop( array_slice( $path, -1 ) ) );
+                    $slice = array_slice( $path, -1 );
+                    $path = htmlspecialchars( $this->options->basePath . '/' . array_pop( $slice ) );
                 }
                 else
                 {

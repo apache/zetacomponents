@@ -177,7 +177,8 @@ class ezcTreeVisitorYUI implements ezcTreeVisitor
                 }
                 if ( $this->options->selectedNodeLink )
                 {
-                    $path = htmlspecialchars( $this->options->basePath . '/' . array_pop( array_slice( $path, -1 ) ), ENT_QUOTES );
+                    $slice = array_slice( $path, -1 );
+                    $path = htmlspecialchars( $this->options->basePath . '/' . array_pop( $slice ), ENT_QUOTES );
                 }
                 else
                 {
