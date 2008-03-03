@@ -164,22 +164,27 @@ The session object
 ------------------
 
 The session object is in charge of the actual loading and saving of persistent
-objects. A session can be created by simply instantiating it: ::
+objects. A session can be created by simply instantiating it::
 
     <?php
+    $db = ezcDbFactory::create( 'mysql://user:password@host/database' );
     $session = new ezcPersistentSession(
-        ezcDbInstance::get(),
+        $db,
         new ezcPersistentCacheManager( new ezcPersistentCodeManager( "path/to/definitions" ) )
     );
     ?>
 
 The session takes two arguments: a pointer to the database instance to use and
-the manager from which to retrieve persistent object definitions. We are
-using ezcPersistentCodeManager to load the definitions directly from
-file. You should point it to the location where you saved the person.php
-file. If you have several directories containing definitions, you can use
-the ezcPersistentMultiManager class to add as many as you like. In addition to
-the code manager we use a cache manager. The cache manager makes sure the
+the manager from which to retrieve persistent object definitions. You can also
+use a Database instance by using the ezcDbInstance class. You can then simply
+use ezcDbInstance::get(); instead of passing $db as argument to the
+ezcPersistentSession's constructor.
+
+We are using ezcPersistentCodeManager to load the definitions directly from
+file. You should point it to the location where you saved the person.php file.
+If you have several directories containing definitions, you can use the
+ezcPersistentMultiManager class to add as many as you like. In addition to the
+code manager we use a cache manager. The cache manager makes sure the
 definition is loaded from disk only once.
 
 While it is possible to create a new session each time you want to manipulate a
