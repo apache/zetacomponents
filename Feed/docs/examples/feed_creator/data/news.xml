@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>eZ news feeds</title>
+    <link>http://ez.no</link>
+    <description>This RSS feed contains news feeds for eZ Publish and eZ Components.</description>
+    <managingEditor>nospam@ez.no (Derick)</managingEditor>
+    <pubDate>Mon, 03 Mar 2008 12:39:14 +0100</pubDate>
+    <generator>eZ Components</generator>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <item>
+      <title>eZ Components 2007.1 released</title>
+      <link>http://components.ez.no</link>
+      <description>The new release of eZ Components include Workflow, Authentication...</description>
+      <author>nospam@ez.no (Derick)</author>
+      <guid isPermaLink="true">http://components.ez.no</guid>
+    </item>
+    <item>
+      <title>eZ Publish 4.0 released</title>
+      <link>http://publish.ez.no</link>
+      <description>The new release of eZ Publish is based on PHP 5....</description>
+      <author>nospam@ez.no (Derick)</author>
+      <guid isPermaLink="true">http://publish.ez.no</guid>
+    </item>
+    <item>
+      <title>eZ Find.0 released</title>
+      <link>http://find.ez.no</link>
+      <description>A new product in the eZ family of open-source solutions...</description>
+      <author>nospam@ez.no (Derick)</author>
+      <guid isPermaLink="true">http://find.ez.no</guid>
+    </item>
+  </channel>
+</rss>
