@@ -20,7 +20,7 @@ echo "eZ Components feed creator\n";
 if ( count( $argv ) < 3 )
 {
     echo "\tFirst parameter: feed type (rss1, rss2 or atom)\n";
-    echo "\tSecond parameter: txt file name\n";
+    echo "\tSecond parameter: text file name\n";
     die();
 }
 
@@ -66,9 +66,11 @@ echo $xml . "\n\n";
  * </code>
  *
  * @throws ezcBaseFileNotFoundException
- *         If $fileName is not found or cannot be opened
+ *         If $fileName is not found
+ * @throws ezcBaseFilePermissionException
+ *         If $fileName cannot be opened
  *
- * @param string $fileName A file name containing a full path
+ * @param string $fileName A file name containing a full or relative path
  * @return array(mixed)
  */
 function readDataFile( $fileName )
