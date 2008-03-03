@@ -1,7 +1,10 @@
-- Implemented issue #10941: Support for the Cancel Case workflow pattern.
+1.2alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Implemented issue #10941: Support for the Cancel Case workflow pattern.
 - Fixed issue #12403: Multiple construction of
   ezcWorkflowDatabaseDefinitionStorage.
+
 
 1.1 - Monday 17 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
