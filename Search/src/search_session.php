@@ -80,9 +80,9 @@ class ezcSearchSession
      *
      * @return array(object($class))
      */
-    public function find( ezcSearchQuery $query, $type )
+    public function find( ezcSearchQuery $query )
     {
-        return $this->findHandler->find( $query, $type );
+        return $this->handler->find( $query );
     }
 
     /**
@@ -108,7 +108,7 @@ class ezcSearchSession
      */
     public function findIterator( ezcQuerySelect $query, $type )
     {
-        return $this->findHandler->findIterator( $query, $type );
+        return $this->handler->findIterator( $query, $type );
     }
 
     /**
@@ -127,11 +127,13 @@ class ezcSearchSession
      *
      * @param string $type
      *
-     * @return ezcQuerySelect
+     * @return ezcSearchFindQuery
      */
     public function createFindQuery( $type )
     {
-        return $this->findHandler->createFindQuery( $type );
+        $def = $this->definitionManager->fetchDefinition( $type );
+
+        return $this->handler->createFindQuery( $type, $def );
     }
 
     /**
@@ -267,11 +269,8 @@ class ezcSearchSession
     {
         switch ( $name )
         {
-            case 'database':
             case 'definitionManager':
-            case 'findHandler':
-            case 'indexHandler':
-            case 'deleteHandler':
+            case 'handler':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
             default:

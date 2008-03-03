@@ -104,6 +104,10 @@ class ezcSearchXmlDefinitionManager extends ezcTestCase
         self::assertEquals( ezcSearchDocumentDefinition::HTML, $d->fields['body']->type );
         self::assertEquals( ezcSearchDocumentDefinition::DATE, $d->fields['published']->type );
         self::assertEquals( 2, $d->fields['title']->boost );
+
+        self::assertEquals( false, $d->fields['body']->inResult );
+        self::assertEquals( true, $d->fields['summary']->inResult );
+        self::assertEquals( true, $d->fields['title']->inResult );
     }
 
     public static function suite()

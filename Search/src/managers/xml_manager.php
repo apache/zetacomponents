@@ -70,7 +70,7 @@ class ezcSearchXmlManager implements ezcSearchDefinitionManager
 
     private function parseDefinitionXml( $documentType, $path, SimpleXMLElement $s )
     {
-        $def = new ezcSearchDocumentDefinition;
+        $def = new ezcSearchDocumentDefinition( $documentType );
 
         foreach ( $s->field as $field )
         {
@@ -88,7 +88,12 @@ class ezcSearchXmlManager implements ezcSearchDefinitionManager
                 throw new ezcSearchDefinitionInvalidException( 'XML', $documentType, $path, "Unknown type: {$type}" );
             }
             $type = $this->typeMap[$type];
-            $fields[(string) $field] = new ezcSearchDefinitionDocumentField( (string) $field, $type, (float) $field['boost'], (bool) $field['inResult'] );
+            $boost = (float) $field['boost'];
+            if ( $boost == 0 )
+            {
+                $boost = 1;
+            }
+            $fields[(string) $field] = new ezcSearchDefinitionDocumentField( (string) $field, $type, $boost, ((string) $field['inResult']) !== 'false' );
         }
         $def->fields = $fields;
 

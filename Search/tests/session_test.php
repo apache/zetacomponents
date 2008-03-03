@@ -85,6 +85,61 @@ class ezcSearchSessionTest extends ezcTestCase
         $r = $this->backend->search( 'Rethans', 'author_t', array( 'summary_t', 'title_t', 'body_t' ), array( 'author_t', 'title_t', 'score', 'summary_t', 'published_dt' ), array( 'author_t', 'title_t', 'score', 'summary_t' ) );
         self::assertEquals( 1, $r->resultCount );
     }
+
+    public function testCreateFindQuery1()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'article' );
+        $q->where( $q->eq( 'body', 'article' ) )->where( $q->eq( 'title', 'Test' ) );
+
+        $r = $session->find( $q );
+    }
+
+    public function testCreateFindQueryOr()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'article' );
+        $q->where( $q->lOr( $q->eq( 'title', 'Nul' ), $q->eq( 'title', 'Drie' ) ) );
+        $r = $session->find( $q );
+
+        $q = $session->createFindQuery( 'article' );
+        $q->where( $q->lOr( $q->eq( 'title', 'Eén' ), $q->eq( 'title', 'Drie' ) ) );
+        $r = $session->find( $q );
+
+        $q = $session->createFindQuery( 'article' );
+        $q->where( $q->lOr( $q->eq( 'title', 'Twee' ), $q->eq( 'title', 'Drie' ) ) );
+        $r = $session->find( $q );
+
+        $q = $session->createFindQuery( 'article' );
+        $q->where( $q->lOr( $q->eq( 'title', 'Eén' ), $q->eq( 'title', 'Twee' ) ) );
+        $r = $session->find( $q );
+    }
+
+    public function testCreateFindQueryNot()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'article' );
+        $q->where( $q->not( $q->eq( 'title', 'Twee' ) ) );
+        $r = $session->find( $q );
+    }
 }
 
 ?>

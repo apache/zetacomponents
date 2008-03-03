@@ -248,6 +248,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         }
 
         $result = $this->sendRawGetCommand( 'select', $queryFlags );
+        var_dump($result);
         $result = json_decode( $result );
         return ezcSearchResult::createFromResponse( $result );
     }
@@ -262,26 +263,85 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return 'solr';
     }
 
-    public function createFindQuery( $type = false )
+    /**
+     * Creates a search query object with the fields from the definition filled in.
+     *
+     * @param string $type
+     * @return ezcSearchFindQuery
+     */
+    public function createFindQuery( $type = false, ezcSearchDocumentDefinition $definition = null )
     {
+        $query = new ezcSearchFindQuerySolr( $this, $definition );
+        $query->select( 'score' );
+        if ( $type )
+        {
+            $selectFieldNames = array();
+            foreach ( $definition->getSelectFieldNames() as $docProp )
+            {
+                $selectFieldNames[] = $this->mapFieldType( $docProp, $definition->fields[$docProp]->type );
+            }
+            $query->select( $selectFieldNames );
+            $query->where( $query->eq( 'ezcsearch_type_s', $type ) );
+        }
+        return $query;
     }
 
     public function find( ezcSearchFindQuery $query )
     {
+        $queryWord = join( ' ', $query->whereClauses );
+        $resultFieldList = $query->resultFields;
+
+        return $this->search( $queryWord, '', array(), $resultFieldList );
     }
 
-    private function mapFieldType( $name, $type )
+    public function mapFieldType( $name, $type )
     {
         $map = array(
             ezcSearchDocumentDefinition::STRING => '_s',
             ezcSearchDocumentDefinition::TEXT => '_t',
             ezcSearchDocumentDefinition::HTML => '_t',
-            ezcSearchDocumentDefinition::DATE => '_dt',
+            ezcSearchDocumentDefinition::DATE => '_l',
         );
         return $name . $map[$type];
     }
 
-    private function mapFieldValue( $field, $values )
+    public function mapFieldValue( $field, $value )
+    {
+        switch ( $field->type )
+        {
+            case ezcSearchDocumentDefinition::STRING:
+            case ezcSearchDocumentDefinition::TEXT:
+            case ezcSearchDocumentDefinition::HTML:
+                $value = trim( $value );
+                if ( strpbrk( $value, ' "' ) !== false )
+                {
+                    $value = '"' . str_replace( '"', '\"', $value ) . '"';
+                }
+                break;
+
+            case ezcSearchDocumentDefinition::DATE:
+                if ( is_numeric( $value ) )
+                {
+                    $d = new DateTime( "@$value" );
+                    $value = $d->format( 'U' );
+                }
+                else
+                {
+                    try
+                    {
+                        $d = new DateTime( $value );
+                    }
+                    catch ( Exception $e )
+                    {
+                        throw new ezcSearchInvalidValueException( $type, $value );
+                    }
+                    $value = $d->format( 'U' );
+                }
+        }
+        return $value;
+    }
+
+    public function mapFieldValues( $field, $values )
     {
         if ( !is_array( $values ) )
         {
@@ -289,27 +349,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         }
         foreach ( $values as &$value )
         {
-            switch( $field->type )
-            {
-                case ezcSearchDocumentDefinition::DATE:
-                    if ( is_numeric( $value ) )
-                    {
-                        $d = new DateTime( "@$value" );
-                        $value = $d->format( 'Y-m-d\TH:i:s\Z' );
-                    }
-                    else
-                    {
-                        try
-                        {
-                            $d = new DateTime( $value );
-                        }
-                        catch ( Exception $e )
-                        {
-                            throw new ezcSearchInvalidValueException( $type, $value );
-                        }
-                        $value = $d->format( 'Y-m-d\TH:i:s\Z' );
-                    }
-            }
+            $value = $this->mapFieldValue( $field, $value );
         }
         return $values;
     }
@@ -328,13 +368,20 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $xml->openMemory();
         $xml->startElement( 'add' );
         $xml->startElement( 'doc' );
+
+        $xml->startElement( 'field' );
+        $xml->writeAttribute( 'name', 'ezcsearch_type_s' );
+        $xml->text( $definition->documentType );
+        $xml->endElement();
+
         $xml->startElement( 'field' );
         $xml->writeAttribute( 'name', 'id' );
         $xml->text( $document[$definition->idProperty] );
         $xml->endElement();
+
         foreach ( $definition->fields as $field )
         {
-            $value = $this->mapFieldValue( $field, $document[$field->field] );
+            $value = $this->mapFieldValues( $field, $document[$field->field] );
             foreach ( $value as $fieldValue )
             {
                 $xml->startElement( 'field' );
