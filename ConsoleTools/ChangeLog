@@ -11,6 +11,7 @@
 - Fixed issue #12629: Method name not replaced with link in
   ezcConsoleMenuDialog::display() API doc.
 - Fixed issue #12628: Missing space in ezcConsoleInput::getHelp API doc.
+- Fixed issue #12626: Type "ta" in ezconsoleoutput documentation.
 
 1.3.2 - Monday 14 January 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

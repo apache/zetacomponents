@@ -484,7 +484,7 @@ class ezcConsoleOutput
     }
 
     /**
-     * Returns if a format code is valid for ta specific formating option.
+     * Returns if a format code is valid for the specific formating option.
      *
      * This method determines if a given code is valid for a specific
      * formatting option ('color', 'bgcolor' or 'style').
