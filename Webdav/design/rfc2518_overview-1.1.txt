@@ -497,6 +497,7 @@ performing client owns the specific lock.
 - POST
 - PROPPATCH
 - MOVE
+- COPY
 - DELETE
 - MKCOL
 
