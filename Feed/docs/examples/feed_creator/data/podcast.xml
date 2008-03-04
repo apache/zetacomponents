@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>Flight of the RC plane</title>
+    <link>http://rcplanes.examples.com</link>
+    <description>A podcast for fans of RC planes, with information about planes, competitions, tutorials and tips</description>
+    <managingEditor>rcplanes@example.com (Derick)</managingEditor>
+    <pubDate>Tue, 04 Mar 2008 14:56:46 +0100</pubDate>
+    <generator>eZ Components</generator>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <itunes:category text="Technology">
+      <itunes:category text="Gadgets"/>
+    </itunes:category>
+    <itunes:explicit>yes</itunes:explicit>
+    <itunes:image href="http://rcplanes.example.com/images/rc_plane_big.jpg"/>
+    <itunes:keywords>RC planes,gadgets,flying</itunes:keywords>
+    <itunes:subtitle>Competitions, tutorials and tips</itunes:subtitle>
+    <item>
+      <title>Flying an RC plane indoors</title>
+      <link>http://rcplanes.example.com/articles/fly-an-rc-plane-indoors.html</link>
+      <description>In this episode, Derick talks about how to fly an RC plane in a big hall, around people working and throwing stuff at the plane</description>
+      <author>rcplanes@example.com (Derick)</author>
+      <enclosure url="http://rcplanes.example.com/media/003-flying-indoors.mp3" length="49099054" type="audio/x-mp3"/>
+      <pubDate>Thu, 01 Jan 1970 01:00:00 +0100</pubDate>
+      <itunes:duration>29:20</itunes:duration>
+      <itunes:keywords>RC planes,office flying,enemies</itunes:keywords>
+    </item>
+    <item>
+      <title>The mutant RC insect from Hell</title>
+      <link>http://rcplanes.example.com/articles/mutant-rc-insect.html</link>
+      <description>Gunny just got back from a 2-months vacation in Tokyo with the ultimate RC toy ever (TM) - a mean and noisy RC insect based on top-secret Japanese technology</description>
+      <author>rcplanes@example.com (Gunny)</author>
+      <enclosure url="http://rcplanes.example.com/media/004-mutant-rc-insect.mp3" length="74039198" type="audio/x-mp3"/>
+      <pubDate>Thu, 01 Jan 1970 01:00:00 +0100</pubDate>
+      <itunes:duration>44:37</itunes:duration>
+      <itunes:keywords>RC planes,office flying,insect,Japanese</itunes:keywords>
+    </item>
+  </channel>
+</rss>
