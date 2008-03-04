@@ -20,7 +20,7 @@
  * ezcConsoleDialogViewer::displayDialog( $dialog );
  * </code>
  *
- * For implementing a custom dialog, the method {@see readLine()} method can be
+ * For implementing a custom dialog, the method {@link readLine()} method can be
  * used to read a line of input from the user.
  * 
  * @package ConsoleTools
