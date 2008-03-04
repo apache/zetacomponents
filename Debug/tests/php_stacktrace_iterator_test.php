@@ -35,9 +35,12 @@ class ezcDebugPhpStacktraceIteratorTest extends ezcTestCase
 
     public function testIterateTrace()
     {
+        $stackTrace = $this->getStackTrace( 'some string', array( true, 23, null ) );
+        array_splice( $stackTrace, 3 );
+
         $opts = new ezcDebugOptions();
         $itr = new ezcDebugPhpStacktraceIterator(
-            $this->getStackTrace( 'some string', array( true, 23, null ) ),
+            $stackTrace,
             0,
             $opts
         );

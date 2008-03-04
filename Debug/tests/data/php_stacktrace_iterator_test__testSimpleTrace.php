@@ -14,7 +14,7 @@ return array (
   ),
   1 => 
   array (
-    'line' => 40,
+    'line' => 38,
     'function' => 'getStackTrace',
     'class' => 'ezcDebugPhpStacktraceIteratorTest',
     'params' => 
@@ -27,25 +27,6 @@ return array (
   array (
     'function' => 'testIterateTrace',
     'class' => 'ezcDebugPhpStacktraceIteratorTest',
-    'params' => 
-    array (
-    ),
-  ),
-  3 => 
-  array (
-    'line' => 449,
-    'function' => 'invoke',
-    'class' => 'ReflectionMethod',
-    'params' => 
-    array (
-      0 => 'class ezcDebugPhpStacktraceIteratorTest { protected $backupGlobals = TRUE; protected $data = array (); protected $dataName = \'\'; protected $expectedException = NULL; protected $expectedExceptionMessage = \'\'; protected $sharedFixture = NULL; protected $name = \'testIterateTrace\'; protected $exception = NULL; protected $iniSettings = array (); protected $locale = array (); protected $mockObjects = array () }',
-    ),
-  ),
-  4 => 
-  array (
-    'line' => 376,
-    'function' => 'runTest',
-    'class' => 'PHPUnit_Framework_TestCase',
     'params' => 
     array (
     ),
