@@ -1,5 +1,5 @@
 eZ component: Webdav, RFC overview, 1.0
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :Author: Kore Nordmann, Tobias Schlitt
 :Revision: $Rev$
