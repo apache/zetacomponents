@@ -202,6 +202,22 @@ WebDAV does not provide any channel to allow communication between the clients
 involved into a shared lock. The communication of these clients must be handled
 externally.
 
+The following table shows lock compatibility:
+
++----------------------+-----------------+--------------+
+| Current lock state/  |   Shared Lock   |   Exclusive  |
+| Lock request         |                 |   Lock       |
++----------------------+-----------------+--------------+
+| None                 |   True          |   True       |
++----------------------+-----------------+--------------+
+| Shared Lock          |   True          |   False      |
++----------------------+-----------------+--------------+
+| Exclusive Lock       |   False         |   False*     |
++----------------------+-----------------+--------------+
+   
+*Legend*: True = lock may be granted.  False = lock MUST NOT be granted. \*=It is
+illegal for a principal to request the same lock twice.
+
 Lock tokens
 ===========
 
@@ -241,15 +257,212 @@ Locks affect several request, beside the explicitly lock related requests. The
 following 2 sections summarize the affected request methods and give a short
 overview about how these are affected.
 
-Dedicated methods
------------------
-
 LOCK
-  The LOCK method is used to initially establish a lock and to refresh locks.
+----
+
+The LOCK method is a new method, which needs to be supported. The request body
+of the LOCK method contains a dedicated XML element. Both, the request
+abstraction object and objects for the conent, already exist in the Webdav
+component.
+
+The method supports the Depth header, but only with the values 0 and INFINITY.
+The value 1 is not supported. 0 means that only the resource itself is affected
+and INFITY includes all descendant resources. For non-collection resources both
+mean the same, For collection resources 0 means that only the collection should
+be locked and INFINITY reciusively locks all descendants of the collection in
+addition to the collection itself. No Depth header means that INFINITY is
+asumed.
+
+A LOCK method must only return a single lock token for all resources locked
+with this request. If an UNLOCK method is successfully executed with this lock
+token, all affected resources must be unlocked.
+
+If a LOCK operation fails because there is a conflict with one of the resources
+to LOCK, the complete operation needs to fail (no partial success). The
+response code 409 (Conflict) must be returned, the body must be a multistatus
+XML element that contains the resource that is responsible for the conflict.
+
+Status codes returned by the LOCK method are:
+
+200 (OK) - The lock request succeeded and the value of the lockdiscovery
+property is included in the body.
+
+412 (Precondition Failed) - The included lock token was not enforceable on this
+resource or the server could not satisfy the request in the lockinfo XML
+element.
+
+423 (Locked) - The resource is locked, so the method has been rejected.
+
+Example - Simple LOCK request: ::
+
+   >>Request
+
+   LOCK /workspace/webdav/proposal.doc HTTP/1.1
+   Host: webdav.sb.aol.com
+   Timeout: Infinite, Second-4100000000
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+   Authorization: Digest username="ejw",
+      realm="ejw@webdav.sb.aol.com", nonce="...",
+      uri="/workspace/webdav/proposal.doc",
+      response="...", opaque="..."
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:lockinfo xmlns:D='DAV:'>
+     <D:lockscope><D:exclusive/></D:lockscope>
+     <D:locktype><D:write/></D:locktype>
+     <D:owner>
+          <D:href>http://www.ics.uci.edu/~ejw/contact.html</D:href>
+     </D:owner>
+   </D:lockinfo>
+
+   >>Response
+
+   HTTP/1.1 200 OK
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:prop xmlns:D="DAV:">
+     <D:lockdiscovery>
+          <D:activelock>
+               <D:locktype><D:write/></D:locktype>
+               <D:lockscope><D:exclusive/></D:lockscope>
+               <D:depth>Infinity</D:depth>
+               <D:owner>
+                    <D:href>
+                         http://www.ics.uci.edu/~ejw/contact.html
+                    </D:href>
+               </D:owner>
+               <D:timeout>Second-604800</D:timeout>
+               <D:locktoken>
+                    <D:href>
+               opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4
+                    </D:href>
+               </D:locktoken>
+          </D:activelock>
+     </D:lockdiscovery>
+   </D:prop>
+
+Example - Refreshing LOCK request: ::
+
+   >>Request
+
+   LOCK /workspace/webdav/proposal.doc HTTP/1.1
+   Host: webdav.sb.aol.com
+   Timeout: Infinite, Second-4100000000
+   If: (<opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4>)
+   Authorization: Digest username="ejw",
+      realm="ejw@webdav.sb.aol.com", nonce="...",
+      uri="/workspace/webdav/proposal.doc",
+      response="...", opaque="..."
+
+   >>Response
+
+   HTTP/1.1 200 OK
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:prop xmlns:D="DAV:">
+     <D:lockdiscovery>
+          <D:activelock>
+               <D:locktype><D:write/></D:locktype>
+               <D:lockscope><D:exclusive/></D:lockscope>
+               <D:depth>Infinity</D:depth>
+               <D:owner>
+                    <D:href>
+                    http://www.ics.uci.edu/~ejw/contact.html
+                    </D:href>
+               </D:owner>
+               <D:timeout>Second-604800</D:timeout>
+               <D:locktoken>
+                    <D:href>
+               opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4
+                    </D:href>
+               </D:locktoken>
+          </D:activelock>
+     </D:lockdiscovery>
+   </D:prop>
+
+.. Note::
+   The server must not honor the clients Timeout header!
+
+Example - Multi resource LOCK Request: ::
+
+   >>Request
+
+   LOCK /webdav/ HTTP/1.1
+   Host: webdav.sb.aol.com
+   Timeout: Infinite, Second-4100000000
+   Depth: infinity
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+   Authorization: Digest username="ejw",
+      realm="ejw@webdav.sb.aol.com", nonce="...",
+      uri="/workspace/webdav/proposal.doc",
+      response="...", opaque="..."
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:lockinfo xmlns:D="DAV:">
+     <D:locktype><D:write/></D:locktype>
+     <D:lockscope><D:exclusive/></D:lockscope>
+     <D:owner>
+          <D:href>http://www.ics.uci.edu/~ejw/contact.html</D:href>
+     </D:owner>
+   </D:lockinfo>
+
+   >>Response
+   
+   HTTP/1.1 207 Multi-Status
+   Content-Type: text/xml; charset="utf-8"
+   Content-Length: xxxx
+
+   <?xml version="1.0" encoding="utf-8" ?>
+   <D:multistatus xmlns:D="DAV:">
+     <D:response>
+          <D:href>http://webdav.sb.aol.com/webdav/secret</D:href>
+          <D:status>HTTP/1.1 403 Forbidden</D:status>
+     </D:response>
+     <D:response>
+          <D:href>http://webdav.sb.aol.com/webdav/</D:href>
+          <D:propstat>
+               <D:prop><D:lockdiscovery/></D:prop>
+               <D:status>HTTP/1.1 424 Failed Dependency</D:status>
+          </D:propstat>
+     </D:response>
+   </D:multistatus>
 
 UNLOCK
-  The UNLOCK method is used to release a specific lock before it times out
-  automatically.
+------
+
+The UNLOCK method handles the removal of a lock established via the LOCK
+method. A lock may also disappear by itself, for example when a timeout is
+reached. If the client holding a lock finished its operation on the locked
+resources it should use the UNLOCK method to release the lock. 
+
+The UNLOCK method only receives a lock token via the Lock-Token header. The
+lock identified by this token is to be released.
+
+.. Note::
+   Not only the resource identified by the resource URI must be unlocked, but
+   all other resources that are locked by the given lock token!
+
+Example - UNLOCK request: ::
+
+   >>Request
+
+   UNLOCK /workspace/webdav/info.doc HTTP/1.1
+   Host: webdav.sb.aol.com
+   Lock-Token: <opaquelocktoken:a515cfa4-5da4-22e1-f5b5-00a0451e6bf7>
+   Authorization: Digest username="ejw",
+      realm="ejw@webdav.sb.aol.com", nonce="...",
+      uri="/workspace/webdav/proposal.doc",
+      response="...", opaque="..."
+
+   >>Response
+
+   HTTP/1.1 204 No Content
 
 Affected base methods
 ---------------------
