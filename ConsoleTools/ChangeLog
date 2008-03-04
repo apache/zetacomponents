@@ -17,6 +17,9 @@
 - Fixed issue #12623: console menu dialog handles unexisting options wrong.
 - Fxied issue #12636: ezcConsoleOutput->outputLine() prints EOL always to
   STDOUT instead of the defined target.
+- Fixed issue #12630: Add link to ezcDialogNoValidResultException in
+  ezcConsoleDialog::getResult() API doc.
+
 
 1.3.2 - Monday 14 January 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

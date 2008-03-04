@@ -41,10 +41,15 @@ interface ezcConsoleDialog
     /**
      * Returns the result retrieved.
      * If no valid result was retreived, yet, this method should throw an
-     * ezcDialogNoValidResultException. Otherwise this method returns the
-     * result.
+     * {@link ezcDialogNoValidResultException}. Otherwise this method returns
+     * the result.
      * 
      * @return mixed The retreived result.
+     *
+     * @throws ezcDialogNoValidResultException
+     *         if this method is called without a valid result being retrieved
+     *         by the object. Use {@link hasValidResult()} to avoid this
+     *         exception.
      */
     public function getResult();
 

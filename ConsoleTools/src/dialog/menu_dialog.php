@@ -76,8 +76,10 @@ class ezcConsoleMenuDialog implements ezcConsoleDialog
      * 
      * @return mixed The retreived result.
      *
-     * @throws ezcConsoleNoValidDialogResultException
-     *         if no valid result was retreived, yet.
+     * @throws ezcDialogNoValidResultException
+     *         if this method is called without a valid result being retrieved
+     *         by the object. Use {@link hasValidResult()} to avoid this
+     *         exception.
      */
     public function getResult()
     {
