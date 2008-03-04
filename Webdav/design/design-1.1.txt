@@ -120,47 +120,18 @@ ezcWebdavSimpleBackend class. With every incoming request, no matter which
 request method is used, the If-Match and If-None-Match headers will be honored
 in the following way:
 
-If the back end determines that an If-Match header is set, it will:
+If the back end determines that an If-* header is set, it will (pseudo
+code): ::
 
-- Check if all preconditions (except the If-Match) are fulfilled.
-
-  - If not, return a corresponding error response.
-
-- Check if the If-Match value is a boolean true.
-  
-  - Check if the requested path exists.
-  
-  - If it *does not*, cancel the method and return 412 (Precondition Failed).
-
-- Check if the If-Match value is an array of strings.
-  
-  - Retrieve the affected resources getetag property and compare it with all
-    strings in the array.
-  
-  - If *none* matches, cancel the method and return 412 (Precondition Failed).
-
-- Process the method as if the If-Match header was not set.
-
-If the back end determines that an If-None-Match header is set, it will:
-
-- Check if all preconditions (except the If-Match) are fulfilled.
-  
-  - If not, return a corresponding error response.
-
-- Check if the If-Match value is a boolean true.
-  
-  - Check if the requested path exists.
-    
-    - If it *does*, cancel the method and return 412 (Precondition Failed).
-
-- Check if the If-Match value is an array of strings.
-  
-  - Retrieve the affected resources getetag property and compare it with all
-    strings in the array.
-    
-    - If *any* matches, cancel the method and return 412 (Precondition Failed).
-
-- Process the method as if the If-None-Match header was not set.
+    if ( any precondition for the request fails except for the If-* header )
+    {
+        return <corresponding error response>;
+    }
+    if ( If-* header condition is not fulfilled )
+    {
+        return <error response 412  (Precondition Failed)>;
+    }
+    process <request> as if no If-* header was set;
 
 Since this behavior will be implemented within the ezcWebdavSimpleBackend
 class, it automatically works with all extending back end classes. Back ends
@@ -200,20 +171,380 @@ plugin should provide the largest possible compatibility to clients. However a
 plugin that hooks into the parsing process cannot provide the same client
 compatibility mechanisms as the base Webdav transport layer.
 
-Hooks
+Transport layer
+===============
+
+On the transport layer, the plugin needs to hook into many existing and 2 new
+request methods to alter their behavior. This section only describes the
+necessary functionality in the transport layer. Further functionality will be
+added on the server layer, see below.
+
+LOCK / UNLOCK
+-------------
+
+The LOCK request can not be parsed, yet. The ezcWebdavLockRequest class and
+additional content classes already exists (@private) and need to be moved to
+the lock plugin directories. To parse the LOCK request, the parseUnknownRequest
+hook is used. The generated ezcWebdavLockRequest object is submitted further
+on, to be handled on the server layer.
+
+The same applies for the UNLOCK method.
+
+For both requests the corresponding response objects still need to be created
+and need to be serialzed by the handleUnknownResponse hook.
+
+Properties
+----------
+
+The following live properties need to be added:
+
+- lockdiscovery
+- supportedlock
+
+For both the property abstraction classes already exist (@private) and just
+need to be moved to the lock plugin diretories. The parsing and serializing of
+these properties needs to be implemented in the plugin. The hooks
+extractUnkownLiveProperty and serializeUnknownLiveProperty will be used for this
+purpose. This ensures that the properties can also be stored in the backend
+properly.
+
+.. Note::
+   If the lock plugin is switched off later for such a repository, the
+   specified properties should still work, since they are then simply
+   considered dead properties.
+
+The creation and removal of these properties is handled on the server layer by
+the lock plugin.
+
+Server layer
+============
+
+On the server layer, the hook receivedRequest will be used to intercept the
+necessary requests. These are on the one hand the LOCK and UNLOCK methods,
+which are exclusively handled by the lock plugin. On the other hand many other
+methods must be intercepted to check for locks taking effect. The following
+sections describe all necessary changes except the handling of the If header,
+which is described in the main section `Common concerns`_.
+
+LOCK
+====
+
+Objects of class ezcWebdavLockRequest must be handled completly by the lock
+plugin. In case such a request is received, the following operations must be
+performed (pseudo code): ::
+
+    if ( <authentication> invalid )
+    {
+        // should probably be 401 Unauthorized?
+        return <response 403 Forbidden>;
+    }
+
+    lock backend;
+    
+    generate <lock token>;
+    
+    create propfind request for <request path>;
+    set Depth header of <propfind request> according to <lock request>;
+    send <propfind request> to backend;
+    
+    if ( <resource> does not exist )
+    {
+        create lock-null resource;
+    }
+    else
+    {
+        foreach ( <resource> in <returned response> )
+        {
+            if ( <resource> is locked exclusively )
+            {
+                return <response 423 Locked>;
+            }
+            if ( <resource> is locked shared and <request> is exclusive )
+            {
+                return <response 412 Precondition Failed>;
+            }
+            add <lock token> to <lockdiscovery> property;
+            add <lockdiscoveryproperty> to <properties to patch>;
+        }
+    }
+
+    create <proppatch request> for <properties to patch>;
+    send <proppatch request> to backend;
+
+    
+    unlock backend;
+    
+    return <corresponding response>;
+
+.. Note::
+   The code shown above does not include the handling of refreshing LOCK
+   requests to reduce complexity. In case of a refresh, the lock token is
+   already present in the request (If header) and the timeouts just need to be
+   updated.
+
+.. Note::
+   The creation of a lock null resource is described in a dedicated section
+   below.
+
+The realization of the LOCK request via a plugin inquires several requests that
+need to be created by the plugin and to be processed by the backend. In
+addition, the plugin needs to process the returned response objects.
+
+UNLOCK
+======
+
+The unlock operation contains exactly 1 lock token that is to be removed from
+the resource(s) identified by the reqeust path. The following pseudo code
+describes the operations to be used in the plugin to realize this: ::
+
+    lock backend;
+
+    create propfind request for <request path>;
+    set Depth header to INFINITY;
+    send <propfind request> to backend;
+
+    foreach ( <resource> in <returned response> )
+    {
+        if ( <resource> is lock null resource> )
+        {
+            create delete request for <resource>;
+            send delete request to backend;
+        }
+        else if ( <lock token> is assigned to <resource> )
+        {
+            remove <lock token> from <lockdiscovery> property;
+            add <lockdiscoveryproperty> to <properties to patch>;
+        }
+    }
+
+    create <proppatch request> for <properties to patch>;
+    send <proppatch request> to backend;
+    
+    unlock backend;
+    
+    return <corresponding response>;
+
+If the lock token could not be found in any of the resources returned by the
+PROPFIND request, it is save to indicate success to the client. This case might
+occur, if the lock expired right before the client sent the request. Anyway,
+the lock is gone, as desired by the client.
+
+PUT
+===
+
+The PUT method requires 2 additional checks if the If header check succeeded
+(meaning that any send If header mached). The actions to take place before the
+original processing of the PUT method can take place are described a follows
+(pseudo code): ::
+
+    lock backend;
+    create propfind request for <resource>;
+    set Depth header to 0;
+    send <propfind request> to backend;
+    if ( <resource> exists )
+    {
+        if ( <resource> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 423 Locked>;
+        }
+        if ( <resource> is a lock null resource )
+        {
+            create <proppatch request> for <resource> to make it a real resource;
+            send <proppatch request> to backend;
+        }
+    }
+    else
+    {
+        <parent> = get collection <resource>;
+        create propfind request for <parent>;
+        set Depth header to 0;
+        send <propfind request> to backend;
+        if ( <parent> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 423 Locked>;
+        }
+    }
+
+    // Let backend perform PUT ...
+
+    unlock backend;
+
+
+POST
+====
+
+The POST request is not honored by the Webdav components and will therefore not
+be included in lock handling.
+
+PROPPATCH
+=========
+
+The PROPPATCH request is only allowed if the affected resource is not locked by
+someone else. The necessery extensions are described below (pseudo code): ::
+    
+    lock backend;
+
+    create propfind request for <resource>;
+    set Depth header to 0;
+    send <propfind request> to backend;
+    if ( <resource> is locked && <lock> is not mentioned in the If header )
+    {
+        return <response 423 Locked>;
+    }
+
+    // Let backend perform PROPPATCH ...
+
+    unlock backend;
+
+MOVE
+====
+
+For the MOVE request 2 different resource trees need to be checked for locks.
+The algorithm to do so is described below (pseudo code): ::
+
+    lock backend;
+    
+    create propfind request for <request resource>;
+    set Depth header to INFINITY;
+    send <propfind request> to backend;
+    foreach ( <resource> in <returned response> )
+    {
+        if ( <resource> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 423 Locked>;
+        }
+    }
+    
+    create propfind request for <destination resource>;
+    set Depth header to 0;
+    send <propfind request> to backend;
+
+    if ( <destination resource> exists )
+    {
+        if ( <destination resource> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 423 Locked>;
+        }
+        if ( <destination resource> is a lock null resource )
+        {
+            delete <destination resource>;
+        }
+    }
+    else
+    {
+        <parent> = get collection <destination resource>;
+        create propfind request for <parent>;
+        set Depth header to 0;
+        send <propfind request> to backend;
+        if ( <parent> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 423 Locked>;
+        }
+    }
+
+    // Let backend perform MOVE ...
+
+    unlock backend;
+
+COPY
+====
+
+In contrast to the MOVE request, only the destination needs to be checked for
+locks before copying. The algorithm looks as follows (pseudo code): ::
+    
+    lock backend;
+    
+    create propfind request for <destination resource>;
+    set Depth header to 0;
+    send <propfind request> to backend;
+
+    if ( <destination resource> exists )
+    {
+        if ( <destination resource> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 423 Locked>;
+        }
+        if ( <destination resource> is a lock null resource )
+        {
+            delete <destination resource>;
+        }
+    }
+    else
+    {
+        <parent> = get collection <destination resource>;
+        create propfind request for <parent>;
+        set Depth header to 0;
+        send <propfind request> to backend;
+        if ( <parent> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 423 Locked>;
+        }
+    }
+
+    // Let backend perform COPY ...
+
+    unlock backend;
+
+DELETE
+======
+
+The DELETE method works on collection and non-collection resources and
+therefore needs to check infinite depth for locks (pseudo code): ::
+    
+    lock backend;
+    
+    create propfind request for <resource>;
+    set Depth header to INFINITY;
+    send <propfind request> to backend;
+    foreach ( <resource> in <returned response> )
+    {
+        if ( <resource> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 423 Locked>;
+        }
+    }
+
+    // Let backend perform DELETE ...
+
+    unlock backend;
+
+MKCOL
 =====
 
-The plugin needs to assign to several hooks offered by the plugin API, which
-will be described roughly in this section.
+The MKCOL method is similar to the PUT request in terms of locking. The
+following pseudo code shows how this works: ::
 
-parseUnknownRequest (ezcWebdavTransport)
-----------------------------------------
+    lock backend;
+    create propfind request for <resource>;
+    set Depth header to 0;
+    send <propfind request> to backend;
+    if ( <resource> exists )
+    {
+        if ( <resource> is a lock null resource )
+        {
+            delete <resource>;
+        }
+        else if ( <resource> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 405 method not allowed>;
+        }
+    }
+    else
+    {
+        <parent> = get collection <resource>;
+        create propfind request for <parent>;
+        set Depth header to 0;
+        send <propfind request> to backend;
+        if ( <parent> is locked && <lock> is not mentioned in the If header )
+        {
+            return <response 423 Locked>;
+        }
+    }
 
-The requests LOCK and UNLOCK are dedicated to the locking mechanism. Therefore
-the plugin needs to hook into parseUnknownRequest and parse the incoming
-requests into (new) corresponding request objects.
+    // Let backend perform MKCOL ...
 
-
+    unlock backend;
+    
 
 ===========
 Open issues
@@ -328,13 +659,17 @@ parsed exclusively in the lock plugin.
 Transport layer
 ===============
 
-The transport layer needs to parse the If header. Since the header can contain
-entity tags and lock tokens, the parsing needs to take place inside
-ezcWebdavHeaderHandler itself and cannot be part of the plugin. The If header
-is the most complex header that needed to be parsed so far. All other parsed
-headers either contained a string value or a simply to process other scalar
-value. To encapsulate the If header correctly some new classes need to be
-invented which are described in following:
+The transport layer needs to parse the If header.
+
+.. Note::
+   Since the header can contain entity tags and lock tokens, the parsing needs
+   to take place inside ezcWebdavHeaderHandler itself and cannot be part of the
+   plugin.
+   
+The If header is the most complex header that needed to be parsed so far. All
+other parsed headers either contained a string value or a simply to process
+other scalar value. To encapsulate the If header correctly some new classes
+need to be invented which are described in following:
 
 ::
 
@@ -438,13 +773,14 @@ will result in all 3 variables containing the same values: All 3 list items
 will be contained, since the If header does not use tagging to specify which
 resources are affected by the conditions.
 
-Plugin layer
+Server layer
 ============
 
 If the lock plugin is active, it needs to hook into every affected request (see
 `Affected base methods`_) and check the If header conditions. The check does
 not only affect the checking of locktoken conditions, but also the check of
-etag validation, because both condition types are combineable.
+etag validation, because both condition types are combineable. The checks are
+performed via the receivedRequest hook of the plugin API.
 
 The procedure (in pseudo code) is as follows: ::
 
