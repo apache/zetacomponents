@@ -14,6 +14,7 @@
  *
  * @package Feed
  * @version //autogentag//
+ * @mainclass
  */
 class ezcFeedElement
 {

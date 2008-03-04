@@ -117,9 +117,9 @@ A feed has a type (eg. RSS1, RSS2 or ATOM). The feed type defines which
 processor is used to parse and generate that type. The following feed
 processors are supported by the Feed component:
 
-- RSS1 (ezcFeedRss1) - `RSS1 specifications`_
-- RSS2 (ezcFeedRss2) - `RSS2 specifications`_
-- ATOM (ezcFeedAtom) - `ATOM specifications`_
+- ATOM (ezcFeedAtom) - |ATOM-specifications|_
+- RSS1 (ezcFeedRss1) - |RSS1-specifications|_
+- RSS2 (ezcFeedRss2) - |RSS2-specifications|_
 
 A new processor can be defined by creating a class which extends the class
 ezcFeedProcessor and implements the interface ezcFeedParser, and adding it to the
@@ -131,11 +131,11 @@ Supported feed modules
 
 The following modules are supported by the Feed component:
 
-- Content (ezcFeedContentModule) - `Content specifications`_
+- Content (ezcFeedContentModule) - |Content-specifications|_
 - CreativeCommons (ezcFeedCreativeCommonsModule) -
-  `CreativeCommons specifications`_
-- DublinCore (ezcFeedDublinCoreModule) - `DublinCore specifications`_
-- iTunes (ezcFeedITunesModule) - `iTunes specifications`_
+  |CreativeCommons-specifications|_
+- DublinCore (ezcFeedDublinCoreModule) - |DublinCore-specifications|_
+- iTunes (ezcFeedITunesModule) - |iTunes-specifications|_
 
 A new module can be defined by creating a class which extends the class
 ezcFeedModule, and adding it to the ezcFeed::$supportedModules and
@@ -599,16 +599,25 @@ please see the `specifications`_ page.
 
 .. _iTunes: http://www.apple.com/itunes/
 
-.. _RSS1 specifications: http://web.resource.org/rss/1.0/spec
-.. _RSS2 specifications: http://www.rssboard.org/rss-specification
-.. _ATOM specifications: http://atompub.org/rfc4287.html
+.. _RSS1-specifications: http://web.resource.org/rss/1.0/spec
+.. _RSS2-specifications: http://www.rssboard.org/rss-specification
+.. _ATOM-specifications: http://atompub.org/rfc4287.html
 
-.. _Content specifications: http://purl.org/rss/1.0/modules/content/
-.. _CreativeCommons specifications: http://backend.userland.com/creativeCommonsRssModule
-.. _DublinCore specifications: http://dublincore.org/documents/dces/
-.. _iTunes specifications: http://www.apple.com/itunes/store/podcaststechspecs.html
+.. _Content-specifications: http://purl.org/rss/1.0/modules/content/
+.. _CreativeCommons-specifications: http://backend.userland.com/creativeCommonsRssModule
+.. _DublinCore-specifications: http://dublincore.org/documents/dces/
+.. _iTunes-specifications: http://www.apple.com/itunes/store/podcaststechspecs.html
 
 .. _aggregator: http://en.wikipedia.org/wiki/List_of_feed_aggregators
+
+.. |ATOM-specifications| replace:: RFC 4287
+.. |RSS1-specifications| replace:: Specifications
+.. |RSS2-specifications| replace:: Specifications
+
+.. |Content-specifications| replace:: Specifications
+.. |CreativeCommons-specifications| replace:: Specifications
+.. |DublinCore-specifications| replace:: Specifications
+.. |iTunes-specifications| replace:: Specifications
 
 
 

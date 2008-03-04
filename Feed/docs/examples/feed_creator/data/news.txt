@@ -16,7 +16,7 @@ Derick
 nospam@ez.no
 The new release of eZ Publish is based on PHP 5....
 
-eZ Find.0 released
+eZ Find 1.0 released
 http://find.ez.no
 Derick
 nospam@ez.no
