@@ -5,7 +5,7 @@
     <link>http://rcplanes.examples.com</link>
     <description>A podcast for fans of RC planes, with information about planes, competitions, tutorials and tips</description>
     <managingEditor>rcplanes@example.com (Derick)</managingEditor>
-    <pubDate>Tue, 04 Mar 2008 15:10:01 +0100</pubDate>
+    <pubDate>Tue, 04 Mar 2008 16:01:13 +0100</pubDate>
     <generator>eZ Components</generator>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <itunes:category text="Technology">
@@ -23,17 +23,17 @@
       <enclosure url="http://rcplanes.example.com/media/003-flying-indoors.mp3" length="49099054" type="audio/x-mp3"/>
       <pubDate>Fri, 04 Jan 2008 11:18:34 +0100</pubDate>
       <itunes:duration>29:20</itunes:duration>
-      <itunes:keywords>RC planes,office flying,enemies</itunes:keywords>
+      <itunes:keywords>RC planes,office,flying,enemies</itunes:keywords>
     </item>
     <item>
-      <title>The mutant RC insect from Hell</title>
-      <link>http://rcplanes.example.com/articles/mutant-rc-insect.html</link>
-      <description>Gunny just got back from a 2-months vacation in Tokyo with the ultimate RC toy ever (TM) - a mean and noisy RC insect based on top-secret Japanese technology</description>
+      <title>The mutant RC flying insect from Hell</title>
+      <link>http://rcplanes.example.com/articles/mutant-rc-flying-insect.html</link>
+      <description>Gunny just got back from a 2-months vacation in Tokyo with the ultimate RC toy ever (TM) - a mean and noisy RC flying insect based on top-secret Japanese technology</description>
       <author>rcplanes@example.com (Gunny)</author>
-      <enclosure url="http://rcplanes.example.com/media/004-mutant-rc-insect.mp3" length="74039198" type="audio/x-mp3"/>
+      <enclosure url="http://rcplanes.example.com/media/004-mutant-rc-flying-insect.mp3" length="74039198" type="audio/x-mp3"/>
       <pubDate>Tue, 22 Jan 2008 16:58:00 +0100</pubDate>
       <itunes:duration>44:37</itunes:duration>
-      <itunes:keywords>RC planes,office flying,insect,Japanese</itunes:keywords>
+      <itunes:keywords>RC planes,office,flying,insect,Japanese</itunes:keywords>
     </item>
   </channel>
 </rss>

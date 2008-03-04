@@ -548,7 +548,7 @@ from the previous step::
     $iTunes = $item->addModule( 'iTunes' );
 
     $iTunes->duration = '29:20';
-    $iTunes->keywords = 'RC planes,office flying,enemies';
+    $iTunes->keywords = 'RC planes,office,flying,enemies';
 
 
 Step 5. Add more items
@@ -587,9 +587,136 @@ might need when you are creating podcasts.
 How to parse an XML feed
 ========================
 
+An XML feed can be stored in a file, at an URL or in a string variable. By
+using the methods **parse()** (for files and URLs) or **parseContent()** (for
+string variables), an ezcFeed object can be created from an XML feed.
+
+This part of the tutorial will show you step by step how to parse an XML feed,
+read its elements, iterate over the items in the feed and read the items'
+elements.
+
+
+Step 1. Parse an XML feed
+-------------------------
+
+If the XML feed is stored in a file or URL, use the static method **parse()**
+from ezcFeed to parse the feed and create an ezcFeed object out of it::
+
+    $feed = ezcFeed::parse( 'http://ezcomponents.org/feed/news.xml' );
+
+If the XML feed is stored in a string variable, use the static method
+**parseContent()** from ezcFeed to parse the feed and create an ezcFeed object
+out of it::
+
+    $feed = ezcFeed::parseContent( $xml );
+
+These things could go wrong when parsing a feed:
+
+URL or file not found
+  an ezcBaseFileNotFoundException is thrown
+
+XML content is broken or not a feed or unsupported feed
+  an ezcFeedCanNotParseException is thrown
+
+RSS1 or RSS2 feed without <channel> element
+  an ezcFeedParseErrorException is thrown
+
+
+Step 2. Read the feed elements
+------------------------------
+
+At step 1 we created an ezcFeed object by parsing an XML feed. Next we will
+read the elements from the feed.
+
+Depending on the feed type, certain elements are present while others are not.
+The feed type can be retrieved via the method **getFeedType()** from ezcFeed::
+
+    $feedType = $feed->getFeedType();
+
+It is always a good idea to read only those elements which are present in
+$feed. To test if an element is present, call **isset()** on it::
+
+    if ( isset( $feed->title ) )
+    {
+        $title = $feed->title->__toString();
+    }
+
+Another way to write this is (assuming that a missing *title* can be
+considered null)::
+
+    $title = isset( $feed->title ) ? $feed->title->__toString() : null;
+
+Depending on your application, you might need only some elements, let's say
+*title*, *description*, *author* and *link*. So to read those elements you will
+write::
+
+    $title = isset( $feed->title ) ? $feed->title->__toString() : null;
+    $description = isset( $feed->description ) ? $feed->description->__toString() : null;
+    $author = isset( $feed->author ) ? $feed->author->__toString() : null;
+
+    $links = array();
+    if ( isset( $feed->links ) )
+    {
+        foreach ( $feed->links as $link )
+        {
+            $links[] = $link->__toString();
+        }
+    }
+
+Because *link* can appear multiple times, we had to resort to this long code to
+get the links out of the feed. The $links array will be empty if no links are
+in the XML feed, or will contain all the links that appear on the feed-level.
+
+
+Step 3. Iterate over the feed items
+-----------------------------------
+
+A feed can contain zero or more *item* elements.
+
+Let's say we want to extract the *title*, *description*, *author* and *link*
+of all items. This is how we will do it::
+
+    $items = array();
+    foreach ( $feed->items as $item )
+    {
+        $title = isset( $item->title ) ? $item->title->__toString() : null;
+        $description = isset( $item->description ) ? $item->description->__toString() : null;
+        $author = isset( $item->author ) ? $item->author->__toString() : null;
+
+        $links = array();
+        if ( isset( $item->link ) )
+        {
+            foreach ( $item->link as $link )
+            {
+                $links[] = $link->__toString();
+            }
+        }
+
+        $items[] = array( 'title' => $title,
+                          'description' => $description,
+                          'author' => $author,
+                          'links' => $links );
+    }
+
 
 How to parse an iTunes podcast
 ==============================
+
+
+Step 1. Parse an XML feed
+-------------------------
+
+
+Step 2. Read the feed elements
+------------------------------
+
+
+Step 3. Read the iTunes feed elements
+-------------------------------------
+
+
+Step 4. Iterate over the feed items
+-----------------------------------
 
 The following example shows how to parse an RSS2 podcast::
 
@@ -616,6 +743,10 @@ After running the code, the array $media will contain the URL, length and type
 of the media files specified in the feed, and the duration taken from the
 `iTunes`_ module contained in the feed (if available). See the
 `specifications`_ section for more information about the `iTunes`_ module.
+
+
+Step 5. Read the iTunes item elements
+-------------------------------------
 
 
 Best practices
