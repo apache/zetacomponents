@@ -6,9 +6,11 @@
   (ezcConsoleQuestionMappingValidator) was introduced for this, which extends
   ezcConsoleQuestionCollectionValidator and is now used for the yes-no-question.
 - Implemented issue #10791: ezcConsoleTable should implement __toString.
-- Fixed issue #12561: getSynopsis() bugs when at least 2 options don't have short-names.
+- Fixed issue #12561: getSynopsis() bugs when at least 2 options don't have
+  short-names.
 - Fixed issue #12629: Method name not replaced with link in
   ezcConsoleMenuDialog::display() API doc.
+- Fixed issue #12628: Missing space in ezcConsoleInput::getHelp API doc.
 
 1.3.2 - Monday 14 January 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

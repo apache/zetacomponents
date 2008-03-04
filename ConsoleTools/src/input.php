@@ -647,7 +647,7 @@ class ezcConsoleInput
      * 0 => The options names ("<short> / <long>")
      * 1 => The help text (depending on the $long parameter)
      *
-     * The $long options determines if you want to get the short- or longhelp
+     * The $long options determines if you want to get the short or long help
      * texts. The array returned can be used by {@link ezcConsoleTable}.
      *
      * If using the second options, you can filter the options shown in the
