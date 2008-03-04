@@ -1,5 +1,28 @@
+eZ component: Webdav, RFC overview, 1.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+Scope
+~~~~~
+
+This document tries to summarize the major points of `RFC 2518`_ (WebDAV) and
+the associated `RFC 2616`_ (HTTP/1.1) in respect to distributed editing. The
+main points here are the support of entity tags and locking. This document only
+summarizes the RFCs and contains small design related hints here and there. The
+main design for the functionality analyzed here is contained in the
+design-1.1.txt file.
+
+.. _`RFC 2518`: http://www.ietf.org/rfc/rfc2518.txt
+.. _`RFC 2616`: http://www.ietf.org/rfc/rfc2616.txt
+
 Entity Tags
-^^^^^^^^^^^
+~~~~~~~~~~~
 
 Entity tags are generally used in the HTTP/1.1 protocol to provide a mechanism
 of validating that a resource is in the same state. Whenever the state of a
@@ -166,7 +189,7 @@ header in addition, which indicates the last modification time of the resource.
 
 
 Locking
-^^^^^^^
+~~~~~~~
 
 This section tries to summarize the important facts about locking mentioned in
 RFC 2518 in various places, enhanced by first pre-considerations of design and
@@ -561,7 +584,7 @@ Timeout header might be send by the client, but the server may safely ignore
 these and simply perform a refresh as it desires.
 
 If header
-^^^^^^^^^
+~~~~~~~~~
 
 In addition to the headers If-Match and If-None-Match, which are described in
 the HTTP/1.1 RFC, RFC 2518 (WebDAV) describes the If-Header. The If header is
