@@ -1,23 +1,23 @@
-eZ news feeds
+eZ news feed
 http://ez.no
 Derick
 nospam@ez.no
 This RSS feed contains news feeds for eZ Publish and eZ Components.
 
 eZ Components 2007.1 released
-http://components.ez.no
+http://ezcomponents.org/resources/news/news-2007-07-02
 Derick
 nospam@ez.no
 The new release of eZ Components include Workflow, Authentication...
 
 eZ Publish 4.0 released
-http://publish.ez.no
+http://ez.no/company/news/first_stable_ez_publish_4_0_release_for_php_5
 Derick
 nospam@ez.no
 The new release of eZ Publish is based on PHP 5....
 
 eZ Find 1.0 released
-http://find.ez.no
+http://ez.no/ezfind/news/ez_find_1_0_2_for_ez_publish_3_10_and_ez_find_1_0_0beta2_for_ez_publish_4_0_released
 Derick
 nospam@ez.no
 A new product in the eZ family of open-source solutions...

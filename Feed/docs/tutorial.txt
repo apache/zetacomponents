@@ -142,95 +142,454 @@ ezcFeedModule, and adding it to the ezcFeed::$supportedModules and
 ezcFeed::$supportedModulesPrefixes arrays.
 
 
-Working with feeds
-==================
+How to create a feed
+====================
 
-Feeds can be created from scratch or from existing XML documents (stored in an
-URI or in a string variable). The information stored in the feed can be
-modified, or new information can be added. The feed object can be converted to
-an XML document.
+This part of the tutorial will show you step by step how to create an RSS2
+feed which handles the news on a website. Creating an ATOM or RSS1 is similar,
+although some code needs to be changed. See the `Feed creator example`_ for a
+sample application which can be used to create simple XML feeds of any type
+(ATOM, RSS1 or RSS2) by providing a simple text file as input.
 
+The information which we want to show in the feed is:
 
-Creating a feed object
-----------------------
+- the *title* of the feed: ``eZ news feed``
+- a *description* of the feed: ``This RSS feed contains news feeds for eZ
+  Publish and eZ Components.``
+- an *author* (called *managerEditor* in RSS2): ``nospam@ez.no (Derick)``
+  (this is the recommended way to specify an author in RSS2, with an email
+  address and the name of the person in paranthesis)
+- a *link* to our website: ``http://ez.no``
+- the news *items* (a short story about each product release)
 
-A feed object can be created in different ways:
+A news item can be defined by these elements (example for one news item):
 
-- by calling the constructor with the required feed type. Example::
+- the *title* of the news item: ``eZ Components 2007.1 released``
+- a short *description* of the news item: ``The new release of eZ Components
+  include Workflow, Authentication...``
+- an *author* of the news item: ``nospam@ez.no (Derick)``
+  (this is the recommended way to specify an author in RSS2, with an email
+  address and the name of the person in paranthesis)
+- a *link* to the detailed article on our website:
+  ``http://ezcomponents.org/resources/news/news-2007-07-02``
+  (this will show in most `aggregator`_ programs as a ``Complete story`` link)
+
+Step 1. Create a feed object
+----------------------------
+
+A feed object can be created by calling the constructor with the required feed
+type (``atom``, ``rss1`` or ``rss2``). In our case we create an RSS2 feed::
 
     $feed = new ezcFeed( 'rss2' );
 
-- by parsing an existing XML file or URI. The feed type of the resulting
-  ezcFeed object will be auto-detected. Example::
 
-    $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
+Step 2. Add feed elements
+-------------------------
 
-- by parsing an XML document stored in a string variable. The feed type of
-  the resulting ezcFeed object will be autodetected. Example::
+We add the *title*, *description* and *author* to the feed::
 
-    $feed = ezcFeed::parseContent( $xmlString );
+    $feed->title = 'eZ news feed';
+    $feed->description = 'This RSS feed contains news feeds for eZ Publish and eZ Components';
+    $feed->author = 'nospam@ez.no (Derick)';
+
+Because some feed types support multiple *link* elements, multiple *link*
+elements can be added to a feed (although this is not fully supported by RSS2
+|RSS2-specifications|_ or by `aggregator`_ programs).
+
+The way to add an element which can appear multiple times, or an element which
+supports attributes, is to call the method **add()** from ezcFeed or
+ezcFeedElement/ezcFeedItem. The value of the element is set via the method
+**set()** from ezcFeedElement/ezcFeedItem, and the attributes of the element
+are set as simple properties (the way **$feed->title** is set).
+
+So to add a *link* element to our feed, we will do::
+
+    $link = $feed->add( 'link' );
+    $link->set( 'http://ez.no' );
 
 
-Feed operations
----------------
+Step 3. Add an item
+-------------------
 
-In the following examples $feed is an existing ezcFeed object.
-
-Possible feed operations:
-
-- set/get a value from the feed document. Example::
-
-    $feed->title = 'News';
-    $title = $feed->title;
-
-- iterate over the items in the feed. Example::
-
-    // retrieve the titles from the feed items
-    foreach ( $feed->items as $item )
-    {
-        $titles[] = $item->title;
-    }
-
-- add a new item to the feed. Example::
-
-    $item = $feed->add( 'item' );
-    $item->title = 'Item title';
-
-- add a new module to the feed item. Example::
+A feed *item* is an element which can appear multiple times, so it is added
+via the method **add()** of ezcFeed::
 
     $item = $feed->add( 'item' );
-    $module = $item->addModule( 'Content' );
-    $module->encoded = 'text content';
 
-- iterate over the loaded modules in a feed item. Example::
+Next we add the *title*, *description* and *author* elements to the news item
+::
 
-    // display the namespaces of the modules loaded in the feed item $item
-    foreach ( $item->getModules() as $moduleName => $module )
-    {
-        echo $module->getNamespace();
-    }
+    $item->title = 'eZ Components 2007.1 released';
+    $item->description = 'The new release of eZ Components include Workflow, Authentication...';
+    $item->author = 'nospam@ez.no (Derick)';
 
-- generate an XML document from the ezcFeed object. The result string should be
-  saved to a file, and a link to a file made accessible. See
-  `Provide access to feeds in a web application`_. Example::
+We add the *link* element to the news item in the same way as for the feed::
+
+    $link = $item->add( 'link' );
+    $link->set( 'http://ezcomponents.org/resources/news/news-2007-07-02' );
+
+
+Step 4. Add more items
+----------------------
+
+To add more news items to our feed, we repeat the step 3 as many times as
+needed.
+
+
+Step 5. Generate the XML feed
+-----------------------------
+
+To create the XML feed from the $feed object, we call the **generate()** method
+of ezcFeed::
 
     $xml = $feed->generate();
 
+After running this line, $xml will contain the XML string of the feed (in case
+no exceptions were thrown due to required elements not being present).
 
-Applications
-============
+This is the string from $xml with 3 news items:
 
-Podcasts
---------
+.. include:: examples/feed_creator/data/news.xml
+   :literal:
 
-A podcast is a collection of media files distributed over the Internet using
-feeds.
+Some elements were added automatically, namely *pubDate* (current system time
+at generation time), *generator* (``eZ Components``) and *docs*
+(``http://www.rssboard.org/rss-specification`` - a link to the RSS2
+|RSS2-specifications|_).
+
+
+Step 6. Save the XML feed to a file
+-----------------------------------
+
+The generated XML feed needs to be saves in a file in order to be made
+accessible to users of your website::
+
+    file_put_contents( 'feeds/news.xml', $xml );
+
+Assuming that our host is ``ez.no``, this will be the location of our newly
+created XML feed: ``http://ez.no/feeds/news.xml``.
+
+
+Step 7. Feed validation
+-----------------------
+
+Use a `feed validator`_ to validate your newly created feed. Some warnings can
+appear, but unless the feed is not validated, it should be parseable by most
+applications and `aggregator`_ programs.
+
+
+Step 8. Make the XML feed accessible
+------------------------------------
+
+There are some methods to let the user know that a website provides an
+XML feed, so that the user can save the feed link in his feed `aggregator`_.
+
+
+Automatic feed discovery
+````````````````````````
+
+In the HTML source of every page add this line for RSS1 or RSS2 feeds::
+
+    <link rel="alternate" type="application/rss+xml" href="http://ez.no/feeds/news.xml"
+    title="eZ news feed" />
+
+Or this line for ATOM feeds::
+
+    <link rel="alternate" type="application/atom+xml" href="http://ez.no/feeds/news.xml"
+    title="eZ news feed" />
+
+In modern browsers the user will be informed (usually via a small icon like
+|feed icon| in one corner of the browser or in the address bar) that the
+current page has a web feed. If the user clicks on this icon his feed
+aggregator client will start and save the link to the feed in its database
+(if the user's system has a feed aggregator client and is configured to
+handle *application/rss+xml* and *application/atom+xml* content with the
+aggregator).
+
+Multiple feeds can be added to the same page (for example you can provide ATOM
+and RSS2 feeds). Note: some browsers might not recognize the non-standard
+*application/rss+xml* type and select the ATOM feed by default.
+
+The *title* attribute of the *link* HTML tag can be used to differentiate
+between multiple feeds (for example "News", "Latest offers", etc).
+
+
+Link to the feed document
+`````````````````````````
+
+In the HTML source of every page (usually in the header and/or footer) add
+this line for RSS1 or RSS2 feeds::
+
+    <a type="application/rss+xml" href="http://ez.no/feeds/news.xml"
+    title="eZ news feed">RSS feed</a>
+
+Or this line for ATOM feeds::
+
+    <a type="application/atom+xml" href="http://ez.no/feeds/news.xml"
+    title="eZ news feed">ATOM feed</a>
+
+The user can drag this link to his feed `aggregator`_, where it will be added
+to the aggregator's database of feeds.
+
+It is customary to add the feed icon |feed icon| next to a feed link, so that
+the user finds the feed link easier on the page. See this Mozilla__ page for
+more information about the feed icon.
+
+__ http://www.mozilla.org/foundation/feed-icon-guidelines/
+
+.. |feed icon| image:: img/feed-icon-14x14.png
+
+
+Feed creator example
+--------------------
+
+In the sub-directory *Feed/docs/examples* there is a **feed_creator**
+application which can be used to create simple XML feeds from minimal text
+files.
+
+The structure of the text files accepted by this application is::
+
+    Feed title
+    Feed link
+    Feed author name
+    Feed author email
+    Feed description
+
+    Item 1 title
+    Item 1 link
+    Item 1 author name
+    Item 1 author email
+    Item 1 author description
+
+    Item 2 title
+    Item 2 link
+    Item 2 author name
+    Item 2 author email
+    Item 2 author description
+
+    .. etc
+
+An example of an input text file:
+
+.. include:: examples/feed_creator/data/news.txt
+   :literal:
+
+The **feed_creator** application will read an input file with the above
+structure and output an XML feed of the chosen type (rss1, rss2 or atom). An
+XML file will also be written in the same directory as the input file, with
+the name of the input file plus the *.xml* extension.
+
+Example of usage (current directory is the `feed_creator` directory)::
+
+  php feed_creator.php rss2 data/news.txt
+
+After running this command, the file *data/news.xml* will be created,
+containing an RSS2 feed with the values read from *data/news.txt*:
+
+.. include:: examples/feed_creator/data/news.xml
+   :literal:
+
+See the section `Step 8. Make the XML feed accessible`_ for details on how to
+provide access to the generated XML feed.
+
+
+How to create an iTunes podcast
+===============================
+
+A podcast is a collection of media files (called episodes) distributed over
+the Internet using XML feeds. The podcast doesn't contain the media file, but
+it contains links to these media files, plus information about those files
+(meta-information) like creator, duration, category, copyright information,
+etc.
 
 The Feed component supports creating and parsing feeds which define podcasts.
 
+This part of the tutorial will show you step by step how to create an RSS2
+podcast with `iTunes`_ elements. The `iTunes`_ media player supports RSS2
+feeds, so creating ATOM or RSS1 podcasts for iTunes is not recommended
+(although possible).
 
-Parse an RSS2 podcast
-`````````````````````
+The information which we want to show in the podcast is:
+
+- the *title* of the feed: ``Flight of the RC plane``
+- a *description* of the feed. This will also be used if we don't declare the
+  *summary* iTunes element. The contents of this element are shown in
+  `iTunes`_ in a separate window that appears when the "circled i" in the
+  Description column is clicked: ``A podcast for fans of RC planes, with
+  information about planes, competitions, tutorials and tips``
+- an *author* (called *managerEditor* in RSS2):
+  ``rcplanes@example.com (Derick)``
+  (this is the recommended way to specify an author in RSS2, with an email
+  address and the name of the person in paranthesis)
+- a *link* to our website: ``http://rcplanes.example.com``
+- the episodes or *items* (information about each episode, a link to the media
+  file associated with the episode and iTunes meta-information for the media
+  files)
+- iTunes elements needed to be able to submit our podcast to `iTunes`_.
+
+iTunes elements for the whole feed:
+
+- one or more *category* elements (from the page `iTunes categories`_). Our
+  podcast could be for example be in the category ``Technology``,
+  sub-category ``Gadgets``
+- one or more *keywords*, separated by commas: ``RC planes,gadgets,flying``
+- an *image* for our podcast. `iTunes`_ recommends an image of at least 500x500
+  pixels: http://rcplanes.example.com/images/rc_plane_big.jpg
+- a *subtitle* for our podcast. This is shown in the Description column in
+  `iTunes`_. Should be a very short description: ``Competitions, tutorials and
+  tips``.
+- *explicit* status (some of our RC pilots are known to curse a lot): ``yes``
+  (other values are ``no`` and ``clean``, with ``no`` being the default)
+
+An episode can be defined by these elements (example for one episode):
+
+- the *title* of the episode: ``Flying an RC plane indoors``
+- a short *description* of the episode: ``In this episode, Derick talks about
+  how to fly an RC plane in a big hall, around people working and throwing
+  stuff at the plane.``
+- an *author* of the episode: ``rcplanes@example.com (Derick)``
+  (this is the recommended way to specify an author in RSS2, with an email
+  address and the name of the person in paranthesis)
+- a *link* to the detailed article on our website:
+  ``http://rcplanes.example.com/articles/fly-an-rc-plane-indoors.html``
+- an *enclosure*, which is a link to a media file:
+  http://rcplanes.example.com/media/003-flying-indoors.mp3. Other information
+  can also be provided as attributes for the *enclosure*, namely *length* in
+  bytes and *type* (``audio/x-mp3`` in our case)
+- the date and time of the episode, or *pubDate*. The `iTunes`_ program uses
+  this timestamp to download the latest episode automatically:
+  ``Fri, 04 Jan 2008 11:18:34 +0100``
+
+In addition, these iTunes elements are added for each episode:
+
+- *duration* of the episode: ``29:20`` (29 minutes 20 seconds). Other ways to
+  specify the duration are ``S``, ``M:SS``, ``MM:SS``, ``H:MM:SS`` or
+  ``HH:MM:SS`` (H = hours, M = minutes, S = seconds).
+- one or more *keywords*, separated by commas:
+  ``RC planes,office,flying,enemies``
+
+See the section `How to create a feed`_ for detailed steps. This part of the
+tutorial will concentrate on how to add the `iTunes`_ information to the feed.
+
+
+Step 1. Create an RSS2 feed
+---------------------------
+
+We start with creating an RSS2 feed object, which we fill with *title*,
+*description*, *author* and *link* elements::
+
+    $feed = new ezcFeed( 'rss2' );
+
+    $feed->title = 'Flight of the RC plane';
+    $feed->description = 'A podcast for fans of RC planes, with information about planes, competitions, tutorials and tips';
+    $feed->author = 'rcplanes@example.com (Derick)';
+
+    $link = $feed->add( 'link' );
+    $link->set( 'http://rcplanes.examples.com' );
+
+
+Step 2. Add iTunes feed elements
+--------------------------------
+
+The iTunes elements will be contained in an iTunes module. A module is added
+to an ezcFeed or ezcFeedItem object using the method **addModule()**. A module
+is an object of class ezcFeedModule.
+
+Next we will add *category*, *keywords*, *image*, *subtitle* and *explicit*
+iTunes elements to our $feed object::
+
+    $iTunes = $feed->addModule( 'iTunes' );
+
+    $iTunes->keywords = 'RC planes,gadgets,flying';
+    $iTunes->explicit = 'yes';
+    $iTunes->subtitle = 'Competitions, tutorials and tips';
+
+    // add an image for the podcast
+    $image = $iTunes->add( 'image' );
+    $image->href = 'http://rcplanes.example.com/images/rc_plane_big.jpg';
+
+    // add the podcast in the category Technology->Gadgets
+    // see http://www.apple.com/itunes/store/podcaststechspecs.html#categories
+    // for iTunes categories
+    $category = $iTunes->add( 'category' );
+    $category->text = 'Technology';
+    $subCategory = $category->add( 'category' );
+    $subCategory->text = 'Gadgets';
+
+
+Step 3. Add an item
+-------------------
+
+Next we will add an episode (*item*) to our $feed object, and we will add the
+*title*, *description*, *author* and *link* elements to it::
+
+    $item = $feed->add( 'item' );
+
+    $item->title = 'Flying an RC plane indoors';
+    $item->description = 'In this episode, Derick talks about how to fly an RC plane in a big hall, around people working and throwing stuff at the plane';
+    $item->author = 'rcplanes@example.com (Derick)';
+    $item->published = 'Fri, 04 Jan 2008 11:18:34 +0100';
+
+    $link = $item->add( 'link' );
+    $link->set( 'http://rcplanes.example.com/articles/fly-an-rc-plane-indoors.html' );
+
+    $enclosure = $item->add( 'enclosure' );
+    $enclosure->url = 'http://rcplanes.example.com/media/003-flying-indoors.mp3';
+    $enclosure->length = 49099054; // bytes
+    $enclosure->type = 'audio/x-mp3';
+
+
+Step 4. Add iTunes item elements
+--------------------------------
+
+We will add the iTunes elements *duration* and *keywords* to our $item object
+from the previous step::
+
+    $iTunes = $item->addModule( 'iTunes' );
+
+    $iTunes->duration = '29:20';
+    $iTunes->keywords = 'RC planes,office flying,enemies';
+
+
+Step 5. Add more items
+----------------------
+
+To add more episodes to our podcast, we repeat the step 4 as many times as
+needed.
+
+
+Step 6. Generate the XML feed
+-----------------------------
+
+Follow these steps from the previous tutorial `How to create a feed`_:
+
+- `Step 5. Generate the XML feed`_
+- `Step 6. Save the XML feed to a file`_
+- `Step 7. Feed validation`_
+- `Step 8. Make the XML feed accessible`_
+
+In the end, our podcast will look like this (with 2 episodes added):
+
+.. include:: examples/feed_creator/data/podcast.xml
+   :literal:
+
+
+Step 7. Submit the podcast to the iTunes Store
+----------------------------------------------
+
+Follow the steps on the section `Submitting Your Podcast to the iTunes Store`_
+from the iTunes `iTunes-specifications`_.
+
+The iTunes `iTunes-specifications`_ also contains other useful information you
+might need when you are creating podcasts.
+
+
+How to parse an XML feed
+========================
+
+
+How to parse an iTunes podcast
+==============================
 
 The following example shows how to parse an RSS2 podcast::
 
@@ -259,110 +618,40 @@ of the media files specified in the feed, and the duration taken from the
 `specifications`_ section for more information about the `iTunes`_ module.
 
 
-Create an RSS2 podcast
-``````````````````````
+Best practices
+==============
 
-The following example shows how to create an RSS2 podcast with 2 media files::
-
-    $feed = new ezcFeed( 'rss2' );
-
-    $feed->title = 'Feed title';
-
-    $link = $feed->add( 'link' );
-    $link->set( 'Feed link' );
-
-    $feed->description = 'Feed description';
-
-    $item = $feed->add( 'item' );
-    $item->title = 'Title for media file 1';
-    $item->link = 'Link for media file 1';
-    $item->description = 'Description for media file 1';
-
-    $enclosure = $item->add( 'enclosure' );
-    $enclosure->url = 'http://www.example.com/media_file1.mp3';
-    $enclosure->length = 4300;
-    $enclosure->type = 'audio/x-mp3';
-
-    $item = $feed->add( 'item' );
-    $item->title = 'Title for media file 2';
-    $item->link = 'Link for media file 2';
-    $item->description = 'Description for media file 2';
-
-    $enclosure = $item->add( 'enclosure' );
-    $enclosure->url = 'http://www.example.com/media_file2.mp3';
-    $enclosure->length = 6500;
-    $enclosure->type = 'audio/x-mp3';
+This section lists some useful tips for handling feed documents.
 
 
-Using the iTunes module
-```````````````````````
+Media type
+----------
 
-A feed should be described with iTunes elements in order to be used as a
-podcast in the music player `iTunes`_. The previous example becomes as follows
-::
+ATOM
+````
 
-    $feed = new ezcFeed( 'rss2' );
-
-    $feed->title = 'Feed title';
-
-    $link = $feed->add( 'link' );
-    $link->set( 'Feed link' );
-
-    $feed->description = 'Feed description';
-
-    $iTunes = $feed->addModule( 'iTunes' );
-
-    // add an image for the podcast
-    $image = $iTunes->add( 'image' );
-    $image->href = 'URL of the image file';
-
-    $iTunes->keywords = 'keyword1,keyword2,keyword3';
-
-    // add the podcast in one or more categories + sub-categories
-    // see http://www.apple.com/itunes/store/podcaststechspecs.html#categories
-    // for iTunes categories
-    $category = $iTunes->add( 'category' );
-    $category->text = 'iTunes category';
-    $subCategory = $category->add( 'category' );
-    $subCategory->text = 'iTunes sub-category';
-
-    $item = $feed->add( 'item' );
-    $item->title = 'Title for media file 1';
-    $item->link = 'Link for media file 1';
-    $item->description = 'Description for media file 1';
-
-    $enclosure = $item->add( 'enclosure' );
-    $enclosure->url = 'http://www.example.com/media_file1.mp3';
-    $enclosure->length = 4300;
-    $enclosure->type = 'audio/x-mp3';
-
-    $iTunes = $item->addModule( 'iTunes' );
-    $iTunes->author = 'Author name';
-
-    // set a duration of 3 min 51 sec for this enclosure
-    $iTunes->duration = '03:51';
-    $iTunes->keywords = 'keyword1,keyword2';
-
-    $item = $feed->add( 'item' );
-    $item->title = 'Title for media file 2';
-    $item->link = 'Link for media file 2';
-    $item->description = 'Description for media file 2';
-
-    $enclosure = $item->add( 'enclosure' );
-    $enclosure->url = 'http://www.example.com/media_file2.mp3';
-    $enclosure->length = 6500;
-    $enclosure->type = 'audio/x-mp3';
-
-    $iTunes = $item->addModule( 'iTunes' );
-    $iTunes->author = 'Author name';
-
-    // set a duration of 1 hour 4 min 30 sec for this enclosure
-    $iTunes->duration = '01:04:30';
-    $iTunes->keywords = 'keyword1';
+All ATOM feeds must be identified with the *application/atom+xml* media type.
+Use the **getContentType()** method of ezcFeed to get this string.
 
 
-Writing feed-independent applications
-=====================================
+RSS1
+````
+
+All RSS1 feeds should be identified with the *application/rss+xml* media type
+(although it is not a standard yet). Use the **getContentType()** method of
+ezcFeed to get this string.
+
+
+RSS2
+````
+
+All RSS2 feeds should be identified with the *application/rss+xml* media type
+(although it is not a standard yet). Use the **getContentType()** method of
+ezcFeed to get this string.
+
+
+Elements common to all feed types
+---------------------------------
 
 As each feed type (RSS1, RSS2, ATOM) is different, it can be quite difficult
 to switch a feed generation application from one feed type to another. It is
@@ -373,16 +662,16 @@ The Feed component will ignore elements which are not defined for the current
 feed type (for example if you set the subtitle element, it will be ignored in
 RSS1 because it is not defined in the RSS1 specifications).
 
+For a full list of the feed elements and how they are expressed in the Feed
+component, see the `specifications`_ page.
 
-Elements common to all feed types
----------------------------------
 
 title
 `````
 
 - Required in all feed types.
-- In ATOM it has an optional attribute 'type' which can be 'text', 'html' or
-  'xhtml'.
+- In ATOM it has other attributes, for example *type* (``text``, ``html`` or
+  ``xhtml``).
 
 
 link
@@ -397,195 +686,35 @@ description
 ```````````
 
 - Required in RSS1 and RSS2.
-- Called 'subtitle' in ATOM (accessed as 'description' through ezcFeed).
+- Called *subtitle* in ATOM (accessed as *description* through ezcFeed).
 
 
 item
 ````
 
 - Optional in RSS2 and ATOM, but RSS1 must have at least one item present.
-- Called 'entry' in ATOM (accessed as 'item' through ezcFeed).
-- These sub-elements of item are present in all feed types:
+- Called *entry* in ATOM (accessed as *item* through ezcFeed).
+- These sub-elements of *item* are present in all feed types:
 
-  title
+  *title*
     Present in all feed types.
 
-  link
+  *link*
     RSS2 can have multiple links per item.
 
-  description
-    Called 'content' in ATOM (accessed as 'description' through ezcFeed). In
-    ATOM it has other attributes, for example type ('text', 'html').
+  *description*
+    Called *summary* in ATOM (accessed as *description* through ezcFeed). In
+    ATOM it has other attributes, for example *type* (``text``, ``html`` or
+    ``xhtml``).
 
 
 image
 `````
 
 - Optional in all feed types.
-- Called 'logo' in ATOM (accessed as 'image' through ezcFeed).
-- RSS1 and RSS2 have attributes for the image, while ATOM does not have them.
-
-
-Feed creator example
---------------------
-
-In the sub-directory *Feed/docs/examples* there is a **feed_creator**
-application which can be used to create simple XML feeds from minimal text
-files.
-
-The structure of the text files accepted by this application is::
-
-  Feed title
-  Feed link
-  Feed author name
-  Feed author email
-  Feed description
-
-  Item 1 title
-  Item 1 link
-  Item 1 author name
-  Item 1 author email
-  Item 1 author description
-
-  Item 2 title
-  Item 2 link
-  Item 2 author name
-  Item 2 author email
-  Item 2 author description
-
-  .. etc
-
-An example of an input text file:
-
-.. include:: examples/feed_creator/data/news.txt
-   :literal:
-
-The **feed_creator** application will read an input file with the above
-structure and output an XML feed of the chosen type (rss1, rss2 or atom). An
-XML file will also be written in the same directory as the input file, with
-the name of the input file plus the *.xml* extension.
-
-Example of usage (current directory is the `feed_creator` directory)::
-
-  php feed_creator.php rss2 data/news.txt
-
-After running this command, the file *data/news.xml* will be created,
-containing an RSS2 feed with the values read from *data/news.txt*:
-
-.. include:: examples/feed_creator/data/news.xml
-   :literal:
-
-See the section `Provide access to feeds in a web application`_ for details on
-how to provide access to the generated XML feed.
-
-
-Best practices
-==============
-
-This section lists some useful tips for handling feed documents.
-
-
-ATOM
-----
-
-Media type
-``````````
-
-All ATOM feeds must be identified with the *application/atom+xml* media type.
-Use the getContentType() method of ezcFeed to get this string.
-
-
-RSS1
-----
-
-Media type
-``````````
-
-All RSS1 feeds should be identified with the *application/rss+xml* media type
-(although it is not a standard yet). Use the getContentType() method of
-ezcFeed to get this string.
-
-
-RSS2
-----
-
-Media type
-``````````
-
-All RSS2 feeds should be identified with the *application/rss+xml* media type
-(although it is not a standard yet). Use the getContentType() method of
-ezcFeed to get this string.
-
-
-Using feeds in applications
-===========================
-
-Provide access to feeds in a web application
---------------------------------------------
-
-There are some methods to let the user know that a web application provides a
-web feed, so that the user can save the feed link in his feed aggregator.
-
-
-Automatic feed discovery
-````````````````````````
-
-In the HTML source of every page add this line for RSS (1, 2) feeds::
-
-    <link rel="alternate" type="application/rss+xml" href="url to the feed xml
-    document" title="A title for the feed" />
-
-Or this line for ATOM feeds::
-
-    <link rel="alternate" type="application/atom+xml" href="url to the feed
-    xml document" title="A title for the feed" />
-
-In modern browsers the user will be informed (usually via a small icon like
-|feed icon| in one corner of the browser or in the address bar) that the
-current page has a web feed. If the user clicks on this icon his feed
-aggregator client will start and save the link to the feed in its database
-(if the user's system has a feed aggregator client and is configured to
-handle *application/rss+xml* and *application/atom+xml* content with the
-aggregator).
-
-Multiple feeds can be added to the same page (for example you can provide ATOM
-and RSS2 feeds). Note: some browsers might not recognize the non-standard
-*application/rss+xml* type and select the ATOM feed by default.
-
-The *title* attribute of the *link* HTML tag can be used to differentiate
-between multiple feeds (for example "News", "Latest offers", etc).
-
-
-Link to the feed document
-`````````````````````````
-
-In the HTML source of every page (usually in the header and/or footer) add
-this line for RSS (1, 2) feeds::
-
-    <a type="application/rss+xml" href="url to the feed document"
-    title="A title for the feed">RSS feed</a>
-
-Or this line for ATOM feeds::
-
-    <a type="application/atom+xml" href="url to the feed document"
-    title="A title for the feed">ATOM feed</a>
-
-The user can drag this link to his feed aggregator, where it will be added to
-the aggregator's database.
-
-It is customary to add the feed icon |feed icon| next to a feed link, so that
-the user finds the feed link easier on the page. See this Mozilla__ page for
-more information about the feed icon.
-
-__ http://www.mozilla.org/foundation/feed-icon-guidelines/
-
-.. |feed icon| image:: img/feed-icon-14x14.png
-
-
-Feed validation
-===============
-
-Feeds should be validated against a `feed validator`_.
+- Called *logo* in ATOM (accessed as *image* through ezcFeed).
+- RSS1 and RSS2 have attributes for the image (*title*, *link*, *url*, *width*,
+  *height*, *description*), while ATOM does not have them.
 
 
 Specifications and RFCs
@@ -597,8 +726,6 @@ please see the `specifications`_ page.
 .. _specifications: Feed_specifications.html
 .. _feed validator: http://validator.w3.org/feed/
 
-.. _iTunes: http://www.apple.com/itunes/
-
 .. _RSS1-specifications: http://web.resource.org/rss/1.0/spec
 .. _RSS2-specifications: http://www.rssboard.org/rss-specification
 .. _ATOM-specifications: http://atompub.org/rfc4287.html
@@ -609,6 +736,10 @@ please see the `specifications`_ page.
 .. _iTunes-specifications: http://www.apple.com/itunes/store/podcaststechspecs.html
 
 .. _aggregator: http://en.wikipedia.org/wiki/List_of_feed_aggregators
+
+.. _iTunes categories: http://www.apple.com/itunes/store/podcaststechspecs.html#categories
+.. _iTunes: http://www.apple.com/itunes/
+.. _Submitting Your Podcast to the iTunes Store: http://www.apple.com/itunes/store/podcaststechspecs.html#submitting
 
 .. |ATOM-specifications| replace:: RFC 4287
 .. |RSS1-specifications| replace:: Specifications

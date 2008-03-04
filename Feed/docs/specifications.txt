@@ -2384,7 +2384,7 @@ Optional.
 
 Can appear only once.
 
-Can be specified as ``HH:MM:SS``, ``H:MM:SS``, ``MM:SS``, ``M:SS`` or ``S``
+Can be specified as ``S``, ``M:SS``, ``MM:SS``, ``H:MM:SS`` or ``HH:MM:SS``
 (H = hours, M = minutes, S = seconds).
 
 
