@@ -330,10 +330,17 @@ class ezcConsoleOutput
     /**
      * Print text to the console.
      *
-     * Output a string to the console. If $format parameter is omitted, 
-     * the default style is chosen. Style can either be a special style
-     * {@link ezcConsoleOutput::$options}, a style name 
-     * {@link ezcConsoleOutput$formats} or 'none' to print without any styling.
+     * Output a string to the console. If $format parameter is omitted, the
+     * default style is chosen. Style can either be a special style {@link
+     * ezcConsoleOutput::$options}, a style name {@link
+     * ezcConsoleOutput::$formats} or 'default' to print with the default
+     * styling.
+     *
+     * The $format parameter defines the name of a format. Formats are defined
+     * through the $formats proprty, which contains format definitions in form
+     * of {@link ezcConsoleOutputFormat} objects. The format influences the
+     * outer appearance of a message (e.g. color) as well as the target the
+     * message is printed to (e.g. STDERR).
      *
      * @throws ezcConsoleInvalidOutputTargetException
      *         If the given target ({@link ezcConsoleOutputFormat}) could not 
@@ -391,6 +398,12 @@ class ezcConsoleOutput
      * automatically appends a manual line break to the printed text. Besides
      * that, you can leave out the $text parameter of outputLine() to only
      * print a line break.
+     *
+     * The $format parameter defines the name of a format. Formats are defined
+     * through the $formats proprty, which contains format definitions in form
+     * of {@link ezcConsoleOutputFormat} objects. The format influences the
+     * outer appearance of a message (e.g. color) as well as the target the
+     * message is printed to (e.g. STDERR).
      * 
      * @param string $text        The text to print.
      * @param string $format      Format chosen for printing.

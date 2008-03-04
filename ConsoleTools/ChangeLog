@@ -12,6 +12,7 @@
   ezcConsoleMenuDialog::display() API doc.
 - Fixed issue #12628: Missing space in ezcConsoleInput::getHelp API doc.
 - Fixed issue #12626: Type "ta" in ezconsoleoutput documentation.
+- Fixed issue #12625: console tools lacks documentation on targets.
 
 1.3.2 - Monday 14 January 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
