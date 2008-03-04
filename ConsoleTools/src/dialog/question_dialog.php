@@ -108,6 +108,8 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
      */
     public function display()
     {
+        $this->reset();
+
         $this->output->outputText(
             $this->options->text . ( $this->options->showResults === true ? " " . $this->options->validator->getResultString() : "" ) . " ",
             $this->options->format

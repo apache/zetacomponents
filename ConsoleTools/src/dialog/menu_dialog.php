@@ -99,6 +99,8 @@ class ezcConsoleMenuDialog implements ezcConsoleDialog
      */
     public function display()
     {
+        $this->reset();
+
         $text = "{$this->options->text}\n";
         foreach ( $this->options->validator->getElements() as $key => $entry )
         {
@@ -112,7 +114,9 @@ class ezcConsoleMenuDialog implements ezcConsoleDialog
 
         $this->output->outputText( $text, $this->options->format );
 
-        $result = $this->options->validator->fixup( ezcConsoleDialogViewer::readLine() );
+        $result = $this->options->validator->fixup(
+            ezcConsoleDialogViewer::readLine()
+        );
         if ( $this->options->validator->validate( $result ) )
         {
             $this->result = $result;

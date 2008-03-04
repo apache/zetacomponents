@@ -184,6 +184,31 @@ class ezcConsoleMenuDialogTest extends ezcConsoleDialogTest
         // $this->saveDialogResult( __METHOD__, $res );
         $this->assertEquals( $this->res, $res );
     }
+
+    public function testDialog3()
+    {
+        $this->runDialog( __METHOD__ );
+
+        $res[] = fread( $this->pipes[1], 1024 );
+        
+        fputs( $this->pipes[0], "A\n" );
+        $res[] = fread( $this->pipes[1], 1024 );
+        
+        fputs( $this->pipes[0], "K\n" );
+        $res[] = fread( $this->pipes[1], 1024 );
+        
+        fputs( $this->pipes[0], "B\n" );
+        $res[] = fread( $this->pipes[1], 1024 );
+        
+        fputs( $this->pipes[0], "T\n" );
+        $res[] = fread( $this->pipes[1], 1024 );
+        
+        fputs( $this->pipes[0], "Z\n" );
+        $res[] = fread( $this->pipes[1], 1024 );
+        
+        $this->saveDialogResult( __METHOD__, $res );
+        // $this->assertEquals( $this->res, $res );
+    }
 }
 
 ?>
