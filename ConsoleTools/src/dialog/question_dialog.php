@@ -100,8 +100,8 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
     /**
      * Displays the dialog and retreives a value from the user.
      * Displays the dialog and retreives the desired answer from the user. If
-     * the a valid result is retrieved, it can be obtained using 
-     * {@link getResult()}. The method {hasValidResult()} can be used to check
+     * the a valid result is retrieved, it can be obtained using {@link
+     * getResult()}. The method {@link hasValidResult()} can be used to check
      * if a valid result is available.
      * 
      * @return void
