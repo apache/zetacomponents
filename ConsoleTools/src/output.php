@@ -412,8 +412,7 @@ class ezcConsoleOutput
      */
     public function outputLine( $text = '', $format = 'default', $verbosityLevel = 1 )
     {
-        $this->outputText( $text, $format, $verbosityLevel );
-        $this->outputText( PHP_EOL, null, $verbosityLevel );
+        $this->outputText( $text . PHP_EOL, $format, $verbosityLevel );
     }
 
     /**

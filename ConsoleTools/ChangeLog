@@ -15,6 +15,8 @@
 - Fixed issue #12625: console tools lacks documentation on targets.
 - Fixed issue #12624: Wrong text in documentation of eZConsoleDialogViewer.
 - Fixed issue #12623: console menu dialog handles unexisting options wrong.
+- Fxied issue #12636: ezcConsoleOutput->outputLine() prints EOL always to
+  STDOUT instead of the defined target.
 
 1.3.2 - Monday 14 January 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
