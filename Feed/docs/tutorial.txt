@@ -702,9 +702,9 @@ of all items. This is how we will do it::
 How to parse an iTunes podcast
 ==============================
 
-See the section `How to parse a feed`_ for detailed steps. This part of the
-tutorial will concentrate on how to fetch the `iTunes`_ information from the
-feed.
+See the section `How to parse an XML feed`_ for detailed steps. This part of
+the tutorial will concentrate on how to fetch the `iTunes`_ information from
+the feed.
 
 
 Step 1. Parse an XML feed
@@ -808,6 +808,7 @@ if the iTunes elements appeared like this in the XML feed::
     <category text="Technology">
       <category text="Gadgets"/>
     </category>
+
 
 Step 4. Iterate over the feed items
 -----------------------------------
