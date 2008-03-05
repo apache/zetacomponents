@@ -702,51 +702,190 @@ of all items. This is how we will do it::
 How to parse an iTunes podcast
 ==============================
 
+See the section `How to parse a feed`_ for detailed steps. This part of the
+tutorial will concentrate on how to fetch the `iTunes`_ information from the
+feed.
+
 
 Step 1. Parse an XML feed
 -------------------------
+
+If the XML feed is stored in a file or URL, use the static method **parse()**
+from ezcFeed to parse the feed and create an ezcFeed object out of it::
+
+    $feed = ezcFeed::parse( 'http://rcplanes.example.com/feed/podcast.xml' );
+
+If the XML feed is stored in a string variable, use the static method
+**parseContent()** from ezcFeed to parse the feed and create an ezcFeed object
+out of it::
+
+    $feed = ezcFeed::parseContent( $xml );
 
 
 Step 2. Read the feed elements
 ------------------------------
 
+Depending on the feed type, certain elements are present while others are not.
+The feed type can be retrieved via the method **getFeedType()** from ezcFeed::
+
+    $feedType = $feed->getFeedType();
+
+Depending on your application, you might need only some elements, let's say
+*title*, *description*, *author* and *link*. So to read those elements you will
+write::
+
+    $title = isset( $feed->title ) ? $feed->title->__toString() : null;
+    $description = isset( $feed->description ) ? $feed->description->__toString() : null;
+    $author = isset( $feed->author ) ? $feed->author->__toString() : null;
+
+    $links = array();
+    if ( isset( $feed->links ) )
+    {
+        foreach ( $feed->links as $link )
+        {
+            $links[] = $link->__toString();
+        }
+    }
+
 
 Step 3. Read the iTunes feed elements
 -------------------------------------
 
+Before reading iTunes elements from the feed, we need to make sure that the
+feed has the iTunes module. We use the method **hasModule()** from ezcFeed or
+ezcFeedItem::
+
+    if ( $feed->hasModule( 'iTunes' ) )
+    {
+        // process the iTunes module
+    }
+
+We can also call the **isset()** method to check if the iTunes module is
+present::
+
+    if ( isset( $feed->iTunes ) )
+    {
+        // process the iTunes module
+    }
+
+This is how we fetch information from the iTunes module. Let's say we want to
+fetch the *keywords*, *subtitle*, *image* and *category* elements::
+
+    if ( isset( $feed->iTunes ) )
+    {
+        $iTunes = $feed->iTunes;
+        $keywords = isset( $iTunes->keywords ) ? $iTunes->keywords->__toString() : null;
+        $subtitle = isset( $iTunes->subtitle ) ? $iTunes->subtitle->__toString() : null;
+        $image = isset( $iTunes->image ) ? $iTunes->image->href->__toString() : null;
+
+        $categories = array();
+        if ( isset( $iTunes->category ) )
+        {
+            foreach ( $iTunes->category as $category )
+            {
+                $cat = array( 'text' => $category->text->__toString() );
+                if ( isset( $category->category ) )
+                {
+                    $cat['subCategory'] = $category->category[0]->text->__toString();
+                }
+
+                $categories[] = $cat;
+            }
+        }
+    }
+
+In iTunes, *category* is an element which can have sub-categories. The code
+above reads the *category* values (from the *text* attribute) and the
+sub-category (if any) from each *category*. The $categories array can look like
+this::
+
+    array( 0 => array( 'text' => 'Technology',
+                       'subCategory' => 'Gadgets' ),
+         );
+
+if the iTunes elements appeared like this in the XML feed::
+
+    <category text="Technology">
+      <category text="Gadgets"/>
+    </category>
 
 Step 4. Iterate over the feed items
 -----------------------------------
 
-The following example shows how to parse an RSS2 podcast::
+Let's say we want to extract the *title*, *description*, *author* and *link*
+of all items. This is how we will do it::
 
-    $feed = ezcFeed::parse( 'http://www.example.com/podcast.xml' );
-
-    $media = array();
+    $items = array();
     foreach ( $feed->items as $item )
     {
-        if ( isset( $item->enclosure[0] ) )
+        $title = isset( $item->title ) ? $item->title->__toString() : null;
+        $description = isset( $item->description ) ? $item->description->__toString() : null;
+        $author = isset( $item->author ) ? $item->author->__toString() : null;
+
+        $links = array();
+        if ( isset( $item->link ) )
+        {
+            foreach ( $item->link as $link )
+            {
+                $links[] = $link->__toString();
+            }
+        }
+
+        $media = array();
+        if ( isset( $item->enclosure ) )
         {
             $enclosure = $item->enclosure[0];
 
-            $media[] = array(
-               'url' => isset( $enclosure->url ) ? $enclosure->url : 'not defined',
-               'length' => isset( $enclosure->length ) ? $enclosure->length : 'not defined',
-               'type' => isset( $enclosure->type ) ? $enclosure->type : 'not defined',
-               'duration' => isset( $item->iTunes ) && isset(
-               $item->iTunes->duration ) ? $item->iTunes->duration : 'not
-               defined' );
+            $media = array(
+               'url' => isset( $enclosure->url ) ? $enclosure->url->__toString() : null,
+               'length' => isset( $enclosure->length ) ? $enclosure->length__toString() : null,
+               'type' => isset( $enclosure->type ) ? $enclosure->type__toString() : null
+               );
         }
+
+        $items[] = array( 'title' => $title,
+                          'description' => $description,
+                          'author' => $author,
+                          'links' => $links,
+                          'media' => $media );
     }
 
-After running the code, the array $media will contain the URL, length and type
-of the media files specified in the feed, and the duration taken from the
-`iTunes`_ module contained in the feed (if available). See the
-`specifications`_ section for more information about the `iTunes`_ module.
+
+After running the code, the $media array will contain the *url*, *length* and
+*type* of the media file specified in the feed item. The $media array is aded
+to the $items array to be processed later by the application.
 
 
 Step 5. Read the iTunes item elements
 -------------------------------------
+
+Let's say we want to fetch the *duration* of the iTunes module inside an item.
+The code from the previous section is altered as follows::
+
+    // ...
+        $media = array();
+        if ( isset( $item->enclosure ) )
+        {
+            $enclosure = $item->enclosure[0];
+
+            $media = array(
+               'url' => isset( $enclosure->url ) ? $enclosure->url->__toString() : null,
+               'length' => isset( $enclosure->length ) ? $enclosure->length__toString() : null,
+               'type' => isset( $enclosure->type ) ? $enclosure->type__toString() : null
+               );
+
+            if ( isset( $item->iTunes ) )
+            {
+                $iTunes = $item->iTunes;
+                $media['duration'] = isset( $iTunes->duration ) ? $iTunes->duration->__toString : null;
+            }
+        }
+    // ...
+
+After running the code, the $media array will contain the *url*, *length* and
+*type* of the media file specified in the feed item, and the *duration* of the
+media file taken from the iTunes module (if available). The $media array is aded
+to the $items array to be processed later by the application.
 
 
 Best practices
