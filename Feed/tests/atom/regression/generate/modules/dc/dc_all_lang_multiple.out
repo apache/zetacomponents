@@ -17,8 +17,8 @@
     <dc:coverage xml:lang="d">DC coverage 2</dc:coverage>
     <dc:creator xml:lang="e">DC creator 1</dc:creator>
     <dc:creator xml:lang="f">DC creator 2</dc:creator>
-    <dc:date xml:lang="g">2008-02-14T14:34:51+01:00</dc:date>
-    <dc:date xml:lang="h">1970-01-01T01:00:00+01:00</dc:date>
+    <dc:date xml:lang="g">2008-02-14T13:34:51+00:00</dc:date>
+    <dc:date xml:lang="h">1970-01-01T00:00:00+00:00</dc:date>
     <dc:description xml:lang="i">DC description 1</dc:description>
     <dc:description xml:lang="j">DC description 2</dc:description>
     <dc:format xml:lang="k">DC format 1</dc:format>

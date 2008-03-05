@@ -181,7 +181,7 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
                     switch ( $element )
                     {
                         case 'date':
-                            $elementTag->nodeValue = date( 'c', ezcFeedTools::prepareDate( $values->__toString() ) );
+                            $elementTag->nodeValue = ezcFeedTools::prepareDate( $values->getValue() )->format( 'c' );
                             break;
 
                         default:

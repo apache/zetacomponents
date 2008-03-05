@@ -117,13 +117,23 @@ class ezcFeedElement
     }
 
     /**
-     * Returns the root value of this.
+     * Returns the root value of this element as string.
      *
-     * @return mixed
+     * @return string
      */
     public function get()
     {
         return isset( $this->data['#'] ) ? '' . $this->data['#'] : null;
+    }
+
+    /**
+     * Returns the root value of this element as mixed.
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return isset( $this->data['#'] ) ? $this->data['#'] : null;
     }
 
     /**

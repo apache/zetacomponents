@@ -36,7 +36,21 @@ class ezcFeedRss1RegressionParseTest extends ezcFeedRegressionTest
 
     protected function cleanForCompare( $expected, $parsed )
     {
-
+        if ( isset( $parsed->items ) )
+        {
+            foreach ( $parsed->items as $item )
+            {
+                if ( isset( $item->DublinCore )
+                     && isset( $item->DublinCore->date )
+                     && is_array( $item->DublinCore->date ) )
+                {
+                    foreach ( $item->DublinCore->date as $date )
+                    {
+                        $date->set( (int) $date->getValue()->format( 'U' ) );
+                    }
+                }
+            }
+        }
     }
 
     public function testRunRegression( $file )

@@ -351,7 +351,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 {
                     case 'updated':
                         // Sample date: 2003-12-13T18:30:02-05:00
-                        $dataNode->set( date( "c", ezcFeedTools::prepareDate( $dataNode->get() ) ) );
+                        $dataNode->set( ezcFeedTools::prepareDate( $dataNode->getValue() )->format( 'c' ) );
                         break;
                 }
                 $this->generateNode( $this->channel, $element, null, $dataNode );
@@ -805,7 +805,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         if ( $child === 'updated' )
                         {
                             // Sample date: 2003-12-13T18:30:02-05:00
-                            $dataNode->set( date( "c", ezcFeedTools::prepareDate( $dataNode->get() ) ) );
+                            $dataNode->set( ezcFeedTools::prepareDate( $dataNode->getValue() )->format( 'c' ) );
                         }
                         $childTag->nodeValue = ($dataNode instanceof ezcFeedElement ) ? $dataNode->__toString() : (string)$dataNode;
                     }
@@ -863,7 +863,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         $dataNode = $data;
 
                         // Sample date: 2003-12-13T18:30:02-05:00
-                        $dataNode->set( date( "c", ezcFeedTools::prepareDate( $dataNode->get() ) ) );
+                        $dataNode->set( ezcFeedTools::prepareDate( $dataNode->getValue() )->format( 'c' ) );
                         $this->generateNode( $entryTag, $element, null, $dataNode );
                         break;
                 }
@@ -999,7 +999,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         $dataNode = $data;
 
                         // Sample date: 2003-12-13T18:30:02-05:00
-                        $dataNode->set( date( "c", ezcFeedTools::prepareDate( $dataNode->get() ) ) );
+                        $dataNode->set( ezcFeedTools::prepareDate( $dataNode->getValue() )->format( 'c' ) );
                         $this->generateNode( $entryTag, $element, $parent, $dataNode );
                         break;
 

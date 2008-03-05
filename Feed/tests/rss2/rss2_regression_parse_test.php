@@ -36,26 +36,38 @@ class ezcFeedRss2RegressionParseTest extends ezcFeedRegressionTest
 
     protected function cleanForCompare( $expected, $parsed )
     {
-        if ( $parsed->published !== 'string'
-             && $expected->published !== $parsed->published )
+        if ( $parsed->updated instanceof ezcFeedElement
+             && $parsed->updated->getValue() instanceof DateTime )
         {
-            $parsed->published = 'XXX';
-            $expected->published = 'XXX';
+            $parsed->updated = 'xxx';
+            $expected->updated = 'xxx';
         }
 
-        if ( $parsed->updated !== 'string'
-             && $expected->updated !== $parsed->updated )
+        if ( $parsed->published instanceof ezcFeedElement
+             && $parsed->published->getValue() instanceof DateTime )
         {
-            $parsed->updated = 'YYY';
-            $expected->updated = 'YYY';
+            $parsed->published = 'xxx';
+            $expected->published = 'xxx';
         }
 
-        for ( $i = 0; $i < count( $expected->items ); $i++ )
+        for ( $i = 0; $i < count( $parsed->items ); $i++ )
         {
-            $item = $expected->items[$i];
-            if ( $expected->items[$i]->published !== $parsed->items[$i]->published )
+            $item = $parsed->items[$i];
+            $itemExpected = $expected->items[$i];
+            if ( $parsed->items[$i]->published !== $expected->items[$i]->published )
             {
                 $item->published = time();
+                $itemExpected->published = time();
+            }
+
+            if ( isset( $item->DublinCore )
+                 && isset( $item->DublinCore->date )
+                 && is_array( $item->DublinCore->date ) )
+            {
+                foreach ( $item->DublinCore->date as $date )
+                {
+                    $date->set( (int) $date->getValue()->format( 'U' ) );
+                }
             }
         }
     }

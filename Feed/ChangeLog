@@ -26,6 +26,8 @@
 - Added parse support for version 0.93 and 0.94 RSS feeds.
 - The RSS2 guid item attribute is accessed as id through ezcFeed.
 - Added a feed creator example application.
+- Changed the method ezcFeedTools::prepareDate() to return a DateTime object
+  (this also means that PHP 5.2 is required for Feed now).
 
 
 1.0beta1 - Monday 18 December 2006

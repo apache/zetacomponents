@@ -36,11 +36,47 @@ class ezcFeedAtomRegressionParseTest extends ezcFeedRegressionTest
 
     protected function cleanForCompare( $expected, $parsed )
     {
-        if ( $parsed->updated !== 'string'
-             && $expected->updated !== $parsed->updated )
+        if ( $parsed->updated instanceof ezcFeedElement
+             && $parsed->updated->getValue() instanceof DateTime )
         {
-            $parsed->updated = 'YYY';
-            $expected->updated = 'YYY';
+            $parsed->updated->set( (int) $parsed->updated->getValue()->format( 'U' ) );
+            $parsed->updated = 'xxx';
+            $expected->updated = 'xxx';
+        }
+
+        if ( isset( $parsed->items ) )
+        {
+            foreach ( $parsed->items as $item )
+            {
+                if ( isset( $item->updated ) )
+                {
+                    $item->updated->set( (int) $item->updated->getValue()->format( 'U' ) );
+                }
+
+                if ( isset( $item->published ) )
+                {
+                    $item->published->set( (int) $item->published->getValue()->format( 'U' ) );
+                }
+
+                if ( isset( $item->source ) )
+                {
+                    $source = $item->source[0];
+                    if ( isset( $source->updated ) )
+                    {
+                        $source->updated = (int) $source->updated->getValue()->format( 'U' );
+                    }
+                }
+
+                if ( isset( $item->DublinCore )
+                     && isset( $item->DublinCore->date )
+                     && is_array( $item->DublinCore->date ) )
+                {
+                    foreach ( $item->DublinCore->date as $date )
+                    {
+                        $date->set( (int) $date->getValue()->format( 'U' ) );
+                    }
+                }
+            }
         }
     }
 

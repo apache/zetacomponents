@@ -93,23 +93,37 @@ class ezcFeedTools
     }
 
     /**
-     * Returns the provided $date in timestamp format.
+     * Returns the provided $date (timestamp, string or DateTime object) as a
+     * DateTime object.
      *
-     * @param mixed $date A date
-     * @return int
+     * It preserves the timezone if $date contained timezone information.
+     *
+     * @param mixed $date A date specified as a timestamp, string or DateTime object
+     * @return DateTime
      */
     public static function prepareDate( $date )
     {
-        if ( is_int( $date ) || is_numeric( $date ) )
+        if ( is_numeric( $date ) )
+        {
+            return new DateTime( "@{$date}" );
+        }
+        else if ( $date instanceof DateTime )
         {
             return $date;
         }
-        $ts = strtotime( $date );
-        if ( $ts !== false )
+        else
         {
-            return $ts;
+            try
+            {
+                $d = new DateTime( $date );
+            }
+            catch ( Exception $e )
+            {
+                return new DateTime();
+            }
+
+            return $d;
         }
-        return time();
     }
 
     /**
