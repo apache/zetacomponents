@@ -259,7 +259,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                 {
                     case 'pubDate':
                     case 'lastBuildDate':
-                        $this->generateMetaData( $this->channel, $element, date( 'D, d M Y H:i:s O', (int) $data->__toString() ) );
+                        $this->generateMetaData( $this->channel, $element, date( 'D, d M Y H:i:s O', (int) ezcFeedTools::prepareDate( $data->__toString() ) ) );
                         break;
 
                     case 'image':
@@ -542,7 +542,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                             break;
 
                         case 'pubDate':
-                            $this->generateMetaData( $itemTag, $normalizedAttribute, date( 'D, d M Y H:i:s O', (int) $metaData->get() ) );
+                            $this->generateMetaData( $itemTag, $normalizedAttribute, date( 'D, d M Y H:i:s O', (int) ezcFeedTools::prepareDate( $metaData->get() ) ) );
                             break;
 
                         case 'enclosure':
