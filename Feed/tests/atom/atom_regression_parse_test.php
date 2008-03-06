@@ -44,6 +44,16 @@ class ezcFeedAtomRegressionParseTest extends ezcFeedRegressionTest
             $expected->updated = 'xxx';
         }
 
+        if ( isset( $parsed->DublinCore )
+             && isset( $parsed->DublinCore->date )
+             && is_array( $parsed->DublinCore->date ) )
+        {
+            foreach ( $parsed->DublinCore->date as $date )
+            {
+                $date->set( (int) $date->getValue()->format( 'U' ) );
+            }
+        }
+
         if ( isset( $parsed->items ) )
         {
             foreach ( $parsed->items as $item )

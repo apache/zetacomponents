@@ -1,0 +1,27 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$module = $feed->addModule( 'DublinCore' );
+
+$element = $module->add( 'creator' );
+$element->set( 'DC feed creator' );
+$element->language = 'a';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id';
+$entry->title = 'Entry title';
+$entry->updated = 1195053820;
+
+$module = $entry->addModule( 'DublinCore' );
+
+$element = $module->add( 'creator' );
+$element->set( 'DC item creator' );
+$element->language = 'b';
+
+return $feed;
+?>

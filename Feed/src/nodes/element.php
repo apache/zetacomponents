@@ -100,7 +100,21 @@ class ezcFeedElement
      */
     public function __toString()
     {
-        return isset( $this->data['#'] ) ? '' . $this->data['#'] : '';
+        if ( isset( $this->data['#'] ) )
+        {
+            if ( $this->data['#'] instanceof DateTime )
+            {
+                return $this->data['#']->format( 'U' ) . '';
+            }
+            else
+            {
+                return $this->data['#'] . '';
+            }
+        }
+        else
+        {
+            return '';
+        }
     }
 
     /**

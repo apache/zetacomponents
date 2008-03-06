@@ -50,6 +50,16 @@ class ezcFeedRss2RegressionParseTest extends ezcFeedRegressionTest
             $expected->published = 'xxx';
         }
 
+        if ( isset( $parsed->DublinCore )
+             && isset( $parsed->DublinCore->date )
+             && is_array( $parsed->DublinCore->date ) )
+        {
+            foreach ( $parsed->DublinCore->date as $date )
+            {
+                $date->set( (int) $date->getValue()->format( 'U' ) );
+            }
+        }
+
         for ( $i = 0; $i < count( $parsed->items ); $i++ )
         {
             $item = $parsed->items[$i];

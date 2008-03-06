@@ -1,0 +1,24 @@
+<?php
+$feed = new ezcFeed( 'rss2' );
+$feed->title = 'Feed title';
+
+$link = $feed->add( 'link' );
+$link->set( 'Feed link' );
+
+$feed->description = 'Feed description';
+
+$module = $feed->addModule( 'DublinCore' );
+$element = $module->add( 'creator' );
+$element->set( 'DC feed creator' );
+
+$item = $feed->add( 'item' );
+$item->title = 'Item title';
+$item->link = 'Item link';
+$item->description = 'Item description';
+
+$module = $item->addModule( 'DublinCore' );
+$element = $module->add( 'creator' );
+$element->set( 'DC item creator' );
+
+return $feed;
+?>

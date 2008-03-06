@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Feed title</title>
+    <link>Feed link</link>
+    <description>Feed description</description>
+    <dc:contributor xml:lang="a">DC contributor 1</dc:contributor>
+    <dc:contributor xml:lang="b">DC contributor 2</dc:contributor>
+    <dc:coverage xml:lang="c">DC coverage 1</dc:coverage>
+    <dc:coverage xml:lang="d">DC coverage 2</dc:coverage>
+    <dc:creator xml:lang="e">DC creator 1</dc:creator>
+    <dc:creator xml:lang="f">DC creator 2</dc:creator>
+    <dc:date xml:lang="g">2008-02-14T14:34:51+01:00</dc:date>
+    <dc:date xml:lang="h">DC date 2</dc:date>
+    <dc:description xml:lang="i">DC description 1</dc:description>
+    <dc:description xml:lang="j">DC description 2</dc:description>
+    <dc:format xml:lang="k">DC format 1</dc:format>
+    <dc:format xml:lang="l">DC format 2</dc:format>
+    <dc:identifier xml:lang="m">DC identifier 1</dc:identifier>
+    <dc:identifier xml:lang="n">DC identifier 2</dc:identifier>
+    <dc:language xml:lang="o">DC language 1</dc:language>
+    <dc:language xml:lang="p">DC language 2</dc:language>
+    <dc:publisher xml:lang="q">DC publisher 1</dc:publisher>
+    <dc:publisher xml:lang="r">DC publisher 2</dc:publisher>
+    <dc:relation xml:lang="s">DC relation 1</dc:relation>
+    <dc:relation xml:lang="t">DC relation 2</dc:relation>
+    <dc:rights xml:lang="u">DC rights 1</dc:rights>
+    <dc:rights xml:lang="v">DC rights 2</dc:rights>
+    <dc:source xml:lang="w">DC source 1</dc:source>
+    <dc:source xml:lang="x">DC source 2</dc:source>
+    <dc:subject xml:lang="y">DC subject 1</dc:subject>
+    <dc:subject xml:lang="z">DC subject 2</dc:subject>
+    <dc:title xml:lang="no">DC title 1</dc:title>
+    <dc:title xml:lang="de">DC title 2</dc:title>
+    <dc:type xml:lang="no">DC type 1</dc:type>
+    <dc:type xml:lang="de">DC type 2</dc:type>
+    <item>
+      <title>Item title</title>
+      <link>Item link</link>
+      <description>Item description</description>
+    </item>
+  </channel>
+</rss>

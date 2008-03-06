@@ -14,6 +14,9 @@
  *
  * Specifications: {@link http://dublincore.org/documents/dces/}.
  *
+ * Each DublinCore property can appear multiple times both on the feed-level
+ * or the item-level.
+ *
  * Create example:
  * <code>
  * // $feed is an ezcFeed object
@@ -35,62 +38,62 @@
  * }
  * </code>
  *
- * @property ezcFeedElement $contributor
- *                          An entity responsible for making contributions to
- *                          the resource.
- *                          Usually the name of a person, organization or service.
- * @property ezcFeedElement $coverage
- *                          The spatial or temporal topic of the resource, the
- *                          spatial applicability of the resource, or the
- *                          jurisdiction under which the resource is relevant.
- *                          A recommended practice is to use a controlled
- *                          vocabulary such as
- *                          {@link http://www.getty.edu/research/tools/vocabulary/tgn/index.html TGN}.
- * @property ezcFeedElement $creator
- *                          An entity responsible for making the resource.
- *                          Usually the name of a person or organization.
- * @property ezcFeedElement $date
- *                          A point or period of time associated with an event
- *                          in the lifecycle of the resource. It is a Unix
- *                          timestamp, which will be converted to an
- *                          {@link http://www.w3.org/TR/NOTE-datetime ISO 8601}
- *                          date when generating the feed.
- * @property ezcFeedElement $description
- *                          A description of the resource.
- * @property ezcFeedElement $format
- *                          The file format, physical medium, or dimensions of
- *                          the resource.
- *                          Recommended best practices is to use a controlled
- *                          vocabulary such as the list of
- *                          {@link http://www.iana.org/assignments/media-types/ Internet Media Types}
- *                          (MIME).
- * @property ezcFeedElement $identifier
- *                          An unambiguous reference to the resource within a
- *                          given context.
- * @property ezcFeedElement $language
- *                          A language of the resource.
- *                          Recommended best practice is to use a controlled
- *                          vocabulary such as
- *                          {@link http://www.faqs.org/rfcs/rfc4646.html RFC 4646}.
- * @property ezcFeedElement $publisher
- *                          An entity responsible for making the resource available.
- *                          Usually the name of a person, organization or service.
- * @property ezcFeedElement $relation
- *                          A related resource.
- * @property ezcFeedElement $rights
- *                          Information about rights held in and over the resource.
- * @property ezcFeedElement $source
- *                          A related resource from which the described resource
- *                          is derived.
- * @property ezcFeedElement $subject
- *                          The topic of the resource.
- * @property ezcFeedElement $title
- *                          The name given to the resource.
- * @property ezcFeedElement $type
- *                          The nature or genre of the resource.
- *                          Recommended best practice is to use a controlled
- *                          vocabulary such as the
- *                          {@link http://dublincore.org/documents/dcmi-type-vocabulary/ DCMI Type Vocabulary}
+ * @property array(ezcFeedElement) $contributor
+ *                                 An entity responsible for making contributions to
+ *                                 the resource.
+ *                                 Usually the name of a person, organization or service.
+ * @property array(ezcFeedElement) $coverage
+ *                                 The spatial or temporal topic of the resource, the
+ *                                 spatial applicability of the resource, or the
+ *                                 jurisdiction under which the resource is relevant.
+ *                                 A recommended practice is to use a controlled
+ *                                 vocabulary such as
+ *                                 {@link http://www.getty.edu/research/tools/vocabulary/tgn/index.html TGN}.
+ * @property array(ezcFeedElement) $creator
+ *                                 An entity responsible for making the resource.
+ *                                 Usually the name of a person or organization.
+ * @property array(ezcFeedElement) $date
+ *                                 A point or period of time associated with an event
+ *                                 in the lifecycle of the resource. It is a Unix
+ *                                 timestamp, which will be converted to an
+ *                                 {@link http://www.w3.org/TR/NOTE-datetime ISO 8601}
+ *                                 date when generating the feed.
+ * @property array(ezcFeedElement) $description
+ *                                 A description of the resource.
+ * @property array(ezcFeedElement) $format
+ *                                 The file format, physical medium, or dimensions of
+ *                                 the resource.
+ *                                 Recommended best practices is to use a controlled
+ *                                 vocabulary such as the list of
+ *                                 {@link http://www.iana.org/assignments/media-types/ Internet Media Types}
+ *                                 (MIME).
+ * @property array(ezcFeedElement) $identifier
+ *                                 An unambiguous reference to the resource within a
+ *                                 given context.
+ * @property array(ezcFeedElement) $language
+ *                                 A language of the resource.
+ *                                 Recommended best practice is to use a controlled
+ *                                 vocabulary such as
+ *                                 {@link http://www.faqs.org/rfcs/rfc4646.html RFC 4646}.
+ * @property array(ezcFeedElement) $publisher
+ *                                 An entity responsible for making the resource available.
+ *                                 Usually the name of a person, organization or service.
+ * @property array(ezcFeedElement) $relation
+ *                                 A related resource.
+ * @property array(ezcFeedElement) $rights
+ *                                 Information about rights held in and over the resource.
+ * @property array(ezcFeedElement) $source
+ *                                 A related resource from which the described resource
+ *                                 is derived.
+ * @property array(ezcFeedElement) $subject
+ *                                 The topic of the resource.
+ * @property array(ezcFeedElement) $title
+ *                                 The name given to the resource.
+ * @property array(ezcFeedElement) $type
+ *                                 The nature or genre of the resource.
+ *                                 Recommended best practice is to use a controlled
+ *                                 vocabulary such as the
+ *                                 {@link http://dublincore.org/documents/dcmi-type-vocabulary/ DCMI Type Vocabulary}
  *
  * @package Feed
  * @version //autogentag//
@@ -104,7 +107,52 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
      * @ignore
      */
     protected $schema = array(
-        'feed' => array(),
+        'feed' => array( 'contributor' => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'coverage'    => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'creator'     => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'date'        => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'description' => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'format'      => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'identifier'  => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'language'    => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'publisher'   => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'relation'    => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'rights'      => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'source'      => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'subject'     => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'title'       => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+
+                         'type'        => array( '#' => 'string',
+                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
+                         ),
+
         'item' => array( 'contributor' => array( '#' => 'string',
                                                  'ATTRIBUTES' => array( 'language' => 'string' ) ),
 
