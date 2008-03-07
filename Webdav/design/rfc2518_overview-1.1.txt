@@ -135,10 +135,11 @@ support this, yet, the header will be ignored.
 ETag
 ----
 
-The ETag header is send by a server to give the client an entity-tag for the
-current resource that he can use later with any of the headers described above.
-The ETag header is therefore a response header, while the headers described
-above are request headers.
+The ETag header is send by a server to give the client an entity-tag that
+identifies the current state of a certain resource. This tag can later be used
+by the client with any of the headers described above.  The ETag header is
+therefore a response header, while the headers described above are request
+headers.
 
 The ETag header is build up like this: ::
       
@@ -203,9 +204,9 @@ locks are defined in detail. The RFC explains, that "the syntax is extensible,
 and permits the eventual specification of locking for other access types".
 
 A write lock determines that the locking principle may exclusively write to the
-affected resources. Reading is possibly for every other client, too. If a
-client that does not hold a specific lock tries to perform a writing operation
-to a resource which is locked by another client, this operation must fail.
+affected resources. Reading is possibly for every other principle, too. If a
+principle that does not hold a specific lock tries to perform a writing operation
+to a resource which is locked by another principle, this operation must fail.
 
 Lock scopes
 ===========
@@ -215,15 +216,15 @@ The WebDAV RFC specifies 2 different scopes for locking:
 - Exclusive
 - Shared
 
-For an exclusive lock exactly 1 client may hold a lock on a specific resource
-and only this client is allowed to perform the affected operations on the
-locked resource. For a shared lock it is possible that multiple clients take
-part in the lock (group editing). Every client that takes part in a shared lock
+For an exclusive lock exactly 1 principle may hold a lock on a specific resource
+and only this principle is allowed to perform the affected operations on the
+locked resource. For a shared lock it is possible that multiple principles take
+part in the lock (group editing). Every principle that takes part in a shared lock
 may perform the affected operations on the locked resource.
 
-WebDAV does not provide any channel to allow communication between the clients
-involved into a shared lock. The communication of these clients must be handled
-externally.
+WebDAV does not provide any channel to allow communication between the
+principles involved into a shared lock. The communication of these principles must
+be handled externally.
 
 The following table shows lock compatibility:
 
@@ -246,7 +247,7 @@ Lock tokens
 
 A lock token identifies a specific lock uniquely across all resources for all
 times. Whenever a successful LOCK request was processed, it returns the
-specific lock token for this lock. The lock token associates the locking client
+specific lock token for this lock. The lock token associates the locking principle
 with the locked resource. Therefore multiple lock tokens might be assigned to a
 single resource, if the lock is a shared lock.
 
@@ -268,7 +269,7 @@ To create a lock token that, a this way generated ID could be appended to the
 URI of the affected resource to provide transparency of the source of a lock
 token. For example: http://webdav/foo/bar.txt#<id>.
 
-Every client that can access the WebDAV server has access to lock tokens
+Every principle that can access the WebDAV server has access to lock tokens
 through the LOCKDISCOVERY request method, so the lock must be bound to a
 different authentication mechanism. An owner string is submitted with the LOCK
 request, which might help here.
@@ -409,7 +410,7 @@ Example - Refreshing LOCK request: ::
    </D:prop>
 
 .. Note::
-   The server must not honor the clients Timeout header!
+   The server must not honor the principles Timeout header!
 
 Example - Multi resource LOCK Request: ::
 
@@ -461,7 +462,7 @@ UNLOCK
 
 The UNLOCK method handles the removal of a lock established via the LOCK
 method. A lock may also disappear by itself, for example when a timeout is
-reached. If the client holding a lock finished its operation on the locked
+reached. If the principle holding a lock finished its operation on the locked
 resources it should use the UNLOCK method to release the lock. 
 
 The UNLOCK method only receives a lock token via the Lock-Token header. The
@@ -491,7 +492,7 @@ Affected base methods
 ---------------------
 
 The following methods may only be performed on a locked resource if the
-performing client owns the specific lock.
+performing principle owns the specific lock.
 
 - PUT
 - POST
@@ -502,7 +503,7 @@ performing client owns the specific lock.
 - MKCOL
 
 In addition the PROPFIND request is affected by lock support, since lock
-information is visible to every client through the LOCKDISCOVERY and
+information is visible to every principle through the LOCKDISCOVERY and
 SUPPORTEDLOCK properties.
 
 Locking resources
@@ -516,8 +517,8 @@ Non-collection resources
 ------------------------
 
 A non collection resource can be affected directly or indirectly by a lock. In
-the first case a client has issued a LOCK request explicitly for this resource,
-only locking this single resource. The second case occurs, if a client locked a
+the first case a principle has issued a LOCK request explicitly for this resource,
+only locking this single resource. The second case occurs, if a principle locked a
 collection resource and the non-collection resource is a direct or in-direct
 descendant of it. For detailed information on this topic see the next section
 about locking if collection resources.
@@ -572,16 +573,16 @@ COPY/MOVE
 ---------
 
 Both methods destroy locks. If a resource is moved to a locked collection, it
-is automatically added to the lock (same client assumed). Both will not work,
-if the destination is locked but no lock is owned by the client.
+is automatically added to the lock (same principle assumed). Both will not work,
+if the destination is locked but no lock is owned by the principle.
 
 Refresh
 =======
 
-A LOCK request must not occur twice. To refresh a lock, clients send a LOCK
+A LOCK request must not occur twice. To refresh a lock, principles send a LOCK
 request with empty body and an If header that specifies the lock tokens to
 refresh locks for. If this occurs, the timers of the lock must be reset. A
-Timeout header might be send by the client, but the server may safely ignore
+Timeout header might be send by the principle, but the server may safely ignore
 these and simply perform a refresh as it desires.
 
 If header
