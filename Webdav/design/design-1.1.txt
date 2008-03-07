@@ -298,6 +298,12 @@ the resource(s) identified by the reqeust path. The following pseudo code
 describes the operations to be used in the plugin to realize this: ::
 
     lock backend;
+    
+    if ( <authentication> invalid )
+    {
+        // should probably be 401 Unauthorized?
+        return <response 403 Forbidden>;
+    }
 
     create propfind request for <request path>;
     set Depth header to INFINITY;
@@ -338,6 +344,12 @@ original processing of the PUT method can take place are described a follows
 (pseudo code): ::
 
     lock backend;
+    
+    if ( <authentication> invalid )
+    {
+        // should probably be 401 Unauthorized?
+        return <response 403 Forbidden>;
+    }
     create propfind request for <resource>;
     set Depth header to 0;
     send <propfind request> to backend;
@@ -383,6 +395,12 @@ The PROPPATCH request is only allowed if the affected resource is not locked by
 someone else. The necessery extensions are described below (pseudo code): ::
     
     lock backend;
+    
+    if ( <authentication> invalid )
+    {
+        // should probably be 401 Unauthorized?
+        return <response 403 Forbidden>;
+    }
 
     create propfind request for <resource>;
     set Depth header to 0;
@@ -403,6 +421,12 @@ For the MOVE request 2 different resource trees need to be checked for locks.
 The algorithm to do so is described below (pseudo code): ::
 
     lock backend;
+    
+    if ( <authentication> invalid )
+    {
+        // should probably be 401 Unauthorized?
+        return <response 403 Forbidden>;
+    }
     
     create propfind request for <request resource>;
     set Depth header to INFINITY;
@@ -454,6 +478,12 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
     
     lock backend;
     
+    if ( <authentication> invalid )
+    {
+        // should probably be 401 Unauthorized?
+        return <response 403 Forbidden>;
+    }
+    
     create propfind request for <destination resource>;
     set Depth header to 0;
     send <propfind request> to backend;
@@ -493,6 +523,12 @@ therefore needs to check infinite depth for locks (pseudo code): ::
     
     lock backend;
     
+    if ( <authentication> invalid )
+    {
+        // should probably be 401 Unauthorized?
+        return <response 403 Forbidden>;
+    }
+    
     create propfind request for <resource>;
     set Depth header to INFINITY;
     send <propfind request> to backend;
@@ -515,6 +551,13 @@ The MKCOL method is similar to the PUT request in terms of locking. The
 following pseudo code shows how this works: ::
 
     lock backend;
+    
+    if ( <authentication> invalid )
+    {
+        // should probably be 401 Unauthorized?
+        return <response 403 Forbidden>;
+    }
+
     create propfind request for <resource>;
     set Depth header to 0;
     send <propfind request> to backend;
