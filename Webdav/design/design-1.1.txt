@@ -227,7 +227,7 @@ sections describe all necessary changes except the handling of the If header,
 which is described in the main section `Common concerns`_.
 
 LOCK
-====
+----
 
 Objects of class ezcWebdavLockRequest must be handled completly by the lock
 plugin. In case such a request is received, the following operations must be
@@ -271,6 +271,7 @@ performed (pseudo code): ::
     create <proppatch request> for <properties to patch>;
     send <proppatch request> to backend;
 
+    register <authentication> with <lock token>;
     
     unlock backend;
     
@@ -291,19 +292,19 @@ need to be created by the plugin and to be processed by the backend. In
 addition, the plugin needs to process the returned response objects.
 
 UNLOCK
-======
+------
 
 The unlock operation contains exactly 1 lock token that is to be removed from
 the resource(s) identified by the reqeust path. The following pseudo code
 describes the operations to be used in the plugin to realize this: ::
-
-    lock backend;
     
     if ( <authentication> invalid )
     {
         // should probably be 401 Unauthorized?
         return <response 403 Forbidden>;
     }
+
+    lock backend;
 
     create propfind request for <request path>;
     set Depth header to INFINITY;
@@ -336,20 +337,21 @@ occur, if the lock expired right before the client sent the request. Anyway,
 the lock is gone, as desired by the client.
 
 PUT
-===
+---
 
 The PUT method requires 2 additional checks if the If header check succeeded
 (meaning that any send If header mached). The actions to take place before the
 original processing of the PUT method can take place are described a follows
 (pseudo code): ::
 
-    lock backend;
-    
     if ( <authentication> invalid )
     {
         // should probably be 401 Unauthorized?
         return <response 403 Forbidden>;
     }
+
+    lock backend;
+    
     create propfind request for <resource>;
     set Depth header to 0;
     send <propfind request> to backend;
@@ -383,13 +385,13 @@ original processing of the PUT method can take place are described a follows
 
 
 POST
-====
+----
 
 The POST request is not honored by the Webdav components and will therefore not
 be included in lock handling.
 
 PROPPATCH
-=========
+---------
 
 The PROPPATCH request is only allowed if the affected resource is not locked by
 someone else. The necessery extensions are described below (pseudo code): ::
@@ -415,18 +417,18 @@ someone else. The necessery extensions are described below (pseudo code): ::
     unlock backend;
 
 MOVE
-====
+----
 
 For the MOVE request 2 different resource trees need to be checked for locks.
 The algorithm to do so is described below (pseudo code): ::
-
-    lock backend;
     
     if ( <authentication> invalid )
     {
         // should probably be 401 Unauthorized?
         return <response 403 Forbidden>;
     }
+
+    lock backend;
     
     create propfind request for <request resource>;
     set Depth header to INFINITY;
@@ -471,18 +473,18 @@ The algorithm to do so is described below (pseudo code): ::
     unlock backend;
 
 COPY
-====
+----
 
 In contrast to the MOVE request, only the destination needs to be checked for
 locks before copying. The algorithm looks as follows (pseudo code): ::
-    
-    lock backend;
     
     if ( <authentication> invalid )
     {
         // should probably be 401 Unauthorized?
         return <response 403 Forbidden>;
     }
+    
+    lock backend;
     
     create propfind request for <destination resource>;
     set Depth header to 0;
@@ -516,18 +518,18 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
     unlock backend;
 
 DELETE
-======
+------
 
 The DELETE method works on collection and non-collection resources and
 therefore needs to check infinite depth for locks (pseudo code): ::
-    
-    lock backend;
     
     if ( <authentication> invalid )
     {
         // should probably be 401 Unauthorized?
         return <response 403 Forbidden>;
     }
+    
+    lock backend;
     
     create propfind request for <resource>;
     set Depth header to INFINITY;
@@ -545,18 +547,18 @@ therefore needs to check infinite depth for locks (pseudo code): ::
     unlock backend;
 
 MKCOL
-=====
+-----
 
 The MKCOL method is similar to the PUT request in terms of locking. The
 following pseudo code shows how this works: ::
 
-    lock backend;
     
     if ( <authentication> invalid )
     {
         // should probably be 401 Unauthorized?
         return <response 403 Forbidden>;
     }
+    lock backend;
 
     create propfind request for <resource>;
     set Depth header to 0;
@@ -588,97 +590,122 @@ following pseudo code shows how this works: ::
 
     unlock backend;
     
-
-===========
-Open issues
-===========
-
 Authentication
 ==============
 
-The problem
------------
+Although a certain lock is uniquely identified by a lock token, this does not
+ensure that only the lock holding principle can make use of it. The lock tokens
+associated with a certain resoure can be looked up by every principle through
+the lockdiscovery property.
 
-The WebDAV RFC specifies that lock tokens are not secure for authentication
-since the can be obtained by every client with access to the repository through
-the lockdiscovery property. Therefore, a server must provide its own
-authentication scheme. We currently do not support any authentication mechanism
-in the Webdav component. To realize locking, we need to support at least 1
-authentication model in the component.
+To ensure that a certain lock token is only used by the principle who created
+it, a dedicated authentication mechanism is necessary. Authentication
+credentials can only be provided through HTTP-Auth, which is accessible to PHP
+applications through $_SERVER['PHP_AUTH_USER'] and $_SERVER['PHP_AUTH_USER'].
 
-Solution attempt
-----------------
+To ensure that a principle is generally allowed to perform a certain action at
+all and that a specific lock token is valid for a certain principle, an
+authentication interface will be provided that can be implemented by a user to
+perform custom authentication. Since the Webdav component does not ship with a
+dedicated authentication mechanism, the default implementation will always
+validate a user as authenticated.
 
-The only possible authentication scheme provided through the HTTP protocol is
-HTTP-Auth. Therefore the HTTP-Auth information should be integrated into every
-request object, if provided. To check this information, an interface should be
-provided that provides the following capabilities:
+The abstract base class for authentication will look as follows: ::
 
-- Information of the assignment of a new lock token to a specific HTTP-Auth
-  user.
-- Removal of a lock token.
-- Answer to the question if a certain user may perform an action with a given
-  lock token.
+    abstract class ezcWebdavLockAuthenticationManager
+    {
+        public function authenticate( $path );
 
-In addition we should provide a basic implementation of this class, which does
-actually not do anything but discard the given information and return true on
-authentication question. This will not provide any security, but allow users to
-plug their own authentication mechanisms into the lock facilities.
+        public function registerLock( $lockToken, $user );
+        public function validateLock( $lockToken, $user );
+        public function unregisterLock( $lockToken );
 
-Further thoughts
-----------------
+        public function getUserName()
+        { ... }
+        protected function getPassword()
+        { ... }
+    }
 
-In future it might be possibly that a WebdavAuthenticationTiein is implemented,
-which might then be plugged into the described mechanism, too. This could in
-addition be used for a "plugin" that performs authentication (and possibly
-authorization?) in general on the transport/server level.
+The class implements the methods getUserName() and getPassword() per default
+using the HTTP Auth mechanism. This may be overwritten my extended classes,
+that potentiall want to provide different authentication methods than HTTP
+Auth. The getUserName() method is public, because the lock plugin will use it
+to store the author of a lock token in the lockdiscovery property. In contrast
+the getPassword() method is protected, to ensure that nobody can access this
+externally.
+
+The method authenticate() retrieves the current username and password
+internally and verifies their correctness. The \*Lock() methods are used to
+manage lock tokens and their assignement to principles. The given $user
+parameter is distinguished by the lock plugin through the getUserName() method.
+
+The registerLock() method assigns a $lockToken to the principle identified by
+$user. validateLock() validates that the given lock token belongs to the
+current principle. The unregisterLock() method discards a lock token when the
+UNLOCK method is used or in case the lock token expires. The lock plugin will
+have taken care for validtion before, if necessary.
+
+.. Note::
+   For COPY and MOVE requests authentication has to happen twice: Once for the
+   source and once for the destination path.
+
+The basic implementation of this interface, called
+ezcWebdavLockFakeAuthenticator, will not perform any of the desired checks, but
+simply return true on all method calls. *This does not provide any
+authentication*, but allows the lock plugin to be used in a trusted
+environment, where lock tokens are not subject to be exploited. The class will
+return the users IP address from the getUserName() method to allow the lock
+plugin to set the owner information of the lockdiscovery property properly.
+
+.. Warning::
+   Usually it is a good idea allow authentication without being specific to
+   locking. This would mean to offer an authentication mechanism globally for
+   the Webdav component. The problem here is, that this will not include lock
+   management and for the lock plugin a second authentication point needs to be
+   established.
 
 Lock null resources
 ===================
 
-The problem
-------------
+Lock null resources are not (yet) existing resources, which have been locked.
+It makes sense to lock a resource before it is created, to ensure that no other
+principle can interfer with the creation. Lock null resources may not appear as
+complete resources, so that the lock plugin must check under certain
+circumstances if an affected resource is a lock null resource or not.
 
-For our special case this means, that we need to "physically" create
-lock-null resources in the utilized back end, to make it persist during
-requests, whenever a null-lock is acquired. This lock-null resource must
-not appear as a real resource to the client (e.g. must not have a
-correct content type and must not respond to GET requests). If the
-resource is unlocked again, it must be removed from the back end again.
+Lock null resources need to be persistent between requests as long as the lock
+that affects them exists. As soon as this lock is removed or expires, the lock
+null resource must be removed, too. When a lock null resource is correctly
+created, by the principle that holds the lock, it must be converted into a real
+resource.
 
-In our internal handling, that means, that we need to intervene any of
-the operations not supported by a lock-null resource (e.g. COPY, MOVE,
-PROPPATCH) requests to check is a lock-null resource is affected and
-remove it potentially or forbid the operation. Furthermore, we need to
-intervene any operation that is supported by a lock-null resource to
-remove potential information from responses that must not be available
-for lock-null resources. This will mean a lot of internally generated
-requests to the back end and a lot of processing of the back end generated
-responses.
+To allow the lock plugin to distinguish between lock null resources and real
+resources, a new property namespace is introduced, which is exclusively used in
+the lock plugin: *ezclock*. In this namespace, the property *nullresource* will
+be used to indicate that a resource is a lock null resource. The property will
+contain no content, since its only sense is to indicate that a resource is not
+a usual resource.
 
-For example, if a MOVE request is issued by a client, we need to check
-the whole affected directory tree for lock-null resources and remove
-those from the destination and send a special error code for them in the
-response.
+During each affected request, the lock plugin needs to check responses for lock
+null resources before they are serialized by the transport. Supported methods
+of lock null resources are:
 
-Atomicity of operations also comes into play here, since our internal
-requests to the back end might interfere with other external requests. For
-example, a null-lock might be acquired by the client while we are
-internally checking the correctness of a MOVE request (race-condition).
+- PUT
+- MKCOL
+- OPTIONS
+- PROPFIND
+- LOCK
+- UNLOCK
 
-Solution attempts
------------------
+All other methods will return 405 (Method Not Allowed). For the PROPFIND
+request, only certain properties are supported by lock null resources. These
+are the lockdiscovery and supportedlock properties, All other live properties
+should be empty.
 
-I currently do not see a full solution for this problem, still there are
-some ideas in my mind, that might be helpful. For lock-null resources we
-can invent a special dead-property name space to indicate such resources.
-If a special (for lock-null resources forbidden) operation occurs, we
-can easily check for them using a PROPFIND request. Creating and
-maintaining lock-null resources should then be not problem.
-
-For the race-condition issue, we'll definitely need support in the
-back end, because I see no other solution attempt here to ensure the
-consistency.
+.. Note::
+   The fact that lock null resource properties are mostly empty is not a MUST
+   condition in the RFC, so we will leave most properties as set by the
+   backend, to allow proper serialization on the transport layer.
 
 Common concerns
 ^^^^^^^^^^^^^^^
