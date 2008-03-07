@@ -156,6 +156,8 @@ The information which we want to show in the feed is:
 - the *title* of the feed: ``eZ news feed``
 - a *description* of the feed: ``This RSS feed contains news feeds for eZ
   Publish and eZ Components.``
+- a *published* date (called *pubDate* in RSS2) for the feed:
+  ``Wed, 05 Mar 2008 14:28:45 +0000``
 - an *author* (called *managerEditor* in RSS2): ``nospam@ez.no (Derick)``
   (this is the recommended way to specify an author in RSS2, with an email
   address and the name of the person in paranthesis)
@@ -167,6 +169,8 @@ A news item can be defined by these elements (example for one news item):
 - the *title* of the news item: ``eZ Components 2007.1 released``
 - a short *description* of the news item: ``The new release of eZ Components
   include Workflow, Authentication...``
+- a *published* date (called *pubDate* in RSS2) for the news item:
+  ``Mon, 02 Jul 2007 11:36:45 +0000``
 - an *author* of the news item: ``nospam@ez.no (Derick)``
   (this is the recommended way to specify an author in RSS2, with an email
   address and the name of the person in paranthesis)
@@ -190,6 +194,7 @@ We add the *title*, *description* and *author* to the feed::
 
     $feed->title = 'eZ news feed';
     $feed->description = 'This RSS feed contains news feeds for eZ Publish and eZ Components';
+    $feed->published = 'Wed, 05 Mar 2008 14:28:45 +0000';
     $feed->author = 'nospam@ez.no (Derick)';
 
 Because some feed types support multiple *link* elements, multiple *link*
@@ -221,6 +226,7 @@ Next we add the *title*, *description* and *author* elements to the news item
 
     $item->title = 'eZ Components 2007.1 released';
     $item->description = 'The new release of eZ Components include Workflow, Authentication...';
+    $item->published = 'Mon, 02 Jul 2007 11:36:45 +0000';
     $item->author = 'nospam@ez.no (Derick)';
 
 We add the *link* element to the news item in the same way as for the feed::
@@ -456,9 +462,9 @@ An episode can be defined by these elements (example for one episode):
   http://rcplanes.example.com/media/003-flying-indoors.mp3. Other information
   can also be provided as attributes for the *enclosure*, namely *length* in
   bytes and *type* (``audio/x-mp3`` in our case)
-- the date and time of the episode, or *pubDate*. The `iTunes`_ program uses
-  this timestamp to download the latest episode automatically:
-  ``Fri, 04 Jan 2008 11:18:34 +0100``
+- the date and time of the episode, or *published* (called *pubDate* in RSS2).
+  The `iTunes`_ program uses this timestamp to download the latest episode
+  automatically: ``Fri, 04 Jan 2008 11:18:34 +0100``
 
 In addition, these iTunes elements are added for each episode:
 
@@ -673,14 +679,15 @@ Step 3. Iterate over the feed items
 
 A feed can contain zero or more *item* elements.
 
-Let's say we want to extract the *title*, *description*, *author* and *link*
-of all items. This is how we will do it::
+Let's say we want to extract the *title*, *description*, *published*, *author*
+and *link* of all items. This is how we will do it::
 
     $items = array();
     foreach ( $feed->items as $item )
     {
         $title = isset( $item->title ) ? $item->title->__toString() : null;
         $description = isset( $item->description ) ? $item->description->__toString() : null;
+        $published = isset( $item->published ) ? $item->published->getValue()->format( 'c' ) : null;
         $author = isset( $item->author ) ? $item->author->__toString() : null;
 
         $links = array();
@@ -697,6 +704,11 @@ of all items. This is how we will do it::
                           'author' => $author,
                           'links' => $links );
     }
+
+The *published* element is an ezcFeedElement object encapsulating a DateTime
+object, so we first get the DateTime object with **getValue()**, then we
+return the date as a string with **format( 'c' )**. Other formats can be used
+also, see the documentation for `date_format()`_.
 
 
 How to parse an iTunes podcast
@@ -1007,6 +1019,7 @@ please see the `specifications`_ page.
 .. _iTunes-specifications: http://www.apple.com/itunes/store/podcaststechspecs.html
 
 .. _aggregator: http://en.wikipedia.org/wiki/List_of_feed_aggregators
+.. _date_format(): http://php.net/manual/en/function.date-format.php
 
 .. _iTunes categories: http://www.apple.com/itunes/store/podcaststechspecs.html#categories
 .. _iTunes: http://www.apple.com/itunes/

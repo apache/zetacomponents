@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
   <channel>
-    <title>eZ news feeds</title>
+    <title>eZ news feed</title>
     <link>http://ez.no</link>
     <description>This RSS feed contains news feeds for eZ Publish and eZ Components.</description>
     <managingEditor>nospam@ez.no (Derick)</managingEditor>
-    <pubDate>Tue, 04 Mar 2008 11:18:34 +0100</pubDate>
+    <pubDate>Wed, 05 Mar 2008 14:28:45 +0000</pubDate>
+    <lastBuildDate>Fri, 07 Mar 2008 12:51:55 +0000</lastBuildDate>
     <generator>eZ Components</generator>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <item>
@@ -14,20 +15,23 @@
       <description>The new release of eZ Components include Workflow, Authentication...</description>
       <author>nospam@ez.no (Derick)</author>
       <guid isPermaLink="true">http://ezcomponents.org/resources/news/news-2007-07-02</guid>
+      <pubDate>Mon, 02 Jul 2007 11:36:45 +0000</pubDate>
     </item>
     <item>
       <title>eZ Publish 4.0 released</title>
       <link>http://ez.no/company/news/first_stable_ez_publish_4_0_release_for_php_5</link>
       <description>The new release of eZ Publish is based on PHP 5....</description>
-      <author>nospam@ez.no (Derick)</author>
+      <author>nospam@ez.no (Ole)</author>
       <guid isPermaLink="true">http://ez.no/company/news/first_stable_ez_publish_4_0_release_for_php_5</guid>
+      <pubDate>Tue, 03 Jul 2007 16:59:00 +0000</pubDate>
     </item>
     <item>
       <title>eZ Find 1.0 released</title>
       <link>http://ez.no/ezfind/news/ez_find_1_0_2_for_ez_publish_3_10_and_ez_find_1_0_0beta2_for_ez_publish_4_0_released</link>
       <description>A new product in the eZ family of open-source solutions...</description>
-      <author>nospam@ez.no (Derick)</author>
+      <author>nospam@ez.no (Kåre)</author>
       <guid isPermaLink="true">http://ez.no/ezfind/news/ez_find_1_0_2_for_ez_publish_3_10_and_ez_find_1_0_0beta2_for_ez_publish_4_0_released</guid>
+      <pubDate>Wed, 04 Jul 2007 14:35:00 +0000</pubDate>
     </item>
   </channel>
 </rss>

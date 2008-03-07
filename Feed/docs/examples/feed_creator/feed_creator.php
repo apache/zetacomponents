@@ -45,18 +45,21 @@ echo $xml . "\n\n";
  * <code>
  * array( 'title' => 'Feed title',
  *        'link' => 'Feed link',
+ *        'published' => 'Feed published date',
  *        'authorName' => 'Feed author name',
  *        'authorEmail' => 'Feed author email',
  *        'description' => 'Feed description',
  *        'items' => array(
  *                          0 => array( 'title' => 'Item 0 title',
  *                                      'link' => 'Item 0 link',
+ *                                      'published' => 'Item 0 published date',
  *                                      'authorName' => 'Item 0 author name',
  *                                      'authorEmail' => 'Item 0 author email',
  *                                      'description' => 'Item 0 description',
  *                                    ),
  *                          1 => array( 'title' => 'Item 1 title',
  *                                      'link' => 'Item 1 link',
+ *                                      'published' => 'Item 1 published date',
  *                                      'authorName' => 'Item 1 author name',
  *                                      'authorEmail' => 'Item 1 author email',
  *                                      'description' => 'Item 1 description',
@@ -88,6 +91,7 @@ function readDataFile( $fileName )
     $data = array();
     $data['title'] = trim( fgets( $fh ) );
     $data['link'] = trim( fgets( $fh ) );
+    $data['published'] = trim( fgets( $fh ) );
     $data['authorName'] = trim( fgets( $fh ) );
     $data['authorEmail'] = trim( fgets( $fh ) );
     $data['description'] = trim( fgets( $fh ) );
@@ -100,6 +104,7 @@ function readDataFile( $fileName )
         $data['item'][$i] = array();
         $data['item'][$i]['title'] = trim( fgets( $fh ) );
         $data['item'][$i]['link'] = trim( fgets( $fh ) );
+        $data['item'][$i]['published'] = trim( fgets( $fh ) );
         $data['item'][$i]['authorName'] = trim( fgets( $fh ) );
         $data['item'][$i]['authorEmail'] = trim( fgets( $fh ) );
         $data['item'][$i]['description'] = trim( fgets( $fh ) );
@@ -118,18 +123,21 @@ function readDataFile( $fileName )
  * <code>
  * array( 'title' => 'Feed title',
  *        'link' => 'Feed link',
- *        'description' => 'Feed description',
+ *        'published' => 'Feed published date',
  *        'authorName' => 'Feed author name',
  *        'authorEmail' => 'Feed author email',
+ *        'description' => 'Feed description',
  *        'items' => array(
  *                          0 => array( 'title' => 'Item 0 title',
  *                                      'link' => 'Item 0 link',
+ *                                      'published' => 'Item 0 published date',
  *                                      'authorName' => 'Item 0 author name',
  *                                      'authorEmail' => 'Item 0 author email',
  *                                      'description' => 'Item 0 description',
  *                                    ),
  *                          1 => array( 'title' => 'Item 1 title',
  *                                      'link' => 'Item 1 link',
+ *                                      'published' => 'Item 1 published date',
  *                                      'authorName' => 'Item 1 author name',
  *                                      'authorEmail' => 'Item 1 author email',
  *                                      'description' => 'Item 1 description',
@@ -155,6 +163,7 @@ function createFeed( $feedType, $data )
             $link->href = $data['link'];
             $feed->id = $data['link'];
             $feed->updated = time();
+            $feed->published = $data['published'];
             $author = $feed->add( 'author' );
             $author->name = $data['authorName'];
             $author->email = $data['authorEmail'];
@@ -169,6 +178,8 @@ function createFeed( $feedType, $data )
         case 'rss2':
             $link = $feed->add( 'link' );
             $link->set( $data['link'] );
+            $feed->updated = time();
+            $feed->published = $data['published'];
             $feed->author = $data['authorEmail'] . ' (' . $data['authorName'] . ')';
             break;
     }
@@ -187,6 +198,7 @@ function createFeed( $feedType, $data )
                 $link->href = $dataItem['link'];
                 $link->rel = 'alternate';
                 $item->updated = time();
+                $item->published = $dataItem['published'];
                 $author = $item->add( 'author' );
                 $author->name = $dataItem['authorName'];
                 $author->email = $dataItem['authorEmail'];
@@ -204,6 +216,7 @@ function createFeed( $feedType, $data )
                 $id->isPermaLink = true;
                 $link = $item->add( 'link' );
                 $link->set( $dataItem['link'] );
+                $item->published = $dataItem['published'];
                 $item->author = $dataItem['authorEmail'] . ' (' . $dataItem['authorName'] . ')';
                 break;
         }
