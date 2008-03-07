@@ -233,10 +233,9 @@ Objects of class ezcWebdavLockRequest must be handled completly by the lock
 plugin. In case such a request is received, the following operations must be
 performed (pseudo code): ::
 
-    if ( <authentication> invalid )
+    if ( !authenticate() )
     {
-        // should probably be 401 Unauthorized?
-        return <response 403 Forbidden>;
+        return <response 401 Unauthorized>;
     }
 
     lock backend;
@@ -249,7 +248,8 @@ performed (pseudo code): ::
     
     if ( <resource> does not exist )
     {
-        create lock-null resource;
+        create <lock-null resource>;
+        assign <lock token> to <lock-null resource>;
     }
     else
     {
@@ -263,13 +263,21 @@ performed (pseudo code): ::
             {
                 return <response 412 Precondition Failed>;
             }
+
             add <lock token> to <lockdiscovery> property;
-            add <lockdiscoveryproperty> to <properties to patch>;
+            add <user name> to <lockdiscovery> property;
+            set <timeout> correctly;
+            set <depth> to <depth> of <request>;
+
+            create <proppatch request> for <lockdiscovery> property;
+            add <proppatch request> to <requests to send>;
         }
     }
 
-    create <proppatch request> for <properties to patch>;
-    send <proppatch request> to backend;
+    foreach ( <requests to send> as <req> )
+    {
+        send <req> to backend;
+    }
 
     register <authentication> with <lock token>;
     
@@ -283,10 +291,6 @@ performed (pseudo code): ::
    already present in the request (If header) and the timeouts just need to be
    updated.
 
-.. Note::
-   The creation of a lock null resource is described in a dedicated section
-   below.
-
 The realization of the LOCK request via a plugin inquires several requests that
 need to be created by the plugin and to be processed by the backend. In
 addition, the plugin needs to process the returned response objects.
@@ -298,10 +302,9 @@ The unlock operation contains exactly 1 lock token that is to be removed from
 the resource(s) identified by the reqeust path. The following pseudo code
 describes the operations to be used in the plugin to realize this: ::
     
-    if ( <authentication> invalid )
+    if ( !authenticate() )
     {
-        // should probably be 401 Unauthorized?
-        return <response 403 Forbidden>;
+        return <response 401 Unauthorized>;
     }
 
     lock backend;
@@ -320,12 +323,17 @@ describes the operations to be used in the plugin to realize this: ::
         else if ( <lock token> is assigned to <resource> )
         {
             remove <lock token> from <lockdiscovery> property;
-            add <lockdiscoveryproperty> to <properties to patch>;
+            create <proppatch request> for <lockdiscovery> property;
+            add <proppatch request> to <requests to send>;
         }
     }
 
-    create <proppatch request> for <properties to patch>;
-    send <proppatch request> to backend;
+    foreach ( <requests to send> as <req> )
+    {
+        send <req> to backend;
+    }
+
+    unregister <lock token>;
     
     unlock backend;
     
@@ -344,10 +352,9 @@ The PUT method requires 2 additional checks if the If header check succeeded
 original processing of the PUT method can take place are described a follows
 (pseudo code): ::
 
-    if ( <authentication> invalid )
+    if ( !authenticate() )
     {
-        // should probably be 401 Unauthorized?
-        return <response 403 Forbidden>;
+        return <response 401 Unauthorized>;
     }
 
     lock backend;
@@ -355,9 +362,10 @@ original processing of the PUT method can take place are described a follows
     create propfind request for <resource>;
     set Depth header to 0;
     send <propfind request> to backend;
+
     if ( <resource> exists )
     {
-        if ( <resource> is locked && <lock> is not mentioned in the If header )
+        if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
         {
             return <response 423 Locked>;
         }
@@ -373,6 +381,7 @@ original processing of the PUT method can take place are described a follows
         create propfind request for <parent>;
         set Depth header to 0;
         send <propfind request> to backend;
+
         if ( <parent> is locked && <lock> is not mentioned in the If header )
         {
             return <response 423 Locked>;
@@ -398,16 +407,21 @@ someone else. The necessery extensions are described below (pseudo code): ::
     
     lock backend;
     
-    if ( <authentication> invalid )
+    if ( !authenticate() )
     {
-        // should probably be 401 Unauthorized?
-        return <response 403 Forbidden>;
+        return <response 401 Unauthorized>;
     }
 
     create propfind request for <resource>;
     set Depth header to 0;
     send <propfind request> to backend;
-    if ( <resource> is locked && <lock> is not mentioned in the If header )
+
+    if ( <resource> is a lock null resource )
+    {
+        return <response 405 Method Not Allowed>;
+    }
+
+    if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
     {
         return <response 423 Locked>;
     }
@@ -424,8 +438,7 @@ The algorithm to do so is described below (pseudo code): ::
     
     if ( <authentication> invalid )
     {
-        // should probably be 401 Unauthorized?
-        return <response 403 Forbidden>;
+        return <response 401 Unauthorized>;
     }
 
     lock backend;
@@ -433,9 +446,10 @@ The algorithm to do so is described below (pseudo code): ::
     create propfind request for <request resource>;
     set Depth header to INFINITY;
     send <propfind request> to backend;
+
     foreach ( <resource> in <returned response> )
     {
-        if ( <resource> is locked && <lock> is not mentioned in the If header )
+        if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
         {
             return <response 423 Locked>;
         }
@@ -447,7 +461,7 @@ The algorithm to do so is described below (pseudo code): ::
 
     if ( <destination resource> exists )
     {
-        if ( <destination resource> is locked && <lock> is not mentioned in the If header )
+        if ( <destination resource> is locked exclusively && <lock> is not mentioned in the If header )
         {
             return <response 423 Locked>;
         }
@@ -462,7 +476,8 @@ The algorithm to do so is described below (pseudo code): ::
         create propfind request for <parent>;
         set Depth header to 0;
         send <propfind request> to backend;
-        if ( <parent> is locked && <lock> is not mentioned in the If header )
+
+        if ( <parent> is locked exclusively && <lock> is not mentioned in the If header )
         {
             return <response 423 Locked>;
         }
@@ -478,10 +493,9 @@ COPY
 In contrast to the MOVE request, only the destination needs to be checked for
 locks before copying. The algorithm looks as follows (pseudo code): ::
     
-    if ( <authentication> invalid )
+    if ( !authenticate() )
     {
-        // should probably be 401 Unauthorized?
-        return <response 403 Forbidden>;
+        return <response 401 Unauthorized>;
     }
     
     lock backend;
@@ -492,7 +506,7 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
 
     if ( <destination resource> exists )
     {
-        if ( <destination resource> is locked && <lock> is not mentioned in the If header )
+        if ( <destination resource> is locked exclusively && <lock> is not mentioned in the If header )
         {
             return <response 423 Locked>;
         }
@@ -507,6 +521,7 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
         create propfind request for <parent>;
         set Depth header to 0;
         send <propfind request> to backend;
+
         if ( <parent> is locked && <lock> is not mentioned in the If header )
         {
             return <response 423 Locked>;
@@ -523,10 +538,9 @@ DELETE
 The DELETE method works on collection and non-collection resources and
 therefore needs to check infinite depth for locks (pseudo code): ::
     
-    if ( <authentication> invalid )
+    if ( !authenticate() )
     {
-        // should probably be 401 Unauthorized?
-        return <response 403 Forbidden>;
+        return <response 401 Unauthorized>;
     }
     
     lock backend;
@@ -534,11 +548,16 @@ therefore needs to check infinite depth for locks (pseudo code): ::
     create propfind request for <resource>;
     set Depth header to INFINITY;
     send <propfind request> to backend;
+
     foreach ( <resource> in <returned response> )
     {
-        if ( <resource> is locked && <lock> is not mentioned in the If header )
+        if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
         {
             return <response 423 Locked>;
+        }
+        if ( <resource> is a lock null resource )
+        {
+            return <response 405 Method Not Allowed>;
         }
     }
 
@@ -553,25 +572,25 @@ The MKCOL method is similar to the PUT request in terms of locking. The
 following pseudo code shows how this works: ::
 
     
-    if ( <authentication> invalid )
+    if ( !authenticate() )
     {
-        // should probably be 401 Unauthorized?
-        return <response 403 Forbidden>;
+        return <response 401 Unauthorized>;
     }
     lock backend;
 
     create propfind request for <resource>;
     set Depth header to 0;
     send <propfind request> to backend;
+
     if ( <resource> exists )
     {
+        if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
+        {
+            return <response 405 method not allowed>;
+        }
         if ( <resource> is a lock null resource )
         {
             delete <resource>;
-        }
-        else if ( <resource> is locked && <lock> is not mentioned in the If header )
-        {
-            return <response 405 method not allowed>;
         }
     }
     else
@@ -580,7 +599,8 @@ following pseudo code shows how this works: ::
         create propfind request for <parent>;
         set Depth header to 0;
         send <propfind request> to backend;
-        if ( <parent> is locked && <lock> is not mentioned in the If header )
+
+        if ( <parent> is locked exclusively && <lock> is not mentioned in the If header )
         {
             return <response 423 Locked>;
         }
