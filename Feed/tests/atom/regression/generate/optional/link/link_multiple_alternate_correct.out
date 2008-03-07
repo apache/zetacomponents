@@ -8,4 +8,5 @@
   </author>
   <link href="Link href 1" rel="alternate" type="Link type 1" hreflang="Link hreflang 1" title="Link title 1" length="Link length 1"/>
   <link href="Link href 2" rel="alternate" type="Link type 2" hreflang="Link hreflang 2" title="Link title 2" length="Link length 2"/>
+  <generator>eZ Components</generator>
 </feed>

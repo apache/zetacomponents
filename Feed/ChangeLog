@@ -28,6 +28,7 @@
 - Added a feed creator example application.
 - Changed the method ezcFeedTools::prepareDate() to return a DateTime object
   - PHP 5.2 is required now.
+- Added generator information for ATOM when generating the feed.
 
 
 1.0beta1 - Monday 18 December 2006

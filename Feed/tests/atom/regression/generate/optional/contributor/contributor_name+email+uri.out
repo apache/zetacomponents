@@ -11,4 +11,5 @@
     <email>Contributor email</email>
     <uri>Contributor uri</uri>
   </contributor>
+  <generator>eZ Components</generator>
 </feed>

@@ -290,6 +290,10 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $this->feedType = self::FEED_TYPE;
         $this->contentType = self::CONTENT_TYPE;
         $this->schema = new ezcFeedSchema( self::$atomSchema );
+
+        // set default values: generator
+        $generator = $this->add( 'generator' );
+        $generator->set( 'eZ Components' );
     }
 
     /**

@@ -13,4 +13,5 @@
     <email>Author email 2</email>
     <uri>Author uri 2</uri>
   </author>
+  <generator>eZ Components</generator>
 </feed>

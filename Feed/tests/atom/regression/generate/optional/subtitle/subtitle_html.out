@@ -6,5 +6,6 @@
   <author>
     <name>Author name</name>
   </author>
+  <generator>eZ Components</generator>
   <subtitle type="html">Feed subtitle</subtitle>
 </feed>

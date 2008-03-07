@@ -6,6 +6,7 @@
   <author>
     <name>Author name</name>
   </author>
+  <generator>eZ Components</generator>
   <dc:creator xml:lang="a">DC feed creator</dc:creator>
   <entry>
     <id>Entry id</id>

@@ -6,6 +6,7 @@
   <author>
     <name>Author name</name>
   </author>
+  <generator>eZ Components</generator>
   <creativeCommons:license>CreativeCommons license feed</creativeCommons:license>
   <entry>
     <id>Entry id 1</id>

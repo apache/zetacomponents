@@ -6,5 +6,6 @@
   <author>
     <name>Author name</name>
   </author>
+  <generator>eZ Components</generator>
   <icon>Feed icon</icon>
 </feed>

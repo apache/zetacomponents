@@ -6,6 +6,7 @@
   <author>
     <name>Author name</name>
   </author>
+  <generator>eZ Components</generator>
   <dc:contributor xml:lang="a">DC contributor 1</dc:contributor>
   <dc:contributor xml:lang="b">DC contributor 2</dc:contributor>
   <dc:coverage xml:lang="c">DC coverage 1</dc:coverage>

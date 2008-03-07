@@ -6,6 +6,7 @@
   <author>
     <name>Author name</name>
   </author>
+  <generator>eZ Components</generator>
   <entry>
     <id>Entry id</id>
     <title type="html">Entry title</title>

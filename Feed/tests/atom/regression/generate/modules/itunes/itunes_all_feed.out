@@ -6,6 +6,7 @@
   <author>
     <name>Author name</name>
   </author>
+  <generator>eZ Components</generator>
   <itunes:author>iTunes feed author</itunes:author>
   <itunes:block>iTunes feed block</itunes:block>
   <itunes:category text="iTunes feed category"/>

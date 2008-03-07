@@ -6,6 +6,7 @@
   <author>
     <name>Author name</name>
   </author>
+  <generator>eZ Components</generator>
   <rights type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <xhtml:div>Feed copyright</xhtml:div>
   </rights>

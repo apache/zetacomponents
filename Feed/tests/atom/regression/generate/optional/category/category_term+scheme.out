@@ -7,4 +7,5 @@
     <name>Author name</name>
   </author>
   <category term="Category term" scheme="Category scheme"/>
+  <generator>eZ Components</generator>
 </feed>

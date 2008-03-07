@@ -8,4 +8,5 @@
   </author>
   <category term="Category term 1" scheme="Category scheme 1" label="Category label 1"/>
   <category term="Category term 2" scheme="Category scheme 2" label="Category label 2"/>
+  <generator>eZ Components</generator>
 </feed>

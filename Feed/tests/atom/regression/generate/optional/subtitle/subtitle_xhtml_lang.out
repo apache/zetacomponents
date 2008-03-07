@@ -6,6 +6,7 @@
   <author>
     <name>Author name</name>
   </author>
+  <generator>eZ Components</generator>
   <subtitle type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="no">
     <xhtml:div>Feed subtitle</xhtml:div>
   </subtitle>

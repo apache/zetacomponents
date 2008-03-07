@@ -7,4 +7,5 @@
     <name>Author name</name>
     <uri>Author uri</uri>
   </author>
+  <generator>eZ Components</generator>
 </feed>

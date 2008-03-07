@@ -10,4 +10,5 @@
     <name>Contributor name</name>
     <uri>Contributor uri</uri>
   </contributor>
+  <generator>eZ Components</generator>
 </feed>

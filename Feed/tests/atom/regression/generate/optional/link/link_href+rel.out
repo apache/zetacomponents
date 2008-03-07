@@ -7,4 +7,5 @@
     <name>Author name</name>
   </author>
   <link href="Link href" rel="Link rel"/>
+  <generator>eZ Components</generator>
 </feed>
