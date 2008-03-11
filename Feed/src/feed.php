@@ -274,6 +274,16 @@
 class ezcFeed
 {
     /**
+     * The version of the feed generator, to be included in the generated feeds.
+     */
+    const GENERATOR_VERSION = '//autogentag//';
+
+    /**
+     * The uri of the feed generator, to be included in the generated feeds.
+     */
+    const GENERATOR_URI = 'http://ezcomponents.org/docs/tutorials/Feed';
+
+    /**
      * Holds a list of all supported feed types.
      *
      * @var array(string=>string)

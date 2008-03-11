@@ -38,6 +38,7 @@ class ezcFeedRss2RegressionGenerateTest extends ezcFeedRegressionTest
     {
         $text = preg_replace( '@<pubDate>.*?</pubDate>@', '<pubDate>XXX</pubDate>', $text );
         $text = preg_replace( '@<lastBuildDate>.*?</lastBuildDate>@', '<lastBuildDate>XXX</lastBuildDate>', $text );
+        $text = preg_replace( '@<generator.*?>.*?</generator>@', '<generator>XXX</generator>', $text );
         return $text;
     }
 
