@@ -226,6 +226,11 @@ methods must be intercepted to check for locks taking effect. The following
 sections describe all necessary changes except the handling of the If header,
 which is described in the main section `Common concerns`_.
 
+
+.. TODO::
+   - Add correct checking for If header below (check complete header and remove
+     afterwards).
+
 LOCK
 ----
 
@@ -246,8 +251,14 @@ performed (pseudo code): ::
     set Depth header of <propfind request> according to <lock request>;
     send <propfind request> to backend;
     
-    if ( <resource> does not exist )
+    if ( <requested resource> does not exist )
     {
+        if ( If header was set )
+        {
+            // Refresh without existing lock
+            unlock backend;
+            return <response 412 Precondition Failed>; 
+        }
         create <lock-null resource>;
         assign <lock token> to <lock-null resource>;
     }
@@ -255,19 +266,26 @@ performed (pseudo code): ::
     {
         foreach ( <resource> in <returned response> )
         {
-            if ( <resource> is locked exclusively )
+            if ( If header is set )
             {
-                return <response 423 Locked>;
+                refresh timeout of <lockdiscovery> property with <lock token>;
             }
-            if ( <resource> is locked shared and <request> is exclusive )
+            else
             {
-                return <response 412 Precondition Failed>;
-            }
+                if ( <resource> is locked exclusively )
+                {
+                    return <response 423 Locked>;
+                }
+                if ( <resource> is locked shared and <request> is exclusive )
+                {
+                    return <response 412 Precondition Failed>;
+                }
 
-            add <lock token> to <lockdiscovery> property;
-            add <user name> to <lockdiscovery> property;
-            set <timeout> correctly;
-            set <depth> to <depth> of <request>;
+                add <lock token> to <lockdiscovery> property;
+                add <user name> to <lockdiscovery> property;
+                set <timeout> correctly;
+                set <depth> to <depth> of <request>;
+            }
 
             create <proppatch request> for <lockdiscovery> property;
             add <proppatch request> to <requests to send>;
@@ -283,7 +301,7 @@ performed (pseudo code): ::
     
     unlock backend;
     
-    return <corresponding response>;
+    return <prop lockdiscovery response>;
 
 .. Note::
    The code shown above does not include the handling of refreshing LOCK
