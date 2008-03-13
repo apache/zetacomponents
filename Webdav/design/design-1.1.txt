@@ -230,6 +230,7 @@ which is described in the main section `Common concerns`_.
 .. TODO::
    - Add correct checking for If header below (check complete header and remove
      afterwards).
+   - Add expiration of locks!
 
 LOCK
 ----
@@ -248,6 +249,7 @@ performed (pseudo code): ::
     generate <lock token>;
     
     create propfind request for <request path>;
+    // Infinity if no Depth set
     set Depth header of <propfind request> according to <lock request>;
     send <propfind request> to backend;
     
@@ -274,10 +276,14 @@ performed (pseudo code): ::
             {
                 if ( <resource> is locked exclusively )
                 {
+                    // Needs to include <lockdiscovery> property of requested
+                    // resource without the created lock.
                     return <multistatus response 409 Conflict>;
                 }
                 if ( <resource> is locked shared and <request> is exclusive )
                 {
+                    // Needs to include <lockdiscovery> property of requested
+                    // resource without the created lock.
                     return <multistatus response 409 Conflict>;
                 }
 
@@ -301,13 +307,7 @@ performed (pseudo code): ::
     
     unlock backend;
     
-    return <prop lockdiscovery response>;
-
-.. Note::
-   The code shown above does not include the handling of refreshing LOCK
-   requests to reduce complexity. In case of a refresh, the lock token is
-   already present in the request (If header) and the timeouts just need to be
-   updated.
+    return <prop lockdiscovery response for requested resource>;
 
 The realization of the LOCK request via a plugin inquires several requests that
 need to be created by the plugin and to be processed by the backend. In
