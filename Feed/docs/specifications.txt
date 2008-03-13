@@ -241,9 +241,28 @@ ezcFeed-generator
 ezcFeed-icon
 ````````````
 
+An icon for a feed, similar with favicon.ico for websites.
+
+Optional. Only `ATOM`_ feeds will have this element after generating the
+feed. It will be ignored for the other feed types (`RSS1`_, `RSS2`_).
+
+Can appear only once.
+
+Equivalents: `ezcFeed-icon`_, `ATOM-icon`_, RSS1-none, RSS2-none.
+
 
 ezcFeed-id
 ``````````
+
+A universally unique and permanent URI for a feed. For example, it can be an
+Internet domain name.
+
+Required. Only `RSS1`_ and `ATOM`_ feeds will have this element after
+generating the feed. It will be ignored for `RSS2`_.
+
+Can appear only once.
+
+Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, RSS2-none.
 
 
 ezcFeed-image
@@ -255,7 +274,7 @@ ezcFeed-item
 
 Feed entry.
 
-Optional (recommended) for ATOM. Required for RSS1 and RSS2.
+Required for `RSS1`_ and `RSS2`_. Optional (recommended) for `ATOM`_.
 
 Multiple entries can appear.
 
@@ -419,10 +438,10 @@ ezcFeed-textInput
 
 Specifies a text input box that can be displayed with the feed.
 
-Optional (not recommended).
+Optional (not recommended). Only `RSS1`_ and `RSS2`_ feeds will have this
+element after generating the feed. It will be ignored for `ATOM`_.
 
-Can appear only once. Only `RSS1`_ and `RSS2`_ feeds will have this element
-after generating the feed. It will be ignored for `ATOM`_.
+Can appear only once.
 
 For `RSS1`_ it has the required attribute *about*, which should have the same
 value as the *link* sub-element.
@@ -492,13 +511,49 @@ Equivalents: `ezcFeed-title`_, `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 ezcFeed-ttl
 ```````````
 
+Number of minutes that indicates how long a channel can be cached before
+refreshing from the source.
+
+Optional (not recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `ATOM`_).
+
+Can appear only once.
+
+Equivalents: `ezcFeed-ttl`_, ATOM-none, RSS1-none, `RSS2-ttl`_.
+
 
 ezcFeed-updated
 ```````````````
 
+The last time the feed was updated.
+
+Required for `ATOM`_. Optional for `RSS2`_. It will be ignored for `RSS1`_.
+ezcFeed will add automatically the *updated* element with the value the current
+time.
+
+Can appear only once.
+
+Must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``).
+
+Equivalents: `ezcFeed-updated`_, `ATOM-updated`_, RSS1-none, `RSS2-lastBuildDate`_.
+
 
 ezcFeed-webMaster
 `````````````````
+
+The email address of the webmaster responsible for the feed.
+
+Optional (not recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `ATOM`_).
+
+Can appear only once.
+
+It is a good practice to include the name and email of the webmaster,
+for example ``john.doe@example.com (John Doe)``.
+
+Equivalents: `ezcFeed-webMaster`_, ATOM-none, RSS1-none, `RSS2-webMaster`_.
 
 
 Item elements
@@ -514,6 +569,18 @@ ezcFeed-item-category
 
 ezcFeed-item-comments
 `````````````````````
+
+A link to a webpage for comments.
+
+Optional (not recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for the other feed types
+(`RSS1`_, `ATOM`_).
+
+Can appear only once.
+
+Equivalents: `ezcFeed-item-comments`_, ATOM-none, RSS1-none,
+`RSS2-item-comments`_.
+
 
 ezcFeed-item-content
 ````````````````````
@@ -587,6 +654,18 @@ ezcFeed-item-title
 
 ezcFeed-item-updated
 ````````````````````
+
+The last time the feed entry was updated.
+
+Required. Only `ATOM`_ feeds will have this element after generating the
+feed. It will be ignored for the other feed types (`RSS1`_, `RSS2`_).
+
+Can appear only once.
+
+Must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``).
+
+Equivalents: `ezcFeed-item-updated`_, `ATOM-entry-updated`_, RSS1-none,
+RSS2-none.
 
 
 ATOM
@@ -1549,9 +1628,7 @@ Optional (recommended).
 Can appear only once.
 
 It is a good practice to include the name and email of the managing editor,
-for example::
-
-  <managingEditor>john.doe@example.com (John Doe)</managingEditor>
+for example ``john.doe@example.com (John Doe)``.
 
 Equivalents: `ezcFeed-author`_, `ATOM-author`_, RSS1-none,
 `RSS2-managingEditor`_.
@@ -1665,9 +1742,7 @@ Optional (not recommended).
 Can appear only once.
 
 It is a good practice to include the name and email of the webmaster,
-for example::
-
-  <webMaster>john.doe@example.com (John Doe)</webMaster>
+for example ``john.doe@example.com (John Doe)</webMaster>``.
 
 Equivalents: `ezcFeed-webMaster`_, ATOM-none, RSS1-none, `RSS2-webMaster`_.
 
@@ -1685,9 +1760,7 @@ Optional (recommended).
 Can appear only once.
 
 It is a good practice to include the name and email of the author, for
-example::
-
-  <author>john.doe@example.com (John Doe)</author>
+example ``john.doe@example.com (John Doe)</author>``.
 
 Equivalents: `ezcFeed-item-author`_, `ATOM-entry-author`_, RSS1-none,
 `RSS2-item-author`_.
@@ -1922,6 +1995,242 @@ Specifications
 
 Feed elements
 -------------
+
+DublinCore-contributor
+``````````````````````
+
+An entity responsible for making contributions to the resource. Usually the
+name of a person, organization or service.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+Create example::
+
+  $feed = new ezcFeed( 'rss2' );
+  $module = $feed->addModule( 'DublinCore' );
+  $element = $module->add( 'contributor' );
+  $element->set( 'Contributor name' );
+  $element->language = 'no'; // optional language specification
+
+Parse example::
+
+  // $feed is an ezcFeed
+  foreach ( $feed->DublinCore->contributor as $element )
+  {
+      echo $element->__toString();
+      echo $element->language;
+  }
+
+
+DublinCore-coverage
+```````````````````
+
+The spatial or temporal topic of the resource, the spatial applicability of
+the resource, or the jurisdiction under which the resource is relevant. A
+recommended practice is to use a controlled vocabulary such as `TGN`_.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-creator
+``````````````````
+
+An entity responsible for making the resource. Usually the name of a person or
+organization.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-date
+```````````````
+
+A point or period of time associated with an event in the lifecycle of the
+resource. Usual date format is `ISO 8601`_.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-description
+``````````````````````
+
+A description of the resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-format
+`````````````````
+
+The file format, physical medium, or dimensions of the resource. Recommended
+best practices is to use a controlled vocabulary such as the list of
+`Internet Media Types`_ (MIME).
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-identifier
+`````````````````````
+
+An unambiguous reference to the resource within a given context.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-language
+```````````````````
+
+A language of the resource. Recommended best practice is to use a controlled
+vocabulary such as `RFC 4646`_.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-publisher
+````````````````````
+
+An entity responsible for making the resource available. Usually the name of a
+person, organization or service.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore--relation
+````````````````````
+
+A related resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-rights
+`````````````````
+
+Information about rights held in and over the resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-source
+`````````````````
+
+A related resource from which the described resource is derived.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-subject
+``````````````````
+
+The topic of the resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-title
+````````````````
+
+The name given to the resource.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
+
+
+DublinCore-type
+```````````````
+
+The nature or genre of the resource. Recommended best practice is to use a
+controlled vocabulary such as the `DCMI Type Vocabulary`_.
+
+Optional.
+
+Can appear multiple times.
+
+Has an optional attribute *xml:lang* which specifies the language of the text.
+A list of allowed languages can be found here: `RSS language codes`_. This
+attribute is accessed as *language*.
 
 
 Item elements
@@ -2464,6 +2773,7 @@ Feed
 - `RFC 4287`_ ATOM specifications.
 - `RSS1 specifications`_.
 - `RSS2 specifications`_.
+
 
 Modules
 -------
