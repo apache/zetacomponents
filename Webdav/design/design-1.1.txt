@@ -226,10 +226,6 @@ methods must be intercepted to check for locks taking effect. The following
 sections describe all necessary changes except the handling of the If header,
 which is described in the main section `Common concerns`_.
 
-
-.. TODO::
-   - Add expiration of locks!
-
 LOCK
 ----
 
@@ -482,6 +478,10 @@ The algorithm to do so is described below (pseudo code): ::
         {
             return <response 423 Locked>;
         }
+        if ( <resource> is a lock null resource )
+        {
+            return <response 405 Method not allowed>;
+        }
     }
     
     create propfind request for <destination resource>;
@@ -519,6 +519,10 @@ The algorithm to do so is described below (pseudo code): ::
 
     unlock backend;
 
+.. Note::
+   We asume that a lock null resource may deal as the destination for the MOVE
+   method. This is not clearified in the RFC.
+
 COPY
 ----
 
@@ -531,6 +535,18 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
     }
     
     lock backend;
+    
+    create propfind request for <resource>;
+    set Depth header to INFINITY;
+    send <propfind request> to backend;
+    
+    foreach ( <resource> in <returned response> )
+    {
+        if ( <resource> is a lock null resource )
+        {
+            return <response 405 Method not allowed>;
+        }
+    }
     
     create propfind request for <destination resource>;
     set Depth header to 0;
@@ -568,6 +584,10 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
     // Let backend perform <request> ...
 
     unlock backend;
+
+.. Note::
+   We asume that a lock null resource may deal as the destination for the COPY
+   method. This is not clearified in the RFC.
 
 DELETE
 ------
@@ -654,7 +674,32 @@ following pseudo code shows how this works: ::
     // Let backend perform <request> ...
 
     unlock backend;
-    
+
+GET / HEAD
+----------
+
+The GET and HEAD methods are usually not affected by locking. Since we store
+lock-null resources as usual resources, GET/HEAD requests need to be
+intercepted to return an according response. The following checks are needed
+(pseudo code): ::
+
+    lock backend;
+
+    create propfind request for <resource>;
+    set Depth header to 0;
+    send <propfind request> to backend;
+
+    expireLocks( <resource> );
+
+    if ( <resource> exists && <resource> is a lock null resource )
+    {
+        return <405 Method not allowed>;
+    }
+
+    unlock backend;
+
+    // Let backend perform request
+
 Authentication
 ==============
 
