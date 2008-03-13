@@ -153,9 +153,9 @@ ensures that he has absolutely exclusive access to the locked resource. With a
 shared lock it is possible the multiple clients take part in one and the same
 lock. More information on lock scopes are provided later.
 
-============
-Plugin based
-============
+=====================
+Plugin based approach
+=====================
 
 This section describes a potential realization of locking through a plugin for
 the Webdav component. This plugin will make use of the, not yet officially
@@ -222,9 +222,23 @@ Server layer
 On the server layer, the hook receivedRequest will be used to intercept the
 necessary requests. These are on the one hand the LOCK and UNLOCK methods,
 which are exclusively handled by the lock plugin. On the other hand many other
-methods must be intercepted to check for locks taking effect. The following
-sections describe all necessary changes except the handling of the If header,
-which is described in the main section `Common concerns`_.
+methods must be intercepted to check for locks taking effect. For the latter
+methods the hook receivedResponse must also be assigned, to unlock the backend
+properly.
+
+One of the major problems in a plugin based approach is to ensure the
+consistency between the plugin activity and the backend request handling. To
+ensure this, the plugin must be able to lock the (complete) backend before it
+starts operating. The lock must stay until the backend finished proper handling
+of the original request and must be lifted after the final response has been
+created correctly. This again must happen by the lock plugin. The pseudo code
+showen below involves the backend handling. This basically means, that
+everything before the backend comes into action happens in the receivedRequest
+hook callback. The necessary actions after that (mainly the unlocking of the
+backend) happens in the received response hook callback.
+
+The following sections describe all necessary changes except the handling of
+the If header, which is described in the main section `Common concerns`_.
 
 LOCK
 ----
@@ -699,6 +713,45 @@ intercepted to return an according response. The following checks are needed
     unlock backend;
 
     // Let backend perform request
+
+===================
+Integrated approach
+===================
+
+This section describes a potential realization of locking by integrating the
+necessary functionality completly into the Webdav component. The general
+algorithms for lock related mechanisms have already been described in detail in
+the previous section. They will therefore not be repeated in this section, but
+only the differences will be mentioned.
+
+Design goals
+============
+
+This design drafts goal is to build reduce the overhead produced by locking to
+a minimum. This is only possible my integrating the lock mechanisms fully into
+the current source code, instead of implementing a plugin, which is almost
+completly independant from the current code base.
+
+Transport layer
+===============
+
+The functionality described for the `Plugin base approach`_ need to be included
+into the current transport layer. The functionality stays almost exactly the
+same. The main change is the place of implementation. Instead of creating new
+classes, which provide hooks for certain events, new methods in
+ezcWebdavTransport and ezcWebdavPropertyHandler will be implemented.
+
+
+This causes the advantage, that client specific adjustments stay possible as
+they currently are. With the plugin based approach, these adjustments would
+need to be hard coded into the plugin code. With the integrated approach, these
+adjustments can be handled by class extension and configuration through the
+ezcWebdavServer class.
+
+Server layer
+============
+
+With an integrated approach
 
 Authentication
 ==============
