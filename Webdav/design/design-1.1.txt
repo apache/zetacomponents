@@ -228,8 +228,6 @@ which is described in the main section `Common concerns`_.
 
 
 .. TODO::
-   - Add correct checking for If header below (check complete header and remove
-     afterwards).
    - Add expiration of locks!
 
 LOCK
@@ -330,6 +328,8 @@ describes the operations to be used in the plugin to realize this: ::
     create propfind request for <request path>;
     set Depth header to INFINITY;
     send <propfind request> to backend;
+    
+    expireLocks( <resources> in <returned responses> );
 
     foreach ( <resource> in <returned response> )
     {
@@ -386,6 +386,7 @@ original processing of the PUT method can take place are described a follows
 
     if ( <resource> exists )
     {
+        expireLocks( <resource> );
         if ( <resource> is locked exclusively && !checkIfHeader( <resource> ) )
         {
             return <response 423 Locked>;
@@ -398,6 +399,7 @@ original processing of the PUT method can take place are described a follows
     }
     else
     {
+        expireLocks( <resource> );
         <parent> = get collection <resource>;
         create propfind request for <parent>;
         set Depth header to 0;
@@ -438,6 +440,8 @@ someone else. The necessery extensions are described below (pseudo code): ::
     set Depth header to 0;
     send <propfind request> to backend;
 
+    expireLocks( <resource> );
+
     if ( <resource> is a lock null resource )
     {
         return <response 405 Method Not Allowed>;
@@ -469,6 +473,8 @@ The algorithm to do so is described below (pseudo code): ::
     create propfind request for <request resource>;
     set Depth header to INFINITY;
     send <propfind request> to backend;
+    
+    expireLocks( <resources> in <returned responses> );
 
     foreach ( <resource> in <returned response> )
     {
@@ -481,6 +487,8 @@ The algorithm to do so is described below (pseudo code): ::
     create propfind request for <destination resource>;
     set Depth header to 0;
     send <propfind request> to backend;
+    
+    expireLocks( <destination resource> );
 
     if ( <destination resource> exists )
     {
@@ -527,6 +535,8 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
     create propfind request for <destination resource>;
     set Depth header to 0;
     send <propfind request> to backend;
+    
+    expireLocks( <destination resource> );
 
     if ( <destination resource> exists )
     {
@@ -545,6 +555,8 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
         create propfind request for <parent>;
         set Depth header to 0;
         send <propfind request> to backend;
+        
+        expireLocks( <parent> );
 
         if ( <parent> is locked && !checkIfHeader( <parent> ) )
         {
@@ -573,6 +585,8 @@ therefore needs to check infinite depth for locks (pseudo code): ::
     create propfind request for <resource>;
     set Depth header to INFINITY;
     send <propfind request> to backend;
+    
+    expireLocks( <resources> in <returned responses> );
 
     foreach ( <resource> in <returned response> )
     {
@@ -610,6 +624,8 @@ following pseudo code shows how this works: ::
 
     if ( <resource> exists )
     {
+        expireLocks( <resource> );
+
         if ( <resource> is locked exclusively && !checkIfHeader( <resource> ) )
         {
             return <response 405 method not allowed>;
@@ -625,6 +641,8 @@ following pseudo code shows how this works: ::
         create propfind request for <parent>;
         set Depth header to 0;
         send <propfind request> to backend;
+        
+        expireLocks( <parent> );
 
         if ( <parent> is locked exclusively && !checkIfHeader( <parent> ) )
         {
@@ -902,7 +920,7 @@ performed via the receivedRequest hook of the plugin API.
 The procedure (in pseudo code) is as follows: ::
 
     lock backend;
-    foreach ( <range of affected resources> as <basse resource> )
+    foreach ( <range of affected resources> as <base resource> )
     {
         create propfind request for <base resource>;
         set request properties to <getetag> and <lockdiscovery>;
