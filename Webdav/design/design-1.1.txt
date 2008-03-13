@@ -274,11 +274,11 @@ performed (pseudo code): ::
             {
                 if ( <resource> is locked exclusively )
                 {
-                    return <response 423 Locked>;
+                    return <multistatus response 409 Conflict>;
                 }
                 if ( <resource> is locked shared and <request> is exclusive )
                 {
-                    return <response 412 Precondition Failed>;
+                    return <multistatus response 409 Conflict>;
                 }
 
                 add <lock token> to <lockdiscovery> property;
