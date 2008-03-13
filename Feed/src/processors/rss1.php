@@ -418,8 +418,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $rssChildren = $xml->documentElement->childNodes;
         $channel = null;
 
-        // @todo Parse modules
-
         foreach ( $rssChildren as $rssChild )
         {
             if ( $rssChild->nodeType === XML_ELEMENT_NODE
@@ -489,7 +487,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     default:
-                        // @todo Check if it's part of a known module/namespace
+                        // check if it's part of a known module/namespace
                         $this->parseModules( $feed, $channelChild, $tagName );
 
                         // continue 2 = ignore modules when getting attributes below

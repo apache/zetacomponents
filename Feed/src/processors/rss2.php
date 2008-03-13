@@ -255,7 +255,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
             if ( !is_null( $data ) )
             {
-                // @todo Add hooks
                 switch ( $element )
                 {
                     case 'pubDate':
@@ -503,7 +502,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                 if ( !is_null( $metaData ) )
                 {
-                    // @todo Add hooks
                     switch ( $attribute )
                     {
                         case 'guid':
