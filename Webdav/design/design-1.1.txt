@@ -333,16 +333,19 @@ describes the operations to be used in the plugin to realize this: ::
 
     foreach ( <resource> in <returned response> )
     {
-        if ( <resource> is lock null resource> )
+        if ( <lock token> is assigned to <resource> )
         {
-            create delete request for <resource>;
-            send delete request to backend;
-        }
-        else if ( <lock token> is assigned to <resource> )
-        {
-            remove <lock token> from <lockdiscovery> property;
-            create <proppatch request> for <lockdiscovery> property;
-            add <proppatch request> to <requests to send>;
+            if ( <resource> is lock null resource> )
+            {
+                create <delete request> for <resource>;
+                add <delete request> to <requests to send>;
+            }
+            else
+            {
+                remove <lock token> from <lockdiscovery> property;
+                create <proppatch request> for <lockdiscovery> property;
+                add <proppatch request> to <requests to send>;
+            }
         }
     }
 
@@ -383,7 +386,7 @@ original processing of the PUT method can take place are described a follows
 
     if ( <resource> exists )
     {
-        if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
+        if ( <resource> is locked exclusively && !checkIfHeader( <resource> ) )
         {
             return <response 423 Locked>;
         }
@@ -400,13 +403,14 @@ original processing of the PUT method can take place are described a follows
         set Depth header to 0;
         send <propfind request> to backend;
 
-        if ( <parent> is locked && <lock> is not mentioned in the If header )
+        if ( <parent> is locked && !checkIfHeader( <parent> ) )
         {
             return <response 423 Locked>;
         }
     }
 
-    // Let backend perform PUT ...
+    remove If header from <request>;
+    // Let backend perform <request> ...
 
     unlock backend;
 
@@ -439,12 +443,13 @@ someone else. The necessery extensions are described below (pseudo code): ::
         return <response 405 Method Not Allowed>;
     }
 
-    if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
+    if ( <resource> is locked exclusively && !checkIfHeader( <resource> ) )
     {
         return <response 423 Locked>;
     }
 
-    // Let backend perform PROPPATCH ...
+    remove If header from <request>;
+    // Let backend perform <request> ...
 
     unlock backend;
 
@@ -467,7 +472,7 @@ The algorithm to do so is described below (pseudo code): ::
 
     foreach ( <resource> in <returned response> )
     {
-        if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
+        if ( <resource> is locked exclusively && !checkIfHeader( <resource> ) )
         {
             return <response 423 Locked>;
         }
@@ -479,7 +484,7 @@ The algorithm to do so is described below (pseudo code): ::
 
     if ( <destination resource> exists )
     {
-        if ( <destination resource> is locked exclusively && <lock> is not mentioned in the If header )
+        if ( <destination resource> is locked exclusively && !checkIfHeader( <resource> ) )
         {
             return <response 423 Locked>;
         }
@@ -495,13 +500,14 @@ The algorithm to do so is described below (pseudo code): ::
         set Depth header to 0;
         send <propfind request> to backend;
 
-        if ( <parent> is locked exclusively && <lock> is not mentioned in the If header )
+        if ( <parent> is locked exclusively && !checkIfHeader( <parent> ) )
         {
             return <response 423 Locked>;
         }
     }
 
-    // Let backend perform MOVE ...
+    remove If header from <request>;
+    // Let backend perform <request> ...
 
     unlock backend;
 
@@ -524,7 +530,7 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
 
     if ( <destination resource> exists )
     {
-        if ( <destination resource> is locked exclusively && <lock> is not mentioned in the If header )
+        if ( <destination resource> is locked exclusively && !checkIfHeader( <destination resource> ) )
         {
             return <response 423 Locked>;
         }
@@ -540,13 +546,14 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
         set Depth header to 0;
         send <propfind request> to backend;
 
-        if ( <parent> is locked && <lock> is not mentioned in the If header )
+        if ( <parent> is locked && !checkIfHeader( <parent> ) )
         {
             return <response 423 Locked>;
         }
     }
 
-    // Let backend perform COPY ...
+    remove If header from <request>;
+    // Let backend perform <request> ...
 
     unlock backend;
 
@@ -569,7 +576,7 @@ therefore needs to check infinite depth for locks (pseudo code): ::
 
     foreach ( <resource> in <returned response> )
     {
-        if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
+        if ( <resource> is locked exclusively && !checkIfHeader( <resource> ) )
         {
             return <response 423 Locked>;
         }
@@ -579,7 +586,8 @@ therefore needs to check infinite depth for locks (pseudo code): ::
         }
     }
 
-    // Let backend perform DELETE ...
+    remove If header from <request>;
+    // Let backend perform <request> ...
 
     unlock backend;
 
@@ -602,7 +610,7 @@ following pseudo code shows how this works: ::
 
     if ( <resource> exists )
     {
-        if ( <resource> is locked exclusively && <lock> is not mentioned in the If header )
+        if ( <resource> is locked exclusively && !checkIfHeader( <resource> ) )
         {
             return <response 405 method not allowed>;
         }
@@ -618,13 +626,14 @@ following pseudo code shows how this works: ::
         set Depth header to 0;
         send <propfind request> to backend;
 
-        if ( <parent> is locked exclusively && <lock> is not mentioned in the If header )
+        if ( <parent> is locked exclusively && !checkIfHeader( <parent> ) )
         {
             return <response 423 Locked>;
         }
     }
 
-    // Let backend perform MKCOL ...
+    remove If header from <request>;
+    // Let backend perform <request> ...
 
     unlock backend;
     
