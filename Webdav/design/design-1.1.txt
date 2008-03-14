@@ -26,14 +26,14 @@ The following issues are covered in this design:
   (#12583).
 - Lock support (#12286).
 
-For locking, a plugin based approach has been favored while desiging and
+For locking, a plugin based approach has been favored while designed and
 creating the Webdav component version 1.0. However, it turned out that the
 realization of lock support through a plugin is not as easy as it seemed to be.
 Therefore this document describes 2 different design approaches for lock
 related functionality: A plugin based one and an integrated one.
 
-The document is devided into 3 parts. The first part deals with the realization
-of functionality that is execlusively meant to support entity tags. The second
+The document is divided into 3 parts. The first part deals with the realization
+of functionality that is exclusively meant to support entity tags. The second
 part describes features that are exclusively used to support locking features.
 Since WebDAV mixes entity tags (originally HTTP/1.1) and locking in some
 places, the third section describes the design for these common concerns.
@@ -191,7 +191,7 @@ on, to be handled on the server layer.
 The same applies for the UNLOCK method.
 
 For both requests the corresponding response objects still need to be created
-and need to be serialzed by the handleUnknownResponse hook.
+and need to be serialized by the handleUnknownResponse hook.
 
 Properties
 ----------
@@ -202,10 +202,10 @@ The following live properties need to be added:
 - supportedlock
 
 For both the property abstraction classes already exist (@private) and just
-need to be moved to the lock plugin diretories. The parsing and serializing of
+need to be moved to the lock plugin directories. The parsing and serializing of
 these properties needs to be implemented in the plugin. The hooks
 extractUnkownLiveProperty and serializeUnknownLiveProperty will be used for this
-purpose. This ensures that the properties can also be stored in the backend
+purpose. This ensures that the properties can also be stored in the back end
 properly.
 
 .. Note::
@@ -223,19 +223,19 @@ On the server layer, the hook receivedRequest will be used to intercept the
 necessary requests. These are on the one hand the LOCK and UNLOCK methods,
 which are exclusively handled by the lock plugin. On the other hand many other
 methods must be intercepted to check for locks taking effect. For the latter
-methods the hook receivedResponse must also be assigned, to unlock the backend
+methods the hook receivedResponse must also be assigned, to unlock the back end
 properly.
 
 One of the major problems in a plugin based approach is to ensure the
-consistency between the plugin activity and the backend request handling. To
-ensure this, the plugin must be able to lock the (complete) backend before it
-starts operating. The lock must stay until the backend finished proper handling
+consistency between the plugin activity and the back end request handling. To
+ensure this, the plugin must be able to lock the (complete) back end before it
+starts operating. The lock must stay until the back end finished proper handling
 of the original request and must be lifted after the final response has been
 created correctly. This again must happen by the lock plugin. The pseudo code
-showen below involves the backend handling. This basically means, that
-everything before the backend comes into action happens in the receivedRequest
+shown below involves the back end handling. This basically means, that
+everything before the back end comes into action happens in the receivedRequest
 hook callback. The necessary actions after that (mainly the unlocking of the
-backend) happens in the received response hook callback.
+back end) happens in the received response hook callback.
 
 The following sections describe all necessary changes except the handling of
 the If header, which is described in the main section `Common concerns`_.
@@ -243,7 +243,7 @@ the If header, which is described in the main section `Common concerns`_.
 LOCK
 ----
 
-Objects of class ezcWebdavLockRequest must be handled completly by the lock
+Objects of class ezcWebdavLockRequest must be handled completley by the lock
 plugin. In case such a request is received, the following operations must be
 performed (pseudo code): ::
 
@@ -252,21 +252,21 @@ performed (pseudo code): ::
         return <response 401 Unauthorized>;
     }
 
-    lock backend;
+    lock back end;
     
     generate <lock token>;
     
     create propfind request for <request path>;
     // Infinity if no Depth set
     set Depth header of <propfind request> according to <lock request>;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
     
     if ( <requested resource> does not exist )
     {
         if ( If header was set )
         {
             // Refresh without existing lock
-            unlock backend;
+            unlock back end;
             return <response 412 Precondition Failed>; 
         }
         create <lock-null resource>;
@@ -308,24 +308,24 @@ performed (pseudo code): ::
 
     foreach ( <requests to send> as <req> )
     {
-        send <req> to backend;
+        send <req> to back end;
     }
 
     register <authentication> with <lock token>;
     
-    unlock backend;
+    unlock back end;
     
     return <prop lockdiscovery response for requested resource>;
 
 The realization of the LOCK request via a plugin inquires several requests that
-need to be created by the plugin and to be processed by the backend. In
+need to be created by the plugin and to be processed by the back end. In
 addition, the plugin needs to process the returned response objects.
 
 UNLOCK
 ------
 
 The unlock operation contains exactly 1 lock token that is to be removed from
-the resource(s) identified by the reqeust path. The following pseudo code
+the resource(s) identified by the request path. The following pseudo code
 describes the operations to be used in the plugin to realize this: ::
     
     if ( !authenticate() )
@@ -333,11 +333,11 @@ describes the operations to be used in the plugin to realize this: ::
         return <response 401 Unauthorized>;
     }
 
-    lock backend;
+    lock back end;
 
     create propfind request for <request path>;
     set Depth header to INFINITY;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
     
     expireLocks( <resources> in <returned responses> );
 
@@ -361,12 +361,12 @@ describes the operations to be used in the plugin to realize this: ::
 
     foreach ( <requests to send> as <req> )
     {
-        send <req> to backend;
+        send <req> to back end;
     }
 
     unregister <lock token>;
     
-    unlock backend;
+    unlock back end;
     
     return <corresponding response>;
 
@@ -379,7 +379,7 @@ PUT
 ---
 
 The PUT method requires 2 additional checks if the If header check succeeded
-(meaning that any send If header mached). The actions to take place before the
+(meaning that any send If header matched). The actions to take place before the
 original processing of the PUT method can take place are described a follows
 (pseudo code): ::
 
@@ -388,11 +388,11 @@ original processing of the PUT method can take place are described a follows
         return <response 401 Unauthorized>;
     }
 
-    lock backend;
+    lock back end;
     
     create propfind request for <resource>;
     set Depth header to 0;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
 
     if ( <resource> exists )
     {
@@ -404,7 +404,7 @@ original processing of the PUT method can take place are described a follows
         if ( <resource> is a lock null resource )
         {
             create <proppatch request> for <resource> to make it a real resource;
-            send <proppatch request> to backend;
+            send <proppatch request> to back end;
         }
     }
     else
@@ -413,7 +413,7 @@ original processing of the PUT method can take place are described a follows
         <parent> = get collection <resource>;
         create propfind request for <parent>;
         set Depth header to 0;
-        send <propfind request> to backend;
+        send <propfind request> to back end;
 
         if ( <parent> is locked && !checkIfHeader( <parent> ) )
         {
@@ -422,9 +422,9 @@ original processing of the PUT method can take place are described a follows
     }
 
     remove If header from <request>;
-    // Let backend perform <request> ...
+    // Let back end perform <request> ...
 
-    unlock backend;
+    unlock back end;
 
 
 POST
@@ -437,9 +437,9 @@ PROPPATCH
 ---------
 
 The PROPPATCH request is only allowed if the affected resource is not locked by
-someone else. The necessery extensions are described below (pseudo code): ::
+someone else. The necessary extensions are described below (pseudo code): ::
     
-    lock backend;
+    lock back end;
     
     if ( !authenticate() )
     {
@@ -448,7 +448,7 @@ someone else. The necessery extensions are described below (pseudo code): ::
 
     create propfind request for <resource>;
     set Depth header to 0;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
 
     expireLocks( <resource> );
 
@@ -463,9 +463,9 @@ someone else. The necessery extensions are described below (pseudo code): ::
     }
 
     remove If header from <request>;
-    // Let backend perform <request> ...
+    // Let back end perform <request> ...
 
-    unlock backend;
+    unlock back end;
 
 MOVE
 ----
@@ -478,11 +478,11 @@ The algorithm to do so is described below (pseudo code): ::
         return <response 401 Unauthorized>;
     }
 
-    lock backend;
+    lock back end;
     
     create propfind request for <request resource>;
     set Depth header to INFINITY;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
     
     expireLocks( <resources> in <returned responses> );
 
@@ -500,7 +500,7 @@ The algorithm to do so is described below (pseudo code): ::
     
     create propfind request for <destination resource>;
     set Depth header to 0;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
     
     expireLocks( <destination resource> );
 
@@ -520,7 +520,7 @@ The algorithm to do so is described below (pseudo code): ::
         <parent> = get collection <destination resource>;
         create propfind request for <parent>;
         set Depth header to 0;
-        send <propfind request> to backend;
+        send <propfind request> to back end;
 
         if ( <parent> is locked exclusively && !checkIfHeader( <parent> ) )
         {
@@ -529,13 +529,13 @@ The algorithm to do so is described below (pseudo code): ::
     }
 
     remove If header from <request>;
-    // Let backend perform <request> ...
+    // Let back end perform <request> ...
 
-    unlock backend;
+    unlock back end;
 
 .. Note::
-   We asume that a lock null resource may deal as the destination for the MOVE
-   method. This is not clearified in the RFC.
+   We assume that a lock null resource may deal as the destination for the MOVE
+   method. This is not clarified in the RFC.
 
 COPY
 ----
@@ -548,11 +548,11 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
         return <response 401 Unauthorized>;
     }
     
-    lock backend;
+    lock back end;
     
     create propfind request for <resource>;
     set Depth header to INFINITY;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
     
     foreach ( <resource> in <returned response> )
     {
@@ -564,7 +564,7 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
     
     create propfind request for <destination resource>;
     set Depth header to 0;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
     
     expireLocks( <destination resource> );
 
@@ -584,7 +584,7 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
         <parent> = get collection <destination resource>;
         create propfind request for <parent>;
         set Depth header to 0;
-        send <propfind request> to backend;
+        send <propfind request> to back end;
         
         expireLocks( <parent> );
 
@@ -595,13 +595,13 @@ locks before copying. The algorithm looks as follows (pseudo code): ::
     }
 
     remove If header from <request>;
-    // Let backend perform <request> ...
+    // Let back end perform <request> ...
 
-    unlock backend;
+    unlock back end;
 
 .. Note::
-   We asume that a lock null resource may deal as the destination for the COPY
-   method. This is not clearified in the RFC.
+   We assume that a lock null resource may deal as the destination for the COPY
+   method. This is not clarified in the RFC.
 
 DELETE
 ------
@@ -614,11 +614,11 @@ therefore needs to check infinite depth for locks (pseudo code): ::
         return <response 401 Unauthorized>;
     }
     
-    lock backend;
+    lock back end;
     
     create propfind request for <resource>;
     set Depth header to INFINITY;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
     
     expireLocks( <resources> in <returned responses> );
 
@@ -635,9 +635,9 @@ therefore needs to check infinite depth for locks (pseudo code): ::
     }
 
     remove If header from <request>;
-    // Let backend perform <request> ...
+    // Let back end perform <request> ...
 
-    unlock backend;
+    unlock back end;
 
 MKCOL
 -----
@@ -650,11 +650,11 @@ following pseudo code shows how this works: ::
     {
         return <response 401 Unauthorized>;
     }
-    lock backend;
+    lock back end;
 
     create propfind request for <resource>;
     set Depth header to 0;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
 
     if ( <resource> exists )
     {
@@ -674,7 +674,7 @@ following pseudo code shows how this works: ::
         <parent> = get collection <resource>;
         create propfind request for <parent>;
         set Depth header to 0;
-        send <propfind request> to backend;
+        send <propfind request> to back end;
         
         expireLocks( <parent> );
 
@@ -685,9 +685,9 @@ following pseudo code shows how this works: ::
     }
 
     remove If header from <request>;
-    // Let backend perform <request> ...
+    // Let back end perform <request> ...
 
-    unlock backend;
+    unlock back end;
 
 GET / HEAD
 ----------
@@ -697,11 +697,11 @@ lock-null resources as usual resources, GET/HEAD requests need to be
 intercepted to return an according response. The following checks are needed
 (pseudo code): ::
 
-    lock backend;
+    lock back end;
 
     create propfind request for <resource>;
     set Depth header to 0;
-    send <propfind request> to backend;
+    send <propfind request> to back end;
 
     expireLocks( <resource> );
 
@@ -710,16 +710,16 @@ intercepted to return an according response. The following checks are needed
         return <405 Method not allowed>;
     }
 
-    unlock backend;
+    unlock back end;
 
-    // Let backend perform request
+    // Let back end perform request
 
 Authentication
 ==============
 
 Although a certain lock is uniquely identified by a lock token, this does not
 ensure that only the lock holding principle can make use of it. The lock tokens
-associated with a certain resoure can be looked up by every principle through
+associated with a certain resource can be looked up by every principle through
 the lockdiscovery property.
 
 To ensure that a certain lock token is only used by the principle who created
@@ -752,22 +752,22 @@ The abstract base class for authentication will look as follows: ::
 
 The class implements the methods getUserName() and getPassword() per default
 using the HTTP Auth mechanism. This may be overwritten my extended classes,
-that potentiall want to provide different authentication methods than HTTP
+that potentially want to provide different authentication methods than HTTP
 Auth. The getUserName() method is public, because the lock plugin will use it
 to store the author of a lock token in the lockdiscovery property. In contrast
 the getPassword() method is protected, to ensure that nobody can access this
 externally.
 
-The method authenticate() retrieves the current username and password
+The method authenticate() retrieves the current user name and password
 internally and verifies their correctness. The \*Lock() methods are used to
-manage lock tokens and their assignement to principles. The given $user
+manage lock tokens and their assignment to principles. The given $user
 parameter is distinguished by the lock plugin through the getUserName() method.
 
 The registerLock() method assigns a $lockToken to the principle identified by
 $user. validateLock() validates that the given lock token belongs to the
 current principle. The unregisterLock() method discards a lock token when the
 UNLOCK method is used or in case the lock token expires. The lock plugin will
-have taken care for validtion before, if necessary.
+have taken care for validation before, if necessary.
 
 .. Note::
    For COPY and MOVE requests authentication has to happen twice: Once for the
@@ -793,7 +793,7 @@ Lock null resources
 
 Lock null resources are not (yet) existing resources, which have been locked.
 It makes sense to lock a resource before it is created, to ensure that no other
-principle can interfer with the creation. Lock null resources may not appear as
+principle can interfere with the creation. Lock null resources may not appear as
 complete resources, so that the lock plugin must check under certain
 circumstances if an affected resource is a lock null resource or not.
 
@@ -804,8 +804,8 @@ created, by the principle that holds the lock, it must be converted into a real
 resource.
 
 To allow the lock plugin to distinguish between lock null resources and real
-resources, a new property namespace is introduced, which is exclusively used in
-the lock plugin: *ezclock*. In this namespace, the property *nullresource* will
+resources, a new property name space is introduced, which is exclusively used in
+the lock plugin: *ezclock*. In this name space, the property *nullresource* will
 be used to indicate that a resource is a lock null resource. The property will
 contain no content, since its only sense is to indicate that a resource is not
 a usual resource.
@@ -829,14 +829,14 @@ should be empty.
 .. Note::
    The fact that lock null resource properties are mostly empty is not a MUST
    condition in the RFC, so we will leave most properties as set by the
-   backend, to allow proper serialization on the transport layer.
+   back end, to allow proper serialization on the transport layer.
 
 ===================
 Integrated approach
 ===================
 
 This section describes a potential realization of locking by integrating the
-necessary functionality completly into the Webdav component. The general
+necessary functionality completely into the Webdav component. The general
 algorithms for lock related mechanisms have already been described in detail in
 the previous section. They will therefore not be repeated in this section, but
 only the differences will be mentioned.
@@ -847,7 +847,7 @@ Design goals
 This design drafts goal is to build reduce the overhead produced by locking to
 a minimum. This is only possible my integrating the lock mechanisms fully into
 the current source code, instead of implementing a plugin, which is almost
-completly independant from the current code base.
+completely independent from the current code base.
 
 Transport layer
 ===============
@@ -869,22 +869,22 @@ Server layer
 ============
 
 With an integrated approach, no changes on the server layer are necessary. All
-changes directly influence the transport and backend layers.
+changes directly influence the transport and back end layers.
 
 
-Backend layer
-=============
+Back end layer
+==============
 
-The backend layer performs the greatest piece of work in an integrated
+The back end layer performs the greatest piece of work in an integrated
 approach. It still provides a certain level of abstraction, but far less than
-with the plugin based approach. All backend implementations based on
+with the plugin based approach. All back end implementations based on
 ezcWebdavSimpleBackend will be locking enabled.
 
 On the other hand, this might result in slide BC breaks, under certain
 circumstances. Those will force users, who already implemented a custom
-backend, to implement additional methods or change signatures. Since the chance
-that anyone already implemented a custom backend is low, this should be
-effortable.
+back end, to implement additional methods or change signatures. Since the chance
+that anyone already implemented a custom back end is low, this should be
+affordable.
 
 The basic algorithms to handle the affected methods are the same as for the
 plugin based approach. Therefore, only the differences will be described below.
@@ -893,25 +893,25 @@ Requests and responses
 ----------------------
 
 A major difference to the plugin based approach is, that no additional
-request/response handling is necessary. All communication with other backend
+request/response handling is necessary. All communication with other back end
 mechanisms can take place directly through method calls. In the plugin based
-approach for all of the follwing actions a request-response cycle is necessary:
+approach for all of the following actions a request-response cycle is necessary:
 
 - fetching properties
 - setting/updating/removing properties on 1 resource
 - checking if resources exist
 - creating/deleting resources
 
-Those actions can be performed with much less overhead directly in the backend.
+Those actions can be performed with much less overhead directly in the back end.
 
 Locking
 -------
 
-Since the backend is taking over the complete work, it might not be necessary
-to lock it completly when a request is performed. If so, the lock will last
-much shorter than with the plugin based approach. The backend does not need to
-provide a new method to allow the lock plugin to completly lock it, since locks
-are completly handled internally.
+Since the back end is taking over the complete work, it might not be necessary
+to lock it completely when a request is performed. If so, the lock will last
+much shorter than with the plugin based approach. The back end does not need to
+provide a new method to allow the lock plugin to completely lock it, since locks
+are completely handled internally.
 
 Common concerns
 ^^^^^^^^^^^^^^^
@@ -925,9 +925,9 @@ Plugin based
 
 This section tries to design the honoring of the If header in the Webdav
 component using a plugin based approach for lock handling. This works
-corresponding to the pluin approach described in `Plugin design draft`_.
+corresponding to the plugin approach described in `Plugin design draft`_.
 
-It is not possibly to exctract all parts of locking support into the lock
+It is not possibly to extract all parts of locking support into the lock
 plugin, since the If header must be parsed in one go. Since this can also
 contain entity tags, which do belong into the main component, it cannot be
 parsed exclusively in the lock plugin.
@@ -966,7 +966,7 @@ need to be invented which are described in following:
 
 These classes represent the lists provided in an If header. Both are accessed
 through the ArrayAccess interface. The keys used to query the object are
-resource pathes (not URIs!).
+resource paths (not URIs!).
 
 An ezcWebdavIfHeaderList object will return an array of
 ezcWebdavIfHeaderListItem objects on read access through ArrayAccess. This
@@ -980,7 +980,7 @@ ezcWebdavIfHeaderNoTagList will return all list items for *every* resource
 path, since the lists applies to all resources.
 
 This way of abstracting tagged lists and no-tag lists allows a unified usage of
-both classes in deeper layers of the Webdav component (plugin or backend).
+both classes in deeper layers of the Webdav component (plugin or back end).
 
 ::
 
@@ -1005,7 +1005,7 @@ an object is a logical AND combination.
 Code examples
 -------------
 
-Some small code examples to illustrate the above class design will be showen
+Some small code examples to illustrate the above class design will be shown
 here.
 
 ::
@@ -1019,7 +1019,7 @@ here.
 
 This example shows a tagged list in the If header, which will be parsed into an
 instance of ezcWebdavIfHeaderTaggedList will be created from it in the
-Transport layer. The access to this object in the backend or the lock plugin
+Transport layer. The access to this object in the back end or the lock plugin
 will look as follows: ::
 
     $res1items = $ifHeader['/resource1'];
@@ -1035,7 +1035,7 @@ While the $randomItems variable should normally not be requested (since the
 resource is not affected) it would contain the corresponding list items for the
 http://www.bar.bar/random resource.
 
-In contrast, the following reqeuest would return an instance of
+In contrast, the following request would return an instance of
 ezcWebdavIfHeaderNoTagList for the contained If header: ::
 
    COPY /resource1 HTTP/1.1
@@ -1054,19 +1054,19 @@ Server layer
 
 If the lock plugin is active, it needs to hook into every affected request (see
 `Affected base methods`_) and check the If header conditions. The check does
-not only affect the checking of locktoken conditions, but also the check of
-etag validation, because both condition types are combineable. The checks are
+not only affect the checking of lock token conditions, but also the check of
+entity tag validation, because both condition types are combinable. The checks are
 performed via the receivedRequest hook of the plugin API.
 
 The procedure (in pseudo code) is as follows: ::
 
-    lock backend;
+    lock back end;
     foreach ( <range of affected resources> as <base resource> )
     {
         create propfind request for <base resource>;
         set request properties to <getetag> and <lockdiscovery>;
         set depth according to incoming request;
-        send request to backend;
+        send request to back end;
         foreach ( <resources in response> as <resource> )
         {
             if ( <resource> does not conform to If header )
@@ -1076,10 +1076,10 @@ The procedure (in pseudo code) is as follows: ::
         }
     }
     discard If header;
-    unlock backend;
+    unlock back end;
 
 The If header needs to be discarded after correct validation of all entity
-tag/lock token conditions. This avoids that the backend checks for the entity
+tag/lock token conditions. This avoids that the back end checks for the entity
 tag conditions a second time.
 
 .. Note::
@@ -1087,7 +1087,7 @@ tag conditions a second time.
    this case, although it results in a small part of code-duplication.
 
 .. Warning::
-   The behaviour showen here does not conform to 100% with the WebDAV RFC,
+   The behaviour shown here does not conform to 100% with the WebDAV RFC,
    which states that the "If header is intended to have similar functionality
    to the If- Match header defined in section 14.25 of [RFC2068]". If this is
    taken literally, the lock plugin would need to check if a request would fail
@@ -1095,34 +1095,34 @@ tag conditions a second time.
    result in unmanageable overhead and code duplication.
 
 .. Warning::
-   Actually the backend would have need to be locked completly, in case an If
-   header occured and was succesfully checked by the lock plugin. This complete
+   Actually the back end would have need to be locked completely, in case an If
+   header occurred and was successfully checked by the lock plugin. This complete
    lock must be held until the corresponding response was created by the
-   backend. Else there is a race condition in the time frame after the lock
-   checking until the backend starts processing. This can lead to extremly
+   back end. Else there is a race condition in the time frame after the lock
+   checking until the back end starts processing. This can lead to extremely
    strange results in high-load environments.
 
-Backend layer
-=============
+Back end layer
+==============
 
-The backend receives the parsed If header as described in the Transport
+The back end receives the parsed If header as described in the Transport
 layer section through the $headers property of the request object. We cannot
-enforce the honoring of the If header, so back ends do not neccessarily honor
+enforce the honoring of the If header, so back ends do not necessarily honor
 them. However, it should be properly documented that this header exists and is
 must be honored if shipped with a request.
 
-If a backend takes care for the header, it may only use the $eTag and $negated
+If a back end takes care for the header, it may only use the $eTag and $negated
 properties and must ignore the $lockTokens property. The latter one is used
 exclusively in the lock plugin. In case the lock plugin is active, the back end
 should never receive any If header. The If header will then be processed
 exclusively by the lock plugin.
 
-If the backend pays attention to the If header, it must honor it for every
+If the back end pays attention to the If header, it must honor it for every
 request and every resource path that is accessed during execution of the
 request. To include the checking of the If header into request processing the
-following algorith must be used (pseudo-code): ::
+following algorithm must be used (pseudo-code): ::
 
-    lock backend;
+    lock back end;
     if ( preconditions for request without If header are not fulfilled )
     {
         return <corresponding error response>;
@@ -1135,11 +1135,11 @@ following algorith must be used (pseudo-code): ::
         }
     }
     process request;
-    unlock backend;
+    unlock back end;
     return <corresponding response>;
 
 
-The backend does not need to take care of If headers, if the lock plugin is
+The back end does not need to take care of If headers, if the lock plugin is
 installed. In this case, the lock plugin will take over the complete check for
 the If headers conditions and remove the header from the request object
 afterwards.
