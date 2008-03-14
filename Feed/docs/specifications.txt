@@ -534,7 +534,7 @@ time.
 
 Can appear only once.
 
-Must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``).
+Can be assigned with an integer timestamp, a string date or a DateTime object.
 
 Equivalents: `ezcFeed-updated`_, `ATOM-updated`_, RSS1-none, `RSS2-lastBuildDate`_.
 
@@ -635,6 +635,18 @@ ezcFeed-item-description
 ezcFeed-item-enclosure
 ``````````````````````
 
+A link to a multimedia file attached to the feed item.
+
+Optional. Only `RSS2`_ feeds will have this element after generating the feed.
+It will be ignored for the other feed types (`RSS1`_, `ATOM`_).
+
+Can appear only once.
+
+Has 3 required attributes: *url*, *length*, *type*.
+
+Equivalents: `ezcFeed-item-enclosure`_, ATOM-none (`ATOM-entry-link`_ for
+similar functionality), RSS1-none, `RSS2-item-enclosure`_.
+
 
 ezcFeed-item-id
 ```````````````
@@ -646,6 +658,18 @@ ezcFeed-item-link
 
 ezcFeed-item-published
 ``````````````````````
+
+The time the feed item was published.
+
+Optional (recommended). Only `ATOM`_ and `RSS2`_ feeds will have this
+element after generating the feed. It will be ignored for `RSS1`_.
+
+Can appear only once.
+
+Can be assigned with an integer timestamp, a string date or a DateTime object.
+
+Equivalents: `ezcFeed-item-published`_, `ATOM-entry-published`_, RSS1-none,
+`RSS2-item-pubDate`_.
 
 
 ezcFeed-item-title
@@ -662,7 +686,7 @@ feed. It will be ignored for the other feed types (`RSS1`_, `RSS2`_).
 
 Can appear only once.
 
-Must conform to `RFC 3339`_ (eg. ``2003-12-13T18:30:02Z``).
+Can be assigned with an integer timestamp, a string date or a DateTime object.
 
 Equivalents: `ezcFeed-item-updated`_, `ATOM-entry-updated`_, RSS1-none,
 RSS2-none.
@@ -1820,8 +1844,8 @@ Can appear only once.
 
 Has 3 required attributes: *url*, *length*, *type*.
 
-Equivalents: `ezcFeed-item-enclosure`_, `ATOM-entry-link`_, RSS1-none,
-`RSS2-item-enclosure`_.
+Equivalents: `ezcFeed-item-enclosure`_, ATOM-none (`ATOM-entry-link`_ for
+similar functionality), RSS1-none, `RSS2-item-enclosure`_.
 
 
 RSS2-item-guid
