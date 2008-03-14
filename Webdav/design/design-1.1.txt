@@ -714,45 +714,6 @@ intercepted to return an according response. The following checks are needed
 
     // Let backend perform request
 
-===================
-Integrated approach
-===================
-
-This section describes a potential realization of locking by integrating the
-necessary functionality completly into the Webdav component. The general
-algorithms for lock related mechanisms have already been described in detail in
-the previous section. They will therefore not be repeated in this section, but
-only the differences will be mentioned.
-
-Design goals
-============
-
-This design drafts goal is to build reduce the overhead produced by locking to
-a minimum. This is only possible my integrating the lock mechanisms fully into
-the current source code, instead of implementing a plugin, which is almost
-completly independant from the current code base.
-
-Transport layer
-===============
-
-The functionality described for the `Plugin base approach`_ need to be included
-into the current transport layer. The functionality stays almost exactly the
-same. The main change is the place of implementation. Instead of creating new
-classes, which provide hooks for certain events, new methods in
-ezcWebdavTransport and ezcWebdavPropertyHandler will be implemented.
-
-
-This causes the advantage, that client specific adjustments stay possible as
-they currently are. With the plugin based approach, these adjustments would
-need to be hard coded into the plugin code. With the integrated approach, these
-adjustments can be handled by class extension and configuration through the
-ezcWebdavServer class.
-
-Server layer
-============
-
-With an integrated approach
-
 Authentication
 ==============
 
@@ -869,6 +830,88 @@ should be empty.
    The fact that lock null resource properties are mostly empty is not a MUST
    condition in the RFC, so we will leave most properties as set by the
    backend, to allow proper serialization on the transport layer.
+
+===================
+Integrated approach
+===================
+
+This section describes a potential realization of locking by integrating the
+necessary functionality completly into the Webdav component. The general
+algorithms for lock related mechanisms have already been described in detail in
+the previous section. They will therefore not be repeated in this section, but
+only the differences will be mentioned.
+
+Design goals
+============
+
+This design drafts goal is to build reduce the overhead produced by locking to
+a minimum. This is only possible my integrating the lock mechanisms fully into
+the current source code, instead of implementing a plugin, which is almost
+completly independant from the current code base.
+
+Transport layer
+===============
+
+The functionality described for the `Plugin base approach`_ need to be included
+into the current transport layer. The functionality stays almost exactly the
+same. The main change is the place of implementation. Instead of creating new
+classes, which provide hooks for certain events, new methods in
+ezcWebdavTransport and ezcWebdavPropertyHandler will be implemented.
+
+
+This causes the advantage, that client specific adjustments stay possible as
+they currently are. With the plugin based approach, these adjustments would
+need to be hard coded into the plugin code. With the integrated approach, these
+adjustments can be handled by class extension and configuration through the
+ezcWebdavServer class.
+
+Server layer
+============
+
+With an integrated approach, no changes on the server layer are necessary. All
+changes directly influence the transport and backend layers.
+
+
+Backend layer
+=============
+
+The backend layer performs the greatest piece of work in an integrated
+approach. It still provides a certain level of abstraction, but far less than
+with the plugin based approach. All backend implementations based on
+ezcWebdavSimpleBackend will be locking enabled.
+
+On the other hand, this might result in slide BC breaks, under certain
+circumstances. Those will force users, who already implemented a custom
+backend, to implement additional methods or change signatures. Since the chance
+that anyone already implemented a custom backend is low, this should be
+effortable.
+
+The basic algorithms to handle the affected methods are the same as for the
+plugin based approach. Therefore, only the differences will be described below.
+
+Requests and responses
+----------------------
+
+A major difference to the plugin based approach is, that no additional
+request/response handling is necessary. All communication with other backend
+mechanisms can take place directly through method calls. In the plugin based
+approach for all of the follwing actions a request-response cycle is necessary:
+
+- fetching properties
+- setting/updating/removing properties on 1 resource
+- checking if resources exist
+- creating/deleting resources
+
+Those actions can be performed with much less overhead directly in the backend.
+
+Locking
+-------
+
+Since the backend is taking over the complete work, it might not be necessary
+to lock it completly when a request is performed. If so, the lock will last
+much shorter than with the plugin based approach. The backend does not need to
+provide a new method to allow the lock plugin to completly lock it, since locks
+are completly handled internally.
 
 Common concerns
 ^^^^^^^^^^^^^^^
