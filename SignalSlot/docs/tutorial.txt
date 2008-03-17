@@ -65,7 +65,7 @@ Slots are not limited to normal functions. They are specified using the
 pseudo type callback_. You can specify normal functions, class methods and
 static class methods, as shown by these variations of the above example.
 
-.. _callback: http://www.imc.org/rfcs.html
+.. _callback: http://php.net/callback
 
 1. functions
 
