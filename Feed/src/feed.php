@@ -59,9 +59,12 @@
  *
  * Operations possible upon ezcFeed objects (in the following examples $feed is
  * an existing {@link ezcFeed} object):
- *  - set/get a value from the feed document. Example:
+ *  - set a value to the feed object. Example:
  *  <code>
  *  $feed->title = 'News';
+ *  </code>
+ *  - get a value from the feed object. Example:
+ *  <code>
  *  $title = $feed->title;
  *  </code>
  *  - iterate over the items in the feed. Example:

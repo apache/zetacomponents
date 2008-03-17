@@ -134,8 +134,7 @@ Allows processes to register with a cloud to be notified of updates to the
 channel, implementing a lightweight publish-subscribe protocol for RSS feeds.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `ATOM`_).
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_.
 
 Can appear only once.
 
@@ -172,6 +171,25 @@ ezcFeed-contributor
 ezcFeed-copyright
 `````````````````
 
+Copyright information for the feed.
+
+Optional. Only `ATOM`_ and `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for `RSS1`_ feeds.
+
+Can appear only once.
+
+`ATOM`_ has an optional attribute *type* with possible values ``text``
+(default), ``html``, ``xhtml``. This attribute will be ignored for `RSS1`_ and
+`RSS2`_ feeds.
+
+`ATOM`_ has an optional attribute *xml:lang* which specifies the language of
+the text. A list of allowed languages can be found here:
+`RSS language codes`_. This attribute is accessed through ezcFeed as
+*language*. This attribute will be ignored for `RSS1`_ and `RSS2`_ feeds.
+
+Equivalents: `ezcFeed-copyright`_, `ATOM-rights`_, RSS1-none,
+`RSS2-copyright`_.
+
 
 ezcFeed-description
 ```````````````````
@@ -183,14 +201,13 @@ Required.
 Can appear only once.
 
 `ATOM`_ has an optional attribute *type* with possible values ``text``
-(default), ``html``, ``xhtml``.
+(default), ``html``, ``xhtml``. This attribute will be ignored for `RSS1`_ and
+`RSS2`_ feeds.
 
 `ATOM`_ has an optional attribute *xml:lang* which specifies the language of
 the text. A list of allowed languages can be found here:
-`RSS language codes`_. This attribute is accessed through ezcFeed as *language*.
-
-The *type* and *xml:lang* `ATOM`_ attributes won't appear in the generated
-feed when creating `RSS1`_ and `RSS2`_ feeds.
+`RSS language codes`_. This attribute is accessed through ezcFeed as
+*language*. This attribute will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Create example::
 
@@ -216,8 +233,7 @@ ezcFeed-docs
 An URL that points to the documentation for the format used in the feed file.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `ATOM`_).
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
 Can appear only once.
 
@@ -244,7 +260,7 @@ ezcFeed-icon
 An icon for a feed, similar with favicon.ico for websites.
 
 Optional. Only `ATOM`_ feeds will have this element after generating the
-feed. It will be ignored for the other feed types (`RSS1`_, `RSS2`_).
+feed. It will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Can appear only once.
 
@@ -274,7 +290,8 @@ ezcFeed-item
 
 Feed entry.
 
-Required for `RSS1`_ and `RSS2`_. Optional (recommended) for `ATOM`_.
+Required for `RSS1`_ and `RSS2`_ feeds. Optional (recommended) for `ATOM`_
+feeds.
 
 Multiple entries can appear.
 
@@ -301,9 +318,41 @@ Equivalents: `ezcFeed-item`_, `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 ezcFeed-language
 ````````````````
 
+The language for the feed.
+
+Optional (recommended). Only `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_ feeds.
+
+Can appear only once.
+
+In `ATOM`_ you can assign the language to each element instead.
+
+A list of allowed languages can be found here: `RSS language codes`_.
+
+Equivalents: `ezcFeed-language`_, ATOM-*xml:lang* for each element, RSS1-none,
+`RSS2-language`_.
+
 
 ezcFeed-link
 ````````````
+
+An URL to the HTML website corresponding to the feed.
+
+Required for all feed types. In `ATOM`_ a link back to the feed itself must be
+present (with ``rel="self"``).
+
+Multiple links can appear in `ATOM`_ (not recommended).
+
+`ATOM`_ has required attributes: *href*. Optional attributes: *rel* (possible
+values: ``alternate`` (default), ``enclosure``, ``related``, ``self``,
+``via``), *type*, *hreflang*, *title*, *length*.
+
+A maximum of one link with ``rel="alternate"`` can appear per *type* and
+*hreflang*.
+
+These attributes will be ignored for `RSS1`_ and `RSS2`_ feeds.
+
+Equivalents: `ezcFeed-link`_, `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
 
 ezcFeed-published
@@ -312,13 +361,11 @@ ezcFeed-published
 The time the feed was published.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `ATOM`_).
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
 Can appear only once.
 
-Must conform be a Unix timestamp. It will be converted to the datetime format
-required by each feed type.
+Can be assigned with an integer timestamp, a string date or a DateTime object.
 
 Create example::
 
@@ -339,8 +386,7 @@ ezcFeed-rating
 The `PICS`_ rating for the channel.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `ATOM`_).
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
 Can appear only once.
 
@@ -369,8 +415,7 @@ A hint for aggregators telling them which days they can skip when reading the
 feed.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `ATOM`_).
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_.
 
 Can appear only once.
 
@@ -404,8 +449,7 @@ A hint for aggregators telling them which hours they can skip when reading the
 feed.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `ATOM`_).
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_.
 
 Can appear only once.
 
@@ -439,7 +483,7 @@ ezcFeed-textInput
 Specifies a text input box that can be displayed with the feed.
 
 Optional (not recommended). Only `RSS1`_ and `RSS2`_ feeds will have this
-element after generating the feed. It will be ignored for `ATOM`_.
+element after generating the feed. It will be ignored for `ATOM`_ feeds.
 
 Can appear only once.
 
@@ -482,14 +526,13 @@ Required.
 Can appear only once.
 
 `ATOM`_ has an optional attribute *type* with possible values ``text``
-(default), ``html``, ``xhtml``.
+(default), ``html``, ``xhtml``. This attribute will be ignored for `RSS1`_ and
+`RSS2`_ feeds.
 
 `ATOM`_ has an optional attribute *xml:lang* which specifies the language of
 the text. A list of allowed languages can be found here:
 `RSS language codes`_. This attribute is accessed through ezcFeed as *language*.
-
-The *type* and *xml:lang* `ATOM`_ attributes won't appear in the generated
-feed when creating `RSS1`_ and `RSS2`_ feeds.
+This attribute will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Create example::
 
@@ -515,8 +558,7 @@ Number of minutes that indicates how long a channel can be cached before
 refreshing from the source.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `ATOM`_).
+generating the feed. It will be ignored `RSS1`_ and `ATOM`_ feeds.
 
 Can appear only once.
 
@@ -528,9 +570,9 @@ ezcFeed-updated
 
 The last time the feed was updated.
 
-Required for `ATOM`_. Optional for `RSS2`_. It will be ignored for `RSS1`_.
-ezcFeed will add automatically the *updated* element with the value the current
-time.
+Required for `ATOM`_. Optional for `RSS2`_. It will be ignored for `RSS1`_
+feeds. ezcFeed will add automatically the *updated* element with the value the
+current time in `ATOM`_ and `RSS2`_ feeds.
 
 Can appear only once.
 
@@ -545,8 +587,7 @@ ezcFeed-webMaster
 The email address of the webmaster responsible for the feed.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `ATOM`_).
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
 Can appear only once.
 
@@ -565,14 +606,14 @@ ezcFeed-item-author
 One author of the feed entry.
 
 Required in `ATOM`_: one author must be present in each entry in case the feed
-does not contain an author. Optional in `RSS2`_ (recommended). Ignored in
-`RSS1`_.
+does not contain an author. Optional in `RSS2`_ (recommended). Ignored for
+`RSS1`_ feeds.
 
 Multiple authors can appear in `ATOM`_ (not recommended). Can appear only once
-in `RSS2`_.
+in `RSS2`_ feeds.
 
-In `ATOM`_ there are required elements: *name*. Optional elements: *uri*,
-*email*. These elements are ignored in `RSS1`_ and `RSS2`_.
+`ATOM`_ has required elements: *name*. Optional elements: *uri*, *email*.
+These elements are ignored in `RSS1`_ and `RSS2`_ feeds.
 
 Equivalents: `ezcFeed-item-author`_, `ATOM-entry-author`_, RSS1-none,
 `RSS2-item-author`_.
@@ -584,16 +625,16 @@ ezcFeed-item-category
 A category for the feed entry.
 
 Optional. Only `ATOM`_ and `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for `RSS1`_.
+generating the feed. It will be ignored for `RSS1`_ feeds.
 
-Multiple categories can appear in `ATOM`_ and `RSS2`_.
+Multiple categories can appear in `ATOM`_ and `RSS2`_ feeds.
 
-In `ATOM`_ it has one required attribute: *term*. Optional attributes: *scheme*,
-*label*. These attributes are ignored in `RSS2`_.
+`ATOM`_ has one required attribute: *term*. Optional attributes: *scheme*,
+*label*. These attributes are ignored for `RSS1`_ and `RSS2`_ feeds.
 
-In `RSS2`_ it has one optional attribute: *domain*. This attribute is ignored
-in `ATOM`_. The value of the category is required (use the method **set()** of
-ezcFeedItem).
+`RSS2`_ has one optional attribute: *domain*. This attribute will be ignored
+for `RSS1`_ and `ATOM`_ feeds. The value of the category is required (use the
+method **set()** of ezcFeedItem).
 
 Equivalents: `ezcFeed-item-category`_, `ATOM-entry-category`_, RSS1-none,
 `RSS2-item-category`_.
@@ -605,8 +646,7 @@ ezcFeed-item-comments
 A link to a webpage for comments.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `ATOM`_).
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
 Can appear only once.
 
@@ -620,9 +660,8 @@ ezcFeed-item-content
 A short description for the feed item.
 
 Optional (not recommended). Only `ATOM`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `RSS2`_). Can be substituted with |ezcFeed-item-description|_
-(recommended).
+generating the feed. It will be ignored for `RSS1`_ and `RSS2`_ feeds. Can be
+substituted with |ezcFeed-item-description|_ (recommended).
 
 Can appear only once.
 
@@ -633,8 +672,8 @@ Has an optional attribute *src* which specifies the URI where the full content
 is located.
 
 Has an optional attribute *xml:lang* which specifies the language of the text.
-A list of allowed languages can be found here:
-`RSS language codes`_.
+This attribute is accessed through ezcFeed as *language*. A list of allowed
+languages can be found here: `RSS language codes`_.
 
 If *src* is present, the *type* attribute, if present, is the media type of the
 content.
@@ -658,8 +697,7 @@ ezcFeed-item-contributor
 One contributor of the feed entry.
 
 Optional (not recommended). Only `ATOM`_ feeds will have this element after
-generating the feed. It will be ignored for the other feed types
-(`RSS1`_, `RSS2`_).
+generating the feed. It will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Multiple contributors can appear.
 
@@ -675,18 +713,20 @@ ezcFeed-item-copyright
 Copyright information for the feed entry.
 
 Optional. Only `ATOM`_ feeds will have this element after generating the feed.
-It will be ignored for the other feed types (`RSS1`_, `RSS2`_). For `RSS2`_
-the copyright is specified for the whole feed, not for any feed items (see
+It will be ignored for `RSS1`_ and `RSS2`_ feeds. For `RSS2`_ the copyright is
+specified for the whole feed, not for any feed items (see
 `ezcFeed-copyright`_).
 
 Can appear only once.
 
-In `ATOM`_ it has an optional attribute *type* with possible values ``text``
-(default), ``html``, ``xhtml``. This attribute is ignored for `RSS2`_.
+`ATOM`_ has an optional attribute *type* with possible values ``text``
+(default), ``html``, ``xhtml``. This attribute will be ignored for `RSS1`_ and
+`RSS2`_ feeds.
 
-In `ATOM`_ it has an optional attribute *xml:lang* which specifies the
-language of the text. A list of allowed languages can be found here:
-`RSS language codes`_. This attribute is ignored for `RSS2`_.
+`ATOM`_ has an optional attribute *xml:lang* which specifies the language of
+the text. A list of allowed languages can be found here:
+`RSS language codes`_. This attribute is accessed through ezcFeed as
+*language*. This attribute will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Equivalents: `ezcFeed-item-copyright`_, `ATOM-entry-rights`_, RSS1-none,
 RSS2-none (`RSS2-copyright`_ for the whole feed).
@@ -702,12 +742,14 @@ recommended) (see `ezcFeed-item-content`_).
 
 Can appear only once.
 
-In `ATOM`_ it has an optional attribute *type* with possible values ``text``
-(default), ``html``, ``xhtml``. This attribute is ignored for `RSS2`_.
+`ATOM`_ has an optional attribute *type* with possible values ``text``
+(default), ``html``, ``xhtml``. This attribute will be ignored for `RSS1`_ and
+`RSS2`_ feeds.
 
-In `ATOM`_ it has an optional attribute *xml:lang* which specifies the
-language of the text. A list of allowed languages can be found here:
-`RSS language codes`_. This attribute is ignored for `RSS2`_.
+`ATOM`_ has an optional attribute *xml:lang* which specifies the language of
+the text. A list of allowed languages can be found here:
+`RSS language codes`_. This attribute is accessed through ezcFeed as
+*language*. This attribute will ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Equivalents: `ezcFeed-item-description`_, `ATOM-entry-summary`_,
 `RSS1-item-description`_, `RSS2-item-description`_.
@@ -719,11 +761,11 @@ ezcFeed-item-enclosure
 A link to a multimedia file attached to the feed item.
 
 Optional. Only `RSS2`_ feeds will have this element after generating the feed.
-It will be ignored for the other feed types (`RSS1`_, `ATOM`_).
+It will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
 Can appear only once.
 
-Has 3 required attributes: *url*, *length*, *type*.
+`RSS2`_ has 3 required attributes: *url*, *length*, *type*.
 
 Equivalents: `ezcFeed-item-enclosure`_, ATOM-none (`ATOM-entry-link`_ for
 similar functionality), RSS1-none, `RSS2-item-enclosure`_.
@@ -751,15 +793,15 @@ A link to a resource related to the feed entry.
 Required.
 
 Multiple links can appear in `ATOM`_ (not recommended). Can appear only once
-in `RSS1`_ and `RSS2`_.
+in `RSS1`_ and `RSS2`_ feeds.
 
 Enclosures of media files (used mainly for podcasts) can be added with this
 element. In `RSS2`_ use `ezcFeed-item-enclosure`_. `RSS1`_ does not support
 enclosures.
 
-In `ATOM`_ there are required attributes: *href*. Optional attributes: *rel*
-(possible values: ``alternate`` (default), ``enclosure``, ``related``,
-``self``, ``via``), *type*, *hreflang*, *title*, *length*.
+`ATOM`_ has required attributes: *href*. Optional attributes: *rel* (possible
+values: ``alternate`` (default), ``enclosure``, ``related``, ``self``,
+``via``), *type*, *hreflang*, *title*, *length*.
 
 A maximum of one link with ``rel="alternate"`` can appear per *type* and
 *hreflang*.
@@ -767,7 +809,7 @@ A maximum of one link with ``rel="alternate"`` can appear per *type* and
 Recommended only one ``rel="enclosure"`` link to keep compatibility with
 `RSS2`_ |RSS2-item-enclosure|_.
 
-These attributes are ignored for `RSS1`_ and `RSS2`_.
+These attributes are ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Equivalents: `ezcFeed-item-link`_/`ezcFeed-item-enclosure`_,
 `ATOM-entry-link`_, `RSS1-item-link`_, `RSS2-item-link`_/
@@ -780,7 +822,7 @@ ezcFeed-item-published
 The time the feed item was published.
 
 Optional (recommended). Only `ATOM`_ and `RSS2`_ feeds will have this
-element after generating the feed. It will be ignored for `RSS1`_.
+element after generating the feed. It will be ignored for `RSS1`_ feeds.
 
 Can appear only once.
 
@@ -799,13 +841,14 @@ Required.
 
 Can appear only once.
 
-In `ATOM`_ it has an optional attribute *type* with possible values ``text``
+`ATOM`_ has an optional attribute *type* with possible values ``text``
 (default), ``html``, ``xhtml``. This attribute will be ignored for `RSS1`_ and
-`RSS2`_.
+`RSS2`_ feeds.
 
-In `ATOM`_ it has an optional attribute *xml:lang* which specifies the
-language of the text. A list of allowed languages can be found here:
-`RSS language codes`_. This attribute will be ignored for `RSS1`_ and `RSS2`_.
+`ATOM`_ has an optional attribute *xml:lang* which specifies the language of
+the text. A list of allowed languages can be found here:
+`RSS language codes`_. This attribute is accessed through ezcFeed as
+*language*. This attribute will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Equivalents: `ezcFeed-item-title`_, `ATOM-entry-title`_, `RSS1-item-title`_,
 `RSS2-item-title`_.
@@ -817,7 +860,7 @@ ezcFeed-item-updated
 The last time the feed entry was updated.
 
 Required. Only `ATOM`_ feeds will have this element after generating the
-feed. It will be ignored for the other feed types (`RSS1`_, `RSS2`_).
+feed. It will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Can appear only once.
 
@@ -1004,7 +1047,7 @@ Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, RSS2-none.
 ATOM-link
 `````````
 
-An URL to the HTML website corresponding to the channel.
+An URL to the HTML website corresponding to the feed.
 
 Required: a link back to the feed itself must be present (with ``rel="self"``).
 
@@ -1454,7 +1497,7 @@ Equivalents: `ezcFeed-image`_, `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
 RSS1-item
 `````````
 
-Feed entry.
+A feed entry.
 
 Required.
 
@@ -1466,7 +1509,7 @@ Equivalents: `ezcFeed-item`_, `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 RSS1-link
 `````````
 
-The URL to the HTML website corresponding to the channel.
+The URL to the HTML website corresponding to the feed.
 
 Required.
 
@@ -1768,7 +1811,7 @@ Equivalents: `ezcFeed-updated`_, `ATOM-updated`_, RSS1-none,
 RSS2-link
 `````````
 
-The URL to the HTML website corresponding to the channel.
+The URL to the HTML website corresponding to the feed.
 
 Required.
 
