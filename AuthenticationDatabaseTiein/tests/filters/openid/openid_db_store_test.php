@@ -80,6 +80,8 @@ class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinT
 
     public function setUp()
     {
+        $this->origGet = $_GET;
+        $this->origServer = $_SERVER;
         $_GET = null;
         $_SERVER = self::$server;
 
@@ -109,6 +111,8 @@ class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinT
         }
 
         $this->db = null;
+        $_GET = $this->origGet;
+        $_SERVER = $this->origServer;
     }
 
     public function cleanupTables()
