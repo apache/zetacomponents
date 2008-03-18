@@ -16,39 +16,16 @@ ATOM feeds.
 XML feeds overview
 ==================
 
+XML feeds
+---------
+
 An XML feed is an XML document with a certain structure, which lists a series
 of *entries* or *items*.
 
-Example
--------
+An example XML feed:
 
-An example XML feed::
-
-  <?xml version="1.0"?>
-  <rss version="2.0">
-    <channel>
-      <title>Liftoff News</title>
-      <link>http://liftoff.msfc.nasa.gov/</link>
-      <description>Liftoff to Space Exploration.</description>
-      <language>en-us</language>
-      <pubDate>Tue, 10 Jun 2003 04:00:00 GMT</pubDate>
-      <webMaster>webmaster@example.com</webMaster>
-      <item>
-        <title>The Engine That Does More</title>
-        <link>http://liftoff.msfc.nasa.gov/news/2003/news-VASIMR.asp</link>
-        <description>Before man travels to Mars, NASA hopes to design new engines that will let us fly through the Solar System more quickly.  The proposed VASIMR engine would do that.</description>
-        <pubDate>Tue, 27 May 2003 08:37:32 GMT</pubDate>
-        <guid>http://liftoff.msfc.nasa.gov/2003/05/27.html#item571</guid>
-      </item>
-      <item>
-        <title>Astronauts' Dirty Laundry</title>
-        <link>http://liftoff.msfc.nasa.gov/news/2003/news-laundry.asp</link>
-        <description>Compared to earlier spacecraft, the International Space Station has many luxuries, but laundry facilities are not one of them.  Instead, astronauts have other options.</description>
-        <pubDate>Tue, 20 May 2003 08:56:02 GMT</pubDate>
-        <guid>http://liftoff.msfc.nasa.gov/2003/05/20.html#item570</guid>
-      </item>
-    </channel>
-  </rss>
+.. include:: tutorial/rss2_example.xml
+   :literal:
 
 This XML document describes an RSS2 feed, with channel elements *title*,
 *link*, *description*, *language*, *pubDate* and *webMaster*. The XML document
@@ -66,6 +43,14 @@ Modules
 XML feeds are extensible through modules. A module has a namespace and certain
 XML elements. An example of a feed module is iTunes, which allows creating and
 parsing podcasts for the `iTunes`_ media player.
+
+Example of feed (podcast) with the iTunes module:
+
+.. include:: tutorial/podcast_example.xml
+   :literal:
+
+The elements of the iTunes module are the ones with ``itunes:`` in the element
+name. They describe the feed and the items in the feed (called episodes).
 
 
 Applications
@@ -117,9 +102,9 @@ A feed has a type (eg. RSS1, RSS2 or ATOM). The feed type defines which
 processor is used to parse and generate that type. The following feed
 processors are supported by the Feed component:
 
-- ATOM (ezcFeedAtom) - |ATOM-specifications|_
-- RSS1 (ezcFeedRss1) - |RSS1-specifications|_
-- RSS2 (ezcFeedRss2) - |RSS2-specifications|_
+- **ATOM** (ezcFeedAtom) - |ATOM-specifications|_
+- **RSS1** (ezcFeedRss1) - |RSS1-specifications|_
+- **RSS2** (ezcFeedRss2) - |RSS2-specifications|_
 
 A new processor can be defined by creating a class which extends the class
 ezcFeedProcessor and implements the interface ezcFeedParser, and adding it to the
@@ -131,11 +116,11 @@ Supported feed modules
 
 The following modules are supported by the Feed component:
 
-- Content (ezcFeedContentModule) - |Content-specifications|_
-- CreativeCommons (ezcFeedCreativeCommonsModule) -
+- **Content** (ezcFeedContentModule) - |Content-specifications|_
+- **CreativeCommons** (ezcFeedCreativeCommonsModule) -
   |CreativeCommons-specifications|_
-- DublinCore (ezcFeedDublinCoreModule) - |DublinCore-specifications|_
-- iTunes (ezcFeedITunesModule) - |iTunes-specifications|_
+- **DublinCore** (ezcFeedDublinCoreModule) - |DublinCore-specifications|_
+- **iTunes** (ezcFeedITunesModule) - |iTunes-specifications|_
 
 A new module can be defined by creating a class which extends the class
 ezcFeedModule, and adding it to the ezcFeed::$supportedModules and
@@ -203,8 +188,8 @@ elements can be added to a feed (although this is not fully supported by RSS2
 
 The way to add an element which can appear multiple times, or an element which
 supports attributes, is to call the method **add()** from ezcFeed or
-ezcFeedElement/ezcFeedItem. The value of the element is set via the method
-**set()** from ezcFeedElement/ezcFeedItem, and the attributes of the element
+ezcFeedElement / ezcFeedItem. The value of the element is set via the method
+**set()** from ezcFeedElement / ezcFeedItem, and the attributes of the element
 are set as simple properties (the way **$feed->title** is set).
 
 So to add a *link* element to our feed, we will do::
@@ -258,9 +243,9 @@ This is the string from $xml with 3 news items:
 .. include:: examples/feed_creator/data/news.xml
    :literal:
 
-Some elements were added automatically, namely *pubDate* (current system time
-at generation time), *generator* (``eZ Components Feed`` along with the version
-of the Feed component and a link to this tutorial and the) and *docs*
+Some elements were added automatically, namely *lastBuildDate* (current system
+time at generation time), *generator* (``eZ Components Feed`` along with the
+version of the Feed component (``dev``) and a link to this tutorial) and *docs*
 (``http://www.rssboard.org/rss-specification`` - a link to the RSS2
 |RSS2-specifications|_).
 
@@ -358,18 +343,21 @@ The structure of the text files accepted by this application is::
 
     Feed title
     Feed link
+    Feed published date
     Feed author name
     Feed author email
     Feed description
 
     Item 1 title
     Item 1 link
+    Item 1 published date
     Item 1 author name
     Item 1 author email
     Item 1 author description
 
     Item 2 title
     Item 2 link
+    Item 2 published date
     Item 2 author name
     Item 2 author email
     Item 2 author description
@@ -405,7 +393,7 @@ How to create an iTunes podcast
 
 A podcast is a collection of media files (called episodes) distributed over
 the Internet using XML feeds. The podcast doesn't contain the media file, but
-it contains links to these media files, plus information about those files
+it contains links to these media files, plus information about the files
 (meta-information) like creator, duration, category, copyright information,
 etc.
 
@@ -441,7 +429,7 @@ iTunes elements for the whole feed:
   sub-category ``Gadgets``
 - one or more *keywords*, separated by commas: ``RC planes,gadgets,flying``
 - an *image* for our podcast. `iTunes`_ recommends an image of at least 500x500
-  pixels: http://rcplanes.example.com/images/rc_plane_big.jpg
+  pixels: ``http://rcplanes.example.com/images/rc_plane_big.jpg``
 - a *subtitle* for our podcast. This is shown in the Description column in
   `iTunes`_. Should be a very short description: ``Competitions, tutorials and
   tips``.
@@ -460,9 +448,9 @@ An episode can be defined by these elements (example for one episode):
 - a *link* to the detailed article on our website:
   ``http://rcplanes.example.com/articles/fly-an-rc-plane-indoors.html``
 - an *enclosure*, which is a link to a media file:
-  http://rcplanes.example.com/media/003-flying-indoors.mp3. Other information
-  can also be provided as attributes for the *enclosure*, namely *length* in
-  bytes and *type* (``audio/x-mp3`` in our case)
+  ``http://rcplanes.example.com/media/003-flying-indoors.mp3``. Other
+  information can also be provided as attributes for the *enclosure*, namely
+  *length* in bytes and *type* (``audio/x-mp3`` in our case)
 - the date and time of the episode, or *published* (called *pubDate* in RSS2).
   The `iTunes`_ program uses this timestamp to download the latest episode
   automatically: ``Fri, 04 Jan 2008 11:18:34 +0100``
@@ -640,6 +628,8 @@ The feed type can be retrieved via the method **getFeedType()** from ezcFeed::
 
     $feedType = $feed->getFeedType();
 
+This will return ``rss1``, ``rss2`` or ``atom``.
+
 It is always a good idea to read only those elements which are present in
 $feed. To test if an element is present, call **isset()** on it::
 
@@ -743,6 +733,8 @@ The feed type can be retrieved via the method **getFeedType()** from ezcFeed::
 
     $feedType = $feed->getFeedType();
 
+This will return ``rss1``, ``rss2`` or ``atom``.
+
 Depending on your application, you might need only some elements, let's say
 *title*, *description*, *author* and *link*. So to read those elements you will
 write::
@@ -826,14 +818,15 @@ if the iTunes elements appeared like this in the XML feed::
 Step 4. Iterate over the feed items
 -----------------------------------
 
-Let's say we want to extract the *title*, *description*, *author* and *link*
-of all items. This is how we will do it::
+Let's say we want to extract the *title*, *description*, *published*, *author*
+and *link* of all items. This is how we will do it::
 
     $items = array();
     foreach ( $feed->items as $item )
     {
         $title = isset( $item->title ) ? $item->title->__toString() : null;
         $description = isset( $item->description ) ? $item->description->__toString() : null;
+        $published = isset( $item->published ) ? $item->published->getValue()->format( 'c' ) : null;
         $author = isset( $item->author ) ? $item->author->__toString() : null;
 
         $links = array();
@@ -866,7 +859,7 @@ of all items. This is how we will do it::
 
 
 After running the code, the $media array will contain the *url*, *length* and
-*type* of the media file specified in the feed item. The $media array is aded
+*type* of the media file specified in the feed item. The $media array is added
 to the $items array to be processed later by the application.
 
 
@@ -898,8 +891,8 @@ The code from the previous section is altered as follows::
 
 After running the code, the $media array will contain the *url*, *length* and
 *type* of the media file specified in the feed item, and the *duration* of the
-media file taken from the iTunes module (if available). The $media array is aded
-to the $items array to be processed later by the application.
+media file taken from the iTunes module (if available). The $media array is
+added to the $items array to be processed later by the application.
 
 
 Best practices

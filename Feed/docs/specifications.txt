@@ -6,6 +6,7 @@ general information about each feed type, and the related specifications
 documents and RFCs.
 
 .. contents:: Table of Contents
+   :depth: 2
 
 
 Feeds equivalence
@@ -253,6 +254,28 @@ Equivalents: `ezcFeed-docs`_, ATOM-none, RSS1-none, `RSS2-docs`_.
 ezcFeed-generator
 `````````````````
 
+Indicates the software used to generate the feed.
+
+Optional. Only `ATOM`_ and `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for `RSS1`_ feeds.
+
+Can appear only once.
+
+`ATOM`_ has 2 optional attributes: *url*, *version*. These attributes are
+ignored for `RSS1`_ and `RSS2`_. This element and its attributes will be filled
+automatically by ezcFeed when generating the feed with the values ``eZ
+Components Feed``, ``http://ezcomponents.org/docs/tutorials/Feed``
+and ``<version>`` respectively, where the version is the current version of the
+Feed component (``dev`` for pre-alpha1).
+
+`RSS2`_ will get this value automatically when generating the feed:
+``eZ Components Feed <version> (http://ezcomponents.org/docs/tutorials/Feed)``,
+where the version is the current version of the Feed component (``dev`` for
+pre-alpha1)
+
+Equivalents: `ezcFeed-generator`_, `ATOM-generator`_, RSS1-none,
+`RSS2-generator`_.
+
 
 ezcFeed-icon
 ````````````
@@ -274,7 +297,7 @@ A universally unique and permanent URI for a feed. For example, it can be an
 Internet domain name.
 
 Required. Only `RSS1`_ and `ATOM`_ feeds will have this element after
-generating the feed. It will be ignored for `RSS2`_.
+generating the feed. It will be ignored for `RSS2`_ feeds.
 
 Can appear only once.
 
@@ -415,7 +438,7 @@ A hint for aggregators telling them which days they can skip when reading the
 feed.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for `RSS1`_ and `ATOM`_.
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
 Can appear only once.
 
@@ -449,7 +472,7 @@ A hint for aggregators telling them which hours they can skip when reading the
 feed.
 
 Optional (not recommended). Only `RSS2`_ feeds will have this element after
-generating the feed. It will be ignored for `RSS1`_ and `ATOM`_.
+generating the feed. It will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
 Can appear only once.
 
@@ -1643,14 +1666,18 @@ Sample RSS2 feed::
       <item>
          <title>The Engine That Does More</title>
          <link>http://liftoff.msfc.nasa.gov/news/2003/news-VASIMR.asp</link>
-         <description>Before man travels to Mars, NASA hopes to design new engines that will let us fly through the Solar System more quickly.  The proposed VASIMR engine would do that.</description>
+         <description>Before man travels to Mars, NASA hopes to design new engines
+         that will let us fly through the Solar System more quickly. The proposed
+         VASIMR engine would do that.</description>
          <pubDate>Tue, 27 May 2003 08:37:32 GMT</pubDate>
          <guid>http://liftoff.msfc.nasa.gov/2003/05/27.html#item571</guid>
       </item>
       <item>
          <title>Astronauts' Dirty Laundry</title>
          <link>http://liftoff.msfc.nasa.gov/news/2003/news-laundry.asp</link>
-         <description>Compared to earlier spacecraft, the International Space Station has many luxuries, but laundry facilities are not one of them.  Instead, astronauts have other options.</description>
+         <description>Compared to earlier spacecraft, the International Space Station
+         has many luxuries, but laundry facilities are not one of them. Instead,
+         astronauts have other options.</description>
          <pubDate>Tue, 20 May 2003 08:56:02 GMT</pubDate>
          <guid>http://liftoff.msfc.nasa.gov/2003/05/20.html#item570</guid>
       </item>
