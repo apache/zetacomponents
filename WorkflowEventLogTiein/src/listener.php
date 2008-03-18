@@ -39,8 +39,8 @@ class ezcWorkflowEventLogListener implements ezcWorkflowExecutionListener
     /**
      * Called to inform about events.
      *
-     * @param string  $message
-     * @param int $type
+     * @param string $message
+     * @param int    $type
      */
     public function notify( $message, $type = ezcWorkflowEventLogListener::INFO )
     {
