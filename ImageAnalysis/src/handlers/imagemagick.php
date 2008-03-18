@@ -565,6 +565,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
                 case 'FreeBSD':
                 case 'MacOS':
                 case 'Darwin':
+                case 'SunOS':
                     $this->binary = 'identify';
                     break;
                 case 'Windows':
