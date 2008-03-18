@@ -59,6 +59,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
 
     public function getQuery()
     {
+        return $this->handler->getQuery( $this );
     }
 
     /**
@@ -69,11 +70,11 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
      *
      * @return string
      */
-    public function eq( $field, $value )
+    public function eq( $field, $value, $fieldType = ezcSearchDocumentDefinition::STRING )
     {
         $field = trim( $field );
 
-        $value = $this->handler->mapFieldValue( $value );
+        $value = $this->handler->mapFieldValueForSearch( $fieldType, $value );
 
         if ( $this->definition && isset( $this->definition->fields[$field] ) )
         {

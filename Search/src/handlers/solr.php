@@ -220,7 +220,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $data;
     }
 
-    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
+    public function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
     {
         if ( count( $searchFieldList ) > 0 )
         {
@@ -246,9 +246,12 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $queryFlags['hl.snippets'] = 10;
             $queryFlags['hl.fl'] = join( ' ', $highlightFieldList );
         }
-
-        $result = $this->sendRawGetCommand( 'select', $queryFlags );
-        var_dump($result);
+        return $queryFlags;
+    }
+ 
+    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
+    {
+        $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList ) );
         $result = json_decode( $result );
         return ezcSearchResult::createFromResponse( $result );
     }
@@ -294,6 +297,14 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $this->search( $queryWord, '', array(), $resultFieldList );
     }
 
+    public function getQuery( ezcSearchFindQuerySolr $query )
+    {
+        $queryWord = join( ' ', $query->whereClauses );
+        $resultFieldList = $query->resultFields;
+
+        return http_build_query( $this->buildQuery( $queryWord, '', array(), $resultFieldList ) );
+    }
+
     public function mapFieldType( $name, $type )
     {
         $map = array(
@@ -305,9 +316,35 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $name . $map[$type];
     }
 
-    public function mapFieldValue( $field, $value )
+    public function mapFieldValueForIndex( $fieldType, $value )
     {
-        switch ( $field->type )
+        switch ( $fieldType )
+        {
+            case ezcSearchDocumentDefinition::DATE:
+                if ( is_numeric( $value ) )
+                {
+                    $d = new DateTime( "@$value" );
+                    $value = $d->format( 'U' );
+                }
+                else
+                {
+                    try
+                    {
+                        $d = new DateTime( $value );
+                    }
+                    catch ( Exception $e )
+                    {
+                        throw new ezcSearchInvalidValueException( $type, $value );
+                    }
+                    $value = $d->format( 'U' );
+                }
+        }
+        return $value;
+    }
+
+    public function mapFieldValueForSearch( $fieldType, $value )
+    {
+        switch ( $fieldType )
         {
             case ezcSearchDocumentDefinition::STRING:
             case ezcSearchDocumentDefinition::TEXT:
@@ -341,7 +378,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $value;
     }
 
-    public function mapFieldValues( $field, $values )
+    public function mapFieldValuesForSearch( $fieldType, $values )
     {
         if ( !is_array( $values ) )
         {
@@ -349,7 +386,20 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         }
         foreach ( $values as &$value )
         {
-            $value = $this->mapFieldValue( $field, $value );
+            $value = $this->mapFieldValueForSearch( $fieldType, $value );
+        }
+        return $values;
+    }
+
+    public function mapFieldValuesForIndex( $fieldType, $values )
+    {
+        if ( !is_array( $values ) )
+        {
+            $values = array( $values );
+        }
+        foreach ( $values as &$value )
+        {
+            $value = $this->mapFieldValueForIndex( $fieldType, $value );
         }
         return $values;
     }
@@ -381,7 +431,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
 
         foreach ( $definition->fields as $field )
         {
-            $value = $this->mapFieldValues( $field, $document[$field->field] );
+            $value = $this->mapFieldValuesForIndex( $field->type, $document[$field->field] );
             foreach ( $value as $fieldValue )
             {
                 $xml->startElement( 'field' );

@@ -140,6 +140,19 @@ class ezcSearchSessionTest extends ezcTestCase
         $q->where( $q->not( $q->eq( 'title', 'Twee' ) ) );
         $r = $session->find( $q );
     }
+
+    public function testCreateFindWithPhrase()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'article' );
+        $q->where( $q->eq( 'title', 'Test Article' ) );
+        echo $q->getQuery(), "\n";
+        $r = $session->find( $q );
+    }
 }
 
 ?>
