@@ -989,28 +989,10 @@ General information:
  - *xml:base* may be used to control how relative URIs are resolved (not
    recommended)
 
-Sample ATOM feed::
+Sample ATOM feed:
 
-  <?xml version="1.0" encoding="utf-8"?>
-  <feed xmlns="http://www.w3.org/2005/Atom">
-
-    <title>Example Feed</title>
-    <link href="http://example.org/"/>
-    <updated>2003-12-13T18:30:02Z</updated>
-    <author>
-      <name>John Doe</name>
-    </author>
-    <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
-
-    <entry>
-      <title>Atom-Powered Robots Run Amok</title>
-      <link href="http://example.org/2003/12/13/atom03"/>
-      <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
-      <updated>2003-12-13T18:30:02Z</updated>
-      <summary>Some text.</summary>
-    </entry>
-
-  </feed>
+.. include:: tutorial/atom_example.xml
+   :literal:
 
 
 Feed elements
@@ -1479,60 +1461,11 @@ type (not a standard yet).
 Structure
 ---------
 
-Sample RSS1 feed::
+Sample RSS1 feed:
 
-  <?xml version="1.0"?>
+.. include:: tutorial/rss1_example.xml
+   :literal:
 
-  <rdf:RDF 
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-  xmlns="http://purl.org/rss/1.0/">
-
-  <channel rdf:about="http://www.xml.com/xml/news.rss">
-    <title>XML.com</title>
-    <link>http://xml.com/pub</link>
-    <description>
-      XML.com features a rich mix of information and services 
-      for the XML community.
-    </description>
-
-    <image rdf:resource="http://xml.com/universal/images/xml_tiny.gif" />
-
-    <items>
-      <rdf:Seq>
-        <rdf:li resource="http://xml.com/pub/2000/08/09/xslt/xslt.html" />
-        <rdf:li resource="http://xml.com/pub/2000/08/09/rdfdb/index.html" />
-      </rdf:Seq>
-    </items>
-
-  </channel>
-  
-  <image rdf:about="http://xml.com/universal/images/xml_tiny.gif">
-    <title>XML.com</title>
-    <link>http://www.xml.com</link>
-    <url>http://xml.com/universal/images/xml_tiny.gif</url>
-  </image>
-  
-  <item rdf:about="http://xml.com/pub/2000/08/09/xslt/xslt.html">
-    <title>Processing Inclusions with XSLT</title>
-    <link>http://xml.com/pub/2000/08/09/xslt/xslt.html</link>
-    <description>
-     Processing document inclusions with general XML tools can be 
-     problematic. This article proposes a way of preserving inclusion 
-     information through SAX-based processing.
-    </description>
-  </item>
-  
-  <item rdf:about="http://xml.com/pub/2000/08/09/rdfdb/index.html">
-    <title>Putting RDF to Work</title>
-    <link>http://xml.com/pub/2000/08/09/rdfdb/index.html</link>
-    <description>
-     Tool and API support for the Resource Description Framework 
-     is slowly coming of age. Edd Dumbill takes a look at RDFDB, 
-     one of the most exciting new RDF toolkits.
-    </description>
-  </item>
-
-  </rdf:RDF>
 
 Feed elements
 -------------
@@ -1711,41 +1644,10 @@ type (not a standard yet).
 Structure
 ---------
 
-Sample RSS2 feed::
+Sample RSS2 feed:
 
-  <?xml version="1.0"?>
-  <rss version="2.0">
-   <channel>
-      <title>Liftoff News</title>
-      <link>http://liftoff.msfc.nasa.gov/</link>
-      <description>Liftoff to Space Exploration.</description>
-      <language>en-us</language>
-      <pubDate>Tue, 10 Jun 2003 04:00:00 GMT</pubDate>
-      <lastBuildDate>Tue, 10 Jun 2003 09:41:01 GMT</lastBuildDate>
-      <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-      <generator>Weblog Editor 2.0</generator>
-      <managingEditor>editor@example.com</managingEditor>
-      <webMaster>webmaster@example.com</webMaster>
-      <item>
-         <title>The Engine That Does More</title>
-         <link>http://liftoff.msfc.nasa.gov/news/2003/news-VASIMR.asp</link>
-         <description>Before man travels to Mars, NASA hopes to design new engines
-         that will let us fly through the Solar System more quickly. The proposed
-         VASIMR engine would do that.</description>
-         <pubDate>Tue, 27 May 2003 08:37:32 GMT</pubDate>
-         <guid>http://liftoff.msfc.nasa.gov/2003/05/27.html#item571</guid>
-      </item>
-      <item>
-         <title>Astronauts' Dirty Laundry</title>
-         <link>http://liftoff.msfc.nasa.gov/news/2003/news-laundry.asp</link>
-         <description>Compared to earlier spacecraft, the International Space Station
-         has many luxuries, but laundry facilities are not one of them. Instead,
-         astronauts have other options.</description>
-         <pubDate>Tue, 20 May 2003 08:56:02 GMT</pubDate>
-         <guid>http://liftoff.msfc.nasa.gov/2003/05/20.html#item570</guid>
-      </item>
-   </channel>
-  </rss>
+.. include:: tutorial/rss2_example.xml
+   :literal:
 
 
 Feed elements
