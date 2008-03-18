@@ -50,7 +50,10 @@ Example of feed (podcast) with the iTunes module:
    :literal:
 
 The elements of the iTunes module are the ones with ``itunes:`` in the element
-name. They describe the feed and the items in the feed (called episodes).
+name. They describe the feed (*subtitle*, *author*, *summary*, *image*,
+*category*) and the items (called episodes) in the feed (*author*, *subtitle*,
+*summary*, *duration*, *keywords*). These iTunes elements are not the only ones
+present in iTunes podcasts.
 
 
 Applications
@@ -964,7 +967,8 @@ description
 
 - Required in RSS1 and RSS2.
 - Called *subtitle* in ATOM (accessed as *description* through ezcFeed).
-
+- In ATOM it has other attributes, for example *type* (``text``, ``html`` or
+  ``xhtml``).
 
 item
 ````
@@ -974,7 +978,8 @@ item
 - These sub-elements of *item* are present in all feed types:
 
   *title*
-    Present in all feed types.
+    Present in all feed types. In ATOM it has other attributes, for example
+    *type* (``text``, ``html`` or ``xhtml``).
 
   *link*
     RSS2 can have multiple links per item.

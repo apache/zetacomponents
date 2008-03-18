@@ -9,6 +9,10 @@ documents and RFCs.
    :depth: 2
 
 
+========
+Overview
+========
+
 Feeds equivalence
 =================
 
@@ -113,19 +117,47 @@ Item elements
 ezcFeed
 =======
 
-Specifications
---------------
-
-
 Feed elements
 -------------
 
 ezcFeed-author
 ``````````````
 
+One author of the feed.
+
+Required in `ATOM`_: one author must be present at feed-level if there is one
+entry which does not have an author. Optional in `RSS2`_ (recommended). Ignored
+for `RSS1`_ feeds.
+
+Multiple authors can appear in `ATOM`_ (not recommended). Can appear only once
+in `RSS2`_ feeds.
+
+`ATOM`_ has required elements: *name*. Optional elements: *uri*, *email*.
+These elements will be ignored in `RSS1`_ and `RSS2`_ feeds.
+
+Equivalents: `ezcFeed-author`_, `ATOM-author`_, RSS1-none,
+`RSS2-managingEditor`_.
+
 
 ezcFeed-category
 ````````````````
+
+A category for the feed.
+
+Optional. Only `ATOM`_ and `RSS2`_ feeds will have this element after
+generating the feed. It will be ignored for `RSS1`_ feeds.
+
+Multiple categories can appear in `ATOM`_ and `RSS2`_ feeds.
+
+`ATOM`_ has one required attribute: *term*. It also has 2 optional attributes:
+*scheme*, *label*. These attributes will be ignored for `RSS1`_ and `RSS2`_.
+
+`RSS2`_ has one optional attribute: *domain*. This attribute will be ignored
+for `ATOM`_ and `RSS1`_. The value of the category element must be specified
+in `RSS2`_ feeds.
+
+Equivalents: `ezcFeed-category`_, `ATOM-category`_, RSS1-none,
+`RSS2-category`_.
 
 
 ezcFeed-cloud
@@ -167,6 +199,18 @@ Equivalents: `ezcFeed-cloud`_, ATOM-none, RSS1-none, `RSS2-cloud`_.
 
 ezcFeed-contributor
 ```````````````````
+
+One contributor of the feed.
+
+Optional (not recommended). Only `ATOM`_ feeds will have this element after
+generating the feed. It will be ignored for `RSS1`_ and `RSS2`_ feeds.
+
+Multiple contributors can appear.
+
+Required elements: *name*. Optional elements: *uri*, *email*.
+
+Equivalents: `ezcFeed-contributor`_, `ATOM-contributor`_, RSS1-none,
+RSS2-none.
 
 
 ezcFeed-copyright
@@ -306,6 +350,23 @@ Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, RSS2-none.
 
 ezcFeed-image
 `````````````
+
+An image associated with the feed.
+
+Optional.
+
+Can appear only once.
+
+`RSS1`_ has the required attribute *about*, which should have the same value
+as the *url* sub-element.
+
+`RSS1`_ and `RSS2`_ have 3 required sub-elements: *title*, *link*, *url*
+(same for both feed types). These attributes will be ignored for `ATOM`_ feeds.
+
+`RSS2`_ has 3 optional sub-elements: *width*, *height*, *description*. These
+attributes will be ignored for `RSS1`_ and `ATOM`_ feeds.
+
+Equivalents: `ezcFeed-image`_, `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
 
 
 ezcFeed-item
@@ -893,6 +954,10 @@ Equivalents: `ezcFeed-item-updated`_, `ATOM-entry-updated`_, RSS1-none,
 RSS2-none.
 
 
+==========
+Feed types
+==========
+
 ATOM
 ====
 
@@ -984,9 +1049,8 @@ Optional.
 
 Multiple categories can appear.
 
-Has one required attribute: *term*.
-
-Has 2 optional attributes: *scheme*, *label*.
+Has one required attribute: *term*. Has 2 optional attributes: *scheme*,
+*label*.
 
 Equivalents: `ezcFeed-category`_, `ATOM-category`_, RSS1-none,
 `RSS2-category`_.
@@ -1205,9 +1269,8 @@ Optional.
 
 Multiple categories can appear.
 
-Has one required attribute: *term*.
-
-Has 2 optional attributes: *scheme*, *label*.
+Has one required attribute: *term*. Has 2 optional attributes: *scheme*,
+*label*.
 
 Equivalents: `ezcFeed-item-category`_, `ATOM-entry-category`_, RSS1-none,
 `RSS2-item-category`_.
@@ -2110,6 +2173,10 @@ Can appear only once.
 Equivalents: `ezcFeed-item-title`_, `ATOM-entry-title`_, `RSS1-item-title`_,
 `RSS2-item-title`_.
 
+
+=======
+Modules
+=======
 
 Content module
 ==============
