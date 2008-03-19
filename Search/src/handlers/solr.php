@@ -23,9 +23,26 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      */
     public $connection;
 
-    public $host;
-    public $port;
-    public $location;
+    /**
+     * Hosts the hostname of the solr server
+     *
+     * @var string
+     */
+    private $host;
+
+    /**
+     * Hosts the port number of the solr server
+     *
+     * @var int
+     */
+    private $port;
+
+    /**
+     * Hosts the location of the interface on the solr server
+     *
+     * @var string
+     */
+    private $location;
 
     /**
      * Stores the transaction nesting depth.
@@ -44,11 +61,11 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $this->host = $host;
         $this->port = $port;
         $this->location = $location;
-        $this->connection = @stream_socket_client( "tcp://{$this->host}:{$this->port}" );
+        $this->connection = @stream_socket_client( "tcp://{$host}:{$port}" );
         $this->inTransaction = 0;
         if ( !$this->connection )
         {
-            throw new ezcSearchCanNotConnectException( 'solr', "http://{$this->host}:{$this->port}{$this->location}" );
+            throw new ezcSearchCanNotConnectException( 'solr', "http://{$host}:{$port}{$location}" );
         }
 
     }
@@ -89,7 +106,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         }
     }
 
-    public function getLine( $maxLength = false )
+    /**
+     * Returns a line with a maximum length of $maxLength from the connection
+     *
+     * @param int $maxLength
+     * @return string
+     */
+    private function getLine( $maxLength = false )
     {
         $line = ''; $data = '';
         while ( strpos( $line, "\n" ) === false )
@@ -114,6 +137,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $data;
     }
 
+    /**
+     * Sends the raw command $type to Solr
+     *
+     * @param string $type
+     * @param array(string=>string) $queryString
+     * @return string
+     */
     public function sendRawGetCommand( $type, $queryString = array() )
     {
         $queryPart = '';
@@ -179,6 +209,14 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $data;
     }
 
+    /**
+     * Sends a post command $type to Solr and reads the result
+     *
+     * @param string $type
+     * @param array(string=>string) $queryString
+     * @param string $data
+     * @return string
+     */
     public function sendRawPostCommand( $type, $queryString, $data )
     {
         $queryPart = '';
@@ -220,7 +258,17 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $data;
     }
 
-    public function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
+    /**
+     * Builds query parameters from the different query fields
+     *
+     * @param string $queryWord
+     * @param string $defaultField
+     * @param array(string=>string) $searchFieldList
+     * @param array(string=>string) $returnFieldList
+     * @param array(string=>string) $highlightFieldList
+     * @return array
+     */
+    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
     {
         if ( count( $searchFieldList ) > 0 )
         {
@@ -249,7 +297,14 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $queryFlags;
     }
 
-    private function createResponseFromData( $def, $response )
+    /**
+     * Converts a raw solr result into a document using the definition $def
+     *
+     * @param ezcSearchDocumentDefinition $def
+     * @param stdClass $response
+     * @return ezcSearchResult
+     */
+    private function createResponseFromData( ezcSearchDocumentDefinition $def, stdClass $response )
     {
         $s = new ezcSearchResult();
         $s->status = $response->responseHeader->status;
@@ -285,7 +340,17 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
 
         return $s;
     }
- 
+
+    /**
+     * Executes a search by building and sending a query and returns the raw result
+     *
+     * @param string $queryWord
+     * @param string $defaultField
+     * @param array(string=>string) $searchFieldList
+     * @param array(string=>string) $returnFieldList
+     * @param array(string=>string) $highlightFieldList
+     * @return stdClass
+     */
     public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
     {
         $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList ) );
