@@ -53,7 +53,9 @@ class ezcSearchSessionTest extends ezcTestCase
         $session->index( $a );
         $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
 
-        $r = $this->backend->search( 'Article', 'title_t' );
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Article' ) );
+        $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
     }
 
@@ -69,7 +71,9 @@ class ezcSearchSessionTest extends ezcTestCase
         }
         $session->commit();
 
-        $r = $this->backend->search( 'Article', 'title_t' );
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Article' ) );
+        $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
     }
 
@@ -82,7 +86,9 @@ class ezcSearchSessionTest extends ezcTestCase
         $session->index( $a );
         $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
 
-        $r = $this->backend->search( 'Rethans', 'author_t', array( 'summary_t', 'title_t', 'body_t' ), array( 'author_t', 'title_t', 'score', 'summary_t', 'published_dt' ), array( 'author_t', 'title_t', 'score', 'summary_t' ) );
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'author', 'Rethans' ) );
+        $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
     }
 
@@ -95,8 +101,8 @@ class ezcSearchSessionTest extends ezcTestCase
         $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
         $session->index( $a );
 
-        $q = $session->createFindQuery( 'article' );
-        $q->where( $q->eq( 'body', 'article' ) )->where( $q->eq( 'title', 'Test' ) );
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'body', 'Article' ) )->where( $q->eq( 'title', 'Test' ) );
 
         $r = $session->find( $q );
     }
@@ -110,19 +116,19 @@ class ezcSearchSessionTest extends ezcTestCase
         $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
         $session->index( $a );
 
-        $q = $session->createFindQuery( 'article' );
+        $q = $session->createFindQuery( 'Article' );
         $q->where( $q->lOr( $q->eq( 'title', 'Nul' ), $q->eq( 'title', 'Drie' ) ) );
         $r = $session->find( $q );
 
-        $q = $session->createFindQuery( 'article' );
+        $q = $session->createFindQuery( 'Article' );
         $q->where( $q->lOr( $q->eq( 'title', 'Eén' ), $q->eq( 'title', 'Drie' ) ) );
         $r = $session->find( $q );
 
-        $q = $session->createFindQuery( 'article' );
+        $q = $session->createFindQuery( 'Article' );
         $q->where( $q->lOr( $q->eq( 'title', 'Twee' ), $q->eq( 'title', 'Drie' ) ) );
         $r = $session->find( $q );
 
-        $q = $session->createFindQuery( 'article' );
+        $q = $session->createFindQuery( 'Article' );
         $q->where( $q->lOr( $q->eq( 'title', 'Eén' ), $q->eq( 'title', 'Twee' ) ) );
         $r = $session->find( $q );
     }
@@ -136,7 +142,7 @@ class ezcSearchSessionTest extends ezcTestCase
         $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
         $session->index( $a );
 
-        $q = $session->createFindQuery( 'article' );
+        $q = $session->createFindQuery( 'Article' );
         $q->where( $q->not( $q->eq( 'title', 'Twee' ) ) );
         $r = $session->find( $q );
     }
@@ -148,10 +154,10 @@ class ezcSearchSessionTest extends ezcTestCase
         $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
         $session->index( $a );
 
-        $q = $session->createFindQuery( 'article' );
+        $q = $session->createFindQuery( 'Article' );
         $q->where( $q->eq( 'title', 'Test Article' ) );
-        echo $q->getQuery(), "\n";
         $r = $session->find( $q );
+        var_dump( $r );
     }
 }
 

@@ -9,7 +9,7 @@ class Article
     private $author;
 
 
-    function __construct( $id, $title, $summary, $body, $published, $author = null )
+    function __construct( $id = null, $title = null, $summary = null, $body = null, $published = null, $author = null )
     {
         $this->id = $id;
         $this->title = $title;

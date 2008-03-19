@@ -67,10 +67,10 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
     function testSearchEmptyResults()
     {
         $r = $this->solr->search( 'solr', 'name_s' );
-        self::assertType( 'ezcSearchResult', $r );
-        self::assertEquals( 0, $r->resultCount );
-        self::assertEquals( 0, $r->start );
-        self::assertEquals( 0, $r->status );
+        self::assertType( 'stdClass', $r );
+        self::assertEquals( 0, $r->response->numFound );
+        self::assertEquals( 0, $r->response->start );
+        self::assertEquals( 0, $r->responseHeader->status );
     }
 
     function testSimpleIndex()
@@ -178,19 +178,19 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
     function testSimpleIndexWithSearch()
     {
         $r = $this->solr->search( 'solr', 'name_s' );
-        self::assertEquals( 0, $r->resultCount );
+        self::assertEquals( 0, $r->response->numFound );
 
         $r = $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<add><doc><field name="id">cfe5cc06-9b07-4e4b-930e-7e99f5202570</field><field name="name_s">solr</field></doc></add>' );
         $r = $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
 
         $r = $this->solr->search( 'solr', 'name_s', array( 'id', 'name_s' ), array( 'id', 'name_s', 'score' ) );
-        self::assertEquals( 1, $r->resultCount );
+        self::assertEquals( 1, $r->response->numFound );
 
         $r = $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<delete><id>cfe5cc06-9b07-4e4b-930e-7e99f5202570</id></delete>' );
         $r = $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
 
         $r = $this->solr->search( 'solr', 'name_s' );
-        self::assertEquals( 0, $r->resultCount );
+        self::assertEquals( 0, $r->response->numFound );
     }
 }
 

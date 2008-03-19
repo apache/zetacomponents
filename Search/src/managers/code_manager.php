@@ -27,7 +27,7 @@
  * @version //autogen//
  * @package Search
  */
-class ezcSearchCodeManager extends ezcSearchDefinitionManager
+class ezcSearchCodeManager implements ezcSearchDefinitionManager
 {
     /**
      * Holds the path to the directory where the definitions are stored.

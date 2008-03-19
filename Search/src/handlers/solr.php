@@ -248,12 +248,49 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         }
         return $queryFlags;
     }
+
+    private function createResponseFromData( $def, $response )
+    {
+        $s = new ezcSearchResult();
+        $s->status = $response->responseHeader->status;
+        $s->queryTime = $response->responseHeader->QTime;
+        $s->resultCount = $response->response->numFound;
+        $s->start = $response->response->start;
+
+        foreach ( $response->response->docs as $document )
+        {
+            $className = $def->documentType;
+            $obj = new $className;
+
+            $attr = array();
+            foreach ( $def->fields as $field )
+            {
+                $fieldName = $this->mapFieldType( $field->field, $field->type );
+                if ( $field->inResult )
+                {
+                    if ( $field->multi )
+                    {
+                        $attr[$field->field] = $document->$fieldName;
+                    }
+                    else
+                    {
+                        $attr[$field->field] = $document->{$fieldName}[0];
+                    }
+                }
+            }
+            $obj->setState( $attr );
+
+            $s->documents[] = array( 'meta' => array( 'score' => $document->score ), 'document' => $obj );
+        }
+
+        return $s;
+    }
  
     public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
     {
         $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList ) );
         $result = json_decode( $result );
-        return ezcSearchResult::createFromResponse( $result );
+        return $result;
     }
 
     /**
@@ -294,7 +331,8 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $queryWord = join( ' ', $query->whereClauses );
         $resultFieldList = $query->resultFields;
 
-        return $this->search( $queryWord, '', array(), $resultFieldList );
+        $res = $this->search( $queryWord, '', array(), $resultFieldList );
+        return $this->createResponseFromData( $query->definition, $res );
     }
 
     public function getQuery( ezcSearchFindQuerySolr $query )
@@ -378,28 +416,36 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $value;
     }
 
-    public function mapFieldValuesForSearch( $fieldType, $values )
+    public function mapFieldValuesForSearch( $field, $values )
     {
+        if ( is_array( $values ) && $field->multi == false )
+        {
+            throw new ezcSearchInvalidValueException( $field->type, $values, 'multi' );
+        }
         if ( !is_array( $values ) )
         {
             $values = array( $values );
         }
         foreach ( $values as &$value )
         {
-            $value = $this->mapFieldValueForSearch( $fieldType, $value );
+            $value = $this->mapFieldValueForSearch( $field->type, $value );
         }
         return $values;
     }
 
-    public function mapFieldValuesForIndex( $fieldType, $values )
+    public function mapFieldValuesForIndex( $field, $values )
     {
+        if ( is_array( $values ) && $field->multi == false )
+        {
+            throw new ezcSearchInvalidValueException( $field->type, $values, 'multi' );
+        }
         if ( !is_array( $values ) )
         {
             $values = array( $values );
         }
         foreach ( $values as &$value )
         {
-            $value = $this->mapFieldValueForIndex( $fieldType, $value );
+            $value = $this->mapFieldValueForIndex( $field->type, $value );
         }
         return $values;
     }
@@ -431,7 +477,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
 
         foreach ( $definition->fields as $field )
         {
-            $value = $this->mapFieldValuesForIndex( $field->type, $document[$field->field] );
+            $value = $this->mapFieldValuesForIndex( $field, $document[$field->field] );
             foreach ( $value as $fieldValue )
             {
                 $xml->startElement( 'field' );

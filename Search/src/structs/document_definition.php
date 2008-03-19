@@ -12,7 +12,7 @@ class ezcSearchDocumentDefinition
 
     public function __construct( $documentType )
     {
-        $this->documentType = strtolower( $documentType );
+        $this->documentType = $documentType;
     }
 
     public function getFieldNames()

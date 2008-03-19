@@ -16,24 +16,13 @@
  */
 class ezcSearchResult
 {
-    // private so that we can only use the factory to create it
-    private function __construct()
+    public $status;
+    public $queryTime;
+    public $resultCount;
+    public $start;
+    public $documents;
+
+    public function __construct()
     {
-    }
-
-    static public function createFromResponse( $response )
-    {
-        $s = new ezcSearchResult();
-        $s->status = $response->responseHeader->status;
-        $s->queryTime = $response->responseHeader->QTime;
-        $s->resultCount = $response->response->numFound;
-        $s->start = $response->response->start;
-
-        foreach ( $response->response->docs as $document )
-        {
-            var_dump( $document );
-        }
-
-        return $s;
     }
 }
