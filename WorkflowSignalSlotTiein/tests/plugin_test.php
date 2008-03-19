@@ -698,5 +698,27 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
 
         $this->fail();
     }
+
+    public function testOptions5()
+    {
+        try
+        {
+            $this->plugin->signals = null;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
+
+    public function testOptions6()
+    {
+        $signals = new ezcSignalCollection;
+        $this->plugin->signals = $signals;
+
+        $this->assertSame($signals, $this->plugin->signals);
+    }
 }
 ?>
