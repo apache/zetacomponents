@@ -3,6 +3,9 @@
 
 - Fixed issue #12592: New thumbnail filter. Documentation about the scale()
   filter has been added to the thumbnail filters.
+- Fixed issue #12671: Unhandled exception in ezcImageTransformation. Checks to
+  avoid double throwing of exceptions have been introduced. Additional
+  parameter checks are performed.
 
 
 1.3.3 - Monday 17 December 2007
