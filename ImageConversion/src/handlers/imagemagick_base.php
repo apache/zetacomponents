@@ -210,10 +210,17 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         } while ( !feof( $pipes[2] ) );
         
         // Wait for process to terminate and store return value
+        $status = proc_get_status( $imageProcess );
+        while ( $status['running'] === true )
+        {
+            // Sleep 1/100 second to wait for convert to exit
+            usleep( 10000 );
+            $status = proc_get_status( $imageProcess );
+        }
         $return = proc_close( $imageProcess );
         
         // Process potential errors
-        if ( $return != 0 || strlen( $errorString ) > 0 )
+        if ( $status['exitcode'] != 0 || strlen( $errorString ) > 0 )
         {
             // If this code is reached we have a bug in this component or in ImageMagick itself.
             throw new Exception( "The command '{$command}' resulted in an error: '{$errorString}'." );
