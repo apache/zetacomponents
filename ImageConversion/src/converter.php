@@ -245,13 +245,21 @@ class ezcImageConverter
 
     /**
      * Create a transformation in the manager.
+     *
      * Creates a transformation and stores it in the manager. A reference to the
      * transformation is returned by this method for further manipulation and
-     * to set options on it.
+     * to set options on it. The $name can later be used to remove a
+     * transfromation using {@link removeTransformation()} or to execute it
+     * using {@link transform()}. The $filters and $mimeOut parameters specify
+     * the transformation actions as described with {@link
+     * ezcImageTransformation::__construct()}. The $saveOptions are used when
+     * the finally created image is saved and can configure compression and
+     * quality options.
      *
-     * @param string                $name    Name of the transformation.
-     * @param array(ezcImageFilter) $filters Definition of filters.
-     * @param array(string)         $mimeOut Array definition of output MIME types.
+     * @param string                $name        Name for the transformation.
+     * @param array(ezcImageFilter) $filters     Filters.
+     * @param array(string)         $mimeOut     Output MIME types.
+     * @param ezcImageSaveOptions   $saveOptions Save options.
      *
      * @return ezcImageTransformation
      *
@@ -260,13 +268,13 @@ class ezcImageConverter
      * @throws ezcImageTransformationAlreadyExists 
      *         If a transformation with the given name does already exist. 
      */
-    public function createTransformation( $name, array $filters, array $mimeOut )
+    public function createTransformation( $name, array $filters, array $mimeOut, ezcImageSaveOptions $saveOptions = null )
     {
         if ( isset( $this->transformations[$name] ) )
         {
             throw new ezcImageTransformationAlreadyExistsException( $name );
         }
-        $this->transformations[$name] = new ezcImageTransformation( $this, $name, $filters, $mimeOut );
+        $this->transformations[$name] = new ezcImageTransformation( $this, $name, $filters, $mimeOut, $saveOptions );
         return $this->transformations[$name];
     }
 

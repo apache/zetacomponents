@@ -281,10 +281,12 @@ class ezcImageTransformation
                 // Close in last handler
                 $this->lastHandler->save( $ref );
                 $this->lastHandler->close( $ref );
+                // Destroy invalid reference (has been closed)
+                $ref = null;
                 // Retreive correct handler
                 $this->lastHandler = $this->converter->getHandler( null, $mimeIn, $outMime );
                 // Load in new handler
-                $res = $this->lastHandler->load( $fileTmp );
+                $ref = $this->lastHandler->load( $fileTmp );
                 // Perform conversion
                 $this->lastHandler->convert( $ref, $outMime );
             }
@@ -295,8 +297,14 @@ class ezcImageTransformation
         catch ( ezcImageException $e )
         {
             // Cleanup
-            $this->lastHandler->close( $ref );
-            unlink( $fileTmp );
+            if ( $ref !== null )
+            {
+                $this->lastHandler->close( $ref );
+            }
+            if ( file_exists( $fileTmp ) )
+            {
+                unlink( $fileTmp );
+            }
             $this->lastHandler = null;
             // Rethrow
             throw new ezcImageTransformationException( $e );
@@ -363,7 +371,7 @@ class ezcImageTransformation
      *         If the MIME types cannot be used as output of any of the 
      *         handlers in the converter.
      */
-    protected function setMimeOut( $mime )
+    protected function setMimeOut( array $mime )
     {
         foreach ( $mime as $mimeType )
         {

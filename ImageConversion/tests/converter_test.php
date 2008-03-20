@@ -174,6 +174,20 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
         );
     }
 
+    // Issue #12667: ezcImageConverter doesn't pass saveOptions to
+    // ezcImageTransformation.'
+    public function testCreateTransformationWithSaveOptions()
+    {
+        $options = new ezcImageSaveOptions();
+        $transformation = $this->converter->createTransformation( "thumbnail", array(), array(), $options );
+        $this->assertAttributeSame(
+            $options,
+            'saveOptions',
+            $transformation,
+            "Converter did not pass save options correctly."
+        );
+    }
+
     // MIME type tests
 
     public function testAllowsInputSuccess()
