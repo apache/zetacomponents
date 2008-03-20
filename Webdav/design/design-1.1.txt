@@ -26,54 +26,66 @@ The following issues are covered in this design:
   (#12583).
 - Lock support (#12286).
 
-For locking, a plugin based approach has been favored while designed and
-creating the Webdav component version 1.0. However, it turned out that the
+For locking, a plugin based approach has been favored while the Webav
+components was initially design. However, it might turn out that the
 realization of lock support through a plugin is not as easy as it seemed to be.
-Therefore this document describes 2 different design approaches for lock
-related functionality: A plugin based one and an integrated one.
+Therefore this document describes a plugin based approach in the first place,
+but also contains hints about major differences for an integrated approach.
 
 The document is divided into 3 parts. The first part deals with the realization
 of functionality that is exclusively meant to support entity tags. The second
-part describes features that are exclusively used to support locking features.
-Since WebDAV mixes entity tags (originally HTTP/1.1) and locking in some
-places, the third section describes the design for these common concerns.
+part describes features that are exclusively used to support locking.  Since
+WebDAV mixes entity tags (originally HTTP/1.1) and locking in some places, the
+third section describes the design for these common concerns.
+
+In several sections of this document so called pseudo code is used, to describe
+the functionality of an algorithm. These listings do not follow any specific
+syntax or semantic rules, but should be intuitively understandable for people
+who know a procedural programming language. Their final implementation in PHP
+will require much more code and more complex structures. Beside that,
+code-reuse will play a role during implementation.
 
 Entity tag support
 ^^^^^^^^^^^^^^^^^^
 
-This section describes the support of entity tags in the Webdav component, including
-the usage of the if-header with entity tags and the generation and sending of the
-ETag header.
+This section describes the support of entity tags in the Webdav component,
+including the usage of the If header with entity tags and the generation and
+sending of the ETag header. The If header can also be used with lock tokens.
+Therefore its general processing is described in the `Common concerns`_
+section.
 
 The following design only refers to the support of entity tags as defined in
-the HTTP/1.1 RFC. This includes the headers mentioned in the above RFC overview
-and the generation and comparison of entity tags.
+the HTTP/1.1 RFC. This includes the headers mentioned in the RFC overview
+document and the generation and comparison of entity tags.
 
 Entity tag generation
 =====================
 
-The generation of an entity tag requires uniqueness for the state of a resource
-(the so-called entity), To achieve this, multiple data of the resource and be
-involved and combined.
+The generation of an entity tag requires uniqueness for a specific state of a
+resource (the so-called entity), To achieve this, multiple data about the
+resource state must and be combined.
 
-The last modification time in combination with the file size should be a
-sufficient combination of data to generate an entity tag from. The Lighttpd
-web server uses this information on a configurable basis, too. In addition it
-can use the inode of the file for entity tag generation. Since inodes are
-operating system dependent and only available for file system based back ends,
-they will not be used in our entity tag generation scheme.
+The path of the resource in combination with its last modification time and
+content length should be sufficient. The Lighttpd__ web server makes use of
+this information on a configurable basis, too. In addition it can use the inode
+of the file for entity tag generation. Since inodes are operating system
+dependent and only available for file system based back ends, they will not be
+used in our entity tag generation scheme. An MD5 hash will be used to create
+the tag from a concatination of previosly named data to ensure common length
+and appearance of entity tags.
+
+__ http://www.lighttpd.net/
 
 Since entity tags in WebDAV are also available through the getetag
 live-property, a common way is needed to generate the entity tags for the
-headers and the property. The ezcWebdavSimpleBackend will therefore request the
-getetag property from the extending back end and use it's value for the headers
-and validation.
+headers and the property. The ezcWebdavSimpleBackend class will therefore
+request the getetag property from the extending back end class and use it's
+value for the ETag header and validation of incoming entity tags.
 
 The current generation of entity tags in ezcWebdavFileBackend will be replaced
 by a mechanism that uses the last modification time and the size of the file.
-It currently uses the path, which is not reliable and does not belong into the
-entity tag. Entity tags are only valid for a single resource and only in
-combination with its URI.
+This mechanism will be implemented generically in ezcWebdavSimpleBackend to
+allow other extending backends to use it.
 
 Header handling
 ===============
@@ -85,31 +97,39 @@ Transport layer
 ---------------
 
 The transport layer needs to be able to parse the request headers and to
-serialize the response headers back. Therefore the ezcWebdavHeaderHandler class
-will be adjusted.
+serialize the response headers. Therefore the ezcWebdavHeaderHandler class
+will be enhanced to do so.
 
-The class must parse the following new request headers:
+The class must parse the following new request headers to support HTTP/1.1
+entity tag usage:
 
 - If-Match
 - If-None-Match
 
-ezcWebdavHeaderHandler will check if both of these headers are set. If this is
-the case, both headers will be silently discarded, since such a combination is
-undefined.
+ezcWebdavHeaderHandler will automatically check if both of these headers are
+set. If this is the case, both headers will be silently discarded. Such a
+combination is undefined per RFC and we will ignore it on the transport level
+already.
 
 Both headers can contain a list of weak/non-weak entity tags or the "*" value,
-to indicate that the resource must just exists, no matter in which state. To
+to indicate that the resource must simply exists, no matter in which state. To
 represent this in PHP, the parsed headers will be represented either as an
 array of string values or as the boolean value true. The headers will be parsed
 into every request object automatically, if they are set.
 
-The back end layer must take responsibility for interpreting the headers and
-their values.
+.. Note::
+   The section `Common concerns`_ defines the realization of the If header,
+   which is similar to If-Match and If-None-Match. It could be useful to
+   combine their representations in the Webdav infrastructure. A decision on
+   this will be made during realization.
 
-In addition, ezcWebdavHeaderHandler must take care of serializing an ETag
+The back end layer must take responsibility for interpreting the parsed headers
+and their values.
+
+In addition ezcWebdavHeaderHandler must take care of serializing the ETag
 header, if this one is present in a response object. Since the ETag header may
-only contain the string value of an entity tag, this mechanism is already
-implemented in the response processing.
+only contain the string value of an entity tag this mechanism is already
+implemented in the current response processing.
 
 Back end layer
 --------------
@@ -118,10 +138,7 @@ The interpretation of incoming If-Match and If-None-Match headers must be done
 in the back end. The implementation will take place in the
 ezcWebdavSimpleBackend class. With every incoming request, no matter which
 request method is used, the If-Match and If-None-Match headers will be honored
-in the following way:
-
-If the back end determines that an If-* header is set, it will (pseudo
-code): ::
+in the following way (pseudo code): ::
 
     if ( any precondition for the request fails except for the If-* header )
     {
@@ -142,42 +159,58 @@ Lock support
 ^^^^^^^^^^^^
 
 Locking allows a WebDAV client to gain exclusive access to a resource
-(collection or non-collection) to avoid the "lost update problem". This means
-that a client can define to have exclusive access to a resource for a certain
-time, where no other client may gain access to this resource.
+(collection or non-collection) to avoid the "lost update problem". 
 
 The WebDAV RFC distinguishes locks by 2 essential properties: The scope of the
-lock (shared vs. exclusive) and the type of the lock (write vs. read), while
-for the type only a write lock is specified. Using an exclusive lock the client
-ensures that he has absolutely exclusive access to the locked resource. With a
-shared lock it is possible the multiple clients take part in one and the same
-lock. More information on lock scopes are provided later.
+lock (shared vs. exclusive) and the type of the lock (write vs. read). Only
+write locks are specified by the RFC. Therefore we will only implement write
+locks. If read locking becomes necessary sometimes, this can still be added.
 
-=====================
-Plugin based approach
-=====================
+A lock is always bound to a principle (not a client!) and one or more
+resources. The combination is defined through a unique string named "lock
+token". Using an exclusive lock, a principle ensures that he has absolutely
+exclusive write access to the locked resource. With a shared lock it is
+possible that multiple principles edit one and the same resource. More
+information on lock scopes is provided in the corresponding RFC overview
+document.
 
-This section describes a potential realization of locking through a plugin for
+This section describes the realization of lock support through a plugin for
 the Webdav component. This plugin will make use of the, not yet officially
-released, plugin API.
+released, plugin API. At the end of the section, some paragraphs are dedicated
+to an alternatetive implementation approach. This approach integrates completly
+with the current implementation of the component and does not abstract the
+mechanism.
 
-Design goals
-============
+This designs goal is to build a "lock plugin" that is as far independent from
+the other Webdav layers as possibly. This especially means, that the
+implementation is independent from the back end. Beside that, the plugin should
+provide the largest possible compatibility to clients. However a plugin that
+hooks into the parsing process cannot provide the same client compatibility
+mechanisms as the base Webdav transport layer.
 
-This design drafts goal is to build a lock plugin that is almost completely
-independent from the used back end. In this sense, the requirements to be
-fulfilled by a back end must be cut down as far as possible. Beside that, the
-plugin should provide the largest possible compatibility to clients. However a
-plugin that hooks into the parsing process cannot provide the same client
-compatibility mechanisms as the base Webdav transport layer.
+======
+Design
+======
+
+In following the main algorithms and functionalities are described that need to
+be implemented for a realization of locking. This design does not so much
+contain class and interface specifications, because most classes are internally
+to the lock plugin. Interaction with other parts of the Webdav component is
+realized by attaching to hooks of the plugin architecture or calling public
+methods of other components. All classes not defined explictly in this document
+will be marked private.
+
+The design description is structured by the changes that affect the 3 layers of
+the Webdav component. Mechanisms which are central for the plugin or affect
+multiple layers are described in dedicated sections after that.
 
 Transport layer
 ===============
 
-On the transport layer, the plugin needs to hook into many existing and 2 new
-request methods to alter their behavior. This section only describes the
-necessary functionality in the transport layer. Further functionality will be
-added on the server layer, see below.
+On the transport layer the plugin needs to hook into the parseUnknownRequest
+signal for 2 new request methods. In addition 2 new live properties need to be
+parsed, which is realized through the extractUnknwonLiveProperty and
+serializeUnknownLiveProperty hooks.
 
 LOCK / UNLOCK
 -------------
@@ -191,7 +224,8 @@ on, to be handled on the server layer.
 The same applies for the UNLOCK method.
 
 For both requests the corresponding response objects still need to be created
-and need to be serialized by the handleUnknownResponse hook.
+and need to be serialized by the handleUnknownResponse hook. Repsonse objects
+will be created as needed during implementation, as they are not very complex.
 
 Properties
 ----------
@@ -208,42 +242,55 @@ extractUnkownLiveProperty and serializeUnknownLiveProperty will be used for this
 purpose. This ensures that the properties can also be stored in the back end
 properly.
 
-.. Note::
-   If the lock plugin is switched off later for such a repository, the
-   specified properties should still work, since they are then simply
-   considered dead properties.
+If the lock plugin is switched off after it has been activated and used
+once, the specified properties should still work since they are then simply
+considered to dead properties.
 
-The creation and removal of these properties is handled on the server layer by
-the lock plugin.
+The creation and removal of these properties is handled by the lock plugin on
+the server layer.
 
 Server layer
 ============
 
-On the server layer, the hook receivedRequest will be used to intercept the
-necessary requests. These are on the one hand the LOCK and UNLOCK methods,
-which are exclusively handled by the lock plugin. On the other hand many other
-methods must be intercepted to check for locks taking effect. For the latter
-methods the hook receivedResponse must also be assigned, to unlock the back end
-properly.
+On the server layer, the hooks receivedRequest and generatedResponse will be
+used to intercept the necessary requests and responses. These are on the one
+hand the LOCK and UNLOCK methods, which are exclusively handled by the lock
+plugin. On the other hand most other methods must be intercepted to check for
+the effect of locks.
 
-One of the major problems in a plugin based approach is to ensure the
-consistency between the plugin activity and the back end request handling. To
-ensure this, the plugin must be able to lock the (complete) back end before it
-starts operating. The lock must stay until the back end finished proper handling
-of the original request and must be lifted after the final response has been
-created correctly. This again must happen by the lock plugin. The pseudo code
-shown below involves the back end handling. This basically means, that
-everything before the back end comes into action happens in the receivedRequest
-hook callback. The necessary actions after that (mainly the unlocking of the
-back end) happens in the received response hook callback.
+During the processing of requests, communication with the backend is necessary.
+This communication will be handled by creating corresponding request objects
+and processing the returned response objects. This ensures that only minimal
+adjustments to the back end themselves is necessary and that all imaginable
+back ends will support locking automatically. On the other side, this raises
+complexity and lowers performance of the lock mechanism itself.
 
-The following sections describe all necessary changes except the handling of
-the If header, which is described in the main section `Common concerns`_.
+To avoid race conditions while the lock plugin and the backend interact, the
+lock plugin must get the posibility to lock the backend completly from
+concurring requests. To allow this, a new backend interface will be introduced:
+
+::
+
+    interface ezcWebdavBackendLock
+    {
+        public function lock();
+        public function unlock();
+    }
+
+These methods must be implemented by the individual backend and simply needs to
+ensure that no other request starts processing as long as the lock is active.
+Locking will be done in the receivedRequest hook, before the lock plugin will
+come into action. After all processing by the plugin and the backend itself is
+finished, the unlocking will take place in the generatedResponse hook.
+
+The following sections describe all necessary funcitionality to be implemented,
+except the handling of the If header. This is described in the main section
+`Common concerns`_.
 
 LOCK
 ----
 
-Objects of class ezcWebdavLockRequest must be handled completley by the lock
+Objects of class ezcWebdavLockRequest must be handled completely by the lock
 plugin. In case such a request is received, the following operations must be
 performed (pseudo code): ::
 
@@ -317,16 +364,16 @@ performed (pseudo code): ::
     
     return <prop lockdiscovery response for requested resource>;
 
-The realization of the LOCK request via a plugin inquires several requests that
-need to be created by the plugin and to be processed by the back end. In
-addition, the plugin needs to process the returned response objects.
+A class ezcWebdavLockResponse needs to be created, which can represent the
+corresponding responses. Objects of this class will be processed by the
+transport layer hooks of the lock plugin and are therefore private.
 
 UNLOCK
 ------
 
-The unlock operation contains exactly 1 lock token that is to be removed from
+The unlock operation carries exactly one lock token that is to be removed from
 the resource(s) identified by the request path. The following pseudo code
-describes the operations to be used in the plugin to realize this: ::
+describes the operations to be performed by the plugin: ::
     
     if ( !authenticate() )
     {
