@@ -371,9 +371,15 @@ transport layer hooks of the lock plugin and are therefore private.
 UNLOCK
 ------
 
-The unlock operation carries exactly one lock token that is to be removed from
-the resource(s) identified by the request path. The following pseudo code
-describes the operations to be performed by the plugin: ::
+The UNLOCK operations request object carries exactly one lock token that
+indeicates the lock to be removed. The RFC does not specify, if the request URI
+must identify all resources affected by the lock, but we will assume that for
+now. The UNLOCK operation must release all locks that are identifie by the
+token. If the request URI does not specify the top most affected lock, we would
+need to iterate the whole repository to remove the locks.
+
+The following pseudo code describes the operations to be performed by the
+plugin: ::
     
     if ( !authenticate() )
     {
@@ -418,17 +424,16 @@ describes the operations to be performed by the plugin: ::
     return <corresponding response>;
 
 If the lock token could not be found in any of the resources returned by the
-PROPFIND request, it is save to indicate success to the client. This case might
-occur, if the lock expired right before the client sent the request. Anyway,
-the lock is gone, as desired by the client.
+PROPFIND request we will indicate success to the client. This case might occur,
+if the lock expired right before the client sent the request. However, the lock
+is gone as desired by the client.
 
 PUT
 ---
 
-The PUT method requires 2 additional checks if the If header check succeeded
-(meaning that any send If header matched). The actions to take place before the
-original processing of the PUT method can take place are described a follows
-(pseudo code): ::
+The PUT method requires 2 additional checks in case the If header check
+succeeded. The necessary actions to take place before the backend processing
+can take place are described a follows (pseudo code): ::
 
     if ( !authenticate() )
     {
@@ -483,8 +488,8 @@ be included in lock handling.
 PROPPATCH
 ---------
 
-The PROPPATCH request is only allowed if the affected resource is not locked by
-someone else. The necessary extensions are described below (pseudo code): ::
+The necessary extensions to the PROPPATCH method are described below (pseudo
+code): ::
     
     lock back end;
     
@@ -517,8 +522,11 @@ someone else. The necessary extensions are described below (pseudo code): ::
 MOVE
 ----
 
-For the MOVE request 2 different resource trees need to be checked for locks.
-The algorithm to do so is described below (pseudo code): ::
+For the MOVE request 2 different resource trees need to be checked for locks,
+before the request handling can take place. The source tree and the destination
+collection. The source tree must be checked with infinite depth, while the
+destination collection only requires a zero level check. The whole procedure
+algorithm is described below (pseudo code): ::
     
     if ( <authentication> invalid )
     {
@@ -587,8 +595,12 @@ The algorithm to do so is described below (pseudo code): ::
 COPY
 ----
 
-In contrast to the MOVE request, only the destination needs to be checked for
-locks before copying. The algorithm looks as follows (pseudo code): ::
+While only the destination of a COPY method needs to be checked for normal
+locks, the source must be checked for lock null resources. Those do not support
+the COPY method, so the method must fail, if the tree to copy contains a lock
+null resource. Other locks in the source tree do not affect the COPY method,
+since read locks are not supported by the Webdav component. The algorithm looks
+as follows (pseudo code): ::
     
     if ( !authenticate() )
     {
@@ -654,7 +666,9 @@ DELETE
 ------
 
 The DELETE method works on collection and non-collection resources and
-therefore needs to check infinite depth for locks (pseudo code): ::
+therefore needs to check infinite depth for locks. Lock null resources do not
+support the DELETE action, so the method must fail, if such a resource is to be
+deleted. The following pseudo code shows the whole procedure: ::
     
     if ( !authenticate() )
     {
@@ -690,7 +704,7 @@ MKCOL
 -----
 
 The MKCOL method is similar to the PUT request in terms of locking. The
-following pseudo code shows how this works: ::
+following pseudo code shows what needs to be done: ::
 
     
     if ( !authenticate() )
@@ -739,10 +753,11 @@ following pseudo code shows how this works: ::
 GET / HEAD
 ----------
 
-The GET and HEAD methods are usually not affected by locking. Since we store
-lock-null resources as usual resources, GET/HEAD requests need to be
-intercepted to return an according response. The following checks are needed
-(pseudo code): ::
+The GET and HEAD methods are not directly affected by locks. Since we store
+lock-null resources as normal resources and only add custom properties to them
+for identification, GET/HEAD requests need to be intercepted. If they are
+performed on a lock null resource, the method must fail. The following checks
+are therefore needed (pseudo code): ::
 
     lock back end;
 
@@ -766,8 +781,8 @@ Authentication
 
 Although a certain lock is uniquely identified by a lock token, this does not
 ensure that only the lock holding principle can make use of it. The lock tokens
-associated with a certain resource can be looked up by every principle through
-the lockdiscovery property.
+associated with a certain resource can be obtained by any principle through the
+lockdiscovery property.
 
 To ensure that a certain lock token is only used by the principle who created
 it, a dedicated authentication mechanism is necessary. Authentication
@@ -787,8 +802,8 @@ The abstract base class for authentication will look as follows: ::
     {
         public function authenticate( $path );
 
-        public function registerLock( $lockToken, $user );
-        public function validateLock( $lockToken, $user );
+        public function registerLock( $lockToken );
+        public function validateLock( $lockToken );
         public function unregisterLock( $lockToken );
 
         public function getUserName()
@@ -798,68 +813,71 @@ The abstract base class for authentication will look as follows: ::
     }
 
 The class implements the methods getUserName() and getPassword() per default
-using the HTTP Auth mechanism. This may be overwritten my extended classes,
-that potentially want to provide different authentication methods than HTTP
-Auth. The getUserName() method is public, because the lock plugin will use it
-to store the author of a lock token in the lockdiscovery property. In contrast
-the getPassword() method is protected, to ensure that nobody can access this
-externally.
+using the HTTP Auth mechanism. This may be overwritten by extended classes
+which potentially want to provide other methods than HTTP Auth. The
+getUserName() method is public, because the lock plugin will use it to store
+the "author" of a lock in the lockdiscovery property. In contrast, the
+getPassword() method is protected to ensure that no other object can access the
+password.
 
 The method authenticate() retrieves the current user name and password
-internally and verifies their correctness. The \*Lock() methods are used to
-manage lock tokens and their assignment to principles. The given $user
-parameter is distinguished by the lock plugin through the getUserName() method.
+internally, using the specific methods, and verifies their correctness. The
+method receives the current request path in addition, to verify that the
+current user is allowed to access the desired path. The \*Lock() methods are
+used to manage lock tokens and their assignment to principles. The principle is
+to be distinguished by the authentication object through the getUserName()
+method.
 
-The registerLock() method assigns a $lockToken to the principle identified by
-$user. validateLock() validates that the given lock token belongs to the
+The registerLock() method assigns a $lockToken to the current principle.
+validateLock() validates that the given $lockToken belongs to the
 current principle. The unregisterLock() method discards a lock token when the
 UNLOCK method is used or in case the lock token expires. The lock plugin will
-have taken care for validation before, if necessary.
+have called the validateLock() method before this, to ensure that only the
+correct principle can lift a lock, if necessary.
 
 .. Note::
    For COPY and MOVE requests authentication has to happen twice: Once for the
    source and once for the destination path.
 
-The basic implementation of this interface, called
-ezcWebdavLockFakeAuthenticator, will not perform any of the desired checks, but
-simply return true on all method calls. *This does not provide any
-authentication*, but allows the lock plugin to be used in a trusted
+The basic implementation of this interface, which is shipped with the lock
+plugin, is  called ezcWebdavLockFakeAuthenticator. It will not perform any of
+the desired checks, but simply return true on all method calls. *This does not
+provide any authentication*, but allows the lock plugin to be used in a trusted
 environment, where lock tokens are not subject to be exploited. The class will
 return the users IP address from the getUserName() method to allow the lock
-plugin to set the owner information of the lockdiscovery property properly.
+plugin to set the owner information of the lockdiscovery property properly.  In
+this case a principle is equal to a client.
 
-.. Warning::
+.. Note::
    Usually it is a good idea allow authentication without being specific to
    locking. This would mean to offer an authentication mechanism globally for
-   the Webdav component. The problem here is, that this will not include lock
-   management and for the lock plugin a second authentication point needs to be
-   established.
+   the Webdav component. The problem here is, that this will not easily include
+   lock management. In addition, the scope of this feature release would be
+   further extended.
 
 Lock null resources
 ===================
 
-Lock null resources are not (yet) existing resources, which have been locked.
-It makes sense to lock a resource before it is created, to ensure that no other
-principle can interfere with the creation. Lock null resources may not appear as
-complete resources, so that the lock plugin must check under certain
-circumstances if an affected resource is a lock null resource or not.
+Lock null resources are not yet existing resources which have been already been
+locked. The sense behind this is to lock a resource before it is created, to
+ensure that no other principle can interfere with this creation. Lock null
+resources may not appear as complete resources to the accessing clients, so
+that the lock plugin must check under certain circumstances if an affected
+resource is a lock null resource or not.
 
-Lock null resources need to be persistent between requests as long as the lock
-that affects them exists. As soon as this lock is removed or expires, the lock
-null resource must be removed, too. When a lock null resource is correctly
-created, by the principle that holds the lock, it must be converted into a real
-resource.
+Lock null resources need to be persistent between requests as long as their
+lock exists. As soon as this lock is removed or expires the lock null resource
+must be removed, too. If the creation process on a lock null resource succeeds
+it must be converted into a real resource.
 
 To allow the lock plugin to distinguish between lock null resources and real
-resources, a new property name space is introduced, which is exclusively used in
-the lock plugin: *ezclock*. In this name space, the property *nullresource* will
-be used to indicate that a resource is a lock null resource. The property will
-contain no content, since its only sense is to indicate that a resource is not
-a usual resource.
+resources, a new dead property will be introduced in the dedicated name space
+*ezclock*. In this name space the empty property *nullresource* will be used to
+indicate that a resource is a lock null resource.
 
-During each affected request, the lock plugin needs to check responses for lock
-null resources before they are serialized by the transport. Supported methods
-of lock null resources are:
+During a request the lock plugin needs to check responses for lock null
+resources before they are serialized by the transport. Supported methods of
+lock null resources are:
 
 - PUT
 - MKCOL
@@ -870,8 +888,8 @@ of lock null resources are:
 
 All other methods will return 405 (Method Not Allowed). For the PROPFIND
 request, only certain properties are supported by lock null resources. These
-are the lockdiscovery and supportedlock properties, All other live properties
-should be empty.
+are mainly the lockdiscovery and supportedlock properties, All other live
+properties should be empty.
 
 .. Note::
    The fact that lock null resource properties are mostly empty is not a MUST
@@ -886,60 +904,64 @@ This section describes a potential realization of locking by integrating the
 necessary functionality completely into the Webdav component. The general
 algorithms for lock related mechanisms have already been described in detail in
 the previous section. They will therefore not be repeated in this section, but
-only the differences will be mentioned.
+only the implementation differences will be mentioned.
 
-Design goals
-============
+The goal of an integrated approach is to reduce the overhead produced by
+locking to a minimum. This is only possible my integrating the lock mechanisms
+fully into the current source code. In opposite implementing a plugin, which is
+almost completely independent from the current code base.
 
-This design drafts goal is to build reduce the overhead produced by locking to
-a minimum. This is only possible my integrating the lock mechanisms fully into
-the current source code, instead of implementing a plugin, which is almost
-completely independent from the current code base.
+While the plugin approach described above will perform worse against an
+integrated approach, the latter one will raise significantly raise the code
+complexity of lock supporting backends and therefore reduce their
+maintainability.
 
 Transport layer
 ===============
 
 The functionality described for the `Plugin base approach`_ need to be included
-into the current transport layer. The functionality stays almost exactly the
-same. The main change is the place of implementation. Instead of creating new
-classes, which provide hooks for certain events, new methods in
-ezcWebdavTransport and ezcWebdavPropertyHandler will be implemented.
+into the current transport layer. The implementations themselves stay almost
+exactly the same. The main change is the place of implementation. Instead of
+creating new classes and using the plugin API some new methods in
+ezcWebdavTransport and ezcWebdavPropertyHandler will be implemented. The raise
+of complexity in these classes is moderate or even low.
 
-
-This causes the advantage, that client specific adjustments stay possible as
-they currently are. With the plugin based approach, these adjustments would
-need to be hard coded into the plugin code. With the integrated approach, these
-adjustments can be handled by class extension and configuration through the
-ezcWebdavServer class.
+The caused advantage is that client specific adjustments will easily be
+possible for the parsing and serializing methods of the transport layer.  With
+the plugin based approach these adjustments would need to be hard coded into
+the plugin source. With the integrated approach, these adjustments can be
+handled by class extension and configuration through the ezcWebdavServer class.
 
 Server layer
 ============
 
 With an integrated approach, no changes on the server layer are necessary. All
-changes directly influence the transport and back end layers.
-
+changes directly influence the transport and back end layers. Only
+`Authentication`_ might be shifted to this layer. An advantage here is, that
+global authentication mechanisms can easily be introduced.
 
 Back end layer
 ==============
 
-The back end layer performs the greatest piece of work in an integrated
-approach. It still provides a certain level of abstraction, but far less than
+The ezcWebdavSimpleBackend performs the largest piece of work in an integrated
+approach. This still provides a minimal level of abstraction, but far less than
 with the plugin based approach. All back end implementations based on
 ezcWebdavSimpleBackend will be locking enabled.
 
-On the other hand, this might result in slide BC breaks, under certain
-circumstances. Those will force users, who already implemented a custom
-back end, to implement additional methods or change signatures. Since the chance
-that anyone already implemented a custom back end is low, this should be
-affordable.
+On the other hand this might result in slide BC breaks under certain
+circumstances. Those will force users who already implemented a custom back end
+to implement additional methods or change signatures of existing once. Since
+the chance that anyone already implemented a custom back end is low, this
+should be affordable.
 
 The basic algorithms to handle the affected methods are the same as for the
-plugin based approach. Therefore, only the differences will be described below.
+plugin based approach. A problem is, that these (complex) algorithms will be
+interwoven with the existing methods, raising their complexity by far.
 
 Requests and responses
 ----------------------
 
-A major difference to the plugin based approach is, that no additional
+A major difference against the plugin based approach is, that no additional
 request/response handling is necessary. All communication with other back end
 mechanisms can take place directly through method calls. In the plugin based
 approach for all of the following actions a request-response cycle is necessary:
@@ -955,10 +977,10 @@ Locking
 -------
 
 Since the back end is taking over the complete work, it might not be necessary
-to lock it completely when a request is performed. If so, the lock will last
-much shorter than with the plugin based approach. The back end does not need to
-provide a new method to allow the lock plugin to completely lock it, since locks
-are completely handled internally.
+to lock it completely when a request is served. If it is necessary to lock the
+backend completely, the lock will last much shorter than with the plugin based
+approach. The back end does not need to provide a new method to allow the lock
+plugin to completely lock it, since locks are completely handled internally.
 
 Common concerns
 ^^^^^^^^^^^^^^^
@@ -1203,8 +1225,6 @@ needs therefore to be added. This method also needs to invalidate the headers
 internally in the class, so that a manual revalidation using validateHeaders()
 needs to occur. Since the lock plugin will remove the If header before the
 request object passes ezcWebdavServer, the headers are validated anyways there.
-
-
 
 
 ..
