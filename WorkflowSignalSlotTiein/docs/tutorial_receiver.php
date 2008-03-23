@@ -33,10 +33,6 @@ class MyReceiver
     {
     }
 
-    public function afterRolledBackServiceObject( ezcWorkflowExecution $execution, ezcWorkflowNode $node, ezcWorkflowRollbackableServiceObject $serviceObject, $success )
-    {
-    }
-
     public function afterThreadStarted( ezcWorkflowExecution $execution, $threadId, $parentId, $numSiblings )
     {
     }

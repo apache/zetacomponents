@@ -48,7 +48,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->signals->connect( 'beforeNodeActivated', array( $this->receiver, 'beforeNodeActivated' ) );
         $this->signals->connect( 'afterNodeActivated', array( $this->receiver, 'afterNodeActivated' ) );
         $this->signals->connect( 'afterNodeExecuted', array( $this->receiver, 'afterNodeExecuted' ) );
-        $this->signals->connect( 'afterRolledBackServiceObject', array( $this->receiver, 'afterRolledBackServiceObject' ) );
         $this->signals->connect( 'afterThreadStarted', array( $this->receiver, 'afterThreadStarted' ) );
         $this->signals->connect( 'afterThreadEnded', array( $this->receiver, 'afterThreadEnded' ) );
         $this->signals->connect( 'beforeVariableSet', array( $this->receiver, 'beforeVariableSet' ) );
@@ -99,7 +98,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 2, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 2, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 2, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 0, $this->receiver->stack['beforeVariableSet'] );
@@ -122,7 +120,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 2, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 2, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 2, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 1, $this->receiver->stack['beforeVariableSet'] );
@@ -146,7 +143,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 3, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 3, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 3, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 3, $this->receiver->stack['beforeVariableSet'] );
@@ -169,7 +165,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 4, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 4, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 4, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 1, $this->receiver->stack['beforeVariableSet'] );
@@ -192,7 +187,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 22, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 22, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 22, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 10, $this->receiver->stack['beforeVariableSet'] );
@@ -215,7 +209,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 22, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 22, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 22, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 10, $this->receiver->stack['beforeVariableSet'] );
@@ -238,7 +231,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 7, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 7, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 7, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 5, $this->receiver->stack['beforeVariableSet'] );
@@ -261,7 +253,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 4, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 4, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 4, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 3, $this->receiver->stack['beforeVariableSet'] );
@@ -284,7 +275,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 6, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 6, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 6, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 3, $this->receiver->stack['beforeVariableSet'] );
@@ -307,7 +297,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 7, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 7, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 7, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 4, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 4, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 0, $this->receiver->stack['beforeVariableSet'] );
@@ -331,7 +320,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 6, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 6, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 6, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 3, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 3, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 2, $this->receiver->stack['beforeVariableSet'] );
@@ -355,7 +343,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 5, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 5, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 5, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 1, $this->receiver->stack['beforeVariableSet'] );
@@ -379,7 +366,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 5, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 5, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 5, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 2, $this->receiver->stack['beforeVariableSet'] );
@@ -403,7 +389,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 6, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 6, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 6, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 3, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 3, $this->receiver->stack['beforeVariableSet'] );
@@ -426,7 +411,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 9, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 9, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 9, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 3, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 3, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 3, $this->receiver->stack['beforeVariableSet'] );
@@ -449,7 +433,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 8, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 8, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 8, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 4, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 4, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 2, $this->receiver->stack['beforeVariableSet'] );
@@ -472,7 +455,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 8, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 8, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 8, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 4, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 4, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 2, $this->receiver->stack['beforeVariableSet'] );
@@ -496,7 +478,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 5, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 5, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 5, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 0, $this->receiver->stack['beforeVariableSet'] );
@@ -521,7 +502,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 6, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 6, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 6, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 3, $this->receiver->stack['beforeVariableSet'] );
@@ -545,7 +525,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 7, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 7, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 5, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 1, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 5, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 0, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 0, $this->receiver->stack['beforeVariableSet'] );
@@ -568,7 +547,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 10, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 10, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 10, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 1, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 4, $this->receiver->stack['beforeVariableSet'] );
@@ -592,7 +570,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 7, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 7, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 7, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 0, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 4, $this->receiver->stack['beforeVariableSet'] );
@@ -615,7 +592,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 3, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 3, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 3, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 1, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 2, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 0, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 0, $this->receiver->stack['beforeVariableSet'] );
@@ -638,7 +614,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 5, $this->receiver->stack['beforeNodeActivated'] );
         $this->assertEquals( 5, $this->receiver->stack['afterNodeActivated'] );
         $this->assertEquals( 3, $this->receiver->stack['afterNodeExecuted'] );
-        $this->assertEquals( 1, $this->receiver->stack['afterRolledBackServiceObject'] );
         $this->assertEquals( 4, $this->receiver->stack['afterThreadStarted'] );
         $this->assertEquals( 0, $this->receiver->stack['afterThreadEnded'] );
         $this->assertEquals( 0, $this->receiver->stack['beforeVariableSet'] );

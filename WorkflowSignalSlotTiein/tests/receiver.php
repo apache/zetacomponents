@@ -25,7 +25,6 @@ class ezcWorkflowSignalSlotTestReceiver
       'beforeNodeActivated' => 0,
       'afterNodeActivated' => 0,
       'afterNodeExecuted' => 0,
-      'afterRolledBackServiceObject' => 0,
       'afterThreadStarted' => 0,
       'afterThreadEnded' => 0,
       'beforeVariableSet' => 0,
@@ -72,11 +71,6 @@ class ezcWorkflowSignalSlotTestReceiver
     public function afterNodeExecuted( ezcWorkflowExecution $execution, ezcWorkflowNode $node )
     {
         $this->stack['afterNodeExecuted']++;
-    }
-
-    public function afterRolledBackServiceObject( ezcWorkflowExecution $execution, ezcWorkflowNode $node, ezcWorkflowRollbackableServiceObject $serviceObject, $success )
-    {
-        $this->stack['afterRolledBackServiceObject']++;
     }
 
     public function afterThreadStarted( ezcWorkflowExecution $execution, $threadId, $parentId, $numSiblings )

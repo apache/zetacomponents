@@ -203,19 +203,6 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
     }
 
     /**
-     * Called after a service object has been rolled back.
-     *
-     * @param ezcWorkflowExecution                 $execution
-     * @param ezcWorkflowNode                      $node
-     * @param ezcWorkflowRollbackableServiceObject $serviceObject
-     * @param bool                                 $success
-     */
-    public function afterRolledBackServiceObject( ezcWorkflowExecution $execution, ezcWorkflowNode $node, ezcWorkflowRollbackableServiceObject $serviceObject, $success )
-    {
-        $this->properties['signals']->emit( $this->options['afterRolledBackServiceObject'], $execution, $node, $serviceObject, $success );
-    }
-
-    /**
      * Called after a new thread has been started.
      *
      * @param ezcWorkflowExecution $execution

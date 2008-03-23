@@ -10,6 +10,5 @@ MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeAct
 MMM DD HH:MM:SS [Debug] [default] [default] Started thread #2 (3 sibling(s)) for execution #1 of workflow "ParallelSplitActionActionCancelCaseSynchronization" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #7(ezcWorkflowNodeAction) for instance #1 of workflow "ParallelSplitActionActionCancelCaseSynchronization" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Started thread #3 (3 sibling(s)) for execution #1 of workflow "ParallelSplitActionActionCancelCaseSynchronization" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Could not roll back service object "ServiceObject" of node #2 for instance #1 of workflow "ParallelSplitActionActionCancelCaseSynchronization" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #8(ezcWorkflowNodeCancel) for instance #1 of workflow "ParallelSplitActionActionCancelCaseSynchronization" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Cancelled execution #1 of workflow "ParallelSplitActionActionCancelCaseSynchronization" (version 1).
