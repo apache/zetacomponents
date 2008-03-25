@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphSVGDriver class
+ * File containing the ezcGraphCairoDriver class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Extension of the basic Driver package to utilize the SVGlib.
+ * Extension of the basic driver package to utilize the cairo library.
  *
  * This drivers options are defined in the class 
  * {@link ezcGraphCairoDriverOptions} extending the basic driver options class
