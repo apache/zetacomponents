@@ -1,0 +1,54 @@
+<?php
+/**
+ * File containing the ezcDbSchemaNonUniqueIndexNameValidator class.
+ *
+ * @package DatabaseSchema
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * ezcDbSchemaNonUniqueIndexNameValidator checks for duplicate index names.
+ *
+ * @todo implement from an interface
+ * @package DatabaseSchema
+ * @version //autogentag//
+ */
+class ezcDbSchemaNonUniqueIndexNameValidator
+{
+    /**
+     * Validates if all the index names used are unique accross the schema.
+     *
+     * This method loops over all the indexes in all tables and checks whether
+     * they have been used before.
+     *
+     * @param ezcDbSchema $schema
+     * @return array(string)
+     */
+    static public function validate( ezcDbSchema $schema )
+    {
+        $indexes = array();
+        $errors = array();
+
+        /* For each table we check all auto increment fields. */
+        foreach ( $schema->getSchema() as $tableName => $table )
+        {
+            foreach ( $table->indexes as $indexName => $dummy )
+            {
+                $indexes[$indexName][] = $tableName;
+            }
+        }
+
+        foreach ( $indexes as $indexName => $tableList )
+        {
+            if ( count( $tableList ) > 1 )
+            {
+                $errors[] = "The index name '$indexName' is not unique. It exists for the tables: '" . join( "', '", $tableList ) . "'.";
+            }
+        }
+
+        return $errors;
+    }
+}
+?>
