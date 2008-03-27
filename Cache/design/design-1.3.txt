@@ -1,0 +1,95 @@
+eZ component: Cache, Design, 1.3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   $Author$
+:Revision: $Revision$
+:Date:     $Date$
+
+.. contents::
+
+=====
+Scope
+=====
+
+The scope of this document is to design the features to be implemented for the
+Cache component version 1.3. This version will incorporate the following
+features and fixes, which will be described in detail in this document:
+
+- #11049 Using other storage engines beyond file-based storage.
+
+============================================================
+#11049 Using other storage engines beyond file-based storage
+============================================================
+
+Since file-storage is quite slow for web application needs, implementing
+storage in memory is a good idea. Memory is limited so it is up to the
+developer to use it with care.
+
+Examples of memory-based storage engines:
+
+`APC`_
+  APC is a PECL extension that is rumored to be integrated into future
+  versions of PHP.
+
+`Memcache`_
+  Memcache is similar to APC but it is extremely useful for a load balanced
+  enterprise environment. This relies on memcached which is the most reliable
+  and trusted method of sharing large volumes of cacheable data between many
+  different servers.
+
+
+Design
+======
+
+For each memory-based storage engine (`APC`_, `Memcache`_) a storage and a
+backend class will be implemented.
+
+Storage
+-------
+
+ezcCacheStorageMemory
+  Abstract class which is a base for all memory-based storage classes. It uses
+  a registry to keep the stored data and a search registry to allow fast
+  fetching of the stored data.
+
+ezcCacheStorageApcPlain
+  This stores cache directly in the `APC`_ cache. It keeps a registry of all
+  known caches to aid searching.
+
+ezcCacheStorageMemcachePlain
+  This stores the cache directly in `Memcache`_. This is extremely fast. It
+  also keeps a registry of all known caches to aid searching.
+
+ezcCacheStorageFileApcArray
+  This is an extension of the ezcCacheStorageFileArray except it keeps cache
+  in `APC`_ and in the file system. The filesystem is seen as the authority
+  but the cache is read from `APC`_ as much as possible. This reduces reads
+  to the filesystem and speeds up the cache dramatically.
+
+
+Backend
+-------
+
+ezcCacheMemoryBackend
+  Abstract class which is a base for all memory backends. Contains the
+  abstract methods store, restore and delete which need to be implemented by
+  all subclasses.
+
+ezcCacheApcBackend
+  Implements the store, restore and delete methods from ezcCacheMemoryBackend
+  with calls to `APC`_.
+
+ezcCacheMemcacheBackend
+  Implements the store, restore and delete methods from ezcCacheMemoryBackend
+  with calls to `Memcache`_.
+
+.. _APC: http://pecl.php.net/package/APC
+.. _Memcache: http://pecl.php.net/package/Memcache
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
