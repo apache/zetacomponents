@@ -298,15 +298,15 @@ In modern browsers the user will be informed (usually via a small icon like
 current page has a web feed. If the user clicks on this icon his feed
 aggregator client will start and save the link to the feed in its database
 (if the user's system has a feed aggregator client and is configured to
-handle *application/rss+xml* and *application/atom+xml* content with the
+handle ``application/rss+xml`` and ``application/atom+xml`` content with the
 aggregator).
 
 Multiple feeds can be added to the same page (for example you can provide ATOM
 and RSS2 feeds). Note: some browsers might not recognize the non-standard
-*application/rss+xml* type and select the ATOM feed by default.
+``application/rss+xml`` type and select the ATOM feed by default.
 
 The *title* attribute of the *link* HTML tag can be used to differentiate
-between multiple feeds (for example "News", "Latest offers", etc).
+between multiple feeds (for example ``News``, ``Latest offers``, etc).
 
 
 Link to the feed document
@@ -338,7 +338,7 @@ __ http://www.mozilla.org/foundation/feed-icon-guidelines/
 Feed creator example
 --------------------
 
-In the sub-directory *Feed/docs/examples* there is a **feed_creator**
+In the sub-directory ``Feed/docs/examples`` there is a **feed_creator**
 application which can be used to create simple XML feeds from minimal text
 files.
 
@@ -375,14 +375,14 @@ An example of an input text file:
 The **feed_creator** application will read an input file with the above
 structure and output an XML feed of the chosen type (rss1, rss2 or atom). An
 XML file will also be written in the same directory as the input file, with
-the name of the input file plus the *.xml* extension.
+the name of the input file plus the ``.xml`` extension.
 
-Example of usage (current directory is the `feed_creator` directory)::
+Example of usage (current directory is the **feed_creator** directory)::
 
   php feed_creator.php rss2 data/news.txt
 
-After running this command, the file *data/news.xml* will be created,
-containing an RSS2 feed with the values read from *data/news.txt*:
+After running this command, the file ``data/news.xml`` will be created,
+containing an RSS2 feed with the values read from ``data/news.txt``:
 
 .. include:: examples/feed_creator/data/news.xml
    :literal:
@@ -910,24 +910,24 @@ Media type
 ATOM
 ````
 
-All ATOM feeds must be identified with the *application/atom+xml* media type.
-Use the **getContentType()** method of ezcFeed to get this string.
+All ATOM feeds must be identified with the ``application/atom+xml`` media
+type. Use the **getContentType()** method of ezcFeed to get this string.
 
 
 RSS1
 ````
 
-All RSS1 feeds should be identified with the *application/rss+xml* media type
-(although it is not a standard yet). Use the **getContentType()** method of
-ezcFeed to get this string.
+All RSS1 feeds should be identified with the ``application/rss+xml`` media
+type (although it is not a standard yet). Use the **getContentType()** method
+of ezcFeed to get this string.
 
 
 RSS2
 ````
 
-All RSS2 feeds should be identified with the *application/rss+xml* media type
-(although it is not a standard yet). Use the **getContentType()** method of
-ezcFeed to get this string.
+All RSS2 feeds should be identified with the ``application/rss+xml`` media
+type (although it is not a standard yet). Use the **getContentType()** method
+of ezcFeed to get this string.
 
 
 Elements common to all feed types
