@@ -336,7 +336,6 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
 
     public function testWriteWithPrefixReadWithPrefix()
     {
-        xdebug_break();
         $optionsWithPrefix = new ezcDbSchemaOptions;
         $optionsWithPrefix->tableNamePrefix = 'prefix_';
         $schema = new ezcDbSchema( self::getSchema() );
@@ -352,7 +351,6 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
 
     public function testWriteWithPrefixReadWithoutPrefix()
     {
-        xdebug_break();
         $optionsWithoutPrefix = new ezcDbSchemaOptions;
         $optionsWithoutPrefix->tableNamePrefix = '';
         $optionsWithPrefix = new ezcDbSchemaOptions;
