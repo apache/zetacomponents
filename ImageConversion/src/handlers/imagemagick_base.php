@@ -202,11 +202,13 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         // Close STDIN pipe
         fclose( $pipes[0] );
         
-        $errorString = '';
+        $errorString  = '';
+        $outputString = '';
         // Read STDERR 
         do 
         {
-            $errorString .= rtrim( fgets( $pipes[2], 1024) , "\n" );
+            $outputString .= rtrim( fgets( $pipes[1], 1024 ), "\n" );
+            $errorString  .= rtrim( fgets( $pipes[2], 1024 ), "\n" );
         } while ( !feof( $pipes[2] ) );
         
         // Wait for process to terminate and store return value
@@ -223,7 +225,9 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         if ( $status['exitcode'] != 0 || strlen( $errorString ) > 0 )
         {
             // If this code is reached we have a bug in this component or in ImageMagick itself.
-            throw new Exception( "The command '{$command}' resulted in an error: '{$errorString}'." );
+            throw new Exception(
+                "The command '{$command}' resulted in an error ({$status['exitcode']})): '{$errorString}'. Output: '{$outputString}'"
+            );
         }
         // Finish atomic file operation
         copy( $this->getReferenceData( $image, 'resource' ), $this->getReferenceData( $image, 'file' ) );
