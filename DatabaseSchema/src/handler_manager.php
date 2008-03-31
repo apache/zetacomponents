@@ -191,7 +191,7 @@ class ezcDbSchemaHandlerManager
         // have to do that with reflection here unfortunately
         $interfaceClass = new ReflectionClass( 'ezcDbSchemaReader' );
         $handlerClass = new ReflectionClass( $readerClass );
-        if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+        if ( !in_array( 'ezcDbSchemaReader', class_implements( $readerClass ) ) )
         {
             throw new ezcDbSchemaInvalidReaderClassException( $readerClass );
         }

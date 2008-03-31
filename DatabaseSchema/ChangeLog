@@ -4,6 +4,8 @@
 - Implemented issue #10069: DatabaseSchema only for particular tables.
 - Implemented issue #10364: Added support for table name prefixes.
 - Implemented issue #11562: Schema validator for duplicate index names.
+- Implemented issue #12694: replace reflection test for class type with spl
+  function.
 
 
 1.3.1 - Monday 14 January 2008

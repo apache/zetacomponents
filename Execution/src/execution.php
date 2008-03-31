@@ -100,12 +100,8 @@ class ezcExecution
             throw new ezcExecutionInvalidCallbackException( $callbackClassName );
         }
 
-        // Check if the passed classname actually implements the interface. We
-        // have to do that with reflection here unfortunately since we only
-        // have the classname and not an object.
-        $interfaceClass = new ReflectionClass( 'ezcExecutionErrorHandler' );
-        $handlerClass = new ReflectionClass( $callbackClassName );
-        if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+        // Check if the passed classname actually implements the interface.
+        if ( !in_array( 'ezcExecutionErrorHandler', class_implements( $callbackClassName ) ) )
         {
             throw new ezcExecutionWrongClassException( $callbackClassName );
         }

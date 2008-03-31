@@ -6,6 +6,8 @@
   of all files that are returned by this function.
 - Implemented issue #11506: Added the static method
   ezcBase::getInstallationPath().
+- Implemented issue #12694: replace reflection test for class type with spl
+  function.
 
 
 1.4.1 - Monday 14 January 2008

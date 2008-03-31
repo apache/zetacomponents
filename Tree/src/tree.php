@@ -140,11 +140,9 @@ abstract class ezcTree implements ezcTreeVisitable
                 }
 
                 // Check if the passed classname actually implements the
-                // correct parent class. We have to do that with reflection
-                // here unfortunately
-                $parentClass = new ReflectionClass( 'ezcTreeNode' );
-                $handlerClass = new ReflectionClass( $value );
-                if ( 'ezcTreeNode' !== $value && !$handlerClass->isSubclassOf( $parentClass ) )
+                // correct parent class.
+                if ( 'ezcTreeNode' !== $value &&
+                    !in_array( 'ezcTreeNode', class_parents( $value ) ) )
                 {
                     throw new ezcBaseInvalidParentClassException( 'ezcTreeNode', $value );
                 }

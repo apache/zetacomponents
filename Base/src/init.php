@@ -92,11 +92,8 @@ class ezcBaseInit
                 throw new ezcBaseInitInvalidCallbackClassException( $callbackClassname );
             }
 
-            // Check if the passed classname actually implements the interface. We
-            // have to do that with reflection here unfortunately
-            $interfaceClass = new ReflectionClass( 'ezcBaseConfigurationInitializer' );
-            $handlerClass = new ReflectionClass( $callbackClassname );
-            if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+            // Check if the passed classname actually implements the interface.
+            if ( !in_array( 'ezcBaseConfigurationInitializer', class_implements( $callbackClassname ) ) )
             {
                 throw new ezcBaseInitInvalidCallbackClassException( $callbackClassname );
             }

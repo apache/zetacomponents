@@ -141,11 +141,8 @@ class ezcConfigurationManager
             throw new ezcConfigurationInvalidReaderClassException( $readerClass );
         }
 
-        // Check if the passed classname actually implements the interface. We
-        // have to do that with reflection here unfortunately
-        $interfaceClass = new ReflectionClass( 'ezcConfigurationReader' );
-        $handlerClass = new ReflectionClass( $readerClass );
-        if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+        // Check if the passed classname actually implements the interface.
+        if ( !in_array( 'ezcConfigurationReader', class_parents( $readerClass ) ) )
         {
             throw new ezcConfigurationInvalidReaderClassException( $readerClass );
         }
