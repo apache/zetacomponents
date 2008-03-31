@@ -1,6 +1,7 @@
 <?php
 $v = new ezcTemplateVariableCollection();
 $v->timestamp = time();
+$v->date = new DateTime( "2008-03-31 14:33:15 Europe/Oslo" );
 
 return $v;
 ?>
