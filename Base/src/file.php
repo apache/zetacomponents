@@ -53,7 +53,7 @@ class ezcBaseFile
      * @param string         $sourceDir
      * @param array(string)  $includeFilters
      * @param array(string)  $excludeFilters
-     * @param array()       &$statistics
+     * @param array()        $statistics
      *
      * @throws ezcBaseFileNotFoundException if the $sourceDir directory is not
      *         a directory or does not exist.
@@ -80,7 +80,7 @@ class ezcBaseFile
             $statistics['size']  = 0;
             $statistics['count'] = 0;
         }
-        
+
         while ( ( $entry = $d->read() ) !== false )
         {
             if ( $entry == '.' || $entry == '..' )
