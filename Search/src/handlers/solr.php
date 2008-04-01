@@ -393,7 +393,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
 
     public function find( ezcSearchFindQuery $query )
     {
-        $queryWord = join( ' ', $query->whereClauses );
+        $queryWord = join( ' AND ', $query->whereClauses );
         $resultFieldList = $query->resultFields;
 
         $res = $this->search( $queryWord, '', array(), $resultFieldList );
@@ -402,7 +402,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
 
     public function getQuery( ezcSearchFindQuerySolr $query )
     {
-        $queryWord = join( ' ', $query->whereClauses );
+        $queryWord = join( ' AND ', $query->whereClauses );
         $resultFieldList = $query->resultFields;
 
         return http_build_query( $this->buildQuery( $queryWord, '', array(), $resultFieldList ) );
