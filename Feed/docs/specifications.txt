@@ -2691,7 +2691,7 @@ Item elements
 Geo-item-alt
 ````````````
 
-Altitude as decimal meters above the local reference ellipsoid.
+Altitude in decimal meters above the local reference ellipsoid.
 
 Optional.
 
@@ -2716,7 +2716,7 @@ Parse example::
 Geo-item-lat
 ````````````
 
-Latitude on the globe as decimal degrees (eg. 25.03358300).
+`WGS84`_ latitude on the globe as decimal degrees (eg. 25.03358300).
 
 Optional.
 
@@ -2726,7 +2726,7 @@ Can appear only once.
 Geo-item-long
 `````````````
 
-Longitude on the globe as decimal degrees (eg. 121.56430000).
+`WGS84`_ longitude on the globe as decimal degrees (eg. 121.56430000).
 
 Optional.
 
@@ -3068,6 +3068,7 @@ Modules
 .. _iTunes categories: http://www.apple.com/itunes/store/podcaststechspecs.html#categories
 .. _iTunes: http://www.apple.com/itunes/
 .. _CreativeCommons licenses: http://creativecommons.org/licenses/
+.. _WGS84: http://en.wikipedia.org/wiki/WGS84
 
 .. |ezcFeed-author| replace:: author
 .. |ezcFeed-category| replace:: category

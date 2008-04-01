@@ -27,20 +27,22 @@
  * Parse example:
  * <code>
  * // $item is an ezcFeedItem object
- * $alt = $item->Geo->alt;
- * $lat = $item->Geo->lat;
- * $long = $item->Geo->long;
+ * $alt = isset( $item->Geo->alt ) ? $item->Geo->alt[0] : null;
+ * $lat = isset( $item->Geo->lat ) ? $item->Geo->lat[0] : null;
+ * $long = isset( $item->Geo->long ) ? $item->Geo->long[0] : null;
  * </code>
  *
  * @property ezcFeedElement $alt
- *                          Altitude as decimal meters above the local
+ *                          Altitude in decimal meters above the local
  *                          reference ellipsoid (eg. 509.2). Can also be
  *                          negative.
  * @property ezcFeedElement $lat
- *                          Latitude on the globe as decimal degrees
+ *                          {@link http://en.wikipedia.org/wiki/WGS84 WGS84} latitude
+ *                          on the globe as decimal degrees
  *                          (eg. 25.03358300). Can also be negative.
  * @property ezcFeedElement $long
- *                          Latitude on the globe as decimal degrees
+ *                          {@link http://en.wikipedia.org/wiki/WGS84 WGS84} longitude
+ *                          on the globe as decimal degrees
  *                          (eg. 121.56430000). Can also be negative.
  *
  * @package Feed
