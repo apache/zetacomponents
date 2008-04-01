@@ -3024,11 +3024,12 @@ If missing, `iTunes`_ will use the |ezcFeed-item-description|_ element from
 the feed.
 
 
+=========
 Resources
 =========
 
 Feed
-----
+====
 
 - `RFC 4287`_ ATOM specifications.
 - `RSS1 specifications`_.
@@ -3036,7 +3037,7 @@ Feed
 
 
 Modules
--------
+=======
 
 - `Content specifications`_.
 - `CreativeCommons specifications`_.
