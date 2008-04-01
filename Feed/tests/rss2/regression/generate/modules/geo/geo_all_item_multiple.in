@@ -1,0 +1,17 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( 'Feed link' ),
+              'description' => 'Feed description',
+              'item' => array( array( 'title' => 'Item title 1',
+                                      'link' => 'Item link 1',
+                                      'description' => 'Item description 1',
+                                      'Geo' => array( array( 'lat' => 'Lat 1',
+                                                             'long' => 'Long 1',
+                                                             'alt' => 'Alt 1' ) ) ),
+                               array( 'title' => 'Item title 2',
+                                      'link' => 'Item link 2',
+                                      'description' => 'Item description 2',
+                                      'Geo' => array( array( 'lat' => 'Lat 2',
+                                                             'long' => 'Long 2',
+                                                             'alt' => 'Alt 2' ) ) ), ) );
+?>

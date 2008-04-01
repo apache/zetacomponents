@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" version="2.0">
+  <channel>
+    <title>Feed title</title>
+    <link>Feed link</link>
+    <description>Feed description</description>
+    <item>
+      <title>Item title</title>
+      <link>Item link</link>
+      <description>Item description</description>
+      <geo:lat>Lat</geo:lat>
+    </item>
+  </channel>
+</rss>

@@ -29,6 +29,7 @@ return array(
     'ezcFeedContentModule'                       => 'Feed/modules/content_module.php',
     'ezcFeedCreativeCommonsModule'               => 'Feed/modules/creativecommons_module.php',
     'ezcFeedDublinCoreModule'                    => 'Feed/modules/dublincore_module.php',
+    'ezcFeedGeoModule'                           => 'Feed/modules/geo_module.php',
     'ezcFeedITunesModule'                        => 'Feed/modules/itunes_module.php',
     'ezcFeedItem'                                => 'Feed/nodes/item.php',
     'ezcFeedRss1'                                => 'Feed/processors/rss1.php',

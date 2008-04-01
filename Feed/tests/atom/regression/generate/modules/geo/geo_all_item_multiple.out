@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>XXX</updated>
+  <author>
+    <name>Author name</name>
+  </author>
+  <generator>eZ Components</generator>
+  <entry>
+    <id>Entry id 1</id>
+    <title>Entry title 1</title>
+    <updated>XXX</updated>
+    <content>Entry content 1</content>
+    <geo:alt>Alt 1</geo:alt>
+    <geo:lat>Lat 1</geo:lat>
+    <geo:long>Long 1</geo:long>
+  </entry>
+  <entry>
+    <id>Entry id 2</id>
+    <title>Entry title 2</title>
+    <updated>XXX</updated>
+    <content>Entry content 2</content>
+    <geo:alt>Alt 2</geo:alt>
+    <geo:lat>Lat 2</geo:lat>
+    <geo:long>Long 2</geo:long>
+  </entry>
+</feed>

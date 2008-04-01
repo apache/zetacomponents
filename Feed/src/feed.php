@@ -306,6 +306,7 @@ class ezcFeed
         'Content'         => 'ezcFeedContentModule',
         'CreativeCommons' => 'ezcFeedCreativeCommonsModule',
         'DublinCore'      => 'ezcFeedDublinCoreModule',
+        'Geo'             => 'ezcFeedGeoModule',
         'iTunes'          => 'ezcFeedITunesModule',
     );
 
@@ -318,6 +319,7 @@ class ezcFeed
         'content'         => 'Content',
         'creativeCommons' => 'CreativeCommons',
         'dc'              => 'DublinCore',
+        'geo'             => 'Geo',
         'itunes'          => 'iTunes',
     );
 

@@ -1,0 +1,20 @@
+<?php
+$feed = new ezcFeed( 'rss1' );
+
+$feed->id = 'Channel about';
+$feed->title = 'Feed title';
+$feed->description = 'Feed description';
+$feed->link = 'Feed link';
+
+$item = $feed->add( 'item' );
+$item->id = 'Item link';
+$item->title = 'Item title';
+$item->link = 'Item link';
+$item->description = 'Item description';
+
+$module = $item->addModule( 'Geo' );
+
+$module->lat = 'Lat';
+
+return $feed;
+?>

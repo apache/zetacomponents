@@ -2672,6 +2672,68 @@ A list of allowed languages can be found here: `RSS language codes`_. This
 attribute is accessed as *language*.
 
 
+Geo module
+==========
+
+Specifications
+--------------
+
+`Geo specifications`_
+
+
+Feed elements
+-------------
+
+
+Item elements
+-------------
+
+Geo-item-alt
+````````````
+
+Altitude as decimal meters above the local reference ellipsoid.
+
+Optional.
+
+Can appear only once.
+
+Create example::
+
+  $feed = new ezcFeed( 'rss2' );
+  $item = $feed->add( 'item' );
+  $module = $item->addModule( 'Geo' );
+  $module->alt = 509.2;
+
+Parse example::
+
+  // $item is a feed item (ezcFeedItem)
+  foreach ( $item->Geo->alt as $element )
+  {
+      echo $element->__toString();
+  }
+
+
+Geo-item-lat
+````````````
+
+Latitude on the globe as decimal degrees (eg. 25.03358300).
+
+Optional.
+
+Can appear only once.
+
+
+Geo-item-long
+`````````````
+
+Longitude on the globe as decimal degrees (eg. 121.56430000).
+
+Optional.
+
+Can appear only once.
+
+
+
 iTunes module
 =============
 
@@ -2979,6 +3041,7 @@ Modules
 - `Content specifications`_.
 - `CreativeCommons specifications`_.
 - `DublinCore specifications`_.
+- `Geo specifications`_.
 - `iTunes specifications`_.
 
 
@@ -2989,6 +3052,7 @@ Modules
 .. _Content specifications: http://purl.org/rss/1.0/modules/content/
 .. _CreativeCommons specifications: http://backend.userland.com/creativeCommonsRssModule
 .. _DublinCore specifications: http://dublincore.org/documents/dces/
+.. _Geo specifications: http://www.w3.org/2003/01/geo/
 .. _iTunes specifications: http://www.apple.com/itunes/store/podcaststechspecs.html
 
 .. _RFC 3339: http://www.faqs.org/rfcs/rfc3339.html
