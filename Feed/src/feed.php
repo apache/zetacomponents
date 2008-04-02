@@ -30,12 +30,14 @@
  * The following modules are supported by the Feed component:
  *  - Content ({@link ezcFeedContentModule}) -
  *    {@link http://purl.org/rss/1.0/modules/content/ Specifications}
- *  - DublinCore ({@link ezcFeedDublinCoreModule}) -
- *    {@link http://dublincore.org/documents/dces/ Specifications}
- *  - iTunes ({@link ezcFeedITunesModule}) -
- *    {@link http://www.apple.com/itunes/store/podcaststechspecs.html Specifications}
  *  - CreativeCommons ({@link ezcFeedCreativeCommonsModule}) -
  *    {@link http://backend.userland.com/creativeCommonsRssModule Specifications}
+ *  - DublinCore ({@link ezcFeedDublinCoreModule}) -
+ *    {@link http://dublincore.org/documents/dces/ Specifications}
+ *  - Geo ({@link ezcFeedGeoModule}) -
+ *    {@link http://www.w3.org/2003/01/geo/ Specifications}
+ *  - iTunes ({@link ezcFeedITunesModule}) -
+ *    {@link http://www.apple.com/itunes/store/podcaststechspecs.html Specifications}
  *
  * A new module can be defined by creating a class which extends the class
  * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}
