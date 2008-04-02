@@ -2,7 +2,7 @@
 /**
  * File containing the ezcTemplateTranslationStringExtracter class
  *
- * @package TemplateTranslation
+ * @package TemplateTranslationTiein
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -29,7 +29,7 @@
  * ?>
  * </code>
  *
- * @package TemplateTranslation
+ * @package TemplateTranslationTiein
  * @version //autogen//
  */
 class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
