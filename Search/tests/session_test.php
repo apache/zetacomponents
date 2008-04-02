@@ -105,6 +105,43 @@ class ezcSearchSessionTest extends ezcTestCase
         $q->where( $q->eq( 'body', 'Article' ) )->where( $q->eq( 'title', 'Test' ) );
 
         $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+        self::assertEquals( 2, count( $r->documents ) );
+        self::assertEquals( true, isset( $r->documents[0]['meta'] ) );
+        self::assertEquals( true, isset( $r->documents[0]['meta']['score'] ) );
+        self::assertEquals( true, isset( $r->documents[0]['document'] ) );
+    }
+
+    public function testCreateFindQueryWithAccent()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is article Eén to test', 'the body of the article', time() );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is article twee to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'summary', 'Eén' ) );
+
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
+    }
+
+    public function testCreateFindQueryJapanese()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'マリコ', 'the body of the article', time() );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'ソウシ', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'summary', 'ソウ*' ) );
+
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
     }
 
     public function testCreateFindQueryOr()
@@ -119,18 +156,22 @@ class ezcSearchSessionTest extends ezcTestCase
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->lOr( $q->eq( 'title', 'Nul' ), $q->eq( 'title', 'Drie' ) ) );
         $r = $session->find( $q );
+        self::assertEquals( 0, $r->resultCount );
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->lOr( $q->eq( 'title', 'Eén' ), $q->eq( 'title', 'Drie' ) ) );
         $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->lOr( $q->eq( 'title', 'Twee' ), $q->eq( 'title', 'Drie' ) ) );
         $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->lOr( $q->eq( 'title', 'Eén' ), $q->eq( 'title', 'Twee' ) ) );
         $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
     }
 
     public function testCreateFindQueryNot()
@@ -145,19 +186,20 @@ class ezcSearchSessionTest extends ezcTestCase
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->not( $q->eq( 'title', 'Twee' ) ) );
         $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
     }
 
     public function testCreateFindWithPhrase()
     {
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
 
-        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time(), array( "Me", "You", "Everybody" ) );
         $session->index( $a );
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->eq( 'title', 'Test Article' ) );
         $r = $session->find( $q );
-        var_dump( $r );
+        self::assertEquals( 1, $r->resultCount );
     }
 }
 

@@ -291,8 +291,10 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         if ( count( $highlightFieldList ) )
         {
             $queryFlags['hl'] = 'true';
-            $queryFlags['hl.snippets'] = 10;
+            $queryFlags['hl.snippets'] = 3;
             $queryFlags['hl.fl'] = join( ' ', $highlightFieldList );
+            $queryFlags['hl.simple.pre'] = '<b>';
+            $queryFlags['hl.simple.post'] = '</b>';
         }
         return $queryFlags;
     }
@@ -321,7 +323,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             foreach ( $def->fields as $field )
             {
                 $fieldName = $this->mapFieldType( $field->field, $field->type );
-                if ( $field->inResult )
+                if ( $field->inResult && isset( $document->$fieldName ) )
                 {
                     if ( $field->multi )
                     {
@@ -335,7 +337,28 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             }
             $obj->setState( $attr );
 
-            $s->documents[] = array( 'meta' => array( 'score' => $document->score ), 'document' => $obj );
+            $idProperty = $def->idProperty;
+            $s->documents[$obj->$idProperty] = array( 'meta' => array( 'score' => $document->score ), 'document' => $obj );
+        }
+
+        // process highlighting
+        if ( isset( $response->highlighting ) && count( $s->documents ) )
+        {
+            foreach ( $s->documents as $id => &$document )
+            {
+                $document['highlight'] = array();
+                if ( isset( $response->highlighting->$id ) )
+                {
+                    foreach ( $def->fields as $field )
+                    {
+                        $fieldName = $this->mapFieldType( $field->field, $field->type );
+                        if ( $field->highlight && isset( $response->highlighting->$id->$fieldName ) )
+                        {
+                            $document['highlight'][$field->field] = $response->highlighting->$id->$fieldName;
+                        }
+                    }
+                }
+            }
         }
 
         return $s;
@@ -385,8 +408,14 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             {
                 $selectFieldNames[] = $this->mapFieldType( $docProp, $definition->fields[$docProp]->type );
             }
+            $highlightFieldNames = array();
+            foreach ( $definition->getHighlightFieldNames() as $docProp )
+            {
+                $highlightFieldNames[] = $this->mapFieldType( $docProp, $definition->fields[$docProp]->type );
+            }
             $query->select( $selectFieldNames );
             $query->where( $query->eq( 'ezcsearch_type_s', $type ) );
+            $query->highlight( $highlightFieldNames );
         }
         return $query;
     }
@@ -395,8 +424,9 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
     {
         $queryWord = join( ' AND ', $query->whereClauses );
         $resultFieldList = $query->resultFields;
+        $highlightFieldList = $query->highlightFields;
 
-        $res = $this->search( $queryWord, '', array(), $resultFieldList );
+        $res = $this->search( $queryWord, '', array(), $resultFieldList, $highlightFieldList );
         return $this->createResponseFromData( $query->definition, $res );
     }
 

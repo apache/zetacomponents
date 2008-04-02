@@ -32,5 +32,18 @@ class ezcSearchDocumentDefinition
         }
         return $fields;
     }
+
+    public function getHighlightFieldNames()
+    {
+        $fields = array();
+        foreach ( $this->fields as $name => $def )
+        {
+            if ( $def->highlight )
+            {
+                $fields[] = $name;
+            }
+        }
+        return $fields;
+    }
 }
 ?>

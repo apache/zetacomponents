@@ -15,6 +15,13 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
      */
     public $resultFields;
 
+    /**
+     * Holds the columns to highlight in the search result
+     *
+     * @var array(string)
+     */
+    public $highlightFields;
+
     public $whereClauses;
 
     public $handler;
@@ -28,11 +35,13 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
         $this->handler = $handler;
         $this->definition = $definition;
         $this->resultFields = array();
+        $this->highlightFields = array();
     }
 
     public function reset()
     {
         $this->resultFields = array();
+        $this->highlightFields = array();
     }
 
     public function select()
@@ -40,6 +49,14 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
         $args = func_get_args();
         $cols = ezcSearchQueryTools::arrayFlatten( $args );
         $this->resultFields = array_merge( $this->resultFields, $cols );
+        return $this;
+    }
+
+    public function highlight()
+    {
+        $args = func_get_args();
+        $cols = ezcSearchQueryTools::arrayFlatten( $args );
+        $this->highlightFields = array_merge( $this->highlightFields, $cols );
         return $this;
     }
 
