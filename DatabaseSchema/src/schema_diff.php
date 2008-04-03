@@ -82,6 +82,7 @@ class ezcDbSchemaDiff
      *
      * @param string $format
      * @param string $file
+     * @return ezcDbSchemaDiff
      */
     static public function createFromFile( $format, $file )
     {
