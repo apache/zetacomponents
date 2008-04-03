@@ -43,7 +43,7 @@ class ezcDbSchemaDiff
      * @param array(string=>ezcDbSchemaTableDiff)  $changedTables
      * @param array(string=>bool)                  $removedTables
      */
-    function __construct( $newTables = array(), $changedTables = array(), $removedTables = array() )
+    public function __construct( $newTables = array(), $changedTables = array(), $removedTables = array() )
     {
         $this->newTables = $newTables;
         $this->changedTables = $changedTables;
