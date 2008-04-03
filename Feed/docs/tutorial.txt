@@ -167,6 +167,7 @@ A news item can be defined by these elements (example for one news item):
   ``http://ezcomponents.org/resources/news/news-2007-07-02``
   (this will show in most `aggregator`_ programs as a ``Complete story`` link)
 
+
 Step 1. Create a feed object
 ----------------------------
 
@@ -357,14 +358,14 @@ The structure of the text files accepted by this application is::
     Item 1 published date
     Item 1 author name
     Item 1 author email
-    Item 1 author description
+    Item 1 description
 
     Item 2 title
     Item 2 link
     Item 2 published date
     Item 2 author name
     Item 2 author email
-    Item 2 author description
+    Item 2 description
 
     .. etc
 
@@ -508,12 +509,14 @@ iTunes elements to our $feed object::
     $image->href = 'http://rcplanes.example.com/images/rc_plane_big.jpg';
 
     // add the podcast in the category Technology->Gadgets
-    // see http://www.apple.com/itunes/store/podcaststechspecs.html#categories
-    // for iTunes categories
     $category = $iTunes->add( 'category' );
     $category->text = 'Technology';
     $subCategory = $category->add( 'category' );
     $subCategory->text = 'Gadgets';
+
+See the `iTunes categories`_ page for a list of the iTunes categories you can
+add a podcast to. Note: some category names contain ``&`` which should be
+encoded as ``&amp;`` (eg. ``Society &amp; Culture``).
 
 
 Step 3. Add an item
@@ -577,9 +580,9 @@ Step 7. Submit the podcast to the iTunes Store
 ----------------------------------------------
 
 Follow the steps on the section `Submitting Your Podcast to the iTunes Store`_
-from the iTunes `iTunes-specifications`_.
+from the iTunes |iTunes-specifications|_.
 
-The iTunes `iTunes-specifications`_ also contains other useful information you
+The iTunes |iTunes-specifications|_ contains other useful information you
 might need when you are creating podcasts.
 
 
