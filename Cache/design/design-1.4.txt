@@ -94,9 +94,10 @@ Limiting of cached items
 
 The current storage implementations assume that unlimited space is available in
 the storage location. Following this philosophy, all cache items would be kept
-in the top most storage of the cache and the deeper caches would not be needed.
+in the top most storage of the cache stack and the lower storages would not be
+needed.
 
-A way must be investigated who an arbitrary cache storage can be limited by the
+A way must be investigated, how an arbitrary cache storage can be limited by the
 number of cache items it stores.
 
 A major problem here is, that this information either needs to persist between
@@ -199,7 +200,231 @@ needed.
 Design
 ======
 
-To be written.
+This section is meant to design the enhancements defined by the requirements
+section above.
+
+ezcCacheStack
+-------------
+
+An object of the ezcCacheStack class is the main instance to provide the
+hierachical stack mechanism. The stack object takes care of managing several
+cache storages, the unified access for storing and restoring cache items and
+the associated objects needed to realize this.
+
+The class ezcCacheStack extends the class ezcCacheStorage and will therefore be
+able to be used with ezcCacheManager. However, this introduces the need to
+store all necessary settings for this class in an options object, to enable the
+internal delayed initialization mechanism of ezcCacheManager. The class will
+only implement the methods required by ezcCacheStorage to be implemented and
+will not support additional features of some cache storages, like explicit
+searching for items. ::
+
+    class ezcCacheStack extends ezcCacheStorage
+    {
+        public function __construct( $location, $options );
+        public function store( $id, $data, $attributes = array() );
+        public function restore( $id, $attributes, $search );
+        public function delete( $id, $attributes, $search );
+        public function countDataItems( $id, $attributes );
+        public function getRemainingLifetime( $id, $attributes );
+
+        public function getStackedCaches();
+    }
+
+The $location parameter of the ctor will be ignored by the class, because a
+unique location is not required by the stack. The $search parameter for the
+restore() and delete() methods is forwarded to the child storages. Aside of
+this the parameter instructs the stack to search through all its contained
+cache storages, instead of stopping as soon as a fitting item was found in one
+of them. 
+
+The requirements defined for cach stacking force cache storages to implement
+several additional functionalities. Therefore, a new interface
+ezcCacheStackableStorage will be introduced, to define the necessary methods.
+This also ensures, that caches are not stacked recursively, since ezcCacheStack
+won't implement this interface itself.
+
+Internally, an object of this class is composed from several other objects,
+that are defined by the ezcCacheStackOptions class. The getStackedCaches()
+method returns the stacked cache storage objects. This method can be used by
+user applications to directly influence the cache storages.
+
+.. Note::
+   The getStackedCaches() method should in fact not return the storages
+   themselves, but their ezcCacheReplacementStrategy facades. This ensures,
+   that meta data is kept consistent even if a users accesses the cache.
+
+ezcCacheStackableStorage
+------------------------
+
+The interface ezcCacheStackableStorage is used to ensure, that storage classes
+that can be stacked implement the necessary functionality. The following
+methods are needed: ::
+
+    interface ezcCacheStackableStorage
+    {
+        restoreMetaInfo();
+        storeMetaInfo( array $metaInfo );
+
+        purge();
+
+        lock();
+        unlock();
+    }
+
+The store-/restoreMetaInfo() methods are needed by the replacement strategy
+classes. These need to store different information about the cache items. For
+example: For LRU, the last access time per item needs to be stored. This meta
+information can be any arbitrary array.
+
+The purge method is needed to make the storage purge all outdated items. In
+case a cache storage runs full (determined by the replacement strategy), first
+all outdated items will be purged, before items are deleted using the original
+strategy. The purge() method needs to return the IDs of the purged items to
+allow the strategy to update its metainformation.
+
+.. Note::
+   It must be discussed if the number of items to be purged should be submitted
+   to purge(). This would allow to stop purging as soon as the desired number
+   of items are deleted. On the other hand, purging all possible items at once
+   will free more space, which cannot be undesireable.
+
+The lock() and unlock() methods are needed by the stack to ensure complex
+operations are inter interferred by concurring requests. The replacement
+strategy will lock a storage to perform its operations and unlock it after the
+operation has successfully be performed.
+
+ezcCacheStackOptions
+--------------------
+
+An object of this class is used to configures the cache stack. It extends the
+ezcCacheStorageOptions class, to be compatible with all other mechanisms. The
+'ttl' and 'extension' options are ignored, because each of the stacked caches
+must be able to implement its own set of options. The following options are
+part of this class:
+
+'storages'
+    This option is an array of ezcCacheStackStorageConfiguration objects, that
+    will be used to define the cache storages contained in the stack. Per
+    default, no storages will be defined. In this case, a call to any of the
+    methods defined by ezcCacheStorage will result in an exception. 
+'strategy'
+
+
+ezcCacheStackStorageConfiguration
+---------------------------------
+
+An instance of this struct like class is used in the 'storages' option of
+ezcCacheStackOptions to define the configuration of a single cache storage. It
+contains the 3 parameters necessary to instantiate a new cache storage, as well
+as additional information, needed by the ezcCacheStack instance and its
+aggregated objects. The properties are contained in the class:
+
+'class'
+    The class to be instanciated as the storage. This class needs to implement
+    the ezcCacheStackableStorage interface, which will be checked for
+    correctness via overloading.
+'location'
+    This parameter is needed to instantiate an ezcCacheStorage object.
+'options'
+    The options that will be submitted to the storage, when instantiating it.
+'itemLimit'
+    The maximum number of items to be stored in this cache. Since the size of
+    cache items cannot be determined inside PHP, the only way to limit the
+    items stored in a cache storage is to use the number of items, stored.
+'replacementStrategy'
+    This option indicates the replacement strategy, that is to be used with
+    this cache. This field must contain a class that implements the
+    ezcCacheReplacementStrategy interface.
+'freeRate'
+    This option is an integer that indicates a percentage value. In case the
+    cache storage runs full, this amount of items will be removed. This
+    mechanism ensures that running full of a cache does not occur too often.
+
+ezcCacheReplacementStrategy
+---------------------------
+
+This interface defines methods that are used to realize the replacement
+strategy for a cache. Instances of classes that implement this interface, are
+used as facades to ezcCacheStackableStorage. Whenever a cache item is to be
+stored, restored or deleted, ezcCacheStack will utilize the replacement
+strategy instead of calling the methods on the cache storage directly.
+
+The replacement strategy object will realize the correct replacement of cache
+items, in case the storage exceeds the limited number of items to be stored in
+it. The interface will define the following methods: ::
+
+    interface ezcCacheReplacementStrategy
+    {
+        public function __construct( ezcCacheStackableStorage $storage, $limit, $freeRate );
+        public function store( $id, $data, $attributes = array() );
+        public function restore( $id, $attributes, $search );
+        public function delete( $id, $attributes, $search );
+        public function countDataItems( $id, $attributes );
+        public function getRemainingLifetime( $id, $attributes );
+    }
+
+The constructor of a replacement strategy receives a ready to use storage
+object, which fulfills all needs  by implementing the ezcCacheStackableStorage
+interface. The $limit parameter indicates the maximum number of items to be
+stored in the storage. The free rate is a percentage value, that indicates how
+many items are to be purged, whenever a cache runs full.
+
+The store() method performs the most complex operation in this case. To
+illustarte its working, the following pseudo code is used: ::
+
+    $storage->lock();
+    $meta = $storage->restoreMetaInfo();
+    $item = $storage->restore( $id );
+
+    if ( $item === false && $meta['itemsStored'] >= $limit )
+    {
+        // The item was not found and the limit is exceeded. First purge the
+        // outdate items, then eventually free more items using the strategy
+        // implemented.
+        free( $storage, $freeRate );
+
+        // Update the meta information according to the freeing
+        update( $meta );
+    }
+
+    // There is enough space to store the item now
+    $storage->store(...);
+    update( $meta );
+
+    $storage->unlock();
+
+The restore() method does not work as complex as the store() method does. Its
+algorithm is defined by the following pseudo code: ::
+
+    $storage->lock();
+    $item = $storage->restore(...);
+
+    if ( $item !== false )
+    {
+        // Notice access to this item in meta information
+        $meta = $storage->restoreMetaInfo();
+        update( $meta );
+        $storage->storeMetaInfo( $meta );
+    }
+    
+    $storage->unlock();
+    return $item;
+
+The remaining methods just delegate to the underlying storage in most cases,
+since their functionality does not affect the replacement strategy.
+
+.. Note::
+   We should offer a method to reset a cache completly (removing all items and
+   the meta information), to allow people to reset their cache storages
+   completly by an external process.
+
+ezcCacheLruReplacementStrategy
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ezcCacheLfuReplacementStrategy
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 
 ..
