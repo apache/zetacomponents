@@ -123,6 +123,15 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
     }
 
+    public function testSaveAndLoadWorkflowWithFinalActivitiesAfterCancellation()
+    {
+        $this->setUpWorkflowWithFinalActivitiesAfterCancellation();
+        $this->definition->save( $this->workflow );
+        $workflow = $this->definition->loadByName( 'WorkflowWithFinalActivitiesAfterCancellation' );
+
+        $this->assertEquals( $this->workflow, $workflow );
+    }
+
     public function testExceptionWhenLoadingNotExistingWorkflow()
     {
         try

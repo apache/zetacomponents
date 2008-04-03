@@ -122,6 +122,19 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
             {
                 $defaultEndNode = $nodes[$node['node_id']];
             }
+
+            else if ( $node['node_class'] == 'ezcWorkflowNodeFinally' &&
+                      !isset( $finallyNode ) )
+            {
+                $finallyNode = $nodes[$node['node_id']];
+            }
+        }
+
+        if ( !isset( $startNode ) || !isset( $defaultEndNode ) )
+        {
+            throw new ezcWorkflowDefinitionStorageException(
+              'Could not load workflow definition.'
+            );
         }
 
         // Connect node objects.
@@ -150,8 +163,14 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
             );
         }
 
+        if ( !isset( $finallyNode ) ||
+             count( $finallyNode->getInNodes() ) > 0 )
+        {
+            $finallyNode = null;
+        }
+
         // Create workflow object and add the node objects to it.
-        $workflow = new ezcWorkflow( $workflowName, $startNode, $defaultEndNode );
+        $workflow = new ezcWorkflow( $workflowName, $startNode, $defaultEndNode, $finallyNode );
         $workflow->definitionStorage = $this;
         $workflow->id = (int)$workflowId;
         $workflow->version = (int)$workflowVersion;
@@ -269,8 +288,15 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         $workflow->version = (int)$workflowVersion;
 
         // Write node table rows.
-        foreach ( $workflow->nodes as $node )
+        $nodes    = $workflow->nodes;
+        $keys     = array_keys( $nodes );
+        $numNodes = count( $nodes );
+
+        for ( $i = 0; $i < $numNodes; $i++ )
         {
+            $id   = $keys[$i];
+            $node = $nodes[$id];
+
             $query = $this->db->createInsertQuery();
 
             $query->insertInto( 'node' )
@@ -287,8 +313,11 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         }
 
         // Connect node table rows.
-        foreach ( $workflow->nodes as $node )
+        for ( $i = 0; $i < $numNodes; $i++ )
         {
+            $id   = $keys[$i];
+            $node = $nodes[$id];
+
             foreach ( $node->getOutNodes() as $outNode )
             {
                 $query = $this->db->createInsertQuery();
