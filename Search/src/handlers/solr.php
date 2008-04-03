@@ -268,7 +268,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $highlightFieldList
      * @return array
      */
-    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
+    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array() )
     {
         if ( count( $searchFieldList ) > 0 )
         {
@@ -296,6 +296,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $queryFlags['hl.simple.pre'] = '<b>';
             $queryFlags['hl.simple.post'] = '</b>';
         }
+        if ( count( $facetFieldList ) )
+        {
+            $queryFlags['facet'] = 'true';
+            $queryFlags['facet.mincount'] = 1;
+            $queryFlags['facet.sort'] = 'false';
+            $queryFlags['facet.field'] = join( ' ', $facetFieldList );
+        }
         return $queryFlags;
     }
 
@@ -303,11 +310,27 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * Converts a raw solr result into a document using the definition $def
      *
      * @param ezcSearchDocumentDefinition $def
-     * @param stdClass $response
+     * @param mixed $response
      * @return ezcSearchResult
      */
-    private function createResponseFromData( ezcSearchDocumentDefinition $def, stdClass $response )
+    private function createResponseFromData( ezcSearchDocumentDefinition $def, $response )
     {
+        if ( is_string( $response ) )
+        {
+            // try to find the error message and return that
+            $s = new ezcSearchResult();
+
+            $dom = new DomDocument();
+            @$dom->loadHtml( $response );
+            $tbody = $dom->getElementsByTagName('body')->item(0);
+
+            $xpath = new DOMXPath($dom);
+            $tocElem = $xpath->evaluate("//pre", $tbody )->item(0);
+            $error = $tocElem->nodeValue;
+
+            $s->error = $error;
+            return $s;
+        }
         $s = new ezcSearchResult();
         $s->status = $response->responseHeader->status;
         $s->queryTime = $response->responseHeader->QTime;
@@ -361,6 +384,28 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             }
         }
 
+        // process facets
+        if ( isset( $response->facet_counts ) && isset( $response->facet_counts->facet_fields ) )
+        {
+            $facets = $response->facet_counts->facet_fields;
+
+            foreach ( $def->fields as $field )
+            {
+                $fieldName = $this->mapFieldType( $field->field, $field->type );
+                if ( isset( $facets->$fieldName ) )
+                {
+                    // sigh, stupid array format needs fixing
+                    $facetValues = array();
+                    $facet = $facets->$fieldName;
+                    for ( $i = 0; $i < count( $facet ); $i += 2 )
+                    {
+                        $facetValues[$facet[$i]] = $facet[$i+1];
+                    }
+                    $s->facets[$field->field] = $facetValues;
+                }
+            }
+        }
+
         return $s;
     }
 
@@ -374,9 +419,9 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $highlightFieldList
      * @return stdClass
      */
-    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array() )
+    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array() )
     {
-        $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList ) );
+        $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList ) );
         $result = json_decode( $result );
         return $result;
     }
@@ -425,8 +470,9 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $queryWord = join( ' AND ', $query->whereClauses );
         $resultFieldList = $query->resultFields;
         $highlightFieldList = $query->highlightFields;
+        $facetFieldList = $query->facets;
 
-        $res = $this->search( $queryWord, '', array(), $resultFieldList, $highlightFieldList );
+        $res = $this->search( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList );
         return $this->createResponseFromData( $query->definition, $res );
     }
 

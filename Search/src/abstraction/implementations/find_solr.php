@@ -24,6 +24,13 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
 
     public $whereClauses;
 
+    /**
+     * Holds all the facets
+     *
+     * @var array(string)
+     */
+    public $facets;
+
     public $handler;
     public $definition;
 
@@ -77,6 +84,12 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
     public function getQuery()
     {
         return $this->handler->getQuery( $this );
+    }
+
+    public function facet( $facet )
+    {
+        $field = $this->handler->mapFieldType( $facet, $this->definition->fields[$facet]->type );
+        $this->facets[] = $field;
     }
 
     /**
@@ -136,14 +149,44 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
         return $ret;
     }
 
-    public function lOr( $clause1, $clause2 )
+    // FIX ME: NO EZCQUERY 
+    public function lOr()
     {
-        return "($clause1 OR $clause2)";
+        $args = func_get_args();
+        if ( count( $args ) < 1 )
+        {
+            throw new ezcQueryVariableParameterException( 'lOr', count( $args ), 1 );
+        }
+
+        $elements = ezcQuerySelect::arrayFlatten( $args );
+        if ( count( $elements ) == 1 )
+        {
+            return $elements[0];
+        }
+        else
+        {
+            return '( ' . join( ' OR ', $elements ) . ' )';
+        }
     }
 
-    public function lAnd( $clause1, $clause2 )
+    // FIX ME: NO EZCQUERY 
+    public function lAnd()
     {
-        return "($clause1 AND $clause2)";
+        $args = func_get_args();
+        if ( count( $args ) < 1 )
+        {
+            throw new ezcQueryVariableParameterException( 'lOr', count( $args ), 1 );
+        }
+
+        $elements = ezcQuerySelect::arrayFlatten( $args );
+        if ( count( $elements ) == 1 )
+        {
+            return $elements[0];
+        }
+        else
+        {
+            return '( ' . join( ' AND', $elements ) . ' )';
+        }
     }
 
     public function not( $clause )

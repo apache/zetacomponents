@@ -21,6 +21,7 @@ class ezcSearchResult
     public $resultCount;
     public $start;
     public $documents;
+    public $error;
 
     public function __construct()
     {
