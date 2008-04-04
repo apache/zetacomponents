@@ -9,7 +9,7 @@
  */
 
 /**
- * This exception is thrown when a definition file for a class can not be found.
+ * This exception is thrown when the definition does not specify an ID property.
  *
  * @package Search
  * @version //autogentag//
@@ -30,7 +30,7 @@ class ezcSearchDefinitionMissingIdPropertyException extends ezcSearchException
         {
             $extraMsg = " ($extraMsg)";
         }
-        $message = "The $type definition file for '$class' at '$location' is invalid{$extraMsg}.";
+        $message = "The $type definition file for '$class' at '$location' is invalid{$extraMsg}";
         parent::__construct( $message );
     }
 }
