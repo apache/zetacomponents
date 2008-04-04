@@ -350,6 +350,11 @@ used as facades to ezcCacheStackableStorage. Whenever a cache item is to be
 stored, restored or deleted, ezcCacheStack will utilize the replacement
 strategy instead of calling the methods on the cache storage directly.
 
+.. Warning::
+   To bubble cache items down to lower caches, when removing them from a cache
+   storage, the strategy must either return the items in some way or inform the
+   deeper caches in another way.
+
 The replacement strategy object will realize the correct replacement of cache
 items, in case the storage exceeds the limited number of items to be stored in
 it. The interface will define the following methods: ::
@@ -419,11 +424,41 @@ since their functionality does not affect the replacement strategy.
    the meta information), to allow people to reset their cache storages
    completly by an external process.
 
+A replacement strategy should always store its name in the meta data container,
+to ensure that a switch between stragies is possible. In case a replacement
+strategy receives an invalid meta data structure, it must throw an exception.
+The cache must be cleaned completly in this case.
+
 ezcCacheLruReplacementStrategy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+This replacement strategy works after the Least-Recently-Used algorithm (LRU).
+It discards items, which have not been requested (reading or writing) for the
+longest time span.
+
+The meta data of this replacement strategy consists of an array, which is
+indexed by the IDs of the stored data items assigned to the last access time of
+the item. When a new item is added to the cache, its ID is added with the
+current time stamp. Each time the data item is read or updated, the time stamp
+is actualized. In case the item is removed, the ID is unset in this array.
+
+For the case that the cache runs full, the array of timestamps first needs to
+be sorted. Then the first X elements (indicated by $freeRate) will be removed
+from the array and the affected items removed from the cache storage
+(array_splice()).
+
 ezcCacheLfuReplacementStrategy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Least-Frequently-Used algorithm (LFU), in contrast to LRU, stores the
+number of accesses of a cache item. In case the cache needs to be freed, those
+items are discareded, that have been used least freuquently.
+
+The meta data structure is pretty similar to the one of LRU strategy: The cache
+item IDs are used as the key, being assigned to the number of accesses to this
+item. In case the cache runs full, this list is sorted and the first X elemnts
+(determined by $freeRate) are removed. The cache items assigned to the
+determined IDs are deleted from the cache storage.
 
 
 
