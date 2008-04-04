@@ -36,7 +36,6 @@ class ezcFeedRss1RegressionGenerateTest extends ezcFeedRegressionTest
 
     protected function cleanForCompare( $text )
     {
-        $text = preg_replace( '@<dc:date.*?>.*?</dc:date>@', '<dc:date>XXX</dc:date>', $text );
         return $text;
     }
 
