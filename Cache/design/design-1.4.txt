@@ -280,8 +280,9 @@ information can be any arbitrary array.
 The purge method is needed to make the storage purge all outdated items. In
 case a cache storage runs full (determined by the replacement strategy), first
 all outdated items will be purged, before items are deleted using the original
-strategy. The purge() method needs to return the IDs of the purged items to
-allow the strategy to update its metainformation.
+strategy. The purge() method needs to return the IDs, attributes and data of
+the purged items to allow the replacement and storage strategy objects to
+update their information.
 
 .. Note::
    It must be discussed if the number of items to be purged should be submitted
@@ -303,12 +304,25 @@ ezcCacheStorageOptions class, to be compatible with all other mechanisms. The
 must be able to implement its own set of options. The following options are
 part of this class:
 
+'storageStrategy'
+    This option contains a class name, which is to be instanciated to perform
+    storage operations in the stack. The class must extend the abstract
+    ezcCacheStackStorageStrategy class.
 'storages'
     This option is an array of ezcCacheStackStorageConfiguration objects, that
     will be used to define the cache storages contained in the stack. Per
     default, no storages will be defined. In this case, a call to any of the
     methods defined by ezcCacheStorage will result in an exception. 
-'strategy'
+
+
+ezcCacheStackStorageStrategy
+----------------------------
+
+Implementations of this abstract base class handle the main storage process
+inside an ezcCacheStack object. The abstraction of this strategy allows users
+to flexibly decide for better performance or less memory consumption.
+
+TODO: Describe!
 
 
 ezcCacheStackStorageConfiguration
@@ -365,8 +379,11 @@ it. The interface will define the following methods: ::
         public function store( $id, $data, $attributes = array() );
         public function restore( $id, $attributes, $search );
         public function delete( $id, $attributes, $search );
+
         public function countDataItems( $id, $attributes );
         public function getRemainingLifetime( $id, $attributes );
+
+        public function getRemovedItems();
     }
 
 The constructor of a replacement strategy receives a ready to use storage
@@ -416,8 +433,10 @@ algorithm is defined by the following pseudo code: ::
     $storage->unlock();
     return $item;
 
-The remaining methods just delegate to the underlying storage in most cases,
-since their functionality does not affect the replacement strategy.
+The delete() method needs to take care, that deleted items are also removed
+from the meta data. The remaining methods just delegate to the underlying
+storage in most cases, since their functionality does not affect the
+replacement strategy.
 
 .. Note::
    We should offer a method to reset a cache completly (removing all items and
@@ -428,6 +447,26 @@ A replacement strategy should always store its name in the meta data container,
 to ensure that a switch between stragies is possible. In case a replacement
 strategy receives an invalid meta data structure, it must throw an exception.
 The cache must be cleaned completly in this case.
+
+The getRemovedItems() method returns all cache items that have been replaced
+during the last method call to store(). The structure of the returned data must
+reflect all available information of an item, so that it can be moved to
+another cache by an ezcCacheStackStorageStrategy instance. The returned structure
+is: ::
+
+    array(
+        <id> => ezcCacheReplacedItem(
+            $id = <id>,
+            $attributes = array(...),
+            $data = <data>,
+        ),
+        <id> => ezcCacheReplacedItem(
+            $id = <id>,
+            $attributes = array(...),
+            $data = <data>,
+        ),
+        // ...
+    )
 
 ezcCacheLruReplacementStrategy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -459,6 +498,27 @@ item IDs are used as the key, being assigned to the number of accesses to this
 item. In case the cache runs full, this list is sorted and the first X elemnts
 (determined by $freeRate) are removed. The cache items assigned to the
 determined IDs are deleted from the cache storage.
+
+ezcCacheStorageMetaInformation
+------------------------------
+
+This struct is used to represent meta information, that is stored in an
+ezcCacheStorage. In addition to the array structure it provides, it contains an
+$identifier property that is to be set by the replacement strategy. If a
+replacement strategy receives an incorrect meta information object, it must
+thrown an exception. ::
+
+    class ezcStorageMetaInformation extends ezcBaseStruct
+    {
+        public $identifier;
+
+        public $data = array();
+    }
+
+A storage is responsible for arbitrary storage of the meta information struct
+itself. The APC storage might store it directly, the file system plain storage
+might serialize its contents and the file system array storage might convert it
+into a complete array.
 
 
 
