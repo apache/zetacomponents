@@ -171,7 +171,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
         // set default values
         $this->set( 'published', ezcFeedTools::prepareDate( time() ) );
-        $version = ( ezcFeed::GENERATOR_VERSION === '//autogentag//' ) ? 'dev' : ezcFeed::GENERATOR_VERSION;
+        $version = ( ezcFeed::GENERATOR_VERSION === '//auto' . 'gentag//' ) ? 'dev' : ezcFeed::GENERATOR_VERSION;
         $this->set( 'generator', "eZ Components Feed {$version} (" . ezcFeed::GENERATOR_URI . ")" );
         $this->set( 'docs', 'http://www.rssboard.org/rss-specification' );
     }

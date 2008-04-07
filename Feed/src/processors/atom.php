@@ -295,7 +295,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $generator = $this->add( 'generator' );
         $generator->set( 'eZ Components Feed' );
         $generator->uri = ezcFeed::GENERATOR_URI;
-        $generator->version = ( ezcFeed::GENERATOR_VERSION === '//autogentag//' ) ? 'dev' : ezcFeed::GENERATOR_VERSION;
+        $generator->version = ( ezcFeed::GENERATOR_VERSION === '//auto' . 'gentag//' ) ? 'dev' : ezcFeed::GENERATOR_VERSION;
     }
 
     /**
