@@ -106,8 +106,8 @@ processor is used to parse and generate that type. The following feed
 processors are supported by the Feed component:
 
 - **ATOM** (ezcFeedAtom) - |ATOM-specifications|_
-- **RSS1** (ezcFeedRss1) - |RSS1-specifications|_
-- **RSS2** (ezcFeedRss2) - |RSS2-specifications|_
+- **RSS1** (ezcFeedRss1) - (RDF Site Summary) |RSS1-specifications|_
+- **RSS2** (ezcFeedRss2) - (Really Simple Syndication) - |RSS2-specifications|_
 
 A new processor can be defined by creating a class which extends the class
 ezcFeedProcessor and implements the interface ezcFeedParser, and adding it to the

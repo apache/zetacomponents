@@ -2112,6 +2112,9 @@ RSS1
 Specifications
 --------------
 
+RSS1 = RDF Site Summary
+RDF = Resource Description Framework
+
 `RSS1 specifications`_
 
 
@@ -2294,6 +2297,8 @@ RSS2
 
 Specifications
 --------------
+
+RSS2 = Really Simple Syndication
 
 `RSS2 specifications`_
 
@@ -2882,7 +2887,7 @@ Create example::
 
 Parse example::
 
-  // $feed is an ezcFeed
+  // $feed is an ezcFeed object
   foreach ( $feed->DublinCore->contributor as $element )
   {
       echo $element->__toString();
@@ -3123,7 +3128,7 @@ Create example::
 
 Parse example::
 
-  // $item is a feed item (ezcFeedItem)
+  // $item is a feed item (ezcFeedItem) object
   foreach ( $item->DublinCore->contributor as $element )
   {
       echo $element->__toString();
