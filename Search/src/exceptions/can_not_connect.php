@@ -25,7 +25,7 @@ class ezcSearchCanNotConnectException extends ezcSearchException
      */
     public function __construct( $type, $location )
     {
-        $message = "Could not connect to '$type' at '$location'";
+        $message = "Could not connect to '$type' at '$location'.";
         parent::__construct( $message );
     }
 }

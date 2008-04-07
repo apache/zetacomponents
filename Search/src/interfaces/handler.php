@@ -16,7 +16,20 @@
  */
 interface ezcSearchHandler
 {
+    /**
+     * Creates a search query object with the fields from the definition filled in.
+     *
+     * @param string $type
+     * @return ezcSearchFindQuery
+     */
     public function createFindQuery( $type = false );
+
+    /**
+     * Builds the search query and returns the parsed response
+     *
+     * @param ezcSearchFindQuery $query
+     * @return ezcSearchResult
+     */
     public function find( ezcSearchFindQuery $query );
 }
 ?>

@@ -9,22 +9,11 @@
  */
 
 /**
- * Handles document type definitions in XML format.
+ * Handles document type definitions embedded in the class the definitions are for.
  *
- * Each definition must be in a separate file in the directory specified to the
- * constructor. The filename must be the same as the lowercase name of the
- * document type with .xml appended. Each file should return the definition of
- * one document type.
- *
- * Example exampleclass.xml:
- * <code>
- * <?xml version="1.0" charset="utf-8"?>
- * <document>
- *   <field type="id">id</field>
- *   <field type="string" boost="2">title</field>
- *   <field type="text">description</field>
- * </document>
- * </code>
+ * It calls the fetchDefinition() method on the class in order to retrieve the
+ * definition. This method is required to return an ezcSearchDocumentDefinition
+ * object. The method is part of the interface ezcSearchDefinitionProvider.
  *
  * @version //autogen//
  * @package Search
@@ -38,16 +27,8 @@ class ezcSearchEmbeddedManager implements ezcSearchDefinitionManager
      */
     private $cache = array();
 
-    private $typeMap = array(
-        'id' => ezcSearchDocumentDefinition::STRING,
-        'string' => ezcSearchDocumentDefinition::STRING,
-        'text' => ezcSearchDocumentDefinition::TEXT,
-        'html' => ezcSearchDocumentDefinition::HTML,
-        'date' => ezcSearchDocumentDefinition::DATE,
-    );
-
     /**
-     * Constructs a new XML manager that will look for search document definitions in the directory $dir.
+     * Constructs a new embedded manager.
      */
     public function __construct()
     {
@@ -55,6 +36,8 @@ class ezcSearchEmbeddedManager implements ezcSearchDefinitionManager
 
     /**
      * Returns the definition of the search document with the type $type.
+     *
+     * TODO: CHeck if the class implements ezcSearchDefinitionProvider.
      *
      * @throws ezcSearchDefinitionNotFoundException if no such definition can be found.
      * @throws ezcSearchDefinitionMissingIdPropertyException

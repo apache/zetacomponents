@@ -26,7 +26,7 @@ class ezcSearchDefinitionNotFoundException extends ezcSearchException
      */
     public function __construct( $type, $class, $location )
     {
-        $message = "Could not find the $type definition file for '$class' at '$location'";
+        $message = "Could not find the $type definition file for '$class' at '$location'.";
         parent::__construct( $message );
     }
 }

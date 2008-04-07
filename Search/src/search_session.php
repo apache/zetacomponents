@@ -92,10 +92,7 @@ class ezcSearchSession
      * ezcSearchFindIterator} instead of an array of documents. This is
      * useful if you are going to loop over the documents and just need them one
      * at the time.  Because you only instantiate one document it is faster than
-     * {@link find()}. In addition, only 1 record is retrieved from the
-	 * database in each iteration, which may reduce the data transfered between
-	 * the search backend and PHP, if you iterate only through a small subset
-	 * of the affected records.
+     * {@link find()}. 
      *
      * @throws ezcSearchDefinitionNotFoundException
      *         if there is no such persistent class.
@@ -139,11 +136,11 @@ class ezcSearchSession
     /**
      * Starts a transaction for indexing.
      *
-     * When using a transaction, the amount of processing that solr does
-     * decreases, increasing indexing performance. Without this, the component
-     * sends a commit after every document that is indexed. Transactions can be
-     * nested, when commit() is called the same number of times as
-     * beginTransaction(), the component sends a commit.
+     * When using a transaction, the amount of processing that the search
+     * backend does decreases, increasing indexing performance. Without this,
+     * the component sends a commit after every document that is indexed.
+     * Transactions can be nested, when commit() is called the same number of
+     * times as beginTransaction(), the component sends a commit.
      */
     public function beginTransaction()
     {
@@ -153,15 +150,13 @@ class ezcSearchSession
     /**
      * Ends a transaction and calls commit.
      *
-     * As transactions can be nested, this method will only call commit when
-     * all the nested transactions have been ended.
-     *
      * @throws ezcSearchTransactionException if no transaction is active.
      */
     public function commit()
     {
         $this->handler->commit();
     }
+
     /**
      * Indexes the new document $document to the search index.
      *
@@ -171,7 +166,7 @@ class ezcSearchSession
      *         if it was not possible to generate a unique identifier for the
      *         new object.
      * @throws ezcSearchException
-     *         if the indexing failed
+     *         if the indexing failed.
      *
      * @param object $document
      */
@@ -257,8 +252,9 @@ class ezcSearchSession
     /**
      * Sets the property $name to $value.
      *
-     * @throws ezcBasePropertyNotFoundException
-     *         if the property does not exist.
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyPermissionException if a read-only property is
+     *         tried to be modified.
      *
      * @param string $name
      * @param mixed $value
@@ -285,17 +281,15 @@ class ezcSearchSession
      *
      * Simply returns a given property.
      * 
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property propertys is not an instance of
      * @param string $propertyName The name of the property to get.
      * @return mixed The property value.
-     *
-     * @ignore
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the given property does not exist.
      * @throws ezcBasePropertyPermissionException
      *         if the property to be set is a write-only property.
+     *
+     * @ignore
      */
     public function __get( $propertyName )
     {

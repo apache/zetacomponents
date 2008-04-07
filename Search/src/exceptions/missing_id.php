@@ -30,7 +30,7 @@ class ezcSearchDefinitionMissingIdPropertyException extends ezcSearchException
         {
             $extraMsg = " ($extraMsg)";
         }
-        $message = "The $type definition file for '$class' at '$location' is invalid{$extraMsg}";
+        $message = "The $type definition file for '$class' at '$location' is invalid{$extraMsg}.";
         parent::__construct( $message );
     }
 }

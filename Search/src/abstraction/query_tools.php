@@ -19,13 +19,9 @@
  */
 class ezcSearchQueryTools
 {
-    const ASC = 1;
-    const DESC = 2;
-
     /**
      * Returns all the elements in $array as one large single dimensional array.
      *
-     * @todo public? Currently this is needed for QueryExpression.
      * @param array $array
      * @return array
      */

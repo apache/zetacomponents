@@ -45,6 +45,11 @@ class ezcSearchXmlManager implements ezcSearchDefinitionManager
      */
     private $cache = array();
 
+    /**
+     * Map that maps XML attribute strings for the field type to constants.
+     *
+     * @var array(string=>int)
+     */
     private $typeMap = array(
         'id' => ezcSearchDocumentDefinition::STRING,
         'string' => ezcSearchDocumentDefinition::STRING,
@@ -68,6 +73,20 @@ class ezcSearchXmlManager implements ezcSearchDefinitionManager
         $this->dir = $dir;
     }
 
+    /**
+     * Parses the definition for document type $documentType from the XML file at $path.
+     *
+     * The calling class already opened the XML file and provides the XML
+     * element through $s.
+     *
+     * @throws ezcSearchDefinitionInvalidException if there is either a
+     *         duplicate ID property or an unknown type.
+     *
+     * @param string $documentType
+     * @param string $path
+     * @param SimpleXMLElement $s
+     * @return ezcSearchDocumentDefinition
+     */
     private function parseDefinitionXml( $documentType, $path, SimpleXMLElement $s )
     {
         $def = new ezcSearchDocumentDefinition( $documentType );
@@ -145,5 +164,4 @@ class ezcSearchXmlManager implements ezcSearchDefinitionManager
         return $definition;
     }
 }
-
 ?>

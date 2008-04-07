@@ -56,8 +56,8 @@ class ezcSearchSessionInstance
     /**
      * Returns the search session instance named $identifier.
      *
-     * If $identifier is ommited the default search session
-     * specified by chooseDefault() is returned.
+     * If $identifier is omitted the default search session specified by
+     * chooseDefault() is returned.
      *
      * @throws ezcSearchSessionNotFoundException if the specified instance is not found.
      * @param string $identifier
@@ -81,9 +81,9 @@ class ezcSearchSessionInstance
     /**
      * Adds the search session $session to the list of known instances.
      *
-     * If $identifier is specified the search session instance can be
-     * retrieved later using the same identifier. If $identifier is ommited
-     * the default instance will be set.
+     * If $identifier is specified the search session instance can be retrieved
+     * later using the same identifier. If $identifier is omitted the default
+     * instance will be set.
      *
      * @param ezcSearchSession $session
      * @param string $identifier the identifier of the search handler
@@ -102,8 +102,7 @@ class ezcSearchSessionInstance
     /**
      * Sets the search $identifier as default search instance.
      *
-     * To retrieve the default search instance
-     * call get() with no parameters..
+     * To retrieve the default search instance call get() with no parameters.
      *
      * @see ezcSearchSessionInstance::get().
      * @param string $identifier
@@ -116,8 +115,6 @@ class ezcSearchSessionInstance
 
     /**
      * Resets the default instance holder.
-     *
-     * @return void
      */
     public static function resetDefault()
     {
@@ -126,8 +123,6 @@ class ezcSearchSessionInstance
 
     /**
      * Resets this object to its initial state.
-     *
-     * @return void
      */
     public function reset()
     {

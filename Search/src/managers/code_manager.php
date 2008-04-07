@@ -9,7 +9,7 @@
  */
 
 /**
- * Handles document type definitions in plain code style.
+ * Handles document type definitions in plain code (PHP script) style.
  *
  * Each definition must be in a separate file in the directory specified to the
  * constructor. The filename must be the same as the lowercase name of the
@@ -84,8 +84,7 @@ class ezcSearchCodeManager implements ezcSearchDefinitionManager
         }
         if ( !( $definition instanceof ezcSearchDocumentDefinition ) )
         {
-            throw new ezcSearchDefinitionNotFoundException( $type,
-                                                                "Searched for '" . realpath( dirname( $path ) ) . "/" . basename( $path ) . "'." );
+            throw new ezcSearchDefinitionNotFoundException( $type, "Searched for '" . realpath( dirname( $path ) ) . "/" . basename( $path ) . "'." );
         }
         if ( $definition->idProperty === null )
         {

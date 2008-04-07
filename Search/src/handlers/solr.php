@@ -465,6 +465,12 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $query;
     }
 
+    /**
+     * Builds the search query and returns the parsed response
+     *
+     * @param ezcSearchFindQuery $query
+     * @return ezcSearchResult
+     */
     public function find( ezcSearchFindQuery $query )
     {
         $queryWord = join( ' AND ', $query->whereClauses );
@@ -476,6 +482,12 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $this->createResponseFromData( $query->definition, $res );
     }
 
+    /**
+     * Returns the query as a string for debugging purposes
+     *
+     * @param ezcSearchFindQuerySolr $query
+     * @return string
+     */
     public function getQuery( ezcSearchFindQuerySolr $query )
     {
         $queryWord = join( ' AND ', $query->whereClauses );
@@ -599,6 +611,12 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $r = $this->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
     }
 
+    /**
+     * Indexes the document $document using definition $definition
+     *
+     * @param ezcSearchDocumentDefinition $definition
+     * @param mixed $document
+     */
     public function index( ezcSearchDocumentDefinition $definition, $document )
     {
         $xml = new XmlWriter();
