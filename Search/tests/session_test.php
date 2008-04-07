@@ -107,9 +107,9 @@ class ezcSearchSessionTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 2, count( $r->documents ) );
-        self::assertEquals( true, isset( $r->documents[0]['meta'] ) );
-        self::assertEquals( true, isset( $r->documents[0]['meta']['score'] ) );
-        self::assertEquals( true, isset( $r->documents[0]['document'] ) );
+        self::assertEquals( true, isset( $r->documents[$a->id]['meta'] ) );
+        self::assertEquals( true, isset( $r->documents[$a->id]['meta']['score'] ) );
+        self::assertEquals( true, isset( $r->documents[$a->id]['document'] ) );
     }
 
     public function testCreateFindQueryWithAccent()
