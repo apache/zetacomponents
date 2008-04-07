@@ -79,29 +79,46 @@ This example loads the workflow named 'test' into the variable $workflow.
 Executing a workflow
 --------------------
 
-@todo do you need to save the workflow before executing?
-@todo do you need to save the workflow after executing to store state?
-
 Executing a workflow is done by calling the method start on the execution
 object. This example shows how to execute the workflow test that is stored in
 the database. The id that is returned by the execute method identifies this
 execution thread and can be used later if the workflow must be resumed.
 
+Executing a workflow using the ezcWorkflowDatabaseExecution executer requires
+the definition of the workflow (and all of its sub-workflows) to be stored in
+the database.
+
 .. include:: example_execute.php
    :literal:
 
 
-Resuming a workflow
--------------------
+Resuming a workflow execution
+-----------------------------
 
-If a workflow is suspended and needs to be resumed the method resume should be
-used. This example shows how to resume a suspended workflow and provide the
-input data 'choice'. The id is the one provided by the original call to execute.
+If a workflow execution is suspended and needs to be resumed the method resume
+should be used. This example shows how to resume a suspended workflow and
+provide the input data 'choice'. The id is the one provided by the original call
+to execute.
 
 .. include:: example_resume.php
    :literal:
 
-
+Cancelling a workflow execution
+-------------------------------
+
+If a workflow execution is suspended it can be cancelled by calling the cancel()
+method on the executer object.
+
+.. include:: example_cancel.php
+   :literal:
+
+This method is also automatically called when the workflow execution reaches a
+ezcWorkflowNodeCancel node.
+
+When the execution of a workflow is cancelled all nodes that are currently
+activated will be deactivated and the optional sequence of final activities
+that starts in $workflow->finallyNode is activated.
+
 ..
    Local Variables:
    mode: rst
