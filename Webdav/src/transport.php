@@ -264,7 +264,7 @@ class ezcWebdavTransport
             'Server',
             ( isset( $headers['Server'] ) && strlen( $headers['Server'] ) > 0 ? $headers['Server'] . '/' : '' )
                 . 'eZComponents/'
-                . ( self::VERSION === '//autogentag//' ? 'dev' : self::VERSION )
+                . ( self::VERSION === '//auto'. 'gentag//' ? 'dev' : self::VERSION )
                 . '/'
                 . get_class( $this )
         );
