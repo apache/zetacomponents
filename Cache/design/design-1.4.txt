@@ -30,7 +30,7 @@ Cache component to search other caches in case of a miss. For this reason,
 hierarchic caches will be introduced.
 
 In following, a typical use case will be described to illustrate the need and
-behaviour of this feature. After that, the proposed class and algorithm design
+behavior of this feature. After that, the proposed class and algorithm design
 will be presented.
 
 Use case
@@ -45,14 +45,14 @@ is covered by a cache that resides in the local memory of the server fulfilling
 a request. This cache is extremely fast, because it resides in local memory, but
 is therefore also limited to a very low number of objects it can contain
 without polluting the local memory too much. The second level cache is a
-memcached, running on a dedicated cache server. This is also quite fast, but
+Memcached, running on a dedicated cache server. This is also quite fast, but
 not as fast as the local memory cache, since data needs to be transfered
 through a network connection. On the other hand, this cache is larger, since
 the server is dedicatedly build for performant caching. The third level of
 caching is provided by a file server, which offers the slowest kind of cache.
 In contrast, it has the largest storage capability.
 
-In this scenario, the desired behaviour would be that the most needed cache
+In this scenario, the desired behavior would be that the most needed cache
 items would be stored in the fastest cache. Cache items which are not that
 much, but still often needed could reside in the second cache level and rarely
 used items would be stored in the third layer.
@@ -207,7 +207,7 @@ ezcCacheStack
 -------------
 
 An object of the ezcCacheStack class is the main instance to provide the
-hierachical stack mechanism. The stack object takes care of managing several
+hierarchical stack mechanism. The stack object takes care of managing several
 cache storages, the unified access for storing and restoring cache items and
 the associated objects needed to realize this.
 
@@ -238,7 +238,7 @@ this the parameter instructs the stack to search through all its contained
 cache storages, instead of stopping as soon as a fitting item was found in one
 of them. 
 
-The requirements defined for cach stacking force cache storages to implement
+The requirements defined for cache stacking force cache storages to implement
 several additional functionalities. Therefore, a new interface
 ezcCacheStackableStorage will be introduced, to define the necessary methods.
 This also ensures, that caches are not stacked recursively, since ezcCacheStack
@@ -305,7 +305,7 @@ must be able to implement its own set of options. The following options are
 part of this class:
 
 'storageStrategy'
-    This option contains a class name, which is to be instanciated to perform
+    This option contains a class name, which is to be instantiated to perform
     storage operations in the stack. The class must extend the abstract
     ezcCacheStackStorageStrategy class.
 'storages'
@@ -314,7 +314,6 @@ part of this class:
     default, no storages will be defined. In this case, a call to any of the
     methods defined by ezcCacheStorage will result in an exception. 
 
-
 ezcCacheStackStorageStrategy
 ----------------------------
 
@@ -322,8 +321,76 @@ Implementations of this abstract base class handle the main storage process
 inside an ezcCacheStack object. The abstraction of this strategy allows users
 to flexibly decide for better performance or less memory consumption.
 
-TODO: Describe!
+The ezcCacheStorageStrategy class defines the following methods: ::
 
+    class ezcCacheStorageStrategy
+    {
+        public static function store();
+        public static function delete();
+    }
+
+The methods of a class implementing a storage strategy receive the usual
+parameters to store or delete a cache item and the stack of
+ezcCacheReplacementStrategy instances in addition. The store() method will use
+the given decorated storage and store the given cache item in a certain way.
+The delete() method will take care of deleting the defined cache item in every
+place it has been stored.
+
+.. Note::
+   The abstraction of storage strategies is risky: In case the user messes up a
+   cache storage and the ezcCacheStackHighestLevelStorageStrategy is in use,
+   cache items might be removed or invalidated without need.
+
+ezcCacheStackHighestLevelStorageStrategy
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using this storage strategy, a newly stored cache item will only be stored in the
+top most cache of the stack. This means, that in case the cache item needs to
+be removed from a stack level, it needs to be added to the lower level if this
+exists. The storage method behaves like the following pseudo code illustrates: ::
+
+    $highestLevelStorage->store(...);
+    $remItems = $highestLevelStorage->getRemovedItems();
+    foreach ( $remItems as $item )
+    {
+        self::store( ..., $nextDeeperLevel );
+    }
+
+Since items are only stored in 1 storage at a time, the delete() method needs
+to effectively delete an item only in one storage physically. Still, all
+storages need to be searched for the desired item to remove, until it is found:
+::
+
+    foreach ( $storageStack as $storage ) 
+    {
+        $storage->delete(...);
+    }
+
+Since determining if the desired item is found in a certain cache storage is
+too inefficient, the delete() method will be called for every storage of the
+stack, while only one storage will effectively perform the deletion.
+
+ezcCacheStackAllLevelStorageStrategy
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In contrast to the ezcCacheStackHighestLevelStorageStrategy, this storage
+strategy will store a cache item on all levels of the stack at once. This
+consumes more space when an item is stored, but can make the storage process
+itself faster, if items need to be replaced often. Replaced items don't need to
+be bubbled down to deeper levels if a cache storage runs full. The store()
+method will work as follows: ::
+
+    foreach ( $storageStack as $storage ) 
+    {
+        $storage->store(...);
+    }
+
+The delete() method is as simple, but somewhat more ineffective as in the
+counterpart replacement strategy. The desired cache item needs to be deleted in
+each storage where it is still present and has not been removed, yet. The code
+will be exactly the same as in ezcCacheStackHighestLevelStorageStrategy, but
+the deletion might physically be performed in all of the storages, instead of
+only one.
 
 ezcCacheStackStorageConfiguration
 ---------------------------------
@@ -335,7 +402,7 @@ as additional information, needed by the ezcCacheStack instance and its
 aggregated objects. The properties are contained in the class:
 
 'class'
-    The class to be instanciated as the storage. This class needs to implement
+    The class to be instantiated as the storage. This class needs to implement
     the ezcCacheStackableStorage interface, which will be checked for
     correctness via overloading.
 'location'
@@ -393,7 +460,7 @@ stored in the storage. The free rate is a percentage value, that indicates how
 many items are to be purged, whenever a cache runs full.
 
 The store() method performs the most complex operation in this case. To
-illustarte its working, the following pseudo code is used: ::
+illustrate its working, the following pseudo code is used: ::
 
     $storage->lock();
     $meta = $storage->restoreMetaInfo();
@@ -439,14 +506,14 @@ storage in most cases, since their functionality does not affect the
 replacement strategy.
 
 .. Note::
-   We should offer a method to reset a cache completly (removing all items and
+   We should offer a method to reset a cache completely (removing all items and
    the meta information), to allow people to reset their cache storages
-   completly by an external process.
+   completely by an external process.
 
 A replacement strategy should always store its name in the meta data container,
-to ensure that a switch between stragies is possible. In case a replacement
+to ensure that a switch between strategies is possible. In case a replacement
 strategy receives an invalid meta data structure, it must throw an exception.
-The cache must be cleaned completly in this case.
+The cache must be cleaned completely in this case.
 
 The getRemovedItems() method returns all cache items that have been replaced
 during the last method call to store(). The structure of the returned data must
@@ -491,11 +558,11 @@ ezcCacheLfuReplacementStrategy
 
 The Least-Frequently-Used algorithm (LFU), in contrast to LRU, stores the
 number of accesses of a cache item. In case the cache needs to be freed, those
-items are discareded, that have been used least freuquently.
+items are discarded, that have been used least frequently.
 
 The meta data structure is pretty similar to the one of LRU strategy: The cache
 item IDs are used as the key, being assigned to the number of accesses to this
-item. In case the cache runs full, this list is sorted and the first X elemnts
+item. In case the cache runs full, this list is sorted and the first X elements
 (determined by $freeRate) are removed. The cache items assigned to the
 determined IDs are deleted from the cache storage.
 
