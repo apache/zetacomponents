@@ -23,7 +23,7 @@ class ezcSearchRstXmlExtractor /* implements ezcSearchExtractor */
      * @param string $url
      * @return array(ezcSearchDocument)
      */
-    static public function extract( $fileName, $url )
+    static public function extract( $fileName, $type, $url, $imagePath = null, $imageUrlPath = null )
     {
         $published = filemtime( $fileName );
 
@@ -34,16 +34,73 @@ class ezcSearchRstXmlExtractor /* implements ezcSearchExtractor */
 
         $xpath = new DOMXPath($dom);
         $tocElem = $xpath->evaluate("//h1[@class='title']", $tbody )->item(0);
-        $title = $tocElem->nodeValue;
+        $title = $tocElem ? $tocElem->nodeValue : 'no title';
 
-        $tbody = $dom->getElementsByTagName('p');
+        $docs = array();
+        $body = $urls = array();
+        $currentUrl = $url;
+        $lastUrl = $url;
+        $currentBody = '';
+
+        // child::*[self::p or self::h1]
+        $xpath = new DOMXPath($dom);
+//        $tbody = $xpath->evaluate("descendant::*[self::p or self::h1 or self::dl or self::img or self::a]", $tbody );
+        $tbody = $xpath->evaluate("//p|//h1|//dl|//img|//a", $tbody );
+//        $tbody = $dom->getElementsByTagName('p');
         $body = '';
         foreach( $tbody as $item )
         {
-            $body .= strip_tags( $dom->saveXml( $item ) ) . "\n\n";
+            switch ( $item->tagName )
+            {
+                case 'a':
+                        $name = $item->getAttribute( 'name' );
+//                        echo "[a] ", $name, "\n";
+                        if ( strlen( $name ) )
+                        {
+                            $currentUrl = $url . '#'. $name;
+                        }
+                    break;
+                case 'img':
+                        $alt = $item->getAttribute( 'alt' );
+                        $src = $item->getAttribute( 'src' );
+                        $location = $imagePath == null ?
+                            (dirname( $fileName ). '/'. $src) : 
+                            ($imagePath. '/'. preg_replace( '@(\.\./)+@', '', $src ) );
+                        $imgurl = $src[0] == '/' ?
+                            $src :
+                            ($imageUrlPath === null ?
+                                ($url . '/' . $src) :
+                                ($imageUrlPath. '/'. preg_replace( '@(\.\./)+@', '', $src ) ) );
+                        echo "  - $src => $imgurl\n";
+                        $docs[] = self::extractImage( $alt, $location, $imgurl );
+                    break;
+                case 'p':
+                case 'h1':
+                case 'dl':
+                        if ( $lastUrl !== $currentUrl )
+                        {
+                            $docs[] = new ezcSearchSimpleArticle( null, $title, $currentBody, $published, $lastUrl, $type );
+                            $currentBody = '';
+                            $lastUrl = $currentUrl;
+                        }
+                        $currentBody .= strip_tags( $dom->saveXml( $item ) ) . "\n\n";
+                    break;
+            }
+        }
+        if ( $currentBody != '' )
+        {
+            $docs[] = new ezcSearchSimpleArticle( null, $title, $currentBody, $published, $lastUrl, $type );
         }
 
-        return array( new ezcSearchSimpleArticle( null, $title, $body, $published, $url ) );
+//        $docs[] = new ezcSearchSimpleArticle( null, $title, $body, $published, $urls, $type );
+        return $docs;
+    }
+
+    private static function extractImage( $title, $filename, $url )
+    {
+        $info = getimagesize( $filename );
+
+        return new ezcSearchSimpleImage( null, $title, $url, $info[0], $info[1], $info['mime'], $url );
     }
 }
 ?>

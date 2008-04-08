@@ -34,6 +34,7 @@ return array(
     'ezcSearchSession'                              => 'Search/search_session.php',
     'ezcSearchSessionInstance'                      => 'Search/search_session_instance.php',
     'ezcSearchSimpleArticle'                        => 'Search/extractors/helpers/simple.php',
+    'ezcSearchSimpleImage'                          => 'Search/extractors/helpers/image.php',
     'ezcSearchSolrHandler'                          => 'Search/handlers/solr.php',
     'ezcSearchXmlManager'                           => 'Search/managers/xml_manager.php',
 );
