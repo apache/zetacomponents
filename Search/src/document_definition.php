@@ -37,6 +37,11 @@ class ezcSearchDocumentDefinition
     const DATE = 4;
 
     /**
+     * Type for integer fields.
+     */
+    const INT = 5;
+
+    /**
      * Contains the document type - which is the same as the class name.
      *
      * @var string

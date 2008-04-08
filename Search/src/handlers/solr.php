@@ -503,6 +503,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             ezcSearchDocumentDefinition::TEXT => '_t',
             ezcSearchDocumentDefinition::HTML => '_t',
             ezcSearchDocumentDefinition::DATE => '_l',
+            ezcSearchDocumentDefinition::INT => '_l',
         );
         return $name . $map[$type];
     }
