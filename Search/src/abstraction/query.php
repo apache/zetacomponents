@@ -69,7 +69,7 @@ interface ezcSearchQuery
      * @param string $offset integer expression
      * @return ezcQuerySelect
      */
-    public function limit( $limit, $offset = '' );
+    public function limit( $limit, $offset = 0 );
 
     /**
      * Returns SQL that orders the result set by a given column.
