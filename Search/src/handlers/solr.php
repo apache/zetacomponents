@@ -268,7 +268,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $highlightFieldList
      * @return array
      */
-    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array() )
+    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = false )
     {
         if ( count( $searchFieldList ) > 0 )
         {
@@ -303,6 +303,8 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $queryFlags['facet.sort'] = 'false';
             $queryFlags['facet.field'] = join( ' ', $facetFieldList );
         }
+        $queryFlags['start'] = $offset;
+        $queryFlags['rows'] = $limit;
         return $queryFlags;
     }
 
@@ -419,9 +421,9 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $highlightFieldList
      * @return stdClass
      */
-    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array() )
+    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit, $offset )
     {
-        $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList ) );
+        $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList, $limit, $offset ) );
         $result = json_decode( $result );
         return $result;
     }
@@ -477,8 +479,10 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $resultFieldList = $query->resultFields;
         $highlightFieldList = $query->highlightFields;
         $facetFieldList = $query->facets;
+        $limit = $query->limit;
+        $offset = $query->offset;
 
-        $res = $this->search( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList );
+        $res = $this->search( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList, $limit, $offset );
         return $this->createResponseFromData( $query->definition, $res );
     }
 
