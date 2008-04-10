@@ -159,9 +159,6 @@ Cons:
   done.
 - To purge an item, the item needs to be purged from all storages in the stack,
   that reside deeper than the first cache where the item is found.
-- The initial storage of an item may result in a chain reaction of
-  replacements, if all storages in the stack reached their maximum number of
-  items.
 
 Propagate on replacement
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -181,6 +178,8 @@ Pros:
 Cons:
 
 - Additional work is to be done on each replacement of a cache item.
+- If the cache storage disappears (for instance an in-memory storage) then it
+  hasn't be cached in the lower levels yet).
 
 Open issues
 -----------
@@ -254,6 +253,52 @@ user applications to directly influence the cache storages.
    themselves, but their ezcCacheReplacementStrategy facades. This ensures,
    that meta data is kept consistent even if a users accesses the cache.
 
+The cache stack will implement the "propergate on store" strategy. This storage
+strategy will store a cache item on all levels of the stack at once. This
+consumes more space when an item is stored, but can make the storage process
+itself faster, if items need to be replaced often. Replaced items don't need to
+be bubbled down to deeper levels if a cache storage runs full.
+
+The store() method will work as follows: ::
+
+    foreach ( $storageStack as $storage ) 
+    {
+        $storage->store(...);
+    }
+
+The restore() method will work as follows: ::
+
+    foreach ( $storageStack as $storage )
+    {
+        if ( ( $res = $storage->restore( ... ) ) !== false )
+        {
+            return $res;
+        }
+    }
+    return false;
+
+.. Note::
+   It needs to be clearified, if restored items should be bubbled up to higher
+   storages.
+
+The delete() method is as simple, but somewhat inefficient, since it needs to
+delete the desired item from every storage on the stack. ::
+
+    foreach ( $storageStack as $storage )
+    {
+        $storage->delete( ... );
+    }
+
+The call to delete() has to happen on each of the stacked storages, although a
+physical deletion might only happen on some or even one or none of them.
+
+Since none of the caches might have all items fulfilling the criteria given to
+the countDataItems() method in place, this one will summarize the occurances in
+all storages.  The getRemainingLifetime() method will return the maximum
+lifetime found over all storages, since different storages in the cache might
+have different lifetimes. The latter issue is generally undesired, but might be
+configured by a user.
+
 ezcCacheStackableStorage
 ------------------------
 
@@ -280,9 +325,8 @@ information can be any arbitrary array.
 The purge method is needed to make the storage purge all outdated items. In
 case a cache storage runs full (determined by the replacement strategy), first
 all outdated items will be purged, before items are deleted using the original
-strategy. The purge() method needs to return the IDs, attributes and data of
-the purged items to allow the replacement and storage strategy objects to
-update their information.
+replacement strategy. The purge() method needs to return the IDs of the
+purged items, to allow the replacement strategy to keep its meta data in sync.
 
 .. Note::
    It must be discussed if the number of items to be purged should be submitted
@@ -314,84 +358,6 @@ part of this class:
     default, no storages will be defined. In this case, a call to any of the
     methods defined by ezcCacheStorage will result in an exception. 
 
-ezcCacheStackStorageStrategy
-----------------------------
-
-Implementations of this abstract base class handle the main storage process
-inside an ezcCacheStack object. The abstraction of this strategy allows users
-to flexibly decide for better performance or less memory consumption.
-
-The ezcCacheStorageStrategy class defines the following methods: ::
-
-    class ezcCacheStorageStrategy
-    {
-        public static function store();
-        public static function delete();
-    }
-
-The methods of a class implementing a storage strategy receive the usual
-parameters to store or delete a cache item and the stack of
-ezcCacheReplacementStrategy instances in addition. The store() method will use
-the given decorated storage and store the given cache item in a certain way.
-The delete() method will take care of deleting the defined cache item in every
-place it has been stored.
-
-.. Note::
-   The abstraction of storage strategies is risky: In case the user messes up a
-   cache storage and the ezcCacheStackHighestLevelStorageStrategy is in use,
-   cache items might be removed or invalidated without need.
-
-ezcCacheStackHighestLevelStorageStrategy
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Using this storage strategy, a newly stored cache item will only be stored in the
-top most cache of the stack. This means, that in case the cache item needs to
-be removed from a stack level, it needs to be added to the lower level if this
-exists. The storage method behaves like the following pseudo code illustrates: ::
-
-    $highestLevelStorage->store(...);
-    $remItems = $highestLevelStorage->getRemovedItems();
-    foreach ( $remItems as $item )
-    {
-        self::store( ..., $nextDeeperLevel );
-    }
-
-Since items are only stored in 1 storage at a time, the delete() method needs
-to effectively delete an item only in one storage physically. Still, all
-storages need to be searched for the desired item to remove, until it is found:
-::
-
-    foreach ( $storageStack as $storage ) 
-    {
-        $storage->delete(...);
-    }
-
-Since determining if the desired item is found in a certain cache storage is
-too inefficient, the delete() method will be called for every storage of the
-stack, while only one storage will effectively perform the deletion.
-
-ezcCacheStackAllLevelStorageStrategy
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-In contrast to the ezcCacheStackHighestLevelStorageStrategy, this storage
-strategy will store a cache item on all levels of the stack at once. This
-consumes more space when an item is stored, but can make the storage process
-itself faster, if items need to be replaced often. Replaced items don't need to
-be bubbled down to deeper levels if a cache storage runs full. The store()
-method will work as follows: ::
-
-    foreach ( $storageStack as $storage ) 
-    {
-        $storage->store(...);
-    }
-
-The delete() method is as simple, but somewhat more ineffective as in the
-counterpart replacement strategy. The desired cache item needs to be deleted in
-each storage where it is still present and has not been removed, yet. The code
-will be exactly the same as in ezcCacheStackHighestLevelStorageStrategy, but
-the deletion might physically be performed in all of the storages, instead of
-only one.
-
 ezcCacheStackStorageConfiguration
 ---------------------------------
 
@@ -418,9 +384,10 @@ aggregated objects. The properties are contained in the class:
     this cache. This field must contain a class that implements the
     ezcCacheReplacementStrategy interface.
 'freeRate'
-    This option is an integer that indicates a percentage value. In case the
-    cache storage runs full, this amount of items will be removed. This
-    mechanism ensures that running full of a cache does not occur too often.
+    This option is an float between 0 and 1 indicating a fraction value. In
+    case the cache storage runs full, this rate of item slots (measured from
+    the $itemLimit) will be freed. This mechanism ensures that running full of
+    a cache does not occur too often.
 
 ezcCacheReplacementStrategy
 ---------------------------
@@ -430,11 +397,6 @@ strategy for a cache. Instances of classes that implement this interface, are
 used as facades to ezcCacheStackableStorage. Whenever a cache item is to be
 stored, restored or deleted, ezcCacheStack will utilize the replacement
 strategy instead of calling the methods on the cache storage directly.
-
-.. Warning::
-   To bubble cache items down to lower caches, when removing them from a cache
-   storage, the strategy must either return the items in some way or inform the
-   deeper caches in another way.
 
 The replacement strategy object will realize the correct replacement of cache
 items, in case the storage exceeds the limited number of items to be stored in
@@ -499,6 +461,13 @@ algorithm is defined by the following pseudo code: ::
     
     $storage->unlock();
     return $item;
+
+.. Note::
+   The restore() method usually would need to update the meta data of every
+   cache that contains the desired item, to indicate that it has been
+   requested. Else the stats of lower level caches are inconsistent if an item
+   is replaced on a higher level cache. Another solution would be to move stats
+   from higher levels to lower once on replacement.
 
 The delete() method needs to take care, that deleted items are also removed
 from the meta data. The remaining methods just delegate to the underlying
