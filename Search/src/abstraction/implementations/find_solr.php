@@ -76,7 +76,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
         return $this;
     }
 
-    public function limit( $limit = 10, $offset = 0 )
+    public function limit( $limit, $offset = 0 )
     {
         $this->limit = $limit;
         $this->offset = $offset;
