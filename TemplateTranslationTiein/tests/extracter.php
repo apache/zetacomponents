@@ -69,7 +69,7 @@ class ezcTemplateTranslationExtracterTest extends ezcTestCase
         }
         catch ( ezcTemplateParserException $e )
         {
-            self::assertEquals( "/home/derick/dev/ezcomponents/trunk/TemplateTranslationTiein/tests/test_files/test_without_context.ezt:3:11: Expecting a 'context' parameter, or a default context set with {tr_context}.\n\n{tr \"een\"}\n          ^\n", $e->getMessage() );
+            self::assertEquals( "$file:3:11: Expecting a 'context' parameter, or a default context set with {tr_context}.\n\n{tr \"een\"}\n          ^\n", $e->getMessage() );
         }
     }
 
