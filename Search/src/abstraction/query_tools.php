@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcSearchQuery class.
+ * File containing the ezcSearchQueryTools class.
  *
  * @package Search
  * @version //autogentag//
@@ -9,9 +9,8 @@
  */
 
 /**
- * The ezcSearchQuery class provides the common API for all Query objects.
- *
- * Subclasses should provide functionality to build an actual query.
+ * The ezcSearchQueryTools class provides standard functions that don't really
+ * fit anywhere else.
  *
  * @package Search
  * @version //autogentag//

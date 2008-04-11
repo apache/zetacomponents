@@ -491,6 +491,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      *
      * @param ezcSearchFindQuerySolr $query
      * @return string
+     * @ignore
      */
     public function getQuery( ezcSearchFindQuerySolr $query )
     {
