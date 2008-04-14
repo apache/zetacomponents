@@ -202,6 +202,11 @@ Design
 This section is meant to design the enhancements defined by the requirements
 section above.
 
+.. Warning::
+   The design described below adds another level of abstraction to the Cache
+   component, The use of this abstraction can significantly reduce the
+   performance, if done in an unintended way.
+
 ezcCacheStack
 -------------
 
@@ -308,10 +313,6 @@ The restore() method will work as follows: ::
     $metaStorage->unlock();
     return $res;
 
-.. Note::
-   It needs to be clearified, if restored items should be bubbled up to higher
-   storages.
-
 The delete() method is as simple, but somewhat inefficient, since it needs to
 delete the desired item from every storage on the stack. ::
 
@@ -371,12 +372,6 @@ all outdated items will be purged, before items are deleted using the original
 replacement strategy. The purge() method needs to return the IDs of the
 purged items, to allow the replacement strategy to keep its meta data in sync.
 
-.. Note::
-   It must be discussed if the number of items to be purged should be submitted
-   to purge(). This would allow to stop purging as soon as the desired number
-   of items are deleted. On the other hand, purging all possible items at once
-   will free more space, which cannot be undesireable.
-
 The reset() method will be called by the ezcCacheStack instance, if
 ezcCacheStack->reset() is called. The effect of this method must be, that all
 content of the storage is cleaned out.
@@ -406,6 +401,12 @@ To keep the meta data consistent between requests, the meta data storage needs
 to support locking via the lock() and unlock() methods. This lock must affect
 only the lock() method itself, since the stack won't operate on the meta data
 without locking the storage.
+
+.. Warning::
+   There is not way around locking to keep the meta data consistent between
+   requests. This means, that access to the complete stack will be exclusive
+   and requests might need to wait for other requests to free the cache lock
+   again.
 
 ezcCacheStackOptions
 --------------------
@@ -586,7 +587,7 @@ item. In case the cache runs full, this list is sorted and the first X elements
 determined IDs are deleted from the cache storage.
 
 ezcCacheStorageMetaData
-------------------------------
+-----------------------
 
 This struct is used to represent meta information, that is stored in an
 ezcCacheStorage. In addition to the array structure it provides, it contains an
