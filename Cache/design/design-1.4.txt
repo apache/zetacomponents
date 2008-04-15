@@ -380,7 +380,7 @@ ezcCacheMetaDataStorage
 -----------------------
 
 This interface defines the methods to be implemented by a meta data storage,
-that is used to store the data utilized by an ezcCacheReplacementStrategy. The
+that is used to store the data utilized by an ezcCacheStackReplacementStrategy. The
 following methods need to be implemented: ::
 
     interface ezcCacheStackMetaDataStorage
@@ -482,7 +482,7 @@ Storage configurations are used with the ezcCacheStack::pushStorage() method.
 This methods receives a unique ID in addition, to identify a configured stack.
 This ID is needed by the replacement strategies in the meta data.
 
-ezcCacheReplacementStrategy
+ezcCacheStackReplacementStrategy
 ---------------------------
 
 This interface defines methods that are used by ezcCacheStack to realize the
@@ -497,7 +497,7 @@ information in their signature.
 
 The interface will define the following methods: ::
 
-    interface ezcCacheReplacementStrategy
+    interface ezcCacheStackReplacementStrategy
     {
         public static void store(
             $storage, $storageId, $metaData,
@@ -595,7 +595,7 @@ $identifier property that is to be set by the replacement strategy. If a
 replacement strategy receives an incorrect meta information object, it must
 thrown an exception. ::
 
-    class ezcStorageMetaData extends ezcBaseStruct
+    class ezcCacheStorageMetaData extends ezcBaseStruct
     {
         public $identifier;
 
