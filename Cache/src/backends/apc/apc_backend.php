@@ -12,6 +12,10 @@
 /**
  * This backend stores data in an APC cache.
  *
+ * @deprecated This class will be deprecated in the next major version of the
+ *             Cache component. Please do not use it directly, but use {@link
+ *             ezcCacheStorageApc} instead.
+ *
  * @package Cache
  * @version //autogentag//
  */
