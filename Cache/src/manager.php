@@ -195,27 +195,27 @@ class ezcCacheManager
      */
     public static function createCache( $id, $location = null, $storageClass, $options = array() ) 
     {
-        if ( $location !== null )
+        // BC for missing location. The location should not be missing.
+        if ( $location !== null ) 
         {
-            // Sanity check existance.
-            if ( !file_exists( $location ) || !is_dir( $location ) ) 
+            // Unifiy file system locations
+            if (  substr( $location, 0, 1 ) === '/' )
             {
-                throw new ezcBaseFileNotFoundException( $location, 'cache location', 'Does not exists or is no directory.' );
+                // If non-existent
+                if ( ( $location = realpath( $location ) ) === false )
+                {
+                    throw new ezcBaseFileNotFoundException(
+                        $location,
+                        'cache location',
+                        'Does not exists or is no directory.'
+                    );
+                }
             }
-            if ( !is_readable( $location ) )
-            {
-                throw new ezcBaseFilePermissionException( $location, ezcBaseFileException::READ, 'Cache location is not readable.' );
-            }
-            if ( !is_writeable( $location ) )
-            {
-                throw new ezcBaseFilePermissionException( $location, ezcBaseFileException::WRITE, 'Cache location is not writeable.' );
-            }
-            $location = realpath( $location );
 
             // Sanity check double taken locations.
             foreach ( self::$configurations as $confId => $config )
             {
-                if ( $config['location'] == $location )
+                if ( $config['location'] === $location )
                 {
                     throw new ezcCacheUsedLocationException( $location, $confId );
                 }

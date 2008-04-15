@@ -74,6 +74,32 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      */
     public function __construct( $location, $options = array() )
     {
+        // Sanity check location
+        if ( !file_exists( $location ) || !is_dir( $location ) ) 
+        {
+            throw new ezcBaseFileNotFoundException(
+                $location,
+                'cache location',
+                'Does not exists or is no directory.'
+            );
+        }
+        if ( !is_readable( $location ) )
+        {
+            throw new ezcBaseFilePermissionException(
+                $location,
+                ezcBaseFileException::READ,
+                'Cache location is not readable.'
+            );
+        }
+        if ( !is_writeable( $location ) )
+        {
+            throw new ezcBaseFilePermissionException(
+                $location,
+                ezcBaseFileException::WRITE,
+                'Cache location is not writeable.'
+            );
+        }
+
         parent::__construct( $location, $options );
         // Overwrite parent set options with new ezcCacheFileStorageOptions
         $this->properties['options'] = new ezcCacheStorageFileOptions( $options );

@@ -159,46 +159,6 @@ class ezcCacheManagerTest extends ezcTestCase
         $this->fail( 'ezcCacheInvalidIdException not thrown on invalid ID.' );
     }
 
-    public function testCreateCacheFailUnreadable()
-    {
-        $temp = $this->createTempDir( __CLASS__ );
-        $location = $temp . DIRECTORY_SEPARATOR . 'subpath';
-        mkdir( $location );
-        chmod( $location, 0 );
-        try
-        {
-            ezcCacheManager::createCache( 'unreadable', $location, 'ezcCacheStorageFilePlain' );
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseFilePermissionException $e )
-        {
-            $this->assertEquals( true, strpos( $e->getMessage(), "Cache location is not readable" ) !== false );
-        }
-
-        chmod( $location, 0777 );
-        $this->removeTempDir( $temp );
-    }
-
-    public function testCreateCacheFailUnwritable()
-    {
-        $temp = $this->createTempDir( __CLASS__ );
-        $location = $temp . DIRECTORY_SEPARATOR . 'subpath';
-        mkdir( $location );
-        chmod( $location, 0444 );
-        try
-        {
-            ezcCacheManager::createCache( 'unwritable', $location, 'ezcCacheStorageFilePlain' );
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseFilePermissionException $e )
-        {
-            $this->assertEquals( true, strpos( $e->getMessage(), "Cache location is not writeable" ) !== false );
-        }
-
-        chmod( $location, 0777 );
-        $this->removeTempDir( $temp );
-    }
-
     public function testGetCacheDelayedInit1()
     {
         try
