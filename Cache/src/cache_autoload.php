@@ -28,6 +28,7 @@ return array(
     'ezcCacheManager'                       => 'Cache/manager.php',
     'ezcCacheMemcacheBackend'               => 'Cache/backends/memcache/memcache_backend.php',
     'ezcCacheMemoryVarStruct'               => 'Cache/structs/memory_var.php',
+    'ezcCacheStackableStorage'              => 'Cache/interfaces/stackable_storage.php',
     'ezcCacheStorageApcPlain'               => 'Cache/storage/apc/plain.php',
     'ezcCacheStorageFileApcArray'           => 'Cache/storage/apc/apc_array.php',
     'ezcCacheStorageFileApcArrayDataStruct' => 'Cache/structs/file_apc_array_data.php',
