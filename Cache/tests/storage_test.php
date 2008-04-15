@@ -77,7 +77,14 @@ abstract class ezcCacheStorageTest extends ezcCacheTest
     {
         // Class name == <inheriting class> - "Test"
         $storageClass = ( $this->storageClass = substr( get_class( $this ), 0, strlen( get_class(  $this ) ) - 4 ) );
-        $this->storage = new $storageClass( $this->createTempDir( 'ezcCacheTest' ) );
+        if ( preg_match( '(File)', $storageClass ) > 0 )
+        {
+            $this->storage = new $storageClass( $this->createTempDir( 'ezcCacheTest' ) );
+        }
+        else
+        {
+            $this->storage = new $storageClass();
+        }
     }
 
     protected function tearDown()
@@ -264,57 +271,6 @@ abstract class ezcCacheStorageTest extends ezcCacheTest
            
             $data = $this->storage->restore( $id, $attributes );
             $this->assertTrue( $data === false, "Restore data broken for ID <{$id}>." );
-        }
-    }
-
-    /**
-     * testStoreRestoreNotoutdatedWithoutAttributes 
-     * 
-     * @access public
-     */
-    public function testStoreRestoreNotoutdatedWithoutAttributes()
-    {
-        // Test with 10 seconds lifetime
-        $this->storage->setOptions( array( 'ttl' => 10 ) );
-        foreach ( $this->data as $id => $dataArr ) 
-        {
-            
-            $filename = $this->storage->getLocation() . $this->storage->generateIdentifier( $id );
-
-            $this->storage->store( $id, $dataArr );
-            // Faking the m/a-time to be 5 seconds in the past
-            touch( $filename, ( time()  - 5 ), ( time()  - 5 ) );
-            
-            $data = $this->storage->restore( $id );
-            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
-        }
-    }
-
-    /**
-     * testStoreRestoreNotoutdatedWithAttributes 
-     * 
-     * @access public
-     */
-    public function testStoreRestoreNotoutdatedWithAttributes()
-    {
-        // Test with 10 seconds lifetime
-        $this->storage->setOptions( array( 'ttl' => 10 ) );
-        foreach ( $this->data as $id => $dataArr ) 
-        {
-            $attributes = array(
-                'name'      => 'test',
-                'title'     => 'Test item',
-                'date'      => time().$id,
-            );
-            
-            $filename = $this->storage->getLocation() . $this->storage->generateIdentifier( $id, $attributes );
-            
-            $this->storage->store( $id, $dataArr, $attributes );
-            // Faking the m/a-time to be 5 seconds in the past
-            touch( $filename, ( time() - 5 ), ( time() - 5 ) );
-            
-            $data = $this->storage->restore( $id, $attributes );
-            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
         }
     }
 

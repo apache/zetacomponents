@@ -242,6 +242,57 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $this->removeTempDir( $temp );
     }
 
+    /**
+     * testStoreRestoreNotoutdatedWithoutAttributes 
+     * 
+     * @access public
+     */
+    public function testStoreRestoreNotoutdatedWithoutAttributes()
+    {
+        // Test with 10 seconds lifetime
+        $this->storage->setOptions( array( 'ttl' => 10 ) );
+        foreach ( $this->data as $id => $dataArr ) 
+        {
+            
+            $filename = $this->storage->getLocation() . $this->storage->generateIdentifier( $id );
+
+            $this->storage->store( $id, $dataArr );
+            // Faking the m/a-time to be 5 seconds in the past
+            touch( $filename, ( time()  - 5 ), ( time()  - 5 ) );
+            
+            $data = $this->storage->restore( $id );
+            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
+        }
+    }
+
+    /**
+     * testStoreRestoreNotoutdatedWithAttributes 
+     * 
+     * @access public
+     */
+    public function testStoreRestoreNotoutdatedWithAttributes()
+    {
+        // Test with 10 seconds lifetime
+        $this->storage->setOptions( array( 'ttl' => 10 ) );
+        foreach ( $this->data as $id => $dataArr ) 
+        {
+            $attributes = array(
+                'name'      => 'test',
+                'title'     => 'Test item',
+                'date'      => time().$id,
+            );
+            
+            $filename = $this->storage->getLocation() . $this->storage->generateIdentifier( $id, $attributes );
+            
+            $this->storage->store( $id, $dataArr, $attributes );
+            // Faking the m/a-time to be 5 seconds in the past
+            touch( $filename, ( time() - 5 ), ( time() - 5 ) );
+            
+            $data = $this->storage->restore( $id, $attributes );
+            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
+        }
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcCacheStorageFileTest" );
