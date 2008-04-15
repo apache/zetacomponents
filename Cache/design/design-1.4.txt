@@ -483,7 +483,7 @@ This methods receives a unique ID in addition, to identify a configured stack.
 This ID is needed by the replacement strategies in the meta data.
 
 ezcCacheStackReplacementStrategy
----------------------------
+--------------------------------
 
 This interface defines methods that are used by ezcCacheStack to realize the
 actual storing of cache items. Inside theses methods, the replacement of cache
@@ -586,8 +586,8 @@ item. In case the cache runs full, this list is sorted and the first X elements
 (determined by $freeRate) are removed. The cache items assigned to the
 determined IDs are deleted from the cache storage.
 
-ezcCacheStorageMetaData
------------------------
+ezcCacheStackMetaData
+---------------------
 
 This struct is used to represent meta information, that is stored in an
 ezcCacheStorage. In addition to the array structure it provides, it contains an
@@ -595,7 +595,7 @@ $identifier property that is to be set by the replacement strategy. If a
 replacement strategy receives an incorrect meta information object, it must
 thrown an exception. ::
 
-    class ezcCacheStorageMetaData extends ezcBaseStruct
+    class ezcCacheStackMetaData extends ezcBaseStruct
     {
         public $identifier;
 
