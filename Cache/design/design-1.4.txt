@@ -383,10 +383,10 @@ This interface defines the methods to be implemented by a meta data storage,
 that is used to store the data utilized by an ezcCacheStackReplacementStrategy. The
 following methods need to be implemented: ::
 
-    interface ezcCacheStackMetaDataStorage
+    interface gStorage
     {
-        ezcCacheStackMetaData restoreMetaData();
-        void storeMetaData( ezcCacheStackMetaData $metaData );
+        g restoreMetaData();
+        void storeMetaData( g $metaData );
 
         void lock();
         void unlock();
@@ -488,7 +488,7 @@ ezcCacheStackReplacementStrategy
 This interface defines methods that are used by ezcCacheStack to realize the
 actual storing of cache items. Inside theses methods, the replacement of cache
 items inside the actual storage needs to be handled, as well as the update of
-ezcCacheStackMetaData.
+g.
 
 Since all state information for a replacement strategy is stored in the
 ezcCacheStack instance, there is no need to create an instance of it.
@@ -501,7 +501,7 @@ The interface will define the following methods: ::
     {
         public static void store(
             $storage, $storageId, $metaData,
-            $itemId, $ditemData, $itemAttributes = array()
+            $itemId, $itemData, $itemAttributes = array()
         );
         public static void restore(
             $storage, $storageId, $metaData,
