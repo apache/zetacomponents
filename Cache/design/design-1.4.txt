@@ -386,7 +386,7 @@ following methods need to be implemented: ::
     interface ezcCacheStackMetaDataStorage
     {
         ezcCacheStackMetaData restoreMetaData();
-        void storeMetaData( ezcCacheStackMetaData $metaInfo );
+        void storeMetaData( ezcCacheStackMetaData $metaData );
 
         void lock();
         void unlock();
