@@ -240,6 +240,25 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         $this->issetPropertyTest( $options, 'no_such_option', false );
     }
 
+    public function testCacheBackendSingleConnection()
+    {
+        $options = array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 );
+        ezcCacheManager::createCache( 'cache-a', null, 'ezcCacheStorageMemcachePlain', $options );
+        ezcCacheManager::createCache( 'cache-b', null, 'ezcCacheStorageMemcachePlain', $options );
+        $storageA = ezcCacheManager::getCache( 'cache-a' );
+        $storageB = ezcCacheManager::getCache( 'cache-b' );
+        $backendA = $this->getObjectAttribute( $storageA, 'backend' );
+        $backendB = $this->getObjectAttribute( $storageB, 'backend' );
+
+        $memcacheA = $this->getObjectAttribute( $backendA, 'memcache' );
+        $memcacheB = $this->getObjectAttribute( $backendB, 'memcache' );
+
+        $this->assertSame( $memcacheA, $memcacheB );
+
+        unset( $storageA );
+        unset( $storageA );
+    }
+
     public static function suite()
 	{
         return new PHPUnit_Framework_TestSuite( __CLASS__ );

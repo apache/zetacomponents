@@ -43,6 +43,32 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
     protected $options;
 
     /**
+     * Stores the connections to Memcached.
+     *
+     * @var array(string=>Memcache)
+     */
+    protected static $connections = array();
+
+    /**
+     * Keeps track of the number of backends using the same connection.
+     *
+     * This is to avoid that the dtor of a backend accedentally closes a
+     * connection that is still in used by another backend.
+     *
+     * @var array(string=>int)
+     */
+    protected static $connectionCounter = array();
+
+    /**
+     * Stores the connection identifier. 
+     *
+     * This is generated in the ctor and used in the dtor.
+     * 
+     * @var string
+     */
+    protected $connectionIdentifier;
+
+    /**
      * Constructs a new ezcCacheMemcacheBackend object.
      *
      * For options for this backend see {@link ezcCacheStorageMemcacheOptions}.
@@ -67,7 +93,18 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
         }
 
         $this->options = new ezcCacheStorageMemcacheOptions( $options );
-        $this->memcache = new Memcache();
+
+        $this->connectionIdentifier = $options['host'] . ':' . $options['port'];
+        if ( !isset( self::$connections[$this->connectionIdentifier] ) )
+        {
+            self::$connections[$this->connectionIdentifier]     = new Memcache();
+            // Currently 0 backends use the connection
+            self::$connectionCounter[$this->connectionIdentifier] = 0;
+        }
+
+        $this->memcache = self::$connections[$this->connectionIdentifier];
+        // Now 1 backend uses it
+        self::$connectionCounter[$this->connectionIdentifier]++;
         if ( $this->options->persistent === true )
         {
             if ( !@$this->memcache->pconnect( $this->options->host, $this->options->port, $this->options->ttl ) )
@@ -91,7 +128,12 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
      */
     public function __destruct()
     {
-        $this->memcache->close();
+        self::$connectionCounter[$this->connectionIdentifier]--;
+        // Save to ignore persistent connections, since close() does not affect them
+        if ( self::$connectionCounter[$this->connectionIdentifier] === 0 )
+        {
+            $this->memcache->close();
+        }
     }
 
     /**
