@@ -48,6 +48,35 @@ class ezcDatabaseSchemaMySqlTest extends ezcDatabaseSchemaGenericTest
 
     }
 
+    // bug #12538
+    public function testUnsupportedMySQLDbField()
+    {
+$sql = <<<ENDL
+CREATE TABLE `testexternal_musiclists` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `external_id` varchar(256) NOT NULL,
+  `url` varchar(256) default NULL,
+  `title` varchar(256) NOT NULL,
+  `description` text,
+  `type` enum('iMix','iTunes') NOT NULL default 'iMix',
+  `last_updated` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `external_id` (`external_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='';
+ENDL;
+        $this->db->query( $sql );
+
+        try
+        {
+            $schema = ezcDbSchema::createFromDb( $this->db );
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcDbSchemaUnsupportedTypeException $e )
+        {
+            self::assertEquals( "The field type 'enum' is not supported with the 'MySQL' handler.", $e->getMessage() );
+        }
+    }
+
     
     public static function suite()
     {

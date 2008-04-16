@@ -257,6 +257,10 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             }
         }
 
+        if ( !isset( $this->typeMap[$fieldDefinition->type] ) )
+        {
+            throw new ezcDbSchemaUnsupportedTypeException( 'Oracle', $fieldDefinition->type );
+        }
         $type = $this->typeMap[$fieldDefinition->type];
 
         return "$type$typeAddition";

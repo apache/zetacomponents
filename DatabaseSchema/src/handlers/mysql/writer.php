@@ -128,6 +128,10 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
             $typeAddition = "(255)";
         }
 
+        if ( !isset( $this->typeMap[$fieldDefinition->type] ) )
+        {
+            throw new ezcDbSchemaUnsupportedTypeException( 'MySQL', $fieldDefinition->type );
+        }
         $type = $this->typeMap[$fieldDefinition->type];
 
         return "$type$typeAddition";

@@ -19,6 +19,7 @@ return array(
     'ezcDbSchemaInvalidWriterClassException'     => 'DatabaseSchema/exceptions/invalid_writer_class.php',
     'ezcDbSchemaSqliteDropFieldException'        => 'DatabaseSchema/exceptions/sqlite_drop_field_exception.php',
     'ezcDbSchemaUnknownFormatException'          => 'DatabaseSchema/exceptions/unknown_format.php',
+    'ezcDbSchemaUnsupportedTypeException'        => 'DatabaseSchema/exceptions/unsupported_type.php',
     'ezcDbSchemaDiffWriter'                      => 'DatabaseSchema/interfaces/schema_diff_writer.php',
     'ezcDbSchemaWriter'                          => 'DatabaseSchema/interfaces/schema_writer.php',
     'ezcDbSchemaDbWriter'                        => 'DatabaseSchema/interfaces/db_writer.php',

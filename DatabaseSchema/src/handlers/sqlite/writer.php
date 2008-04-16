@@ -403,6 +403,10 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter
             $typeAddition = "(255)";
         }
 
+        if ( !isset( $this->typeMap[$fieldDefinition->type] ) )
+        {
+            throw new ezcDbSchemaUnsupportedTypeException( 'SQLite', $fieldDefinition->type );
+        }
         $type = $this->typeMap[$fieldDefinition->type];
 
         return "$type$typeAddition";

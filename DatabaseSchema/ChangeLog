@@ -6,6 +6,8 @@
 - Implemented issue #11562: Schema validator for duplicate index names.
 - Implemented issue #12694: replace reflection test for class type with spl
   function.
+- Fixed bug #12538: No warning is thrown when an unsupported type is found
+  while reading from a database, or writing to a database.
 
 
 1.3.1 - Monday 14 January 2008

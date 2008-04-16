@@ -202,6 +202,10 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaDbReader
         }
         else 
         {
+            if ( !isset( self::$typeMap[$typeString] ) )
+            {
+                throw new ezcDbSchemaUnsupportedTypeException( 'Oracle', $typeString );
+            }
             $genericType = self::$typeMap[$typeString];
         }
 

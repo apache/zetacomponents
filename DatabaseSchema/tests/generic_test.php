@@ -388,5 +388,29 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
         $newSchema = ezcDbSchema::createFromDb( $this->db );
         self::assertEquals( $schema, $newSchema );
     }
+
+    // bug #12538: Bad DDL Output from schema comparator
+    public function testWriteWithUnsupportedType()
+    {
+        $tables = array(
+            'prefix_bugdb_comments' => new ezcDbSchemaTable(
+                array (
+                    'email' => new ezcDbSchemaField( 'slartibartfast', 32 ),
+                ),
+                array ()
+            ),
+        );
+        $schema = new ezcDbSchema( $tables );
+
+        try
+        {
+            $schema->writeToDb( $this->db );
+            self::fail( "Expected exception is not thrown." );
+        }
+        catch ( ezcDbSchemaUnsupportedTypeException $e )
+        {
+            self::assertRegexp( "@The field type 'slartibartfast' is not supported with the '(.*)' handler.@", $e->getMessage() );
+        }
+    }
 }
 ?>
