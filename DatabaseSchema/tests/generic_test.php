@@ -16,6 +16,10 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
 {
     public function tearDown()
     {
+        $optionsWithoutPrefix = new ezcDbSchemaOptions;
+        $optionsWithoutPrefix->tableNamePrefix = '';
+        ezcDbSchema::setOptions( $optionsWithoutPrefix );
+
         $this->removeTempDir();
     }
 
