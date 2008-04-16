@@ -17,7 +17,7 @@
  */
 interface ezcSearchQuery
 {
-    public function __construct( $handler, $definition );
+    public function __construct( ezcSearchHandler $handler, ezcSearchDocumentDefinition $definition );
 
     /**
      * Resets the query object for reuse.
