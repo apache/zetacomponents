@@ -42,7 +42,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
      *
      * @var int
      */
-    public $limit;
+    public $limit = 10;
 
     /**
      * Holds the number of the first element to return in the results.
@@ -98,7 +98,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
         $this->resultFields = array();
         $this->highlightFields = array();
         $this->whereClauses = array();
-        $this->limit = 0;
+        $this->limit = 10;
         $this->offset = 0;
         $this->facets = array();
     }
