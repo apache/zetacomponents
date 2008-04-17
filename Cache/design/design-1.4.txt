@@ -294,7 +294,7 @@ The restore() method will work as follows: ::
     $metaStorage->lock();
     $metaData = $metaStorage->restoreMetaData();
     $res = false;
-    foreach ( $storageStack as $storage )
+    foreach ( $storageStack as $level => $storage )
     {
         $res = $replacementStrategy->restore(
             $storage,
@@ -306,12 +306,37 @@ The restore() method will work as follows: ::
         );
         if ( $res !== false )
         {
+            if ( $options->bubbleUpOnRestore === true )
+            {
+                // Store retored item in higher level storages
+                foreach ( $storageStack as $storeLevel => $storage )
+                {
+                    if ( $storeLevel === $level )
+                    {
+                        break;
+                    }
+                    $replacementStrategy->store(
+                        $storage,
+                        $storageId,
+                        $metaData,
+                        $itemId,
+                        $res,
+                        $itemAttributes
+                    );
+                }
+            }
             break;
         }
     }
     $metaStorage->storeMetaData( $metaData );
     $metaStorage->unlock();
     return $res;
+
+.. Warning::
+   If the $bubbleUpOnRestore option is set to true, the item will be stored on
+   higher levels only with those attributes, that have been used for the
+   restoring, since there is no possibility to request the stored attributes
+   for an item from a storage.
 
 The delete() method is as simple, but somewhat inefficient, since it needs to
 delete the desired item from every storage on the stack. ::
@@ -433,6 +458,10 @@ part of this class:
     for storages in the stack and must be an instance of
     ezcCacheStackReplacementStrategy. The default is an instance of
     ezcCacheLruReplacementStrategy.
+'bubbleUpOnRestore'
+    This option controlls, wether items restored from a lower cache level
+    should be bubbled up to all higher ones. The default here is false, to save
+    the overhead of writing to the storages while restoring.
 
 ezcCacheStackConfigurator
 -------------------------
