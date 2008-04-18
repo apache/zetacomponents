@@ -474,6 +474,31 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         self::assertEquals( $expected, $context );
     }
 
+    public function testAddUpdateHtml()
+    {
+        $currentDir = dirname( __FILE__ );
+
+        // cp for test
+        copy( "{$currentDir}/files/translations/html-string.xml", "{$currentDir}/files/translations/html-string.test.xml" );
+
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $context = array();
+        $context[] = new ezcTranslationData( 'this is <b>important</b>', 'Changed', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        $backend->initWriter( 'html-string' );
+        $backend->storeContext( 'context', $context );
+        $backend->deinitWriter();
+
+        $context = $backend->getContext( 'html-string', 'context' );
+        $expected = array(
+            new ezcTranslationData( 'this is <b>important</b>', 'Changed', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 ),
+        );
+        unlink( "{$currentDir}/files/translations/html-string.test.xml" );
+
+        self::assertEquals( $expected, $context );
+    }
+
     public function testTwoContextsSameStringAddTranslation()
     {
         $currentDir = dirname( __FILE__ );
