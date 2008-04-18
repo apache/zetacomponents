@@ -474,6 +474,43 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         self::assertEquals( $expected, $context );
     }
 
+    public function testTwoContextsSameStringAddTranslation()
+    {
+        $currentDir = dirname( __FILE__ );
+
+        // cp for test
+        copy( "{$currentDir}/files/translations/dup-string.xml", "{$currentDir}/files/translations/dup-string.test.xml" );
+
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $context = array();
+        $context[] = new ezcTranslationData( 'Edit', 'Changed', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        $backend->initWriter( 'dup-string' );
+        $backend->storeContext( 'number_two', $context );
+        $backend->deinitWriter();
+
+        $context = $backend->getContext( 'dup-string', 'contentstructuremenu/show_content_structure' );
+        $expected = array(
+            new ezcTranslationData( 'Edit', 'Rediger', false, ezcTranslationData::TRANSLATED ),
+        );
+        self::assertEquals( $expected, $context );
+
+        $context = $backend->getContext( 'dup-string', 'number_two' );
+        $expected = array(
+            new ezcTranslationData( 'Edit', 'Changed', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 ),
+        );
+        self::assertEquals( $expected, $context );
+
+        $context = $backend->getContext( 'dup-string', 'design/admin/class/classlist' );
+        $expected = array(
+            new ezcTranslationData( 'Edit', 'Rediger', false, ezcTranslationData::TRANSLATED ),
+        );
+        unlink( "{$currentDir}/files/translations/dup-string.test.xml" );
+
+        self::assertEquals( $expected, $context );
+    }
+
     public function testNonInitWriter1()
     {
         $currentDir = dirname( __FILE__ );

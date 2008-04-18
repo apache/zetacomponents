@@ -1,0 +1,16 @@
+<!DOCTYPE TS><TS>
+<context>
+    <name>contentstructuremenu/show_content_structure</name>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/class/classlist</name>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+</context>
+</TS>
