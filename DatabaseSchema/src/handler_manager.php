@@ -187,10 +187,7 @@ class ezcDbSchemaHandlerManager
             throw new ezcDbSchemaInvalidReaderClassException( $readerClass );
         }
 
-        // Check if the passed classname actually implements the interface. We
-        // have to do that with reflection here unfortunately
-        $interfaceClass = new ReflectionClass( 'ezcDbSchemaReader' );
-        $handlerClass = new ReflectionClass( $readerClass );
+        // Check if the passed classname actually implements the interface.
         if ( !in_array( 'ezcDbSchemaReader', class_implements( $readerClass ) ) )
         {
             throw new ezcDbSchemaInvalidReaderClassException( $readerClass );
@@ -215,11 +212,8 @@ class ezcDbSchemaHandlerManager
             throw new ezcDbSchemaInvalidWriterClassException( $writerClass );
         }
 
-        // Check if the passed classname actually implements the interface. We
-        // have to do that with reflection here unfortunately
-        $interfaceClass = new ReflectionClass( 'ezcDbSchemaWriter' );
-        $handlerClass = new ReflectionClass( $writerClass );
-        if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+        // Check if the passed classname actually implements the interface.
+        if ( !in_array( 'ezcDbSchemaWriter', class_implements( $writerClass ) ) )
         {
             throw new ezcDbSchemaInvalidWriterClassException( $writerClass );
         }
@@ -243,11 +237,8 @@ class ezcDbSchemaHandlerManager
             throw new ezcDbSchemaInvalidDiffReaderClassException( $readerClass );
         }
 
-        // Check if the passed classname actually implements the interface. We
-        // have to do that with reflection here unfortunately
-        $interfaceClass = new ReflectionClass( 'ezcDbSchemaDiffReader' );
-        $handlerClass = new ReflectionClass( $readerClass );
-        if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+        // Check if the passed classname actually implements the interface.
+        if ( !in_array( 'ezcDbSchemaDiffReader', class_implements( $readerClass ) ) )
         {
             throw new ezcDbSchemaInvalidDiffReaderClassException( $readerClass );
         }
@@ -271,11 +262,8 @@ class ezcDbSchemaHandlerManager
             throw new ezcDbSchemaInvalidDiffWriterClassException( $writerClass );
         }
 
-        // Check if the passed classname actually implements the interface. We
-        // have to do that with reflection here unfortunately
-        $interfaceClass = new ReflectionClass( 'ezcDbSchemaDiffWriter' );
-        $handlerClass = new ReflectionClass( $writerClass );
-        if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+        // Check if the passed classname actually implements the interface.
+        if ( !in_array( 'ezcDbSchemaDiffWriter', class_implements( $writerClass ) ) )
         {
             throw new ezcDbSchemaInvalidDiffWriterClassException( $writerClass );
         }

@@ -4,7 +4,7 @@
 - Implemented issue #10069: DatabaseSchema only for particular tables.
 - Implemented issue #10364: Added support for table name prefixes.
 - Implemented issue #11562: Schema validator for duplicate index names.
-- Implemented issue #12694: replace reflection test for class type with spl
+- Implemented issue #12694: Replace reflection test for class type with SPL
   function.
 - Fixed bug #12538: No warning is thrown when an unsupported type is found
   while reading from a database, or writing to a database.

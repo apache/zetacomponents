@@ -79,11 +79,8 @@ class ezcDbSchemaOptions extends ezcBaseOptions
                 }
 
                 // Check if the passed classname actually implements the
-                // correct parent class. We have to do that with reflection
-                // here unfortunately
-                $parentClass = new ReflectionClass( $parentClassMap[$propertyName] );
-                $handlerClass = new ReflectionClass( $propertyValue );
-                if ( $parentClassMap[$propertyName] !== $propertyValue && !$handlerClass->isSubclassOf( $parentClass ) )
+                // correct parent class.
+                if ( $parentClassMap[$propertyName] !== $propertyValue && !in_array( $parentClassMap[$propertyName], class_parents( $propertyValue ) ) )
                 {
                     throw new ezcBaseInvalidParentClassException( $parentClassMap[$propertyName], $propertyValue );
                 }
