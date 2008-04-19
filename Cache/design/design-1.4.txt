@@ -234,7 +234,7 @@ searching for items. ::
 
         public function pushStorage( ezcCacheStorageConfiguration $storageConf );
         public function popStorage();
-        public function getStackedCaches();
+        public function getStackedStorages();
 
         public function reset();
     }
@@ -274,8 +274,7 @@ The store() method will work as follows: ::
     foreach ( $storageStack as $storage ) 
     {
         $replacementStrategy->store(
-            $storage,
-            $storageId,
+            $storageConfiguration,
             $metaData,
             $itemId,
             $itemData,
