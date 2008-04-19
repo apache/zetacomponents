@@ -260,9 +260,10 @@ be able to store meta data about a cache storage from within
 ezcCacheStorageReplacementStrategy.
 
 A storage can be removed from the top using the popStorage() method, which also
-returns the removed storage. The getStackedCaches() method returns all stacked
-cache storage objects as an array. This method can be used by user applications
-to directly influence the cache storages.
+returns the removed storage and its ID inside the stack (to allow re-adding).
+The getStackedCaches() method returns all stacked cache storage objects as an
+array. This method can be used by user applications to directly influence the
+cache storages.
 
 The cache stack will implement the "propergate on store" strategy. This means
 that a cache item will be stored on all levels of the stack at once, as it is
