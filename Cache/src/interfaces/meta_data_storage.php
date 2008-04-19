@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcCacheMetaDataStorage interface.
+ * File containing the ezcCacheStackMetaDataStorage interface.
  *
  * @package Cache
  * @version //autogentag//

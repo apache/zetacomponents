@@ -29,6 +29,7 @@ return array(
     'ezcCacheMemcacheBackend'               => 'Cache/backends/memcache/memcache_backend.php',
     'ezcCacheMemoryVarStruct'               => 'Cache/structs/memory_var.php',
     'ezcCacheStackConfigurator'             => 'Cache/interfaces/stack_configurator.php',
+    'ezcCacheStackMetaData'                 => 'Cache/structs/meta_data.php',
     'ezcCacheStackMetaDataStorage'          => 'Cache/interfaces/meta_data_storage.php',
     'ezcCacheStackReplacementStrategy'      => 'Cache/interfaces/replacement_strategy.php',
     'ezcCacheStackableStorage'              => 'Cache/interfaces/stackable_storage.php',
