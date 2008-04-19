@@ -401,14 +401,14 @@ The reset() method will be called by the ezcCacheStack instance, if
 ezcCacheStack->reset() is called. The effect of this method must be, that all
 content of the storage is cleaned out.
 
-ezcCacheMetaDataStorage
------------------------
+ezcCacheStackMetaDataStorage
+----------------------------
 
 This interface defines the methods to be implemented by a meta data storage,
 that is used to store the data utilized by an ezcCacheStackReplacementStrategy. The
 following methods need to be implemented: ::
 
-    interface gStorage
+    interface ezcCacheStackMetaDataStorage
     {
         ezcCacheStackMetaData restoreMetaData();
         void storeMetaData( ezcCacheStackMetaData $metaData );
@@ -530,6 +530,7 @@ The interface will define the following methods: ::
     {
         public static void store(
             $storage, $storageId, $metaData,
+            $itemLimit, $freeRate,
             $itemId, $itemData, $itemAttributes = array()
         );
         public static void restore(
