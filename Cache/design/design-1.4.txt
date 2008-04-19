@@ -232,7 +232,7 @@ searching for items. ::
         public function countDataItems( $id, $attributes );
         public function getRemainingLifetime( $id, $attributes );
 
-        public function pushStorage( $id, ezcCacheStorageConfiguration $storageConf );
+        public function pushStorage( ezcCacheStorageConfiguration $storageConf );
         public function popStorage();
         public function getStackedCaches();
 
@@ -254,14 +254,9 @@ won't implement this interface itself.
 
 Internally, an object of this class is composed from several other objects. The
 stack is created by using the pushStorage() method to add a new storage to the
-top of the stack. The given $id parameter must be a string or integer which
-identifies the given storage uniquely in the stack. This mechanism is needed to
-be able to store meta data about a cache storage from within
-ezcCacheStorageReplacementStrategy.
-
-A storage can be removed from the top using the popStorage() method, which also
-returns the removed storage and its ID inside the stack (to allow re-adding).
-The getStackedCaches() method returns all stacked cache storage objects as an
+top of the stack. A storage can be removed from the top using the popStorage()
+method, which also returns the removed storage configuration.  The
+getStackedCaches() method returns all stacked cache storage objects as an
 array. This method can be used by user applications to directly influence the
 cache storages.
 
@@ -298,8 +293,7 @@ The restore() method will work as follows: ::
     foreach ( $storageStack as $level => $storage )
     {
         $res = $replacementStrategy->restore(
-            $storage,
-            $storageId,
+            $storageConfiguration,
             $metaData,
             $itemId,
             $itemAttributes,
@@ -317,8 +311,7 @@ The restore() method will work as follows: ::
                         break;
                     }
                     $replacementStrategy->store(
-                        $storage,
-                        $storageId,
+                        $storageConfiguration,
                         $metaData,
                         $itemId,
                         $res,
@@ -348,8 +341,7 @@ delete the desired item from every storage on the stack. ::
     foreach ( $storageStack as $storage )
     {
         $replacementStrategy->delete(
-            $storage,
-            $storageId,
+            $storageConfiguration,
             $metaData,
             $itemId,
             $itemAttributes
@@ -495,6 +487,10 @@ Instances of this class are used in the ezcCacheStack to configure the behavior
 of the storage inside the stack. Beside the storage itself additional
 properties are needed. The following properties are needed.
 
+'id'
+    Unique ID of the storage in the stack. This should be unique over all
+    stacks and storages, if possible. If used properly, the $location parameter
+    of the storage can be used here.
 'storage'
     The instance of ezcCacheStackableStorage that is configured with this
     object.
@@ -518,28 +514,30 @@ ezcCacheStackReplacementStrategy
 This interface defines methods that are used by ezcCacheStack to realize the
 actual storing of cache items. Inside theses methods, the replacement of cache
 items inside the actual storage needs to be handled, as well as the update of
-g.
+ezcCacheStackMetaData.
 
 Since all state information for a replacement strategy is stored in the
 ezcCacheStack instance, there is no need to create an instance of it.
 Therefore, all methods are declared static and retrieve the necessary state
-information in their signature.
+information in their signature. The $storageConfiguration parameter is the
+ezcCacheStorageConfiguration of the storage to utilize. Beside the storage
+itself, it also contains the configuration and especially the ID of the
+storage.
 
 The interface will define the following methods: ::
 
     interface ezcCacheStackReplacementStrategy
     {
         public static void store(
-            $storage, $storageId, $metaData,
-            $itemLimit, $freeRate,
+            $storageConfiguration, $metaData,
             $itemId, $itemData, $itemAttributes = array()
         );
         public static void restore(
-            $storage, $storageId, $metaData,
+            $storageConfiguration, $metaData,
             $id, $attributes, $search
         );
         public static void delete(
-            $storage, $storageId, $metaData,
+            $storageConfiguration, $metaData,
             $id, $attributes, $search
         );
     }
