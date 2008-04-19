@@ -417,7 +417,7 @@ following methods need to be implemented: ::
         void unlock();
     }
 
-The store-/restoreMetaInfo() methods are used by the stack to obtain and save
+The store-/restoreMetaData() methods are used by the stack to obtain and save
 the meta data. The stack submits this data for analysis and manipulation to the
 instance of ezcCacheStackReplacementStrategy and takes care for storing and
 restoring it.
