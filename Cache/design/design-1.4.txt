@@ -410,8 +410,8 @@ following methods need to be implemented: ::
 
     interface gStorage
     {
-        g restoreMetaData();
-        void storeMetaData( g $metaData );
+        ezcCacheStackMetaData restoreMetaData();
+        void storeMetaData( ezcCacheStackMetaData $metaData );
 
         void lock();
         void unlock();
