@@ -139,7 +139,13 @@ class ezcCacheStorageFileTest extends ezcTestCase
             $cache->store( $id, $dataArr['content'], $dataArr['attributes'] );
         }
 
-        $cache->delete( null, array( "section" => "articles" ) );
+        $deleted = $cache->delete( null, array( "section" => "articles" ), true );
+
+        $this->assertEquals(
+            array_keys( $data ),
+            $deleted,
+            'Deleted keys not returned correctly from delete().'
+        );
 
         $this->removeTempDir();
     }

@@ -32,7 +32,7 @@
  * @package Cache
  * @version //autogentag//
  */
-abstract class ezcCacheStorageFile extends ezcCacheStorage
+abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheStackableStorage
 {
     /**
      * Creates a new cache storage in the given location.
@@ -308,16 +308,19 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
     {
         $filename = $this->properties['location']
                   . $this->generateIdentifier( $id, $attributes );
-        $delFiles = array();
+
+        $filesToDelete = array();
         if ( file_exists( $filename ) )
         {
-            $delFiles[] = $filename;
+            $filesToDelete[] = $filename;
         }
         else if ( $search === true )
         {
-            $delFiles = $this->search( $id, $attributes );
+            $filesToDelete = $this->search( $id, $attributes );
         }
-        foreach ( $delFiles as $filename )
+
+        $deletedIds = array();
+        foreach ( $filesToDelete as $filename )
         {
             if ( unlink( $filename ) === false )
             {
@@ -327,7 +330,10 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
                     'Could not unlink cache file.'
                 );
             }
+            $deleted      = $this->extractIdentifier( $filename );
+            $deletedIds[] = $deleted['id'];
         }
+        return $deletedIds;
     }
 
     /**
@@ -368,6 +374,16 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
             );
         }
         return 0;
+    }
+
+    public function purge( $limit = null )
+    {
+        // @TODO: Implement.
+    }
+
+    public function reset()
+    {
+        // @TODO: Implement.
     }
 
     /**
@@ -515,6 +531,42 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
         return $filename . $this->properties['options']['extension'];
     }
 
+    /**
+     * Extracts ID, attributes and the file extension from a filename.
+     * 
+     * @param string $filename 
+     * @return array('id'=>string,'attributes'=>string,'ext'=>string)
+     */
+    private function extractIdentifier( $filename )
+    {
+        // Regex to split up the file name into id, attributes and extension
+        $regex = '(
+            (?:' . preg_quote( $this->properties['location'] ) . ')
+            (?P<id>.*)
+            (?P<attr>(?:-[^-=]+=[^-]+)*)
+            -? # This is added if no attributes are supplied. For whatever reason...
+            (?P<ext>' . preg_quote( $this->options->extension ) . ')
+        )Ux';
+
+        if ( preg_match( $regex, $filename, $matches ) !== 1 )
+        {
+            // @TODO: Should this be an exception?
+            return array(
+                'id'         => '',
+                'attributes' => '',
+                'extension'  => $this->options->extension,
+            );
+        }
+        else
+        {
+            // Successfully split
+            return array(
+                'id'         => $matches['id'],
+                'attributes' => $matches['attr'],
+                'extension'  => $matches['ext'],
+            );
+        }
+    }
 
     /**
      * Set new options.
