@@ -84,17 +84,17 @@ class ezcCacheStackOptions extends ezcBaseOptions
                      || !in_array( 'ezcCacheStackConfigurator', class_implements( $propertyValue ) ) ) )
                 {
                     throw new ezcBaseValueException(
-                        'configurator',
+                        $propertyName,
                         $propertyValue,
-                        'class implementing ezcCacheStackConfigurator or null'
+                        'existsing class implementing ezcCacheStackConfigurator or null'
                     );
                 }
                 break;
             case 'metaStorage':
-                if ( !$propertyValue !== null && !( $propertyValue instanceof ezcCacheMetaDataStorage ) )
+                if ( $propertyValue !== null && !( $propertyValue instanceof ezcCacheMetaDataStorage ) )
                 {
                     throw new ezcBaseValueException(
-                        'configurator',
+                        $propertyName,
                         $propertyValue,
                         'ezcCacheMetaDataStorage or null'
                     );
@@ -104,9 +104,9 @@ class ezcCacheStackOptions extends ezcBaseOptions
                 if ( !class_exists( $propertyValue ) || !in_array( 'ezcCacheStackReplacementStrategy', class_implements( $propertyValue ) ) )
                 {
                     throw new ezcBaseValueException(
-                        'configurator',
+                        $propertyName,
                         $propertyValue,
-                        'class implementing ezcCacheStackReplacementStrategy'
+                        'existing class implementing ezcCacheStackReplacementStrategy'
                     );
                 }
                 break;
@@ -114,7 +114,7 @@ class ezcCacheStackOptions extends ezcBaseOptions
                 if ( !is_bool( $propertyValue ) )
                 {
                     throw new ezcBaseValueException(
-                        'bubbleUpOnReplace',
+                        $propertyName,
                         $propertyValue,
                         'bool'
                     );
