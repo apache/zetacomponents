@@ -23,6 +23,10 @@ require_once 'storage_file_test.php';
  */
 require_once 'storage_options_test.php';
 /**
+ * Require stack options test suite. 
+ */
+require_once 'stack_options_test.php';
+/**
  * Require file storage options test suite. 
  */
 require_once 'storage_file_options_test.php';
@@ -73,6 +77,7 @@ class ezcCacheSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcCacheStorageMemcachePlainTest::suite() );
         $this->addTest( ezcCacheStorageOptionsTest::suite() );
         $this->addTest( ezcCacheStorageFileOptionsTest::suite() );
+        $this->addTest( ezcCacheStackOptionsTest::suite() );
         $this->addTest( ezcCacheManagerTest::suite() );
     }
 

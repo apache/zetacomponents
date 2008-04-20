@@ -46,7 +46,7 @@ class ezcCacheStack extends ezcCacheStorage
      * @param string $location 
      * @param ezcCacheStackOptions $options 
      */
-    public function __construct( $location, $options );
+    public function __construct( $location, ezcCacheStackOptions $options );
 
     /**
      * Stores data in the cache stack.
