@@ -13,14 +13,16 @@
  * Hierarchical caching class using multiple storages.
  *
  * An instance of this class can be used to achieve so called "hierarchical
- * caching".
+ * caching". A cache stack consists of an arbitrary number of cache storages,
+ * being sorted from top to bottom. Usually this order reflects the speed of
+ * access for the caches: The fastest cache is at the top, the slowest at the
+ * bottom.
  *
- * ... to be continued...
+ * @todo More documentation, examples,...
  * 
  * @mainclass
  * @package Cache
  * @version //autogentag//
- */
  */
 class ezcCacheStack extends ezcCacheStorage
 {
@@ -213,6 +215,5 @@ class ezcCacheStack extends ezcCacheStorage
      */
     public function reset();
 }
-
 
 ?>
