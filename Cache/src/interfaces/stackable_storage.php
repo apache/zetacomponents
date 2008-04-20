@@ -48,7 +48,10 @@ interface ezcCacheStackableStorage
      *
      * @return array(string)
      */
-    public function delete( $id = null, $attributes = array(), $search = false );
+    // @TODO: Does not work since this method is already declared abstract in
+    // ezcCacheStorage. "Fatal error: Can't inherit abstract function..." in
+    // 5.2.6RC3-dev
+    // public function delete( $id = null, $attributes = array(), $search = false );
 
     /**
      * Reset the complete storage.
