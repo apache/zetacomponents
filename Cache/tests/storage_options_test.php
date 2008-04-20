@@ -121,49 +121,6 @@ class ezcCacheStorageOptionsTest extends ezcCacheTest
         $this->assertFalse( isset( $opt->foo ) );
     }
 
-    public function testStorageProperties()
-    {
-        if ( !ezcBaseFeatures::hasExtensionSupport( 'memcache' ) )
-        {
-            $this->markTestSkipped( "PHP must have Memcache support." );
-        }
-
-        $storage = new ezcCacheStorageMemcacheWrapper( '.', array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 ) );
-
-        $this->invalidPropertyTest( $storage, 'options', 'wrong value', 'instance of ezcCacheStorageOptions' );
-        $this->missingPropertyTest( $storage, 'no_such_property' );
-        $this->issetPropertyTest( $storage, 'options', true );
-        $this->issetPropertyTest( $storage, 'no_such_property', false );
-    }
-
-    public function testStorageOptions()
-    {
-        if ( !ezcBaseFeatures::hasExtensionSupport( 'memcache' ) )
-        {
-            $this->markTestSkipped( "PHP must have Memcache support." );
-        }
-
-        $options = new ezcCacheStorageOptions();
-        $storage = new ezcCacheStorageMemcacheWrapper( '.', array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 ) );
-
-        $storage->setOptions( $options );
-        $this->assertEquals( $options, $storage->getOptions() );
-
-        $storage->options = $options;
-        $this->assertEquals( $options, $storage->getOptions() );
-
-        $options = new stdClass();
-        try
-        {
-            $storage->setOptions( $options );
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'options' is invalid. Allowed values are: instance of ezcCacheStorageOptions.", $e->getMessage() );
-        }
-    }
-
     protected function genericSetFailureTest( $obj, $property, $value )
     {
         try
