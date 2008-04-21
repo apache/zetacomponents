@@ -46,7 +46,10 @@ class ezcCacheStack extends ezcCacheStorage
      * @param string $location 
      * @param ezcCacheStackOptions $options 
      */
-    public function __construct( $location, ezcCacheStackOptions $options );
+    public function __construct( $location, ezcCacheStackOptions $options )
+    {
+        // @TODO: Implement.
+    }
 
     /**
      * Stores data in the cache stack.
@@ -68,7 +71,10 @@ class ezcCacheStack extends ezcCacheStorage
      * @param mixed $data 
      * @param array $attributes 
      */
-    public function store( $id, $data, $attributes = array() );
+    public function store( $id, $data, $attributes = array() )
+    {
+        // @TODO: Implement.
+    }
 
     /**
      * Restores an item from the stack.
@@ -88,7 +94,10 @@ class ezcCacheStack extends ezcCacheStorage
      * @param bool $search 
      * @return mixed The restored data or false on failure.
      */
-    public function restore( $id, $attributes = array(), $search = false );
+    public function restore( $id, $attributes = array(), $search = false )
+    {
+        // @TODO: Implement.
+    }
 
     /**
      * Deletes an item from the stack.
@@ -115,7 +124,10 @@ class ezcCacheStack extends ezcCacheStorage
      * @param bool $search 
      * @return array(string)
      */
-    public function delete( $id = null, $attributes = array(), $search );
+    public function delete( $id = null, $attributes = array(), $search = false )
+    {
+        // @TODO: Implement.
+    }
 
     /**
      * Counts how many items are stored, fulfilling certain criteria.
@@ -128,7 +140,10 @@ class ezcCacheStack extends ezcCacheStorage
      * @param array $attributes 
      * @return int
      */
-    public function countDataItems( $id = null, $attributes = array() );
+    public function countDataItems( $id = null, $attributes = array() )
+    {
+        // @TODO: Implement.
+    }
 
     /**
      * Returns the remaining lifetime for the given item ID.
@@ -145,7 +160,10 @@ class ezcCacheStack extends ezcCacheStorage
      * @param array $attributes 
      * @return int
      */
-    public function getRemainingLifetime( $id, $attributes );
+    public function getRemainingLifetime( $id, $attributes = array() )
+    {
+        // @TODO: Implement.
+    }
 
     /**
      * Add a storage to the top of the stack.
@@ -172,7 +190,10 @@ class ezcCacheStack extends ezcCacheStorage
      * @param ezcCacheStorageConfiguration $storageConf 
      * @return void
      */
-    public function pushStorage( ezcCacheStorageConfiguration $storageConf );
+    public function pushStorage( ezcCacheStorageConfiguration $storageConf )
+    {
+        // @TODO: Implement.
+    }
 
     /**
      * Removes a storage from the top of the stack.
@@ -185,7 +206,10 @@ class ezcCacheStack extends ezcCacheStorage
      *
      * @return ezcCacheStorageConfiguration
      */
-    public function popStorage();
+    public function popStorage()
+    {
+        // @TODO: Implement.
+    }
 
     /**
      * Returns all stacked storages.
@@ -199,7 +223,10 @@ class ezcCacheStack extends ezcCacheStorage
      * 
      * @return array(ezcCacheStackableStorage)
      */
-    public function getStackedStorages();
+    public function getStackedStorages()
+    {
+        // @TODO: Implement.
+    }
 
     /**
      * Resets the complete stack.
@@ -213,7 +240,15 @@ class ezcCacheStack extends ezcCacheStorage
      * 
      * @return void
      */
-    public function reset();
+    public function reset()
+    {
+        // @TODO: Implement.
+    }
+
+    protected function validateLocation()
+    {
+        // @TODO: Implement.
+    }
 }
 
 ?>

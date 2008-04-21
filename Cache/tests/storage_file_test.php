@@ -281,23 +281,237 @@ class ezcCacheStorageFileTest extends ezcTestCase
         // Test with 10 seconds lifetime
         $temp = $this->createTempDir( __CLASS__ );
         $storage = new ezcCacheStorageFilePlain( $temp, array( 'ttl' => 10 ) );
-        foreach ( $this->data as $id => $dataArr ) 
+        
+        $dataArr = array(
+            '1',
+            '2',
+            '3',
+        );
+        
+        foreach ( $dataArr as $id => $data ) 
         {
             $attributes = array(
                 'name'      => 'test',
                 'title'     => 'Test item',
-                'date'      => time().$id,
+                'date'      => time() . $id,
             );
             
             $filename = $storage->getLocation() . $storage->generateIdentifier( $id, $attributes );
             
-            $storage->store( $id, $dataArr, $attributes );
+            $storage->store( $id, $data, $attributes );
+
             // Faking the m/a-time to be 5 seconds in the past
             touch( $filename, ( time() - 5 ), ( time() - 5 ) );
             
-            $data = $storage->restore( $id, $attributes );
-            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
+            $restoredData = $storage->restore( $id, $attributes );
+
+            $this->assertEquals(
+                $data,
+                $restoredData,
+                "Restore data broken for ID <{$id}>."
+            );
         }
+        $this->removeTempDir();
+    }
+
+    public function testPurgeSimpleNoLimit()
+    {
+        // Test with 30 seconds lifetime
+        $temp = $this->createTempDir( __CLASS__ );
+        $storage = new ezcCacheStorageFilePlain( $temp, array( 'ttl' => 30 ) );
+
+        $dataArr = array( 
+            '0',
+            '1',
+            '2',
+        );
+        
+        foreach ( $dataArr as $id => $data ) 
+        {
+            $filename = $storage->getLocation() . $storage->generateIdentifier( $id );
+            
+            $storage->store( $id, $data );
+
+            // Faking the m/a-time to be 60 seconds in the past
+            touch( $filename, ( time() - 60 ), ( time() - 60 ) );
+        }
+
+        // Add items which will not be purged
+        $storage->store( 3, '3' );
+        $storage->store( 4, '4' );
+
+        $purged = $storage->purge();
+
+        $this->assertEquals(
+            array( '0', '1', '2' ),
+            $purged,
+            'Purged incorrect IDs'
+        );
+
+        $this->assertEquals(
+            2,
+            $storage->countDataItems()
+        );
+
+        $this->removeTempDir();
+    }
+
+    public function testPurgeComplexNoLimit()
+    {
+        // Test with 30 seconds lifetime
+        $temp = $this->createTempDir( __CLASS__ );
+        $storage = new ezcCacheStorageFilePlain( $temp, array( 'ttl' => 30 ) );
+
+        $outdatedData = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+        foreach ( $outdatedData as $id ) 
+        {
+            $filename = $storage->getLocation() . $storage->generateIdentifier( $id );
+            
+            $storage->store( $id, $id );
+
+            // Faking the m/a-time to be 60 seconds in the past
+            touch( $filename, ( time() - 60 ), ( time() - 60 ) );
+        }
+
+        $data = array(
+            'otherID',
+            'Some/Dir/otherID',
+            'Some/other/Dir/ID/4',
+            'Some/other/Dir/ID/5',
+            'Some/other/Dir/ID/6',
+        );
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        $this->assertEquals(
+            10,
+            $storage->countDataItems()
+        );
+
+        $purged = $storage->purge();
+
+        $this->assertEquals(
+            $outdatedData,
+            $purged,
+            'Purged incorrect IDs'
+        );
+
+        $this->assertEquals(
+            5,
+            $storage->countDataItems()
+        );
+
+        $this->removeTempDir();
+    }
+
+    public function testPurgeSimpleLimit()
+    {
+        // Test with 30 seconds lifetime
+        $temp = $this->createTempDir( __CLASS__ );
+        $storage = new ezcCacheStorageFilePlain( $temp, array( 'ttl' => 30 ) );
+
+        $dataArr = array( 
+            '0',
+            '1',
+            '2',
+        );
+        
+        foreach ( $dataArr as $id => $data ) 
+        {
+            $filename = $storage->getLocation() . $storage->generateIdentifier( $id );
+            
+            $storage->store( $id, $data );
+
+            // Faking the m/a-time to be 60 seconds in the past
+            touch( $filename, ( time() - 60 ), ( time() - 60 ) );
+        }
+
+        // Add items which will not be purged
+        $storage->store( 3, '3' );
+        $storage->store( 4, '4' );
+
+        $purged = $storage->purge( 2 );
+
+        $this->assertEquals(
+            array( '0', '1' ),
+            $purged,
+            'Purged incorrect IDs'
+        );
+
+        $this->assertEquals(
+            3,
+            $storage->countDataItems()
+        );
+
+        $this->removeTempDir();
+    }
+
+    public function testPurgeComplexLimit()
+    {
+        // Test with 30 seconds lifetime
+        $temp = $this->createTempDir( __CLASS__ );
+        $storage = new ezcCacheStorageFilePlain( $temp, array( 'ttl' => 30 ) );
+
+        $outdatedData = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+        foreach ( $outdatedData as $id ) 
+        {
+            $filename = $storage->getLocation() . $storage->generateIdentifier( $id );
+            
+            $storage->store( $id, $id );
+
+            // Faking the m/a-time to be 60 seconds in the past
+            touch( $filename, ( time() - 60 ), ( time() - 60 ) );
+        }
+
+        $data = array(
+            'otherID',
+            'Some/Dir/otherID',
+            'Some/other/Dir/ID/4',
+            'Some/other/Dir/ID/5',
+            'Some/other/Dir/ID/6',
+        );
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        $this->assertEquals(
+            10,
+            $storage->countDataItems()
+        );
+
+        $purged = $storage->purge( 3 );
+
+        $this->assertEquals(
+            array( 
+                'ID',
+                'Some/Dir/ID',
+                'Some/other/Dir/ID/1',
+            ),
+            $purged,
+            'Purged incorrect IDs'
+        );
+
+        $this->assertEquals(
+            7,
+            $storage->countDataItems()
+        );
+
+        $this->removeTempDir();
     }
 
     public static function suite()

@@ -376,9 +376,95 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
         return 0;
     }
 
+    /**
+     * Purges the given number of cache items.
+     *
+     * This method minimally purges the $limit number of outdated cache items
+     * from the storage. If limit is left out, all outdated items are purged.
+     * The purged item IDs are returned.
+     *
+     * @param int $limit 
+     * @return array(string)
+     */
     public function purge( $limit = null )
     {
-        // @TODO: Implement.
+        $purgeCount = 0;
+        return $this->purgeRecursive( $this->properties['location'], $limit, $purgeCount );
+    }
+
+    /**
+     * Recursively purge cache items.
+     *
+     * Recursively purges $dir until $limit is reached. $purgeCount is the
+     * number of already purged items.
+     * 
+     * @param string $dir 
+     * @param int $limit 
+     * @param int $purgeCount 
+     */
+    private function purgeRecursive( $dir, $limit, &$purgeCount )
+    {
+        $purgedIds = array();
+
+        // Deal with files in the directory
+        if ( ( $files = glob( "{$dir}*{$this->properties['options']->extension}" ) ) === false )
+        {
+            throw new ezcBaseFileNotFoundException(
+                $dir,
+                'cache location',
+                'Produced an error while globbing for files.'
+            );
+
+        }
+
+        foreach ( $files as $file )
+        {
+            if ( $this->calcLifetime( $file ) > $this->properties['options']->ttl )
+            {
+                if ( unlink( $file ) === false )
+                {
+                    throw new ezcBaseFilePermissionException(
+                        $file,
+                        ezcBaseFileException::WRITE,
+                        'Could not unlink cache file.'
+                    );
+                }
+                $fileInfo    = $this->extractIdentifier( $file );
+                $purgedIds[] = $fileInfo['id'];
+                ++$purgeCount;
+            }
+            // Stop purging if limit is reached
+            if ( $limit !== null && $purgeCount >= $limit )
+            {
+                return $purgedIds;
+            }
+        }
+
+        // Deal with sub dirs, this function expects them to be marked with a
+        // slash because of the property $location
+        if ( ( $dirs = glob( "$dir*", GLOB_ONLYDIR | GLOB_MARK ) ) === false )
+        {
+            throw new ezcBaseFileNotFoundException(
+                $dir,
+                'cache location',
+                'Produced an error while globbing for directories.'
+            );
+        }
+        foreach ( $dirs as $dir )
+        {
+            $purgedIds = array_merge(
+                $purgedIds,
+                $this->purgeRecursive( $dir, $limit, $purgeCount )
+            );
+            // Stop purging if limit is reached
+            if ( $limit !== null && $purgeCount >= $limit )
+            {
+                return $purgedIds;
+            }
+        }
+        
+        // Finished purging, return IDs.
+        return $purgedIds;
     }
 
     public function reset()
@@ -541,7 +627,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
     {
         // Regex to split up the file name into id, attributes and extension
         $regex = '(
-            (?:' . preg_quote( $this->properties['location'] ) . ')
+            (?:' . preg_quote( $this->properties['location'] ) . ') 
             (?P<id>.*)
             (?P<attr>(?:-[^-=]+=[^-]+)*)
             -? # This is added if no attributes are supplied. For whatever reason...
@@ -637,9 +723,10 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      */
     protected function calcLifetime( $file )
     {
-        if ( !file_exists( $file ) && ( $modTime = filemtime( $file ) ) !== false )
+        if ( file_exists( $file ) && ( $modTime = filemtime( $file ) ) !== false )
         {
-            return ( ( $lifeTime = ( time() - $modTime ) ) > 0
+            return (
+                ( $lifeTime = time() - $modTime ) > 0
                 ? $lifeTime
                 : 0
             );
