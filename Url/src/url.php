@@ -391,6 +391,10 @@ class ezcUrl
      * $param1 = $url->getParam( 'param1' ); // will return array( array( "x" ), array( "y", "z" ) )
      * </code>
      *
+     * Note: in the examples above, if the URL does not contain the string 'param1',
+     * then all the unordered parameters from and including param1 will be null,
+     * so $url->getParam( 'param1' ) will return null (see issue #12825).
+     *
      * @param array(string) $config An array of unordered parameters names, from the URL configuration used in parsing
      * @param int $index The index in the URL path part from where to start the matching of $config
      * @return array(string=>mixed)
@@ -415,7 +419,8 @@ class ezcUrl
         for ( $i = $index; $i < $pathCount; $i++ )
         {
             $param = $this->path[$i];
-            if ( $param{0} == $urlCfg->unorderedDelimiters[0] )
+            if ( strlen( $param ) > 1 &&
+                 $param{0} == $urlCfg->unorderedDelimiters[0] )
             {
                 $param = trim( trim( $param, $urlCfg->unorderedDelimiters[0] ), $urlCfg->unorderedDelimiters[1] );
                 if ( isset( $encounters[$param] ) )

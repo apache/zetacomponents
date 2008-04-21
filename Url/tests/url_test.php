@@ -514,7 +514,7 @@ class ezcUrlTest extends ezcTestCase
         $expected = 'http://www.example.com/mydir/shop/doc/components/view/trunk';
         $this->assertEquals( $expected, $url->buildUrl() );
     }
- 
+
     public function testGetOrderedParameterBasedir()
     {
         $urlCfg = new ezcUrlConfiguration();
@@ -982,6 +982,21 @@ class ezcUrlTest extends ezcTestCase
         $this->assertEquals( array( '(Software)', 'PHP', 'Version', '5.2', 'Extension', 'XDebug', 'Extension', 'openssl' ), $url->getParams() );
         $this->assertEquals( 'PHP', $url->getParam( 'Software' ) );
         $this->assertEquals( 'order', $url->getParam( 'module' ) );
+    }
+
+    /**
+     * Test for bug #12825 (URL parser doesn't like empty elements.)
+     */
+    public function testGetUnorderedParameterMissing()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = 'mydir/';
+        $urlCfg->script = 'index.php';
+        $urlCfg->addUnorderedParameter( 'language' );
+
+        // should have been http://www.example.com/mydir/index.php/(language)/en
+        $url = new ezcUrl( 'http://www.example.com/mydir/index.php//en', $urlCfg );
+        $this->assertEquals( null, $url->getParam( 'language' ) );
     }
 
     public function testIsSet()
