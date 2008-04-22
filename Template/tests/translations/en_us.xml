@@ -10,17 +10,33 @@
         <source>Derick's</source>
         <translation>Dérick's</translation>
     </message>
-	<message>
-		<source>Derick lives at %number %street</source>
-		<translation>Derick leeft op %street %number</translation>
-	</message>
-	<message>
-		<source>Test %1 %2 %3</source>
-		<translation>%3 %2 %1 tseT</translation>
-	</message>
-	<message>
-		<source>Test II: %1 %twee %2</source>
-		<translation>%2 %twee %1 tseT</translation>
-	</message>
+    <message>
+        <source>Derick lives at %number %street</source>
+        <translation>Derick leeft op %street %number</translation>
+    </message>
+    <message>
+        <source>Test %1 %2 %3</source>
+        <translation>%3 %2 %1 tseT</translation>
+    </message>
+    <message>
+        <source>Test II: %1 %twee %2</source>
+        <translation>%2 %twee %1 tseT</translation>
+    </message>
+    <message>
+        <source>Test quotes: 'test'.</source>
+        <translation>TQ: Test quotes: 'test'.</translation>
+    </message>
+    <message>
+        <source>Test quotes: "test".</source>
+        <translation>TQ: Test quotes: "test".</translation>
+    </message>
+    <message>
+        <source>Test quotes: 'test' "test".</source>
+        <translation>TQ: Test quotes: 'test' "test".</translation>
+    </message>
+    <message>
+        <source>Test quotes: "test" 'test'.</source>
+        <translation>TQ: Test quotes: "test" 'test'.</translation>
+    </message>
 </context>
 </TS>
