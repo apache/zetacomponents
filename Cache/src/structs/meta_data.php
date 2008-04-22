@@ -48,7 +48,16 @@ class ezcCacheStackMetaData extends ezcBaseStruct
      */
     public $data = array();
 
-    public function __construct( $id, $data )
+    /**
+     * Creates a new meta data struct.
+     *
+     * Creates a new meta data struct with the given $id and $data.
+     * 
+     * @param string $id 
+     * @param array $data 
+     * @return void
+     */
+    public function __construct( $id, array $data )
     {
         $this->id   = $id;
         $this->data = $data;
