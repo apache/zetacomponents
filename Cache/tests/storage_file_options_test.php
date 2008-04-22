@@ -28,9 +28,11 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
     {
         $fake = new ezcCacheStorageFileOptions(
             array( 
-                "ttl"         => 86400,
-                "extension"   => ".cache",
-                "permissions" => 0644, 
+                'ttl'          => 86400,
+                'extension'    => '.cache',
+                'permissions'  => 0644, 
+                'lockFile'     => '.ezcLock',
+                'metaDataFile' => '.ezcMetaData',
             )
         );
         $this->assertEquals( 
@@ -44,9 +46,11 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
     {
         $opt = new ezcCacheStorageFileOptions();
 
-        $this->assertEquals( $opt["ttl"], 86400 );
-        $this->assertEquals( $opt["extension"], ".cache" );
-        $this->assertEquals( $opt["permissions"], 0644 );
+        $this->assertEquals( $opt['ttl'], 86400 );
+        $this->assertEquals( $opt['extension'], '.cache' );
+        $this->assertEquals( $opt['permissions'], 0644 );
+        $this->assertEquals( $opt['lockFile'], '.ezcLock' );
+        $this->assertEquals( $opt['metaDataFile'], '.ezcMetaData' );
     }
 
     public function testGetAccessSuccess()
@@ -56,6 +60,8 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
         $this->assertEquals( $opt->ttl, 86400 );
         $this->assertEquals( $opt->extension, ".cache" );
         $this->assertEquals( $opt->permissions, 0644 );
+        $this->assertEquals( $opt->lockFile, '.ezcLock' );
+        $this->assertEquals( $opt->metaDataFile, '.ezcMetaData' );
     }
 
     public function testGetAccessFailure()
@@ -77,28 +83,70 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
     {
         $opt = new ezcCacheStorageFileOptions();
 
-        $opt->ttl = false;
-        $opt->ttl = 23;
-        $opt->extension = ".foo";
-        $opt->permissions = 0777;
+        $this->assertSetProperty(
+            $opt,
+            'ttl',
+            array( 0, 23, false )
+        );
 
-        $this->assertEquals( $opt->ttl, 23 );
-        $this->assertEquals( $opt->extension, ".foo" );
-        $this->assertEquals( $opt->permissions, 0777 );
+        $this->assertSetProperty(
+            $opt,
+            'permissions',
+            array( 0, 0777 )
+        );
+
+        $this->assertSetProperty(
+            $opt,
+            'extension',
+            array( '.foo' )
+        );
+
+        $this->assertSetProperty(
+            $opt,
+            'lockFile',
+            array( '.foo' )
+        );
+
+        $this->assertSetProperty(
+            $opt,
+            'metaDataFile',
+            array( '.foo' )
+        );
     }
 
     public function testSetAccessFailure()
     {
         $opt = new ezcCacheStorageFileOptions();
-        
-        $this->genericSetFailureTest( $opt, "ttl", "foo" );
-        $this->genericSetFailureTest( $opt, "ttl", true );
-        $this->genericSetFailureTest( $opt, "extension", 23 );
-        $this->genericSetFailureTest( $opt, "extension", true );
-        $this->genericSetFailureTest( $opt, "permissions", true );
-        $this->genericSetFailureTest( $opt, "permissions", "foo" );
-        $this->genericSetFailureTest( $opt, "permissions", -10 );
-        $this->genericSetFailureTest( $opt, "permissions", 01000 );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'ttl',
+            array( true, 23.42, 'foo', array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'permissions',
+            array( true, 23.42, 'foo', array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'extension',
+            array( true, false, 23.42, array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'lockFile',
+            array( true, false, 23.42, array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'metaDataFile',
+            array( true, false, 23.42, array(), new stdClass() )
+        );
 
         try
         {
@@ -118,6 +166,9 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
         $this->assertTrue( isset( $opt->ttl ) );
         $this->assertTrue( isset( $opt->extension ) );
         $this->assertTrue( isset( $opt->permissions ) );
+        $this->assertTrue( isset( $opt->lockFile ) );
+        $this->assertTrue( isset( $opt->metaDataFile ) );
+
         $this->assertFalse( isset( $opt->foo ) );
     }
 

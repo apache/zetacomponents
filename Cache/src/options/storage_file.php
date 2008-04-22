@@ -13,9 +13,18 @@
  * Option class for the ezcCacheStorageFile class.
  * Instances of this class store the option of ezcCacheStorageFile implementations.
  *
- * @property int    $ttl       The time to live of cache entries.
- * @property string $extension The (file) extension to use for the storage items.
- * @property int    $permissions     Permissions to create a file with (Posix only).
+ * @property int $ttl
+ *           The time to live of cache entries.
+ * @property string $extension
+ *           The (file) extension to use for the storage items.
+ * @property int $permissions
+ *           Permissions to create a file with (Posix only).
+ * @property string $lockFile
+ *           The name of the file used for locking in the lock() method.
+ *           Default is '.ezcLock'.
+ * @property string $metaDataFile
+ *           The name of the file used to store meta data. Default is
+ *           '.ezcMetaData'.
  *
  * @package Cache
  * @version //autogentag//
@@ -43,7 +52,9 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
      */
     public function __construct( $options = array() )
     {
-        $this->properties["permissions"] = 0644;
+        $this->properties['permissions']  = 0644;
+        $this->properties['lockFile']     = '.ezcLock';
+        $this->properties['metaDataFile'] = '.ezcMetaData';
         $this->storageOptions = new ezcCacheStorageOptions();
         parent::__construct( $options );
     }
@@ -64,6 +75,26 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
                 if ( !is_int( $value )  || $value < 0 || $value > 0777 )
                 {
                     throw new ezcBaseValueException( $key, $value, "int > 0 and <= 0777" );
+                }
+                break;
+            case "lockFile":
+                if ( !is_string( $value )  || strlen( $value ) < 1 || strlen( $value ) > 250 )
+                {
+                    throw new ezcBaseValueException(
+                        $key,
+                        $value,
+                        'string, length > 0 and < 250'
+                    );
+                }
+                break;
+            case "metaDataFile":
+                if ( !is_string( $value )  || strlen( $value ) < 1 || strlen( $value ) > 250 )
+                {
+                    throw new ezcBaseValueException(
+                        $key,
+                        $value,
+                        'string, length > 0 and < 250'
+                    );
                 }
                 break;
             // Delegate
