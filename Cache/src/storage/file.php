@@ -467,9 +467,36 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
         return $purgedIds;
     }
 
+    /**
+     * Resets the whole storage.
+     *
+     * Deletes all data in the storage.
+     *
+     * @TODO ezcCacheMetaDataStorage functionality should be reset, too.
+     * 
+     * @return void
+     */
     public function reset()
     {
-        // @TODO: Implement.
+        $files = glob( "{$this->properties['location']}*", GLOB_NOSORT );
+        foreach ( $files as $file )
+        {
+            if ( is_dir( $file ) )
+            {
+                ezcBaseFile::removeRecursive( $file );
+            }
+            else
+            {
+                if ( @unlink( $file ) === false )
+                {
+                    throw new ezcBaseFilePermissionException(
+                        $file,
+                        ezcBaseFileException::REMOVE,
+                        'Could not unlink cache file.'
+                    );
+                }
+            }
+        }
     }
 
     /**

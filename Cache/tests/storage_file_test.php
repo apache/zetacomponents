@@ -267,8 +267,13 @@ class ezcCacheStorageFileTest extends ezcTestCase
             touch( $filename, ( time()  - 5 ), ( time()  - 5 ) );
             
             $data = $storage->restore( $id );
-            $this->assertTrue( $data == $dataArr, "Restore data broken for ID <{$id}>." );
+            $this->assertEquals(
+                $dataArr,
+                $data,
+                "Restore data broken for ID <{$id}>."
+            );
         }
+        $this->removeTempDir();
     }
 
     /**
@@ -510,6 +515,76 @@ class ezcCacheStorageFileTest extends ezcTestCase
             7,
             $storage->countDataItems()
         );
+
+        $this->removeTempDir();
+    }
+
+    public function testResetSuccess()
+    {
+        $temp = $this->createTempDir( __CLASS__ );
+        $storage = new ezcCacheStorageFilePlain( $temp, array( 'ttl' => 30 ) );
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        $this->assertEquals(
+            5,
+            $storage->countDataItems()
+        );
+
+        $storage->reset();
+
+        $this->assertEquals(
+            0,
+            $storage->countDataItems()
+        );
+
+        $this->removeTempDir();
+    }
+
+    public function testResetFailureTopFile()
+    {
+        $temp = $this->createTempDir( __CLASS__ );
+        $storage = new ezcCacheStorageFilePlain( $temp, array( 'ttl' => 30 ) );
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        $this->assertEquals(
+            5,
+            $storage->countDataItems()
+        );
+
+        chmod( $storage->getLocation(), 0500 );
+        clearstatcache();
+
+        try
+        {
+            $storage->reset();
+            $this->fail( 'Exception not thrown on non-successful delete.' );
+        }
+        catch ( ezcBaseFilePermissionException $e ) {}
+
+        chmod( $storage->getLocation(), 0777 );
+        clearstatcache();
 
         $this->removeTempDir();
     }
