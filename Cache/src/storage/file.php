@@ -32,7 +32,7 @@
  * @package Cache
  * @version //autogentag//
  */
-abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheStackableStorage
+abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheStackableStorage, ezcCacheStackMetaDataStorage
 {
     /**
      * Creates a new cache storage in the given location.
@@ -645,40 +645,64 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
     }
 
     /**
-     * Extracts ID, attributes and the file extension from a filename.
+     * Restores and returns the meta data struct.
+     *
+     * This method fetches the meta data stored in the storage and returns the
+     * according struct of type {@link ezcCacheStackMetaData}. The meta data
+     * must be stored inside the storage, but should not be visible as normal
+     * cache items to the user.
      * 
-     * @param string $filename 
-     * @return array('id'=>string,'attributes'=>string,'ext'=>string)
+     * @return ezcCacheStackMetaData
      */
-    private function extractIdentifier( $filename )
+    public function restoreMetaData()
     {
-        // Regex to split up the file name into id, attributes and extension
-        $regex = '(
-            (?:' . preg_quote( $this->properties['location'] ) . ') 
-            (?P<id>.*)
-            (?P<attr>(?:-[^-=]+=[^-]+)*)
-            -? # This is added if no attributes are supplied. For whatever reason...
-            (?P<ext>' . preg_quote( $this->options->extension ) . ')
-        )Ux';
+        // @TODO: Implement.
+    }
 
-        if ( preg_match( $regex, $filename, $matches ) !== 1 )
-        {
-            // @TODO: Should this be an exception?
-            return array(
-                'id'         => '',
-                'attributes' => '',
-                'extension'  => $this->options->extension,
-            );
-        }
-        else
-        {
-            // Successfully split
-            return array(
-                'id'         => $matches['id'],
-                'attributes' => $matches['attr'],
-                'extension'  => $matches['ext'],
-            );
-        }
+    /**
+     * Stores the given meta data struct.
+     *
+     * This method stores the given $metaData inside the storage. The data must
+     * be stored with the same mechanism that the storage itself uses. However,
+     * it should not be stored as a normal cache item, if possible, to avoid
+     * accedental user manipulation.
+     * 
+     * @param ezcCacheStackMetaData $metaData 
+     * @return void
+     */
+    public function storeMetaData( ezcCacheStackMetaData $metaData )
+    {
+        // @TODO: Implement.
+    }
+
+    /**
+     * Acquire a lock on the storage.
+     *
+     * This method acquires a lock on the storage. If locked, the storage must
+     * block all other method calls until the lock is freed again using {@link
+     * ezcCacheStackMetaDataStorage::unlock()}. Methods that are called within
+     * the request that successfully acquired the lock must succeed as usual.
+     * 
+     * @return void
+     */
+    public function lock()
+    {
+        // @TODO: Implement.
+    }
+
+    /**
+     * Release a lock on the storage.
+     *
+     * This method releases the lock of the storage, that has been acquired via
+     * {@link ezcCacheStackMetaDataStorage::lock()}. After this method has been
+     * called, blocked method calls (including calls to lock()) can suceed
+     * again.
+     * 
+     * @return void
+     */
+    public function unlock()
+    {
+        // @TODO: Implement.
     }
 
     /**
@@ -741,27 +765,6 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
     }
 
     /**
-     * Calculates the lifetime remaining for a cache object.
-     * This calculates the time a cached object stays valid and returns it.
-     *
-     * @param string $file The file to calculate the remaining lifetime for.
-     * @access protected
-     * @return int The remaining lifetime in seconds ( 0 if no time remaining ).
-     */
-    protected function calcLifetime( $file )
-    {
-        if ( file_exists( $file ) && ( $modTime = filemtime( $file ) ) !== false )
-        {
-            return (
-                ( $lifeTime = time() - $modTime ) > 0
-                ? $lifeTime
-                : 0
-            );
-        }
-        return 0;
-    }
-
-    /**
      * Property write access.
      *
      * @param string $propertyName Name of the property.
@@ -797,6 +800,64 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
                 return;
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Calculates the lifetime remaining for a cache object.
+     * This calculates the time a cached object stays valid and returns it.
+     *
+     * @param string $file The file to calculate the remaining lifetime for.
+     * @access protected
+     * @return int The remaining lifetime in seconds ( 0 if no time remaining ).
+     */
+    protected function calcLifetime( $file )
+    {
+        if ( file_exists( $file ) && ( $modTime = filemtime( $file ) ) !== false )
+        {
+            return (
+                ( $lifeTime = time() - $modTime ) > 0
+                ? $lifeTime
+                : 0
+            );
+        }
+        return 0;
+    }
+
+    /**
+     * Extracts ID, attributes and the file extension from a filename.
+     * 
+     * @param string $filename 
+     * @return array('id'=>string,'attributes'=>string,'ext'=>string)
+     */
+    private function extractIdentifier( $filename )
+    {
+        // Regex to split up the file name into id, attributes and extension
+        $regex = '(
+            (?:' . preg_quote( $this->properties['location'] ) . ') 
+            (?P<id>.*)
+            (?P<attr>(?:-[^-=]+=[^-]+)*)
+            -? # This is added if no attributes are supplied. For whatever reason...
+            (?P<ext>' . preg_quote( $this->options->extension ) . ')
+        )Ux';
+
+        if ( preg_match( $regex, $filename, $matches ) !== 1 )
+        {
+            // @TODO: Should this be an exception?
+            return array(
+                'id'         => '',
+                'attributes' => '',
+                'extension'  => $this->options->extension,
+            );
+        }
+        else
+        {
+            // Successfully split
+            return array(
+                'id'         => $matches['id'],
+                'attributes' => $matches['attr'],
+                'extension'  => $matches['ext'],
+            );
+        }
     }
 }
 ?>
