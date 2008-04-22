@@ -536,6 +536,35 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         self::assertEquals( $expected, $context );
     }
 
+    public function testUpdateTextWithQuotes()
+    {
+        $currentDir = dirname( __FILE__ );
+
+        // cp for test
+        copy( "{$currentDir}/files/translations/quotes.xml", "{$currentDir}/files/translations/quotes.test.xml" );
+
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $context = array();
+        $context[] = new ezcTranslationData( 'Test quotes: \'test\' "test".', 'CHANGED: Test quotes: \'test\' "test"', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+        $context[] = new ezcTranslationData( 'Test quotes: "test" \'test\'.', 'CHANGED: Test quotes: "test" \'test\'', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 );
+
+        $backend->setOptions( array ( 'format' => '[LOCALE].test.xml' ) );
+        $backend->initWriter( 'quotes' );
+        $backend->storeContext( 'quotes', $context );
+        $backend->deinitWriter();
+
+        $context = $backend->getContext( 'quotes', 'quotes' );
+        $expected = array(
+            new ezcTranslationData( 'Test quotes: \'test\'.', 'Test quotes: \'test\'.', '', ezcTranslationData::UNFINISHED, 'test_files/test-quotes.ezt', 9 ),
+            new ezcTranslationData( 'Test quotes: "test".', 'Test quotes: "test".', '', ezcTranslationData::UNFINISHED, 'test_files/test-quotes.ezt', 7 ),
+            new ezcTranslationData( 'Test quotes: \'test\' "test".', 'CHANGED: Test quotes: \'test\' "test"', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 ),
+            new ezcTranslationData( 'Test quotes: "test" \'test\'.', 'CHANGED: Test quotes: "test" \'test\'', 'comment', ezcTranslationData::TRANSLATED, 'test.ezt', 5 )
+        );
+        unlink( "{$currentDir}/files/translations/quotes.test.xml" );
+
+        self::assertEquals( $expected, $context );
+    }
+
     public function testNonInitWriter1()
     {
         $currentDir = dirname( __FILE__ );

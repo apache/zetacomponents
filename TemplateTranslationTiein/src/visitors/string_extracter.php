@@ -46,7 +46,7 @@ class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
      *
      * @var array(string=>array(ezcTranslationData)
      */
-    public $strings;
+    protected $strings;
 
     /**
      * Initialize the transformer, after this send this object to the accept() method on a node.
@@ -60,13 +60,47 @@ class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
     }
 
     /**
+     * Transform the literal from a TST node to a string.
+     * The text will transformed by processing the escape sequences
+     * according to the type which is either
+     * {@link ezcTemplateLiteralTstNode::SINGLE_QUOTE single quote} or
+     * {@link ezcTemplateLiteralTstNode::DOUBLE_QUOTE double quite}.
+     *
+     * @param ezcTemplateLiteralTstNode $type
+     * @return string
+     *
+     * @see ezcTemplateStringTool::processSingleQuotedEscapes()
+     * @see ezcTemplateStringTool::processDoubleQuotedEscapes()
+     */
+    public function visitLiteralTstNode( ezcTemplateLiteralTstNode $type )
+    {
+        // TODO: The handling of escape characters should be done in the
+        //       parser and not here. Like the text/literal blocks.
+        if ( $type->quoteType == ezcTemplateLiteralTstNode::SINGLE_QUOTE )
+        {
+            $text = ezcTemplateStringTool::processSingleQuotedEscapes( $type->value );
+        }
+        elseif( $type->quoteType == ezcTemplateLiteralTstNode::DOUBLE_QUOTE )
+        {
+            $text = ezcTemplateStringTool::processDoubleQuotedEscapes( $type->value );
+        }
+        else
+        {
+            // Numbers
+            $text = $type->value;
+        }
+
+        return $text;
+    }
+
+    /**
      * visitTranslationTstNode
      *
      * @param ezcTemplateTranslationTstNode $node
      */
     public function visitTranslationTstNode( ezcTemplateTranslationTstNode $node )
     {
-        $string = $node->string->accept( $this )->value;
+        $string = $node->string->accept( $this );
         $comment = $node->comment ? $node->comment->accept( $this )->value : null;
         $file = realpath( $node->source->stream );
         $line = $node->string->startCursor->line;
@@ -76,7 +110,7 @@ class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
         // tr_context block. If not, we throw an exception.
         if ( $node->context !== null )
         {
-            $context = $node->context->accept( $this )->value;
+            $context = $node->context->accept( $this );
         }
         else
         {
@@ -114,6 +148,25 @@ class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
         foreach( $this->strings as $context => $data )
         {
             $ret[$context] = new ezcTranslation( $data );
+        }
+        return $ret;
+    }
+
+    /**
+     * Returns an array of translation objects indexed by context
+     *
+     * @return array(string=>array(ezcTranslationData))
+     */
+    function getStrings()
+    {
+        $ret = array();
+        foreach( $this->strings as $context => $data )
+        {
+            $ret[$context] = array();
+            foreach( $data as $translation )
+            {
+                $ret[$context][$translation->original] = $translation;
+            }
         }
         return $ret;
     }

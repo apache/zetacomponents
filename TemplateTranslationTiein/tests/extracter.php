@@ -85,10 +85,11 @@ class ezcTemplateTranslationExtracterTest extends ezcTestCase
         $et = new ezcTemplateTranslationStringExtracter( $parser );
         $eted = $tst->accept( $et );
 
-        $tr = $et->getTranslation();
+        $tr = $et->getStrings();
+
         self::assertEquals( 
             array( 'Test quotes: \'test\'.', 'Test quotes: "test".', 'Test quotes: \'test\' "test".', 'Test quotes: "test" \'test\'.' ),
-            array_keys( $this->readAttribute( $tr['un'], 'translationMap' ) ) 
+            array_keys( $tr['un'] ) 
         );
     }
 

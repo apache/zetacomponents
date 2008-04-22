@@ -433,7 +433,9 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
         {
             // check if the string is already there, if so, remove it first
             $xpath = new DOMXPath( $dom );
-            $result = $xpath->query( 'message/source[text()="' . $info->original . '"]', $contextNode );
+            $xpathString = str_replace( '"', '",\'"\',"', $info->original );
+
+            $result = $xpath->query( 'message/source[text()=concat("' . $xpathString . '","")]', $contextNode );
             if ( $result->length )
             {
                 $node = $result->item( 0 )->parentNode;

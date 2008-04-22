@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TS>
+  <context>
+    <name>quotes</name>
+    <message>
+      <source>Test quotes: 'test'.</source>
+      <translation type="unfinished">Test quotes: 'test'.</translation>
+      <location filename="test_files/test-quotes.ezt" line="9"/>
+    </message>
+    <message>
+      <source>Test quotes: "test".</source>
+      <translation type="unfinished">Test quotes: "test".</translation>
+      <location filename="test_files/test-quotes.ezt" line="7"/>
+    </message>
+    <message>
+      <source>Test quotes: 'test' "test".</source>
+      <translation type="unfinished">Test quotes: 'test' "test".</translation>
+      <location filename="test_files/test-quotes.ezt" line="5"/>
+    </message>
+    <message>
+      <source>Test quotes: "test" 'test'.</source>
+      <translation type="unfinished">Test quotes: "test" 'test'.</translation>
+      <location filename="test_files/test-quotes.ezt" line="11"/>
+    </message>
+  </context>
+</TS>
