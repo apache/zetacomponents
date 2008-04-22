@@ -180,5 +180,19 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
     {
         return $this->memcache->delete( $key, $timeout );
     }
+
+    /**
+     * Resets the complete backend.
+     *
+     * Marked private to not expose more of this interface to the user, since
+     * this will be removed in future versions.
+     * 
+     * @return void
+     * @access private
+     */
+    public function reset()
+    {
+        $this->memcache->flush();
+    }
 }
 ?>

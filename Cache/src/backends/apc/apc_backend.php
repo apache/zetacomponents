@@ -73,5 +73,19 @@ class ezcCacheApcBackend extends ezcCacheMemoryBackend
     {
         return apc_delete( $key );
     }
+
+    /**
+     * Resets the complete backend.
+     *
+     * Marked private to not expose more of this interface to the user, since
+     * this will be removed in future versions.
+     * 
+     * @return void
+     * @access private
+     */
+    public function reset()
+    {
+        apc_clear_cache( "user" );
+    }
 }
 ?>

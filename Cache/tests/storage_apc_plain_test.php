@@ -58,11 +58,12 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
     {
         $options = array( 'ttl' => 10 );
         $storage = new ezcCacheStorageApcWrapper( $this->getTempDir(), $options );
+        $storage->reset();
 
         foreach ( $this->testData as $id => $dataArr ) 
         {
             $storage->store( $id, $dataArr );
-
+            
             // Hack the cache to be outdated by 100 seconds
             $data = $storage->restore( $id );
             $registry = $storage->getRegistry();
@@ -83,6 +84,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
     {
         $options = array( 'ttl' => 10 );
         $storage = new ezcCacheStorageApcWrapper( $this->getTempDir(), $options );
+        $storage->reset();
 
         foreach ( $this->testData as $id => $dataArr ) 
         {
@@ -118,6 +120,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
 
         $options = array( 'ttl' => 10 );
         $storage = new ezcCacheStorageApcWrapper( '.', $options );
+        $storage->reset();
         $storage->setBackend( $apcBackend );
 
         $id = 'id';
@@ -138,6 +141,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         try
         {
             $this->storage->store( "key", $resource );
+            $this->storage->reset();
             fclose( $resource );
             $this->fail( "Expected exception was not thrown." );
         }
@@ -161,6 +165,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
 
     public function testGetRemainingLifetimeAttributes()
     {
+        $this->storage->reset();
         $this->storage->setOptions( array( 'ttl' => 10 ) );
 
         $this->storage->store( '1', 'data1', array( 'type' => 'simple' ) );
@@ -184,6 +189,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         $options = array( 'ttl' => 10 );
         ezcCacheManager::createCache( 'cache', null, 'ezcCacheStorageApcPlain', $options );
         $storage = ezcCacheManager::getCache( 'cache' );
+        $storage->reset();
         $storage->store( 'key', 'data' );
         $this->assertEquals( 'data', $storage->restore( 'key' ) );
     }
@@ -197,6 +203,154 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
 
         $this->issetPropertyTest( $options, 'ttl', true );
         $this->issetPropertyTest( $options, 'no_such_option', false );
+    }
+    
+    public function testResetSuccess()
+    {
+        $options = array( 'ttl' => 10 );
+        $storage = new ezcCacheStorageApcWrapper( '.', $options );
+        $storage->reset();
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        $this->assertEquals(
+            5,
+            $storage->countDataItems()
+        );
+
+        $storage->reset();
+
+        $this->assertEquals(
+            0,
+            $storage->countDataItems()
+        );
+    }
+
+    public function testDeleteReturnIds()
+    {
+        $storage = new ezcCacheStorageApcWrapper(
+            '.',
+            array( 'ttl' => 100 )
+        );
+        $storage->reset();
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+
+        $attributes = array(
+            'lang' => 'en',
+        );
+
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id, $attributes );
+        }
+
+        $deleted = $storage->delete( 'Some/other/Dir/ID/3', $attributes, true );
+        
+        $this->assertEquals(
+            array( 'Some/other/Dir/ID/3' ),
+            $deleted,
+            'Deleted IDs not returned correctly.'
+        );
+
+        $deleted = $storage->delete( null, $attributes, true );
+
+        $this->assertEquals(
+            array( 
+                'ID',
+                'Some/Dir/ID',
+                'Some/other/Dir/ID/1',
+                'Some/other/Dir/ID/2',
+            ),
+            $deleted,
+            'Deleted IDs not returned correctly.'
+        );
+    }
+
+    public function testPurgeNoLimit()
+    {
+        $storage = new ezcCacheStorageApcWrapper(
+            '.',
+            array( 'ttl' => 1 )
+        );
+        $storage->reset();
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        // Outdate
+        usleep( 1000002 );
+
+        $purgedIds = $storage->purge();
+
+        $this->assertEquals(
+            $data,
+            $purgedIds,
+            'Purged IDs not returned correctly.'
+        );
+    }
+
+    public function testPurgeLimit()
+    {
+        $storage = new ezcCacheStorageApcWrapper(
+            '.',
+            array( 'ttl' => 1 )
+        );
+        $storage->reset();
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        // Outdate
+        usleep( 1000002 );
+
+        $purgedIds = $storage->purge( 3 );
+
+        $this->assertEquals(
+            array( 
+                'ID',
+                'Some/Dir/ID',
+                'Some/other/Dir/ID/1',
+            ),
+            $purgedIds,
+            'Purged IDs not returned correctly.'
+        );
     }
 
     public static function suite()

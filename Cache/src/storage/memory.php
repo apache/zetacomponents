@@ -238,11 +238,14 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
             $delCaches = $this->search( $id, $attributes );
         }
 
+        $deletedIds = array();
+
         // Process the caches to delete
         $identifiers = array();
         foreach ( $delCaches as $cache )
         {
             $this->backend->delete( $cache[2] );
+            $deletedIds[] = $cache[0];
             $this->unRegisterIdentifier( $cache[0], $cache[1], $cache[2], true );
             if ( isset( $this->registry[$location][$cache[0]][$cache[2]] ) )
             {
@@ -250,6 +253,8 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
             }
         }
         $this->storeSearchRegistry();
+
+        return $deletedIds;
     }
 
     /**
@@ -322,17 +327,12 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
             return $itemArr;
         }
 
-        // Generate the pattern
-        $pattern = '/' . strtr( preg_quote( $this->generateAttrStr( $attributes ) ), array( '-' => '.*', '\.' => '.*' ) ) . '/';
-
+        $itemArr = array();
         // Makes sure we've seen this ID before
         if ( isset( $this->searchRegistry[$location][$id] )
              && is_array( $this->searchRegistry[$location][$id] ) )
         {
-            $itemArr = array();
-
-            // Generate the Identifier
-            foreach ( $this->searchRegistry[$location][$id] as $identifier => $dataArr ) // was $this->generateIdentifier( $id, $attributes );
+            foreach ( $this->searchRegistry[$location][$id] as $identifier => $dataArr )
             {
                 if ( $this->fetchData( $identifier ) !== false )
                 {
@@ -342,7 +342,6 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
         }
         else
         {
-            $itemArr = array();
             // Finds cache items that fit our description
             if ( isset( $this->searchRegistry[$location] )
                  && is_array( $this->searchRegistry[$location] ) )
@@ -351,10 +350,13 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
                 {
                     foreach ( $arr as $identifier => $registryObj )
                     {
-                        $attrStr = $this->generateAttrStr( $registryObj->attributes );
-                        if ( preg_match( $pattern, $attrStr ) )
+                        if ( count( array_diff_assoc( $attributes, $registryObj->attributes ) ) === 0 )
                         {
-                            $itemArr[] = array( $registryObj->id, $registryObj->attributes, $registryObj->identifier );
+                            $itemArr[] = array(
+                                $registryObj->id,
+                                $registryObj->attributes,
+                                $registryObj->identifier
+                            );
                         }
                     }
                 }
@@ -517,6 +519,79 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
 
         $this->searchRegistry[$location] = null;
         $this->fetchSearchRegistry( true );
+    }
+
+    /**
+     * Purge outdated data from the storage. 
+     * 
+     * This method purges outdated data from the cache. If $limit is given, a
+     * maximum of $limit items is purged. Otherwise all outdated items are
+     * purged. The method returns an array containing the IDs of all cache
+     * items that have been purged.
+     *
+     * @param int $limit 
+     * @return array(string)
+     */
+    public function purge( $limit = null )
+    {
+        $this->fetchSearchRegistry( true );
+        $purgedIds = array();
+        $counter   = 0;
+        foreach ( $this->searchRegistry[$this->properties['location']] as $id => $identifiers )
+        {
+            foreach( $identifiers as $identifier => $data )
+            {
+                if ( $this->fetchData( $identifier ) === false )
+                {
+                    // Delete all items stored with this ID here, dunno if
+                    // other stores might be still valid.
+                    unset( $this->searchRegistry[$this->properties['location']] );
+                    ++$counter;
+                    $purgedIds[] = $id;
+                }
+                if ( $limit !== null && $counter >= $limit )
+                {
+                    break 2;
+                }
+            }
+        }
+        return $purgedIds;
+    }
+
+    /**
+     * Delete data from the cache.
+     *
+     * This method is already defined in {@link ezcCacheStorage::delete()}.
+     * However, the basic definition does not define a return value. If this
+     * interface is implemented, the method must return an array of item IDs
+     * that have been deleted from the storage.
+     *
+     * @param string $id
+     * @param array(string=>string)
+     * @param bool $search
+     *
+     * @return array(string)
+     */
+    // @TODO: Does not work since this method is already declared abstract in
+    // ezcCacheStorage. "Fatal error: Can't inherit abstract function..." in
+    // 5.2.6RC3-dev
+    // public function delete( $id = null, $attributes = array(), $search = false );
+
+    /**
+     * Reset the complete storage.
+     *
+     * This method resets the complete cache storage. All content (including
+     * content stored with the {@link ezcCacheMetaDataStorage} interfacer) must
+     * be deleted and the cache storage must appear as if it has just newly
+     * been created.
+     * 
+     * @return void
+     */
+    public function reset()
+    {
+        $this->backend->reset();
+        $this->searchRegistry = array();
+        $this->registry       = array();
     }
 }
 ?>
