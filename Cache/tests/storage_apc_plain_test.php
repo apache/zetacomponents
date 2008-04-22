@@ -28,7 +28,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
      *
      * @var array(string)
      */
-    protected $data = array(
+    protected $testData = array(
         1 => "Test 1 2 3 4 5 6 7 8\\\\",
         2 => 'La la la 02064 lololo',
         3 => 12345,
@@ -59,7 +59,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         $options = array( 'ttl' => 10 );
         $storage = new ezcCacheStorageApcWrapper( $this->getTempDir(), $options );
 
-        foreach ( $this->data as $id => $dataArr ) 
+        foreach ( $this->testData as $id => $dataArr ) 
         {
             $storage->store( $id, $dataArr );
 
@@ -75,6 +75,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
             $data = $storage->restore( $id );
             $this->assertTrue( $data === false, "Restore data broken for ID <{$id}>." );
         }
+
     }
 
     // Override test from parent class
@@ -83,7 +84,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         $options = array( 'ttl' => 10 );
         $storage = new ezcCacheStorageApcWrapper( $this->getTempDir(), $options );
 
-        foreach ( $this->data as $id => $dataArr ) 
+        foreach ( $this->testData as $id => $dataArr ) 
         {
             $attributes = array(
                 'name'      => 'test',
