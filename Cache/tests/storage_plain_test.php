@@ -28,7 +28,7 @@ class ezcCacheStorageFilePlainTest extends ezcCacheStorageTest
      * @var array
      * @access protected
      */
-    protected $data = array(
+    protected $testData = array(
         1 => "Test 1 2 3 4 5 6 7 8\\\\",
         2 => 'La la la 02064 lololo',
         3 => 12345,
