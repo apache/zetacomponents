@@ -589,6 +589,75 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $this->removeTempDir();
     }
 
+    public function testLockSimple()
+    {
+        $temp = $this->createTempDir( __CLASS__ );
+        $storage = new ezcCacheStorageFilePlain( $temp );
+
+        $this->assertFalse(
+            file_exists( $storage->getLocation() . $storage->options->lockFile ),
+            'Lock file exists.'
+        );
+
+        $storage->lock();
+
+        $this->assertTrue(
+            file_exists( $storage->getLocation() . $storage->options->lockFile ),
+            'Lock file does not exist.'
+        );
+
+        $storage->unlock();
+
+        $this->assertFalse(
+            file_exists( $storage->getLocation() . $storage->options->lockFile ),
+            'Lock file exists.'
+        );
+    }
+
+    public function testLockTimeout()
+    {
+        $temp = $this->createTempDir( __CLASS__ );
+        $opts = array(
+            'maxLockTime' => 1
+        );
+        $storage       = new ezcCacheStorageFilePlain( $temp, $opts );
+        $secondStorage = new ezcCacheStorageFilePlain( $temp, $opts );
+
+        $this->assertFalse(
+            file_exists( $storage->getLocation() . $storage->options->lockFile ),
+            'Lock file exists.'
+        );
+
+        $lockTime = time();
+        $storage->lock();
+
+        $this->assertTrue(
+            file_exists( $storage->getLocation() . $storage->options->lockFile ),
+            'Lock file does not exist.'
+        );
+
+        // Should kill lock file after 1 sec
+        $secondStorage->lock();
+
+        $this->assertTrue(
+            ( time() - $lockTime ) > 1,
+            'Lock did not last for 1 sec.'
+        );
+
+        // Lock file should exist again
+        $this->assertTrue(
+            file_exists( $storage->getLocation() . $storage->options->lockFile ),
+            'Lock file does not exist.'
+        );
+
+        $secondStorage->unlock();
+
+        $this->assertFalse(
+            file_exists( $storage->getLocation() . $storage->options->lockFile ),
+            'Lock file exists.'
+        );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcCacheStorageFileTest" );

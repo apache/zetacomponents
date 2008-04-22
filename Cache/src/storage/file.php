@@ -35,6 +35,13 @@
 abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheStackableStorage, ezcCacheStackMetaDataStorage
 {
     /**
+     * Resource used for the lock file.
+     * 
+     * @var resource(file)
+     */
+    protected $lockResource = false;
+
+    /**
      * Creates a new cache storage in the given location.
      * Creates a new cache storage for a given location. The location in case
      * of this storage class is a valid file system directory.
@@ -100,7 +107,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
             );
         }
 
-        parent::__construct( $location, $options );
+        parent::__construct( $location );
         // Overwrite parent set options with new ezcCacheFileStorageOptions
         $this->properties['options'] = new ezcCacheStorageFileOptions( $options );
     }
@@ -687,7 +694,23 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      */
     public function lock()
     {
-        // @TODO: Implement.
+        $lockFile = $this->properties['location'] . $this->properties['options']->lockFile;
+        
+        while ( $this->lockResource === false )
+        {
+            clearstatcache();
+            $this->lockResource = @fopen( $lockFile, 'x' );
+            // Wait for lock to get freed
+            if ( $this->lockResource === false )
+            {
+                usleep( $this->properties['options']->lockWaitTime );
+            }
+            // Check if lock is to be considered dead
+            if ( ( time() - filemtime( $lockFile ) ) > $this->properties['options']->maxLockTime )
+            {
+                unlink( $lockFile );
+            }
+        }
     }
 
     /**
@@ -702,7 +725,13 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      */
     public function unlock()
     {
-        // @TODO: Implement.
+        if ( $this->lockResource !== false )
+        {
+            fclose( $this->lockResource );
+            @unlink(
+                $this->properties['location'] . $this->properties['options']->lockFile
+            );
+        }
     }
 
     /**
