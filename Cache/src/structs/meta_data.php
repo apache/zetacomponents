@@ -15,8 +15,8 @@
  * This struct is stored and restored by {@link ezcCacheStackMetaDataStorage}
  * storages and used by a {@link ezcCacheStackReplacementStrategy}. The
  * replacement strategy is identified through the {@link
- * ezcCacheStackMetaData::$identifier}, which should be the class name of the
- * replacement strategy. Replacement strategies need this identifier to check
+ * ezcCacheStackMetaData::$id}, which should be the class name of the
+ * replacement strategy. Replacement strategies need this id to check
  * that the data in {@link ezcCacheStackMetaData::$data} is computable. The
  * $data can by any arbitrary array structure, which does not include objects
  * and resources.
@@ -29,24 +29,30 @@ class ezcCacheStackMetaData extends ezcBaseStruct
     /**
      * Identifier of the replacement strategy.
      *
-     * The identifier of the {@link ezcCacheStackReplacementStrategy}. Used to
-     * check if the data stored in $data is computable.
+     * The id of the {@link ezcCacheStackReplacementStrategy}. Used to
+     * check if the stored $data is computable.
      * 
      * @var string
      */
-    public $identifier;
+    public $id;
 
     /**
      * Meta data.
      *
      * The meta data for a {@link ezcCacheStackReplacementStrategy}. The
-     * strategy is identified by the $identifier. This may include any
+     * strategy is identified by the $id. This may include any
      * arbitrary data, except objects and resources. Usually, the nesting level
      * and complexity of this array is quite high.
      * 
      * @var array(mixed)
      */
     public $data = array();
+
+    public function __construct( $id, $data )
+    {
+        $this->id   = $id;
+        $this->data = $data;
+    }
 }
 
 ?>
