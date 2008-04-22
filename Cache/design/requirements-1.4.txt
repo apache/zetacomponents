@@ -1,0 +1,205 @@
+eZ component: Cache, Requirements, 1.4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$Author: ts $
+$Revision: 7713 $
+$Date: 2008-04-19 15:56:25 +0200 (Sat, 19 Apr 2008) $
+:Status: Draft
+
+.. contents::
+
+=====
+Scope
+=====
+
+The scope of this document is to describe the requirements for the features to
+be implemented for the Cache component version 1.4. This version will
+incorporate the following features and fixes:
+
+- #12587: Hierarchic caching for the Cache component
+
+The requirements for these features will be described in this document. For
+design and implementation related information, please take a look at the design
+document.
+
+==================================================
+#12587: Hierarchic caching for the Cache component
+==================================================
+
+The idea behind this feature is to provide hierarchical multi level caching for
+the Cache component. Currently the Cache component only supports 1 cache
+handler to be asked to restore a certain object. Either the handler returns
+cached data for the desired object (hit) or it returns false to indicate that
+it does not have valid data (miss). There is no possibility to instruct the
+Cache component to search other caches in case of a miss. For this reason,
+hierarchic caches will be introduced.
+
+Use case
+========
+
+A typical use case for this feature exists, if several cache locations are
+available, which are differently performant and can store a different amount
+of items. The following is such a scenario.
+
+3 types of cache are available for an application. The first and fastest level
+is covered by a cache that resides in the local memory of the server fulfilling
+a request. This cache is extremely fast, because it resides in local memory, but
+is therefore also limited to a very low number of objects it can contain
+without polluting the local memory too much. The second level cache is a
+Memcached, running on a dedicated cache server. This is also quite fast, but
+not as fast as the local memory cache, since data needs to be transfered
+through a network connection. On the other hand, this cache is larger, since
+the server is dedicatedly build for performant caching. The third level of
+caching is provided by a file server, which offers the slowest kind of cache.
+In contrast, it has the largest storage capability.
+
+In this scenario, the desired behavior would be that the most needed cache
+items would be stored in the fastest cache. Cache items which are not that
+much, but still often needed could reside in the second cache level and rarely
+used items would be stored in the third layer.
+
+Requirements
+============
+
+Beside the main requirement, to be able realize hierarchical caching, several
+sub-requirements of this exist, which will be summarized in this section. Note
+that a fixed target is to not break BC for existing applications in any way and
+to avoid code duplication as much as possible. Beside that, too complex
+structures need to be avoided to maintain performance.
+
+Hierarchical stacking
+---------------------
+
+A way needs to be implemented to put multiple instances of the current
+implemented cache storages in a stack to indicate that they represent a
+hierarchy. A class to manage such stacks is to be designed and implemented.
+
+An object of this class must take care of:
+
+- **Searching for items recursively through the stack**
+  The stacking mechanism needs to search the stack of caches from top to bottom
+  before it indicates that a cache item could not be found.
+- **Storing new data across the cache stack**
+  When a new cache item is stored, it needs to be stored according to the
+  strategy chosen for the maintenance of the hierarchy. In addition, it can
+  either be stored only in 1 Cache or in several caches at once. For more
+  information see the `Cache propagation`_ section.
+- **Bubbling restored data up through the cache stack**
+  According to the replacement strategy, cache items need to be placed into
+  higher levels of the hierarchy, as soon as they get restored from a deeper
+  level, to make them available faster on subsequent restore requests. For more
+  information see the `Replacement strategies`_ section.
+
+Limiting of cached items
+------------------------
+
+The current storage implementations assume that unlimited space is available in
+the storage location. Following this philosophy, all cache items would be kept
+in the top most storage of the cache stack and the lower storages would not be
+needed.
+
+A way must be investigated, how an arbitrary cache storage can be limited by the
+number of cache items it stores.
+
+A major problem here is, that this information either needs to persist between
+requests or needs to be recalculated in each request. On the one hand, the
+latter solution might significantly reduce performance (e.g. for large
+file system based caches). On the other hand, the first solution might afford
+complex persistence mechanisms for the desired information and might pollute the
+cache storages with it.
+
+Replacement strategies
+----------------------
+
+As soon as the number of items in a cache exceeds the maximum (see section
+`Limiting of cached items`_) and a new item is to be stored, a currently cached
+item needs to be replaced. The most favorable approach would be to remove the
+item which will be not used for the longest time in the future. Since this is
+impossible to know, several established alternatives (e.g. LRU, LFU, ...) exist
+to solve the replacement problem. More information about this can be found in
+Wikipedia under `cache algorithms`_ and `page replacement algorithms`_.
+
+.. _`cache algorithms`: http://en.wikipedia.org/wiki/Cache_algorithms
+.. _`page replacement algorithms`: http://en.wikipedia.org/wiki/Page_replacement_algorithm
+
+A problem with any of the replacement strategies is, that additional
+information about a cache item needs to be stored. For example: To realize an
+LRU algorithm, the last access time of an item needs to be stored. For LFU, the
+number of accesses needs to be stored. The cache storages currently don't
+support adding such information and an appropriate place to store this
+persistently and efficiently needs to be thought out.
+
+It would be favorable to allow users to decide for a specific replacement
+algorithm or to even implement their own strategies.
+
+Cache propagation
+-----------------
+
+There are two possibilities to define propagation of cache items through the
+stack, where a decision needs to be made for one consistent solution:
+
+Propagate in store
+^^^^^^^^^^^^^^^^^^
+
+With this strategy, a newly stored cache item is automatically propagated to
+all levels of the cache hierarchy. With this strategy, a newly stored or update
+cache item needs to be update in all caches of the hierarchy at once.
+
+This has some advantages and some disadvantages against the second alternative
+`Propagate on replacement`_:
+
+Pros:
+
+- Storing of cache items happens in a central place.
+- The replacement strategy does not need to take care about downwards
+  propagation.
+
+Cons:
+
+- The initial storage of an item lasts longer, since propagation needs to be
+  done.
+- To purge an item, the item needs to be purged from all storages in the stack,
+  that reside deeper than the first cache where the item is found.
+
+Propagate on replacement
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using this strategy, a newly stored cache item is only put into the top most
+storage in the hierarchy. As soon as it needs to be replaced there, it is
+propagated down one level, before being removed from the higher level cache.
+
+Pros:
+
+- The initial storage of a cache item is faster, since it only affects one
+  storage. In addition, this should be the fastest storage (the top most).
+- Purging of an item does only affect 1 single cache.
+- If all storages reached their maximum number of stored items, only a single
+  item is bubbled down to the lowest level.
+
+Cons:
+
+- Additional work is to be done on each replacement of a cache item.
+- If the cache storage disappears (for instance an in-memory storage) then it
+  hasn't be cached in the lower levels yet).
+
+Open issues
+-----------
+
+This section summarizes misc open issues that need to be solved during the
+design and implementation phase.
+
+Locking
+^^^^^^^
+
+With hierarchical caching, the complexity of operations that need to be
+performed on a storage and between different storages is raised. This might
+open the possibility for race conditions in high load environments. To avoid
+this, a locking mechanism (or another way to ensure exclusive access) might be
+needed.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
