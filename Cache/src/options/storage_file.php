@@ -22,6 +22,12 @@
  * @property string $lockFile
  *           The name of the file used for locking in the lock() method.
  *           Default is '.ezcLock'.
+ * @property int $lockWaitTime
+ *           Time to wait between lock availability checks. Measured in
+ *           microseconds ({@link usleep()}). Default is 200000.
+ * @property int $maxLockTime
+ *           Time before a lock is considered dead, measured in seconds.
+ *           Default is 5.
  * @property string $metaDataFile
  *           The name of the file used to store meta data. Default is
  *           '.ezcMetaData'.
@@ -54,6 +60,9 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
     {
         $this->properties['permissions']  = 0644;
         $this->properties['lockFile']     = '.ezcLock';
+        $this->properties['lockWaitTime'] = 200000;
+        $this->properties['maxLockTime']  = 5;
+        $this->properties['lockFile']     = '.ezcLock';
         $this->properties['metaDataFile'] = '.ezcMetaData';
         $this->storageOptions = new ezcCacheStorageOptions();
         parent::__construct( $options );
@@ -84,6 +93,26 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
                         $key,
                         $value,
                         'string, length > 0 and < 250'
+                    );
+                }
+                break;
+            case "lockWaitTime":
+                if ( !is_int( $value )  || $value < 1 )
+                {
+                    throw new ezcBaseValueException(
+                        $key,
+                        $value,
+                        'int > 0'
+                    );
+                }
+                break;
+            case "maxLockTime":
+                if ( !is_int( $value )  || $value < 1 )
+                {
+                    throw new ezcBaseValueException(
+                        $key,
+                        $value,
+                        'int > 0'
                     );
                 }
                 break;

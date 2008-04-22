@@ -32,6 +32,8 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
                 'extension'    => '.cache',
                 'permissions'  => 0644, 
                 'lockFile'     => '.ezcLock',
+                'lockWaitTime' => 200000,
+                'maxLockTime'  => 5,
                 'metaDataFile' => '.ezcMetaData',
             )
         );
@@ -50,6 +52,8 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
         $this->assertEquals( $opt['extension'], '.cache' );
         $this->assertEquals( $opt['permissions'], 0644 );
         $this->assertEquals( $opt['lockFile'], '.ezcLock' );
+        $this->assertEquals( $opt['lockWaitTime'], 200000 );
+        $this->assertEquals( $opt['maxLockTime'], 5 );
         $this->assertEquals( $opt['metaDataFile'], '.ezcMetaData' );
     }
 
@@ -109,6 +113,18 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
 
         $this->assertSetProperty(
             $opt,
+            'lockWaitTime',
+            array( 100000 )
+        );
+
+        $this->assertSetProperty(
+            $opt,
+            'maxLockTime',
+            array( 10 )
+        );
+
+        $this->assertSetProperty(
+            $opt,
             'metaDataFile',
             array( '.foo' )
         );
@@ -144,6 +160,18 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
 
         $this->assertSetPropertyFails(
             $opt,
+            'lockWaitTime',
+            array( true, false, 23.42, array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'maxLockTime',
+            array( true, false, 23.42, array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
             'metaDataFile',
             array( true, false, 23.42, array(), new stdClass() )
         );
@@ -167,6 +195,8 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
         $this->assertTrue( isset( $opt->extension ) );
         $this->assertTrue( isset( $opt->permissions ) );
         $this->assertTrue( isset( $opt->lockFile ) );
+        $this->assertTrue( isset( $opt->lockWaitTime ) );
+        $this->assertTrue( isset( $opt->maxLockTime ) );
         $this->assertTrue( isset( $opt->metaDataFile ) );
 
         $this->assertFalse( isset( $opt->foo ) );
