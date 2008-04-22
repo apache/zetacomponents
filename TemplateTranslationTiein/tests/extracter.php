@@ -73,6 +73,25 @@ class ezcTemplateTranslationExtracterTest extends ezcTestCase
         }
     }
 
+    function testExtracterWithQuotes()
+    {
+        $file = dirname( __FILE__ ) . '/test_files/test-quotes.ezt';
+        $source = new ezcTemplateSourceCode( $file, $file );
+        $source->load();
+
+        $parser = new ezcTemplateParser( $source, new ezcTemplate() );
+        $tst = $parser->parseIntoNodeTree();
+
+        $et = new ezcTemplateTranslationStringExtracter( $parser );
+        $eted = $tst->accept( $et );
+
+        $tr = $et->getTranslation();
+        self::assertEquals( 
+            array( 'Test quotes: \'test\'.', 'Test quotes: "test".', 'Test quotes: \'test\' "test".', 'Test quotes: "test" \'test\'.' ),
+            array_keys( $this->readAttribute( $tr['un'], 'translationMap' ) ) 
+        );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( 'ezcTemplateTranslationExtracterTest' );

@@ -1,0 +1,11 @@
+{tr "Test quotes: 'test'." context "un"}
+
+{tr "Test quotes: \"test\"." context "un"}
+
+{tr "Test quotes: 'test' \"test\"." context "un"}
+
+{tr 'Test quotes: "test".' context "un"}
+
+{tr 'Test quotes: \'test\'.' context "un"}
+
+{tr 'Test quotes: "test" \'test\'.' context "un"}
