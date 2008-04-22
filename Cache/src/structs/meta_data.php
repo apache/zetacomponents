@@ -57,7 +57,7 @@ class ezcCacheStackMetaData extends ezcBaseStruct
      * @param array $data 
      * @return void
      */
-    public function __construct( $id, array $data )
+    public function __construct( $id = null, array $data = array() )
     {
         $this->id   = $id;
         $this->data = $data;
