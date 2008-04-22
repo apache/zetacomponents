@@ -206,7 +206,28 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
             );
         }
 
-        if ( file_put_contents( $filename, $dataStr ) !== strlen( $dataStr ) )
+        $this->storeRawData( $filename, $dataStr );
+
+        if ( ezcBaseFeatures::os() !== "Windows" )
+        {
+            chmod( $filename, $this->options->permissions );
+        }
+        return $id;
+    }
+
+    /**
+     * Actually stores the given data.
+     * 
+     * @param string $filename 
+     * @param string $data 
+     * @return void
+     *
+     * @throws ezcBaseFileIoException
+     *         if the store fails.
+     */
+    protected function storeRawData( $filename, $data )
+    {
+        if ( file_put_contents( $filename, $data ) !== strlen( $data ) )
         {
             throw new ezcBaseFileIoException(
                 $filename,
@@ -214,11 +235,6 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
                 'Could not write data to cache file.'
             );
         }
-        if ( ezcBaseFeatures::os() !== "Windows" )
-        {
-            chmod( $filename, $this->options->permissions );
-        }
-        return $id;
     }
 
     /**
@@ -663,7 +679,16 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      */
     public function restoreMetaData()
     {
-        // @TODO: Implement.
+        // Silence require warnings. It's ok that meta data does not exist.
+        $dataArr = @$this->fetchData(
+            $this->properties['location'] . $this->properties['options']->metaDataFile
+        );
+        // Returns a new, blank meta data if no meta data is found.
+        return ( 
+            $dataArr === false
+            ? new ezcCacheStackMetaData()
+            : new ezcCacheStackMetaData( $dataArr['id'], $dataArr['data'] )
+        );
     }
 
     /**
@@ -679,7 +704,14 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      */
     public function storeMetaData( ezcCacheStackMetaData $metaData )
     {
-        // @TODO: Implement.
+        $dataArr = array(
+            'id'   => $metaData->id,
+            'data' => $metaData->data,
+        );
+        $this->storeRawData(
+            $this->properties['location'] . $this->properties['options']->metaDataFile,
+            $this->prepareData( $dataArr )
+        );
     }
 
     /**

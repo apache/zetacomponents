@@ -64,6 +64,71 @@ class ezcCacheStorageFilePlainTest extends ezcCacheStorageTest
 
     }
 
+    public function testMetaDataSuccess()
+    {
+        $temp = $this->createTempDir( __CLASS__ );
+
+        $meta = new ezcCacheStackMetaData(
+            'testId',
+            array(
+                'Test data...',
+                '...more test data...'
+            )
+        );
+
+        $storage = new ezcCacheStorageFilePlain( $temp );
+
+        $this->assertFalse(
+            file_exists( $storage->getLocation() . $storage->options->metaDataFile ),
+            'Meta data file existed before the storage was created.'
+        );
+
+        $storage->storeMetaData( $meta );
+
+        $this->assertTrue(
+            file_exists( $storage->getLocation() . $storage->options->metaDataFile ),
+            'Meta data file existed before the storage was created.'
+        );
+
+        $restoredMeta = $storage->restoreMetaData();
+
+        $this->assertEquals(
+            $meta,
+            $restoredMeta,
+            'Meta data not restored correctly.'
+        );
+
+        $this->assertTrue(
+            file_exists( $storage->getLocation() . $storage->options->metaDataFile ),
+            'Meta data does not exist anymore after restoring.'
+        );
+    }
+
+    public function testMetaDataFailure()
+    {
+        $temp = $this->createTempDir( __CLASS__ );
+
+        $storage = new ezcCacheStorageFilePlain( $temp );
+
+        $this->assertFalse(
+            file_exists( $storage->getLocation() . $storage->options->metaDataFile ),
+            'Meta data file existed before the storage was created.'
+        );
+
+        $restoredMeta = $storage->restoreMetaData();
+
+        $this->assertEquals(
+            new ezcCacheStackMetaData(),
+            $restoredMeta,
+            'Meta data not restored correctly.'
+        );
+
+        $this->assertFalse(
+            file_exists( $storage->getLocation() . $storage->options->metaDataFile ),
+            'Meta data file existed before the storage was created.'
+        );
+    }
+
     public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( "ezcCacheStorageFilePlainTest" );

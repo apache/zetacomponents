@@ -76,5 +76,55 @@ class ezcCacheStorageFilePlain extends ezcCacheStorageFile
         }
         return ( string ) $data;
     }
+
+    /**
+     * Restores and returns the meta data struct.
+     *
+     * This method fetches the meta data stored in the storage and returns the
+     * according struct of type {@link ezcCacheStackMetaData}. The meta data
+     * must be stored inside the storage, but should not be visible as normal
+     * cache items to the user.
+     * 
+     * @return ezcCacheStackMetaData
+     */
+    public function restoreMetaData()
+    {
+        // Silence require warnings. It's ok that meta data does not exist.
+        $dataStr = @$this->fetchData(
+            $this->properties['location'] . $this->properties['options']->metaDataFile
+        );
+        $dataArr = unserialize( $dataStr );
+        // Returns a new, blank meta data if no meta data is found.
+        return ( 
+            $dataArr === false
+            ? new ezcCacheStackMetaData()
+            : new ezcCacheStackMetaData( $dataArr['id'], $dataArr['data'] )
+        );
+    }
+
+    /**
+     * Stores the given meta data struct.
+     *
+     * This method stores the given $metaData inside the storage. The data must
+     * be stored with the same mechanism that the storage itself uses. However,
+     * it should not be stored as a normal cache item, if possible, to avoid
+     * accedental user manipulation.
+     *
+     * @param ezcCacheStackMetaData $metaData 
+     * @return void
+     */
+    public function storeMetaData( ezcCacheStackMetaData $metaData )
+    {
+        $dataArr = array(
+            'id'   => $metaData->id,
+            'data' => $metaData->data,
+        );
+        // This storage only handles scalar values, so we serialize here.
+        $dataStr = serialize( $dataArr );
+        $this->storeRawData(
+            $this->properties['location'] . $this->properties['options']->metaDataFile,
+            $this->prepareData( $dataStr )
+        );
+    }
 }
 ?>
