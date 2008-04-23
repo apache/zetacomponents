@@ -10,17 +10,18 @@
  */
 
 return array(
-    'ezcLogWriterException' => 'EventLog/exceptions/writer_exception.php',
-    'ezcLogWriter'          => 'EventLog/interfaces/writer.php',
-    'ezcLogFileWriter'      => 'EventLog/writers/writer_file.php',
-    'ezcLogMapper'          => 'EventLog/interfaces/mapper.php',
-    'ezcLog'                => 'EventLog/log.php',
-    'ezcLogContext'         => 'EventLog/context.php',
-    'ezcLogFilter'          => 'EventLog/structs/log_filter.php',
-    'ezcLogFilterRule'      => 'EventLog/mapper/filter_rule.php',
-    'ezcLogFilterSet'       => 'EventLog/mapper/filterset.php',
-    'ezcLogMessage'         => 'EventLog/log_message.php',
-    'ezcLogSyslogWriter'    => 'EventLog/writers/writer_syslog.php',
-    'ezcLogUnixFileWriter'  => 'EventLog/writers/writer_unix_file.php',
+    'ezcLogWriterException'        => 'EventLog/exceptions/writer_exception.php',
+    'ezcLogWrongSeverityException' => 'EventLog/exceptions/wrong_severity.php',
+    'ezcLogWriter'                 => 'EventLog/interfaces/writer.php',
+    'ezcLogFileWriter'             => 'EventLog/writers/writer_file.php',
+    'ezcLogMapper'                 => 'EventLog/interfaces/mapper.php',
+    'ezcLog'                       => 'EventLog/log.php',
+    'ezcLogContext'                => 'EventLog/context.php',
+    'ezcLogFilter'                 => 'EventLog/structs/log_filter.php',
+    'ezcLogFilterRule'             => 'EventLog/mapper/filter_rule.php',
+    'ezcLogFilterSet'              => 'EventLog/mapper/filterset.php',
+    'ezcLogMessage'                => 'EventLog/log_message.php',
+    'ezcLogSyslogWriter'           => 'EventLog/writers/writer_syslog.php',
+    'ezcLogUnixFileWriter'         => 'EventLog/writers/writer_unix_file.php',
 );
 ?>

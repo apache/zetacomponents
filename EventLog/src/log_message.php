@@ -17,6 +17,11 @@
  * more information. 
  *
  * The message formats that can be parsed are: 
+ *
+ * <pre>
+ * [ source, category, error_type] Message
+ * </pre>
+ *
  * <pre>
  * [ source, category ] Message 
  * </pre>
@@ -35,7 +40,9 @@
  * - message, contains the message without extra the additional information.
  * - source, contains either the default source or the source set in the incoming message.
  * - category, contains either the default category or the category set in the incoming message.
- * - severity, severity of the error. Which is ezcLog::NOTICE, ezcLog::WARNING, or ezcLog::ERROR. 
+ * - error_type, any severity without the leading "ezcLog::" (see {@link ezcLogMessage::parseMessage}); which are:
+ *   ezcLog::DEBUG, ezcLog::INFO, ezcLog::NOTICE, ezcLog::WARNING, ezcLog::ERROR, ezcLog::FATAL, ezcLog::FAILED_AUDIT, ezcLog::SUCCESS_AUDIT.
+ * - severity, if error_type is not set: severity of the error. Which is ezcLog::NOTICE, ezcLog::WARNING, or ezcLog::ERROR. 
  *
  * @package EventLog
  * @version //autogentag//
@@ -138,10 +145,20 @@ class ezcLogMessage
      * Parses the message $message and sets the properties. 
      *
      * See the general class documentation for message format. 
-     * The severity $severity is a E_USER_* PHP constant. The values will be translated accordingly:
+     * The severity $severity can be a E_USER_* PHP constant. The values will be translated accordingly:
      * - E_USER_NOTICE -> ezcLog::NOTICE
      * - E_USER_WARNING -> ezcLog::WARNING
      * - E_USER_ERROR -> ezcLog::ERROR
+     *
+     * Any other severity from ezcLog can be encapsulated in the message, for example:
+     * - [source, message, debug] -> ezcLog::DEBUG
+     * - [source, message, info] -> ezcLog::INFO
+     * - [source, message, notice] -> ezcLog::NOTICE
+     * - [source, message, error] -> ezcLog::ERROR
+     * - [source, message, warning] -> ezcLog::WARNING
+     * - [source, message, fatal] -> ezcLog::FATAL
+     * - [source, message, success_audit] -> ezcLog::SUCCESS_AUDIT
+     * - [source, message, failed_audit] -> ezcLog::FAILED_AUDIT
      *
      * @param string $message
      * @param int $severity
@@ -150,9 +167,9 @@ class ezcLogMessage
      */
     public function parseMessage( $message, $severity, $defaultSource, $defaultCategory )
     {
-        preg_match( "/^\s*(?:\[([^,\]]*)(?:,\s(.*))?\])?\s*(.*)$/", $message, $matches );
+        preg_match( "/^\s*(?:\[([^,\]]*)(?:,\s([^,\]]*))?(?:,\s?([a-zA-Z_]*))?\s?\])?\s*(.*)$/", $message, $matches );
 
-        $this->message = ( strcmp( $matches[3], "" ) == 0 ? false : $matches[3] );
+        $this->message = ( strcmp( $matches[4], "" ) == 0 ? false : $matches[4] );
 
         if ( strlen( $matches[2] ) == 0 )
         {
@@ -165,12 +182,27 @@ class ezcLogMessage
             $this->source = $matches[1];
         }
 
-        switch ( $severity )
+        if ( strlen( $matches[3] ) == 0 )
         {
-            case E_USER_NOTICE:  $this->severity = ezcLog::NOTICE; break;
-            case E_USER_WARNING: $this->severity = ezcLog::WARNING; break;
-            case E_USER_ERROR:  $this->severity = ezcLog::ERROR; break;
-            default: $this->severity = false;
+            switch ( $severity )
+            {
+                case E_USER_NOTICE:  $this->severity = ezcLog::NOTICE; break;
+                case E_USER_WARNING: $this->severity = ezcLog::WARNING; break;
+                case E_USER_ERROR:  $this->severity = ezcLog::ERROR; break;
+                default: $this->severity = false;
+            }
+        }
+        else
+        {
+            $constantName = 'ezcLog::' . strtoupper( trim( $matches[3] ) );
+            if ( !defined( $constantName ) )
+            {
+                throw new ezcLogWrongSeverityException( trim( $matches[3] ) );
+            }
+            else
+            {
+                $this->severity = constant( $constantName );
+            }
         }
     }
 }

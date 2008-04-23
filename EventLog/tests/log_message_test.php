@@ -122,6 +122,30 @@ class ezcLogMessageTest extends ezcTestCase
         $this->assertEquals( true, isset( $msg->severity ) );
         $this->assertEquals( false, isset( $msg->no_such_property ) );
     }
+
+    // See issue #12907
+    public function testSeverityEncapsulation()
+    {
+        $msg = new ezcLogMessage( '[my source, my category, debug ] James broke another component!', E_USER_NOTICE, false, false );
+        $this->assertEquals( 'my source', $msg->source, 'Source should match the passed value' );
+        $this->assertEquals( 'my category', $msg->category, 'Category should match the passed value' );
+        $this->assertEquals( 'James broke another component!', $msg->message, 'Message should match the passed value' );
+        $this->assertEquals( ezcLog::DEBUG, $msg->severity );
+    }
+
+    // See issue #12907
+    public function testWrongSeverityEncapsulation()
+    {
+        try
+        {
+            $msg = new ezcLogMessage( '[my source, my category, unknown ] James broke another component!', E_USER_NOTICE, false, false );
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcLogWrongSeverityException $e )
+        {
+            self::assertEquals( "There is no severity named 'unknown'.", $e->getMessage() );
+        }
+    }
 }
 
 class TestMessages
