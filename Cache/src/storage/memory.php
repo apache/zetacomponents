@@ -535,26 +535,36 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
     public function purge( $limit = null )
     {
         $this->fetchSearchRegistry( true );
+
         $purgedIds = array();
-        $counter   = 0;
+        $ttl       = $this->properties['options']->ttl;
+
         foreach ( $this->searchRegistry[$this->properties['location']] as $id => $identifiers )
         {
+            $deleted = false;
             foreach( $identifiers as $identifier => $data )
             {
-                if ( $this->fetchData( $identifier ) === false )
+                if ( $ttl !== false && $this->calcLifetime( $identifier ) > 0 )
                 {
-                    // Delete all items stored with this ID here, dunno if
-                    // other stores might be still valid.
-                    unset( $this->searchRegistry[$this->properties['location']] );
-                    ++$counter;
-                    $purgedIds[] = $id;
-                }
-                if ( $limit !== null && $counter >= $limit )
-                {
-                    break 2;
+                    // Since ID <-> identifier mapping is ambigious, this does
+                    // not ensure that all data for an ID is deleted. However,
+                    // this should work if used properly
+                    $this->backend->delete( $identifier );
+                    $this->unRegisterIdentifier( null, null, $identifiers, true );
+                    // Avoid adding an ID twice to the returned array
+                    $deleted = true;
                 }
             }
+            if ( $deleted === true )
+            {
+                $purgedIds[] = $id;
+            }
+            if ( $limit !== null && count( $purgedIds ) >= $limit )
+            {
+                break;
+            }
         }
+        $this->storeSearchRegistry();
         return $purgedIds;
     }
 
