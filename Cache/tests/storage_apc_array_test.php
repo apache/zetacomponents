@@ -28,7 +28,7 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
      *
      * @var array(string=>mixed)
      */
-    protected $data = array(
+    protected $testData = array(
         0 => array( 'a' ),
         1 => array( 1, 2, 3 ),
         2 => array( 'a', 1, 'b', 2, 'c', 3 ),
