@@ -22,6 +22,17 @@
  * @property bool $compressed
  *           If on-the-fly compression is needed. Default is false. Requires the
  *           zlib PHP extension.
+ * @property string $lockKey
+ *           Cache key to use for locking. Default is '.ezcLock'.
+ * @property int $lockWaitTime
+ *           Time to wait between lock availability checks. Measured in
+ *           microseconds ({@link usleep()}). Default is 200000.
+ * @property int $maxLockTime
+ *           Time before a lock is considered dead, measured in seconds.
+ *           Default is 5.
+ * @property string $metaDataKey
+ *           The name of the file used to store meta data. Default is
+ *           '.ezcMetaData'.
  *
  * @package Cache
  * @version //autogentag//
@@ -46,10 +57,14 @@ class ezcCacheStorageMemcacheOptions extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['host'] = false;
-        $this->properties['port'] = false;
-        $this->properties['persistent'] = false;
-        $this->properties['compressed'] = false;
+        $this->properties['host']         = false;
+        $this->properties['port']         = false;
+        $this->properties['persistent']   = false;
+        $this->properties['compressed']   = false;
+        $this->properties['lockWaitTime'] = 200000;
+        $this->properties['maxLockTime']  = 5;
+        $this->properties['lockKey']      = '.ezcLock';
+        $this->properties['metaDataKey']  = '.ezcMetaData';
         $this->storageOptions = new ezcCacheStorageOptions();
 
         parent::__construct( $options );
@@ -71,30 +86,29 @@ class ezcCacheStorageMemcacheOptions extends ezcBaseOptions
         switch ( $name )
         {
             case 'host':
-                $this->properties[$name] = $value;
-                break;
-
-            case 'port':
-                if ( $value !== false && !is_int( $value ) )
+                if ( !is_string( $value ) || strlen( $value ) < 1 )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'int' );
+                    throw new ezcBaseValueException( $name, $value, 'string, length > 0' );
                 }
-                $this->properties[$name] = $value;
                 break;
-
+            case 'port':
+                if ( $value !== false && ( !is_int( $value ) || $value < 1 ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'int > 0' );
+                }
+                break;
             case 'persistent':
             case 'compressed':
                 if ( !is_bool( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'bool' );
                 }
-                $this->properties[$name] = $value;
                 break;
-
             default:
                 // Delegate
                 $this->storageOptions->$name = $value;
         }
+        $this->properties[$name] = $value;
     }
 
     /**

@@ -61,19 +61,14 @@ class ezcCacheTest extends ezcTestCase
             $this->assertEquals( "No such property name '{$property}'.", $e->getMessage() );
         }
 
-        // workaround around a bug (?) - __isset() in ezcBaseOptions complains and warns
-        // that the second parameter for array_exists() must be an array or an object
-        if ( !$properties instanceof ezcBaseOptions )
+        try
         {
-            try
-            {
-                $value = $properties->$property;
-                $this->fail( "Expected exception was not thrown." );
-            }
-            catch ( ezcBasePropertyNotFoundException $e )
-            {
-                $this->assertEquals( "No such property name '{$property}'.", $e->getMessage() );
-            }
+            $value = $properties->$property;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( "No such property name '{$property}'.", $e->getMessage() );
         }
     }
 
