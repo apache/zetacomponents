@@ -3,6 +3,7 @@
 
 - Implemented feature #12907: Using both trigger_error() and all avalaible
   error types. (Patch by James Pic)
+- Implemented feature: Trim spaces around source.
 
 
 1.3alpha1 - Monday 07 April 2008

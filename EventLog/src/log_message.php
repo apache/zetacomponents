@@ -167,22 +167,22 @@ class ezcLogMessage
      */
     public function parseMessage( $message, $severity, $defaultSource, $defaultCategory )
     {
-        preg_match( "/^\s*(?:\[([^,\]]*)(?:,\s([^,\]]*))?(?:,\s?([a-zA-Z_]*))?\s?\])?\s*(.*)$/", $message, $matches );
+        preg_match( "/^\s*(?:\[(?:\s?)(?P<source>[^,\]]*)(?:,\s(?P<category>[^,\]]*))?(?:,\s?(?P<level>[a-zA-Z_]*))?\s?\])?\s*(?P<message>.*)$/", $message, $matches );
 
-        $this->message = ( strcmp( $matches[4], "" ) == 0 ? false : $matches[4] );
+        $this->message = $matches['message'] === '' ? false : $matches['message'];
 
-        if ( strlen( $matches[2] ) == 0 )
+        if ( $matches['category'] === '' )
         {
-            $this->category = ( strcmp( $matches[1], "" ) == 0 ? $defaultCategory : $matches[1] );
+            $this->category = $matches['source'] === '' ? $defaultCategory : $matches['source'];
             $this->source = $defaultSource;
         }
         else
         {
-            $this->category = $matches[2];
-            $this->source = $matches[1];
+            $this->category = $matches['category'];
+            $this->source = $matches['source'];
         }
 
-        if ( strlen( $matches[3] ) == 0 )
+        if ( $matches['level'] === '' )
         {
             switch ( $severity )
             {
@@ -194,10 +194,10 @@ class ezcLogMessage
         }
         else
         {
-            $constantName = 'ezcLog::' . strtoupper( trim( $matches[3] ) );
+            $constantName = 'ezcLog::' . strtoupper( trim( $matches['level'] ) );
             if ( !defined( $constantName ) )
             {
-                throw new ezcLogWrongSeverityException( trim( $matches[3] ) );
+                throw new ezcLogWrongSeverityException( trim( $matches['level'] ) );
             }
             else
             {

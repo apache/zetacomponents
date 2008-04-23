@@ -146,6 +146,15 @@ class ezcLogMessageTest extends ezcTestCase
             self::assertEquals( "There is no severity named 'unknown'.", $e->getMessage() );
         }
     }
+
+    public function testParseWithSpaces()
+    {
+        $msg = new ezcLogMessage( '[ my source, my category, debug ] James broke another component!', E_USER_NOTICE, false, false );
+        $this->assertEquals( 'my source', $msg->source, 'Source should match the passed value' );
+
+        $msg = new ezcLogMessage( '[ my source, my category, debug] James broke another component!', E_USER_NOTICE, false, false );
+        $this->assertEquals( ezcLog::DEBUG, $msg->severity );
+    }
 }
 
 class TestMessages
