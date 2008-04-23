@@ -345,39 +345,26 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
      */
     public function delete( $id = null, $attributes = array(), $search = false )
     {
+        $location = $this->properties['location'];
         // Generates the identifier
-        $filename = $this->properties['location'] . $this->generateIdentifier( $id, $attributes );
+        $filename = $location . $this->generateIdentifier( $id, $attributes );
 
         // Initializes the array
         $delFiles = array();
 
+        clearstatcache();
+
         // Checks if the file exists on the filesystem
         if ( file_exists( $filename ) )
         {
-            try
-            {
-                // Deletes from APC
-                $this->backend->delete( $filename );
-
-                // Deletes from the filesystem
-                if ( @unlink( $filename ) === false )
-                {
-                    throw new ezcBaseFilePermissionException( $filename, ezcBaseFileException::WRITE, 'Could not unlink cache file.' );
-                }
-            }
-            catch ( Exception $e )
-            {
-                clearstatcache();
-            }
-            return;
+            $delFiles[] = array( $id, $attributes, $filename );
         }
-
-        // Searches for the file on the filesystem
         else if ( $search === true )
         {
             $delFiles = $this->search( $id, $attributes );
         }
 
+        $deletedIds = array();
         // Deletes the files
         foreach ( $delFiles as $count => $filename )
         {
@@ -387,28 +374,27 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
                 unset( $this->registry[$filename[2]] );
             }
 
-            // Deletes from the filesystem and APC
-            try
+            // Deletes from APC
+            $this->backend->delete( $filename[2] );
+            $this->unRegisterIdentifier( $filename[0], $filename[1], $filename[2], true );
+            if ( isset( $this->registry[$location][$filename[0]][$filename[2]] ) )
             {
-                // Deletes from APC
-                $this->backend->delete( $filename[2] );
-                $this->unRegisterIdentifier( $filename[0], $filename[1], $filename[2], true );
-                if ( isset( $this->registry[$location][$filename[0]][$filename[2]] ) )
-                {
-                    unset( $this->registry[$location][$filename[0]][$filename[2]] );
-                }
+                unset( $this->registry[$location][$filename[0]][$filename[2]] );
+            }
 
-                // Deletes from the filesystem
-                if ( @unlink( $filename[2] ) === false )
-                {
-                    throw new ezcBaseFilePermissionException( $filename, ezcBaseFileException::WRITE, 'Could not unlink cache file.' );
-                }
-            }
-            catch ( Exception $e )
+            // Deletes from the filesystem
+            if ( @unlink( $filename[2] ) === false )
             {
-                clearstatcache();
+                throw new ezcBaseFilePermissionException(
+                    $filename,
+                    ezcBaseFileException::WRITE,
+                    'Could not unlink cache file.'
+                );
             }
+            $deletedIds[] = $filename[0];
         }
+        $this->storeSearchRegistry();
+        return $deletedIds;
     }
 
     /**

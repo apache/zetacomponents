@@ -264,6 +264,169 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
         $options->permissions = 0777;
     }
 
+    public function testStorageApcOptions()
+    {
+        $options = new ezcCacheStorageApcOptions();
+
+        $this->invalidPropertyTest( $options, 'ttl', 'wrong value', 'int > 0 or false' );
+        $this->missingPropertyTest( $options, 'no_such_option' );
+
+        $this->issetPropertyTest( $options, 'ttl', true );
+        $this->issetPropertyTest( $options, 'no_such_option', false );
+    }
+    
+    public function testResetSuccess()
+    {
+        $options = array( 'ttl' => 10 );
+        $storage = new ezcCacheStorageFileApcArray( $this->getTempDir( __CLASS__ ), $options );
+        $storage->reset();
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        $this->assertEquals(
+            5,
+            $storage->countDataItems()
+        );
+
+        $storage->reset();
+
+        $this->assertEquals(
+            0,
+            $storage->countDataItems()
+        );
+        $this->removeTempDir();
+    }
+
+    public function testDeleteReturnIds()
+    {
+        $storage = new ezcCacheStorageFileApcArray(
+            $this->getTempDir( __CLASS__ ),
+            array( 'ttl' => 100 )
+        );
+        $storage->reset();
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+
+        $attributes = array(
+            'lang' => 'en',
+        );
+
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id, $attributes );
+        }
+
+        $deleted = $storage->delete( 'Some/other/Dir/ID/3', $attributes, true );
+
+        $this->assertEquals(
+            array( 'Some/other/Dir/ID/3' ),
+            $deleted,
+            'Deleted IDs not returned correctly.'
+        );
+
+        $deleted = $storage->delete( null, $attributes, true );
+
+        $this->assertEquals(
+            array( 
+                'ID',
+                'Some/Dir/ID',
+                'Some/other/Dir/ID/1',
+                'Some/other/Dir/ID/2',
+            ),
+            $deleted,
+            'Deleted IDs not returned correctly.'
+        );
+        $this->removeTempDir();
+    }
+
+    public function testPurgeNoLimit()
+    {
+        $storage = new ezcCacheStorageFileApcArray(
+            $this->getTempDir( __FILE__ ),
+            array( 'ttl' => 1 )
+        );
+        $storage->reset();
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        // Outdate
+        usleep( 1000002 );
+
+        $purgedIds = $storage->purge();
+
+        $this->assertEquals(
+            $data,
+            $purgedIds,
+            'Purged IDs not returned correctly.'
+        );
+        $this->removeTempDir();
+    }
+
+    public function testPurgeLimit()
+    {
+        $storage = new ezcCacheStorageFileApcArray(
+            $this->getTempDir( __CLASS__ ),
+            array( 'ttl' => 1 )
+        );
+        $storage->reset();
+
+        $data = array( 
+            'ID',
+            'Some/Dir/ID',
+            'Some/other/Dir/ID/1',
+            'Some/other/Dir/ID/2',
+            'Some/other/Dir/ID/3',
+        );
+
+        foreach ( $data as $id ) 
+        {
+            $storage->store( $id, $id );
+        }
+
+        // Outdate
+        usleep( 1000002 );
+
+        $purgedIds = $storage->purge( 3 );
+
+        $this->assertEquals(
+            array( 
+                'ID',
+                'Some/Dir/ID',
+                'Some/other/Dir/ID/1',
+            ),
+            $purgedIds,
+            'Purged IDs not returned correctly.'
+        );
+        $this->removeTempDir();
+    }
+
     public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( __CLASS__ );
