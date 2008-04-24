@@ -42,6 +42,16 @@ class ezcSearchDocumentDefinition
     const INT = 5;
 
     /**
+     * Type for floating point fields.
+     */
+    const FLOAT = 6;
+
+    /**
+     * Type for boolean fields.
+     */
+    const BOOLEAN = 7;
+
+    /**
      * Contains the document type - which is the same as the class name.
      *
      * @var string

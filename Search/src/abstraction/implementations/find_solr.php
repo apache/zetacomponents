@@ -221,7 +221,8 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
      * 
      * The method uses the document definition field type to map the fieldname
      * to a solr fieldname, and the $fieldType argument to escape the $value
-     * correctly.
+     * correctly. If a definition is set, the $fieldType will be overridden
+     * with the type from the definition.
      *
      * @param string $field
      * @param mixed $value
@@ -233,6 +234,10 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
     {
         $field = trim( $field );
 
+        if ( $this->definition && isset( $this->definition->fields[$field] ) )
+        {
+            $fieldType = $this->definition->fields[$field]->type;
+        }
         $value = $this->handler->mapFieldValueForSearch( $fieldType, $value );
 
         if ( $this->definition && isset( $this->definition->fields[$field] ) )

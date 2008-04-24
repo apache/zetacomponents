@@ -56,6 +56,11 @@ class ezcSearchEmbeddedManager implements ezcSearchDefinitionManager
         // load definition
         $definition = call_user_func( array( $type, 'fetchDefinition' ) );
 
+        if ( $definition->idProperty === null )
+        {
+            throw new ezcSearchDefinitionInvalidException( 'embed', $type, 'internal', 'Missing ID property' );
+        }
+
         // store in cache
         $this->cache[$type] = $definition;
 

@@ -350,14 +350,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
                 $fieldName = $this->mapFieldType( $field->field, $field->type );
                 if ( $field->inResult && isset( $document->$fieldName ) )
                 {
-                    if ( $field->multi )
-                    {
-                        $attr[$field->field] = $document->$fieldName;
-                    }
-                    else
-                    {
-                        $attr[$field->field] = $document->{$fieldName}[0];
-                    }
+                    $attr[$field->field] = $this->mapFieldValuesForReturn( $field, $document->$fieldName );
                 }
             }
             $obj->setState( $attr );
@@ -421,7 +414,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $highlightFieldList
      * @return stdClass
      */
-    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit, $offset )
+    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = 0 )
     {
         $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList, $limit, $offset ) );
         $result = json_decode( $result );
@@ -501,6 +494,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return http_build_query( $this->buildQuery( $queryWord, '', array(), $resultFieldList ) );
     }
 
+    /**
+     * Returns the field name as used by solr created from the field $name and $type.
+     *
+     * @param string $name
+     * @param string $type
+     * @return string
+     */
     public function mapFieldType( $name, $type )
     {
         $map = array(
@@ -509,10 +509,21 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             ezcSearchDocumentDefinition::HTML => '_t',
             ezcSearchDocumentDefinition::DATE => '_l',
             ezcSearchDocumentDefinition::INT => '_l',
+            ezcSearchDocumentDefinition::FLOAT => '_d',
+            ezcSearchDocumentDefinition::BOOLEAN => '_b',
         );
         return $name . $map[$type];
     }
 
+    /**
+     * This method prepares a $value before it is passed to the indexer.
+     *
+     * Depending on the $fieldType the $value is modified so that the indexer understands the value.
+     *
+     * @param string $fieldType
+     * @param mixed $value
+     * @return mixed
+     */
     public function mapFieldValueForIndex( $fieldType, $value )
     {
         switch ( $fieldType )
@@ -535,10 +546,25 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
                     }
                     $value = $d->format( 'U' );
                 }
+                break;
+
+            case ezcSearchDocumentDefinition::BOOLEAN:
+                $value = $value ? 'true' : 'false';
+                break;
         }
         return $value;
     }
 
+    /**
+     * This method prepares a $value before it is passed to the search handler.
+     *
+     * Depending on the $fieldType the $value is modified so that the search
+     * handler understands the value.
+     *
+     * @param string $fieldType
+     * @param mixed $value
+     * @return mixed
+     */
     public function mapFieldValueForSearch( $fieldType, $value )
     {
         switch ( $fieldType )
@@ -551,6 +577,11 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
                 {
                     $value = '"' . str_replace( '"', '\"', $value ) . '"';
                 }
+                break;
+
+            case ezcSearchDocumentDefinition::INT:
+            case ezcSearchDocumentDefinition::FLOAT:
+                $value = '"' . $value . '"';
                 break;
 
             case ezcSearchDocumentDefinition::DATE:
@@ -571,10 +602,51 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
                     }
                     $value = $d->format( 'U' );
                 }
+                break;
+
+            case ezcSearchDocumentDefinition::BOOLEAN:
+                $value = ($value ? 'true' : 'false');
+                break;
         }
         return $value;
     }
 
+    /**
+     * This method prepares a $value before it is passed to the search handler.
+     *
+     * Depending on the $fieldType the $value is modified so that the search
+     * handler understands the value.
+     *
+     * @param string $fieldType
+     * @param mixed $value
+     * @return mixed
+     */
+    public function mapFieldValueForReturn( $fieldType, $value )
+    {
+        switch ( $fieldType )
+        {
+            case ezcSearchDocumentDefinition::DATE:
+                $value = new DateTime( "@$value" );
+                break;
+
+        }
+        return $value;
+    }
+
+    /**
+     * This method prepares a value or an array of $values before it is passed to the search handler.
+     *
+     * Depending on the $field the $values is modified so that the search
+     * handler understands the value. It will also correctly deal with
+     * multi-data fields in the search index.
+     *
+     * @throws ezcSearchInvalidValueException if an array of values is
+     *         submitted, but the field has not been defined as a multi-value field.
+     *
+     * @param ezcSearchDocumentDefinitionField $field
+     * @param mixed $value
+     * @return array(mixed)
+     */
     public function mapFieldValuesForSearch( $field, $values )
     {
         if ( is_array( $values ) && $field->multi == false )
@@ -592,6 +664,20 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $values;
     }
 
+    /**
+     * This method prepares a value or an array of $values before it is passed to the indexer.
+     *
+     * Depending on the $field the $values is modified so that the search
+     * handler understands the value. It will also correctly deal with
+     * multi-data fields in the search index.
+     *
+     * @throws ezcSearchInvalidValueException if an array of values is
+     *         submitted, but the field has not been defined as a multi-value field.
+     *
+     * @param ezcSearchDocumentDefinitionField $field
+     * @param mixed $value
+     * @return array(mixed)
+     */
     public function mapFieldValuesForIndex( $field, $values )
     {
         if ( is_array( $values ) && $field->multi == false )
@@ -605,6 +691,32 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         foreach ( $values as &$value )
         {
             $value = $this->mapFieldValueForIndex( $field->type, $value );
+        }
+        return $values;
+    }
+
+    /**
+     * This method prepares a value or an array of $values after it has been returned by search handler.
+     *
+     * Depending on the $field the $values is modified.  It will also correctly
+     * deal with multi-data fields in the search index.
+     *
+     * @param ezcSearchDocumentDefinitionField $field
+     * @param mixed $values
+     * @return mixed|array(mixed)
+     */
+    public function mapFieldValuesForReturn( $field, $values )
+    {
+        if ( $field->multi )
+        {
+            foreach ( $values as &$value )
+            {
+                $value = $this->mapFieldValueForReturn( $field->type, $value );
+            }
+        }
+        else
+        {
+            $values = $this->mapFieldValueForReturn( $field->type, $values[0] );
         }
         return $values;
     }
