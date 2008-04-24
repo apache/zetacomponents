@@ -81,7 +81,7 @@
  * @package Template
  * @version //autogen//
  */
-interface ezcTemplateLocationInterface
+interface ezcTemplateLocation
 {
     /**
      * Implement this method to return the path to the template source.
@@ -91,6 +91,4 @@ interface ezcTemplateLocationInterface
      */
 	public function getPath();
 }
-
-
 ?>

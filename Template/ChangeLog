@@ -3,6 +3,8 @@
 
 - Implemented issue #12723: Make Template date functions support the DateTime
   object.
+- Fixed issue #11152: ezcTemplateLocationInterface should not have "Interface"
+  in the classname.
 
 
 1.3alpha1 - Monday 03 March 2008

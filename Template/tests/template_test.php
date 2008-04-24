@@ -182,6 +182,30 @@ class ezcTemplateTest extends ezcTestCase
         $this->assertEquals("[\nYes\n]\n", $out);
     }
 
+    public function testOverrideWithNewInterface()
+    {
+        $template = new ezcTemplate();
+
+        $o = new OverrideLocationNew( "override_test");
+        $out = $template->process($o, ezcTemplateConfiguration::getInstance("templates"));
+
+        $this->assertEquals("Yes\n", $out);
+    }
+
+
+    public function testOverrideInTemplateWithNewInterface()
+    {
+        $template = new ezcTemplate();
+
+        $o = new OverrideLocationNew( "override_in_template");
+
+        $c = ezcTemplateConfiguration::getInstance("templates");
+        $c->addExtension("OverrideCustomFunctionNew");
+        $out = $template->process($o, $c);
+
+        $this->assertEquals("[\nYes\n]\n", $out);
+    }
+
     public function testTemplateFileNotWriteableException()
     {
         file_put_contents( $this->templatePath . "/test.ezt", "Hello world" );

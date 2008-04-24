@@ -203,6 +203,7 @@ class ezcTemplate
                 break;
 
             case 'configuration':
+            case 'usedConfiguration':
                 if ( $value !== null and !( $value instanceof ezcTemplateConfiguration ) )
                 {
                      throw new ezcBaseValueException( $name, $value, 'ezcTemplateConfiguration' );
@@ -252,6 +253,8 @@ class ezcTemplate
      *                                         the default one defined in this object ($configuration).
      * @return string
      *
+     * @apichange Remove the test for ezcTemplateLocationInterface as it's deprecated.
+     *
      * @throws ezcTemplateParserException
      *         If the template could not be compiled.
      * @throws ezcTemplateFileNotWriteableException
@@ -269,7 +272,7 @@ class ezcTemplate
         $this->properties["astTree"] = false;
         $this->properties["stream"] = $location;
 
-        if ( $location instanceof ezcTemplateLocationInterface )
+        if ( $location instanceof ezcTemplateLocation || $location instanceof ezcTemplateLocationInterface )
         {
             $this->properties["file"] = $location;
             $this->properties["stream"] = $location->getPath();
