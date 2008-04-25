@@ -5,6 +5,8 @@
   object.
 - Fixed issue #11152: ezcTemplateLocationInterface should not have "Interface"
   in the classname.
+- Fixed issue #12322: Template regression between 1.1 and 1.2 - support for
+  variable object properties re-added.
 
 
 1.3alpha1 - Monday 03 March 2008

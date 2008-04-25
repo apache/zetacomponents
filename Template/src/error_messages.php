@@ -70,7 +70,7 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_LHS_IS_NOT_VARIABLE               = "Unexpected operator '%s'. The left hand side must be variable.";
     const MSG_LHS_IS_NOT_VARIABLE_NO_SYMBOL     = "The left hand side must be variable.";
 
-    const MSG_EXPECT_IDENTIFIER                 = "Expect an identifier.";
+    const MSG_EXPECT_IDENTIFIER_OR_VARIABLE     = "Expecting an identifier or a variable.";
     const MSG_EXPECT_ARRAY                      = "Expecting an array.";
     const MSG_EXPECT_VALUE_NOT_ARRAY            = "Expecting a value and not an array.";
     const MSG_PARAMETER_EXPECTS_EXPRESSION      = "Parameter %s expects a value.";

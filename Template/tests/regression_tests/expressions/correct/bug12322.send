@@ -1,0 +1,14 @@
+<?php
+$v = new ezcTemplateVariableCollection();
+$v->object = new bug12322();
+
+return $v;
+
+class bug12322
+{
+	public $foo = 42;
+	public $bar = 43;
+}
+
+?>
+

@@ -1,0 +1,4 @@
+mock:3:8: The symbol <$bla> is not declared
+
+{$obj->$bla}
+       ^

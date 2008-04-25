@@ -486,10 +486,18 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             $operator = new ezcTemplatePropertyFetchOperatorTstNode( $this->parser->source, $this->startCursor, $cursor );
 
-            if ( !$this->parseRequiredType( 'Identifier' ) )
+            if ( $this->canParseType( 'Variable' , array() ) )
+            {
+                $type = $this->parser->symbolTable->retrieve( $this->lastParser->element->name );
+                if ( $type === false )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $this->lastParser->startCursor, $this->lastParser->startCursor, $this->parser->symbolTable->getErrorMessage() );
+                }
+            }
+            else if ( !$this->parseRequiredType( 'Identifier' ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
-                        ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_IDENTIFIER );
+                        ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_IDENTIFIER_OR_VARIABLE );
             }
 
 

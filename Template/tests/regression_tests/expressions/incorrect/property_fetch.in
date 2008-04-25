@@ -1,3 +1,3 @@
 {use $obj = null}
 
-{$obj->$bla}
+{$obj->@}
