@@ -39,7 +39,7 @@ abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
         }
         catch ( Exception $e )
         {
-            $this->markTestSkipped( 'No test database has been configured.' );
+            $this->markTestSkipped( 'No test database has been configured: ' . $e->getMessage() );
         }
     }
 
@@ -66,6 +66,26 @@ abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
                 foreach ( $tables as $tableName )
                 {
                     $this->db->query( "DROP TABLE \"$tableName\"" );
+                }
+            }
+            break;
+
+            case 'oracle':
+            {
+                $tables = $this->db->query( "SELECT table_name FROM user_tables" )->fetchAll();
+                array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
+
+                foreach ( $tables as $tableName )
+                {
+                    $this->db->query( "DROP TABLE \"$tableName\"" );
+                }
+
+                $sequences = $this->db->query( "SELECT sequence_name FROM user_sequences" )->fetchAll();
+                array_walk( $sequences, create_function( '&$item,$key', '$item = $item[0];' ) );
+
+                foreach ( $sequences as $sequenceName )
+                {
+                    $this->db->query( "DROP SEQUENCE \"{$sequenceName}\"" );
                 }
             }
             break;
