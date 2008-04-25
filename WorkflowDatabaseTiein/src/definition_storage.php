@@ -359,10 +359,10 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
     {
         $query = $this->db->createSelectQuery();
 
-        $query->select( $query->alias( $query->expr->max( 'workflow_version' ),
+        $query->select( $query->alias( $query->expr->max( $this->db->quoteIdentifier( 'workflow_version' ) ),
                                        'version' ) )
-              ->from( 'workflow' )
-              ->where( $query->expr->eq( 'workflow_name',
+              ->from( $this->db->quoteIdentifier( 'workflow' ) )
+              ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_name' ),
                                           $query->bindValue( $workflowName ) ) );
 
         $stmt = $query->prepare();
