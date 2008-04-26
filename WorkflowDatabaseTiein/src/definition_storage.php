@@ -57,10 +57,11 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         {
             $query = $this->db->createSelectQuery();
 
-            $query->select( 'workflow_name, workflow_version' )
-                  ->from( 'workflow' )
-                  ->where( $query->expr->eq( 'workflow_id',
-                                              $query->bindValue( (int)$workflowId ) ) );
+            $query->select( $this->db->quoteIdentifier( 'workflow_name' ) )
+                  ->select( $this->db->quoteIdentifier( 'workflow_version' ) )
+                  ->from( $this->db->quoteIdentifier( 'workflow' ) )
+                  ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_id' ),
+                                             $query->bindValue( (int)$workflowId ) ) );
 
             $stmt = $query->prepare();
             $stmt->execute();
@@ -83,9 +84,11 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         // Query the database for the nodes of the workflow to be loaded.
         $query = $this->db->createSelectQuery();
 
-        $query->select( 'node_id, node_class, node_configuration' )
-              ->from( 'node' )
-              ->where( $query->expr->eq( 'workflow_id',
+        $query->select( $this->db->quoteIdentifier( 'node_id' ) )
+              ->select( $this->db->quoteIdentifier( 'node_class' ) )
+              ->select( $this->db->quoteIdentifier( 'node_configuration' ) )
+              ->from( $this->db->quoteIdentifier( 'node' ) )
+              ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_id' ),
                                           $query->bindValue( (int)$workflowId ) ) );
 
         $stmt = $query->prepare();
@@ -141,11 +144,11 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         $query = $this->db->createSelectQuery();
 
         $query->select( $query->alias( 'node_connection.incoming_node_id',
-                                       'incoming_node_id' ) )
+                                       $this->db->quoteIdentifier( 'incoming_node_id' ) ) )
               ->select( $query->alias( 'node_connection.outgoing_node_id',
-                                       'outgoing_node_id' ) )
-              ->from( $query->innerJoin( 'node_connection',
-                                         'node',
+                                       $this->db->quoteIdentifier( 'outgoing_node_id' ) ) )
+              ->from( $query->innerJoin( $this->db->quoteIdentifier( 'node_connection' ),
+                                         $this->db->quoteIdentifier( 'node' ),
                                          'node_connection.incoming_node_id',
                                          'node.node_id' ) )
               ->where( $query->expr->eq( 'node.workflow_id',
@@ -178,9 +181,10 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         // Query the database for the variable handlers.
         $query = $this->db->createSelectQuery();
 
-        $query->select( 'variable, class' )
-              ->from( 'variable_handler' )
-              ->where( $query->expr->eq( 'workflow_id',
+        $query->select( $this->db->quoteIdentifier( 'variable' ) )
+              ->select( $this->db->quoteIdentifier( 'class' ) )
+              ->from( $this->db->quoteIdentifier( 'variable_handler' ) )
+              ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_id' ),
                                          $query->bindValue( (int)$workflowId ) ) );
 
         $stmt = $query->prepare();
@@ -227,11 +231,11 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         }
 
         // Query for the workflow_id.
-        $query->select( 'workflow_id' )
-              ->from( 'workflow' )
-              ->where( $query->expr->eq( 'workflow_name',
+        $query->select( $this->db->quoteIdentifier( 'workflow_id' ) )
+              ->from( $this->db->quoteIdentifier( 'workflow' ) )
+              ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_name' ),
                                           $query->bindValue( $workflowName ) ) )
-              ->where( $query->expr->eq( 'workflow_version',
+              ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_version' ),
                                          $query->bindValue( (int)$workflowVersion ) ) );
 
         $stmt = $query->prepare();
@@ -275,10 +279,10 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         // Write workflow table row.
         $query = $this->db->createInsertQuery();
 
-        $query->insertInto( 'workflow' )
-              ->set( 'workflow_name', $query->bindValue( $workflow->name ) )
-              ->set( 'workflow_version', $query->bindValue( (int)$workflowVersion ) )
-              ->set( 'workflow_created', $query->bindValue( time() ) );
+        $query->insertInto( $this->db->quoteIdentifier( 'workflow' ) )
+              ->set( $this->db->quoteIdentifier( 'workflow_name' ), $query->bindValue( $workflow->name ) )
+              ->set( $this->db->quoteIdentifier( 'workflow_version' ), $query->bindValue( (int)$workflowVersion ) )
+              ->set( $this->db->quoteIdentifier( 'workflow_created' ), $query->bindValue( time() ) );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -299,17 +303,17 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
 
             $query = $this->db->createInsertQuery();
 
-            $query->insertInto( 'node' )
-                  ->set( 'workflow_id', $query->bindValue( (int)$workflow->id ) )
-                  ->set( 'node_class', $query->bindValue( get_class( $node ) ) )
-                  ->set( 'node_configuration', $query->bindValue(
+            $query->insertInto( $this->db->quoteIdentifier( 'node' ) )
+                  ->set( $this->db->quoteIdentifier( 'workflow_id' ), $query->bindValue( (int)$workflow->id ) )
+                  ->set( $this->db->quoteIdentifier( 'node_class' ), $query->bindValue( get_class( $node ) ) )
+                  ->set( $this->db->quoteIdentifier( 'node_configuration' ), $query->bindValue(
                     ezcWorkflowDatabaseUtil::serialize( $node->getConfiguration() ) )
                   );
 
             $statement = $query->prepare();
             $statement->execute();
 
-            $node->setId( $this->db->lastInsertId( 'node_node_id_seq' ) );
+            $node->setId( $this->db->lastInsertId( $this->db->quoteIdentifier( 'node_node_id_seq' ) ) );
         }
 
         // Connect node table rows.
@@ -322,9 +326,9 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
             {
                 $query = $this->db->createInsertQuery();
 
-                $query->insertInto( 'node_connection' )
-                      ->set( 'incoming_node_id', $query->bindValue( (int)$node->getId() ) )
-                      ->set( 'outgoing_node_id', $query->bindValue( (int)$outNode->getId() ) );
+                $query->insertInto( $this->db->quoteIdentifier( 'node_connection' ) )
+                      ->set( $this->db->quoteIdentifier( 'incoming_node_id' ), $query->bindValue( (int)$node->getId() ) )
+                      ->set( $this->db->quoteIdentifier( 'outgoing_node_id' ), $query->bindValue( (int)$outNode->getId() ) );
 
                 $statement = $query->prepare();
                 $statement->execute();
@@ -336,10 +340,10 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         {
             $query = $this->db->createInsertQuery();
 
-            $query->insertInto( 'variable_handler' )
-                  ->set( 'workflow_id', $query->bindValue( (int)$workflow->id ) )
-                  ->set( 'variable', $query->bindValue( $variable ) )
-                  ->set( 'class', $query->bindValue( $class ) );
+            $query->insertInto( $this->db->quoteIdentifier( 'variable_handler' ) )
+                  ->set( $this->db->quoteIdentifier( 'workflow_id' ), $query->bindValue( (int)$workflow->id ) )
+                  ->set( $this->db->quoteIdentifier( 'variable' ), $query->bindValue( $variable ) )
+                  ->set( $this->db->quoteIdentifier( 'class' ), $query->bindValue( $class ) );
 
             $statement = $query->prepare();
             $statement->execute();
