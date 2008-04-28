@@ -9,7 +9,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-include_once( 'Cache/tests/test.php' );
 
 /**
  * Abstract base test class for ezcCacheStorage tests.
@@ -17,7 +16,7 @@ include_once( 'Cache/tests/test.php' );
  * @package Cache
  * @subpackage Tests
  */
-abstract class ezcCacheStorageTest extends ezcCacheTest
+abstract class ezcCacheStorageTest extends ezcTestCase
 {
     /**
      * storageClass 

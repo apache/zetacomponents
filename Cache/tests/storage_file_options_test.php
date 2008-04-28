@@ -9,7 +9,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'Cache/tests/test.php';
 
 /**
  * Abstract base test class for ezcCacheStorageFileOptions tests.
@@ -17,7 +16,7 @@ require_once 'Cache/tests/test.php';
  * @package Cache
  * @subpackage Tests
  */
-class ezcCacheStorageFileOptionsTest extends ezcCacheTest
+class ezcCacheStorageFileOptionsTest extends ezcTestCase
 {
 	public static function suite()
 	{

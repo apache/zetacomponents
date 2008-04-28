@@ -9,7 +9,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'Cache/tests/test.php';
 require_once 'wrappers/memcache_wrapper.php';
 
 /**
@@ -18,7 +17,7 @@ require_once 'wrappers/memcache_wrapper.php';
  * @package Cache
  * @subpackage Tests
  */
-class ezcCacheStorageOptionsTest extends ezcCacheTest
+class ezcCacheStorageOptionsTest extends ezcTestCase
 {
 	public static function suite()
 	{
