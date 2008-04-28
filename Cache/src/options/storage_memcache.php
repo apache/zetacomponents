@@ -104,6 +104,20 @@ class ezcCacheStorageMemcacheOptions extends ezcBaseOptions
                     throw new ezcBaseValueException( $name, $value, 'bool' );
                 }
                 break;
+            case 'lockWaitTime':
+            case 'maxLockTime':
+                if ( !is_int( $value ) || $value < 1 )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'int > 0' );
+                }
+                break;
+            case 'lockKey':
+            case 'metaDataKey':
+                if ( !is_string( $value ) || strlen( $value ) < 1 )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'string, length > 0' );
+                }
+                break;
             default:
                 // Delegate
                 $this->storageOptions->$name = $value;

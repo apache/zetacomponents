@@ -244,19 +244,68 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         $this->assertTrue( isset( $options->port ) );
         $this->assertTrue( isset( $options->compressed ) );
         $this->assertTrue( isset( $options->persistent ) );
+        $this->assertTrue( isset( $options->lockWaitTime ) );
+        $this->assertTrue( isset( $options->maxLockTime ) );
+        $this->assertTrue( isset( $options->lockKey ) );
+        $this->assertTrue( isset( $options->metaDataKey ) );
+
         $this->assertFalse( isset( $options->foo ), 'Exception not thrown on invalid property.' );
 
-        $this->assertSetPropertyFails( $options, 'host', array( true, false, 23, 42.23, array(), new stdClass(), '' ) );
-        $this->assertSetPropertyFails( $options, 'ttl', array( true, 42.23, array(), new stdClass(), '', 'foo' ) );
-        $this->assertSetPropertyFails( $options, 'port', array( true, false, -23, 42.23, array(), new stdClass(), '', 'foo' ) );
-        $this->assertSetPropertyFails( $options, 'compressed', array( 42, -23, 42.23, array(), new stdClass(), '', 'foo' ) );
-        $this->assertSetPropertyFails( $options, 'persistent', array( 42, -23, 42.23, array(), new stdClass(), '', 'foo' ) );
+        $this->assertSetPropertyFails(
+            $options,
+            'host',
+            array( true, false, 23, 42.23, array(), new stdClass(), '' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'ttl',
+            array( true, 42.23, array(), new stdClass(), '', 'foo' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'port',
+            array( true, false, -23, 42.23, array(), new stdClass(), '', 'foo' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'compressed',
+            array( 42, -23, 42.23, array(), new stdClass(), '', 'foo' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'persistent',
+            array( 42, -23, 42.23, array(), new stdClass(), '', 'foo' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'lockWaitTime',
+            array( true, false, -23, 42.23, array(), new stdClass(), '', 'foo' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'maxLockTime',
+            array( true, false, -23, 42.23, array(), new stdClass(), '', 'foo' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'lockKey',
+            array( true, false, 42, -23, 42.23, array(), new stdClass(), '' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'metaDataKey',
+            array( true, false, 42, -23, 42.23, array(), new stdClass(), '' )
+        );
         
         $this->assertSetProperty( $options, 'host', array( 'localhost', '192.168.0.14' ) );
         $this->assertSetProperty( $options, 'ttl', array( 1, 1000 ) );
         $this->assertSetProperty( $options, 'port', array( 1, 23 ) );
-        $this->assertSetProperty( $options, 'compressed', array( true, false ) );
         $this->assertSetProperty( $options, 'persistent', array( true, false ) );
+        $this->assertSetProperty( $options, 'compressed', array( true, false ) );
+        $this->assertSetProperty( $options, 'lockWaitTime', array( 1, 10 ) );
+        $this->assertSetProperty( $options, 'maxLockTime', array( 1, 10 ) );
+        $this->assertSetProperty( $options, 'lockKey', array( 'foo' ) );
+        $this->assertSetProperty( $options, 'metaDataKey', array( 'foo' ) );
     }
 
     public function testCacheBackendSingleConnection()
@@ -358,7 +407,12 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         }
         catch ( ezcBaseValueException $e )
         {
-            $this->assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'options' is invalid. Allowed values are: instance of ezcCacheStorageMemcacheOptions.", $e->getMessage() );
+            $this->assertEquals(
+                "The value 'O:8:\"stdClass\":0:{}' that you were trying to "
+                    . "assign to setting 'options' is invalid. Allowed values "
+                    . "are: instance of ezcCacheStorageMemcacheOptions.",
+                $e->getMessage()
+            );
         }
     }
     
