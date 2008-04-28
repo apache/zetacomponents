@@ -142,5 +142,17 @@ class ezcCacheStorageMemcacheOptions extends ezcBaseOptions
     {
         return ( isset( $this->properties[$name] ) || isset( $this->storageOptions->$name ) );
     }
+
+    /**
+     * Merge an ezcCacheStorageOptions object into this object.
+     * 
+     * @param ezcCacheStorageOptions $options The options to merge.
+     * @return void
+     * @ignore
+     */
+    public function mergeStorageOptions( ezcCacheStorageOptions $options )
+    {
+        $this->storageOptions = $options;
+    }
 }
 ?>

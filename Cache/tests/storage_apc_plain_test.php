@@ -196,13 +196,29 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
 
     public function testStorageApcOptions()
     {
-        $options = new ezcCacheStorageApcOptions();
+        $opt = new ezcCacheStorageApcOptions();
 
-        $this->invalidPropertyTest( $options, 'ttl', 'wrong value', 'int > 0 or false' );
-        $this->missingPropertyTest( $options, 'no_such_option' );
+        $this->assertTrue( isset( $opt->ttl ) );
+        $this->assertEquals( $opt->ttl, 86400 );
+        $this->assertSetPropertyFails(
+            $opt,
+            'ttl',
+            array( true, 23.42, 'foo', array(), new stdClass() )
+        );
 
-        $this->issetPropertyTest( $options, 'ttl', true );
-        $this->issetPropertyTest( $options, 'no_such_option', false );
+        $this->assertFalse( isset( $opt->foo ) );
+        try
+        {
+            $opt->foo = 23;
+            $this->fail( 'Exception not thrown on set for unknown property.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e ) {}
+        try
+        {
+            echo $opt->foo;
+            $this->fail( 'Exception not thrown on get for unknown property.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e ) {}
     }
     
     public function testResetSuccess()

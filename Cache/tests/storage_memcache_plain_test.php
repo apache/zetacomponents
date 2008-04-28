@@ -285,26 +285,70 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
 
     public function testStorageProperties()
     {
-        $storage = new ezcCacheStorageMemcacheWrapper( '.', array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 ) );
+        $storage = new ezcCacheStorageMemcachePlain( '.', array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 ) );
         $storage->reset();
 
-        $this->invalidPropertyTest( $storage, 'options', 'wrong value', 'instance of ezcCacheStorageOptions' );
-        $this->missingPropertyTest( $storage, 'no_such_property' );
-        $this->issetPropertyTest( $storage, 'options', true );
-        $this->issetPropertyTest( $storage, 'no_such_property', false );
+        $this->assertTrue( isset( $storage->options ) );
+        $this->assertType(
+            'ezcCacheStorageMemcacheOptions',
+            $storage->options
+        );
+
+        $this->assertSetProperty(
+            $storage,
+            'options',
+            array( new ezcCacheStorageMemcacheOptions() )
+        );
+        $this->assertSetPropertyFails(
+            $storage,
+            'options',
+            array( 'foo', 23, 42.23, true, false, new stdClass() )
+        );
+
+        $this->assertFalse( isset( $storage->foo ) );
+        try
+        {
+            $storage->foo = 23;
+            $this->fail( 'Exception not thrown on set for invalid property.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e ) {}
+        try
+        {
+            echo $storage->foo;
+            $this->fail( 'Exception not thrown on get for invalid property.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e ) {}
     }
 
     public function testStorageOptions()
     {
-        $options = new ezcCacheStorageOptions();
-        $storage = new ezcCacheStorageMemcacheWrapper( '.', array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 ) );
+        $storageOptions = new ezcCacheStorageOptions();
+        $storageMemcacheOptions = new ezcCacheStorageMemcacheOptions();
+        $arrayOptions = array();
+
+        $storage = new ezcCacheStorageMemcacheWrapper(
+            '.',
+            array( 'host' => 'localhost', 'port' => 11211, 'ttl' => 10 )
+        );
         $storage->reset();
 
-        $storage->setOptions( $options );
-        $this->assertEquals( $options, $storage->getOptions() );
+        $storage->setOptions( $storageMemcacheOptions );
+        $this->assertEquals( $storageMemcacheOptions, $storage->getOptions() );
 
-        $storage->options = $options;
-        $this->assertEquals( $options, $storage->getOptions() );
+        $storage->options = $storageMemcacheOptions;
+        $this->assertEquals( $storageMemcacheOptions, $storage->getOptions() );
+        
+        $storage->setOptions( $storageOptions );
+        $this->assertEquals( $storageMemcacheOptions, $storage->getOptions() );
+
+        $storage->options = $storageOptions;
+        $this->assertEquals( $storageMemcacheOptions, $storage->getOptions() );
+        
+        $storage->setOptions( $arrayOptions );
+        $this->assertEquals( $storageMemcacheOptions, $storage->getOptions() );
+
+        $storage->options = $arrayOptions;
+        $this->assertEquals( $storageMemcacheOptions, $storage->getOptions() );
 
         $options = new stdClass();
         try
@@ -314,7 +358,7 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         }
         catch ( ezcBaseValueException $e )
         {
-            $this->assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'options' is invalid. Allowed values are: instance of ezcCacheStorageOptions.", $e->getMessage() );
+            $this->assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'options' is invalid. Allowed values are: instance of ezcCacheStorageMemcacheOptions.", $e->getMessage() );
         }
     }
     
