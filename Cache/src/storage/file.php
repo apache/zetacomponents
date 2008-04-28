@@ -843,22 +843,19 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
             case 'options':
                 if ( $val instanceof ezcCacheStorageFileOptions )
                 {
-                    $this->options = $val;
+                    $this->properties['options'] = $val;
+                    return;
                 }
-                else if ( $val instanceof ezcCacheStorageOptions )
+                if ( $val instanceof ezcCacheStorageOptions )
                 {
-                    $this->options->mergeStorageOptions( $val );
+                    $this->properties['options']->mergeStorageOptions( $val );
+                    return;
                 }
-                else
-                {
-                    throw new ezcBaseValueException(
-                        $propertyName,
-                        $val,
-                        'instance of ezcCacheStorageFileOptions'
-                    );
-                }
-                $this->properties['options'] = $val;
-                return;
+                throw new ezcBaseValueException(
+                    $propertyName,
+                    $val,
+                    'instance of ezcCacheStorageFileOptions'
+                );
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }

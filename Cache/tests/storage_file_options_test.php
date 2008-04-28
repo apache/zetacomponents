@@ -216,9 +216,11 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
         $obj = new ezcCacheStorageFileArray( '/tmp' );
         $options = new ezcCacheStorageFileOptions();
         $optionsGeneral = new ezcCacheStorageOptions();
+        
+        $this->assertEquals( $options, $obj->getOptions() );
 
         $obj->options = $optionsGeneral;
-        $this->assertEquals( $optionsGeneral, $obj->getOptions() );
+        $this->assertEquals( $options, $obj->getOptions() );
 
         $obj->options = $options;
         $this->assertEquals( $options, $obj->getOptions() );
@@ -236,7 +238,13 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
         }
         catch ( ezcBaseValueException $e )
         {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'options' is invalid. Allowed values are: instance of ezcCacheStorageFileOptions or (deprecated) ezcCacheStorageOptions.", $e->getMessage() );
+            $this->assertEquals(
+                "The value 'wrong value' that you were trying to assign to "
+                    . "setting 'options' is invalid. Allowed values are: " 
+                    . "instance of ezcCacheStorageFileOptions or (deprecated) "
+                    . "ezcCacheStorageOptions.",
+                $e->getMessage()
+            );
         }
     }
 
@@ -245,8 +253,21 @@ class ezcCacheStorageFileOptionsTest extends ezcCacheTest
         $obj = new ezcCacheStorageFileArray( '/tmp' );
         $options = new ezcCacheStorageFileOptions();
 
-        $this->invalidPropertyTest( $obj, 'options', 'wrong value', 'instance of ezcCacheStorageFileOptions' );
-        $this->missingPropertyTest( $obj, 'no_such_option' );
+        $this->assertTrue(
+            isset( $obj->options )
+        );
+
+        $obj->options = $options;
+        $this->assertSame(
+            $options,
+            $obj->options
+        );
+
+        $this->assertSetPropertyFails(
+            $obj,
+            'options',
+            array( true, false, 23, 42.23, 'foo', new stdClass() )
+        );
     }
 
     protected function genericSetFailureTest( $obj, $property, $value )
