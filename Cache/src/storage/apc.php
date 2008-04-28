@@ -81,5 +81,50 @@ abstract class ezcCacheStorageApc extends ezcCacheStorageMemory
      * @return mixed Prepared data
      */
     abstract protected function prepareData( $data );
+    
+    /**
+     * Property write access.
+     *
+     * @param string $propertyName Name of the property.
+     * @param mixed $val  The value for the property.
+     *
+     * @throws ezcBaseValueException
+     *         If a the value for the property options is not an instance of
+     *         ezcCacheStorageOptions.
+     * @ignore
+     */
+    public function __set( $propertyName, $val )
+    {
+        switch ( $propertyName )
+        {
+            case 'options':
+                $this->setOptions( $val );
+                return;
+            default:
+                parent::__set( $propertyName, $val );
+        }
+    }
+    
+    public function setOptions( $options )
+    {
+        switch ( true )
+        {
+            case ( $options instanceof ezcCacheStorageApcOptions ):
+                $this->properties['options'] = $options;
+                break;
+            case ( $options instanceof ezcCacheStorageOptions ):
+                $this->properties['options']->mergeStorageOptions( $options );
+                break;
+            case ( is_array( $options ) ):
+                $this->properties['options']->merge( $options );
+                break;
+            default:
+                throw new ezcBaseValueException(
+                    'options',
+                    $options,
+                    'instance of ezcCacheStorageApcOptions'
+                );
+        }
+    }
 }
 ?>

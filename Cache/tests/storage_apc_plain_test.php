@@ -196,29 +196,109 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
 
     public function testStorageApcOptions()
     {
-        $opt = new ezcCacheStorageApcOptions();
+        $options = new ezcCacheStorageApcOptions();
 
-        $this->assertTrue( isset( $opt->ttl ) );
-        $this->assertEquals( $opt->ttl, 86400 );
+        $this->assertTrue( isset( $options->ttl ) );
+        $this->assertTrue( isset( $options->lockWaitTime ) );
+        $this->assertTrue( isset( $options->maxLockTime ) );
+        $this->assertTrue( isset( $options->lockKey ) );
+        $this->assertTrue( isset( $options->metaDataKey ) );
+
+        $this->assertEquals( $options->ttl, 86400 );
+        
+        $this->assertFalse( isset( $options->foo ), 'Exception not thrown on invalid property.' );
+
         $this->assertSetPropertyFails(
-            $opt,
+            $options,
             'ttl',
-            array( true, 23.42, 'foo', array(), new stdClass() )
+            array( true, 42.23, array(), new stdClass(), '', 'foo' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'lockWaitTime',
+            array( true, false, -23, 42.23, array(), new stdClass(), '', 'foo' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'maxLockTime',
+            array( true, false, -23, 42.23, array(), new stdClass(), '', 'foo' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'lockKey',
+            array( true, false, 42, -23, 42.23, array(), new stdClass(), '' )
+        );
+        $this->assertSetPropertyFails(
+            $options,
+            'metaDataKey',
+            array( true, false, 42, -23, 42.23, array(), new stdClass(), '' )
         );
 
-        $this->assertFalse( isset( $opt->foo ) );
+        $this->assertSetProperty( $options, 'ttl', array( 1, 1000 ) );
+        $this->assertSetProperty( $options, 'lockWaitTime', array( 1, 10 ) );
+        $this->assertSetProperty( $options, 'maxLockTime', array( 1, 10 ) );
+        $this->assertSetProperty( $options, 'lockKey', array( 'foo' ) );
+        $this->assertSetProperty( $options, 'metaDataKey', array( 'foo' ) );
+
         try
         {
-            $opt->foo = 23;
+            $options->foo = 23;
             $this->fail( 'Exception not thrown on set for unknown property.' );
         }
         catch ( ezcBasePropertyNotFoundException $e ) {}
         try
         {
-            echo $opt->foo;
+            echo $options->foo;
             $this->fail( 'Exception not thrown on get for unknown property.' );
         }
         catch ( ezcBasePropertyNotFoundException $e ) {}
+    }
+    
+    public function testStorageOptions()
+    {
+        $storageOptions = new ezcCacheStorageOptions();
+        $storageApcOptions = new ezcCacheStorageApcOptions();
+        $arrayOptions = array();
+
+        $storage = new ezcCacheStorageApcPlain(
+            '.',
+            array()
+        );
+        $storage->reset();
+
+        $storage->setOptions( $storageApcOptions );
+        $this->assertEquals( $storageApcOptions, $storage->getOptions() );
+
+        $storage->options = $storageApcOptions;
+        $this->assertEquals( $storageApcOptions, $storage->getOptions() );
+        
+        $storage->setOptions( $storageOptions );
+        $this->assertEquals( $storageApcOptions, $storage->getOptions() );
+
+        $storage->options = $storageOptions;
+        $this->assertEquals( $storageApcOptions, $storage->getOptions() );
+        
+        $storage->setOptions( $arrayOptions );
+        $this->assertEquals( $storageApcOptions, $storage->getOptions() );
+
+        $storage->options = $arrayOptions;
+        $this->assertEquals( $storageApcOptions, $storage->getOptions() );
+
+        $options = new stdClass();
+        try
+        {
+            $storage->setOptions( $options );
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals(
+                "The value 'O:8:\"stdClass\":0:{}' that you were trying to "
+                    . "assign to setting 'options' is invalid. Allowed values "
+                    . "are: instance of ezcCacheStorageApcOptions.",
+                $e->getMessage()
+            );
+        }
     }
     
     public function testResetSuccess()
