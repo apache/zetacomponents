@@ -57,10 +57,11 @@ class ezcCacheStorageFileApcArrayOptions extends ezcCacheStorageApcOptions
                     throw new ezcBaseValueException( $name, $value, "int > 0 and <= 0777" );
                 }
                 break;
-
             default:
                 parent::__set( $name, $value );
+                return;
         }
+        $this->properties[$name] = $value;
     }
 }
 ?>

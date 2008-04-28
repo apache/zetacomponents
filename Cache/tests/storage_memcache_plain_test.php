@@ -238,19 +238,25 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
     public function testStorageMemcacheOptions()
     {
         $options = new ezcCacheStorageMemcacheOptions();
+        
+        $this->assertTrue( isset( $options->host ) );
+        $this->assertTrue( isset( $options->ttl ) );
+        $this->assertTrue( isset( $options->port ) );
+        $this->assertTrue( isset( $options->compressed ) );
+        $this->assertTrue( isset( $options->persistent ) );
+        $this->assertFalse( isset( $options->foo ), 'Exception not thrown on invalid property.' );
 
-        $this->invalidPropertyTest( $options, 'ttl', 'wrong value', 'int > 0 or false' );
-        $this->invalidPropertyTest( $options, 'port', 'wrong value', 'int' );
-        $this->invalidPropertyTest( $options, 'compressed', 'wrong value', 'bool' );
-        $this->invalidPropertyTest( $options, 'persistent', 'wrong value', 'bool' );
-        $this->missingPropertyTest( $options, 'no_such_option' );
-
-        $this->issetPropertyTest( $options, 'host', true );
-        $this->issetPropertyTest( $options, 'ttl', true );
-        $this->issetPropertyTest( $options, 'port', true );
-        $this->issetPropertyTest( $options, 'compressed', true );
-        $this->issetPropertyTest( $options, 'persistent', true );
-        $this->issetPropertyTest( $options, 'no_such_option', false );
+        $this->assertSetPropertyFails( $options, 'host', array( true, false, 23, 42.23, array(), new stdClass(), '' ) );
+        $this->assertSetPropertyFails( $options, 'ttl', array( true, 42.23, array(), new stdClass(), '', 'foo' ) );
+        $this->assertSetPropertyFails( $options, 'port', array( true, false, -23, 42.23, array(), new stdClass(), '', 'foo' ) );
+        $this->assertSetPropertyFails( $options, 'compressed', array( 42, -23, 42.23, array(), new stdClass(), '', 'foo' ) );
+        $this->assertSetPropertyFails( $options, 'persistent', array( 42, -23, 42.23, array(), new stdClass(), '', 'foo' ) );
+        
+        $this->assertSetProperty( $options, 'host', array( 'localhost', '192.168.0.14' ) );
+        $this->assertSetProperty( $options, 'ttl', array( 1, 1000 ) );
+        $this->assertSetProperty( $options, 'port', array( 1, 23 ) );
+        $this->assertSetProperty( $options, 'compressed', array( true, false ) );
+        $this->assertSetProperty( $options, 'persistent', array( true, false ) );
     }
 
     public function testCacheBackendSingleConnection()

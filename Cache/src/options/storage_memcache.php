@@ -92,7 +92,7 @@ class ezcCacheStorageMemcacheOptions extends ezcBaseOptions
                 }
                 break;
             case 'port':
-                if ( $value !== false && ( !is_int( $value ) || $value < 1 ) )
+                if ( !is_int( $value ) || $value < 1 )
                 {
                     throw new ezcBaseValueException( $name, $value, 'int > 0' );
                 }

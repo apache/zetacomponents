@@ -252,27 +252,104 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
 
     public function testStorageFileApcArrayOptions()
     {
-        $options = new ezcCacheStorageFileApcArrayOptions();
+        $opt = new ezcCacheStorageFileApcArrayOptions();
+        
+        $this->assertTrue( isset( $opt->ttl ) );
+        $this->assertTrue( isset( $opt->extension ) );
+        $this->assertTrue( isset( $opt->permissions ) );
+        $this->assertFalse( isset( $opt->foo ) );
+        
+        $this->assertEquals( $opt->ttl, 86400 );
+        $this->assertEquals( $opt->extension, ".cache" );
+        $this->assertEquals( $opt->permissions, 0644 );
 
-        $this->invalidPropertyTest( $options, 'ttl', 'wrong value', 'int > 0 or false' );
-        $this->invalidPropertyTest( $options, 'permissions', 'wrong value', 'int > 0 and <= 0777' );
-        $this->invalidPropertyTest( $options, 'permissions', -1, 'int > 0 and <= 0777' );
-        $this->invalidPropertyTest( $options, 'permissions', 07777, 'int > 0 and <= 0777' );
-        $this->missingPropertyTest( $options, 'no_such_option' );
+        $this->assertSetProperty(
+            $opt,
+            'ttl',
+            array( 0, 23, false )
+        );
 
-        // valid set
-        $options->permissions = 0777;
+        $this->assertSetProperty(
+            $opt,
+            'permissions',
+            array( 0777 )
+        );
+
+        $this->assertSetProperty(
+            $opt,
+            'extension',
+            array( '.foo' )
+        );
+        
+        $this->assertSetPropertyFails(
+            $opt,
+            'ttl',
+            array( true, 23.42, 'foo', array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'permissions',
+            array( true, 23.42, 'foo', array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'extension',
+            array( true, false, 23.42, array(), new stdClass() )
+        );
+
     }
 
     public function testStorageApcOptions()
     {
-        $options = new ezcCacheStorageApcOptions();
+        $opt = new ezcCacheStorageFileApcArrayOptions();
+        
+        $this->assertTrue( isset( $opt->ttl ) );
+        $this->assertTrue( isset( $opt->extension ) );
+        $this->assertTrue( isset( $opt->permissions ) );
+        $this->assertFalse( isset( $opt->foo ) );
+        
+        $this->assertEquals( $opt->ttl, 86400 );
+        $this->assertEquals( $opt->extension, ".cache" );
+        $this->assertEquals( $opt->permissions, 0644 );
 
-        $this->invalidPropertyTest( $options, 'ttl', 'wrong value', 'int > 0 or false' );
-        $this->missingPropertyTest( $options, 'no_such_option' );
+        $this->assertSetProperty(
+            $opt,
+            'ttl',
+            array( 0, 23, false )
+        );
 
-        $this->issetPropertyTest( $options, 'ttl', true );
-        $this->issetPropertyTest( $options, 'no_such_option', false );
+        $this->assertSetProperty(
+            $opt,
+            'permissions',
+            array( 0, 0777 )
+        );
+
+        $this->assertSetProperty(
+            $opt,
+            'extension',
+            array( '.foo' )
+        );
+        
+        $this->assertSetPropertyFails(
+            $opt,
+            'ttl',
+            array( true, 23.42, 'foo', array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'permissions',
+            array( true, 23.42, 'foo', array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'extension',
+            array( true, false, 23.42, array(), new stdClass() )
+        );
+
     }
     
     public function testResetSuccess()
