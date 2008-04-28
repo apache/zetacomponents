@@ -402,8 +402,15 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
      */
     public function generateIdentifier( $id, $attributes = null )
     {
-       $identifier = strtolower( $this->backendName ) . $this->properties['location'] . $id . ( ( $attributes !== null && !empty( $attributes ) ) ? md5( serialize( $attributes ) ) : '' );
-       return urlencode( $identifier );
+        $identifier = strtolower( $this->backendName )
+            . $this->properties['location']
+            . $id 
+            . (
+                ( $attributes !== null && !empty( $attributes ) ) 
+                ? md5( serialize( $attributes ) ) 
+                : ''
+        );
+        return urlencode( $identifier );
     }
 
     /**
@@ -572,25 +579,6 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
     }
 
     /**
-     * Delete data from the cache.
-     *
-     * This method is already defined in {@link ezcCacheStorage::delete()}.
-     * However, the basic definition does not define a return value. If this
-     * interface is implemented, the method must return an array of item IDs
-     * that have been deleted from the storage.
-     *
-     * @param string $id
-     * @param array(string=>string)
-     * @param bool $search
-     *
-     * @return array(string)
-     */
-    // @TODO: Does not work since this method is already declared abstract in
-    // ezcCacheStorage. "Fatal error: Can't inherit abstract function..." in
-    // 5.2.6RC3-dev
-    // public function delete( $id = null, $attributes = array(), $search = false );
-
-    /**
      * Reset the complete storage.
      *
      * This method resets the complete cache storage. All content (including
@@ -603,8 +591,9 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
     public function reset()
     {
         $this->backend->reset();
-        $this->searchRegistry = array();
-        $this->registry       = array();
+        $this->registry = array();
+        $this->searchRegistry = array( $this->properties['location'] => null );
+        $this->storeSearchRegistry();
     }
 }
 ?>
