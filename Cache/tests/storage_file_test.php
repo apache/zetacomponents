@@ -599,6 +599,11 @@ class ezcCacheStorageFileTest extends ezcTestCase
             'Lock file exists.'
         );
 
+        $this->assertFalse(
+            $this->getObjectAttribute( $storage, 'lockResource' ),
+            'Lock resource not correctly initialized'
+        );
+
         $storage->lock();
 
         $this->assertTrue(
@@ -606,7 +611,19 @@ class ezcCacheStorageFileTest extends ezcTestCase
             'Lock file does not exist.'
         );
 
+        $this->assertTrue(
+            is_resource(
+                $this->getObjectAttribute( $storage, 'lockResource' )
+            ),
+            'Lock resource not correctly created'
+        );
+
         $storage->unlock();
+
+        $this->assertFalse(
+            $this->getObjectAttribute( $storage, 'lockResource' ),
+            'Lock resource not correctly released'
+        );
 
         $this->assertFalse(
             file_exists( $storage->getLocation() . $storage->options->lockFile ),

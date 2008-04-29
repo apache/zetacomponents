@@ -757,12 +757,14 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      */
     public function unlock()
     {
+        // If the resource is already removed, nothing to do
         if ( $this->lockResource !== false )
         {
             fclose( $this->lockResource );
             @unlink(
                 $this->properties['location'] . $this->properties['options']->lockFile
             );
+            $this->lockResource = false;
         }
     }
 
