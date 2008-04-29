@@ -2,7 +2,7 @@
 <rss version="2.0">
   <channel>
     <title>eZ news feed</title>
-    <link>http://ez.no</link>
+    <link>http://ez.no/</link>
     <description>This RSS feed contains news feeds for eZ Publish and eZ Components.</description>
     <managingEditor>nospam@ez.no (Derick)</managingEditor>
     <pubDate>Wed, 05 Mar 2008 14:28:45 +0000</pubDate>

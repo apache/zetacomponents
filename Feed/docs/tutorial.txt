@@ -150,7 +150,7 @@ The information which we want to show in the feed is:
 - an *author* (called *managerEditor* in RSS2): ``nospam@ez.no (Derick)``
   (this is the recommended way to specify an author in RSS2, with an email
   address and the name of the person in paranthesis)
-- a *link* to our website: ``http://ez.no``
+- a *link* to our website: ``http://ez.no/``
 - the news *items* (a short story about each product release)
 
 A news item can be defined by these elements (example for one news item):
@@ -200,7 +200,7 @@ are set as simple properties (the way **$feed->title** is set).
 So to add a *link* element to our feed, we will do::
 
     $link = $feed->add( 'link' );
-    $link->set( 'http://ez.no' );
+    $link->set( 'http://ez.no/' );
 
 
 Step 3. Add an item
@@ -415,13 +415,13 @@ The information which we want to show in the podcast is:
 - a *description* of the feed. This will also be used if we don't declare the
   *summary* iTunes element. The contents of this element are shown in
   `iTunes`_ in a separate window that appears when the "circled i" in the
-  Description column is clicked: ``A podcast for fans of RC planes, with
-  information about planes, competitions, tutorials and tips``
+  Description column is clicked: ``A podcast for fans of remote-control planes,
+  with information about planes, competitions, tutorials and tips``
 - an *author* (called *managerEditor* in RSS2):
-  ``rcplanes@example.com (Derick)``
+  ``editor@rcplanes.example.com (Derick)``
   (this is the recommended way to specify an author in RSS2, with an email
   address and the name of the person in paranthesis)
-- a *link* to our website: ``http://rcplanes.example.com``
+- a *link* to our website: ``http://rcplanes.example.com/``
 - the episodes or *items* (information about each episode, a link to the media
   file associated with the episode and iTunes meta-information for the media
   files)
@@ -437,7 +437,7 @@ iTunes elements for the whole feed:
   pixels: ``http://rcplanes.example.com/images/rc_plane_big.jpg``
 - a *subtitle* for our podcast. This is shown in the Description column in
   `iTunes`_. Should be a very short description: ``Competitions, tutorials and
-  tips``.
+  tips for remote-control planes``.
 - *explicit* status (some of our RC pilots are known to curse a lot): ``yes``
   (other values are ``no`` and ``clean``, with ``no`` being the default)
 
@@ -447,7 +447,7 @@ An episode can be defined by these elements (example for one episode):
 - a short *description* of the episode: ``In this episode, Derick talks about
   how to fly an RC plane in a big hall, around people working and throwing
   stuff at the plane.``
-- an *author* of the episode: ``rcplanes@example.com (Derick)``
+- an *author* of the episode: ``derick@rcplanes.example.com (Derick)``
   (this is the recommended way to specify an author in RSS2, with an email
   address and the name of the person in paranthesis)
 - a *link* to the detailed article on our website:
@@ -481,11 +481,11 @@ We start with creating an RSS2 feed object, which we fill with *title*,
     $feed = new ezcFeed( 'rss2' );
 
     $feed->title = 'Flight of the RC plane';
-    $feed->description = 'A podcast for fans of RC planes, with information about planes, competitions, tutorials and tips';
-    $feed->author = 'rcplanes@example.com (Derick)';
+    $feed->description = 'A podcast for fans of remote-control planes, with information about planes, competitions, tutorials and tips';
+    $feed->author = 'editor@rcplanes.example.com (Derick)';
 
     $link = $feed->add( 'link' );
-    $link->set( 'http://rcplanes.examples.com' );
+    $link->set( 'http://rcplanes.examples.com/' );
 
 
 Step 2. Add iTunes feed elements
@@ -502,7 +502,7 @@ iTunes elements to our $feed object::
 
     $iTunes->keywords = 'RC planes,gadgets,flying';
     $iTunes->explicit = 'yes';
-    $iTunes->subtitle = 'Competitions, tutorials and tips';
+    $iTunes->subtitle = 'Competitions, tutorials and tips for remote-control planes';
 
     // add an image for the podcast
     $image = $iTunes->add( 'image' );
@@ -529,7 +529,7 @@ Next we will add an episode (*item*) to our $feed object, and we will add the
 
     $item->title = 'Flying an RC plane indoors';
     $item->description = 'In this episode, Derick talks about how to fly an RC plane in a big hall, around people working and throwing stuff at the plane';
-    $item->author = 'rcplanes@example.com (Derick)';
+    $item->author = 'derick@rcplanes.example.com (Derick)';
     $item->published = 'Fri, 04 Jan 2008 11:18:34 +0100';
 
     $link = $item->add( 'link' );
@@ -556,8 +556,8 @@ from the previous step::
 Step 5. Add more items
 ----------------------
 
-To add more episodes to our podcast, we repeat the step 4 as many times as
-needed.
+To add more episodes to our podcast, we repeat the steps 3 and 4 as many times
+as needed.
 
 
 Step 6. Generate the XML feed
@@ -570,7 +570,7 @@ Follow these steps from the previous tutorial `How to create a feed`_:
 - `Step 7. Feed validation`_
 - `Step 8. Make the XML feed accessible`_
 
-In the end, our podcast will look like this (with 2 episodes added):
+In the end, our podcast will look like this (with 3 episodes added):
 
 .. include:: examples/feed_creator/data/podcast.xml
    :literal:

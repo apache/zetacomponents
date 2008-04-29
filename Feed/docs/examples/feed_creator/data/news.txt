@@ -1,5 +1,5 @@
 eZ news feed
-http://ez.no
+http://ez.no/
 Wed, 05 Mar 2008 14:28:45 +0000
 Derick
 nospam@ez.no
