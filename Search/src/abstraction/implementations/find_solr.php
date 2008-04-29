@@ -303,7 +303,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
         $args = func_get_args();
         if ( count( $args ) < 1 )
         {
-            throw new ezcQueryVariableParameterException( 'lOr', count( $args ), 1 );
+            throw new ezcSearchQueryVariableParameterException( 'lOr', count( $args ), 1 );
         }
 
         $elements = ezcSearchQueryTools::arrayFlatten( $args );
@@ -317,7 +317,6 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
         }
     }
 
-    // FIX ME: NO EZCQUERY 
     /**
      * Creates an AND clause
      *
@@ -332,7 +331,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
         $args = func_get_args();
         if ( count( $args ) < 1 )
         {
-            throw new ezcQueryVariableParameterException( 'lOr', count( $args ), 1 );
+            throw new ezcSearchQueryVariableParameterException( 'lOr', count( $args ), 1 );
         }
 
         $elements = ezcSearchQueryTools::arrayFlatten( $args );
