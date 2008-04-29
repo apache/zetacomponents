@@ -24,7 +24,7 @@
  * @package Cache
  * @version //autogentag//
  */
-abstract class ezcCacheStorageMemory extends ezcCacheStorage
+abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCacheStackableStorage, ezcCacheStackMetaDataStorage
 {
     /**
      * Holds the memory backend object which communicates with the memory handler
@@ -375,6 +375,67 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
         $this->registry = array();
         $this->searchRegistry = array( $this->properties['location'] => null );
         $this->storeSearchRegistry();
+    }
+    
+    /**
+     * Restores and returns the meta data struct.
+     *
+     * This method fetches the meta data stored in the storage and returns the
+     * according struct of type {@link ezcCacheStackMetaData}. The meta data
+     * must be stored inside the storage, but should not be visible as normal
+     * cache items to the user.
+     * 
+     * @return ezcCacheStackMetaData
+     */
+    public function restoreMetaData()
+    {
+        // @TODO: Implement
+    }
+
+    /**
+     * Stores the given meta data struct.
+     *
+     * This method stores the given $metaData inside the storage. The data must
+     * be stored with the same mechanism that the storage itself uses. However,
+     * it should not be stored as a normal cache item, if possible, to avoid
+     * accedental user manipulation.
+     * 
+     * @param ezcCacheStackMetaData $metaData 
+     * @return void
+     */
+    public function storeMetaData( ezcCacheStackMetaData $metaData )
+    {
+        // @TODO: Implement
+    }
+
+    /**
+     * Acquire a lock on the storage.
+     *
+     * This method acquires a lock on the storage. If locked, the storage must
+     * block all other method calls until the lock is freed again using {@link
+     * ezcCacheStackMetaDataStorage::unlock()}. Methods that are called within
+     * the request that successfully acquired the lock must succeed as usual.
+     * 
+     * @return void
+     */
+    public function lock()
+    {
+        // @TODO: Implement
+    }
+
+    /**
+     * Release a lock on the storage.
+     *
+     * This method releases the lock of the storage, that has been acquired via
+     * {@link ezcCacheStackMetaDataStorage::lock()}. After this method has been
+     * called, blocked method calls (including calls to lock()) can suceed
+     * again.
+     * 
+     * @return void
+     */
+    public function unlock()
+    {
+        // @TODO: Implement
     }
 
     /**
