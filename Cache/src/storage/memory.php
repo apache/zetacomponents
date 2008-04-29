@@ -396,7 +396,14 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      */
     public function restoreMetaData()
     {
-        // @TODO: Implement
+        $metaDataKey = urlencode( $this->properties['location'] ) . '_'
+            . $this->properties['options']->metaDataKey;
+
+        if ( ( $data =  $this->backend->fetch( $metaDataKey ) ) === false )
+        {
+            $data = new ezcCacheStackMetaData();
+        }
+        return $data;
     }
 
     /**
@@ -412,7 +419,13 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      */
     public function storeMetaData( ezcCacheStackMetaData $metaData )
     {
-        // @TODO: Implement
+        $metaDataKey = urlencode( $this->properties['location'] ) . '_'
+            . $this->properties['options']->metaDataKey;
+
+        $this->backend->store(
+            $metaDataKey,
+            $metaData
+        );
     }
 
     /**

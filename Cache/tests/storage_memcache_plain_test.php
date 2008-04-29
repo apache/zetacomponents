@@ -721,6 +721,99 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
     }
 
+    public function testMetaDataSuccess()
+    {
+        $opts = array(
+            'host'        => 'localhost',
+            'port'        => 11211,
+            'ttl'         => 1,
+        );
+        $storage = new ezcCacheStorageMemcacheWrapper(
+            '.',
+            $opts
+        );
+        $storage->reset();
+        
+        $backend        = $this->getObjectAttribute( $storage, 'backend' );
+        $memcache       = $this->getObjectAttribute( $backend, 'memcache' );
+
+        $metaDataKey = urlencode( $storage->getLocation() ) . '_'
+            . $storage->options->metaDataKey;
+
+        $meta = new ezcCacheStackMetaData(
+            'testId',
+            array(
+                'Test data...',
+                '...more test data...'
+            )
+        );
+
+        $this->assertFalse(
+            $memcache->get( $metaDataKey ),
+            'Meta data key existed before the storage was created.'
+        );
+
+        $storage->storeMetaData( $meta );
+
+        $this->assertEquals(
+            $meta,
+            $memcache->get( $metaDataKey )->var,
+            'Meta data file existed before the storage was created.'
+        );
+
+        $restoredMeta = $storage->restoreMetaData();
+
+        $this->assertEquals(
+            $meta,
+            $restoredMeta,
+            'Meta data not restored correctly.'
+        );
+
+        $this->assertEquals(
+            $meta,
+            $memcache->get( $metaDataKey )->var,
+            'Meta data file existed before the storage was created.'
+        );
+    }
+
+    public function testMetaDataFailure()
+    {
+        $opts = array(
+            'host'        => 'localhost',
+            'port'        => 11211,
+            'ttl'         => 1,
+        );
+        $storage = new ezcCacheStorageMemcacheWrapper(
+            '.',
+            $opts
+        );
+        $storage->reset();
+        
+        $backend        = $this->getObjectAttribute( $storage, 'backend' );
+        $memcache       = $this->getObjectAttribute( $backend, 'memcache' );
+
+        $metaDataKey = urlencode( $storage->getLocation() ) . '_'
+            . $storage->options->metaDataKey;
+
+        $this->assertFalse(
+            $memcache->get( $metaDataKey ),
+            'Meta data file existed before the storage was created.'
+        );
+
+        $restoredMeta = $storage->restoreMetaData();
+
+        $this->assertEquals(
+            new ezcCacheStackMetaData(),
+            $restoredMeta,
+            'Meta data not restored correctly.'
+        );
+
+        $this->assertFalse(
+            $memcache->get( $metaDataKey ),
+            'Meta data file existed before the storage was created.'
+        );
+    }
+
     public static function suite()
 	{
         return new PHPUnit_Framework_TestSuite( __CLASS__ );

@@ -601,6 +601,89 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         );
     }
 
+    public function testMetaDataSuccess()
+    {
+        $opts = array(
+            'ttl'         => 1,
+        );
+        $storage = new ezcCacheStorageApcWrapper(
+            '.',
+            $opts
+        );
+        $storage->reset();
+        
+        $metaDataKey = urlencode( $storage->getLocation() ) . '_'
+            . $storage->options->metaDataKey;
+
+        $meta = new ezcCacheStackMetaData(
+            'testId',
+            array(
+                'Test data...',
+                '...more test data...'
+            )
+        );
+
+        $this->assertFalse(
+            apc_fetch( $metaDataKey ),
+            'Meta data key existed before the storage was created.'
+        );
+
+        $storage->storeMetaData( $meta );
+
+        $this->assertEquals(
+            $meta,
+            apc_fetch( $metaDataKey )->var,
+            'Meta data file existed before the storage was created.'
+        );
+
+        $restoredMeta = $storage->restoreMetaData();
+
+        $this->assertEquals(
+            $meta,
+            $restoredMeta,
+            'Meta data not restored correctly.'
+        );
+
+        $this->assertEquals(
+            $meta,
+            apc_fetch( $metaDataKey )->var,
+            'Meta data file existed before the storage was created.'
+        );
+    }
+
+    public function testMetaDataFailure()
+    {
+        $opts = array(
+            'ttl'         => 1,
+        );
+        $storage = new ezcCacheStorageApcWrapper(
+            '.',
+            $opts
+        );
+        $storage->reset();
+
+        $metaDataKey = urlencode( $storage->getLocation() ) . '_'
+            . $storage->options->metaDataKey;
+
+        $this->assertFalse(
+            apc_fetch( $metaDataKey ),
+            'Meta data file existed before the storage was created.'
+        );
+
+        $restoredMeta = $storage->restoreMetaData();
+
+        $this->assertEquals(
+            new ezcCacheStackMetaData(),
+            $restoredMeta,
+            'Meta data not restored correctly.'
+        );
+
+        $this->assertFalse(
+            apc_fetch( $metaDataKey ),
+            'Meta data file existed before the storage was created.'
+        );
+    }
+
     public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( __CLASS__ );
