@@ -85,7 +85,45 @@ class ezcCacheApcBackend extends ezcCacheMemoryBackend
      */
     public function reset()
     {
+        // Kills the whole user cache
         apc_clear_cache( "user" );
+    }
+
+    /**
+     * Acquires a lock on the given $key.
+     *
+     * @param string $key 
+     * @param int $waitTime usleep()
+     * @param int $maxTime seconds
+     */
+    public function acquireLock( $key, $waitTime, $maxTime )
+    {
+        $counter = 0;
+        // add() does not replace and returns true on success. $maxTime is
+        // obeyed by Memcache expiry.
+        while ( apc_add( $key, time(), $maxTime ) === false )
+        {
+            // Wait for next check
+            usleep( $waitTime );
+            // Don't check expiry time too frquently, since it requires restoring
+            if ( ( ++$counter % 10 === 0 ) && ( time() - (int)apc_fetch( $key ) > $maxTime ) )
+            {
+                // Release expired lock and place own lock
+                apc_store( $key, time(), $maxTime );
+                break;
+            }
+        }
+    }
+
+    /**
+     * Releases a lock on the given $key. 
+     * 
+     * @param string $key 
+     * @return void
+     */
+    public function releaseLock( $key )
+    {
+        apc_delete( $key );
     }
 }
 ?>
