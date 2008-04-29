@@ -20,40 +20,33 @@
 class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStrategy
 {
     /**
-     * Stores the given $itemData in the given $storage.
+     * Stores the given $itemData in the given storage.
      *
-     * @todo Document.
+     * @TODO: Document.
      *
-     * @param ezcCacheStackableStorage $storage
-     * @param string $storageId
+     * @param ezcCacheStackStorageConfiguration $storageConfiguration
      * @param ezcCacheStackMetaData $metaData
-     * @param int $itemLimit
-     * @param float $freeRate Ranging from 0-1, indicating a fraction..
      * @param string $itemId
      * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
      */
     public static function store(
-        ezcCacheStackableStorage $storage,
-        $storageId,
+        ezcCacheStackStorageConfiguration $storageConfiguration,
         ezcCacheStackMetaData $metaData,
-        $itemLimit,
-        $freeRate,
         $itemId,
         $itemData,
         $itemAttributes = array()
     )
     {
-        // @TODO Implement.
+        // @TODO: Implement.
     }
 
     /**
      * Restores the data with the given $dataId from the given $storage.
      *
-     * @todo Document.
+     * @TODO: Document.
      *
-     * @param ezcCacheStackableStorage $storage
-     * @param string $storageId
+     * @param ezcCacheStackStorageConfiguration $storageConfiguration
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -62,24 +55,21 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      * @return mixed Restored data or false.
      */
     public static function restore(
-        ezcCacheStackableStorage $storage,
-        $storageId,
+        ezcCacheStackStorageConfiguration $storageConfiguration,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $itemAttributes = array(),
         $search = false
     )
     {
-        // @TODO Implement.
+        // @TODO: Implement.
     }
 
     /**
      * Deletes the data with the given $itemId from the given $storage.
      *
-     * @todo Document.
+     * @TODO: Document.
      *
-     * @param ezcCacheStackableStorage $storage
-     * @param string $storageId
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -88,15 +78,14 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      * @return array(string) Deleted item IDs.
      */
     public static function delete(
-        ezcCacheStackableStorage $storage,
-        $storageId,
+        ezcCacheStackStorageConfiguration $storageConfiguration,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $attributes = array(),
         $search = false
     )
     {
-        // @TODO Implement.
+        // @TODO: Implement.
     }
 }
 
