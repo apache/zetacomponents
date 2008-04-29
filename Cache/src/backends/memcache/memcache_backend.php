@@ -150,7 +150,7 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
         // protect our data by wrapping it in an object
         $data = new ezcCacheMemoryVarStruct( $key, $var, $expire );
         $compressed = ( $this->options->compressed === true ) ? MEMCACHE_COMPRESSED : false;
-        return $this->memcache->set( $key, $data, $this->options->compressed, $expire );
+        return $this->memcache->set( $key, $data, $compressed, $expire );
     }
 
     /**
