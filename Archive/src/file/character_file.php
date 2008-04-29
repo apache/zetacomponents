@@ -85,10 +85,11 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      *
      * @param string $fileName
      * @param bool $createIfNotExist
+     * @param bool $readOnly
      */
-    public function __construct( $fileName, $createIfNotExist = false )
+    public function __construct( $fileName, $createIfNotExist = false, $readOnly = false )
     {
-        $this->openFile( $fileName, $createIfNotExist );
+        $this->openFile( $fileName, $createIfNotExist, $readOnly );
         $this->rewind();
     }
 

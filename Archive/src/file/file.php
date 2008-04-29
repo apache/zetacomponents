@@ -129,11 +129,12 @@ abstract class ezcArchiveFile implements Iterator
      *
      * @param string $fileName
      * @param bool $createIfNotExist
+     * @param bool $readOnly
      * @return bool
      */
-    protected function openFile( $fileName, $createIfNotExist )
+    protected function openFile( $fileName, $createIfNotExist, $readOnly = false )
     {
-        if ( $createIfNotExist && !self::fileExists( $fileName ) )
+        if ( !$readOnly && $createIfNotExist && !self::fileExists( $fileName ) )
         {
             $this->isNew = true;
             $this->isEmpty = true;
@@ -148,12 +149,18 @@ abstract class ezcArchiveFile implements Iterator
         }
 
         // Try to open it in read and write mode.
-        $this->fp = @fopen( $fileName, "r+b" );
-        if ( $this->fp )
+        $opened = false;
+        if ( !$readOnly ) 
         {
-            $this->fileAccess = self::READ_WRITE;
+            $this->fp = @fopen( $fileName, "r+b" );
+            if ( $this->fp )
+            {
+                $this->fileAccess = self::READ_WRITE;
+                $opened = true;
+            }
         }
-        else
+
+        if ( !$opened )
         {
             // Try to open it in read-only mode.
             $this->fp = @fopen( $fileName, "rb" );
@@ -182,7 +189,7 @@ abstract class ezcArchiveFile implements Iterator
         }
 
         // Why is it read only?
-        if ( $this->fileAccess == self::READ_ONLY )
+        if ( !$readOnly && $this->fileAccess == self::READ_ONLY )
         {
             if ( $this->fileMetaData["wrapper_type"] == "ZLIB" || $this->fileMetaData["wrapper_type"] == "BZip2" )
             {

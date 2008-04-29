@@ -36,6 +36,7 @@ return array(
     'ezcArchiveGnuHeader'                 => 'Archive/tar/headers/tar_gnu.php',
     'ezcArchiveGnuTar'                    => 'Archive/tar/gnu_tar.php',
     'ezcArchiveMime'                      => 'Archive/archive_mime.php',
+    'ezcArchiveOptions'                   => 'Archive/options/archive.php',
     'ezcArchivePaxHeader'                 => 'Archive/tar/headers/tar_pax.php',
     'ezcArchivePaxTar'                    => 'Archive/tar/pax_tar.php',
     'ezcArchiveStatMode'                  => 'Archive/stat_mode.php',

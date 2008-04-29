@@ -1,7 +1,9 @@
 <?php
 require_once 'tutorial_autoload.php';
 
-$archive = ezcArchive::open( "compress.zlib:///tmp/my_archive.tar.gz" );
+$options = new ezcArchiveOptions( array( 'readOnly' => true ) );
+$archive = ezcArchive::open(
+    "compress.zlib:///tmp/my_archive.tar.gz", null, $options );
 
 // The foreach method calls internally the iterator methods.
 foreach( $archive as $entry )

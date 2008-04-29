@@ -425,6 +425,47 @@ class ezcArchiveTest extends ezcArchiveTestCase
         }
     }
 
+    public function testModifyFileTime()
+    {
+        $dir = $this->getTempDir();
+        copy( dirname( __FILE__ ) . "/data/gzip-test.tar.gz", "$dir/mytar.tar.gz" );
+        $before = stat( "$dir/mytar.tar.gz" );
+        clearstatcache();
+        sleep(2);
+
+        $archive = ezcArchive::open( "$dir/mytar.tar.gz" );
+        mkdir( $dir . '/extract' );
+        foreach ( $archive as $file )
+        {
+            $archive->extractCurrent( 'extract' );
+        }
+        $after = stat( "$dir/mytar.tar.gz" );
+
+        self::assertNotEquals( $before['ctime'], $after['ctime'] );
+        self::assertNotEquals( $before['mtime'], $after['mtime'] );
+    }
+
+    public function testReadOnlyModifyFileTime()
+    {
+        $dir = $this->getTempDir();
+        copy( dirname( __FILE__ ) . "/data/gzip-test.tar.gz", "$dir/mytar.tar.gz" );
+        $before = stat( "$dir/mytar.tar.gz" );
+        clearstatcache();
+        sleep(2);
+
+        $options = new ezcArchiveOptions( array( 'readOnly' => true ) );
+        $archive = ezcArchive::open( "$dir/mytar.tar.gz", null, $options );
+        mkdir( $dir . '/extract' );
+        foreach ( $archive as $file )
+        {
+            $archive->extractCurrent( 'extract' );
+        }
+        $after = stat( "$dir/mytar.tar.gz" );
+
+        self::assertEquals( $before['ctime'], $after['ctime'] );
+        self::assertEquals( $before['mtime'], $after['mtime'] );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );

@@ -128,12 +128,13 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      * @param string $fileName
      * @param bool $createIfNotExist
      * @param int $blockSize
+     * @param bool $readOnly
      */
-    public function __construct( $fileName, $createIfNotExist = false, $blockSize = 512 )
+    public function __construct( $fileName, $createIfNotExist = false, $blockSize = 512, $readOnly = false )
     {
         $this->blockSize = $blockSize;
 
-        $this->openFile( $fileName, $createIfNotExist );
+        $this->openFile( $fileName, $createIfNotExist, $readOnly );
     }
 
 

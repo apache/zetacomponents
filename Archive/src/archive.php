@@ -168,8 +168,10 @@ abstract class ezcArchive implements Iterator
      *
      * @return ezcArchive
      */
-    public static function open( $archiveName, $forceType = null )
+    public static function open( $archiveName, $forceType = null, ezcArchiveOptions $options = null )
     {
+        $options = self::initOptions( $options );
+
         if ( !ezcArchiveFile::fileExists( $archiveName ) && $forceType === null )
         {
             throw new ezcArchiveUnknownTypeException( $archiveName );
@@ -177,7 +179,7 @@ abstract class ezcArchive implements Iterator
 
         if ( $forceType !== null )
         {
-            return self::createInstance( $archiveName, $forceType );
+            return self::createInstance( $archiveName, $forceType, $options );
         }
 
         $h = ezcArchiveMime::detect( $archiveName );
@@ -197,7 +199,7 @@ abstract class ezcArchive implements Iterator
             }
         }
 
-        return self::createInstance( $archiveName, $h );
+        return self::createInstance( $archiveName, $h, $options );
     }
 
     /**
@@ -273,16 +275,34 @@ abstract class ezcArchive implements Iterator
      *                     {@link ezcArchiveV7Tar}, {@link ezcArchivePax},
      *                     {@link ezcArchiveGnuTar}, or {@link ezcArchiveUstar}.
      */
-    protected static function createInstance( $archiveName, $type )
+    protected static function createInstance( $archiveName, $type, ezcArchiveOptions $options = null )
     {
+        $options = self::initOptions( $options );
+
         if ( $type == self::ZIP )
         {
-            $af = new ezcArchiveCharacterFile( $archiveName, true );
+            $af = new ezcArchiveCharacterFile( $archiveName, true, $options->readOnly );
             return self::getZipInstance( $af );
         }
 
-        $af = new ezcArchiveBlockFile( $archiveName, true );
+        $af = new ezcArchiveBlockFile( $archiveName, true, 512, $options->readOnly );
         return self::getTarInstance( $af, $type );
+    }
+
+    /**
+     * This methods initializes the options by generating an options object if $options is null.
+     *
+     * @param null|ezcArchiveOptions $options
+     *
+     * @return ezcArchiveOptions
+     */
+    private static function initOptions( $options )
+    {
+        if ( $options === null )
+        {
+            $options = new ezcArchiveOptions;
+        }
+        return $options;
     }
 
     /**
