@@ -504,6 +504,160 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
         $this->removeTempDir();
     }
 
+    public function testLockSimple()
+    {
+        $storage = new ezcCacheStorageFileApcArray(
+            $this->getTempDir( __CLASS__ ),
+            array( 'ttl' => 1 )
+        );
+        $storage->reset();
+
+        $lockKey = ezcCacheStorageFileApcArray::REGISTRY_NAME . '_'
+            . urlencode( $storage->getLocation() ) . '_'
+            . $storage->options->lockKey;
+
+        $this->assertFalse(
+            apc_fetch( $lockKey ),
+            'Lock key exists.'
+        );
+
+        $this->assertFalse(
+            $this->getObjectAttribute( $storage, 'lock' ),
+            'Lock stat not correctly initialized'
+        );
+
+        $storage->lock();
+
+        $this->assertNotEquals(
+            false,
+            apc_fetch( $lockKey ),
+            'Lock key not created correctly.'
+        );
+
+        $this->assertTrue(
+            $this->getObjectAttribute( $storage, 'lock' ),
+            'Lock stat not correctly switched.'
+        );
+
+        $storage->unlock();
+
+        $this->assertFalse(
+            apc_fetch( $lockKey ),
+            'Lock key exists.'
+        );
+
+        $this->assertFalse(
+            $this->getObjectAttribute( $storage, 'lock' ),
+            'Lock stat not correctly initialized'
+        );
+    }
+
+    public function testLockTimeout()
+    {
+        // Init 2 storages on same Memcache
+        $opts = array(
+            'ttl'         => 1,
+            'maxLockTime' => 1
+        );
+        $storage = new ezcCacheStorageFileApcArray(
+            $this->getTempDir( '1' . __CLASS__ ),
+            $opts
+        );
+        $storage->reset();
+        $secondStorage = new ezcCacheStorageFileApcArray(
+            $this->getTempDir( '2' . __CLASS__ ),
+            $opts
+        );
+        $secondStorage->reset();
+        
+        $lockKey = ezcCacheStorageFileApcArray::REGISTRY_NAME . '_'
+            . urlencode( $storage->getLocation() ) . '_'
+            . $storage->options->lockKey;
+
+        // Assert initial state
+        $this->assertFalse(
+            apc_fetch( $lockKey ),
+            'Lock key exists.'
+        );
+        $this->assertFalse(
+            $this->getObjectAttribute( $storage, 'lock' ),
+            'Lock state not correctly initialized'
+        );
+        $this->assertFalse(
+            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            'Lock state not correctly initialized in second storage'
+        );
+
+        $lockTime = time();
+        // Perform lock
+        $storage->lock();
+
+        // Assert locked state
+        $this->assertNotEquals(
+            false,
+            ( $oldLock = apc_fetch( $lockKey ) ),
+            'Lock key not created correctly.'
+        );
+        $this->assertTrue(
+            $this->getObjectAttribute( $storage, 'lock' ),
+            'Lock stat not correctly switched.'
+        );
+        $this->assertFalse(
+            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            'Lock state not correctly initialized in second storage'
+        );
+
+        // Should kill lock file after 1 sec
+        $secondStorage->lock();
+
+        // Assert that kill did not occur earlier
+        $this->assertGreaterThanOrEqual(
+            1,
+            ( time() - $lockTime ),
+            'Lock did not last for 1 sec.'
+        );
+
+        // Assert that lock key exists again
+        $this->assertNotEquals(
+            false,
+            apc_fetch( $lockKey ),
+            'Lock key not created correctly.'
+        );
+        // Assert that the new lock is not the same as the old one
+        $this->assertGreaterThan(
+            $oldLock,
+            apc_fetch( $lockKey ),
+            'Lock key not created correctly.'
+        );
+        // First storage does not note that its lock disappeared
+        $this->assertTrue(
+            $this->getObjectAttribute( $storage, 'lock' ),
+            'Lock state switched unexpectedly.'
+        );
+        // Second storage now has the lock
+        $this->assertTrue(
+            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            'Lock state not correctly initialized in second storage'
+        );
+
+        $secondStorage->unlock();
+
+        $this->assertFalse(
+            apc_fetch( $lockKey ),
+            'Lock key not created correctly.'
+        );
+        // First storage does not note that its lock disappeared and was not unlocked
+        $this->assertTrue(
+            $this->getObjectAttribute( $storage, 'lock' ),
+            'Lock state switched unexpectedly.'
+        );
+        // Second storage released the lock
+        $this->assertFalse(
+            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            'Lock state not correctly initialized in second storage'
+        );
+    }
+
     public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( __CLASS__ );
