@@ -221,7 +221,6 @@ class ezcSearchSessionTest extends ezcTestCase
             array( 'test', '<b>test</b>', false, 0, 0.42e-9, "2008-04-23 16:35 Europe/Oslo", 'float', 0.42e-9 ),
             array( 'test', '<b>test</b>', false, 913123, 0, "2008-04-23 16:35 Europe/Oslo", 'float', 0 ),
             array( 'test', '<b>test</b>', false, 913123, 0, "2008-04-23 16:35 Europe/Oslo", 'date', "2008-04-23 14:35 GMT" ),
-            array( 'test', '<b>test</b>', false, 913123, 0, "2008-04-23 16:35 Europe/Oslo", 'date', "2008-04-23 15:35 GMT+01:00" ),
             array( 'test', '<b>test</b>', false, 913123, 0, "2008-04-23 16:35 Europe/Oslo", 'date', "2008-04-23 16:35 Europe/Oslo" ),
         );
     }
@@ -244,7 +243,7 @@ class ezcSearchSessionTest extends ezcTestCase
         self::assertEquals( $bool, $r->documents['testId']['document']->bool );
         self::assertEquals( $int, $r->documents['testId']['document']->int );
         self::assertEquals( $float, $r->documents['testId']['document']->float );
-        self::assertEquals( date_create( "$date" )->getTimestamp(), $r->documents['testId']['document']->date->getTimestamp() );
+        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']['document']->date->format( '\sU' ) );
     }
 
     /**
@@ -271,7 +270,7 @@ class ezcSearchSessionTest extends ezcTestCase
         self::assertEquals( $bool, $r->documents['testId']['document']->bool[0] );
         self::assertEquals( $int, $r->documents['testId']['document']->int[0] );
         self::assertEquals( $float, $r->documents['testId']['document']->float[0] );
-        self::assertEquals( date_create( "$date" )->getTimestamp(), $r->documents['testId']['document']->date[0]->getTimestamp() );
+        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']['document']->date[0]->format( '\sU' ) );
     }
 
     public static function datatypesMulti()
@@ -295,7 +294,6 @@ class ezcSearchSessionTest extends ezcTestCase
             array( array( 'test', 'things' ),   array( '<b>test</b>', ), false, 0, 0.42e-9, "2008-04-23 16:35 Europe/Oslo", 'float', 0.42e-9 ),
             array( array( 'test', 'are' ),      array( '<b>test</b>', ), false, 913123, 0, array( "2008-04-23 16:35 Europe/Oslo" ), 'date', "2008-04-23 14:35 GMT" ),
             array( array( 'test', 'infinite' ), array( '<b>test</b>', ), false, 913123, 0, array( "2008-04-23 16:35 Europe/Oslo", "2008-04-23 15:35 BST" ), 'date', "2008-04-23 14:35 GMT" ),
-            array( array( 'test', 'The' ),      array( '<b>test</b>', ), false, 913123, 0, "2008-04-23 16:35 Europe/Oslo", 'date', "2008-04-23 15:35 GMT+01:00" ),
             array( array( 'test', 'universe' ), array( '<b>test</b>', ), false, 913123, 0, "2008-04-23 16:35 Europe/Oslo", 'date', "2008-04-23 16:35 Europe/Oslo" ),
         );
     }
@@ -326,11 +324,11 @@ class ezcSearchSessionTest extends ezcTestCase
         self::assertEquals( $int, $r->documents['testId']['document']->int );
         self::assertEquals( $float, $r->documents['testId']['document']->float );
 
-        self::assertEquals( date_create( $date[0] )->getTimestamp(), $r->documents['testId']['document']->date[0]->getTimestamp() );
+        self::assertEquals( date_create( $date[0] )->format( '\sU' ), $r->documents['testId']['document']->date[0]->format( '\sU' ) );
     }
 }
 
-class DataTypeTest
+class DataTypeTest implements ezcSearchDefinitionProvider
 {
     public function __construct( $id = null, $string = null, $html = null, $bool = null, $int = null, $float = null, $date = null )
     {
@@ -356,7 +354,7 @@ class DataTypeTest
         }
     }
 
-    static public function fetchDefinition()
+    static public function getDefinition()
     {
         $def = new ezcSearchDocumentDefinition( 'DataTypeTest' );
         $def->idProperty = 'id';
@@ -372,7 +370,7 @@ class DataTypeTest
     }
 }
 
-class DataTypeTestMulti
+class DataTypeTestMulti implements ezcSearchDefinitionProvider
 {
     public function __construct( $id = null, $string = null, $html = null, $bool = null, $int = null, $float = null, $date = null )
     {
@@ -398,7 +396,7 @@ class DataTypeTestMulti
         }
     }
 
-    static public function fetchDefinition()
+    static public function getDefinition()
     {
         $def = new ezcSearchDocumentDefinition( 'DataTypeTestMulti' );
         $def->idProperty = 'id';

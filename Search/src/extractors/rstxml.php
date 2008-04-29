@@ -44,9 +44,7 @@ class ezcSearchRstXmlExtractor /* implements ezcSearchExtractor */
 
         // child::*[self::p or self::h1]
         $xpath = new DOMXPath($dom);
-//        $tbody = $xpath->evaluate("descendant::*[self::p or self::h1 or self::dl or self::img or self::a]", $tbody );
         $tbody = $xpath->evaluate("//p|//h1|//ol|//ul|//dl|//img|//a", $tbody );
-//        $tbody = $dom->getElementsByTagName('p');
         $body = '';
         foreach( $tbody as $item )
         {
@@ -54,7 +52,6 @@ class ezcSearchRstXmlExtractor /* implements ezcSearchExtractor */
             {
                 case 'a':
                         $name = $item->getAttribute( 'name' );
-//                        echo "[a] ", $name, "\n";
                         if ( strlen( $name ) )
                         {
                             $currentUrl = $url . '#'. $name;
@@ -91,8 +88,6 @@ class ezcSearchRstXmlExtractor /* implements ezcSearchExtractor */
         {
             $docs[] = new ezcSearchSimpleArticle( null, $title, $currentBody, $published, $lastUrl, $type );
         }
-
-//        $docs[] = new ezcSearchSimpleArticle( null, $title, $body, $published, $urls, $type );
         return $docs;
     }
 

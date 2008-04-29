@@ -37,8 +37,6 @@ class ezcSearchEmbeddedManager implements ezcSearchDefinitionManager
     /**
      * Returns the definition of the search document with the type $type.
      *
-     * TODO: CHeck if the class implements ezcSearchDefinitionProvider.
-     *
      * @throws ezcSearchDefinitionNotFoundException if no such definition can be found.
      * @throws ezcSearchDefinitionMissingIdPropertyException
      *         if the definition does not have an "idProperty" attribute.
@@ -53,8 +51,14 @@ class ezcSearchEmbeddedManager implements ezcSearchDefinitionManager
             return $this->cache[$type];
         }
 
+        // check for interface implementation
+        if ( !in_array( 'ezcSearchDefinitionProvider', class_implements( $type ) ) )
+        {
+            throw new ezcSearchDoesNotProvideDefinitionException( $type );
+        }
+
         // load definition
-        $definition = call_user_func( array( $type, 'fetchDefinition' ) );
+        $definition = call_user_func( array( $type, 'getDefinition' ) );
 
         if ( $definition->idProperty === null )
         {
