@@ -427,8 +427,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      */
     public function lock()
     {
-        $lockKey = $this->registryName . '_'
-            . urlencode( $this->properties['location'] ) . '_'
+        $lockKey = urlencode( $this->properties['location'] ) . '_'
             . $this->properties['options']->lockKey;
         $this->backend->acquireLock(
             $lockKey,
@@ -452,8 +451,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
     {
         if ( $this->lock !== false )
         {
-            $lockKey = $this->registryName . '_'
-                . urlencode( $this->properties['location'] ) . '_'
+            $lockKey = urlencode( $this->properties['location'] ) . '_'
                 . $this->properties['options']->lockKey;
             $this->backend->releaseLock(
                 $lockKey

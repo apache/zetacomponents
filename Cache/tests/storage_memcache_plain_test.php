@@ -578,8 +578,7 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         $backend  = $this->getObjectAttribute( $storage, 'backend' );
         $memcache = $this->getObjectAttribute( $backend, 'memcache' );
 
-        $lockKey = ezcCacheStorageMemcacheWrapper::REGISTRY_NAME . '_'
-            . urlencode( $storage->getLocation() ) . '_'
+        $lockKey = urlencode( $storage->getLocation() ) . '_'
             . $storage->options->lockKey;
 
         $this->assertFalse(
@@ -641,8 +640,7 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         $backend        = $this->getObjectAttribute( $storage, 'backend' );
         $memcache       = $this->getObjectAttribute( $backend, 'memcache' );
         
-        $lockKey = ezcCacheStorageMemcacheWrapper::REGISTRY_NAME . '_'
-            . urlencode( $storage->getLocation() ) . '_'
+        $lockKey = urlencode( $storage->getLocation() ) . '_'
             . $storage->options->lockKey;
 
         // Assert initial state

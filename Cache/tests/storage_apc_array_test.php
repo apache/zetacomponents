@@ -512,8 +512,7 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
         );
         $storage->reset();
 
-        $lockKey = ezcCacheStorageFileApcArray::REGISTRY_NAME . '_'
-            . urlencode( $storage->getLocation() ) . '_'
+        $lockKey = urlencode( $storage->getLocation() ) . '_'
             . $storage->options->lockKey;
 
         $this->assertFalse(
@@ -570,8 +569,7 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
         );
         $secondStorage->reset();
         
-        $lockKey = ezcCacheStorageFileApcArray::REGISTRY_NAME . '_'
-            . urlencode( $storage->getLocation() ) . '_'
+        $lockKey = urlencode( $storage->getLocation() ) . '_'
             . $storage->options->lockKey;
 
         // Assert initial state
