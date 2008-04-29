@@ -56,6 +56,16 @@ require_once 'storage_apc_plain_test.php';
 require_once 'storage_memcache_plain_test.php';
 
 /**
+ * Require stack configuration test suite. 
+ */
+require_once 'stack_storage_configuration_test.php';
+
+/**
+ * Require LRU replacement strategy test suite.
+ */
+require_once 'replacement_strategy_lru_test.php';
+
+/**
  * Test suite for Cache package. 
  * 
  * @package Cache
@@ -77,8 +87,10 @@ class ezcCacheSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcCacheStorageMemcachePlainTest::suite() );
         $this->addTest( ezcCacheStorageOptionsTest::suite() );
         $this->addTest( ezcCacheStorageFileOptionsTest::suite() );
-        $this->addTest( ezcCacheStackOptionsTest::suite() );
         $this->addTest( ezcCacheManagerTest::suite() );
+        $this->addTest( ezcCacheStackOptionsTest::suite() );
+        $this->addTest( ezcCacheStackStorageConfigurationTest::suite() );
+        $this->addTest( ezcCacheStackLruReplacementStrategyTest::suite() );
     }
 
     public static function suite()
