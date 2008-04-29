@@ -293,107 +293,6 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
     }
 
     /**
-     * Searches the storage for data defined by ID and/or attributes.
-     *
-     * @param string $id The item ID
-     * @param array(string=>string) $attributes Attributes describing the data
-     * @return array(mixed)
-     */
-    protected function search( $id = null, $attributes = array() )
-    {
-        // Grabs the identifier registry
-        $this->fetchSearchRegistry();
-
-        // Grabs the $location
-        $location = $this->properties['location'];
-
-        // Finds all in case of empty $id and $attributes
-        if ( $id === null
-             && empty( $attributes )
-             && isset( $this->searchRegistry[$location] )
-             && is_array( $this->searchRegistry[$location] ) )
-        {
-            $itemArr = array();
-            foreach ( $this->searchRegistry[$location] as $idArr )
-            {
-                foreach ( $idArr as $registryObj )
-                {
-                    if ( !is_null( $registryObj->id ) )
-                    {
-                        $itemArr[] = array( $registryObj->id, $registryObj->attributes, $registryObj->identifier );
-                    }
-                }
-            }
-            return $itemArr;
-        }
-
-        $itemArr = array();
-        // Makes sure we've seen this ID before
-        if ( isset( $this->searchRegistry[$location][$id] )
-             && is_array( $this->searchRegistry[$location][$id] ) )
-        {
-            foreach ( $this->searchRegistry[$location][$id] as $identifier => $dataArr )
-            {
-                if ( $this->fetchData( $identifier ) !== false )
-                {
-                    $itemArr[] = array( $id, $attributes, $identifier );
-                }
-            }
-        }
-        else
-        {
-            // Finds cache items that fit our description
-            if ( isset( $this->searchRegistry[$location] )
-                 && is_array( $this->searchRegistry[$location] ) )
-            {
-                foreach ( $this->searchRegistry[$location] as $id => $arr )
-                {
-                    foreach ( $arr as $identifier => $registryObj )
-                    {
-                        if ( count( array_diff_assoc( $attributes, $registryObj->attributes ) ) === 0 )
-                        {
-                            $itemArr[] = array(
-                                $registryObj->id,
-                                $registryObj->attributes,
-                                $registryObj->identifier
-                            );
-                        }
-                    }
-                }
-            }
-        }
-        return $itemArr;
-    }
-
-    /**
-     * Generates a string from the $attributes array.
-     *
-     * @param array(string=>string) $attributes Attributes describing the data
-     * @return string
-     *
-     * @deprecated Was only used to generate "pseudo-regex". Attribute arrays
-     *             are compared directly now.
-     */
-    protected function generateAttrStr( $attributes = array() )
-    {
-        ksort( $attributes );
-        $attrStr = '';
-        foreach ( $attributes as $key => $val )
-        {
-            $attrStr .= '-' . $key . '=' .$val;
-        }
-        return $attrStr;
-    }
-
-    /**
-     * Checks if the location property is valid.
-     */
-    protected function validateLocation()
-    {
-        return;
-    }
-
-    /**
      * Generates the storage internal identifier from ID and attributes.
      *
      * @param string $id The ID
@@ -411,6 +310,71 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
                 : ''
         );
         return urlencode( $identifier );
+    }
+
+    /**
+     * Purge outdated data from the storage. 
+     * 
+     * This method purges outdated data from the cache. If $limit is given, a
+     * maximum of $limit items is purged. Otherwise all outdated items are
+     * purged. The method returns an array containing the IDs of all cache
+     * items that have been purged.
+     *
+     * @param int $limit 
+     * @return array(string)
+     */
+    public function purge( $limit = null )
+    {
+        $this->fetchSearchRegistry( true );
+
+        $purgedIds = array();
+        $ttl       = $this->properties['options']->ttl;
+
+        foreach ( $this->searchRegistry[$this->properties['location']] as $id => $identifiers )
+        {
+            $deleted = false;
+            foreach( $identifiers as $identifier => $data )
+            {
+                if ( $ttl !== false && $this->calcLifetime( $identifier ) > 0 )
+                {
+                    // Since ID <-> identifier mapping is ambigious, this does
+                    // not ensure that all data for an ID is deleted. However,
+                    // this should work if used properly
+                    $this->backend->delete( $identifier );
+                    $this->unRegisterIdentifier( null, null, $identifiers, true );
+                    // Avoid adding an ID twice to the returned array
+                    $deleted = true;
+                }
+            }
+            if ( $deleted === true )
+            {
+                $purgedIds[] = $id;
+            }
+            if ( $limit !== null && count( $purgedIds ) >= $limit )
+            {
+                break;
+            }
+        }
+        $this->storeSearchRegistry();
+        return $purgedIds;
+    }
+
+    /**
+     * Reset the complete storage.
+     *
+     * This method resets the complete cache storage. All content (including
+     * content stored with the {@link ezcCacheMetaDataStorage} interfacer) must
+     * be deleted and the cache storage must appear as if it has just newly
+     * been created.
+     * 
+     * @return void
+     */
+    public function reset()
+    {
+        $this->backend->reset();
+        $this->registry = array();
+        $this->searchRegistry = array( $this->properties['location'] => null );
+        $this->storeSearchRegistry();
     }
 
     /**
@@ -532,68 +496,104 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage
     }
 
     /**
-     * Purge outdated data from the storage. 
-     * 
-     * This method purges outdated data from the cache. If $limit is given, a
-     * maximum of $limit items is purged. Otherwise all outdated items are
-     * purged. The method returns an array containing the IDs of all cache
-     * items that have been purged.
+     * Generates a string from the $attributes array.
      *
-     * @param int $limit 
-     * @return array(string)
+     * @param array(string=>string) $attributes Attributes describing the data
+     * @return string
+     *
+     * @deprecated Was only used to generate "pseudo-regex". Attribute arrays
+     *             are compared directly now.
      */
-    public function purge( $limit = null )
+    protected function generateAttrStr( $attributes = array() )
     {
-        $this->fetchSearchRegistry( true );
-
-        $purgedIds = array();
-        $ttl       = $this->properties['options']->ttl;
-
-        foreach ( $this->searchRegistry[$this->properties['location']] as $id => $identifiers )
+        ksort( $attributes );
+        $attrStr = '';
+        foreach ( $attributes as $key => $val )
         {
-            $deleted = false;
-            foreach( $identifiers as $identifier => $data )
-            {
-                if ( $ttl !== false && $this->calcLifetime( $identifier ) > 0 )
-                {
-                    // Since ID <-> identifier mapping is ambigious, this does
-                    // not ensure that all data for an ID is deleted. However,
-                    // this should work if used properly
-                    $this->backend->delete( $identifier );
-                    $this->unRegisterIdentifier( null, null, $identifiers, true );
-                    // Avoid adding an ID twice to the returned array
-                    $deleted = true;
-                }
-            }
-            if ( $deleted === true )
-            {
-                $purgedIds[] = $id;
-            }
-            if ( $limit !== null && count( $purgedIds ) >= $limit )
-            {
-                break;
-            }
+            $attrStr .= '-' . $key . '=' .$val;
         }
-        $this->storeSearchRegistry();
-        return $purgedIds;
+        return $attrStr;
     }
 
     /**
-     * Reset the complete storage.
-     *
-     * This method resets the complete cache storage. All content (including
-     * content stored with the {@link ezcCacheMetaDataStorage} interfacer) must
-     * be deleted and the cache storage must appear as if it has just newly
-     * been created.
-     * 
-     * @return void
+     * Checks if the location property is valid.
      */
-    public function reset()
+    protected function validateLocation()
     {
-        $this->backend->reset();
-        $this->registry = array();
-        $this->searchRegistry = array( $this->properties['location'] => null );
-        $this->storeSearchRegistry();
+        return;
+    }
+
+    /**
+     * Searches the storage for data defined by ID and/or attributes.
+     *
+     * @param string $id The item ID
+     * @param array(string=>string) $attributes Attributes describing the data
+     * @return array(mixed)
+     */
+    protected function search( $id = null, $attributes = array() )
+    {
+        // Grabs the identifier registry
+        $this->fetchSearchRegistry();
+
+        // Grabs the $location
+        $location = $this->properties['location'];
+
+        // Finds all in case of empty $id and $attributes
+        if ( $id === null
+             && empty( $attributes )
+             && isset( $this->searchRegistry[$location] )
+             && is_array( $this->searchRegistry[$location] ) )
+        {
+            $itemArr = array();
+            foreach ( $this->searchRegistry[$location] as $idArr )
+            {
+                foreach ( $idArr as $registryObj )
+                {
+                    if ( !is_null( $registryObj->id ) )
+                    {
+                        $itemArr[] = array( $registryObj->id, $registryObj->attributes, $registryObj->identifier );
+                    }
+                }
+            }
+            return $itemArr;
+        }
+
+        $itemArr = array();
+        // Makes sure we've seen this ID before
+        if ( isset( $this->searchRegistry[$location][$id] )
+             && is_array( $this->searchRegistry[$location][$id] ) )
+        {
+            foreach ( $this->searchRegistry[$location][$id] as $identifier => $dataArr )
+            {
+                if ( $this->fetchData( $identifier ) !== false )
+                {
+                    $itemArr[] = array( $id, $attributes, $identifier );
+                }
+            }
+        }
+        else
+        {
+            // Finds cache items that fit our description
+            if ( isset( $this->searchRegistry[$location] )
+                 && is_array( $this->searchRegistry[$location] ) )
+            {
+                foreach ( $this->searchRegistry[$location] as $id => $arr )
+                {
+                    foreach ( $arr as $identifier => $registryObj )
+                    {
+                        if ( count( array_diff_assoc( $attributes, $registryObj->attributes ) ) === 0 )
+                        {
+                            $itemArr[] = array(
+                                $registryObj->id,
+                                $registryObj->attributes,
+                                $registryObj->identifier
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        return $itemArr;
     }
 }
 ?>
