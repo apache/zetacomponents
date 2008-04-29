@@ -26,7 +26,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      *
      * @param ezcCacheStackableStorage $storage
      * @param string $storageId
-     * @param ezcCacheStorageMetaData $metaData
+     * @param ezcCacheStackMetaData $metaData
      * @param int $itemLimit
      * @param float $freeRate Ranging from 0-1, indicating a fraction..
      * @param string $itemId
@@ -36,7 +36,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
     public static function store(
         ezcCacheStackableStorage $storage,
         $storageId,
-        ezcCacheStorageMetaData $metaData,
+        ezcCacheStackMetaData $metaData,
         $itemLimit,
         $freeRate,
         $itemId,
@@ -54,7 +54,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      *
      * @param ezcCacheStackableStorage $storage
      * @param string $storageId
-     * @param ezcCacheStorageMetaData $metaData
+     * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
@@ -64,7 +64,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
     public static function restore(
         ezcCacheStackableStorage $storage,
         $storageId,
-        ezcCacheStorageMetaData $metaData,
+        ezcCacheStackMetaData $metaData,
         $itemId,
         $itemAttributes = array(),
         $search = false
@@ -80,7 +80,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      *
      * @param ezcCacheStackableStorage $storage
      * @param string $storageId
-     * @param ezcCacheStorageMetaData $metaData
+     * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
@@ -90,7 +90,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
     public static function delete(
         ezcCacheStackableStorage $storage,
         $storageId,
-        ezcCacheStorageMetaData $metaData,
+        ezcCacheStackMetaData $metaData,
         $itemId,
         $attributes = array(),
         $search = false

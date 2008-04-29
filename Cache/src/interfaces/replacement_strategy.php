@@ -21,7 +21,7 @@
  * it must take care about keeping the needed meta data actual and about
  * purging data from the cache storage, if it runs full.
  *
- * The {@link ezcCacheStorageMetaData} is used to store information needed by
+ * The {@link ezcCacheStackMetaData} is used to store information needed by
  * the replacement process, as well as information about the state of the
  * storages in the stack and if an item is available in it at all.
  * 
@@ -61,7 +61,7 @@ interface ezcCacheStackReplacementStrategy
      *
      * @param ezcCacheStackableStorage $storage
      * @param string $storageId
-     * @param ezcCacheStorageMetaData $metaData
+     * @param ezcCacheStackMetaData $metaData
      * @param int $itemLimit
      * @param float $freeRate Ranging from 0-1, indicating a fraction..
      * @param string $itemId
@@ -71,7 +71,7 @@ interface ezcCacheStackReplacementStrategy
     public static function store(
         ezcCacheStackableStorage $storage,
         $storageId,
-        ezcCacheStorageMetaData $metaData,
+        ezcCacheStackMetaData $metaData,
         $itemLimit,
         $freeRate,
         $itemId,
@@ -99,7 +99,7 @@ interface ezcCacheStackReplacementStrategy
      *
      * @param ezcCacheStackableStorage $storage
      * @param string $storageId
-     * @param ezcCacheStorageMetaData $metaData
+     * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
@@ -109,7 +109,7 @@ interface ezcCacheStackReplacementStrategy
     public static function restore(
         ezcCacheStackableStorage $storage,
         $storageId,
-        ezcCacheStorageMetaData $metaData,
+        ezcCacheStackMetaData $metaData,
         $itemId,
         $itemAttributes = array(),
         $search = false
@@ -135,7 +135,7 @@ interface ezcCacheStackReplacementStrategy
      *
      * @param ezcCacheStackableStorage $storage
      * @param string $storageId
-     * @param ezcCacheStorageMetaData $metaData
+     * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
@@ -145,7 +145,7 @@ interface ezcCacheStackReplacementStrategy
     public static function delete(
         ezcCacheStackableStorage $storage,
         $storageId,
-        ezcCacheStorageMetaData $metaData,
+        ezcCacheStackMetaData $metaData,
         $itemId,
         $attributes = array(),
         $search = false
