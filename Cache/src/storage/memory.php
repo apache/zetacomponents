@@ -63,6 +63,13 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
     protected $searchRegistry = array();
 
     /**
+     * Wether this storage holds a lock. 
+     * 
+     * @var bool
+     */
+    private $lock = false;
+
+    /**
      * Creates a new cache storage in the given location.
      *
      * Options can contain the 'ttl' (Time-To-Live). Specific implementations
@@ -420,7 +427,15 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      */
     public function lock()
     {
-        // @TODO: Implement
+        $lockKey = $this->registryName . '_'
+            . urlencode( $this->properties['location'] ) . '_'
+            . $this->properties['options']->lockKey;
+        $this->backend->acquireLock(
+            $lockKey,
+            $this->properties['options']->lockWaitTime,
+            $this->properties['options']->maxLockTime
+        );
+        $this->lock = true;
     }
 
     /**
@@ -435,7 +450,16 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      */
     public function unlock()
     {
-        // @TODO: Implement
+        if ( $this->lock !== false )
+        {
+            $lockKey = $this->registryName . '_'
+                . urlencode( $this->properties['location'] ) . '_'
+                . $this->properties['options']->lockKey;
+            $this->backend->releaseLock(
+                $lockKey
+            );
+            $this->lock = false;
+        }
     }
 
     /**

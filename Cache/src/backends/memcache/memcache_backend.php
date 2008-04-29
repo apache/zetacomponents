@@ -192,7 +192,38 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
      */
     public function reset()
     {
+        // Kills whole memcache content
         $this->memcache->flush();
     }
+
+    /**
+     * Acquires a lock on the given $key.
+     *
+     * @param string $key 
+     * @param int $waitTime usleep()
+     * @param int $maxTime seconds
+     */
+    public function acquireLock( $key, $waitTime, $maxTime )
+    {
+        // add() does not replace and returns true on success. $maxTime is
+        // obeyed by Memcache expiry.
+        while ( $this->memcache->add( $key, $key, false, $maxTime ) === false )
+        {
+            // Wait for next check
+            usleep( $waitTime );
+        }
+    }
+
+    /**
+     * Releases a lock on the given $key. 
+     * 
+     * @param string $key 
+     * @return void
+     */
+    public function releaseLock( $key )
+    {
+        $this->memcache->delete( $key );
+    }
+
 }
 ?>
