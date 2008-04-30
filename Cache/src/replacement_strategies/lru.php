@@ -68,8 +68,9 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
               && count( $metaData->data['lru'] ) >= $storageConfiguration->itemLimit )
         {
             self::freeData(
-                $storageConfiguration->storage,
+                $storageConfiguration,
                 $metaData,
+                // Number of items to remove
                 round( $storageConfiguration->freeRate * $storageConfiguration->itemLimit )
             );
         }
@@ -91,9 +92,55 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      * @param ezcCacheStackMetaData $metaData 
      * @param int $freeNum 
      */
-    public function freeData( ezcCacheStackableStorage $storage, ezcCacheStackMetaData $metaData, $freeNum )
+    public static function freeData(
+        ezcCacheStackStorageConfiguration $conf,
+        ezcCacheStackMetaData $metaData,
+        $freeNum
+    )
     {
-        // @TODO: Implement.
+        $purgedIds = $conf->storage->purge();
+        // Unset purged items in meta data
+        foreach ( $purgedIds as $purgedId )
+        {
+            self::removeItem( $metaData, $purgedId, $conf->id );
+        }
+
+        // Not enough items have been purged, remove manually
+        if ( ( $freeNum = ( $freeNum - count( $purgedIds ) ) ) > 0 )
+        {
+            asort( $metaData->data['lru'] );
+            foreach ( $metaData->data['lru'] as $id => $timestamp )
+            {
+                $conf->storage->delete( $id );
+                self::removeItem( $metaData, $id, $conf->id );
+                // Decrement number of items to free
+                if ( --$freeNum == 0 )
+                {
+                    // Enough purged
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Removes the given $itemIds from $metaData.
+     * 
+     * @param ezcCacheStackMetaData $metaData 
+     * @param string $itemId 
+     * @param string $storageId 
+     */
+    public static function removeItem( ezcCacheStackMetaData $metaData, $itemId, $storageId )
+    {
+        unset(
+            $metaData->data['lru'][$itemId],
+            $metaData->data['storages'][$itemId][$storageId]
+        );
+        // Item not stored anywhere anymore?
+        if ( count( $metaData->data['storages'][$itemId] ) === 0 )
+        {
+            unset( $metaData->data['storages'][$itemId] );
+        }
     }
 
     /**
