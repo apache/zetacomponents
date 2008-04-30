@@ -265,7 +265,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         {
             $added = false;
 
-            $slashCount = substr_count( $package, '/' );
+            $slashCount = substr_count( $package, DIRECTORY_SEPARATOR );
             if ( ( $release == 'trunk' && $slashCount !== 0 ) || ( $release == 'stable' && $slashCount > 1 ) )
             {
                 if ( file_exists( $package ) )
@@ -277,7 +277,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
                     {
                         $allSuites->addTest( call_user_func( array( $class, 'suite' ) ) );
                         $added = true;
-                        $package = substr($package, 0, strpos($package, '/'));
+                        $package = substr($package, 0, strpos($package, DIRECTORY_SEPARATOR));
                     }
                     else
                     {
