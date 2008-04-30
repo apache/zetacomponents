@@ -154,6 +154,11 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
 
     public function testCannotReadCompiled()
     {
+        if ( ezcBaseFeatures::os() === 'Windows' )
+        {
+            self::markTestSkipped( 'Test is for non-Windows only - permission system is not the same on Windows.' );
+        }
+
         $temp = $this->createTempDir( "ezcTemplate" );
         file_put_contents( $temp . "/myFile" , "bla" );
 
