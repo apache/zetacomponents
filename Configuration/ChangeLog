@@ -1,4 +1,4 @@
-1.2.2 - [RELEASEDATE]
+1.3alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #12694: replace reflection test for class type with spl
@@ -6,6 +6,7 @@
 - Implemented issue #12911: Added the hasGroup() and getSettingsInGroup()
   methods to ezcConfigurationManager to allow for fetching of all settings
   in a group. (Patch by James Pic)
+
 
 1.2.1 - Monday 03 March 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
