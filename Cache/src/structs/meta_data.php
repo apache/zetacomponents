@@ -23,6 +23,8 @@
  * 
  * @package Cache
  * @version //autogentag//
+ *
+ * @access private
  */
 class ezcCacheStackMetaData extends ezcBaseStruct
 {
