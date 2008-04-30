@@ -64,6 +64,10 @@ require_once 'stack_storage_configuration_test.php';
  * Require LRU replacement strategy test suite.
  */
 require_once 'replacement_strategy_lru_test.php';
+/**
+ * Require LFU replacement strategy test suite.
+ */
+require_once 'replacement_strategy_lfu_test.php';
 
 /**
  * Test suite for Cache package. 
@@ -91,6 +95,7 @@ class ezcCacheSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcCacheStackOptionsTest::suite() );
         $this->addTest( ezcCacheStackStorageConfigurationTest::suite() );
         $this->addTest( ezcCacheStackLruReplacementStrategyTest::suite() );
+        $this->addTest( ezcCacheStackLfuReplacementStrategyTest::suite() );
     }
 
     public static function suite()
