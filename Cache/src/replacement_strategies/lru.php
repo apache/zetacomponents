@@ -137,7 +137,8 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
             $metaData->data['storages'][$itemId][$storageId]
         );
         // Item not stored anywhere anymore?
-        if ( count( $metaData->data['storages'][$itemId] ) === 0 )
+        if ( isset( $metaData->data['storages'][$itemId] ) 
+             && count( $metaData->data['storages'][$itemId] ) === 0 )
         {
             unset( $metaData->data['storages'][$itemId] );
         }
@@ -168,8 +169,23 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
         $search = false
     )
     {
-        // @TODO: Implement.
         self::checkMetaData( $metaData );
+        $item = $storageConfiguration->storage->restore(
+            $itemId,
+            $itemAttributes,
+            $search
+        );
+        // Update item meta data
+        if ( $item === false )
+        {
+            self::removeItem( $metaData, $itemId, $storageConfiguration->id );
+        }
+        else
+        {
+            $metaData->data['lru'][$itemId] = time();
+            $metaData->data['storage'][$storageConfiguration->id] = true;
+        }
+        return $item;
     }
 
     /**
