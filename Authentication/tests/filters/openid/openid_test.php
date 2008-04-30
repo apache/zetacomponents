@@ -275,8 +275,8 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         }
         catch ( ezcAuthenticationOpenidException $e )
         {
-            $expected = "Could not connect to host xxx:80: .";
-            $this->assertEquals( $expected, $e->getMessage() );
+            $expected = "Could not connect to host xxx:80:";
+            $this->assertEquals( $expected, substr( $e->getMessage(), 0, strlen( $expected ) ) );
         }
     }
 
@@ -332,8 +332,8 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         }
         catch ( ezcAuthenticationOpenidException $e )
         {
-            $expected = "Could not connect to host xxx:80: .";
-            $this->assertEquals( $expected, $e->getMessage() );
+            $expected = "Could not connect to host xxx:80:";
+            $this->assertEquals( $expected, substr( $e->getMessage(), 0, strlen( $expected ) ) );
         }
     }
 
@@ -476,8 +476,8 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         catch ( ezcAuthenticationOpenidException $e )
         {
             $result = $e->getMessage();
-            $expected = "Could not connect to host :443: .";
-            $this->assertEquals( $expected, $result );
+            $expected = "Could not connect to host :443:";
+            $this->assertEquals( $expected, substr( $result, 0, strlen( $expected ) ) );
         }
         $this->removeTempDir();
     }
@@ -563,8 +563,8 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         catch ( ezcAuthenticationOpenidException $e )
         {
             $result = $e->getMessage();
-            $expected = "Could not connect to host xxx:80: .";
-            $this->assertEquals( $expected, $result );
+            $expected = "Could not connect to host xxx:80:";
+            $this->assertEquals( $expected, substr( $result, 0, strlen( $expected ) ) );
         }
     }
 
@@ -660,8 +660,8 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         catch ( ezcAuthenticationOpenidException $e )
         {
             $result = $e->getMessage();
-            $expected = "Could not connect to host :80: .";
-            $this->assertEquals( $expected, $result );
+            $expected = "Could not connect to host :80:";
+            $this->assertEquals( $expected, substr( $result, 0, strlen( $expected ) ) );
         }
     }
 
@@ -758,8 +758,8 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         catch ( ezcAuthenticationOpenidException $e )
         {
             $result = $e->getMessage();
-            $expected = "Could not connect to host :443: .";
-            $this->assertEquals( $expected, $result );
+            $expected = "Could not connect to host :443:";
+            $this->assertEquals( $expected, substr( $result, 0, strlen( $expected ) ) );
         }
     }
 
