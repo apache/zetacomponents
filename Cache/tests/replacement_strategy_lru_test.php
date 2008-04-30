@@ -881,5 +881,251 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'Storage data not correctly updated.'
         );
     }
+
+    public function testRestoreDeleteSuccess()
+    {
+        // Prepare faked test data
+
+        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $conf = new ezcCacheStackStorageConfiguration(
+            'fooid',
+            new ezcCacheStorageFileArray(
+                $tmpDir,
+                array( 'ttl' => 30 )
+            ),
+            5,
+            0.5
+        );
+
+        // Store max number of items
+        $conf->storage->store( 'id_1', 'id_1' );
+        
+        // Cache location not empty
+        $this->assertEquals(
+            1,
+            count( glob( "$tmpDir/*" ) ),
+            'Cache location contains unknown items.'
+        );
+        
+        $meta = new ezcCacheStackMetaData();
+        $meta->id = 'ezcCacheStackLruReplacementStrategy';
+        $meta->data = array(
+            'lru' => array(
+                'id_1' => time(),
+            ),
+            'storages' => array(
+                'id_1' => array(
+                    'fooid' => true,
+                    'barid' => true,
+                ),
+            ),
+        );
+
+        // Perform actual action
+
+        $deletedItems = ezcCacheStackLruReplacementStrategy::delete(
+            $conf,
+            $meta,
+            'id_1'
+        );
+
+        // Assert correct behavior
+
+        // Item data correctly restored
+        $this->assertEquals(
+            array( 'id_1' ),
+            $deletedItems,
+            'Item not indicated to be delted.'
+        );
+
+        // Meta data actualized correctly
+        $this->assertEquals(
+            array(),
+            $meta->data['lru']
+        );
+        
+        // Storage data kept correctly
+        $this->assertEquals(
+            array(
+                'id_1' => array(
+                    'barid' => true,
+                ),
+            ),
+            $meta->data['storages'],
+            'Storage data not correctly updated.'
+        );
+        
+        // Cache location empty
+        $this->assertEquals(
+            0,
+            count( glob( "$tmpDir/*" ) ),
+            'Cache location contains unknown items.'
+        );
+    }
+
+    public function testRestoreDeleteNonexistent()
+    {
+        // Prepare faked test data
+
+        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $conf = new ezcCacheStackStorageConfiguration(
+            'fooid',
+            new ezcCacheStorageFileArray(
+                $tmpDir,
+                array( 'ttl' => 30 )
+            ),
+            5,
+            0.5
+        );
+
+        $meta = new ezcCacheStackMetaData();
+        $meta->id = 'ezcCacheStackLruReplacementStrategy';
+        $meta->data = array(
+            'lru' => array(
+            ),
+            'storages' => array(
+                'id_1' => array(
+                    'barid' => true,
+                ),
+            ),
+        );
+
+        // Perform actual action
+
+        $deletedItems = ezcCacheStackLruReplacementStrategy::delete(
+            $conf,
+            $meta,
+            'id_1'
+        );
+
+        // Assert correct behavior
+
+        // Item data correctly restored
+        $this->assertEquals(
+            array(),
+            $deletedItems,
+            'Item not indicated to be delted.'
+        );
+
+        // Meta data actualized correctly
+        $this->assertEquals(
+            array(),
+            $meta->data['lru']
+        );
+        
+        // Storage data kept correctly
+        $this->assertEquals(
+            array(
+                'id_1' => array(
+                    'barid' => true,
+                ),
+            ),
+            $meta->data['storages'],
+            'Storage data not correctly updated.'
+        );
+
+        // Cache location empty
+        $this->assertEquals(
+            0,
+            count( glob( "$tmpDir/*" ) ),
+            'Cache location contains unknown items.'
+        );
+    }
+
+    public function testRestoreDeleteSuccessSearch()
+    {
+        // Prepare faked test data
+
+        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $conf = new ezcCacheStackStorageConfiguration(
+            'fooid',
+            new ezcCacheStorageFileArray(
+                $tmpDir,
+                array( 'ttl' => 30 )
+            ),
+            5,
+            0.5
+        );
+
+        // Store max number of items
+        $conf->storage->store( 'id_1', 'id_1', array( 'lang' => 'en' ) );
+        $conf->storage->store( 'id_2', 'id_2' );
+        $conf->storage->store( 'id_3', 'id_3', array( 'lang' => 'en' ) );
+        
+        // Cache location not empty
+        $this->assertEquals(
+            3,
+            count( glob( "$tmpDir/*" ) ),
+            'Cache location contains unknown items.'
+        );
+        
+        $meta = new ezcCacheStackMetaData();
+        $meta->id = 'ezcCacheStackLruReplacementStrategy';
+        $meta->data = array(
+            'lru' => array(
+                'id_1' => time(),
+                'id_2' => time(),
+                'id_3' => time(),
+            ),
+            'storages' => array(
+                'id_1' => array(
+                    'fooid' => true,
+                    'barid' => true,
+                ),
+                'id_2' => array(
+                    'fooid' => true,
+                ),
+                'id_3' => array(
+                    'fooid' => true,
+                ),
+            ),
+        );
+
+        // Perform actual action
+
+        $deletedItems = ezcCacheStackLruReplacementStrategy::delete(
+            $conf,
+            $meta,
+            null,
+            array( 'lang' => 'en' ),
+            true
+        );
+
+        // Assert correct behavior
+
+        // Item data correctly restored
+        $this->assertEquals(
+            array( 'id_1', 'id_3' ),
+            $deletedItems,
+            'Item not indicated to be delted.'
+        );
+
+        // Meta data actualized correctly
+        $this->assertTrue(
+            ( isset( $meta->data['lru']['id_2'] ) && count( $meta->data['lru'] ) == 1 ),
+            "Meta data not actualized correctly."
+        );
+        
+        // Storage data kept correctly
+        $this->assertEquals(
+            array(
+                'id_1' => array(
+                    'barid' => true,
+                ),
+                'id_2' => array(
+                    'fooid' => true,
+                ),
+            ),
+            $meta->data['storages'],
+            'Storage data not correctly updated.'
+        );
+        
+        // Cache location empty
+        $this->assertEquals(
+            1,
+            count( glob( "$tmpDir/*" ) ),
+            'Cache location contains incorrect number of items.'
+        );
+    }
 }
 ?>

@@ -77,10 +77,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
         $storageConfiguration->storage->store(
             $itemId, $itemData, $itemAttributes
         );
-        // Actualize LRU timestamp
-        $metaData->data['lru'][$itemId] = time();
-        // Define that data is stored in the given storage
-        $metaData->data['storages'][$itemId][$storageConfiguration->id] = true;
+        self::addItem( $metaData, $itemId, $storageConfiguration->id );
     }
 
     /**
@@ -92,7 +89,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      * @param ezcCacheStackMetaData $metaData 
      * @param int $freeNum 
      */
-    public static function freeData(
+    private static function freeData(
         ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $freeNum
@@ -130,7 +127,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      * @param string $itemId 
      * @param string $storageId 
      */
-    public static function removeItem( ezcCacheStackMetaData $metaData, $itemId, $storageId )
+    private static function removeItem( ezcCacheStackMetaData $metaData, $itemId, $storageId )
     {
         unset(
             $metaData->data['lru'][$itemId],
@@ -142,6 +139,19 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
         {
             unset( $metaData->data['storages'][$itemId] );
         }
+    }
+
+    /**
+     * Add $itemId to $metaData with $storageId.
+     * 
+     * @param ezcCacheStackMetaData $metaData 
+     * @param string $itemId 
+     * @param string $storageId 
+     */
+    private static function addItem( ezcCacheStackMetaData $metaData, $itemId, $storageId )
+    {
+        $metaData->data['lru'][$itemId] = time();
+        $metaData->data['storages'][$itemId][$storageId] = true;
     }
 
     /**
@@ -182,8 +192,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
         }
         else
         {
-            $metaData->data['lru'][$itemId] = time();
-            $metaData->data['storage'][$storageConfiguration->id] = true;
+            self::addItem( $metaData, $itemId, $storageConfiguration->id );
         }
         return $item;
     }
@@ -209,12 +218,21 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
         ezcCacheStackStorageConfiguration $storageConfiguration,
         ezcCacheStackMetaData $metaData,
         $itemId,
-        $attributes = array(),
+        $itemAttributes = array(),
         $search = false
     )
     {
-        // @TODO: Implement.
         self::checkMetaData( $metaData );
+        $deletedIds = $storageConfiguration->storage->delete(
+            $itemId,
+            $itemAttributes,
+            $search
+        );
+        foreach ( $deletedIds as $id )
+        {
+            self::removeItem( $metaData, $id, $storageConfiguration->id );
+        }
+        return $deletedIds;
     }
 
     /**
