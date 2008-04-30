@@ -439,7 +439,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      */
     public function createFindQuery( $type = false, ezcSearchDocumentDefinition $definition = null )
     {
-        $query = new ezcSearchFindQuerySolr( $this, $definition );
+        $query = new ezcSearchQuerySolr( $this, $definition );
         $query->select( 'score' );
         if ( $type )
         {
@@ -454,7 +454,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
                 $highlightFieldNames[] = $this->mapFieldType( $docProp, $definition->fields[$docProp]->type );
             }
             $query->select( $selectFieldNames );
-            $query->where( $query->eq( 'ezcsearch_type_s', $type ) );
+            $query->where( $query->eq( 'ezcsearch_type', $type ) );
             $query->highlight( $highlightFieldNames );
         }
         return $query;
@@ -476,17 +476,17 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $offset = $query->offset;
 
         $res = $this->search( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList, $limit, $offset );
-        return $this->createResponseFromData( $query->definition, $res );
+        return $this->createResponseFromData( $query->getDefinition(), $res );
     }
 
     /**
      * Returns the query as a string for debugging purposes
      *
-     * @param ezcSearchFindQuerySolr $query
+     * @param ezcSearchQuerySolr $query
      * @return string
      * @ignore
      */
-    public function getQuery( ezcSearchFindQuerySolr $query )
+    public function getQuery( ezcSearchQuerySolr $query )
     {
         $queryWord = join( ' AND ', $query->whereClauses );
         $resultFieldList = $query->resultFields;
@@ -774,10 +774,22 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         }
     }
 
-    public function createDeleteQuery()
+    /**
+     * Creates a delete query object with the fields from the definition filled in.
+     *
+     * @param string $type
+     * @return ezcSearchDeleteQuery
+     */
+    public function createDeleteQuery( $type )
     {
     }
 
+    /**
+     * Builds the delete query and returns the parsed response
+     *
+     * @param ezcSearchDeleteQuery $query
+     * @return ezcSearchResult
+     */
     public function delete( ezcSearchDeleteQuery $query )
     {
     }

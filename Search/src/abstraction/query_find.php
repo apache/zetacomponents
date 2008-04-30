@@ -18,35 +18,31 @@
 interface ezcSearchFindQuery extends ezcSearchQuery
 {
     /**
-     * Opens the query and selects which columns you want to return with
+     * Opens the query and selects which fields you want to return with
      * the query.
      *
-     * select() accepts an arbitrary number of parameters. Each parameter
-     * must contain either the name of a column or an array containing
-     * the names of the columns.
-     * Each call to select() appends columns to the list of columns that will be
-     * used in the query.
+     * select() accepts an arbitrary number of parameters. Each parameter must
+     * contain either the name of a field or an array containing the names of
+     * the fields.  Each call to select() appends fields to the list of
+     * fields that will be used in the query.
      *
      * Example:
      * <code>
-     * $q->select( 'column1', 'column2' );
+     * $q->select( 'field1', 'field2' );
      * </code>
-     * The same could also be written
+     * The same could also be written:
      * <code>
-     * $columns[] = 'column1';
-     * $columns[] = 'column2;
-     * $q->select( $columns );
+     * $fields[] = 'field1';
+     * $fields[] = 'field2;
+     * $q->select( $fields );
      * </code>
      * or using several calls
      * <code>
-     * $q->select( 'column1' )->select( 'column2' );
+     * $q->select( 'field1' )->select( 'field2' );
      * </code>
      *
-     * Each of above code produce SQL clause 'SELECT column1, column2' for the query.
-     *
-     * @throws ezcQueryVariableParameterException if called with no parameters..
-     * @param string|array(string) $... Either a string with a column name or an array of column names.
-     * @return ezcQuery returns a pointer to $this.
+     * @param string|array(string) $... Either a string with a field name or an array of field names.
+     * @return ezcSearchFindQuery
      */
     public function select();
 }

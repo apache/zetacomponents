@@ -22,7 +22,7 @@ interface ezcSearchHandler
      * @param string $type
      * @return ezcSearchFindQuery
      */
-    public function createFindQuery( $type = false );
+    public function createFindQuery( $type );
 
     /**
      * Builds the search query and returns the parsed response

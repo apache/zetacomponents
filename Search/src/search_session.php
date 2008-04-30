@@ -130,6 +130,9 @@ class ezcSearchSession
     {
         $def = $this->definitionManager->fetchDefinition( $type );
 
+        /* We add the ezcsearch_type field to the definition automatically here */
+        $def->fields['ezcsearch_type'] = new ezcSearchDefinitionDocumentField( 'ezcsearch_type', ezcSearchDocumentDefinition::STRING );
+
         return $this->handler->createFindQuery( $type, $def );
     }
 

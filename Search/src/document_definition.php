@@ -75,7 +75,9 @@ class ezcSearchDocumentDefinition
     /**
      * Contains an array of field definitions
      *
-     * @var array(ezcSearchDefinitionDocumentField)
+     * The array key also contains the name of the field
+     *
+     * @var array(string=>ezcSearchDefinitionDocumentField)
      */
     public $fields = array();
 

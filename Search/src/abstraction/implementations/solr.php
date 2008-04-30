@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcSearchFindQuerySolr class.
+ * File containing the ezcSearchQuerySolr class.
  *
  * @package Search
  * @version //autogen//
@@ -9,12 +9,12 @@
  */
 
 /**
- * ezcSearchFindQuerySolr implements the find query for searching documents.
+ * ezcSearchQuerySolr implements the find query for searching documents.
  *
  * @package Search
  * @version //autogen//
  */
-class ezcSearchFindQuerySolr implements ezcSearchFindQuery
+class ezcSearchQuerySolr implements ezcSearchFindQuery
 {
     /**
      * Holds the columns to return in the search result
@@ -65,17 +65,17 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
      *
      * @var ezcSearchHandler
      */
-    public $handler;
+    private $handler;
 
     /**
      * Contains the document definition for which this query is built.
      *
      * @param ezcSearchDocumentDefinition
      */
-    public $definition;
+    private $definition;
 
     /**
-     * Constructs a new ezcSearchFindQuerySolr object for the handler $handler
+     * Constructs a new ezcSearchQuerySolr object for the handler $handler
      *
      * The handler implements mapping field names and values based on the
      * document $definition.
@@ -104,6 +104,40 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
     }
 
     /**
+     * Returns the definition that belongs to this query
+     *
+     * @return ezcSearchDocumentDefinition
+     */
+    function getDefinition()
+    {
+        return $this->definition;
+    }
+
+    /**
+     * Returns the query as a string for debugging purposes
+     *
+     * @return string
+     * @ignore
+     */
+    public function getQuery()
+    {
+        return $this->handler->getQuery( $this );
+    }
+
+    /**
+     * Checks whether the field $field exists in the definition.
+     *
+     * @throw ezcSearchFieldNotDefinedException if the field is not defined.
+     */
+    private function checkIfFieldExists( $field )
+    {
+        if ( !isset( $this->definition->fields[$field] ) )
+        {
+            throw new ezcSearchFieldNotDefinedException( $this->definition->documentType, $field );
+        }
+    }
+
+    /**
      * Adds the fields to return in the results.
      *
      * This method accepts either an array of fieldnames, but can also accept
@@ -118,7 +152,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
      * overwritten when this function is called subsequently.
      *
      * @param mixed
-     * @return ezcSearchFindQuerySolr
+     * @return ezcSearchQuerySolr
      */
     public function select()
     {
@@ -143,7 +177,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
      * overwritten when this function is called subsequently.
      *
      * @param mixed
-     * @return ezcSearchFindQuerySolr
+     * @return ezcSearchQuerySolr
      */
     public function highlight()
     {
@@ -157,7 +191,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
      * Adds a select/filter statement to the query
      *
      * @param string $clause
-     * @return ezcSearchFindQuerySolr
+     * @return ezcSearchQuerySolr
      */
     public function where( $clause )
     {
@@ -168,9 +202,13 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
     /**
      * Registers from which offset to start returning results, and how many results to return.
      *
+     * $limit controls the maximum number of rows that will be returned.
+     * $offset controls which row that will be the first in the result
+     * set from the total amount of matching rows.
+     *
      * @param int $limit
      * @param int $offset
-     * @return ezcSearchFindQuerySolr
+     * @return ezcSearchQuerySolr
      */
     public function limit( $limit, $offset = 0 )
     {
@@ -182,9 +220,12 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
     /**
      * Tells the query on which field to sort on, and in which order
      *
+     * You can call orderBy multiple times. Each call will add a
+     * column to order by.
+     *
      * @param string $column
      * @param int    $type
-     * @return ezcSearchFindQuerySolr
+     * @return ezcSearchQuerySolr
      */
     public function orderBy( $column, $type = ezcSearchQueryTools::ASC )
     {
@@ -192,22 +233,10 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
     }
 
     /**
-     * Returns the query as a string for debugging purposes
-     *
-     * @param ezcSearchFindQuerySolr $query
-     * @return string
-     * @ignore
-     */
-    public function getQuery()
-    {
-        return $this->handler->getQuery( $this );
-    }
-
-    /**
      * Adds one facet to the query.
      *
      * @param string $facet
-     * @return ezcSearchFindQuerySolr
+     * @return ezcSearchQuerySolr
      */
     public function facet( $facet )
     {
@@ -226,28 +255,21 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
      *
      * @param string $field
      * @param mixed $value
-     * @param int $fieldType
      *
      * @return string
      */
-    public function eq( $field, $value, $fieldType = ezcSearchDocumentDefinition::STRING )
+    public function eq( $field, $value )
     {
         $field = trim( $field );
 
-        if ( $this->definition && isset( $this->definition->fields[$field] ) )
-        {
-            $fieldType = $this->definition->fields[$field]->type;
-        }
+        $this->checkIfFieldExists( $field );
+        $fieldType = $this->definition->fields[$field]->type;
         $value = $this->handler->mapFieldValueForSearch( $fieldType, $value );
+        $fieldName = $this->handler->mapFieldType( $field, $this->definition->fields[$field]->type );
 
-        if ( $this->definition && isset( $this->definition->fields[$field] ) )
-        {
-            $field = $this->handler->mapFieldType( $field, $this->definition->fields[$field]->type );
-        }
+        $ret = "$fieldName:$value";
 
-        $ret = "$field:$value";
-
-        if ( $this->definition && isset( $this->definition->fields[$field] ) && $this->definition->fields[$field]->boost != 1 )
+        if ( $this->definition->fields[$field]->boost != 1 )
         {
             $ret .= "^{$this->definition->fields[$field]->boost}";
         }
@@ -271,24 +293,20 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
     {
         $field = trim( $field );
 
+        $this->checkIfFieldExists( $field );
         $value1 = $this->handler->mapFieldValue( $value1 );
         $value2 = $this->handler->mapFieldValue( $value2 );
-
-        if ( $this->definition && isset( $this->definition->fields[$field] ) )
-        {
-            $field = $this->handler->mapFieldType( $field, $this->definition->fields[$field]->type );
-        }
+        $field = $this->handler->mapFieldType( $field, $this->definition->fields[$field]->type );
 
         $ret = "$field:[$value1 TO $value2]";
 
-        if ( $this->definition && isset( $this->definition->fields[$field] ) && $this->definition->fields[$field]->boost != 1 )
+        if ( $this->definition->fields[$field]->boost != 1 )
         {
             $ret .= "^{$this->definition->fields[$field]->boost}";
         }
         return $ret;
     }
 
-    // FIX ME: NO EZCQUERY 
     /**
      * Creates an OR clause
      *
@@ -359,7 +377,7 @@ class ezcSearchFindQuerySolr implements ezcSearchFindQuery
     }
 
     /**
-     * Creates an 'import' clause
+     * Creates an 'important' clause
      *
      * This method accepts a clause and marks it as important.
      *

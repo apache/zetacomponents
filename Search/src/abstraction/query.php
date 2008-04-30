@@ -27,80 +27,150 @@ interface ezcSearchQuery
     public function reset();
 
     /**
-     * Adds a where clause with logical expressions to the query.
+     * Adds a select/filter statement to the query
      *
-     * where() accepts an arbitrary number of parameters. Each parameter
-     * must contain a logical expression or an array with logical expressions.
-     * If you specify multiple logical expression they are connected using
-     * a logical and.
-     *
-     * Multiple calls to where() will join the expressions using a logical and.
-     *
-     * Example:
-     * <code>
-     * $q->select( '*' )->from( 'table' )->where( $q->expr->eq( 'id', 1 ) );
-     * </code>
-     *
-     * @throws ezcQueryVariableParameterException if called with no parameters.
-     * @param string|array(string) $... Either a string with a logical expression name
-     * or an array with logical expressions.
-     * @return ezcQuerySelect
+     * @param string $clause
+     * @return ezcSearchQuery
      */
     public function where( $clause );
 
     /**
-     * Returns SQL that limits the result set.
+     * Registers from which offset to start returning results, and how many results to return.
      *
      * $limit controls the maximum number of rows that will be returned.
      * $offset controls which row that will be the first in the result
      * set from the total amount of matching rows.
      *
-     * Example:
-     * <code>
-     * $q->select( '*' )->from( 'table' )
-     *                  ->limit( 10, 0 );
-     * </code>
-     *
-     * LIMIT is not part of SQL92. It is implemented here anyway since all
-     * databases support it one way or the other and because it is
-     * essential.
-     *
-     * @param string $limit integer expression
-     * @param string $offset integer expression
-     * @return ezcQuerySelect
+     * @param int $limit
+     * @param int $offset
+     * @return ezcSearchQuery
      */
     public function limit( $limit, $offset = 0 );
 
     /**
-     * Returns SQL that orders the result set by a given column.
+     * Tells the query on which field to sort on, and in which order
      *
      * You can call orderBy multiple times. Each call will add a
      * column to order by.
      *
-     * Example:
-     * <code>
-     * $q->select( '*' )->from( 'table' )
-     *                  ->orderBy( 'id' );
-     * </code>
-     *
-     * @param string $column a column name in the result set
-     * @param string $type if the column should be sorted ascending or descending.
-     *        you can specify this using ezcQuerySelect::ASC or ezcQuerySelect::DESC
-     * @return ezcQuery a pointer to $this
+     * @param string $column
+     * @param int    $type
+     * @return ezcSearchQuery
      */
     public function orderBy( $column, $type = self::ASC );
 
     /**
-     * Returns the complete select query string.
+     * Returns the query as a string for debugging purposes
      *
-     * This method uses the build methods to build the
-     * various parts of the select query.
-     *
-     * @todo add newlines? easier for debugging
-     * @throws ezcQueryInvalidException if it was not possible to build a valid query.
      * @return string
+     * @ignore
      */
     public function getQuery();
+
+    /**
+     * Adds one facet to the query.
+     *
+     * @param string $facet
+     * @return ezcSearchQuery
+     */
+    public function facet( $facet );
+
+    /**
+     * Expressions start here
+     */
+
+    /**
+     * Returns a string containing a field/value specifier, and an optional boost value.
+     * 
+     * The method uses the document definition field type to map the fieldname
+     * to a solr fieldname, and the $fieldType argument to escape the $value
+     * correctly. If a definition is set, the $fieldType will be overridden
+     * with the type from the definition.
+     *
+     * @param string $field
+     * @param mixed $value
+     *
+     * @return string
+     */
+    public function eq( $field, $value );
+
+    /**
+     * Returns a string containing a field/value specifier, and an optional boost value.
+     * 
+     * The method uses the document definition field type to map the fieldname
+     * to a solr fieldname, and the $fieldType argument to escape the values
+     * correctly.
+     *
+     * @param string $field
+     * @param mixed $value
+     * @param int $fieldType
+     *
+     * @return string
+     */
+    public function between( $field, $value1, $value2 );
+
+    /**
+     * Creates an OR clause
+     *
+     * This method accepts either an array of fieldnames, but can also accept
+     * multiple parameters as field names.
+     *
+     * @param mixed
+     * @return string
+     */
+    public function lOr();
+
+    /**
+     * Creates an AND clause
+     *
+     * This method accepts either an array of fieldnames, but can also accept
+     * multiple parameters as field names.
+     *
+     * @param mixed
+     * @return string
+     */
+    public function lAnd();
+
+    /**
+     * Creates a NOT clause
+     *
+     * This method accepts a clause and negates it.
+     *
+     * @param string $clause
+     * @return string
+     */
+    public function not( $clause );
+
+    /**
+     * Creates an 'important' clause
+     *
+     * This method accepts a clause and marks it as important.
+     *
+     * @param string $clause
+     * @return string
+     */
+    public function important( $clause );
+
+    /**
+     * Modifies a clause to give it higher weight while searching.
+     *
+     * This method accepts a clause and adds a boost factor.
+     *
+     * @param string $clause
+     * @return string
+     */
+    public function boost( $clause, $boostFactor );
+
+    /**
+     * Modifies a clause make it fuzzy.
+     *
+     * This method accepts a clause and registers it as a fuzzy search, an
+     * optional fuzz factor is also supported.
+     *
+     * @param string $clause
+     * @return string
+     */
+    public function fuzz( $clause, $fuzzFactor = false );
 }
 
 ?>
