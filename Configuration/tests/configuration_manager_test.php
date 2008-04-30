@@ -278,6 +278,52 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $this->assertEquals( $expected, $settings );
     }
 
+    // #012911: Fetch all settings of a group
+    public function testGetGroupSettings()
+    {
+        $config = ezcConfigurationManager::getInstance();
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files' );
+
+        $expected = array( 'Setting1' => true );
+        $result = $config->getSettingsInGroup( 'two-groups', 'NotTheOnlyGroup' );
+        $this->assertEquals( $expected, $result );
+
+        $expected = array( 'Setting1' => false );
+        $result = $config->getSettingsInGroup( 'two-groups', 'TheSecond' );
+        $this->assertEquals( $expected, $result );
+    }
+
+    public function testGetGroupSettingsCanThrowUnknownGroupException()
+    {
+        $config = ezcConfigurationManager::getInstance();
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files' );
+
+        try
+        {
+            $result = $config->getSettingsInGroup( 'two-groups', 'UnexistentGroup' );
+        }
+        catch( ezcConfigurationUnknownGroupException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'getSettingsInGroup() should have thrown an ezcConfigurationUnknownGroupException' );
+    }
+
+    public function testHasGroup()
+    {
+        $config = ezcConfigurationManager::getInstance();
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files' );
+
+        $expected = true;
+        $result = $config->hasGroup( 'two-groups', 'NotTheOnlyGroup' );
+        $this->assertEquals( $expected, $result );
+
+        $expected = false;
+        $result = $config->hasGroup( 'two-groups', 'unknown' );
+        $this->assertEquals( $expected, $result );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( 'ezcConfigurationManagerTest' );

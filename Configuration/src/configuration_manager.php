@@ -305,6 +305,35 @@ class ezcConfigurationManager
     }
 
     /**
+     * Returns whether the setting $group group exists in the
+     * configuration named $name.
+     * 
+     * @param string $name 
+     * @param string $group 
+     * @return bool True if the group exist.
+     */
+    public function hasGroup( $name, $group )
+    {
+        $config = $this->fetchConfig( $name );
+        return $config->hasGroup( $group );
+    }
+
+    /**
+     * Returns all settings in group $group in the configuration named $name.
+     * 
+     * @throws ezcConfigurationUnknownGroupException if the group does not
+     *         exist.
+     * @param string $name
+     * @param string $group
+     * @return array
+     */
+    public function getSettingsInGroup( $name, $group )
+    {
+        $config = $this->fetchConfig( $name );
+        return $config->getSettingsInGroup( $group );
+    }
+
+    /**
      * Returns the value of the setting $setting in group $group in the configuration
      * named $name.
      *
