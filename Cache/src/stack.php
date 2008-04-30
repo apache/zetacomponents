@@ -187,10 +187,10 @@ class ezcCacheStack extends ezcCacheStorage
      * unpredictable results!
      *
      * @param string $id 
-     * @param ezcCacheStorageConfiguration $storageConf 
+     * @param ezcCacheStackStorageConfiguration $storageConf 
      * @return void
      */
-    public function pushStorage( ezcCacheStorageConfiguration $storageConf )
+    public function pushStorage( ezcCacheStackStorageConfiguration $storageConf )
     {
         // @TODO: Implement.
     }
@@ -204,7 +204,7 @@ class ezcCacheStack extends ezcCacheStorage
      * it is recommended to {@link ezcCacheStack::reset()} the whole cache
      * afterwards to avoid any kind of inconsistency.
      *
-     * @return ezcCacheStorageConfiguration
+     * @return ezcCacheStackStorageConfiguration
      */
     public function popStorage()
     {

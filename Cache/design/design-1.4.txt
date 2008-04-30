@@ -65,7 +65,7 @@ searching for items. ::
         public function countDataItems( $id, $attributes );
         public function getRemainingLifetime( $id, $attributes );
 
-        public function pushStorage( ezcCacheStorageConfiguration $storageConf );
+        public function pushStorage( ezcCacheStackStorageConfiguration $storageConf );
         public function popStorage();
         public function getStackedStorages();
 
@@ -352,7 +352,7 @@ Since all state information for a replacement strategy is stored in the
 ezcCacheStack instance, there is no need to create an instance of it.
 Therefore, all methods are declared static and retrieve the necessary state
 information in their signature. The $storageConfiguration parameter is the
-ezcCacheStorageConfiguration of the storage to utilize. Beside the storage
+ezcCacheStackStorageConfiguration of the storage to utilize. Beside the storage
 itself, it also contains the configuration and especially the ID of the
 storage.
 
