@@ -108,32 +108,32 @@ class ezcArchiveTest extends ezcArchiveTestCase
     // Extracting works fine. But adding files breaks.
     public function testReadGzippedTarAuto()
     {
-        $dir = $this->getTempDir();
-        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+        $dir = $this->getTempDir() . DIRECTORY_SEPARATOR;
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "{$dir}mytar.tar" );
 
-        exec( "gzip $dir/mytar.tar" );
-        $archive = ezcArchive::open( "$dir/mytar.tar.gz" );
+        exec( "gzip {$dir}mytar.tar" );
+        $archive = ezcArchive::open( "{$dir}mytar.tar.gz" );
         $archive->extract( $dir );
 
         clearstatcache();
-        $this->assertTrue( file_exists( "$dir/file1.txt" ) );
-        $this->assertTrue( file_exists( "$dir/file2.txt" ) );
+        $this->assertTrue( file_exists( "{$dir}file1.txt" ) );
+        $this->assertTrue( file_exists( "{$dir}file2.txt" ) );
     }
 
     // Extracting works fine. But adding files breaks.
 
     public function testReadGzippedTar()
     {
-        $dir = $this->getTempDir();
-        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+        $dir = $this->getTempDir(). DIRECTORY_SEPARATOR;
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "{$dir}mytar.tar" );
 
-        exec( "gzip $dir/mytar.tar" );
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz" );
+        exec( "gzip {$dir}mytar.tar" );
+        $archive = ezcArchive::open( "compress.zlib://{$dir}mytar.tar.gz" );
         $archive->extract( $dir );
 
         clearstatcache();
-        $this->assertTrue( file_exists( "$dir/file1.txt" ) );
-        $this->assertTrue( file_exists( "$dir/file2.txt" ) );
+        $this->assertTrue( file_exists( "{$dir}file1.txt" ) );
+        $this->assertTrue( file_exists( "{$dir}file2.txt" ) );
     }
 
     public function testReadBzippedTar()
@@ -143,19 +143,19 @@ class ezcArchiveTest extends ezcArchiveTestCase
             $this->markTestSkipped();
         }
 
-        $dir = $this->getTempDir();
-        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+        $dir = $this->getTempDir() . DIRECTORY_SEPARATOR;
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "{$dir}mytar.tar" );
 
-        exec( "bzip2 $dir/mytar.tar" );
-        $archive = ezcArchive::open( "compress.bzip2://$dir/mytar.tar.bz2" );
+        exec( "bzip2 {$dir}mytar.tar" );
+        $archive = ezcArchive::open( "compress.bzip2://{$dir}mytar.tar.bz2" );
         // echo ( $archive );
 
         $archive->extract( $dir );
         $archive->rewind();
 
         clearstatcache();
-        $this->assertTrue( file_exists( "$dir/file1.txt" ) );
-        $this->assertTrue( file_exists( "$dir/file2.txt" ) );
+        $this->assertTrue( file_exists( "{$dir}file1.txt" ) );
+        $this->assertTrue( file_exists( "{$dir}file2.txt" ) );
     }
 
     public function testReadBzippedTarAuto()
@@ -165,18 +165,18 @@ class ezcArchiveTest extends ezcArchiveTestCase
             $this->markTestSkipped();
         }
 
-        $dir = $this->getTempDir();
-        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
+        $dir = $this->getTempDir() . DIRECTORY_SEPARATOR;
+        copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "{$dir}mytar.tar" );
 
-        exec( "bzip2 $dir/mytar.tar" );
-        $archive = ezcArchive::open( "$dir/mytar.tar.bz2" );
+        exec( "bzip2 {$dir}mytar.tar" );
+        $archive = ezcArchive::open( "{$dir}mytar.tar.bz2" );
 
         $archive->extract( $dir );
         $archive->rewind();
 
         clearstatcache();
-        $this->assertTrue( file_exists( "$dir/file1.txt" ) );
-        $this->assertTrue( file_exists( "$dir/file2.txt" ) );
+        $this->assertTrue( file_exists( "{$dir}file1.txt" ) );
+        $this->assertTrue( file_exists( "{$dir}file2.txt" ) );
     }
 
     public function readBzippedGzippedTar()
