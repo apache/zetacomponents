@@ -437,7 +437,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param string $type
      * @return ezcSearchFindQuery
      */
-    public function createFindQuery( $type = false, ezcSearchDocumentDefinition $definition = null )
+    public function createFindQuery( $type, ezcSearchDocumentDefinition $definition )
     {
         $query = new ezcSearchQuerySolr( $this, $definition );
         $query->select( 'score' );

@@ -35,7 +35,7 @@ class ezcSearchSession
      * The $manager provides valid search document definitions to the
      * session. The $handler will be used to perform all search operations.
      *
-     * @param ezcSearchHandler $backend
+     * @param ezcSearchHandler $handler
      * @param ezcSearchDefinitionManager $manager
      */
     public function __construct( ezcSearchHandler $handler, ezcSearchDefinitionManager $manager )
@@ -100,10 +100,11 @@ class ezcSearchSession
      *         if the find query failed.
      *
      * @param ezcSearchQuery $query
+     * @param string $type
      *
      * @return ezcSearchFindIterator
      */
-    public function findIterator( ezcQuerySelect $query, $type )
+    public function findIterator( ezcSearchQuery $query, $type )
     {
         return $this->handler->findIterator( $query, $type );
     }

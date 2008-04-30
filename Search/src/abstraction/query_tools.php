@@ -7,14 +7,13 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-
 /**
  * The ezcSearchQueryTools class provides standard functions that don't really
  * fit anywhere else.
  *
  * @package Search
  * @version //autogentag//
- * @private
+ * @access private
  */
 class ezcSearchQueryTools
 {

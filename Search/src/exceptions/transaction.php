@@ -18,6 +18,8 @@ class ezcSearchTransactionException extends ezcSearchException
 {
     /**
      * Constructs an ezcSearchTransactionException
+     *
+     * @param string $message
      */
     public function __construct( $message )
     {

@@ -61,12 +61,12 @@ class ezcSearchResult
     /**
      * Contructs a new ezcSearchResult.
      *
-     * @param int status
-     * @param int queryTime
-     * @param int resultCount
-     * @param int start
-     * @param array documents
-     * @param string error
+     * @param int $status
+     * @param int $queryTime
+     * @param int $resultCount
+     * @param int $start
+     * @param array $documents
+     * @param string $error
      */
     public function __construct( $status =  0, $queryTime =  0, $resultCount =  0, $start =  0, $documents =  array(), $error =  '' )
     {
@@ -88,7 +88,7 @@ class ezcSearchResult
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array
      * @return ezcSearchResult
      */
     static public function __set_state( array $array )

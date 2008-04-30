@@ -61,14 +61,14 @@ class ezcSearchDefinitionDocumentField
     /**
      * Contructs a new ezcSearchDefinitionDocumentField.
      *
-     * @param string field
-     * @param int type
-     * @param float boost
-     * @param bool inResult
-     * @param bool multi
-     * @param bool highlight
+     * @param string $field
+     * @param int $type
+     * @param float $boost
+     * @param bool $inResult
+     * @param bool $multi
+     * @param bool $highlight
      */
-    public function __construct( $field, $type = ezcSearchDocumentDefinition::TEXT, $boost = 1, $inResult = true, $multi = false, $highlight = false )
+    public function __construct( $field, $type = ezcSearchDocumentDefinition::TEXT, $boost = 1.0, $inResult = true, $multi = false, $highlight = false )
     {
         $this->field = $field;
         $this->type = $type;
@@ -88,7 +88,7 @@ class ezcSearchDefinitionDocumentField
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array
      * @return ezcSearchDefinitionDocumentField
      */
     static public function __set_state( array $array )

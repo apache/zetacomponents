@@ -70,7 +70,7 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
     /**
      * Contains the document definition for which this query is built.
      *
-     * @param ezcSearchDocumentDefinition
+     * @param ezcSearchDocumentDefinition $definition
      */
     private $definition;
 
@@ -127,7 +127,8 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
     /**
      * Checks whether the field $field exists in the definition.
      *
-     * @throw ezcSearchFieldNotDefinedException if the field is not defined.
+     * @param string $field
+     * @throws ezcSearchFieldNotDefinedException if the field is not defined.
      */
     private function checkIfFieldExists( $field )
     {
@@ -151,7 +152,7 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
      * If fields already have been added with this function, they will not be
      * overwritten when this function is called subsequently.
      *
-     * @param mixed
+     * @param mixed $...
      * @return ezcSearchQuerySolr
      */
     public function select()
@@ -176,7 +177,7 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
      * If fields already have been added with this function, they will not be
      * overwritten when this function is called subsequently.
      *
-     * @param mixed
+     * @param mixed $...
      * @return ezcSearchQuerySolr
      */
     public function highlight()
@@ -284,8 +285,8 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
      * correctly.
      *
      * @param string $field
-     * @param mixed $value
-     * @param int $fieldType
+     * @param mixed $value1
+     * @param mixed $value2
      *
      * @return string
      */
@@ -313,7 +314,7 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
      * This method accepts either an array of fieldnames, but can also accept
      * multiple parameters as field names.
      *
-     * @param mixed
+     * @param mixed $...
      * @return string
      */
     public function lOr()
@@ -341,7 +342,7 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
      * This method accepts either an array of fieldnames, but can also accept
      * multiple parameters as field names.
      *
-     * @param mixed
+     * @param mixed $...
      * @return string
      */
     public function lAnd()
@@ -395,6 +396,7 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
      * This method accepts a clause and adds a boost factor.
      *
      * @param string $clause
+     * @param float $boostFactor
      * @return string
      */
     public function boost( $clause, $boostFactor )
@@ -409,9 +411,10 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
      * optional fuzz factor is also supported.
      *
      * @param string $clause
+     * @param float $fuzzFactor
      * @return string
      */
-    public function fuzz( $clause, $fuzzFactor = false )
+    public function fuzz( $clause, $fuzzFactor = null )
     {
         if ( $fuzzFactor )
         {

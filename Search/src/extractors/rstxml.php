@@ -19,8 +19,15 @@ class ezcSearchRstXmlExtractor /* implements ezcSearchExtractor */
     /**
      * Extracts information from the file $fileName associated with the url $url.
      *
+     * The document type for this document is given in $type, and the images on
+     * disk should be in the directory named $imagePath. The urls where the
+     * images link to should be in $imageUrlPath.
+     *
      * @param string $fileName
+     * @param string $type
      * @param string $url
+     * @param string $imagePath
+     * @param string $imageUrlPath
      * @return array(ezcSearchDocument)
      */
     static public function extract( $fileName, $type, $url, $imagePath = null, $imageUrlPath = null )
@@ -91,6 +98,20 @@ class ezcSearchRstXmlExtractor /* implements ezcSearchExtractor */
         return $docs;
     }
 
+    /**
+     * Extracts basic information from an image.
+     *
+     * This method takes an image file and retrives some basic data from it
+     * (width and height). It returns an ezcSearchSimpleImage object with those
+     * values set.  The image object will get the title $title and the url $url
+     * associated with it.
+     *
+     * @param string $title
+     * @param string $filename
+     * @param string $url
+     *
+     * @return ezcSearchSimpleImage
+     */
     private static function extractImage( $title, $filename, $url )
     {
         $info = getimagesize( $filename );

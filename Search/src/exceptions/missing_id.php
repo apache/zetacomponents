@@ -24,7 +24,7 @@ class ezcSearchDefinitionMissingIdPropertyException extends ezcSearchException
      * @param string $location
      * @return void
      */
-    public function __construct( $type, $location )
+    public function __construct( $type, $class, $location )
     {
         if ( $extraMsg )
         {

@@ -17,6 +17,12 @@
  */
 interface ezcSearchQuery
 {
+    /**
+     * Creates a new search query with handler $handler and document definition $definition.
+     *
+     * @param ezcSearchHandler $handler
+     * @param ezcSearchDocumentDefinition $definition
+     */
     public function __construct( ezcSearchHandler $handler, ezcSearchDocumentDefinition $definition );
 
     /**
@@ -57,7 +63,7 @@ interface ezcSearchQuery
      * @param int    $type
      * @return ezcSearchQuery
      */
-    public function orderBy( $column, $type = self::ASC );
+    public function orderBy( $column, $type = ezcSearchQueryTools::ASC );
 
     /**
      * Returns the query as a string for debugging purposes
@@ -102,8 +108,8 @@ interface ezcSearchQuery
      * correctly.
      *
      * @param string $field
-     * @param mixed $value
-     * @param int $fieldType
+     * @param mixed $value1
+     * @param mixed $value2
      *
      * @return string
      */
@@ -115,7 +121,7 @@ interface ezcSearchQuery
      * This method accepts either an array of fieldnames, but can also accept
      * multiple parameters as field names.
      *
-     * @param mixed
+     * @param mixed $...
      * @return string
      */
     public function lOr();
@@ -126,7 +132,7 @@ interface ezcSearchQuery
      * This method accepts either an array of fieldnames, but can also accept
      * multiple parameters as field names.
      *
-     * @param mixed
+     * @param mixed $...
      * @return string
      */
     public function lAnd();
@@ -157,6 +163,7 @@ interface ezcSearchQuery
      * This method accepts a clause and adds a boost factor.
      *
      * @param string $clause
+     * @param float $boostFactor
      * @return string
      */
     public function boost( $clause, $boostFactor );
@@ -168,9 +175,10 @@ interface ezcSearchQuery
      * optional fuzz factor is also supported.
      *
      * @param string $clause
+     * @param float $fuzzFactor
      * @return string
      */
-    public function fuzz( $clause, $fuzzFactor = false );
+    public function fuzz( $clause, $fuzzFactor = null );
 }
 
 ?>
