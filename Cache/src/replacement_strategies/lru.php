@@ -108,11 +108,15 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
             asort( $metaData->data['lru'] );
             foreach ( $metaData->data['lru'] as $id => $timestamp )
             {
-                $conf->storage->delete( $id );
+                $deletedIds = $conf->storage->delete( $id );
                 self::removeItem( $metaData, $id, $conf->id );
-                // Decrement number of items to free
-                if ( --$freeNum == 0 )
+
+                // echo "Removing $id with free num $freeNum\n";
+
+                // Decrement number of items to free, if actually freed
+                if ( count( $deletedIds ) > 0 && --$freeNum == 0 )
                 {
+                    // echo "Enough\n";
                     // Enough purged
                     break;
                 }
@@ -129,15 +133,17 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      */
     private static function removeItem( ezcCacheStackMetaData $metaData, $itemId, $storageId )
     {
-        unset(
-            $metaData->data['lru'][$itemId],
-            $metaData->data['storages'][$itemId][$storageId]
-        );
-        // Item not stored anywhere anymore?
-        if ( isset( $metaData->data['storages'][$itemId] ) 
-             && count( $metaData->data['storages'][$itemId] ) === 0 )
+        // Unset assignement to storage
+        unset( $metaData->data['storages'][$itemId][$storageId] );
+
+        if ( !isset( $metaData->data['storages'][$itemId] )
+             || count( $metaData->data['storages'][$itemId] ) === 0 )
         {
-            unset( $metaData->data['storages'][$itemId] );
+            // Item not present in any storage anymore
+            unset(
+                $metaData->data['lru'][$itemId],
+                $metaData->data['storages'][$itemId]
+            );
         }
     }
 

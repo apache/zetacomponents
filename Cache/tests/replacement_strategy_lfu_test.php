@@ -258,7 +258,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
             ( $now - 40 )
         );
         touch(
-            $tmpDir . '/' . $conf->storage->generateIdentifier( 'id_4' ),
+            $tmpDir . '/' . $conf->storage->generateIdentifier( 'id_5' ),
             ( $now - 40 ),
             ( $now - 40 )
         );
@@ -271,8 +271,8 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
                 'id_1' => 10,
                 'id_2' => 100,  // Expired
                 'id_3' => 5,    // Expired
-                'id_4' => 23,   // Expired
-                'id_5' => 42, 
+                'id_4' => 23,
+                'id_5' => 42,   // Expired but kept, since available in other storage
             ),
             'storages' => array(
                 'id_1' => array(
@@ -338,7 +338,8 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
             // Note the sorting was not performed!
             array(
                 'id_1' => 10,
-                'id_5' => 42,
+                'id_4' => 23,
+                'id_5' => 42,   // Expired but kept, since available in other storage
             ),
             $meta->data['lfu'],
             'Meta data entries not correctly updated.'
@@ -351,8 +352,10 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
                     'fooid' => true,
                     'barid' => true,
                 ),
-                'id_5' => array(
+                'id_4' => array(
                     'fooid' => true,
+                ),
+                'id_5' => array(
                     'barid' => true,
                 ),
             ),
@@ -374,8 +377,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
             $conf->storage->restore( 'id_1' ),
             'Data on disc incorrect.'
         );
-        $this->assertEquals(
-            'id_5',
+        $this->assertFalse(
             $conf->storage->restore( 'id_5' ),
             'Data on disc incorrect.'
         );
@@ -417,7 +419,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
                 'id_2' => 23,   // Throwen out
                 'id_3' => 42,   // Throwen out
                 'id_4' => 100,
-                'id_5' => 5,    // Throwen out
+                'id_5' => 5,    // Throwen out but kept, since available in other storage
             ),
             'storages' => array(
                 'id_1' => array(
@@ -482,6 +484,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         $this->assertEquals(
             // Note the sorting
             array(
+                'id_5' => 5,    // Throwen out but kept, since available in other storage
                 'id_4' => 100,
                 'id_1' => 150,
             ),
@@ -524,6 +527,11 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         $this->assertEquals(
             'id_4',
             $conf->storage->restore( 'id_4' ),
+            'Data on disc incorrect.'
+        );
+        $this->assertFalse(
+            // Deleted on disc, but still in meta data
+            $conf->storage->restore( 'id_5' ),
             'Data on disc incorrect.'
         );
         $this->removeTempDir();
@@ -569,7 +577,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
                 'id_2' => 150,  // Expired
                 'id_3' => 23,   // Throwen out
                 'id_4' => 100,
-                'id_5' => 42,   // Throwen out
+                'id_5' => 42,   // Throwen out, but kept in meta data, since available in other storage
             ),
             'storages' => array(
                 'id_1' => array(
@@ -634,6 +642,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         $this->assertEquals(
             // Note the sorting
             array(
+                'id_5' => 42,   // Throwen out, but kept in meta data, since available in other storage
                 'id_4' => 100,
                 'id_1' => 150,
             ),
@@ -676,6 +685,164 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         $this->assertEquals(
             'id_4',
             $conf->storage->restore( 'id_4' ),
+            'Data on disc incorrect.'
+        );
+        $this->assertFalse(
+            $conf->storage->restore( 'id_5' ),
+            'Data on disc incorrect.'
+        );
+        $this->removeTempDir();
+    }
+
+    public function testStoreNoNewMetaNewItemFreePurgeDeleteComplex()
+    {
+        // Prepare faked test data
+
+        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $conf = new ezcCacheStackStorageConfiguration(
+            'fooid',
+            new ezcCacheStorageFileArray(
+                $tmpDir,
+                array( 'ttl' => 30 )
+            ),
+            5,
+            0.5
+        );
+        
+        $now = time();
+
+        // Store max number of items
+        $conf->storage->store( 'id_1', 'id_1' );
+        $conf->storage->store( 'id_2', 'id_2' );
+        $conf->storage->store( 'id_3', 'id_3' );
+        $conf->storage->store( 'id_4', 'id_4' );
+        // $conf->storage->store( 'id_5', 'id_5' );
+
+        // id_2 expired
+        touch(
+            $tmpDir . '/' . $conf->storage->generateIdentifier( 'id_2' ),
+            ( $now - 40 ),
+            ( $now - 40 )
+        );
+
+        $meta = new ezcCacheStackMetaData();
+        $meta->id = 'ezcCacheStackLfuReplacementStrategy';
+        $meta->data = array(
+            'lfu' => array(
+                // Fake access times, not necessarily reflect file mtimes
+                'id_1' => 100,  // Throwen out instead of id_5
+                'id_2' => 150,  // Expired
+                'id_3' => 23,   // Throwen out
+                'id_4' => 150,  
+                'id_5' => 42,   // Kept, since not in actual storage
+            ),
+            'storages' => array(
+                'id_1' => array(
+                    'fooid' => true,
+                    'barid' => true,
+                ),
+                'id_2' => array(
+                    'fooid' => true,
+                ),
+                'id_3' => array(
+                    'fooid' => true,
+                ),
+                'id_4' => array(
+                    'fooid' => true,
+                ),
+                'id_5' => array(
+                    'barid' => true,
+                ),
+            ),
+        );
+
+        // Perform actual action
+
+        ezcCacheStackLfuReplacementStrategy::store(
+            $conf,
+            $meta,
+            'barid',
+            'baz content'
+        );
+
+        // Assert correct behaviour
+
+        // Data has actually been stored
+        $this->assertEquals(
+            'baz content',
+            $conf->storage->restore( 'barid' ),
+            'Data not stored correctly.'
+        );
+
+        // Time stamp has been stored correctly
+        $this->assertEquals(
+            1,
+            $meta->data['lfu']['barid'],
+            'Meta data entry not created correctly.'
+        );
+
+        // Storage has been saved correctly
+        $this->assertEquals( 
+            array(
+                'fooid' => true,
+            ),
+            $meta->data['storages']['barid'],
+            'Storage meta data not inserted correctly.'
+        );
+
+        // Remove stored item data from meta data again to comfortably assert
+        // removal operations
+        unset( $meta->data['lfu']['barid'], $meta->data['storages']['barid'] );
+
+        // LRU data correctly updated
+        $this->assertEquals(
+            // Note the sorting
+            array(
+                'id_1' => 100,  // Throwen out instead of id_5
+                'id_4' => 150,  
+                'id_5' => 42,   // Kept, since not in actual storage
+            ),
+            $meta->data['lfu'],
+            'Meta data entries not correctly updated.'
+        );
+
+        // Storage data correctly updated
+        $this->assertEquals(
+            array(
+                'id_1' => array(
+                    'barid' => true,
+                ),
+                'id_4' => array(
+                    'fooid' => true,
+                ),
+                'id_5' => array(
+                    'barid' => true,
+                ),
+            ),
+            $meta->data['storages'],
+            'Storage data not correctly updated.'
+        );
+
+        // Make sure items have been deleted from disc
+        $this->assertEquals(
+            // id_4 and barid
+            2,
+            count( glob( "$tmpDir/*" ) ),
+            'Number of items on disc incorrect.'
+        );
+
+        // Restore existing items to check correct items exist
+        $this->assertFalse(
+            $conf->storage->restore( 'id_1' ),
+            'Data on disc incorrect.'
+        );
+        $this->assertEquals(
+            'id_4',
+            $conf->storage->restore( 'id_4' ),
+            'Data on disc incorrect.'
+        );
+        $this->assertFalse(
+            $conf->storage->restore( 'id_5' ),
             'Data on disc incorrect.'
         );
         $this->removeTempDir();
@@ -812,7 +979,9 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
 
         // Meta data actualized correctly
         $this->assertEquals(
-            array(),
+            array(
+                'id_1' => 23, // Kept since available in other storage
+            ),
             $meta->data['lfu']
         );
         
@@ -880,7 +1049,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         );
     }
 
-    public function testRestoreDeleteSuccess()
+    public function testDeleteSuccess()
     {
         // Prepare faked test data
 
@@ -938,7 +1107,9 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
 
         // Meta data actualized correctly
         $this->assertEquals(
-            array(),
+            array(
+                'id_1' => 42, // Kept since available in other storage
+            ),
             $meta->data['lfu']
         );
         
@@ -961,7 +1132,8 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         );
     }
 
-    public function testRestoreDeleteNonexistent()
+    // Tests how inconsistent meta data affects the stack
+    public function testDeleteNonexistent()
     {
         // Prepare faked test data
 
@@ -1099,8 +1271,12 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         );
 
         // Meta data actualized correctly
-        $this->assertTrue(
-            ( isset( $meta->data['lfu']['id_2'] ) && count( $meta->data['lfu'] ) == 1 ),
+        $this->assertEquals(
+            array(
+                'id_1' => 23, // Kept since available in other storage
+                'id_2' => 42,
+            ),
+            $meta->data['lfu'],
             "Meta data not actualized correctly."
         );
         
