@@ -174,6 +174,36 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         }
     }
 
+    /**
+     * Test for feature request #12935 (Customize return URL on OpenID authentification).
+     *
+     * As redirection does not work with CLI, only the redirection error message is checked.
+     */
+    public function testOpenidCliExceptionReturnUrl()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+        $authentication = new ezcAuthentication( $credentials );
+
+        $options = new ezcAuthenticationOpenidOptions();
+        $options->returnUrl = 'http://another.localhost/';
+
+        $filter = new ezcAuthenticationOpenidFilter( $options );
+        $authentication->addFilter( $filter );
+
+        try
+        {
+            $authentication->run();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcAuthenticationOpenidException $e )
+        {
+            $result = $e->getMessage();
+            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Fanother.localhost%2F%3Fnonce%3D145395&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
+            $this->assertEquals( substr( $expected, 0, 115 ), substr( $result, 0, 115 ) );
+            $this->assertEquals( substr( $expected, 121 ), substr( $result, 121 ) );
+        }
+    }
+
     public function testOpenidCliExceptionRegisterFetchData()
     {
         $credentials = new ezcAuthenticationIdCredentials( self::$url );
@@ -1191,6 +1221,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $this->invalidPropertyTest( $options, 'timeoutOpen', 0, 'int >= 1' );
         $this->invalidPropertyTest( $options, 'requestSource', null, 'array' );
         $this->invalidPropertyTest( $options, 'immediate', 'wrong value', 'bool' );
+        $this->invalidPropertyTest( $options, 'returnUrl', array(), 'string' );
         $this->missingPropertyTest( $options, 'no_such_option' );
     }
 

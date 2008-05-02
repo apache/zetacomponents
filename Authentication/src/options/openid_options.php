@@ -22,6 +22,7 @@
  * $options->timeoutOpen = 3;
  * $options->requestSource = $_POST;
  * $options->immediate = true;
+ * $options->returnUrl = 'http://example.com';
  *
  * // use the options object when creating a new OpenID filter
  * $filter = new ezcAuthenticationOpenidFilter( $options );
@@ -64,6 +65,11 @@
  *           Enables OpenID checkid_immediate instead of checkid_setup. See the
  *           ezcAuthenticationOpenidFilter class documentation for more details.
  *           It is false by default (use checkid_setup by default).
+ * @property string $returnUrl
+ *           URL to return to after the successful authentication by the
+ *           OpenID provider. Default value is null, in which case the OpenID
+ *           provider will return to the current URL (the URL that initiated
+ *           the authentication, from HTTP_HOST + REQUEST_URI server variables).
  *
  * @package Authentication
  * @version //autogen//
@@ -90,6 +96,7 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
         $this->timeoutOpen = 3; // seconds
         $this->requestSource = ( $_GET !== null ) ? $_GET : array();
         $this->immediate = false;
+        $this->returnUrl = null; // default = return to the currently called URL
 
         parent::__construct( $options );
     }
@@ -160,6 +167,14 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
                 if ( !is_bool( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'bool' );
+                }
+                $this->properties[$name] = $value;
+                break;
+
+            case 'returnUrl':
+                if ( !is_string( $value ) && !is_null( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'string' );
                 }
                 $this->properties[$name] = $value;
                 break;

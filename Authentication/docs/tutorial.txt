@@ -384,9 +384,11 @@ Discovery
 openid.checkid_setup
   The consumer redirects the browser to the provider, so that the user can
   enter his username and password to the provider. The provider then redirects
-  back to the consumer. The checkid_immediate mode is supported as well, for
-  authentication in a pop-up window or iframe (or similar techniques). See
-  below the section `OpenID immediate mode`_ for details.
+  back to the consumer. The URL to which the provider redirects back can be
+  configured with the OpenID option redirectUrl (see
+  ezcAuthenticationOpenidOptions). The checkid_immediate mode is supported as
+  well, for authentication in a pop-up window or iframe (or similar
+  techniques). See below the section `OpenID immediate mode`_ for details.
 
 openid.check_authentication
   The consumer sends to the provider the values received in step 2 and receives
