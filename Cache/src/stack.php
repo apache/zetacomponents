@@ -46,9 +46,24 @@ class ezcCacheStack extends ezcCacheStorage
      * @param string $location 
      * @param ezcCacheStackOptions $options 
      */
-    public function __construct( $location, ezcCacheStackOptions $options )
+    public function __construct( $location, ezcCacheStackOptions $options = null )
     {
-        // @TODO: Implement.
+        if ( $options === null )
+        {
+            $options = new ezcCacheStackOptions();
+        }
+
+        $this->properties['location'] = $location;
+        $this->properties['options']  = $options;
+
+        if ( $options->configurator !== null )
+        {
+            // Configure this instance
+            call_user_func(
+                array( $options->configurator, 'configure' ),
+                $this
+            );
+        }
     }
 
     /**
