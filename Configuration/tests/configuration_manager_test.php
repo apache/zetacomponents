@@ -293,6 +293,40 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $this->assertEquals( $expected, $result );
     }
 
+    public function testGetGroupSettings2()
+    {
+        $config = ezcConfigurationManager::getInstance();
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files' );
+
+        $expected = array(
+            'setting01' => '01',
+            'setting02' => '02',
+            'setting03' => '03',
+        );
+        $result = $config->getSettingsInGroup( 'issue012911', 'group0' );
+        $this->assertEquals( $expected, $result );
+
+        $expected = array(
+            'setting11' => '11',
+            'setting12' => '12',
+        );
+        $result = $config->getSettingsInGroup( 'issue012911', 'group1' );
+        $this->assertEquals( $expected, $result );
+
+
+        $expected = array(
+            'setting21' => '21',
+        );
+        $result = $config->getSettingsInGroup( 'issue012911', 'group2' );
+        $this->assertEquals( $expected, $result );
+
+
+        $expected = array();
+        $result = $config->getSettingsInGroup( 'issue012911', 'group3' );
+        $this->assertEquals( $expected, $result );
+
+    }
+
     public function testGetGroupSettingsCanThrowUnknownGroupException()
     {
         $config = ezcConfigurationManager::getInstance();
