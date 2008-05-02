@@ -125,7 +125,7 @@ class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
     {
         // query contents of CentralProcessor section.
         $output = shell_exec( "reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor" );
-        $outputStrings = explode( "\n\n", $output );
+        $outputStrings = explode( "\n", $output );
         // In first two items of output strings we have the signature of reg.exe utility 
         // and path to CentralProcessor section than list of subsections paths follows.
         // One subsection represent info for one CPU.
