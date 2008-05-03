@@ -4,6 +4,7 @@
 - Implemented feature #11979: Line width configurable per data set.
 - Implemented feature #12382: Enhance line chart to allow invisible lines.
 - Implemented feature #10957: Embed glyphs for exact SVG font width estimation
+  (Patch by Freddie Witherden)
 - Fixed issue #12483: Average dataset does not work with a single value.
 
 
