@@ -863,6 +863,49 @@ class ezcCacheStackTest extends ezcTestCase
         );
     }
 
+    public function testStore()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'store' )
+        );
+        $storage1->expects( $this->once() )
+                 ->method( 'store' )
+                 ->with( 'id_1', 'id_1_data', array( 'lang' => 'en' ) );
+        
+        $storage2 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'store' )
+        );
+        $storage2->expects( $this->once() )
+                 ->method( 'store' )
+                 ->with( 'id_1', 'id_1_data', array( 'lang' => 'en' ) );
+
+        $stack                       = new ezcCacheStack( 'foo' );
+        $stack->options->metaStorage = $this->getMetaStorageMock();
+
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_2',
+                $storage2,
+                100,
+                .7
+            )
+        );
+
+        $this->assertNull(
+            $stack->store( 'id_1', 'id_1_data', array( 'lang' => 'en' ) )
+        );
+    }
+
     protected function getMetaStorageMock()
     {
         $metaData = new ezcCacheStackMetaData();

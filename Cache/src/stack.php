@@ -105,7 +105,28 @@ class ezcCacheStack extends ezcCacheStorage
      */
     public function store( $id, $data, $attributes = array() )
     {
-        // @TODO: Implement.
+        $metaStorage = $this->getMetaDataStorage();
+        $metaStorage->lock();
+
+        $metaData = $metaStorage->restoreMetaData();
+
+        foreach( $this->storageStack as $storageConf )
+        {
+            call_user_func(
+                array(
+                    $this->properties['options']->replacementStrategy,
+                    'store'
+                ),
+                $storageConf,
+                $metaData,
+                $id,
+                $data,
+                $attributes
+            );
+        }
+
+        $metaStorage->storeMetaData( $metaData );
+        $metaStorage->unlock();
     }
 
     /**
