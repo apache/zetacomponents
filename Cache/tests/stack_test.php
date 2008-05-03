@@ -390,7 +390,47 @@ class ezcCacheStackTest extends ezcTestCase
             array(),
             $stack->getStorages()
         );
+    }
 
+    public function testReset()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge' )
+        );
+        $storage1->expects( $this->once() )
+                 ->method( 'reset' );
+        $storage1->expects( $this->never() )
+                 ->method( 'purge' );
+
+        $storage2 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge' )
+        );
+        $storage2->expects( $this->once() )
+                 ->method( 'reset' );
+        $storage2->expects( $this->never() )
+                 ->method( 'purge' );
+
+        $stack = new ezcCacheStack( 'foo' );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_2',
+                $storage2,
+                10,
+                .5
+            )
+        );
+
+        $stack->reset();
     }
 
 }

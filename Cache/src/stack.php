@@ -308,7 +308,10 @@ class ezcCacheStack extends ezcCacheStorage
      */
     public function reset()
     {
-        // @TODO: Implement.
+        foreach ( $this->storageStack as $storageConf )
+        {
+            $storageConf->storage->reset();
+        }
     }
 
     /**
