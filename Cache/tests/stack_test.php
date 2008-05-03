@@ -127,16 +127,16 @@ class ezcCacheStackTest extends ezcTestCase
 
         $this->assertAttributeEquals(
             array(
-                $storageConf1,
                 $storageConf2,
+                $storageConf1,
             ),
             'storageStack',
             $stack
         );
         $this->assertAttributeEquals(
             array(
-                $storageConf1->id => $storageConf1->storage,
                 $storageConf2->id => $storageConf2->storage,
+                $storageConf1->id => $storageConf1->storage,
             ),
             'storageIdMap',
             $stack
@@ -219,8 +219,8 @@ class ezcCacheStackTest extends ezcTestCase
 
         $this->assertAttributeEquals(
             array(
-                $storageConf1,
                 $storageConf2,
+                $storageConf1,
             ),
             'storageStack',
             $stack
@@ -369,8 +369,8 @@ class ezcCacheStackTest extends ezcTestCase
 
         $this->assertEquals(
             array(
+                $storageConf2,
                 $storageConf1,
-                $storageConf2
             ),
             $stack->getStorages()
         );
@@ -442,7 +442,7 @@ class ezcCacheStackTest extends ezcTestCase
         $storage1->expects( $this->once() )
                  ->method( 'getRemainingLifetime' )
                  ->with( 'foo', array() )
-                 ->will( $this->returnValue( 0 ) );
+                 ->will( $this->returnValue( 23 ) );
         $storage2 = $this->getMock(
             'ezcCacheStackableStorage',
             array( 'reset', 'purge', 'getRemainingLifetime' )
@@ -450,7 +450,7 @@ class ezcCacheStackTest extends ezcTestCase
         $storage2->expects( $this->once() )
                  ->method( 'getRemainingLifetime' )
                  ->with( 'foo', array() )
-                 ->will( $this->returnValue( 23 ) );
+                 ->will( $this->returnValue( 0 ) );
         
         $stack = new ezcCacheStack( 'foo' );
         $stack->pushStorage(
@@ -692,8 +692,8 @@ class ezcCacheStackTest extends ezcTestCase
         $this->assertEquals(
             array(
                 0 => 'id_1',
-                1 => 'id_3',
-                3 => 'id_2'
+                1 => 'id_2',
+                2 => 'id_3'
             ),
             $stack->delete( null, array( 'lang' => 'de' ) )
         );

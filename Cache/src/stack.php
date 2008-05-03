@@ -200,7 +200,7 @@ class ezcCacheStack extends ezcCacheStorage
         $metaStorage = $this->options->metaStorage;
         if ( $metaStorage === null )
         {
-            $metaStorage = end( $this->storageStack )->storage;
+            $metaStorage = reset( $this->storageStack )->storage;
             if ( $metaStorage instanceof ezcCacheMetaDataStorage )
             {
                 throw new ezcBaseValueException(
@@ -310,7 +310,7 @@ class ezcCacheStack extends ezcCacheStorage
                 $storageConf->storage
             );
         }
-        $this->storageStack[]                 = $storageConf;
+        array_unshift( $this->storageStack, $storageConf );
         $this->storageIdMap[$storageConf->id] = $storageConf->storage;
     }
 
@@ -334,7 +334,7 @@ class ezcCacheStack extends ezcCacheStorage
         {
             throw new ezcCacheStackUnderflowException();
         }
-        $storageConf = array_pop( $this->storageStack );
+        $storageConf = array_shift( $this->storageStack );
         unset( $this->storageIdMap[$storageConf->id] );
         return $storageConf;
     }
