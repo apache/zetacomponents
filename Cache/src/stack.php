@@ -289,9 +289,9 @@ class ezcCacheStack extends ezcCacheStorage
      * 
      * @return array(ezcCacheStackableStorage)
      */
-    public function getStackedStorages()
+    public function getStorages()
     {
-        // @TODO: Implement.
+        return $this->storageStack;
     }
 
     /**

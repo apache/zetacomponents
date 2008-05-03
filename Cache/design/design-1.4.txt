@@ -67,7 +67,7 @@ searching for items. ::
 
         public function pushStorage( ezcCacheStackStorageConfiguration $storageConf );
         public function popStorage();
-        public function getStackedStorages();
+        public function getStorages();
         public function countStorages();
 
         public function reset();

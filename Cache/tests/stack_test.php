@@ -334,5 +334,64 @@ class ezcCacheStackTest extends ezcTestCase
         );
     }
 
+    public function testGetStackedStoraqes()
+    {
+        $stack = new ezcCacheStack( 'foo' );
+
+        $storageConf1 = new ezcCacheStackStorageConfiguration(
+            'id_1',
+            new ezcCacheStorageFileArray( '/tmp' ),
+            10,
+            .5
+        );
+        $storageConf2 = new ezcCacheStackStorageConfiguration(
+            'id_2',
+            new ezcCacheStorageFileArray( '/tmp' ),
+            100,
+            .9
+        );
+
+        $this->assertEquals(
+            array(),
+            $stack->getStorages()
+        );
+
+        $stack->pushStorage( $storageConf1 );
+
+        $this->assertEquals(
+            array(
+                $storageConf1
+            ),
+            $stack->getStorages()
+        );
+
+        $stack->pushStorage( $storageConf2 );
+
+        $this->assertEquals(
+            array(
+                $storageConf1,
+                $storageConf2
+            ),
+            $stack->getStorages()
+        );
+
+        $stack->popStorage();
+
+        $this->assertEquals(
+            array(
+                $storageConf1
+            ),
+            $stack->getStorages()
+        );
+
+        $stack->popStorage();
+
+        $this->assertEquals(
+            array(),
+            $stack->getStorages()
+        );
+
+    }
+
 }
 ?>
