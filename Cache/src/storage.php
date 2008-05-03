@@ -254,12 +254,15 @@ abstract class ezcCacheStorage
 
     /**
      * Return the currently set options. 
+     *
      * Return the currently set options. The options are returned on an array 
      * that has the same format as the one passed to 
      * {@link ezcCacheStorage::setOptions()}. The possible options for a storage
      * depend on it's implementation. 
      * 
      * @return ezcCacheStorageOptions The options 
+     *
+     * @deprecated Use $stack->options instead.
      */
     public function getOptions()
     {
@@ -268,6 +271,7 @@ abstract class ezcCacheStorage
 
     /**
      * Set new options.
+     *
      * This method allows you to change the options of a cache storage. Change 
      * of options take effect directly after this method has been called. The 
      * available options depend on the ezcCacheStorage implementation. All 
@@ -292,6 +296,8 @@ abstract class ezcCacheStorage
      * @throws ezcBaseValueException
      *         If you submit neither an array nor an instance of 
      *         ezcCacheStorageOptions.
+     *
+     * @deprecated Use $storage->options instead.
      */
     public function setOptions( $options ) 
     {
