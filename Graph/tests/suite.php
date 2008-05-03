@@ -28,6 +28,7 @@ require_once 'driver_gd_test.php';
 require_once 'driver_cairo_test.php';
 require_once 'driver_options_test.php';
 require_once 'driver_svg_test.php';
+require_once 'driver_svg_svg_font_test.php';
 require_once 'element_options_test.php';
 require_once 'font_test.php';
 require_once 'image_map_test.php';
@@ -100,6 +101,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphRenderer3dTest::suite() );
         $this->addTest( ezcGraphStructTest::suite() );
         $this->addTest( ezcGraphSvgDriverTest::suite() );
+        $this->addTest( ezcGraphSvgSvgFontDriverTest::suite() );
         $this->addTest( ezcGraphTextTest::suite() );
         $this->addTest( ezcGraphToolsTest::suite() );
         $this->addTest( ezcGraphTransformationTest::suite() );

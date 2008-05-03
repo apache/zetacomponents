@@ -225,6 +225,10 @@ class ezcGraphFontOptions extends ezcBaseOptions
                         case 'ttf':
                             $this->properties['type'] = ezcGraph::TTF_FONT;
                             break;
+                        case 'svg':
+                            $this->properties['type'] = ezcGraph::SVG_FONT;
+                            $this->properties['name'] = ezcGraphSvgFont::getFontName( $propertyValue );
+                            break;
                         default:
                             throw new ezcGraphUnknownFontTypeException( $propertyValue, $parts['extension'] );
                     }

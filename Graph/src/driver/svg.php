@@ -100,6 +100,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     protected $elementID = 0;
 
     /**
+     * Font storage for SVG font glyphs and kernings.
+     * 
+     * @var ezcGraphSvgFont
+     */
+    protected $font = null;
+
+    /**
      * Constructor
      * 
      * @param array $options Default option array
@@ -110,6 +117,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         ezcBase::checkDependency( 'Graph', ezcBase::DEP_PHP_EXTENSION, 'dom' );
         $this->options = new ezcGraphSvgDriverOptions( $options );
+        $this->font = new ezcGraphSvgFont();
     }
 
     /**
@@ -136,7 +144,6 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
             if ( $this->options->templateDocument !== false )
             {
-// @TODO: Add                $this->dom->format
                 $this->dom->load( $this->options->templateDocument );
 
                 $this->defs = $this->dom->getElementsByTagName( 'defs' )->item( 0 );
@@ -450,12 +457,25 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      */
     protected function getTextBoundings( $size, ezcGraphFontOptions $font, $text )
     {
-        return new ezcGraphBoundings(
-            0,
-            0,
-            $this->getTextWidth( $text, $size ),
-            $size
-        );
+        if ( $font->type === ezcGraph::SVG_FONT )
+        {
+            return new ezcGraphBoundings(
+                0,
+                0,
+                $this->font->calculateStringWidth( $font->path, $text ) * $size,
+                $size
+            );
+        }
+        else
+        {
+            // If we didn't get a SVG font, continue guessing the font width.
+            return new ezcGraphBoundings(
+                0,
+                0,
+                $this->getTextWidth( $text, $size ),
+                $size
+            );
+        }
     }
 
     /**
@@ -655,7 +675,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 foreach ( $text['text'] as $line )
                 {
                     $string = implode( ' ', $line );
-                    if ( ( $strWidth = $this->getTextWidth( $string, $size ) ) > $width )
+                    if ( ( $strWidth = $this->getTextBoundings( $size, $text['font'], $string )->width ) > $width )
                     {
                         $width = $strWidth;
                     }
@@ -767,13 +787,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                         break;
                     case ( $text['align'] & ezcGraph::RIGHT ):
                         $position = new ezcGraphCoordinate(
-                            $text['position']->x + ( $text['width'] - $this->getTextWidth( $string, $size ) ),
+                            $text['position']->x + ( $text['width'] - $this->getTextBoundings( $size, $text['font'], $string )->width ),
                             $text['position']->y + $yOffset
                         );
                         break;
                     case ( $text['align'] & ezcGraph::CENTER ):
                         $position = new ezcGraphCoordinate(
-                            $text['position']->x + ( ( $text['width'] - $this->getTextWidth( $string, $size ) ) / 2 ),
+                            $text['position']->x + ( ( $text['width'] - $this->getTextBoundings( $size, $text['font'], $string )->width ) / 2 ),
                             $text['position']->y + $yOffset
                         );
                         break;
@@ -785,12 +805,12 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                     $textNode = $this->dom->createElement( 'text', $this->encode( $string ) );
                     $textNode->setAttribute( 'id', $text['id'] . '_shadow' );
                     $textNode->setAttribute( 'x', sprintf( '%.4F', $position->x + $this->options->graphOffset->x + $text['font']->textShadowOffset ) );
-                    $textNode->setAttribute( 'text-length', sprintf( '%.4Fpx', $this->getTextWidth( $string, $size ) ) );
+                    $textNode->setAttribute( 'text-length', sprintf( '%.4Fpx', $this->getTextBoundings( $size, $text['font'], $string )->width ) );
                     $textNode->setAttribute( 'y', sprintf( '%.4F', $position->y + $this->options->graphOffset->y + $text['font']->textShadowOffset ) );
                     $textNode->setAttribute( 
                         'style', 
                         sprintf(
-                            'font-size: %dpx; font-family: %s; fill: #%02x%02x%02x; fill-opacity: %.2F; stroke: none;',
+                            'font-size: %dpx; font-family: \'%s\'; fill: #%02x%02x%02x; fill-opacity: %.2F; stroke: none;',
                             $size,
                             $text['font']->name,
                             $text['font']->textShadowColor->red,
@@ -806,12 +826,12 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 $textNode = $this->dom->createElement( 'text', $this->encode( $string ) );
                 $textNode->setAttribute( 'id', $text['id'] . '_text' );
                 $textNode->setAttribute( 'x', sprintf( '%.4F', $position->x + $this->options->graphOffset->x ) );
-                $textNode->setAttribute( 'text-length', sprintf( '%.4Fpx', $this->getTextWidth( $string, $size ) ) );
+                $textNode->setAttribute( 'text-length', sprintf( '%.4Fpx', $this->getTextBoundings( $size, $text['font'], $string )->width ) );
                 $textNode->setAttribute( 'y', sprintf( '%.4F', $position->y + $this->options->graphOffset->y ) );
                 $textNode->setAttribute( 
                     'style', 
                     sprintf(
-                        'font-size: %dpx; font-family: %s; fill: #%02x%02x%02x; fill-opacity: %.2F; stroke: none;',
+                        'font-size: %dpx; font-family: \'%s\'; fill: #%02x%02x%02x; fill-opacity: %.2F; stroke: none;',
                         $size,
                         $text['font']->name,
                         $text['font']->color->red,
@@ -1186,6 +1206,9 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         $this->createDocument();  
         $this->drawAllTexts();
+
+        // Embed used glyphs
+        $this->font->addFontToDocument( $this->dom );
         $this->dom->save( $file );
     }
 }

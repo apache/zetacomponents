@@ -115,6 +115,11 @@ class ezcGraph
      * Font type definition. Used for Palm Format Fonts for Ming driver.
      */
     const PALM_FONT = 3;
+    /**
+     * Font type definition. Used for SVG fonts vonverted by ttf2svg used in
+     * the SVG driver.
+     */
+    const SVG_FONT = 4;
 
     /**
      * Identifier for keys in complex dataset arrays
