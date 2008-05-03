@@ -68,6 +68,7 @@ searching for items. ::
         public function pushStorage( ezcCacheStackStorageConfiguration $storageConf );
         public function popStorage();
         public function getStackedStorages();
+        public function countStorages();
 
         public function reset();
     }
@@ -189,7 +190,8 @@ all storages.  The getRemainingLifetime() method will return the maximum
 lifetime found over all storages, since different storages in the cache might
 have different lifetimes. The latter issue is generally undesired, but might be
 configured by a user. For both methods, an iteration through all storages is
-required.
+required. The convenience method countStorages() returns the number of storages
+currently on the stack.
 
 The reset() method will reset the complete stack. It will remove the meta
 data from the meta data storage and will clean up the complete content of all
