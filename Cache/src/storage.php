@@ -241,11 +241,14 @@ abstract class ezcCacheStorage
 
     /**
      * Returns the location.
+     *
      * Returns the location the current storage resides in. The
      * $location attribute has no setter, since it can only be set during
      * construction.
      *
      * @return string The location of this storage.
+     *
+     * @deprecated Use $stack->location instead.
      */
     public function getLocation()
     {
@@ -328,10 +331,9 @@ abstract class ezcCacheStorage
      */
     public function __get( $propertyName )
     {
-        switch ( $propertyName ) 
+        if ( $this->__isset( $propertyName ) )
         {
-            case 'options':
-                return $this->properties['options'];
+            return $this->properties[$propertyName];
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }
@@ -356,10 +358,16 @@ abstract class ezcCacheStorage
                 {
                     throw new ezcBaseValueException( $propertyName, $val, 'instance of ezcCacheStorageOptions' );
                 }
-                $this->properties['options'] = $val;
-                return;
+                break;
+            case 'location':
+                throw new ezcBasePropertyPermissionException(
+                    $propertyName,
+                    ezcBasePropertyPermissionException::READ
+                );
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
         }
-        throw new ezcBasePropertyNotFoundException( $propertyName );
+        $this->properties[$propertyName] = $val;
     }
     
     /**
@@ -371,12 +379,7 @@ abstract class ezcCacheStorage
      */
     public function __isset( $propertyName )
     {
-        switch ( $propertyName )
-        {
-            case 'options':
-                return true;
-        }
-        return false;
+        return array_key_exists( $propertyName, $this->properties );
     }
 }
 ?>
