@@ -626,6 +626,8 @@ class ezcCacheStackTest extends ezcTestCase
 
     public function testDeleteByAttributes()
     {
+        $metaData = new ezcCacheStackMetaData();
+
         $storage1 = $this->getMock(
             'ezcCacheStackableStorage',
             array( 'reset', 'purge', 'delete' )
@@ -640,8 +642,9 @@ class ezcCacheStackTest extends ezcTestCase
         );
         
         $storage2 = $this->getMock(
-            'ezcCacheStackableStorage',
-            array( 'reset', 'purge', 'delete' )
+            'ezcCacheStorageFilePlain',
+            array(),
+            array( $this->createTempDir( __FUNCTION__ ) )
         );
         $storage2->expects( $this->once() )
                  ->method( 'delete' )
@@ -651,29 +654,23 @@ class ezcCacheStackTest extends ezcTestCase
                 array( 'id_1', 'id_2', 'id_3' )
             )
         );
-
-        $metaData = new ezcCacheStackMetaData();
-        $metaStorage = $this->getMock(
-            'ezcCacheMetaDataStorage',
-            array( 'lock', 'unlock', 'restoreMetaData', 'storeMetaData' )
-        );
-        $metaStorage->expects( $this->once() )
+        // Meta storage behavior
+        $storage2->expects( $this->once() )
                     ->method( 'lock' );
-        $metaStorage->expects( $this->once() )
+        $storage2->expects( $this->once() )
                     ->method( 'unlock' );
-        $metaStorage->expects( $this->once() )
+        $storage2->expects( $this->once() )
                     ->method('restoreMetaData' )
                     ->will(
             $this->returnValue(
                 $metaData
             )
         );
-        $metaStorage->expects( $this->once() )
+        $storage2->expects( $this->once() )
                     ->method( 'storeMetaData' )
                     ->with( $metaData );
         
-        $stack                       = new ezcCacheStack( 'foo' );
-        $stack->options->metaStorage = $metaStorage;
+        $stack = new ezcCacheStack( 'foo' );
 
         $stack->pushStorage(
             new ezcCacheStackStorageConfiguration(

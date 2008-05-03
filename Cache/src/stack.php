@@ -201,7 +201,7 @@ class ezcCacheStack extends ezcCacheStorage
         if ( $metaStorage === null )
         {
             $metaStorage = end( $this->storageStack )->storage;
-            if ( ( $metaStorage instanceof ezcCacheMetaDataStorage ) )
+            if ( $metaStorage instanceof ezcCacheMetaDataStorage )
             {
                 throw new ezcBaseValueException(
                     'metaStorage',
