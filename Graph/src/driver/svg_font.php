@@ -47,6 +47,13 @@ class ezcGraphSvgFont
     protected $usedGlyphs = array();
 
     /**
+     * Cache for glyph size to save XPath lookups.
+     * 
+     * @var array
+     */
+    protected $glyphCache = array();
+
+    /**
      * Used kernings
      *
      * @var array
@@ -140,10 +147,16 @@ class ezcGraphSvgFont
      *
      * @param string $fontPath
      * @param string $char
-     * @return SimpleXMLElement
+     * @return float
      */
     protected function getGlyph( $fontPath, $char )
     {
+        // Check if glyphwidth has already been calculated.
+        if ( isset( $this->glyphCache[$fontPath][$char] ) )
+        {
+            return $this->glyphCache[$fontPath][$char];
+        }
+
         $matches = $this->fonts[$fontPath]->xpath(
             $query = "glyph[@unicode=" . self::xpathEscape( $char ) . "]"
         );
@@ -153,7 +166,8 @@ class ezcGraphSvgFont
              // Just ignore missing glyphs. The client will still render them
              // using a default font. We try to estimate some width by using a
              // common other character.
-            return ( $char === 'o' ? false : $this->getGlyph( $fontPath, 'o' ) );
+            return $this->glyphCache[$fontPath][$char] = 
+                ( $char === 'o' ? false : $this->getGlyph( $fontPath, 'o' ) );
         }
 
         $glyph = $matches[0];
@@ -163,7 +177,7 @@ class ezcGraphSvgFont
         }
 
         // There should only ever be one match
-        return $glyph;
+        return $this->glyphCache[$fontPath][$char] = $glyph;
     }
 
     /**
