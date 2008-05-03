@@ -28,7 +28,7 @@
  *           ezcCacheReplacementStrategy}. The class will be used as the
  *           replacement strategy in the stack. ezcCacheLruReplacementStrategy
  *           is the default.
- * @property bool $bubbleUpOnReplace
+ * @property bool $bubbleUpOnRestore
  *           This option determines if data that is restored from a storage in
  *           the stack will be bubbled up to higher caches. The default here is
  *           false, since it might significantly reduce the {@link
@@ -60,7 +60,7 @@ class ezcCacheStackOptions extends ezcBaseOptions
         $this->properties['configurator']        = null;
         $this->properties['metaStorage']         = null;
         $this->properties['replacementStrategy'] = 'ezcCacheStackLruReplacementStrategy';
-        $this->properties['bubbleUpOnReplace']   = false;
+        $this->properties['bubbleUpOnRestore']   = false;
         parent::__construct( $options );
     }
 
@@ -114,7 +114,7 @@ class ezcCacheStackOptions extends ezcBaseOptions
                     );
                 }
                 break;
-            case 'bubbleUpOnReplace':
+            case 'bubbleUpOnRestore':
                 if ( !is_bool( $propertyValue ) )
                 {
                     throw new ezcBaseValueException(

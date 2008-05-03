@@ -38,7 +38,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
                 'configurator'        => null,
                 'metaStorage'         => null,
                 'replacementStrategy' => 'ezcCacheStackLruReplacementStrategy',
-                'bubbleUpOnReplace'   => false,
+                'bubbleUpOnRestore'   => false,
             ),
             'properties',
             $opts,
@@ -53,7 +53,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
             // @TODO: Should be a valid storage object.
             'metaStorage'         => null,
             'replacementStrategy' => 'ezcCacheStackLfuReplacementStrategy',
-            'bubbleUpOnReplace'   => true,
+            'bubbleUpOnRestore'   => true,
         );
         $opts = new ezcCacheStackOptions( $optArray );
         $this->assertAttributeEquals(
@@ -85,7 +85,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
         );
         $this->assertSetProperty(
             $opts,
-            'bubbleUpOnReplace',
+            'bubbleUpOnRestore',
             array( true, false )
         );
     }
@@ -110,7 +110,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
         );
         $this->assertSetPropertyFails(
             $opts,
-            'bubbleUpOnReplace',
+            'bubbleUpOnRestore',
             array( null, 23, 42.23, 'Foo', array(), 'stdClass', new stdClass() )
         );
 
@@ -128,7 +128,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
         $this->assertEquals( null, $opts->configurator );
         $this->assertEquals( null, $opts->metaStorage );
         $this->assertEquals( 'ezcCacheStackLruReplacementStrategy', $opts->replacementStrategy );
-        $this->assertEquals( false, $opts->bubbleUpOnReplace );
+        $this->assertEquals( false, $opts->bubbleUpOnRestore );
     }
 
     public function testGetFailure()
