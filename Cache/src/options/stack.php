@@ -32,7 +32,11 @@
  *           This option determines if data that is restored from a storage in
  *           the stack will be bubbled up to higher caches. The default here is
  *           false, since it might significantly reduce the {@link
- *           ezcCacheStack::restore()} performance.
+ *           ezcCacheStack::restore()} performance. In addition, for bubbled up
+ *           items, only the attributes will be used that have been provided
+ *           while restoring the desired item. Also the lifetime of the item
+ *           will practically be reset, since higher storages will start with a
+ *           fresh TTL value.
  *
  * @package Cache
  * @version //autogen//
