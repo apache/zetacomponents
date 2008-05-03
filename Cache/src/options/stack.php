@@ -55,7 +55,7 @@ class ezcCacheStackOptions extends ezcBaseOptions
     {
         $this->properties['configurator']        = null;
         $this->properties['metaStorage']         = null;
-        $this->properties['replacementStrategy'] = 'ezcCacheLruReplacementStrategy';
+        $this->properties['replacementStrategy'] = 'ezcCacheStackLruReplacementStrategy';
         $this->properties['bubbleUpOnReplace']   = false;
         parent::__construct( $options );
     }

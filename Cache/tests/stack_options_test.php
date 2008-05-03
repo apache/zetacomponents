@@ -37,7 +37,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
             array(
                 'configurator'        => null,
                 'metaStorage'         => null,
-                'replacementStrategy' => 'ezcCacheLruReplacementStrategy',
+                'replacementStrategy' => 'ezcCacheStackLruReplacementStrategy',
                 'bubbleUpOnReplace'   => false,
             ),
             'properties',
@@ -127,7 +127,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
         $opts = new ezcCacheStackOptions();
         $this->assertEquals( null, $opts->configurator );
         $this->assertEquals( null, $opts->metaStorage );
-        $this->assertEquals( 'ezcCacheLruReplacementStrategy', $opts->replacementStrategy );
+        $this->assertEquals( 'ezcCacheStackLruReplacementStrategy', $opts->replacementStrategy );
         $this->assertEquals( false, $opts->bubbleUpOnReplace );
     }
 
