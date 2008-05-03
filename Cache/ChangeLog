@@ -1,7 +1,9 @@
 1.4alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #012666: ezcCacheStorageMemcache potentially creates multiple
+- Implemented feature #12587: Hierachic caching for the Cache component. The
+  class ezcCacheStack and related classes provide that feature.
+- Fixed issue #12666: ezcCacheStorageMemcache potentially creates multiple
   connections to the same memcached server.
 
 1.3 - Monday 17 December 2007
