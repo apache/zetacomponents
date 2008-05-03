@@ -27,6 +27,23 @@
 class ezcCacheStack extends ezcCacheStorage
 {
     /**
+     * Stack of storages. 
+     * 
+     * @var array(int=>ezcCacheStackableStorage)
+     */
+    private $storageStack = array();
+
+    /**
+     * Mapping if IDs to storages.
+     *
+     * Mainly used to validate an ID is not taken twice and a storage is not
+     * added twice.
+     * 
+     * @var array(string=>ezcCacheStackableStorage)
+     */
+    private $storageIdMap = array();
+
+    /**
      * Creates a new cache stack.
      *
      * Usually you will want to use the {@link ezcCacheManager} to take care of
@@ -207,7 +224,20 @@ class ezcCacheStack extends ezcCacheStorage
      */
     public function pushStorage( ezcCacheStackStorageConfiguration $storageConf )
     {
-        // @TODO: Implement.
+        if ( isset( $this->storageIdMap[$storageConf->id] ) )
+        {
+            throw new ezcCacheStackIdAlreadyUsedException(
+                $storageConf->id
+            );
+        }
+        if ( in_array( $storageConf->storage, $this->storageIdMap, true ) )
+        {
+            throw new ezcCacheStackStorageUsedTwiceException(
+                $storageConf->storage
+            );
+        }
+        $this->storageStack[]                 = $storageConf;
+        $this->storageIdMap[$storageConf->id] = $storageConf->storage;
     }
 
     /**
@@ -220,10 +250,31 @@ class ezcCacheStack extends ezcCacheStorage
      * afterwards to avoid any kind of inconsistency.
      *
      * @return ezcCacheStackStorageConfiguration
+     *
+     * @throws ezcCacheStackUnderflowException
+     *         if called on an empty stack.
      */
     public function popStorage()
     {
-        // @TODO: Implement.
+        if ( count( $this->storageStack ) === 0 )
+        {
+            throw new ezcCacheStackUnderflowException();
+        }
+        $storageConf = array_pop( $this->storageStack );
+        unset( $this->storageIdMap[$storageConf->id] );
+        return $storageConf;
+    }
+
+    /**
+     * Returns the number of storages on the stack.
+     *
+     * Returns the number of storages currently on the stack.
+     * 
+     * @return int
+     */
+    public function countStorages()
+    {
+        return count( $this->storageStack );
     }
 
     /**
@@ -260,9 +311,61 @@ class ezcCacheStack extends ezcCacheStorage
         // @TODO: Implement.
     }
 
+    /**
+     * Validates the $location parameter of the constructor.
+     *
+     * Returns true, since $location is not necessary for this storage.
+     * 
+     * @return bool
+     */
     protected function validateLocation()
     {
-        // @TODO: Implement.
+        // Does not utilize $location
+        return true;
+    }
+
+    /**
+     * Sets the options for this stack instance.
+     *
+     * Overwrites the parent implementation to only allow instances of {@link
+     * ezcCacheStackOptions}.
+     * 
+     * @param ezcCacheStackOptions $options 
+     *
+     * @deprecated Use $stack->options instead.
+     */
+    public function setOptions( $options )
+    {
+        // Overloading
+        $this->options = $options;
+    }
+    
+    /**
+     * Property write access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @param mixed $propertyValue  The value for the property.
+     *
+     * @throws ezcBaseValueException 
+     *         If a the value for the property options is not an instance of 
+     *         ezcCacheStorageOptions. 
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName ) 
+        {
+            case 'options':
+                if ( !( $propertyValue instanceof ezcCacheStackOptions ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcCacheStackOptions' );
+                }
+                break;
+            default:
+                parent::__set( $propertyName, $propertyValue );
+                return;
+        }
+        $this->properties[$propertyName] = $propertyValue;
     }
 }
 
