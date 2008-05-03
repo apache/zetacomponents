@@ -56,6 +56,10 @@ require_once 'storage_apc_plain_test.php';
 require_once 'storage_memcache_plain_test.php';
 
 /**
+ * Require stack test suite. 
+ */
+require_once 'stack_test.php';
+/**
  * Require stack configuration test suite. 
  */
 require_once 'stack_storage_configuration_test.php';
@@ -93,6 +97,7 @@ class ezcCacheSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcCacheStorageFileOptionsTest::suite() );
         $this->addTest( ezcCacheManagerTest::suite() );
         $this->addTest( ezcCacheStackOptionsTest::suite() );
+        $this->addTest( ezcCacheStackTest::suite() );
         $this->addTest( ezcCacheStackStorageConfigurationTest::suite() );
         $this->addTest( ezcCacheStackLruReplacementStrategyTest::suite() );
         $this->addTest( ezcCacheStackLfuReplacementStrategyTest::suite() );

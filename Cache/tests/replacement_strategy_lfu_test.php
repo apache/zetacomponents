@@ -33,7 +33,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
-                $this->createTempDir( __FUNCTION__ )
+                $this->createTempDir( __CLASS__ )
             ),
             5,
             0.5
@@ -60,7 +60,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
-                $this->createTempDir( __FUNCTION__ )
+                $this->createTempDir( __CLASS__ )
             ),
             5,
             0.5
@@ -107,7 +107,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
-                $this->createTempDir( __FUNCTION__ )
+                $this->createTempDir( __CLASS__ )
             ),
             5,
             0.5
@@ -169,7 +169,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
-                $this->createTempDir( __FUNCTION__ )
+                $this->createTempDir( __CLASS__ )
             ),
             5,
             0.5
@@ -226,7 +226,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
@@ -388,7 +388,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
@@ -541,7 +541,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
@@ -698,7 +698,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
@@ -852,7 +852,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
@@ -923,7 +923,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
@@ -1001,7 +1001,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
@@ -1053,7 +1053,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
@@ -1137,7 +1137,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(
@@ -1206,7 +1206,7 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
     {
         // Prepare faked test data
 
-        $tmpDir = $this->createTempDir( __FUNCTION__ );
+        $tmpDir = $this->createTempDir( __CLASS__ );
         $conf = new ezcCacheStackStorageConfiguration(
             'fooid',
             new ezcCacheStorageFileArray(

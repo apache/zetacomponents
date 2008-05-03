@@ -90,6 +90,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $this->assertEquals( $cache->countDataItems( 0 ), 1, 'Count data items failed with ID.' );
         $this->assertEquals( $cache->countDataItems( null, array( 'lang' => 'no' ) ), 1, 'Count data items failed with attribute <lang>.' );
         $this->assertEquals( $cache->countDataItems( null, array( 'section' => 'articles' ) ), 3, 'Count data items failed with attribute <articles>.' );
+
         $this->removeTempDir();
     }
 
@@ -629,6 +630,8 @@ class ezcCacheStorageFileTest extends ezcTestCase
             file_exists( $storage->getLocation() . $storage->options->lockFile ),
             'Lock file exists.'
         );
+
+        $this->removeTempDir();
     }
 
     public function testLockTimeout()
@@ -673,6 +676,8 @@ class ezcCacheStorageFileTest extends ezcTestCase
             file_exists( $storage->getLocation() . $storage->options->lockFile ),
             'Lock file exists.'
         );
+
+        $this->removeTempDir();
     }
 
     public function testMetaDataSuccess()
@@ -713,6 +718,8 @@ class ezcCacheStorageFileTest extends ezcTestCase
             file_exists( $storage->getLocation() . $storage->options->metaDataFile ),
             'Meta data does not exist anymore after restoring.'
         );
+
+        $this->removeTempDir();
     }
 
     public function testMetaDataFailure()
@@ -738,6 +745,8 @@ class ezcCacheStorageFileTest extends ezcTestCase
             file_exists( $storage->getLocation() . $storage->options->metaDataFile ),
             'Meta data file existed before the storage was created.'
         );
+
+        $this->removeTempDir();
     }
 
     public static function suite()

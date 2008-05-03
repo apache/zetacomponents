@@ -78,7 +78,7 @@ class ezcCacheStackTest extends ezcTestCase
         ezcCacheTestStackConfigurator::$storageConf = new ezcCacheStackStorageConfiguration(
             '1',
             new ezcCacheStorageFileArray(
-                $this->createTempDir( __FUNCTION__ )
+                $this->createTempDir( __CLASS__ )
             ),
             10,
             .4
@@ -624,7 +624,7 @@ class ezcCacheStackTest extends ezcTestCase
         $storage2 = $this->getMock(
             'ezcCacheStorageFilePlain',
             array(),
-            array( $this->createTempDir( __FUNCTION__ ) )
+            array( $this->createTempDir( __CLASS__ ) )
         );
         $storage2->expects( $this->once() )
                  ->method( 'delete' )
@@ -677,6 +677,7 @@ class ezcCacheStackTest extends ezcTestCase
             ),
             $stack->delete( null, array( 'lang' => 'de' ) )
         );
+        $this->removeTempDir();
     }
 
     public function testRestoreSuccessNoBubbleUp()
