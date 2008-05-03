@@ -158,7 +158,15 @@ class ezcCacheStack extends ezcCacheStorage
      */
     public function delete( $id = null, $attributes = array(), $search = false )
     {
-        // @TODO: Implement.
+        $deletedIds = array();
+        foreach ( $this->storageStack as $storageConf )
+        {
+            $deletedIds = array_merge(
+                $deletedIds,
+                $storageConf->storage->delete( $id, $attributes, $search )
+            );
+        }
+        return array_unique( $deletedIds );
     }
 
     /**
@@ -174,7 +182,12 @@ class ezcCacheStack extends ezcCacheStorage
      */
     public function countDataItems( $id = null, $attributes = array() )
     {
-        // @TODO: Implement.
+        $sum = 0;
+        foreach( $this->storageStack as $storageConf )
+        {
+            $sum += $storageConf->storage->countDataItems( $id, $attributes );
+        }
+        return $sum;
     }
 
     /**
@@ -186,7 +199,7 @@ class ezcCacheStack extends ezcCacheStorage
      *
      * The first internal storage that is found for the data item is chosen to
      * detemine the lifetime. If no storage contains the item or the item is
-     * outdated in the first found cache, 0 is returned.
+     * outdated in all found caches, 0 is returned.
      * 
      * @param string $id 
      * @param array $attributes 
@@ -194,7 +207,18 @@ class ezcCacheStack extends ezcCacheStorage
      */
     public function getRemainingLifetime( $id, $attributes = array() )
     {
-        // @TODO: Implement.
+        foreach ( $this->storageStack as $storageConf )
+        {
+            $lifetime = $storageConf->storage->getRemainingLifetime(
+                $id,
+                $attributes
+            );
+            if ( $lifetime > 0 )
+            {
+                return $lifetime;
+            }
+        }
+        return 0;
     }
 
     /**

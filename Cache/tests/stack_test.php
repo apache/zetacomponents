@@ -433,5 +433,230 @@ class ezcCacheStackTest extends ezcTestCase
         $stack->reset();
     }
 
+    public function testGetRemainingLifetimeFound()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'getRemainingLifetime' )
+        );
+        $storage1->expects( $this->once() )
+                 ->method( 'getRemainingLifetime' )
+                 ->with( 'foo', array() )
+                 ->will( $this->returnValue( 0 ) );
+        $storage2 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'getRemainingLifetime' )
+        );
+        $storage2->expects( $this->once() )
+                 ->method( 'getRemainingLifetime' )
+                 ->with( 'foo', array() )
+                 ->will( $this->returnValue( 23 ) );
+        
+        $stack = new ezcCacheStack( 'foo' );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_2',
+                $storage2,
+                10,
+                .5
+            )
+        );
+
+        $this->assertEquals(
+            23,
+            $stack->getRemainingLifetime( 'foo' )
+        );
+    }
+
+    public function testGetRemainingLifetimeNotFound()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'getRemainingLifetime' )
+        );
+        $storage1->expects( $this->once() )
+                 ->method( 'getRemainingLifetime' )
+                 ->with( 'foo', array() )
+                 ->will( $this->returnValue( 0 ) );
+        
+        $stack = new ezcCacheStack( 'foo' );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+
+        $this->assertEquals(
+            0,
+            $stack->getRemainingLifetime( 'foo' )
+        );
+
+    }
+
+    public function testCountDataItems()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'countDataItems' )
+        );
+        $storage1->expects( $this->once() )
+                 ->method( 'countDataItems' )
+                 ->with( 'foo', array() )
+                 ->will( $this->returnValue( 2 ) );
+        
+        $storage2 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'countDataItems' )
+        );
+        $storage2->expects( $this->once() )
+                 ->method( 'countDataItems' )
+                 ->with( 'foo', array() )
+                 ->will( $this->returnValue( 1 ) );
+        
+        $stack = new ezcCacheStack( 'foo' );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_2',
+                $storage2,
+                100,
+                .7
+            )
+        );
+
+        $this->assertEquals(
+            3,
+            $stack->countDataItems( 'foo' )
+        );
+
+    }
+
+    public function testDeleteById()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'delete' )
+        );
+        $storage1->expects( $this->once() )
+                 ->method( 'delete' )
+                 ->with( 'id_1', array() )
+                 ->will(
+            $this->returnValue(
+                array( 'id_1' )
+            )
+        );
+        
+        $storage2 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'delete' )
+        );
+        $storage2->expects( $this->once() )
+                 ->method( 'delete' )
+                 ->with( 'id_1', array() )
+                 ->will(
+            $this->returnValue(
+                array( 'id_1' )
+            )
+        );
+        
+        $stack = new ezcCacheStack( 'foo' );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_2',
+                $storage2,
+                100,
+                .7
+            )
+        );
+
+        $this->assertEquals(
+            array( 'id_1' ),
+            $stack->delete( 'id_1' )
+        );
+
+    }
+
+    public function testDeleteByAttributes()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'delete' )
+        );
+        $storage1->expects( $this->once() )
+                 ->method( 'delete' )
+                 ->with( null, array( 'lang' => 'de' ) )
+                 ->will(
+            $this->returnValue(
+                array( 'id_1', 'id_3' )
+            )
+        );
+        
+        $storage2 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'delete' )
+        );
+        $storage2->expects( $this->once() )
+                 ->method( 'delete' )
+                 ->with( null, array( 'lang' => 'de' ) )
+                 ->will(
+            $this->returnValue(
+                array( 'id_1', 'id_2', 'id_3' )
+            )
+        );
+        
+        $stack = new ezcCacheStack( 'foo' );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_2',
+                $storage2,
+                100,
+                .7
+            )
+        );
+
+        $this->assertEquals(
+            array(
+                0 => 'id_1',
+                1 => 'id_3',
+                3 => 'id_2'
+            ),
+            $stack->delete( null, array( 'lang' => 'de' ) )
+        );
+
+    }
 }
 ?>
