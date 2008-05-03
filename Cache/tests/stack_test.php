@@ -576,29 +576,9 @@ class ezcCacheStackTest extends ezcTestCase
                 array( 'id_1' )
             )
         );
-
-        $metaData = new ezcCacheStackMetaData();
-        $metaStorage = $this->getMock(
-            'ezcCacheMetaDataStorage',
-            array( 'lock', 'unlock', 'restoreMetaData', 'storeMetaData' )
-        );
-        $metaStorage->expects( $this->once() )
-                    ->method( 'lock' );
-        $metaStorage->expects( $this->once() )
-                    ->method( 'unlock' );
-        $metaStorage->expects( $this->once() )
-                    ->method('restoreMetaData' )
-                    ->will(
-            $this->returnValue(
-                $metaData
-            )
-        );
-        $metaStorage->expects( $this->once() )
-                    ->method( 'storeMetaData' )
-                    ->with( $metaData );
         
         $stack                       = new ezcCacheStack( 'foo' );
-        $stack->options->metaStorage = $metaStorage;
+        $stack->options->metaStorage = $this->getMetaStorageMock();
 
         $stack->pushStorage(
             new ezcCacheStackStorageConfiguration(
@@ -697,6 +677,214 @@ class ezcCacheStackTest extends ezcTestCase
             ),
             $stack->delete( null, array( 'lang' => 'de' ) )
         );
+    }
+
+    public function testRestoreSuccessNoBubbleUp()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'restore' )
+        );
+        $storage1->expects( $this->once() )
+                 ->method( 'restore' )
+                 ->with( 'id_1', array() )
+                 ->will(
+            $this->returnValue(
+                'id_1'
+            )
+        );
+        
+        $storage2 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'restore' )
+        );
+        $storage2->expects( $this->once() )
+                 ->method( 'restore' )
+                 ->with( 'id_1', array() )
+                 ->will(
+            $this->returnValue(
+                false
+            )
+        );
+
+        $stack                       = new ezcCacheStack( 'foo' );
+        $stack->options->metaStorage = $this->getMetaStorageMock();
+
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_2',
+                $storage2,
+                100,
+                .7
+            )
+        );
+
+        $this->assertEquals(
+            'id_1',
+            $stack->restore( 'id_1' )
+        );
+    }
+
+    public function testRestoreSuccessBubbleUp()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'restore' )
+        );
+        $storage1->expects( $this->never() )
+                 ->method( 'restore' );
+        $storage1->expects( $this->never() )
+                 ->method( 'store' );
+        
+        $storage2 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'restore' )
+        );
+        $storage2->expects( $this->once() )
+                 ->method( 'restore' )
+                 ->with( 'id_1', array() )
+                 ->will(
+            $this->returnValue(
+                'id_1'
+            )
+        );
+        $storage2->expects( $this->never() )
+                 ->method( 'store' );
+        
+        $storage3 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'restore', 'store' )
+        );
+        $storage3->expects( $this->once() )
+                 ->method( 'restore' )
+                 ->with( 'id_1', array() )
+                 ->will(
+            $this->returnValue(
+                false
+            )
+        );
+        $storage3->expects( $this->once() )
+                 ->method( 'store' )
+                 ->with( 'id_1', 'id_1', array() );
+
+        $stack                             = new ezcCacheStack( 'foo' );
+        $stack->options->metaStorage       = $this->getMetaStorageMock();
+        $stack->options->bubbleUpOnRestore = true;
+
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_2',
+                $storage2,
+                100,
+                .7
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_3',
+                $storage3,
+                5,
+                .2
+            )
+        );
+
+        $this->assertEquals(
+            'id_1',
+            $stack->restore( 'id_1' )
+        );
+    }
+
+    public function testRestoreFailure()
+    {
+        $storage1 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'restore' )
+        );
+        $storage1->expects( $this->once() )
+                 ->method( 'restore' )
+                 ->with( 'id_1', array() )
+                 ->will(
+            $this->returnValue(
+                false
+            )
+        );
+        
+        $storage2 = $this->getMock(
+            'ezcCacheStackableStorage',
+            array( 'reset', 'purge', 'restore' )
+        );
+        $storage2->expects( $this->once() )
+                 ->method( 'restore' )
+                 ->with( 'id_1', array() )
+                 ->will(
+            $this->returnValue(
+                false
+            )
+        );
+
+        $stack                       = new ezcCacheStack( 'foo' );
+        $stack->options->metaStorage = $this->getMetaStorageMock();
+
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_1',
+                $storage1,
+                10,
+                .5
+            )
+        );
+        $stack->pushStorage(
+            new ezcCacheStackStorageConfiguration(
+                'id_2',
+                $storage2,
+                100,
+                .7
+            )
+        );
+
+        $this->assertFalse(
+            $stack->restore( 'id_1' )
+        );
+    }
+
+    protected function getMetaStorageMock()
+    {
+        $metaData = new ezcCacheStackMetaData();
+        $metaStorage = $this->getMock(
+            'ezcCacheMetaDataStorage',
+            array( 'lock', 'unlock', 'restoreMetaData', 'storeMetaData' )
+        );
+        $metaStorage->expects( $this->once() )
+                    ->method( 'lock' );
+        $metaStorage->expects( $this->once() )
+                    ->method( 'unlock' );
+        $metaStorage->expects( $this->once() )
+                    ->method('restoreMetaData' )
+                    ->will(
+            $this->returnValue(
+                $metaData
+            )
+        );
+        $metaStorage->expects( $this->once() )
+                    ->method( 'storeMetaData' )
+                    ->with( $metaData );
+        return $metaStorage;
     }
 }
 ?>

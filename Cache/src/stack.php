@@ -128,7 +128,72 @@ class ezcCacheStack extends ezcCacheStorage
      */
     public function restore( $id, $attributes = array(), $search = false )
     {
-        // @TODO: Implement.
+        $metaStorage = $this->getMetaDataStorage();
+        $metaStorage->lock();
+
+        $metaData = $metaStorage->restoreMetaData();
+
+        $item = false;
+        foreach ( $this->storageStack as $storageConf )
+        {
+            $item = call_user_func(
+                array(
+                    $this->properties['options']->replacementStrategy,
+                    'restore'
+                ),
+                $storageConf,
+                $metaData,
+                $id,
+                $attributes,
+                $search
+            );
+            if ( $item !== false )
+            {
+                if ( $this->properties['options']->bubbleUpOnRestore )
+                {
+                    $this->bubbleUp( $id, $attributes, $item, $storageConf, $metaData );
+                }
+                // Found, so end.
+                break;
+            }
+        }
+
+        $metaStorage->storeMetaData( $metaData );
+        $metaStorage->unlock();
+
+        return $item;
+    }
+
+    /**
+     * Bubbles a restored $item up to all storages before $foundStorageConf. 
+     * 
+     * @param string $id 
+     * @param array $attributes 
+     * @param mixed $item 
+     * @param ezcCacheStackStorageConfiguration $foundStorageConf 
+     * @return void
+     */
+    private function bubbleUp( $id, array $attributes, $item, ezcCacheStackStorageConfiguration $foundStorageConf, ezcCacheStackMetaData $metaData )
+    {
+        foreach( $this->storageStack as $storageConf )
+        {
+            if ( $storageConf === $foundStorageConf )
+            {
+                // This was the storage where we restored
+                break;
+            }
+            call_user_func(
+                array(
+                    $this->properties['options']->replacementStrategy,
+                    'store'
+                ),
+                $storageConf,
+                $metaData,
+                $id,
+                $item,
+                $attributes
+            );
+        }
     }
 
     /**
@@ -193,7 +258,7 @@ class ezcCacheStack extends ezcCacheStorage
      *
      * Determines the meta data storage to be used by the stack and returns it.
      *
-     * @return ezcCacheMetaData
+     * @return ezcCacheStackMetaData
      */
     private function getMetaDataStorage()
     {
@@ -201,22 +266,17 @@ class ezcCacheStack extends ezcCacheStorage
         if ( $metaStorage === null )
         {
             $metaStorage = reset( $this->storageStack )->storage;
-            if ( $metaStorage instanceof ezcCacheMetaDataStorage )
+            if ( !( $metaStorage instanceof ezcCacheStackMetaDataStorage ) )
             {
                 throw new ezcBaseValueException(
                     'metaStorage',
                     $metaStorage,
-                    'ezcCacheMetaDataStorage',
+                    'ezcCacheStackMetaDataStorage',
                     'top of storage stack'
                 );
             }
         }
         return $metaStorage;
-    }
-
-    private function commitAtomicOperation( ezcCacheMetaData $metaData )
-    {
-
     }
 
     /**
