@@ -1202,7 +1202,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      * @param string $file Destination filename
      * @return void
      */
-    public function render ( $file )
+    public function render( $file )
     {
         $this->createDocument();  
         $this->drawAllTexts();
@@ -1210,6 +1210,20 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         // Embed used glyphs
         $this->font->addFontToDocument( $this->dom );
         $this->dom->save( $file );
+    }
+
+    /**
+     * Get resource of rendered result
+     *
+     * Return the resource of the rendered result. You should not use this
+     * method before you called either renderToOutput() or render(), as the
+     * image may not be completely rendered until then.
+     * 
+     * @return DOMDocument
+     */
+    public function getResource()
+    {
+        return $this->dom;
     }
 }
 

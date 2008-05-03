@@ -87,6 +87,30 @@ class ezcGraphCairoDriverTest extends ezcTestImageCase
         );
     }
 
+    public function testGetResource()
+    {
+        $this->driver->drawLine(
+            new ezcGraphCoordinate( 12, 45 ),
+            new ezcGraphCoordinate( 134, 12 ),
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        ob_start();
+        // Suppress header already sent warning
+        @$this->driver->renderToOutput();
+        ob_end_clean();
+
+        $resource = $this->driver->getResource();
+        $this->assertSame(
+            'resource',
+            gettype( $resource['surface'] )
+        );
+        $this->assertSame(
+            'resource',
+            gettype( $resource['context'] )
+        );
+    }
+
     public function testDrawLine()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';

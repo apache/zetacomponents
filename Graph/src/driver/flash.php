@@ -947,11 +947,25 @@ class ezcGraphFlashDriver extends ezcGraphDriver
      * @param string $file Destination filename
      * @return void
      */
-    public function render ( $file )
+    public function render( $file )
     {
         $this->drawAllTexts();
         $movie = $this->getDocument();
         $movie->save( $file, $this->options->compression );
+    }
+
+    /**
+     * Get resource of rendered result
+     *
+     * Return the resource of the rendered result. You should not use this
+     * method before you called either renderToOutput() or render(), as the
+     * image may not be completely rendered until then.
+     * 
+     * @return SWFMovie
+     */
+    public function getResource()
+    {
+        return $this->movie;
     }
 }
 

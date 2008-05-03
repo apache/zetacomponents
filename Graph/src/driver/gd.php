@@ -89,7 +89,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
      * 
      * @var array
      */
-    protected $psFontRessources = array();
+    protected $psFontResources = array();
 
     /**
      * Constructor
@@ -306,12 +306,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
         switch ( $font->type )
         {
             case ezcGraph::PS_FONT:
-                if ( !isset( $this->psFontRessources[$font->path] ) )
+                if ( !isset( $this->psFontResources[$font->path] ) )
                 {
-                    $this->psFontRessources[$font->path] = imagePsLoadFont( $font->path );
+                    $this->psFontResources[$font->path] = imagePsLoadFont( $font->path );
                 }
 
-                $boundings = imagePsBBox( $text, $this->psFontRessources[$font->path], $size );
+                $boundings = imagePsBBox( $text, $this->psFontResources[$font->path], $size );
                 return new ezcGraphBoundings(
                     $boundings[0],
                     $boundings[1],
@@ -377,7 +377,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 imagePsText( 
                     $image, 
                     $text, 
-                    $this->psFontRessources[$path], 
+                    $this->psFontResources[$path], 
                     $size, 
                     $this->allocate( $color ), 
                     1, 
@@ -1115,7 +1115,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
      * @param string $file Destination filename
      * @return void
      */
-    public function render ( $file )
+    public function render( $file )
     {
         $destination = imagecreatetruecolor( $this->options->width, $this->options->height );
 
@@ -1189,6 +1189,20 @@ class ezcGraphGdDriver extends ezcGraphDriver
             default:
                 throw new ezcGraphGdDriverUnsupportedImageTypeException( $this->options->imageFormat );
         }
+    }
+
+    /**
+     * Get resource of rendered result
+     *
+     * Return the resource of the rendered result. You should not use this
+     * method before you called either renderToOutput() or render(), as the
+     * image may not be completely rendered until then.
+     * 
+     * @return resource
+     */
+    public function getResource()
+    {
+        return $this->image;
     }
 }
 

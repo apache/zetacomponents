@@ -974,10 +974,36 @@ class ezcGraphCairoDriver extends ezcGraphDriver
      * @param string $file Destination filename
      * @return void
      */
-    public function render ( $file )
+    public function render( $file )
     {
         $this->drawAllTexts();
         cairo_surface_write_to_png( $this->surface, $file );
+    }
+
+    /**
+     * Get resource of rendered result
+     *
+     * Return the resource of the rendered result. You should not use this
+     * method before you called either renderToOutput() or render(), as the
+     * image may not be completely rendered until then.
+     *
+     * This method returns an array, containing the surface and the context in
+     * a structure like:
+     * <code>
+     *  array(
+     *      'surface' => resource,
+     *      'context' => resource,
+     *  )
+     * </code>
+     * 
+     * @return array
+     */
+    public function getResource()
+    {
+        return array( 
+            'surface' => $this->surface,
+            'context' => $this->context,
+        );
     }
 }
 
