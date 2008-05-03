@@ -158,15 +158,65 @@ class ezcCacheStack extends ezcCacheStorage
      */
     public function delete( $id = null, $attributes = array(), $search = false )
     {
+        $metaStorage = $this->getMetaDataStorage();
+        $metaStorage->lock();
+
+        $metaData = $metaStorage->restoreMetaData();
+
         $deletedIds = array();
         foreach ( $this->storageStack as $storageConf )
         {
             $deletedIds = array_merge(
                 $deletedIds,
-                $storageConf->storage->delete( $id, $attributes, $search )
+                call_user_func(
+                    array(
+                        $this->properties['options']->replacementStrategy,
+                        'delete'
+                    ),
+                    $storageConf,
+                    $metaData,
+                    $id,
+                    $attributes,
+                    $search
+                )
             );
         }
+
+        $metaStorage->storeMetaData( $metaData );
+        $metaStorage->unlock();
+
         return array_unique( $deletedIds );
+    }
+
+    /**
+     * Returns the meta data storage to be used.
+     *
+     * Determines the meta data storage to be used by the stack and returns it.
+     *
+     * @return ezcCacheMetaData
+     */
+    private function getMetaDataStorage()
+    {
+        $metaStorage = $this->options->metaStorage;
+        if ( $metaStorage === null )
+        {
+            $metaStorage = end( $this->storageStack )->storage;
+            if ( ( $metaStorage instanceof ezcCacheMetaDataStorage ) )
+            {
+                throw new ezcBaseValueException(
+                    'metaStorage',
+                    $metaStorage,
+                    'ezcCacheMetaDataStorage',
+                    'top of storage stack'
+                );
+            }
+        }
+        return $metaStorage;
+    }
+
+    private function commitAtomicOperation( ezcCacheMetaData $metaData )
+    {
+
     }
 
     /**

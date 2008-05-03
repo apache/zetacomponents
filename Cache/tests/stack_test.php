@@ -576,8 +576,30 @@ class ezcCacheStackTest extends ezcTestCase
                 array( 'id_1' )
             )
         );
+
+        $metaData = new ezcCacheStackMetaData();
+        $metaStorage = $this->getMock(
+            'ezcCacheMetaDataStorage',
+            array( 'lock', 'unlock', 'restoreMetaData', 'storeMetaData' )
+        );
+        $metaStorage->expects( $this->once() )
+                    ->method( 'lock' );
+        $metaStorage->expects( $this->once() )
+                    ->method( 'unlock' );
+        $metaStorage->expects( $this->once() )
+                    ->method('restoreMetaData' )
+                    ->will(
+            $this->returnValue(
+                $metaData
+            )
+        );
+        $metaStorage->expects( $this->once() )
+                    ->method( 'storeMetaData' )
+                    ->with( $metaData );
         
-        $stack = new ezcCacheStack( 'foo' );
+        $stack                       = new ezcCacheStack( 'foo' );
+        $stack->options->metaStorage = $metaStorage;
+
         $stack->pushStorage(
             new ezcCacheStackStorageConfiguration(
                 'id_1',
@@ -629,8 +651,30 @@ class ezcCacheStackTest extends ezcTestCase
                 array( 'id_1', 'id_2', 'id_3' )
             )
         );
+
+        $metaData = new ezcCacheStackMetaData();
+        $metaStorage = $this->getMock(
+            'ezcCacheMetaDataStorage',
+            array( 'lock', 'unlock', 'restoreMetaData', 'storeMetaData' )
+        );
+        $metaStorage->expects( $this->once() )
+                    ->method( 'lock' );
+        $metaStorage->expects( $this->once() )
+                    ->method( 'unlock' );
+        $metaStorage->expects( $this->once() )
+                    ->method('restoreMetaData' )
+                    ->will(
+            $this->returnValue(
+                $metaData
+            )
+        );
+        $metaStorage->expects( $this->once() )
+                    ->method( 'storeMetaData' )
+                    ->with( $metaData );
         
-        $stack = new ezcCacheStack( 'foo' );
+        $stack                       = new ezcCacheStack( 'foo' );
+        $stack->options->metaStorage = $metaStorage;
+
         $stack->pushStorage(
             new ezcCacheStackStorageConfiguration(
                 'id_1',
@@ -656,7 +700,6 @@ class ezcCacheStackTest extends ezcTestCase
             ),
             $stack->delete( null, array( 'lang' => 'de' ) )
         );
-
     }
 }
 ?>
