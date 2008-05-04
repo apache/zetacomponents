@@ -92,6 +92,75 @@ class ezcConsoleOutputFormatsTest extends ezcTestCase
         $formats = new ezcConsoleOutputFormats();
         $this->assertFalse( isset( $formats->foobar ) );
     }
+
+    public function testIterator()
+    {
+        $formatsObj = new ezcConsoleOutputFormats();
+        $formatsArr = $this->readAttribute(
+            $formatsObj, 'formats'
+        );
+        reset( $formatsArr );
+
+        // First run
+        foreach ( $formatsObj as $name => $format )
+        {
+            $this->assertEquals(
+                current( $formatsArr ),
+                $format
+            );
+            $this->assertEquals(
+                key( $formatsArr ),
+                $name
+            );
+
+            next( $formatsArr );
+        }
+        $this->assertFalse(
+            current( $formatsArr )
+        );
+        $this->assertFalse(
+            $formatsObj->valid()
+        );
+        
+        reset( $formatsArr );
+        // Second run
+        foreach ( $formatsObj as $name => $format )
+        {
+            $this->assertEquals(
+                current( $formatsArr ),
+                $format
+            );
+            $this->assertEquals(
+                key( $formatsArr ),
+                $name
+            );
+
+            next( $formatsArr );
+        }
+        $this->assertFalse(
+            current( $formatsArr )
+        );
+        $this->assertFalse(
+            $formatsObj->valid()
+        );
+    }
+
+    public function testCountable()
+    {
+        $formatsObj = new ezcConsoleOutputFormats();
+
+        $this->assertEquals(
+            3,
+            count( $formatsObj )
+        );
+
+        $formatsObj->foobar->color = 'blue';
+
+        $this->assertEquals(
+            4,
+            count( $formatsObj )
+        );
+    }
 }
 
 ?>

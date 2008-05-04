@@ -34,7 +34,7 @@
  * @package ConsoleTools
  * @version //autogen//
  */
-class ezcConsoleOutputFormats
+class ezcConsoleOutputFormats implements Iterator, Countable
 {
     /**
      * Array of ezcConsoleOutputFormat.
@@ -59,7 +59,79 @@ class ezcConsoleOutputFormats
         $this->formats['failure']->color = 'red';
         $this->formats['failure']->style = array( 'bold' );
     }
-    
+
+    /**
+     * Returns the current Iterator value.
+     *
+     * Implementation of {@link Iterator::current()}.
+     * 
+     * @return ezcConsoleOutputFormat
+     */
+    public function current()
+    {
+        return current( $this->formats );
+    }
+
+    /**
+     * Advances the Iterator to the next element. 
+     *
+     * Implementation of {@link Iterator::next()}.
+     * 
+     * @return ezcConsoleOutputFormat|bool
+     */
+    public function next()
+    {
+        return next( $this->formats );
+    }
+
+    /**
+     * Returns the current Iterator key. 
+     *
+     * Implementation of {@link Iterator::key()}.
+     * 
+     * @return string
+     */
+    public function key()
+    {
+        return key( $this->formats );
+    }
+
+    /**
+     * Resets the Iterator to the first element.
+     *
+     * Implementation of {@link Iterator::rewind()}.
+     * 
+     * @return ezcConsoleOutputFormat
+     */
+    public function rewind()
+    {
+        return reset( $this->formats );
+    }
+
+    /**
+     * Checks if the current Iterator position is still valid.
+     *
+     * Implementation of {@link Iterator::valid()}.
+     * 
+     * @return bool
+     */
+    public function valid()
+    {
+        return ( current( $this->formats ) !== false );
+    }
+
+    /**
+     * Returns the number of registered formats.
+     *
+     * Implementation of {@link Countable::count()}.
+     * 
+     * @return void
+     */
+    public function count()
+    {
+        return count( $this->formats );
+    }
+
     /**
      * Read access to the formats.
      *
