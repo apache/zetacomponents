@@ -1,4 +1,4 @@
-1.4alpha1 - [RELEASEDATE]
+1.4alpha1 - Monday 05 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented feature #12587: Hierachic caching for the Cache component. The
