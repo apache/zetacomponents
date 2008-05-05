@@ -13,6 +13,7 @@
  */
 require 'handlers/solr_test.php';
 require 'managers/xml_test.php';
+require 'build_query_test.php';
 require 'session_test.php';
 
 /**
@@ -26,6 +27,7 @@ class ezcSearchSuite extends PHPUnit_Framework_TestSuite
         parent::__construct();
         $this->setName("Search");
 
+        $this->addTest( ezcSearchBuildSearchQueryTest::suite() );
         $this->addTest( ezcSearchXmlDefinitionManager::suite() );
         $this->addTest( ezcSearchHandlerSolrTest::suite() );
         $this->addTest( ezcSearchSessionTest::suite() );
