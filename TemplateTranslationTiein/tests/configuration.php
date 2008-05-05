@@ -128,5 +128,4 @@ class ezcTemplateTranslationConfigurationTest extends ezcTestCase
          return new PHPUnit_Framework_TestSuite( 'ezcTemplateTranslationConfigurationTest' );
     }
 }
-
 ?>
