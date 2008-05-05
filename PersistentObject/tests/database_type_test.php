@@ -88,7 +88,7 @@ class ezcPersistentDatabaseTypeTest extends ezcTestCase
             $obj->id
         );
         $this->assertSame(
-            '23',
+            23,
             $obj->int
         );
         $this->assertSame(
@@ -151,7 +151,7 @@ class ezcPersistentDatabaseTypeTest extends ezcTestCase
             $obj->bool
         );
         $this->assertSame(
-            '-42',
+            -42,
             $obj->int
         );
         // String is cut after the null char
@@ -402,7 +402,7 @@ class ezcPersistentDatabaseTypeTest extends ezcTestCase
             $obj->id
         );
         $this->assertSame(
-            '23',
+            23,
             $obj->int
         );
         $this->assertSame(
