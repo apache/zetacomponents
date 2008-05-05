@@ -297,19 +297,9 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
         // bind failed, so something must be wrong (connection error or password incorrect)
         $err = ldap_errno( $connection );
         ldap_close( $connection );
-        switch ( $err )
+        if ( $err !== 0)
         {
-            case 0x51: // LDAP_SERVER_DOWN
-            case 0x52: // LDAP_LOCAL_ERROR
-            case 0x53: // LDAP_ENCODING_ERROR
-            case 0x54: // LDAP_DECODING_ERROR
-            case 0x55: // LDAP_TIMEOUT
-            case 0x56: // LDAP_AUTH_UNKNOWN
-            case 0x57: // LDAP_FILTER_ERROR
-            case 0x58: // LDAP_USER_CANCELLED
-            case 0x59: // LDAP_PARAM_ERROR
-            case 0x5a: // LDAP_NO_MEMORY
-                throw new ezcAuthenticationLdapException( "Could not connect to host '{$protocol}{$this->ldap->host}:{$this->ldap->port}'.", $err );
+            throw new ezcAuthenticationLdapException( "Could not connect to host '{$protocol}{$this->ldap->host}:{$this->ldap->port}'", $err, ldap_err2str( $err ) );
         }
 
         return self::STATUS_PASSWORD_INCORRECT;

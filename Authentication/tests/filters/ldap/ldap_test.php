@@ -46,7 +46,7 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
         catch ( ezcAuthenticationLdapException $e )
         {
             // this will be changed later when we will have a test server with LDAP
-            $this->markTestSkipped( "Cannot connect to LDAP. Probably you didn't setup the LDAP enviroment." );
+            $this->markTestSkipped( "Cannot connect to LDAP. Probably you didn't setup the LDAP enviroment: " . $e->getMessage() );
         }
     }
 

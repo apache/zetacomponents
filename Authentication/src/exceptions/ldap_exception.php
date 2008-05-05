@@ -28,16 +28,18 @@ class ezcAuthenticationLdapException extends ezcAuthenticationException
      * @param string $message Message to throw
      * @param mixed $code Error code returned by ldap_errno() function
      */
-    public function __construct( $message, $code = false )
+    public function __construct( $message, $code = false, $ldapMessage = false )
     {
-        if ( $code === false )
+        $exMessage = $message;
+        if ( $ldapMessage !== false )
         {
-            parent::__construct( $message );
+            $exMessage .= ': ' . $ldapMessage;
         }
-        else
+        if ( $code !== false )
         {
-            parent::__construct( $message . ' (0x' . dechex( $code ) . ')' );
+            $exMessage .= ' (code: ' . $code . ')';
         }
+        parent::__construct( $exMessage );
     }
 }
 ?>
