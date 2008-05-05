@@ -1,4 +1,4 @@
-1.0.6 - [RELEASEDATE]
+1.0.6 - Monday 05 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed retrieving CPU count, type and speed on Windows Vista.
