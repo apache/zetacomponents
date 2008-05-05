@@ -1,4 +1,4 @@
-1.3alpha1 - [RELEASEDATE]
+1.2.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #12825: No longer throw a notice when an unordered parameter

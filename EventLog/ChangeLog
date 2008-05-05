@@ -1,7 +1,7 @@
 1.3alpha2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented feature #12907: Using both trigger_error() and all avalaible
+- Implemented feature #12907: Using both trigger_error() and all available
   error types. (Patch by James Pic)
 - Implemented feature: Trim spaces around source.
 

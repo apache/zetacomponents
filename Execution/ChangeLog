@@ -1,7 +1,7 @@
 1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented issue #12694: replace reflection test for class type with spl
+- Implemented issue #12694: Replace reflection test for class type with SPL
   function.
 
 

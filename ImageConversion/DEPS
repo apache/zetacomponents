@@ -1,1 +1,1 @@
-ImageAnalysis: 1.1.2
+ImageAnalysis: 1.1.3

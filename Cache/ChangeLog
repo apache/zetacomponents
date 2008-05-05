@@ -6,6 +6,7 @@
 - Fixed issue #12666: ezcCacheStorageMemcache potentially creates multiple
   connections to the same memcached server.
 
+
 1.3 - Monday 17 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
