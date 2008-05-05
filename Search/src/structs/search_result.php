@@ -96,3 +96,4 @@ class ezcSearchResult
         return new ezcSearchResult( $array['status'], $array['queryTime'], $array['resultCount'], $array['start'], $array['documents'], $array['error'] );
     }
 }
+?>

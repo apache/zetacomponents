@@ -71,3 +71,4 @@ class ezcSearchQueryToken
         return new ezcSearchResult( $array['type'], $array['token'] );
     }
 }
+?>
