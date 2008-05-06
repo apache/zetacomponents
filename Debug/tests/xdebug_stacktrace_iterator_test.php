@@ -109,6 +109,20 @@ class ezcDebugXdebugStacktraceIteratorTest extends ezcTestCase
         }
         catch ( ezcDebugOperationNotPermittedException $e ) {}
 
+        try
+        {
+            unset( $itr[0] );
+            $this->fail( 'Exception not throwen on not permitted array access.' );
+        }
+        catch ( ezcDebugOperationNotPermittedException $e ) {}
+        
+        try
+        {
+            echo $itr['foo'];
+            $this->fail( 'ezcBaseValueException not throwen on array get access to non-existent key.' );
+        }
+        catch ( ezcBaseValueException $e ) {}
+
     }
 }
 
