@@ -18,5 +18,24 @@
 [ ] The variable output in stack traces should be configurable, like Xdebug.
     There is way too much output by default now making them quite useless.
 [ ] The tutorial doesn't mention the new functionality yet.
-
+[ ] There is a pretty low code coverage - only 77%.
 [ ] The doc analysis tool shows lots of issues.
+[ ] I get a failing test::
+
+    1) testIterateTrace(ezcDebugXdebugStacktraceIteratorTest)
+    Incorrect stack element 0.
+    Failed asserting that two arrays are equal.
+    --- Expected
+    +++ Actual
+    @@ -5,8 +5,6 @@
+         [line] => 23
+         [params] => Array
+             (
+    -            [0] => 'some string'
+    -            [1] => array (0 => TRUE, 1 => 23, 2 => NULL)
+             )
+     
+     )
+
+    /home/derick/dev/ezcomponents/trunk/Debug/tests/xdebug_stacktrace_iterator_test.php:69
+
