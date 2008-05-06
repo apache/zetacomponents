@@ -1,0 +1,53 @@
+ezcFeed
+=======
+
+- Why is there a module "name" and a "prefix"? Doesn't one of them last? Would
+  make it unembigious.
+- ezcFeed::addModule() -> todo.
+- How to add a custom module to ezcFeed?
+     * A new module can be defined by creating a class which extends the class
+     * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}
+     * and {@link self::$supportedModulesPrefixes} arrays.
+  Is it necessary to extend ezcFeed to do this?
+- Why does ezcFeed have double single/multiple value properties (
+  $author[s],...).
+- ezcFeed::__get() makes use of isset( $this->$property ), this also returns
+  true for real protected/private properties. It should call $this->__isset()
+  directly. This is also more efficient.
+- ezcFeed::__get() should also better throw an ezcBasePropertyNotFoundException.
+- ezcFeed::__isset() behaviour incorrect. We return true if a property exists,
+  but is null.
+- Why does ezcFeed declare protected attributes and mark them as @ignore? No
+  class seems to extend ezcFeed. Declaring this private makes more sense.
+- Why ezcFeed::getModules()/hasModule()/getSupportedTypes() instead of
+  property access?
+- Huge docblock at the beginning of the file is annoying. We should think
+  about a way to include docs there.
+
+ezcFeedProcessor
+================
+
+- Why does ezcFeedProcessor use get()/set() instead of
+  __set()/__get()/__isset()?
+
+ezcFeedTools
+============
+
+- Should be private. No sense in making such utility classes public if they
+  are not of special interesst for foreigners.
+
+- ezcFeedTools::getAttributes() is a duplication of
+  DOMElement::getAttribute().
+- ezcFeedTools::getAttributes() looks pretty much unnesseccary.
+  DOMNode->$attributes can be used instead for iteration,
+  DOMElement->getAttribute() for access by name.
+- ezcFeedTools::prepareDate() should not accept DateTime objects. If it
+  receives them, this indicates bad code.
+- ezcFeedTools::normalizeName() should use isset(). Works here and is faster.
+
+General
+=======
+
+- A lot of multi-line short descriptions for methods, which do not parse
+  properly. The very first line of the doc bloc is the short description, all
+  following belong to the long description.
