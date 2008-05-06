@@ -209,32 +209,7 @@ class ezcDebugTimer
      */
     public function getTimeData()
     {
-        /*
-        $result = new ezcDebugStructure();
-        $result->stopTimes = $this->timers;
-        $result->groups = $this->getGroups();
-
-        var_dump( $result );
-       */
         return $this->timers;
-    }
-
-    /**
-     * Returns the time used per group.
-     *
-     * The time is returned as an array in the format
-     * array( 'groupName' => array( number of ms ) )
-     *
-     * @return array(string=>array(int))
-     */
-    protected function getGroups()
-    {
-        $groups = array();
-        foreach ( $this->timers as $time )
-        {
-            $groups[$time->group][] = $time;
-        }
-        return $groups;
     }
 }
 

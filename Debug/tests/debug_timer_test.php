@@ -26,27 +26,44 @@ class ezcDebugTimerTest extends ezcTestCase
         $timer = new ezcDebugTimer( );
 
         $point1 = microtime( true );
-        $timer->startTimer( "Ray", "host" );
+        $this->assertTrue(
+            $timer->startTimer( "Ray", "host" )
+        );
+
         $point2 = microtime( true );
-        $timer->stopTimer( "Ray" );
+        $this->assertTrue(
+            $timer->stopTimer( "Ray" )
+        );
+        
         $point3 = microtime( true );
         
         $structure = $timer->getTimeData( );
-        $this->assertEquals( 1, count( $structure ));
+        
+        $this->assertEquals( 1, count( $structure ) );
         $this->assertEquals( "Ray", $structure[0]->name );
         $this->assertEquals( "host", $structure[0]->group );
 
-        $this->assertTrue( $structure[0]->startTime >= $point1 && $structure[0]->startTime <= $point2 );
-        $this->assertTrue( $structure[0]->stopTime >= $point2 && $structure[0]->stopTime <= $point3 );
-        $this->assertTrue( $structure[0]->elapsedTime <= $point3 - $point1 );
+        $this->assertTrue(
+            $structure[0]->startTime >= $point1 && $structure[0]->startTime <= $point2
+        );
+        $this->assertTrue(
+            $structure[0]->stopTime >= $point2 && $structure[0]->stopTime <= $point3
+        );
+        $this->assertTrue(
+            $structure[0]->elapsedTime <= $point3 - $point1
+        );
     }
 
     public function testStartStopNoName( )
     {
         $timer = new ezcDebugTimer( );
 
-        $timer->startTimer( "Ray", "Local", "host" );
-        $timer->stopTimer( );
+        $this->assertTrue(
+            $timer->startTimer( "Ray", "Local", "host" )
+        );
+        $this->assertTrue(
+            $timer->stopTimer()
+        );
 
         $structure = $timer->getTimeData( );
         $this->assertEquals( 1, count( $structure ));
@@ -57,11 +74,20 @@ class ezcDebugTimerTest extends ezcTestCase
         $timer = new ezcDebugTimer( );
 
         $point1 = microtime( true );
-        $timer->startTimer( "Ray",  "host" );
+        $this->assertTrue(
+            $timer->startTimer( "Ray",  "host" )
+        );
+        
         $point2 = microtime( true );
-        $timer->switchTimer( "Blaap", "Ray" ); 
+        $this->assertTrue(
+            $timer->switchTimer( "Blaap", "Ray" )
+        );
+        
         $point3 = microtime( true );
-        $timer->stopTimer( "Blaap" );
+        $this->assertTrue(
+            $timer->stopTimer( "Blaap" )
+        );
+        
         $point4 = microtime( true );
  
         $structure = $timer->getTimeData( );
@@ -72,21 +98,46 @@ class ezcDebugTimerTest extends ezcTestCase
         $this->assertEquals( 1, count( $structure[0]->switchTime ));
         $this->assertEquals( "Blaap", $structure[0]->switchTime[0]->name );
 
-        $this->assertTrue( $structure[0]->startTime >= $point1 && $structure[0]->startTime <= $point2 );
-        $this->assertTrue( $structure[0]->switchTime[0]->time >= $point2 && $structure[0]->switchTime[0]->time <= $point3 );
-        $this->assertTrue( $structure[0]->stopTime >= $point3 && $structure[0]->stopTime <= $point4 );
+        $this->assertTrue(
+            $structure[0]->startTime >= $point1 && $structure[0]->startTime <= $point2
+        );
+        $this->assertTrue(
+            $structure[0]->switchTime[0]->time >= $point2 && $structure[0]->switchTime[0]->time <= $point3
+        );
+        $this->assertTrue(
+            $structure[0]->stopTime >= $point3 && $structure[0]->stopTime <= $point4
+        );
     }
 
     public function testSwitchTwoTimer( )
     {
         $timer = new ezcDebugTimer( );
-        $timer->startTimer( "Ray", "Local", "host" );
-        $timer->switchTimer( "Blaap", "Ray" ); 
-        $timer->switchTimer( "hehe", "Blaap" ); 
-        $timer->stopTimer( "hehe" );
+        $this->assertTrue(
+            $timer->startTimer( "Ray", "Local", "host" )
+        );
+        $this->assertTrue(
+            $timer->switchTimer( "Blaap", "Ray" )
+        );
+        $this->assertTrue(
+            $timer->switchTimer( "hehe", "Blaap" )
+        );
+        $this->assertTrue(
+            $timer->stopTimer( "hehe" )
+        );
 
         $structure = $timer->getTimeData( );
         $this->assertEquals( 2, count( $structure[0]->switchTime ));
+    }
+
+    public function testSwitchTimerNoOld()
+    {
+        $timer = new ezcDebugTimer();
+
+        $timer->startTimer( 'foo', 'foogroup' );
+
+        $this->assertTrue(
+            $timer->switchTimer( 'bar' )
+        );
     }
 
     public function testMultipleRunningTimers( )
@@ -137,6 +188,81 @@ class ezcDebugTimerTest extends ezcTestCase
         $time->stopTimer( "Script" );
 
         return $time->getTimeData( );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $time = new ezcDebugTimer();
+        try
+        {
+            echo $time->foo;
+            $this->fail( 'ezcBasePropertyNotFoundException not thrown' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e ) {}
+    }
+
+    public function testSetAccessFailure()
+    {
+        $time = new ezcDebugTimer();
+        try
+        {
+            $time->foo = 23;
+            $this->fail( 'ezcBasePropertyNotFoundException not thrown' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e ) {}
+    }
+
+    public function testStartTimerTwiceFailure()
+    {
+        $time = new ezcDebugTimer();
+
+        // Same group
+        $this->assertTrue(
+            $time->startTimer( 'foo', 'foogroup' )
+        );
+        $this->assertFalse(
+            $time->startTimer( 'foo', 'foogroup' )
+        );
+        
+        // Different group
+        $this->assertTrue(
+            $time->startTimer( 'bar', 'bargroup1' )
+        );
+        $this->assertFalse(
+            $time->startTimer( 'bar', 'bargroup2' )
+        );
+    }
+
+    public function testSwitchTimerNoneRunningFailure()
+    {
+        $time = new ezcDebugTimer();
+        
+        $this->assertFalse(
+            $time->switchTimer( 'foo' )
+        );
+    }
+
+    public function testSwitchTimerMultipleRunningNoOldNameFailure()
+    {
+        $time = new ezcDebugTimer();
+
+        $time->startTimer( 'foo', 'foogroup' );
+        $time->startTimer( 'bar', 'bargroup' );
+
+        $this->assertFalse(
+            $time->switchTimer( 'baz' )
+        );
+    }
+
+    public function testSwitchTimerNochSuchOldTimerFailure()
+    {
+        $time = new ezcDebugTimer();
+
+        $time->startTimer( 'foo', 'foogroup' );
+
+        $this->assertFalse(
+            $time->switchTimer( 'bar', 'baz' )
+        );
     }
 
     protected function mySQLFunction( &$time )
