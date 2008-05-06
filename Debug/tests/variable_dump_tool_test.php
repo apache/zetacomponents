@@ -30,11 +30,11 @@ class ezcDebugVariableDumpToolTest extends ezcTestCase
 
         $this->assertEquals(
             'TRUE',
-            ezcDebugVariableDumpTool::dumpVariable( $true )
+            ezcDebugVariableDumpTool::dumpVariable( $true, 512, 128, 3 )
         );
         $this->assertEquals(
             'FALSE',
-            ezcDebugVariableDumpTool::dumpVariable( $false )
+            ezcDebugVariableDumpTool::dumpVariable( $false, 512, 128, 3 )
         );
     }
 
@@ -46,15 +46,15 @@ class ezcDebugVariableDumpToolTest extends ezcTestCase
         
         $this->assertEquals(
             '0',
-            ezcDebugVariableDumpTool::dumpVariable( $a )
+            ezcDebugVariableDumpTool::dumpVariable( $a, 512, 128, 3 )
         );
         $this->assertEquals(
             '23',
-            ezcDebugVariableDumpTool::dumpVariable( $b )
+            ezcDebugVariableDumpTool::dumpVariable( $b, 512, 128, 3 )
         );
         $this->assertEquals(
             '-42',
-            ezcDebugVariableDumpTool::dumpVariable( $c )
+            ezcDebugVariableDumpTool::dumpVariable( $c, 512, 128, 3 )
         );
     }
 
@@ -68,23 +68,23 @@ class ezcDebugVariableDumpToolTest extends ezcTestCase
         
         $this->assertEquals(
             '0',
-            ezcDebugVariableDumpTool::dumpVariable( $a )
+            ezcDebugVariableDumpTool::dumpVariable( $a, 512, 128, 3 )
         );
         $this->assertEquals(
             '23',
-            ezcDebugVariableDumpTool::dumpVariable( $b )
+            ezcDebugVariableDumpTool::dumpVariable( $b, 512, 128, 3 )
         );
         $this->assertEquals(
             '-42',
-            ezcDebugVariableDumpTool::dumpVariable( $c )
+            ezcDebugVariableDumpTool::dumpVariable( $c, 512, 128, 3 )
         );
         $this->assertEquals(
             '23.42',
-            ezcDebugVariableDumpTool::dumpVariable( $d )
+            ezcDebugVariableDumpTool::dumpVariable( $d, 512, 128, 3 )
         );
         $this->assertEquals(
             '-42.23',
-            ezcDebugVariableDumpTool::dumpVariable( $e )
+            ezcDebugVariableDumpTool::dumpVariable( $e, 512, 128, 3 )
         );
     }
 
@@ -95,11 +95,11 @@ class ezcDebugVariableDumpToolTest extends ezcTestCase
 
         $this->assertEquals(
             "'foo'",
-            ezcDebugVariableDumpTool::dumpVariable( $a )
+            ezcDebugVariableDumpTool::dumpVariable( $a, 512, 128, 3 )
         );
         $this->assertEquals(
             "''",
-            ezcDebugVariableDumpTool::dumpVariable( $b )
+            ezcDebugVariableDumpTool::dumpVariable( $b, 512, 128, 3 )
         );
     }
 
@@ -114,7 +114,7 @@ array (0 => 23, 1 => 42.23, 2 => TRUE, 3 => FALSE, 4 => 'test', 5 => 'foo bar ba
 EOT;
         $this->assertEquals(
             $res,
-            ezcDebugVariableDumpTool::dumpVariable( $arr )
+            ezcDebugVariableDumpTool::dumpVariable( $arr, 512, 128, 3 )
         );
     }
 
@@ -141,7 +141,7 @@ array (0 => 23, 'foo bar' => array (1 => '293', 2 => 234223, 'foo' => array (0 =
 EOT;
         $this->assertEquals(
             $res,
-            ezcDebugVariableDumpTool::dumpVariable( $arr )
+            ezcDebugVariableDumpTool::dumpVariable( $arr, 512, 128, 3 )
         );
     }
 
@@ -155,7 +155,7 @@ EOT;
 
         $this->assertEquals(
             $res,
-            ezcDebugVariableDumpTool::dumpVariable( $obj )
+            ezcDebugVariableDumpTool::dumpVariable( $obj, 512, 128, 3 )
         );
     }
 
@@ -169,7 +169,7 @@ EOT;
 
         $this->assertEquals(
             $res,
-            ezcDebugVariableDumpTool::dumpVariable( $obj )
+            ezcDebugVariableDumpTool::dumpVariable( $obj, 512, 128, 3 )
         );
     }
 
@@ -208,7 +208,7 @@ EOT;
 
         $this->assertEquals(
             $res,
-            ezcDebugVariableDumpTool::dumpVariable( $obj )
+            ezcDebugVariableDumpTool::dumpVariable( $obj, 512, 128, 4 )
         );
     }
     
@@ -220,7 +220,7 @@ EOT;
 
         $this->assertEquals(
             "resource({$matches['id']}) of type (stream)",
-            ezcDebugVariableDumpTool::dumpVariable( $res )
+            ezcDebugVariableDumpTool::dumpVariable( $res, 512, 128, 3 )
         );
     }
 }

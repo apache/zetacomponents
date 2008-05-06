@@ -54,6 +54,21 @@ class ezcDebugOptionsTest extends ezcTestCase
             'stackTraceDepth',
             array( 0, 1, 23 )
         );
+        $this->assertSetProperty(
+            $opts,
+            'stackTraceMaxData',
+            array( 0, 1, 23, false )
+        );
+        $this->assertSetProperty(
+            $opts,
+            'stackTraceMaxChildren',
+            array( 0, 1, 23, false )
+        );
+        $this->assertSetProperty(
+            $opts,
+            'stackTraceMaxDepth',
+            array( 0, 1, 23, false )
+        );
     }
 
     public function testSetFailure()
@@ -68,6 +83,21 @@ class ezcDebugOptionsTest extends ezcTestCase
         $this->assertSetPropertyFails(
             $opts,
             'stackTraceDepth',
+            array( null, true, -23, 'foobar', array(), new stdClass() )
+        );
+        $this->assertSetPropertyFails(
+            $opts,
+            'stackTraceMaxData',
+            array( null, true, -23, 'foobar', array(), new stdClass() )
+        );
+        $this->assertSetPropertyFails(
+            $opts,
+            'stackTraceMaxChildren',
+            array( null, true, -23, 'foobar', array(), new stdClass() )
+        );
+        $this->assertSetPropertyFails(
+            $opts,
+            'stackTraceMaxDepth',
             array( null, true, -23, 'foobar', array(), new stdClass() )
         );
     }

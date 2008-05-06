@@ -52,7 +52,7 @@ class ezcDebugPhpStacktraceIterator extends ezcDebugStacktraceIterator
         unset( $stackElement['object'] );
 
         // Unify args -> params
-        $stackElement['params'] = self::convertArgsToParams( $stackElement['args'] );
+        $stackElement['params'] = $this->convertArgsToParams( $stackElement['args'] );
         unset( $stackElement['args'] );
         
         return $stackElement;
@@ -72,7 +72,12 @@ class ezcDebugPhpStacktraceIterator extends ezcDebugStacktraceIterator
         $params = array();
         foreach ( $args as $arg )
         {
-            $params[] = ezcDebugVariableDumpTool::dumpVariable( $arg );
+            $params[] = ezcDebugVariableDumpTool::dumpVariable(
+                $arg,
+                $this->options->stackTraceMaxData,
+                $this->options->stackTraceMaxChildren,
+                $this->options->stackTraceMaxDepth
+            );
         }
         return $params;
     }

@@ -15,7 +15,7 @@
     I know where to set them? It's because the properties of the class are not
     documented, but the class doc block itself should mention it additionally
     as well.
-[ ] The variable output in stack traces should be configurable, like Xdebug.
+[x] The variable output in stack traces should be configurable, like Xdebug.
     There is way too much output by default now making them quite useless.
 [ ] The tutorial doesn't mention the new functionality yet.
 [ ] There is a pretty low code coverage - only 77%.

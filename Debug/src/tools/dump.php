@@ -22,21 +22,6 @@
 class ezcDebugVariableDumpTool
 {
     /**
-     * Maximum ammount of content to dump for a variable.
-     */
-    const MAX_DATA = 512;
-
-    /**
-     * Maximum number of children to dump for array and object structures. 
-     */
-    const MAX_CHILDREN = 128;
-
-    /**
-     * Maximum recursive depth to iterate for array and object structures. 
-     */
-    const MAX_DEPTH = 3;
-
-    /**
      * Returns the string representation of an variable.
      *
      * Returns the dump of the given variable, respecting the $maxData and
@@ -47,7 +32,7 @@ class ezcDebugVariableDumpTool
      * @param int $maxChildren 
      * @return string
      */
-    public static function dumpVariable( $arg, $maxData = self::MAX_DATA, $maxChildren = self::MAX_CHILDREN, $maxDepth = self::MAX_DEPTH )
+    public static function dumpVariable( $arg, $maxData, $maxChildren, $maxDepth )
     {
         switch ( gettype( $arg ) )
         {
@@ -90,18 +75,32 @@ class ezcDebugVariableDumpTool
     {
         $arrayContent = '';
 
-        if ( $maxDepth != 0 )
+        if ( $maxDepth !== 0 )
         {
-            $max = min( count( $arg ), $maxChildren );
+            $max = (
+                $maxChildren === false 
+                ? count( $arg ) 
+                : min( count( $arg ), $maxChildren )
+            );
         
             $results = array();
             reset( $arg );
             for ( $i = 0; $i < $max; ++$i )
             {
                 $results[] =
-                    self::dumpVariable( key( $arg ), $maxData, $maxChildren, $maxDepth - 1 )
+                    self::dumpVariable(
+                        key( $arg ),
+                        $maxData,
+                        $maxChildren, 
+                        ( $maxDepth === false ? $maxDepth : $maxDepth - 1 )
+                    )
                     . ' => '
-                    . self::dumpVariable( current( $arg ), $maxData, $maxChildren, $maxDepth - 1 );
+                    . self::dumpVariable(
+                        current( $arg ),
+                        $maxData,
+                        $maxChildren,
+                        ( $maxDepth === false ? $maxDepth : $maxDepth - 1 )
+                    );
                 next( $arg );
             }
 
@@ -137,15 +136,16 @@ class ezcDebugVariableDumpTool
     private static function dumpObject( $arg, $maxData, $maxChildren, $maxDepth )
     {
         $refObj   = new ReflectionObject( $arg );
-
+        
         $objectContent = '';
-        if ( $maxDepth != 0 )
+        if ( $maxDepth !== 0 )
         {
             $refProps = $refObj->getProperties();
 
-            $max = min(
-                count( $refProps ),
-                $maxChildren
+            $max = (
+                $maxChildren === false 
+                ? min( count( $refProps ), $maxChildren )
+                : count( $refProps )
             );
             $results = array();
 
@@ -157,7 +157,13 @@ class ezcDebugVariableDumpTool
                     '%s $%s = %s',
                     self::getPropertyVisibility( $refProp ),
                     $refProp->getName(),
-                    self::getPropertyValue( $refProp, $arg, $maxDepth - 1 )
+                    self::getPropertyValue(
+                        $refProp,
+                        $arg,
+                        $maxData,
+                        $maxChildren,
+                        ( $maxDepth === false ? $maxDepth : $maxDepth - 1 )
+                    )
                 );
                 next( $refProps );
             }
@@ -207,7 +213,7 @@ class ezcDebugVariableDumpTool
      */
     private static function cutString( $value, $length )
     {
-        if ( strlen( $value ) > ( $length - 3 ) )
+        if ( $length !== false && ( strlen( $value ) > ( $length - 3 ) ) )
         {
             return substr( $value, 0, ( $length - 3 ) ) . '...';
         }
@@ -248,7 +254,7 @@ class ezcDebugVariableDumpTool
      * @param object $obj 
      * @return string
      */
-    private static function getPropertyValue( ReflectionProperty $refProp, $obj )
+    private static function getPropertyValue( ReflectionProperty $refProp, $obj, $maxData, $maxChildren, $maxDepth )
     {
         $value = null;
         // @TODO: If we switch to PHP version 5.3, where Reflection can access
@@ -265,9 +271,8 @@ class ezcDebugVariableDumpTool
         {
             $value = $refProp->getValue( $obj );
         }
-        return self::dumpVariable( $value );
+        return self::dumpVariable( $value, $maxData, $maxChildren, $maxDepth );
     }
-
 }
 
 ?>
