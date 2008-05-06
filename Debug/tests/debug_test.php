@@ -83,6 +83,13 @@ class ezcDebugTest extends ezcTestCase
             'options',
             array( null, true, 23, 23.42, 'foobar', array(), new stdClass )
         );
+
+        try
+        {
+            $this->dbg->foo = 23;
+            $this->fail( 'ezcBasePropertyNotFoundException not throwen on set access to non-existent property.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e ) {}
     }
 
     public function testIssetAccessSuccess()
@@ -141,6 +148,19 @@ class ezcDebugTest extends ezcTestCase
         $this->assertEquals("a",  $struct[1][0]->name );
         $this->assertEquals("c",  $struct[1][0]->group );
     }
+    
+    public function testTimersSwitch()
+    {
+        $dbg = $this->dbg;
+        $dbg->startTimer("a", "c");
+        $dbg->switchTimer( "b", "a" );
+        $dbg->stopTimer("b");
+
+        $struct = $dbg->generateOutput();
+        $this->assertEquals(1, count( $struct[1] ) );
+        $this->assertEquals("a",  $struct[1][0]->name );
+        $this->assertEquals("c",  $struct[1][0]->group );
+    }
 
     public function testDefaultTimers()
     {
@@ -150,11 +170,9 @@ class ezcDebugTest extends ezcTestCase
 
         $struct = $dbg->generateOutput();
 
-/*
         $this->assertEquals(1, count( $struct[1] ) );
         $this->assertEquals("a",  $struct[1][0]->name );
-        $this->assertEquals("c",  $struct[1][0]->group );
-        */
+        $this->assertEquals("",  $struct[1][0]->group );
     }
 
     public function testDefaultSourceAndCategory()
@@ -168,7 +186,6 @@ class ezcDebugTest extends ezcTestCase
 
         // Changing the default source from the log.
         $dbg->getEventLog()->source = "bla"; 
-        // ezcLog::getInstance()->source ="bla";
 
         $dbg->log("bla", 1);
         $struct = $dbg->generateOutput();
@@ -191,31 +208,73 @@ class ezcDebugTest extends ezcTestCase
         $struct = $dbg->generateOutput();
         $this->assertEquals(2, count( $struct[0] ) );
     }
- 
-  /*  
-    public function testTriggerError()
+
+    public function testLogStackTrace()
     {
         $dbg = $this->dbg;
-        trigger_error("[Aap, Noot] 2: Bernard, looking at all the quarters that fell out of the vending machine he broke with the crowbar.");
+        $dbg->log( "bla", 1, array(), true );
+        
+        ezcLog::getInstance()->setMapper( new MyFakeMapper() );
 
         $struct = $dbg->generateOutput();
 
-        var_dump ($struct);
+        $this->assertType(
+            'ezcDebugStacktraceIterator',
+            $struct[0][0]->stackTrace
+        );
     }
-    */
-/*    
-    public function testTriggerError()
+
+    public function testDebugErrorHandler()
     {
-        $debug = ezcDebug::getInstance();
-        $debug->setOutputFormatter( new ezcDebugHtmlFormatter() );
-        $debug->log("The system is going to reboot NOW.", 3 );
+        $beforeTime = time();
 
-        $out = $debug->generateOutput();
-        echo ($out);
+        set_error_handler( array( 'ezcDebug', 'debugHandler' ) );
+        trigger_error( '[Paynet, templates] Cannot load template', E_USER_WARNING );
+        restore_error_handler();
+
+        $afterTime = time();
+
+        $struct = $this->dbg->generateOutput();
+        
+        // Local spefics
+        $this->assertGreaterThanOrEqual(
+            $beforeTime,
+            $struct[0][0]->datetime
+        );
+        $this->assertLessThanOrEqual(
+            $afterTime,
+            $struct[0][0]->datetime
+        );
+        $this->assertEquals(
+            1,
+            preg_match( '(Debug/tests/debug_test.php)', $struct[0][0]->file )
+        );
+
+        // Unify results
+        $struct[0][0]->datetime = null;
+        $struct[0][0]->file     = null;
+
+        $fakeStruct = array( 
+            array(
+                new ezcDebugStructure(),
+            ),
+            array()
+        );
+        $fakeStruct[0][0]->message   = 'Cannot load template';
+        $fakeStruct[0][0]->severity  = 1;
+        $fakeStruct[0][0]->source    = 'Paynet';
+        $fakeStruct[0][0]->category  = 'templates';
+        $fakeStruct[0][0]->datetime  = null;
+        $fakeStruct[0][0]->verbosity = false;
+        $fakeStruct[0][0]->file      = null;
+        $fakeStruct[0][0]->line      = 232;
+
+        $this->assertEquals(
+            $fakeStruct,
+            $struct
+        );
     }
-    */
  
-
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite("ezcDebugTest");
