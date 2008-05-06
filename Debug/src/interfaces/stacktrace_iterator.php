@@ -39,6 +39,23 @@ abstract class ezcDebugStacktraceIterator implements Iterator, ArrayAccess, Coun
     protected $options;
 
     /**
+     * Creates a new stack trace iterator.
+     *
+     * Calls {@link ezcDebugStacktraceIterator::prepare()} internally to
+     * prepare the stack trace before storing it.
+     * 
+     * @param mixed $stackTrace 
+     * @param int $removeElements
+     * @param ezcDebugOptions $options
+     * @return void
+     */
+    public final function __construct( $stackTrace, $removeElements = 2, ezcDebugOptions $options )
+    {
+        $this->options    = $options;
+        $this->stackTrace = $this->prepare( $stackTrace, $removeElements );
+    }
+
+    /**
      * Unifies a stack element for being returned to the formatter.
      *
      * This method ensures that an element of the stack trace conforms to the
@@ -86,23 +103,6 @@ abstract class ezcDebugStacktraceIterator implements Iterator, ArrayAccess, Coun
             $removeElements,
             ( ( $elementCount = $this->options->stackTraceDepth ) === 0 ? null : $elementCount )
         );
-    }
-
-    /**
-     * Creates a new stack trace iterator.
-     *
-     * Calls {@link ezcDebugStacktraceIterator::prepare()} internally to
-     * prepare the stack trace before storing it.
-     * 
-     * @param mixed $stackTrace 
-     * @param int $removeElements
-     * @param ezcDebugOptions $options
-     * @return void
-     */
-    public final function __construct( $stackTrace, $removeElements = 2, ezcDebugOptions $options )
-    {
-        $this->options    = $options;
-        $this->stackTrace = $this->prepare( $stackTrace, $removeElements );
     }
 
     /**
