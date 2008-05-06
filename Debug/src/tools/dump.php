@@ -226,16 +226,15 @@ class ezcDebugVariableDumpTool
     private static function getPropertyVisibility( ReflectionProperty $refProp )
     {
         $info = '%s %s = %s';
-        switch ( true )
+        if ( $refProp->isPrivate() )
         {
-            case $refProp->isPrivate():
                 return 'private';
-            case $refProp->isProtected():
-                return 'protected';
-            case $refProp->isPublic():
-            default:
-                return 'public';
         }
+        if ( $refProp->isProtected() )
+        {
+                return 'protected';
+        }
+        return 'public';
     }
 
     /**
