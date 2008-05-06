@@ -19,18 +19,18 @@
  *           The number of levels to store for the stack trace. 0 means no
  *           limit and a complete stack trace will always be stored. Not that
  *           this might consume a large amount of memory. Default is 5.
- * @property int $staclTraceMaxData
+ * @property int $stackTraceMaxData
  *           Maximum bytes of data to print per variable in a stacktrace. This
  *           option does only affect {@link ezcDebugPhpStacktraceIterator},
  *           {@link ezcDebugXdebugStacktraceIterator} is configured by the
  *           Xdebug INI settings. Default is 512. Set to false to show all data.
- * @property int $staclTraceMaxChildren
+ * @property int $stackTraceMaxChildren
  *           Maximum number of children to dump on 1 level in array and object
  *           structures. This option does only affect {@link
  *           ezcDebugPhpStacktraceIterator}, {@link
  *           ezcDebugXdebugStacktraceIterator} is configured by the Xdebug INI
  *           settings. Default is 128. Set to false to show all children.
- * @property int $staclTraceMaxDepth
+ * @property int $stackTraceMaxDepth
  *           Maximum depth to recurse into array and object structures in a
  *           stack trace. This option does only affect {@link
  *           ezcDebugPhpStacktraceIterator}, {@link
