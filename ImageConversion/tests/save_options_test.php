@@ -8,12 +8,12 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-class ezcImageSaveOptionsTest extends ezcTestCase
+class ezcImageConversionSaveOptionsTest extends ezcTestCase
 {
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcImageSaveOptionsTest" );
+		return new PHPUnit_Framework_TestSuite( __CLASS__ );
 	}
 
     public function testGetAccessSuccess()
@@ -71,18 +71,19 @@ class ezcImageSaveOptionsTest extends ezcTestCase
         $this->assertSetPropertyFails(
             $opt,
             'compression',
-            array( true, false, 23.42, 'foo', array(), new stdClass(), -1, 10 )
+            array( true, false, 23.42, 'foo', array(), new stdClass(), -1, 10, -23 )
         );
         $this->assertSetPropertyFails(
             $opt,
             'quality',
-            array( true, false, 23.42, 'foo', array(), new stdClass(), -1, 101 )
+            array( true, false, 23.42, 'foo', array(), new stdClass(), -1, 101, -23 )
         );
         $this->assertSetPropertyFails(
             $opt,
             'transparencyReplacementColor',
             array(
                 true, false, 23.42, 'foo', array(), new stdClass(), -1, 101,
+                array( 42, 23 ), array( 'foo' => 42, 'bar' => 23 ),
                 array( 1 => 0, 2 => 0, 3 => 0 ), array( 'foo' => 'bar' )
             )
         );
