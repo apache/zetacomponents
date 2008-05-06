@@ -9,33 +9,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-/**
- * Require test suite for ezcImageConverter class.
- */
 require_once 'converter_test.php';
-
-/**
- * Require test suite for ezcImageTransformation class.
- */
 require_once 'transformation_test.php';
-
-/**
- * Require test suite for ImageHandlerGd class.
- */
 require_once 'handlergd_test.php';
-/**
- * Require test suite for ImageFiltersGd class.
- */
 require_once 'filtersgd_test.php';
-
-/**
- * Require test suite for ImageHandlerShell class.
- */
 require_once 'handlershell_test.php';
-/**
- * Require test suite for ImageFiltersShell class.
- */
 require_once 'filtersshell_test.php';
+require_once 'save_options_test.php';
 
 class ezcImageConversionSuite extends PHPUnit_Framework_TestSuite
 {
@@ -52,6 +32,8 @@ class ezcImageConversionSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcImageConversionHandlerShellTest::suite() );
         $this->addTest( ezcImageConversionFiltersShellTest::suite() );
+
+        $this->addTest( ezcImageConversionSaveOptionsTest::suite() );
     }
 
     public static function suite()
