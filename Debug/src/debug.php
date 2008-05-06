@@ -64,6 +64,10 @@
  * $debug->stopTimer();
  * </code>
  *
+ * @property ezcDebugOptions
+ *           Options to configure the behaviour of ezcDebug, including stack
+ *           trace behaviours.
+ *
  * @package Debug
  * @version //autogentag//
  * @mainclass
@@ -327,6 +331,16 @@ class ezcDebug
         $this->log->log( $message, ezcLog::DEBUG, $extraInfo );
     }
 
+    /**
+     * Returns a stack trace iterator for the current call.
+     *
+     * Returns a
+     * - {@link ezcDebugXdebugStacktraceIterator} if Xdebug is available
+     * - {@link ezcDebugPhpStacktraceIterator} otherwise
+     * representing a stack trace of the current function environment.
+     * 
+     * @return ezcDebugStacktraceIterator
+     */
     private function getStackTrace()
     {
         if ( extension_loaded( 'xdebug' ) )
