@@ -228,11 +228,11 @@ class ezcDebugVariableDumpTool
         $info = '%s %s = %s';
         if ( $refProp->isPrivate() )
         {
-                return 'private';
+            return 'private';
         }
         if ( $refProp->isProtected() )
         {
-                return 'protected';
+            return 'protected';
         }
         return 'public';
     }
