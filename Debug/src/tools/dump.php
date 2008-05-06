@@ -251,7 +251,7 @@ class ezcDebugVariableDumpTool
     private static function getPropertyValue( ReflectionProperty $refProp, $obj )
     {
         $value = null;
-        // @TODO: If we switch to a PHP version where Reflection can access
+        // @TODO: If we switch to PHP version 5.3, where Reflection can access
         // protected/private property values, we should change this to the
         // correct way.
         if ( !$refProp->isPublic() )
