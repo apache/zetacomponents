@@ -213,7 +213,9 @@ abstract class ezcDebugStacktraceIterator implements Iterator, ArrayAccess, Coun
      */
     public final function offsetSet( $offset, $value )
     {
-        throw new ezcDebugException( 'Setting values on backtrace iterators is not allowed.' );
+        throw new ezcDebugOperationNotPermittedException(
+            'setting values via ArrayAccess'
+        );
     }
 
     /**
@@ -227,7 +229,9 @@ abstract class ezcDebugStacktraceIterator implements Iterator, ArrayAccess, Coun
      */
     public final function offsetUnset( $offset )
     {
-        throw new ezcDebugException( 'Unsetting values on backtrace iterators is not allowed.' );
+        throw new ezcDebugOperationNotPermittedException(
+            'unsetting values via ArrayAccess'
+        );
     }
 
     /**

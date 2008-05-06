@@ -84,6 +84,32 @@ class ezcDebugXdebugStacktraceIteratorTest extends ezcTestCase
             count( $itr )
         );
     }
+    
+    public function testArrayAccess()
+    {
+        $opts = new ezcDebugOptions();
+        $itr = new ezcDebugXdebugStacktraceIterator(
+            $this->getStackTrace( 'some string', array( true, 23, null ) ),
+            0,
+            $opts
+        );
+
+        $this->assertTrue(
+            isset( $itr[0] )
+        );
+
+        $this->assertTrue(
+            is_array( $itr[0] )
+        );
+
+        try
+        {
+            $itr[0] = true;
+            $this->fail( 'Exception not throwen on not permitted array access.' );
+        }
+        catch ( ezcDebugOperationNotPermittedException $e ) {}
+
+    }
 }
 
 ?>

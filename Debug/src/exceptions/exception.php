@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDebugException class.
+ * File containing the ezcDebugException abstract base class.
  *
  * @package Debug
  * @version //autogentag//
@@ -11,13 +11,12 @@
 /**
  * General exception class for the Debug component.
  *
- * This exception is thrown whenever something goes wrong in the Debug
- * component internally.
+ * All exceptions in the Debug component extend this class.
  * 
  * @package Debug
  * @version //autogen//
  */
-class ezcDebugException extends ezcBaseException
+abstract class ezcDebugException extends ezcBaseException
 {
 }
 
