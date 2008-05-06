@@ -44,32 +44,48 @@ class ezcImageSaveOptionsTest extends ezcTestCase
     {
         $opt = new ezcImageSaveOptions();
 
-        $opt->compression                  = 8;
-        $opt->quality                      = 23;
-        $opt->transparencyReplacementColor = array( 23, 42, 13 );
-
-        $this->assertEquals( $opt->compression,                  8 );
-        $this->assertEquals( $opt->quality,                      23 );
-        $this->assertEquals( $opt->transparencyReplacementColor, array( 23, 42, 13 ) );
+        $this->assertSetProperty(
+            $opt,
+            'compression',
+            range( 0, 9, 1 )
+        );
+        $this->assertSetProperty(
+            $opt,
+            'quality',
+            range( 0, 100, 10 )
+        );
+        $this->assertSetProperty(
+            $opt,
+            'transparencyReplacementColor',
+            array(
+                array( 23, 42, 13 ),
+                array( 0, 0, 0 ),
+            )
+        );
     }
 
     public function testSetAccessFailure()
     {
         $opt = new ezcImageSaveOptions();
 
-        $this->genericSetFailureTest( $opt, "compression", -23 );
-        $this->genericSetFailureTest( $opt, "compression",  10 );
-        $this->genericSetFailureTest( $opt, "compression",  "foo" );
-        $this->genericSetFailureTest( $opt, "quality", -23 );
-        $this->genericSetFailureTest( $opt, "quality", 101 );
-        $this->genericSetFailureTest( $opt, "quality", "foo" );
-        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", -23 );
-        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", 101 );
-        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", "foo" );
-        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", new stdClass() );
-        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", array() );
-        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", array( 42, 23 ) );
-        $this->genericSetFailureTest( $opt, "transparencyReplacementColor", array( 'foo' => 42,  'bar' => 23 ) );
+        $this->assertSetPropertyFails(
+            $opt,
+            'compression',
+            array( true, false, 23.42, 'foo', array(), new stdClass(), -1, 10 )
+        );
+        $this->assertSetPropertyFails(
+            $opt,
+            'quality',
+            array( true, false, 23.42, 'foo', array(), new stdClass(), -1, 101 )
+        );
+        $this->assertSetPropertyFails(
+            $opt,
+            'transparencyReplacementColor',
+            array(
+                true, false, 23.42, 'foo', array(), new stdClass(), -1, 101,
+                array( 1 => 0, 2 => 0, 3 => 0 ), array( 'foo' => 'bar' )
+            )
+        );
 
         try
         {
@@ -80,19 +96,6 @@ class ezcImageSaveOptionsTest extends ezcTestCase
             return;
         }
         $this->fail( "ezcBasePropertyNotFoundException not thrown on set access to invalid property foo." );
-    }
-
-    public function genericSetFailureTest( $obj, $propertyName, $value )
-    {
-        try
-        {
-            $obj->$propertyName = $value;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-        $this->fail( "ezcBaseValueException not thrown on invalid value '$value' for " . get_class( $obj ) . "->$propertyName." );
     }
 }
 
