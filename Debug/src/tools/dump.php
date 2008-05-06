@@ -21,10 +21,19 @@
  */
 class ezcDebugVariableDumpTool
 {
+    /**
+     * Maximum ammount of content to dump for a variable.
+     */
     const MAX_DATA = 512;
 
+    /**
+     * Maximum number of children to dump for array and object structures. 
+     */
     const MAX_CHILDREN = 128;
 
+    /**
+     * Maximum recursive depth to iterate for array and object structures. 
+     */
     const MAX_DEPTH = 3;
 
     /**
