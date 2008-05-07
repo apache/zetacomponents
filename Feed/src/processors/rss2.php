@@ -717,15 +717,18 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            foreach ( ezcFeedTools::getAttributes( $channelChild ) as $key => $value )
+            if ( $channelChild->hasAttributes() )
             {
-                if ( in_array( $tagName, array( 'category', 'cloud' ) ) )
+                foreach ( $channelChild->attributes as $attribute )
                 {
-                    $element->$key = $value;
-                }
-                else
-                {
-                    $feed->$tagName->$key = $value;
+                    if ( in_array( $tagName, array( 'category', 'cloud' ) ) )
+                    {
+                        $element->{$attribute->name} = $attribute->value;
+                    }
+                    else
+                    {
+                        $feed->$tagName->{$attribute->name} = $attribute->value;
+                    }
                 }
             }
         }
@@ -784,23 +787,26 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         continue 2;
                 }
 
-                foreach ( ezcFeedTools::getAttributes( $itemChild ) as $key => $value )
+                if ( $itemChild->hasAttributes() )
                 {
-                    if ( in_array( $tagName, array( 'category', 'enclosure' ) ) )
+                    foreach ( $itemChild->attributes as $attribute )
                     {
-                        $subElement->$key = $value;
-                    }
-                    else if ( in_array( $tagName, array( 'id' ) ) )
-                    {
-                        if ( $key === 'isPermaLink'
-                             && $value !== null )
+                        if ( in_array( $tagName, array( 'category', 'enclosure' ) ) )
                         {
-                            $subElement->isPermaLink = ( $value === "true" ) ? true : false;
+                            $subElement->{$attribute->name} = $attribute->value;
                         }
-                    }
-                    else
-                    {
-                        $element->$tagName->$key = $value;
+                        else if ( in_array( $tagName, array( 'id' ) ) )
+                        {
+                            if ( $attribute->name === 'isPermaLink'
+                                 && $attribute->value !== null )
+                            {
+                                $subElement->isPermaLink = ( $attribute->value === "true" ) ? true : false;
+                            }
+                        }
+                        else
+                        {
+                            $element->$tagName->{$attribute->name} = $attribute->value;
+                        }
                     }
                 }
             }

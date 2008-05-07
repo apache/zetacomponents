@@ -273,13 +273,16 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
                     $element->set( $value );
             }
 
-            foreach ( ezcFeedTools::getAttributes( $node ) as $attr => $value )
+            if ( $node->hasAttributes() )
             {
-                switch ( $attr )
+                foreach ( $node->attributes as $attribute )
                 {
-                    case 'lang':
-                        $element->language = $value;
-                        break;
+                    switch ( $attribute->name )
+                    {
+                        case 'lang':
+                            $element->language = $attribute->value;
+                            break;
+                    }
                 }
             }
         }

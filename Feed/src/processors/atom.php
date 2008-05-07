@@ -1076,7 +1076,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     case 'title':
                     case 'copyright':
                     case 'description':
-                        $type = ezcFeedTools::getAttribute( $channelChild, 'type' );
+                        $type = $channelChild->getAttribute( 'type' );
 
                         switch ( $type )
                         {
@@ -1139,19 +1139,22 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            foreach ( ezcFeedTools::getAttributes( $channelChild ) as $key => $value )
+            if ( $channelChild->hasAttributes() )
             {
-                if ( in_array( $tagName, array( 'category', 'link' ) ) )
+                foreach ( $channelChild->attributes as $attribute )
                 {
-                    $element->$key = $value;
-                }
-                else if ( $key === 'lang' )
-                {
-                    $feed->$tagName->language = $value;
-                }
-                else
-                {
-                    $feed->$tagName->$key = $value;
+                    if ( in_array( $tagName, array( 'category', 'link' ) ) )
+                    {
+                        $element->{$attribute->name} = $attribute->value;
+                    }
+                    else if ( $attribute->name === 'lang' )
+                    {
+                        $feed->$tagName->language = $attribute->value;
+                    }
+                    else
+                    {
+                        $feed->$tagName->{$attribute->name} = $attribute->value;
+                    }
                 }
             }
         }
@@ -1186,7 +1189,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     case 'title':
                     case 'description':
                     case 'copyright':
-                        $type = ezcFeedTools::getAttribute( $itemChild, 'type' );
+                        $type = $itemChild->getAttribute( 'type' );
 
                         switch ( $type )
                         {
@@ -1215,8 +1218,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                 break;
                         }
 
-                        $language = ezcFeedTools::getAttribute( $itemChild, 'lang' );
-                        if ( $language !== null )
+                        $language = $itemChild->getAttribute( 'xml:lang' );
+                        if ( !empty( $language ) )
                         {
                             $element->$tagName->language = $language;
                         }
@@ -1245,8 +1248,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'content':
-                        $type = ezcFeedTools::getAttribute( $itemChild, 'type' );
-                        $src = ezcFeedTools::getAttribute( $itemChild, 'src' );
+                        $type = $itemChild->getAttribute( 'type' );
+                        $src = $itemChild->getAttribute( 'src' );
 
                         switch ( $type )
                         {
@@ -1312,13 +1315,13 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                 break;
                         }
 
-                        if ( $src !== null )
+                        if ( !empty( $src ) )
                         {
                             $element->$tagName->src = $src;
                         }
 
-                        $language = ezcFeedTools::getAttribute( $itemChild, 'lang' );
-                        if ( $language !== null )
+                        $language = $itemChild->getAttribute( 'xml:lang' );
+                        if ( !empty( $language ) )
                         {
                             $element->$tagName->language = $language;
                         }
@@ -1328,9 +1331,12 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     case 'link':
                     case 'category':
                         $subElement = $element->add( $tagName );
-                        foreach ( ezcFeedTools::getAttributes( $itemChild ) as $key => $value )
+                        if ( $itemChild->hasAttributes() )
                         {
-                            $subElement->$key = $value;
+                            foreach ( $itemChild->attributes as $attribute )
+                            {
+                                $subElement->{$attribute->name} = $attribute->value;
+                            }
                         }
                         break;
 
@@ -1400,7 +1406,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     case 'title':
                     case 'copyright':
                     case 'description':
-                        $type = ezcFeedTools::getAttribute( $sourceChild, 'type' );
+                        $type = $sourceChild->getAttribute( 'type' );
 
                         switch ( $type )
                         {
@@ -1454,19 +1460,22 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            foreach ( ezcFeedTools::getAttributes( $sourceChild ) as $key => $value )
+            if ( $sourceChild->hasAttributes() )
             {
-                if ( in_array( $tagName, array( 'category', 'link' ) ) )
+                foreach ( $sourceChild->attributes as $attribute )
                 {
-                    $subElement->$key = $value;
-                }
-                else if ( $key === 'lang' )
-                {
-                    $element->$tagName->language = $value;
-                }
-                else
-                {
-                    $element->$tagName->$key = $value;
+                    if ( in_array( $tagName, array( 'category', 'link' ) ) )
+                    {
+                        $subElement->{$attribute->name} = $attribute->value;
+                    }
+                    else if ( $attribute->name === 'lang' )
+                    {
+                        $element->$tagName->language = $attribute->value;
+                    }
+                    else
+                    {
+                        $element->$tagName->{$attribute->name} = $attribute->value;
+                    }
                 }
             }
         }

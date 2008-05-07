@@ -3,26 +3,63 @@ ezcFeed
 
 - Why is there a module "name" and a "prefix"? Doesn't one of them last? Would
   make it unembigious.
+
+# Some modules have the same name as RSS/ATOM elements (eg. 'content' module and
+  ATOM 'content' property. If we want to access properties and modules the same,
+  it will be ambiguous ($feed->content refering to ATOM property or content
+  module). So the content module has the 'Content' name and 'content' prefix to
+  differentiate this.
+
 - ezcFeed::addModule() -> todo.
 - How to add a custom module to ezcFeed?
      * A new module can be defined by creating a class which extends the class
      * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}
      * and {@link self::$supportedModulesPrefixes} arrays.
   Is it necessary to extend ezcFeed to do this?
+
+# I did not find a better way to do this (I don't know how to see at runtime which
+  modules are defined without hard-coding it in ezcFeed).
+
 - Why does ezcFeed have double single/multiple value properties (
   $author[s],...).
+
+
+
 - ezcFeed::__get() makes use of isset( $this->$property ), this also returns
   true for real protected/private properties. It should call $this->__isset()
   directly. This is also more efficient.
+
+
+
 - ezcFeed::__get() should also better throw an ezcBasePropertyNotFoundException.
+
+# In this case, when parsing a feed you will get an exception if trying to fetch
+  $feed->title and the title is missing from the XML document.
+
 - ezcFeed::__isset() behaviour incorrect. We return true if a property exists,
   but is null.
+
+
+
 - Why does ezcFeed declare protected attributes and mark them as @ignore? No
   class seems to extend ezcFeed. Declaring this private makes more sense.
+
+# Maybe somebody will want to extend ezcFeed so it would be easier with
+  protected instead of private attributes (see also issue tracker for requests
+  to change private attributes into protected ones).
+
 - Why ezcFeed::getModules()/hasModule()/getSupportedTypes() instead of
   property access?
+
+# The properties of ezcFeed are the same as the elements in a feed document. How
+  would modules fit into those elements? I see nothing wrong with having the
+  functions getModules(), hasModule() and getSupportedTypes().
+
 - Huge docblock at the beginning of the file is annoying. We should think
   about a way to include docs there.
+
+# I prefer to write longer docblocks to help a bit the people who want to jump
+  in without reading the tutorial first or asking on IRC.
 
 ezcFeedProcessor
 ================
@@ -36,14 +73,31 @@ ezcFeedTools
 - Should be private. No sense in making such utility classes public if they
   are not of special interesst for foreigners.
 
+# prepareDate() could be useful for some people. But the other functions are
+  not so important. I will consider making it private. I wanted to add some
+  other functions to this class, related to date formatting for different
+  feed types.
+
 - ezcFeedTools::getAttributes() is a duplication of
   DOMElement::getAttribute().
+
+# I must have missed that. I will deprecate the function.
+
 - ezcFeedTools::getAttributes() looks pretty much unnesseccary.
   DOMNode->$attributes can be used instead for iteration,
   DOMElement->getAttribute() for access by name.
+
+# I must have missed that. I will deprecate the function.
+
 - ezcFeedTools::prepareDate() should not accept DateTime objects. If it
   receives them, this indicates bad code.
+
+# What if you assign a DateTime object to $feed->published for example? Should
+  the code throw an exception because the date was not a string or timestamp?
+
 - ezcFeedTools::normalizeName() should use isset(). Works here and is faster.
+
+# I will update this.
 
 General
 =======
@@ -51,3 +105,5 @@ General
 - A lot of multi-line short descriptions for methods, which do not parse
   properly. The very first line of the doc bloc is the short description, all
   following belong to the long description.
+
+# It seems that phpdoc handles this well now.

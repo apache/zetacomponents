@@ -21,9 +21,12 @@ class ezcFeedTools
      * Returns the value of attribute $name of the XML node $node, or null
      * if the attribute is not found.
      *
+     * @apichange Deprecated (duplicates DOMElement->getAttribute()) - will be removed
+     *
      * @param DOMNode $node The XML node
      * @param string $name The name of the attribute to return its value
      * @return mixed
+     * @ignore
      */
     public static function getAttribute( DOMNode $node, $name )
     {
@@ -45,8 +48,11 @@ class ezcFeedTools
      * Returns an array containing the names and values of the attributes of
      * the XML node $node.
      *
+     * @apichange Deprecated (duplicates DOMElement->attributes) - will be removed
+     *
      * @param DOMNode $node The XML node
      * @return array(string=>mixed)
+     * @ignore
      */
     public static function getAttributes( DOMNode $node )
     {
@@ -80,7 +86,7 @@ class ezcFeedTools
 
         foreach ( $nodes as $node )
         {
-            $nodeAttribute = ezcFeedTools::getAttribute( $node, $attribute );
+            $nodeAttribute = $node->getAttribute( $attribute );
             if ( $nodeAttribute !== null
                  && $nodeAttribute === $value )
             {
@@ -136,7 +142,7 @@ class ezcFeedTools
      */
     public static function normalizeName( $name, array $mappingArray )
     {
-        if ( array_key_exists( $name, $mappingArray ) )
+        if ( isset( $mappingArray[$name] ) )
         {
             return $mappingArray[$name];
         }

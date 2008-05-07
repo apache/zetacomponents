@@ -256,9 +256,12 @@ class ezcFeedITunesModule extends ezcFeedModule
                         {
                             $subCategory = $element->add( $name );
 
-                            foreach ( ezcFeedTools::getAttributes( $subNode ) as $attr => $value )
+                            if ( $subNode->hasAttributes() )
                             {
-                                $subCategory->$attr = $value;
+                                foreach ( $subNode->attributes as $attribute )
+                                {
+                                    $subCategory->{$attribute->name} = $attribute->value;
+                                }
                             }
                         }
                     }
@@ -291,9 +294,12 @@ class ezcFeedITunesModule extends ezcFeedModule
                     $element->set( $value );
             }
 
-            foreach ( ezcFeedTools::getAttributes( $node ) as $attr => $value )
+            if ( $node->hasAttributes() )
             {
-                $element->$attr = $value;
+                foreach ( $node->attributes as $attribute )
+                {
+                    $element->{$attribute->name} = $attribute->value;
+                }
             }
         }
     }

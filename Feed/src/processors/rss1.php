@@ -432,10 +432,13 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             throw new ezcFeedParseErrorException( "No channel tag" );
         }
 
-        foreach ( ezcFeedTools::getAttributes( $channel ) as $key => $value )
+        if ( $channel->hasAttributes() )
         {
-            $tagName = ezcFeedTools::deNormalizeName( $key, $this->schema->getElementsMap() );
-            $feed->$tagName = $value;
+            foreach ( $channel->attributes as $attribute )
+            {
+                $tagName = ezcFeedTools::deNormalizeName( $attribute->name, $this->schema->getElementsMap() );
+                $feed->$tagName = $attribute->value;
+            }
         }
 
         foreach ( $channel->childNodes as $channelChild )
@@ -464,25 +467,25 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
                         foreach ( $lis as $el )
                         {
-                            $resource = ezcFeedTools::getAttribute( $el, 'resource' );
+                            $resource = $el->getAttribute( 'resource' );
 
-                            $item = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'item', 'about', $resource );
+                            $item = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'item', 'rdf:about', $resource );
                             $element = $feed->add( 'item' );
                             $this->parseItem( $feed, $element, $item );
                         }
                         break;
 
                     case 'image':
-                        $resource = ezcFeedTools::getAttribute( $channelChild, 'resource' );
+                        $resource = $channelChild->getAttribute( 'rdf:resource' );
 
-                        $image = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'image', 'about', $resource );
+                        $image = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'image', 'rdf:about', $resource );
                         $this->parseImage( $feed, $image );
                         break;
 
                     case 'textInput':
-                        $resource = ezcFeedTools::getAttribute( $channelChild, 'resource' );
+                        $resource = $channelChild->getAttribute( 'rdf:resource' );
 
-                        $textInput = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'textinput', 'about', $resource );
+                        $textInput = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'textinput', 'rdf:about', $resource );
                         $this->parseTextInput( $feed, $textInput );
                         break;
 
@@ -495,9 +498,12 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            foreach ( ezcFeedTools::getAttributes( $channelChild ) as $key => $value )
+            if ( $channelChild->hasAttributes() )
             {
-                $feed->$tagName->$key = $value;
+                foreach ( $channelChild->attributes as $attribute )
+                {
+                    $feed->$tagName->{$attribute->name} = $attribute->value;
+                }
             }
         }
 
@@ -515,10 +521,13 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
-        foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
+        if ( $xml->hasAttributes() )
         {
-            $tagName = ezcFeedTools::deNormalizeName( $key, $this->schema->getItemsMap() );
-            $element->$tagName = $value;
+            foreach ( $xml->attributes as $attribute )
+            {
+                $tagName = ezcFeedTools::deNormalizeName( $attribute->name, $this->schema->getItemsMap() );
+                $element->$tagName = $attribute->value;
+            }
         }
 
         foreach ( $xml->childNodes as $itemChild )
@@ -576,9 +585,12 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
+            if ( $xml->hasAttributes() )
             {
-                $image->$key = $value;
+                foreach ( $xml->attributes as $attribute )
+                {
+                    $image->{$attribute->name} = $attribute->value;
+                }
             }
         }
     }
@@ -613,9 +625,12 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            foreach ( ezcFeedTools::getAttributes( $xml ) as $key => $value )
+            if ( $xml->hasAttributes() )
             {
-                $textInput->$key = $value;
+                foreach ( $xml->attributes as $attribute )
+                {
+                    $textInput->{$attribute->name} = $attribute->value;
+                }
             }
         }
     }
