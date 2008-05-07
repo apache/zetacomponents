@@ -85,7 +85,7 @@ class ezcDebugStructure
     public function toString()
     {
         $str = "";
-        foreach ( $properties as $key => $value )
+        foreach ( $this->properties as $key => $value )
         {
             $str .= "$key => $value\n";
         }

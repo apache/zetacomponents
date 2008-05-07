@@ -245,14 +245,9 @@ class ezcDebugTest extends ezcTestCase
             $afterTime,
             $struct[0][0]->datetime
         );
-        $this->assertEquals(
-            1,
-            preg_match( '(Debug/tests/debug_test.php)', $struct[0][0]->file )
-        );
 
         // Unify results
         $struct[0][0]->datetime = null;
-        $struct[0][0]->file     = null;
 
         $fakeStruct = array( 
             array(
@@ -266,12 +261,42 @@ class ezcDebugTest extends ezcTestCase
         $fakeStruct[0][0]->category  = 'templates';
         $fakeStruct[0][0]->datetime  = null;
         $fakeStruct[0][0]->verbosity = false;
-        $fakeStruct[0][0]->file      = null;
+        $fakeStruct[0][0]->file      = __FILE__;
         $fakeStruct[0][0]->line      = 232;
 
         $this->assertEquals(
             $fakeStruct,
             $struct
+        );
+    }
+
+    public function testDebugStructureToString()
+    {
+        $struct            = new ezcDebugStructure();
+        $struct->message   = 'Cannot load template';
+        $struct->severity  = 1;
+        $struct->source    = 'Paynet';
+        $struct->category  = 'templates';
+        $struct->datetime  = time();
+        $struct->verbosity = false;
+        $struct->file      = __FILE__;
+        $struct->line      = 232;
+
+        $fakeRes = <<<EOT
+message => {$struct->message}
+severity => {$struct->severity}
+source => {$struct->source}
+category => {$struct->category}
+datetime => {$struct->datetime}
+verbosity => {$struct->verbosity}
+file => {$struct->file}
+line => {$struct->line}
+
+EOT;
+
+        $this->assertEquals(
+            $fakeRes,
+            $struct->toString()
         );
     }
  
