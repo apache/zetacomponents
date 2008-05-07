@@ -41,9 +41,17 @@ class ezcDebugXdebugStacktraceIteratorTest extends ezcTestCase
         }
     }
 
-    public function testIterateTrace()
+    public function testIterateTraceCollectParams0()
     {
+        // Backup old setting and set test setting
+        $oldCollectParams = ini_get( 'xdebug.collect_params' );
+        ini_set( 'xdebug.collect_params', 0 );
+
         $stackTrace = $this->getStackTrace( 'some string', array( true, 23, null ) );
+
+        // Restore old setting
+        ini_set( 'xdebug.collect_params', $oldCollectParams );
+
         array_splice( $stackTrace, 0, -3 );
 
         $opts = new ezcDebugOptions();
@@ -53,7 +61,82 @@ class ezcDebugXdebugStacktraceIteratorTest extends ezcTestCase
             $opts
         );
 
-        $res = require 'data/xdebug_stacktrace_iterator_test__testSimpleTrace.php';
+        $res = require 'data/xdebug_stacktrace_iterator_test__' . __FUNCTION__ . '.php';
+        foreach ( $itr as $key => $value )
+        {
+            // Remove 'file' keys to not store system dependant pathes.
+            $this->assertTrue(
+                isset( $value['file'] )
+            );
+            unset( $value['file'] );
+
+            $this->assertEquals(
+                $res[$key],
+                $value,
+                "Incorrect stack element $key."
+            );
+        }
+    }
+
+    public function testIterateTraceCollectParams123()
+    {
+        // Backup old setting and set test setting
+        $oldCollectParams = ini_get( 'xdebug.collect_params' );
+        // 1, 2 and 3 should be the same. Info by DR.
+        ini_set( 'xdebug.collect_params', 1 );
+
+        $stackTrace = $this->getStackTrace( 'some string', array( true, 23, null ) );
+
+        // Restore old setting
+        ini_set( 'xdebug.collect_params', $oldCollectParams );
+
+        array_splice( $stackTrace, 0, -3 );
+
+        $opts = new ezcDebugOptions();
+        $itr = new ezcDebugXdebugStacktraceIterator(
+            $stackTrace,
+            0,
+            $opts
+        );
+
+        $res = require 'data/xdebug_stacktrace_iterator_test__' . __FUNCTION__ . '.php';
+        foreach ( $itr as $key => $value )
+        {
+            // Remove 'file' keys to not store system dependant pathes.
+            $this->assertTrue(
+                isset( $value['file'] )
+            );
+            unset( $value['file'] );
+
+            $this->assertEquals(
+                $res[$key],
+                $value,
+                "Incorrect stack element $key."
+            );
+        }
+    }
+
+    public function testIterateTraceCollectParams4()
+    {
+        // Backup old setting and set test setting
+        $oldCollectParams = ini_get( 'xdebug.collect_params' );
+        ini_set( 'xdebug.collect_params', 4 );
+
+        $stackTrace = $this->getStackTrace( 'some string', array( true, 23, null ) );
+
+        // Restore old setting
+        ini_set( 'xdebug.collect_params', $oldCollectParams );
+
+        array_splice( $stackTrace, 0, -3 );
+
+        $opts = new ezcDebugOptions();
+        $itr = new ezcDebugXdebugStacktraceIterator(
+            $stackTrace,
+            0,
+            $opts
+        );
+
+        $res = require 'data/xdebug_stacktrace_iterator_test__' . __FUNCTION__ . '.php';
         foreach ( $itr as $key => $value )
         {
             // Remove 'file' keys to not store system dependant pathes.

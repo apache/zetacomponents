@@ -16,7 +16,7 @@ return array (
   array (
     'function' => 'getStackTrace',
     'class' => 'ezcDebugXdebugStacktraceIteratorTest',
-    'line' => 46,
+    'line' => 88,
     'params' => 
     array (
       0 => '\'some string\'',
@@ -25,7 +25,7 @@ return array (
   ),
   2 => 
   array (
-    'function' => 'testIterateTrace',
+    'function' => 'testIterateTraceCollectParams123',
     'class' => 'ezcDebugXdebugStacktraceIteratorTest',
     'line' => 0,
     'params' => 
