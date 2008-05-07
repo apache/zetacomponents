@@ -75,25 +75,6 @@ class ezcDebugXdebugStacktraceIterator extends ezcDebugStacktraceIterator
         
         return $stackElement;
     }
-
-    /**
-     * Returns the arguments of a stack element as string dumps.
-     *
-     * Returns an array corresponding to the 'params' key of a unified stack
-     * element, created from the 'args' ($args) element from an unified one.
-     * 
-     * @param array $args 
-     * @return array
-     */
-    private function convertArgsToParams( $args )
-    {
-        $params = array();
-        foreach ( $args as $arg )
-        {
-            $params[] = ezcDebugVariableDumpTool::dumpVariable( $arg );
-        }
-        return $params;
-    }
 }
 
 ?>
