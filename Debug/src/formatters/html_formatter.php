@@ -40,7 +40,8 @@ class ezcDebugHtmlFormatter implements ezcDebugOutputFormatter
      *
      * @param int $verbosity
      * @param string $color
-     * @return void
+     *
+     * @deprecated This method does not have any effect anymore. Use CSS instead.
      */
     public function setVerbosityColor( $verbosity, $color )
     {

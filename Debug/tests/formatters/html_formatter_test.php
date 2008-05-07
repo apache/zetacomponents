@@ -61,6 +61,38 @@ class ezcDebugHtmlFormatterTest extends ezcTestCase
         $this->assertEquals( $expected, $out );
     }
 
+    public function testSetVerbosityColor()
+    {
+        $html = new ezcDebugHtmlFormatter();
+
+        $this->assertAttributeEquals(
+            array(),
+            'verbosityColors',
+            $html
+        );
+
+        $html->setVerbosityColor( 0, 'red' );
+        
+        $this->assertAttributeEquals(
+            array(
+                0 => 'red',
+            ),
+            'verbosityColors',
+            $html
+        );
+
+        $html->setVerbosityColor( 23, 'blue' );
+        
+        $this->assertAttributeEquals(
+            array(
+                0  => 'red',
+                23 => 'blue',
+            ),
+            'verbosityColors',
+            $html
+        );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
