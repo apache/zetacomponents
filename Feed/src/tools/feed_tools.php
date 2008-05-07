@@ -10,64 +10,14 @@
  */
 
 /**
- * Utility class providing useful functions to manipulate XML files.
+ * Utility class providing useful functions to manipulate XML files, date
+ * functions and functions to normalize/denormalize feed element names.
  *
  * @package Feed
  * @version //autogentag//
  */
 class ezcFeedTools
 {
-    /**
-     * Returns the value of attribute $name of the XML node $node, or null
-     * if the attribute is not found.
-     *
-     * @apichange Deprecated (duplicates DOMElement->getAttribute()) - will be removed
-     *
-     * @param DOMNode $node The XML node
-     * @param string $name The name of the attribute to return its value
-     * @return mixed
-     * @ignore
-     */
-    public static function getAttribute( DOMNode $node, $name )
-    {
-        if ( $node->hasAttributes() )
-        {
-            foreach ( $node->attributes as $attribute )
-            {
-                if ( $attribute->name === $name )
-                {
-                    return $attribute->value;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns an array containing the names and values of the attributes of
-     * the XML node $node.
-     *
-     * @apichange Deprecated (duplicates DOMElement->attributes) - will be removed
-     *
-     * @param DOMNode $node The XML node
-     * @return array(string=>mixed)
-     * @ignore
-     */
-    public static function getAttributes( DOMNode $node )
-    {
-        $result = array();
-        if ( $node->hasAttributes() )
-        {
-            foreach ( $node->attributes as $attribute )
-            {
-                $result[$attribute->name] = $attribute->value;
-            }
-        }
-
-        return $result;
-    }
-
     /**
      * Returns a DOMNode child of $parent with name $nodeName and which has an
      * attribute $attribute with the value $value. Returns null if no such node
