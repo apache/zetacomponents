@@ -99,6 +99,9 @@ ezcFeedTools
 
 # I will update this.
 
+- The Feed component depends on the XML prefix that is used, but should
+  instead rely on the full XML name space instead.
+
 General
 =======
 
