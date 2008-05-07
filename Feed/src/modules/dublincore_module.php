@@ -293,7 +293,7 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getModuleName()
+    public static function getModuleName()
     {
         return 'DublinCore';
     }
@@ -303,7 +303,7 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespace()
+    public static function getNamespace()
     {
         return 'http://purl.org/dc/elements/1.1/';
     }
@@ -313,7 +313,7 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespacePrefix()
+    public static function getNamespacePrefix()
     {
         return 'dc';
     }

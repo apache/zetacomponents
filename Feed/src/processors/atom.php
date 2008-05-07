@@ -1064,6 +1064,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $feed = new ezcFeed( self::FEED_TYPE );
         $channel = $xml->documentElement;
 
+        $this->usedPrefixes = $this->fetchUsedPrefixes( $xml );
+
         foreach ( $channel->childNodes as $channelChild )
         {
             if ( $channelChild->nodeType == XML_ELEMENT_NODE )

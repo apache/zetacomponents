@@ -309,7 +309,7 @@ class ezcFeedITunesModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getModuleName()
+    public static function getModuleName()
     {
         return 'iTunes';
     }
@@ -319,7 +319,7 @@ class ezcFeedITunesModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespace()
+    public static function getNamespace()
     {
         return 'http://www.itunes.com/dtds/podcast-1.0.dtd';
     }
@@ -329,7 +329,7 @@ class ezcFeedITunesModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespacePrefix()
+    public static function getNamespacePrefix()
     {
         return 'itunes';
     }

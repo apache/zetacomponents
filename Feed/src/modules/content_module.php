@@ -117,7 +117,7 @@ class ezcFeedContentModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getModuleName()
+    public static function getModuleName()
     {
         return 'Content';
     }
@@ -127,7 +127,7 @@ class ezcFeedContentModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespace()
+    public static function getNamespace()
     {
         return 'http://purl.org/rss/1.0/modules/content/';
     }
@@ -137,7 +137,7 @@ class ezcFeedContentModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespacePrefix()
+    public static function getNamespacePrefix()
     {
         return 'content';
     }

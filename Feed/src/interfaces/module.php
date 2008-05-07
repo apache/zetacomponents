@@ -188,20 +188,20 @@ abstract class ezcFeedModule
      *
      * @return string
      */
-    abstract public function getModuleName();
+    public static function getModuleName(){}
 
     /**
      * Returns the namespace for this module.
      *
      * @return string
      */
-    abstract public function getNamespace();
+    public static function getNamespace(){}
 
     /**
      * Returns the namespace prefix for this module.
      *
      * @return string
      */
-    abstract public function getNamespacePrefix();
+    public static function getNamespacePrefix(){}
 }
 ?>

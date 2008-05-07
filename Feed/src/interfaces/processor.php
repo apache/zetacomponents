@@ -255,17 +255,46 @@ abstract class ezcFeedProcessor
     public function parseModules( $item, DOMElement $node, $tagName )
     {
         $supportedModules = ezcFeed::getSupportedModules();
-        $supportedModulesPrefixes = ezcFeed::getSupportedModulesPrefixes();
         if ( strpos( $tagName, ':' ) !== false )
         {
             list( $prefix, $key ) = split( ':', $tagName );
-            $moduleName = isset( $supportedModulesPrefixes[$prefix] ) ? $supportedModulesPrefixes[$prefix] : null;
+            $moduleName = isset( $this->usedPrefixes[$prefix] ) ? $this->usedPrefixes[$prefix] : null;
             if ( isset( $supportedModules[$moduleName] ) )
             {
                 $module = $item->hasModule( $moduleName ) ? $item->$moduleName : $item->addModule( $moduleName );
                 $module->parse( $key, $node );
             }
         }
+    }
+
+    /**
+     * Fetches the supported prefixes and namespaces from the XML document $xml.
+     *
+     * @param DOMDocument $xml The XML document object to parse
+     * @return array(string=>string)
+     * @ignore
+     */
+    public function fetchUsedPrefixes( DOMDocument $xml )
+    {
+        $usedPrefixes = array();
+
+        $xp = new DOMXpath( $xml );
+        $set = $xp->query( './namespace::*', $xml->documentElement );
+        $usedNamespaces = array();
+
+        foreach ( $set as $node )
+        {
+            foreach ( ezcFeed::getSupportedModules() as $moduleName => $moduleClass )
+            {
+                $moduleNamespace = call_user_func( array( $moduleClass, 'getNamespace' ) );
+                if ( $moduleNamespace === $node->nodeValue )
+                {
+                    $usedPrefixes[call_user_func( array( $moduleClass, 'getNamespacePrefix' ) )] = $moduleName;
+                }
+            }
+        }
+
+        return $usedPrefixes;
     }
 
     /**

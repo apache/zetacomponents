@@ -22,15 +22,9 @@ ezcFeed
 
 - Why does ezcFeed have double single/multiple value properties (
   $author[s],...).
-
-
-
 - ezcFeed::__get() makes use of isset( $this->$property ), this also returns
   true for real protected/private properties. It should call $this->__isset()
   directly. This is also more efficient.
-
-
-
 - ezcFeed::__get() should also better throw an ezcBasePropertyNotFoundException.
 
 # In this case, when parsing a feed you will get an exception if trying to fetch
@@ -38,9 +32,6 @@ ezcFeed
 
 - ezcFeed::__isset() behaviour incorrect. We return true if a property exists,
   but is null.
-
-
-
 - Why does ezcFeed declare protected attributes and mark them as @ignore? No
   class seems to extend ezcFeed. Declaring this private makes more sense.
 
@@ -101,6 +92,10 @@ ezcFeedTools
 
 - The Feed component depends on the XML prefix that is used, but should
   instead rely on the full XML name space instead.
+
+# Done. The getModuleName(), getNamespace() and getNamespacePrefix() functions
+  from ezcFeedModule and children were changed to static to allow this (and
+  it is more logical to have them static).
 
 General
 =======

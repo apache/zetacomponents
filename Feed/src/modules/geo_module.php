@@ -133,7 +133,7 @@ class ezcFeedGeoModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getModuleName()
+    public static function getModuleName()
     {
         return 'Geo';
     }
@@ -143,7 +143,7 @@ class ezcFeedGeoModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespace()
+    public static function getNamespace()
     {
         return 'http://www.w3.org/2003/01/geo/wgs84_pos#';
     }
@@ -153,7 +153,7 @@ class ezcFeedGeoModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespacePrefix()
+    public static function getNamespacePrefix()
     {
         return 'geo';
     }

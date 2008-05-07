@@ -632,6 +632,8 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
         $rssChildren = $xml->documentElement->childNodes;
         $channel = null;
 
+        $this->usedPrefixes = $this->fetchUsedPrefixes( $xml );
+
         foreach ( $rssChildren as $rssChild )
         {
             if ( $rssChild->nodeType === XML_ELEMENT_NODE

@@ -226,6 +226,20 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
     }
 
+    public function testParseContentModuleWrongNamespace()
+    {
+        $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/dc/elements/1.1/"><entry><content:encoded>Content</content:encoded></entry></feed>' );
+        $this->assertEquals( 'ezcFeed', get_class( $feed ) );
+        $this->assertEquals( 'atom', $feed->getFeedType() );
+        $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
+
+        // The Content module should not appear in any entry because it has a wrong namespace
+        foreach ( $feed->items as $item )
+        {
+            $this->assertEquals( false, $item->hasModule( 'Content' ) );
+        }
+    }
+
     public function testParseDCModuleElementNotRecognized()
     {
         $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><entry><dc:unsupported_element>Content</dc:unsupported_element></entry></feed>' );

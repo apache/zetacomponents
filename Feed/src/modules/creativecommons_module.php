@@ -115,7 +115,7 @@ class ezcFeedCreativeCommonsModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getModuleName()
+    public static function getModuleName()
     {
         return 'CreativeCommons';
     }
@@ -125,7 +125,7 @@ class ezcFeedCreativeCommonsModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespace()
+    public static function getNamespace()
     {
         return 'http://backend.userland.com/creativeCommonsRssModule';
     }
@@ -135,7 +135,7 @@ class ezcFeedCreativeCommonsModule extends ezcFeedModule
      *
      * @return string
      */
-    public function getNamespacePrefix()
+    public static function getNamespacePrefix()
     {
         return 'creativeCommons';
     }
