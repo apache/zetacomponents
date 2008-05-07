@@ -20,6 +20,9 @@ ezcFeed
 # I did not find a better way to do this (I don't know how to see at runtime which
   modules are defined without hard-coding it in ezcFeed).
 
+  # Use static methods like ezcFeed::registerModule(),
+    ezcFeed::unregisterModule(), which add or remove a module.
+
 - Why does ezcFeed have double single/multiple value properties (
   $author[s],...).
 - ezcFeed::__get() makes use of isset( $this->$property ), this also returns
@@ -30,6 +33,8 @@ ezcFeed
 # In this case, when parsing a feed you will get an exception if trying to fetch
   $feed->title and the title is missing from the XML document.
 
+  # This exception should be issued in the parser then, not in __get().
+
 - ezcFeed::__isset() behaviour incorrect. We return true if a property exists,
   but is null.
 - Why does ezcFeed declare protected attributes and mark them as @ignore? No
@@ -39,18 +44,24 @@ ezcFeed
   protected instead of private attributes (see also issue tracker for requests
   to change private attributes into protected ones).
 
-- Why ezcFeed::getModules()/hasModule()/getSupportedTypes() instead of
-  property access?
-
-# The properties of ezcFeed are the same as the elements in a feed document. How
-  would modules fit into those elements? I see nothing wrong with having the
-  functions getModules(), hasModule() and getSupportedTypes().
+  # Then we must declar it like this. If we intend people to extend our
+    classes, we mark the properties they might need "protected". If this is
+    not the case, we keep them private. That is the sense of these keywords.
+    But beware, if we mark the protected, they must be API stable and may not
+    change later. Protected and @ignore (even better @access private) should
+    only be used, if we extend the classes internally in the component, but do
+    not want to expose the affected elements as stable API to others.
 
 - Huge docblock at the beginning of the file is annoying. We should think
   about a way to include docs there.
 
 # I prefer to write longer docblocks to help a bit the people who want to jump
   in without reading the tutorial first or asking on IRC.
+
+  # We should think about outsourcing such huge examples and use the @example
+    tag for them. This tag receives an external source file name and puts this
+    example in the generated docs. We keep it in the online docs this way and
+    make source code browsing more comfortable.
 
 ezcFeedProcessor
 ================
@@ -69,6 +80,8 @@ ezcFeedTools
   other functions to this class, related to date formatting for different
   feed types.
 
+  # See discussion on the ML.
+
 - ezcFeedTools::getAttributes() is a duplication of
   DOMElement::getAttribute().
 
@@ -85,6 +98,10 @@ ezcFeedTools
 
 # What if you assign a DateTime object to $feed->published for example? Should
   the code throw an exception because the date was not a string or timestamp?
+
+  # The exception for assigning DateTime objects should be made in __set().
+    This way it is clear, that this is the intended behaviour and that other
+    data assigned must be parsed. See discussion on the ML.
 
 - ezcFeedTools::normalizeName() should use isset(). Works here and is faster.
 
