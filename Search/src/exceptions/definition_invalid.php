@@ -31,7 +31,8 @@ class ezcSearchDefinitionInvalidException extends ezcSearchException
         {
             $extraMsg = " ($extraMsg)";
         }
-        $message = "The $type definition file for '$class' at '$location' is invalid{$extraMsg}.";
+        $locationPart = $location ? " at '$location'" : '';
+        $message = "The $type definition file for '$class'$locationPart is invalid{$extraMsg}.";
         parent::__construct( $message );
     }
 }

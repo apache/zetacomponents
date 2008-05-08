@@ -9,6 +9,7 @@
  */
 
 require 'testfiles/article.php';
+require_once 'testfiles/test-classes.php';
 
 /**
  * Test the handler classes.
@@ -43,6 +44,30 @@ class ezcSearchSessionTest extends ezcTestCase
     public function testCreateSession()
     {
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+    }
+
+    public function testSetProperties()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+        self::assertSetPropertyFails( $session, 'definitionManager', array( 'foo' ) );
+        self::assertSetPropertyFails( $session, 'handler', array( 'foo' ) );
+        self::assertSetPropertyFails( $session, 'doesNotExist', array( 'foo' ) );
+    }
+
+    public function testGetProperties()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+        self::assertEquals( 'ezcSearchSolrHandler', get_class( $session->handler ) );
+        self::assertEquals( 'ezcSearchXmlManager', get_class( $session->definitionManager ) );
+        try
+        {
+            $session->doesNotExist;
+            self::fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            self::assertEquals( "No such property name 'doesNotExist'.", $e->getMessage() );
+        }
     }
 
     public function testIndexDocument1()
@@ -87,7 +112,7 @@ class ezcSearchSessionTest extends ezcTestCase
         $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
 
         $q = $session->createFindQuery( 'Article' );
-        $q->where( $q->eq( 'author', 'Rethans' ) );
+        $q->where( $q->eq( 'author', 'Derick Rethans' ) );
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
     }
@@ -174,6 +199,93 @@ class ezcSearchSessionTest extends ezcTestCase
         self::assertEquals( 2, $r->resultCount );
     }
 
+    public function testCreateFindQueryOneOr()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->lOr( $q->eq( 'title', 'Twee' ) ) );
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
+    }
+
+    public function testCreateFindQueryEmptyOr()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        try
+        {
+            $q->where( $q->lOr() );
+            self::fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcSearchQueryVariableParameterException $e )
+        {
+            self::assertEquals( "The method 'lOr' expected at least 1 parameter but none were provided.", $e->getMessage() );
+        }
+    }
+
+    public function testCreateFindQueryOneAnd()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->lAnd( $q->eq( 'title', 'Twee' ) ) );
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
+    }
+
+    public function testCreateFindQueryAnd()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->lAnd( $q->eq( 'title', 'Twee' ), $q->eq( 'summary', 'second' ) ) );
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
+    }
+
+    public function testCreateFindQueryEmptyAnd()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        try
+        {
+            $q->where( $q->lAnd() );
+            self::fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcSearchQueryVariableParameterException $e )
+        {
+            self::assertEquals( "The method 'lAnd' expected at least 1 parameter but none were provided.", $e->getMessage() );
+        }
+    }
+
     public function testCreateFindQueryNot()
     {
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
@@ -187,6 +299,217 @@ class ezcSearchSessionTest extends ezcTestCase
         $q->where( $q->not( $q->eq( 'title', 'Twee' ) ) );
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
+    }
+
+    public function testCreateFindQueryImportant()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->important( $q->eq( 'title', 'Twee' ) ) );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+%2Btitle_t%3ATwee%5E2&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10", $q->getQuery() );
+    }
+
+    public function testCreateFindQueryBoost()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->boost( $q->eq( 'title', 'Twee' ), 2.5 ) );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2.5&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10",  $q->getQuery() );
+    }
+
+    public function testCreateFindQueryFuzz()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->fuzz( $q->eq( 'title', 'Twee' ) ) );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2%7E&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10", $q->getQuery() );
+    }
+
+    public function testCreateFindQueryFuzzWithFactor()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->fuzz( $q->eq( 'title', 'Twee' ), 2.5 ) );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2%7E2.5&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10", $q->getQuery() );
+    }
+
+    public function testCreateFindQueryLimit()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Article' ) );
+        $q->limit( 1 );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+        self::assertEquals( 1, count( $r->documents ) );
+        self::assertEquals( '4822deec4153d-one', $r->documents['4822deec4153d-one']['document']->id );
+    }
+
+    public function testCreateFindQueryLimitOffset()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Article' ) );
+        $q->limit( 1, 1 );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+        self::assertEquals( 1, count( $r->documents ) );
+        self::assertEquals( '4822deec4153d-two', $r->documents['4822deec4153d-two']['document']->id );
+    }
+
+    public function testCreateFindQueryOrderByDefault()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Article' ) );
+        $q->limit( 1 );
+        $q->orderBy( 'id' );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+        self::assertEquals( 1, count( $r->documents ) );
+        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']['document']->title );
+    }
+
+    public function testCreateFindQueryOrderByAsc()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Article' ) );
+        $q->limit( 1 );
+        $q->orderBy( 'id' );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+        self::assertEquals( 1, count( $r->documents ) );
+        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']['document']->title );
+    }
+
+    public function testCreateFindQueryOrderByDesc()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Article' ) );
+        $q->limit( 1 );
+        $q->orderBy( 'title', ezcSearchQueryTools::DESC );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+        self::assertEquals( 1, count( $r->documents ) );
+        self::assertEquals( 'Test Article Twee', $r->documents['4822deec4153d-two']['document']->title );
+    }
+
+    public function testCreateFindQueryWrongField()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        try
+        {
+            $q->where( $q->eq( 'wrong-field', 'Article' ) );
+            self::fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcSearchFieldNotDefinedException $e )
+        {
+            self::assertEquals( "The document type 'Article' does not define the field 'wrong-field'.", $e->getMessage() );
+        }
+    }
+
+    public function testCreateFindQueryFacet()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400, "derick" );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time(), "alexandru" );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Drie', 'This is the third article to test', 'the body of the article', time(), "derick" );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->facet( 'author' );
+        $r = $session->find( $q );
+        self::assertEquals( 3, $r->resultCount );
+        self::assertEquals( 3, count( $r->documents ) );
+        self::assertEquals( array( 'alexandru' => 1, 'derick' => 2 ), $r->facets['author'] );
+    }
+
+    public function testCreateFindQueryBetween()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $time1 = time() - 86400;
+        $time2 = time();
+        $time3 = time() + 3600;
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', $time1, "derick" );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', $time2, "alexandru" );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Drie', 'This is the third article to test', 'the body of the article', $time3, "derick" );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $timeb1 = time() - 20;
+        $timeb2 = time() + 7200;
+        $q->where( $q->between( 'published', $timeb1, $timeb2 ) );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+        self::assertEquals( 2, count( $r->documents ) );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+published_l%3A%5B$timeb1+TO+$timeb2%5D&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10", $q->getQuery() );
     }
 
     public function testCreateFindWithPhrase()
@@ -327,89 +650,4 @@ class ezcSearchSessionTest extends ezcTestCase
         self::assertEquals( date_create( $date[0] )->format( '\sU' ), $r->documents['testId']['document']->date[0]->format( '\sU' ) );
     }
 }
-
-class DataTypeTest implements ezcSearchDefinitionProvider
-{
-    public function __construct( $id = null, $string = null, $html = null, $bool = null, $int = null, $float = null, $date = null )
-    {
-        $this->id = $id; $this->string = $string; $this->html = $html;
-        $this->bool = $bool; $this->int = $int; $this->float = $float;
-        $this->date = $date;
-    }
-
-    function getState()
-    {
-        return array(
-            'id' => $this->id, 'string' => $this->string, 'html' =>
-            $this->html, 'bool' => $this->bool, 'int' => $this->int, 'float' =>
-            $this->float, 'date' => $this->date,
-        );
-    }
-
-    function setState( $state )
-    {
-        foreach ( $state as $key => $value )
-        {
-            $this->$key = $value;
-        }
-    }
-
-    static public function getDefinition()
-    {
-        $def = new ezcSearchDocumentDefinition( 'DataTypeTest' );
-        $def->idProperty = 'id';
-        $def->fields['id'] =     new ezcSearchDefinitionDocumentField( 'id',     ezcSearchDocumentDefinition::STRING );
-        $def->fields['string'] = new ezcSearchDefinitionDocumentField( 'string', ezcSearchDocumentDefinition::STRING );
-        $def->fields['html'] =   new ezcSearchDefinitionDocumentField( 'html',   ezcSearchDocumentDefinition::HTML );
-        $def->fields['bool'] =   new ezcSearchDefinitionDocumentField( 'bool',   ezcSearchDocumentDefinition::BOOLEAN );
-        $def->fields['int'] =    new ezcSearchDefinitionDocumentField( 'int',    ezcSearchDocumentDefinition::INT );
-        $def->fields['float'] =  new ezcSearchDefinitionDocumentField( 'float',  ezcSearchDocumentDefinition::FLOAT );
-        $def->fields['date'] =   new ezcSearchDefinitionDocumentField( 'date',   ezcSearchDocumentDefinition::DATE );
-
-        return $def;
-    }
-}
-
-class DataTypeTestMulti implements ezcSearchDefinitionProvider
-{
-    public function __construct( $id = null, $string = null, $html = null, $bool = null, $int = null, $float = null, $date = null )
-    {
-        $this->id = $id; $this->string = $string; $this->html = $html;
-        $this->bool = $bool; $this->int = $int; $this->float = $float;
-        $this->date = $date;
-    }
-
-    function getState()
-    {
-        return array(
-            'id' => $this->id, 'string' => $this->string, 'html' =>
-            $this->html, 'bool' => $this->bool, 'int' => $this->int, 'float' =>
-            $this->float, 'date' => $this->date,
-        );
-    }
-
-    function setState( $state )
-    {
-        foreach ( $state as $key => $value )
-        {
-            $this->$key = $value;
-        }
-    }
-
-    static public function getDefinition()
-    {
-        $def = new ezcSearchDocumentDefinition( 'DataTypeTestMulti' );
-        $def->idProperty = 'id';
-        $def->fields['id'] =     new ezcSearchDefinitionDocumentField( 'id',     ezcSearchDocumentDefinition::STRING );
-        $def->fields['string'] = new ezcSearchDefinitionDocumentField( 'string', ezcSearchDocumentDefinition::STRING,  1, true, true );
-        $def->fields['html'] =   new ezcSearchDefinitionDocumentField( 'html',   ezcSearchDocumentDefinition::HTML,    1, true, true );
-        $def->fields['bool'] =   new ezcSearchDefinitionDocumentField( 'bool',   ezcSearchDocumentDefinition::BOOLEAN, 1, true, true );
-        $def->fields['int'] =    new ezcSearchDefinitionDocumentField( 'int',    ezcSearchDocumentDefinition::INT,     1, true, true );
-        $def->fields['float'] =  new ezcSearchDefinitionDocumentField( 'float',  ezcSearchDocumentDefinition::FLOAT,   1, true, true );
-        $def->fields['date'] =   new ezcSearchDefinitionDocumentField( 'date',   ezcSearchDocumentDefinition::DATE,    1, true, true );
-
-        return $def;
-    }
-}
-
 ?>

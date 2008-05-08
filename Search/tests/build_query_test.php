@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require 'testfiles/test-classes.php';
+require_once 'testfiles/test-classes.php';
 
 /**
  * Test the query tokenizer and builder

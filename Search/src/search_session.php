@@ -56,20 +56,6 @@ class ezcSearchSession
      * $allPersons = $session->find( $q );
      * </code>
      *
-     * If you are retrieving large result set, consider using {@link
-     * findIterator()} instead.
-     *
-     * Example:
-     * <code>
-     * $q = $session->createFindQuery();
-     * $documents = $session->findIterator( $q );
-     *
-     * foreach ( $documents as $document )
-     * {
-     *     // ...
-     * }
-     * </code>
-     *
      * @throws ezcSearchDefinitionNotFoundException
      *         if there is no such persistent class.
      * @throws ezcSearchQueryException
@@ -83,30 +69,6 @@ class ezcSearchSession
     public function find( ezcSearchQuery $query )
     {
         return $this->handler->find( $query );
-    }
-
-    /**
-     * Returns the result of $query for the $class as an iterator.
-     *
-     * This method is similar to {@link find()} but returns an {@link
-     * ezcSearchFindIterator} instead of an array of documents. This is
-     * useful if you are going to loop over the documents and just need them one
-     * at the time.  Because you only instantiate one document it is faster than
-     * {@link find()}. 
-     *
-     * @throws ezcSearchDefinitionNotFoundException
-     *         if there is no such persistent class.
-     * @throws ezcSearchQueryException
-     *         if the find query failed.
-     *
-     * @param ezcSearchQuery $query
-     * @param string $type
-     *
-     * @return ezcSearchFindIterator
-     */
-    public function findIterator( ezcSearchQuery $query, $type )
-    {
-        return $this->handler->findIterator( $query, $type );
     }
 
     /**

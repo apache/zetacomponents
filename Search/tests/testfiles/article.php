@@ -2,7 +2,7 @@
 class Article
 {
     public  $id;
-    private $title;
+    public  $title;
     private $summary;
     private $body;
     private $published;

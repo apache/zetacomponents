@@ -268,7 +268,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $highlightFieldList
      * @return array
      */
-    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = false )
+    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = false, $order = array() )
     {
         if ( count( $searchFieldList ) > 0 )
         {
@@ -302,6 +302,22 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $queryFlags['facet.mincount'] = 1;
             $queryFlags['facet.sort'] = 'false';
             $queryFlags['facet.field'] = join( ' ', $facetFieldList );
+        }
+        if ( count ( $order ) )
+        {
+            $sortFlags = array();
+            foreach ( $order as $column => $type )
+            {
+                if ( $type == ezcSearchQueryTools::ASC )
+                {
+                    $sortFlags[] = "$column asc";
+                }
+                else
+                {
+                    $sortFlags[] = "$column desc";
+                }
+            }
+            $queryFlags['sort'] = join( ', ', $sortFlags );
         }
         $queryFlags['start'] = $offset;
         $queryFlags['rows'] = $limit;
@@ -383,7 +399,6 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         if ( isset( $response->facet_counts ) && isset( $response->facet_counts->facet_fields ) )
         {
             $facets = $response->facet_counts->facet_fields;
-
             foreach ( $def->fields as $field )
             {
                 $fieldName = $this->mapFieldType( $field->field, $field->type );
@@ -414,9 +429,9 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $highlightFieldList
      * @return stdClass
      */
-    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = 0 )
+    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = 0, $order = array() )
     {
-        $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList, $limit, $offset ) );
+        $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order ) );
         $result = json_decode( $result );
         return $result;
     }
@@ -474,8 +489,9 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $facetFieldList = $query->facets;
         $limit = $query->limit;
         $offset = $query->offset;
+        $order = $query->orderByClauses;
 
-        $res = $this->search( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList, $limit, $offset );
+        $res = $this->search( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order );
         return $this->createResponseFromData( $query->getDefinition(), $res );
     }
 
@@ -490,8 +506,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
     {
         $queryWord = join( ' AND ', $query->whereClauses );
         $resultFieldList = $query->resultFields;
+        $highlightFieldList = $query->highlightFields;
+        $facetFieldList = $query->facets;
+        $limit = $query->limit;
+        $offset = $query->offset;
+        $order = $query->orderByClauses;
 
-        return http_build_query( $this->buildQuery( $queryWord, '', array(), $resultFieldList ) );
+        return http_build_query( $this->buildQuery( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order ) );
     }
 
     /**

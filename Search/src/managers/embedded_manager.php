@@ -37,8 +37,8 @@ class ezcSearchEmbeddedManager implements ezcSearchDefinitionManager
     /**
      * Returns the definition of the search document with the type $type.
      *
-     * @throws ezcSearchDefinitionNotFoundException if no such definition can be found.
-     * @throws ezcSearchDefinitionMissingIdPropertyException
+     * @throws ezcSearchDoesNotProvideDefinitionException if no such definition can be found.
+     * @throws ezcSearchDefinitionInvalidException
      *         if the definition does not have an "idProperty" attribute.
      * @param string $type
      * @return ezcSearchDocumentDefinition
@@ -62,7 +62,7 @@ class ezcSearchEmbeddedManager implements ezcSearchDefinitionManager
 
         if ( $definition->idProperty === null )
         {
-            throw new ezcSearchDefinitionInvalidException( 'embed', $type, 'internal', 'Missing ID property' );
+            throw new ezcSearchDefinitionInvalidException( 'embedded', $type, null, 'Missing ID property' );
         }
 
         // store in cache

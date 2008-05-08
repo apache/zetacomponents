@@ -38,6 +38,13 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
     public $whereClauses;
 
     /**
+     * Holds all the order by clauses that will be used to create the search query.
+     *
+     * @var array(string)
+     */
+    public $orderByClauses;
+
+    /**
      * Holds the maximum number of results for the query.
      *
      * @var int
@@ -224,17 +231,21 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
      * You can call orderBy multiple times. Each call will add a
      * column to order by.
      *
-     * @param string $column
+     * @param string $field
      * @param int    $type
      * @return ezcSearchQuerySolr
      */
-    public function orderBy( $column, $type = ezcSearchQueryTools::ASC )
+    public function orderBy( $field, $type = ezcSearchQueryTools::ASC )
     {
+        $field = $this->handler->mapFieldType( $field, $this->definition->fields[$field]->type );
+        $this->orderByClauses[$field] = $type;
         return $this;
     }
 
     /**
      * Adds one facet to the query.
+     *
+     * Facets should only be used for STRING fields, and not TEXT fields.
      *
      * @param string $facet
      * @return ezcSearchQuerySolr
@@ -295,11 +306,12 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
         $field = trim( $field );
 
         $this->checkIfFieldExists( $field );
-        $value1 = $this->handler->mapFieldValue( $value1 );
-        $value2 = $this->handler->mapFieldValue( $value2 );
-        $field = $this->handler->mapFieldType( $field, $this->definition->fields[$field]->type );
+        $fieldType = $this->definition->fields[$field]->type;
+        $value1 = $this->handler->mapFieldValueForSearch( $fieldType, $value1 );
+        $value2 = $this->handler->mapFieldValueForSearch( $fieldType, $value2 );
+        $fieldName = $this->handler->mapFieldType( $field, $this->definition->fields[$field]->type );
 
-        $ret = "$field:[$value1 TO $value2]";
+        $ret = "$fieldName:[$value1 TO $value2]";
 
         if ( $this->definition->fields[$field]->boost != 1 )
         {
@@ -401,6 +413,11 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
      */
     public function boost( $clause, $boostFactor )
     {
+        // make sure we only apply boost once
+        if ( preg_match( '@(.*)\^[0-9]+(\.[0-9]+)?$@', $clause, $matches ) )
+        {
+            $clause = $matches[1];
+        }
         return "$clause^$boostFactor";
     }
 
