@@ -35,6 +35,20 @@ class ezcSearchXmlDefinitionManager extends ezcTestCase
         }
     }
 
+    public function testCanNotFindDefinitionFileWithoutDirSlash()
+    {
+        $m = new ezcSearchXmlManager( dirname( __FILE__ ) . '/testfiles' );
+        try
+        {
+            $d = $m->fetchDefinition( 'doesNotExist' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcSearchDefinitionNotFoundException $e )
+        {
+            self::assertEquals( "Could not find the XML definition file for 'doesNotExist' at '{$this->testFilesDir}doesnotexist.xml'.", $e->getMessage() );
+        }
+    }
+
     public function testBrokenXml()
     {
         $m = new ezcSearchXmlManager( $this->testFilesDir );
@@ -108,6 +122,28 @@ class ezcSearchXmlDefinitionManager extends ezcTestCase
         self::assertEquals( false, $d->fields['body']->inResult );
         self::assertEquals( true, $d->fields['summary']->inResult );
         self::assertEquals( true, $d->fields['title']->inResult );
+    }
+
+    public function testReadDefinitionFromCache()
+    {
+        $m = new ezcSearchXmlManager( $this->testFilesDir );
+        $e = $m->fetchDefinition( 'Article' );
+        $d = $m->fetchDefinition( 'Article' );
+
+        self::assertEquals( 'id', $d->idProperty );
+        self::assertEquals( array( 'id', 'title', 'summary', 'body', 'published' ), $d->getFieldNames() );
+        self::assertEquals( ezcSearchDocumentDefinition::STRING, $d->fields['id']->type );
+        self::assertEquals( ezcSearchDocumentDefinition::STRING, $d->fields['title']->type );
+        self::assertEquals( ezcSearchDocumentDefinition::TEXT, $d->fields['summary']->type );
+        self::assertEquals( ezcSearchDocumentDefinition::HTML, $d->fields['body']->type );
+        self::assertEquals( ezcSearchDocumentDefinition::DATE, $d->fields['published']->type );
+        self::assertEquals( 2, $d->fields['title']->boost );
+
+        self::assertEquals( false, $d->fields['body']->inResult );
+        self::assertEquals( true, $d->fields['summary']->inResult );
+        self::assertEquals( true, $d->fields['title']->inResult );
+
+        self::assertSame( $e, $d );
     }
 
     public static function suite()
