@@ -16,4 +16,8 @@ Review Alexandru 2008-05-08
     If I pass $stats which I initialize with null, false or empty string before,
     then the function works.
 
-	Also all the file recursive tests fail on Windows (slash issues mostly).
+    Also all the file recursive tests fail on Windows (slash issues mostly).
+
+[ ] Regarding feature request #11506 (method ezcBase::getInstallationPath()). On
+    Linux it returns the path without any slash at the end, but on Windows (Vista)
+    it adds a Windows slash at the end.
