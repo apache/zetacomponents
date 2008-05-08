@@ -46,9 +46,12 @@ class ezcBaseFile
      * $includeFilters to include only specific files, and $excludeFilters to
      * exclude certain files from being returned. The function will always go
      * into subdirectories even if the entry would not have passed the filters.
+     *
      * If you pass an empty array to the $statistics argument, the function
      * will in details about the number of files found into the 'count' array
-     * element, and the total filesize in the 'size' array element.
+     * element, and the total filesize in the 'size' array element. Because this 
+     * argument is passed by reference, you *have* to pass a variable and you
+     * can not pass a constant value such as "array()".
      *
      * @param string         $sourceDir
      * @param array(string)  $includeFilters
@@ -75,7 +78,7 @@ class ezcBaseFile
         }
 
         // init statistics array
-        if ( !is_array( $statistics ) )
+        if ( !is_array( $statistics ) || !array_key_exists( 'size', $statistics ) || !array_key_exists( 'count', $statistics ) )
         {
             $statistics['size']  = 0;
             $statistics['count'] = 0;

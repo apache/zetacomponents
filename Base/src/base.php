@@ -572,13 +572,21 @@ class ezcBase
     /**
      * Returns the base path of the eZ Components installation
      *
+     * This method returns the base path, including a trailing directory
+     * separator.
+     *
      * @return string
      */
     public static function getInstallationPath()
     {
         self::setPackageDir();
 
-        return realpath( self::$packageDir );
+        $path = realpath( self::$packageDir );
+        if ( substr( $path, -1 ) !== DIRECTORY_SEPARATOR )
+        {
+            $path .= DIRECTORY_SEPARATOR;
+        }
+        return $path;
     }
 }
 ?>

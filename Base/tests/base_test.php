@@ -471,7 +471,8 @@ class ezcBaseTest extends ezcTestCase
     {
         $path = ezcBase::getInstallationPath();
         $pathParts = explode( DIRECTORY_SEPARATOR, $path );
-        self::assertEquals( array( 'trunk' ), array_splice( $pathParts, -1 ) );
+        self::assertEquals( array( 'trunk', '' ), array_splice( $pathParts, -2 ) );
+        self::assertEquals( DIRECTORY_SEPARATOR, substr( $path, -1 ) );
     }
 
     public function setup()

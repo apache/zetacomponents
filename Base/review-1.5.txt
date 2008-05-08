@@ -1,10 +1,10 @@
 Review Alexandru 2008-05-08
 ===========================
 
-[ ] Regarding feature request #8529 (a du -s implementation). The documentation
+[X] Regarding feature request #8529 (a du -s implementation). The documentation
     for ezcBaseFile::findRecursive() says that you can supply an empty array
     as the 4th argument to get the statistics.
-	
+
     If I pass for example $stats which I initialized with array() before, then
     I get notices: "Undefined index: count in /home/as/dev/ezcomponents/trunk/Base/src/file.php
     on line 139", and the same notice for index "size".
@@ -18,6 +18,6 @@ Review Alexandru 2008-05-08
 
     Also all the file recursive tests fail on Windows (slash issues mostly).
 
-[ ] Regarding feature request #11506 (method ezcBase::getInstallationPath()). On
+[X] Regarding feature request #11506 (method ezcBase::getInstallationPath()). On
     Linux it returns the path without any slash at the end, but on Windows (Vista)
     it adds a Windows slash at the end.

@@ -1,3 +1,12 @@
+1.5alpha2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed a bug in ezcBaseFile::findRecursive that prevented you from passing an
+  empty array to collect statistics.
+- Changed ezcBase::getInstallationPath() so that it always returns a trailing
+  directory separator.
+
+
 1.5alpha1 - Monday 07 April 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

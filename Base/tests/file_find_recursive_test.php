@@ -119,6 +119,21 @@ class ezcBaseFileFindRecursiveTest extends ezcTestCase
         }
     }
 
+    public function testStatsEmptyArray()
+    {
+        $expected = array (
+            0 => 'File/design/class_diagram.png',
+            1 => 'File/design/design.txt',
+            2 => 'File/design/file.xml',
+            3 => 'File/design/file_operations.png',
+            4 => 'File/design/md5.png',
+            5 => 'File/design/requirements.txt',
+        );
+        $stats = array();
+        self::assertEquals( $expected, ezcBaseFile::findRecursive( "File", array( '@/design/@' ), array( '@\.svn@' ), $stats ) );
+        self::assertEquals( array( 'size' => 114282, 'count' => 6 ), $stats );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcBaseFileFindRecursiveTest" );
