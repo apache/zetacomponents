@@ -350,7 +350,7 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
         $args = func_get_args();
         if ( count( $args ) < 1 )
         {
-            throw new ezcSearchQueryVariableParameterException( 'lOr', count( $args ), 1 );
+            throw new ezcSearchQueryVariableParameterException( 'lAnd', count( $args ), 1 );
         }
 
         $elements = ezcSearchQueryTools::arrayFlatten( $args );
@@ -360,7 +360,7 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
         }
         else
         {
-            return '( ' . join( ' AND', $elements ) . ' )';
+            return '( ' . join( ' AND ', $elements ) . ' )';
         }
     }
 

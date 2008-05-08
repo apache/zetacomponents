@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+require 'testfiles/test-classes.php';
+
 /**
  * Test the query tokenizer and builder
  *
@@ -131,30 +133,192 @@ class ezcSearchBuildSearchQueryTest extends ezcTestCase
 
     public static function testAddOneWordOneField()
     {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        new ezcSearchQueryBuilder( $q, 'goldfinger', array( 'fieldOne' ) );
+        self::assertSame( array( "fieldOne_t:goldfinger" ), $q->whereClauses );
+    }
+
+    public static function testAddOneWordTwoField()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        new ezcSearchQueryBuilder( $q, 'thunderball', array( 'fieldOne', 'fieldTwo' ) );
+        self::assertSame( array( "( fieldOne_t:thunderball OR fieldTwo_t:thunderball )" ), $q->whereClauses );
+    }
+
+    public static function testAddMoreWordsOneField()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        new ezcSearchQueryBuilder( $q, 'from russia with love', array( 'fieldOne' ) );
+        self::assertSame( array( "fieldOne_t:from", "fieldOne_t:russia", "fieldOne_t:with", "fieldOne_t:love" ), $q->whereClauses );
+    }
+
+    public static function testAddMoreWordsTwoField()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        new ezcSearchQueryBuilder( $q, 'you only live twice', array( 'fieldOne', 'fieldTwo' ) );
+        $expected = array(
+            "( fieldOne_t:you OR fieldTwo_t:you )",
+            "( fieldOne_t:only OR fieldTwo_t:only )",
+            "( fieldOne_t:live OR fieldTwo_t:live )",
+            "( fieldOne_t:twice OR fieldTwo_t:twice )",
+        );
+        self::assertSame( $expected, $q->whereClauses );
+    }
+
+    public static function testAddOnePhraseOneField()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        new ezcSearchQueryBuilder( $q, '"diamonds are forever"', array( 'fieldOne' ) );
+        self::assertSame( array( 'fieldOne_t:"diamonds are forever"' ), $q->whereClauses );
+    }
+
+    public static function testAddOnePhraseTwoField()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        new ezcSearchQueryBuilder( $q, '"live and let die"', array( 'fieldOne', 'fieldTwo' ) );
+        self::assertSame( array( '( fieldOne_t:"live and let die" OR fieldTwo_t:"live and let die" )' ), $q->whereClauses );
+    }
+
+    public static function testAddOnePhraseOneFieldMissingQuotes()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        try
+        {
+            new ezcSearchQueryBuilder( $q, '"for your eyes only', array( 'fieldOne' ) );
+            self::fail( 'Expected exception not-thrown.' );
+        }
+        catch ( ezcSearchBuildQueryException $e )
+        {
+            self::assertSame( "Unterminated quotes in query string.", $e->getMessage() );
+        }
+    }
+
+    public static function testAddMorePhrasesTwoField()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        new ezcSearchQueryBuilder( $q, '"the man with the golden gun" "the spy who loved me"', array( 'fieldOne', 'fieldTwo' ) );
+        $expected = array(
+            '( fieldOne_t:"the man with the golden gun" OR fieldTwo_t:"the man with the golden gun" )',
+            '( fieldOne_t:"the spy who loved me" OR fieldTwo_t:"the spy who loved me" )',
+        );
+        self::assertSame( $expected, $q->whereClauses );
+    }
+
+    public static function testOrMoreWordsOneField()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        new ezcSearchQueryBuilder( $q, 'cake OR death', array( 'fieldOne' ) );
+        self::assertSame( array( '( fieldOne_t:cake OR fieldOne_t:death )' ), $q->whereClauses );
+    }
+
+    public static function testOrMoreWordsTwoField()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        new ezcSearchQueryBuilder( $q, 'cake OR death', array( 'fieldOne', 'fieldTwo' ) );
+        $expected = array(
+            '( ( fieldOne_t:cake OR fieldTwo_t:cake ) OR ( fieldOne_t:death OR fieldTwo_t:death ) )',
+        );
+        self::assertSame( $expected, $q->whereClauses );
+    }
+
+    public static function testMixedAndAndOrWithoutBraces()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        try
+        {
+            new ezcSearchQueryBuilder( $q, 'god OR does AND not OR play AND with OR dices', array( 'fieldOne' ) );
+            self::fail( 'Expected exception not-thrown.' );
+        }
+        catch ( ezcSearchBuildQueryException $e )
+        {
+            self::assertSame( 'You can not mix OR and AND without using "(" and ")".', $e->getMessage() );
+        }
+    }
+
+    public static function testMixedOrAndAndWithoutBraces()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        try
+        {
+            new ezcSearchQueryBuilder( $q, 'I AND don\'t OR believe AND in OR mathematics', array( 'fieldOne' ) );
+            self::fail( 'Expected exception not-thrown.' );
+        }
+        catch ( ezcSearchBuildQueryException $e )
+        {
+            self::assertSame( 'You can not mix AND and OR without using "(" and ")".', $e->getMessage() );
+        }
+    }
+
+    public static function testOrMoreWordsTwoFieldWithBraces()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        new ezcSearchQueryBuilder( $q, '(cake OR death)', array( 'fieldOne', 'fieldTwo' ) );
+        $expected = array(
+            '( ( fieldOne_t:cake OR fieldTwo_t:cake ) OR ( fieldOne_t:death OR fieldTwo_t:death ) )',
+        );
+        self::assertSame( $expected, $q->whereClauses );
+    }
+
+    public static function testMixedAndAndOrMoreWordsOneFieldWithBraces()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        new ezcSearchQueryBuilder( $q, 'cake OR (cookies AND death)', array( 'fieldOne' ) );
+        $expected = array(
+            '( fieldOne_t:cake OR ( fieldOne_t:cookies AND fieldOne_t:death ) )',
+        );
+        self::assertSame( $expected, $q->whereClauses );
+    }
+
+    public static function testMixedAndAndOrMoreWordsTwoFieldWithBraces()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        new ezcSearchQueryBuilder( $q, 'cake OR (cookies AND death)', array( 'fieldOne', 'fieldTwo' ) );
+        $expected = array(
+            '( ( fieldOne_t:cake OR fieldTwo_t:cake ) OR ( ( fieldOne_t:cookies OR fieldTwo_t:cookies ) AND ( fieldOne_t:death OR fieldTwo_t:death ) ) )',
+        );
+        self::assertSame( $expected, $q->whereClauses );
+    }
+
+    public static function testAddMoreWordsOneFieldWithPlus()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        new ezcSearchQueryBuilder( $q, 'from +russia with love', array( 'fieldOne' ) );
+        self::assertSame( array( "fieldOne_t:from", "+fieldOne_t:russia", "fieldOne_t:with", "fieldOne_t:love" ), $q->whereClauses );
+    }
+
+    public static function testAddMoreWordsTwoFieldWithMinus()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        new ezcSearchQueryBuilder( $q, '-you only live -twice', array( 'fieldOne', 'fieldTwo' ) );
+        $expected = array(
+            "( !fieldOne_t:you AND !fieldTwo_t:you )",
+            "( fieldOne_t:only OR fieldTwo_t:only )",
+            "( fieldOne_t:live OR fieldTwo_t:live )",
+            "( !fieldOne_t:twice AND !fieldTwo_t:twice )",
+        );
+        self::assertSame( $expected, $q->whereClauses );
+    }
+
+    public static function testSpecialCharsInQuotes()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        new ezcSearchQueryBuilder( $q, '"Testing+more-less is (good):	not! "', array( 'fieldOne', 'fieldTwo' ) );
+        self::assertSame( array( '( fieldOne_t:"Testing+more-less is (good):	not!" OR fieldTwo_t:"Testing+more-less is (good):	not!" )' ), $q->whereClauses );
+    }
+
+    public static function setupQuery( $definition )
+    {
         $h = new TestHandler;
-        $d = new ezcSearchDocumentDefinition( 'DefinitionOneField' );
+        $d = new ezcSearchDocumentDefinition( $definition );
         $d->fields['fieldOne'] = new ezcSearchDefinitionDocumentField( 'fieldOne' );
-        $q = new ezcSearchQuerySolr( $h, $d );
-        ezcSearchQueryBuilder::buildSearchQuery( $q, 'word', array( 'fieldOne' ) );
-        self::assertSame( array( "fieldOne_t:word" ), $q->whereClauses );
-        echo $q->getQuery();
-    }
-
-}
-
-class TestHandler extends ezcSearchSolrHandler
-{
-    public function __construct( $host = 'localhost', $port = 8983, $location = '/solr' )
-    {
+        if ( $definition == 'DefinitionTwoFields' )
+        {
+            $d->fields['fieldTwo'] = new ezcSearchDefinitionDocumentField( 'fieldTwo' );
+        }
+        $d->fields['ezcsearch_type'] = new ezcSearchDefinitionDocumentField( 'type' );
+        $q = $h->createFindQuery( 'DefinitionOneField', $d );
+        $q->whereClauses = array();
+        return $q;
     }
 }
-
-class BuildQueryQuery extends ezcSearchQueryBuilder
-{
-    public static function tokenize( $string )
-    {
-        return parent::tokenize( $string );
-    }
-}
-
 ?>

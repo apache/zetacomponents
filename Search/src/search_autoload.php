@@ -11,6 +11,7 @@
 
 return array(
     'ezcSearchException'                            => 'Search/exceptions/exception.php',
+    'ezcSearchBuildQueryException'                  => 'Search/exceptions/build_query.php',
     'ezcSearchCanNotConnectException'               => 'Search/exceptions/can_not_connect.php',
     'ezcSearchDefinitionInvalidException'           => 'Search/exceptions/definition_invalid.php',
     'ezcSearchDefinitionMissingIdPropertyException' => 'Search/exceptions/missing_id.php',
