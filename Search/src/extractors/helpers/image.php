@@ -1,5 +1,5 @@
 <?php
-class ezcSearchSimpleImage /* implements ezcSearchEmbeddedDefinition */
+class ezcSearchSimpleImage implements ezcSearchDefinitionProvider
 {
     public $id;
     public $title;
@@ -18,7 +18,7 @@ class ezcSearchSimpleImage /* implements ezcSearchEmbeddedDefinition */
         $this->mime = $mime;
     }
 
-    static public function fetchDefinition()
+    static public function getDefinition()
     {
         $n = new ezcSearchDocumentDefinition( 'ezcSearchSimpleImage' );
         $n->idProperty = 'id';

@@ -1,5 +1,5 @@
 <?php
-class ezcSearchSimpleArticle /* implements ezcSearchEmbeddedDefinition */
+class ezcSearchSimpleArticle implements ezcSearchDefinitionProvider
 {
     public $id;
     public $title;
@@ -18,7 +18,7 @@ class ezcSearchSimpleArticle /* implements ezcSearchEmbeddedDefinition */
         $this->type = $type;
     }
 
-    static public function fetchDefinition()
+    static public function getDefinition()
     {
         $n = new ezcSearchDocumentDefinition( 'ezcSearchSimpleArticle' );
         $n->idProperty = 'id';
