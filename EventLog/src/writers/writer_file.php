@@ -182,6 +182,10 @@ abstract class ezcLogFileWriter implements ezcLogWriter
      *
      * If the maximum file size is exceeded, the file will be rotated before opening.
      *
+     * @throws ezcBaseFilePermissionException
+     *         if the file can't be opened, created, or when the directory is
+     *         not writable.
+     *
      * @param string $fileName
      * @return resource
      */
@@ -202,9 +206,9 @@ abstract class ezcLogFileWriter implements ezcLogWriter
         $fh = @fopen( $path, "a" );
         if ( $fh === false )
         {
-            if ( !file_exists( $path ) )
+            if ( !is_writable( dirname( $path ) ) )
             {
-                throw new ezcBaseFileNotFoundException( $path, "log" ); 
+                throw new ezcBaseFilePermissionException( dirname( $path ), ezcBaseFilePermissionException::WRITE );
             }
             else
             {

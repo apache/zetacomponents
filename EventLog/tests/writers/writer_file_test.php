@@ -19,10 +19,11 @@ class ezcLogFileWriterTest extends ezcTestCase
 {
     protected $logFile;
     protected $writer;
+    protected $tempDir;
 
     protected function setUp()
     {
-        $this->createTempDir( "ezcLogTest_" );
+        $this->tempDir = $this->createTempDir( "ezcLogTest_" );
         $this->logFile = "default.log";
         
         $this->writer = new TempImplementation($this->getTempDir(), $this->logFile);
@@ -110,21 +111,42 @@ class ezcLogFileWriterTest extends ezcTestCase
         $this->assertEquals(print_r( $msg, true ), file_get_contents( $this->getTempDir() . "/" . $this->logFile) );
     }
 
-    public function testFileExceptions()
+    public function testCantOpenFileForWriting()
     {
         try 
         {
             $filter = new ezcLogFilter();
             $filter->severity = 1;
-            $this->writer->setFile($filter, "" );
+            touch( $this->tempDir . "/read-only.log" );
+            chmod( $this->tempDir . "/read-only.log", 0444 );
+            $this->writer->setFile($filter, "read-only.log" );
             $this->fail("Should raise a ezcLogFileException"); 
         } 
         catch ( ezcBaseFilePermissionException $e ) 
         {
+            self::assertEquals( "The file '{$this->tempDir}/read-only.log' can not be opened for writing.", $e->getMessage() );
+        }
+    }
+
+    public function testCantCreateFile()
+    {
+        xdebug_break();
+        try 
+        {
+            $filter = new ezcLogFilter();
+            $filter->severity = 1;
+            chmod( $this->tempDir, 0555 );
+            $this->writer->setFile($filter, "read-only.log" );
+            chmod( $this->tempDir, 0777 );
+            $this->fail("Should raise a ezcLogFileException"); 
+        } 
+        catch ( Exception $e ) 
+        {
+            chmod( $this->tempDir, 0777 );
+            self::assertEquals( "The file '{$this->tempDir}' can not be opened for writing.", $e->getMessage() );
         }
     }
     
-
     public function testLogRotate()
     {
         $this->writer = new TempImplementation($this->getTempDir(), $this->logFile, 20);
@@ -236,11 +258,11 @@ class ezcLogFileWriterTest extends ezcTestCase
         $m .= print_r( array( "message" => "msg2", "type" => "c", "source" => "d", "category" => "" ), true );
         $this->assertEquals( $m, file_get_contents( $this->getTempDir() ."/". $this->logFile ) );
     }
-    
+
 
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite("ezcLogFileWriterTest");
+        return new PHPUnit_Framework_TestSuite("ezcLogFileWriterTest");
     }
 }
 ?>
