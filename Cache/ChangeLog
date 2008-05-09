@@ -2,7 +2,9 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #12993: Hierarchical caching does not prune items in the correct
-  situation.
+  situation. Note that the internal structure of the stack meta data changed
+  drastically with this fix. You need to reset() the whole storage after this
+  update.
 
 1.4alpha1 - Monday 05 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
