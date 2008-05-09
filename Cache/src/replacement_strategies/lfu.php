@@ -44,7 +44,7 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      *
      * @TODO: Document.
      *
-     * @param ezcCacheStackStorageConfiguration $storageConfiguration
+     * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -55,7 +55,7 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      *         strategy.
      */
     public static function store(
-        ezcCacheStackStorageConfiguration $storageConfiguration,
+        ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $itemData,
@@ -64,20 +64,21 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
     {
         self::checkMetaData( $metaData );
 
-        if ( ( !isset( $metaData->data['lfu'][$itemId] ) )
-              && count( $metaData->data['lfu'] ) >= $storageConfiguration->itemLimit )
+        if ( !isset( $metaData->data['storages'][$conf->id][$itemId] )
+              && isset( $metaData->data['storages'][$conf->id] )
+              && count( $metaData->data['storages'][$conf->id] ) >= $conf->itemLimit )
         {
             self::freeData(
-                $storageConfiguration,
+                $conf,
                 $metaData,
-                // Number of items to remove
-                round( $storageConfiguration->freeRate * $storageConfiguration->itemLimit )
+                // Number of items to remove, round() returns float
+                (int) round( $conf->freeRate * $conf->itemLimit )
             );
         }
-        $storageConfiguration->storage->store(
+        $conf->storage->store(
             $itemId, $itemData, $itemAttributes
         );
-        self::addItem( $metaData, $itemId, $storageConfiguration->id );
+        self::addItem( $metaData, $itemId, $conf->id );
     }
 
     /**
@@ -101,21 +102,25 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
         {
             self::removeItem( $metaData, $purgedId, $conf->id );
         }
+        $freeNum = $freeNum - count( $purgedIds );
 
         // Not enough items have been purged, remove manually
-        if ( ( $freeNum = ( $freeNum - count( $purgedIds ) ) ) > 0 )
+        if ( $freeNum > 0 )
         {
             asort( $metaData->data['lfu'] );
             foreach ( $metaData->data['lfu'] as $id => $timestamp )
             {
-                $deletedIds = $conf->storage->delete( $id );
-                self::removeItem( $metaData, $id, $conf->id );
-
-                // Decrement number of items to free, if actually freed
-                if ( count( $deletedIds ) > 0 &&  --$freeNum == 0 )
+                // Purge only if available in the current storage
+                if ( isset( $metaData->data['storages'][$conf->id][$id] ) )
                 {
-                    // Enough purged
-                    break;
+                    $deletedIds = $conf->storage->delete( $id );
+                    self::removeItem( $metaData, $id, $conf->id );
+
+                    // Purged enough?
+                    if ( --$freeNum == 0 )
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -130,17 +135,21 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      */
     private static function removeItem( ezcCacheStackMetaData $metaData, $itemId, $storageId )
     {
-
-        unset( $metaData->data['storages'][$itemId][$storageId] );
-        if ( isset( $metaData->data['storages'][$itemId] ) 
-             && count( $metaData->data['storages'][$itemId] ) === 0 )
+        // Unset assignement to storage
+        unset( $metaData->data['storages'][$storageId][$itemId] );
+        
+        // Is item available somewhere else?
+        foreach ( $metaData->data['storages'] as $storageId => $storedItems )
         {
-            // Item is not stored in any other storage
-            unset(
-                $metaData->data['storages'][$itemId],
-                $metaData->data['lfu'][$itemId]
-            );
+            if ( isset( $storedItems[$itemId] ) )
+            {
+                // Item available in other storage
+                return;
+            }
         }
+
+        // Item not present anywhere
+        unset( $metaData->data['lfu'][$itemId] );
     }
 
     /**
@@ -152,10 +161,15 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      */
     private static function addItem( ezcCacheStackMetaData $metaData, $itemId, $storageId )
     {
-        isset( $metaData->data['lfu'][$itemId] )
-            ? ++$metaData->data['lfu'][$itemId]
-            : $metaData->data['lfu'][$itemId] = 1;
-        $metaData->data['storages'][$itemId][$storageId] = true;
+        if( isset( $metaData->data['lfu'][$itemId] ) )
+        {
+            ++$metaData->data['lfu'][$itemId];
+        }
+        else
+        {
+            $metaData->data['lfu'][$itemId] = 1;
+        }
+        $metaData->data['storages'][$storageId][$itemId] = true;
     }
 
     /**
@@ -163,7 +177,7 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      *
      * @TODO: Document.
      *
-     * @param ezcCacheStackStorageConfiguration $storageConfiguration
+     * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -176,7 +190,7 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      *         strategy.
      */
     public static function restore(
-        ezcCacheStackStorageConfiguration $storageConfiguration,
+        ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $itemAttributes = array(),
@@ -184,7 +198,7 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
     )
     {
         self::checkMetaData( $metaData );
-        $item = $storageConfiguration->storage->restore(
+        $item = $conf->storage->restore(
             $itemId,
             $itemAttributes,
             $search
@@ -192,11 +206,13 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
         // Update item meta data
         if ( $item === false )
         {
-            self::removeItem( $metaData, $itemId, $storageConfiguration->id );
+            // Item has been purged / got outdated
+            self::removeItem( $metaData, $itemId, $conf->id );
         }
         else
         {
-            self::addItem( $metaData, $itemId, $storageConfiguration->id );
+            // Update usage
+            self::addItem( $metaData, $itemId, $conf->id );
         }
         return $item;
     }
@@ -206,7 +222,7 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      *
      * @TODO: Document.
      *
-     * @param ezcCacheStackStorageConfiguration $storageConfiguration
+     * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -219,7 +235,7 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
      *         strategy.
      */
     public static function delete(
-        ezcCacheStackStorageConfiguration $storageConfiguration,
+        ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $itemAttributes = array(),
@@ -227,14 +243,14 @@ class ezcCacheStackLfuReplacementStrategy implements ezcCacheStackReplacementStr
     )
     {
         self::checkMetaData( $metaData );
-        $deletedIds = $storageConfiguration->storage->delete(
+        $deletedIds = $conf->storage->delete(
             $itemId,
             $itemAttributes,
             $search
         );
         foreach ( $deletedIds as $id )
         {
-            self::removeItem( $metaData, $id, $storageConfiguration->id );
+            self::removeItem( $metaData, $id, $conf->id );
         }
         return $deletedIds;
     }

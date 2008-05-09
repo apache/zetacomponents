@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcCacheStackReplacementStrategy interface.
+ * File containing the ezcCacheStackLruReplacementStrategy class.
  *
  * @package Cache
  * @version //autogentag//
@@ -12,28 +12,38 @@
 /**
  * Least recently used replacement strategy.
  *
- *  Meta data has the following structure:
- *  <code>
- *  array(
- *      'lru' => array(
- *          '<id>' => <timestamp>,
- *          '<id>' => <timestamp>,
- *          '<id>' => <timestamp>,
- *          // ...
- *      ),
- *      'storages' => array(
- *          <id> => array(
- *              <storage_id> => true,
- *              <storage_id> => true,
- *              // ...
- *          ),
- *          // ...
- *      ),
- *  )
- *  </code>
+ * This replacement strategy will purge items first that have been used least
+ * recently. In case the {@link ezcCacheStackableStorage} this replacement
+ * strategy works on runs full, first all outdated items (which are older than
+ * TTL) will be purged. If this does not last to achieve the desired free rate
+ * of the storage, items will be purged that have not been stored or restored
+ * for the longest time, until the free rate is reached.
  *
- * @todo Document.
- * 
+ * This class is not intended to be used directly, but should be configured to
+ * be used by an {@link ezcCacheStack} instance. This can be achieved via
+ * {@link ezcCacheStackOptions}.
+ *
+ * The meta data used internally by this replacement strategy has the following
+ * structure:
+ * <code>
+ * array(
+ *     'lru' => array(
+ *         '<item_id>' => <timestamp>,
+ *         '<item_id>' => <timestamp>,
+ *         '<item_id>' => <timestamp>,
+ *         // ...
+ *     ),
+ *     'storages' => array(
+ *         <storage_id> => array(
+ *             <item_id> => true,
+ *             <item_id> => true,
+ *             // ...
+ *         ),
+ *         // ...
+ *     ),
+ * )
+ * </code>
+ *
  * @package Cache
  * @version //autogentag//
  */
@@ -42,9 +52,28 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
     /**
      * Stores the given $itemData in the given storage.
      *
-     * @TODO: Document.
+     * This method stores the given $itemData under the given $itemId and
+     * assigns the given $itemAttributes to it in the {@link
+     * ezcCacheStackableStorage} configured in $conf. The
+     * storing results in an update of $metaData, reflecting that the item with
+     * $itemId was recently used.
      *
-     * @param ezcCacheStackStorageConfiguration $storageConfiguration
+     * The $itemId, $itemData and $itemAttributes parameters correspond to
+     * those of {@link ezcCacheStorage::store()}.
+     *
+     * In case the storage configured in $conf ({@link
+     * ezcCacheStackStorageConfiguration::$storage}) exceeds the maximum number
+     * of items allowed to be stored ({@link
+     * ezcCacheStackStorageConfiguration::$itemLimit}), the amount of {@link
+     * ezcCacheStackStorageConfiguration::$freeRate} will be purged from the
+     * storage. In this case such items that are outdated by their TTL will be
+     * purged. If this does not last, further items will be purged using the
+     * LRU (least recently used) replacement strategy.
+     *
+     * For more information on LRU see {@see
+     * http://en.wikipedia.org/wiki/Cache_algorithms}.
+     *
+     * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -55,7 +84,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      *         strategy.
      */
     public static function store(
-        ezcCacheStackStorageConfiguration $storageConfiguration,
+        ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $itemData,
@@ -64,30 +93,35 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
     {
         self::checkMetaData( $metaData );
 
-        if ( ( !isset( $metaData->data['lru'][$itemId] ) )
-              && count( $metaData->data['lru'] ) >= $storageConfiguration->itemLimit )
+        if ( !isset( $metaData->data['storages'][$conf->id][$itemId] )
+              && isset( $metaData->data['storages'][$conf->id] )
+              && count( $metaData->data['storages'][$conf->id] ) >= $conf->itemLimit )
         {
             self::freeData(
-                $storageConfiguration,
+                $conf,
                 $metaData,
-                // Number of items to remove
-                round( $storageConfiguration->freeRate * $storageConfiguration->itemLimit )
+                // Number of items to remove, round() returns float
+                (int) round( $conf->freeRate * $conf->itemLimit )
             );
         }
-        $storageConfiguration->storage->store(
+        $conf->storage->store(
             $itemId, $itemData, $itemAttributes
         );
-        self::addItem( $metaData, $itemId, $storageConfiguration->id );
+        self::addItem( $metaData, $itemId, $conf->id );
     }
 
     /**
      * Frees $freeNum number of item slots in $storage.
      *
-     * @TODO: DOcument.
+     * This method first purges outdated items from the storage inside
+     * $conf using {@link ezcCacheStackableStorage::purge()}.
+     * If this does not free $freeNum items, least recently used items
+     * (determined from {@link ezcCacheStackMetaData}) will be removed from the
+     * storage using {@link ezcCacheStackableStorage::delete()}.
      * 
-     * @param ezcCacheStackableStorage $storage 
-     * @param ezcCacheStackMetaData $metaData 
-     * @param int $freeNum 
+     * @param ezcCacheStackableStorage $conf 
+     * @param ezcCacheStackMetaData $metaData
+     * @param int $freeNum
      */
     private static function freeData(
         ezcCacheStackStorageConfiguration $conf,
@@ -101,24 +135,25 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
         {
             self::removeItem( $metaData, $purgedId, $conf->id );
         }
+        $freeNum = $freeNum - count( $purgedIds );
 
         // Not enough items have been purged, remove manually
-        if ( ( $freeNum = ( $freeNum - count( $purgedIds ) ) ) > 0 )
+        if ( $freeNum > 0 )
         {
             asort( $metaData->data['lru'] );
             foreach ( $metaData->data['lru'] as $id => $timestamp )
             {
-                $deletedIds = $conf->storage->delete( $id );
-                self::removeItem( $metaData, $id, $conf->id );
-
-                // echo "Removing $id with free num $freeNum\n";
-
-                // Decrement number of items to free, if actually freed
-                if ( count( $deletedIds ) > 0 && --$freeNum == 0 )
+                // Purge only if available in the current storage
+                if ( isset( $metaData->data['storages'][$conf->id][$id] ) )
                 {
-                    // echo "Enough\n";
-                    // Enough purged
-                    break;
+                    $deletedIds = $conf->storage->delete( $id );
+                    self::removeItem( $metaData, $id, $conf->id );
+
+                    // Purged enough?
+                    if ( --$freeNum == 0 )
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -126,6 +161,10 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
 
     /**
      * Removes the given $itemIds from $metaData.
+     *
+     * Updates the given $metaData in terms of removing the assignement between
+     * $itemId and $storageId. If $itemId is then indicated to not be stored in
+     * any other storage, it is completly removed from the $metaData, freeing up 1 slot
      * 
      * @param ezcCacheStackMetaData $metaData 
      * @param string $itemId 
@@ -134,17 +173,20 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
     private static function removeItem( ezcCacheStackMetaData $metaData, $itemId, $storageId )
     {
         // Unset assignement to storage
-        unset( $metaData->data['storages'][$itemId][$storageId] );
-
-        if ( !isset( $metaData->data['storages'][$itemId] )
-             || count( $metaData->data['storages'][$itemId] ) === 0 )
+        unset( $metaData->data['storages'][$storageId][$itemId] );
+        
+        // Is item available somewhere else?
+        foreach ( $metaData->data['storages'] as $storageId => $storedItems )
         {
-            // Item not present in any storage anymore
-            unset(
-                $metaData->data['lru'][$itemId],
-                $metaData->data['storages'][$itemId]
-            );
+            if ( isset( $storedItems[$itemId] ) )
+            {
+                // Item available in other storage
+                return;
+            }
         }
+
+        // Item not present anywhere
+        unset( $metaData->data['lru'][$itemId] );
     }
 
     /**
@@ -156,8 +198,8 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      */
     private static function addItem( ezcCacheStackMetaData $metaData, $itemId, $storageId )
     {
-        $metaData->data['lru'][$itemId] = time();
-        $metaData->data['storages'][$itemId][$storageId] = true;
+        $metaData->data['lru'][$itemId]                  = time();
+        $metaData->data['storages'][$storageId][$itemId] = true;
     }
 
     /**
@@ -165,7 +207,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      *
      * @TODO: Document.
      *
-     * @param ezcCacheStackStorageConfiguration $storageConfiguration
+     * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -178,7 +220,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      *         strategy.
      */
     public static function restore(
-        ezcCacheStackStorageConfiguration $storageConfiguration,
+        ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $itemAttributes = array(),
@@ -186,7 +228,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
     )
     {
         self::checkMetaData( $metaData );
-        $item = $storageConfiguration->storage->restore(
+        $item = $conf->storage->restore(
             $itemId,
             $itemAttributes,
             $search
@@ -194,11 +236,13 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
         // Update item meta data
         if ( $item === false )
         {
-            self::removeItem( $metaData, $itemId, $storageConfiguration->id );
+            // Item has been purged / got outdated
+            self::removeItem( $metaData, $itemId, $conf->id );
         }
         else
         {
-            self::addItem( $metaData, $itemId, $storageConfiguration->id );
+            // Updates the use time
+            self::addItem( $metaData, $itemId, $conf->id );
         }
         return $item;
     }
@@ -208,7 +252,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      *
      * @TODO: Document.
      *
-     * @param ezcCacheStackStorageConfiguration $storageConfiguration
+     * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -221,7 +265,7 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
      *         strategy.
      */
     public static function delete(
-        ezcCacheStackStorageConfiguration $storageConfiguration,
+        ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $itemAttributes = array(),
@@ -229,14 +273,16 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
     )
     {
         self::checkMetaData( $metaData );
-        $deletedIds = $storageConfiguration->storage->delete(
+        $deletedIds = $conf->storage->delete(
             $itemId,
             $itemAttributes,
             $search
         );
+
+        // Possibly deleted multiple items
         foreach ( $deletedIds as $id )
         {
-            self::removeItem( $metaData, $id, $storageConfiguration->id );
+            self::removeItem( $metaData, $id, $conf->id );
         }
         return $deletedIds;
     }
@@ -257,13 +303,15 @@ class ezcCacheStackLruReplacementStrategy implements ezcCacheStackReplacementStr
         // Initialize, if empty
         if ( $metaData->id === null )
         {
-            $metaData->id = __CLASS__;
+            $metaData->id   = __CLASS__;
             $metaData->data = array(
                 'lru'      => array(),
                 'storages' => array(),
             );
+            return;
         }
-        // Check
+
+        // Sanity check
         if ( $metaData->id !== __CLASS__ )
         {
             throw new ezcCacheInvalidMetaDataException(
