@@ -141,6 +141,11 @@ class ezcInputForm
     private $inputSource;
 
     /**
+     * Whether all the input elements are valid
+     */
+    private $allElementsValid;
+
+    /**
      * Constructs a new ezcInputForm for $inputSource with $definition.
      *
      * This method constructs a new ezcInputForm with three parameters. The
@@ -202,6 +207,8 @@ class ezcInputForm
       */
     private function parseInput()
     {
+        $this->allElementsValid = true;
+
         if (  !in_array( $this->inputSource, array( INPUT_GET, INPUT_POST, INPUT_COOKIE ) ) )
         {
             throw new ezcInputFormWrongInputSourceException( $this->inputSource );
@@ -219,6 +226,7 @@ class ezcInputForm
                 else
                 {
                     $this->properties[$elementName] = ezcInputForm::INVALID;
+                    $this->allElementsValid = false;
                     continue;
                 }
             }
@@ -234,6 +242,7 @@ class ezcInputForm
             else
             {
                 $this->properties[$elementName] = ezcInputForm::INVALID;
+                $this->allElementsValid = false;
             }
         }
     }
@@ -556,6 +565,16 @@ class ezcInputForm
             }
         }
         return $properties;
+    }
+
+    /**
+     * Returns whether all the input elements were valid or not.
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->allElementsValid;
     }
 }
 ?>

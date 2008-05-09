@@ -12,8 +12,7 @@
 <head><title>Test 2</title></head>
 <body>
 <?php
-ini_set( 'include_path', '/home/httpd/ezcomponents/trunk:.' );
-require_once 'Base/src/base.php';
+require_once '../../../Base/src/base.php';
 
 function __autoload( $className )
 {

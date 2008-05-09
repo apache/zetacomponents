@@ -40,6 +40,9 @@ if ( ezcInputForm::hasPostData() )
     echo "Optional properties:\n";
     var_dump( array( 'test2', 'test3', 'test4' ) );
 
+    echo "isValid:\n";
+    var_dump( false );
+
     echo "Values:\n";
     var_dump( 3.14 );
 
@@ -59,8 +62,10 @@ if ( ezcInputForm::hasPostData() )
             <pre>
 <?php
     $def = array(
-        'test1' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'boolean' ),
-        'test2' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'boolean' ),
+        'test1' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'float' ),
+        'test2' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'float' ),
+        'test3' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'float' ),
+        'test4' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 1, 2 ) ),
     );
     $form = new ezcInputForm( INPUT_POST, $def );
 
@@ -76,6 +81,9 @@ if ( ezcInputForm::hasPostData() )
     echo "Optional properties:\n";
     var_dump( $form->getOptionalProperties() );
 
+    echo "isValid:\n";
+    var_dump( $form->isValid() );
+
     echo "Values:\n";
     var_dump( $form->test1 );
 
@@ -87,6 +95,8 @@ if ( ezcInputForm::hasPostData() )
     {
         echo $e->getCode(), ': ', $e->getMessage();
     }
+
+    var_dump( $form->test3 );
 ?>
         </td>
     </tr>
@@ -99,8 +109,8 @@ else
 {
 ?>
 <form method="post" align="center">
-<input type="checkbox" name="test1" checked="yes"/>
-<input type="checkbox" name="test2"/>
+<input type="text"   name="test1"  value="3.14"/>
+<input type="text"   name="test3"  value="42.4"/>
 <input type="submit" name="submit" value="Go!"/>
 </form>
 </body>

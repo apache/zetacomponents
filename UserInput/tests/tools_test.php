@@ -205,6 +205,17 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         self::assertEquals( array(), $obj->getValidProperties() );
     }
 
+    public function testIsValid()
+    {
+        $def = array(
+            'test2' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'int' ),
+            'test3' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'int' ),
+        );
+        $obj = new ezcInputForm( INPUT_GET, $def );
+        $expectedArray = array( 'test2', 'test3' );
+        self::assertEquals( false, $obj->isValid() );
+    }
+
     public function testGetUnsafeRawDataUnknownField()
     {
         $def = array(
