@@ -130,7 +130,6 @@ class ezcLogFileWriterTest extends ezcTestCase
 
     public function testCantCreateFile()
     {
-        xdebug_break();
         try 
         {
             $filter = new ezcLogFilter();
