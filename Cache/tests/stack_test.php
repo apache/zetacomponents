@@ -606,7 +606,7 @@ class ezcCacheStackTest extends ezcTestCase
 
     public function testDeleteByAttributes()
     {
-        $metaData = new ezcCacheStackMetaData();
+        $metaData = new ezcCacheStackLruMetaData();
 
         $storage1 = $this->getMock(
             'ezcCacheStackableStorage',
@@ -909,7 +909,8 @@ class ezcCacheStackTest extends ezcTestCase
 
     protected function getMetaStorageMock()
     {
-        $metaData = new ezcCacheStackMetaData();
+        $metaData = new ezcCacheStackLruMetaData();
+
         $metaStorage = $this->getMock(
             'ezcCacheMetaDataStorage',
             array( 'lock', 'unlock', 'restoreMetaData', 'storeMetaData' )

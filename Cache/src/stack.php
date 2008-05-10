@@ -107,8 +107,8 @@ class ezcCacheStack extends ezcCacheStorage
     {
         $metaStorage = $this->getMetaDataStorage();
         $metaStorage->lock();
-
-        $metaData = $metaStorage->restoreMetaData();
+        
+        $metaData = $this->getMetaData( $metaStorage );
 
         foreach( $this->storageStack as $storageConf )
         {
@@ -127,6 +127,32 @@ class ezcCacheStack extends ezcCacheStorage
 
         $metaStorage->storeMetaData( $metaData );
         $metaStorage->unlock();
+    }
+
+    /**
+     * Returns the meta data to use.
+     *
+     * Returns the meta data to use with the configured {@link
+     * ezcCacheStackStackReplacementStrategy}.
+     * 
+     * @param ezcCacheStackMetaDataStorage $metaStorage 
+     * @return ezcCacheMetaData
+     */
+    private function getMetaData( ezcCacheMetaDataStorage $metaStorage )
+    {
+        $metaData = $metaStorage->restoreMetaData();
+        
+        if ( $metaData === null )
+        {
+            $metaData = call_user_func(
+                array(
+                    $this->properties['options']->replacementStrategy,
+                    'createMetaData'
+                )
+            );
+        }
+
+        return $metaData;
     }
 
     /**
@@ -152,7 +178,7 @@ class ezcCacheStack extends ezcCacheStorage
         $metaStorage = $this->getMetaDataStorage();
         $metaStorage->lock();
 
-        $metaData = $metaStorage->restoreMetaData();
+        $metaData = $this->getMetaData( $metaStorage );
 
         $item = false;
         foreach ( $this->storageStack as $storageConf )

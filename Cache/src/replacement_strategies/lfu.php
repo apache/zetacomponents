@@ -125,6 +125,18 @@ class ezcCacheStackLfuReplacementStrategy extends ezcCacheStackBaseReplacementSt
     }
 
     /**
+     * Returns a fresh meta data instance.
+     *
+     * Returns a freshly created instance of {@link ezcCacheStackLfuMetaData}.
+     * 
+     * @return ezcCacheStackLfuMetaData
+     */
+    public static function createMetaData()
+    {
+        return new ezcCacheStackLfuMetaData();
+    }
+
+    /**
      * Checks if the given meta data is processable.
      *
      * Throws an exception if the given meta data is not processable.

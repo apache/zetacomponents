@@ -139,6 +139,17 @@ interface ezcCacheStackReplacementStrategy
         $attributes = array(),
         $search = false
     );
+
+    /**
+     * Returns a fresh meta data object.
+     *
+     * Different replacement strategies will use different meta data classes.
+     * This method must return a freshly created instance of the meta data
+     * object used by this meta data.
+     * 
+     * @return ezcCacheStackMetaData
+     */
+    public static function createMetaData();
 }
 
 ?>
