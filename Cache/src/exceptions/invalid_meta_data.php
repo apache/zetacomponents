@@ -25,12 +25,13 @@ class ezcCacheInvalidMetaDataException extends ezcCacheException
      * Creates a new ezcCacheInvalidMetaDataException.
      * 
      * @param ezcCacheStackMetaData $metaData 
-     * @param string $id 
+     * @param string $class Expected class of $metaData.
      */
-    function __construct( ezcCacheStackMetaData $metaData, $id )
+    function __construct( ezcCacheStackMetaData $metaData, $class )
     {
         parent::__construct(
-            "The given meta data with ID '{$metaData->id}' could not be handled by replacement strategy with ID '$id'."
+            "The given meta data of class '" . get_class( $metaData )
+            . "'could not be handled by the replacement strategy. Expected: '$class'."
         );
     }
 }

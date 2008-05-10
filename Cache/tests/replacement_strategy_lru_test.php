@@ -38,7 +38,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             5,
             0.5
         );
-        $meta = new ezcCacheStackMetaData( 'someWeirdMetaData' );
+        $meta = new ezcCacheStackLfuMetaData();
 
         try
         {
@@ -65,7 +65,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             5,
             0.5
         );
-        $meta = new ezcCacheStackMetaData();
+        $meta = new ezcCacheStackLruMetaData();
 
         ezcCacheStackLruReplacementStrategy::store(
             $conf,
@@ -80,16 +80,12 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'Data not stored correctly.'
         );
 
-        $this->assertEquals(
-            'ezcCacheStackLruReplacementStrategy',
-            $meta->id,
-            'Meta data ID incorrect.'
-        );
+        $metaData = $meta->getData();
 
         $this->assertGreaterThan(
             // Creation date of test case. Clock correct?
             1209503807,
-            $meta->data['lru']['id_1'],
+            $metaData['replacementData']['id_1'],
             'Meta data entry not created correctly.'
         );
 
@@ -97,7 +93,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             array(
                 'id_1' => true,
             ),
-            $meta->data['storages']['storage_id_1']
+            $metaData['storageData']['storage_id_1']
         );
         $this->removeTempDir();
     }
@@ -112,18 +108,17 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             5,
             0.5
         );
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 'id_42' => 23,
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_42' => array(
                     'id_42' => true,
                 ),
             ),
-        );
+        ) );
 
         ezcCacheStackLruReplacementStrategy::store(
             $conf,
@@ -131,6 +126,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_1',
             'id_1_content'
         );
+
+        $metaData = $meta->getData();
 
         $this->assertEquals(
             'id_1_content',
@@ -141,13 +138,13 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         $this->assertGreaterThan(
             // Creation date of test case. Clock correct?
             1209503807,
-            $meta->data['lru']['id_1'],
+            $metaData['replacementData']['id_1'],
             'Meta data entry not created correctly.'
         );
 
         $this->assertEquals(
             23,
-            $meta->data['lru']['id_42'],
+            $metaData['replacementData']['id_42'],
             'Meta data entry not kept correctly.'
         );
 
@@ -160,7 +157,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_1' => true,
                 )
             ),
-            $meta->data['storages']
+            $metaData['storageData']
         );
         $this->removeTempDir();
     }
@@ -175,18 +172,17 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             5,
             0.5
         );
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 'id_1' => 23,
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_1' => array(
                     'id_1' => true,
                 ),
             ),
-        );
+        ) );
         $conf->storage->store( 'id_1', 'id_1_content' );
 
         ezcCacheStackLruReplacementStrategy::store(
@@ -196,22 +192,18 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_1_content'
         );
 
+        $metaData = $meta->getData();
+
         $this->assertEquals(
             'id_1_content',
             $conf->storage->restore( 'id_1' ),
             'Data not stored correctly.'
         );
 
-        $this->assertEquals(
-            'ezcCacheStackLruReplacementStrategy',
-            $meta->id,
-            'Meta data ID incorrect.'
-        );
-
         $this->assertGreaterThan(
             // Creation date of test case. Clock correct?
             1209503807,
-            $meta->data['lru']['id_1'],
+            $metaData['replacementData']['id_1'],
             'Meta data entry not created correctly.'
         );
 
@@ -219,7 +211,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             array(
                 'id_1' => true,
             ),
-            $meta->data['storages']['storage_id_1']
+            $metaData['storageData']['storage_id_1']
         );
         $this->removeTempDir();
     }
@@ -265,10 +257,9 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             ( $now - 40 )
         );
 
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
                 'id_2' => ( $now - 40 ), // Expired
@@ -276,7 +267,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_4' => ( $now - 40 ), // Expired
                 'id_5' => ( $now - 13 ), 
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_1' => array(
                     'id_1' => true,
                     'id_2' => true,
@@ -289,7 +280,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_5' => true,
                 ),
             ),
-        );
+        ) );
 
         // Perform actual action
 
@@ -299,6 +290,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_6',
             'id_6_content'
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behaviour
 
@@ -312,7 +305,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         // Time stamp has been stored correctly
         $this->assertGreaterThanOrEqual(
             $now,
-            $meta->data['lru']['id_6'],
+            $metaData['replacementData']['id_6'],
             'Meta data entry not created correctly.'
         );
 
@@ -323,12 +316,12 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_5' => true,
                 'id_6' => true,
             ),
-            $meta->data['storages']['storage_id_1'],
+            $metaData['storageData']['storage_id_1'],
             'Storage meta data not inserted correctly.'
         );
 
         // Remove stored item data from meta data again for comfortability
-        unset( $meta->data['lru']['id_6'] );
+        unset( $metaData['replacementData']['id_6'] );
 
         // LRU data correctly updated
         $this->assertEquals(
@@ -338,7 +331,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_2' => ( $now - 40 ),
                 'id_5' => ( $now - 13 ),
             ),
-            $meta->data['lru'],
+            $metaData['replacementData'],
             'Meta data entries not correctly updated.'
         );
 
@@ -355,7 +348,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_5' => true,
                 ),
             ),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage data not correctly updated.'
         );
 
@@ -406,10 +399,9 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
 
         // None expired
 
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
                 'id_2' => ( $now - 15 ), // Throwen out
@@ -417,7 +409,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_4' => ( $now -  9 ),
                 'id_5' => ( $now - 13 ), // Throwen out, but kept for other storage
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_1' => array(
                     'id_1' => true,
                     'id_2' => true,
@@ -430,7 +422,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_5' => true,
                 ),
             ),
-        );
+        ) );
 
         // Perform actual action
 
@@ -440,6 +432,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_6',
             'id_6_content'
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behaviour
 
@@ -453,7 +447,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         // Time stamp has been stored correctly
         $this->assertGreaterThanOrEqual(
             $now,
-            $meta->data['lru']['id_6'],
+            $metaData['replacementData']['id_6'],
             'Meta data entry not created correctly.'
         );
 
@@ -464,13 +458,13 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_4' => true,
                 'id_6' => true,
             ),
-            $meta->data['storages']['storage_id_1'],
+            $metaData['storageData']['storage_id_1'],
             'Storage meta data not inserted correctly.'
         );
 
         // Remove stored item data from meta data again to comfortably assert
         // removal operations
-        unset( $meta->data['lru']['id_6'] );
+        unset( $metaData['replacementData']['id_6'] );
 
         // LRU data correctly updated
         $this->assertEquals(
@@ -480,7 +474,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_1' => ( $now - 10 ),
                 'id_4' => ( $now -  9 ),
             ),
-            $meta->data['lru'],
+            $metaData['replacementData'],
             'Meta data entries not correctly updated.'
         );
 
@@ -497,7 +491,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_5' => true,
                 ),
             ),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage data not correctly updated.'
         );
 
@@ -554,10 +548,9 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             ( $now - 40 )
         );
 
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
                 'id_2' => ( $now - 40 ), // Expired
@@ -565,7 +558,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_4' => ( $now -  9 ),
                 'id_5' => ( $now - 13 ), // Throwen out but kept for other storage
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_1' => array(
                     'id_1' => true,
                     'id_2' => true,
@@ -578,7 +571,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_5' => true,
                 )
             ),
-        );
+        ) );
 
         // Perform actual action
 
@@ -588,6 +581,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_6',
             'id_6_content'
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behaviour
 
@@ -601,7 +596,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         // Time stamp has been stored correctly
         $this->assertGreaterThanOrEqual(
             $now,
-            $meta->data['lru']['id_6'],
+            $metaData['replacementData']['id_6'],
             'Meta data entry not created correctly.'
         );
 
@@ -618,13 +613,13 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_5' => true,
                 )
             ),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage meta data not inserted correctly.'
         );
 
         // Remove stored item data from meta data again to comfortably assert
         // removal operations
-        unset( $meta->data['lru']['id_6'] );
+        unset( $metaData['replacementData']['id_6'] );
 
         // LRU data correctly updated
         $this->assertEquals(
@@ -634,7 +629,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_1' => ( $now - 10 ),
                 'id_4' => ( $now -  9 ),
             ),
-            $meta->data['lru'],
+            $metaData['replacementData'],
             'Meta data entries not correctly updated.'
         );
 
@@ -698,10 +693,9 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             ( $now - 40 )
         );
 
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
                 'id_2' => ( $now - 40 ), // Expired
@@ -709,7 +703,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_4' => ( $now -  9 ),
                 'id_5' => ( $now - 13 ), // Kept, since not in actual storage
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_1' => array(
                     'id_1' => true,
                     'id_2' => true,
@@ -720,7 +714,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_5' => true,
                 ),
             ),
-        );
+        ) );
 
         // Perform actual action
 
@@ -730,6 +724,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_6',
             'id_6_content'
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behaviour
 
@@ -743,7 +739,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         // Time stamp has been stored correctly
         $this->assertGreaterThanOrEqual(
             $now,
-            $meta->data['lru']['id_6'],
+            $metaData['replacementData']['id_6'],
             'Meta data entry not created correctly.'
         );
 
@@ -761,13 +757,13 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_5' => true,
                 ),
             ),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage meta data not inserted correctly.'
         );
 
         // Remove stored item data from meta data again to comfortably assert
         // removal operations
-        unset( $meta->data['lru']['id_6'] );
+        unset( $metaData['replacementData']['id_6'] );
 
         // LRU data correctly updated
         $this->assertEquals(
@@ -779,7 +775,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_4' => ( $now -  9 ),
                 'id_5' => ( $now - 13 ), // Kept, since not in actual storage
             ),
-            $meta->data['lru'],
+            $metaData['replacementData'],
             'Meta data entries not correctly updated.'
         );
 
@@ -814,14 +810,13 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         // Store max number of items
         $conf->storage->store( 'id_1', 'id_1_content' );
         
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_1' => array(
                     'id_1' => true,
                 ),
@@ -829,7 +824,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_1' => true,
                 ),
             ),
-        );
+        ) );
 
         // Perform actual action
 
@@ -838,6 +833,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             $meta,
             'id_1'
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behavior
 
@@ -851,7 +848,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         // Meta data actualized correctly
         $this->assertGreaterThan(
             ( $now - 10 ),
-            $meta->data['lru']['id_1']
+            $metaData['replacementData']['id_1']
         );
         
         // Storage data kept correctly
@@ -864,7 +861,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_1' => true,
                 ),
             ),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage data not correctly updated.'
         );
     }
@@ -896,14 +893,13 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             ( $now - 40 )
         );
         
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 40 ),
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_1' => array(
                     'id_1' => true,
                 ),
@@ -911,7 +907,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_1' => true,
                 ),
             ),
-        );
+        ) );
 
         // Perform actual action
 
@@ -920,6 +916,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             $meta,
             'id_1'
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behavior
 
@@ -935,19 +933,17 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 // Not removed, since available in other storage
                 'id_1' => ( $now - 40 ),
             ),
-            $meta->data['lru']
+            $metaData['replacementData']
         );
         
         // Storage data kept correctly
         $this->assertEquals(
             array(
-                'storage_id_1' => array(
-                ),
                 'storage_id_42' => array(
                     'id_1' => true,
                 ),
             ),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage data not correctly updated.'
         );
     }
@@ -967,12 +963,11 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             0.5
         );
         
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(),
-            'storages' => array(),
-        );
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(),
+            'storageData' => array(),
+        ) );
 
         // Perform actual action
 
@@ -981,6 +976,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             $meta,
             'id_1'
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behavior
 
@@ -993,13 +990,13 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         // Meta data actualized correctly
         $this->assertEquals(
             array(),
-            $meta->data['lru']
+            $metaData['replacementData']
         );
         
         // Storage data kept correctly
         $this->assertEquals(
             array(),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage data not correctly updated.'
         );
     }
@@ -1031,13 +1028,12 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'Cache location contains unknown items.'
         );
         
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 'id_1' => $now,
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_1' => array(
                     'id_1' => true,
                 ),
@@ -1045,7 +1041,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_1' => true,
                 ),
             ),
-        );
+        ) );
 
         // Perform actual action
 
@@ -1054,6 +1050,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             $meta,
             'id_1'
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behavior
 
@@ -1069,19 +1067,17 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             array(
                 'id_1' => $now,
             ),
-            $meta->data['lru']
+            $metaData['replacementData']
         );
         
         // Storage data kept correctly
         $this->assertEquals(
             array(
-                'storage_id_1' => array(
-                ),
                 'storage_id_42' => array(
                     'id_1' => true,
                 ),
             ),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage data not correctly updated.'
         );
         
@@ -1110,18 +1106,17 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
 
         $now = time();
 
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 'id_1' => ( $now - 40 ),
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_42' => array(
                     'id_1' => true,
                 ),
             ),
-        );
+        ) );
 
         // Perform actual action
 
@@ -1130,6 +1125,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             $meta,
             'id_1'
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behavior
 
@@ -1145,7 +1142,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             array(
                 'id_1' => ( $now - 40 ),
             ),
-            $meta->data['lru']
+            $metaData['replacementData']
         );
         
         // Storage data kept correctly
@@ -1155,7 +1152,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_1' => true,
                 ),
             ),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage data not correctly updated.'
         );
 
@@ -1196,15 +1193,14 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'Cache location contains unknown items.'
         );
         
-        $meta = new ezcCacheStackMetaData();
-        $meta->id = 'ezcCacheStackLruReplacementStrategy';
-        $meta->data = array(
-            'lru' => array(
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
                 'id_1' => $now,
                 'id_2' => $now,
                 'id_3' => $now,
             ),
-            'storages' => array(
+            'storageData' => array(
                 'storage_id_1' => array(
                     'id_1' => true,
                     'id_2' => true,
@@ -1214,7 +1210,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_1' => true,
                 ),
             ),
-        );
+        ) );
 
         // Perform actual action
 
@@ -1225,6 +1221,8 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             array( 'lang' => 'en' ),
             true
         );
+
+        $metaData = $meta->getData();
 
         // Assert correct behavior
 
@@ -1241,7 +1239,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                 'id_1' => $now,
                 'id_2' => $now,
             ),
-            $meta->data['lru'],
+            $metaData['replacementData'],
             "Meta data not actualized correctly."
         );
         
@@ -1255,7 +1253,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
                     'id_1' => true,
                 ),
             ),
-            $meta->data['storages'],
+            $metaData['storageData'],
             'Storage data not correctly updated.'
         );
         
