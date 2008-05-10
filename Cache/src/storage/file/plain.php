@@ -94,12 +94,15 @@ class ezcCacheStorageFilePlain extends ezcCacheStorageFile
             $this->properties['location'] . $this->properties['options']->metaDataFile
         );
         $dataArr = unserialize( $dataStr );
-        // Returns a new, blank meta data if no meta data is found.
-        return ( 
-            $dataArr === false
-            ? new ezcCacheStackMetaData()
-            : new ezcCacheStackMetaData( $dataArr['id'], $dataArr['data'] )
-        );
+
+
+        $result = null;
+        if ( $dataArr !== false )
+        {
+            $result = new $dataArr['class']();
+            $result->setData( $dataArr['data'] );
+        }
+        return $result;
     }
 
     /**
@@ -116,8 +119,8 @@ class ezcCacheStorageFilePlain extends ezcCacheStorageFile
     public function storeMetaData( ezcCacheStackMetaData $metaData )
     {
         $dataArr = array(
-            'id'   => $metaData->id,
-            'data' => $metaData->data,
+            'class' => get_class( $metaData ),
+            'data'  => $metaData->getData(),
         );
         // This storage only handles scalar values, so we serialize here.
         $dataStr = serialize( $dataArr );

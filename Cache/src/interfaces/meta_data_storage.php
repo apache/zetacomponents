@@ -27,11 +27,12 @@ interface ezcCacheStackMetaDataStorage
      * Restores and returns the meta data struct.
      *
      * This method fetches the meta data stored in the storage and returns the
-     * according struct of type {@link ezcCacheStackMetaData}. The meta data
-     * must be stored inside the storage, but should not be visible as normal
-     * cache items to the user.
+     * according object implementing {@link ezcCacheStackMetaData}, that was
+     * stored using {@link storeMetaData()}. The meta data must be stored
+     * inside the storage, but should not be visible as normal cache items to
+     * the user. If no meta data is found, null must be returned.
      * 
-     * @return ezcCacheStackMetaData
+     * @return ezcCacheStackMetaData|null
      */
     public function restoreMetaData();
 
@@ -41,10 +42,11 @@ interface ezcCacheStackMetaDataStorage
      * This method stores the given $metaData inside the storage. The data must
      * be stored with the same mechanism that the storage itself uses. However,
      * it should not be stored as a normal cache item, if possible, to avoid
-     * accedental user manipulation.
+     * accedental user manipulation. The class of $metaData must be stored in
+     * addition, to reconstruct the correct {@link ezcCacheStackMetaData}
+     * implementing class on {@link restoreMetaData}.
      * 
      * @param ezcCacheStackMetaData $metaData 
-     * @return void
      */
     public function storeMetaData( ezcCacheStackMetaData $metaData );
 

@@ -675,7 +675,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * must be stored inside the storage, but should not be visible as normal
      * cache items to the user.
      * 
-     * @return ezcCacheStackMetaData
+     * @return ezcCacheStackMetaData|null
      */
     public function restoreMetaData()
     {
@@ -683,12 +683,14 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
         $dataArr = @$this->fetchData(
             $this->properties['location'] . $this->properties['options']->metaDataFile
         );
-        // Returns a new, blank meta data if no meta data is found.
-        return ( 
-            $dataArr === false
-            ? new ezcCacheStackMetaData()
-            : new ezcCacheStackMetaData( $dataArr['id'], $dataArr['data'] )
-        );
+        
+        $result = null;
+        if ( $dataArr !== false )
+        {
+            $result = new $dataArr['class']();
+            $result->setData( $dataArr['data'] );
+        }
+        return $result;
     }
 
     /**
@@ -705,8 +707,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
     public function storeMetaData( ezcCacheStackMetaData $metaData )
     {
         $dataArr = array(
-            'id'   => $metaData->id,
-            'data' => $metaData->data,
+            'class' => get_class( $metaData ),
+            'data'  => $metaData->getData(),
         );
         $this->storeRawData(
             $this->properties['location'] . $this->properties['options']->metaDataFile,

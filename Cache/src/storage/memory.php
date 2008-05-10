@@ -399,9 +399,9 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
         $metaDataKey = urlencode( $this->properties['location'] ) . '_'
             . $this->properties['options']->metaDataKey;
 
-        if ( ( $data =  $this->backend->fetch( $metaDataKey ) ) === false )
+        if ( ( $data = $this->backend->fetch( $metaDataKey ) ) === false )
         {
-            $data = new ezcCacheStackMetaData();
+            $data = null;
         }
         return $data;
     }

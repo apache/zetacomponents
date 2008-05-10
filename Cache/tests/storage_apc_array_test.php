@@ -667,11 +667,22 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
         $metaDataKey = urlencode( $storage->getLocation() ) . '_'
             . $storage->options->metaDataKey;
 
-        $meta = new ezcCacheStackMetaData(
-            'testId',
+        $meta = new ezcCacheStackLruMetaData();
+        $meta->setData(
             array(
-                'Test data...',
-                '...more test data...'
+                'replacementData' => array(
+                    'id_1' => 23,
+                    'id_2' => 42,
+                ),
+                'storageData' => array(
+                    'storage_id_1' => array(
+                        'id_1' => true,
+                        'id_2' => true,
+                    ),
+                    'storage_id_2' => array(
+                        'id_2' => true,
+                    ),
+                ),
             )
         );
 
@@ -721,8 +732,7 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
 
         $restoredMeta = $storage->restoreMetaData();
 
-        $this->assertEquals(
-            new ezcCacheStackMetaData(),
+        $this->assertNull(
             $restoredMeta,
             'Meta data not restored correctly.'
         );
