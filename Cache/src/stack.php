@@ -138,7 +138,7 @@ class ezcCacheStack extends ezcCacheStorage
      * @param ezcCacheStackMetaDataStorage $metaStorage 
      * @return ezcCacheMetaData
      */
-    private function getMetaData( ezcCacheMetaDataStorage $metaStorage )
+    private function getMetaData( ezcCacheStackMetaDataStorage $metaStorage )
     {
         $metaData = $metaStorage->restoreMetaData();
         

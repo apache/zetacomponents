@@ -57,7 +57,7 @@ interface ezcCacheStackableStorage
      * Reset the complete storage.
      *
      * This method resets the complete cache storage. All content (including
-     * content stored with the {@link ezcCacheMetaDataStorage} interfacer) must
+     * content stored with the {@link ezcCacheStackMetaDataStorage} interfacer) must
      * be deleted and the cache storage must appear as if it has just newly
      * been created.
      * 

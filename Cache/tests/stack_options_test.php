@@ -66,17 +66,19 @@ class ezcCacheStackOptionsTest extends ezcTestCase
 
     public function testSetSuccess()
     {
+        $metaDataStorage = $this->getMock( 'ezcCacheStackMetaDataStorage' );
+
         $opts = new ezcCacheStackOptions();
         $this->assertSetProperty(
             $opts,
             'configurator',
             array( 'ezcCacheTestDummyStackConfigurator', null )
         );
+
         $this->assertSetProperty(
             $opts,
             'metaStorage',
-            // @TODO: Should be a valid storage object.
-            array( null )
+            array( $metaDataStorage )
         );
         $this->assertSetProperty(
             $opts,
@@ -92,6 +94,21 @@ class ezcCacheStackOptionsTest extends ezcTestCase
 
     public function testSetFailure()
     {
+        $nonMetaDataStorage = $this->getMock(
+            'ezcCacheStorage',
+            array(
+                'validateLocation',
+                'store',
+                'restore',
+                'delete',
+                'countDataItems',
+                'getRemainingLifetime'
+            ),
+            array(),
+            '',
+            false
+        );
+
         $opts = new ezcCacheStackOptions();
         $this->assertSetPropertyFails(
             $opts,
@@ -101,7 +118,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
         $this->assertSetPropertyFails(
             $opts,
             'metaStorage',
-            array( true, false, 23, 42.23, 'Foo', array(), 'stdClass', new stdClass() )
+            array( true, false, 23, 42.23, 'Foo', array(), 'stdClass', new stdClass(), $nonMetaDataStorage )
         );
         $this->assertSetPropertyFails(
             $opts,

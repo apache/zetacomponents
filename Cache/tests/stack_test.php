@@ -912,7 +912,7 @@ class ezcCacheStackTest extends ezcTestCase
         $metaData = new ezcCacheStackLruMetaData();
 
         $metaStorage = $this->getMock(
-            'ezcCacheMetaDataStorage',
+            'ezcCacheStackMetaDataStorage',
             array( 'lock', 'unlock', 'restoreMetaData', 'storeMetaData' )
         );
         $metaStorage->expects( $this->once() )

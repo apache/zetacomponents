@@ -495,7 +495,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      *
      * Deletes all data in the storage.
      *
-     * @TODO ezcCacheMetaDataStorage functionality should be reset, too.
+     * @TODO ezcCacheStackMetaDataStorage functionality should be reset, too.
      * 
      * @return void
      */

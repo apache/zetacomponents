@@ -19,7 +19,7 @@
  *           will be used right after construction of the stack, to perform
  *           initial configuration. After the construction process, this option
  *           does not have any effect. Null (default) means no configuration.
- * @property ezcCacheMetaDataStorage $metaStorage
+ * @property ezcCacheStackMetaDataStorage $metaStorage
  *           This storage will be used to store the meta data of the
  *           replacement strategy used by the stack. If null (default) is
  *           given, the top most storage will be used.
@@ -95,12 +95,12 @@ class ezcCacheStackOptions extends ezcBaseOptions
                 }
                 break;
             case 'metaStorage':
-                if ( $propertyValue !== null && !( $propertyValue instanceof ezcCacheMetaDataStorage ) )
+                if ( $propertyValue !== null && !( $propertyValue instanceof ezcCacheStackMetaDataStorage ) )
                 {
                     throw new ezcBaseValueException(
                         $propertyName,
                         $propertyValue,
-                        'ezcCacheMetaDataStorage or null'
+                        'ezcCacheStackMetaDataStorage or null'
                     );
                 }
                 break;
