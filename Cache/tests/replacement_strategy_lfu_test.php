@@ -28,6 +28,14 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
+    public function testCreateMetaData()
+    {
+        $this->assertEquals(
+            new ezcCacheStackLfuMetaData(),
+            ezcCacheStackLfuReplacementStrategy::createMetaData()
+        );
+    }
+
     public function testInvalidMetaData()
     {
         $conf = new ezcCacheStackStorageConfiguration(
