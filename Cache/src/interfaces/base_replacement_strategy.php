@@ -20,6 +20,12 @@
  * are both only wrappers around this class, which implement a different {@link
  * checkMetaData()}, since both strategies use different meta data structures.
  *
+ * The (normally abstract static) method
+ *  checkMetaData( ezcCacheStackMetaData $metaData );
+ * must also be implemented by deriving classes. It must check if the given
+ * $metaData is an instance of the correct class. In other cases, an {@link
+ * ezcCacheInvalidMetaDataException} must be throwen.
+ *
  * @package Cache
  * @version //autogen//
  *
