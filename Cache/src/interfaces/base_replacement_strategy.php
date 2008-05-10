@@ -222,8 +222,7 @@ abstract class ezcCacheStackBaseReplacementStrategy implements ezcCacheStackRepl
      * Pseudo implementation.
      *
      * This method would normally be declared abstract. However, PHP does not
-     * allow abstract static methods, so a {@link RuntimeException} is throwen
-     * instead, if this method is not properly overwritten.
+     * allow abstract static methods.
      *
      * Deriving classes must check inside this method, if the given $metaData
      * is appropriate for them. If not, an {@link
@@ -231,18 +230,11 @@ abstract class ezcCacheStackBaseReplacementStrategy implements ezcCacheStackRepl
      * 
      * @param ezcCacheStackMetaData $metaData 
      *
-     * @throws RuntimeException
-     *         if this method was not overwritten properly.
      * @throws ezcCacheInvalidMetaDataException
      *         if the given $metaData is not processable by this replacement
      *         strategy.
      */
-/*    protected static function checkMetaData( ezcCacheStackMetaData $metaData )
-    {
-        throw new RuntimeException(
-            'This class is not intended to be used directly. Use a derived class instead.'
-        );
-    }*/
+/*   abstract protected static function checkMetaData( ezcCacheStackMetaData $metaData ) */
 }
 
 ?>
