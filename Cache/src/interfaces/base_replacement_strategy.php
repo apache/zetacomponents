@@ -127,7 +127,9 @@ abstract class ezcCacheStackBaseReplacementStrategy implements ezcCacheStackRepl
                 // Purge only if available in the current storage
                 if ( $metaData->hasItem( $conf->id, $id ) )
                 {
-                    $deletedIds = $conf->storage->delete( $id );
+                    // Purge all items with this ID, no matter which
+                    // attributes, therefore: $search = true.
+                    $deletedIds = $conf->storage->delete( $id, null, true );
                     $metaData->removeItem( $conf->id, $id );
 
                     // Purged enough?

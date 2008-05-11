@@ -510,6 +510,293 @@ class ezcCacheStackLfuReplacementStrategyTest extends ezcTestCase
         $this->removeTempDir();
     }
 
+    public function testStoreNoNewMetaNewItemFreePurgeWithAttributes()
+    {
+        // Prepare faked test data
+
+        $tmpDir = $this->createTempDir( __CLASS__ );
+        $conf = new ezcCacheStackStorageConfiguration(
+            'storage_id_1',
+            new ezcCacheStorageFileArray(
+                $tmpDir,
+                array( 'ttl' => 30 )
+            ),
+            5,
+            0.5
+        );
+        
+        $now = time();
+
+        // Store max number of items
+        $conf->storage->store( 'id_1', 'id_1_content', array( 'lang' => 'de', 'section' => 'news' ) );
+        $conf->storage->store( 'id_2', 'id_2_content', array( 'lang' => 'en', 'section' => 'news' ) );
+        $conf->storage->store( 'id_3', 'id_3_content', array( 'lang' => 'no', 'section' => 'news' ) );
+        $conf->storage->store( 'id_4', 'id_4_content', array( 'lang' => 'en', 'section' => 'news' ) );
+        $conf->storage->store( 'id_5', 'id_5_content', array( 'lang' => 'en', 'section' => 'news' ) );
+
+        // Expire 3 items
+        touch(
+            $tmpDir . '/' . $conf->storage->generateIdentifier( 'id_2', array( 'lang' => 'en', 'section' => 'news' ) ),
+            ( $now - 40 ),
+            ( $now - 40 )
+        );
+        touch(
+            $tmpDir . '/' . $conf->storage->generateIdentifier( 'id_3', array( 'lang' => 'no', 'section' => 'news' ) ),
+            ( $now - 40 ),
+            ( $now - 40 )
+        );
+        touch(
+            $tmpDir . '/' . $conf->storage->generateIdentifier( 'id_5', array( 'lang' => 'en', 'section' => 'news' ) ),
+            ( $now - 40 ),
+            ( $now - 40 )
+        );
+
+        $meta = new ezcCacheStackLfuMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
+                // Fake access times, not necessarily reflect file mtimes
+                'id_1' => 10,
+                'id_2' => 100,  // Expired
+                'id_3' => 5,    // Expired
+                'id_4' => 23,
+                'id_5' => 42,   // Expired but kept, since available in other storage
+            ),
+            'storageData' => array(
+                'storage_id_1' => array(
+                    'id_1' => true,
+                    'id_2' => true,
+                    'id_3' => true,
+                    'id_4' => true,
+                    'id_5' => true,
+                ),
+                'storage_id_42' => array(
+                    'id_1' => true,
+                    'id_5' => true,
+                ),
+            ),
+        ) );
+
+        // Perform actual action
+
+        ezcCacheStackLfuReplacementStrategy::store(
+            $conf,
+            $meta,
+            'id_6',
+            'id_6_content',
+            array( 'lang' => 'de', 'section' => 'news' )
+        );
+
+        $metaData = $meta->getData();
+
+        // Assert correct behaviour
+
+        // Data has actually been stored
+        $this->assertEquals(
+            'id_6_content',
+            $conf->storage->restore( 'id_6', null, true ),
+            'Data not stored correctly.'
+        );
+
+        // Time stamp has been stored correctly
+        $this->assertEquals(
+            1,
+            $metaData['replacementData']['id_6'],
+            'Meta data entry not created correctly.'
+        );
+
+        // Storage has been saved correctly
+        $this->assertEquals( 
+            array(
+                'storage_id_1' => array(
+                    'id_1' => true, // Old
+                    'id_4' => true, // Old
+                    'id_6' => true  // New
+                ),
+                'storage_id_42' => array(
+                    'id_1' => true, // Old
+                    'id_5' => true, // Old
+                ),
+            ),
+            $metaData['storageData'],
+            'Storage meta data not inserted correctly.'
+        );
+
+        // Remove stored item data from meta data again to comfortably assert
+        // removal operations
+        unset( $metaData['replacementData']['id_6'], $metaData['storageData']['barid'] );
+
+        // LRU data correctly updated
+        $this->assertEquals(
+            // Note the sorting was not performed!
+            array(
+                'id_1' => 10,
+                'id_4' => 23,
+                'id_5' => 42,   // Expired but kept, since available in storage_id_42
+            ),
+            $metaData['replacementData'],
+            'Meta data entries not correctly updated.'
+        );
+
+        // Make sure items have been deleted from disc
+        $this->assertEquals(
+            // id_1, id_5 and id_6
+            3,
+            count( glob( "$tmpDir/*" ) ),
+            'Number of items on disc incorrect.'
+        );
+
+        // Restore existing items to check correct items exist
+        $this->assertEquals(
+            'id_1_content',
+            $conf->storage->restore( 'id_1', null, true ),
+            'Data on disc incorrect.'
+        );
+        $this->assertFalse(
+            $conf->storage->restore( 'id_5', null, true ),
+            'Data on disc incorrect.'
+        );
+        $this->removeTempDir();
+    }
+
+    public function testStoreNoNewMetaNewItemFreeDeleteWithAttributes()
+    {
+        // Prepare faked test data
+
+        $tmpDir = $this->createTempDir( __CLASS__ );
+        $conf = new ezcCacheStackStorageConfiguration(
+            'storage_id_1',
+            new ezcCacheStorageFileArray(
+                $tmpDir,
+                array( 'ttl' => 30 )
+            ),
+            5,
+            0.5
+        );
+        
+        $now = time();
+
+        // Store max number of items
+        $conf->storage->store( 'id_1', 'id_1_content', array( 'lang' => 'de', 'section' => 'news' ) );
+        $conf->storage->store( 'id_2', 'id_2_content', array( 'lang' => 'en', 'section' => 'news' ) );
+        $conf->storage->store( 'id_3', 'id_3_content', array( 'lang' => 'no', 'section' => 'news' ) );
+        $conf->storage->store( 'id_4', 'id_4_content', array( 'lang' => 'en', 'section' => 'news' ) );
+        $conf->storage->store( 'id_5', 'id_5_content', array( 'lang' => 'en', 'section' => 'news' ) );
+
+        // None expired
+
+        $meta = new ezcCacheStackLfuMetaData();
+        $meta->setData( array(
+            'replacementData' => array(
+                // Fake access times, not necessarily reflect file mtimes
+                'id_1' => 150,
+                'id_2' => 23,   // Throwen out
+                'id_3' => 42,   // Throwen out
+                'id_4' => 100,
+                'id_5' => 5,    // Throwen out but kept, since available in other storage
+            ),
+            'storageData' => array(
+                'storage_id_1' => array(
+                    'id_1' => true,
+                    'id_2' => true,
+                    'id_3' => true,
+                    'id_4' => true,
+                    'id_5' => true,
+                ),
+                'storage_id_42' => array(
+                    'id_1' => true,
+                    'id_5' => true,
+                )
+            ),
+        ) );
+
+        // Perform actual action
+
+        ezcCacheStackLfuReplacementStrategy::store(
+            $conf,
+            $meta,
+            'id_6',
+            'id_6_content',
+            array( 'lang' => 'de', 'section' => 'news' )
+        );
+
+        $metaData = $meta->getData();
+
+        // Assert correct behaviour
+
+        // Data has actually been stored
+        $this->assertEquals(
+            'id_6_content',
+            $conf->storage->restore( 'id_6', null, true ),
+            'Data not stored correctly.'
+        );
+
+        // Time stamp has been stored correctly
+        $this->assertEquals(
+            1,
+            $metaData['replacementData']['id_6'],
+            'Meta data entry not created correctly.'
+        );
+
+        // Storage data updated correctly
+        $this->assertEquals( 
+            array(
+                'storage_id_1' => array(
+                    'id_1' => true,
+                    'id_4' => true,
+                    'id_6' => true,
+                ),
+                'storage_id_42' => array(
+                    'id_1' => true,
+                    'id_5' => true,
+                )
+            ),
+            $metaData['storageData'],
+            'Storage meta data not inserted correctly.'
+        );
+
+        // Remove stored item data from meta data again to comfortably assert
+        // removal operations
+        unset( $metaData['replacementData']['id_6'] );
+
+        // LRU data correctly updated
+        $this->assertEquals(
+            // Note the sorting
+            array(
+                'id_5' => 5,    // Throwen out but kept, since available in other storage
+                'id_4' => 100,
+                'id_1' => 150,
+            ),
+            $metaData['replacementData'],
+            'Meta data entries not correctly updated.'
+        );
+
+        // Make sure items have been deleted from disc
+        $this->assertEquals(
+            // id_1, id_4 and id_6
+            3,
+            count( glob( "$tmpDir/*" ) ),
+            'Number of items on disc incorrect.'
+        );
+
+        // Restore existing items to check correct items exist
+        $this->assertEquals(
+            'id_1_content',
+            $conf->storage->restore( 'id_1', null, true ),
+            'Data on disc incorrect.'
+        );
+        $this->assertEquals(
+            'id_4_content',
+            $conf->storage->restore( 'id_4', null, true ),
+            'Data on disc incorrect.'
+        );
+        $this->assertFalse(
+            // Deleted on disc, but still in meta data
+            $conf->storage->restore( 'id_5', null, true ),
+            'Data on disc incorrect.'
+        );
+        $this->removeTempDir();
+    }
+
     public function testStoreNoNewMetaNewItemFreePurgeDelete()
     {
         // Prepare faked test data
