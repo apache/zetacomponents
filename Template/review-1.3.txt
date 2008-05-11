@@ -1,0 +1,48 @@
+Template object in custom functions / blocks
+============================================
+
+- The Template object is given as the first parameter to functions/methods
+  realizing a custom block or function, if activated via $sendTemplateObject.
+  Wouldn't it be better to make it be used as the last parameter for BC
+  reasons?
+- The tests for this feature could be more exact, they only check
+  get_class($template->usedConfiguration), which should usually be the same.
+  I'd expect that they check of the correct Template instance was submitted.
+
+Fixed issue #11228: Cannot supply an absolute Win32-Path to $t->process()
+=========================================================================
+
+- The patch (r5906:5889) does not seem to fix the actual issue for me, since
+  it only replaces ezcBaseFile::isAbsolutepath() with a manual check for
+  absolute Unix pathes. Absolute Windows pathes should still not be
+  recognized.
+- The test also do not reflect the behavior indicated by the issue title.
+
+Location suppport
+=================
+
+- Does not seem to be tested, `grep -r -i 'locator' Template/tests/*|grep -v svn`
+  gave no results.
+
+Implementation of {capture}
+===========================
+
+- Seems not to be mentioned in the ChangeLog.
+- Why are type hints in ezcTemplateCaptureTstNode::__construct() and
+  ezcTemplateTstNode::__construct() commented?
+
+Misc
+====
+
+- Variable amount of parameters for functions not mentioned in ChangeLog.
+- Variable amount of parameters for blocks not mentioned in ChangeLog.
+- Variable amount of parameters for blocks seems not to be tested.
+
+- Why does the date_format() template function also support timestamps and not
+  only DateTime objects? Though we have date_format_timestam() for these.
+  date_format() should throw an exception if not a DateTime object is received
+  of date_format_timestamp() should dispatch to ezcTemplateDate::date(), too.
+  I'd prefer the first solution.
+
+- "Made named parameters work with PHP 5.1.6." is a bit misleading, since
+  actually an exception is throwen if < 5.2.
