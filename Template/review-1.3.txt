@@ -46,3 +46,6 @@ Misc
 
 - "Made named parameters work with PHP 5.1.6." is a bit misleading, since
   actually an exception is throwen if < 5.2.
+
+- The tutorial SVN log does not note that any of the changes made it in the
+  tutorial so far.
