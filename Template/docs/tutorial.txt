@@ -2968,9 +2968,10 @@ Translations
 With the tr_context_ and tr_ template constructs you can add translatable
 strings to you application. For them to work you have to take a few steps. 
 
-First of all, you need to make sure that you have the TranslationTemplate and
-Translation_ components installed as well. The TranslationTemplate component
-provides the glue between the Template component and the Translation component.
+First of all, you need to make sure that you have the TemplateTranslationTiein
+and Translation_ components installed as well. The TranslationTemplate
+component provides the glue between the Template component and the Translation
+component.
 
 Then you have to configure the template system with the correct configuration for
 translations::
