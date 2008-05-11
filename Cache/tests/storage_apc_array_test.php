@@ -58,7 +58,7 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
         {
             $this->markTestSkipped( "PHP must have APC support." );
         }
-
+        
         // Class name == <inheriting class> - "Test"
         $storageClass = ( $this->storageClass = substr( get_class( $this ), 0, strlen( get_class(  $this ) ) - 4 ) );
         $this->storage = new $storageClass( $this->createTempDir( 'ezcCacheTest' ), array( 'ttl' => 10 ) );
@@ -99,6 +99,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
             $data = $storage->restore( $id );
             $this->assertTrue( $data === false, "Restore data broken for ID <{$id}>." );
         }
+
+        $this->removeTempDir();
     }
 
     // Override test from parent class
@@ -137,6 +139,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
             $data = $storage->restore( $id, $attributes );
             $this->assertTrue( $data === false, "Restore data broken for ID <{$id}>." );
         }
+        
+        $this->removeTempDir();
     }
 
     public function testMockApcBackend()
@@ -160,6 +164,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
         {
             $this->assertEquals( "APC store failed.", $e->getMessage() );
         }
+        
+        $this->removeTempDir();
     }
 
     public function testStoreResource()
@@ -194,6 +200,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
 
         $dataFetched = $storage->fetchData( $identifier, true );
         $this->assertEquals( $data, $dataFetched );
+
+        $this->removeTempDir();
     }
 
     public function testWrapperPrepareDataUseApcResourceFail()
@@ -214,6 +222,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
             fclose( $resource );
             $this->assertEquals( "The given data was of type 'resource', which can not be stored. Expecting: 'simple, array, object'.", $e->getMessage() );
         }
+
+        $this->removeTempDir();
     }
 
     public function testWrapperCalcLifetimeNoApc()
@@ -233,6 +243,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
 
         // "8 <= " - for those cases where the current second changes during requests
         $this->assertEquals( true, 8 <= $lifetime );
+
+        $this->removeTempDir();
     }
 
     public function testCacheManagerLocationEmpty()
@@ -549,6 +561,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
             $this->getObjectAttribute( $storage, 'lock' ),
             'Lock stat not correctly initialized'
         );
+
+        $this->removeTempDir();
     }
 
     public function testLockTimeout()
@@ -654,6 +668,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
             $this->getObjectAttribute( $secondStorage, 'lock' ),
             'Lock state not correctly initialized in second storage'
         );
+
+        $this->removeTempDir();
     }
 
     public function testMetaDataSuccess()
@@ -712,6 +728,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
             apc_fetch( $metaDataKey )->var,
             'Meta data file existed before the storage was created.'
         );
+
+        $this->removeTempDir();
     }
 
     public function testMetaDataFailure()
@@ -741,6 +759,8 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
             apc_fetch( $metaDataKey ),
             'Meta data file existed before the storage was created.'
         );
+
+        $this->removeTempDir();
     }
 
     public static function suite()
