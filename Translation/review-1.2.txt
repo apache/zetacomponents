@@ -1,0 +1,7 @@
+General
+=======
+
+- Why does ezcTranslation->parameter_callback_compile() use _ instead of
+  CamelCase?
+- Method name ezcTranslationTsBackend->deinitWriter() sounds strange.
+  closeWriter() or similar would be better.
