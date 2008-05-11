@@ -21,6 +21,7 @@ require_once 'storage_plain_test.php';
 require_once 'storage_apc_plain_test.php';
 require_once 'storage_memcache_plain_test.php';
 require_once 'stack_test.php';
+require_once 'complex_stack_test.php';
 require_once 'stack_storage_configuration_test.php';
 require_once 'lru_meta_data_test.php';
 require_once 'lfu_meta_data_test.php';
@@ -39,20 +40,29 @@ class ezcCacheSuite extends PHPUnit_Framework_TestSuite
     {
         parent::__construct();
         $this->setName( "Cache" );
+        
+        $this->addTest( ezcCacheStackTest::suite() );
+        $this->addTest( ezcCacheComplexCacheTest::suite() );
 
+        $this->addTest( ezcCacheStorageFileOptionsTest::suite() );
+
+        $this->addTest( ezcCacheStorageOptionsTest::suite() );
+
+        $this->addTest( ezcCacheStorageFileTest::suite() );
         $this->addTest( ezcCacheStorageFileArrayTest::suite() );
         $this->addTest( ezcCacheStorageFileEvalArrayTest::suite() );
         $this->addTest( ezcCacheStorageFilePlainTest::suite() );
-        $this->addTest( ezcCacheStorageFileTest::suite() );
+
         $this->addTest( ezcCacheStorageApcPlainTest::suite() );
         $this->addTest( ezcCacheStorageFileApcArrayTest::suite() );
+
         $this->addTest( ezcCacheStorageMemcachePlainTest::suite() );
-        $this->addTest( ezcCacheStorageOptionsTest::suite() );
-        $this->addTest( ezcCacheStorageFileOptionsTest::suite() );
+
         $this->addTest( ezcCacheManagerTest::suite() );
+
         $this->addTest( ezcCacheStackOptionsTest::suite() );
-        $this->addTest( ezcCacheStackTest::suite() );
         $this->addTest( ezcCacheStackStorageConfigurationTest::suite() );
+
         $this->addTest( ezcCacheStackLruMetaDataTest::suite() );
         $this->addTest( ezcCacheStackLfuMetaDataTest::suite() );
         $this->addTest( ezcCacheStackLruReplacementStrategyTest::suite() );
