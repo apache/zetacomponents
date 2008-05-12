@@ -33,7 +33,7 @@ Table prefixes
 General
 =======
 
-- 7 test failures with 5.2.6RC3-dev and SQLite in memory DB: ::
+- 7 test failures with 5.1.6 and 5.2.6 and SQLite in memory DB: ::
 
 		Time: 1 second
 
