@@ -1,6 +1,9 @@
 All known directives
 ====================
 
+.. contents:: Table of contents
+   :depth: 2
+
 .. note:: Just a note!
 
 .. Notice:: You might want to use these more!
