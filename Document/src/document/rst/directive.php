@@ -34,15 +34,24 @@ abstract class ezcDocumentRstDirective
     protected $ast;
 
     /**
+     * Current document base path, especially relevant for file inclusions.
+     * 
+     * @var string
+     */
+    protected $path;
+
+    /**
      * Construct directive from AST and node
      * 
      * @param ezcDocumentRstDocumentNode $ast 
+     * @param string $path
      * @param ezcDocumentRstDirectiveNode $node 
      * @return void
      */
-    public function __construct( ezcDocumentRstDocumentNode $ast, ezcDocumentRstDirectiveNode $node )
+    public function __construct( ezcDocumentRstDocumentNode $ast, $path, ezcDocumentRstDirectiveNode $node )
     {
         $this->ast  = $ast;
+        $this->path = $path;
         $this->node = $node;
     }
 

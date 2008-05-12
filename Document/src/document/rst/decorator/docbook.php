@@ -581,7 +581,7 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
     protected function decorateDirective( DOMNode $root, ezcDocumentRstNode $node )
     {
         $handlerClass = $this->rst->getDirectiveHandler( $node->identifier );
-        $directiveHandler = new $handlerClass( $this->ast, $node );
+        $directiveHandler = new $handlerClass( $this->ast, $this->path, $node );
         $directiveHandler->toDocbook( $this->document, $root );
     }
 }

@@ -9,14 +9,14 @@
  */
 
 /**
- * Decoration handler for RST image directives
+ * Decoration handler for RST important directives
  * 
  * @package Document
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcDocumentRstFigureDirective extends ezcDocumentRstImageDirective
+class ezcDocumentRstAttentionDirective extends ezcDocumentRstDirective
 {
     /**
      * Transform directive to docbook
@@ -30,24 +30,8 @@ class ezcDocumentRstFigureDirective extends ezcDocumentRstImageDirective
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
     {
-        parent::toDocbook( $document, $root );
-
-        $text = '';
-        foreach ( $this->node->nodes as $node )
-        {
-            $text .= $node->token->content;
-        }
-        $text = trim( $text );
-
-        if ( !empty( $text ) )
-        {
-            $media = $root->getElementsBytagName( 'mediaobject' )->item( 0 );
-            $caption = $document->createElement( 'caption' );
-            $media->appendChild( $caption );
-
-            $paragraph = $document->createElement( 'para', htmlspecialchars( $text ) );
-            $caption->appendChild( $paragraph );
-        }
+        $media = $document->createElement( 'important', htmlspecialchars( $this->node->parameters ) );
+        $root->appendChild( $media );
     }
 }
 

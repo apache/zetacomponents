@@ -39,6 +39,28 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective
         $image = $document->createElement( 'imagedata' );
         $image->setAttribute( 'fileref', trim( $this->node->parameters ) );
         $imageObject->appendChild( $image );
+
+        // Handle optional settings on images
+        if ( isset( $this->node->options['alt'] ) )
+        {
+            $text = $document->createElement( 'textobject', htmlspecialchars( $this->node->options['alt'] ) );
+            $media->appendChild( $text );
+        }
+
+        if ( isset( $this->node->options['width'] ) )
+        {
+            $image->setAttribute( 'width', (int) $this->node->options['width'] );
+        }
+
+        if ( isset( $this->node->options['height'] ) )
+        {
+            $image->setAttribute( 'depth', (int) $this->node->options['height'] );
+        }
+
+        if ( isset( $this->node->options['align'] ) )
+        {
+            $image->setAttribute( 'align', $this->node->options['align'] );
+        }
     }
 }
 

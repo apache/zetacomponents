@@ -26,6 +26,13 @@ abstract class ezcDocument
     protected $options;
 
     /**
+     * Current document path, where the operations happen.
+     * 
+     * @var string
+     */
+    protected $path = './';
+
+    /**
      * Construct new document
      *
      * @param ezcFooBarOptions $options
@@ -65,6 +72,7 @@ abstract class ezcDocument
             throw new ezcBaseFileNotFoundException( $file );
         }
 
+        $this->path = realpath( dirname( $file ) ) . '/';
         $this->loadString(
             file_get_contents( $file )
         );

@@ -7,6 +7,13 @@
       <imageobject>
         <imagedata fileref="mylogo.jpeg"/>
       </imageobject>
+      <textobject>   My Logo</textobject>
+      <caption>
+        <para>The larch.</para>
+      </caption>
+      <caption>
+        <para>The larch.</para>
+      </caption>
     </mediaobject>
     <mediaobject>
       <imageobject>

@@ -33,6 +33,13 @@ abstract class ezcDocumentRstDecorator
     protected $ast;
 
     /**
+     * Location of the currently processed RST file, relevant for inclusion.
+     * 
+     * @var string
+     */
+    protected $path;
+
+    /**
      * Collected refrence targets.
      * 
      * @var array
@@ -100,11 +107,13 @@ abstract class ezcDocumentRstDecorator
      * Create decorator from RST document handler.
      * 
      * @param ezcDocumentRst $document 
+     * @param string $path
      * @return void
      */
-    public function __construct( ezcDocumentRst $document )
+    public function __construct( ezcDocumentRst $document, $path )
     {
-        $this->rst = $document;
+        $this->rst  = $document;
+        $this->path = $path;
     }
 
     /**
