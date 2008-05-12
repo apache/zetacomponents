@@ -335,7 +335,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         {
             $node = isset( $document ) ? $document : reset( $this->documentStack );
             $this->triggerError(    
-                ezcDocumentParser::FATAL,
+                E_PARSE,
                 'Expected end of file, got: ' . ezcDocumentRstNode::getTokenName( $node->type ) . ".",
                 null, null, null
             );
@@ -544,7 +544,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::ENUMERATED_LIST ) )
         {
             $this->triggerError(
-                ezcDocumentParser::FATAL,
+                E_PARSE,
                 "Unexpected indentation change from level {$this->indentation} to {$indentation}.",
                 null, $token->line, $token->position
             );
@@ -574,7 +574,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( count( $tokens ) )
         {
             $this->triggerError(
-                ezcDocumentParser::FATAL,
+                E_PARSE,
                 'Unexpected end of file.',
                 null, $token->line, $token->position
             );
@@ -1607,7 +1607,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                  ( $tokens[0]->content !== $indentation->content ) )
             {
                 $this->triggerError(    
-                    ezcDocumentParser::ERROR,
+                    E_ERROR,
                     'Indentation mismatch.',
                     null, $token->line, $token->position
                 );
@@ -1769,7 +1769,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     $identifierTokens = array();
                     $identifier = '';
                     /* DEBUG
-                    echo "  -> This may be a directive....\n";
+                    echo "  -> This may be a directive...\n";
                     // /DEBUG */
                     while ( ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) ||
                             ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
@@ -2138,7 +2138,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             $node->nodes,
             $collected
         );
-        return $node;
+        return $return;
     }
 
     /**
@@ -2370,7 +2370,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             else
             {
                 $this->triggerError(
-                    ezcDocumentParser::FATAL,
+                    E_PARSE,
                     'Invalid token in simple table specifaction.',
                     null, $specToken->line, $specToken->position
                 );
@@ -2451,7 +2451,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( $tableSpec !== $this->readSimpleTableSpecification( $tokens ) )
         {
             $this->triggerError(
-                ezcDocumentParser::WARNING,
+                E_WARNING,
                 'Table specification mismatch in simple table.',
                 null, $tokens[0]->line, $tokens[0]->position
             );
@@ -2464,7 +2464,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( $tableSpec !== $this->readSimpleTableSpecification( $tokens ) )
         {
             $this->triggerError(
-                ezcDocumentParser::WARNING,
+                E_WARNING,
                 'Table specification mismatch in simple table.',
                 null, $tokens[0]->line, $tokens[0]->position
             );
@@ -2572,7 +2572,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             else
             {
                 $this->triggerError(
-                    ezcDocumentParser::FATAL,
+                    E_PARSE,
                     'Invalid token in grid table specifaction.',
                     null, $specToken->line, $specToken->position
                 );
@@ -3078,7 +3078,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( strlen( $node->token->content ) !== strlen( $titleText ) )
         {
             $this->triggerError(
-                ezcDocumentParser::NOTICE,
+                E_NOTICE,
                 "Title underline length does not match text length.",
                 null, $node->token->line, $node->token->position
             );
@@ -3097,7 +3097,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             if ( strlen( $node->token->content ) !== strlen( $doubleTitle->token->content ) )
             {
                 $this->triggerError(
-                    ezcDocumentParser::WARNING,
+                    E_WARNING,
                     "Title overline and underline mismatch.",
                     null, $node->token->line, $node->token->position
                 );
@@ -3164,7 +3164,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             ), true ) )
             {
                 $this->triggerError(
-                    ezcDocumentParser::FATAL,
+                    E_PARSE,
                     "Unexpected node: " . ezcDocumentRstNode::getTokenName( $child->type ) . ".",
                     null, $child->token->line, $child->token->position
                 );
@@ -3187,7 +3187,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 if ( ( $lastSectionDepth - $child->depth ) > 1 )
                 {
                     $this->triggerError(
-                        ezcDocumentParser::FATAL,
+                        E_PARSE,
                         "Title depth inconsitency.",
                         null, $child->token->line, $child->token->position
                     );
@@ -3291,7 +3291,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             if ( $this->documentStack[0]->indentation !== $node->indentation )
             {
                 $this->triggerError(
-                    ezcDocumentParser::ERROR,
+                    E_ERROR,
                     "Indentation level changed between block quotes from {$this->documentStack[0]->indentation} to {$node->indentation}.",
                     null, $node->token->line, $node->token->position
                 );

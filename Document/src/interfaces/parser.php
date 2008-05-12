@@ -35,26 +35,6 @@ abstract class ezcDocumentParser
     );
 
     /**
-     * Notice error level
-     */
-    const NOTICE  = 1;
-
-    /**
-     * Error level for warnings.
-     */
-    const WARNING = 2;
-
-    /**
-     * Error level for severe errors.
-     */
-    const ERROR   = 4;
-
-    /**
-     * Error level for fatal errors
-     */
-    const FATAL   = 8;
-
-    /**
      * Construct new document
      *
      * @param ezcFooBarOptions $options
@@ -81,7 +61,7 @@ abstract class ezcDocumentParser
      */
     protected function triggerError( $level, $message, $file, $line = null, $position = null )
     {
-        if ( $level >= $this->options->errorReporting )
+        if ( $level & $this->options->errorReporting )
         {
             throw new ezcDocumentParserException( $level, $message, $file, $line, $position );
         }

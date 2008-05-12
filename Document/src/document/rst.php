@@ -113,8 +113,8 @@ class ezcDocumentRst extends ezcDocument
     public function loadString( $string )
     {
         $tokenizer = new ezcDocumentRstTokenizer();
-        // @TODO: Make parser configuration publically editable.
         $parser    = new ezcDocumentRstParser();
+        $parser->options->errorReporting = $this->options->errorReporting;
 
         $this->ast = $parser->parse( $tokenizer->tokenizeString( $string ) );
     }

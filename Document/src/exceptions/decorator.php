@@ -9,12 +9,13 @@
  */
 
 /**
- * Exception thrown, when the RST parser could not parse asome token sequence.
+ * Exception thrown, when the RST decorator could not decorate an AST node
+ * properly.
  *
  * @package Document
  * @version //autogentag//
  */
-class ezcDocumentParserException extends ezcDocumentException
+class ezcDocumentDecorationException extends ezcDocumentException
 {
     /**
      * Construct exception from errnous string and current position
@@ -36,7 +37,7 @@ class ezcDocumentParserException extends ezcDocumentException
         );
 
         parent::__construct( 
-            sprintf( "Parse error: %s: '%s' in line %d at position %d.",
+            sprintf( "Decorator error: %s: '%s' in line %d at position %d.",
                 $levelMapping[$level],
                 $message,
                 $line,

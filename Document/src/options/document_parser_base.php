@@ -27,7 +27,7 @@ class ezcDocumentParserBaseOptions extends ezcBaseOptions
      * @var array(string=>mixed)
      */
     protected $properties = array(
-        'errorReporting' => ezcDocumentParser::NOTICE,
+        'errorReporting' => 15, // E_PARSE | E_ERROR | E_WARNING | E_NOTICE
     );
 
     /**
@@ -47,9 +47,9 @@ class ezcDocumentParserBaseOptions extends ezcBaseOptions
         {
             case 'errorReporting':
                 if ( !is_int( $value ) ||
-                     ( $value > 8 ) )
+                     ( ( $value & E_PARSE ) === 0 ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'int <= 8' );
+                    throw new ezcBaseValueException( $name, $value, 'int & E_PARSE' );
                 }
 
                 $this->properties[$name] = $value;
@@ -58,7 +58,6 @@ class ezcDocumentParserBaseOptions extends ezcBaseOptions
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
         }
-
     }
 }
 

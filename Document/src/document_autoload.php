@@ -11,6 +11,7 @@
 
 return array(
     'ezcDocumentException'                    => 'Document/exceptions/exception.php',
+    'ezcDocumentDecorationException'          => 'Document/exceptions/decorator.php',
     'ezcDocumentErrnousXmlException'          => 'Document/exceptions/errnous_xml.php',
     'ezcDocumentMissingDecoratorException'    => 'Document/exceptions/missing_decorator.php',
     'ezcDocumentParserException'              => 'Document/exceptions/parser.php',

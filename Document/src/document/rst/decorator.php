@@ -117,6 +117,27 @@ abstract class ezcDocumentRstDecorator
     }
 
     /**
+     * Trigger decorator error
+     *
+     * Emit a decoration error, and convert it to an exception depending on the
+     * error reporting settings.
+     * 
+     * @param int $level 
+     * @param string $message 
+     * @param string $file 
+     * @param int $line 
+     * @param int $position 
+     * @return void
+     */
+    protected function triggerError( $level, $message, $file, $line = null, $position = null )
+    {
+        if ( $level & $this->rst->options->errorReporting )
+        {
+            throw new ezcDocumentDecorationException( $level, $message, $file, $line, $position );
+        }
+    }
+
+    /**
      * Docarate RST AST
      *
      * Decorate the RST abstract syntax tree.
@@ -310,8 +331,10 @@ abstract class ezcDocumentRstDecorator
         }
         else
         {
-            // @TODO: Throw error
-            return;
+            return $this->triggerError(
+                E_WARNING, "Unknown footnote type '$identifier'.",
+                null, $node->token->line, $node->token->position
+            );
         }
 
         // Store footnote for later rendering in footnote array
@@ -453,8 +476,9 @@ abstract class ezcDocumentRstDecorator
                 return $this->footnotes[0][$number];
             }
 
-            // @TODO: Throw error
-            return;
+            return $this->triggerError(
+                E_WARNING, "Unknown reference target '$string'.", null
+            );
         }
         elseif ( $string[0] === '#' )
         {
@@ -467,7 +491,9 @@ abstract class ezcDocumentRstDecorator
                 return $this->footnotes[$label][$number];
             }
 
-            // @TODO: Throw error.
+            return $this->triggerError(
+                E_WARNING, "Unknown reference target '$string'.", null
+            );
         }
 
         $id = $this->calculateId( $string );
@@ -480,11 +506,15 @@ abstract class ezcDocumentRstDecorator
 
         if ( !isset( $this->references[$id] ) )
         {
-            return "Missing: $id";
+            return $this->triggerError(
+                E_WARNING, "Missing reference target '$id'.", null
+            );
         }
         else
         {
-            return "Dublicate: $id";
+            return $this->triggerError(
+                E_NOTICE, "Dublicate reference target '$id'.", null
+            );
         }
     }
 
@@ -503,7 +533,9 @@ abstract class ezcDocumentRstDecorator
             return $this->namedExternalReferences[$name];
         }
 
-        return "Missing: $name";
+        return $this->triggerError(
+            E_WARNING, "Missing named external reference target '$name'.", null
+        );
     }
 
     /**
@@ -520,7 +552,9 @@ abstract class ezcDocumentRstDecorator
             return $this->anonymousReferences[$this->anonymousReferenceCounter++];
         }
 
-        return "Missing anonymous: " . $this->anonymousReferenceCounter;
+        return $this->triggerError(
+            E_WARNING, "Too few anonymous reference targets.", null
+        );
     }
 
     /**
@@ -537,7 +571,9 @@ abstract class ezcDocumentRstDecorator
             return $this->substitutions[$string];
         }
 
-        // @TODO: Throw error.
+        $this->triggerError(
+            E_ERROR, "Could not find substitution for '$string'.", null
+        );
         return array();
     }
 
