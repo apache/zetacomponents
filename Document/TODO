@@ -1,0 +1,13 @@
+TODO
+====
+
+- Implement XHTML -> Docbook conversion class (ezcDocumentXhtmlToDocbook) and XSLT.
+- Implement Docbook -> XHTML conversion class and XSLT.
+- Implement eZp 3 -> eZp 4 conversion class and XSLT.
+- Implement eZp -> Docbook conversion class and XSLT.
+- Implement Docbook -> eZp conversion class and XSLT.
+- Implement ReST parsing to XML and ReST-XML -> Docbook conversion class and XSLT.
+- Implement Docbook -> ReST conversion class and XSLT.
+- Implement OEHTML/XHTML -> eZp conversion class and XSLT.
+- Implement eZp -> OEHTML/XHTML conversion class and XSLT.
+- Implement DocumentTemplateTieIn component for eZp format output with templates.

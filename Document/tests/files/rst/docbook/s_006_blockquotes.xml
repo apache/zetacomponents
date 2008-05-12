@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<article>
+  <section id="blockquotes">
+    <sectioninfo/>
+    <title>Blockquotes</title>
+    <para>This is an ordinary paragraph, introducing a block quote.</para>
+    <blockquote>
+      <annotation>
+        <para> Sherlock Holmes</para>
+      </annotation>
+      <para>"It is my business to know things.  That is my trade."</para>
+    </blockquote>
+    <para>Unindented paragraph.</para>
+    <blockquote>
+      <annotation>
+        <para> Attribution 1</para>
+      </annotation>
+      <para>Block quote 1.</para>
+    </blockquote>
+    <blockquote>
+      <para>For testing we also want a multiline blockquote to see if the indentation checking works fo those.</para>
+    </blockquote>
+    <para>..</para>
+    <blockquote>
+      <annotation>
+        <para> Another attribution.</para>
+      </annotation>
+      <para>Blockquotes may also consist of multiple paragraphs, as they need to intentionally seperated by "..".</para>
+      <para>So we add a second paragraph in this blockquote.</para>
+    </blockquote>
+  </section>
+</article>
