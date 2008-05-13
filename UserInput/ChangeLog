@@ -1,4 +1,4 @@
-1.3alpha1 - [RELEASEDATE]
+1.3alpha1 - Tuesday 13 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #12345: Added ezcInputForm::isValid().
