@@ -24,9 +24,17 @@ Fixed issue #11228: Cannot supply an absolute Win32-Path to $t->process()
 
 - The patch (r5906:5889) does not seem to fix the actual issue for me, since
   it only replaces ezcBaseFile::isAbsolutepath() with a manual check for
-  absolute Unix pathes. Absolute Windows pathes should still not be
+  absolute Unix paths. Absolute Windows paths should still not be
   recognized.
+
+  - Actually, the swap is the other way. It's changed from
+    $this->properties["stream"][0] != "/" to
+    !ezcBaseFile::isAbsolutepath($this->properties["stream"]). Which seems
+    to be correct.
+
 - The test also do not reflect the behavior indicated by the issue title.
+
+  - I added a specific test for Windows for it as well.
 
 Location suppport
 =================
