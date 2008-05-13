@@ -585,6 +585,10 @@ class ezcCacheStorageFileTest extends ezcTestCase
         catch ( ezcBaseFilePermissionException $e ) {}
 
         chmod( $storage->getLocation(), 0777 );
+        chmod( $storage->getLocation() . '/Some', 0777 );
+        chmod( $storage->getLocation() . '/Some/other', 0777 );
+        chmod( $storage->getLocation() . '/Some/other/Dir', 0777 );
+
         clearstatcache();
 
         $this->removeTempDir();
