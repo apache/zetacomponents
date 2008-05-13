@@ -14,12 +14,26 @@ Table prefixes
   from tables when a schema is read from a DB. We should check there if the
   actual prefix is used and throw an exception if this is not the case.
 
+  - No, we should not. The whole idea is that you can multiple "applications"
+	in the database, each with a different prefix. Throwing an exception when
+	another "application" is found would be a real PITA.
+
 - The condition ::
 	
 	 if ( $prefix === '' || $tableName !== $tableNameWithoutPrefix )
 
   (DatabaseSchema/src/handlers/sqlite/reader.php +74)
   looks like a tautology. Same for the other handlers.
+
+  - Not really, as the table should be scanned both:
+    - if there is no prefix configured
+	- if the $tableName has the prefix, in which case it get's stripped out
+	  with $tableNameWithoutPrefix = substr( $tableName, strlen( $prefix ) );,
+	  and thus $tableName and $tableNameWithoutPrefix are different then. If
+	  it does *not* have the prefix, the two variables would have the same
+	  content.
+
+	I added a comment to the code about it.
 
 - The fetchSchema() method looks the same for all handlers except for the pure
   SQL statement. Those should be moved to a common method in

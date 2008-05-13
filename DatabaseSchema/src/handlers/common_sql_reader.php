@@ -66,6 +66,10 @@ abstract class ezcDbSchemaCommonSqlReader implements ezcDbSchemaDbReader
         foreach ( $tables as $tableName )
         {
             $tableNameWithoutPrefix = substr( $tableName, strlen( $prefix ) );
+            // Process table if there was no prefix, or when a prefix was
+            // found. In the latter case the prefix would be missing from
+            // $tableNameWithoutPrefix due to the substr() above, and hence,
+            // $tableName and $tableNameWithoutPrefix would be different.
             if ( $prefix === '' || $tableName !== $tableNameWithoutPrefix )
             {
                 $fields  = $this->fetchTableFields( $tableName );
