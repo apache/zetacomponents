@@ -6,4 +6,3 @@
    {if $timestamp <= date_current_timestamp()} correct {/if}
 
 4. {date_format( "Y-m-d H:i:s O T e", $date )}
-5. {date_format( "Y-m-d H:i:s O T e", 1147362767 )}

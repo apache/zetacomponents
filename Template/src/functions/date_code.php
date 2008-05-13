@@ -16,24 +16,6 @@
  */
 class ezcTemplateDate
 {
-    public static function date( $format, $timestamp = null )
-    {
-        if ( $timestamp instanceof DateTime )
-        {
-            return $timestamp->format( $format );
-        }
-        else
-        {
-            if ( $timestamp === null ) 
-            {
-                return date( $format );
-            }
-            else
-            {
-                return date( $format, $timestamp );
-            }
-        }
-    }
 }
 
 ?>

@@ -44,6 +44,8 @@ Misc
   of date_format_timestamp() should dispatch to ezcTemplateDate::date(), too.
   I'd prefer the first solution.
 
+  - Fixed, I also added it to the docs from which it was missing.
+
 - "Made named parameters work with PHP 5.1.6." is a bit misleading, since
   actually an exception is throwen if < 5.2.
 
