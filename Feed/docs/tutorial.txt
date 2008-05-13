@@ -110,8 +110,9 @@ processors are supported by the Feed component:
 - **RSS2** (ezcFeedRss2) - (Really Simple Syndication) - |RSS2-specifications|_
 
 A new processor can be defined by creating a class which extends the class
-ezcFeedProcessor and implements the interface ezcFeedParser, and adding it to the
-ezcFeed::$supportedFeedTypes array.
+ezcFeedProcessor and implements the interface ezcFeedParser. The new class
+needs to be added to the supported feed types list by calling the
+ezcFeed::registerFeed() function.
 
 
 Supported feed modules
@@ -127,8 +128,8 @@ The following modules are supported by the Feed component:
 - **iTunes** (ezcFeedITunesModule) - |iTunes-specifications|_
 
 A new module can be defined by creating a class which extends the class
-ezcFeedModule, and adding it to the ezcFeed::$supportedModules and
-ezcFeed::$supportedModulesPrefixes arrays.
+ezcFeedModule. The new class needs to be added to the supported modules list
+by calling the ezcFeed::registerModule() function.
 
 
 How to create a feed
@@ -1001,6 +1002,123 @@ image
 - Called *logo* in ATOM (accessed as *image* through ezcFeed).
 - RSS1 and RSS2 have attributes for the image (*title*, *link*, *url*, *width*,
   *height*, *description*), while ATOM does not have them.
+
+
+Extending the Feed component
+============================
+
+Register a new feed type
+------------------------
+
+A new feed type can be defined by creating a class which extends the class
+ezcFeedProcessor and implements the interface ezcFeedParser. The new class
+needs to be added to the supported feed types list by calling the
+ezcFeed::registerFeed() function.
+
+Example of new feed type::
+
+    class myOpmlHandler extends ezcFeedProcessor implements ezcFeedParser
+    {
+        public function __construct()
+        {
+          $this->feedType = 'opml';
+          $this->contentType = 'text/x-opml';
+          $this->schema = new ezcFeedSchema( /* schema array defining required and optional OPML elements */ );
+        }
+
+        public function generate()
+        {
+          // write implementation here
+
+          // should return XML as a string
+        }
+
+        public static function canParse( DOMDocument $xml )
+        {
+          // write implementation here
+
+          // should return true if this class can parse the $xml DOMDocument received
+          // and false otherwise
+        }
+
+        public function parse( DOMDocument $xml )
+        {
+          // write implementation here
+
+          $feed = new ezcFeed( 'opml' );
+          // parse $xml and fill $feed with properties fetched from $xml
+          return $feed;
+        }
+    }
+
+Example of how to use the feed type above::
+
+    ezcFeed::registerFeed( 'opml', 'myOpmlHandler' );
+    $feed = new ezcFeed( 'opml' );
+    // fill $feed with OPML properties
+
+
+Register a new module
+---------------------
+
+A new module can be defined by creating a class which extends the class
+ezcFeedModule. The new class needs to be added to the supported modules list
+by calling the ezcFeed::registerModule() function.
+
+
+Example of a new module type::
+
+    class mySlashHandler extends ezcFeedModule
+    {
+        // schema which defines the elements (at feed and item level) used by this module
+        protected $schema = array(
+            'feed' => array(),
+            'item' => array( 'elementName' => array( '#' => 'string' ),
+                         ) );
+
+        public function __construct( $level = 'feed' )
+        {
+            parent::__construct( $level );
+        }
+
+        public function generate( DOMDocument $xml, DOMNode $root )
+        {
+            // write implementation here
+
+            // should fill $root with values from $this, based on the $schema array
+        }
+
+        public function parse( $name, DOMElement $node )
+        {
+            // write implementation here
+
+            // should parse $node and add a new ezcFeedElement to $this with name $name
+        }
+
+        public static function getModuleName()
+        {
+            return 'Slash';
+        }
+
+        public static function getNamespace()
+        {
+            return 'http://web.resource.org/rss/1.0/modules/slash/';
+        }
+
+        public static function getNamespacePrefix()
+        {
+            return 'slash';
+        }
+    }
+
+Example of how to use the module above::
+
+    ezcFeed::registerModule( 'Slash', 'mySlashHandler', 'slash');
+
+    $feed = new ezcFeed( 'rss2' );
+    $item = $feed->add( 'item' );
+    $slash = $item->addModule( 'Slash' );
+    // add properties for the Slash module to $slash
 
 
 Specifications and RFCs

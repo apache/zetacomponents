@@ -12,6 +12,7 @@
  * Require the tests
  */
 require_once 'feed_test.php';
+require_once 'extend_test.php';
 
 require_once 'atom/atom_regression_generate_test.php';
 require_once 'atom/atom_regression_parse_test.php';
@@ -34,6 +35,7 @@ class ezcFeedSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Feed' );
 
         $this->addTest( ezcFeedTest::suite() );
+        $this->addTest( ezcFeedExtendTest::suite() );
 
         $this->addTest( ezcFeedAtomRegressionGenerateTest::suite() );
         $this->addTest( ezcFeedAtomRegressionParseTest::suite() );

@@ -23,6 +23,9 @@ ezcFeed
   # Use static methods like ezcFeed::registerModule(),
     ezcFeed::unregisterModule(), which add or remove a module.
 
+    # Added the functions registerFeed, registerModule and unregisterFeed,
+      unregisterModule to ezcFeed.
+
 - Why does ezcFeed have double single/multiple value properties (
   $author[s],...).
 

@@ -6,6 +6,7 @@
 - Changed protected methods and variables from processor classes to private.
 - Changed get() and set() functions from ezcFeedProcessor into __get() and
   __set(), and added __isset().
+- Added the registerFeed() and registerModule() functions to ezcFeed.
 
 
 1.1alpha1 - Monday 07 April 2008

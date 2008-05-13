@@ -24,8 +24,20 @@
  *    {@link http://www.rssboard.org/rss-specification Specifications}
  *
  * A new processor can be defined by creating a class which extends the class
- * {@link ezcFeedProcessor} and implements the interface {@link ezcFeedParser},
- * and adding it to the {@link self::$supportedFeedTypes} array.
+ * {@link ezcFeedProcessor} and implements the interface {@link ezcFeedParser}.
+ * The new class needs to be added to the supported feed types list by calling
+ * the function {@link registerFeed}.
+ *
+ * Example of creating a feed with a user-defined type:
+ * <code>
+ * ezcFeed::registerFeed( 'opml', 'myOpmlHandler');
+ *
+ * $feed = new ezcFeed( 'opml' );
+ * // add properties for the Opml feed type to $feed
+ * </code>
+ *
+ * In the above example, myOpmlHandler extends {@link ezcFeedProcessor} and
+ * implements {@link ezcFeedParser}.
  *
  * The following modules are supported by the Feed component:
  *  - Content ({@link ezcFeedContentModule}) -
@@ -40,8 +52,20 @@
  *    {@link http://www.apple.com/itunes/store/podcaststechspecs.html Specifications}
  *
  * A new module can be defined by creating a class which extends the class
- * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}
- * and {@link self::$supportedModulesPrefixes} arrays.
+ * {@link ezcFeedModule}. The new class needs to be added to the supported modules
+ * list by calling {@link registerModule}.
+ *
+ * Example of creating a feed with a user-defined module:
+ * <code>
+ * ezcFeed::registerModule( 'Slash', 'mySlashHandler', 'slash');
+ *
+ * $feed = new ezcFeed( 'rss2' );
+ * $item = $feed->add( 'item' );
+ * $slash = $item->addModule( 'Slash' );
+ * // add properties for the Slash module to $slash
+ * </code>
+ *
+ * In the above example mySlashHandler extends {@link ezcFeedModule}.
  *
  * A feed object can be created in different ways:
  *  - by calling the constructor with the required feed type. Example:
@@ -293,66 +317,47 @@ class ezcFeed
      *
      * @var array(string=>string)
      */
-    protected static $supportedFeedTypes = array(
-        'rss1' => 'ezcFeedRss1',
-        'rss2' => 'ezcFeedRss2',
-        'atom' => 'ezcFeedAtom',
-    );
+    private static $supportedFeedTypes = array();
 
     /**
      * Holds a list of all supported modules.
      *
      * @var array(string=>string)
      */
-    protected static $supportedModules = array(
-        'Content'         => 'ezcFeedContentModule',
-        'CreativeCommons' => 'ezcFeedCreativeCommonsModule',
-        'DublinCore'      => 'ezcFeedDublinCoreModule',
-        'Geo'             => 'ezcFeedGeoModule',
-        'iTunes'          => 'ezcFeedITunesModule',
-    );
+    private static $supportedModules = array();
 
     /**
      * Holds a list of all supported modules prefixes.
      *
      * @var array(string=>string)
      */
-    protected static $supportedModulesPrefixes = array(
-        'content'         => 'Content',
-        'creativeCommons' => 'CreativeCommons',
-        'dc'              => 'DublinCore',
-        'geo'             => 'Geo',
-        'itunes'          => 'iTunes',
-    );
+    private static $supportedModulesPrefixes = array();
 
     /**
      * Holds the feed processor.
      *
      * @var ezcFeedProcessor
-     * @ignore
      */
-    protected $feedProcessor;
+    private $feedProcessor;
 
     /**
      * Holds the feed type (eg. 'rss2').
      *
      * @var string
-     * @ignore
      */
-    protected $feedType;
+    private $feedType;
 
     /**
      * Holds the feed content type (eg. 'application/rss+xml').
      *
      * @var string
-     * @ignore
      */
-    protected $contentType;
+    private $contentType;
 
     /**
      * Creates a new feed of type $type.
      *
-     * The $type value is one of {@link self::$supportedFeedTypes}.
+     * The $type value is one returned by {@link getSupportedTypes()}.
      *
      * Example:
      * <code>
@@ -363,10 +368,12 @@ class ezcFeed
      * @throws ezcFeedUnsupportedTypeException
      *         If the passed $type is an unsupported feed type.
      *
-     * @param string $type The feed type. See {@link self::$supportedFeedTypes} for possible values
+     * @param string $type The feed type
      */
     public function __construct( $type )
     {
+        self::initSupportedTypes();
+
         $type = strtolower( $type );
 
         if ( !isset( self::$supportedFeedTypes[$type] ) )
@@ -674,47 +681,45 @@ class ezcFeed
     }
 
     /**
-     * Parses the $xml object by dispatching it to the processor that can
-     * handle it.
+     * Returns the supported feed types.
      *
-     * @throws ezcFeedParseErrorException
-     *         If the $xml object could not be parsed by any available processor.
+     * The array returned is (default):
+     * <code>
+     * array(
+     *    'rss1' => 'ezcFeedRss1',
+     *    'rss2' => 'ezcFeedRss2',
+     *    'atom' => 'ezcFeedAtom'
+     * );
+     * </code>
      *
-     * @param DOMDocument $xml The XML object to parse
-     * @return ezcFeed
-     * @ignore
-     */
-    protected static function dispatchXml( DOMDocument $xml )
-    {
-        foreach ( self::$supportedFeedTypes as $feedType => $feedClass )
-        {
-            $canParse = call_user_func( array( $feedClass, 'canParse' ), $xml );
-            if ( $canParse === true )
-            {
-                $processor = new $feedClass;
-                return $processor->parse( $xml );
-            }
-        }
-
-        throw new ezcFeedParseErrorException( $xml->documentURI, 'Feed type not recognized' );
-    }
-
-    /**
-     * Returns the supported feed types (the keys of the
-     * {@link self::$supportedFeedTypes} array).
+     * If the function {@link registerFeed} was used to add another supported feed
+     * type to ezcFeed, it will show up in the returned array as well.
      *
      * @return array(string)
      */
     public static function getSupportedTypes()
     {
-        return array_keys( self::$supportedFeedTypes );
+        return self::$supportedFeedTypes;
     }
 
     /**
-     * Returns the supported feed modules ({@link self::$supportedModules}
-     * array).
+     * Returns the supported feed modules.
      *
-     * @return array(string)
+     * The array returned is (default):
+     * <code>
+     * array(
+     *    'Content'         => 'ezcFeedContentModule',
+     *    'CreativeCommons' => 'ezcFeedCreativeCommonsModule',
+     *    'DublinCore'      => 'ezcFeedDublinCoreModule',
+     *    'Geo'             => 'ezcFeedGeoModule',
+     *    'iTunes'          => 'ezcFeedITunesModule'
+     * );
+     * </code>
+     *
+     * If the function {@link registerModule} was used to add another supported
+     * module type to ezcFeed, it will show up in the returned array as well.
+     *
+     * @return array(string=>string)
      */
     public static function getSupportedModules()
     {
@@ -722,10 +727,23 @@ class ezcFeed
     }
 
     /**
-     * Returns the supported feed modules prefixes
-     * ({@link self::$supportedModulesPrefixes} array).
+     * Returns the supported feed modules prefixes.
      *
-     * @return array(string)
+     * The array returned is (default):
+     * <code>
+     * array(
+     *    'content'         => 'Content',
+     *    'creativeCommons' => 'CreativeCommons',
+     *    'dc'              => 'DublinCore',
+     *    'geo'             => 'Geo',
+     *    'itunes'          => 'iTunes'
+     * );
+     * </code>
+     *
+     * If the function {@link registerModule} was used to add another supported
+     * module type to ezcFeed, it will show up in the returned array as well.
+     *
+     * @return array(string=>string)
      */
     public static function getSupportedModulesPrefixes()
     {
@@ -751,6 +769,140 @@ class ezcFeed
     public function getContentType()
     {
         return $this->contentType;
+    }
+
+    /**
+     * Adds the feed type $name to the supported list of feed types.
+     *
+     * After registering a feed type, it can be used to create or parse feed
+     * documents.
+     *
+     * Example of creating a feed with a user-defined type:
+     * <code>
+     * ezcFeed::registerFeed( 'opml', 'myOpmlHandler');
+     *
+     * $feed = new ezcFeed( 'opml' );
+     * // add properties for the Opml feed type to $feed
+     * </code>
+     *
+     * In the above example, myOpmlHandler extends {@link ezcFeedProcessor}
+     * and implements {@link ezcFeedParser}.
+     *
+     * @param string $name The feed type (eg. 'opml' )
+     * @param string $class The handler class for this feed type (eg. 'myOpmlHandler')
+     */
+    public static function registerFeed( $name, $class )
+    {
+        self::$supportedFeedTypes[$name] = $class;
+    }
+
+    /**
+     * Removes a previously registered feed type from the list of supported
+     * feed types.
+     *
+     * @param string $name The name of the feed type to remove (eg. 'opml')
+     */
+    public static function unregisterFeed( $name )
+    {
+        if ( isset( self::$supportedFeedTypes[$name] ) )
+        {
+            unset( self::$supportedFeedTypes[$name] );
+        }
+    }
+
+    /**
+     * Adds the module $name to the supported list of modules.
+     *
+     * After registering a module, it can be used to create or parse feed
+     * documents.
+     *
+     * Example of creating a feed with a user-defined module:
+     * <code>
+     * ezcFeed::registerModule( 'Slash', 'mySlashHandler', 'slash');
+     *
+     * $feed = new ezcFeed( 'rss2' );
+     * $item = $feed->add( 'item' );
+     * $slash = $item->addModule( 'Slash' );
+     * // add properties for the Slash module to $slash
+     * </code>
+     *
+     * @param string $name The module name (eg. 'Slash' )
+     * @param string $class The handler class for this module (eg. 'mySlashHandler')
+     * @param string $namespacePrefix The XML namespace prefix for this module (eg. 'slash')
+     */
+    public static function registerModule( $name, $class, $namespacePrefix )
+    {
+        self::$supportedModules[$name] = $class;
+        self::$supportedModulesPrefixes[$namespacePrefix] = $name;
+    }
+
+    /**
+     * Removes a previously registered module from the list of supported modules.
+     *
+     * @param string $name The name of the module to remove (eg. 'Slash')
+     */
+    public static function unregisterModule( $name )
+    {
+        if ( isset( self::$supportedModules[$name] ) )
+        {
+            $namePrefix = null;
+            foreach ( self::$supportedModulesPrefixes as $prefix => $module )
+            {
+                if ( $module === $name )
+                {
+                    $namePrefix = $prefix;
+                    break;
+                }
+            }
+            unset( self::$supportedModulesPrefixes[$prefix] );
+            unset( self::$supportedModules[$name] );
+        }
+    }
+
+    /**
+     * Parses the $xml object by dispatching it to the processor that can
+     * handle it.
+     *
+     * @throws ezcFeedParseErrorException
+     *         If the $xml object could not be parsed by any available processor.
+     *
+     * @param DOMDocument $xml The XML object to parse
+     * @return ezcFeed
+     */
+    private static function dispatchXml( DOMDocument $xml )
+    {
+        if ( count( self::getSupportedTypes() ) === 0 )
+        {
+            self::initSupportedTypes();
+        }
+
+        foreach ( self::getSupportedTypes() as $feedType => $feedClass )
+        {
+            $canParse = call_user_func( array( $feedClass, 'canParse' ), $xml );
+            if ( $canParse === true )
+            {
+                $processor = new $feedClass;
+                return $processor->parse( $xml );
+            }
+        }
+
+        throw new ezcFeedParseErrorException( $xml->documentURI, 'Feed type not recognized' );
+    }
+
+    /**
+     * Initializes the supported feed types and modules to the default values.
+     */
+    private static function initSupportedTypes()
+    {
+        self::registerFeed( 'rss1', 'ezcFeedRss1' );
+        self::registerFeed( 'rss2', 'ezcFeedRss2' );
+        self::registerFeed( 'atom', 'ezcFeedAtom' );
+
+        self::registerModule( 'Content', 'ezcFeedContentModule', 'content' );
+        self::registerModule( 'CreativeCommons', 'ezcFeedCreativeCommonsModule', 'creativeCommons' );
+        self::registerModule( 'DublinCore', 'ezcFeedDublinCoreModule', 'dc' );
+        self::registerModule( 'Geo', 'ezcFeedGeoModule', 'geo' );
+        self::registerModule( 'iTunes', 'ezcFeedITunesModule', 'itunes' );
     }
 }
 ?>
