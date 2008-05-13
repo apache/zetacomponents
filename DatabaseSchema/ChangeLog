@@ -5,6 +5,8 @@
   ezcDbSchemaUniqueIndexNameValidator.
 - Changed ezcDbSchemaDbReader back to an interface, and created a common SQL
   reader class that implements the common methods.
+- Moved ezcDbSchema*Reader/getReaderType() to the new common SQL reader class
+  ezcDbSchemaCommonSqlReader.
 
 
 1.4alpha1 - Monday 05 May 2008

@@ -32,5 +32,17 @@ abstract class ezcDbSchemaCommonSqlReader implements ezcDbSchemaDbReader
         $this->db = $db;
         return new ezcDbSchema( $this->fetchSchema() );
     }
+
+    /**
+     * Returns what type of schema reader this class implements.
+     *
+     * This method always returns ezcDbSchema::DATABASE
+     *
+     * @return int
+     */
+    public function getReaderType()
+    {
+        return ezcDbSchema::DATABASE;
+    }
 }
 ?>

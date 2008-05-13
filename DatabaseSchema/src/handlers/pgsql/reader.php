@@ -60,19 +60,6 @@ class ezcDbSchemaPgsqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
         'bigint' => 'integer',
         'double precision' => 'float'
     );
-            
-            
-    /**
-     * Returns what type of schema reader this class implements.
-     *
-     * This method always returns ezcDbSchema::DATABASE
-     *
-     * @return int
-     */
-    public function getReaderType()
-    {
-        return ezcDbSchema::DATABASE;
-    }
 
     /**
      * Loops over all the tables in the database and extracts schema information.

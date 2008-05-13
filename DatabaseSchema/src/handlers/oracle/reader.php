@@ -33,19 +33,6 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcD
         'TIMESTAMP' => 'timestamp',
         'TIMESTAMP(6)' => 'timestamp'
     );
-            
-            
-    /**
-     * Returns what type of schema reader this class implements.
-     *
-     * This method always returns ezcDbSchema::DATABASE
-     *
-     * @return int
-     */
-    public function getReaderType()
-    {
-        return ezcDbSchema::DATABASE;
-    }
 
     /**
      * Loops over all the tables in the database and extracts schema information.
