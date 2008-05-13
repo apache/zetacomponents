@@ -28,8 +28,13 @@ Table prefixes
 - The interface ezcDbSchemaDbWriter was changed in this commit, the method
   isQueryAllowed() was added. This looks like a BC break.
 
+  - It isn't, as the base class ezcDbSchemaCommonSqlWriter implements
+	isQueryAllowed.
+
 - The interface ezcDbSchemaDbReader was made an abstract class, which looks
   like a BC break.
+
+  - Fixed, I think in a non BC-way, but please double check.
 
 
 General

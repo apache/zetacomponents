@@ -1,19 +1,21 @@
 <?php
 /**
- * File containing the ezcDbSchemaDbReader interface
+ * File containing the ezcDbSchemaCommonSqlReader class.
  *
  * @package DatabaseSchema
- * @version //autogen//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
- * This class provides the interface for database schema readers
+ * An abstract class that implements some common functionality required by
+ * multiple database backends.
  *
  * @package DatabaseSchema
- * @version //autogen//
+ * @version //autogentag//
  */
-interface ezcDbSchemaDbReader extends ezcDbSchemaReader
+abstract class ezcDbSchemaCommonSqlReader implements ezcDbSchemaDbReader
 {
     /**
      * Returns an ezcDbSchema created from the database schema in the database referenced by $db
@@ -25,6 +27,10 @@ interface ezcDbSchemaDbReader extends ezcDbSchemaReader
      * @param ezcDbHandler $db
      * @return ezcDbSchema
      */
-    public function loadFromDb( ezcDbHandler $db );
+    public function loadFromDb( ezcDbHandler $db )
+    {
+        $this->db = $db;
+        return new ezcDbSchema( $this->fetchSchema() );
+    }
 }
 ?>

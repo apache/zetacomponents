@@ -35,6 +35,7 @@ return array(
     'XMLWriter'                                  => 'DatabaseSchema/handlers/xml/xmlwritersubstitute.php',
     'ezcDbSchema'                                => 'DatabaseSchema/schema.php',
     'ezcDbSchemaAutoIncrementIndexValidator'     => 'DatabaseSchema/validators/auto_increment_index.php',
+    'ezcDbSchemaCommonSqlReader'                 => 'DatabaseSchema/handlers/common_sql_reader.php',
     'ezcDbSchemaComparator'                      => 'DatabaseSchema/comparator.php',
     'ezcDbSchemaDiff'                            => 'DatabaseSchema/schema_diff.php',
     'ezcDbSchemaField'                           => 'DatabaseSchema/structs/field.php',

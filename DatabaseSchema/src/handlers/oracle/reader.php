@@ -14,7 +14,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaOracleReader extends ezcDbSchemaDbReader
+class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcDbSchemaDbReader
 {
     /**
      * Contains a type map from Oracle native types to generic DbSchema types.

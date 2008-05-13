@@ -14,7 +14,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaMysqlReader extends ezcDbSchemaDbReader
+class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDbSchemaDbReader
 {
     /**
      * Contains a type map from MySQL native types to generic DbSchema types.

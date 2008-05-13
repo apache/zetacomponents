@@ -14,7 +14,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaSqliteReader extends ezcDbSchemaDbReader
+class ezcDbSchemaSqliteReader extends ezcDbSchemaCommonSqlReader implements ezcDbSchemaDbReader
 {
     /**
      * Contains a type map from SQLite native types to generic DbSchema types.

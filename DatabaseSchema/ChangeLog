@@ -3,6 +3,8 @@
 
 - Changed the class name ezcDbSchemaNonUniqueIndexNameValidator to
   ezcDbSchemaUniqueIndexNameValidator.
+- Changed ezcDbSchemaDbReader back to an interface, and created a common SQL
+  reader class that implements the common methods.
 
 
 1.4alpha1 - Monday 05 May 2008

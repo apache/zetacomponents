@@ -14,7 +14,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaPgsqlReader extends ezcDbSchemaDbReader
+class ezcDbSchemaPgsqlReader extends ezcDbSchemaCommonSqlReader implements ezcDbSchemaDbReader
 {
     /**
      * Contains a type map from PostgreSQL native types to generic DbSchema types.
