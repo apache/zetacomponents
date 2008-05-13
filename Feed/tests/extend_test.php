@@ -112,6 +112,16 @@ class ezcFeedExtendTest extends ezcFeedTestCase
         $this->assertEquals( 'dc', $module->getNamespacePrefix() );
     }
 
+    public function testCreateModuleGeo()
+    {
+        $feed = new ezcFeed( 'atom' );
+        $item = $feed->add( 'item' );
+        $module = $item->addModule( 'Geo' );
+        $this->assertEquals( 'Geo', $module->getModuleName() );
+        $this->assertEquals( 'http://www.w3.org/2003/01/geo/wgs84_pos#', $module->getNamespace() );
+        $this->assertEquals( 'geo', $module->getNamespacePrefix() );
+    }
+
     public function testCreateModuleITunes()
     {
         $feed = new ezcFeed( 'atom' );
