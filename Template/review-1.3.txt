@@ -60,6 +60,9 @@ Misc
 - Variable amount of parameters for blocks not mentioned in ChangeLog.
 - Variable amount of parameters for blocks seems not to be tested.
 
+  - I added a test case for this, added entries to the ChangeLog and mentioned
+    this feature in the documentation.
+
 - Why does the date_format() template function also support timestamps and not
   only DateTime objects? Though we have date_format_timestam() for these.
   date_format() should throw an exception if not a DateTime object is received

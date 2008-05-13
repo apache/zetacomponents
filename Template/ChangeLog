@@ -43,6 +43,11 @@
   This is to have translation support for the Template component.
 - Added the capture() template block to collect a part of a template into a
   variable.
+- Added support for variable length argument lists for custom functions
+  through the variableArgumentList element of the
+  ezcTemplateCustomFunctionDefinition.
+- Added support for additional parameters for custom blocks through the
+  excessParameters element of the ezcTemplateCustomBlockDefinition.
 
 
 1.2 - Monday 02 July 2007

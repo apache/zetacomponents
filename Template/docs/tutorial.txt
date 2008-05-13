@@ -1788,8 +1788,11 @@ The member variables that should be set in this class are:
     in either the optionalParameters or the requiredParameters.
 :optionalParameters: Optional named parameters for this custom block.
 :requiredParameters: Required named parameters for this custom block.
+:excessParameters: When this is set to true, additional parameters are also
+    available in the implementation of the custom block as elements of the
+    $parameters array.
 :isStatic: The custom block is only called during compilation. At run time the
-    static output from the custom block at compile time is displayed. 
+    static output from the custom block at compile time is displayed.
  
 The following custom block creates a hyper-link from a name and an URL::
 
@@ -2034,6 +2037,10 @@ In version 1.2 and up it uses reflection to find the required and optional
 parameters. Due some bugs in the reflection classes it works properly in PHP
 version 5.2 and up.
 
+It is also possible to accept a variable number of (extra) arguments. For this
+you need to set the *variableArgumentList* property of the
+ezcTemplateCustomFunctionDefinition.
+
 The variable *$sendTemplateObject* adds the possibility to send the current
 template object to the custom function. 
 
@@ -2117,7 +2124,7 @@ In a few cases the template object is needed in the custom function
 implementation. With access to the template object, the configuration and other
 template settings could be retrieved and used.
 
-If the variable *$sendTemplateObject* is set to *true*, the first parameter in
+If the variable *sendTemplateObject* is set to *true*, the first parameter in
 the function contains the template object. The following 
 
 The next example adds the custom function *templatePath*::
