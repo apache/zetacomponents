@@ -87,6 +87,9 @@ class ezcTemplateCustomFunctionDefinition extends ezcTemplateCustomExtension
     /**
      * Whether or not the Template object is available in the custom function.
      *
+     * Be aware that if you change this, your custom function's signature
+     * changes as the first argument will then be the template object.
+     *
      * @var bool
      */
     public $sendTemplateObject = false;

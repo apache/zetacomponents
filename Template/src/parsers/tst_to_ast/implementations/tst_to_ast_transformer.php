@@ -686,7 +686,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $functionParameters = array( $params, $customBlockOutput );
             if ( isset( $def->sendTemplateObject ) && $def->sendTemplateObject )
             {
-                array_unshift( $functionParameters, new ezcTemplateVariableAstNode("this->template"));
+                array_unshift( $functionParameters, new ezcTemplateVariableAstNode( 'this->template' ) );
             }
 
             $result[] = new ezcTemplateGenericStatementAstNode( 
@@ -733,7 +733,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $functionParameters = array( $params );
             if ( isset( $def->sendTemplateObject ) && $def->sendTemplateObject )
             {
-                array_unshift( $functionParameters, new ezcTemplateVariableAstNode( "this->template" ) );
+                array_unshift( $functionParameters, new ezcTemplateVariableAstNode( 'this->template' ) );
             }
          
             return new ezcTemplateGenericStatementAstNode( 

@@ -117,6 +117,9 @@ class ezcTemplateCustomBlockDefinition extends ezcTemplateCustomExtension
     /**
      * Whether or not the Template object is available in the custom block.
      *
+     * Be aware that if you change this, your custom block's signature
+     * changes as the first argument will then be the template object.
+     *
      * @var bool
      */
     public $sendTemplateObject = false;

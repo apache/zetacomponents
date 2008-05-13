@@ -5,6 +5,13 @@ Template object in custom functions / blocks
   realizing a custom block or function, if activated via $sendTemplateObject.
   Wouldn't it be better to make it be used as the last parameter for BC
   reasons?
+
+  - Actually, it makes sense to put it as first argument because of functions
+    accepting a variable amount of parameters. It can't be a BC break as
+    it will only effect situations where you enable this explicitly. Of
+    course, when you enable it, you need to change your custom function
+    as well. I added a warning to the docs about it.
+
 - The tests for this feature could be more exact, they only check
   get_class($template->usedConfiguration), which should usually be the same.
   I'd expect that they check of the correct Template instance was submitted.
@@ -32,8 +39,8 @@ Implementation of {capture}
   ezcTemplateTstNode::__construct() commented?
 
   - I added it to the ChangeLog, tutorial and ENBF. The typehints I
-	uncommented as well. No idea why they were commented out - remember that
-	I inherited this component. 
+    uncommented as well. No idea why they were commented out - remember that
+    I inherited this component. 
 
 Misc
 ====
