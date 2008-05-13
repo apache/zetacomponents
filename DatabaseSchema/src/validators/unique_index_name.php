@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaNonUniqueIndexNameValidator class.
+ * File containing the ezcDbSchemaUniqueIndexNameValidator class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -9,13 +9,13 @@
  */
 
 /**
- * ezcDbSchemaNonUniqueIndexNameValidator checks for duplicate index names.
+ * ezcDbSchemaUniqueIndexNameValidator checks for duplicate index names.
  *
  * @todo implement from an interface
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaNonUniqueIndexNameValidator
+class ezcDbSchemaUniqueIndexNameValidator
 {
     /**
      * Validates if all the index names used are unique accross the schema.

@@ -5,6 +5,8 @@ Unique index validator
   I think ezcDbSchemaUniqueIndexNameValidator would fit better, since it
   indicates what is validated and not what violates the validation.
 
+  - Changed
+
 Table prefixes
 ==============
 

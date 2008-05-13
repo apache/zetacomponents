@@ -1,3 +1,10 @@
+1.4beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Changed the class name ezcDbSchemaNonUniqueIndexNameValidator to
+  ezcDbSchemaUniqueIndexNameValidator.
+
+
 1.4alpha1 - Monday 05 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

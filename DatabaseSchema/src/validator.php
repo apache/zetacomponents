@@ -40,7 +40,7 @@ class ezcDbSchemaValidator
         'ezcDbSchemaTypesValidator',
         'ezcDbSchemaIndexFieldsValidator',
         'ezcDbSchemaAutoIncrementIndexValidator',
-        'ezcDbSchemaNonUniqueIndexNameValidator',
+        'ezcDbSchemaUniqueIndexNameValidator',
     );
 
     /**
