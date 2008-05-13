@@ -23,7 +23,7 @@ class ezcTemplateCaptureSourceToTstParser extends ezcTemplateSourceToTstParser
      * @param ezcTemplateSourceToTstParser $parentParser
      * @param ezcTemplateCursor $startCursor
      */
-    function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
+    function __construct( ezcTemplateParser $parser, ezcTemplateSourceToTstParser $parentParser, ezcTemplateCursor $startCursor = null )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
         $this->block = null;

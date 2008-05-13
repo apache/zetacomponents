@@ -22,7 +22,6 @@
   the patch.
 - Fixed issue #11228: Cannot supply an absolute Win32-Path to $t->process().
 - Better error message when an external (use) variable is not given.
-- Made named parameters work with PHP 5.1.6.
 - Fixed issue #12289: String function str_last_index documented, but not
   defined.
 - Fixed issue #12323: Using {cache_template} inside a block will now throw an
@@ -42,6 +41,8 @@
 - Implemented issue #9973: Added a translation compiler to convert a string in
   the original language, to the translated one without substituting parameters.
   This is to have translation support for the Template component.
+- Added the capture() template block to collect a part of a template into a
+  variable.
 
 
 1.2 - Monday 02 July 2007

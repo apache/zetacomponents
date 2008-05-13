@@ -31,6 +31,10 @@ Implementation of {capture}
 - Why are type hints in ezcTemplateCaptureTstNode::__construct() and
   ezcTemplateTstNode::__construct() commented?
 
+  - I added it to the ChangeLog, tutorial and ENBF. The typehints I
+	uncommented as well. No idea why they were commented out - remember that
+	I inherited this component. 
+
 Misc
 ====
 
@@ -49,5 +53,9 @@ Misc
 - "Made named parameters work with PHP 5.1.6." is a bit misleading, since
   actually an exception is throwen if < 5.2.
 
+  - Removed it from the changelog, as we don't support 5.1.6 anymore.
+
 - The tutorial SVN log does not note that any of the changes made it in the
   tutorial so far.
+
+  - I have already added the translation stuff. 

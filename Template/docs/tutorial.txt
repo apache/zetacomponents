@@ -761,6 +761,21 @@ template. See the next example for a demonstration::
 
 More information about returning variables is described in the Include_ section.
 
+Capturing content into variables
+````````````````````````````````
+Sometimes it's useful to capture a specific part of a template in a variable
+for reuse. This you can do with the capture statement::
+
+  {var $var}
+  {capture $var}
+  Add some content.
+  {/capture}
+
+  Output it a few more times:
+  {$var}
+  {$var}
+
+Be aware that you still have to declare the variable with the {var} block.
 
 Expressions
 -----------

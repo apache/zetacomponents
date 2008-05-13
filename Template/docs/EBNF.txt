@@ -100,6 +100,7 @@ Code flow control
                       |   '{break}'
                       |   '{skip}'
                       |   '{continue}'
+                      |   CaptureStatement_
                       |   ReturnStatement_
 
 
@@ -117,7 +118,9 @@ Code flow control
 
   _`DelimiterStatement`  ::= '{' 'delimiter' (modulo Expression_ ('is' Expression_)? )? '}' Code_ '{' '/delimiter' '}'
 
-  _`ReturnStatement`     ::= '{' 'return' ExprAsPrimVarList_ '}' 
+  _`CaptureStatement`    ::= '{' 'capture' Expression_ '}' Code_ '{' '/capture' '}'
+
+  _`ReturnStatement`     ::= '{' 'return' PrimaryVariable_ '}' 
 
   _`ExprAsPrimVarList`   ::=  ( Expression_ 'as' PrimaryVariable_ | PrimaryVariable_ ) (',' ExprAsPrimVarList_)?
 
