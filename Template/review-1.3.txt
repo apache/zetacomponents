@@ -42,6 +42,10 @@ Location suppport
 - Does not seem to be tested, `grep -r -i 'locator' Template/tests/*|grep -v svn`
   gave no results.
 
+  - I've actually no clue what it's supposed to do either. The normal 
+    override location stuff that eZ Publish needs is however tested and
+    implemented. I'll ask Ray what this is supposed to be.
+
 Implementation of {capture}
 ===========================
 
