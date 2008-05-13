@@ -1102,7 +1102,7 @@ Example of a new module type::
 
         public static function getNamespace()
         {
-            return 'http://web.resource.org/rss/1.0/modules/slash/';
+            return 'http://purl.org/rss/1.0/modules/slash/';
         }
 
         public static function getNamespacePrefix()
