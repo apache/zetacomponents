@@ -2147,7 +2147,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Shift the short version of anonymous reference targets, the long version
      * is handled in the shiftComment() method. Both are specified at:
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#anonymous-hyperlinks
-     * 
      *
      * @param ezcDocumentRstToken $token 
      * @param array $tokens 
