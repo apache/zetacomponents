@@ -16,6 +16,9 @@ Template object in custom functions / blocks
   get_class($template->usedConfiguration), which should usually be the same.
   I'd expect that they check of the correct Template instance was submitted.
 
+  - I agree, but I've no idea on how to do that. I modified it now to test
+    at least that there is a ezcTemplate object being passed.
+
 Fixed issue #11228: Cannot supply an absolute Win32-Path to $t->process()
 =========================================================================
 

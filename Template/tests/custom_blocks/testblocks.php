@@ -129,7 +129,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
  
     public static function templateParameter( $template, $p1, $p2 = "p2")
     {
-        return get_class($template->usedConfiguration) . " ". $p1." ".$p2;
+        return get_class( $template ) . ' ' . get_class( $template->usedConfiguration ) . " $p1 $p2";
     }
 
     public static function varArgList($a, $b=2)
