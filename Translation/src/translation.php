@@ -61,7 +61,7 @@ class ezcTranslation
      * @param array  $params
      * @return string
      */
-    private function parameter_callback( $key, array $params )
+    private function parameterCallback( $key, array $params )
     {
         if ( !isset( $params[strtolower( $key )] ) )
         {
@@ -112,7 +112,7 @@ class ezcTranslation
         // So we do have a possibility of a parameterized string, replace those
         // with the parameters. The callback function can actually throw an
         // exception to tell that there was a missing parameter.
-        return (string) preg_replace( '@%(([A-Za-z][a-z_]*[a-z])|[1-9])@e', '$this->parameter_callback("\\1", $params)', $translatedString );
+        return (string) preg_replace( '@%(([A-Za-z][a-z_]*[a-z])|[1-9])@e', '$this->parameterCallback("\\1", $params)', $translatedString );
     }
 
     /**
@@ -127,7 +127,7 @@ class ezcTranslation
      * @param array  $params
      * @return string
      */
-    private function parameter_callback_compile( $key, array $params )
+    private function parameterCallbackCompile( $key, array $params )
     {
         if ( !isset( $params[strtolower( $key )] ) )
         {
@@ -190,7 +190,7 @@ class ezcTranslation
         // So we do have a possibility of a parameterized string, replace those
         // with the parameters. The callback function can actually throw an
         // exception to tell that there was a missing parameter.
-        return (string) preg_replace( '@%(([A-Za-z][a-z_]*[a-z])|[1-9])@e', '$this->parameter_callback_compile("\\1", $params)', $translatedString );
+        return (string) preg_replace( '@%(([A-Za-z][a-z_]*[a-z])|[1-9])@e', '$this->parameterCallbackCompile("\\1", $params)', $translatedString );
     }
 }
 ?>
