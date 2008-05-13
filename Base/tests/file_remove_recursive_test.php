@@ -111,7 +111,14 @@ class ezcBaseFileRemoveRecursiveTest extends ezcTestCase
         }
         catch ( ezcBaseFilePermissionException $e )
         {
-            self::assertEquals( "The file '{$this->tempDir}/dir6/file1.txt' can not be removed.", $e->getMessage() );
+            // Make no asumption on which file is tryed to be removed first
+            self::assertEquals(
+                1,
+                preg_match(
+                    "(The file '{$this->tempDir}/dir6/file[12].txt' can not be removed.)",
+                    $e->getMessage()
+                )
+            );
         }
         self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
     }
