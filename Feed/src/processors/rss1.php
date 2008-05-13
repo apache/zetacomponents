@@ -278,7 +278,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateChannel()
     {
-        $data = $this->get( 'id' );
+        $data = $this->id;
 
         if ( is_null( $data ) )
         {
@@ -292,7 +292,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getRequired() as $element )
         {
-            $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
+            $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/{$element}" );
@@ -309,7 +309,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $this->generateMetaDataWithAttributes( $this->channel, $element, $data, $attributes );
         }
 
-        $items = $this->get( 'items' );
+        $items = $this->items;
         if ( count( $items ) === 0 )
         {
             throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/item" );
@@ -320,7 +320,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $seqTag = $this->xml->createElement( 'rdf:Seq' );
         $itemsTag->appendChild( $seqTag );
 
-        foreach ( $this->get( 'items' ) as $item )
+        foreach ( $this->items as $item )
         {
             $about = $item->id;
             $liTag = $this->xml->createElement( 'rdf:li' );
@@ -331,7 +331,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $seqTag->appendChild( $liTag );
         }
 
-        $image = $this->get( 'image' );
+        $image = $this->image;
         if ( $image !== null )
         {
             $imageTag = $this->xml->createElement( 'image' );
@@ -350,7 +350,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $this->channel->appendChild( $imageTag );
         }
 
-        $textInput = $this->get( 'textInput' );
+        $textInput = $this->textInput;
         if ( $textInput !== null )
         {
             $textInputTag = $this->xml->createElement( 'textinput' );
@@ -375,7 +375,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateItems()
     {
-        foreach ( $this->get( 'items' ) as $element )
+        foreach ( $this->items as $element )
         {
             $itemTag = $this->xml->createElement( 'item' );
             $this->root->appendChild( $itemTag );
@@ -429,7 +429,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateImage()
     {
-        $image = $this->get( 'image' );
+        $image = $this->image;
         if ( $image !== null )
         {
             $imageTag = $this->xml->createElement( 'image' );
@@ -468,7 +468,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateTextInput()
     {
-        $textInput = $this->get( 'textInput' );
+        $textInput = $this->textInput;
         if ( $textInput !== null )
         {
             $textInputTag = $this->xml->createElement( 'textinput' );

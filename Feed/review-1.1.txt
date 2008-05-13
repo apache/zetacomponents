@@ -103,13 +103,16 @@ ezcFeedItem
 
   The parse handling of this one looks rather scary in the docs.
 
-# where exactly?
+# How is it scary? And where exactly?
 
 ezcFeedProcessor
 ================
 
 - Why does ezcFeedProcessor use get()/set() instead of
   __set()/__get()/__isset()?
+
+# Changed get() and set() into __get() and __set(), and added __isset() to
+  ezcFeedProcessor.
 
 ezcFeedRss2
 ===========

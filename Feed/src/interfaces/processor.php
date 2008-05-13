@@ -31,6 +31,14 @@ abstract class ezcFeedProcessor
     protected $feedType;
 
     /**
+     * Holds the schema for this feed type.
+     *
+     * @var string
+     * @ignore
+     */
+    protected $schema;
+
+    /**
      * Holds the feed content type (eg. 'application/rss+xml').
      *
      * @var string
@@ -87,12 +95,164 @@ abstract class ezcFeedProcessor
     protected $usedPrefixes = array();
 
     /**
+     * Sets the value of element $name to $value based on the feed schema.
+     *
+     * @param string $name The element name
+     * @param mixed $value The new value for the element $name
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
+        if ( !isset( $this->elements[$name] ) )
+        {
+            if ( $this->schema->isMulti( $name ) )
+            {
+                $this->elements[$this->schema->getMulti( $name )] = array();
+            }
+            else if ( $this->schema->isAttribute( $name ) )
+            {
+                $this->elements[$name] = $value;
+                return;
+            }
+            else
+            {
+                $this->elements[$name] = new ezcFeedElement( $this->schema->getSchema( $name ) );
+            }
+        }
+        if ( $this->schema->isMulti( $name ) )
+        {
+            $this->elements[$this->schema->getMulti( $name )][0]->set( $value );
+        }
+        else
+        {
+            $this->elements[$name]->set( $value );
+        }
+    }
+
+    /**
+     * Returns the value of element $name based on the feed schema.
+     *
+     * @param string $name The element name
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
+        if ( isset( $this->elements[$name] ) )
+        {
+            return $this->elements[$name];
+        }
+
+        if ( $this->schema->isMulti( $name ) )
+        {
+            return isset( $this->elements[$this->schema->getMulti( $name )][0] ) ? $this->elements[$this->schema->getMulti( $name )][0] : null;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns if the property $name is set.
+     *
+     * @param string $name The property name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
+        return isset( $this->elements[$name] );
+    }
+
+    /**
      * Returns an XML string from the feed information contained in this
      * processor.
      *
      * @return string
      */
     abstract public function generate();
+
+    /**
+     * Adds a new ezcFeedElement element with name $name and returns it, if the
+     * feed schema allows this (returns null if the schema does not allow it).
+     *
+     * @param string $name The element name
+     * @return ezcFeedElement|null
+     */
+    public function add( $name )
+    {
+        $className = ( $name === 'item' ) ? 'ezcFeedItem' : 'ezcFeedElement';
+        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
+
+        if ( $this->schema->isMulti( $name ) )
+        {
+            $element = new $className( $this->schema->getSchema( $name ) );
+            $this->elements[$this->schema->getMulti( $name )][] = $element;
+            return $element;
+        }
+        else
+        {
+            $element = new $className( $this->schema->getSchema( $name ) );
+            $this->elements[$name] = $element;
+            return $element;
+        }
+    }
+
+    /**
+     * Returns true if the module $name is loaded, false otherwise.
+     *
+     * @param string $name The name of the module to check if loaded at feed-level
+     * @return bool
+     */
+    public function hasModule( $name )
+    {
+        return isset( $this->modules[$name] );
+    }
+
+    /**
+     * Returns the loaded module $name.
+     *
+     * @param string $name The name of the module to return
+     * @return ezcFeedModule
+     */
+    public function getModule( $name )
+    {
+        return $this->modules[$name];
+    }
+
+    /**
+     * Returns an array with all the modules loaded at feed-level.
+     *
+     * @return array(ezcFeedModule)
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
+    /**
+     * Associates the module $module with the name $name.
+     *
+     * @param string $name The name of the module associate
+     * @param ezcFeedModule $module The module to set under the name $name
+     */
+    public function setModule( $name, ezcFeedModule $module )
+    {
+        $this->modules[$name] = $module;
+    }
+
+    /**
+     * Returns the feed content type of this feed object
+     * (eg. 'application/rss+xml').
+     *
+     * @return string
+     */
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
 
     /**
      * Creates a node in the XML document being generated with name $element
@@ -260,143 +420,6 @@ abstract class ezcFeedProcessor
         $val = $this->xml->createTextNode( $value );
         $attr->appendChild( $val );
         $node->appendChild( $attr );
-    }
-
-    /**
-     * Sets the value of element $name to $value based on the feed schema.
-     *
-     * @param string $name The element name
-     * @param mixed $value The new value for the element $name
-     */
-    public function set( $name, $value )
-    {
-        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
-        if ( !isset( $this->elements[$name] ) )
-        {
-            if ( $this->schema->isMulti( $name ) )
-            {
-                $this->elements[$this->schema->getMulti( $name )] = array();
-            }
-            else if ( $this->schema->isAttribute( $name ) )
-            {
-                $this->elements[$name] = $value;
-                return;
-            }
-            else
-            {
-                $this->elements[$name] = new ezcFeedElement( $this->schema->getSchema( $name ) );
-            }
-        }
-        if ( $this->schema->isMulti( $name ) )
-        {
-            $this->elements[$this->schema->getMulti( $name )][0]->set( $value );
-        }
-        else
-        {
-            $this->elements[$name]->set( $value );
-        }
-    }
-
-    /**
-     * Returns the value of element $name based on the feed schema.
-     *
-     * @param string $name The element name
-     * @return mixed
-     */
-    public function get( $name )
-    {
-        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
-        if ( isset( $this->elements[$name] ) )
-        {
-            return $this->elements[$name];
-        }
-
-        if ( $this->schema->isMulti( $name ) )
-        {
-            return isset( $this->elements[$this->schema->getMulti( $name )][0] ) ? $this->elements[$this->schema->getMulti( $name )][0] : null;
-        }
-
-        return null;
-    }
-
-    /**
-     * Adds a new ezcFeedElement element with name $name and returns it, if the
-     * feed schema allows this (returns null if the schema does not allow it).
-     *
-     * @param string $name The element name
-     * @return ezcFeedElement|null
-     */
-    public function add( $name )
-    {
-        $className = ( $name === 'item' ) ? 'ezcFeedItem' : 'ezcFeedElement';
-        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
-
-        if ( $this->schema->isMulti( $name ) )
-        {
-            $element = new $className( $this->schema->getSchema( $name ) );
-            $this->elements[$this->schema->getMulti( $name )][] = $element;
-            return $element;
-        }
-        else
-        {
-            $element = new $className( $this->schema->getSchema( $name ) );
-            $this->elements[$name] = $element;
-            return $element;
-        }
-    }
-
-    /**
-     * Returns true if the module $name is loaded, false otherwise.
-     *
-     * @param string $name The name of the module to check if loaded at feed-level
-     * @return bool
-     */
-    public function hasModule( $name )
-    {
-        return isset( $this->modules[$name] );
-    }
-
-    /**
-     * Returns the loaded module $name.
-     *
-     * @param string $name The name of the module to return
-     * @return ezcFeedModule
-     */
-    public function getModule( $name )
-    {
-        return $this->modules[$name];
-    }
-
-    /**
-     * Returns an array with all the modules loaded at feed-level.
-     *
-     * @return array(ezcFeedModule)
-     */
-    public function getModules()
-    {
-        return $this->modules;
-    }
-
-    /**
-     * Associates the module $module with the name $name.
-     *
-     * @param string $name The name of the module associate
-     * @param ezcFeedModule $module The module to set under the name $name
-     */
-    public function setModule( $name, ezcFeedModule $module )
-    {
-        $this->modules[$name] = $module;
-    }
-
-    /**
-     * Returns the feed content type of this feed object
-     * (eg. 'application/rss+xml').
-     *
-     * @return string
-     */
-    public function getContentType()
-    {
-        return $this->contentType;
     }
 }
 ?>

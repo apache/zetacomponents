@@ -416,7 +416,7 @@ class ezcFeed
             case 'ttl':
             case 'updated':
             case 'webMaster':
-                $this->feedProcessor->set( $property, $value );
+                $this->feedProcessor->$property = $value;
                 break;
 
             default:
@@ -471,7 +471,7 @@ class ezcFeed
             case 'ttl':
             case 'updated':
             case 'webMaster':
-                $value = $this->feedProcessor->get( $property );
+                $value = $this->feedProcessor->$property;
                 return $value;
 
             default:
@@ -531,14 +531,13 @@ class ezcFeed
             case 'ttl':
             case 'updated':
             case 'webMaster':
-                $value = $this->feedProcessor->get( $name );
-                return ( $value !== null );
+                return isset( $this->feedProcessor->$name );
 
             default:
                 $supportedModules = ezcFeed::getSupportedModules();
                 if ( isset( $supportedModules[$name] ) )
                 {
-                    return $this->hasModule( $name );;
+                    return $this->hasModule( $name );
                 }
         }
 

@@ -24,15 +24,22 @@
  *  - CreativeCommons ({@link ezcFeedCreativeCommonsModule}) -
  *    {@link http://backend.userland.com/creativeCommonsRssModule Specifications}
  *
+ * The child classes must implement these static methods:
+ *  - getModuleName() - Returns the module name (eg. 'DublinCore')
+ *  - getNamespace() - Returns the namespace for the module
+ *    (eg. 'http://purl.org/dc/elements/1.1/').
+ *  - getNamespacePrefix() - Returns the namespace prefix for the module (eg. 'dc').
+ *
  * @package Feed
  * @version //autogentag//
  */
 abstract class ezcFeedModule
 {
     /**
-     * The level of the module data container. Possible values are 'feed' or 'item.
+     * The level of the module data container. Possible values are 'feed' or 'item'.
      *
      * @var string
+     * @ignore
      */
     protected $level;
 
@@ -182,26 +189,5 @@ abstract class ezcFeedModule
      * @param DOMElement $node The XML child from which to take the values for $name
      */
     abstract public function parse( $name, DOMElement $node );
-
-    /** 
-     * Returns the module name.
-     *
-     * @return string
-     */
-    public static function getModuleName(){}
-
-    /**
-     * Returns the namespace for this module.
-     *
-     * @return string
-     */
-    public static function getNamespace(){}
-
-    /**
-     * Returns the namespace prefix for this module.
-     *
-     * @return string
-     */
-    public static function getNamespacePrefix(){}
 }
 ?>

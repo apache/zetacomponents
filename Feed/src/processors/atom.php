@@ -468,7 +468,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
         foreach ( $this->schema->getRequired() as $element )
         {
-            $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
+            $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$element}" );
@@ -502,12 +502,12 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $needToThrowException = false;
         $element = 'author';
 
-        $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
+        $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
 
         if ( is_null( $data ) )
         {
             // add checks for entry/author
-            $entries = $this->get( 'entries' );
+            $entries = $this->entries;
             if ( $entries === null )
             {
                 throw new ezcFeedAtLeastOneItemDataRequiredException( array( '/feed/author' ) );
@@ -533,7 +533,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
         foreach ( $this->schema->getOptional() as $element )
         {
-            $data = $this->schema->isMulti( $element ) ? $this->get( $this->schema->getMulti( $element ) ) : $this->get( $element );
+            $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
 
             if ( !is_null( $data ) )
             {
@@ -545,14 +545,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 switch ( $element )
                 {
                     case 'contributor':
-                        foreach ( $this->get( 'contributors' ) as $person )
+                        foreach ( $this->contributors as $person )
                         {
                             $this->generatePerson( $this->channel, $person, $element );
                         }
                         break;
 
                     case 'author':
-                        foreach ( $this->get( 'authors' ) as $person )
+                        foreach ( $this->authors as $person )
                         {
                             $this->generatePerson( $this->channel, $person, $element );
                         }
@@ -801,7 +801,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getRequired( $element ) as $child )
         {
-            $data = $this->schema->isMulti( $element, $child ) ? $this->get( $this->schema->getMulti( $element, $child ) ) : $feedElement->$child;
+            $data = $this->schema->isMulti( $element, $child ) ? $this->{$this->schema->getMulti( $element, $child )} : $feedElement->$child;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "{$parentNode}/{$root->nodeName}/{$element}/{$child}" );
@@ -812,7 +812,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getOptional( $element ) as $child )
         {
-            $data = $this->schema->isMulti( $element, $child ) ? $this->get( $this->schema->getMulti( $element, $child ) ) : $feedElement->$child;
+            $data = $this->schema->isMulti( $element, $child ) ? $this->{$this->schema->getMulti( $element, $child )} : $feedElement->$child;
             if ( !is_null( $data ) )
             {
                 $this->generateMetaData( $elementTag, $child, $data );
@@ -945,7 +945,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateItems()
     {
-        $entries = $this->get( 'items' );
+        $entries = $this->items;
         if ( $entries === null )
         {
             return;
