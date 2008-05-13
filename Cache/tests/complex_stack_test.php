@@ -40,7 +40,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
 
     protected $testDataArray;
 
-    public function __construct( $name = null )
+    protected function setup()
     {
         if ( !self::$stackInitialized )
         {
