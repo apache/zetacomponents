@@ -48,7 +48,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
             {
                 $memoryStorage = new ezcCacheStorageApcPlain();
             }
-            else if ( ezcBaseFeaturs::hasExtensionSupport( 'memcache' ) )
+            else if ( ezcBaseFeatures::hasExtensionSupport( 'memcache' ) )
             {
                 $memoryStorage = new ezcCacheStorageMemcachePlain();
             }
