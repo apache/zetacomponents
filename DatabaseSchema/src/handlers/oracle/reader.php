@@ -44,27 +44,8 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcD
      */
     protected function fetchSchema()
     {
-        $schemaDefinition = array();
-
         $tables = $this->db->query( "SELECT table_name FROM user_tables ORDER BY table_name" )->fetchAll();
-        array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
-
-        // strip out the prefix and only return tables with the prefix set.
-        $prefix = ezcDbSchema::$options->tableNamePrefix;
-
-        foreach ( $tables as $tableName )
-        {
-            $tableNameWithoutPrefix = substr( $tableName, strlen( $prefix ) );
-            if ( $prefix === '' || $tableName !== $tableNameWithoutPrefix )
-            {
-                $fields  = $this->fetchTableFields( $tableName );
-                $indexes = $this->fetchTableIndexes( $tableName );
-
-                $schemaDefinition[$tableNameWithoutPrefix] = ezcDbSchema::createNewTable( $fields, $indexes );
-            }
-        }
-
-        return $schemaDefinition;
+        return $this->processSchema( $tables );
     }
 
     /**
@@ -77,7 +58,7 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcD
      * @param string $tableName
      * @return array(string=>ezcDbSchemaField)
      */
-    private function fetchTableFields( $tableName )
+    protected function fetchTableFields( $tableName )
     {
         $fields = array();
 
@@ -243,7 +224,7 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcD
      * @param  string
      * @return array(string=>ezcDbSchemaIndex)
      */
-    private function fetchTableIndexes( $tableName )
+    protected function fetchTableIndexes( $tableName )
     {
         $indexBuffer = array();
         $indexesArray = array();

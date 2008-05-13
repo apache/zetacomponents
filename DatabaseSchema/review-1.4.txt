@@ -25,6 +25,8 @@ Table prefixes
   SQL statement. Those should be moved to a common method in
   ezcDbSchemaDbReader.
 
+  - Done
+
 - The interface ezcDbSchemaDbWriter was changed in this commit, the method
   isQueryAllowed() was added. This looks like a BC break.
 

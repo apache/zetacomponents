@@ -44,5 +44,39 @@ abstract class ezcDbSchemaCommonSqlReader implements ezcDbSchemaDbReader
     {
         return ezcDbSchema::DATABASE;
     }
+
+    /**
+     * Loops over all the table names in the array and extracts schema
+     * information.
+     *
+     * This method extracts information about a database's schema from the
+     * database itself and returns this schema as an ezcDbSchema object.
+     *
+     * @param array(string) $tables
+     * @return ezcDbSchema
+     */
+    protected function processSchema( array $tables )
+    {
+        $schemaDefinition = array();
+        array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
+
+        // strip out the prefix and only return tables with the prefix set.
+        $prefix = ezcDbSchema::$options->tableNamePrefix;
+
+        foreach ( $tables as $tableName )
+        {
+            $tableNameWithoutPrefix = substr( $tableName, strlen( $prefix ) );
+            if ( $prefix === '' || $tableName !== $tableNameWithoutPrefix )
+            {
+                $fields  = $this->fetchTableFields( $tableName );
+                $indexes = $this->fetchTableIndexes( $tableName );
+
+                $schemaDefinition[$tableNameWithoutPrefix] = ezcDbSchema::createNewTable( $fields, $indexes );
+            }
+        }
+
+        return $schemaDefinition;
+    }
+
 }
 ?>

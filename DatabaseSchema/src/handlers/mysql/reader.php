@@ -67,27 +67,8 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
      */
     protected function fetchSchema()
     {
-        $schemaDefinition = array();
-
         $tables = $this->db->query( "SHOW TABLES" )->fetchAll();
-        array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
-
-        // strip out the prefix and only return tables with the prefix set.
-        $prefix = ezcDbSchema::$options->tableNamePrefix;
-
-        foreach ( $tables as $tableName )
-        {
-            $tableNameWithoutPrefix = substr( $tableName, strlen( $prefix ) );
-            if ( $prefix === '' || $tableName !== $tableNameWithoutPrefix )
-            {
-                $fields  = $this->fetchTableFields( $tableName );
-                $indexes = $this->fetchTableIndexes( $tableName );
-
-                $schemaDefinition[$tableNameWithoutPrefix] = ezcDbSchema::createNewTable( $fields, $indexes );
-            }
-        }
-
-        return $schemaDefinition;
+        return $this->processSchema( $tables );
     }
 
     /**
@@ -100,7 +81,7 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
      * @param string $tableName
      * @return array(string=>ezcDbSchemaField)
      */
-    private function fetchTableFields( $tableName )
+    protected function fetchTableFields( $tableName )
     {
         $fields = array();
 
@@ -241,7 +222,7 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
      * @param  string
      * @return array(string=>ezcDbSchemaIndex)
      */
-    private function fetchTableIndexes( $tableName )
+    protected function fetchTableIndexes( $tableName )
     {
         $indexBuffer = array();
 
