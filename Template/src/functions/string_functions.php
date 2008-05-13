@@ -220,7 +220,8 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             case "str_ord": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%char" ), 
                     self::functionCall( "ord", array( "%char" ) ) );
 
-             case "str_chr": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%char" ), 
+            // chr( $c )
+            case "str_chr": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%char" ), 
                     self::functionCall( "chr", array( "%char" ) ) );
             
             // str_ord_list( $s )::

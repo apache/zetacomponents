@@ -122,7 +122,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         $cb->name = $name;
         $this->block->isNestingBlock = $cb->isNestingBlock = $def->hasCloseTag;
 
-        $excessParameters = isset($def->excessParameters) && $def->excessParameters ? true : false;  
+        $excessParameters = isset( $def->excessParameters ) && $def->excessParameters ? true : false;  
 
         if ( isset( $def->startExpressionName ) && $def->startExpressionName != "" )
         {

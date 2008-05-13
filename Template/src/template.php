@@ -306,7 +306,6 @@ class ezcTemplate
                 (!$config->checkModifiedTemplates || 
                   filemtime( $this->properties["stream"] ) <= filemtime( $compiled->path ) ) ) 
             {
-
                 if( !$config->executeTemplate )
                 {
                     $this->properties["output"] = "";
@@ -360,7 +359,7 @@ class ezcTemplate
             $tstToAst->programNode->accept( $g );
 
             // Add to the cache system.
-            if ($config->cacheManager )
+            if ( $config->cacheManager )
             {
                 $config->cacheManager->includeTemplate( $this, $this->properties["stream"] );
             }

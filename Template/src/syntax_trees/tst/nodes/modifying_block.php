@@ -30,13 +30,6 @@ class ezcTemplateModifyingBlockTstNode extends ezcTemplateBlockTstNode
     public $endBracket;
 
     /**
-     * The node starting the modifying expression.
-     *
-     * @var ezcTemplateExpressionTstNode
-     */
-//    public $element; // removed, not needed
-
-    /**
      * The root of the parsed modifying expression.
      */
     public $expressionRoot;
@@ -50,7 +43,6 @@ class ezcTemplateModifyingBlockTstNode extends ezcTemplateBlockTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end );
-//        $this->element = null; // removed, not needed
         $this->startBracket = '{';
         $this->endBracket = '}';
         $this->expressionRoot = null;
@@ -64,19 +56,6 @@ class ezcTemplateModifyingBlockTstNode extends ezcTemplateBlockTstNode
                       'endBracket'     => $this->endBracket,
                       'expressionRoot' => $this->expressionRoot );
     }
-
-    /**
-     * Returns true since modifying expression block elements can always be children of blocks.
-     *
-     * @return true
-     */
-     /*
-    public function canBeChildOf( ezcTemplateBlockTstNode $block )
-    {
-        // Modifying expression block elements can always be child of blocks
-        return true;
-    }
-    */
 
     /**
      * {@inheritdoc}

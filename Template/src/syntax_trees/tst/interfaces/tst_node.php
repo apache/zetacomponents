@@ -27,6 +27,9 @@ abstract class ezcTemplateTstNode
      */
     public $source;
 
+    /**
+     * @var array
+     */
     public $children;
 
     /**

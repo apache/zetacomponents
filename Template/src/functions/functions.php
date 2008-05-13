@@ -385,7 +385,10 @@ class ezcTemplateFunctions
      */
     protected function checkDefinition( $definition, $reflectionParameters )
     {
-        if ( !isset( $definition->parameters ) || $definition->parameters === false) return;
+        if ( !isset( $definition->parameters ) || $definition->parameters === false )
+        {
+            return;
+        }
 
         $i = 0;
         $foundOptionalParameter = false;
@@ -428,9 +431,12 @@ class ezcTemplateFunctions
     {
         $requiredParameters = 0;
 
-        foreach ($reflectionParameters as $p)
+        foreach ( $reflectionParameters as $p )
         {
-            if ( !$p->isOptional()) $requiredParameters++;
+            if ( !$p->isOptional() )
+            {
+                $requiredParameters++;
+            }
         }
 
         return $requiredParameters;

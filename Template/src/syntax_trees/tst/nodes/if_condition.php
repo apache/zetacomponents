@@ -76,7 +76,9 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
             if ( $child instanceof ezcTemplateConditionBodyTstNode )
             {
                 if ( count( $child->children ) == 0 )
+                {
                     continue;
+                }
 
                 // Tell the removal object to trim our first text child
                 if ( $child->children[0] instanceof ezcTemplateTextTstNode )
