@@ -34,9 +34,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * Holds the definitions for the elements in ATOM.
      *
      * @var array(string=>mixed)
-     * @ignore
      */
-    protected static $atomSchema = array(
+    private static $atomSchema = array(
         'id'            => array( '#'          => 'string' ),
         'title'         => array( '#'          => 'string',
                                   'ATTRIBUTES' => array( 'type' => 'string',
@@ -319,12 +318,143 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
+     * Returns true if the parser can parse the provided XML document object,
+     * false otherwise.
+     *
+     * @param DOMDocument $xml The XML document object to check for parseability
+     * @return bool
+     */
+    public static function canParse( DOMDocument $xml )
+    {
+        if ( $xml->documentElement->tagName !== 'feed' )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Parses the provided XML document object and returns an ezcFeed object
+     * from it.
+     *
+     * @throws ezcFeedParseErrorException
+     *         If an error was encountered during parsing.
+     *
+     * @param DOMDocument $xml The XML document object to parse
+     * @return ezcFeed
+     */
+    public function parse( DOMDocument $xml )
+    {
+        $feed = new ezcFeed( self::FEED_TYPE );
+        $channel = $xml->documentElement;
+
+        $this->usedPrefixes = $this->fetchUsedPrefixes( $xml );
+
+        foreach ( $channel->childNodes as $channelChild )
+        {
+            if ( $channelChild->nodeType == XML_ELEMENT_NODE )
+            {
+                $tagName = $channelChild->tagName;
+                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
+
+                switch ( $tagName )
+                {
+                    case 'title':
+                    case 'copyright':
+                    case 'description':
+                        $type = $channelChild->getAttribute( 'type' );
+
+                        switch ( $type )
+                        {
+                            case 'xhtml':
+                                $nodes = $channelChild->childNodes;
+                                if ( $nodes instanceof DOMNodeList )
+                                {
+                                    $contentNode = $nodes->item( 1 );
+                                    $feed->$tagName = $contentNode->nodeValue;
+                                }
+                                break;
+
+                            case 'html':
+                                $feed->$tagName = $channelChild->textContent;
+                                break;
+
+                            case 'text':
+                                // same case as 'default'
+
+                            default:
+                                $feed->$tagName = $channelChild->textContent;
+                                break;
+                        }
+
+                        break;
+
+                    case 'id':
+                    case 'generator':
+                    case 'image':
+                    case 'icon':
+                        $feed->$tagName = $channelChild->textContent;
+                        break;
+
+                    case 'updated':
+                        $feed->$tagName = ezcFeedTools::prepareDate( $channelChild->textContent );
+                        break;
+
+                    case 'category':
+                    case 'link':
+                        $element = $feed->add( $tagName );
+                        break;
+
+                    case 'contributor':
+                    case 'author':
+                        $element = $feed->add( $tagName );
+                        $this->parsePerson( $feed, $element, $channelChild, $tagName );
+                        break;
+
+                    case 'item':
+                        $element = $feed->add( $tagName );
+                        $this->parseItem( $feed, $element, $channelChild );
+                        break;
+
+                    default:
+                        // check if it's part of a known module/namespace
+                        $this->parseModules( $feed, $channelChild, $tagName );
+
+                        // continue 2 = ignore modules when getting attributes below
+                        continue 2;
+                }
+            }
+
+            if ( $channelChild->hasAttributes() )
+            {
+                foreach ( $channelChild->attributes as $attribute )
+                {
+                    if ( in_array( $tagName, array( 'category', 'link' ) ) )
+                    {
+                        $element->{$attribute->name} = $attribute->value;
+                    }
+                    else if ( $attribute->name === 'lang' )
+                    {
+                        $feed->$tagName->language = $attribute->value;
+                    }
+                    else
+                    {
+                        $feed->$tagName->{$attribute->name} = $attribute->value;
+                    }
+                }
+            }
+        }
+
+        return $feed;
+    }
+
+    /**
      * Creates a root node for the XML document being generated.
      *
      * @param string $version The RSS version for the root node
-     * @ignore
      */
-    protected function createRootElement( $version )
+    private function createRootElement( $version )
     {
         $rss = $this->xml->createElementNS( 'http://www.w3.org/2005/Atom', 'feed' );
         $this->channel = $rss;
@@ -333,10 +463,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Adds the required feed elements to the XML document being generated.
-     *
-     * @ignore
      */
-    protected function generateRequired()
+    private function generateRequired()
     {
         foreach ( $this->schema->getRequired() as $element )
         {
@@ -368,10 +496,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Adds the at-least-one feed elements to the XML document being generated.
-     *
-     * @ignore
      */
-    protected function generateAtLeastOne()
+    private function generateAtLeastOne()
     {
         $needToThrowException = false;
         $element = 'author';
@@ -402,10 +528,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Adds the optional feed elements to the XML document being generated.
-     *
-     * @ignore
      */
-    protected function generateOptional()
+    private function generateOptional()
     {
         foreach ( $this->schema->getOptional() as $element )
         {
@@ -478,9 +602,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * @param string $element The name of the node to create
      * @param string $parent The name of the parent node which contains the node $element
      * @param array(string=>mixed) $dataNode The data for the node to create
-     * @ignore
      */
-    protected function generateNode( DOMNode $root, $element, $parent = null, $dataNode )
+    private function generateNode( DOMNode $root, $element, $parent = null, $dataNode )
     {
         $elementTag = $this->xml->createElement( $element );
         $root->appendChild( $elementTag );
@@ -565,9 +688,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * @param string $element The name of the node to create
      * @param string $parent The name of the parent node which contains the node $element
      * @param array(string=>mixed) $dataNode The data for the node to create
-     * @ignore
      */
-    protected function generateContentNode( DOMNode $root, $element, $parent = null, $dataNode )
+    private function generateContentNode( DOMNode $root, $element, $parent = null, $dataNode )
     {
         $elementTag = $this->xml->createElement( $element );
         $root->appendChild( $elementTag );
@@ -670,9 +792,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * @param DOMNode $root The root in which to create the node $element
      * @param ezcFeedElement $feedElement The person feed element (author, contributor)
      * @param string $element The name of the node to create
-     * @ignore
      */
-    protected function generatePerson( DOMNode $root, ezcFeedElement $feedElement, $element )
+    private function generatePerson( DOMNode $root, ezcFeedElement $feedElement, $element )
     {
         $elementTag = $this->xml->createElement( $element );
         $root->appendChild( $elementTag );
@@ -704,9 +825,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      *
      * @param DOMNode $root The root in which to create the source node
      * @param ezcFeedElement $feedElement The person feed source
-     * @ignore
      */
-    protected function generateSource( DOMNode $root, ezcFeedElement $feedElement )
+    private function generateSource( DOMNode $root, ezcFeedElement $feedElement )
     {
         $element = 'source';
         $parent = 'entry';
@@ -822,10 +942,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Adds the feed entry elements to the XML document being generated.
-     *
-     * @ignore
      */
-    protected function generateItems()
+    private function generateItems()
     {
         $entries = $this->get( 'items' );
         if ( $entries === null )
@@ -1033,147 +1151,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Returns true if the parser can parse the provided XML document object,
-     * false otherwise.
-     *
-     * @param DOMDocument $xml The XML document object to check for parseability
-     * @return bool
-     */
-    public static function canParse( DOMDocument $xml )
-    {
-        if ( $xml->documentElement->tagName !== 'feed' )
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Parses the provided XML document object and returns an ezcFeed object
-     * from it.
-     *
-     * @throws ezcFeedParseErrorException
-     *         If an error was encountered during parsing.
-     *
-     * @param DOMDocument $xml The XML document object to parse
-     * @return ezcFeed
-     */
-    public function parse( DOMDocument $xml )
-    {
-        $feed = new ezcFeed( self::FEED_TYPE );
-        $channel = $xml->documentElement;
-
-        $this->usedPrefixes = $this->fetchUsedPrefixes( $xml );
-
-        foreach ( $channel->childNodes as $channelChild )
-        {
-            if ( $channelChild->nodeType == XML_ELEMENT_NODE )
-            {
-                $tagName = $channelChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
-
-                switch ( $tagName )
-                {
-                    case 'title':
-                    case 'copyright':
-                    case 'description':
-                        $type = $channelChild->getAttribute( 'type' );
-
-                        switch ( $type )
-                        {
-                            case 'xhtml':
-                                $nodes = $channelChild->childNodes;
-                                if ( $nodes instanceof DOMNodeList )
-                                {
-                                    $contentNode = $nodes->item( 1 );
-                                    $feed->$tagName = $contentNode->nodeValue;
-                                }
-                                break;
-
-                            case 'html':
-                                $feed->$tagName = $channelChild->textContent;
-                                break;
-
-                            case 'text':
-                                // same case as 'default'
-
-                            default:
-                                $feed->$tagName = $channelChild->textContent;
-                                break;
-                        }
-
-                        break;
-
-                    case 'id':
-                    case 'generator':
-                    case 'image':
-                    case 'icon':
-                        $feed->$tagName = $channelChild->textContent;
-                        break;
-
-                    case 'updated':
-                        $feed->$tagName = ezcFeedTools::prepareDate( $channelChild->textContent );
-                        break;
-
-                    case 'category':
-                    case 'link':
-                        $element = $feed->add( $tagName );
-                        break;
-
-                    case 'contributor':
-                    case 'author':
-                        $element = $feed->add( $tagName );
-                        $this->parsePerson( $feed, $element, $channelChild, $tagName );
-                        break;
-
-                    case 'item':
-                        $element = $feed->add( $tagName );
-                        $this->parseItem( $feed, $element, $channelChild );
-                        break;
-
-                    default:
-                        // check if it's part of a known module/namespace
-                        $this->parseModules( $feed, $channelChild, $tagName );
-
-                        // continue 2 = ignore modules when getting attributes below
-                        continue 2;
-                }
-            }
-
-            if ( $channelChild->hasAttributes() )
-            {
-                foreach ( $channelChild->attributes as $attribute )
-                {
-                    if ( in_array( $tagName, array( 'category', 'link' ) ) )
-                    {
-                        $element->{$attribute->name} = $attribute->value;
-                    }
-                    else if ( $attribute->name === 'lang' )
-                    {
-                        $feed->$tagName->language = $attribute->value;
-                    }
-                    else
-                    {
-                        $feed->$tagName->{$attribute->name} = $attribute->value;
-                    }
-                }
-            }
-        }
-
-        return $feed;
-    }
-
-    /**
      * Parses the provided XML element object and stores it as a feed item in
      * the provided ezcFeed object.
      *
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
      * @param ezcFeedElement $element The feed element object that will contain the feed item
      * @param DOMElement $xml The XML element object to parse
-     * @ignore
      */
-    protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
         foreach ( $xml->childNodes as $itemChild )
         {
@@ -1363,9 +1348,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * @param ezcFeedElement $element The feed element object that will contain the feed person
      * @param DOMElement $xml The XML element object to parse
      * @param string $type The type of the person (author, contributor)
-     * @ignore
      */
-    protected function parsePerson( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml, $type )
+    private function parsePerson( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml, $type )
     {
         foreach ( $xml->childNodes as $itemChild )
         {
@@ -1392,9 +1376,8 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed source
      * @param ezcFeedElement $element The feed element object that will contain the feed source
      * @param DOMElement $xml The XML element object to parse
-     * @ignore
      */
-    protected function parseSource( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseSource( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
         foreach ( $xml->childNodes as $sourceChild )
         {

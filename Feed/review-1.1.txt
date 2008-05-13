@@ -56,6 +56,8 @@ ezcFeed
     only be used, if we extend the classes internally in the component, but do
     not want to expose the affected elements as stable API to others.
 
+    # I changed some methods and variables from protected to private.
+
 - Huge docblock at the beginning of the file is annoying. We should think
   about a way to include docs there.
 
@@ -69,6 +71,8 @@ ezcFeed
 
 - Why ezcFeedCanNotParseException and ezcFeedParseErrorException? The name
   states the same purpose. Even the docs are the same.
+
+# I removed ezcFeedCanNotParseException and used the other one only.
 
 ezcFeedItem
 ===========
@@ -99,6 +103,8 @@ ezcFeedItem
 
   The parse handling of this one looks rather scary in the docs.
 
+# where exactly?
+
 ezcFeedProcessor
 ================
 
@@ -112,6 +118,9 @@ ezcFeedRss2
   definition for a 3 dimensional array. It looks rather unmaintainable . The
   documentation "Holds the RSS2 feed schema." does not tell anything about its
   purpose.
+
+# I changed the schema to be private. I will add some explanations for it.
+
 - The generateItems() method is 130 lines long, pure code and not a single
   line of inline docs, and looks absolutly unmaintainable and untestable.
 
@@ -176,7 +185,13 @@ General
   completly unacceptable. Especially since there are 166 public/protected
   methods to ensure BC for.
 
+# Why would you remove the regression tests? They don't consume so much memory
+  as the template regression tests, so there is no reason to remove them.
+
 - Test cases are time zone dependent ::
+
+# In 5.3 no tests fail, but in 5.2.* six tests fail because of timezone. I don't
+  know how to fix them yet.
 
     1) /home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/atom/regression/generate/modules/dc/dc_all_lang_multiple.in(ezcFeedAtomRegressionGenerateTest)
 	The dc_all_lang_multiple.out is not the same as the generated feed from dc_all_lang_multiple.in.
@@ -198,158 +213,5 @@ General
 	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/atom/atom_regression_generate_test.php:65
 	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/regression_test.php:269
 
-	2) /home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/atom/regression/generate/modules/dc/dc_date_datetime.in(ezcFeedAtomRegressionGenerateTest)
-	The dc_date_datetime.out is not the same as the generated feed from dc_date_datetime.in.
-	Failed asserting that two strings are equal.
-	--- Expected
-	+++ Actual
-	@@ -12,6 +12,6 @@
-		 <title>Entry title</title>
-		 <updated>XXX</updated>
-		 <content>Entry content</content>
-	-    <dc:date xml:lang="g">2008-02-14T13:34:51+00:00</dc:date>
-	+    <dc:date xml:lang="g">2008-02-14T13:34:51+01:00</dc:date>
-	   </entry>
-	 </feed>
-	\ No newline at end of file
-
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/atom/atom_regression_generate_test.php:65
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/regression_test.php:269
-
-	3) /home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/atom/regression/generate/modules/dc/dc_feed_all_lang_multiple.in(ezcFeedAtomRegressionGenerateTest)
-	The dc_feed_all_lang_multiple.out is not the same as the generated feed from dc_feed_all_lang_multiple.in.
-	Failed asserting that two strings are equal.
-	--- Expected
-	+++ Actual
-	@@ -13,8 +13,8 @@
-	   <dc:coverage xml:lang="d">DC coverage 2</dc:coverage>
-	   <dc:creator xml:lang="e">DC creator 1</dc:creator>
-	   <dc:creator xml:lang="f">DC creator 2</dc:creator>
-	-  <dc:date xml:lang="g">2008-02-14T13:34:51+00:00</dc:date>
-	-  <dc:date xml:lang="h">1970-01-01T00:00:00+00:00</dc:date>
-	+  <dc:date xml:lang="g">2008-02-14T13:34:51+01:00</dc:date>
-	+  <dc:date xml:lang="h">1970-01-01T00:00:00+01:00</dc:date>
-	   <dc:description xml:lang="i">DC description 1</dc:description>
-	   <dc:description xml:lang="j">DC description 2</dc:description>
-	   <dc:format xml:lang="k">DC format 1</dc:format>
-
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/atom/atom_regression_generate_test.php:65
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/regression_test.php:269
-
-	4) /home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss1/regression/generate/modules/dc/dc_all_lang_multiple.in(ezcFeedRss1RegressionGenerateTest)
-	The dc_all_lang_multiple.out is not the same as the generated feed from dc_all_lang_multiple.in.
-	Failed asserting that two strings are equal.
-	--- Expected
-	+++ Actual
-	@@ -19,8 +19,8 @@
-		 <dc:coverage xml:lang="d">DC coverage 2</dc:coverage>
-		 <dc:creator xml:lang="e">DC creator 1</dc:creator>
-		 <dc:creator xml:lang="f">DC creator 2</dc:creator>
-	-    <dc:date xml:lang="g">2008-02-14T13:34:51+00:00</dc:date>
-	-    <dc:date xml:lang="h">1970-01-01T00:00:00+00:00</dc:date>
-	+    <dc:date xml:lang="g">2008-02-14T13:34:51+01:00</dc:date>
-	+    <dc:date xml:lang="h">1970-01-01T00:00:00+01:00</dc:date>
-		 <dc:description xml:lang="i">DC description 1</dc:description>
-		 <dc:description xml:lang="j">DC description 2</dc:description>
-		 <dc:format xml:lang="k">DC format 1</dc:format>
-
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss1/rss1_regression_generate_test.php:62
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/regression_test.php:269
-
-	5) /home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss1/regression/generate/modules/dc/dc_date_datetime.in(ezcFeedRss1RegressionGenerateTest)
-	The dc_date_datetime.out is not the same as the generated feed from dc_date_datetime.in.
-	Failed asserting that two strings are equal.
-	--- Expected
-	+++ Actual
-	@@ -13,6 +13,6 @@
-	   <item rdf:about="Item about">
-		 <title>Item title</title>
-		 <link>Item link</link>
-	-    <dc:date xml:lang="g">2008-02-14T13:34:51+00:00</dc:date>
-	+    <dc:date xml:lang="g">2008-02-14T13:34:51+01:00</dc:date>
-	   </item>
-	 </rdf:RDF>
-	\ No newline at end of file
-
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss1/rss1_regression_generate_test.php:62
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/regression_test.php:269
-
-	6) /home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss1/regression/generate/modules/dc/dc_feed_all_lang_multiple.in(ezcFeedRss1RegressionGenerateTest)
-	The dc_feed_all_lang_multiple.out is not the same as the generated feed from dc_feed_all_lang_multiple.in.
-	Failed asserting that two strings are equal.
-	--- Expected
-	+++ Actual
-	@@ -15,8 +15,8 @@
-		 <dc:coverage xml:lang="d">DC coverage 2</dc:coverage>
-		 <dc:creator xml:lang="e">DC creator 1</dc:creator>
-		 <dc:creator xml:lang="f">DC creator 2</dc:creator>
-	-    <dc:date xml:lang="g">2008-02-14T13:34:51+00:00</dc:date>
-	-    <dc:date xml:lang="h">1970-01-01T00:00:00+00:00</dc:date>
-	+    <dc:date xml:lang="g">2008-02-14T13:34:51+01:00</dc:date>
-	+    <dc:date xml:lang="h">1970-01-01T00:00:00+01:00</dc:date>
-		 <dc:description xml:lang="i">DC description 1</dc:description>
-		 <dc:description xml:lang="j">DC description 2</dc:description>
-		 <dc:format xml:lang="k">DC format 1</dc:format>
-
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss1/rss1_regression_generate_test.php:62
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/regression_test.php:269
-
-	7) /home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss2/regression/generate/modules/dc/dc_all_lang_multiple.in(ezcFeedRss2RegressionGenerateTest)
-	The dc_all_lang_multiple.out is not the same as the generated feed from dc_all_lang_multiple.in.
-	Failed asserting that two strings are equal.
-	--- Expected
-	+++ Actual
-	@@ -17,8 +17,8 @@
-		   <dc:coverage xml:lang="d">DC coverage 2</dc:coverage>
-		   <dc:creator xml:lang="e">DC creator 1</dc:creator>
-		   <dc:creator xml:lang="f">DC creator 2</dc:creator>
-	-      <dc:date xml:lang="g">2008-02-14T13:34:51+00:00</dc:date>
-	-      <dc:date xml:lang="h">1970-01-01T00:00:00+00:00</dc:date>
-	+      <dc:date xml:lang="g">2008-02-14T13:34:51+01:00</dc:date>
-	+      <dc:date xml:lang="h">1970-01-01T00:00:00+01:00</dc:date>
-		   <dc:description xml:lang="i">DC description 1</dc:description>
-		   <dc:description xml:lang="j">DC description 2</dc:description>
-		   <dc:format xml:lang="k">DC format 1</dc:format>
-
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss2/rss2_regression_generate_test.php:65
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/regression_test.php:269
-
-	8) /home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss2/regression/generate/modules/dc/dc_date_datetime.in(ezcFeedRss2RegressionGenerateTest)
-	The dc_date_datetime.out is not the same as the generated feed from dc_date_datetime.in.
-	Failed asserting that two strings are equal.
-	--- Expected
-	+++ Actual
-	@@ -11,7 +11,7 @@
-		   <title>Item title</title>
-		   <link>Item link</link>
-		   <description>Item description</description>
-	-      <dc:date xml:lang="g">2008-02-14T13:34:51+00:00</dc:date>
-	+      <dc:date xml:lang="g">2008-02-14T13:34:51+01:00</dc:date>
-		 </item>
-	   </channel>
-	 </rss>
-	\ No newline at end of file
-
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss2/rss2_regression_generate_test.php:65
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/regression_test.php:269
-
-	9) /home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss2/regression/generate/modules/dc/dc_feed_all_lang_multiple.in(ezcFeedRss2RegressionGenerateTest)
-	The dc_feed_all_lang_multiple.out is not the same as the generated feed from dc_feed_all_lang_multiple.in.
-	Failed asserting that two strings are equal.
-	--- Expected
-	+++ Actual
-	@@ -13,8 +13,8 @@
-		 <dc:coverage xml:lang="d">DC coverage 2</dc:coverage>
-		 <dc:creator xml:lang="e">DC creator 1</dc:creator>
-		 <dc:creator xml:lang="f">DC creator 2</dc:creator>
-	-    <dc:date xml:lang="g">2008-02-14T13:34:51+00:00</dc:date>
-	-    <dc:date xml:lang="h">1970-01-01T00:00:00+00:00</dc:date>
-	+    <dc:date xml:lang="g">2008-02-14T13:34:51+01:00</dc:date>
-	+    <dc:date xml:lang="h">1970-01-01T00:00:00+01:00</dc:date>
-		 <dc:description xml:lang="i">DC description 1</dc:description>
-		 <dc:description xml:lang="j">DC description 2</dc:description>
-		 <dc:format xml:lang="k">DC format 1</dc:format>
-
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/rss2/rss2_regression_generate_test.php:65
-	/home/dotxp/dev/PHP/actual/ezcomponents/trunk/Feed/tests/regression_test.php:269
+    + 5 other similar ones
 

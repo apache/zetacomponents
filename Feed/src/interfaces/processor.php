@@ -39,14 +39,6 @@ abstract class ezcFeedProcessor
     protected $contentType;
 
     /**
-     * Holds the feed schema for the current feed type.
-     *
-     * @var array(string=>mixed)
-     * @ignore
-     */
-    protected $schema;
-
-    /**
      * Holds the XML document which is being generated.
      *
      * @var DOMDocument
@@ -111,7 +103,7 @@ abstract class ezcFeedProcessor
      * @param mixed|array(mixed) $value The value(s) for $element
      * @ignore
      */
-    public function generateMetaData( DOMNode $root, $element, $value )
+    protected function generateMetaData( DOMNode $root, $element, $value )
     {
         if ( !is_array( $value ) )
         {
@@ -134,7 +126,7 @@ abstract class ezcFeedProcessor
      * @param array(string=>mixed) $attributes The attributes to add to the node
      * @ignore
      */
-    public function generateMetaDataWithAttributes( DOMNode $root, $element, $value = false, array $attributes )
+    protected function generateMetaDataWithAttributes( DOMNode $root, $element, $value = false, array $attributes )
     {
         if ( !is_array( $value ) )
         {
@@ -162,49 +154,6 @@ abstract class ezcFeedProcessor
     }
 
     /**
-     * Returns true if the module $name is loaded, false otherwise.
-     *
-     * @param string $name The name of the module to check if loaded at feed-level
-     * @return bool
-     */
-    public function hasModule( $name )
-    {
-        return isset( $this->modules[$name] );
-    }
-
-    /**
-     * Returns the loaded module $name.
-     *
-     * @param string $name The name of the module to return
-     * @return ezcFeedModule
-     */
-    public function getModule( $name )
-    {
-        return $this->modules[$name];
-    }
-
-    /**
-     * Returns an array with all the modules loaded at feed-level.
-     *
-     * @return array(ezcFeedModule)
-     */
-    public function getModules()
-    {
-        return $this->modules;
-    }
-
-    /**
-     * Associates the module $module with the name $name.
-     *
-     * @param string $name The name of the module associate
-     * @param ezcFeedModule $module The module to set under the name $name
-     */
-    public function setModule( $name, ezcFeedModule $module )
-    {
-        $this->modules[$name] = $module;
-    }
-
-    /**
      * Creates elements for all modules loaded at item-level, and adds the
      * namespaces required by the modules in the XML document being generated.
      *
@@ -212,7 +161,7 @@ abstract class ezcFeedProcessor
      * @param DOMElement $node The XML element in which to add the module elements
      * @ignore
      */
-    public function generateModules( $item, DOMElement $node )
+    protected function generateModules( $item, DOMElement $node )
     {
         foreach ( ezcFeed::getSupportedModules() as $module => $class )
         {
@@ -231,7 +180,7 @@ abstract class ezcFeedProcessor
      * @param DOMElement $node The XML element in which to add the module elements
      * @ignore
      */
-    public function generateFeedModules( DOMElement $node )
+    protected function generateFeedModules( DOMElement $node )
     {
         foreach ( ezcFeed::getSupportedModules() as $module => $class )
         {
@@ -252,7 +201,7 @@ abstract class ezcFeedProcessor
      * @param string $tagName The XML tag name (if it contains ':' it will be considered part of a module)
      * @ignore
      */
-    public function parseModules( $item, DOMElement $node, $tagName )
+    protected function parseModules( $item, DOMElement $node, $tagName )
     {
         $supportedModules = ezcFeed::getSupportedModules();
         if ( strpos( $tagName, ':' ) !== false )
@@ -274,7 +223,7 @@ abstract class ezcFeedProcessor
      * @return array(string=>string)
      * @ignore
      */
-    public function fetchUsedPrefixes( DOMDocument $xml )
+    protected function fetchUsedPrefixes( DOMDocument $xml )
     {
         $usedPrefixes = array();
 
@@ -303,8 +252,9 @@ abstract class ezcFeedProcessor
      * @param DOMNode $node The node to add the attribute to
      * @param string $attribute The name of the attribute to add
      * @param mixed $value The value of the attribute
+     * @ignore
      */
-    public function addAttribute( DOMNode $node, $attribute, $value )
+    protected function addAttribute( DOMNode $node, $attribute, $value )
     {
         $attr = $this->xml->createAttribute( $attribute );
         $val = $this->xml->createTextNode( $value );
@@ -393,6 +343,49 @@ abstract class ezcFeedProcessor
             $this->elements[$name] = $element;
             return $element;
         }
+    }
+
+    /**
+     * Returns true if the module $name is loaded, false otherwise.
+     *
+     * @param string $name The name of the module to check if loaded at feed-level
+     * @return bool
+     */
+    public function hasModule( $name )
+    {
+        return isset( $this->modules[$name] );
+    }
+
+    /**
+     * Returns the loaded module $name.
+     *
+     * @param string $name The name of the module to return
+     * @return ezcFeedModule
+     */
+    public function getModule( $name )
+    {
+        return $this->modules[$name];
+    }
+
+    /**
+     * Returns an array with all the modules loaded at feed-level.
+     *
+     * @return array(ezcFeedModule)
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
+    /**
+     * Associates the module $module with the name $name.
+     *
+     * @param string $name The name of the module associate
+     * @param ezcFeedModule $module The module to set under the name $name
+     */
+    public function setModule( $name, ezcFeedModule $module )
+    {
+        $this->modules[$name] = $module;
     }
 
     /**

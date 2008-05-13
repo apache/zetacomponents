@@ -146,9 +146,9 @@ class ezcFeedTest extends ezcFeedTestCase
             $feed = ezcFeed::parse( $file );
             $this->fail( 'Expected exception not thrown' );
         }
-        catch ( ezcFeedCanNotParseException $e )
+        catch ( ezcFeedParseErrorException $e )
         {
-            $this->assertEquals( "The feed '{$file}' could not be parsed: {$file} is not a valid XML file.", $e->getMessage() );
+            $this->assertEquals( "Parse error while parsing feed '{$file}': It is not a valid XML file.", $e->getMessage() );
         }
     }
 
@@ -172,10 +172,10 @@ class ezcFeedTest extends ezcFeedTestCase
             $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><xxx>Content</xxx>' );
             $this->fail( 'Expected exception not thrown' );
         }
-        catch ( ezcFeedCanNotParseException $e )
+        catch ( ezcFeedParseErrorException $e )
         {
-            $expected = "' could not be parsed: Feed type not recognized.";
-            $result = substr( $e->getMessage(), strlen( $e->getMessage() ) - 48 );
+            $expected = "Feed type not recognized.";
+            $result = substr( $e->getMessage(), strlen( $e->getMessage() ) - 25 );
             $this->assertEquals( $expected, $result );
         }
     }
@@ -187,10 +187,10 @@ class ezcFeedTest extends ezcFeedTestCase
             $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss><channel><title>RSS no version</title><item><title>Item no version</title></item></channel></rss>' );
             $this->fail( 'Expected exception not thrown' );
         }
-        catch ( ezcFeedCanNotParseException $e )
+        catch ( ezcFeedParseErrorException $e )
         {
-            $expected = "' could not be parsed: Feed type not recognized.";
-            $result = substr( $e->getMessage(), strlen( $e->getMessage() ) - 48 );
+            $expected = "Feed type not recognized.";
+            $result = substr( $e->getMessage(), strlen( $e->getMessage() ) - 25 );
             $this->assertEquals( $expected, $result );
         }
     }
@@ -202,10 +202,10 @@ class ezcFeedTest extends ezcFeedTestCase
             $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss version="unsupported version"><channel><title>RSS unsupported version</title><item><title>Item unsupported version</title></item></channel></rss>' );
             $this->fail( 'Expected exception not thrown' );
         }
-        catch ( ezcFeedCanNotParseException $e )
+        catch ( ezcFeedParseErrorException $e )
         {
-            $expected = "' could not be parsed: Feed type not recognized.";
-            $result = substr( $e->getMessage(), strlen( $e->getMessage() ) - 48 );
+            $expected = "Feed type not recognized.";
+            $result = substr( $e->getMessage(), strlen( $e->getMessage() ) - 25 );
             $this->assertEquals( $expected, $result );
         }
     }

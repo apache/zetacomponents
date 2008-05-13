@@ -34,9 +34,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      * Holds the definitions for the elements in RSS1.
      *
      * @var array(string=>mixed)
-     * @ignore
      */
-    protected static $rss1Schema = array(
+    private static $rss1Schema = array(
         // these are actually part of channel: title, link, description, items, image, textinput
         // the channel also requires the rdf:about attribute
         'title'        => array( '#' => 'string' ),
@@ -133,12 +132,138 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
+     * Returns true if the parser can parse the provided XML document object,
+     * false otherwise.
+     *
+     * @param DOMDocument $xml The XML document object to check for parseability
+     * @return bool
+     */
+    public static function canParse( DOMDocument $xml )
+    {
+        if ( strpos( $xml->documentElement->tagName, 'RDF' ) === false )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Parses the provided XML document object and returns an ezcFeed object
+     * from it.
+     *
+     * @throws ezcFeedParseErrorException
+     *         If an error was encountered during parsing.
+     *
+     * @param DOMDocument $xml The XML document object to parse
+     * @return ezcFeed
+     */
+    public function parse( DOMDocument $xml )
+    {
+        $feed = new ezcFeed( self::FEED_TYPE );
+        $rssChildren = $xml->documentElement->childNodes;
+        $channel = null;
+
+        $this->usedPrefixes = $this->fetchUsedPrefixes( $xml );
+
+        foreach ( $rssChildren as $rssChild )
+        {
+            if ( $rssChild->nodeType === XML_ELEMENT_NODE
+                 && $rssChild->tagName === 'channel' )
+            {
+                $channel = $rssChild;
+            }
+        }
+
+        if ( $channel === null )
+        {
+            throw new ezcFeedParseErrorException( null, "No channel tag" );
+        }
+
+        if ( $channel->hasAttributes() )
+        {
+            foreach ( $channel->attributes as $attribute )
+            {
+                $tagName = ezcFeedTools::deNormalizeName( $attribute->name, $this->schema->getElementsMap() );
+                $feed->$tagName = $attribute->value;
+            }
+        }
+
+        foreach ( $channel->childNodes as $channelChild )
+        {
+            if ( $channelChild->nodeType == XML_ELEMENT_NODE )
+            {
+                $tagName = $channelChild->tagName;
+                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
+
+                switch ( $tagName )
+                {
+                    case 'title':
+                    case 'link':
+                    case 'description':
+                        $feed->$tagName = $channelChild->textContent;
+                        break;
+
+                    case 'items':
+                        $seq = $channelChild->getElementsByTagName( 'Seq' );
+                        if ( $seq->length === 0 )
+                        {
+                            break;
+                        }
+
+                        $lis = $seq->item( 0 )->getElementsByTagName( 'li' );
+
+                        foreach ( $lis as $el )
+                        {
+                            $resource = $el->getAttribute( 'resource' );
+
+                            $item = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'item', 'rdf:about', $resource );
+                            $element = $feed->add( 'item' );
+                            $this->parseItem( $feed, $element, $item );
+                        }
+                        break;
+
+                    case 'image':
+                        $resource = $channelChild->getAttribute( 'rdf:resource' );
+
+                        $image = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'image', 'rdf:about', $resource );
+                        $this->parseImage( $feed, $image );
+                        break;
+
+                    case 'textInput':
+                        $resource = $channelChild->getAttribute( 'rdf:resource' );
+
+                        $textInput = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'textinput', 'rdf:about', $resource );
+                        $this->parseTextInput( $feed, $textInput );
+                        break;
+
+                    default:
+                        // check if it's part of a known module/namespace
+                        $this->parseModules( $feed, $channelChild, $tagName );
+
+                        // continue 2 = ignore modules when getting attributes below
+                        continue 2;
+                }
+            }
+
+            if ( $channelChild->hasAttributes() )
+            {
+                foreach ( $channelChild->attributes as $attribute )
+                {
+                    $feed->$tagName->{$attribute->name} = $attribute->value;
+                }
+            }
+        }
+
+        return $feed;
+    }
+
+    /**
      * Creates a root node for the XML document being generated.
      *
      * @param string $version The RSS version for the root node
-     * @ignore
      */
-    protected function createRootElement( $version )
+    private function createRootElement( $version )
     {
         $rss = $this->xml->createElementNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:RDF' );
         $this->addAttribute( $rss, 'xmlns', 'http://purl.org/rss/1.0/' );
@@ -150,10 +275,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Adds the required feed elements to the XML document being generated.
-     *
-     * @ignore
      */
-    protected function generateChannel()
+    private function generateChannel()
     {
         $data = $this->get( 'id' );
 
@@ -249,10 +372,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Adds the feed items to the XML document being generated.
-     *
-     * @ignore
      */
-    protected function generateItems()
+    private function generateItems()
     {
         foreach ( $this->get( 'items' ) as $element )
         {
@@ -305,10 +426,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Adds the feed image to the XML document being generated.
-     *
-     * @ignore
      */
-    protected function generateImage()
+    private function generateImage()
     {
         $image = $this->get( 'image' );
         if ( $image !== null )
@@ -346,10 +465,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Adds the feed textinput to the XML document being generated.
-     *
-     * @ignore
      */
-    protected function generateTextInput()
+    private function generateTextInput()
     {
         $textInput = $this->get( 'textInput' );
         if ( $textInput !== null )
@@ -386,142 +503,14 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Returns true if the parser can parse the provided XML document object,
-     * false otherwise.
-     *
-     * @param DOMDocument $xml The XML document object to check for parseability
-     * @return bool
-     */
-    public static function canParse( DOMDocument $xml )
-    {
-        if ( strpos( $xml->documentElement->tagName, 'RDF' ) === false )
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Parses the provided XML document object and returns an ezcFeed object
-     * from it.
-     *
-     * @throws ezcFeedParseErrorException
-     *         If an error was encountered during parsing.
-     *
-     * @param DOMDocument $xml The XML document object to parse
-     * @return ezcFeed
-     */
-    public function parse( DOMDocument $xml )
-    {
-        $feed = new ezcFeed( self::FEED_TYPE );
-        $rssChildren = $xml->documentElement->childNodes;
-        $channel = null;
-
-        $this->usedPrefixes = $this->fetchUsedPrefixes( $xml );
-
-        foreach ( $rssChildren as $rssChild )
-        {
-            if ( $rssChild->nodeType === XML_ELEMENT_NODE
-                 && $rssChild->tagName === 'channel' )
-            {
-                $channel = $rssChild;
-            }
-        }
-
-        if ( $channel === null )
-        {
-            throw new ezcFeedParseErrorException( "No channel tag" );
-        }
-
-        if ( $channel->hasAttributes() )
-        {
-            foreach ( $channel->attributes as $attribute )
-            {
-                $tagName = ezcFeedTools::deNormalizeName( $attribute->name, $this->schema->getElementsMap() );
-                $feed->$tagName = $attribute->value;
-            }
-        }
-
-        foreach ( $channel->childNodes as $channelChild )
-        {
-            if ( $channelChild->nodeType == XML_ELEMENT_NODE )
-            {
-                $tagName = $channelChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
-
-                switch ( $tagName )
-                {
-                    case 'title':
-                    case 'link':
-                    case 'description':
-                        $feed->$tagName = $channelChild->textContent;
-                        break;
-
-                    case 'items':
-                        $seq = $channelChild->getElementsByTagName( 'Seq' );
-                        if ( $seq->length === 0 )
-                        {
-                            break;
-                        }
-
-                        $lis = $seq->item( 0 )->getElementsByTagName( 'li' );
-
-                        foreach ( $lis as $el )
-                        {
-                            $resource = $el->getAttribute( 'resource' );
-
-                            $item = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'item', 'rdf:about', $resource );
-                            $element = $feed->add( 'item' );
-                            $this->parseItem( $feed, $element, $item );
-                        }
-                        break;
-
-                    case 'image':
-                        $resource = $channelChild->getAttribute( 'rdf:resource' );
-
-                        $image = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'image', 'rdf:about', $resource );
-                        $this->parseImage( $feed, $image );
-                        break;
-
-                    case 'textInput':
-                        $resource = $channelChild->getAttribute( 'rdf:resource' );
-
-                        $textInput = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'textinput', 'rdf:about', $resource );
-                        $this->parseTextInput( $feed, $textInput );
-                        break;
-
-                    default:
-                        // check if it's part of a known module/namespace
-                        $this->parseModules( $feed, $channelChild, $tagName );
-
-                        // continue 2 = ignore modules when getting attributes below
-                        continue 2;
-                }
-            }
-
-            if ( $channelChild->hasAttributes() )
-            {
-                foreach ( $channelChild->attributes as $attribute )
-                {
-                    $feed->$tagName->{$attribute->name} = $attribute->value;
-                }
-            }
-        }
-
-        return $feed;
-    }
-
-    /**
      * Parses the provided XML element object and stores it as a feed item in
      * the provided ezcFeed object.
      *
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
      * @param ezcFeedElement $element The feed element object that will contain the feed item
      * @param DOMElement $xml The XML element object to parse
-     * @ignore
      */
-    protected function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
     {
         if ( $xml->hasAttributes() )
         {
@@ -564,9 +553,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      *
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed image
      * @param DOMElement $xml The XML element object to parse
-     * @ignore
      */
-    protected function parseImage( ezcFeed $feed, DOMElement $xml = null )
+    private function parseImage( ezcFeed $feed, DOMElement $xml = null )
     {
         $image = $feed->add( 'image' );
         if ( $xml !== null )
@@ -603,9 +591,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      *
      * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed textinput
      * @param DOMElement $xml The XML element object to parse
-     * @ignore
      */
-    protected function parseTextInput( ezcFeed $feed, DOMElement $xml = null )
+    private function parseTextInput( ezcFeed $feed, DOMElement $xml = null )
     {
         $textInput = $feed->add( 'textInput' );
         if ( $xml !== null )

@@ -619,7 +619,7 @@ class ezcFeed
      *
      * @throws ezcBaseFileNotFoundException
      *         If the XML file at $uri could not be found.
-     * @throws ezcFeedCanNotParseException
+     * @throws ezcFeedParseErrorException
      *         If the content at $uri is not a valid XML document.
      *
      * @param string $uri An URI which stores an XML document
@@ -640,7 +640,7 @@ class ezcFeed
         $retval = @$xml->load( $uri );
         if ( $retval === false )
         {
-            throw new ezcFeedCanNotParseException( $uri, "{$uri} is not a valid XML file" );
+            throw new ezcFeedParseErrorException( $uri, "It is not a valid XML file" );
         }
 
         return self::dispatchXml( $xml );
@@ -668,7 +668,7 @@ class ezcFeed
         $retval = @$xml->loadXML( $content );
         if ( $retval === false )
         {
-            throw new ezcFeedParseErrorException( "Content is no valid XML" );
+            throw new ezcFeedParseErrorException( null, "Content is no valid XML" );
         }
 
         return self::dispatchXml( $xml );
@@ -678,7 +678,7 @@ class ezcFeed
      * Parses the $xml object by dispatching it to the processor that can
      * handle it.
      *
-     * @throws ezcFeedCanNotParseException
+     * @throws ezcFeedParseErrorException
      *         If the $xml object could not be parsed by any available processor.
      *
      * @param DOMDocument $xml The XML object to parse
@@ -697,7 +697,7 @@ class ezcFeed
             }
         }
 
-        throw new ezcFeedCanNotParseException( $xml->documentURI, 'Feed type not recognized' );
+        throw new ezcFeedParseErrorException( $xml->documentURI, 'Feed type not recognized' );
     }
 
     /**

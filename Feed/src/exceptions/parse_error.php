@@ -20,11 +20,21 @@ class ezcFeedParseErrorException extends ezcFeedException
     /**
      * Constructs a new ezcFeedParseErrorException.
      *
-     * @param string $extraData An extra message to be included in the thrown exception text
+     * If $uri is not null the generated message will contain it.
+     *
+     * @param string $uri The URI which identifies the XML document which was tried to be parsed
+     * @param string $message An extra message to be included in the thrown exception text
      */
-    public function __construct( $extraData )
+    public function __construct( $uri = null, $message )
     {
-        parent::__construct( "Parse error while parsing feed: {$extraData}." );
+        if ( $uri !== null )
+        {
+            parent::__construct( "Parse error while parsing feed '{$uri}': {$message}." );
+        }
+        else
+        {
+            parent::__construct( "Parse error while parsing feed: {$message}." );
+        }
     }
 }
 ?>
