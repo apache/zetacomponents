@@ -1,4 +1,4 @@
-1.3alpha3 - [RELEASEDATE]
+1.3alpha3 - Tuesday 13 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13008: ezcLogFileWriter::openFile() throws wrong Exception.
