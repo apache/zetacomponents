@@ -70,4 +70,4 @@ final class ezcDocumentManager
         // @TODO: Implement
     }
 }
-
+?>
