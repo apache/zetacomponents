@@ -1,0 +1,18 @@
+
+Array
+(
+    [required] => 1
+)
+
+Array
+(
+    [required] => 1
+    [extra] => bla
+)
+
+Array
+(
+    [required] => 1
+    [extra] => bla
+    [extra2] => haha
+)

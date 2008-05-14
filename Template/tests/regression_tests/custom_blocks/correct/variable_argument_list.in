@@ -1,0 +1,7 @@
+{var $one = 1}
+
+{variable_parameters required=$one}
+
+{variable_parameters required=$one extra="bla"}
+
+{variable_parameters required=$one extra="bla" extra2="haha"}
