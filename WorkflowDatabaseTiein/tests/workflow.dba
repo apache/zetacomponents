@@ -366,7 +366,7 @@ return array (
         'workflow_name' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'text',
-           'length' => 32,
+           'length' => 64,
            'notNull' => true,
            'default' => NULL,
            'autoIncrement' => false,
