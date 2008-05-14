@@ -4,6 +4,6 @@ CREATE TABLE 'table1' (
 );
 DROP TABLE 'table2';
 CREATE TABLE 'table2' (
-	'id' integer NOT NULL
+	'id' integer NOT NULL DEFAULT 0
 );
 CREATE UNIQUE INDEX 'table2_pri' ON 'table2' ( 'id' );

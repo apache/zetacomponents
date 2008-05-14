@@ -125,6 +125,10 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
                     $fieldDefault = $row['default'];
                 }
             }
+            if ( $fieldType == 'integer' && $row['default'] !== null )
+            {
+                $fieldDefault = (int) $fieldDefault;
+            }
 
             $fieldAutoIncrement = false;
             if ( strstr ( $row['extra'], 'auto_increment' ) !== false )
@@ -162,7 +166,7 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
         }
         $genericType = self::$typeMap[$matches[1]];
 
-        if ( in_array( $genericType, array( 'text', 'decimal', 'float' ) ) && isset( $matches[3] ) )
+        if ( in_array( $genericType, array( 'text', 'decimal', 'float', 'integer' ) ) && isset( $matches[3] ) && $typeString != 'bigint(20)' )
         {
             $typeLength = $matches[3];
             if ( is_numeric( $typeLength ) )

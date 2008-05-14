@@ -402,6 +402,10 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter
         {
             $typeAddition = "(255)";
         }
+        if ( $fieldDefinition->type == 'boolean' )
+        {
+            $typeAddition = '(1)';
+        }
 
         if ( !isset( $this->typeMap[$fieldDefinition->type] ) )
         {

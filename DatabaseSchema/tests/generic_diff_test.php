@@ -248,7 +248,13 @@ class ezcDatabaseSchemaGenericDiffTest extends ezcTestCase
         $schemaDiff->applyToDb( $this->db );
         $schemaInDb = ezcDbSchema::createFromDb( $this->db );
         $this->resetDb();
-        self::assertEquals( self::getSchema4(), $schemaInDb );
+
+        $schema4 = self::getSchema4()->getSchema();
+        $schemaInDb = $schemaInDb->getSchema();
+
+        self::assertEquals( $schema4['table'], $schemaInDb['table'] );
+        self::assertEquals( $schema4['order'], $schemaInDb['order'] );
+        self::assertEquals( $schema4['bugdb_change'], $schemaInDb['bugdb_change'] );
     }
 
     // bug #8900

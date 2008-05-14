@@ -74,6 +74,11 @@ class ezcDbSchemaField extends ezcBaseStruct
         $this->default = $default;
         $this->autoIncrement = (bool) $autoIncrement;
         $this->unsigned = (bool) $unsigned;
+
+        if ( $type == 'integer' && $notNull && $default === null && $autoIncrement == false )
+        {
+            $this->default = 0;
+        }
     }
 
     static public function __set_state( array $array )

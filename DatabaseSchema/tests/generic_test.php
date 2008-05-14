@@ -220,7 +220,7 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
                         'category_id' => new ezcDbSchemaIndexField(),
                         'message_id' => new ezcDbSchemaIndexField()
                     ),
-                    false, false
+                    false, true
                 )
             )
         );
@@ -246,7 +246,7 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
                     array(
                         'session_id' => new ezcDbSchemaIndexField()
                     ),
-                    false, false
+                    false, true
                 )
             )
         );
@@ -265,12 +265,12 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
         $tableLiveuserTranslations = $tables['liveuser_translations'];
         $expected = new ezcDbSchemaTable(
             array(
-                'description' => new ezcDbSchemaField( 'text', 255, true ),
-                'language_id' => new ezcDbSchemaField( 'text', 2, true ),
-                'name' => new ezcDbSchemaField( 'text', 50, true ),
+                'description' => new ezcDbSchemaField( 'text', 255, false ),
+                'language_id' => new ezcDbSchemaField( 'text', 2, false ),
+                'name' => new ezcDbSchemaField( 'text', 50, false ),
                 'section_id' => new ezcDbSchemaField( 'integer', null, true, 0 ),
-                'section_type' => new ezcDbSchemaField( 'integer', null, true, 0 ),
-                'translation_id' => new ezcDbSchemaField( 'integer', null, true, 0, true ),
+                'section_type' => new ezcDbSchemaField( 'integer', null, false, 0 ),
+                'translation_id' => new ezcDbSchemaField( 'integer', null, true, null, true ),
             ),
             array(
                 'primary' => new ezcDbSchemaIndex(

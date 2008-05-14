@@ -58,7 +58,7 @@ class ezcDatabaseSchemaMysqlDiffTest extends ezcDatabaseSchemaGenericDiffTest
             1 => "ALTER TABLE `bugdb_change` DROP INDEX `primary`",
             2 => "ALTER TABLE `bugdb_change` DROP `integerfield1`",
             3 => "ALTER TABLE `bugdb_change` CHANGE `integerfield3` `integerfield3` varchar(64)",
-            4 => "ALTER TABLE `bugdb_change` ADD `integerfield2` bigint NOT NULL",
+            4 => "ALTER TABLE `bugdb_change` ADD `integerfield2` bigint NOT NULL DEFAULT 0",
             5 => "ALTER TABLE `bugdb_change` ADD PRIMARY KEY ( `integerfield2` )",
             6 => "ALTER TABLE `bugdb_change` ADD UNIQUE `secondary` ( `integerfield3` )",
             7 => "CREATE TABLE `bugdb_added` (\n\t`integerfield1` bigint\n)",

@@ -18,7 +18,7 @@ class ezcDatabaseSchemaFieldTest extends ezcTestCase
     {
         $schemaField = new ezcDbSchemaField( 'text' );
         self::assertEquals( $schemaField->type, 'text' );
-        self::assertEquals( $schemaField->length, false );
+        self::assertEquals( $schemaField->length, 0 );
         self::assertEquals( $schemaField->notNull, false );
         self::assertEquals( $schemaField->default, null );
         self::assertEquals( $schemaField->autoIncrement, false );
@@ -40,7 +40,7 @@ class ezcDatabaseSchemaFieldTest extends ezcTestCase
     {
         $schemaField = new ezcDbSchemaField( 'enum', false, true, 'b', true, false );
         self::assertEquals( $schemaField->type, 'enum' );
-        self::assertEquals( $schemaField->length, false );
+        self::assertEquals( $schemaField->length, 0 );
         self::assertEquals( $schemaField->notNull, true );
         self::assertEquals( $schemaField->default, 'b' );
         self::assertEquals( $schemaField->autoIncrement, true );

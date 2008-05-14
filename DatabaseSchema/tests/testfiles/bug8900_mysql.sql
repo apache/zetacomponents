@@ -4,6 +4,6 @@ CREATE TABLE `table1` (
 );
 DROP TABLE IF EXISTS `table2`;
 CREATE TABLE `table2` (
-	`id` bigint NOT NULL
+	`id` bigint NOT NULL DEFAULT 0
 );
 ALTER TABLE `table2` ADD PRIMARY KEY ( `id` );

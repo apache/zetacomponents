@@ -92,6 +92,14 @@ class ezcDbSchemaSqliteReader extends ezcDbSchemaCommonSqlReader implements ezcD
                         $fieldDefault = substr( $fieldDefault, 1, -1 );
                     }
                 }
+                if ( $fieldType == 'integer' )
+                {
+                    $fieldDefault = (int) $fieldDefault;
+                }
+                if ( $fieldType == 'boolean' )
+                {
+                    $fieldDefault = $fieldDefault ? 'true' : 'false';
+                }
             }
 
             $fieldAutoIncrement = false;
@@ -99,6 +107,7 @@ class ezcDbSchemaSqliteReader extends ezcDbSchemaCommonSqlReader implements ezcD
             if ( $row[5] =='1' )
             {
                 $fieldAutoIncrement = true;
+                $fieldDefault = null;
             }
 
             // FIXME: unsigned needs to be implemented
@@ -131,7 +140,7 @@ class ezcDbSchemaSqliteReader extends ezcDbSchemaCommonSqlReader implements ezcD
         }
         $genericType = self::$typeMap[$matches[1]];
 
-        if ( in_array( $genericType, array( 'text', 'decimal', 'float' ) ) && isset( $matches[3] ) )
+        if ( in_array( $genericType, array( 'text', 'decimal', 'float', 'integer' ) ) && isset( $matches[3] ) )
         {
             $typeLength = $matches[3];
             if ( is_numeric( $typeLength ) )
@@ -142,6 +151,11 @@ class ezcDbSchemaSqliteReader extends ezcDbSchemaCommonSqlReader implements ezcD
         if ( in_array( $genericType, array( 'decimal', 'float' ) ) && isset( $matches[5] ) )
         {
             $typePrecision = $matches[5];
+        }
+        if ( $genericType == 'integer' && $typeLength == 1)
+        {
+            $genericType = 'boolean';
+            $typeLength = null;
         }
 
         return $genericType;
