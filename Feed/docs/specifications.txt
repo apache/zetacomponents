@@ -153,9 +153,9 @@ Parse example (`ATOM`_)::
   $authors = array();
 
   // $feed is an ezcFeed object
-  if ( isset( $feed->authors ) )
+  if ( isset( $feed->author ) )
   {
-      foreach ( $feed->authors as $author )
+      foreach ( $feed->author as $author )
       {
           $authors[] = array(
               'name' => isset( $author->name ) ? $author->name->__toString() : null,
@@ -206,9 +206,9 @@ Parse example (`ATOM`_)::
   $categories = array();
 
   // $feed is an ezcFeed object
-  if ( isset( $feed->categories ) )
+  if ( isset( $feed->category ) )
   {
-      foreach ( $feed->categories as $category )
+      foreach ( $feed->category as $category )
       {
           $categories[] = array(
               'term' => isset( $category->term ) ? $category->term->__toString() : null,
@@ -230,9 +230,9 @@ Parse example (`RSS2`_)::
   $categories = array();
 
   // $feed is an ezcFeed object
-  if ( isset( $feed->categories ) )
+  if ( isset( $feed->category ) )
   {
-      foreach ( $feed->categories as $category )
+      foreach ( $feed->category as $category )
       {
           $categories[] = array(
               'name' => $category->get(),
@@ -310,9 +310,9 @@ Parse example::
   $contributors = array();
 
   // $feed is an ezcFeed object
-  if ( isset( $feed->contributors ) )
+  if ( isset( $feed->contributor ) )
   {
-      foreach ( $feed->contributors as $contributor )
+      foreach ( $feed->contributor as $contributor )
       {
           $contributors[] = array(
               'name' => isset( $contributor->name ) ? $contributor->name->__toString() : null,
@@ -625,7 +625,7 @@ Create example::
 Parse example::
 
   // $feed is an ezcFeed object
-  foreach ( $feed->items as $item )
+  foreach ( $feed->item as $item )
   {
       // get $item properties, for example:
       $title = isset( $item->title ) ? $item->title->__toString() : null;
@@ -705,7 +705,7 @@ Parse example (`ATOM`_)::
   $links = array();
 
   // $feed is an ezcFeed object
-  foreach ( $feed->links as $link )
+  foreach ( $feed->link as $link )
   {
       $links[] = array(
           'href' => isset( $link->href ) ? $link->href->__toString() : null,
@@ -722,7 +722,7 @@ Parse example (`RSS1`_ and `RSS2`_)::
   $links = array();
 
   // $feed is an ezcFeed object
-  foreach ( $feed->links as $link )
+  foreach ( $feed->link as $link )
   {
       $links[] = array(
           'href' => $link->get()
@@ -1490,7 +1490,7 @@ Parse example (`ATOM`_)::
   $links = array();
 
   // $item is an ezcFeedItem object
-  foreach ( $item->links as $link )
+  foreach ( $item->link as $link )
   {
       $links[] = array(
           'href' => isset( $link->href ) ? $link->href->__toString() : null,
@@ -1507,7 +1507,7 @@ Parse example (`RSS1`_ and `RSS2`_)::
   $links = array();
 
   // $item is an ezcFeedItem object
-  foreach ( $item->links as $link )
+  foreach ( $item->link as $link )
   {
       $links[] = array(
           'href' => $link->get()

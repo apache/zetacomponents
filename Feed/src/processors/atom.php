@@ -468,7 +468,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
         foreach ( $this->schema->getRequired() as $element )
         {
-            $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
+            $data = $this->$element;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$element}" );
@@ -502,12 +502,12 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $needToThrowException = false;
         $element = 'author';
 
-        $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
+        $data = $this->$element;
 
         if ( is_null( $data ) )
         {
             // add checks for entry/author
-            $entries = $this->entries;
+            $entries = $this->item;
             if ( $entries === null )
             {
                 throw new ezcFeedAtLeastOneItemDataRequiredException( array( '/feed/author' ) );
@@ -533,7 +533,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
         foreach ( $this->schema->getOptional() as $element )
         {
-            $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
+            $data = $this->$element;
 
             if ( !is_null( $data ) )
             {
@@ -545,14 +545,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 switch ( $element )
                 {
                     case 'contributor':
-                        foreach ( $this->contributors as $person )
+                        foreach ( $this->contributor as $person )
                         {
                             $this->generatePerson( $this->channel, $person, $element );
                         }
                         break;
 
                     case 'author':
-                        foreach ( $this->authors as $person )
+                        foreach ( $this->author as $person )
                         {
                             $this->generatePerson( $this->channel, $person, $element );
                         }
@@ -801,7 +801,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getRequired( $element ) as $child )
         {
-            $data = $this->schema->isMulti( $element, $child ) ? $this->{$this->schema->getMulti( $element, $child )} : $feedElement->$child;
+            $data = $feedElement->$child;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "{$parentNode}/{$root->nodeName}/{$element}/{$child}" );
@@ -812,7 +812,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getOptional( $element ) as $child )
         {
-            $data = $this->schema->isMulti( $element, $child ) ? $this->{$this->schema->getMulti( $element, $child )} : $feedElement->$child;
+            $data = $feedElement->$child;
             if ( !is_null( $data ) )
             {
                 $this->generateMetaData( $elementTag, $child, $data );
@@ -945,7 +945,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateItems()
     {
-        $entries = $this->items;
+        $entries = $this->item;
         if ( $entries === null )
         {
             return;

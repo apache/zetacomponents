@@ -127,32 +127,16 @@
  *  $xml = $feed->generate();
  *  </code>
  *
- * @property ezcFeedElement $author
- *           One author of the feed.
+ * @property array(ezcFeedElement) $author
+ *           Author(s) of the feed.
  *           ATOM-author (required, multiple),
  *           RSS1-none,
  *           RSS2-managingEditor (optional, recommended, single).
- * @property array(ezcFeedElement) $authors
- *           Access to the multiple $author values. Example:
- *           <code>
- *           foreach ( $feed->authors as $author )
- *           {
- *               //use the ezcFeedElement $author
- *           }
- *           </code>
- * @property ezcFeedElement $category
- *           A category for the feed.
+ * @property array(ezcFeedElement) $category
+ *           Categories for the feed.
  *           ATOM-category (optional, multiple),
  *           RSS1-none,
  *           RSS2-category (optional, multiple).
- * @property array(ezcFeedElement) $categories
- *           Access to the multiple $category values. Example:
- *           <code>
- *           foreach ( $feed->categories as $category )
- *           {
- *               //use the ezcFeedElement $category
- *           }
- *           </code>
  * @property ezcFeedElement $cloud
  *           Allows processes to register with a cloud to be notified of updates
  *           to the channel, implementing a lightweight publish-subscribe
@@ -160,19 +144,11 @@
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-cloud (optional, not recommended, single).
- * @property ezcFeedElement $contributor
+ * @property array(ezcFeedElement) $contributor
  *           One contributor for the feed.
  *           ATOM-contributor (optional, not recommended, multiple),
  *           RSS1-none,
  *           RSS2-none.
- * @property array(ezcFeedElement) $contributors
- *           Access to the multiple $contributor values. Example:
- *           <code>
- *           foreach ( $feed->contributors as $contributor )
- *           {
- *               //use the ezcFeedElement $contributor
- *           }
- *           </code>
  * @property ezcFeedElement $copyright
  *           Copyright information for the feed.
  *           ATOM-rights (optional, single),
@@ -211,38 +187,22 @@
  *           ATOM-logo (optional, single),
  *           RSS1-image (optional, single),
  *           RSS2-image (optional, single).
- * @property-read ezcFeedItem $item
- *           A feed item.
+ * @property-read array(ezcFeedItem) $item
+ *           Feed items (entries).
  *           ATOM-entry (optional, recommended, multiple),
  *           RSS1-item (required, multiple),
  *           RSS2-item (required, multiple).
- * @property-read array(ezcFeedItem) $items
- *           The items contained in the feed. Example:
- *           <code>
- *           foreach ( $feed->items as $item )
- *           {
- *               //use the ezcFeedItem $item
- *           }
- *           </code>
  * @property ezcFeedElement $language
  *           The language for the feed.
  *           ATOM-xml:lang attribute for title, description, copyright, content,
  *           comments (optional, single) - accessed as language through ezcFeed,
  *           RSS1-none,
  *           RSS2-language (optional, single).
- * @property ezcFeedElement $link
- *           An URL to the HTML website corresponding to the channel.
+ * @property array(ezcFeedElement) $link
+ *           URLs to the HTML websites corresponding to the channel.
  *           ATOM-link (required one link with rel='self', multiple),
  *           RSS1-link (required, single),
  *           RSS2-link (required, single).
- * @property array(ezcFeedElement) $links
- *           Access to the multiple $link values. Example:
- *           <code>
- *           foreach ( $feed->links as $link )
- *           {
- *               //use the ezcFeedElement $link
- *           }
- *           </code>
  * @property ezcFeedElement $published
  *           The time the feed was published.
  *           ATOM-none,
@@ -398,12 +358,9 @@ class ezcFeed
         switch ( $property )
         {
             case 'author':
-            case 'authors':
             case 'category':
-            case 'categories':
             case 'cloud':
             case 'contributor':
-            case 'contributors':
             case 'copyright':
             case 'description':
             case 'docs':
@@ -413,7 +370,6 @@ class ezcFeed
             case 'image':
             case 'language':
             case 'link':
-            case 'links':
             case 'published':
             case 'rating':
             case 'skipDays':
@@ -451,12 +407,9 @@ class ezcFeed
         switch ( $property )
         {
             case 'author':
-            case 'authors':
             case 'category':
-            case 'categories':
             case 'cloud':
             case 'contributor':
-            case 'contributors':
             case 'copyright':
             case 'description':
             case 'docs':
@@ -465,10 +418,8 @@ class ezcFeed
             case 'id':
             case 'image':
             case 'item':
-            case 'items':
             case 'language':
             case 'link':
-            case 'links':
             case 'published':
             case 'rating':
             case 'skipDays':
@@ -511,12 +462,9 @@ class ezcFeed
         switch ( $name )
         {
             case 'author':
-            case 'authors':
             case 'category':
-            case 'categories':
             case 'cloud':
             case 'contributor':
-            case 'contributors':
             case 'copyright':
             case 'description':
             case 'docs':
@@ -525,10 +473,8 @@ class ezcFeed
             case 'id':
             case 'image':
             case 'item':
-            case 'items':
             case 'language':
             case 'link':
-            case 'links':
             case 'published':
             case 'rating':
             case 'skipDays':

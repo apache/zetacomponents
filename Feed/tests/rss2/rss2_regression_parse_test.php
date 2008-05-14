@@ -60,11 +60,11 @@ class ezcFeedRss2RegressionParseTest extends ezcFeedRegressionTest
             }
         }
 
-        for ( $i = 0; $i < count( $parsed->items ); $i++ )
+        for ( $i = 0; $i < count( $parsed->item ); $i++ )
         {
-            $item = $parsed->items[$i];
-            $itemExpected = $expected->items[$i];
-            if ( $parsed->items[$i]->published !== $expected->items[$i]->published )
+            $item = $parsed->item[$i];
+            $itemExpected = $expected->item[$i];
+            if ( $parsed->item[$i]->published !== $expected->item[$i]->published )
             {
                 $item->published = time();
                 $itemExpected->published = time();

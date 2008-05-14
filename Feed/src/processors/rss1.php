@@ -218,8 +218,11 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                             $resource = $el->getAttribute( 'resource' );
 
                             $item = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'item', 'rdf:about', $resource );
-                            $element = $feed->add( 'item' );
-                            $this->parseItem( $feed, $element, $item );
+                            if ( $item instanceof DOMElement )
+                            {
+                                $element = $feed->add( 'item' );
+                                $this->parseItem( $feed, $element, $item );
+                            }
                         }
                         break;
 
@@ -292,7 +295,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getRequired() as $element )
         {
-            $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
+            $data = $this->$element;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/{$element}" );
@@ -309,7 +312,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $this->generateMetaDataWithAttributes( $this->channel, $element, $data, $attributes );
         }
 
-        $items = $this->items;
+        $items = $this->item;
         if ( count( $items ) === 0 )
         {
             throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/item" );
@@ -320,7 +323,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $seqTag = $this->xml->createElement( 'rdf:Seq' );
         $itemsTag->appendChild( $seqTag );
 
-        foreach ( $this->items as $item )
+        foreach ( $items as $item )
         {
             $about = $item->id;
             $liTag = $this->xml->createElement( 'rdf:li' );
@@ -375,7 +378,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateItems()
     {
-        foreach ( $this->items as $element )
+        foreach ( $this->item as $element )
         {
             $itemTag = $this->xml->createElement( 'item' );
             $this->root->appendChild( $itemTag );

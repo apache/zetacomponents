@@ -54,9 +54,9 @@ class ezcFeedAtomRegressionParseTest extends ezcFeedRegressionTest
             }
         }
 
-        if ( isset( $parsed->items ) )
+        if ( isset( $parsed->item ) )
         {
-            foreach ( $parsed->items as $item )
+            foreach ( $parsed->item as $item )
             {
                 if ( isset( $item->updated ) )
                 {

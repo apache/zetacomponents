@@ -364,7 +364,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     {
         foreach ( $this->schema->getRequired() as $element )
         {
-            $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
+            $data = $this->$element;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/{$element}" );
@@ -390,7 +390,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
         foreach ( $this->schema->getOptional() as $element )
         {
             $normalizedAttribute = ezcFeedTools::normalizeName( $element, $this->schema->getElementsMap() );
-            $data = $this->schema->isMulti( $element ) ? $this->{$this->schema->getMulti( $element )} : $this->$element;
+            $data = $this->$element;
 
             if ( !is_null( $data ) )
             {
@@ -477,7 +477,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getRequired( 'image' ) as $element )
         {
-            $data = $this->schema->isMulti( 'image', $element ) ? $this->{$this->schema->getMulti( 'image', $element )} : $feedElement->$element;
+            $data = $feedElement->$element;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/image/{$element}" );
@@ -488,7 +488,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getOptional( 'image' ) as $element )
         {
-            $data = $this->schema->isMulti( 'image', $element ) ? $this->{$this->schema->getMulti( 'image', $element )} : $feedElement->$element;
+            $data = $feedElement->$element;
             if ( !is_null( $data ) )
             {
                 $this->generateMetaData( $image, $element, $data );
@@ -554,7 +554,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
         foreach ( $this->schema->getRequired( 'textInput' ) as $element )
         {
-            $data = $data = $this->schema->isMulti( 'textInput', $element ) ? $this->{$this->schema->getMulti( 'textInput', $element )} : $feedElement->$element;
+            $data = $feedElement->$element;
             if ( is_null( $data ) )
             {
                 throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/textInput/{$element}" );
@@ -593,13 +593,13 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateItems()
     {
-        $items = $this->items;
+        $items = $this->item;
         if ( $items === null )
         {
             return;
         }
 
-        foreach ( $this->items as $item )
+        foreach ( $items as $item )
         {
             $itemTag = $this->xml->createElement( 'item' );
             $this->channel->appendChild( $itemTag );
@@ -607,7 +607,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             $atLeastOneRequiredFeedItemPresent = false;
             foreach ( $this->schema->getAtLeastOne( 'item' ) as $attribute )
             {
-                $data = $this->schema->isMulti( 'item', $attribute ) ? $this->{$this->schema->getMulti( 'item', $attribute )} : $item->$attribute;
+                $data = $item->$attribute;
                 if ( !is_null( $data ) )
                 {
                     $atLeastOneRequiredFeedItemPresent = true;

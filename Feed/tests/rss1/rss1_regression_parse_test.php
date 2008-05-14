@@ -46,9 +46,9 @@ class ezcFeedRss1RegressionParseTest extends ezcFeedRegressionTest
             }
         }
 
-        if ( isset( $parsed->items ) )
+        if ( isset( $parsed->item ) )
         {
-            foreach ( $parsed->items as $item )
+            foreach ( $parsed->item as $item )
             {
                 if ( isset( $item->DublinCore )
                      && isset( $item->DublinCore->date )

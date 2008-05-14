@@ -108,7 +108,7 @@ abstract class ezcFeedProcessor
         {
             if ( $this->schema->isMulti( $name ) )
             {
-                $this->elements[$this->schema->getMulti( $name )] = array();
+                $this->elements[$name] = array();
             }
             else if ( $this->schema->isAttribute( $name ) )
             {
@@ -122,7 +122,7 @@ abstract class ezcFeedProcessor
         }
         if ( $this->schema->isMulti( $name ) )
         {
-            $this->elements[$this->schema->getMulti( $name )][0]->set( $value );
+            $this->elements[$name][0]->set( $value );
         }
         else
         {
@@ -147,7 +147,7 @@ abstract class ezcFeedProcessor
 
         if ( $this->schema->isMulti( $name ) )
         {
-            return isset( $this->elements[$this->schema->getMulti( $name )][0] ) ? $this->elements[$this->schema->getMulti( $name )][0] : null;
+            return isset( $this->elements[$name][0] ) ? $this->elements[$name][0] : null;
         }
 
         return null;
@@ -189,7 +189,7 @@ abstract class ezcFeedProcessor
         if ( $this->schema->isMulti( $name ) )
         {
             $element = new $className( $this->schema->getSchema( $name ) );
-            $this->elements[$this->schema->getMulti( $name )][] = $element;
+            $this->elements[$name][] = $element;
             return $element;
         }
         else

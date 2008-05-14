@@ -150,7 +150,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
 
         // The Content module should not appear in any entry because it has a wrong namespace
-        foreach ( $feed->items as $item )
+        foreach ( $feed->item as $item )
         {
             $this->assertEquals( false, $item->hasModule( 'Content' ) );
         }
@@ -221,7 +221,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parse( $file );
 
         $this->assertEquals( 'atom', $feed->getFeedType() );
-        $items = $feed->items;
+        $items = $feed->item;
         $expectedTitles = array(
             'Atom-Powered Robots Run Amok 1',
             'Atom-Powered Robots Run Amok 2',
@@ -288,7 +288,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss version="0.91"><channel><title>RSS 0.91</title><item><title>Item 0.91</title></item></channel></rss>' );
         $this->assertEquals( 'rss2', $feed->getFeedType() );
         $this->assertEquals( 'RSS 0.91', $feed->title->__toString() );
-        $this->assertEquals( 'Item 0.91', $feed->items[0]->title->__toString() );
+        $this->assertEquals( 'Item 0.91', $feed->item[0]->title->__toString() );
     }
 
     public function testParseRss2Version092()
@@ -296,7 +296,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss version="0.92"><channel><title>RSS 0.92</title><item><title>Item 0.92</title></item></channel></rss>' );
         $this->assertEquals( 'rss2', $feed->getFeedType() );
         $this->assertEquals( 'RSS 0.92', $feed->title->__toString() );
-        $this->assertEquals( 'Item 0.92', $feed->items[0]->title->__toString() );
+        $this->assertEquals( 'Item 0.92', $feed->item[0]->title->__toString() );
     }
 
     public function testParseRss2Version093()
@@ -304,7 +304,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss version="0.93"><channel><title>RSS 0.93</title><item><title>Item 0.93</title></item></channel></rss>' );
         $this->assertEquals( 'rss2', $feed->getFeedType() );
         $this->assertEquals( 'RSS 0.93', $feed->title->__toString() );
-        $this->assertEquals( 'Item 0.93', $feed->items[0]->title->__toString() );
+        $this->assertEquals( 'Item 0.93', $feed->item[0]->title->__toString() );
     }
 
     public function testParseRss2Version094()
@@ -312,7 +312,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parseContent( '<?xml version="1.0" encoding="utf-8"?><rss version="0.94"><channel><title>RSS 0.94</title><item><title>Item 0.94</title></item></channel></rss>' );
         $this->assertEquals( 'rss2', $feed->getFeedType() );
         $this->assertEquals( 'RSS 0.94', $feed->title->__toString() );
-        $this->assertEquals( 'Item 0.94', $feed->items[0]->title->__toString() );
+        $this->assertEquals( 'Item 0.94', $feed->item[0]->title->__toString() );
     }
 
     public function testCreateModuleNotSupported()

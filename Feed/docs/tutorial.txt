@@ -660,9 +660,9 @@ write::
     $author = isset( $feed->author ) ? $feed->author->__toString() : null;
 
     $links = array();
-    if ( isset( $feed->links ) )
+    if ( isset( $feed->link ) )
     {
-        foreach ( $feed->links as $link )
+        foreach ( $feed->link as $link )
         {
             $links[] = $link->__toString();
         }
@@ -682,7 +682,7 @@ Let's say we want to extract the *title*, *description*, *published*, *author*
 and *link* of all items. This is how we will do it::
 
     $items = array();
-    foreach ( $feed->items as $item )
+    foreach ( $feed->item as $item )
     {
         $title = isset( $item->title ) ? $item->title->__toString() : null;
         $description = isset( $item->description ) ? $item->description->__toString() : null;
@@ -752,9 +752,9 @@ write::
     $author = isset( $feed->author ) ? $feed->author->__toString() : null;
 
     $links = array();
-    if ( isset( $feed->links ) )
+    if ( isset( $feed->link ) )
     {
-        foreach ( $feed->links as $link )
+        foreach ( $feed->link as $link )
         {
             $links[] = $link->__toString();
         }
@@ -830,7 +830,7 @@ Let's say we want to extract the *title*, *description*, *published*, *author*
 and *link* of all items. This is how we will do it::
 
     $items = array();
-    foreach ( $feed->items as $item )
+    foreach ( $feed->item as $item )
     {
         $title = isset( $item->title ) ? $item->title->__toString() : null;
         $description = isset( $item->description ) ? $item->description->__toString() : null;

@@ -212,26 +212,6 @@ class ezcFeedSchema
     }
 
     /**
-     * Returns the multiple name for the $element. If $subElement is present then
-     * returns the multiple name for the subelement $subElement of $element.
-     *
-     * @param string $element The schema element
-     * @param string $subElement The subelement of $element
-     * @return string
-     */
-    public function getMulti( $element, $subElement = null )
-    {
-        if ( $subElement === null )
-        {
-            return $this->schema[$element]['MULTI'];
-        }
-        else
-        {
-            return $this->schema[$element]['NODES'][$subElement]['MULTI'];
-        }
-    }
-
-    /**
      * Returns whether the $element is an attribute.
      *
      * @param string $element The schema element

@@ -7,6 +7,8 @@
 - Changed get() and set() functions from ezcFeedProcessor into __get() and
   __set(), and added __isset().
 - Added the registerFeed() and registerModule() functions to ezcFeed.
+- Removed plural properties from ezcFeed (authors, categories, contributors,
+  items, links).
 
 
 1.1alpha1 - Monday 07 April 2008

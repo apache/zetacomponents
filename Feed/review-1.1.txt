@@ -32,6 +32,9 @@ ezcFeed
   # I think we should only go for the plural property and if a feed type
   # supports only 1 element of that type, use the first in the array.
 
+    I changed it so that only the singular is needed (eg. $feed->item will
+    return an array of ezcFeedItem objects).
+
 - ezcFeed::__get() makes use of isset( $this->$property ), this also returns
   true for real protected/private properties. It should call $this->__isset()
   directly. This is also more efficient.
@@ -42,8 +45,15 @@ ezcFeed
 
   # This exception should be issued in the parser then, not in __get().
 
+    # I don't think it is a good idea to throw an exception if the XML which
+      is parsed is missing a title or any element. All XML feeds should be
+      parseable.
+
 - ezcFeed::__isset() behaviour incorrect. We return true if a property exists
   but is null.
+
+# Fixed.
+
 - Why does ezcFeed declare protected attributes and mark them as @ignore? No
   class seems to extend ezcFeed. Declaring this private makes more sense.
 
