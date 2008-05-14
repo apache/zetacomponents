@@ -53,12 +53,12 @@ class ezcGraphDatabaseTest extends ezcTestCase
         $db->exec( 'CREATE TABLE graph_pdo_test ( id INT, browser VARCHAR(255), hits INT )' );
 
         // Insert some data
-        $db->exec( "INSERT INTO graph_pdo_test VALUES ( '', 'Firefox', 2567 )" );
-        $db->exec( "INSERT INTO graph_pdo_test VALUES ( '', 'Opera', 543 )" );
-        $db->exec( "INSERT INTO graph_pdo_test VALUES ( '', 'Safari', 23 )" );
-        $db->exec( "INSERT INTO graph_pdo_test VALUES ( '', 'Konquror', 812 )" );
-        $db->exec( "INSERT INTO graph_pdo_test VALUES ( '', 'Lynx', 431 )" );
-        $db->exec( "INSERT INTO graph_pdo_test VALUES ( '', 'wget', 912 )" );
+        $db->exec( "INSERT INTO graph_pdo_test VALUES ( 0, 'Firefox', 2567 )" );
+        $db->exec( "INSERT INTO graph_pdo_test VALUES ( 0, 'Opera', 543 )" );
+        $db->exec( "INSERT INTO graph_pdo_test VALUES ( 0, 'Safari', 23 )" );
+        $db->exec( "INSERT INTO graph_pdo_test VALUES ( 0, 'Konquror', 812 )" );
+        $db->exec( "INSERT INTO graph_pdo_test VALUES ( 0, 'Lynx', 431 )" );
+        $db->exec( "INSERT INTO graph_pdo_test VALUES ( 0, 'wget', 912 )" );
     }
 
     protected function tearDown()
