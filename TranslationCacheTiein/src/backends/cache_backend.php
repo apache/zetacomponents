@@ -194,7 +194,7 @@ class ezcTranslationCacheBackend implements ezcTranslationBackend, ezcTranslatio
      * @throws ezcTranslationWriterNotInitializedException when the writer is
      *         not initialized with initWriter().
      * @param string $context The context's name
-     * @param array  $data The context's translation map
+     * @param array(ezcTranslationData)  $data The context's translation map
      * @return void
      */
     public function storeContext( $context, array $data )
