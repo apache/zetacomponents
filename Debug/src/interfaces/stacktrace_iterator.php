@@ -92,9 +92,9 @@ abstract class ezcDebugStacktraceIterator implements Iterator, ArrayAccess, Coun
      * returned. The basic implementation removes $removeElements number of
      * elements from the start of the trace array and reduces the array to
      * {@link ezcDebugOptions::$stackTraceDepth} elements.
-     * * 
-     * @param mixed $stackTrace 
-     * @return array The stack trace to store.
+     *
+     * @param array $stackTrace 
+     * @param int $removeElements 
      */
     protected function prepare( $stackTrace, $removeElements )
     {

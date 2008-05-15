@@ -25,11 +25,13 @@ class ezcDebugVariableDumpTool
      * Returns the string representation of an variable.
      *
      * Returns the dump of the given variable, respecting the $maxData and
-     * $maxChildren paramaters when arrays or objects are dumped.
+     * $maxChildren paramaters when arrays or objects are dumped. $maxDepth is
+     * the maximum recursion depth when dumping arrays and objects.
      * 
      * @param mixed $arg 
      * @param int $maxData 
      * @param int $maxChildren 
+     * @param int $maxDepth
      * @return string
      */
     public static function dumpVariable( $arg, $maxData, $maxChildren, $maxDepth )
@@ -125,12 +127,13 @@ class ezcDebugVariableDumpTool
     /**
      * Returns the string representation of an object.
      *
-     * Returns the dump of the given object, respecting the $maxData and
-     * $maxChildren paramaters.
+     * Returns the dump of the given object, respecting the $maxData,
+     * $maxChildren and $maxDepth paramaters.
      * 
      * @param object $arg 
      * @param int $maxData 
      * @param int $maxChildren 
+     * @param int $maxDepth
      * @return string
      */
     private static function dumpObject( $arg, $maxData, $maxChildren, $maxDepth )
@@ -252,6 +255,9 @@ class ezcDebugVariableDumpTool
      * 
      * @param ReflectionProperty $refProp 
      * @param object $obj 
+     * @param int $maxData
+     * @param int $maxChildren
+     * @param int $maxDepth
      * @return string
      */
     private static function getPropertyValue( ReflectionProperty $refProp, $obj, $maxData, $maxChildren, $maxDepth )

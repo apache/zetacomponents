@@ -64,7 +64,7 @@
  * $debug->stopTimer();
  * </code>
  *
- * @property ezcDebugOptions
+ * @property ezcDebugOptions $options
  *           Options to configure the behaviour of ezcDebug, including stack
  *           trace behaviours.
  *
@@ -277,9 +277,8 @@ class ezcDebug
      *
      * Optionally, a timer group can be given with the $group parameter.
      *
-     * @param string name
-     * @param string group
-     * @return void
+     * @param string $name
+     * @param string $group
      */
     public function startTimer( $name, $group = null )
     {
@@ -289,10 +288,11 @@ class ezcDebug
     /**
      * Stores the time from the running timer, and starts a new timer.
      *
-     * @param string $newName   Name of the new timer.
-     * @param string $oldName   The previous timer that must be stopped.
-     *                          Only needed when multiple timers are running.
-     * @return void
+     * Stores the time for $oldTimer (maybe omitted if only 1 timer is running)
+     * and starts a new timer with $newName.
+     *
+     * @param string      $newName
+     * @param string|bool $oldName
      */
     public function switchTimer( $newName, $oldName = false )
     {
@@ -302,10 +302,9 @@ class ezcDebug
     /**
      * Stops the timer identified by $name.
      *
-     * $name can be omitted if only one timer is running.
+     * $name can be omitted (false) if only one timer is running.
      *
-     * @param $name
-     * @return void
+     * @param string|bool $name
      */
     public function stopTimer( $name = false )
     {
@@ -315,10 +314,13 @@ class ezcDebug
     /**
      * Writes the debug message $message with verbosity $verbosity.
      *
+     * Arbitrary $extraInfo can be submitted. If $stackTrace is set to true, a
+     * stack trace will be stored at the current program position.
+     *
      * @param string $message
      * @param int $verbosity
      * @param array(string=>string) $extraInfo
-     * @return void
+     * @param bool $stackTrace
      */
     public function log( $message, $verbosity, array $extraInfo = array(), $stackTrace = false )
     {

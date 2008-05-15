@@ -1,25 +1,25 @@
-[x] ezcDebug::getStackTrace() is not documented.
-[x] ezcDebugException: component level exceptions should always be abstract,
-    and thus there needs to be a new more specific exceptions. (See
-    http://ezcomponents.org/contributing/coding_standards#exceptions)
-[ ] The example stylesheet misses classes for the stack trace CSS classes.
-[x] ezcDebugStacktraceIterator::__construct() should really be the first method
+[X] ezcDebug::getStackTrace() is not documented.
+[X] ezcDebugException: component level exceptions should always be abstract,
+    and thus there needs to be a new more specific eXceptions. (See
+    http://ezcomponents.org/contributing/coding_standards#eXceptions)
+[ ] The eXample stylesheet misses classes for the stack trace CSS classes.
+[X] ezcDebugStacktraceIterator::__construct() should really be the first method
     in the class.
-[x] ezcDebugVariableDumpTool has the constants undocumented.
-[x] ezcDebugVariableDumpTool::getPropertyVisibility uses expressions in in the
+[X] ezcDebugVariableDumpTool has the constants undocumented.
+[X] ezcDebugVariableDumpTool::getPropertyVisibility uses expressions in in the
     case statement, that's quite confusing to read. I prefer the use of
     "if/else" here.
 [ ] ezcDebugVariableDumpTool::getPropertyValue - there is a TODO, can you check
     that for PHP 5.2.1 and up?
-[x] The ezcDebug class docs don't mention anything about the options, so how do
+[X] The ezcDebug class docs don't mention anything about the options, so how do
     I know where to set them? It's because the properties of the class are not
     documented, but the class doc block itself should mention it additionally
     as well.
-[x] The variable output in stack traces should be configurable, like Xdebug.
+[X] The variable output in stack traces should be configurable, like Xdebug.
     There is way too much output by default now making them quite useless.
 [ ] The tutorial doesn't mention the new functionality yet.
-[ ] There is a pretty low code coverage - only 77%.
-[ ] The doc analysis tool shows lots of issues.
+[X] There is a pretty low code coverage - only 77%.
+[X] The doc analysis tool shows lots of issues.
 [ ] I get a failing test::
 
     1) testIterateTrace(ezcDebugXdebugStacktraceIteratorTest)

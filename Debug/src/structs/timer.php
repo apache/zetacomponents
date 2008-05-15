@@ -11,7 +11,6 @@
  */
 
 /**
- *
  * The ezcDebugTimerStruct structure keeps track of the timing data.
  *
  * @package Debug
@@ -90,7 +89,15 @@ class ezcDebugTimerStruct extends ezcBaseStruct
     /**
      * Constructs a new ezcDebugSwitchTimerStruct
      *
-     * @param string $name
+     * @param string $name 
+     * @param string $source 
+     * @param string $group 
+     * @param int $switchTime 
+     * @param int $startTime 
+     * @param int $stopTime 
+     * @param int $elapsedTime 
+     * @param int $startNumber 
+     * @param int $stopNumber 
      */
     public function __construct( $name = null, $source = null, $group = null, $switchTime = null, $startTime = null, $stopTime = null, $elapsedTime = null, $startNumber = null, $stopNumber = null )
     {
@@ -115,7 +122,7 @@ class ezcDebugTimerStruct extends ezcBaseStruct
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @param array(string=>mixed)
+     * @param array(string=>mixed) $array
      * @return ezcDebugSwitchTimerStruct
      */
     static public function __set_state( array $array )

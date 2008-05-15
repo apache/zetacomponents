@@ -131,7 +131,7 @@ class ezcDebugTimer
      * false is returned.
      *
      * @param string $newName
-     * @param string $oldName
+     * @param string|bool $oldName
      * @return bool
      */
     public function switchTimer( $newName, $oldName = false )
@@ -173,11 +173,12 @@ class ezcDebugTimer
     /**
      * Stop the timer identified by $name and return true on success.
      *
-     * If the timer $oldName does not exist or if it was omitted with several timers running
-     * false is returned.
+     * If the timer $name does not exist or if it was omitted with several timers running
+     * false is returned. $name can be omitted (false) if only 1 timer is running.
      *
-     * @param $name
+     * @param string|bool $name
      * @return bool
+     * @todo Error handling if multiple timers are running.
      */
     public function stopTimer( $name = false )
     {

@@ -48,13 +48,23 @@ class ezcDebugMemoryWriter implements ezcLogWriter
      * $extraInfo may contain extra information that can be added to the log. For example:
      * line numbers, file names, usernames, etc.
      *
+     * $severity can be one of:
+     * <ul>
+     * <li>{@link ezcDebug::DEBUG}</li>
+     * <li>{@link ezcDebug::SUCCESS_AUDIT}</li>
+     * <li>{@link ezcDebug::FAILED_AUDIT}</li>
+     * <li>{@link ezcDebug::INFO}</li>
+     * <li>{@link ezcDebug::NOTICE}</li>
+     * <li>{@link ezcDebug::WARNING}</li>
+     * <li>{@link ezcDebug::ERROR}</li>
+     * <li>{@link ezcDebug::FATAL}</li>
+     * </ul>.
+     *
      * @param string $message
-     * @param int $severity
-     *        ezcLog:: DEBUG, SUCCESS_AUDIT, FAILED_AUDIT, INFO, NOTICE, WARNING, ERROR or FATAL.
-     * $param string $source
+     * @param int $severity  ezcLog::* 
+     * @param string $source
      * @param string $category
-     * @param array(string=>string) $optional
-     * @return void
+     * @param array(string=>string) $extraInfo
      */
     public function writeLogMessage( $message, $severity, $source, $category, $extraInfo = array() )
     {

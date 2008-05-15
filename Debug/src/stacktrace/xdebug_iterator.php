@@ -23,12 +23,14 @@ class ezcDebugXdebugStacktraceIterator extends ezcDebugStacktraceIterator
     /**
      * Prepares the stack trace for being stored in the iterator instance.
      *
-     * This method reverses the received stacktrace, which was created by the
+     * This method reverses the received $stackTrace, which was created by the
      * Xdebug ({@link http://xdebug.org}) debugging extension for PHP, to unify
      * the stacktrace with the one created by {@link
-     * ezcDebugPhpStacktraceIterator}.
+     * ezcDebugPhpStacktraceIterator}. Number $removeElements are removed from
+     * the top of the $stackTrace.
      * 
-     * @param mixed $stackTrace 
+     * @param array $stackTrace 
+     * @param int $removeElements
      * @return array The stack trace to store.
      */
     protected function prepare( $stackTrace, $removeElements )

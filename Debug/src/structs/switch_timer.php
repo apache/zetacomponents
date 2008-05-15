@@ -11,6 +11,8 @@
  */
 
 /**
+ * Struct defining a timer switch.
+ *
  * @package Debug
  * @version //autogentag//
  * @access private

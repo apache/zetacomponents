@@ -49,10 +49,13 @@ class ezcDebugHtmlFormatter implements ezcDebugOutputFormatter
     }
 
     /**
-     * Returns a string containing the HTML formatted output based on $timerData and $writerData.
+     * Returns a string containing the HTML formatted output.
      *
-     * @param array(ezcDebugStructure) $timerData
+     * Returns the data submitted in $timerData and $writerData as an HTML
+     * formatted string to be displayed in a web browser.
+     *
      * @param array $writerData
+     * @param array(ezcDebugStructure) $timerData
      * @return string
      */
     public function generateOutput( array $writerData, array $timerData )
@@ -102,6 +105,15 @@ ENDT;
         return $str;
     }
 
+    /**
+     * Returns an HTML formatted representation of the given $stackTrace.
+     *
+     * Iterates through the given $stackTrace and returns an HTML formatted
+     * string representation.
+     * 
+     * @param ezcDebugStacktraceIterator $stackTrace 
+     * @return string
+     */
     public function formatStackTrace( ezcDebugStacktraceIterator $stackTrace )
     {
         $res = <<<EOT
@@ -235,10 +247,10 @@ ENDT;
     }
 
     /**
+     * Returns the timer groups of the given $timers.
      *
-     *
-     * @param array(ezcDebugStructure)
-     * @return array(string)
+     * @param array(ezcDebugStructure) $timers
+     * @return array(ezcDebugStructure)
      */
     private function getGroups( array $timers )
     {
@@ -268,7 +280,10 @@ ENDT;
     }
 
     /**
-     * @return void
+     * Prepares $element to contain $timeStruct information.
+     *
+     * @param array $element
+     * @param ezcDebugTimerStruct $timeStruct
      */
     private function addElement( &$element, $timeStruct )
     {
