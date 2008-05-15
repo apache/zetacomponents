@@ -70,6 +70,23 @@ class ezcSearchSessionTest extends ezcTestCase
         }
     }
 
+    public function testBrokenState()
+    {
+        $a = new Article( null, 'Test Article', 'This is an article to test', 'the body of the article', time() );
+        $a->omitStateElement( 'title' );
+
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+        try
+        {
+            $session->index( $a );
+            self::fail( 'Expected exeption not thrown.' );
+        }
+        catch ( ezcSearchIncompleteStateException $e )
+        {
+            self::assertEquals( "The getState() method did not return any value for the field 'title'.", $e->getMessage() );
+        }
+    }
+
     public function testIndexDocument1()
     {
         $a = new Article( null, 'Test Article', 'This is an article to test', 'the body of the article', time() );

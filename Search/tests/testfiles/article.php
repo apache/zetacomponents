@@ -8,6 +8,13 @@ class Article
     private $published;
     private $author;
 
+    private $omitElement;
+
+    function omitStateElement( $name )
+    {
+        $this->omitElement = $name;
+    }
+
 
     function __construct( $id = null, $title = null, $summary = null, $body = null, $published = null, $author = null )
     {
@@ -21,7 +28,7 @@ class Article
 
     function getState()
     {
-        return array(
+        $state = array(
             'id' => $this->id,
             'title' => $this->title,
             'summary' => $this->summary,
@@ -29,6 +36,11 @@ class Article
             'published' => $this->published,
             'author' => $this->author,
         );
+        if ( $this->omitElement )
+        {
+            unset( $state[$this->omitElement] );
+        }
+        return $state;
     }
 
     function setState( $state )

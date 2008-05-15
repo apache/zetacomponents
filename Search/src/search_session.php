@@ -146,7 +146,27 @@ class ezcSearchSession
             $state[$def->idProperty] = uniqid();
             $document->setState( array( $def->idProperty => $state[$def->idProperty] ) );
         }
+        $this->verifyState( $def, $state );
         $this->handler->index( $def, $state );
+    }
+
+    /**
+     * Checks whether the state contains all the elements from the definition.
+     *
+     * @param ezcSearchDocumentDefinition $def
+     * @param array(string=>mixed) $state
+     *
+     * @throws ezcSearchIncompleteStateException if the state is not complete
+     */
+    private function verifyState( ezcSearchDocumentDefinition $def, array $state )
+    {
+        foreach ( $def->fields as $field )
+        {
+            if ( !array_key_exists( $field->field, $state ) )
+            {
+                throw new ezcSearchIncompleteStateException( $field->field );
+            }
+        }
     }
 
     /**

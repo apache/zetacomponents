@@ -25,6 +25,8 @@ General
   otherwise "undefined index" notices are returned (handlers/solr.php on line
   778).
 
+  - Added a check for this.
+
 - On reconstruction of search results make setState a public *static* method,
   so that the constructor is not called (a constructor with required arguments
   would currently cause a fatal error).
