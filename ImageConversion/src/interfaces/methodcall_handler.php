@@ -497,7 +497,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
             }
             catch ( ezcImageAnalyzerException $e )
             {
-                throw new ezcImageMimeTypeUnsupportedException( 'unkonw/unknown', 'input' );
+                throw new ezcImageMimeTypeUnsupportedException( 'unknown/unknown', 'input' );
             }
         }
 
