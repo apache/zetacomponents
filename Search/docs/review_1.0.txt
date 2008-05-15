@@ -18,6 +18,9 @@ General
 
   I think it is OK, to make it optional to implement this interface, though.
 
+  - Added the ezcBasePersistable interface for this. We do not check for this
+    here (or in PersistentObject) for this though.
+
 - Check if getState() really returns all properties defined in XML structure,
   otherwise "undefined index" notices are returned (handlers/solr.php on line
   778).
@@ -25,6 +28,8 @@ General
 - On reconstruction of search results make setState a public *static* method,
   so that the constructor is not called (a constructor with required arguments
   would currently cause a fatal error).
+
+  - We're not changing this to stay consistent with PersistentObject.
 
 - On recreation with the search results in handlers/solr.php line 375 the
   public ID property from the object is accessed. Is this really necessary, or

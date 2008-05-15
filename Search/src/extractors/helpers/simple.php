@@ -1,5 +1,5 @@
 <?php
-class ezcSearchSimpleArticle implements ezcSearchDefinitionProvider
+class ezcSearchSimpleArticle implements ezcSearchDefinitionProvider, ezcBasePersistable
 {
     public $id;
     public $title;
@@ -44,7 +44,7 @@ class ezcSearchSimpleArticle implements ezcSearchDefinitionProvider
         );
     }
 
-    function setState( $state )
+    function setState( array $state )
     {
         foreach ( $state as $key => $value )
         {

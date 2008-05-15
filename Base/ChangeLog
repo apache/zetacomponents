@@ -1,3 +1,11 @@
+1.5beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added the ezcBasePersistable interface that can be used to ensure that the
+  object implementing this interface can be used with PersistentObject and
+  Search.
+
+
 1.5alpha2 - Tuesday 13 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
