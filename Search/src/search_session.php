@@ -143,9 +143,10 @@ class ezcSearchSession
         $state = $document->getState();
         if ( $state[$def->idProperty] == null )
         {
-            $document->setState( array( $def->idProperty => uniqid() ) );
+            $state[$def->idProperty] = uniqid();
+            $document->setState( array( $def->idProperty => $state[$def->idProperty] ) );
         }
-        $this->handler->index( $def, $document->getState() );
+        $this->handler->index( $def, $state );
     }
 
     /**
