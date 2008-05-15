@@ -45,7 +45,7 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
         parent::__construct();
     }
 
-    public function getName()
+    public function getName( $withDataSet = TRUE )
     {
         return $this->currentFile;
     }
