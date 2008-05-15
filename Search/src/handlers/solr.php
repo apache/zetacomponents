@@ -372,7 +372,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $obj->setState( $attr );
 
             $idProperty = $def->idProperty;
-            $s->documents[$obj->$idProperty] = array( 'meta' => array( 'score' => $document->score ), 'document' => $obj );
+            $s->documents[$attr[$idProperty]] = array( 'meta' => array( 'score' => $document->score ), 'document' => $obj );
         }
 
         // process highlighting

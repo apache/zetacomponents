@@ -31,3 +31,4 @@ General
   would it be possible to get it from the actual results to reduce the
   assumptions on the search result objects?
 
+  - Fixed, we can just get it from the $attr array anyway.
