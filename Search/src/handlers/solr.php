@@ -54,7 +54,9 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
     /**
      * Creates a new Solr handler connection
      *
-     * @param string
+     * @param string $host
+     * @param int    $port
+     * @param string $location
      */
     public function __construct( $host = 'localhost', $port = 8983, $location = '/solr' )
     {
@@ -266,6 +268,10 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $searchFieldList
      * @param array(string=>string) $returnFieldList
      * @param array(string=>string) $highlightFieldList
+     * @param array(string=>string) $facetFieldList
+     * @param int    $limit
+     * @param int    $offset
+     * @param array(string=>string) $order
      * @return array
      */
     private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = false, $order = array() )
@@ -303,7 +309,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $queryFlags['facet.sort'] = 'false';
             $queryFlags['facet.field'] = join( ' ', $facetFieldList );
         }
-        if ( count ( $order ) )
+        if ( count( $order ) )
         {
             $sortFlags = array();
             foreach ( $order as $column => $type )
@@ -340,10 +346,10 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
 
             $dom = new DomDocument();
             @$dom->loadHtml( $response );
-            $tbody = $dom->getElementsByTagName('body')->item(0);
+            $tbody = $dom->getElementsByTagName( 'body' )->item( 0 );
 
             $xpath = new DOMXPath($dom);
-            $tocElem = $xpath->evaluate("//pre", $tbody )->item(0);
+            $tocElem = $xpath->evaluate( "//pre" , $tbody )->item( 0 );
             $error = $tocElem->nodeValue;
 
             $s->error = $error;
@@ -427,6 +433,10 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $searchFieldList
      * @param array(string=>string) $returnFieldList
      * @param array(string=>string) $highlightFieldList
+     * @param array(string=>string) $facetFieldList
+     * @param int    $limit
+     * @param int    $offset
+     * @param array(string=>string) $order
      * @return stdClass
      */
     public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = 0, $order = array() )
@@ -450,6 +460,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * Creates a search query object with the fields from the definition filled in.
      *
      * @param string $type
+     * @param ezcSearchDocumentDefinition $definition
      * @return ezcSearchFindQuery
      */
     public function createFindQuery( $type, ezcSearchDocumentDefinition $definition )
@@ -665,7 +676,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      *         submitted, but the field has not been defined as a multi-value field.
      *
      * @param ezcSearchDocumentDefinitionField $field
-     * @param mixed $value
+     * @param mixed $values
      * @return array(mixed)
      */
     public function mapFieldValuesForSearch( $field, $values )
@@ -696,7 +707,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      *         submitted, but the field has not been defined as a multi-value field.
      *
      * @param ezcSearchDocumentDefinitionField $field
-     * @param mixed $value
+     * @param mixed $values
      * @return array(mixed)
      */
     public function mapFieldValuesForIndex( $field, $values )

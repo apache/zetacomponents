@@ -109,9 +109,9 @@ class ezcSearchQueryBuilder
         $tokenArray = preg_split( '@(\s)|(["+():-])|(AND)|(OR)@', $searchQuery, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
         foreach ( $tokenArray as $token )
         {
-            if ( isset( $map[strtolower($token)] ) )
+            if ( isset( $map[strtolower( $token )] ) )
             {
-                $tokens[] = new ezcSearchQueryToken( $map[strtolower($token)], $token );
+                $tokens[] = new ezcSearchQueryToken( $map[strtolower( $token )], $token );
             }
             else
             {

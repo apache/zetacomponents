@@ -47,8 +47,8 @@ class ezcSearchSession
     /**
      * Returns the result of the search query $query as a list of objects.
      *
-	 * Returns the documents found for document type $type using the submitted
-	 * $query. $query should be created using {@link createFindQuery()}.
+     * Returns the documents found for document type $type using the submitted
+     * $query. $query should be created using {@link createFindQuery()}.
      *
      * Example:
      * <code>
@@ -62,7 +62,6 @@ class ezcSearchSession
      *         if the find query failed.
      *
      * @param ezcSearchQuery $query
-     * @param string $type
      *
      * @return array(object($class))
      */
@@ -179,7 +178,7 @@ class ezcSearchSession
      */
     public function update( $document )
     {
-		$this->delete( $document );
+        $this->delete( $document );
         return $this->index( $document );
     }
 

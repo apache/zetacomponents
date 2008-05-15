@@ -1,5 +1,5 @@
 
-FILE: /home/kore/devel/ezcomponents/trunk/Search/src/handlers/solr.php
+FILE: src/handlers/solr.php
 --------------------------------------------------------------------------------
 FOUND 23 ERROR(S) AND 0 WARNING(S) AFFECTING 9 LINE(S)
 --------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ FOUND 23 ERROR(S) AND 0 WARNING(S) AFFECTING 9 LINE(S)
 --------------------------------------------------------------------------------
 
 
-FILE: /home/kore/devel/ezcomponents/trunk/Search/src/interfaces/query.php
+FILE: src/interfaces/query.php
 --------------------------------------------------------------------------------
 FOUND 2 ERROR(S) AND 0 WARNING(S) AFFECTING 2 LINE(S)
 --------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ FOUND 2 ERROR(S) AND 0 WARNING(S) AFFECTING 2 LINE(S)
 --------------------------------------------------------------------------------
 
 
-FILE: ...home/kore/devel/ezcomponents/trunk/Search/src/interfaces/query_find.php
+FILE: src/interfaces/query_find.php
 --------------------------------------------------------------------------------
 FOUND 1 ERROR(S) AND 0 WARNING(S) AFFECTING 1 LINE(S)
 --------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ FOUND 1 ERROR(S) AND 0 WARNING(S) AFFECTING 1 LINE(S)
 --------------------------------------------------------------------------------
 
 
-FILE: ...evel/ezcomponents/trunk/Search/src/abstraction/implementations/solr.php
+FILE: src/abstraction/implementations/solr.php
 --------------------------------------------------------------------------------
 FOUND 4 ERROR(S) AND 0 WARNING(S) AFFECTING 4 LINE(S)
 --------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ FOUND 4 ERROR(S) AND 0 WARNING(S) AFFECTING 4 LINE(S)
 --------------------------------------------------------------------------------
 
 
-FILE: .../kore/devel/ezcomponents/trunk/Search/src/extractors/helpers/simple.php
+FILE: src/extractors/helpers/simple.php
 --------------------------------------------------------------------------------
 FOUND 6 ERROR(S) AND 0 WARNING(S) AFFECTING 5 LINE(S)
 --------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ FOUND 6 ERROR(S) AND 0 WARNING(S) AFFECTING 5 LINE(S)
 --------------------------------------------------------------------------------
 
 
-FILE: ...e/kore/devel/ezcomponents/trunk/Search/src/extractors/helpers/image.php
+FILE: src/extractors/helpers/image.php
 --------------------------------------------------------------------------------
 FOUND 6 ERROR(S) AND 0 WARNING(S) AFFECTING 5 LINE(S)
 --------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ FOUND 6 ERROR(S) AND 0 WARNING(S) AFFECTING 5 LINE(S)
 --------------------------------------------------------------------------------
 
 
-FILE: /home/kore/devel/ezcomponents/trunk/Search/src/extractors/rstxml.php
+FILE: src/extractors/rstxml.php
 --------------------------------------------------------------------------------
 FOUND 8 ERROR(S) AND 0 WARNING(S) AFFECTING 3 LINE(S)
 --------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ FOUND 8 ERROR(S) AND 0 WARNING(S) AFFECTING 3 LINE(S)
 --------------------------------------------------------------------------------
 
 
-FILE: /home/kore/devel/ezcomponents/trunk/Search/src/search_session.php
+FILE: src/search_session.php
 --------------------------------------------------------------------------------
 FOUND 2 ERROR(S) AND 0 WARNING(S) AFFECTING 2 LINE(S)
 --------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ FOUND 2 ERROR(S) AND 0 WARNING(S) AFFECTING 2 LINE(S)
 --------------------------------------------------------------------------------
 
 
-FILE: /home/kore/devel/ezcomponents/trunk/Search/src/query_builder.php
+FILE: src/query_builder.php
 --------------------------------------------------------------------------------
 FOUND 4 ERROR(S) AND 0 WARNING(S) AFFECTING 2 LINE(S)
 --------------------------------------------------------------------------------

@@ -37,10 +37,10 @@ class ezcSearchRstXmlExtractor /* implements ezcSearchExtractor */
         $converted = file_get_contents( $fileName );
         $dom = new DomDocument();
         @$dom->loadHtml( $converted );
-        $tbody = $dom->getElementsByTagName('div')->item(0);
+        $tbody = $dom->getElementsByTagName( 'div' )->item( 0 );
 
         $xpath = new DOMXPath($dom);
-        $tocElem = $xpath->evaluate("//h1[@class='title']", $tbody )->item(0);
+        $tocElem = $xpath->evaluate( "//h1[@class='title']", $tbody )->item( 0 );
         $title = $tocElem ? $tocElem->nodeValue : 'no title';
 
         $docs = array();
@@ -51,7 +51,7 @@ class ezcSearchRstXmlExtractor /* implements ezcSearchExtractor */
 
         // child::*[self::p or self::h1]
         $xpath = new DOMXPath($dom);
-        $tbody = $xpath->evaluate("//p|//h1|//ol|//ul|//dl|//img|//a", $tbody );
+        $tbody = $xpath->evaluate( "//p|//h1|//ol|//ul|//dl|//img|//a", $tbody );
         $body = '';
         foreach( $tbody as $item )
         {
