@@ -76,8 +76,8 @@ Failed asserting that two arrays are equal.
     Warning: Invalid argument supplied for foreach()
     in /home/as/dev/ezcomponents/trunk/Cache/src/storage/memory.php on line 340
 
-    when I call $cache->store() with this configuration and 2 items stored in
-    $cache (image files):
+    when I call $cache->store() with this configuration (the cache should? be
+    empty but maybe there are items from previous runs):
 
 ezcCacheManager::createCache( 'apc', null, 'ezcCacheStorageApcPlain' );
 $apc = ezcCacheManager::getCache( 'apc' );
