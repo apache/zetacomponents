@@ -9,13 +9,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-class ezcCacheTestDummyStackConfigurator implements ezcCacheStackConfigurator
-{
-    public static function configure( ezcCacheStack $stack )
-    {
-        // Dummy
-    }
-}
+/**
+ * Configurator class. 
+ */
+require_once 'stack_test_configurator.php';
 
 /**
  * Test suite for the ezcCacheStackOptions class.
@@ -49,7 +46,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
     public function testCtorNonDefaultSuccess()
     {
         $optArray = array(
-            'configurator'        => 'ezcCacheTestDummyStackConfigurator',
+            'configurator'        => 'ezcCacheStackTestConfigurator',
             // @TODO: Should be a valid storage object.
             'metaStorage'         => null,
             'replacementStrategy' => 'ezcCacheStackLfuReplacementStrategy',
@@ -72,7 +69,7 @@ class ezcCacheStackOptionsTest extends ezcTestCase
         $this->assertSetProperty(
             $opts,
             'configurator',
-            array( 'ezcCacheTestDummyStackConfigurator', null )
+            array( 'ezcCacheStackTestConfigurator', null )
         );
 
         $this->assertSetProperty(

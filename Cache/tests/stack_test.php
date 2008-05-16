@@ -9,18 +9,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-class ezcCacheTestStackConfigurator implements ezcCacheStackConfigurator
-{
-    public static $options;
-
-    public static $storageConf;
-
-    public static function configure( ezcCacheStack $stack )
-    {
-        $stack->options = self::$options;
-        $stack->pushStorage( self::$storageConf );
-    }
-}
+/**
+ * Configurator. 
+ */
+require_once 'stack_test_configurator.php';
 
 /**
  * Test suite for ezcCacheStack class. 
@@ -74,20 +66,22 @@ class ezcCacheStackTest extends ezcTestCase
     public function testCtorWithConfigurator()
     {
         $configuredOptions = new ezcCacheStackOptions();
-        ezcCacheTestStackConfigurator::$options     = $configuredOptions;
-        ezcCacheTestStackConfigurator::$storageConf = new ezcCacheStackStorageConfiguration(
-            '1',
-            new ezcCacheStorageFileArray(
-                $this->createTempDir( __CLASS__ )
-            ),
-            10,
-            .4
+        ezcCacheStackTestConfigurator::$options  = $configuredOptions;
+        ezcCacheStackTestConfigurator::$storages = array(
+            new ezcCacheStackStorageConfiguration(
+                '1',
+                new ezcCacheStorageFileArray(
+                    $this->createTempDir( __CLASS__ )
+                ),
+                10,
+                .4
+            )
         );
 
         $options  = new ezcCacheStackOptions();
         $location = 'foo';
 
-        $options->configurator = 'ezcCacheTestStackConfigurator';
+        $options->configurator = 'ezcCacheStackTestConfigurator';
 
         $stack = new ezcCacheStack( $location, $options );
 
@@ -96,9 +90,7 @@ class ezcCacheStackTest extends ezcTestCase
             $stack->options
         );
         $this->assertAttributeEquals(
-            array(
-                ezcCacheTestStackConfigurator::$storageConf,
-            ),
+            ezcCacheStackTestConfigurator::$storages,
             'storageStack',
             $stack
         );

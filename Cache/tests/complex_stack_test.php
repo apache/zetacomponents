@@ -9,21 +9,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-class ezcCacheComplexStackTestConfigurator implements ezcCacheStackConfigurator
-{
-    public static $storages  = array();
-
-    public static $metaStorage;
-
-    public static function configure( ezcCacheStack $stack )
-    {
-        foreach ( self::$storages as $storageConf )
-        {
-            $stack->pushStorage( $storageConf );
-        }
-        $stack->options->metaStorage = self::$metaStorage;
-    }
-}
+/**
+ * Configurator class.
+ */
+require_once 'stack_test_configurator.php';
 
 /**
  * Complex "real live" tests for ezcCacheStack.
@@ -69,7 +58,9 @@ class ezcCacheComplexCacheTest extends ezcTestCase
             $fileStorageEvalArray = new ezcCacheStorageFileEvalArray( $tmpDirEvalArray );
             $fileStorageArray = new ezcCacheStorageFileArray( $tmpDirArray );
 
-            ezcCacheComplexStackTestConfigurator::$storages = array(
+            ezcCacheStackTestConfigurator::reset();
+
+            ezcCacheStackTestConfigurator::$storages = array(
                 new ezcCacheStackStorageConfiguration(
                     'eval_array_storage',
                     $fileStorageEvalArray,
@@ -90,7 +81,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
                 ),
             );
 
-            ezcCacheComplexStackTestConfigurator::$metaStorage = $fileStorageArray;
+            ezcCacheStackTestConfigurator::$metaStorage = $fileStorageArray;
             
             ezcCacheManager::createCache(
                 __CLASS__,
@@ -98,7 +89,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
                 'ezcCacheStack',
                 new ezcCacheStackOptions(
                     array(
-                        'configurator' => 'ezcCacheComplexStackTestConfigurator',
+                        'configurator' => 'ezcCacheStackTestConfigurator',
                         'replacementStrategy' => 'ezcCacheStackLfuReplacementStrategy',
                     )
                 )
@@ -129,15 +120,15 @@ class ezcCacheComplexCacheTest extends ezcTestCase
         // Assert basic config
         $this->assertEquals(
             $stack->getStorages(),
-            array_reverse( ezcCacheComplexStackTestConfigurator::$storages )
+            array_reverse( ezcCacheStackTestConfigurator::$storages )
         );
         $this->assertEquals(
             $stack->options,
             new ezcCacheStackOptions(
                 array(
-                    'configurator'        => 'ezcCacheComplexStackTestConfigurator',
+                    'configurator'        => 'ezcCacheStackTestConfigurator',
                     'replacementStrategy' => 'ezcCacheStackLfuReplacementStrategy',
-                    'metaStorage'         => ezcCacheComplexStackTestConfigurator::$metaStorage,
+                    'metaStorage'         => ezcCacheStackTestConfigurator::$metaStorage,
                     'bubbleUpOnRestore'   => false,
                 )
             )
@@ -228,7 +219,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
         {
             $stack->store( $dataRow[0], $dataRow[1], $dataRow[2] );
         }
-        
+
         $this->assertEquals(
             array(
                 'replacementData' => 
@@ -267,7 +258,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
                     ),
                 )
             ),
-            ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData(),
+            ezcCacheStackTestConfigurator::$metaStorage->restoreMetaData()->getData(),
             'Assertion of current meta data failed'
         );
     }
@@ -284,7 +275,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
         $stack->restore( $data[0][0], $data[0][2] );
         $stack->restore( $data[2][0], $data[2][2] );
 
-        $metaData = ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
+        $metaData = ezcCacheStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
 
         $this->assertEquals(
             array (
@@ -306,7 +297,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
         // Free in 'memory_storage'
         $stack->store( 'id_6', 'id_6_contente' );
 
-        $metaData = ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
+        $metaData = ezcCacheStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
         $this->assertEquals(
             array (
                 'replacementData' => 
@@ -366,7 +357,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
         $stack->restore( 'id_6' );
         $stack->restore( 'id_6' );
                     
-        $metaData = ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
+        $metaData = ezcCacheStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
         $this->assertEquals(
             array (
                 'replacementData' => 
@@ -441,7 +432,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
         $stack->restore( 'id_9', null, true );
         $stack->restore( 'id_9', null, true );
 
-        $metaData = ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
+        $metaData = ezcCacheStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
         $this->assertEquals(
             array (
                 'replacementData' => 
@@ -504,13 +495,13 @@ class ezcCacheComplexCacheTest extends ezcTestCase
             $stack->restore( $data[0][0], $data[0][2] )
         );
 
-        $metaData = ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
+        $metaData = ezcCacheStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
         $this->assertTrue(
             $metaData['storageData']['memory_storage']['id_1']
         );
         $this->assertEquals(
             $data[0][1],
-            ezcCacheComplexStackTestConfigurator::$storages[2]->storage->restore(
+            ezcCacheStackTestConfigurator::$storages[2]->storage->restore(
                 $data[0][0], $data[0][2]
             )
         );
@@ -524,7 +515,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
             $stack->restore( $data[2][0], $data[2][2] )
         );
 
-        $metaData = ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
+        $metaData = ezcCacheStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
         $this->assertTrue(
             $metaData['storageData']['memory_storage']['id_3']
         );
@@ -532,7 +523,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
             $metaData['storageData']['array_storage']['id_3']
         );
 
-        $metaData = ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
+        $metaData = ezcCacheStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
         $this->assertEquals(
             array (
                 'replacementData' => 
@@ -603,7 +594,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
             $stack->restore( 'id_7' )
         );
         
-        $metaData = ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
+        $metaData = ezcCacheStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
         $this->assertEquals(
             array (
                 'replacementData' => 
