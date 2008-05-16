@@ -19,7 +19,7 @@
  * @package PersistentObject
  * @version //autogen//
  */
-interface ezcPersistentObject
+interface ezcPersistentObject extends ezcBasePersistable
 {
     /**
      * Returns the current state of an object.
