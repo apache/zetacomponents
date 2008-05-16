@@ -50,7 +50,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
             }
             else if ( ezcBaseFeatures::hasExtensionSupport( 'memcache' ) )
             {
-                $memoryStorage = new ezcCacheStorageMemcachePlain();
+                $memoryStorage = new ezcCacheStorageMemcachePlain( 'foo' );
             }
             else
             {
