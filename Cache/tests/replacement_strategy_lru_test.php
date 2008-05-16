@@ -88,7 +88,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'Data not stored correctly.'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         $this->assertGreaterThan(
             // Creation date of test case. Clock correct?
@@ -117,7 +117,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             0.5
         );
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 'id_42' => 23,
             ),
@@ -135,7 +135,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_1_content'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         $this->assertEquals(
             'id_1_content',
@@ -181,7 +181,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             0.5
         );
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 'id_1' => 23,
             ),
@@ -200,7 +200,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_1_content'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         $this->assertEquals(
             'id_1_content',
@@ -266,7 +266,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         );
 
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
@@ -299,7 +299,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_6_content'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behaviour
 
@@ -408,7 +408,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         // None expired
 
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
@@ -441,7 +441,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_6_content'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behaviour
 
@@ -567,7 +567,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         );
 
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
@@ -600,7 +600,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             array( 'lang' => 'de', 'section' => 'news' )
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behaviour
 
@@ -709,7 +709,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         // None expired
 
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
@@ -743,7 +743,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             array( 'lang' => 'de', 'section' => 'news' )
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behaviour
 
@@ -860,7 +860,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         );
 
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
@@ -893,7 +893,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_6_content'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behaviour
 
@@ -1005,7 +1005,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         );
 
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
@@ -1036,7 +1036,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_6_content'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behaviour
 
@@ -1122,7 +1122,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         $conf->storage->store( 'id_1', 'id_1_content' );
         
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 10 ),
@@ -1145,7 +1145,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_1'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behavior
 
@@ -1205,7 +1205,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         );
         
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 // Fake access times, not necessarily reflect file mtimes
                 'id_1' => ( $now - 40 ),
@@ -1228,7 +1228,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_1'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behavior
 
@@ -1275,7 +1275,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         );
         
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(),
             'storageData' => array(),
         ) );
@@ -1288,7 +1288,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_1'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behavior
 
@@ -1340,7 +1340,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         );
         
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 'id_1' => $now,
             ),
@@ -1362,7 +1362,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_1'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behavior
 
@@ -1418,7 +1418,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         $now = time();
 
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 'id_1' => ( $now - 40 ),
             ),
@@ -1437,7 +1437,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             'id_1'
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behavior
 
@@ -1505,7 +1505,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
         );
         
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData( array(
+        $meta->setState( array(
             'replacementData' => array(
                 'id_1' => $now,
                 'id_2' => $now,
@@ -1533,7 +1533,7 @@ class ezcCacheStackLruReplacementStrategyTest extends ezcTestCase
             true
         );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
 
         // Assert correct behavior
 

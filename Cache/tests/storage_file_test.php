@@ -689,7 +689,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $temp = $this->createTempDir( __CLASS__ );
 
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData(
+        $meta->setState(
             array(
                 'replacementData' => array(
                     'id_1' => 23,

@@ -100,7 +100,7 @@ class ezcCacheStorageFilePlain extends ezcCacheStorageFile
         if ( $dataArr !== false )
         {
             $result = new $dataArr['class']();
-            $result->setData( $dataArr['data'] );
+            $result->setState( $dataArr['data'] );
         }
         return $result;
     }
@@ -120,7 +120,7 @@ class ezcCacheStorageFilePlain extends ezcCacheStorageFile
     {
         $dataArr = array(
             'class' => get_class( $metaData ),
-            'data'  => $metaData->getData(),
+            'data'  => $metaData->getState(),
         );
         // This storage only handles scalar values, so we serialize here.
         $dataStr = serialize( $dataArr );

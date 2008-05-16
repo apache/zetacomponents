@@ -688,7 +688,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
         if ( $dataArr !== false )
         {
             $result = new $dataArr['class']();
-            $result->setData( $dataArr['data'] );
+            $result->setState( $dataArr['data'] );
         }
         return $result;
     }
@@ -708,7 +708,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
     {
         $dataArr = array(
             'class' => get_class( $metaData ),
-            'data'  => $metaData->getData(),
+            'data'  => $metaData->getState(),
         );
         $this->storeRawData(
             $this->properties['location'] . $this->properties['options']->metaDataFile,

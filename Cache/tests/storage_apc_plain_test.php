@@ -616,7 +616,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
             . $storage->options->metaDataKey;
 
         $meta = new ezcCacheStackLruMetaData();
-        $meta->setData(
+        $meta->setState(
             array(
                 'replacementData' => array(
                     'id_1' => 23,

@@ -109,7 +109,7 @@ abstract class ezcCacheStackBaseMetaDataTest extends ezcTestCase
     public function testRemoveItem()
     {
         $meta = new $this->metaDataClass();
-        $meta->setData(
+        $meta->setState(
             array(
                 'storageData' => array(
                     'storage_id_1' => array(
@@ -238,7 +238,7 @@ abstract class ezcCacheStackBaseMetaDataTest extends ezcTestCase
     public function testHasItem()
     {
         $meta = new $this->metaDataClass();
-        $meta->setData(
+        $meta->setState(
             array(
                 'storageData' => array(
                     'storage_id_1' => array(
@@ -280,7 +280,7 @@ abstract class ezcCacheStackBaseMetaDataTest extends ezcTestCase
     public function testReachedItemLimit()
     {
         $meta = new $this->metaDataClass();
-        $meta->setData(
+        $meta->setState(
             array(
                 'storageData' => array(
                     'storage_id_1' => array(
@@ -322,7 +322,7 @@ abstract class ezcCacheStackBaseMetaDataTest extends ezcTestCase
     public function testGetReplacementItems()
     {
         $meta = new $this->metaDataClass();
-        $meta->setData(
+        $meta->setState(
             array(
                 'storageData' => array(
                 ),
@@ -377,10 +377,10 @@ abstract class ezcCacheStackBaseMetaDataTest extends ezcTestCase
             )
         );
 
-        $meta->setData(
+        $meta->setState(
             $data
         );
-        $returnedData = $meta->getData();
+        $returnedData = $meta->getState();
         
         $this->assertEquals(
             $data['replacementData'],
@@ -412,7 +412,7 @@ abstract class ezcCacheStackBaseMetaDataTest extends ezcTestCase
             )
         );
 
-        $meta->setData(
+        $meta->setState(
             $data
         );
         

@@ -44,7 +44,7 @@ class ezcCacheStackLruMetaDataTest extends ezcCacheStackBaseMetaDataTest
         // Add first item to unknown storage
         $meta->addItem( 'storage_id_1', 'item_id_1' );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
         $this->assertGreaterThanOrEqual(
             $now,
             $metaData['replacementData']['item_id_1']
@@ -55,7 +55,7 @@ class ezcCacheStackLruMetaDataTest extends ezcCacheStackBaseMetaDataTest
         // Add first item to second unknown storage
         $meta->addItem( 'storage_id_2', 'item_id_1' );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
         $this->assertGreaterThanOrEqual(
             $now,
             $metaData['replacementData']['item_id_1']
@@ -66,7 +66,7 @@ class ezcCacheStackLruMetaDataTest extends ezcCacheStackBaseMetaDataTest
         // Add second item to known storag
         $meta->addItem( 'storage_id_2', 'item_id_2' );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
         $this->assertGreaterThanOrEqual(
             $now,
             $metaData['replacementData']['item_id_2']

@@ -42,7 +42,7 @@ class ezcCacheStackLfuMetaDataTest extends ezcCacheStackBaseMetaDataTest
         // Add first item to unknown storage
         $meta->addItem( 'storage_id_1', 'item_id_1' );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
         $this->assertEquals(
             1,
             $metaData['replacementData']['item_id_1']
@@ -51,7 +51,7 @@ class ezcCacheStackLfuMetaDataTest extends ezcCacheStackBaseMetaDataTest
         // Add first item to second unknown storage
         $meta->addItem( 'storage_id_2', 'item_id_1' );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
         $this->assertEquals(
             2,
             $metaData['replacementData']['item_id_1']
@@ -60,7 +60,7 @@ class ezcCacheStackLfuMetaDataTest extends ezcCacheStackBaseMetaDataTest
         // Add second item to known storag
         $meta->addItem( 'storage_id_2', 'item_id_2' );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
         $this->assertEquals(
             1,
             $metaData['replacementData']['item_id_2']
@@ -73,7 +73,7 @@ class ezcCacheStackLfuMetaDataTest extends ezcCacheStackBaseMetaDataTest
         // Add existing item
         $meta->addItem( 'storage_id_1', 'item_id_1' );
 
-        $metaData = $meta->getData();
+        $metaData = $meta->getState();
         $this->assertEquals(
             1,
             $metaData['replacementData']['item_id_2']
