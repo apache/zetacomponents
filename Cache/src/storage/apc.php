@@ -21,6 +21,9 @@
  *  - {@link ezcCacheStorageApcPlain}
  *  - {@link ezcCacheStorageFileApcArray}
  *
+ * This storage acan also be used with {@link ezcCacheStack}. However, APC
+ * version 3.0.16 or newer is required for that.
+ *
  * @package Cache
  * @version //autogentag//
  */
