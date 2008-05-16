@@ -5,7 +5,7 @@
  * @package Database
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
- * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+ * @license http://ez.no/licenses/new_bsd New BSD License
  * @access private
  */
 

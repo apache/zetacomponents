@@ -1,13 +1,13 @@
 <?php
 /**
-* ezcGraphSuite
-*
-* @package Graph
-* @subpackage Tests
-* @version //autogentag//
-* @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
-* @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-*/
+ * ezcGraphSuite
+ *
+ * @package Graph
+ * @subpackage Tests
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
 /**
 * Require test suites.
