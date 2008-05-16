@@ -21,25 +21,6 @@
  */
 interface ezcPersistentObject extends ezcBasePersistable
 {
-    /**
-     * Returns the current state of an object.
-     * This method returns an array representing the current state of the
-     * object. The array must contain a key for every attribute of the
-     * object, assigned to the value of the attribute.
-     * 
-     * @return array(string=>mixed) The state of the object.
-     */
-    public function getState();
-
-    /**
-     * Sets the state of the object.
-     * This method sets the state of the object accoring to a given array,
-     * which must conform to the standards defined at {@link getState()}.
-     * 
-     * @param array $state The new state for the object.
-     * @return void
-     */
-    public function setState( array $state );
 }
 
 ?>
