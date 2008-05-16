@@ -304,9 +304,7 @@ class ezcCacheComplexCacheTest extends ezcTestCase
         $data  = $this->testDataArray;
 
         // Free in 'memory_storage'
-        xdebug_start_trace( 'trace' );
         $stack->store( 'id_6', 'id_6_contente' );
-        xdebug_stop_trace();
 
         $metaData = ezcCacheComplexStackTestConfigurator::$metaStorage->restoreMetaData()->getData();
         $this->assertEquals(
