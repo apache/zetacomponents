@@ -50,7 +50,7 @@ Failed asserting that two arrays are equal.
 
 /home/as/dev/ezcomponents/trunk/Cache/tests/storage_memcache_plain_test.php:567
 
-[ ] ezcCacheStack: why does pushStorage() use ezcCacheStackStorageConfiguration?
+[X] ezcCacheStack: why does pushStorage() use ezcCacheStackStorageConfiguration?
     It could have passed the options right there in the pushStorage() instead of
     creating yet another object. Like:
 
@@ -66,7 +66,7 @@ Failed asserting that two arrays are equal.
 	  to the stack. Beside that, it can be more convenient when using delayed
 	  initialization through the ezcCacheManager.
 
-[ ] ezcCacheStack: the cache storages are stored twice: once in $storageStack
+[X] ezcCacheStack: the cache storages are stored twice: once in $storageStack
     and once in $storageIdMap. Wouldn't it be better to store it only in
     $storageStack and to store only the IDs in $storageIdMap?
 
