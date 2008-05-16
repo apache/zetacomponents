@@ -61,9 +61,18 @@ Failed asserting that two arrays are equal.
     $conf = new ezcCacheStackStorageConfiguration( 'cache', $cache, 1, 0.5 );
     $stack->pushStorage( $conf );
 
+	# The object is needed internally to be passed around. Creating the object
+	  outside allows to do popStorage() and to push such removed storages back
+	  to the stack. Beside that, it can be more convenient when using delayed
+	  initialization through the ezcCacheManager.
+
 [ ] ezcCacheStack: the cache storages are stored twice: once in $storageStack
     and once in $storageIdMap. Wouldn't it be better to store it only in
     $storageStack and to store only the IDs in $storageIdMap?
+
+	# No. Objects are stored by reference, so it is most likely that this
+	  consumes less memory than storing the actual ID twice, which would by
+	  copied.
 
 [ ] Are all options from ezcCacheStackOptions tested in different combinations?
     LRU, LRU+bubbleUp, LRU+bubbleUp+metaStorage, LRU+metaStorage
@@ -71,6 +80,15 @@ Failed asserting that two arrays are equal.
 
     And in different combinations with ezcCacheStackStorageConfiguration
     parameters, like $itemLimit = 1 and $freeRate = 0.1, $freeRate = 0.99 etc?
+
+	# Since not all of them depend on each other, this seems not necessary to
+	  me. Tests are performed for:
+      - LRU+bubbleUp
+      - LRU+metaStorageConfigured
+      - LRU+metaStorageDefault
+	  All with concrete method call tests via mock objects. LRU is only a
+	  wrapper around internel base strategy.  In addition, all methods of LRU,
+	  LFU and the meta data stuff are tested dedicatedly.
 
     I got a warning:
     Warning: Invalid argument supplied for foreach()
