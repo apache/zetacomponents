@@ -98,3 +98,7 @@ $conf = new ezcCacheStackStorageConfiguration( 'apc', $apc, 1, 0.9 );
 $cache->pushStorage( $conf );
 $cache = ezcCacheManager::getCache( 'cache' );
 
+[ ] Some tests files contain multiple classes (eg complex_stack_test.php). They
+    should be separated in different files because it might impede running the
+    test case on its own.
+
