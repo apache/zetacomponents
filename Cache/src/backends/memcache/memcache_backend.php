@@ -12,9 +12,9 @@
 /**
  * This backend stores data in a Memcache.
  *
- * @deprecated This class will be deprecated in the next major version of the
- *             Cache component. Please do not use it directly, but use {@link
- *             ezcCacheStorageMemcache} instead.
+ * @apichange This class will be deprecated in the next major version of the
+ *            Cache component. Please do not use it directly, but use {@link
+ *            ezcCacheStorageMemcache} instead.
  *
  * @package Cache
  * @version //autogentag//

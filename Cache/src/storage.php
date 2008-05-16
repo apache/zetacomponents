@@ -248,7 +248,7 @@ abstract class ezcCacheStorage
      *
      * @return string The location of this storage.
      *
-     * @deprecated Use $stack->location instead.
+     * @apichange Use $stack->location instead.
      */
     public function getLocation()
     {
@@ -265,7 +265,7 @@ abstract class ezcCacheStorage
      * 
      * @return ezcCacheStorageOptions The options 
      *
-     * @deprecated Use $stack->options instead.
+     * @apichange Use $stack->options instead.
      */
     public function getOptions()
     {
@@ -300,7 +300,7 @@ abstract class ezcCacheStorage
      *         If you submit neither an array nor an instance of 
      *         ezcCacheStorageOptions.
      *
-     * @deprecated Use $storage->options instead.
+     * @apichange Use $storage->options instead.
      */
     public function setOptions( $options ) 
     {

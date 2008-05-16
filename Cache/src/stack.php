@@ -516,7 +516,7 @@ class ezcCacheStack extends ezcCacheStorage
      * 
      * @param ezcCacheStackOptions $options 
      *
-     * @deprecated Use $stack->options instead.
+     * @apichange Use $stack->options instead.
      */
     public function setOptions( $options )
     {

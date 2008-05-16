@@ -597,8 +597,8 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      * @param array(string=>string) $attributes Attributes describing the data
      * @return string
      *
-     * @deprecated Was only used to generate "pseudo-regex". Attribute arrays
-     *             are compared directly now.
+     * @apichange Was only used to generate "pseudo-regex". Attribute arrays
+     *            are compared directly now.
      */
     protected function generateAttrStr( $attributes = array() )
     {

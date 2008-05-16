@@ -15,8 +15,8 @@
  *
  * Options for this class are defined in {@link ezcCacheStorageFileApcArrayOptions}.
  *
- * @deprecated This class might be removed in future versions. Please use
- *             {@link ezcCacheStack} to achieve the desired behaior.
+ * @apichange This class might be removed in future versions. Please use
+ *            {@link ezcCacheStack} to achieve the desired behaior.
  * @package Cache
  * @version //autogentag//
  */
