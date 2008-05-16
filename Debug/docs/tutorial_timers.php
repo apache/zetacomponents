@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="example_stylesheet.css" />
+<style type="text/css">@import url("example_stylesheet.txt");</style>
 <?php
 
 require_once 'tutorial_autoload.php';
