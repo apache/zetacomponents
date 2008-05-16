@@ -8,10 +8,10 @@ Review Alexandru 2008-05-16
     - missing or wrong parameters.
     - @deprecated tag could be instead @apichange? It is not recognized.
 
-[ ] xdebug_start_trace() and xdebug_stop_trace() in complex_stack_test.php on
+[X] xdebug_start_trace() and xdebug_stop_trace() in complex_stack_test.php on
     line 307 and 309.
 
-[ ] investigate which version of APC is needed? Some tests fail with APC 3.0.14
+[X] investigate which version of APC is needed? Some tests fail with APC 3.0.14
     (I got "missing apc_add() function" but maybe it was not compiled correctly).
 	I also needed apc.enable_cli=1 in php.ini which I didn't know - specify this
     somewhere?
