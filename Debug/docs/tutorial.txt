@@ -40,6 +40,9 @@ ezcDebug
   This provides the public API for writing Debug messages and capturing timing
   information.
 
+ezcDebugOptions
+  Allows you to switch on debug stack traces and to configure their appearance.
+
 ezcDebugOutputFormatter
   ezcDebugOutputFormatter provides an interface for the debug output
   format. New implementations can format the raw log messages and timing
@@ -72,7 +75,6 @@ Debug.
 
 Further information about writing log messages can be found in the EventLog
 component. 
-
 
 Timers
 ------
@@ -120,6 +122,54 @@ through "Example Stylesheet" in the menu):
 
 .. image:: img/debug_tutorial_recursive_timers.png
 
+Stack traces
+------------
+
+Sometimes it is useful to get a stack trace for log messages. To achieve this,
+there are 2 possibilities offered by the Debug component:
+
+1) Global stack trace switch
+````````````````````````````
+
+.. include:: tutorial_global_stacktrace.php
+   :literal:
+
+In this example, the debug options (see: ezcDebugOptions) are used to switch on
+stack traces globally. The effect is, that whenever a debug message is logged, a
+stack trace is logged in addition. When printing the debug information,
+stack traces in the manor of `Xdebug`_ are included in the output.
+
+.. _`Xdebug`: http://xdebug.org/docs/stack_trace
+
+Beside the $stackTrace option itself, the appearance of the stack traces is
+configured. This configuration only takes effect, if `Xdebug`_ is not
+installed. In this case, an own implementation is used to retrieve stack traces
+that look almost exactly like the Xdebug version. If Xdebug is installed, its
+internal settings will be used.
+
+The possible options for stack traces are:
+
+$stackTraceDepth
+  Defines the number of nested function calls included in the trace (starting
+  at the most recent one). This option also affects `Xdebug`_ generated stack
+  traces. The default is 5.
+$stackTraceMaxData
+  Maximum bytes of data to be dumped for variable values. The default is 512.
+$stackTraceMaxChildren
+  Defines the maximum number of child elements that will be dumped for array
+  and object structures. The default value is 128.
+$stackTraceMaxDepth
+  Maximum level of iteration that is performed when dumping nested array or
+  object structures.
+
+2) Local stack trace switch
+```````````````````````````
+
+If stack traces are not desired with every lock message, it is also possible to
+activate them when the log message is issued:
+
+.. include:: tutorial_local_stacktrace.php
+   :literal:
 
 
 ..

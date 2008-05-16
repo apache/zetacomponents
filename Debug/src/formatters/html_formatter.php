@@ -119,15 +119,15 @@ ENDT;
         $res = <<<EOT
 <table class='stacktrace'>
 <tr>
-    <td class='stacktraceno'>
+    <th class='stacktraceno'>
         #
-    </td>
-    <td class='stacktracefunction'>
+    </th>
+    <th class='stacktracefunction'>
         Function
-    </td>
-    <td class='stacktracelocation'>
+    </th>
+    <th class='stacktracelocation'>
         Location
-    </td>
+    </th>
 </tr>
 EOT;
         foreach ( $stackTrace as $index => $element )

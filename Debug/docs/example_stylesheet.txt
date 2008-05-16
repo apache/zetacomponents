@@ -76,3 +76,31 @@
     {
         color: #fc8f1c;
     }
+	
+	.ezc-debug-output .log .debugstacktrace .stacktrace th
+	{
+		padding-bottom:	3px;
+		border-bottom: 3px solid black;
+		font-weight: bold;
+	}
+
+	.ezc-debug-output .log .debugstacktrace .stacktrace td
+	{
+		padding-top: 3px;
+		padding-bottom:	3px;
+	}
+
+	.ezc-debug-output .log .debugstacktrace .stacktrace td.stacktraceno
+	{
+		font-weight: bold;
+	}
+	
+	.ezc-debug-output .log .debugstacktrace .stacktrace td.stacktracefunction
+	{
+		font-style: italic;
+	}
+
+	.ezc-debug-output .log .debugstacktrace .stacktrace td.stacktracelocation
+	{
+		color: #c0c0c0;
+	}

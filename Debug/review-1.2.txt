@@ -2,7 +2,7 @@
 [X] ezcDebugException: component level exceptions should always be abstract,
     and thus there needs to be a new more specific eXceptions. (See
     http://ezcomponents.org/contributing/coding_standards#eXceptions)
-[ ] The eXample stylesheet misses classes for the stack trace CSS classes.
+[X] The eXample stylesheet misses classes for the stack trace CSS classes.
 [X] ezcDebugStacktraceIterator::__construct() should really be the first method
     in the class.
 [X] ezcDebugVariableDumpTool has the constants undocumented.
@@ -17,7 +17,7 @@
     as well.
 [X] The variable output in stack traces should be configurable, like Xdebug.
     There is way too much output by default now making them quite useless.
-[ ] The tutorial doesn't mention the new functionality yet.
+[X] The tutorial doesn't mention the new functionality yet.
 [X] There is a pretty low code coverage - only 77%.
 [X] The doc analysis tool shows lots of issues.
 [X] I get a failing test::
@@ -41,6 +41,6 @@
 
 TS:
 
-[ ] ezcDebugMessage seems orphan. Only used in 1 single place and this is
+[X] ezcDebugMessage seems orphan. Only used in 1 single place and this is
     internally. This usage should be replaced by code in ezcDebugMessage and
 	this class should be removed (safe, @access private).
