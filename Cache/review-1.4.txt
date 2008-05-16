@@ -1,0 +1,51 @@
+Review Alexandru 2008-05-16
+===========================
+
+[ ] the tutorial needs to be updated with the new stackable storage.
+
+[ ] run docanalisys.php on Cache:
+    - missing method docblocks.
+    - missing or wrong parameters.
+    - @deprecated tag could be instead @apichange? It is not recognized.
+
+[ ] xdebug_start_trace() and xdebug_stop_trace() in complex_stack_test.php on
+    line 307 and 309.
+
+[ ] investigate which version of APC is needed? Some tests fail with APC 3.0.14
+    (I got "missing apc_add() function" but maybe it was not compiled correctly).
+	I also needed apc.enable_cli=1 in php.ini which I didn't know - specify this
+    somewhere?
+
+[ ] 2 failed tests in ezcCacheStorageMemcachePlainTest:
+
+1) testPurgeNoLimit(ezcCacheStorageMemcachePlainTest)
+Purged IDs not returned correctly.
+Failed asserting that two arrays are equal.
+--- Expected
++++ Actual
+@@ -1,8 +1,3 @@
+ Array
+ (
+-    [0] => ID
+-    [1] => Some/Dir/ID
+-    [2] => Some/other/Dir/ID/1
+-    [3] => Some/other/Dir/ID/2
+-    [4] => Some/other/Dir/ID/3
+ )
+
+/home/as/dev/ezcomponents/trunk/Cache/tests/storage_memcache_plain_test.php:530
+
+2) testPurgeLimit(ezcCacheStorageMemcachePlainTest)
+Purged IDs not returned correctly.
+Failed asserting that two arrays are equal.
+--- Expected
++++ Actual
+@@ -1,6 +1,3 @@
+ Array
+ (
+-    [0] => ID
+-    [1] => Some/Dir/ID
+-    [2] => Some/other/Dir/ID/1
+ )
+
+/home/as/dev/ezcomponents/trunk/Cache/tests/storage_memcache_plain_test.php:567
