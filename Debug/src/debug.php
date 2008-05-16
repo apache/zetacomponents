@@ -398,13 +398,53 @@ class ezcDebug
      */
     public static function debugHandler( $errno, $errstr, $errfile, $errline )
     {
-        $log = ezcLog::getInstance();
         $debug = ezcDebug::getInstance();
-        $lm = new ezcDebugMessage( $errstr, $errno, $log->source, $log->category );
+        $log   = $debug->getEventLog();
+        
+        preg_match(
+            '/^\s*(?:\[([^,\]]*)(?:,\s(.*))?\])?\s*(?:(\d+):)?\s*(.*)$/',
+            $errstr,
+            $matches
+        );
+        
+        $message = ( $matches[4] === '' ? false : $matches[4] );
+        $verbosity = ( $matches[3] === '' ? false : $matches[3] );
+
+        if ( strlen( $matches[2] ) == 0 )
+        {
+            $category = ( $matches[1] === '' ? $log->category : $matches[1] );
+            $source   = $log->source;
+        }
+        else
+        {
+            $category = $matches[2];
+            $source   = $matches[1];
+        }
+        
+        $severity = false;
+        switch ( $errno )
+        {
+            case E_USER_NOTICE:
+                $severity = ezcLog::NOTICE;
+                break;
+            case E_USER_WARNING:
+                $severity = ezcLog::WARNING;
+                break;
+            case E_USER_ERROR:
+                $severity = ezcLog::ERROR;
+                break;
+        }
 
         $debug->log(
-            $lm->message, $lm->severity,
-            array( "source" => $lm->source, "category" => $lm->category, "verbosity" => $lm->verbosity, "file" => $errfile, "line" => $errline )
+            $message,
+            $severity,
+            array(
+                'source'    => $source,
+                'category'  => $category,
+                'verbosity' => $verbosity,
+                'file'      => $errfile,
+                'line'      => $errline
+            )
         );
     }
 }

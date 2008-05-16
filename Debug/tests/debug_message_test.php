@@ -20,221 +20,189 @@ class ezcDebugMessageTest extends ezcTestCase
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
+
+    public function setUp()
+    {
+        $dbg = ezcDebug::getInstance();
+        $dbg->reset();
+        $dbg->setOutputFormatter( new TestReporter() );
+
+        $dbg->getEventLog()->source   = 'DefaultSource';
+        $dbg->getEventLog()->category = 'DefaultCategory';
+        
+        set_error_handler( array( 'ezcDebug', 'debugHandler' ) );
+    }
+
+    public function tearDown()
+    {
+        restore_error_handler();
+    }
     
     public function testParseMessage()
     {
-        $msg = new ezcDebugMessage(
-            '[Source, Category] 23: Message',
-            E_USER_WARNING,
-            'DefaultSource',
-            'DefaultCategory'
-        );
+        trigger_error( '[Source, Category] 23: Message', E_USER_WARNING );
+
+        $out = ezcDebug::getInstance()->generateOutput();
 
         $this->assertEquals(
             'Message',
-            $msg->message
+            $out[0][0]->message
         );
         $this->assertEquals(
             23,
-            $msg->verbosity
+            $out[0][0]->verbosity
         );
         $this->assertEquals(
             'Category',
-            $msg->category
+            $out[0][0]->category
         );
         $this->assertEquals(
             'Source',
-            $msg->source
-        );
-        $this->assertEquals(
-            ezcLog::WARNING,
-            $msg->severity
+            $out[0][0]->source
         );
     }
 
     public function testParseMessageNoMessage()
     {
-        $msg = new ezcDebugMessage(
-            '[Source, Category] 23:',
-            E_USER_WARNING,
-            'DefaultSource',
-            'DefaultCategory'
-        );
+        trigger_error( '[Source, Category] 23:', E_USER_WARNING );
+
+        $out = ezcDebug::getInstance()->generateOutput();
 
         $this->assertEquals(
             false,
-            $msg->message
+            $out[0][0]->message
         );
         $this->assertEquals(
             23,
-            $msg->verbosity
+            $out[0][0]->verbosity
         );
         $this->assertEquals(
             'Category',
-            $msg->category
+            $out[0][0]->category
         );
         $this->assertEquals(
             'Source',
-            $msg->source
-        );
-        $this->assertEquals(
-            ezcLog::WARNING,
-            $msg->severity
+            $out[0][0]->source
         );
     }
     
     public function testParseMessageNoSource()
     {
-        $msg = new ezcDebugMessage(
-            '[Category] 23: Message',
-            E_USER_WARNING,
-            'DefaultSource',
-            'DefaultCategory'
-        );
+        trigger_error( '[Category] 23: Message', E_USER_WARNING );
+
+        $out = ezcDebug::getInstance()->generateOutput();
 
         $this->assertEquals(
             'Message',
-            $msg->message
+            $out[0][0]->message
         );
         $this->assertEquals(
             23,
-            $msg->verbosity
+            $out[0][0]->verbosity
         );
         $this->assertEquals(
             'Category',
-            $msg->category
+            $out[0][0]->category
         );
         $this->assertEquals(
             'DefaultSource',
-            $msg->source
-        );
-        $this->assertEquals(
-            ezcLog::WARNING,
-            $msg->severity
+            $out[0][0]->source
         );
     }
     
     public function testParseMessageNoCategoryNoSource()
     {
-        $msg = new ezcDebugMessage(
-            '23: Message',
-            E_USER_WARNING,
-            'DefaultSource',
-            'DefaultCategory'
-        );
+        trigger_error( '23: Message', E_USER_WARNING );
+
+        $out = ezcDebug::getInstance()->generateOutput();
         
         $this->assertEquals(
             'Message',
-            $msg->message
+            $out[0][0]->message
         );
         $this->assertEquals(
             23,
-            $msg->verbosity
+            $out[0][0]->verbosity
         );
         $this->assertEquals(
             'DefaultCategory',
-            $msg->category
+            $out[0][0]->category
         );
         $this->assertEquals(
             'DefaultSource',
-            $msg->source
-        );
-        $this->assertEquals(
-            ezcLog::WARNING,
-            $msg->severity
+            $out[0][0]->source
         );
     }
     
     public function testParseMessageSeverityNotice()
     {
-        $msg = new ezcDebugMessage(
-            '[Source, Category] 23: Message',
-            E_USER_NOTICE,
-            'DefaultSource',
-            'DefaultCategory'
-        );
+        trigger_error( '[Source, Category] 23: Message', E_USER_NOTICE );
+
+        $out = ezcDebug::getInstance()->generateOutput();
 
         $this->assertEquals(
             'Message',
-            $msg->message
+            $out[0][0]->message
         );
         $this->assertEquals(
             23,
-            $msg->verbosity
+            $out[0][0]->verbosity
         );
         $this->assertEquals(
             'Category',
-            $msg->category
+            $out[0][0]->category
         );
         $this->assertEquals(
             'Source',
-            $msg->source
-        );
-        $this->assertEquals(
-            ezcLog::NOTICE,
-            $msg->severity
+            $out[0][0]->source
         );
     }
     
     public function testParseMessageSeverityError()
     {
-        $msg = new ezcDebugMessage(
-            '[Source, Category] 23: Message',
-            E_USER_ERROR,
-            'DefaultSource',
-            'DefaultCategory'
-        );
+        trigger_error( '[Source, Category] 23: Message', E_USER_ERROR );
+
+        $out = ezcDebug::getInstance()->generateOutput();
 
         $this->assertEquals(
             'Message',
-            $msg->message
+            $out[0][0]->message
         );
         $this->assertEquals(
             23,
-            $msg->verbosity
+            $out[0][0]->verbosity
         );
         $this->assertEquals(
             'Category',
-            $msg->category
+            $out[0][0]->category
         );
         $this->assertEquals(
             'Source',
-            $msg->source
-        );
-        $this->assertEquals(
-            ezcLog::ERROR,
-            $msg->severity
+            $out[0][0]->source
         );
     }
     
     public function testParseMessageUnknownSeverity()
     {
-        $msg = new ezcDebugMessage(
-            '[Source, Category] 23: Message',
-            42,
-            'DefaultSource',
-            'DefaultCategory'
-        );
+        trigger_error( '[Source, Category] 23: Message', 42 );
+
+        $out = ezcDebug::getInstance()->generateOutput();
 
         $this->assertEquals(
-            'Message',
-            $msg->message
-        );
-        $this->assertEquals(
-            23,
-            $msg->verbosity
-        );
-        $this->assertEquals(
-            'Category',
-            $msg->category
-        );
-        $this->assertEquals(
-            'Source',
-            $msg->source
+            'Invalid error type specified',
+            $out[0][0]->message
         );
         $this->assertEquals(
             false,
-            $msg->severity
+            $out[0][0]->verbosity
+        );
+        $this->assertEquals(
+            'DefaultCategory',
+            $out[0][0]->category
+        );
+        $this->assertEquals(
+            'DefaultSource',
+            $out[0][0]->source
         );
     }
 }
