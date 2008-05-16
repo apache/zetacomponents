@@ -63,6 +63,8 @@ class ezcDocumentRstTokenizer
                 '(\\A(?P<value>[' . self::WHITESPACE_CHARS . ']+))S',
             ezcDocumentRstToken::NEWLINE =>
                 '(\\A(?P<value>\\r\\n|\\r|\\n))S',
+            ezcDocumentRstToken::EOF =>
+                '(\\A(?P<value>))S',
 
             // Sequences of special characters
             ezcDocumentRstToken::SPECIAL_CHARS =>
@@ -164,6 +166,12 @@ class ezcDocumentRstTokenizer
                     if ( $token === ezcDocumentRstToken::WHITESPACE )
                     {
                         $this->convertTabs( $newToken );
+                    }
+
+                    // If we found an explicit EOF token, just exit the parsing process.
+                    if ( $token === ezcDocumentRstToken::EOF )
+                    {
+                        break 2;
                     }
 
                     // Add token to extracted token list
