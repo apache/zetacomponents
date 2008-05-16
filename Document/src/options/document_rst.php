@@ -64,7 +64,7 @@ class ezcDocumentRstOptions extends ezcDocumentBaseOptions
         */
 
             default:
-                throw new ezcBasePropertyNotFoundException( $name );
+                parent::__set( $name, $value );
         }
     }
 }

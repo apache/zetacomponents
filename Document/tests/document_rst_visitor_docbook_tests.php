@@ -106,6 +106,8 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         }
 
         $document = new ezcDocumentRst();
+        $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+
         $document->registerDirective( 'my_custom_directive', 'ezcDocumentTestDummyDirective' );
         $document->registerDirective( 'user', 'ezcDocumentTestDummyDirective' );
         $document->registerDirective( 'book', 'ezcDocumentTestDummyDirective' );

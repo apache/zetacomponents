@@ -560,8 +560,10 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         $fieldName = strtolower( trim( $this->tokenListToString( $node->name ) ) );
         if ( !isset( $fieldListItemMapping[$fieldName] ) )
         {
-            // @TODO: Trigger error.
-            return;
+            return $this->triggerError(
+                E_NOTICE, "Unhandeled field list type '$fieldName'.",
+                null, $node->token->line, $node->token->position
+            );
         }
 
         $item = $this->document->createElement(
