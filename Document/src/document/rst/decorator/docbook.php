@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentRstDocbookDecorator class
+ * File containing the ezcDocumentRstDocbookVisitor class
  *
  * @package Document
  * @version //autogen//
@@ -9,41 +9,41 @@
  */
 
 /**
- * Docbook decorator for the RST AST.
+ * Docbook visitor for the RST AST.
  * 
  * @package Document
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
+class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 {
     /**
-     * Mapping of class names to internal decorators for the respective nodes.
+     * Mapping of class names to internal visitors for the respective nodes.
      * 
      * @var array
      */
-    protected $complexDecorationMapping = array(
-        'ezcDocumentRstSectionNode'               => 'decorateSection',
-        'ezcDocumentRstTextLineNode'              => 'decorateText',
-        'ezcDocumentRstLiteralNode'               => 'decorateText',
-        'ezcDocumentRstExternalReferenceNode'     => 'decorateExternalReference',
-        'ezcDocumentRstReferenceNode'             => 'decorateInternalReference',
-        'ezcDocumentRstAnonymousLinkNode'         => 'decorateAnonymousReference',
-        'ezcDocumentRstMarkupSubstitutionNode'    => 'decorateSubstitutionReference',
-        'ezcDocumentRstMarkupInterpretedTextNode' => 'decorateChildren',
-        'ezcDocumentRstMarkupStrongEmphasisNode'  => 'decorateEmphasisMarkup',
-        'ezcDocumentRstMarkupEmphasisNode'        => 'decorateEmphasisMarkup',
-        'ezcDocumentRstTargetNode'                => 'decorateInlineTarget',
-        'ezcDocumentRstBlockquoteNode'            => 'decorateBlockquote',
-        'ezcDocumentRstEnumeratedListListNode'    => 'decorateEnumeratedList',
-        'ezcDocumentRstDefinitionListNode'        => 'decorateDefinitionListItem',
-        'ezcDocumentRstTableNode'                 => 'decorateTable',
-        'ezcDocumentRstTableCellNode'             => 'decorateTableCell',
-        'ezcDocumentRstFieldListNode'             => 'decorateFieldListItem',
-        'ezcDocumentRstLineBlockNode'             => 'decorateLineBlock',
-        'ezcDocumentRstLineBlockLineNode'         => 'decorateChildren',
-        'ezcDocumentRstDirectiveNode'             => 'decorateDirective',
+    protected $complexVisitMapping = array(
+        'ezcDocumentRstSectionNode'               => 'visitSection',
+        'ezcDocumentRstTextLineNode'              => 'visitText',
+        'ezcDocumentRstLiteralNode'               => 'visitText',
+        'ezcDocumentRstExternalReferenceNode'     => 'visitExternalReference',
+        'ezcDocumentRstReferenceNode'             => 'visitInternalReference',
+        'ezcDocumentRstAnonymousLinkNode'         => 'visitAnonymousReference',
+        'ezcDocumentRstMarkupSubstitutionNode'    => 'visitSubstitutionReference',
+        'ezcDocumentRstMarkupInterpretedTextNode' => 'visitChildren',
+        'ezcDocumentRstMarkupStrongEmphasisNode'  => 'visitEmphasisMarkup',
+        'ezcDocumentRstMarkupEmphasisNode'        => 'visitEmphasisMarkup',
+        'ezcDocumentRstTargetNode'                => 'visitInlineTarget',
+        'ezcDocumentRstBlockquoteNode'            => 'visitBlockquote',
+        'ezcDocumentRstEnumeratedListListNode'    => 'visitEnumeratedList',
+        'ezcDocumentRstDefinitionListNode'        => 'visitDefinitionListItem',
+        'ezcDocumentRstTableNode'                 => 'visitTable',
+        'ezcDocumentRstTableCellNode'             => 'visitTableCell',
+        'ezcDocumentRstFieldListNode'             => 'visitFieldListItem',
+        'ezcDocumentRstLineBlockNode'             => 'visitLineBlock',
+        'ezcDocumentRstLineBlockLineNode'         => 'visitChildren',
+        'ezcDocumentRstDirectiveNode'             => 'visitDirective',
     );
 
     /**
@@ -51,7 +51,7 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
      * 
      * @var array
      */
-    protected $simpleDecorationMapping = array(
+    protected $simpleVisitMapping = array(
         'ezcDocumentRstMarkupInlineLiteralNode' => 'literal',
         'ezcDocumentRstParagraphNode'           => 'para',
         'ezcDocumentRstBulletListListNode'      => 'itemizedlist',
@@ -89,14 +89,14 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
     /**
      * Docarate RST AST
      *
-     * Decorate the RST abstract syntax tree.
+     * Visit the RST abstract syntax tree.
      * 
      * @param ezcDocumentRstDocumentNode $ast 
      * @return mixed
      */
-    public function decorate( ezcDocumentRstDocumentNode $ast )
+    public function visit( ezcDocumentRstDocumentNode $ast )
     {
-        parent::decorate( $ast );
+        parent::visit( $ast );
 
         // Create article from AST
         $this->document = new DOMDocument();
@@ -105,19 +105,19 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
         $root = $this->document->createElement( 'article' );
         $this->document->appendChild( $root );
 
-        // Decorate all childs of the AST root node.
+        // Visit all childs of the AST root node.
         foreach ( $ast->nodes as $node )
         {
-            $this->decorateNode( $root, $node );
+            $this->visitNode( $root, $node );
         }
 
         return $this->document;
     }
 
     /**
-     * Decorate single AST node
+     * Visit single AST node
      *
-     * Decorate a single AST node, may be called for each node found anywhere
+     * Visit a single AST node, may be called for each node found anywhere
      * as child. The current position in the DOMDocument is passed by a
      * reference to the current DOMNode, which is operated on.
      * 
@@ -125,10 +125,10 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateNode( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitNode( DOMNode $root, ezcDocumentRstNode $node )
     {
-        // Iterate over available decorators and use them for node decoration.
-        foreach ( $this->complexDecorationMapping as $class => $method )
+        // Iterate over available visitors and use them to visit the nodes.
+        foreach ( $this->complexVisitMapping as $class => $method )
         {
             if ( $node instanceof $class )
             {
@@ -137,7 +137,7 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
         }
 
         // Check if we have a simple class to element name mapping
-        foreach ( $this->simpleDecorationMapping as $class => $elementName )
+        foreach ( $this->simpleVisitMapping as $class => $elementName )
         {
             if ( $node instanceof $class )
             {
@@ -151,7 +151,7 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
                 foreach ( $node->nodes as $child )
                 {
-                    $this->decorateNode( $element, $child );
+                    $this->visitNode( $element, $child );
                 }
 
                 return;
@@ -167,18 +167,18 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
             }
         }
 
-        // We could not find any valid decorator.
-        throw new ezcDocumentMissingDecoratorException( get_class( $node ) );
+        // We could not find any valid visitor.
+        throw new ezcDocumentMissingVisitorException( get_class( $node ) );
     }
 
     /**
-     * Decorate section node
+     * Visit section node
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateSection( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitSection( DOMNode $root, ezcDocumentRstNode $node )
     {
         $section = $this->document->createElement( 'section' );
         $section->setAttribute( 'id', $this->calculateId( $node->title ) );
@@ -192,18 +192,18 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $section, $child );
+            $this->visitNode( $section, $child );
         }
     }
 
     /**
-     * Decorate text node
+     * Visit text node
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateText( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitText( DOMNode $root, ezcDocumentRstNode $node )
     {
         $root->appendChild(
             new DOMText( $node->token->content )
@@ -211,31 +211,31 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
     }
 
     /**
-     * Decorate children
+     * Visit children
      *
-     * Just recurse into node and decorate its children, ignoring the actual
+     * Just recurse into node and visit its children, ignoring the actual
      * node.
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateChildren( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitChildren( DOMNode $root, ezcDocumentRstNode $node )
     {
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $root, $child );
+            $this->visitNode( $root, $child );
         }
     }
 
     /**
-     * Decorate emphasis markup
+     * Visit emphasis markup
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateEmphasisMarkup( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitEmphasisMarkup( DOMNode $root, ezcDocumentRstNode $node )
     {
         $markup = $this->document->createElement( 'emphasis' );
 
@@ -247,18 +247,18 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $markup, $child );
+            $this->visitNode( $markup, $child );
         }
     }
 
     /**
-     * Decorate external reference node
+     * Visit external reference node
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateExternalReference( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitExternalReference( DOMNode $root, ezcDocumentRstNode $node )
     {
         $target = $this->getNamedExternalReference( $this->nodeToString( $node ) );
 
@@ -268,18 +268,18 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $link, $child );
+            $this->visitNode( $link, $child );
         }
     }
 
     /**
-     * Decorate internal reference node
+     * Visit internal reference node
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateInternalReference( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitInternalReference( DOMNode $root, ezcDocumentRstNode $node )
     {
         $target = $this->hasReferenceTarget( $this->nodeToString( $node ) );
 
@@ -287,7 +287,7 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
         {
             // The displayed label of a footnote may not be specified in
             // docbook, so we just add the footnote node.
-            $this->decorateFootnote( $root, $target );
+            $this->visitFootnote( $root, $target );
         }
         else
         {
@@ -297,19 +297,19 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
             foreach ( $node->nodes as $child )
             {
-                $this->decorateNode( $link, $child );
+                $this->visitNode( $link, $child );
             }
         }
     }
 
     /**
-     * Decorate anonomyous reference node
+     * Visit anonomyous reference node
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateAnonymousReference( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitAnonymousReference( DOMNode $root, ezcDocumentRstNode $node )
     {
         $target = $this->getAnonymousReferenceTarget();
 
@@ -319,36 +319,36 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $link, $child );
+            $this->visitNode( $link, $child );
         }
     }
 
     /**
-     * Decorate substitution reference node
+     * Visit substitution reference node
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateSubstitutionReference( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitSubstitutionReference( DOMNode $root, ezcDocumentRstNode $node )
     {
         if ( ( $substitution = $this->substitute( $this->nodeToString( $node ) ) ) !== null )
         {
             foreach( $substitution as $child )
             {
-                $this->decorateNode( $root, $child );
+                $this->visitNode( $root, $child );
             }
         }
     }
 
     /**
-     * Decorate inline target node
+     * Visit inline target node
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateInlineTarget( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitInlineTarget( DOMNode $root, ezcDocumentRstNode $node )
     {
         $link = $this->document->createElement( 'anchor' );
         $link->setAttribute( 'id', $this->calculateId( $this->nodeToString( $node ) ) );
@@ -356,36 +356,36 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $root, $child );
+            $this->visitNode( $root, $child );
         }
     }
 
     /**
-     * Decorate footnote
+     * Visit footnote
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateFootnote( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitFootnote( DOMNode $root, ezcDocumentRstNode $node )
     {
         $footnote = $this->document->createElement( 'footnote' );
         $root->appendChild( $footnote );
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $footnote, $child );
+            $this->visitNode( $footnote, $child );
         }
     }
 
     /**
-     * Decorate blockquotes
+     * Visit blockquotes
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateBlockquote( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitBlockquote( DOMNode $root, ezcDocumentRstNode $node )
     {
         $quote = $this->document->createElement( 'blockquote' );
         $root->appendChild( $quote );
@@ -395,24 +395,24 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
         {
             $annotation = $this->document->createElement( 'annotation' );
             $quote->appendChild( $annotation );
-            $this->decorateNode( $annotation, $node->annotation->nodes );
+            $this->visitNode( $annotation, $node->annotation->nodes );
         }
 
         // Decoratre blockquote contents
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $quote, $child );
+            $this->visitNode( $quote, $child );
         }
     }
 
     /**
-     * Decorate enumerated lists
+     * Visit enumerated lists
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateEnumeratedList( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitEnumeratedList( DOMNode $root, ezcDocumentRstNode $node )
     {
         $list = $this->document->createElement( 'orderedlist' );
 
@@ -442,21 +442,21 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         $root->appendChild( $list );
 
-        // Decorate list contents
+        // Visit list contents
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $list, $child );
+            $this->visitNode( $list, $child );
         }
     }
 
     /**
-     * Decorate definition list item
+     * Visit definition list item
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateDefinitionListItem( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitDefinitionListItem( DOMNode $root, ezcDocumentRstNode $node )
     {
         $item = $this->document->createElement( 'varlistentry' );
         $root->appendChild( $item );
@@ -469,18 +469,18 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $definition, $child );
+            $this->visitNode( $definition, $child );
         }
     }
 
     /**
-     * Decorate line block
+     * Visit line block
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateLineBlock( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitLineBlock( DOMNode $root, ezcDocumentRstNode $node )
     {
         $para = $this->document->createElement( 'literallayout' );
         $para->setAttribute( 'class', 'Normal' );
@@ -488,18 +488,18 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $para, $child );
+            $this->visitNode( $para, $child );
         }
     }
 
     /**
-     * Decorate table
+     * Visit table
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateTable( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitTable( DOMNode $root, ezcDocumentRstNode $node )
     {
         $table = $this->document->createElement( 'table' );
         $root->appendChild( $table );
@@ -509,18 +509,18 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $group, $child );
+            $this->visitNode( $group, $child );
         }
     }
 
     /**
-     * Decorate table cell
+     * Visit table cell
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateTableCell( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitTableCell( DOMNode $root, ezcDocumentRstNode $node )
     {
         $cell = $this->document->createElement( 'entry' );
         $root->appendChild( $cell );
@@ -534,18 +534,18 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
 
         foreach ( $node->nodes as $child )
         {
-            $this->decorateNode( $cell, $child );
+            $this->visitNode( $cell, $child );
         }
     }
 
     /**
-     * Decorate field list item
+     * Visit field list item
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateFieldListItem( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitFieldListItem( DOMNode $root, ezcDocumentRstNode $node )
     {
         // Get sectioninfo node, to add the stuff there.
         $secInfo = $root->getElementsByTagName( 'sectioninfo' )->item( 0 );
@@ -572,13 +572,13 @@ class ezcDocumentRstDocbookDecorator extends ezcDocumentRstDecorator
     }
 
     /**
-     * Decorate directive
+     * Visit directive
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function decorateDirective( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitDirective( DOMNode $root, ezcDocumentRstNode $node )
     {
         $handlerClass = $this->rst->getDirectiveHandler( $node->identifier );
         $directiveHandler = new $handlerClass( $this->ast, $this->path, $node );

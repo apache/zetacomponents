@@ -9,7 +9,7 @@
  */
 
 /**
- * Decoration handler for RST danger directives
+ * Visitor for RST danger directives
  * 
  * @package Document
  * @version //autogen//

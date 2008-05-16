@@ -9,12 +9,12 @@
  */
 
 /**
- * Exception thrown, when a decorator could not be found for a node / subtree.
+ * Exception thrown, when a visitor could not be found for a node / subtree.
  *
  * @package Document
  * @version //autogentag//
  */
-class ezcDocumentMissingDecoratorException extends ezcDocumentException
+class ezcDocumentMissingVisitorException extends ezcDocumentException
 {
     /**
      * Construct exception from errnous string and current position
@@ -25,7 +25,7 @@ class ezcDocumentMissingDecoratorException extends ezcDocumentException
     public function __construct( $class )
     {
         parent::__construct( 
-            "Could not find decorator for '$class'."
+            "Could not find visitor for '$class'."
         );
     }
 }

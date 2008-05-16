@@ -9,13 +9,13 @@
  */
 
 /**
- * Exception thrown, when the RST decorator could not decorate an AST node
+ * Exception thrown, when the RST visitor could not visit an AST node
  * properly.
  *
  * @package Document
  * @version //autogentag//
  */
-class ezcDocumentDecorationException extends ezcDocumentException
+class ezcDocumentVisitException extends ezcDocumentException
 {
     /**
      * Construct exception from errnous string and current position
@@ -37,7 +37,7 @@ class ezcDocumentDecorationException extends ezcDocumentException
         );
 
         parent::__construct( 
-            sprintf( "Decorator error: %s: '%s' in line %d at position %d.",
+            sprintf( "Visitor error: %s: '%s' in line %d at position %d.",
                 $levelMapping[$level],
                 $message,
                 $line,

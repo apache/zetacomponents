@@ -9,7 +9,7 @@
  */
 
 /**
- * Decoration handler for RST contents directives
+ * Visitor for RST contents directives
  * 
  * @package Document
  * @version //autogen//

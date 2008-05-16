@@ -23,7 +23,7 @@ class ezcDocumentTestDummyDirective extends ezcDocumentRstDirective
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentRstDocbookDecoratorTests extends ezcTestCase
+class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
 {
     protected static $testDocuments = null;
 
@@ -127,7 +127,7 @@ class ezcDocumentRstDocbookDecoratorTests extends ezcTestCase
         $this->assertEquals(
             file_get_contents( $to ),
             $xml,
-            'Document not decorated as expected.'
+            'Document not visited as expected.'
         );
 
         // Remove tempdir, when nothing failed.

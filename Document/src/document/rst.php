@@ -137,9 +137,9 @@ class ezcDocumentRst extends ezcDocument
     {
         $document = new ezcDocumentDocbook();
 
-        $decorator = new ezcDocumentRstDocbookDecorator( $this, $this->path );
+        $visitor = new ezcDocumentRstDocbookVisitor( $this, $this->path );
         $document->setDomDocument(
-            $decorator->decorate( $this->ast, $this->path )
+            $visitor->visit( $this->ast, $this->path )
         );
 
         return $document;

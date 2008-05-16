@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentRstDecorator class
+ * File containing the ezcDocumentRstVisitor class
  *
  * @package Document
  * @version //autogen//
@@ -9,14 +9,14 @@
  */
 
 /**
- * Abstract decorator base for RST documents represented by the parser AST.
+ * Abstract visitor base for RST documents represented by the parser AST.
  * 
  * @package Document
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-abstract class ezcDocumentRstDecorator
+abstract class ezcDocumentRstVisitor
 {
     /**
      * RST document handler
@@ -104,7 +104,7 @@ abstract class ezcDocumentRstDecorator
     const DUBLICATE = 4;
 
     /**
-     * Create decorator from RST document handler.
+     * Create visitor from RST document handler.
      * 
      * @param ezcDocumentRst $document 
      * @param string $path
@@ -117,9 +117,9 @@ abstract class ezcDocumentRstDecorator
     }
 
     /**
-     * Trigger decorator error
+     * Trigger visitor error
      *
-     * Emit a decoration error, and convert it to an exception depending on the
+     * Emit a vistitor error, and convert it to an exception depending on the
      * error reporting settings.
      * 
      * @param int $level 
@@ -133,19 +133,19 @@ abstract class ezcDocumentRstDecorator
     {
         if ( $level & $this->rst->options->errorReporting )
         {
-            throw new ezcDocumentDecorationException( $level, $message, $file, $line, $position );
+            throw new ezcDocumentVisitException( $level, $message, $file, $line, $position );
         }
     }
 
     /**
      * Docarate RST AST
      *
-     * Decorate the RST abstract syntax tree.
+     * Visit the RST abstract syntax tree.
      * 
      * @param ezcDocumentRstDocumentNode $ast 
      * @return mixed
      */
-    public function decorate( ezcDocumentRstDocumentNode $ast )
+    public function visit( ezcDocumentRstDocumentNode $ast )
     {
         $this->ast = $ast;
         $this->preProcessAst( $ast );
