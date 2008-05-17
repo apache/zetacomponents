@@ -31,11 +31,12 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         'ezcDocumentRstMarkupSubstitutionNode'    => 'visitSubstitutionReference',
         'ezcDocumentRstTargetNode'                => 'visitInlineTarget',
         'ezcDocumentRstAnonymousLinkNode'         => 'visitAnonymousReference',
+        'ezcDocumentRstBlockquoteNode'            => 'visitBlockquote',
+        'ezcDocumentRstBulletListListNode'        => 'visitBulletList',
+        'ezcDocumentRstEnumeratedListListNode'    => 'visitEnumeratedList',
         /*
         'ezcDocumentRstLiteralNode'               => 'visitText',
         'ezcDocumentRstReferenceNode'             => 'visitInternalReference',
-        'ezcDocumentRstBlockquoteNode'            => 'visitBlockquote',
-        'ezcDocumentRstEnumeratedListListNode'    => 'visitEnumeratedList',
         'ezcDocumentRstDefinitionListNode'        => 'visitDefinitionListItem',
         'ezcDocumentRstTableNode'                 => 'visitTable',
         'ezcDocumentRstTableCellNode'             => 'visitTableCell',
@@ -56,12 +57,11 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         'ezcDocumentRstMarkupEmphasisNode'       => 'em',
         'ezcDocumentRstMarkupStrongEmphasisNode' => 'strong',
         'ezcDocumentRstMarkupInlineLiteralNode'  => 'code',
+        'ezcDocumentRstBulletListNode'           => 'li',
+        'ezcDocumentRstEnumeratedListNode'       => 'li',
         /*
         'ezcDocumentRstMarkupInlineLiteralNode' => 'literal',
-        'ezcDocumentRstBulletListListNode'      => 'itemizedlist',
         'ezcDocumentRstDefinitionListListNode'  => 'variablelist',
-        'ezcDocumentRstBulletListNode'          => 'listitem',
-        'ezcDocumentRstEnumeratedListNode'      => 'listitem',
         'ezcDocumentRstLiteralBlockNode'        => 'literallayout',
         'ezcDocumentRstCommentNode'             => 'comment',
         'ezcDocumentRstTransitionNode'          => 'beginpage',
@@ -128,6 +128,11 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
         $this->head = $this->document->createElement( 'head' );
         $root->appendChild( $this->head );
+
+        $generator = $this->document->createElement( 'meta' );
+        $generator->setAttribute( 'name', 'generator' );
+        $generator->setAttribute( 'content', 'eZ Components; http://ezcomponents.org' );
+        $this->head->appendChild( $generator );
 
         $body = $this->document->createElement( 'body' );
         $root->appendChild( $body );
@@ -301,6 +306,110 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         foreach ( $node->nodes as $child )
         {
             $this->visitNode( $link, $child );
+        }
+    }
+
+    /**
+     * Visit blockquotes
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitBlockquote( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $quote = $this->document->createElement( 'blockquote' );
+        $root->appendChild( $quote );
+
+        // Decoratre blockquote contents
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $quote, $child );
+        }
+
+        // Add blockquote annotation
+        if ( !empty( $node->annotation ) )
+        {
+            $annotation = $this->document->createElement( 'div' );
+            $annotation->setAttribute( 'class', 'annotation' );
+            $quote->appendChild( $annotation );
+
+            $cite = $this->document->createElement( 'cite' );
+            $annotation->appendChild( $cite );
+
+            $this->visitChildren( $cite, $node->annotation->nodes );
+        }
+    }
+
+    /**
+     * Visit bullet lists
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitBulletList( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $list = $this->document->createElement( 'ul' );
+        $root->appendChild( $list );
+
+        $listTypes = array(
+            '*'            => 'circle',
+            '+'            => 'disc',
+            '-'            => 'square',
+            "\xe2\x80\xa2" => 'disc',
+            "\xe2\x80\xa3" => 'circle',
+            "\xe2\x81\x83" => 'square',
+        );
+        // Not allowed in XHtml strict
+        // $list->setAttribute( 'type', $listTypes[$node->token->content] );
+
+        // Decoratre blockquote contents
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $list, $child );
+        }
+    }
+
+    /**
+     * Visit enumerated lists
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitEnumeratedList( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $list = $this->document->createElement( 'ol' );
+
+        // Detect enumeration type
+        /* Not allowed in XHtml strict
+        switch ( true )
+        {
+            case preg_match( '(^m{0,4}d?c{0,3}l?x{0,3}v{0,3}i{0,3}v?x?l?c?d?m?$)', $node->token->content ):
+                $list->setAttribute( 'type', 'i' );
+                break;
+
+            case preg_match( '(^M{0,4}D?C{0,3}L?X{0,3}V{0,3}I{0,3}V?X?L?C?D?M?$)', $node->token->content ):
+                $list->setAttribute( 'type', 'I' );
+                break;
+
+            case preg_match( '(^[a-z]$)', $node->token->content ):
+                $list->setAttribute( 'type', 'a' );
+                break;
+
+            case preg_match( '(^[A-Z]$)', $node->token->content ):
+                $list->setAttribute( 'type', 'A' );
+                break;
+        }
+        // */
+
+        $root->appendChild( $list );
+
+        // Visit list contents
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $list, $child );
         }
     }
 

@@ -42,6 +42,11 @@ Docbook
   Line blocks and literal blocks are converted to <literalblock> elements,
   only diffing by the given class attribute.
 
+- Bullet list tokens
+
+  The information which kind of bullet list token has been used is completely
+  omitted during the conversion.
+
 XHTML
 -----
 
@@ -50,5 +55,16 @@ XHTML
   XHtml only allows a specification of header levels from 1 to 6. All headers
   with a depth of ≥ 6 contain a class attribute specifying their real depth.
 
+- Blockquote annotations
 
+  There is no XHtml element for blockquote annotations, so that they are
+  transformed to <div class="annotation"/> elements containing <cite>
+  elements, which may be considered as a citation source. This information may
+  be lost during further processing. The cite attribute of blockquotes only
+  accept URIs. 
+
+- Bullet list & ordered list types
+
+  XHtml strict does not allow to specify the type of bullet lists or ordered
+  lists, so that this information is lost during conversion.
 

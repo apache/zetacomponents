@@ -1120,7 +1120,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
     {
         if ( ( $token->content !== '--' ) &&
              ( $token->content !== '---' ) &&
-             // Also the unicode character form EM-Dash is allowed
+             // Also the unicode character for EM-Dash is allowed
              ( $token->content !== "\x20\x14" ) )
         {
             // The special character group is not one of the allowed annotation markers
