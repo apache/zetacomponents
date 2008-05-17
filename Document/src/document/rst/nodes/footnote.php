@@ -28,6 +28,13 @@ class ezcDocumentRstFootnoteNode extends ezcDocumentRstNode
     public $name;
 
     /**
+     * Footnote number
+     * 
+     * @var int
+     */
+    public $number;
+
+    /**
      * Construct RST document node
      * 
      * @param ezcDocumentRstToken $token
@@ -56,7 +63,8 @@ class ezcDocumentRstFootnoteNode extends ezcDocumentRstNode
             $properties['name']
         );
 
-        $node->nodes = $properties['nodes'];
+        $node->nodes  = $properties['nodes'];
+        $node->number = $properties['number'];
         return $node;
     }
 }

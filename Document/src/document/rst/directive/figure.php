@@ -49,6 +49,34 @@ class ezcDocumentRstFigureDirective extends ezcDocumentRstImageDirective
             $caption->appendChild( $paragraph );
         }
     }
+
+    /**
+     * Transform directive to HTML
+     *
+     * Create a XHTML structure at the directives position in the document.
+     * 
+     * @param DOMDocument $document 
+     * @param DOMElement $root 
+     * @return void
+     */
+    public function toXhtml( DOMDocument $document, DOMElement $root )
+    {
+        $box = $document->createElement( 'div' );
+        $box->setAttribute( 'class', 'figure' );
+        $root->appendChild( $box );
+
+        parent::toXhtml( $document, $box );
+
+        $text = '';
+        foreach ( $this->node->nodes as $node )
+        {
+            $text .= $node->token->content;
+        }
+        $text = trim( $text );
+
+        $paragraph = $document->createElement( 'p', htmlspecialchars( $text ) );
+        $box->appendChild( $paragraph );
+    }
 }
 
 ?>

@@ -68,3 +68,16 @@ XHTML
   XHtml strict does not allow to specify the type of bullet lists or ordered
   lists, so that this information is lost during conversion.
 
+- Footnotes
+
+  There is no dedicated XHtml element for footnotes, so that footnotes are
+  referenced inside the text by internal links with the class "footnote", and
+  the actual footnotes are added below the document in lists of the class
+  footnote with the proper reference targets.
+
+- Line blocks
+
+  Line blocks are transformed into paragraphs, where the lines are seperated
+  by <br /> elements. This causes the right formatting, but may lose semantic
+  information.
+

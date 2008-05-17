@@ -86,10 +86,10 @@
             <entry>
               <para>body row 3             </para>
             </entry>
-            <entry morerows="2">
+            <entry morerows="1">
               <para>Cells may   span rows. </para>
             </entry>
-            <entry morerows="2">
+            <entry morerows="1">
               <para>- Table cells       </para>
               <para>- contain           </para>
               <para>- body elements.    </para>
@@ -104,7 +104,7 @@
             <entry>
               <para>body row 5             </para>
             </entry>
-            <entry morerows="2">
+            <entry morerows="1">
               <para>Cells may span rows <emphasis>and</emphasis>        </para>
               <para>columns.                         |</para>
               <blockquote>
@@ -199,10 +199,10 @@
             <entry/>
           </row>
           <row>
-            <entry morerows="2">
+            <entry morerows="1">
               <para>row 2         text...       text...      </para>
             </entry>
-            <entry morerows="2">
+            <entry morerows="1">
               <para>Content </para>
               <blockquote>
                 <para>-----------</para>

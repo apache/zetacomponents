@@ -34,16 +34,14 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         'ezcDocumentRstBlockquoteNode'            => 'visitBlockquote',
         'ezcDocumentRstBulletListListNode'        => 'visitBulletList',
         'ezcDocumentRstEnumeratedListListNode'    => 'visitEnumeratedList',
-        /*
-        'ezcDocumentRstLiteralNode'               => 'visitText',
         'ezcDocumentRstReferenceNode'             => 'visitInternalReference',
+        'ezcDocumentRstLineBlockNode'             => 'visitLineBlock',
+        'ezcDocumentRstLineBlockLineNode'         => 'visitLineBlockLine',
+        'ezcDocumentRstLiteralNode'               => 'visitText',
+        'ezcDocumentRstCommentNode'               => 'visitComment',
         'ezcDocumentRstDefinitionListNode'        => 'visitDefinitionListItem',
-        'ezcDocumentRstTableNode'                 => 'visitTable',
         'ezcDocumentRstTableCellNode'             => 'visitTableCell',
         'ezcDocumentRstFieldListNode'             => 'visitFieldListItem',
-        'ezcDocumentRstLineBlockNode'             => 'visitLineBlock',
-        'ezcDocumentRstLineBlockLineNode'         => 'visitChildren',
-        */
         'ezcDocumentRstDirectiveNode'             => 'visitDirective',
     );
 
@@ -59,15 +57,15 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         'ezcDocumentRstMarkupInlineLiteralNode'  => 'code',
         'ezcDocumentRstBulletListNode'           => 'li',
         'ezcDocumentRstEnumeratedListNode'       => 'li',
+        'ezcDocumentRstLiteralBlockNode'         => 'pre',
+        'ezcDocumentRstTransitionNode'           => 'hr',
+        'ezcDocumentRstDefinitionListListNode'   => 'dl',
+        'ezcDocumentRstTableNode'                => 'table',
+        'ezcDocumentRstTableHeadNode'            => 'thead',
+        'ezcDocumentRstTableBodyNode'            => 'tbody',
+        'ezcDocumentRstTableRowNode'             => 'tr',
         /*
         'ezcDocumentRstMarkupInlineLiteralNode' => 'literal',
-        'ezcDocumentRstDefinitionListListNode'  => 'variablelist',
-        'ezcDocumentRstLiteralBlockNode'        => 'literallayout',
-        'ezcDocumentRstCommentNode'             => 'comment',
-        'ezcDocumentRstTransitionNode'          => 'beginpage',
-        'ezcDocumentRstTableHeadNode'           => 'thead',
-        'ezcDocumentRstTableBodyNode'           => 'tbody',
-        'ezcDocumentRstTableRowNode'            => 'row',
         */
     );
 
@@ -81,9 +79,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         'ezcDocumentRstNamedReferenceNode',
         'ezcDocumentRstAnonymousReferenceNode',
         'ezcDocumentRstSubstitutionNode',
-        /*
         'ezcDocumentRstFootnoteNode',
-        */
     );
 
     /**
@@ -141,6 +137,20 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         foreach ( $ast->nodes as $node )
         {
             $this->visitNode( $body, $node );
+        }
+
+        // Visit all footnotes at the document body
+        foreach ( $this->footnotes as $footnotes )
+        {
+            ksort( $footnotes );
+            $footnoteList = $this->document->createElement( 'ul' );
+            $footnoteList->setAttribute( 'class', 'footnotes' );
+            $body->appendChild( $footnoteList );
+
+            foreach( $footnotes as $footnote )
+            {
+                $this->visitFootnote( $footnoteList, $footnote );
+            }
         }
 
         // Check that all required elements for a valid XHTML document exist
@@ -249,6 +259,31 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     }
 
     /**
+     * Helper function for URL escaping
+     *
+     * Escapes and returns the first value in a match array
+     * 
+     * @param array $values 
+     * @ignore
+     * @return string
+     */
+    protected static function urlEscapeArray( array $values )
+    {
+        return urlencode( $values[0] );
+    }
+
+    /**
+     * Escape all special characters in URIs
+     * 
+     * @param string $url 
+     * @return string
+     */
+    protected function escapeUrl( $url )
+    {
+        return preg_replace_callback( '([^a-z0-9._:/#&?@-]+)', 'ezcDocumentRstXhtmlVisitor::urlEscapeArray', $url );
+    }
+
+    /**
      * Visit external reference node
      * 
      * @param DOMNode $root 
@@ -260,12 +295,45 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         $target = $this->getNamedExternalReference( $this->nodeToString( $node ) );
 
         $link = $this->document->createElement( 'a' );
-        $link->setAttribute( 'href', htmlspecialchars( $target ) );
+        $link->setAttribute( 'href', htmlspecialchars( $this->escapeUrl( $target ) ) );
         $root->appendChild( $link );
 
         foreach ( $node->nodes as $child )
         {
             $this->visitNode( $link, $child );
+        }
+    }
+
+    /**
+     * Visit internal reference node
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitInternalReference( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $target = $this->hasReferenceTarget( $this->nodeToString( $node ) );
+
+        if ( $target instanceof ezcDocumentRstFootnoteNode )
+        {
+            // The displayed label of a footnote may not be specified in
+            // docbook, so we just add the footnote node.
+            $link = $this->document->createElement( 'a', $target->number );
+            $link->setAttribute( 'href', '#' . htmlspecialchars( 'footnote_' . $target->name . '_' . $target->number ) );
+            $link->setAttribute( 'class', 'footnote' );
+            $root->appendChild( $link );
+        }
+        else
+        {
+            $link = $this->document->createElement( 'a' );
+            $link->setAttribute( 'href', '#' . htmlspecialchars( $target ) );
+            $root->appendChild( $link );
+
+            foreach ( $node->nodes as $child )
+            {
+                $this->visitNode( $link, $child );
+            }
         }
     }
 
@@ -300,7 +368,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         $target = $this->getAnonymousReferenceTarget();
 
         $link = $this->document->createElement( 'a' );
-        $link->setAttribute( 'href', htmlspecialchars( $target ) );
+        $link->setAttribute( 'href', htmlspecialchars( $this->escapeUrl( $target ) ) );
         $root->appendChild( $link );
 
         foreach ( $node->nodes as $child )
@@ -411,6 +479,144 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         {
             $this->visitNode( $list, $child );
         }
+    }
+
+    /**
+     * Visit footnote
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitFootnote( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $footnote = $this->document->createElement( 'li' );
+        $root->appendChild( $footnote );
+
+        $link = $this->document->createElement( 'a', $node->number );
+        $link->setAttribute( 'name', htmlspecialchars( 'footnote_' . $node->name . '_' . $node->number ) );
+        $footnote->appendChild( $link );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $footnote, $child );
+        }
+    }
+
+    /**
+     * Visit line block
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitLineBlock( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $block = $this->document->createElement( 'p' );
+        $block->setAttribute( 'class', 'lineblock' );
+        $root->appendChild( $block );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $block, $child );
+        }
+    }
+
+    /**
+     * Visit line block line
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitLineBlockLine( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $root, $child );
+        }
+
+        $break = $this->document->createElement( 'br' );
+        $root->appendChild( $break );
+    }
+
+    /**
+     * Visit comment
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitComment( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $commentText = $this->nodeToString( $node );
+        $comment = new DOMComment( $commentText );
+        $root->appendChild( $comment );
+    }
+
+    /**
+     * Visit definition list item
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitDefinitionListItem( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $term = $this->document->createElement( 'dt', htmlspecialchars( $this->tokenListToString( $node->name ) ) );
+        $root->appendChild( $term );
+
+        $definition = $this->document->createElement( 'dd' );
+        $root->appendChild( $definition );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $definition, $child );
+        }
+    }
+
+    /**
+     * Visit table cell
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitTableCell( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $cell = $this->document->createElement( 'td' );
+        $root->appendChild( $cell );
+
+        if ( $node->rowspan > 1 )
+        {
+            $cell->setAttribute( 'rowspan', $node->rowspan );
+        }
+
+        if ( $node->colspan > 1 )
+        {
+            $cell->setAttribute( 'colspan', $node->colspan );
+        }
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $cell, $child );
+        }
+    }
+
+    /**
+     * Visit field list item
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitFieldListItem( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $fieldName = strtolower( trim( $this->tokenListToString( $node->name ) ) );
+        $meta = $this->document->createElement( 'meta' );
+        $meta->setAttribute( 'name', htmlspecialchars( $fieldName ) );
+        $meta->setAttribute( 'content', htmlspecialchars( trim( $this->nodeToString( $node ) ) ) );
+        $this->head->appendChild( $meta );
     }
 
     /**

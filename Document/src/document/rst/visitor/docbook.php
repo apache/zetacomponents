@@ -530,7 +530,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         // http://www.oasis-open.org/docbook/documentation/reference/html/table.html
         if ( $node->rowspan > 1 )
         {
-            $cell->setAttribute( 'morerows', $node->rowspan );
+            $cell->setAttribute( 'morerows', $node->rowspan - 1 );
         }
 
         foreach ( $node->nodes as $child )

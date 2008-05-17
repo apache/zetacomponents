@@ -338,6 +338,8 @@ abstract class ezcDocumentRstVisitor
         }
 
         // Store footnote for later rendering in footnote array
+        $node->name   = $label;
+        $node->number = $number;
         $this->footnotes[$label][$number] = $node;
     }
 

@@ -87,7 +87,7 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
     protected function toXhtmlImage( DOMDocument $document, DOMElement $root )
     {
         $image = $document->createElement( 'img' );
-        $image->setAttribute( 'src', trim( $this->node->parameters ) );
+        $image->setAttribute( 'src', $file = trim( $this->node->parameters ) );
         $root->appendChild( $image );
 
         // Handle optional settings on images
@@ -102,8 +102,14 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
         {
             if ( isset( $this->node->options[$option] ) )
             {
-                $image->setAttribute( $attribute, htmlspecialchars( $this->node->options[$option] ) );
+                $image->setAttribute( $attribute, htmlspecialchars( trim( $this->node->options[$option] ) ) );
             }
+        }
+
+        // Set default value for required attribute alt, if not provided.
+        if ( !isset( $this->node->options['alt'] ) )
+        {
+            $image->setAttribute( 'alt', basename( $file ) );
         }
     }
 
@@ -119,6 +125,16 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
     public function toXhtml( DOMDocument $document, DOMElement $root )
     {
         $fileInfo = pathInfo( trim(  $this->node->parameters ) );
+
+        // If the image should be embedded directly inside of the body element,
+        // we add another div around it, to make it valid XHTML.
+        if ( $root->tagName === 'body' )
+        {
+            $div = $document->createElement( 'div' );
+            $div->setAttribute( 'class', 'image' );
+            $root->appendChild( $div );
+            $root = $div;
+        }
 
         if ( in_array( strtolower( pathInfo( trim( $this->node->parameters ), PATHINFO_EXTENSION ) ), array( 'swf', 'svg' ) ) )
         {
