@@ -16,21 +16,19 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective
+class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective implements ezcDocumentRstXhtmlDirective
 {
     /**
-     * Transform directive to docbook
+     * Check and return file
      *
-     * Create a docbook XML structure at the directives position in the
-     * document.
+     * Check for the files location, and return the absolute path to the file,
+     * or thorw an exception, if the file could not be found.
      * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
-     * @return void
+     * @param string $file 
+     * @return string
      */
-    public function toDocbook( DOMDocument $document, DOMElement $root )
+    protected function getFile( $file )
     {
-        $file = trim( $this->node->parameters );
         if ( !ezcBaseFile::isAbsolutePath( $file ) )
         {
             // If path to file is not an absolute path, use the given relative
@@ -47,6 +45,23 @@ class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective
         {
             throw new ezcBaseFileNotFoundException( $file );
         }
+
+        return $file;
+    }
+
+    /**
+     * Transform directive to docbook
+     *
+     * Create a docbook XML structure at the directives position in the
+     * document.
+     * 
+     * @param DOMDocument $document 
+     * @param DOMElement $root 
+     * @return void
+     */
+    public function toDocbook( DOMDocument $document, DOMElement $root )
+    {
+        $file = $this->getFile( trim( $this->node->parameters ) );
 
         if ( isset( $this->node->options['literal'] ) )
         {
@@ -67,6 +82,46 @@ class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective
 
             // Import and add the complete parsed document.
             $article = $tree->firstChild;
+            foreach ( $article->childNodes as $child )
+            {
+                $imported = $document->importNode( $child, true );
+                $root->appendChild( $imported );
+            }
+        }
+    }
+
+    /**
+     * Transform directive to HTML
+     *
+     * Create a XHTML structure at the directives position in the document.
+     * 
+     * @param DOMDocument $document 
+     * @param DOMElement $root 
+     * @return void
+     */
+    public function toXhtml( DOMDocument $document, DOMElement $root )
+    {
+        $file = $this->getFile( trim( $this->node->parameters ) );
+
+        if ( isset( $this->node->options['literal'] ) )
+        {
+            // If the file should be included as a literal, just pass it
+            // through in such a block.
+            $literal = $document->createElement( 'pre', htmlspecialchars( file_get_contents( $file ) ) );
+            $root->appendChild( $literal );
+        }
+        else
+        {
+            // Otherwise we reenter the complete parsing process with the new file.
+            $doc = new ezcDocumentRst();
+            $doc->loadFile( $file );
+
+            // Get XHtml DOM tree from the parsed file
+            $html = $doc->getAsXhtml();
+            $tree = $html->getDomDocument();
+
+            // Import all contents below the body node.
+            $article = $tree->getElementsByTagName( 'body' )->item( 0 );
             foreach ( $article->childNodes as $child )
             {
                 $imported = $document->importNode( $child, true );

@@ -26,16 +26,14 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     protected $complexVisitMapping = array(
         'ezcDocumentRstSectionNode'               => 'visitSection',
         'ezcDocumentRstTextLineNode'              => 'visitText',
+        'ezcDocumentRstMarkupInterpretedTextNode' => 'visitChildren',
+        'ezcDocumentRstExternalReferenceNode'     => 'visitExternalReference',
+        'ezcDocumentRstMarkupSubstitutionNode'    => 'visitSubstitutionReference',
+        'ezcDocumentRstTargetNode'                => 'visitInlineTarget',
+        'ezcDocumentRstAnonymousLinkNode'         => 'visitAnonymousReference',
         /*
         'ezcDocumentRstLiteralNode'               => 'visitText',
-        'ezcDocumentRstExternalReferenceNode'     => 'visitExternalReference',
         'ezcDocumentRstReferenceNode'             => 'visitInternalReference',
-        'ezcDocumentRstAnonymousLinkNode'         => 'visitAnonymousReference',
-        'ezcDocumentRstMarkupSubstitutionNode'    => 'visitSubstitutionReference',
-        'ezcDocumentRstMarkupInterpretedTextNode' => 'visitChildren',
-        'ezcDocumentRstMarkupStrongEmphasisNode'  => 'visitEmphasisMarkup',
-        'ezcDocumentRstMarkupEmphasisNode'        => 'visitEmphasisMarkup',
-        'ezcDocumentRstTargetNode'                => 'visitInlineTarget',
         'ezcDocumentRstBlockquoteNode'            => 'visitBlockquote',
         'ezcDocumentRstEnumeratedListListNode'    => 'visitEnumeratedList',
         'ezcDocumentRstDefinitionListNode'        => 'visitDefinitionListItem',
@@ -44,8 +42,8 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         'ezcDocumentRstFieldListNode'             => 'visitFieldListItem',
         'ezcDocumentRstLineBlockNode'             => 'visitLineBlock',
         'ezcDocumentRstLineBlockLineNode'         => 'visitChildren',
-        'ezcDocumentRstDirectiveNode'             => 'visitDirective',
         */
+        'ezcDocumentRstDirectiveNode'             => 'visitDirective',
     );
 
     /**
@@ -54,7 +52,10 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      * @var array
      */
     protected $simpleVisitMapping = array(
-        'ezcDocumentRstParagraphNode'           => 'p',
+        'ezcDocumentRstParagraphNode'            => 'p',
+        'ezcDocumentRstMarkupEmphasisNode'       => 'em',
+        'ezcDocumentRstMarkupStrongEmphasisNode' => 'strong',
+        'ezcDocumentRstMarkupInlineLiteralNode'  => 'code',
         /*
         'ezcDocumentRstMarkupInlineLiteralNode' => 'literal',
         'ezcDocumentRstBulletListListNode'      => 'itemizedlist',
@@ -77,10 +78,10 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      * @var array
      */
     protected $skipNodes = array(
-        /*
         'ezcDocumentRstNamedReferenceNode',
         'ezcDocumentRstAnonymousReferenceNode',
         'ezcDocumentRstSubstitutionNode',
+        /*
         'ezcDocumentRstFootnoteNode',
         */
     );
@@ -135,6 +136,13 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         foreach ( $ast->nodes as $node )
         {
             $this->visitNode( $body, $node );
+        }
+
+        // Check that all required elements for a valid XHTML document exist
+        if ( $this->head->getElementsByTagName( 'title' )->length < 1 )
+        {
+            $title = $this->document->createElement( 'title', 'Empty document' );
+            $this->head->appendChild( $title );
         }
 
         return $this->document;
@@ -218,6 +226,11 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         $header = $this->document->createElement( 'h' . min( 6, ++$this->depth ) );
         $root->appendChild( $header );
 
+        if ( $this->depth >= 6 )
+        {
+            $header->setAttribute( 'class', 'h' . $this->depth );
+        }
+
         $reference = $this->document->createElement( 'a', htmlspecialchars( $titleString ) );
         $reference->setAttribute( 'name', $this->calculateId( $titleString ) );
         $header->appendChild( $reference );
@@ -226,20 +239,69 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         {
             $this->visitNode( $root, $child );
         }
+
+        --$this->depth;
     }
 
     /**
-     * Visit text node
+     * Visit external reference node
      * 
      * @param DOMNode $root 
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function visitText( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitExternalReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $root->appendChild(
-            new DOMText( $node->token->content )
-        );
+        $target = $this->getNamedExternalReference( $this->nodeToString( $node ) );
+
+        $link = $this->document->createElement( 'a' );
+        $link->setAttribute( 'href', htmlspecialchars( $target ) );
+        $root->appendChild( $link );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $link, $child );
+        }
+    }
+
+    /**
+     * Visit inline target node
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitInlineTarget( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $link = $this->document->createElement( 'a' );
+        $link->setAttribute( 'name', $this->calculateId( $this->nodeToString( $node ) ) );
+        $root->appendChild( $link );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $link, $child );
+        }
+    }
+
+    /**
+     * Visit anonomyous reference node
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitAnonymousReference( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $target = $this->getAnonymousReferenceTarget();
+
+        $link = $this->document->createElement( 'a' );
+        $link->setAttribute( 'href', htmlspecialchars( $target ) );
+        $root->appendChild( $link );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $link, $child );
+        }
     }
 
     /**

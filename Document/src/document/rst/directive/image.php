@@ -16,7 +16,7 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcDocumentRstImageDirective extends ezcDocumentRstDirective
+class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ezcDocumentRstXhtmlDirective
 {
     /**
      * Transform directive to docbook
@@ -60,6 +60,73 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective
         if ( isset( $this->node->options['align'] ) )
         {
             $image->setAttribute( 'align', $this->node->options['align'] );
+        }
+    }
+
+    /**
+     * Create iframe for media object
+     * 
+     * @param DOMDocument $document 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function toXhtmlObject( DOMDocument $document, DOMElement $root )
+    {
+        // @TODO: Implement.
+    }
+
+    /**
+     * Create common img element for media object
+     *
+     * For all images we use the common <img> XHtml element.
+     * 
+     * @param DOMDocument $document 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function toXhtmlImage( DOMDocument $document, DOMElement $root )
+    {
+        $image = $document->createElement( 'img' );
+        $image->setAttribute( 'src', trim( $this->node->parameters ) );
+        $root->appendChild( $image );
+
+        // Handle optional settings on images
+        $settings = array(
+            'alt'    => 'alt',
+            'width'  => 'width',
+            'height' => 'height',
+            'align'  => 'class',
+        );
+
+        foreach ( $settings as $option => $attribute )
+        {
+            if ( isset( $this->node->options[$option] ) )
+            {
+                $image->setAttribute( $attribute, htmlspecialchars( $this->node->options[$option] ) );
+            }
+        }
+    }
+
+    /**
+     * Transform directive to HTML
+     *
+     * Create a XHTML structure at the directives position in the document.
+     * 
+     * @param DOMDocument $document 
+     * @param DOMElement $root 
+     * @return void
+     */
+    public function toXhtml( DOMDocument $document, DOMElement $root )
+    {
+        $fileInfo = pathInfo( trim(  $this->node->parameters ) );
+
+        if ( in_array( strtolower( pathInfo( trim( $this->node->parameters ), PATHINFO_EXTENSION ) ), array( 'swf', 'svg' ) ) )
+        {
+            $this->toXhtmlObject( $document, $root );
+        }
+        else
+        {
+            $this->toXhtmlImage( $document, $root );
         }
     }
 }

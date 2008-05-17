@@ -589,6 +589,56 @@ abstract class ezcDocumentRstVisitor
     {
         return preg_replace( '([^a-z0-9-]+)', '_', strtolower( $string ) );
     }
+
+    /**
+     * Visit text node
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitText( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $root->appendChild(
+            new DOMText( $node->token->content )
+        );
+    }
+
+    /**
+     * Visit children
+     *
+     * Just recurse into node and visit its children, ignoring the actual
+     * node.
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitChildren( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $root, $child );
+        }
+    }
+
+    /**
+     * Visit substitution reference node
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitSubstitutionReference( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        if ( ( $substitution = $this->substitute( $this->nodeToString( $node ) ) ) !== null )
+        {
+            foreach( $substitution as $child )
+            {
+                $this->visitNode( $root, $child );
+            }
+        }
+    }
 }
 
 ?>
