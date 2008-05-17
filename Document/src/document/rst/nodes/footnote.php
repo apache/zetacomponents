@@ -64,7 +64,6 @@ class ezcDocumentRstFootnoteNode extends ezcDocumentRstNode
         );
 
         $node->nodes  = $properties['nodes'];
-        $node->number = $properties['number'];
         return $node;
     }
 }
