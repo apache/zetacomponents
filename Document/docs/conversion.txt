@@ -4,9 +4,9 @@ Document conversions
 
 This document aims to document a list of semantic markup elements, which can
 not be converted into one or another markup language, so you have to expect
-loss in the sematic document information during conversions.
+loss in the semantic document information during conversions.
 
-Sourse RST
+Source RST
 ==========
 
 Conversion loss, when the source is a RST document.
@@ -37,10 +37,10 @@ Docbook
   the conversion process. The information about the parts which were
   substituted is completely lost.
 
-- Line blocks / lietaral blocks
+- Line blocks / literal blocks
  
   Line blocks and literal blocks are converted to <literalblock> elements,
-  only diffing by the given class attribute.
+  only differing by the given class attribute.
 
 - Bullet list tokens
 
