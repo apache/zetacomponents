@@ -11,8 +11,8 @@
 /**
  * Class containing the basic options for the ezcDocumentRst
  *
- * @property bool $indentXml
- *           Indent XML on output
+ * @property string $xhtmlVisitor
+ *           Classname of the XHTML visitor to use
  *
  * @package Document
  * @version //autogen//
@@ -30,9 +30,7 @@ class ezcDocumentRstOptions extends ezcDocumentBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        /* More to come...
-        $this->indentXml    = false;
-        */
+        $this->properties['xhtmlVisitor'] = 'ezcDocumentRstXhtmlVisitor';
 
         parent::__construct( $options );
     }
@@ -52,16 +50,14 @@ class ezcDocumentRstOptions extends ezcDocumentBaseOptions
     {
         switch ( $name )
         {
-        /* More to come...
-            case 'indentXml':
-                if ( !is_bool( $value ) )
+            case 'xhtmlVisitor':
+                if ( !is_string( $value ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'bool' );
+                    throw new ezcBaseValueException( $name, $value, 'classname' );
                 }
 
-                $this->properties[$name] = (bool) $value;
+                $this->properties[$name] = $value;
                 break;
-        */
 
             default:
                 parent::__set( $name, $value );

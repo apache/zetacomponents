@@ -16,7 +16,7 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcDocumentRst extends ezcDocument
+class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion
 {
     /**
      * Registered directives
@@ -163,6 +163,31 @@ class ezcDocumentRst extends ezcDocument
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
         // @TODO: Implement
+    }
+
+    /**
+     * Return document compiled to the HTML format
+     * 
+     * The internal document structure is compiled to the HTML format and the
+     * resulting HTML document is returned.
+     *
+     * This is an optional interface for document markup languages which
+     * support a direct transformation to HTML as a shortcut.
+     *
+     * @return ezcDocumentXhtml
+     */
+    public function getAsXhtml()
+    {
+        $document = new ezcDocumentXhtml();
+
+        $visitorClass = $this->options->xhtmlVisitor;
+
+        $visitor = new $visitorClass( $this, $this->path );
+        $document->setDomDocument(
+            $visitor->visit( $this->ast, $this->path )
+        );
+
+        return $document;
     }
 
     /**

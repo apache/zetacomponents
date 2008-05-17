@@ -82,10 +82,27 @@ abstract class ezcDocumentXmlBase extends ezcDocument implements ezcDocumentVali
     }
 
     /**
-     * Return internal document
+     * Set DOMDocument
      *
-     * Return internally used structure, which is an instance of DOMDocument in
-     * case of XML based formats.
+     * Directly set the internally stored DOMDocument object, to spare
+     * additional XML parsing overhead. Setting a broken or invalid docbook
+     * document is not checked here, ebcause validation would cost too much
+     * performace on each set. Be careful what you set here, invalid documents
+     * may lead to unpredictable errors.
+     *
+     * @param DOMDocument $document
+     * @return void
+     */
+    public function setDomDocument( DOMDocument $document )
+    {
+        $this->document = $document;
+    }
+
+    /**
+     * Get DOMDocument
+     *
+     * Directly return the internally stored DOMDocument object, to spare
+     * additional XML parsing overhead.
      * 
      * @return DOMDocument
      */

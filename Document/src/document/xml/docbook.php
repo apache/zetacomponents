@@ -19,13 +19,6 @@
 class ezcDocumentDocbook extends ezcDocumentXmlBase
 {
     /**
-     * Docbook document stored as a DOMDocument.
-     * 
-     * @var DOMDocument
-     */
-    protected $document;
-
-    /**
      * Construct document xml base.
      * 
      * @ignore
@@ -37,36 +30,6 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
         parent::__construct( $options === null ?
             new ezcDocumentDocbookOptions() :
             $options );
-    }
-
-    /**
-     * Set DOMDocument
-     *
-     * Directly set the internally stored DOMDocument object, to spare
-     * additional XML parsing overhead. Setting a broken or invalid docbook
-     * document is not checked here, ebcause validation would cost too much
-     * performace on each set. Be careful what you set here, invalid documents
-     * may lead to unpredictable errors.
-     *
-     * @param DOMDocument $document
-     * @return void
-     */
-    public function setDomDocument( DOMDocument $document )
-    {
-        $this->document = $document;
-    }
-
-    /**
-     * Get DOMDocument
-     *
-     * Directly return the internally stored DOMDocument object, to spare
-     * additional XML parsing overhead.
-     * 
-     * @return DOMDocument
-     */
-    public function getDomDocument()
-    {
-        return $this->document;
     }
 
     /**

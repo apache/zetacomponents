@@ -9,12 +9,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-class ezcDocumentTestDummyDirective extends ezcDocumentRstDirective
+class ezcDocumentTestDummyXhtmlDirective extends ezcDocumentRstDirective implements ezcDocumentRstXhtmlDirective
 {
     public function toDocbook( DOMDocument $document, DOMElement $root )
-    {
-        // Just do nothing
-    }
+    { /* Just do nothing */ }
+
+    public function toXhtml( DOMDocument $document, DOMElement $root )
+    { /* Just do nothing */ }
 }
 
 /**
@@ -23,7 +24,7 @@ class ezcDocumentTestDummyDirective extends ezcDocumentRstDirective
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
+class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
 {
     protected static $testDocuments = null;
 
@@ -37,14 +38,14 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         if ( self::$testDocuments === null )
         {
             // Get a list of all test files from the respektive folder
-            $testFiles = glob( dirname( __FILE__ ) . '/files/rst/docbook/s_*.txt' );
+            $testFiles = glob( dirname( __FILE__ ) . '/files/rst/xhtml/s_*.txt' );
 
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
             {
                 self::$testDocuments[] = array(
                     $file,
-                    substr( $file, 0, -3 ) . 'xml'
+                    substr( $file, 0, -3 ) . 'html'
                 );
             }
         }
@@ -61,7 +62,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
      * @param DOMDocument $document
      * @return void
      */
-    protected function checkDocbook( DOMDocument $document )
+    protected function checkXhtml( DOMDocument $document )
     {
         // Reload document to reassign elements to namespaces.
         $xml = $document->saveXml();
@@ -69,7 +70,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         $document->loadXml( $xml );
 
         $oldSetting = libxml_use_internal_errors( true );
-        $document->schemaValidate( __DIR__ . '/files/schemas/docbook.xsd' );
+        $document->schemaValidate( dirname( __FILE__ ) . '/files/schemas/xhtml1-strict.xsd' );
 
         // Severity types of XML errors
         $errorTypes = array(
@@ -87,7 +88,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
                 $errorTypes[$error->level],
                 $error->line,
                 $error->column,
-                str_replace( '{http://docbook.org/ns/docbook}', 'docbook:', trim( $error->message ) )
+                str_replace( '{http://www.w3.org/1999/xhtml}', 'xhtml:', trim( $error->message ) )
             );
         }
         libxml_clear_errors();
@@ -96,7 +97,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         $this->assertEquals(
             array(),
             $errors,
-            'Docbook document is not valid.'
+            'Xhtml document is not valid.'
         );
     }
 
@@ -113,24 +114,23 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         $document = new ezcDocumentRst();
         $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
 
-        $document->registerDirective( 'my_custom_directive', 'ezcDocumentTestDummyDirective' );
-        $document->registerDirective( 'user', 'ezcDocumentTestDummyDirective' );
-        $document->registerDirective( 'book', 'ezcDocumentTestDummyDirective' );
-        $document->registerDirective( 'function', 'ezcDocumentTestDummyDirective' );
-        $document->registerDirective( 'replace', 'ezcDocumentTestDummyDirective' );
+        $document->registerDirective( 'my_custom_directive', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'user', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'book', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'function', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'replace', 'ezcDocumentTestDummyXhtmlDirective' );
 
         $document->loadFile( $from );
 
-        $docbook = $document->getAsDocbook();
+        $docbook = $document->getAsXhtml();
         $xml = $docbook->save();
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'docbook_' ) . '/';
+        $tempDir = $this->createTempDir( 'html_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
-        // We need a proper XSD first, the current one does not accept legal
-        // XML.
-//        $this->checkDocbook( $docbook->getDomDocument() );
+        // ext/DOM seem inable to handle the  official docbook XSD file.
+        $this->checkXhtml( $docbook->getDomDocument() );
 
         $this->assertEquals(
             file_get_contents( $to ),

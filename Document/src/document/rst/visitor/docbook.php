@@ -102,7 +102,8 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         $this->document = new DOMDocument();
         $this->document->formatOutput = true;
 
-        $root = $this->document->createElement( 'article' );
+//        $root = $this->document->createElement( 'article' );
+        $root = $this->document->createElementNs( 'http://docbook.org/ns/docbook', 'article' );
         $this->document->appendChild( $root );
 
         // Visit all childs of the AST root node.
