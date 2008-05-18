@@ -17,7 +17,7 @@ require_once 'rst_dummy_directives.php';
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
+class ezcDocumentRstXhtmlBodyVisitorTests extends ezcTestCase
 {
     protected static $testDocuments = null;
 
@@ -31,7 +31,7 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         if ( self::$testDocuments === null )
         {
             // Get a list of all test files from the respektive folder
-            $testFiles = glob( dirname( __FILE__ ) . '/files/rst/xhtml/s_*.txt' );
+            $testFiles = glob( dirname( __FILE__ ) . '/files/rst/xhtml_body/s_*.txt' );
 
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
@@ -48,53 +48,6 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
     }
 
     /**
-     * Check docbook for validity
-     *
-     * Check the provided docbook document, that it is valid docbook XML.
-     * 
-     * @param DOMDocument $document
-     * @return void
-     */
-    protected function checkXhtml( DOMDocument $document )
-    {
-        // Reload document to reassign elements to namespaces.
-        $xml = $document->saveXml();
-        $document = new DOMDocument();
-        $document->loadXml( $xml );
-
-        $oldSetting = libxml_use_internal_errors( true );
-        $document->schemaValidate( dirname( __FILE__ ) . '/files/schemas/xhtml1-strict.xsd' );
-
-        // Severity types of XML errors
-        $errorTypes = array(
-            LIBXML_ERR_WARNING => 'Warning',
-            LIBXML_ERR_ERROR   => 'Error',
-            LIBXML_ERR_FATAL   => 'Fatal error',
-        );
-
-        // Get all errors
-        $xmlErrors = libxml_get_errors();
-        $errors = array();
-        foreach ( $xmlErrors as $error )
-        {
-            $errors[] = sprintf( "%s in %d:%d: %s.",
-                $errorTypes[$error->level],
-                $error->line,
-                $error->column,
-                str_replace( '{http://www.w3.org/1999/xhtml}', 'xhtml:', trim( $error->message ) )
-            );
-        }
-        libxml_clear_errors();
-        libxml_use_internal_errors( $oldSetting );
-
-        $this->assertEquals(
-            array(),
-            $errors,
-            'Xhtml document is not valid.'
-        );
-    }
-
-    /**
      * @dataProvider getTestDocuments
      */
     public function testParseRstFile( $from, $to )
@@ -106,6 +59,7 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
 
         $document = new ezcDocumentRst();
         $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+        $document->options->xhtmlVisitor   = 'ezcDocumentRstXhtmlBodyVisitor';
 
         $document->registerDirective( 'my_custom_directive', 'ezcDocumentTestDummyXhtmlDirective' );
         $document->registerDirective( 'user', 'ezcDocumentTestDummyXhtmlDirective' );
@@ -119,11 +73,8 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         $xml = $docbook->save();
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'html_' ) . '/';
+        $tempDir = $this->createTempDir( 'html_body_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
-
-        // ext/DOM seem inable to handle the  official docbook XSD file.
-        $this->checkXhtml( $docbook->getDomDocument() );
 
         $this->assertEquals(
             file_get_contents( $to ),

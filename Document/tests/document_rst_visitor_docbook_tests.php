@@ -9,13 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-class ezcDocumentTestDummyDirective extends ezcDocumentRstDirective
-{
-    public function toDocbook( DOMDocument $document, DOMElement $root )
-    {
-        // Just do nothing
-    }
-}
+require_once 'rst_dummy_directives.php';
 
 /**
  * Test suite for class.
