@@ -538,6 +538,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( ( $this->indentation !== $indentation ) &&
              isset( $this->documentStack[0] ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::PARAGRAPH ) &&
+             ( $this->documentStack[0]->type !== ezcDocumentRstNode::LITERAL_BLOCK ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::BLOCKQUOTE ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::DIRECTIVE ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::BULLET_LIST ) &&
@@ -1147,7 +1148,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
     }
 
     /**
-     * Bullet point lists
+     * Enumerated lists
      *
      * As defined at
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#bullet-lists
@@ -1364,7 +1365,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Check if we should add a text node to the stack first, including a
         // single colon.
-        if ( ( $token->position > 1 ) &&
+        if ( ( $token->position > $this->indentation ) &&
              ( isset( $this->documentStack[0] ) ) &&
              ( in_array( $this->documentStack[0]->type, $this->textNodes ) ) &&
              ( $this->documentStack[0]->token->type !== ezcDocumentRstToken::WHITESPACE ) )
