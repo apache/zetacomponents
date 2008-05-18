@@ -106,10 +106,7 @@
             </entry>
             <entry morerows="1">
               <para>Cells may span rows <emphasis>and</emphasis>        </para>
-              <para>columns.                         |</para>
-              <blockquote>
-                <para>|</para>
-              </blockquote>
+              <para>columns.                         </para>
             </entry>
           </row>
           <row>
@@ -150,10 +147,7 @@
               <para>row 2        </para>
             </entry>
             <entry>
-              <para>             +---+               |</para>
-              <blockquote>
-                <para>|</para>
-              </blockquote>
+              <para>             +---+               </para>
             </entry>
           </row>
           <row>
@@ -357,9 +351,6 @@
             </entry>
             <entry>
               <para>Use the command <literal>ls | more</literal>.   </para>
-              <blockquote>
-                <para>|</para>
-              </blockquote>
             </entry>
           </row>
           <row>

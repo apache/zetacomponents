@@ -2906,7 +2906,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
             // Check if this is a spec token, we want to ignore.
             if ( ( ( $position = array_search( $token->position, $tableSpec, true ) ) !== false ) &&
-                 ( isset( $cells[$row][$position] ) ) )
+                 ( ( isset( $cells[$row][$position] ) ) ||
+                   ( ( $position + 1 ) >= count( $tableSpec ) ) ) )
             {
                 // Skip spec token.
                 continue;

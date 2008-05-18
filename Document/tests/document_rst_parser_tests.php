@@ -73,7 +73,8 @@ class ezcDocumentRstParserTests extends ezcTestCase
         $this->assertEquals(
             $expected,
             $document,
-            'Parsed document does not match expected document.'
+            'Parsed document does not match expected document.',
+            0, 20
         );
 
         // Remove tempdir, when nothing failed.

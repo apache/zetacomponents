@@ -46,7 +46,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'content' => 'This is a special case for bullet lists, where',
                      'line' => 4,
                      'position' => 3,
+                     'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
               ),
                'token' => 
@@ -56,7 +58,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
 ',
                  'line' => 4,
                  'position' => 49,
+                 'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             1 => 
             ezcDocumentRstBulletListNode::__set_state(array(
@@ -88,7 +92,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                          'content' => 'And also wth some other on the same level',
                          'line' => 7,
                          'position' => 5,
+                         'escaped' => false,
                       )),
+                       'identifier' => NULL,
                     )),
                     1 => 
                     ezcDocumentRstTextLineNode::__set_state(array(
@@ -104,7 +110,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                          'content' => '.',
                          'line' => 7,
                          'position' => 46,
+                         'escaped' => false,
                       )),
+                       'identifier' => NULL,
                     )),
                   ),
                    'token' => 
@@ -114,7 +122,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
 ',
                      'line' => 7,
                      'position' => 47,
+                     'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
               ),
                'token' => 
@@ -123,7 +133,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'content' => '-',
                  'line' => 7,
                  'position' => 3,
+                 'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             2 => 
             ezcDocumentRstBulletListNode::__set_state(array(
@@ -152,10 +164,12 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                        'token' => 
                       ezcDocumentRstToken::__set_state(array(
                          'type' => 5,
-                         'content' => 'only one newline is required, but still should work,',
+                         'content' => 'only one newline is required, but still should work, ',
                          'line' => 5,
                          'position' => 5,
+                         'escaped' => false,
                       )),
+                       'identifier' => NULL,
                     )),
                     1 => 
                     ezcDocumentRstTextLineNode::__set_state(array(
@@ -171,7 +185,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                          'content' => 'even with multiline paragraphs',
                          'line' => 6,
                          'position' => 5,
+                         'escaped' => false,
                       )),
+                       'identifier' => NULL,
                     )),
                   ),
                    'token' => 
@@ -181,7 +197,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
 ',
                      'line' => 6,
                      'position' => 35,
+                     'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
               ),
                'token' => 
@@ -190,7 +208,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'content' => '-',
                  'line' => 5,
                  'position' => 3,
+                 'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
           ),
            'token' => 
@@ -199,7 +219,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'content' => '-',
              'line' => 4,
              'position' => 1,
+             'escaped' => false,
           )),
+           'identifier' => NULL,
         )),
         1 => 
         ezcDocumentRstBulletListNode::__set_state(array(
@@ -228,10 +250,12 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'And they may of course also be on a higher level without',
+                     'content' => 'And they may of course also be on a higher level without ',
                      'line' => 8,
                      'position' => 3,
+                     'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
                 1 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
@@ -247,7 +271,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'content' => 'additional newlines',
                      'line' => 9,
                      'position' => 3,
+                     'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
                 2 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
@@ -263,7 +289,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'content' => '.',
                      'line' => 9,
                      'position' => 22,
+                     'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
               ),
                'token' => 
@@ -273,7 +301,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
 ',
                  'line' => 9,
                  'position' => 23,
+                 'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
           ),
            'token' => 
@@ -282,7 +312,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'content' => '-',
              'line' => 8,
              'position' => 1,
+             'escaped' => false,
           )),
+           'identifier' => NULL,
         )),
         2 => 
         ezcDocumentRstParagraphNode::__set_state(array(
@@ -306,7 +338,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'content' => 'This paragraph is obviously not part of the list',
                  'line' => 11,
                  'position' => 1,
+                 'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             1 => 
             ezcDocumentRstTextLineNode::__set_state(array(
@@ -322,7 +356,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'content' => '.',
                  'line' => 11,
                  'position' => 49,
+                 'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
           ),
            'token' => 
@@ -332,7 +368,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
 ',
              'line' => 11,
              'position' => 50,
+             'escaped' => false,
           )),
+           'identifier' => NULL,
         )),
       ),
        'token' => 
@@ -341,9 +379,12 @@ return ezcDocumentRstDocumentNode::__set_state(array(
          'content' => 'Dense bullet list',
          'line' => 1,
          'position' => 1,
+         'escaped' => false,
       )),
+       'identifier' => NULL,
     )),
   ),
    'token' => NULL,
+   'identifier' => NULL,
 ));
 
