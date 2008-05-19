@@ -33,6 +33,12 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
      */
     protected $xsltProcessor = null;
 
+    /**
+     * Array with custom inline tags, as a storage for static calls from the
+     * template.
+     *
+     * @var array
+     */
     protected static $customInlineTags;
 
     /**
