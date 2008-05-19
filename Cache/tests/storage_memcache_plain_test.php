@@ -238,6 +238,43 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
     public function testStorageMemcacheOptions()
     {
         $options = new ezcCacheStorageMemcacheOptions();
+
+        $this->assertEquals(
+            'localhost',
+            $options->host
+        );
+        $this->assertEquals(
+            11211,
+            $options->port
+        );
+        $this->assertEquals(
+            86400,
+            $options->ttl
+        );
+        $this->assertEquals(
+            false,
+            $options->compressed
+        );
+        $this->assertEquals(
+            false,
+            $options->persistent
+        );
+        $this->assertEquals(
+            200000,
+            $options->lockWaitTime
+        );
+        $this->assertEquals(
+            5,
+            $options->maxLockTime
+        );
+        $this->assertEquals(
+            '.ezcLock',
+            $options->lockKey
+        );
+        $this->assertEquals(
+            '.ezcMetaData',
+            $options->metaDataKey
+        );
         
         $this->assertTrue( isset( $options->host ) );
         $this->assertTrue( isset( $options->ttl ) );
@@ -306,6 +343,11 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         $this->assertSetProperty( $options, 'maxLockTime', array( 1, 10 ) );
         $this->assertSetProperty( $options, 'lockKey', array( 'foo' ) );
         $this->assertSetProperty( $options, 'metaDataKey', array( 'foo' ) );
+    }
+
+    public function testCtorWithoutOptions()
+    {
+        $storage = new ezcCacheStorageMemcachePlain();
     }
 
     public function testCacheBackendSingleConnection()

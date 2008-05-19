@@ -57,8 +57,8 @@ class ezcCacheStorageMemcacheOptions extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['host']         = false;
-        $this->properties['port']         = false;
+        $this->properties['host']         = 'localhost';
+        $this->properties['port']         = 11211;
         $this->properties['persistent']   = false;
         $this->properties['compressed']   = false;
         $this->properties['lockWaitTime'] = 200000;
