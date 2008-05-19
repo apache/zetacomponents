@@ -35,17 +35,17 @@ interface ezcCacheStackReplacementStrategy
      *
      * This method needs to take care about storing an item in a given storage.
      * The items $itemId and potential $itemAttributes are given for that
-     * purpose. The $storageConfiguration contains an instance of {@link
+     * purpose. The $conf contains an instance of {@link
      * ezcCacheStackableStorage} which must be used for storing.
      *
      * In addition to these parameters, the method receives the $metaData
      * struct that should be used to store the meta information needed by the
      * replacement strategy. To enable this further information about the
      * storage (like its ID in the stack) are given in the
-     * $storageConfiguration. The meta data should be updated, if an item is
+     * $conf. The meta data should be updated, if an item is
      * successfully stored, as necessary.
      *
-     * The $storageConfiguration also contains the $itemLimit and $freeRate
+     * The $conf also contains the $itemLimit and $freeRate
      * settings, which need to be obeyd.  If $itemLimit is reached and the
      * store() method is called, the $freeRate ammount of $itemLimit needs to
      * be cleaned up in the $storage. To achieve this, first the {@link
@@ -57,14 +57,14 @@ interface ezcCacheStackReplacementStrategy
      * Therefore the {@link ezcCacheStackableStorage->delete()} method also
      * returns an array of item IDs for updating the meta data.
      *
-     * @param ezcCacheStackStorageConfiguration $storageConfiguration
+     * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
      */
     public static function store(
-        ezcCacheStackStorageConfiguration $storageConfiguration,
+        ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $itemData,
@@ -76,20 +76,20 @@ interface ezcCacheStackReplacementStrategy
      *
      * This method needs to take care about restoring an item from a given
      * storage. The items $itemId and potential $itemAttributes are given for
-     * that purpose. The $storageConfiguration contains an instance of {@link
+     * that purpose. The $conf contains an instance of {@link
      * ezcCacheStackableStorage} which must be used to delete the data from.
      *
      * In addition to these parameters, the method receives the $metaData
      * struct that should be used to store the meta information needed by the
      * replacement strategy. To enable this further information about the
      * storage (like its ID in the stack) are given in the
-     * $storageConfiguration. The meta data should be updated, if an item is
+     * $conf. The meta data should be updated, if an item is
      * successfully restored, as necessary.
      *
      * The $search parameter is to be forwarded to the
      * {@ezcCacheStackableStorage->restore()} method.
      *
-     * @param ezcCacheStackStorageConfiguration $storageConfiguration
+     * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -98,7 +98,7 @@ interface ezcCacheStackReplacementStrategy
      * @return mixed Restored data or false.
      */
     public static function restore(
-        ezcCacheStackStorageConfiguration $storageConfiguration,
+        ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $itemAttributes = array(),
@@ -110,7 +110,7 @@ interface ezcCacheStackReplacementStrategy
      *
      * This method needs to take care about deleting an item from a given
      * storage. The items $itemId and potential $itemAttributes are given for
-     * that purpose. The $storageConfiguration contains an instance of {@link
+     * that purpose. The $conf contains an instance of {@link
      * ezcCacheStackableStorage} which must be used to retreive the data from.
      * If no data is found, boolean false must be returned.
      *
@@ -118,13 +118,13 @@ interface ezcCacheStackReplacementStrategy
      * struct that should be used to store the meta information needed by the
      * replacement strategy. To enable this further information about the
      * storage (like its ID in the stack) are given in the
-     * $storageConfiguration. The meta data should be updated, if an item is
+     * $conf. The meta data should be updated, if an item is
      * successfully deleted, as necessary.
      *
      * The $search parameter is to be forwarded to the
      * {@ezcCacheStackableStorage->delete()} method.
      *
-     * @param ezcCacheStackStorageConfiguration $storageConfiguration
+     * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
@@ -133,7 +133,7 @@ interface ezcCacheStackReplacementStrategy
      * @return array(string) Deleted item IDs.
      */
     public static function delete(
-        ezcCacheStackStorageConfiguration $storageConfiguration,
+        ezcCacheStackStorageConfiguration $conf,
         ezcCacheStackMetaData $metaData,
         $itemId,
         $attributes = array(),
