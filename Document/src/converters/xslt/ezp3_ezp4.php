@@ -23,7 +23,7 @@ class ezcDocumentEzp3ToEzp4Converter extends ezcDocumentXsltConverter
     /**
      * Construct new document
      *
-     * @param ezcFooBarOptions $options
+     * @param ezcDocumentEzp3ToEzp4ConverterOptions $options
      */
     public function __construct( ezcDocumentEzp3ToEzp4ConverterOptions $options = null )
     {

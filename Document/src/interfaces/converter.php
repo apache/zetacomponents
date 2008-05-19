@@ -29,12 +29,12 @@ abstract class ezcDocumentConverter
     /**
      * Construct new document
      *
-     * @param ezcFooBarOptions $options
+     * @param ezcDocumentConverterBaseOptions $options
      */
-    public function __construct( ezcDocumentConverterOptions $options = null )
+    public function __construct( ezcDocumentConverterBaseOptions $options = null )
     {
         $this->options = ( $options === null ?
-            new ezcDocumentConverterOptions() :
+            new ezcDocumentConverterBaseOptions() :
             $options );
     }
 

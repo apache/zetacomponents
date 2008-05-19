@@ -37,7 +37,7 @@ abstract class ezcDocumentParser
     /**
      * Construct new document
      *
-     * @param ezcFooBarOptions $options
+     * @param ezcDocumentParserBaseOptions $options
      */
     public function __construct( ezcDocumentParserBaseOptions $options = null )
     {

@@ -35,7 +35,7 @@ abstract class ezcDocument
     /**
      * Construct new document
      *
-     * @param ezcFooBarOptions $options
+     * @param ezcDocumentBaseOptions $options
      */
     public function __construct( ezcDocumentBaseOptions $options = null )
     {

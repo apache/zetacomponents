@@ -3128,7 +3128,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * can be closed, and all items fitting into sections may be aggregated by
      * the respective sections as well.
      * 
-     * @param ezcDocumentRstSectionNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceSection( ezcDocumentRstNode $node )
@@ -3227,7 +3227,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
     /**
      * Reduce blockquote annotation content
      *
-     * @param ezcDocumentRstParagraphNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceBlockquoteAnnotationParagraph( ezcDocumentRstNode $node )
@@ -3247,7 +3247,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
     /**
      * Reduce blockquote annotation
      *
-     * @param ezcDocumentRstParagraphNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceBlockquoteAnnotation( ezcDocumentRstNode $node )
@@ -3271,7 +3271,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Indented paragraphs are blockquotes, which should be wrapped in such a
      * node.
      * 
-     * @param ezcDocumentRstParagraphNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceBlockquote( ezcDocumentRstNode $node )
@@ -3317,7 +3317,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Indented paragraphs are enumerated lists, if prefixed by a enumerated
      * list indicator.
      * 
-     * @param ezcDocumentRstParagraphNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceEnumeratedListParagraph( ezcDocumentRstNode $node )
@@ -3412,7 +3412,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Indented paragraphs are bllet lists, if prefixed by a bullet list
      * indicator.
      * 
-     * @param ezcDocumentRstParagraphNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceBulletListParagraph( ezcDocumentRstNode $node )
@@ -3512,7 +3512,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Called for all items, which may be part of bullet lists. Depending on
      * the indentation level we reduce some amount of items to a bullet list.
      * 
-     * @param ezcDocumentRstBulletListNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceBulletList( ezcDocumentRstNode $node )
@@ -3606,7 +3606,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Called for all items, which may be part of enumerated lists. Depending on
      * the indentation level we reduce some amount of items to a enumerated list.
      * 
-     * @param ezcDocumentRstEnumeratedListNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceEnumeratedList( ezcDocumentRstNode $node )
@@ -3699,7 +3699,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      *
      * Aggregates all nodes which are allowed as subnodes into a paragraph.
      * 
-     * @param ezcDocumentRstParagraphNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceParagraph( ezcDocumentRstNode $node )
@@ -3748,7 +3748,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      *
      * Tries to find the opening tag for a markup definition.
      * 
-     * @param ezcDocumentRstMarkupNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceMarkup( ezcDocumentRstNode $node )
@@ -3809,7 +3809,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Internal targets are listed before the literal markup block, so it may
      * be found and reduced after we found a markup block.
      * 
-     * @param ezcDocumentRstMarkupNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceInternalTarget( ezcDocumentRstNode $node )
@@ -3852,7 +3852,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Reduce references as defined at:
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
      * 
-     * @param ezcDocumentRstMarkupNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceReference( ezcDocumentRstNode $node )
@@ -3916,7 +3916,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * As we do not get workd content out of the tokenizer (too much overhead),
      * we split out the previous text node up, in case we got one.
      * 
-     * @param ezcDocumentRstMarkupNode $node 
+     * @param ezcDocumentRstNode $node 
      * @return void
      */
     protected function reduceLink( ezcDocumentRstNode $node )
