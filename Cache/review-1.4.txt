@@ -16,7 +16,7 @@ Review Alexandru 2008-05-16
 	I also needed apc.enable_cli=1 in php.ini which I didn't know - specify this
     somewhere?
 
-[ ] 2 failed tests in ezcCacheStorageMemcachePlainTest:
+[X] 2 failed tests in ezcCacheStorageMemcachePlainTest:
 
 1) testPurgeNoLimit(ezcCacheStorageMemcachePlainTest)
 Purged IDs not returned correctly.
@@ -54,6 +54,8 @@ Failed asserting that two arrays are equal.
 	# I receive these errors, too, but just occasionally. I currently have no
 	  clue where they result from. I'll investigate more, later. However, I
 	  think it's a Memcache issue.
+
+	  I opened issue #13053 for this, since I need more time to dig into it.
 
 [X] ezcCacheStack: why does pushStorage() use ezcCacheStackStorageConfiguration?
     It could have passed the options right there in the pushStorage() instead of
