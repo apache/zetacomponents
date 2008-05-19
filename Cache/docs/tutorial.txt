@@ -212,6 +212,8 @@ If either of Memcache_ or APC_ PHP extensions is installed, then the caching
 performance can be improved considerably by storing the cache data in memory
 between requests.
 
+.. _APC: http://pecl.php.net/package/APC
+.. _Memcache: http://pecl.php.net/package/Memcache
 
 APC
 ```
@@ -229,43 +231,44 @@ createCache() method is null, because an existing path is not needed.
 .. include:: tutorial_apc_plain.php
    :literal:
 
+Memcache
 ````````
 
-Certain options must be set before creating a Memcache cache storage. See
-ezcCacheStorageMemcacheOptions for more information.
+Certain options must be set before creating a Memcache cache storage. Changing
+these options after the storage has been created does not affect the object in
+any way, since the connection to the Memcache is established in the
+constructor.
 
 host
-  The name of the host running Memcache. Normally this is localhost.
-
+  The name of the host running Memcache. The default is 'localhost'.
 port
-  The port on which to connect to the Memcache host. Normally it is 11211.
-
+  The port on which to connect to the Memcache host. The default is 11211.
 persistent
-  If creating a persistent connection to the Memcache server or not. A
+  Determines if the connection to the Memcache server should be persistent. A
   persistent connection does not close when the script ends. By default this is
   false.
-
 compressed
-  If the data is to be compressed in the cache. The zlib extension is required.
+  If the data is to be compressed in the cache. The zlib extension is required,
+  if this option is set to true. False is the default.
 
 The following example shows how to create and use a plain Memcache storage. It
 is the same as the simple example above, but using the
-ezcCacheStorageMemcachePlain class instead of ezcCacheStorageFilePlain, and
-setting the required options for the storage. The second parameter of the
-createCache() method is null, because an existing path is not needed.
+ezcCacheStorageMemcachePlain class instead of ezcCacheStorageFilePlain. The
+second parameter of the createCache() method is choosen arbitrary, because an
+existing path is not needed. However, the $location parameter takes care for
+the uniqueness of the storage in the manager. The $host an $port options just
+reflect the defaul here, they could also have been left out.
 
 .. include:: tutorial_memcache_plain.php
    :literal:
 
+
+
 More Information
 ================
 
-For more information, see the ezcCacheManager, ezcCacheStorageFile and
-ezcCacheStorageMemory API documentation.
-
-
-.. _APC: http://pecl.php.net/package/APC
-.. _Memcache: http://pecl.php.net/package/Memcache
+For more information, see the ezcCacheManager, ezcCacheStorageFile,
+ezcCacheStorageMemory and ezcCacheStack API documentation.
 
 
 
