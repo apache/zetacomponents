@@ -34,7 +34,7 @@ class ezcUrlTools
      * $str = 'foo[]=bar&openid.nonce=123456';
      *
      * parse_str( $str, $params );
-     * $params = ezcUrlTools::parseQuery( $str );
+     * $params = ezcUrlTools::parseQueryString( $str );
      * </code>
      *
      * In the first case (parse_str()), $params will be:
