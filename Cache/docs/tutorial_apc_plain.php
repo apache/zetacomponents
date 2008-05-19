@@ -6,12 +6,12 @@ $options = array(
     'ttl'   => 30,
 );
 
-ezcCacheManager::createCache( 'simple', null, 'ezcCacheStorageApcPlain', $options );
+ezcCacheManager::createCache( 'apc', 'apc', 'ezcCacheStorageApcPlain', $options );
 
 $myId = 'unique_id_1';
 $mySecondId = 'id_2';
 
-$cache = ezcCacheManager::getCache( 'simple' );
+$cache = ezcCacheManager::getCache( 'apc' );
 
 if ( ( $dataOfFirstItem = $cache->restore( $myId ) ) === false )
 {

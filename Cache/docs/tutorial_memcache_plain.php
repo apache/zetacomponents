@@ -8,12 +8,12 @@ $options = array(
     'port'  => 11211
 );
 
-ezcCacheManager::createCache( 'simple', null, 'ezcCacheStorageMemcachePlain', $options );
+ezcCacheManager::createCache( 'memcache', 'memcache', 'ezcCacheStorageMemcachePlain', $options );
 
 $myId = 'unique_id_1';
 $mySecondId = 'id_2';
 
-$cache = ezcCacheManager::getCache( 'simple' );
+$cache = ezcCacheManager::getCache( 'memcache' );
 
 if ( ( $dataOfFirstItem = $cache->restore( $myId ) ) === false )
 {

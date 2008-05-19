@@ -218,15 +218,19 @@ between requests.
 APC
 ```
 
-There are 2 implementations of APC provided: ezcCacheStorageApcPlain for
-storing cache objects in memory, and ezcCacheStorageFileApcArray for storing
-arrays in memory with file fall-back. The ezcCacheStorageFileApcArray basically
-replaces the ezcCacheStorageFileArray if the APC_ PHP extension is installed.
+To use the APC cache storage, the APC_ PHP extension must be installed
+installed. The corresponding storage class is ezcCacheStorageApcPlain. Note,
+that the other existing APC storage class, ezcCacheStorageApcArray has been
+deprecated in favor of hierarchical caching provided by ezcCacheStack. It is
+not recommended to use this class further on, since it will be removed in the
+next major version of the Cache component.
 
 The following example shows how to create and use a plain APC storage. It is
 the same as the simple example above, but using the ezcCacheStorageApcPlain
 class instead of ezcCacheStorageFilePlain. The second parameter of the
-createCache() method is null, because an existing path is not needed.
+createCache() method is arbitrary, because an existing path is not needed.
+However, the $location ensures the uniqueness of a cache storage in the
+manager. Therefore this parameter should be used accordingly.
 
 .. include:: tutorial_apc_plain.php
    :literal:
