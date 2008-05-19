@@ -16,10 +16,105 @@
  * caching". A cache stack consists of an arbitrary number of cache storages,
  * being sorted from top to bottom. Usually this order reflects the speed of
  * access for the caches: The fastest cache is at the top, the slowest at the
- * bottom.
+ * bottom. Whenever data is stored in the stack, it is stored in all contained
+ * storages. When data is to be restored, the stack will restore it from the
+ * highest storage is is found it. Data is removed from a storage, whenever the
+ * storage reached a configured number of items, using a {@link
+ * ezcCacheStackReplacementStrategy}.
  *
- * @todo More documentation, examples,...
+ * To create a cache stack, multiple storages are necessary. The following
+ * examples assume that $storage1, $storage2 and $storage3 contain objects that
+ * implement the {@link ezcCacheStackableStorage} interface.
+ *
+ * The slowest cache should be at the very bottom of the stack, so that items
+ * don't need to be restored from it that frequently.
+ * <code>
+ *  $stack = new ezcCacheStack( 'stack_id' );
+ *  $stack->pushStorage(
+ *      new ezcCacheStackStorageConfiguration(
+ *          'filesystem_cache',
+ *          $storage1,
+ *          1000000,
+ *          .5
+ *      )
+ *  );
+ * </code>
+ * This operations create a new cache stack and add $storage1 to its very
+ * bottom. The first parameter for {@linke ezcCacheStackStorageConfiguration}
+ * are a unique ID for the storage inside the stack, which should never change.
+ * The second parameter is the storage object itself. Parameter 3 is the
+ * maximum number of items the storage might contain. As soon as this limit ist
+ * reached, 500000 items will be purged from the cache. The latter number is
+ * defined through the fourth parameter, indicating the fraction of the stored
+ * item number, that is to be freed. For freeing, first already outdated items
+ * will be purged. If this does not last, more items will be freed using the
+ * {@link ezcCacheStackReplacementStrategy} used by the stack.
+ *
+ * The following code adds the other 2 storages to the stack, where $storage2
+ * is a memory storage {@link ezcCacheStackMemoryStorage} and $storage3 is a
+ * custom storage implementation, that stores objects in the current requests
+ * memory.
+ * <code>
+ *  $stack->pushStorage(
+ *      new ezcCacheStackStorageConfiguration(
+ *          'apc_storage',
+ *          $storage2,
+ *          10000,
+ *          .8
+ *      )
+ *  );
+ *  $stack->pushStorage(
+ *      new ezcCacheStackStorageConfiguration(
+ *          'custom_storage',
+ *          $storage3,
+ *          50,
+ *          .3
+ *      )
+ *  );
+ * </code>
+ * The second level of the cache build by $storage2. This storage will contain
+ * 10000 items maximum and when it runs full, 8000 items will be deleted from
+ * it. The top level of the cache is the custom cache storage, that will only
+ * contain 50 objects in the currently processed request. If this storage ever
+ * runs full, which should not happen within a request, 15 items will be
+ * removed from it.
+ *
+ * Since the top most storage in this example does not implement {@link
+ * ezcCacheStackMetaDataStorage}, another storage must be defined to be used
+ * for storing meta data about the stack:
+ * <code>
+ *  $stack->options->metaStorage = $storage2;
+ *  $stack->options->replacementStrategy = 'ezcCacheStackLfuReplacementStrategy';
+ * </code>
+ * $storage2 is defined to store the meta information for the stack. In
+ * addition, a different replacement strategy than the default {@link
+ * ezcCacheStackLruReplacementStrategy} replacement strategy is defined. LFU
+ * removes least frequently used items, while LRU deletes least recently used
+ * items from a storage, if it runs full.
+ *
+ * Using the $bubbleUpOnRestore option you can determine, that data which is
+ * restored from a lower storage will be automatically stored in all higher
+ * storages again. The problem with this is, that only the attributes that are
+ * used for restoring will be assigned to the item in higher storages. In
+ * addition, the items will be stored with a fresh TTL. Therefore, this
+ * behavior is not recommended.
+ *
+ * If you want to use a cache stack in combination with {@ezcCacheManager}, you
+ * will most likely want to use {@link ezcCacheStackConfigurator}. This allows
+ * you to let the stack be configured on the fly, when it is used for the first
+ * time in a request.
+ *
+ * Beware, that whenever you change the structure of your stack or the
+ * replacement strategy between 2 requests, you should always perform a
+ * complete {@link ezcCacheStack::reset()} on it. Otherwise, your cache data
+ * might be seriously broken which will result in undefined behaviour of the
+ * stack. Changing the replacement strategy will most possibly result in an
+ * {@link ezcCacheInvalidMetaDataException}.
  * 
+ * @property ezcCacheStackOptions $options
+ *           Options for the cache stack.
+ * @property string $location
+ *           Location of this stack. Unused.
  * @mainclass
  * @package Cache
  * @version //autogentag//
@@ -58,7 +153,7 @@ class ezcCacheStack extends ezcCacheStorage
      *
      * The location can be a free form string that identifies the stack
      * uniquely in the {@link ezcCacheManager}. It is currently not used
-     * internally in the cache.
+     * internally in the stack.
      * 
      * @param string $location 
      * @param ezcCacheStackOptions $options 
