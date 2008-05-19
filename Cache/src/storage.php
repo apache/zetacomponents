@@ -265,7 +265,7 @@ abstract class ezcCacheStorage
      * 
      * @return ezcCacheStorageOptions The options 
      *
-     * @apichange Use $stack->options instead.
+     * @apichange Use $storage->options instead.
      */
     public function getOptions()
     {

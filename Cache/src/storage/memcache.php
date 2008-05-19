@@ -113,6 +113,25 @@ abstract class ezcCacheStorageMemcache extends ezcCacheStorageMemory
         }
     }
 
+    /**
+     * Set new options.
+     *
+     * Overwrites the options with the given ones.
+     * 
+     * @param ezcCacheStorageMemcacheOptions $options The options to set.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If you tried to set a non-existent option value. The accpeted 
+     *         options depend on th ezcCacheStorage implementation and my 
+     *         vary.
+     * @throws ezcBaseValueException
+     *         If the value is not valid for the desired option.
+     * @throws ezcBaseValueException
+     *         If you submit neither an array nor an instance of 
+     *         ezcCacheStorageOptions.
+     *
+     * @apichange Use $storage->options instead.
+     */
     public function setOptions( $options )
     {
         switch ( true )

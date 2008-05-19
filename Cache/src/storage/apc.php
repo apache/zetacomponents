@@ -108,6 +108,18 @@ abstract class ezcCacheStorageApc extends ezcCacheStorageMemory
         }
     }
     
+    /**
+     * Return the currently set options. 
+     *
+     * Return the currently set options. The options are returned on an array 
+     * that has the same format as the one passed to 
+     * {@link ezcCacheStorage::setOptions()}. The possible options for a storage
+     * depend on it's implementation. 
+     * 
+     * @param ezcCacheStorageOptions $options 
+     *
+     * @apichange Use $storage->options instead.
+     */
     public function setOptions( $options )
     {
         switch ( true )

@@ -19,8 +19,11 @@ class ezcCacheStackStorageUsedTwiceException extends ezcCacheException
 {
     /**
      * Creates a new ezcCacheStackStorageUsedTwiceException.
+     *
+     * The $storage is the object that is used twice in the {@link
+     * ezcCacheStack}.
      * 
-     * @param string $id The ID that is already in use.
+     * @param ezcCacheStackableStorage $storage
      * @return void
      */
     function __construct( ezcCacheStackableStorage $storage )

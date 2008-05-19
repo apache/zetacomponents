@@ -307,13 +307,13 @@ class ezcCacheStack extends ezcCacheStorage
     }
 
     /**
-     * Bubbles a restored $item up to all storages before $foundStorageConf. 
+     * Bubbles a restored $item up to all storages above $foundStorageConf. 
      * 
      * @param string $id 
      * @param array $attributes 
      * @param mixed $item 
      * @param ezcCacheStackStorageConfiguration $foundStorageConf 
-     * @return void
+     * @param ezcCacheStackMetaData $metaData
      */
     private function bubbleUp( $id, array $attributes, $item, ezcCacheStackStorageConfiguration $foundStorageConf, ezcCacheStackMetaData $metaData )
     {
@@ -477,26 +477,17 @@ class ezcCacheStack extends ezcCacheStorage
      * Add a storage to the top of the stack.
      *
      * This method is used to add a new storage to the top of the cache. The
-     * given ID should be unique over all caches and *must* at least be unique
-     * for this cache stack. If the $location parameter is used properly, this
-     * can deal perfectly as the ID here.
+     * $storageConf of type {@link ezcCacheStackStorageConfiguration} consists
+     * of the actual {@link ezcCacheStackableStorage} and other information.
      *
-     * The ID given here may not be changed during request, since it is used in
-     * an essential way internally. If you need to change the ID, you are
-     * required to {@link ezcCacheStack::reset()} the whole stack.
-     * 
-     * Caches once added to the stack can be removed using {@link
-     * ezcCacheStack::popStorage()}. You can retrieve the storages contained in
-     * the stack via {@link ezcCacheStack::getStackedCaches()}. However, it is
-     * not recommended to manually {@link ezcCacheStackableStorage::store()},
-     * {@link ezcCacheStackableStorage::restore()} or {@link
-     * ezcCacheStackableStorage::delete()} items manually in these caches. This
-     * may seriously harm consistency of the stack and lead to undefined and
-     * unpredictable results!
+     * Most importantly, the configuration object contains an ID, which must be
+     * unique within the whole storage. The itemLimit setting determines how
+     * many items might be stored in the storage at all. freeRate determines
+     * which fraction of itemLimit will be freed by the {@link
+     * ezcCacheStackStackReplacementStrategy} of the stack, when the storage
+     * runs full.
      *
-     * @param string $id 
      * @param ezcCacheStackStorageConfiguration $storageConf 
-     * @return void
      */
     public function pushStorage( ezcCacheStackStorageConfiguration $storageConf )
     {

@@ -13,6 +13,7 @@
  * Base class for LRU and LFU replacement strategies.
  *
  * This class implements the LRU and LFU replacement strategies generically.
+ *
  * <ul>
  *  <li>{@link ezcCacheStackLruReplacementStrategy}</li>
  *  <li>{@link ezcCacheStackLfuReplacementStrategy}</li>
@@ -26,6 +27,9 @@
  * $metaData is an instance of the correct class. In other cases, an {@link
  * ezcCacheInvalidMetaDataException} must be throwen.
  *
+ * For more information on replacement strategies please refer to {@see
+ * http://en.wikipedia.org/wiki/Cache_algorithms}.
+ *
  * @package Cache
  * @version //autogen//
  *
@@ -34,38 +38,28 @@
 abstract class ezcCacheStackBaseReplacementStrategy implements ezcCacheStackReplacementStrategy
 {
     /**
-     * Stores the given $itemData in the given storage.
+     * Stores the given $itemData in the storage given in $conf.
      *
-     * This method stores the given $itemData under the given $itemId and
-     * assigns the given $itemAttributes to it in the {@link
-     * ezcCacheStackableStorage} configured in $conf. The
-     * storing results in an update of $metaData, reflecting that the item with
-     * $itemId was recently used.
+     * This method stores the given $itemData assigned to $itemId and
+     * optionally $itemAttributes in the {@link ezcCacheStackableStorage} given
+     * in $conf. In case the storage has reached the $itemLimit defined in
+     * $conf, it must be freed according to $freeRate {@link
+     * ezcCacheStackStorageConfiguration}.
      *
-     * The $itemId, $itemData and $itemAttributes parameters correspond to
-     * those of {@link ezcCacheStorage::store()}.
+     * The freeing of items from the storage must first happen via {@link
+     * ezcCacheStackableStorage::purge()}, which removes outdated items from
+     * the storage and returns the affected IDs. In case this does not last to
+     * free the desired number of items, the replacement strategy specific
+     * algorithm for freeing takes effect.
      *
-     * In case the storage configured in $conf ({@link
-     * ezcCacheStackStorageConfiguration::$storage}) exceeds the maximum number
-     * of items allowed to be stored ({@link
-     * ezcCacheStackStorageConfiguration::$itemLimit}), the amount of {@link
-     * ezcCacheStackStorageConfiguration::$freeRate} will be purged from the
-     * storage. In this case such items that are outdated by their TTL will be
-     * purged. If this does not last, further items will be purged using the
-     * LRU (least recently used) replacement strategy.
-     *
-     * For more information on LRU see {@see
-     * http://en.wikipedia.org/wiki/Cache_algorithms}.
+     * After the necessary freeing process has been performed, the item is
+     * stored in the storage and the $metaData is updated accordingly.
      *
      * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
      * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
-     *
-     * @throws ezcCacheInvalidMetaDataException
-     *         if the given $metaData is not processable by this replacement
-     *         strategy.
      */
     public static function store(
         ezcCacheStackStorageConfiguration $conf,
@@ -100,7 +94,7 @@ abstract class ezcCacheStackBaseReplacementStrategy implements ezcCacheStackRepl
      * (determined from {@link ezcCacheStackMetaData}) will be removed from the
      * storage using {@link ezcCacheStackableStorage::delete()}.
      * 
-     * @param ezcCacheStackableStorage $conf 
+     * @param ezcCacheStackStorageConfiguration $conf 
      * @param ezcCacheStackMetaData $metaData
      * @param int $freeNum
      */
@@ -143,18 +137,25 @@ abstract class ezcCacheStackBaseReplacementStrategy implements ezcCacheStackRepl
     }
 
     /**
-     * Restores the data with the given $dataId from the given $storage.
+     * Restores the data with the given $dataId from the storage given in $conf.
      *
-     * @TODO: Document.
+     * This method takes care of restoring the item with ID $itemId and
+     * optionally $itemAttributes from the {@link ezcCacheStackableStorage}
+     * given in $conf. The parameters $itemId, $itemAttributes and $search are
+     * forwarded to {@link ezcCacheStackableStorage::restore()}, the returned
+     * value (item data on successful restore, otherwise false) are returned by
+     * this method.
+     *
+     * The method must take care that the restore process is reflected in
+     * $metaData according to the spcific replacement strategy implementation.
      *
      * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
-     * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
+     * @param bool $search
      *
      * @return mixed Restored data or false.
-     *
      * @throws ezcCacheInvalidMetaDataException
      *         if the given $metaData is not processable by this replacement
      *         strategy.
@@ -190,16 +191,20 @@ abstract class ezcCacheStackBaseReplacementStrategy implements ezcCacheStackRepl
     /**
      * Deletes the data with the given $itemId from the given $storage.
      *
-     * @TODO: Document.
+     * This method takes care about deleting the item identified by $itemId and
+     * optionally $itemAttributes from the {@link ezcCacheStackableStorage}
+     * give in $conf. The parameters $itemId, $itemAttributes and $search are
+     * therefore forwarded to {@link ezcCacheStackableStorage::delete()}. This
+     * method returns a list of all item IDs that have been deleted by the
+     * call. The method reflects these changes in $metaData.
      *
      * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
-     * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
+     * @param bool $search
      *
      * @return array(string) Deleted item IDs.
-     *
      * @throws ezcCacheInvalidMetaDataException
      *         if the given $metaData is not processable by this replacement
      *         strategy.

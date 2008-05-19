@@ -11,12 +11,34 @@
 
 /**
  * ezcCacheStackStorageConfiguration 
- * 
+ *
+ * Configuration for a {@link ezcCacheStackableStorage} inside an {@link
+ * ezcCacheStack}. The configuration consists of a string $id that identifies
+ * the $storage uniquely inside the stack. The $itemLimit is the maximum number
+ * of items that might be stored in the $storage at once. This number is
+ * determined by the used {@link ezcCacheStackMetaData} used in the stack. The
+ * $freeRate is the fraction of $itemLimit that will be freed by the used
+ * {@link ezcCacheStackReplacementStrategy} when the storage runs full.
+ *
+ * @property-read string $id
+ *                The unique ID of the configured storage in the stack.
+ * @property-read ezcCacheStackableStorage $storage
+ *                The storage that is configured with this configuration. A
+ *                storage might only be part of 1 stack and this only once.
+ * @property-read int $itemLimit
+ *                Maximum number of items to be stored in $storage.
+ * @property-read float $freeRate
+ *                Fraction of $itemLimit that is freed if $storage runs full.
  * @package Cache
  * @version //autogen//
  */
 class ezcCacheStackStorageConfiguration
 {
+    /**
+     * Properties
+     * 
+     * @var array(string=>mixed)
+     */
     protected $properties = array(
         'id'        => null,
         'storage'   => null,
@@ -31,6 +53,9 @@ class ezcCacheStackStorageConfiguration
      * that, once set, these values cannot be changed anymore to avoid
      * inconsistencies in the stack. For details about the parameters, please
      * refer to the properties documentation of this class.
+     *
+     * Note that the properties can only be set once, using this constructore,
+     * and are not changeable via property access.
      * 
      * @param string $id 
      * @param ezcCacheStackableStorage $storage 

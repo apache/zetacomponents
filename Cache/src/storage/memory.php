@@ -342,7 +342,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
             $deleted = false;
             foreach( $identifiers as $identifier => $data )
             {
-                if ( $ttl !== false && $this->calcLifetime( $identifier ) > 0 )
+                if ( $ttl !== false && $this->calcLifetime( $identifier ) >= $ttl )
                 {
                     // Since ID <-> identifier mapping is ambigious, this does
                     // not ensure that all data for an ID is deleted. However,

@@ -493,11 +493,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
     /**
      * Resets the whole storage.
      *
-     * Deletes all data in the storage.
-     *
-     * @TODO ezcCacheStackMetaDataStorage functionality should be reset, too.
-     * 
-     * @return void
+     * Deletes all data in the storage including {@link ezcCacheStackMetaData}
+     * that was stored using {@link storeMetaData()}.
      */
     public function reset()
     {

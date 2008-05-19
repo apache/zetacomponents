@@ -18,7 +18,8 @@
  *  <li>{@link ezcCacheStackLfuMetaData}</li>
  * </ul>
  *
- * Private to not expose internal APIs.
+ * Private to not expose internal APIs, yet. Might become public in future
+ * releases.
  *
  * @package Cache
  * @version //autogen//

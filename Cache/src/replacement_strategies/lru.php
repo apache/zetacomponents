@@ -15,13 +15,17 @@
  * This replacement strategy will purge items first that have been used least
  * recently. In case the {@link ezcCacheStackableStorage} this replacement
  * strategy works on runs full, first all outdated items (which are older than
- * TTL) will be purged. If this does not last to achieve the desired free rate
- * of the storage, items will be purged that have not been stored or restored
- * for the longest time, until the free rate is reached.
+ * TTL) will be purged. If this does not last to achieve the desired free rate,
+ * items will be purged that have not been stored or restored for the longest
+ * time, until the free rate is reached.
  *
  * This class is not intended to be used directly, but should be configured to
  * be used by an {@link ezcCacheStack} instance. This can be achieved via
- * {@link ezcCacheStackOptions}.
+ * {@link ezcCacheStackOptions}. The meta data class used by this class is
+ * {@link ezcCacheStackLruMetaData}.
+ *
+ * For more information on LRU see {@see
+ * http://en.wikipedia.org/wiki/Cache_algorithms}.
  *
  * @package Cache
  * @version //autogentag//
@@ -37,20 +41,12 @@ class ezcCacheStackLruReplacementStrategy extends ezcCacheStackBaseReplacementSt
      * storing results in an update of $metaData, reflecting that the item with
      * $itemId was recently used.
      *
-     * The $itemId, $itemData and $itemAttributes parameters correspond to
-     * those of {@link ezcCacheStorage::store()}.
-     *
-     * In case the storage configured in $conf ({@link
-     * ezcCacheStackStorageConfiguration::$storage}) exceeds the maximum number
-     * of items allowed to be stored ({@link
-     * ezcCacheStackStorageConfiguration::$itemLimit}), the amount of {@link
-     * ezcCacheStackStorageConfiguration::$freeRate} will be purged from the
-     * storage. In this case such items that are outdated by their TTL will be
-     * purged. If this does not last, further items will be purged using the
-     * LRU (least recently used) replacement strategy.
-     *
-     * For more information on LRU see {@see
-     * http://en.wikipedia.org/wiki/Cache_algorithms}.
+     * In case the number of items in the storage exceeds $conf->itemLimit,
+     * items will be deleted from the storage. First all outdated items will be
+     * removed using {@link ezcCacheStackableStorage::purge()}. If this does
+     * not free the desired $conf->freeRate fraction of $conf->itemLimit, those
+     * items that have been used least recently will be deleted. The changes of
+     * freeing items are recorded in $metaData.
      *
      * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
@@ -58,9 +54,11 @@ class ezcCacheStackLruReplacementStrategy extends ezcCacheStackBaseReplacementSt
      * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
      *
+     * @see ezcCacheStackReplacementStrategy::store()
+     *
      * @throws ezcCacheInvalidMetaDataException
-     *         if the given $metaData is not processable by this replacement
-     *         strategy.
+     *         if the given $metaData is not an instance of {@link
+     *         ezcCacheStackLruMetaData}.
      */
     public static function store(
         ezcCacheStackStorageConfiguration $conf,
@@ -75,21 +73,31 @@ class ezcCacheStackLruReplacementStrategy extends ezcCacheStackBaseReplacementSt
     }
 
     /**
-     * Restores the data with the given $dataId from the given $storage.
+     * Restores the data with the given $itemId from the storage configured in $conf.
      *
-     * @TODO: Document.
+     * This method restores the item data identified by $itemId and optionally
+     * $itemAttributes from the {@link ezcCacheStackableStorage} given in
+     * $conf using {@link ezcCacheStackableStorage::restore()}. The result of
+     * this action is returned by the method. This means, the desired item data
+     * is returned on success, false is returned if the data is not available.
+     *
+     * A successful restore is recorded in $metaData as a "recent usage", with
+     * updating the last usage timestamp of $itemId to the current time. A
+     * restore failure results in a removal of $itemId.
      *
      * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
-     * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
+     * @param bool $search
+     *
+     * @see ezcCacheStackReplacementStrategy::restore()
      *
      * @return mixed Restored data or false.
      *
      * @throws ezcCacheInvalidMetaDataException
-     *         if the given $metaData is not processable by this replacement
-     *         strategy.
+     *         if the given $metaData is not an instance of {@link
+     *         ezcCacheStackLruMetaData}.
      */
     public static function restore(
         ezcCacheStackStorageConfiguration $conf,
@@ -106,19 +114,24 @@ class ezcCacheStackLruReplacementStrategy extends ezcCacheStackBaseReplacementSt
     /**
      * Deletes the data with the given $itemId from the given $storage.
      *
-     * @TODO: Document.
+     * Deletes the desired item with $itemId and optionally $itemAttributes
+     * from the {@link ezcCacheStackableStorage} configured in $conf using. The
+     * item IDs returned by this call are updated in $metaData, that they are
+     * no longer stored in the $storage.
      *
      * @param ezcCacheStackStorageConfiguration $conf
      * @param ezcCacheStackMetaData $metaData
      * @param string $itemId
-     * @param mixed $itemData
      * @param array(string=>string) $itemAttributes
+     * @param bool $search
+     *
+     * @see ezcCacheStackReplacementStrategy::delete()
      *
      * @return array(string) Deleted item IDs.
      *
      * @throws ezcCacheInvalidMetaDataException
-     *         if the given $metaData is not processable by this replacement
-     *         strategy.
+     *         if the given $metaData is not an instance of {@link
+     *         ezcCacheStackLruMetaData}.
      */
     public static function delete(
         ezcCacheStackStorageConfiguration $conf,
@@ -152,8 +165,8 @@ class ezcCacheStackLruReplacementStrategy extends ezcCacheStackBaseReplacementSt
      * @param ezcCacheStackMetaData $metaData 
      *
      * @throws ezcCacheInvalidMetaDataException
-     *         if the given $metaData is not processable by this replacement
-     *         strategy.
+     *         if the given $metaData is not an instance of {@link
+     *         ezcCacheStackLruMetaData}.
      *
      * @access private
      */

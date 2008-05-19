@@ -14,6 +14,22 @@
  * 
  * This options class is used with {@link ezcCacheStack} instances.
  *
+ * The $configurator property is special, since it only takes effect during
+ * construction of the stack. The idea is, to use this in combination with
+ * {@link ezcCacheManager}. The method {@link
+ * ezcCacheStackConfigurator::configure()} will called by the constructor of
+ * {@link ezcCacheStack}. Inside this method, the configuration of the stack
+ * can happen as needed. Therefore, the {@link ezcCacheStackableStorage}
+ * instances for the stack do not need to exist when the stack is configured in
+ * the {@link ezcCacheManager}.
+ *
+ * The rest of the options is used as usual to affect the behavior of the
+ * {@link ezcCacheStack}. However, it is highly recommended to not change
+ * $metaStorage and $replacementStrategy once they have been set for a stack.
+ * If these options are changed, the whole stack needs to be resetted using
+ * {@link ezcCacheStack::reset()}. Aside of that, the previous $metaStorage
+ * needs to be resetted.
+ *
  * @property string $configurator
  *           Name of a class implementing ezcCacheStackConfigurator. This class
  *           will be used right after construction of the stack, to perform
@@ -37,7 +53,6 @@
  *           while restoring the desired item. Also the lifetime of the item
  *           will practically be reset, since higher storages will start with a
  *           fresh TTL value.
- *
  * @package Cache
  * @version //autogen//
  */

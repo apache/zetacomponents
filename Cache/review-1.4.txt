@@ -3,7 +3,7 @@ Review Alexandru 2008-05-16
 
 [ ] the tutorial needs to be updated with the new stackable storage.
 
-[ ] run docanalisys.php on Cache:
+[X] run docanalisys.php on Cache:
     - missing method docblocks.
     - missing or wrong parameters.
     - @deprecated tag could be instead @apichange? It is not recognized.
@@ -50,6 +50,11 @@ Failed asserting that two arrays are equal.
 
 /home/as/dev/ezcomponents/trunk/Cache/tests/storage_memcache_plain_test.php:567
 
+
+	# I receive these errors, too, but just occasionally. I currently have no
+	  clue where they result from. I'll investigate more, later. However, I
+	  think it's a Memcache issue.
+
 [X] ezcCacheStack: why does pushStorage() use ezcCacheStackStorageConfiguration?
     It could have passed the options right there in the pushStorage() instead of
     creating yet another object. Like:
@@ -74,7 +79,7 @@ Failed asserting that two arrays are equal.
 	  consumes less memory than storing the actual ID twice, which would by
 	  copied.
 
-[ ] Are all options from ezcCacheStackOptions tested in different combinations?
+[X] Are all options from ezcCacheStackOptions tested in different combinations?
     LRU, LRU+bubbleUp, LRU+bubbleUp+metaStorage, LRU+metaStorage
     LFU, LFU+bubbleUp, LFU+bubbleUp+metaStorage, LFU+metaStorage
 
@@ -116,7 +121,7 @@ $conf = new ezcCacheStackStorageConfiguration( 'apc', $apc, 1, 0.9 );
 $cache->pushStorage( $conf );
 $cache = ezcCacheManager::getCache( 'cache' );
 
-[ ] Some tests files contain multiple classes (eg complex_stack_test.php). They
+[X] Some tests files contain multiple classes (eg complex_stack_test.php). They
     should be separated in different files because it might impede running the
     test case on its own.
 
