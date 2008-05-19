@@ -101,7 +101,7 @@ A simple example
 This example shows how to create and use a simple cache with
 ezcCacheManager:
 
-.. include:: tutorial_example_01.php
+.. include:: tutorial_simple_cache_manager.php
    :literal:
 
 Time-to-live is defined as 30 seconds in this case; if left
@@ -153,7 +153,7 @@ Using multiple caches
 
 The following example shows how the cache manager deals with multiple caches:
 
-.. include:: tutorial_example_02.php
+.. include:: tutorial_multiple_caches_manager.php
    :literal:
 
 In lines 12 and 13, two caches are created. Each `cache`_ must
@@ -181,7 +181,7 @@ Complex caching
 As the next example shows, the ezcCacheStorage class is capable of more advanced
 features. This example uses extra attributes in addition to the `cache key`_:
 
-.. include:: tutorial_example_03.php
+.. include:: tutorial_complex_cache_manager.php
    :literal:
 
 After the creation of an array `cache`_, some sample data is created (lines
@@ -229,16 +229,6 @@ createCache() method is null, because an existing path is not needed.
 .. include:: tutorial_apc_plain.php
    :literal:
 
-
-The following example shows how to create and use an APC array storage. It is
-the same as the second example above, but using the ezcCacheStorageFileApcArray
-class instead of ezcCacheStorageFileArray. The second parameter of the
-createCache() method must be an existing writeable path.
-
-.. include:: tutorial_apc_array.php
-   :literal:
-
-Memcache
 ````````
 
 Certain options must be set before creating a Memcache cache storage. See
