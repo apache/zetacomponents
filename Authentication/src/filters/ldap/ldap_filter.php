@@ -265,7 +265,7 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
         // bind anonymously to see if username exists in the directory
         if ( @ldap_bind( $connection ) )
         {
-            $search = ldap_list( $connection, $this->ldap->base, str_replace( '%id%', $credentials->id, $this->ldap->format ), $this->requestedData );
+            $search = ldap_search( $connection, $this->ldap->base, str_replace( '%id%', $credentials->id, $this->ldap->format ), $this->requestedData );
             if ( ldap_count_entries( $connection, $search ) === 0 )
             {
                 ldap_close( $connection );
@@ -275,16 +275,22 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
             // username exists, so check if we can bind with the provided password
             if ( @ldap_bind( $connection, str_replace( '%id%', $credentials->id, $this->ldap->format ) . ',' . $this->ldap->base, $credentials->password ) )
             {
+                // retrieve extra authentication data
                 if ( count( $this->requestedData ) > 0 )
                 {
-                    $entries = ldap_get_entries( $connection, $search );
-                    $entry = $entries[0];
+                    $entry = ldap_first_entry( $connection, $search );
+                    $attributes = ldap_get_attributes( $connection, $entry );
 
                     foreach ( $this->requestedData as $attribute )
                     {
-                        for ( $i = 0; $i < $entry[$attribute]['count']; $i++ )
+                        // ignore case of $attribute
+                        if ( isset( $attributes[$attribute] )
+                             || isset( $attributes[strtolower( $attribute )] ) )
                         {
-                            $this->data[$attribute][] = $entry[$attribute][$i];
+                            for ( $i = 0; $i < $attributes[$attribute]['count']; $i++ )
+                            {
+                                $this->data[$attribute][] = $attributes[$attribute][$i];
+                            }
                         }
                     }
                 }
@@ -297,7 +303,11 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
         // bind failed, so something must be wrong (connection error or password incorrect)
         $err = ldap_errno( $connection );
         ldap_close( $connection );
-        if ( $err !== 0)
+
+        // error codes: 0 = success, 49 = invalidCredentials, 50 = insufficientAccessRights
+        // so if any other codes appear it must mean that we could not connect to
+        // the LDAP host
+        if ( $err !== 0 && $err !== 49 && $err !== 50 )
         {
             throw new ezcAuthenticationLdapException( "Could not connect to host '{$protocol}{$this->ldap->host}:{$this->ldap->port}'", $err, ldap_err2str( $err ) );
         }

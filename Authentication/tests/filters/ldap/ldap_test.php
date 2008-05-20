@@ -88,7 +88,7 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
         }
         catch ( ezcAuthenticationLdapException $e )
         {
-            $this->assertEquals( "Could not connect to host 'ldap://unknown_host:" . self::$port . "'. (0x51)", $e->getMessage() );
+            $this->assertEquals( "Could not connect to host 'ldap://unknown_host:" . self::$port . "': Can't contact LDAP server (code: 81)", $e->getMessage() );
         }
     }
 
@@ -105,7 +105,7 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
         }
         catch ( ezcAuthenticationLdapException $e )
         {
-            $this->assertEquals( "Could not connect to host 'ldap://" . self::$host . ':' . self::$portSSL . "'. (0x51)", $e->getMessage() );
+            $this->assertEquals( "Could not connect to host 'ldap://" . self::$host . ':' . self::$portSSL . "': Can't contact LDAP server (code: 81)", $e->getMessage() );
         }
     }
 
@@ -289,18 +289,43 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
         $this->assertEquals( $expected, $filter->fetchData() );
     }
 
+    /**
+     * Test for issue #12992 (case-sensitivity problems for LDAP registerFetchData()).
+     */
+    public function testLdapFetchExtraDataSubdirectory()
+    {
+        $base = self::$base;
+        self::$base = 'ou=Users,dc=foo,dc=bar';
+        $credentials = new ezcAuthenticationPasswordCredentials( 'johnny.doe', '12345' );
+        $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
+        $authentication = new ezcAuthentication( $credentials );
+        $filter = new ezcAuthenticationLdapFilter( $ldap );
+        $filter->registerFetchData( array( 'uid', 'displayName' ) );
+        $authentication->addFilter( $filter );
+        $this->assertEquals( true, $authentication->run() );
+
+        $expected = array( 'uid' => array( 'johnny.doe' ), 'displayName' => array ( 'Johnny Doe' ) );
+        $this->assertEquals( $expected, $filter->fetchData() );
+        self::$base = $base;
+    }
+
+    /**
+     * Modified test for issue #12992 (case-sensitivity problems for LDAP registerFetchData()).
+     *
+     * Modified 'objectclass' into 'objectClass'.
+     */
     public function testLdapFetchExtraDataObjectClass()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
         $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
         $authentication = new ezcAuthentication( $credentials );
         $filter = new ezcAuthenticationLdapFilter( $ldap );
-        $filter->registerFetchData( array( 'uid', 'objectclass' ) );
+        $filter->registerFetchData( array( 'uid', 'objectClass' ) );
         $authentication->addFilter( $filter );
         $this->assertEquals( true, $authentication->run() );
 
         $expected = array( 'uid' => array( 'jan.modaal' ),
-                           'objectclass' => array( 'account', 'simpleSecurityObject', 'top' )
+                           'objectClass' => array( 'account', 'simpleSecurityObject', 'top' )
                          );
         $this->assertEquals( $expected, $filter->fetchData() );
     }

@@ -5,6 +5,8 @@
   customize the return URL on OpenID authentification.
 - Fixed the issue where a failed connection to an LDAP server would not be
   detected.
+- Fixed issue #12992: LDAP registerFetchData() now correctly fetches normal
+  case attributes (eg. 'displayName').
 
 
 1.1 - Monday 17 December 2007
