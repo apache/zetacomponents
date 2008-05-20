@@ -7,6 +7,6 @@ Review Alexandru 2008-05-08
 [X] Why is $this->properties['map'] = array(); in the constructor? $this-map
     is assigned on the following line anyway.
 
-[ ] The @property tag for ezcConsoleDialogQuestionMappingValidator contain a wrong
+[X] The @property tag for ezcConsoleDialogQuestionMappingValidator contain a wrong
     description for $conversion - TYPE_* instead of CONVERT_* constants. Same for
     other validator classes.

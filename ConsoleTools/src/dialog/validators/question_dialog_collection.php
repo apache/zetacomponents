@@ -22,7 +22,9 @@
  * @property mixed $default
  *           Default value.
  * @property int $conversion
- *           ezcConsoleQuestionDialogCollectionValidator::TYPE_*.
+ *           ezcConsoleDialogValidator::CONVERT_NONE (default) or
+ *           ezcConsoleDialogValidator::CONVERT_LOWER or
+ *           ezcConsoleDialogValidator::CONVERT_UPPER.
  */
 class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionDialogValidator
 {

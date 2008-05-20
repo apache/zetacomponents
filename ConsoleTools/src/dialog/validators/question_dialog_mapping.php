@@ -46,7 +46,9 @@
  * @property mixed $default
  *           Default value.
  * @property int $conversion
- *           ezcConsoleQuestionDialogMappingValidator::TYPE_*.
+ *           ezcConsoleDialogValidator::CONVERT_NONE (default) or
+ *           ezcConsoleDialogValidator::CONVERT_LOWER or
+ *           ezcConsoleDialogValidator::CONVERT_UPPER.
  * @property array(string=>string) $map
  *           Mapping of answers to valid answers (e.g. array('yes' => 'y') to
  *           map 'yes' to 'y' while 'y' must be in $collection).

@@ -23,7 +23,10 @@
  *
  * @property array $elements The elements of the menu.
  * @property string $default The default value.
- * @property int $conversion A conversion to perform on the result.
+ * @property int $conversion
+ *           ezcConsoleDialogValidator::CONVERT_NONE (default) or
+ *           ezcConsoleDialogValidator::CONVERT_LOWER or
+ *           ezcConsoleDialogValidator::CONVERT_UPPER.
  */
 class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValidator
 {
