@@ -69,53 +69,45 @@ class ezcFeedEntryElement extends ezcFeedElement
             case 'description':
             case 'comments':
             case 'copyright':
-                $element = new ezcFeedTextElement();
+                $element = $this->add( $name );
                 $element->text = $value;
-                $this->properties[$name] = $element;
                 break;
 
             case 'content':
-                $element = new ezcFeedContentElement();
+                $element = $this->add( $name );
                 $element->text = $value;
-                $this->properties[$name] = $element;
                 break;
 
             case 'author':
             case 'contributor':
-                $element = new ezcFeedPersonElement();
+                $element = $this->add( $name );
                 $element->name = $value;
-                $this->properties[$name] = $element;
                 break;
 
             case 'updated':
             case 'published':
-                $element = new ezcFeedDateElement();
+                $element = $this->add( $name );
                 $element->date = $value;
-                $this->properties[$name] = $element;
                 break;
 
             case 'id':
-                $element = new ezcFeedIdElement();
+                $element = $this->add( $name );
                 $element->id = $value;
-                $this->properties[$name] = $element;
                 break;
 
             case 'link':
-                $element = new ezcFeedLinkElement();
+                $element = $this->add( $name );
                 $element->href = $value;
-                $this->properties[$name] = $element;
                 break;
 
             case 'enclosure':
-                $element = new ezcFeedLinkElement();
+                $element = $this->add( $name );
                 $element->link = $value;
-                $this->properties[$name] = $element;
                 break;
 
             case 'source':
-                $element = new ezcFeedSourceElement();
+                $element = $this->add( $name );
                 $element->source = $value;
-                $this->properties[$name] = $element;
                 break;
 
             default:

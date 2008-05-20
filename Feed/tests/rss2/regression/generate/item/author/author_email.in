@@ -1,0 +1,11 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( array( 'href' => 'Feed link' ) ),
+              'description' => 'Feed description',
+			  'item' => array( array( 'title' => 'Item title',
+                                      'link' => 'Item link',
+                                      'description' => 'Item description',
+                                      'author' => array( array( 'name' => 'Item author name',
+                                                                'email' => 'Item author email' ) ) ), ),
+            );
+?>

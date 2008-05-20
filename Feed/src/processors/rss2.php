@@ -642,7 +642,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                             break;
 
                         case 'author':
-                            $this->generatePerson( $metaData, $itemTag, 'author' );
+                            foreach ( $metaData as $person )
+                            {
+                                $this->generatePerson( $person, $itemTag, 'author' );
+                            }
                             break;
 
                         case 'published':
