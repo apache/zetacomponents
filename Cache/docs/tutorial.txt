@@ -26,6 +26,12 @@ ezcCacheStorage
   This is the base class for all cache storage (the cache classes themselves).
   All cache classes inherit from this base class.
 
+ezcCacheStack
+  Using this class, multiple cache storages can be combined using a technique
+  called "hierarchical caching". This wors similar to how CPU and file system
+  caches work. For mor information please refer to the `Hierarchical caching`_
+  section.
+
 ezcCacheStorageFilePlain
   Cache objects of this class are capable of storing plain text data on the file
   system. It utilizes the file_get_contents() and file_put_contents() PHP
@@ -266,7 +272,142 @@ reflect the defaul here, they could also have been left out.
 .. include:: tutorial_memcache_plain.php
    :literal:
 
+Hierarchical caching
+--------------------
 
+The ezcCacheStack class allows you to build a stack of arbitrary cache storages
+that implement ezcCacheStackable storage. This stack allows you to combine very
+fast caches (like APC and Memcache), which are mostly small, with slower ones,
+that are usually quite large. Similar techniques are used in CPU caches and
+file system caches.
+
+Whenever data is stored in a cache stack, it is stored in all of the stacked
+storages. For each of the storages, an $itemLimit is configured that determines
+how many items may reside in a cache. If this limit is reached for a storage
+during the store operation of a new item, a certain ammount of items is removed
+from that storage to free up space. The fraction of $itemLimit that is freed
+when reaching the limit is the $freeRate of the storage.
+
+A simple stack
+``````````````
+
+The following example shows how 2 caches are combined to a stack. Asume that
+$storageApc contains an instance of ezcCacheStorageApcPlain and $storageFile
+contains an instance of ezcCacheStorageFileArray.
+
+.. include:: tutorial_stack_simple.php
+   :literal:
+
+The ezcCacheStack class (which is itself a descendant of ezcCacheStorage) is
+initialized with an arbitrary location string. This string is actually not
+used, since a stack does not need a dedicated location. However, the
+ezcCacheManager needs this identifier for sanitity checks, so it should be a
+sensible key.
+
+The method ezcCacheStack->push() adds a new ezcCacheStackableStorage to the
+stack. Therefore, the $fileStorage is resides on the very bottom of the stack
+and the APC storage is at the top. All implementations of ezcCacheStorage
+inside the Cache component also implement ezcCacheStackableStoragel, so you can
+stack all of them. To ease the internal handling of the storage configurations,
+the ezcCacheStackStorageConfiguration class is used. In addition, objects of
+this type perform sanity checks on their parameters.
+
+The first parameter to the constructor of a storage configuration is an
+identifier which identifies the storage uniquely inside a stack. If you make
+consequent use of ezcCacheManager and the $location parameter of each storage,
+you should use the ezcCacheStorage->$location here, since it is already unique
+over all storages. Remember, that you never change the identifier of the
+storage in the stack between requests, without calling ezcCacheStack->reset().
+This will considerably harm your stored data and produce unpredicatable
+behavior of the stack.
+
+The third parameter to ezcCacheStackStorageConfiguration->__construct() is the
+item limit for that storage. In this sense, $fileStorage may contain up to a
+million items, while $apcStorage may only contain 1,000. The last parameter
+is the $freeRate assigned to the storage. If the $fileStorage reaches 1,000,000
+items, 500,000 of them will be freed. For the APC storage, only 300 items will
+be removed when the item limit is reached.
+
+For the freeing of items, the cache stack first purges all outdated items from
+the affected storage using ezcCacheStackableStorage->purge(). If this does not
+remove the desired number of items, a special replacement strategy is utilized
+to free up more items. In the example above, the replacement strategy
+ezcCacheStackLfuReplacementStrategy (*LRU* = Least Frequently Used) is chosen.
+This strategy will record every access (store/restore) to a cache item and will
+purge those first, which have been least frequently accessed. The default
+replacement strategy is ezcCacheStackLruReplacementStrategy (*LRU* = Least
+Recently Used), which removes such items first, that have been accessed least
+recently.
+
+Usually, the faster caches will run full first in will therefore be purged
+first. The result is, that these caches contain the "most important" (depending
+on the replacement strategy) items. Items which are not used that much will be
+purged from fast caches soon and will only be stored in the slower caches. The
+stack will always restore an item from the storage in which it is found first.
+
+As you have seen in the above example, storing and restoring with caches works
+exactly like with other cache storages.
+
+Stacks and ezcCacheManager
+``````````````````````````
+
+The ezcCacheManager is used to lazy initilize cache objects when they are first
+needed in your application and to make caches globally available. On a first
+glance this does not work with ezcCacheStack, since ready to use
+ezcCacheStackableStorages are needed for its configuration. To allow lazy
+initialization, a class that implements ezcCacheStackConfigurator can be used.
+
+.. include:: tutorial_stack_manager.php
+
+This example configures a similar stack than the previous one. Instead of doing
+so directly, a new class myCustomConfigurator is created which extends
+ezcCacheStackConfigurator. The static configure() method is defined by this
+interface and creates the storages (or receives them from the manager) to add
+them to the given stack.
+
+The class is configured to be used as the configurator through the options
+array that is given to ezcCacheManager->createCache(). The speciallity about
+this option is, that it is only used once: During the actual construction of
+the stack, when it is first requested from the manager. In this case,
+ezcCacheStack::__construct() calls myCustomConfigurator::configure() and
+submits the fresh created stack instance to it.
+
+Another option is showen in this example: $bubbleUpOnRestore. If this option
+is set, every item that is restored from a lower level storage will be stored
+in the caches above it again. While this sounds sensible at a first glance, it
+has some fundamental draw backs:
+
+- The "bubble up" process might again result in other items being purged from
+  upper storages. This can make restoring much slower.
+- The restored item is only stored with the attributes assigned which have been
+  used for restoring it. If more attributes were assigned to that item, these
+  are lost in the upper storages.
+- The time to live (TTL) of the item will be re-newed for the upper storages.
+
+Stack meta data
+```````````````
+
+An ezcCacheStack instance needs to store certain meta data, which is actually
+related to the used replacement strategy. The meta data is quite sensitive and
+depends heavily on the layout of your stack. Therefore you must always perform
+a ezcCacheStack->reset() in case you change the layout of your stack. This will
+clean up all data from the storages in the stack and also clean up the meta
+data. Remember that you also reset a storage that has been removed from a
+stack, before using it with another one, since it might have meta data stored.
+
+The meta data used by a stack is stored in one of the storages inside it. If
+not configured otherwise, the top most storage is chosen for this, since it is
+usually the fastest one. However cases exist where the top most storage is not
+suitable as the meta data storage. These are:
+
+- If you implemented your own storage which does not implement
+  ezcCacheMetaDataStorage.
+- If the top most storage is only local to the current request or server, but
+  the environment is distributed on several servers.
+
+In both cases you can configure the meta data storage manually, using the
+$metaStorage property of ezcCacheStackOptions, which must contain an object
+implementing the ezcCacheMetaDataStorage interface.
 
 More Information
 ================

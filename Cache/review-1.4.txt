@@ -1,7 +1,7 @@
 Review Alexandru 2008-05-16
 ===========================
 
-[ ] the tutorial needs to be updated with the new stackable storage.
+[X] the tutorial needs to be updated with the new stackable storage.
 
 [X] run docanalisys.php on Cache:
     - missing method docblocks.
