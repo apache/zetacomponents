@@ -28,8 +28,8 @@ ezcCacheStorage
 
 ezcCacheStack
   Using this class, multiple cache storages can be combined using a technique
-  called "hierarchical caching". This wors similar to how CPU and file system
-  caches work. For mor information please refer to the `Hierarchical caching`_
+  called "hierarchical caching". This works similar to how CPU and file system
+  caches work. For more information please refer to the `Hierarchical caching`_
   section.
 
 ezcCacheStorageFilePlain
@@ -79,7 +79,7 @@ A `cache`_ is identified by a `cache identifier`_ and contains a number of
 
 _`Cache`
   A location that stores `cache item`_ s. A cache is created with
-  ezcCacheManager::createCache(), preferrably at the beginning of your script.
+  ezcCacheManager::createCache(), preferably at the beginning of your script.
   A cache with its `cache identifier`_ - the first parameter to
   ezcCacheManager::createCache() - can only be created once. After it has been
   created, you can reference it by calling ezcCacheManager::getCache(), using
@@ -264,7 +264,7 @@ compressed
 The following example shows how to create and use a plain Memcache storage. It
 is the same as the simple example above, but using the
 ezcCacheStorageMemcachePlain class instead of ezcCacheStorageFilePlain. The
-second parameter of the createCache() method is choosen arbitrary, because an
+second parameter of the createCache() method is chosen arbitrary, because an
 existing path is not needed. However, the $location parameter takes care for
 the uniqueness of the storage in the manager. The $host an $port options just
 reflect the defaul here, they could also have been left out.
@@ -284,14 +284,14 @@ file system caches.
 Whenever data is stored in a cache stack, it is stored in all of the stacked
 storages. For each of the storages, an $itemLimit is configured that determines
 how many items may reside in a cache. If this limit is reached for a storage
-during the store operation of a new item, a certain ammount of items is removed
+during the store operation of a new item, a certain amount of items is removed
 from that storage to free up space. The fraction of $itemLimit that is freed
 when reaching the limit is the $freeRate of the storage.
 
 A simple stack
 ``````````````
 
-The following example shows how 2 caches are combined to a stack. Asume that
+The following example shows how 2 caches are combined to a stack. Assume that
 $storageApc contains an instance of ezcCacheStorageApcPlain and $storageFile
 contains an instance of ezcCacheStorageFileArray.
 
@@ -301,7 +301,7 @@ contains an instance of ezcCacheStorageFileArray.
 The ezcCacheStack class (which is itself a descendant of ezcCacheStorage) is
 initialized with an arbitrary location string. This string is actually not
 used, since a stack does not need a dedicated location. However, the
-ezcCacheManager needs this identifier for sanitity checks, so it should be a
+ezcCacheManager needs this identifier for sanity checks, so it should be a
 sensible key.
 
 The method ezcCacheStack->push() adds a new ezcCacheStackableStorage to the
@@ -318,7 +318,7 @@ consequent use of ezcCacheManager and the $location parameter of each storage,
 you should use the ezcCacheStorage->$location here, since it is already unique
 over all storages. Remember, that you never change the identifier of the
 storage in the stack between requests, without calling ezcCacheStack->reset().
-This will considerably harm your stored data and produce unpredicatable
+This will considerably harm your stored data and produce unpredictable
 behavior of the stack.
 
 The third parameter to ezcCacheStackStorageConfiguration->__construct() is the
@@ -351,7 +351,7 @@ exactly like with other cache storages.
 Stacks and ezcCacheManager
 ``````````````````````````
 
-The ezcCacheManager is used to lazy initilize cache objects when they are first
+The ezcCacheManager is used to lazy initialize cache objects when they are first
 needed in your application and to make caches globally available. On a first
 glance this does not work with ezcCacheStack, since ready to use
 ezcCacheStackableStorages are needed for its configuration. To allow lazy
@@ -366,14 +366,14 @@ ezcCacheStackConfigurator. The static configure() method is defined by this
 interface and creates the storages (or receives them from the manager) to add
 them to the given stack.
 
-The class is configured to be used as the configurator through the options
-array that is given to ezcCacheManager->createCache(). The speciallity about
+The class is configured to be used as the $configurator through the options
+array that is given to ezcCacheManager->createCache(). The speciality about
 this option is, that it is only used once: During the actual construction of
 the stack, when it is first requested from the manager. In this case,
 ezcCacheStack::__construct() calls myCustomConfigurator::configure() and
 submits the fresh created stack instance to it.
 
-Another option is showen in this example: $bubbleUpOnRestore. If this option
+Another option is shown in this example: $bubbleUpOnRestore. If this option
 is set, every item that is restored from a lower level storage will be stored
 in the caches above it again. While this sounds sensible at a first glance, it
 has some fundamental draw backs:
