@@ -1,0 +1,22 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( 'text' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'item' => array( array( 'id' => 'Entry id 1',
+                                      'title' => 'Entry title 1',
+                                      'updated' => 'Entry updated 1',
+                                      'content' => 'Entry content 1',
+                                      'enclosure' => array( 'url' => 'Enclosure url 1',
+                                                            'length' => 1200,
+                                                            'type' => 'Enclosure type 1' ) ),
+                               array( 'id' => 'Entry id 1',
+                                      'title' => 'Entry title 1',
+                                      'updated' => 'Entry updated 1',
+                                      'content' => 'Entry content 1',
+                                      'enclosure' => array( 'url' => 'Enclosure url 2',
+                                                            'length' => 2400,
+                                                            'type' => 'Enclosure type 2' ) ), ),
+            );
+?>

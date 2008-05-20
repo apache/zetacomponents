@@ -1,0 +1,15 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( 'text' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'item' => array( array( 'id' => 'Entry id',
+                                      'title' => 'Entry title',
+                                      'updated' => 'Entry updated',
+                                      'content' => 'Entry content',
+                                      'enclosure' => array( 'url' => 'Enclosure url',
+                                                            'length' => 1200,
+                                                            'type' => 'Enclosure type' ) ), ),
+            );
+?>

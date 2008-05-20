@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>Feed id</id>
+  <title type="text">Feed title</title>
+  <updated>XXX</updated>
+  <author>
+    <name>Author name</name>
+  </author>
+  <generator>XXX</generator>
+  <entry>
+    <id>Entry id</id>
+    <title>Entry title</title>
+    <updated>XXX</updated>
+    <content>Entry content</content>
+    <link href="Enclosure url" rel="enclosure" type="Enclosure type" length="1200"/>
+  </entry>
+</feed>
