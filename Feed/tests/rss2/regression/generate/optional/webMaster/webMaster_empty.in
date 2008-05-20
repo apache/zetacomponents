@@ -1,0 +1,7 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( array( 'href' => 'Feed link' ) ),
+              'description' => 'Feed description',
+              'webMaster' => array( array() ),
+            );
+?>

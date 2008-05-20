@@ -358,7 +358,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                     case 'webMaster':
                         foreach ( $this->webMaster as $person )
                         {
-                            $this->generatePerson( $data, $this->channel, 'webMaster' );
+                            $this->generatePerson( $person, $this->channel, 'webMaster' );
                         }
                         break;
 

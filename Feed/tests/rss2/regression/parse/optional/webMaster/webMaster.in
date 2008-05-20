@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Feed title</title>
+	<link>Feed link</link>
+    <description>Feed description</description>
+    <webMaster>Feed webMaster</webMaster>
+  </channel>
+</rss>
