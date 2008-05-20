@@ -358,6 +358,7 @@ ezcCacheStackableStorages are needed for its configuration. To allow lazy
 initialization, a class that implements ezcCacheStackConfigurator can be used.
 
 .. include:: tutorial_stack_manager.php
+   :literal:
 
 This example configures a similar stack than the previous one. Instead of doing
 so directly, a new class myCustomConfigurator is created which extends
