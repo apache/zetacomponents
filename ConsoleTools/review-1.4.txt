@@ -1,7 +1,7 @@
 Review Alexandru 2008-05-08
 ===========================
 
-[ ] Regarding #10765 (new MappingValidator for yes/no dialogs) - It is not
+[X] Regarding #10765 (new MappingValidator for yes/no dialogs) - It is not
     documented or mentioned in the tutorial.
 
 [X] Why is $this->properties['map'] = array(); in the constructor? $this-map

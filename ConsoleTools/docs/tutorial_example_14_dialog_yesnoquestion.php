@@ -4,7 +4,11 @@ require_once 'tutorial_autoload.php';
 
 $output = new ezcConsoleOutput();
 
-$question = ezcConsoleQuestionDialog::YesNoQuestion( $output, "Do you want to proceed?", "y" );
+$question = ezcConsoleQuestionDialog::YesNoQuestion(
+    $output,
+    "Do you want to proceed?",
+    "y"
+);
 
 do
 {

@@ -485,11 +485,20 @@ An example run of this application could look like this: ::
     Goodbye!
 
 
-For the same dialog, a simple yes/no question, a convenience method exists so
-this can be created easier:
+A very similar yes/no question can be created through convenience method very
+easily:
 
 .. include:: tutorial_example_14_dialog_yesnoquestion.php
    :literal:
+
+The created yes/no question dialog contains a custom question and defaults to
+"y", if nothing is selected. In contrast to the last example, the dialog
+created here also accepts "yes" and "no" as answers. Both phrases can be used
+in any typing, e.g. like "yEs" or "NO". This is made possibly by the
+ezcConsoleQuestionDialogMappingValidator, which extends
+ezcConsoleQuestionDialogCollectionValidator. The mapping validator allows to
+define an arbitrary mapping between the user typed answers and expected ones.
+Therefore the dialog still only returns either "y" or "n".
 
 The second dialog type, provided with ConsoleTools, is the
 ezcConsoleMenuDialog. Similar to the ezcConsoleQuestionDialog, it displays a
