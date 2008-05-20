@@ -19,7 +19,7 @@ return array(
     'ezcFeedUnsupportedElementException'         => 'Feed/exceptions/unsupported_element.php',
     'ezcFeedUnsupportedModuleException'          => 'Feed/exceptions/unsupported_module.php',
     'ezcFeedUnsupportedTypeException'            => 'Feed/exceptions/unsupported_type.php',
-    'ezcFeedElement'                             => 'Feed/nodes/element.php',
+    'ezcFeedElement'                             => 'Feed/interfaces/element.php',
     'ezcFeedModule'                              => 'Feed/interfaces/module.php',
     'ezcFeedParser'                              => 'Feed/interfaces/parser.php',
     'ezcFeedProcessor'                           => 'Feed/interfaces/processor.php',
