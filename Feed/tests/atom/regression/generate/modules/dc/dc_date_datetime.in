@@ -1,6 +1,6 @@
 <?php
 return array( 'id' => 'Feed id',
-              'title' => array( array( '#' => 'Feed title',
+              'title' => array( array( 'text' => 'Feed title',
                                        'type' => '' ) ),
               'updated' => 'Feed updated',
               'author' => array( array( 'name' => 'Author name' ) ),
@@ -8,6 +8,6 @@ return array( 'id' => 'Feed id',
                                       'title' => 'Entry title',
                                       'content' => 'Entry content',
                                       'updated' => 'Entry updated',
-                                      'DublinCore' => array( array( 'date'        => array( array( '#' => new DateTime( '@1202996091' ),
-                                                                                                   'language' => 'g' ) ), ) ), ) ) );
+                                      'DublinCore' => array( array( 'date' => array( array( 'date' => 1202996091,
+                                                                                            'language' => 'g' ) ), ) ), ) ) );
 ?>

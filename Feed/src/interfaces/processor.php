@@ -23,28 +23,12 @@
 abstract class ezcFeedProcessor
 {
     /**
-     * Holds the feed type (eg. 'rss1').
+     * Holds the feed data container.
      *
-     * @var string
+     * @var ezcFeed
      * @ignore
      */
-    protected $feedType;
-
-    /**
-     * Holds the schema for this feed type.
-     *
-     * @var string
-     * @ignore
-     */
-    protected $schema;
-
-    /**
-     * Holds the feed content type (eg. 'application/rss+xml').
-     *
-     * @var string
-     * @ignore
-     */
-    protected $contentType;
+    protected $feedContainer;
 
     /**
      * Holds the XML document which is being generated.
@@ -71,22 +55,6 @@ abstract class ezcFeedProcessor
     protected $channel;
 
     /**
-     * Holds the feed elements (ezcFeedElement).
-     *
-     * @var array(string=>mixed)
-     * @ignore
-     */
-    protected $elements;
-
-    /**
-     * Holds the modules used by this feed item.
-     *
-     * @var array(ezcFeedModule)
-     * @ignore
-     */
-    protected $modules = array();
-
-    /**
      * Holds the prefixes used in the feed generation process.
      *
      * @var array(string)
@@ -103,31 +71,7 @@ abstract class ezcFeedProcessor
      */
     public function __set( $name, $value )
     {
-        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
-        if ( !isset( $this->elements[$name] ) )
-        {
-            if ( $this->schema->isMulti( $name ) )
-            {
-                $this->elements[$name] = array();
-            }
-            else if ( $this->schema->isAttribute( $name ) )
-            {
-                $this->elements[$name] = $value;
-                return;
-            }
-            else
-            {
-                $this->elements[$name] = new ezcFeedElement( $this->schema->getSchema( $name ) );
-            }
-        }
-        if ( $this->schema->isMulti( $name ) )
-        {
-            $this->elements[$name][0]->set( $value );
-        }
-        else
-        {
-            $this->elements[$name]->set( $value );
-        }
+        $this->feedContainer->$name = $value;
     }
 
     /**
@@ -139,18 +83,7 @@ abstract class ezcFeedProcessor
      */
     public function __get( $name )
     {
-        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
-        if ( isset( $this->elements[$name] ) )
-        {
-            return $this->elements[$name];
-        }
-
-        if ( $this->schema->isMulti( $name ) )
-        {
-            return isset( $this->elements[$name][0] ) ? $this->elements[$name][0] : null;
-        }
-
-        return null;
+        return $this->feedContainer->$name;
     }
 
     /**
@@ -162,64 +95,7 @@ abstract class ezcFeedProcessor
      */
     public function __isset( $name )
     {
-        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
-        return isset( $this->elements[$name] );
-    }
-
-    /**
-     * Returns an XML string from the feed information contained in this
-     * processor.
-     *
-     * @return string
-     */
-    abstract public function generate();
-
-    /**
-     * Adds a new ezcFeedElement element with name $name and returns it, if the
-     * feed schema allows this (returns null if the schema does not allow it).
-     *
-     * @param string $name The element name
-     * @return ezcFeedElement|null
-     */
-    public function add( $name )
-    {
-        $className = ( $name === 'item' ) ? 'ezcFeedItem' : 'ezcFeedElement';
-        $name = ezcFeedTools::normalizeName( $name, $this->schema->getElementsMap() );
-
-        if ( $this->schema->isMulti( $name ) )
-        {
-            $element = new $className( $this->schema->getSchema( $name ) );
-            $this->elements[$name][] = $element;
-            return $element;
-        }
-        else
-        {
-            $element = new $className( $this->schema->getSchema( $name ) );
-            $this->elements[$name] = $element;
-            return $element;
-        }
-    }
-
-    /**
-     * Returns true if the module $name is loaded, false otherwise.
-     *
-     * @param string $name The name of the module to check if loaded at feed-level
-     * @return bool
-     */
-    public function hasModule( $name )
-    {
-        return isset( $this->modules[$name] );
-    }
-
-    /**
-     * Returns the loaded module $name.
-     *
-     * @param string $name The name of the module to return
-     * @return ezcFeedModule
-     */
-    public function getModule( $name )
-    {
-        return $this->modules[$name];
+        return isset( $this->feedContainer->$name );
     }
 
     /**
@@ -229,29 +105,7 @@ abstract class ezcFeedProcessor
      */
     public function getModules()
     {
-        return $this->modules;
-    }
-
-    /**
-     * Associates the module $module with the name $name.
-     *
-     * @param string $name The name of the module associate
-     * @param ezcFeedModule $module The module to set under the name $name
-     */
-    public function setModule( $name, ezcFeedModule $module )
-    {
-        $this->modules[$name] = $module;
-    }
-
-    /**
-     * Returns the feed content type of this feed object
-     * (eg. 'application/rss+xml').
-     *
-     * @return string
-     */
-    public function getContentType()
-    {
-        return $this->contentType;
+        return $this->feedContainer->getModules();
     }
 
     /**
@@ -317,19 +171,16 @@ abstract class ezcFeedProcessor
      * Creates elements for all modules loaded at item-level, and adds the
      * namespaces required by the modules in the XML document being generated.
      *
-     * @param ezcFeedItem $item The feed item containing the modules
+     * @param ezcFeedEntryElement $item The feed item containing the modules
      * @param DOMElement $node The XML element in which to add the module elements
      * @ignore
      */
-    protected function generateModules( $item, DOMElement $node )
+    protected function generateItemModules( ezcFeedEntryElement $item, DOMElement $node )
     {
-        foreach ( ezcFeed::getSupportedModules() as $module => $class )
+        foreach ( $item->getModules() as $module )
         {
-            if ( $item->hasModule( $module ) )
-            {
-                $this->addAttribute( $this->root, 'xmlns:' . $item->$module->getNamespacePrefix(), $item->$module->getNamespace() );
-                $item->$module->generate( $this->xml, $node );
-            }
+            $this->addAttribute( $this->root, 'xmlns:' . $module->getNamespacePrefix(), $module->getNamespace() );
+            $module->generate( $this->xml, $node );
         }
     }
 
@@ -342,13 +193,10 @@ abstract class ezcFeedProcessor
      */
     protected function generateFeedModules( DOMElement $node )
     {
-        foreach ( ezcFeed::getSupportedModules() as $module => $class )
+        foreach ( $this->getModules() as $module )
         {
-            if ( $this->hasModule( $module ) )
-            {
-                $this->addAttribute( $this->root, 'xmlns:' . $this->modules[$module]->getNamespacePrefix(), $this->modules[$module]->getNamespace() );
-                $this->modules[$module]->generate( $this->xml, $node );
-            }
+            $this->addAttribute( $this->root, 'xmlns:' . $module->getNamespacePrefix(), $module->getNamespace() );
+            $module->generate( $this->xml, $node );
         }
     }
 
@@ -356,7 +204,7 @@ abstract class ezcFeedProcessor
      * Parses the XML element $node and creates modules in the feed or
      * feed item $item.
      *
-     * @param ezcFeedItem|ezcFeed $item The feed or feed item which will contain the modules
+     * @param ezcFeedEntryElement|ezcFeed $item The feed or feed item which will contain the modules
      * @param DOMElement $node The XML element from which to get the module elements
      * @param string $tagName The XML tag name (if it contains ':' it will be considered part of a module)
      * @ignore
@@ -421,5 +269,44 @@ abstract class ezcFeedProcessor
         $attr->appendChild( $val );
         $node->appendChild( $attr );
     }
+
+    /**
+     * Returns a DOMNode child of $parent with name $nodeName and which has an
+     * attribute $attribute with the value $value. Returns null if no such node
+     * is found.
+     *
+     * @param DOMNode $parent The XML parent node
+     * @param string $nodeName The node name to find
+     * @param string $attribute The attribute of the node
+     * @param mixed $value The value of the attribute
+     * @return DOMNode
+     * @ignore
+     */
+    protected function getNodeByAttribute( DOMNode $parent, $nodeName, $attribute, $value )
+    {
+        $result = null;
+        $nodes = $parent->getElementsByTagName( $nodeName );
+
+        foreach ( $nodes as $node )
+        {
+            $nodeAttribute = $node->getAttribute( $attribute );
+            if ( $nodeAttribute !== null
+                 && $nodeAttribute === $value )
+            {
+                $result = $node;
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns an XML string from the feed information contained in this
+     * processor.
+     *
+     * @return string
+     */
+    abstract public function generate();
 }
 ?>

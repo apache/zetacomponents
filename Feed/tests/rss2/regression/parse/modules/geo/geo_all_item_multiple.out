@@ -3,13 +3,16 @@ $feed = new ezcFeed( 'rss2' );
 $feed->title = 'Feed title';
 
 $link = $feed->add( 'link' );
-$link->set( 'Feed link' );
+$link->href = 'Feed link';
 
 $feed->description = 'Feed description';
 
 $item = $feed->add( 'item' );
 $item->title = 'Item title 1';
-$item->link = 'Item link 1';
+
+$link = $item->add( 'link' );
+$link->href = 'Item link 1';
+
 $item->description = 'Item description 1';
 
 $module = $item->addModule( 'Geo' );
@@ -20,7 +23,10 @@ $module->long = 'Long 1';
 
 $item = $feed->add( 'item' );
 $item->title = 'Item title 2';
-$item->link = 'Item link 2';
+
+$link = $item->add( 'link' );
+$link->href = 'Item link 2';
+
 $item->description = 'Item description 2';
 
 $module = $item->addModule( 'Geo' );

@@ -172,12 +172,12 @@ function createFeed( $feedType, $data )
         case 'rss1':
             $feed->id = $data['link'];
             $link = $feed->add( 'link' );
-            $link->set( $data['link'] );
+            $link->href = $data['link'];
             break;
 
         case 'rss2':
             $link = $feed->add( 'link' );
-            $link->set( $data['link'] );
+            $link->href = $data['link'];
             $feed->updated = time();
             $feed->published = $data['published'];
             $feed->author = $data['authorEmail'] . ' (' . $data['authorName'] . ')';
@@ -207,15 +207,15 @@ function createFeed( $feedType, $data )
             case 'rss1':
                 $item->id = $dataItem['link'];
                 $link = $item->add( 'link' );
-                $link->set( $dataItem['link'] );
+                $link->href = $dataItem['link'];
                 break;
 
             case 'rss2':
                 $id = $item->add( 'id' );
-                $id->set( $dataItem['link'] );
+                $id->id = $dataItem['link'];
                 $id->isPermaLink = true;
                 $link = $item->add( 'link' );
-                $link->set( $dataItem['link'] );
+                $link->href = $dataItem['link'];
                 $item->published = $dataItem['published'];
                 $item->author = $dataItem['authorEmail'] . ' (' . $dataItem['authorName'] . ')';
                 break;

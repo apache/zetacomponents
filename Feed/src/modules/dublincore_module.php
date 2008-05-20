@@ -17,188 +17,92 @@
  * Each DublinCore property can appear multiple times both on the feed-level
  * or the item-level.
  *
+ * Each DublinCore property can have the language attribute, which appears in
+ * the generated XML file as a 'xml:lang' attribute.
+ *
  * Create example:
  * <code>
  * // $feed is an ezcFeed object
  * $item = $feed->add( 'item' );
  * $module = $item->addModule( 'DublinCore' );
  * $creator = $module->add( 'creator' );
- * $creator->set( 'Creator name' );
+ * $creator->name = 'Creator name';
  * $creator->language = 'en'; // optional
  * // more elements of the same type can be added
  * </code>
  *
  * Parse example:
  * <code>
- * // $item is an ezcFeedItem object
+ * // $item is an ezcFeedEntryElement object
  * foreach ( $item->DublinCore->creator as $creator )
  * {
- *     echo $creator->__toString();
+ *     echo $creator->name;
  *     echo $creator->language;
  * }
  * </code>
  *
- * @property array(ezcFeedElement) $contributor
- *                                 An entity responsible for making contributions to
- *                                 the resource.
- *                                 Usually the name of a person, organization or service.
- * @property array(ezcFeedElement) $coverage
- *                                 The spatial or temporal topic of the resource, the
- *                                 spatial applicability of the resource, or the
- *                                 jurisdiction under which the resource is relevant.
- *                                 A recommended practice is to use a controlled
- *                                 vocabulary such as
- *                                 {@link http://www.getty.edu/research/tools/vocabulary/tgn/index.html TGN}.
- * @property array(ezcFeedElement) $creator
- *                                 An entity responsible for making the resource.
- *                                 Usually the name of a person or organization.
- * @property array(ezcFeedElement) $date
- *                                 A point or period of time associated with an event
- *                                 in the lifecycle of the resource. It is a Unix
- *                                 timestamp, which will be converted to an
- *                                 {@link http://www.w3.org/TR/NOTE-datetime ISO 8601}
- *                                 date when generating the feed.
- * @property array(ezcFeedElement) $description
- *                                 A description of the resource.
- * @property array(ezcFeedElement) $format
- *                                 The file format, physical medium, or dimensions of
- *                                 the resource.
- *                                 Recommended best practices is to use a controlled
- *                                 vocabulary such as the list of
- *                                 {@link http://www.iana.org/assignments/media-types/ Internet Media Types}
- *                                 (MIME).
- * @property array(ezcFeedElement) $identifier
- *                                 An unambiguous reference to the resource within a
- *                                 given context.
- * @property array(ezcFeedElement) $language
- *                                 A language of the resource.
- *                                 Recommended best practice is to use a controlled
- *                                 vocabulary such as
- *                                 {@link http://www.faqs.org/rfcs/rfc4646.html RFC 4646}.
- * @property array(ezcFeedElement) $publisher
- *                                 An entity responsible for making the resource available.
- *                                 Usually the name of a person, organization or service.
- * @property array(ezcFeedElement) $relation
- *                                 A related resource.
- * @property array(ezcFeedElement) $rights
- *                                 Information about rights held in and over the resource.
- * @property array(ezcFeedElement) $source
- *                                 A related resource from which the described resource
- *                                 is derived.
- * @property array(ezcFeedElement) $subject
- *                                 The topic of the resource.
- * @property array(ezcFeedElement) $title
- *                                 The name given to the resource.
- * @property array(ezcFeedElement) $type
- *                                 The nature or genre of the resource.
- *                                 Recommended best practice is to use a controlled
- *                                 vocabulary such as the
- *                                 {@link http://dublincore.org/documents/dcmi-type-vocabulary/ DCMI Type Vocabulary}
+ * @property array(ezcFeedPersonElement) $contributor
+ *                                       An entity responsible for making contributions to
+ *                                       the resource.
+ *                                       Usually the name of a person, organization or service.
+ * @property array(ezcFeedTextElement) $coverage
+ *                                     The spatial or temporal topic of the resource, the
+ *                                     spatial applicability of the resource, or the
+ *                                     jurisdiction under which the resource is relevant.
+ *                                     A recommended practice is to use a controlled
+ *                                     vocabulary such as
+ *                                     {@link http://www.getty.edu/research/tools/vocabulary/tgn/index.html TGN}.
+ * @property array(ezcFeedPersonElement) $creator
+ *                                       An entity responsible for making the resource.
+ *                                       Usually the name of a person or organization.
+ * @property array(ezcFeedDateElement) $date
+ *                                     A point or period of time associated with an event
+ *                                     in the lifecycle of the resource. It is a Unix
+ *                                     timestamp, which will be converted to an
+ *                                     {@link http://www.w3.org/TR/NOTE-datetime ISO 8601}
+ *                                     date when generating the feed.
+ * @property array(ezcFeedTextElement) $description
+ *                                     A description of the resource.
+ * @property array(ezcFeedTextElement) $format
+ *                                     The file format, physical medium, or dimensions of
+ *                                     the resource.
+ *                                     Recommended best practices is to use a controlled
+ *                                     vocabulary such as the list of
+ *                                     {@link http://www.iana.org/assignments/media-types/ Internet Media Types}
+ *                                     (MIME).
+ * @property array(ezcFeedIdElement) $identifier
+ *                                   An unambiguous reference to the resource within a
+ *                                   given context.
+ * @property array(ezcFeedTextElement) $language
+ *                                     A language of the resource.
+ *                                     Recommended best practice is to use a controlled
+ *                                     vocabulary such as
+ *                                     {@link http://www.faqs.org/rfcs/rfc4646.html RFC 4646}.
+ * @property array(ezcFeedPersonElement) $publisher
+ *                                       An entity responsible for making the resource available.
+ *                                       Usually the name of a person, organization or service.
+ * @property array(ezcFeedTextElement) $relation
+ *                                     A related resource.
+ * @property array(ezcFeedTextElement) $rights
+ *                                     Information about rights held in and over the resource.
+ * @property array(ezcFeedSourceElement) $source
+ *                                       A related resource from which the described resource
+ *                                       is derived.
+ * @property array(ezcFeedTextElement) $subject
+ *                                     The topic of the resource.
+ * @property array(ezcFeedTextElement) $title
+ *                                     The name given to the resource.
+ * @property array(ezcFeedTextElement) $type
+ *                                     The nature or genre of the resource.
+ *                                     Recommended best practice is to use a controlled
+ *                                     vocabulary such as the
+ *                                     {@link http://dublincore.org/documents/dcmi-type-vocabulary/ DCMI Type Vocabulary}
  *
  * @package Feed
  * @version //autogentag//
  */
 class ezcFeedDublinCoreModule extends ezcFeedModule
 {
-    /**
-     * Holds the schema for this feed module.
-     *
-     * @var array(string)
-     * @ignore
-     */
-    protected $schema = array(
-        'feed' => array( 'contributor' => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'coverage'    => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'creator'     => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'date'        => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'description' => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'format'      => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'identifier'  => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'language'    => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'publisher'   => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'relation'    => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'rights'      => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'source'      => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'subject'     => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'title'       => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'type'        => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-                         ),
-
-        'item' => array( 'contributor' => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'coverage'    => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'creator'     => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'date'        => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'description' => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'format'      => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'identifier'  => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'language'    => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'publisher'   => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'relation'    => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'rights'      => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'source'      => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'subject'     => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'title'       => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-
-                         'type'        => array( '#' => 'string',
-                                                 'ATTRIBUTES' => array( 'language' => 'string' ) ),
-                         ) );
-
     /**
      * Constructs a new ezcFeedDublinCoreModule object.
      *
@@ -210,6 +114,180 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
     }
 
     /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     *
+     * @param string $name The property name
+     * @param mixed $value The property value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            switch ( $name )
+            {
+                case 'date':
+                    $node = $this->add( $name );
+                    $node->date = $value;
+                    break;
+
+                case 'contributor':
+                case 'creator':
+                case 'publisher':
+                    $node = $this->add( $name );
+                    $node->name = $value;
+                    break;
+
+                case 'identifier':
+                    $node = $this->add( $name );
+                    $node->id = $value;
+                    break;
+
+                case 'source':
+                    $node = $this->add( $name );
+                    $node->source = $value;
+                    break;
+
+                default:
+                    $node = new ezcFeedTextElement();
+                    break;
+            }
+        }
+        else
+        {
+            parent::__set( $name, $value );
+        }
+    }
+
+    /**
+     * Returns the value of property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     *
+     * @param string $name The property name
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            return $this->properties[$name];
+        }
+        else
+        {
+            return parent::__get( $name );
+        }
+    }
+
+    /**
+     * Returns if the property $name is set.
+     *
+     * @param string $name The property name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            return isset( $this->properties[$name] );
+        }
+        else
+        {
+            return parent::__isset( $name );
+        }
+    }
+
+    /**
+     * Returns true if the element $name is allowed in the current module at the
+     * current level (feed or item), and false otherwise.
+     *
+     * @param string $name The element name to check if allowed in the current module and level (feed or item)
+     * @return bool
+     */
+    public function isElementAllowed( $name )
+    {
+        switch ( $this->level )
+        {
+            case 'feed':
+                if ( in_array( $name, array( 'contributor', 'coverage', 'creator',
+                                             'date', 'description', 'format',
+                                             'identifier', 'language', 'publisher',
+                                             'relation', 'rights', 'source',
+                                             'subject', 'title', 'type' ) ) )
+                {
+                    return true;
+                }
+                break;
+
+            case 'item':
+                if ( in_array( $name, array( 'contributor', 'coverage', 'creator',
+                                             'date', 'description', 'format',
+                                             'identifier', 'language', 'publisher',
+                                             'relation', 'rights', 'source',
+                                             'subject', 'title', 'type' ) ) )
+                {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * Adds a new ezcFeedElement element with name $name to this module and
+     * returns it.
+     *
+     * @throws ezcFeedUnsupportedElementException
+     *         if trying to add an element which is not supported.
+     *
+     * @param string $name The element name
+     * @return ezcFeedElement
+     */
+    public function add( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            switch ( $name )
+            {
+                case 'date':
+                    $node = new ezcFeedDateElement();
+                    break;
+
+                case 'contributor':
+                case 'creator':
+                case 'publisher':
+                    $node = new ezcFeedPersonElement();
+                    break;
+
+                case 'identifier':
+                    $node = new ezcFeedIdElement();
+                    break;
+
+                case 'source':
+                    $node = new ezcFeedSourceElement();
+                    break;
+
+                default:
+                    $node = new ezcFeedTextElement();
+                    break;
+            }
+
+            $this->properties[$name][] = $node;
+            return $node;
+        }
+        else
+        {
+            throw new ezcFeedUnsupportedElementException( $name );
+        }
+    }
+
+    /**
      * Adds the module elements to the $xml XML document, in the container $root.
      *
      * @param DOMDocument $xml The XML document in which to add the module elements
@@ -217,7 +295,13 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
      */
     public function generate( DOMDocument $xml, DOMNode $root )
     {
-        foreach ( $this->schema[$this->level] as $element => $schema )
+        $elements = array( 'contributor', 'coverage', 'creator',
+                           'date', 'description', 'format',
+                           'identifier', 'language', 'publisher',
+                           'relation', 'rights', 'source',
+                           'subject', 'title', 'type');
+
+        foreach ( $elements as $element )
         {
             if ( isset( $this->$element ) )
             {
@@ -229,7 +313,7 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
                     switch ( $element )
                     {
                         case 'date':
-                            $elementTag->nodeValue = ezcFeedTools::prepareDate( $values->getValue() )->format( 'c' );
+                            $elementTag->nodeValue = $values->date->format( 'c' );
                             break;
 
                         default:
@@ -239,10 +323,7 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
 
                     if ( isset( $values->language ) )
                     {
-                        $langTag = $xml->createAttribute( 'xml:lang' );
-                        $val = $xml->createTextNode( $values->language );
-                        $langTag->appendChild( $val );
-                        $elementTag->appendChild( $langTag );
+                        $this->addAttribute( $xml, $elementTag, 'xml:lang', $values->language );
                     }
                 }
             }
@@ -266,11 +347,25 @@ class ezcFeedDublinCoreModule extends ezcFeedModule
             switch ( $name )
             {
                 case 'date':
-                    $element->set( ezcFeedTools::prepareDate( $value ) );
+                    $element->date = $value;
+                    break;
+
+                case 'contributor':
+                case 'creator':
+                case 'publisher':
+                    $element->name = $value;
+                    break;
+
+                case 'identifier':
+                    $element->id = $value;
+                    break;
+
+                case 'source':
+                    $element->source = $value;
                     break;
 
                 default:
-                    $element->set( $value );
+                    $element->text = $value;
             }
 
             if ( $node->hasAttributes() )

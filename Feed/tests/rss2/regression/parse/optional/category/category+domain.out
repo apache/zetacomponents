@@ -2,8 +2,8 @@
 $feed = new ezcFeed( 'rss2' );
 
 $category = $feed->add( 'category' );
-$category->set( 'Feed category' );
-$category->domain = "Category domain";
+$category->term = 'Feed category';
+$category->scheme = "Category domain";
 
 return $feed;
 ?>

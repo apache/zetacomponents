@@ -10,16 +10,16 @@ $module = $feed->addModule( 'iTunes' );
 
 $category = $module->add( 'category' );
 $subCategory = $category->add( 'category' );
-$subCategory->text = 'iTunes feed sub-category 1';
-$category->text = 'iTunes feed category 1';
+$subCategory->term = 'iTunes feed sub-category 1';
+$category->term = 'iTunes feed category 1';
 
 $category = $module->add( 'category' );
-$category->text = 'iTunes feed category 2';
+$category->term = 'iTunes feed category 2';
 
 $category = $module->add( 'category' );
 $subCategory = $category->add( 'category' );
-$subCategory->text = 'iTunes feed sub-category 3';
-$category->text = 'iTunes feed category 3';
+$subCategory->term = 'iTunes feed sub-category 3';
+$category->term = 'iTunes feed category 3';
 
 $entry = $feed->add( 'item' );
 $entry->id = 'Entry id';

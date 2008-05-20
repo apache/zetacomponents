@@ -7,7 +7,7 @@ $feed->title->type = 'text';
 $feed->updated = 'Feed updated';
 
 $feed->generator = '';
-$feed->generator->uri = 'Generator uri';
+$feed->generator->url = 'Generator uri';
 
 return $feed;
 ?>

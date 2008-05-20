@@ -1,8 +1,8 @@
 <?php
 return array( 'id' => 'Feed id',
-              'title' => array( array( '#' => 'Feed title' ) ),
+              'title' => array( array( 'text' => 'Feed title' ) ),
               'updated' => 'Feed updated',
               'author' => array( array( 'name' => 'Author name' ) ),
-              'description' => array( array( '#' => 'Feed subtitle',
+              'description' => array( array( 'text' => 'Feed subtitle',
                                              'type' => 'html' ) ) );
 ?>

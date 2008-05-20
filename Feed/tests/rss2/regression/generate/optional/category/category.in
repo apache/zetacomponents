@@ -1,7 +1,7 @@
 <?php
 return array( 'title' => 'Feed title',
-              'link'  => array( 'Feed link' ),
+              'link'  => array( array( 'href' => 'Feed link' ) ),
               'description' => 'Feed description',
-			  'category' => array( 'Feed category' ),
+			  'category' => array( array( 'term' => 'Feed category' ) ),
             );
 ?>

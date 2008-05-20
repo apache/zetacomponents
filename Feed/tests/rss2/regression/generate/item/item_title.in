@@ -1,6 +1,6 @@
 <?php
 return array( 'title' => 'Feed title',
-              'link'  => array( 'Feed link' ),
+              'link'  => array( array( 'href' => 'Feed link' ) ),
               'description' => 'Feed description',
 			  'item' => array( array( 'title' => 'Item title' ) ),
             );

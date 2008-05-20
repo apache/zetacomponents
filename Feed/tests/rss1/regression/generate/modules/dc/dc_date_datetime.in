@@ -6,6 +6,6 @@ return array( 'id' => 'Channel about',
 			  'item' => array( array( 'id' => 'Item about',
                                       'title' => 'Item title',
                                       'link' => 'Item link',
-                                      'DublinCore' => array( array( 'date'        => array( array( '#' => '1202996091',
-                                                                                                   'language' => 'g' ), ), ) ), ), ) );
+                                      'DublinCore' => array( array( 'date' => array( array( 'date' => 1202996091,
+                                                                                            'language' => 'g' ), ), ) ), ), ) );
 ?>

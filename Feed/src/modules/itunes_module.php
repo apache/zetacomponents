@@ -49,100 +49,58 @@
  * }
  * </code>
  *
- * @property ezcFeedElement $author
- *                          The author of a resource. Can appear at both
- *                          feed-level and item-level.
- * @property ezcFeedElement $block
- *                          Prevents a feed or a feed item to appear. Can appear
- *                          at both feed-level and item-level. Valid values are 'yes'
- *                          and 'no', default 'no'.
- * @property ezcFeedElement $category
- *                          Categories for a feed. Can appear at feed-level only.
- *                          Multiple categories can be specified, and categories
- *                          can have sub-categories. The ampersands (&) in categories
- *                          must be escaped to &amp;.
- *                          {@link http://www.apple.com/itunes/store/podcaststechspecs.html#categories Valid iTunes categories}
- * @property ezcFeedElement $duration
- *                          The duration of a feed item. Can appear at item-level
- *                          only. Can be specified as HH:MM:SS, H:MM:SS, MM:SS,
- *                          M:SS or S (H = hours, M = minutes, S = seconds).
- * @property ezcFeedElement $explicit
- *                          Specifies if a feed or feed-item contains explicit
- *                          content. Can appear at both feed-level and item-level.
- *                          Valid values are 'clean', 'no' and 'yes', default 'no'.
- * @property ezcFeedElement $image
- *                          A link to an image for the feed. Can appear at both
- *                          feed-level and item-level only. The
- *                          {@link http://www.apple.com/itunes/store/podcaststechspecs.html iTunes specifications}
- *                          say that image is supported at feed-level only, but there
- *                          are many podcasts using image at item-level also, and there
- *                          are software applications supporting image at item-level too.
- *                          Use image at item-level at your own risk, as some software
- *                          applications might not support it. The Feed component supports
- *                          parsing and generating feeds with image at both feed-level and item-level.
- * @property ezcFeedElement $keywords
- *                          A list of keywords for a feed or feed item. Can appear
- *                          at both feed-level and item-level. The keywords should
- *                          be separated by commas.
- * @property ezcFeedElement $newfeedurl
- *                          A new URL for the feed. Can appear at feed-level only. In
- *                          XML it will appear as 'new-feed-url'.
- * @property ezcFeedElement $owner
- *                          The owner of the feed. Can appear at feed-level only.
- * @property ezcFeedElement $subtitle
- *                          Short description of a feed or feed item. Can appear
- *                          at both feed-level and item-level.
- * @property ezcFeedElement $summary
- *                          Longer description of a feed or feed item. Can appear
- *                          at both feed-level and item-level.
+ * @property ezcFeedPersonElement $author
+ *                                The author of a resource. Can appear at both
+ *                                feed-level and item-level.
+ * @property ezcFeedTextElement $block
+ *                              Prevents a feed or a feed item to appear. Can appear
+ *                              at both feed-level and item-level. Valid values are 'yes'
+ *                              and 'no', default 'no'.
+ * @property array(ezcFeedCategoryElement) $category
+ *                                         Categories for a feed. Can appear at feed-level only.
+ *                                         Multiple categories can be specified, and categories
+ *                                         can have sub-categories. The ampersands (&) in categories
+ *                                         must be escaped to &amp;.
+ *                                         {@link http://www.apple.com/itunes/store/podcaststechspecs.html#categories Valid iTunes categories}
+ * @property ezcFeedTextElement $duration
+ *                              The duration of a feed item. Can appear at item-level
+ *                              only. Can be specified as HH:MM:SS, H:MM:SS, MM:SS,
+ *                              M:SS or S (H = hours, M = minutes, S = seconds).
+ * @property ezcFeedTextElement $explicit
+ *                              Specifies if a feed or feed-item contains explicit
+ *                              content. Can appear at both feed-level and item-level.
+ *                              Valid values are 'clean', 'no' and 'yes', default 'no'.
+ * @property ezcFeedImageElement $image
+ *                               A link to an image for the feed. Can appear at both
+ *                               feed-level and item-level only. The
+ *                               {@link http://www.apple.com/itunes/store/podcaststechspecs.html iTunes specifications}
+ *                               says that image is supported at feed-level only, but there
+ *                               are many podcasts using image at item-level also, and there
+ *                               are software applications supporting image at item-level too.
+ *                               Use image at item-level at your own risk, as some software
+ *                               applications might not support it. The Feed component supports
+ *                               parsing and generating feeds with image at both feed-level and item-level.
+ * @property ezcFeedTextElement $keywords
+ *                              A list of keywords for a feed or feed item. Can appear
+ *                              at both feed-level and item-level. The keywords should
+ *                              be separated by commas.
+ * @property ezcFeedLinkElement $newfeedurl
+ *                              A new URL for the feed. Can appear at feed-level only. In
+ *                              XML it will appear as 'new-feed-url'.
+ * @property ezcFeedPersonElement $owner
+ *                                The owner of the feed. Can appear at feed-level only.
+ * @property ezcFeedTextElement $subtitle
+ *                              Short description of a feed or feed item. Can appear
+ *                              at both feed-level and item-level.
+ * @property ezcFeedTextElement $summary
+ *                              Longer description of a feed or feed item. Can appear
+ *                              at both feed-level and item-level.
  *
  * @package Feed
  * @version //autogentag//
  */
 class ezcFeedITunesModule extends ezcFeedModule
 {
-    /**
-     * Holds the schema for this feed module.
-     *
-     * @var array(string=>mixed)
-     * @ignore
-     */
-    protected $schema = array(
-        'feed' => array( 'author'       => array( '#' => 'string' ),
-                         'block'        => array( '#' => 'string' ),
-                         'category'     => array( '#' => 'string',
-                                                  'ATTRIBUTES' => array( 'text' => 'string' ),
-                                                  'NODES'      => array( 'category' => array( '#'          => 'string',
-                                                                                              'ATTRIBUTES' => array( 'text' => 'string' ) ) ) ),
-                         'explicit'     => array( '#' => 'string' ),
-                         'image'        => array( '#' => 'none',
-                                                  'ATTRIBUTES' => array( 'href' => 'string' ) ),
-
-                         'keywords'     => array( '#' => 'string' ),
-                         'newfeedurl'   => array( '#' => 'string' ), // in XML is new-feed-url
-                         'owner'        => array( '#' => 'string',
-                                                  'NODES' => array( 'email' => array( '#' => 'string' ),
-                                                                    'name'  => array( '#' => 'string' ) ) ),
-
-                         'subtitle'     => array( '#' => 'string' ),
-                         'summary'      => array( '#' => 'string' ),
-            ),
-
-        'item' => array( 'author'       => array( '#' => 'string' ),
-                         'block'        => array( '#' => 'string' ),
-                         'duration'     => array( '#' => 'string' ),
-                         'explicit'     => array( '#' => 'string' ),
-
-                         // image at item-level is NOT supported by the specifications,
-                         // but it is used widely in podcasts and software applications
-                         'image'        => array( '#' => 'none',
-                                                  'ATTRIBUTES' => array( 'href' => 'string' ) ),
-
-                         'keywords'     => array( '#' => 'string' ),
-                         'subtitle'     => array( '#' => 'string' ),
-                         'summary'      => array( '#' => 'string' ),
-            ) );
-
     /**
      * Constructs a new ezcFeedITunesModule object.
      *
@@ -154,6 +112,96 @@ class ezcFeedITunesModule extends ezcFeedModule
     }
 
     /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     *
+     * @param string $name The property name
+     * @param mixed $value The property value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            switch ( $name )
+            {
+                case 'category':
+                    $node = $this->add( $name );
+                    $node->term = $value;
+                    break;
+
+                case 'date':
+                    $node = $this->add( $name );
+                    $node->date = $value;
+                    break;
+
+                case 'newfeedurl':
+                    $node = $this->add( $name );
+                    $node->href = $value;
+                    break;
+
+                case 'author':
+                case 'owner':
+                    $node = $this->add( $name );
+                    $node->name = $value;
+                    break;
+
+                default:
+                    $node = $this->add( $name );
+                    $node->text = $value;
+                    break;
+            }
+        }
+        else
+        {
+            parent::__set( $name, $value );
+        }
+    }
+
+    /**
+     * Returns the value of property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     *
+     * @param string $name The property name
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            return $this->properties[$name];
+        }
+        else
+        {
+            return parent::__get( $name );
+        }
+    }
+
+    /**
+     * Returns if the property $name is set.
+     *
+     * @param string $name The property name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            return isset( $this->properties[$name] );
+        }
+        else
+        {
+            return parent::__isset( $name );
+        }
+    }
+
+    /**
      * Adds the module elements to the $xml XML document, in the container $root.
      *
      * @param DOMDocument $xml The XML document in which to add the module elements
@@ -161,68 +209,92 @@ class ezcFeedITunesModule extends ezcFeedModule
      */
     public function generate( DOMDocument $xml, DOMNode $root )
     {
-        foreach ( $this->schema[$this->level] as $element => $schema )
+        switch ( $this->level )
+        {
+            case 'feed':
+                $elements = array( 'author', 'block', 'category',
+                                   'explicit', 'image', 'keywords',
+                                   'newfeedurl', 'owner', 'subtitle',
+                                   'summary' );
+                break;
+
+            case 'item':
+                $elements = array( 'author', 'block', 'duration',
+                                   'explicit', 'image', 'keywords',
+                                   'subtitle', 'summary' );
+                break;
+        }
+
+        foreach ( $elements as $element )
         {
             if ( isset( $this->$element ) )
             {
-                $elementName = ( $element === 'newfeedurl' ) ? 'new-feed-url' : $element;
-                foreach ( $this->$element as $values )
-                {
-                    $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $elementName );
-                    $root->appendChild( $elementTag );
+                $values = $this->$element;
 
-                    switch ( $elementName )
-                    {
-                        case 'category':
+                switch ( $element )
+                {
+                    case 'category':
+                        foreach ( $this->category as $values )
+                        {
+                            $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $element );
+                            $root->appendChild( $elementTag );
+
                             // generate sub-categories
-                            if ( isset( $values->category ) && count( $values->category ) > 0 )
+                            if ( isset( $values->category ) )
                             {
-                                $subCategory = $values->category[0];
-                                $tag = $xml->createElement( $this->getNamespacePrefix() . ':' . 'category' );
-                                $textTag = $xml->createAttribute( 'text' );
-                                $val = $xml->createTextNode( $subCategory->text );
-                                $textTag->appendChild( $val );
-                                $tag->appendChild( $textTag );
+                                $subCategory = $values->category;
+                                $subTag = $xml->createElement( $this->getNamespacePrefix() . ':' . 'category' );
+                                $this->addAttribute( $xml, $subTag, 'text', $subCategory->term );
+                                $elementTag->appendChild( $subTag );
+                            }
+
+                            if ( isset( $values->term ) )
+                            {
+                                $this->addAttribute( $xml, $elementTag, 'text', $values->term );
+                            }
+                        }
+                        break;
+
+                    case 'image':
+                        $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $element );
+                        $root->appendChild( $elementTag );
+
+                        if ( isset( $values->link ) )
+                        {
+                            $this->addAttribute( $xml, $elementTag, 'href', $values->link );
+                        }
+                        break;
+
+                    case 'owner':
+                        $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $element );
+                        $root->appendChild( $elementTag );
+
+                        foreach ( array( 'email', 'name' ) as $subElement )
+                        {
+                            if ( isset( $values->$subElement ) )
+                            {
+                                $tag = $xml->createElement( $this->getNamespacePrefix() . ':' . $subElement );
+                                $val = $xml->createTextNode( $values->$subElement );
+                                $tag->appendChild( $val );
                                 $elementTag->appendChild( $tag );
                             }
+                        }
 
-                            if ( isset( $values->text ) )
-                            {
-                                $textTag = $xml->createAttribute( 'text' );
-                                $val = $xml->createTextNode( $values->text );
-                                $textTag->appendChild( $val );
-                                $elementTag->appendChild( $textTag );
-                            }
-                            break;
+                        break;
 
-                        case 'image':
-                            if ( isset( $values->href ) )
-                            {
-                                $textTag = $xml->createAttribute( 'href' );
-                                $val = $xml->createTextNode( $values->href );
-                                $textTag->appendChild( $val );
-                                $elementTag->appendChild( $textTag );
-                            }
-                            break;
+                    case 'newfeedurl':
+                        $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . 'new-feed-url' );
+                        $root->appendChild( $elementTag );
 
-                        case 'owner':
-                            foreach ( array( 'email', 'name' ) as $subElement )
-                            {
-                                if ( isset( $values->$subElement ) )
-                                {
-                                    $tag = $xml->createElement( $this->getNamespacePrefix() . ':' . $subElement );
-                                    $val = $xml->createTextNode( $values->$subElement );
-                                    $tag->appendChild( $val );
-                                    $elementTag->appendChild( $tag );
-                                }
-                            }
+                        $elementTag->nodeValue = $values->href;
+                        break;
 
-                            break;
+                    default:
+                        $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $element );
+                        $root->appendChild( $elementTag );
 
-                        default:
-                            $elementTag->nodeValue = $values->__toString();
-                            break;
-                    }
+                        $elementTag->nodeValue = $values->__toString();
+                        break;
                 }
             }
         }
@@ -256,19 +328,29 @@ class ezcFeedITunesModule extends ezcFeedModule
                         {
                             $subCategory = $element->add( $name );
 
-                            if ( $subNode->hasAttributes() )
+                            if ( $subNode->hasAttribute( 'text' ) )
                             {
-                                foreach ( $subNode->attributes as $attribute )
-                                {
-                                    $subCategory->{$attribute->name} = $attribute->value;
-                                }
+                                $subCategory->term = $subNode->getAttribute( 'text' );
                             }
                         }
+                    }
+
+                    if ( $node->hasAttribute( 'text' ) )
+                    {
+                        $element->term = $node->getAttribute( 'text' );
                     }
                     break;
 
                 case 'image':
                     // no textContent in $node
+                    if ( $node->hasAttribute( 'href' ) )
+                    {
+                        $element->link = $node->getAttribute( 'href' );
+                    }
+                    break;
+
+                case 'newfeedurl':
+                    $element->href = $node->textContent;
                     break;
 
                 case 'owner':
@@ -290,17 +372,96 @@ class ezcFeedITunesModule extends ezcFeedModule
                     }
                     break;
 
-                default:
-                    $element->set( $value );
-            }
+                case 'author':
+                    $element->name = $value;
+                    break;
 
-            if ( $node->hasAttributes() )
-            {
-                foreach ( $node->attributes as $attribute )
-                {
-                    $element->{$attribute->name} = $attribute->value;
-                }
+                default:
+                    $element->text = $value;
             }
+        }
+    }
+
+    /**
+     * Returns true if the element $name is allowed in the current module at the
+     * current level (feed or item), and false otherwise.
+     *
+     * @param string $name The element name to check if allowed in the current module and level (feed or item)
+     * @return bool
+     */
+    public function isElementAllowed( $name )
+    {
+        switch ( $this->level )
+        {
+            case 'feed':
+                if ( in_array( $name, array( 'author', 'block', 'category',
+                                             'explicit', 'image', 'keywords',
+                                             'newfeedurl', 'owner', 'subtitle',
+                                             'summary' ) ) )
+                {
+                    return true;
+                }
+                break;
+
+            case 'item':
+                if ( in_array( $name, array( 'author', 'block', 'duration',
+                                             'explicit', 'image', 'keywords',
+                                             'subtitle', 'summary' ) ) )
+                {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * Adds a new ezcFeedElement element with name $name to this module and
+     * returns it.
+     *
+     * @throws ezcFeedUnsupportedElementException
+     *         if trying to add an element which is not supported.
+     *
+     * @param string $name The element name
+     * @return ezcFeedElement
+     */
+    public function add( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            switch ( $name )
+            {
+                case 'category':
+                    $node = new ezcFeedCategoryElement();
+                    $this->properties[$name][] = $node;
+                    break;
+
+                case 'newfeedurl':
+                    $node = new ezcFeedLinkElement();
+                    $this->properties[$name] = $node;
+                    break;
+
+                case 'owner':
+                case 'author':
+                    $node = new ezcFeedPersonElement();
+                    $this->properties[$name] = $node;
+                    break;
+
+                case 'image':
+                    $node = new ezcFeedImageElement();
+                    $this->properties[$name] = $node;
+                    break;
+
+                default:
+                    $node = new ezcFeedTextElement();
+                    $this->properties[$name] = $node;
+                    break;
+            }
+            return $node;
+        }
+        else
+        {
+            throw new ezcFeedUnsupportedElementException( $name );
         }
     }
 

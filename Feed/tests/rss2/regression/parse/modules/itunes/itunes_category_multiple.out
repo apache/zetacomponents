@@ -3,7 +3,7 @@ $feed = new ezcFeed( 'rss2' );
 $feed->title = 'Feed title';
 
 $link = $feed->add( 'link' );
-$link->set( 'Feed link' );
+$link->href = 'Feed link';
 
 $feed->description = 'Feed description';
 
@@ -11,20 +11,23 @@ $module = $feed->addModule( 'iTunes' );
 
 $category = $module->add( 'category' );
 $subCategory = $category->add( 'category' );
-$subCategory->text = 'iTunes feed sub-category 1';
-$category->text = 'iTunes feed category 1';
+$subCategory->term = 'iTunes feed sub-category 1';
+$category->term = 'iTunes feed category 1';
 
 $category = $module->add( 'category' );
-$category->text = 'iTunes feed category 2';
+$category->term = 'iTunes feed category 2';
 
 $category = $module->add( 'category' );
 $subCategory = $category->add( 'category' );
-$subCategory->text = 'iTunes feed sub-category 3';
-$category->text = 'iTunes feed category 3';
+$subCategory->term = 'iTunes feed sub-category 3';
+$category->term = 'iTunes feed category 3';
 
 $item = $feed->add( 'item' );
 $item->title = 'Item title';
-$item->link = 'Item link';
+
+$link = $item->add( 'link' );
+$link->href = 'Item link';
+
 $item->description = 'Item description';
 
 return $feed;

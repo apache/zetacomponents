@@ -1,13 +1,13 @@
 <?php
 return array( 'id' => 'Feed id',
-              'title' => array( array( '#' => 'Feed title' ) ),
+              'title' => array( array( 'text' => 'Feed title' ) ),
               'updated' => 'Feed updated',
               'author' => array( array( 'name' => 'Author name' ) ),
               'item' => array( array( 'id' => 'Entry id',
-                                      'title' => array( array( '#' => 'Entry title' ) ),
+                                      'title' => array( array( 'text' => 'Entry title' ) ),
                                       'updated' => 'Entry updated',
                                       'content' => 'Entry content',
-                                      'description' => array( array( '#' => 'Entry summary',
+                                      'description' => array( array( 'text' => 'Entry summary',
                                                                      'language' => 'no',
                                                                      'type' => 'html' ) ) ) ) );
 ?>

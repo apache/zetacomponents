@@ -26,43 +26,30 @@
  *
  * Parse example:
  * <code>
- * // $item is an ezcFeedItem object
- * $alt = isset( $item->Geo->alt ) ? $item->Geo->alt[0] : null;
- * $lat = isset( $item->Geo->lat ) ? $item->Geo->lat[0] : null;
- * $long = isset( $item->Geo->long ) ? $item->Geo->long[0] : null;
+ * // $item is an ezcFeedEntryElement object
+ * $alt = isset( $item->Geo->alt ) ? $item->Geo->alt->__toString() : null;
+ * $lat = isset( $item->Geo->lat ) ? $item->Geo->lat->__toString() : null;
+ * $long = isset( $item->Geo->long ) ? $item->Geo->long->__toString() : null;
  * </code>
  *
- * @property ezcFeedElement $alt
- *                          Altitude in decimal meters above the local
- *                          reference ellipsoid (eg. 509.2). Can also be
- *                          negative.
- * @property ezcFeedElement $lat
- *                          {@link http://en.wikipedia.org/wiki/WGS84 WGS84} latitude
- *                          on the globe as decimal degrees
- *                          (eg. 25.03358300). Can also be negative.
- * @property ezcFeedElement $long
- *                          {@link http://en.wikipedia.org/wiki/WGS84 WGS84} longitude
- *                          on the globe as decimal degrees
- *                          (eg. 121.56430000). Can also be negative.
+ * @property ezcFeedTextElement $alt
+ *                              Altitude in decimal meters above the local
+ *                              reference ellipsoid (eg. 509.2). Can also be
+ *                              negative.
+ * @property ezcFeedTextElement $lat
+ *                              {@link http://en.wikipedia.org/wiki/WGS84 WGS84} latitude
+ *                              on the globe as decimal degrees
+ *                              (eg. 25.03358300). Can also be negative.
+ * @property ezcFeedTextElement $long
+ *                              {@link http://en.wikipedia.org/wiki/WGS84 WGS84} longitude
+ *                              on the globe as decimal degrees
+ *                              (eg. 121.56430000). Can also be negative.
  *
  * @package Feed
  * @version //autogentag//
  */
 class ezcFeedGeoModule extends ezcFeedModule
 {
-    /**
-     * Holds the schema for this feed module.
-     *
-     * @var array(string=>mixed)
-     * @ignore
-     */
-    protected $schema = array(
-        'feed' => array(),
-        'item' => array( 'alt'  => array( '#' => 'string' ),
-                         'lat'  => array( '#' => 'string' ),
-                         'long' => array( '#' => 'string' ),
-                         ) );
-
     /**
      * Constructs a new ezcFeedContentModule object.
      *
@@ -74,6 +61,130 @@ class ezcFeedGeoModule extends ezcFeedModule
     }
 
     /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     *
+     * @param string $name The property name
+     * @param mixed $value The property value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            $node = $this->add( $name );
+            $node->text = $value;
+        }
+        else
+        {
+            parent::__set( $name, $value );
+        }
+    }
+
+    /**
+     * Returns the value of property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     *
+     * @param string $name The property name
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            return $this->properties[$name];
+        }
+        else
+        {
+            return parent::__get( $name );
+        }
+    }
+
+    /**
+     * Returns if the property $name is set.
+     *
+     * @param string $name The property name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            return isset( $this->properties[$name] );
+        }
+        else
+        {
+            return parent::__isset( $name );
+        }
+    }
+
+    /**
+     * Returns true if the element $name is allowed in the current module at the
+     * current level (feed or item), and false otherwise.
+     *
+     * @param string $name The element name to check if allowed in the current module and level (feed or item)
+     * @return bool
+     */
+    public function isElementAllowed( $name )
+    {
+        switch ( $this->level )
+        {
+            case 'feed':
+                if ( in_array( $name, array( 'alt', 'lat', 'long' ) ) )
+                {
+                    return true;
+                }
+                break;
+
+            case 'item':
+                if ( in_array( $name, array( 'alt', 'lat', 'long' ) ) )
+                {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * Adds a new ezcFeedElement element with name $name to this module and
+     * returns it.
+     *
+     * @throws ezcFeedUnsupportedElementException
+     *         if trying to add an element which is not supported.
+     *
+     * @param string $name The element name
+     * @return ezcFeedElement
+     */
+    public function add( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            switch ( $name )
+            {
+                case 'alt':
+                case 'lat':
+                case 'long':
+                    $node = new ezcFeedTextElement();
+                    break;
+            }
+
+            $this->properties[$name] = $node;
+            return $node;
+        }
+        else
+        {
+            throw new ezcFeedUnsupportedElementException( $name );
+        }
+    }
+
+    /**
      * Adds the module elements to the $xml XML document, in the container $root.
      *
      * @param DOMDocument $xml The XML document in which to add the module elements
@@ -81,24 +192,15 @@ class ezcFeedGeoModule extends ezcFeedModule
      */
     public function generate( DOMDocument $xml, DOMNode $root )
     {
-        foreach ( $this->schema[$this->level] as $element => $schema )
+        $elements = array( 'alt', 'lat', 'long' );
+        foreach ( $elements as $element )
         {
             if ( isset( $this->$element ) )
             {
-                foreach ( $this->$element as $values )
-                {
-                    $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $element );
-                    $root->appendChild( $elementTag );
+                $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $element );
+                $root->appendChild( $elementTag );
 
-                    switch ( $element )
-                    {
-                        case 'alt':
-                        case 'lat':
-                        case 'long':
-                            $elementTag->nodeValue = $values->__toString();
-                            break;
-                    }
-                }
+                $elementTag->nodeValue = $this->$element->__toString();
             }
         }
     }
@@ -122,7 +224,7 @@ class ezcFeedGeoModule extends ezcFeedModule
                 case 'alt':
                 case 'lat':
                 case 'long':
-                    $element->set( $value );
+                    $element->text = $value;
                     break;
             }
         }

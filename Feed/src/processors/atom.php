@@ -31,270 +31,15 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     const CONTENT_TYPE = 'application/atom+xml';
 
     /**
-     * Holds the definitions for the elements in ATOM.
-     *
-     * @var array(string=>mixed)
-     */
-    private static $atomSchema = array(
-        'id'            => array( '#'          => 'string' ),
-        'title'         => array( '#'          => 'string',
-                                  'ATTRIBUTES' => array( 'type' => 'string',
-                                                         'language' => 'string' ), ),
-
-        'updated'       => array( '#'          => 'string' ),
-
-        'author'        => array( '#'          => 'none',
-                                  'NODES'      => array(
-                                                    'name' => array( '#' => 'string' ),
-                                                    'email' => array( '#' => 'string' ),
-                                                    'uri' => array( '#' => 'string' ),
-
-                                                    'REQUIRED'   => array( 'name' ),
-                                                    'OPTIONAL'   => array( 'email', 'uri' ),
-                                                    ),
-
-                                  'MULTI'      => 'authors' ),
-
-        'link'          => array( '#'          => 'none',
-                                  'ATTRIBUTES' => array( 'href' => 'string',
-                                                         'rel' => 'string',
-                                                         'type' => 'string',
-                                                         'hreflang' => 'string',
-                                                         'title' => 'string',
-                                                         'length' => 'string' ),
-
-                                  'REQUIRED_ATTRIBUTES' => array( 'href' ),
-
-                                  'MULTI'      => 'links' ),
-
-        'category'      => array( '#'          => 'none',
-                                  'ATTRIBUTES' => array( 'term' => 'string',
-                                                         'scheme' => 'string',
-                                                         'label' => 'string' ),
-
-                                  'REQUIRED_ATTRIBUTES'   => array( 'term' ),
-
-                                  'MULTI'      => 'categories' ),
-
-        'contributor'   => array( '#'          => 'none',
-                                  'NODES'      => array(
-                                                    'name' => array( '#' => 'string' ),
-                                                    'email' => array( '#' => 'string' ),
-                                                    'uri' => array( '#' => 'string' ),
-
-                                                    'REQUIRED'   => array( 'name' ),
-                                                    'OPTIONAL'   => array( 'email', 'uri' ),
-                                                    ),
-
-                                  'MULTI'      => 'contributors' ),
-
-        'generator'     => array( '#'          => 'string',
-                                  'ATTRIBUTES' => array( 'uri' => 'string',
-                                                         'version' => 'string' ), ),
-
-        'icon'          => array( '#'          => 'string' ),
-        'logo'          => array( '#'          => 'string' ),
-        'rights'        => array( '#'          => 'string',
-                                  'ATTRIBUTES' => array( 'type' => 'string',
-                                                         'language' => 'string' ), ),
-
-        'subtitle'      => array( '#'          => 'string',
-                                  'ATTRIBUTES' => array( 'type' => 'string',
-                                                         'language' => 'string' ), ),
-
-        'entry'         => array( '#'          => 'none',
-                                  'NODES'      => array(
-                                                    'id'          => array( '#' => 'string' ),
-                                                    'title'       => array( '#' => 'string',
-                                                                            'ATTRIBUTES' => array( 'type' => 'string',
-                                                                                                   'language' => 'string' ), ),
-
-                                                    'updated'     => array( '#' => 'string' ),
-
-                                                    'author'      => array( '#' => 'none',
-                                                                            'NODES'      => array(
-                                                                                              'name' => array( '#' => 'string' ),
-                                                                                              'email' => array( '#' => 'string' ),
-                                                                                              'uri' => array( '#' => 'string' ),
-
-                                                                                              'REQUIRED'   => array( 'name' ),
-                                                                                              'OPTIONAL'   => array( 'email', 'uri' ),
-                                                                                              ),
-
-                                                                            'MULTI'      => 'authors' ),
-
-                                                    'content'     => array( '#' => 'string',
-                                                                            'ATTRIBUTES' => array( 'type' => 'string',
-                                                                                                   'src' => 'string',
-                                                                                                   'language' => 'string' ), ),
-
-                                                    'link'        => array( '#'          => 'none',
-                                                                            'ATTRIBUTES' => array( 'href' => 'string',
-                                                                                                   'rel' => 'string',
-                                                                                                   'type' => 'string',
-                                                                                                   'hreflang' => 'string',
-                                                                                                   'title' => 'string',
-                                                                                                   'length' => 'string' ),
-
-                                                                            'REQUIRED_ATTRIBUTES' => array( 'href' ),
-
-                                                                            'MULTI'      => 'links' ),
-
-                                                    'summary'     => array( '#' => 'string',
-                                                                            'ATTRIBUTES' => array( 'type' => 'string',
-                                                                                                   'language' => 'string' ), ),
-
-                                                    'category'    => array( '#' => 'none',
-                                                                            'ATTRIBUTES' => array( 'term' => 'string',
-                                                                                                   'scheme' => 'string',
-                                                                                                   'label' => 'string' ),
-
-                                                                            'REQUIRED_ATTRIBUTES'   => array( 'term' ),
-
-                                                                            'MULTI'      => 'categories' ),
-
-                                                    'contributor' => array( '#' => 'none',
-                                                                            'NODES'      => array(
-                                                                                              'name' => array( '#' => 'string' ),
-                                                                                              'email' => array( '#' => 'string' ),
-                                                                                              'uri' => array( '#' => 'string' ),
-
-                                                                                              'REQUIRED'   => array( 'name' ),
-                                                                                              'OPTIONAL'   => array( 'email', 'uri' ),
-                                                                                              ),
-
-                                                                            'MULTI'      => 'contributors' ),
-
-                                                    'published'   => array( '#'          => 'string' ),
-
-                                                    'source'      => array( '#'          => 'none',
-                                                                            'NODES'      => array(
-                                                                                              'id'            => array( '#'          => 'string' ),
-                                                                                              'title'         => array( '#'          => 'string',
-                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string',
-                                                                                                                                               'language' => 'string' ), ),
-
-                                                                                              'updated'       => array( '#'          => 'string' ),
-
-                                                                                              'author'        => array( '#'          => 'none',
-                                                                                                                        'NODES'      => array(
-                                                                                                                                          'name' => array( '#' => 'string' ),
-                                                                                                                                          'email' => array( '#' => 'string' ),
-                                                                                                                                          'uri' => array( '#' => 'string' ),
-
-                                                                                                                                          'REQUIRED'   => array( 'name' ),
-                                                                                                                                          'OPTIONAL'   => array( 'email', 'uri' ),
-                                                                                                                                          ),
-
-                                                                                                                        'MULTI'      => 'authors' ),
-
-                                                                                              'link'          => array( '#'          => 'none',
-                                                                                                                        'ATTRIBUTES' => array( 'href' => 'string',
-                                                                                                                                               'rel' => 'string',
-                                                                                                                                               'type' => 'string',
-                                                                                                                                               'hreflang' => 'string',
-                                                                                                                                               'title' => 'string',
-                                                                                                                                               'length' => 'string' ),
-
-                                                                                                                        'REQUIRED_ATTRIBUTES' => array( 'href' ),
-
-                                                                                                                        'MULTI'      => 'links' ),
-
-                                                                                              'category'      => array( '#'          => 'none',
-                                                                                                                        'ATTRIBUTES' => array( 'term' => 'string',
-                                                                                                                                               'scheme' => 'string',
-                                                                                                                                               'label' => 'string' ),
-
-                                                                                                                        'REQUIRED_ATTRIBUTES'   => array( 'term' ),
-
-                                                                                                                        'MULTI'      => 'categories' ),
-
-                                                                                              'contributor'   => array( '#'          => 'none',
-                                                                                                                        'NODES'      => array(
-                                                                                                                                          'name' => array( '#' => 'string' ),
-                                                                                                                                          'email' => array( '#' => 'string' ),
-                                                                                                                                          'uri' => array( '#' => 'string' ),
-
-                                                                                                                                          'REQUIRED'   => array( 'name' ),
-                                                                                                                                          'OPTIONAL'   => array( 'email', 'uri' ),
-                                                                                                                                          ),
-
-                                                                                                                        'MULTI'      => 'contributors' ),
-
-                                                                                              'generator'     => array( '#'          => 'string',
-                                                                                                                        'ATTRIBUTES' => array( 'uri' => 'string',
-                                                                                                                                               'version' => 'string' ), ),
-
-                                                                                              'icon'          => array( '#'          => 'string' ),
-                                                                                              'logo'          => array( '#'          => 'string' ),
-                                                                                              'rights'        => array( '#'          => 'string',
-                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string',
-                                                                                                                                               'language' => 'string' ), ),
-
-                                                                                              'subtitle'      => array( '#'          => 'string',
-                                                                                                                        'ATTRIBUTES' => array( 'type' => 'string',
-                                                                                                                                               'language' => 'string' ), ),
-
-                                                                                              'OPTIONAL'      => array( 'id', 'title', 'updated',
-                                                                                                                        'author', 'link', 'category',
-                                                                                                                        'contributor', 'generator', 'icon',
-                                                                                                                        'logo', 'rights', 'subtitle' ),
-
-                                                                                              ),
-
-                                                                            'ITEMS_MAP' => array( 'image' => 'logo',
-                                                                                                  'copyright' => 'rights',
-                                                                                                  'description' => 'subtitle' ) ),
-
-                                                    'rights'      => array( '#' => 'string',
-                                                                            'ATTRIBUTES' => array( 'type' => 'string',
-                                                                                                   'language' => 'string' ), ),
-
-                                                    'REQUIRED'   => array( 'id', 'title', 'updated' ),
-
-                                                    'OPTIONAL'   => array( 'author', 'content', 'link', 'summary',
-                                                                           'category', 'contributor', 'published', 'rights',
-                                                                           'source' ),
-
-                                                    // Only if the feed does not contain 'author'
-                                                    'AT_LEAST_ONE' => array( 'author' ),
-
-                                                    ),
-
-                                  'ITEMS_MAP'  => array( 'copyright' => 'rights',
-                                                         'description' => 'summary' ),
-
-                                  'MULTI'      => 'entries' ),
-
-        'REQUIRED'      => array( 'id', 'title', 'updated' ),
-        'OPTIONAL'      => array( 'author', 'link', 'category',
-                                  'contributor', 'generator', 'icon',
-                                  'logo', 'rights', 'subtitle' ),
-
-        // Only if there is one entry which does not contain 'author'
-        'AT_LEAST_ONE'  => array( 'author' ),
-
-        'ELEMENTS_MAP'  => array( 'image' => 'logo',
-                                  'copyright' => 'rights',
-                                  'description' => 'subtitle',
-                                  'item' => 'entry',
-                                  'items' => 'entries' ),
-        );
-
-    /**
      * Creates a new ATOM processor.
+     *
+     * @param ezcFeed $container The feed data container used when generating
      */
-    public function __construct()
+    public function __construct( ezcFeed $container )
     {
+        $this->feedContainer = $container;
         $this->feedType = self::FEED_TYPE;
         $this->contentType = self::CONTENT_TYPE;
-        $this->schema = new ezcFeedSchema( self::$atomSchema );
-
-        // set default values: generator
-        $generator = $this->add( 'generator' );
-        $generator->set( 'eZ Components Feed' );
-        $generator->uri = ezcFeed::GENERATOR_URI;
-        $generator->version = ( ezcFeed::GENERATOR_VERSION === '//auto' . 'gentag//' ) ? 'dev' : ezcFeed::GENERATOR_VERSION;
     }
 
     /**
@@ -307,7 +52,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
         $this->xml = new DOMDocument( '1.0', 'utf-8' );
         $this->xml->formatOutput = 1;
-        $this->createRootElement( '2.0' );
+
+        $rss = $this->xml->createElementNS( 'http://www.w3.org/2005/Atom', 'feed' );
+        $this->channel = $rss;
+        $this->root = $this->xml->appendChild( $rss );
+
         $this->generateRequired();
         $this->generateAtLeastOne();
         $this->generateOptional();
@@ -356,92 +105,94 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             if ( $channelChild->nodeType == XML_ELEMENT_NODE )
             {
                 $tagName = $channelChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
 
                 switch ( $tagName )
                 {
                     case 'title':
-                    case 'copyright':
-                    case 'description':
-                        $type = $channelChild->getAttribute( 'type' );
+                        $this->parseTextNode( $feed, $channelChild, 'title' );
+                        break;
 
-                        switch ( $type )
-                        {
-                            case 'xhtml':
-                                $nodes = $channelChild->childNodes;
-                                if ( $nodes instanceof DOMNodeList )
-                                {
-                                    $contentNode = $nodes->item( 1 );
-                                    $feed->$tagName = $contentNode->nodeValue;
-                                }
-                                break;
+                    case 'rights':
+                        $this->parseTextNode( $feed, $channelChild, 'copyright' );
+                        break;
 
-                            case 'html':
-                                $feed->$tagName = $channelChild->textContent;
-                                break;
-
-                            case 'text':
-                                // same case as 'default'
-
-                            default:
-                                $feed->$tagName = $channelChild->textContent;
-                                break;
-                        }
-
+                    case 'subtitle':
+                        $this->parseTextNode( $feed, $channelChild, 'description' );
                         break;
 
                     case 'id':
-                    case 'generator':
-                    case 'image':
+                        $feed->$tagName = $channelChild->textContent;
+                        break;
+
                     case 'icon':
                         $feed->$tagName = $channelChild->textContent;
                         break;
 
+                    case 'logo':
+                        $feed->image = $channelChild->textContent;
+                        break;
+
+                    case 'generator':
+                        $element = $feed->add( $tagName );
+
+                        $attributes = array( 'uri' => 'url', 'version' => 'version' );
+                        foreach ( $attributes as $name => $alias )
+                        {
+                            if ( $channelChild->hasAttribute( $name ) )
+                            {
+                                $element->$alias = $channelChild->getAttribute( $name );
+                            }
+                        }
+                        $element->name = $channelChild->textContent;
+                        break;
+
                     case 'updated':
-                        $feed->$tagName = ezcFeedTools::prepareDate( $channelChild->textContent );
+                        $feed->$tagName = $channelChild->textContent;
                         break;
 
                     case 'category':
+                        $element = $feed->add( $tagName );
+
+                        $attributes = array( 'term' => 'term', 'scheme' => 'scheme', 'label' => 'label' );
+                        foreach ( $attributes as $name => $alias )
+                        {
+                            if ( $channelChild->hasAttribute( $name ) )
+                            {
+                                $element->$alias = $channelChild->getAttribute( $name );
+                            }
+                        }
+                        break;
+
                     case 'link':
                         $element = $feed->add( $tagName );
+
+                        $attributes = array( 'href' => 'href', 'rel' => 'rel', 'hreflang' => 'hreflang',
+                                             'type' => 'type', 'title' => 'title', 'length' => 'length' );
+
+                        foreach ( $attributes as $name => $alias )
+                        {
+                            if ( $channelChild->hasAttribute( $name ) )
+                            {
+                                $element->$alias = $channelChild->getAttribute( $name );
+                            }
+                        }
                         break;
 
                     case 'contributor':
                     case 'author':
                         $element = $feed->add( $tagName );
-                        $this->parsePerson( $feed, $element, $channelChild, $tagName );
+                        $this->parsePerson( $element, $channelChild, $tagName );
                         break;
 
-                    case 'item':
-                        $element = $feed->add( $tagName );
-                        $this->parseItem( $feed, $element, $channelChild );
+                    case 'entry':
+                        $element = $feed->add( 'item' );
+                        $this->parseItem( $element, $channelChild );
                         break;
 
                     default:
                         // check if it's part of a known module/namespace
                         $this->parseModules( $feed, $channelChild, $tagName );
-
-                        // continue 2 = ignore modules when getting attributes below
-                        continue 2;
-                }
-            }
-
-            if ( $channelChild->hasAttributes() )
-            {
-                foreach ( $channelChild->attributes as $attribute )
-                {
-                    if ( in_array( $tagName, array( 'category', 'link' ) ) )
-                    {
-                        $element->{$attribute->name} = $attribute->value;
-                    }
-                    else if ( $attribute->name === 'lang' )
-                    {
-                        $feed->$tagName->language = $attribute->value;
-                    }
-                    else
-                    {
-                        $feed->$tagName->{$attribute->name} = $attribute->value;
-                    }
+                        break;
                 }
             }
         }
@@ -450,23 +201,12 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Creates a root node for the XML document being generated.
-     *
-     * @param string $version The RSS version for the root node
-     */
-    private function createRootElement( $version )
-    {
-        $rss = $this->xml->createElementNS( 'http://www.w3.org/2005/Atom', 'feed' );
-        $this->channel = $rss;
-        $this->root = $this->xml->appendChild( $rss );
-    }
-
-    /**
      * Adds the required feed elements to the XML document being generated.
      */
     private function generateRequired()
     {
-        foreach ( $this->schema->getRequired() as $element )
+        $elements = array( 'id', 'title', 'updated' );
+        foreach ( $elements as $element )
         {
             $data = $this->$element;
             if ( is_null( $data ) )
@@ -474,21 +214,20 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$element}" );
             }
 
-            if ( !is_array( $data ) )
+            switch ( $element )
             {
-                $data = array( $data );
-            }
+                case 'id':
+                    $this->generateMetaData( $this->channel, $element, $data );
+                    break;
 
-            foreach ( $data as $dataNode )
-            {
-                switch ( $element )
-                {
-                    case 'updated':
-                        // Sample date: 2003-12-13T18:30:02-05:00
-                        $dataNode->set( ezcFeedTools::prepareDate( $dataNode->getValue() )->format( 'c' ) );
-                        break;
-                }
-                $this->generateNode( $this->channel, $element, null, $dataNode );
+                case 'title':
+                    $this->generateTextNode( $this->channel, $element, $data );
+                    break;
+
+                case 'updated':
+                    // Sample date: 2003-12-13T18:30:02-05:00
+                    $this->generateMetaData( $this->channel, $element, $data->date->format( 'c' ) );
+                    break;
 
             }
         }
@@ -506,7 +245,6 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         if ( is_null( $data ) )
         {
-            // add checks for entry/author
             $entries = $this->item;
             if ( $entries === null )
             {
@@ -531,64 +269,69 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateOptional()
     {
-        foreach ( $this->schema->getOptional() as $element )
+        $elements = array( 'author', 'link', 'category',
+                           'contributor', 'generator', 'icon',
+                           'image', 'copyright', 'description' );
+
+        if ( $this->link !== null )
+        {
+            $this->checkLinks( $this->channel, $this->link );
+        }
+
+        foreach ( $elements as $element )
         {
             $data = $this->$element;
 
             if ( !is_null( $data ) )
             {
-                if ( !is_array( $data ) )
-                {
-                    $data = array( $data );
-                }
-
                 switch ( $element )
                 {
                     case 'contributor':
                         foreach ( $this->contributor as $person )
                         {
-                            $this->generatePerson( $this->channel, $person, $element );
+                            $this->generatePerson( $this->channel, 'contributor', $person );
                         }
                         break;
 
                     case 'author':
                         foreach ( $this->author as $person )
                         {
-                            $this->generatePerson( $this->channel, $person, $element );
+                            $this->generatePerson( $this->channel, 'author', $person );
                         }
+                        break;
+
+                    case 'generator':
+                        $this->generateGenerator( $this->channel, $this->generator );
                         break;
 
                     case 'link':
-                        $unique = array();
                         foreach ( $data as $dataNode )
                         {
-                            if ( ( isset( $dataNode->rel ) && $dataNode->rel === 'alternate' )
-                                 && isset( $dataNode->type )
-                                 && isset( $dataNode->hreflang ) )
-                            {
-                                foreach ( $unique as $obj )
-                                {
-                                    if ( $obj['type'] === $dataNode->type
-                                         && $obj['hreflang'] === $dataNode->hreflang )
-                                    {
-                                        throw new ezcFeedOnlyOneValueAllowedException( '/feed/link@rel="alternate"' );
-                                    }
-                                }
-
-                                $unique[] = array( 'type' => $dataNode->type,
-                                                   'hreflang' => $dataNode->hreflang );
-
-                            }
-
-                            $this->generateNode( $this->channel, $element, null, $dataNode );
+                            $this->generateLink( $this->channel, $dataNode );
                         }
                         break;
 
-                    default:
+                    case 'category':
                         foreach ( $data as $dataNode )
                         {
-                            $this->generateNode( $this->channel, $element, null, $dataNode );
+                            $this->generateCategory( $this->channel, $dataNode );
                         }
+                        break;
+
+                    case 'description':
+                        $this->generateTextNode( $this->channel, 'subtitle', $data );
+                        break;
+
+                    case 'copyright':
+                        $this->generateTextNode( $this->channel, 'rights', $data );
+                        break;
+
+                    case 'image':
+                        $this->generateMetaData( $this->channel, 'logo', $data );
+                        break;
+
+                    case 'icon':
+                        $this->generateMetaData( $this->channel, 'icon', $data );
                         break;
                 }
             }
@@ -596,88 +339,132 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Creates an XML node in the XML document being generated.
+     * Checks if the links are defined correctly.
      *
-     * @param DOMNode $root The root in which to create the node $element
-     * @param string $element The name of the node to create
-     * @param string $parent The name of the parent node which contains the node $element
-     * @param array(string=>mixed) $dataNode The data for the node to create
+     * @throws ezcFeedOnlyOneValueAllowedException
+     *         if there was more than one @rel="alternate" element in the $links array
+     *
+     * @param DOMNode $root The root in which to check the link elements
+     * @param array(ezcFeedLinkElement) $links The link elements to check
+     * @return bool
      */
-    private function generateNode( DOMNode $root, $element, $parent = null, $dataNode )
+    private function checkLinks( DOMNode $root, array $links )
     {
-        $elementTag = $this->xml->createElement( $element );
+        $unique = array();
+        foreach ( $links as $dataNode )
+        {
+            if ( ( isset( $dataNode->rel ) && $dataNode->rel === 'alternate' )
+                 && isset( $dataNode->type )
+                 && isset( $dataNode->hreflang ) )
+            {
+                foreach ( $unique as $obj )
+                {
+                    if ( $obj['type'] === $dataNode->type
+                         && $obj['hreflang'] === $dataNode->hreflang )
+                    {
+                        $parentNode = ( $root->nodeName === 'entry' ) ? '/feed' : '';
+                        $parentNode = ( $root->nodeName === 'source' ) ? '/feed/entry' : $parentNode;
+
+                        throw new ezcFeedOnlyOneValueAllowedException( "{$parentNode}/{$root->nodeName}/link@rel=\"alternate\"" );
+                    }
+                }
+
+                $unique[] = array( 'type' => $dataNode->type,
+                                   'hreflang' => $dataNode->hreflang );
+
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Creates a link node in the XML document being generated.
+     *
+     * @param DOMNode $root The root in which to create the link
+     * @param ezcFeedLinkElement $dataNode The data for the link node to create
+     */
+    private function generateLink( DOMNode $root, ezcFeedLinkElement $dataNode )
+    {
+        $elementTag = $this->xml->createElement( 'link' );
         $root->appendChild( $elementTag );
 
-        $subElement = $parent;
-
-        if ( $parent !== null )
+        $elements = array( 'href', 'rel', 'type', 'hreflang', 'title', 'length' );
+        if ( !isset( $dataNode->href ) )
         {
-            $subElement = $element;
-            $element = $parent;
+            $parentNode = ( $root->nodeName === 'entry' ) ? '/feed' : '';
+            $parentNode = ( $root->nodeName === 'source' ) ? '/feed/entry' : $parentNode;
+
+            throw new ezcFeedRequiredMetaDataMissingException( "{$parentNode}/{$root->nodeName}/link/@href" );
         }
+
+        foreach ( $elements as $attribute )
+        {
+            if ( isset( $dataNode->$attribute ) )
+            {
+                $this->addAttribute( $elementTag, $attribute, $dataNode->$attribute );
+            }
+        }
+    }
+
+    /**
+     * Creates a generator node in the XML document being generated.
+     *
+     * @param DOMNode $root The root in which to create the generator node
+     * @param ezcFeedGeneratorElement $generator The data for the generator node to create
+     */
+    private function generateGenerator( DOMNode $root, ezcFeedGeneratorElement $generator )
+    {
+        $name = $generator->name;
+        $version = $generator->version;
+        $url = $generator->url;
+
+        $elementTag = $this->xml->createElement( 'generator', $name );
+        $root->appendChild( $elementTag );
+
+        if ( $version !== null )
+        {
+            $this->generateMetaData( $elementTag, 'version', $version );
+        }
+
+        if ( $url !== null )
+        {
+            $this->generateMetaData( $elementTag, 'uri', $url );
+        }
+    }
+
+    /**
+     * Creates a category node in the XML document being generated.
+     *
+     * @throws ezcFeedRequiredMetaDataMissingException
+     *         if the required attributes are missing
+     *
+     * @param DOMNode $root The root in which to create the category node
+     * @param ezcFeedCategoryElement $dataNode The data for the category node to create
+     */
+    private function generateCategory( DOMNode $root, ezcFeedCategoryElement $dataNode )
+    {
+        $elementTag = $this->xml->createElement( 'category' );
+        $root->appendChild( $elementTag );
 
         $parentNode = ( $root->nodeName === 'entry' ) ? '/feed' : '';
+        $parentNode = ( $root->nodeName === 'source' ) ? '/feed/entry' : $parentNode;
 
-        $attributes = array();
-        $required = $this->schema->getRequiredAttributes( $element, $subElement );
+        $attributes = array( 'term' => 'term', 'scheme' => 'scheme', 'label' => 'label' );
+        $required = array( 'term' );
+        $optional = array( 'scheme', 'label' );
 
-        foreach ( $this->schema->getAttributes( $element, $subElement ) as $attribute => $type )
+        foreach ( $attributes as $attribute => $alias )
         {
-            if ( isset( $dataNode->$attribute ) )
+            if ( isset( $dataNode->$alias ) )
             {
-                $val = $dataNode->$attribute;
-                if ( $attribute === 'type' && $element !== 'link' )
-                {
-                    switch ( $val )
-                    {
-                        case 'html':
-                            $dataNode->set( htmlspecialchars( $dataNode->__toString() ) );
-                            $this->addAttribute( $elementTag, 'type', $val );
-                            break;
-
-                        case 'xhtml':
-                            $this->addAttribute( $elementTag, 'type', $val );
-                            $this->addAttribute( $elementTag, 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
-                            $xhtmlTag = $this->xml->createElement( 'xhtml:div', $dataNode->__toString() );
-                            $elementTag->appendChild( $xhtmlTag );
-                            $elementTag = $xhtmlTag;
-                            break;
-
-                        case 'text':
-                            // same as the default case
-
-                        default:
-                            $val = 'text';
-                            $this->addAttribute( $elementTag, 'type', $val );
-                            break;
-
-                    }
-                }
-                else if ( $attribute === 'language' && $dataNode->language !== null )
-                {
-                    if ( $dataNode->type === 'xhtml' )
-                    {
-                        $this->addAttribute( $elementTag->parentNode, 'xml:lang', $dataNode->language );
-                    }
-                    else
-                    {
-                        $this->addAttribute( $elementTag, 'xml:lang', $dataNode->language );
-                    }
-                }
-                else
-                {
-                    $this->addAttribute( $elementTag, $attribute, $val );
-                }
+                $val = $dataNode->$alias;
+                $this->addAttribute( $elementTag, $attribute, $val );
             }
             else if ( in_array( $attribute, $required ) )
             {
-                throw new ezcFeedRequiredMetaDataMissingException( "{$parentNode}/{$root->nodeName}/{$element}/@{$attribute}" );
+                throw new ezcFeedRequiredMetaDataMissingException( "{$parentNode}/{$root->nodeName}/category/@{$attribute}" );
             }
-        }
-
-        if ( !$this->schema->isEmpty( $element, $subElement ) )
-        {
-            $elementTag->nodeValue = ( $dataNode instanceof ezcFeedElement ) ? $dataNode->__toString() : (string)$dataNode;
         }
     }
 
@@ -686,137 +473,179 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      *
      * @param DOMNode $root The root in which to create the node $element
      * @param string $element The name of the node to create
-     * @param string $parent The name of the parent node which contains the node $element
-     * @param array(string=>mixed) $dataNode The data for the node to create
+     * @param ezcFeedTextElement $dataNode The data for the node to create
      */
-    private function generateContentNode( DOMNode $root, $element, $parent = null, $dataNode )
+    private function generateTextNode( DOMNode $root, $element, ezcFeedTextElement $dataNode )
     {
         $elementTag = $this->xml->createElement( $element );
         $root->appendChild( $elementTag );
 
-        $subElement = $parent;
+        $attributes = array();
 
-        if ( $parent !== null )
+        if ( isset( $dataNode->type ) )
         {
-            $subElement = $element;
-            $element = $parent;
+            $val = $dataNode->type;
+            switch ( $val )
+            {
+                case 'html':
+                    $dataNode->text = htmlspecialchars( $dataNode->__toString() );
+                    $this->addAttribute( $elementTag, 'type', $val );
+                    break;
+
+                case 'xhtml':
+                    $this->addAttribute( $elementTag, 'type', $val );
+                    $this->addAttribute( $elementTag, 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
+                    $xhtmlTag = $this->xml->createElement( 'xhtml:div', $dataNode->__toString() );
+                    $elementTag->appendChild( $xhtmlTag );
+                    $elementTag = $xhtmlTag;
+                    break;
+
+                case 'text':
+                    // same as the default case
+
+                default:
+                    $val = 'text';
+                    $this->addAttribute( $elementTag, 'type', $val );
+                    break;
+
+            }
         }
 
-        $attributes = array();
-        $required = $this->schema->getRequiredAttributes( $element, $subElement );
-
-        foreach ( $this->schema->getAttributes( $element, $subElement ) as $attribute => $type )
+        if ( isset( $dataNode->language ) )
         {
-            if ( isset( $dataNode->$attribute ) )
+            if ( $dataNode->type === 'xhtml' )
             {
-                $val = $dataNode->$attribute;
-                if ( $attribute === 'type' )
-                {
-                    switch ( $val )
+                $this->addAttribute( $elementTag->parentNode, 'xml:lang', $dataNode->language );
+            }
+            else
+            {
+                $this->addAttribute( $elementTag, 'xml:lang', $dataNode->language );
+            }
+        }
+
+        $elementTag->nodeValue = $dataNode;
+    }
+
+    /**
+     * Creates an XML node in the XML document being generated.
+     *
+     * @param DOMNode $root The root in which to create the node $element
+     * @param string $element The name of the node to create
+     * @param array(string=>mixed) $dataNode The data for the node to create
+     */
+    private function generateContentNode( DOMNode $root, $element, $dataNode )
+    {
+        $elementTag = $this->xml->createElement( $element );
+        $root->appendChild( $elementTag );
+
+        $attributes = array();
+
+        if ( isset( $dataNode->type ) )
+        {
+            $val = $dataNode->type;
+            switch ( $val )
+            {
+                case 'html':
+                    $dataNode->text = htmlspecialchars( $dataNode->__toString() );
+                    $this->addAttribute( $elementTag, 'type', $val );
+                    break;
+
+                case 'xhtml':
+                    $this->addAttribute( $elementTag, 'type', $val );
+                    $this->addAttribute( $elementTag, 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
+                    $xhtmlTag = $this->xml->createElement( 'xhtml:div', $dataNode->__toString() );
+                    $elementTag->appendChild( $xhtmlTag );
+                    $elementTag = $xhtmlTag;
+                    break;
+
+                case 'text':
+                    $this->addAttribute( $elementTag, 'type', $val );
+                    break;
+
+                default:
+                    if ( preg_match( '@[+/]xml$@', $val ) !== 0 )
                     {
-                        case 'html':
-                            $dataNode->set( htmlspecialchars( $dataNode->__toString() ) );
-                            $this->addAttribute( $elementTag, 'type', $val );
-                            break;
-
-                        case 'xhtml':
-                            $this->addAttribute( $elementTag, 'type', $val );
-                            $this->addAttribute( $elementTag, 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
-                            $xhtmlTag = $this->xml->createElement( 'xhtml:div', $dataNode->__toString() );
-                            $elementTag->appendChild( $xhtmlTag );
-                            $elementTag = $xhtmlTag;
-                            break;
-
-                        case 'text':
-                            $this->addAttribute( $elementTag, 'type', $val );
-                            break;
-
-                        default:
-                            if ( preg_match( '@[+/]xml$@', $type ) !== 0 )
-                            {
-                                // @todo: implement to assign the text in $dataNode as an XML node into $elementTag
-                                $this->addAttribute( $elementTag, 'type', $val );
-                            }
-                            else if ( substr_compare( $val, 'text/', 0, 5, true ) === 0 )
-                            {
-                                $dataNode->set( htmlspecialchars( $dataNode->__toString() ) );
-                                $this->addAttribute( $elementTag, 'type', $val );
-                                break;
-                            }
-                            else if ( $val !== null )
-                            {
-                                // @todo: make 76 and "\n" options?
-                                $dataNode->set( chunk_split( base64_encode( $dataNode->__toString() ), 76, "\n" ) );
-                                $this->addAttribute( $elementTag, 'type', $val );
-                            }
-                            else
-                            {
-                                $val = 'text';
-                                $this->addAttribute( $elementTag, 'type', $val );
-                            }
-                            break;
-
+                        // @todo: implement to assign the text in $dataNode as an XML node into $elementTag
+                        $this->addAttribute( $elementTag, 'type', $val );
                     }
-                }
-                else if ( $attribute === 'language' && $dataNode->language !== null )
-                {
-                    if ( $dataNode->type === 'xhtml' )
+                    else if ( substr_compare( $val, 'text/', 0, 5, true ) === 0 )
                     {
-                        $this->addAttribute( $elementTag->parentNode, 'xml:lang', $dataNode->language );
+                        $dataNode->text = htmlspecialchars( $dataNode->__toString() );
+                        $this->addAttribute( $elementTag, 'type', $val );
+                        break;
+                    }
+                    else if ( $val !== null )
+                    {
+                        // @todo: make 76 and "\n" options?
+                        $dataNode->text = chunk_split( base64_encode( $dataNode->__toString() ), 76, "\n" );
+                        $this->addAttribute( $elementTag, 'type', $val );
                     }
                     else
                     {
-                        $this->addAttribute( $elementTag, 'xml:lang', $dataNode->language );
+                        $val = 'text';
+                        $this->addAttribute( $elementTag, 'type', $val );
                     }
-                }
-                else
-                {
-                    $this->addAttribute( $elementTag, $attribute, $val );
-                }
-            }
-            else if ( in_array( $attribute, $required ) )
-            {
-                throw new ezcFeedRequiredMetaDataMissingException( "/{$root->nodeName}/{$element}/{$attribute}" );
+                    break;
+
             }
         }
 
-        if ( !$this->schema->isEmpty( $element, $subElement ) )
+        if ( $dataNode->src !== null )
         {
-            $elementTag->nodeValue = ( $dataNode instanceof ezcFeedElement) ? $dataNode->__toString() : (string)$dataNode;
+            $this->addAttribute( $elementTag, 'src', $dataNode->src );
         }
+
+        if ( $dataNode->language !== null )
+        {
+            if ( $dataNode->type === 'xhtml' )
+            {
+                $this->addAttribute( $elementTag->parentNode, 'xml:lang', $dataNode->language );
+            }
+            else
+            {
+                $this->addAttribute( $elementTag, 'xml:lang', $dataNode->language );
+            }
+        }
+
+        $elementTag->nodeValue = $dataNode;
     }
 
     /**
      * Creates an XML person node in the XML document being generated.
      *
      * @param DOMNode $root The root in which to create the node $element
-     * @param ezcFeedElement $feedElement The person feed element (author, contributor)
      * @param string $element The name of the node to create
+     * @param ezcFeedPersonElement $feedElement The person feed element (author, contributor)
      */
-    private function generatePerson( DOMNode $root, ezcFeedElement $feedElement, $element )
+    private function generatePerson( DOMNode $root, $element, ezcFeedPersonElement $feedElement )
     {
         $elementTag = $this->xml->createElement( $element );
         $root->appendChild( $elementTag );
+
         $parentNode = ( $root->nodeName === 'entry' ) ? '/feed' : '';
+        $parentNode = ( $root->nodeName === 'source' ) ? '/feed/entry' : $parentNode;
 
-        foreach ( $this->schema->getRequired( $element ) as $child )
+        $name = $feedElement->name;
+        $email = $feedElement->email;
+        $uri = $feedElement->uri;
+
+        if ( !is_null( $name ) )
         {
-            $data = $feedElement->$child;
-            if ( is_null( $data ) )
-            {
-                throw new ezcFeedRequiredMetaDataMissingException( "{$parentNode}/{$root->nodeName}/{$element}/{$child}" );
-            }
-
-            $this->generateMetaData( $elementTag, $child, $data );
+            $this->generateMetaData( $elementTag, 'name', $name );
+        }
+        else
+        {
+            throw new ezcFeedRequiredMetaDataMissingException( "{$parentNode}/{$root->nodeName}/{$element}/name" );
         }
 
-        foreach ( $this->schema->getOptional( $element ) as $child )
+        if ( !is_null( $email ) )
         {
-            $data = $feedElement->$child;
-            if ( !is_null( $data ) )
-            {
-                $this->generateMetaData( $elementTag, $child, $data );
-            }
+            $this->generateMetaData( $elementTag, 'email', $email );
+        }
+
+        if ( !is_null( $uri ) )
+        {
+            $this->generateMetaData( $elementTag, 'uri', $uri );
         }
     }
 
@@ -824,117 +653,86 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * Creates an XML source node in the XML document being generated.
      *
      * @param DOMNode $root The root in which to create the source node
-     * @param ezcFeedElement $feedElement The person feed source
+     * @param ezcFeedSourceElement $feedElement The feed source
      */
-    private function generateSource( DOMNode $root, ezcFeedElement $feedElement )
+    private function generateSource( DOMNode $root, ezcFeedSourceElement $feedElement )
     {
-        $element = 'source';
-        $parent = 'entry';
-        $elementTag = $this->xml->createElement( $element );
+        $elementTag = $this->xml->createElement( 'source' );
         $root->appendChild( $elementTag );
 
-        foreach ( $this->schema->getOptional( $parent, $element ) as $child )
+        $elements = array( 'id', 'title', 'updated',
+                           'author', 'link', 'category',
+                           'contributor', 'generator', 'icon',
+                           'image', 'copyright', 'description' );
+
+        foreach ( $elements as $child )
         {
             $data = $feedElement->$child;
 
             if ( !is_null( $data ) )
             {
-                if ( !is_array( $data ) )
+                switch ( $child )
                 {
-                    $data = array( $data );
-                }
+                    case 'title':
+                        $this->generateTextNode( $elementTag, 'title', $data );
+                        break;
 
-                foreach ( $data as $dataNode )
-                {
-                    $childTag = $this->xml->createElement( $child );
-                    $elementTag->appendChild( $childTag );
+                    case 'description':
+                        $this->generateTextNode( $elementTag, 'subtitle', $data );
+                        break;
 
-                    $attributes = array();
-                    $required = $this->schema->getRequiredAttributes( $parent, $element, $child );
+                    case 'copyright':
+                        $this->generateTextNode( $elementTag, 'rights', $data );
+                        break;
 
-                    foreach ( $this->schema->getRequired( $parent, $element, $child ) as $attribute )
-                    {
-                        $val = $dataNode->$attribute;
-                        if ( is_null( $val ) )
+                    case 'contributor':
+                        foreach ( $data as $dataNode )
                         {
-                            throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$parent}/{$element}/{$child}/{$attribute}" );
+                            $this->generatePerson( $elementTag, 'contributor', $dataNode );
                         }
+                        break;
 
-                        $this->generateMetaData( $childTag, $attribute, $val );
-                    }
-
-                    foreach ( $this->schema->getOptional( $parent, $element, $child ) as $attribute )
-                    {
-                        $val = $dataNode->$attribute;
-                        if ( !is_null( $val ) )
+                    case 'author':
+                        foreach ( $data as $dataNode )
                         {
-                            $this->generateMetaData( $childTag, $attribute, $val );
+                            $this->generatePerson( $elementTag, 'author', $dataNode );
                         }
-                    }
+                        break;
 
-                    foreach ( $this->schema->getAttributes( $parent, $element, $child ) as $attribute => $type )
-                    {
-                        if ( isset( $dataNode->$attribute ) )
+                    case 'generator':
+                        $this->generateGenerator( $elementTag, $data );
+                        break;
+
+                    case 'link':
+                        foreach ( $data as $dataNode )
                         {
-                            $val = $dataNode->$attribute;
-                            if ( $attribute === 'type' && $child !== 'link' )
-                            {
-                                switch ( $val )
-                                {
-                                    case 'html':
-                                        $dataNode->set( htmlspecialchars( $dataNode->__toString() ) );
-                                        $this->addAttribute( $childTag, 'type', $val );
-                                        break;
-
-                                    case 'xhtml':
-                                        $this->addAttribute( $childTag, 'type', $val );
-                                        $this->addAttribute( $childTag, 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
-                                        $xhtmlTag = $this->xml->createElement( 'xhtml:div', $dataNode->__toString() );
-                                        $childTag->appendChild( $xhtmlTag );
-                                        $childTag = $xhtmlTag;
-                                        break;
-
-                                    case 'text':
-                                        // same as the default case
-
-                                    default:
-                                        $val = 'text';
-                                        $this->addAttribute( $childTag, 'type', $val );
-                                        break;
-
-                                }
-                            }
-                            else if ( $attribute === 'language' && $dataNode->language !== null )
-                            {
-                                if ( $dataNode->type === 'xhtml' )
-                                {
-                                    $this->addAttribute( $childTag->parentNode, 'xml:lang', $dataNode->language );
-                                }
-                                else
-                                {
-                                    $this->addAttribute( $childTag, 'xml:lang', $dataNode->language );
-                                }
-                            }
-                            else
-                            {
-                                $this->addAttribute( $childTag, $attribute, $val );
-                            }
+                            $this->generateLink( $elementTag, $dataNode );
                         }
-                        else if ( in_array( $attribute, $required ) )
+                        break;
+
+                    case 'category':
+                        foreach ( $data as $dataNode )
                         {
-                            throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$parent}/{$element}/{$child}/@{$attribute}" );
+                            $this->generateCategory( $elementTag, $dataNode );
                         }
-                    }
+                        break;
 
-                    if ( !$this->schema->isEmpty( $parent, $element, $child ) )
-                    {
-                        if ( $child === 'updated' )
-                        {
-                            // Sample date: 2003-12-13T18:30:02-05:00
-                            $dataNode->set( ezcFeedTools::prepareDate( $dataNode->getValue() )->format( 'c' ) );
-                        }
-                        $childTag->nodeValue = ($dataNode instanceof ezcFeedElement ) ? $dataNode->__toString() : (string)$dataNode;
-                    }
+                    case 'image':
+                        $this->generateMetaData( $elementTag, 'logo', $data );
+                        break;
+
+                    case 'icon':
+                        $this->generateMetaData( $elementTag, 'icon', $data );
+                        break;
+
+                    case 'updated':
+                        // Sample date: 2003-12-13T18:30:02-05:00
+                        $this->generateMetaData( $elementTag, 'updated', $data->date->format( 'c' ) );
+                        break;
+
+                    case 'id':
+                        $this->generateMetaData( $elementTag, 'id', $data );
+                        break;
                 }
             }
         }
@@ -942,6 +740,9 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Adds the feed entry elements to the XML document being generated.
+     *
+     * @throws ezcFeedRequiredMetaDataException
+     *         if the required elements or attributes are not present
      */
     private function generateItems()
     {
@@ -951,55 +752,42 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             return;
         }
 
-        $parent = 'entry';
         foreach ( $entries as $entry )
         {
-            $entryTag = $this->xml->createElement( $parent );
+            $entryTag = $this->xml->createElement( 'entry' );
             $this->channel->appendChild( $entryTag );
 
-            foreach ( $this->schema->getRequired( $parent ) as $element )
+            $elements = array( 'id', 'title', 'updated' );
+
+            foreach ( $elements as $element )
             {
                 $data = $entry->$element;
 
                 if ( is_null( $data ) )
                 {
-                    throw new ezcFeedRequiredMetaDataMissingException( "/feed/{$parent}/{$element}" );
+                    throw new ezcFeedRequiredMetaDataMissingException( "/feed/entry/{$element}" );
                 }
 
                 switch ( $element )
                 {
                     case 'id':
-                        $dataNode = $data;
-                        $this->generateNode( $entryTag, $element, null, $dataNode );
+                        $this->generateMetaData( $entryTag, $element, $data );
                         break;
 
                     case 'title':
-                        $dataNode = $data;
-                        if ( is_array( $data ) )
-                        {
-                            $dataNode = $data[0];
-                        }
-
-                        $this->generateNode( $entryTag, $element, $parent, $dataNode );
+                        $this->generateTextNode( $entryTag, $element, $data );
                         break;
 
                     case 'updated':
-                        $dataNode = $data;
-
                         // Sample date: 2003-12-13T18:30:02-05:00
-                        $dataNode->set( ezcFeedTools::prepareDate( $dataNode->getValue() )->format( 'c' ) );
-                        $this->generateNode( $entryTag, $element, null, $dataNode );
+                        $this->generateMetaData( $entryTag, $element, $data->date->format( 'c' ) );
                         break;
                 }
             }
 
             // ensure the ATOM rules are applied
             $content = $entry->content;
-            if ( is_array( $content ) )
-            {
-                $content = $content[0];
-            }
-            $summary = $entry->summary;
+            $summary = $entry->description;
             $links = $entry->link;
             $contentPresent = !is_null( $content );
             $contentSrcPresent = $contentPresent && is_object( $content ) && !is_null( $content->src );
@@ -1052,8 +840,16 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
+            $elements = array( 'author', 'content', 'link', 'description',
+                               'category', 'contributor', 'published', 'copyright',
+                               'source', 'enclosure' );
 
-            foreach ( $this->schema->getOptional( $parent ) as $element )
+            if ( $entry->link !== null )
+            {
+                $this->checkLinks( $entryTag, $entry->link );
+            }
+
+            foreach ( $elements as $element )
             {
                 $data = $entry->$element;
 
@@ -1064,89 +860,66 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                 switch ( $element )
                 {
-                    case 'summary':
-                    case 'rights':
-                        $dataNode = $data;
-                        if ( is_array( $data ) )
-                        {
-                            $dataNode = $data[0];
-                        }
+                    case 'description':
+                        $this->generateTextNode( $entryTag, 'summary', $data );
+                        break;
 
-                        $this->generateNode( $entryTag, $element, $parent, $dataNode );
+                    case 'copyright':
+                        $this->generateTextNode( $entryTag, 'rights', $data );
                         break;
 
                     case 'content':
-                        $dataNode = $data;
-                        if ( is_array( $data ) )
-                        {
-                            $dataNode = $data[0];
-                        }
-
-                        $this->generateContentNode( $entryTag, $element, $parent, $dataNode );
+                        $this->generateContentNode( $entryTag, $element, $data );
                         break;
 
                     case 'author':
                     case 'contributor':
                         foreach ( $data as $dataNode )
                         {
-                            $this->generatePerson( $entryTag, $dataNode, $element );
+                            $this->generatePerson( $entryTag, $element, $dataNode );
                         }
                         break;
 
                     case 'link':
-                        $unique = array();
                         foreach ( $data as $dataNode )
                         {
-                            if ( ( isset( $dataNode->rel ) && $dataNode->rel === 'alternate' )
-                                 && isset( $dataNode->type )
-                                 && isset( $dataNode->hreflang ) )
-                            {
-                                foreach ( $unique as $obj )
-                                {
-                                    if ( $obj['type'] === $dataNode->type
-                                         && $obj['hreflang'] === $dataNode->hreflang )
-                                    {
-                                        throw new ezcFeedOnlyOneValueAllowedException( '/feed/entry/link@rel="alternate"' );
-                                    }
-                                }
-
-                                $unique[] = array( 'type' => $dataNode->type,
-                                                   'hreflang' => $dataNode->hreflang );
-
-                            }
-
-                            $this->generateNode( $entryTag, $element, null, $dataNode );
+                            $this->generateLink( $entryTag, $dataNode );
                         }
                         break;
 
                     case 'published':
-                        $dataNode = $data;
-
                         // Sample date: 2003-12-13T18:30:02-05:00
-                        $dataNode->set( ezcFeedTools::prepareDate( $dataNode->getValue() )->format( 'c' ) );
-                        $this->generateNode( $entryTag, $element, $parent, $dataNode );
+                        $this->generateMetaData( $entryTag, $element, $data->date->format( 'c' ) );
                         break;
 
                     case 'category':
                         foreach ( $data as $dataNode )
                         {
-                            $this->generateNode( $entryTag, $element, null, $dataNode );
+                            $this->generateCategory( $entryTag, $dataNode );
                         }
                         break;
 
                     case 'source':
-                        $dataNode = $data;
-                        if ( is_array( $data ) )
-                        {
-                            $dataNode = $data[0];
-                        }
+                        $this->generateSource( $entryTag, $data );
+                        break;
 
-                        $this->generateSource( $entryTag, $dataNode );
+                    case 'enclosure':
+                        // convert RSS2 enclosure elements in ATOM link elements
+                        foreach ( $data as $dataNode )
+                        {
+                            $link = new ezcFeedLinkElement();
+                            $link->href = $dataNode->url;
+                            $link->length = $dataNode->length;
+                            $link->type = $dataNode->type;
+                            $link->rel = 'enclosure';
+
+                            $this->generateLink( $entryTag, $link );
+                        }
                         break;
                 }
             }
 
-            $this->generateModules( $entry, $entryTag );
+            $this->generateItemModules( $entry, $entryTag );
         }
     }
 
@@ -1154,18 +927,16 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
      * Parses the provided XML element object and stores it as a feed item in
      * the provided ezcFeed object.
      *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
-     * @param ezcFeedElement $element The feed element object that will contain the feed item
+     * @param ezcFeedEntryElement $element The feed element object that will contain the feed item
      * @param DOMElement $xml The XML element object to parse
      */
-    private function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseItem( ezcFeedEntryElement $element, DOMElement $xml )
     {
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
             {
                 $tagName = $itemChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getItemsMap() );
 
                 switch ( $tagName )
                 {
@@ -1174,48 +945,20 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'title':
-                    case 'description':
-                    case 'copyright':
-                        $type = $itemChild->getAttribute( 'type' );
+                        $this->parseTextNode( $element, $itemChild, 'title' );
+                        break;
 
-                        switch ( $type )
-                        {
-                            case 'xhtml':
-                                $nodes = $itemChild->childNodes;
-                                if ( $nodes instanceof DOMNodeList )
-                                {
-                                    $contentNode = $nodes->item( 1 );
-                                    $element->$tagName = $contentNode->nodeValue;
-                                }
-                                $element->$tagName->type = $type;
-                                break;
+                    case 'rights':
+                        $this->parseTextNode( $element, $itemChild, 'copyright' );
+                        break;
 
-                            case 'html':
-                                $element->$tagName = $itemChild->textContent;
-                                $element->$tagName->type = $type;
-                                break;
-
-                            case 'text':
-                                $element->$tagName = $itemChild->textContent;
-                                $element->$tagName->type = $type;
-                                break;
-
-                            default:
-                                $element->$tagName = $itemChild->textContent;
-                                break;
-                        }
-
-                        $language = $itemChild->getAttribute( 'xml:lang' );
-                        if ( !empty( $language ) )
-                        {
-                            $element->$tagName->language = $language;
-                        }
-
+                    case 'summary':
+                        $this->parseTextNode( $element, $itemChild, 'description' );
                         break;
 
                     case 'updated':
                     case 'published':
-                        $element->$tagName = ezcFeedTools::prepareDate( $itemChild->textContent );
+                        $element->$tagName = $itemChild->textContent;
                         break;
 
                     case 'author':
@@ -1237,6 +980,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                     case 'content':
                         $type = $itemChild->getAttribute( 'type' );
                         $src = $itemChild->getAttribute( 'src' );
+                        $subElement = $element->add( $tagName );
 
                         switch ( $type )
                         {
@@ -1253,23 +997,23 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                     }
 
                                     $contentNode = $nodes->item( $i );
-                                    $element->$tagName = $contentNode->nodeValue;
+                                    $subElement->text = $contentNode->nodeValue;
                                 }
-                                $element->$tagName->type = $type;
+                                $subElement->type = $type;
                                 break;
 
                             case 'html':
-                                $element->$tagName = $itemChild->textContent;
-                                $element->$tagName->type = $type;
+                                $subElement->text = $itemChild->textContent;
+                                $subElement->type = $type;
                                 break;
 
                             case 'text':
-                                $element->$tagName = $itemChild->textContent;
-                                $element->$tagName->type = $type;
+                                $subElement->text = $itemChild->textContent;
+                                $subElement->type = $type;
                                 break;
 
                             case null:
-                                $element->$tagName = $itemChild->textContent;
+                                $subElement->text = $itemChild->textContent;
                                 break;
 
                             default:
@@ -1282,54 +1026,70 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                                             $doc = new DOMDocument( '1.0', 'UTF-8' );
                                             $copyNode = $doc->importNode( $node, true );
                                             $doc->appendChild( $copyNode );
-                                            $element->$tagName = $doc->saveXML();
-                                            $element->$tagName->type = $type;
+                                            $subElement->text = $doc->saveXML();
+                                            $subElement->type = $type;
                                             break;
                                         }
                                     }
                                 }
                                 else if ( substr_compare( $type, 'text/', 0, 5, true ) === 0 )
                                 {
-                                    $element->$tagName = $itemChild->textContent;
-                                    $element->$tagName->type = $type;
+                                    $subElement->text = $itemChild->textContent;
+                                    $subElement->type = $type;
                                     break;
                                 }
                                 else // base64
                                 {
-                                    $element->$tagName = base64_decode( $itemChild->textContent );
-                                    $element->$tagName->type = $type;
+                                    $subElement->text = base64_decode( $itemChild->textContent );
+                                    $subElement->type = $type;
                                 }
                                 break;
                         }
 
                         if ( !empty( $src ) )
                         {
-                            $element->$tagName->src = $src;
+                            $subElement->src = $src;
                         }
 
                         $language = $itemChild->getAttribute( 'xml:lang' );
                         if ( !empty( $language ) )
                         {
-                            $element->$tagName->language = $language;
+                            $subElement->language = $language;
                         }
 
                         break;
 
                     case 'link':
+                        $subElement = $element->add( $tagName );
+
+                        $attributes = array( 'href' => 'href', 'rel' => 'rel', 'hreflang' => 'hreflang',
+                                             'type' => 'type', 'title' => 'title', 'length' => 'length' );
+
+                        foreach ( $attributes as $name => $alias )
+                        {
+                            if ( $itemChild->hasAttribute( $name ) )
+                            {
+                                $subElement->$alias = $itemChild->getAttribute( $name );
+                            }
+                        }
+                        break;
+
                     case 'category':
                         $subElement = $element->add( $tagName );
-                        if ( $itemChild->hasAttributes() )
+
+                        $attributes = array( 'term' => 'term', 'scheme' => 'scheme', 'label' => 'label' );
+                        foreach ( $attributes as $name => $alias )
                         {
-                            foreach ( $itemChild->attributes as $attribute )
+                            if ( $itemChild->hasAttribute( $name ) )
                             {
-                                $subElement->{$attribute->name} = $attribute->value;
+                                $subElement->$alias = $itemChild->getAttribute( $name );
                             }
                         }
                         break;
 
                     case 'source':
                         $subElement = $element->add( $tagName );
-                        $this->parseSource( $feed, $subElement, $itemChild );
+                        $this->parseSource( $subElement, $itemChild );
                         break;
 
                     default:
@@ -1341,15 +1101,59 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Parses the provided XML element object and stores it as a feed person (author
-     * or contributor - based on $type) in the provided ezcFeed object.
+     * Parses the provided XML element object $xml and stores it as a text element
      *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed person
-     * @param ezcFeedElement $element The feed element object that will contain the feed person
+     * @param ezcFeed|ezcFeedEntryElement $feed The feed object in which to store the parsed XML element as a text element
+     * @param DOMElement $xml The XML element object to parse
+     * @param string $element The name of the feed element object that will contain the text
+     */
+    private function parseTextNode( $feed, DOMElement $xml, $element )
+    {
+        $type = $xml->getAttribute( 'type' );
+
+        switch ( $type )
+        {
+            case 'xhtml':
+                $nodes = $xml->childNodes;
+                if ( $nodes instanceof DOMNodeList )
+                {
+                    $contentNode = $nodes->item( 1 );
+                    $feed->$element = $contentNode->nodeValue;
+                }
+                break;
+
+            case 'html':
+                $feed->$element = $xml->nodeValue;
+                break;
+
+            case 'text':
+                // same case as 'default'
+
+            default:
+                $feed->$element = $xml->nodeValue;
+                break;
+        }
+
+        if ( $type !== '' )
+        {
+            $feed->$element->type = $type;
+        }
+
+        if ( $xml->hasAttribute( 'xml:lang' ) )
+        {
+            $feed->$element->language = $xml->getAttribute( 'xml:lang' );
+        }
+    }
+
+    /**
+     * Parses the provided XML element object and stores it as a feed person (author
+     * or contributor - based on $type) in the provided ezcFeedPersonElement object.
+     *
+     * @param ezcFeedPersonElement $element The feed element object that will contain the feed person
      * @param DOMElement $xml The XML element object to parse
      * @param string $type The type of the person (author, contributor)
      */
-    private function parsePerson( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml, $type )
+    private function parsePerson( $element, DOMElement $xml, $type )
     {
         foreach ( $xml->childNodes as $itemChild )
         {
@@ -1370,97 +1174,100 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Parses the provided XML element object and stores it as a feed source in
-     * the provided ezcFeed object.
+     * Parses the provided XML element object and stores it as a feed source
+     * element in the provided ezcFeedSourceElement object.
      *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed source
-     * @param ezcFeedElement $element The feed element object that will contain the feed source
+     * @param ezcFeedSourceElement $element The feed element object that will contain the feed source
      * @param DOMElement $xml The XML element object to parse
      */
-    private function parseSource( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseSource( ezcFeedSourceElement $element, DOMElement $xml )
     {
         foreach ( $xml->childNodes as $sourceChild )
         {
             if ( $sourceChild->nodeType === XML_ELEMENT_NODE )
             {
                 $tagName = $sourceChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
 
                 switch ( $tagName )
                 {
                     case 'title':
-                    case 'copyright':
-                    case 'description':
-                        $type = $sourceChild->getAttribute( 'type' );
+                        $this->parseTextNode( $element, $sourceChild, 'title' );
+                        break;
 
-                        switch ( $type )
-                        {
-                            case 'xhtml':
-                                $nodes = $sourceChild->childNodes;
-                                if ( $nodes instanceof DOMNodeList )
-                                {
-                                    $contentNode = $nodes->item( 1 );
-                                    $element->$tagName = $contentNode->nodeValue;
-                                }
-                                break;
+                    case 'rights':
+                        $this->parseTextNode( $element, $sourceChild, 'copyright' );
+                        break;
 
-                            case 'html':
-                                $element->$tagName = $sourceChild->textContent;
-                                break;
-
-                            case 'text':
-                                // same case as 'default'
-
-                            default:
-                                $element->$tagName = $sourceChild->textContent;
-                                break;
-                        }
-
+                    case 'subtitle':
+                        $this->parseTextNode( $element, $sourceChild, 'description' );
                         break;
 
                     case 'id':
+                        $subElement = $element->add( 'id' );
+                        $subElement->id = $sourceChild->textContent;
+                        break;
+
                     case 'generator':
-                    case 'image':
+                        $subElement = $element->add( 'generator' );
+                        $subElement->name = $sourceChild->textContent;
+
+                        $attributes = array( 'uri' => 'url', 'version' => 'version' );
+                        foreach ( $attributes as $name => $alias )
+                        {
+                            if ( $sourceChild->hasAttribute( $name ) )
+                            {
+                                $subElement->$alias = $sourceChild->getAttribute( $name );
+                            }
+                        }
+                        break;
+
+                    case 'logo':
+                        $subElement = $element->add( 'image' );
+                        $subElement->link = $sourceChild->textContent;
+                        break;
+
                     case 'icon':
-                        $element->$tagName = $sourceChild->textContent;
+                        $subElement = $element->add( 'icon' );
+                        $subElement->link = $sourceChild->textContent;
                         break;
 
                     case 'updated':
-                        $element->$tagName = ezcFeedTools::prepareDate( $sourceChild->textContent );
+                        $element->$tagName = $sourceChild->textContent;
                         break;
 
                     case 'category':
+                        $subElement = $element->add( $tagName );
+
+                        $attributes = array( 'term' => 'term', 'scheme' => 'scheme', 'label' => 'label' );
+                        foreach ( $attributes as $name => $alias )
+                        {
+                            if ( $sourceChild->hasAttribute( $name ) )
+                            {
+                                $subElement->$alias = $sourceChild->getAttribute( $name );
+                            }
+                        }
+                        break;
+
                     case 'link':
                         $subElement = $element->add( $tagName );
+
+                        $attributes = array( 'href' => 'href', 'rel' => 'rel', 'hreflang' => 'hreflang',
+                                             'type' => 'type', 'title' => 'title', 'length' => 'length' );
+
+                        foreach ( $attributes as $name => $alias )
+                        {
+                            if ( $sourceChild->hasAttribute( $name ) )
+                            {
+                                $subElement->$alias = $sourceChild->getAttribute( $name );
+                            }
+                        }
                         break;
 
                     case 'contributor':
                     case 'author':
                         $subElement = $element->add( $tagName );
-                        $this->parsePerson( $feed, $subElement, $sourceChild, $tagName );
+                        $this->parsePerson( $subElement, $sourceChild, $tagName );
                         break;
-
-                    default:
-                        // check if it's part of a known module/namespace
-                }
-            }
-
-            if ( $sourceChild->hasAttributes() )
-            {
-                foreach ( $sourceChild->attributes as $attribute )
-                {
-                    if ( in_array( $tagName, array( 'category', 'link' ) ) )
-                    {
-                        $subElement->{$attribute->name} = $attribute->value;
-                    }
-                    else if ( $attribute->name === 'lang' )
-                    {
-                        $element->$tagName->language = $attribute->value;
-                    }
-                    else
-                    {
-                        $element->$tagName->{$attribute->name} = $attribute->value;
-                    }
                 }
             }
         }

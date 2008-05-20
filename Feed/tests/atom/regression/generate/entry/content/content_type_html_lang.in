@@ -1,12 +1,12 @@
 <?php
 return array( 'id' => 'Feed id',
-              'title' => array( array( '#' => 'Feed title' ) ),
+              'title' => array( array( 'text' => 'Feed title' ) ),
               'updated' => 'Feed updated',
               'author' => array( array( 'name' => 'Author name' ) ),
               'item' => array( array( 'id' => 'Entry id',
-                                      'title' => array( array( '#' => 'Entry title' ) ),
+                                      'title' => array( array( 'text' => 'Entry title' ) ),
                                       'updated' => 'Entry updated',
-                                      'content' => array( array( '#' => 'Entry content',
+                                      'content' => array( array( 'text' => 'Entry content',
                                                                  'language' => 'no',
                                                                  'type' => 'html' ) ) ) ) );
 ?>

@@ -1,12 +1,12 @@
 <?php
 return array( 'id' => 'Feed id',
-              'title' => array( array( '#' => 'Feed title' ) ),
+              'title' => array( array( 'text' => 'Feed title' ) ),
               'updated' => 'Feed updated',
               'author' => array( array( 'name' => 'Author name' ) ),
               'item' => array( array( 'id' => 'Entry id',
-                                      'title' => array( array( '#' => 'Entry title' ) ),
+                                      'title' => array( array( 'text' => 'Entry title' ) ),
                                       'updated' => 'Entry updated',
                                       'content' => array( array( 'src' => 'http://ezcomponents.org/files/downloads/ezcomponents-1.0.zip',
                                                                  'type' => 'application/x-zip' ) ),
-                                      'summary' => 'Entry summary' ) ) );
+                                      'description' => 'Entry summary' ) ) );
 ?>

@@ -3,22 +3,25 @@ $feed = new ezcFeed( 'rss2' );
 $feed->title = 'Feed title';
 
 $link = $feed->add( 'link' );
-$link->set( 'Feed link' );
+$link->href = 'Feed link';
 
 $feed->description = 'Feed description';
 
 $item = $feed->add( 'item' );
 $item->title = 'Item title';
-$item->link = 'Item link';
+
+$link = $item->add( 'link' );
+$link->href = 'Item link';
+
 $item->description = 'Item description';
 
 $category = $item->add( 'category' );
-$category->set( 'Item category 1' );
-$category->domain = 'Category domain 1';
+$category->term = 'Item category 1';
+$category->scheme = 'Category domain 1';
 
 $category = $item->add( 'category' );
-$category->set( 'Item category 2' );
-$category->domain = 'Category domain 2';
+$category->term = 'Item category 2';
+$category->scheme = 'Category domain 2';
 
 return $feed;
 ?>

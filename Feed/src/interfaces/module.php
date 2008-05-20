@@ -39,7 +39,6 @@ abstract class ezcFeedModule
      * The level of the module data container. Possible values are 'feed' or 'item'.
      *
      * @var string
-     * @ignore
      */
     protected $level;
 
@@ -63,25 +62,23 @@ abstract class ezcFeedModule
     /**
      * Sets the property $name to $value.
      *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     *
      * @param string $name The property name
      * @param mixed $value The property value
      * @ignore
      */
     public function __set( $name, $value )
     {
-        if ( $this->isElementAllowed( $name ) )
-        {
-            $node = $this->add( $name );
-            $node->set( $value );
-        }
-        else
-        {
-            throw new ezcBasePropertyNotFoundException( $name );
-        }
+        throw new ezcBasePropertyNotFoundException( $name );
     }
 
     /**
      * Returns the value of property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
      *
      * @param string $name The property name
      * @return mixed
@@ -89,14 +86,7 @@ abstract class ezcFeedModule
      */
     public function __get( $name )
     {
-        if ( $this->isElementAllowed( $name ) )
-        {
-            return $this->properties[$name];
-        }
-        else
-        {
-            throw new ezcBasePropertyNotFoundException( $name );
-        }
+        throw new ezcBasePropertyNotFoundException( $name );
     }
 
     /**
@@ -108,50 +98,7 @@ abstract class ezcFeedModule
      */
     public function __isset( $name )
     {
-        if ( $this->isElementAllowed( $name ) )
-        {
-            return isset( $this->properties[$name] );
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /**
-     * Returns true if the element $name is allowed in the current module at the
-     * current level (feed or item), and false otherwise.
-     *
-     * @param string $name The element name to check if allowed in the current module and level (feed or item)
-     * @return bool
-     */
-    public function isElementAllowed( $name )
-    {
-        return isset( $this->schema[$this->level][$name] );
-    }
-
-    /**
-     * Adds a new ezcFeedElement element with name $name to this module and
-     * returns it.
-     *
-     * @throws ezcFeedUnsupportedElementException
-     *         if trying to add an element which is not supported.
-     *
-     * @param string $name The element name
-     * @return ezcFeedElement
-     */
-    public function add( $name )
-    {
-        if ( $this->isElementAllowed( $name ) )
-        {
-            $node = new ezcFeedElement( $this->schema[$this->level][$name] );
-            $this->properties[$name][] = $node;
-            return $node;
-        }
-        else
-        {
-            throw new ezcFeedUnsupportedElementException( $name );
-        }
+        return false;
     }
 
     /**
@@ -172,6 +119,44 @@ abstract class ezcFeedModule
 
         return new $supportedModules[$name]( $level );
     }
+
+    /**
+     * Adds an attribute to the XML node $node.
+     *
+     * @param DOMDocument $xml The XML document where the node is stored
+     * @param DOMNode $node The node to add the attribute to
+     * @param string $attribute The name of the attribute to add
+     * @param mixed $value The value of the attribute
+     * @ignore
+     */
+    protected function addAttribute( DOMDocument $xml, DOMNode $node, $attribute, $value )
+    {
+        $attr = $xml->createAttribute( $attribute );
+        $val = $xml->createTextNode( $value );
+        $attr->appendChild( $val );
+        $node->appendChild( $attr );
+    }
+
+    /**
+     * Returns true if the element $name is allowed in the current module at the
+     * current level (feed or item), and false otherwise.
+     *
+     * @param string $name The element name to check if allowed in the current module and level (feed or item)
+     * @return bool
+     */
+    abstract public function isElementAllowed( $name );
+
+    /**
+     * Adds a new ezcFeedElement element with name $name to this module and
+     * returns it.
+     *
+     * @throws ezcFeedUnsupportedElementException
+     *         if trying to add an element which is not supported.
+     *
+     * @param string $name The element name
+     * @return ezcFeedElement
+     */
+    abstract public function add( $name );
 
     /**
      * Adds the module elements to the $xml XML document, in the container $root.

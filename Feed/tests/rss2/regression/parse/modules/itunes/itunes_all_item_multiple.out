@@ -3,13 +3,16 @@ $feed = new ezcFeed( 'rss2' );
 $feed->title = 'Feed title';
 
 $link = $feed->add( 'link' );
-$link->set( 'Feed link' );
+$link->href = 'Feed link';
 
 $feed->description = 'Feed description';
 
 $item = $feed->add( 'item' );
 $item->title = 'Item title 1';
-$item->link = 'Item link 1';
+
+$link = $item->add( 'link' );
+$link->href = 'Item link 1';
+
 $item->description = 'Item description 1';
 
 $module = $item->addModule( 'iTunes' );
@@ -20,7 +23,7 @@ $module->duration = 'iTunes item duration 1';
 $module->explicit = 'iTunes item explicit 1';
 
 $image = $module->add( 'image' );
-$image->href = 'iTunes item image 1';
+$image->link = 'iTunes item image 1';
 
 $module->keywords = 'iTunes item keywords 1';
 $module->subtitle = 'iTunes item subtitle 1';
@@ -28,7 +31,10 @@ $module->summary = 'iTunes item summary 1';
 
 $item = $feed->add( 'item' );
 $item->title = 'Item title 2';
-$item->link = 'Item link 2';
+
+$link = $item->add( 'link' );
+$link->href = 'Item link 2';
+
 $item->description = 'Item description 2';
 
 $module = $item->addModule( 'iTunes' );
@@ -39,7 +45,7 @@ $module->duration = 'iTunes item duration 2';
 $module->explicit = 'iTunes item explicit 2';
 
 $image = $module->add( 'image' );
-$image->href = 'iTunes item image 2';
+$image->link = 'iTunes item image 2';
 
 $module->keywords = 'iTunes item keywords 2';
 $module->subtitle = 'iTunes item subtitle 2';

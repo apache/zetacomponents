@@ -36,19 +36,37 @@ class ezcFeedRss1RegressionParseTest extends ezcFeedRegressionTest
 
     protected function cleanForCompare( $expected, $parsed )
     {
+        $referenceDate = new DateTime();
+
         if ( isset( $parsed->DublinCore )
              && isset( $parsed->DublinCore->date )
              && is_array( $parsed->DublinCore->date ) )
         {
             foreach ( $parsed->DublinCore->date as $date )
             {
-                $date->set( (int) $date->getValue()->format( 'U' ) );
+                $date->date = $referenceDate;
             }
         }
 
-        if ( isset( $parsed->item ) )
+        if ( isset( $expected->DublinCore )
+             && isset( $expected->DublinCore->date )
+             && is_array( $expected->DublinCore->date ) )
         {
-            foreach ( $parsed->item as $item )
+            foreach ( $expected->DublinCore->date as $date )
+            {
+                $date->date = $referenceDate;
+            }
+        }
+
+        $this->cleanDate( $parsed, 'updated', $referenceDate );
+        $this->cleanDate( $expected, 'updated', $referenceDate );
+    }
+
+    protected function cleanDate( $feed, $element, $newDate )
+    {
+        if ( isset( $feed->item ) )
+        {
+            foreach ( $feed->item as $item )
             {
                 if ( isset( $item->DublinCore )
                      && isset( $item->DublinCore->date )
@@ -56,7 +74,7 @@ class ezcFeedRss1RegressionParseTest extends ezcFeedRegressionTest
                 {
                     foreach ( $item->DublinCore->date as $date )
                     {
-                        $date->set( (int) $date->getValue()->format( 'U' ) );
+                        $date->date = $newDate;
                     }
                 }
             }

@@ -31,148 +31,26 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     const CONTENT_TYPE = 'application/rss+xml';
 
     /**
-     * Holds the RSS2 feed schema.
-     *
-     * @var array(string=>mixed)
-     */
-    private static $rss2Schema = array(
-        'title'          => array( '#'          => 'string' ),
-
-        'link'           => array( '#'          => 'string',
-                                   'MULTI'      => 'links' ),
-
-        'description'    => array( '#'          => 'string' ),
-
-        'language'       => array( '#'          => 'string' ),
-        'copyright'      => array( '#'          => 'string' ),
-        'managingEditor' => array( '#'          => 'string' ),
-        'webMaster'      => array( '#'          => 'string' ),
-        'pubDate'        => array( '#'          => 'string' ),
-        'lastBuildDate'  => array( '#'          => 'string' ),
-        'category'       => array( '#'          => 'string',
-                                   'ATTRIBUTES' => array( 'domain' => 'string' ),
-                                   'MULTI'      => 'categories' ),
-
-        'generator'      => array( '#'          => 'string' ),
-        'docs'           => array( '#'          => 'string' ),
-        'ttl'            => array( '#'          => 'string' ),
-        'image'          => array( '#'          => 'string',
-                                   'NODES'      => array(
-                                                     'url'         => array( '#' => 'string' ),
-                                                     'title'       => array( '#' => 'string' ),
-                                                     'link'        => array( '#' => 'string' ),
-
-                                                     'description' => array( '#' => 'string' ),
-                                                     'width'       => array( '#' => 'string' ),
-                                                     'height'      => array( '#' => 'string' ),
-
-                                                     'REQUIRED'    => array( 'url', 'title', 'link' ),
-                                                     'OPTIONAL'    => array( 'description', 'width', 'height' ),
-                                                     ), ),
-
-        'rating'         => array( '#'          => 'string' ),
-        'cloud'          => array( '#'          => 'none',
-                                   'ATTRIBUTES' => array( 'domain' => 'string',
-                                                          'port' => 'string',
-                                                          'path' => 'string',
-                                                          'registerProcedure' => 'string',
-                                                          'protocol' => 'string' ), ),
-
-        'textInput'      => array( '#'          => 'none',
-                                   'NODES'      => array(
-                                                     'title'       => array( '#' => 'string' ),
-                                                     'description' => array( '#' => 'string' ),
-                                                     'name'        => array( '#' => 'string' ),
-                                                     'link'        => array( '#' => 'string' ),
-
-                                                     'REQUIRED'    => array( 'title', 'description', 'name', 'link' ),
-                                                     ), ),
-
-        'skipHours'      => array( '#'          => 'none',
-                                   'NODES'      => array(
-                                                     'hour'        => array( '#' => 'string',
-                                                                             'MULTI' => 'hours' ),
-
-                                                     'OPTIONAL'    => array( 'hour' ),
-                                                     ), ),
-
-        'skipDays'       => array( '#'          => 'none',
-                                   'NODES'      => array(
-                                                     'day'         => array( '#' => 'string',
-                                                                             'MULTI' => 'days' ),
-
-                                                     'OPTIONAL'    => array( 'day' ),
-                                                     ), ),
-
-        'item'           => array( '#'          => 'none',
-                                   'NODES'      => array(
-                                                     'title'        => array( '#' => 'string' ),
-                                                     'link'         => array( '#' => 'string' ),
-                                                     'description'  => array( '#' => 'string' ),
-
-                                                     'author'       => array( '#' => 'string' ),
-                                                     'category'     => array( '#' => 'string',
-                                                                              'ATTRIBUTES' => array( 'domain' => 'string' ),
-                                                                              'MULTI' => 'categories' ),
-
-                                                     'comments'     => array( '#' => 'string' ),
-                                                     'enclosure'    => array( '#' => 'none',
-                                                                              'ATTRIBUTES' => array( 'url'    => 'string',
-                                                                                                     'length' => 'string',
-                                                                                                     'type'   => 'string' ),
-                                                                              //'MULTI' => 'enclosures'
-                                                                              ),
-
-                                                     'guid'         => array( '#' => 'string',
-                                                                              'ATTRIBUTES' => array( 'isPermaLink' => 'string' ) ),
-
-                                                     'pubDate'      => array( '#' => 'string' ),
-                                                     'source'       => array( '#' => 'string',
-                                                                              'ATTRIBUTES' => array( 'url' => 'string' ) ),
-
-                                                     'AT_LEAST_ONE' => array( 'title', 'description' ),
-                                                     'OPTIONAL'     => array( 'title', 'link', 'description',
-                                                                              'author', 'category', 'comments',
-                                                                              'enclosure', 'guid', 'pubDate',
-                                                                              'source' ),
-                                                     ),
-                                   'ITEMS_MAP'      => array( 'published'  => 'pubDate',
-                                                              'id'         => 'guid' ),
-                                   'MULTI'      => 'items' ),
-
-        'REQUIRED'       => array( 'title', 'link', 'description' ),
-        'OPTIONAL'       => array( 'language', 'copyright', 'managingEditor',
-                                   'webMaster', 'pubDate', 'lastBuildDate',
-                                   'category', 'generator', 'docs',
-                                   'ttl', 'image', 'rating',
-                                   'textInput', 'skipHours', 'skipDays',
-                                   'cloud',
-                                 ), // don't include 'item' here
-
-        'MULTI'          => array( 'links'      => 'link',
-                                   'categories' => 'category',
-                                   'items'      => 'item' ),
-
-        'ELEMENTS_MAP'   => array( 'author'     => 'managingEditor',
-                                   'published'  => 'pubDate',
-                                   'updated'    => 'lastBuildDate' ),
-
-        );
-
-    /**
      * Creates a new RSS2 processor.
+     *
+     * @param ezcFeed $container The feed data container used when generating
      */
-    public function __construct()
+    public function __construct( ezcFeed $container )
     {
+        $this->feedContainer = $container;
         $this->feedType = self::FEED_TYPE;
         $this->contentType = self::CONTENT_TYPE;
-        $this->schema = new ezcFeedSchema( self::$rss2Schema );
 
-        // set default values
-        $this->published = ezcFeedTools::prepareDate( time() );
-        $version = ( ezcFeed::GENERATOR_VERSION === '//auto' . 'gentag//' ) ? 'dev' : ezcFeed::GENERATOR_VERSION;
-        $this->generator = "eZ Components Feed {$version} (" . ezcFeed::GENERATOR_URI . ")";
-        $this->docs = 'http://www.rssboard.org/rss-specification';
+        // initialize docs and pubDate with default values
+        if ( !isset( $this->docs ) )
+        {
+            $this->docs = 'http://www.rssboard.org/rss-specification';
+        }
+
+        if ( !isset( $this->published ) )
+        {
+            $this->published = time();
+        }
     }
 
     /**
@@ -185,7 +63,17 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     {
         $this->xml = new DOMDocument( '1.0', 'utf-8' );
         $this->xml->formatOutput = 1;
-        $this->createRootElement( '2.0' );
+
+        $rss = $this->xml->createElement( 'rss' );
+
+        $rssVersionTag = $this->xml->createAttribute( 'version' );
+        $rssVersionContent = $this->xml->createTextNode( '2.0' );
+        $rssVersionTag->appendChild( $rssVersionContent );
+        $rss->appendChild( $rssVersionTag );
+
+        $this->channel = $this->xml->createElement( 'channel' );
+        $rss->appendChild( $this->channel );
+        $this->root = $this->xml->appendChild( $rss );
 
         $this->generateRequired();
         $this->generateOptional();
@@ -256,84 +144,107 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             if ( $channelChild->nodeType == XML_ELEMENT_NODE )
             {
                 $tagName = $channelChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
 
                 switch ( $tagName )
                 {
                     case 'title':
                     case 'description':
-                    case 'language':
                     case 'copyright':
-                    case 'author':
-                    case 'webMaster':
-                    case 'generator':
+                        $element = $feed->add( $tagName );
+                        $element->text = $channelChild->textContent;
+                        break;
+
+                    case 'language':
                     case 'ttl':
                     case 'docs':
                     case 'rating':
-                        $feed->$tagName = $channelChild->textContent;
+                        $element = $feed->add( $tagName );
+                        $element->text = $channelChild->textContent;
+                        break;
+
+                    case 'generator':
+                        $element = $feed->add( $tagName );
+                        $element->name = $channelChild->textContent;
+                        break;
+
+                    case 'managingEditor':
+                        $element = $feed->add( 'author' );
+                        $element->name = $channelChild->textContent;
+                        // @todo parse $name to see if it has the structure
+                        // email@address (name) to fill the ->email field from it
+                        break;
+
+                    case 'webMaster':
+                        $element = $feed->add( 'webMaster' );
+                        $element->name = $channelChild->textContent;
+                        // @todo parse $name to see if it has the structure
+                        // email@address (name) to fill the ->email field from it
+                        break;
+
+                    case 'category':
+                        $element = $feed->add( $tagName );
+                        $element->term = $channelChild->textContent;
+                        if ( $channelChild->hasAttribute( 'domain' ) )
+                        {
+                            $element->scheme = $channelChild->getAttribute( 'domain' );
+                        }
                         break;
 
                     case 'link':
-                    case 'category':
                         $element = $feed->add( $tagName );
-                        $element->set( $channelChild->textContent );
+                        $element->href = $channelChild->textContent;
                         break;
 
                     case 'cloud':
                         $element = $feed->add( $tagName );
+
+                        $attributes = array( 'domain' => 'domain', 'port' => 'port', 'path' => 'path',
+                                             'registerProcedure' => 'registerProcedure', 'protocol' => 'protocol' );
+                        foreach ( $attributes as $name => $alias )
+                        {
+                            if ( $channelChild->hasAttribute( $name ) )
+                            {
+                                $element->$alias = $channelChild->getAttribute( $name );
+                            }
+                        }
                         break;
 
-                    case 'published':
-                    case 'updated':
-                        $feed->$tagName = ezcFeedTools::prepareDate( $channelChild->textContent );
+                    case 'pubDate':
+                        $feed->published = $channelChild->textContent;
+                        break;
+
+                    case 'lastBuildDate':
+                        $feed->updated = $channelChild->textContent;
                         break;
 
                     case 'item':
                         $element = $feed->add( $tagName );
-                        $this->parseItem( $feed, $element, $channelChild );
+                        $this->parseItem( $element, $channelChild );
                         break;
 
                     case 'image':
                         $image = $feed->add( 'image' );
-                        $this->parseImage( $feed, $image, $channelChild );
+                        $this->parseImage( $image, $channelChild );
                         break;
 
                     case 'skipHours':
                         $element = $feed->add( $tagName );
-                        $this->parseSkipHours( $feed, $element, $channelChild );
+                        $this->parseSkipHours( $element, $channelChild );
                         break;
 
                     case 'skipDays':
                         $element = $feed->add( $tagName );
-                        $this->parseSkipDays( $feed, $element, $channelChild );
+                        $this->parseSkipDays( $element, $channelChild );
                         break;
 
                     case 'textInput':
                         $element = $feed->add( $tagName );
-                        $this->parseTextInput( $feed, $element, $channelChild );
+                        $this->parseTextInput( $element, $channelChild );
                         break;
 
                     default:
                         // check if it's part of a known module/namespace
                         $this->parseModules( $feed, $channelChild, $tagName );
-
-                        // continue 2 = ignore modules when getting attributes below
-                        continue 2;
-                }
-            }
-
-            if ( $channelChild->hasAttributes() )
-            {
-                foreach ( $channelChild->attributes as $attribute )
-                {
-                    if ( in_array( $tagName, array( 'category', 'cloud' ) ) )
-                    {
-                        $element->{$attribute->name} = $attribute->value;
-                    }
-                    else
-                    {
-                        $feed->$tagName->{$attribute->name} = $attribute->value;
-                    }
                 }
             }
         }
@@ -341,28 +252,12 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Creates a root node for the XML document being generated.
-     *
-     * @param string $version The RSS version for the root node (eg. '2.0')
-     */
-    private function createRootElement( $version )
-    {
-        $rss = $this->xml->createElement( 'rss' );
-        $rssVersionTag = $this->xml->createAttribute( 'version' );
-        $rssVersionContent = $this->xml->createTextNode( $version );
-        $rssVersionTag->appendChild( $rssVersionContent );
-        $rss->appendChild( $rssVersionTag );
-        $this->channel = $channelTag = $this->xml->createElement( 'channel' );
-        $rss->appendChild( $channelTag );
-        $this->root = $this->xml->appendChild( $rss );
-    }
-
-    /**
      * Adds the required feed elements to the XML document being generated.
      */
     private function generateRequired()
     {
-        foreach ( $this->schema->getRequired() as $element )
+        $elements = array( 'title', 'link', 'description' );
+        foreach ( $elements as $element )
         {
             $data = $this->$element;
             if ( is_null( $data ) )
@@ -375,9 +270,21 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                 $data = array( $data );
             }
 
-            foreach ( $data as $dataNode )
+            switch ( $element )
             {
-                $this->generateNode( $this->channel, $element, $dataNode );
+                case 'link':
+                    foreach ( $data as $dataNode )
+                    {
+                        $this->generateMetaData( $this->channel, $element, $dataNode->href );
+                    }
+                    break;
+
+                default:
+                    foreach ( $data as $dataNode )
+                    {
+                        $this->generateMetaData( $this->channel, $element, $dataNode );
+                    }
+                    break;
             }
         }
     }
@@ -387,18 +294,27 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateOptional()
     {
-        foreach ( $this->schema->getOptional() as $element )
+        $elements = array( 'language', 'copyright', 'author',
+                           'webMaster', 'published', 'updated',
+                           'category', 'generator', 'docs',
+                           'ttl', 'image', 'rating',
+                           'textInput', 'skipHours', 'skipDays',
+                           'cloud' );
+
+        foreach ( $elements as $element )
         {
-            $normalizedAttribute = ezcFeedTools::normalizeName( $element, $this->schema->getElementsMap() );
             $data = $this->$element;
 
             if ( !is_null( $data ) )
             {
                 switch ( $element )
                 {
-                    case 'pubDate':
-                    case 'lastBuildDate':
-                        $this->generateMetaData( $this->channel, $element, ezcFeedTools::prepareDate( $data->getValue() )->format( 'D, d M Y H:i:s O' ) );
+                    case 'updated':
+                        $this->generateMetaData( $this->channel, 'lastBuildDate', $data->date->format( 'D, d M Y H:i:s O' ) );
+                        break;
+
+                    case 'published':
+                        $this->generateMetaData( $this->channel, 'pubDate', $data->date->format( 'D, d M Y H:i:s O' ) );
                         break;
 
                     case 'image':
@@ -421,6 +337,31 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $this->generateCloud( $this->cloud );
                         break;
 
+                    case 'category':
+                        foreach ( $this->category as $category )
+                        {
+                            $this->generateCategory( $category, $this->channel );
+                        }
+                        break;
+
+                    case 'generator':
+                        $this->generateGenerator( $data, $this->channel );
+                        break;
+
+                    case 'author':
+                        foreach ( $this->author as $person )
+                        {
+                            $this->generatePerson( $person, $this->channel, 'managingEditor' );
+                        }
+                        break;
+
+                    case 'webMaster':
+                        foreach ( $this->webMaster as $person )
+                        {
+                            $this->generatePerson( $data, $this->channel, 'webMaster' );
+                        }
+                        break;
+
                     default:
                         if ( !is_array( $data ) )
                         {
@@ -429,7 +370,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                         foreach ( $data as $dataNode )
                         {
-                            $this->generateNode( $this->channel, $element, $dataNode );
+                            $this->generateMetaData( $this->channel, $element, $dataNode );
                         }
                         break;
                 }
@@ -438,44 +379,86 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     }
 
     /**
-     * Creates an XML node in the XML document being generated.
+     * Adds a category node to the XML document being generated.
      *
-     * @param DOMNode $root The root in which to create the node $element
-     * @param string $element The name of the node to create
-     * @param array(string=>mixed) $dataNode The data for the node to create
+     * @param ezcFeedCategoryElement $category The category feed element
+     * @param DOMElement $root The XML element where to store the category element
      */
-    private function generateNode( DOMNode $root, $element, $dataNode )
+    private function generateCategory( ezcFeedCategoryElement $category, DOMElement $root )
     {
-        $attributes = array();
-        foreach ( $this->schema->getAttributes( $element ) as $attribute => $type )
+        $data = $category->term;
+
+        $element = $this->xml->createElement( 'category', $data );
+        $root->appendChild( $element );
+
+        $data = $category->scheme;
+        if ( !is_null( $data ) )
         {
-            if ( isset( $dataNode->$attribute ) )
-            {
-                $attributes[$attribute] = $dataNode->$attribute;
-            }
+            $this->addAttribute( $element, 'domain', $data );
+        }
+    }
+
+    /**
+     * Adds a person node to the XML document being generated.
+     *
+     * @param ezcFeedPersonElement $person The person feed element
+     * @param DOMElement $root The XML element where to store the person element
+     * @param string $elementName The feed element name (eg 'author')
+     */
+    private function generatePerson( ezcFeedPersonElement $person, DOMElement $root, $elementName )
+    {
+        $name = $person->name;
+        $email = $person->email;
+
+        $data = $name;
+        if ( $email !== null )
+        {
+            $data = "{$email} ({$name})";
         }
 
-        if ( count( $attributes ) >= 1 )
+        $element = $this->xml->createElement( $elementName, $data );
+        $root->appendChild( $element );
+    }
+
+    /**
+     * Adds a generator node to the XML document being generated.
+     *
+     * @param ezcFeedGeneratorElement $generator The generator feed element
+     * @param DOMElement $root The XML element where to store the generator element
+     */
+    private function generateGenerator( ezcFeedGeneratorElement $generator, DOMElement $root )
+    {
+        $name = $generator->name;
+        $version = $generator->version;
+        $url = $generator->url;
+
+        $data = $name;
+        if ( $version !== null )
         {
-            $this->generateMetaDataWithAttributes( $root, $element, $dataNode, $attributes );
+            $data = $data . " {$version}";
         }
-        else
+
+        if ( $url !== null )
         {
-            $this->generateMetaData( $root, $element, $dataNode );
+            $data = $data . " ({$url})";
         }
+
+        $element = $this->xml->createElement( 'generator', $data );
+        $root->appendChild( $element );
     }
 
     /**
      * Adds an image node to the XML document being generated.
      *
-     * @param ezcFeedElement $feedElement The image feed element
+     * @param ezcFeedImageElement $feedElement The image feed element
      */
-    private function generateImage( ezcFeedElement $feedElement )
+    private function generateImage( ezcFeedImageElement $feedElement )
     {
         $image = $this->xml->createElement( 'image' );
         $this->channel->appendChild( $image );
 
-        foreach ( $this->schema->getRequired( 'image' ) as $element )
+        $elements = array( 'url', 'title', 'link' );
+        foreach ( $elements as $element )
         {
             $data = $feedElement->$element;
             if ( is_null( $data ) )
@@ -486,7 +469,8 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             $this->generateMetaData( $image, $element, $data );
         }
 
-        foreach ( $this->schema->getOptional( 'image' ) as $element )
+        $elements = array( 'description', 'width', 'height' );
+        foreach ( $elements as $element )
         {
             $data = $feedElement->$element;
             if ( !is_null( $data ) )
@@ -499,22 +483,19 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     /**
      * Adds a skipHours node to the XML document being generated.
      *
-     * @param ezcFeedElement $feedElement The skipHours feed element
+     * @param ezcFeedSkipHoursElement $feedElement The skipHours feed element
      */
-    private function generateSkipHours( ezcFeedElement $feedElement )
+    private function generateSkipHours( ezcFeedSkipHoursElement $feedElement )
     {
         $tag = $this->xml->createElement( 'skipHours' );
         $this->channel->appendChild( $tag );
 
-        foreach ( $this->schema->getOptional( 'skipHours' ) as $element )
+        $data = $feedElement->hours;
+        if ( !is_null( $data ) )
         {
-            $data = $feedElement->$element;
-            if ( !is_null( $data ) )
+            foreach ( $data as $dataNode )
             {
-                foreach ( $data as $dataNode )
-                {
-                    $this->generateMetaData( $tag, $element, $dataNode->__toString() );
-                }
+                $this->generateMetaData( $tag, 'hour', $dataNode );
             }
         }
     }
@@ -522,22 +503,19 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     /**
      * Adds a skipDays node to the XML document being generated.
      *
-     * @param ezcFeedElement $feedElement The skipDays feed element
+     * @param ezcFeedSkipDaysElement $feedElement The skipDays feed element
      */
-    private function generateSkipDays( ezcFeedElement $feedElement )
+    private function generateSkipDays( ezcFeedSkipDaysElement $feedElement )
     {
         $tag = $this->xml->createElement( 'skipDays' );
         $this->channel->appendChild( $tag );
 
-        foreach ( $this->schema->getOptional( 'skipDays' ) as $element )
+        $data = $feedElement->days;
+        if ( !is_null( $data ) )
         {
-            $data = $feedElement->$element;
-            if ( !is_null( $data ) )
+            foreach ( $data as $dataNode )
             {
-                foreach ( $data as $dataNode )
-                {
-                    $this->generateMetaData( $tag, $element, $dataNode->__toString() );
-                }
+                $this->generateMetaData( $tag, 'day', $dataNode );
             }
         }
     }
@@ -545,14 +523,15 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     /**
      * Adds an textInput node to the XML document being generated.
      *
-     * @param ezcFeedElement $feedElement The textInput feed element
+     * @param ezcFeedTextInputElement $feedElement The textInput feed element
      */
-    private function generateTextInput( ezcFeedElement $feedElement )
+    private function generateTextInput( ezcFeedTextInputElement $feedElement )
     {
         $image = $this->xml->createElement( 'textInput' );
         $this->channel->appendChild( $image );
 
-        foreach ( $this->schema->getRequired( 'textInput' ) as $element )
+        $elements = array( 'title', 'description', 'name', 'link' );
+        foreach ( $elements as $element )
         {
             $data = $feedElement->$element;
             if ( is_null( $data ) )
@@ -567,15 +546,16 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
     /**
      * Adds a cloud node to the XML document being generated.
      *
-     * @param ezcFeedElement $feedElement The cloud feed element
+     * @param ezcFeedCloudElement $feedElement The cloud feed element
      */
-    private function generateCloud( ezcFeedElement $feedElement )
+    private function generateCloud( ezcFeedCloudElement $feedElement )
     {
         $cloud = $this->xml->createElement( 'cloud' );
         $this->channel->appendChild( $cloud );
 
         $attributes = array();
-        foreach ( $this->schema->getAttributes( 'cloud' ) as $element => $value )
+        $elements = array( 'domain', 'port', 'path', 'registerProcedure', 'protocol' );
+        foreach ( $elements as $element )
         {
             $data = $feedElement->$element;
             if ( is_null( $data ) )
@@ -605,7 +585,8 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             $this->channel->appendChild( $itemTag );
 
             $atLeastOneRequiredFeedItemPresent = false;
-            foreach ( $this->schema->getAtLeastOne( 'item' ) as $attribute )
+            $elements = array( 'title', 'description' );
+            foreach ( $elements as $attribute )
             {
                 $data = $item->$attribute;
                 if ( !is_null( $data ) )
@@ -617,7 +598,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
             if ( $atLeastOneRequiredFeedItemPresent === false )
             {
-                $requiredElements = $this->schema->getAtLeastOne( 'item' );
+                $requiredElements = $elements;
                 for ( $i = 0; $i < count( $requiredElements ); $i++ )
                 {
                     $requiredElements[$i] = "/{$this->root->nodeName}/item/{$requiredElements[$i]}";
@@ -625,61 +606,55 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                 throw new ezcFeedAtLeastOneItemDataRequiredException( $requiredElements );
             }
 
-            foreach ( $this->schema->getOptional( 'item' ) as $attribute )
-            {
-                $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
+            $optional = array( 'title', 'link', 'description',
+                               'author', 'category', 'comments',
+                               'enclosure', 'id', 'published',
+                               'source' );
 
+            foreach ( $optional as $attribute )
+            {
                 $metaData = $item->$attribute;
 
                 if ( !is_null( $metaData ) )
                 {
                     switch ( $attribute )
                     {
-                        case 'guid':
+                        case 'comments':
+                            $this->generateMetaData( $itemTag, 'comments', $metaData );
+                            break;
+
+                        case 'id':
                             $attributes = array();
-                            if ( isset( $metaData[0]->isPermaLink ) )
+                            if ( isset( $metaData->isPermaLink ) )
                             {
-                                $permaLink = ( $metaData[0]->isPermaLink === true ) ? 'true' : 'false';
+                                $permaLink = ( $metaData->isPermaLink === true ) ? 'true' : 'false';
                                 $attributes = array( 'isPermaLink' => $permaLink );
                             }
-                            // @todo Investigate if needed to set isPermaLink dependent of the guid
-                            // $permaLink = substr( $metaData[0]->__toString(), 0, 7 ) === 'http://' ? "true" : "false";
 
-                            $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, $attributes );
+                            $this->generateMetaDataWithAttributes( $itemTag, 'guid', $metaData->id, $attributes );
                             break;
 
                         case 'category':
                             foreach ( $metaData as $dataNode )
                             {
-                                $attributes = array();
-                                foreach ( $this->schema->getAttributes( 'item', $attribute ) as $key => $type )
-                                {
-                                    if ( isset( $dataNode->$key ) )
-                                    {
-                                        $attributes[$key] = $dataNode->$key;
-                                    }
-                                }
-
-                                if ( count( $attributes ) >= 1 )
-                                {
-                                    $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $dataNode, $attributes );
-                                }
-                                else
-                                {
-                                    $this->generateMetaData( $itemTag, $normalizedAttribute, $dataNode );
-                                }
+                                $this->generateCategory( $dataNode, $itemTag );
                             }
                             break;
 
-                        case 'pubDate':
-                            $this->generateMetaData( $itemTag, $normalizedAttribute, ezcFeedTools::prepareDate( $metaData->getValue() )->format( 'D, d M Y H:i:s O' ) );
+                        case 'author':
+                            $this->generatePerson( $metaData, $itemTag, 'author' );
+                            break;
+
+                        case 'published':
+                            $this->generateMetaData( $itemTag, 'pubDate', $metaData->date->format( 'D, d M Y H:i:s O' ) );
                             break;
 
                         case 'enclosure':
                             foreach ( $metaData as $dataNode )
                             {
                                 $attributes = array();
-                                foreach ( $this->schema->getAttributes( 'item', $attribute ) as $key => $type )
+                                $elements = array( 'url', 'length', 'type' );
+                                foreach ( $elements as $key )
                                 {
                                     if ( isset( $dataNode->$key ) )
                                     {
@@ -687,39 +662,28 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                                     }
                                 }
 
-                                if ( count( $attributes ) >= 1 )
-                                {
-                                    $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, false, $attributes );
-                                }
-                                else
-                                {
-                                    // @todo Raise exception
-                                }
+                                $this->generateMetaDataWithAttributes( $itemTag, 'enclosure', false, $attributes );
                             }
 
                             break;
 
                         case 'source':
-                            if ( is_array( $metaData ) )
-                            {
-                                $metaData = $metaData[0];
-                            }
-
                             if ( !isset( $metaData->url ) )
                             {
-                                throw new ezcFeedRequiredMetaDataMissingException( '/rss/item/source/url' );
+                                throw new ezcFeedRequiredMetaDataMissingException( '/rss/item/source/@url' );
                             }
+
                             $attributes = array( 'url' => $metaData->url );
-                            $this->generateMetaDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, $attributes );
+                            $this->generateMetaDataWithAttributes( $itemTag, 'source', $metaData, $attributes );
                             break;
 
                         default:
-                            $this->generateMetaData( $itemTag, $normalizedAttribute, $metaData );
+                            $this->generateMetaData( $itemTag, $attribute, $metaData );
                     }
                 }
             }
 
-            $this->generateModules( $item, $itemTag );
+            $this->generateItemModules( $item, $itemTag );
         }
     }
 
@@ -727,74 +691,86 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
      * Parses the provided XML element object and stores it as a feed item in
      * the provided ezcFeed object.
      *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed item
      * @param ezcFeedElement $element The feed element object that will contain the feed item
      * @param DOMElement $xml The XML element object to parse
      */
-    private function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseItem( ezcFeedElement $element, DOMElement $xml )
     {
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
             {
                 $tagName = $itemChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getItemsMap() );
 
                 switch ( $tagName )
                 {
                     case 'title':
-                    case 'link':
                     case 'description':
-                    case 'author':
                     case 'comments':
-                    case 'source':
-                        $element->$tagName = $itemChild->textContent;
+                        $subElement = $element->add( $tagName );
+                        $subElement->text = $itemChild->textContent;
                         break;
 
-                    case 'published':
-                        $element->$tagName = ezcFeedTools::prepareDate( $itemChild->textContent );
+                    case 'author':
+                        $subElement = $element->add( $tagName );
+                        $subElement->name = $itemChild->textContent;
+                        // @todo parse textContent if it has the format: email@host (name)
+                        break;
+
+                    case 'pubDate':
+                        $element->published = $itemChild->textContent;
+                        break;
+
+                    case 'enclosure':
+                        $subElement = $element->add( $tagName );
+
+                        $attributes = array( 'url' => 'url', 'type' => 'type', 'length' => 'length' );
+                        foreach ( $attributes as $name => $alias )
+                        {
+                            if ( $itemChild->hasAttribute( $name ) )
+                            {
+                                $subElement->$alias = $itemChild->getAttribute( $name );
+                            }
+                        }
+                        break;
+
+                    case 'link':
+                        $subElement = $element->add( $tagName );
+                        $subElement->href = $itemChild->textContent;
+                        break;
+
+                    case 'source':
+                        $subElement = $element->add( $tagName );
+                        $subElement->source = $itemChild->textContent;
+                        if ( $itemChild->hasAttribute( 'url' ) )
+                        {
+                            $subElement->url = $itemChild->getAttribute( 'url' );
+                        }
                         break;
 
                     case 'category':
-                    case 'enclosure':
                         $subElement = $element->add( $tagName );
-                        $subElement->set( $itemChild->textContent );
+                        $subElement->term = $itemChild->textContent;
+                        if ( $itemChild->hasAttribute( 'domain' ) )
+                        {
+                            $subElement->scheme = $itemChild->getAttribute( 'domain' );
+                        }
                         break;
 
-                    case 'id':
-                        $subElement = $element->add( $tagName );
-                        $subElement->set( $itemChild->textContent );
+                    case 'guid':
+                        $subElement = $element->add( 'id' );
+                        $subElement->id = $itemChild->textContent;
+                        if ( $itemChild->hasAttribute( 'isPermaLink' ) )
+                        {
+                            $value = $itemChild->getAttribute( 'isPermaLink' );
+                            $subElement->isPermaLink = ( strtolower( $value ) === 'true' ) ? true : false;
+                        }
                         break;
 
                     default:
                         // check if it's part of a known module/namespace
                         $this->parseModules( $element, $itemChild, $tagName );
-
-                        // continue 2 = ignore modules when getting attributes below
-                        continue 2;
-                }
-
-                if ( $itemChild->hasAttributes() )
-                {
-                    foreach ( $itemChild->attributes as $attribute )
-                    {
-                        if ( in_array( $tagName, array( 'category', 'enclosure' ) ) )
-                        {
-                            $subElement->{$attribute->name} = $attribute->value;
-                        }
-                        else if ( in_array( $tagName, array( 'id' ) ) )
-                        {
-                            if ( $attribute->name === 'isPermaLink'
-                                 && $attribute->value !== null )
-                            {
-                                $subElement->isPermaLink = ( $attribute->value === "true" ) ? true : false;
-                            }
-                        }
-                        else
-                        {
-                            $element->$tagName->{$attribute->name} = $attribute->value;
-                        }
-                    }
+                        break;
                 }
             }
         }
@@ -802,13 +778,12 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Parses the provided XML element object and stores it as a feed image in
-     * the provided ezcFeed object.
+     * the provided ezcFeedImageElement object.
      *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed image
-     * @param ezcFeedElement $element The feed element object that will contain the feed image
+     * @param ezcFeedImageElement $element The feed element object that will contain the feed image
      * @param DOMElement $xml The XML element object to parse
      */
-    private function parseImage( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseImage( ezcFeedImageElement $element, DOMElement $xml )
     {
         foreach ( $xml->childNodes as $itemChild )
         {
@@ -818,10 +793,9 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                 switch ( $tagName )
                 {
-                    case 'title': // required in RSS2
-                    case 'link': // required in RSS2
-                    case 'url': // required in RSS2
-
+                    case 'title':
+                    case 'link':
+                    case 'url':
                     case 'description':
                     case 'width':
                     case 'height':
@@ -834,67 +808,64 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
     /**
      * Parses the provided XML element object and stores it as a feed element
-     * of type skipHours in the provided ezcFeed object.
+     * of type skipHours in the provided ezcFeedSkipHoursElement object.
      *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed element
-     * @param ezcFeedElement $element The feed element object that will contain skipHours
+     * @param ezcFeedSkipHoursElement $element The feed element object that will contain skipHours
      * @param DOMElement $xml The XML element object to parse
      */
-    private function parseSkipHours( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseSkipHours( ezcFeedSkipHoursElement $element, DOMElement $xml )
     {
+        $values = array();
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
             {
                 $tagName = $itemChild->tagName;
 
-                switch ( $tagName )
+                if ( $tagName === 'hour' )
                 {
-                    case 'hour':
-                        $subElement = $element->add( 'hour' );
-                        $subElement->set( $itemChild->textContent );
-                        break;
+                    $values[] = $itemChild->textContent;
                 }
             }
         }
+
+        $element->hours = $values;
     }
 
     /**
      * Parses the provided XML element object and stores it as a feed element
-     * of type skipDays in the provided ezcFeed object.
+     * of type skipDays in the provided ezcFeedSkipDaysElement object.
      *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a feed element
-     * @param ezcFeedElement $element The feed element object that will contain skipDays
+     * @param ezcFeedSkipDaysElement $element The feed element object that will contain skipDays
      * @param DOMElement $xml The XML element object to parse
      */
-    private function parseSkipDays( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseSkipDays( ezcFeedSkipDaysElement $element, DOMElement $xml )
     {
+        $values = array();
         foreach ( $xml->childNodes as $itemChild )
         {
             if ( $itemChild->nodeType === XML_ELEMENT_NODE )
             {
                 $tagName = $itemChild->tagName;
 
-                switch ( $tagName )
+                if ( $tagName === 'day' )
                 {
-                    case 'day':
-                        $subElement = $element->add( 'day' );
-                        $subElement->set( $itemChild->textContent );
-                        break;
+                    $values[] = $itemChild->textContent;
                 }
             }
         }
+
+        $element->days = $values;
     }
 
     /**
      * Parses the provided XML element object and stores it as a textInput in
-     * the provided ezcFeed object.
+     * the provided ezcFeedTextInputElement object.
      *
-     * @param ezcFeed $feed The feed object in which to store the parsed XML element as a textInput
-     * @param ezcFeedElement $element The feed element object that will contain the textInput
+     * @param ezcFeedTextInputElement $element The feed element object that will contain the textInput
      * @param DOMElement $xml The XML element object to parse
      */
-    private function parseTextInput( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseTextInput( ezcFeedTextInputElement $element, DOMElement $xml )
     {
         foreach ( $xml->childNodes as $itemChild )
         {
@@ -904,10 +875,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
 
                 switch ( $tagName )
                 {
-                    case 'title': // required in RSS2
-                    case 'description': // required in RSS2
-                    case 'name': // required in RSS2
-                    case 'link': // required in RSS2
+                    case 'title':
+                    case 'description':
+                    case 'name':
+                    case 'link':
                         $element->$tagName = $itemChild->textContent;
                         break;
                 }

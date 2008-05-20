@@ -6,6 +6,6 @@ return array( 'id' => 'Channel about',
 			  'item' => array( array( 'id' => 'Item about',
                                       'title' => 'Item title',
                                       'link' => 'Item link' ) ),
-              'textinput' => array( array() ),
+              'textInput' => array( array() ),
             );
 ?>

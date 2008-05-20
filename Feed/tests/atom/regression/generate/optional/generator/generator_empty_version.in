@@ -1,9 +1,9 @@
 <?php
 return array( 'id' => 'Feed id',
-              'title' => array( array( '#' => 'Feed title',
+              'title' => array( array( 'text' => 'Feed title',
                                        'type' => '' ) ),
               'updated' => 'Feed updated',
               'author' => array( array( 'name' => 'Author name' ) ),
-              'generator' => array( array( '#' => null,
+              'generator' => array( array( 'name' => null,
                                            'version' => 'Generator version' ) ) );
 ?>

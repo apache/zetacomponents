@@ -25,32 +25,21 @@
  *
  * Parse example:
  * <code>
- * // $item is an ezcFeedItem object
+ * // $item is an ezcFeedEntryElement object
  * $text = $item->Content->encoded;
  * </code>
  *
- * @property ezcFeedElement $encoded
- *                          Item-level container for text. The text is stored
- *                          in a feed by applying htmlspecialchars() with
- *                          ENT_NOQUOTES and restored from a feed with
- *                          htmlspecialchars_decode() with ENT_NOQUOTES.
+ * @property ezcFeedTextElement $encoded
+ *                              Item-level container for text. The text is stored
+ *                              in a feed by applying htmlspecialchars() with
+ *                              ENT_NOQUOTES and restored from a feed with
+ *                              htmlspecialchars_decode() with ENT_NOQUOTES.
  *
  * @package Feed
  * @version //autogentag//
  */
 class ezcFeedContentModule extends ezcFeedModule
 {
-    /**
-     * Holds the schema for this feed module.
-     *
-     * @var array(string)
-     * @ignore
-     */
-    protected $schema = array(
-        'feed' => array(),
-        'item' => array( 'encoded' => array( '#' => 'string' ),
-                         ) );
-
     /**
      * Constructs a new ezcFeedContentModule object.
      *
@@ -62,6 +51,124 @@ class ezcFeedContentModule extends ezcFeedModule
     }
 
     /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     *
+     * @param string $name The property name
+     * @param mixed $value The property value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            $node = $this->add( $name );
+            $node->text = $value;
+        }
+        else
+        {
+            parent::__set( $name, $value );
+        }
+    }
+
+    /**
+     * Returns the value of property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     *
+     * @param string $name The property name
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            if ( isset( $this->properties[$name] ) )
+            {
+                return $this->properties[$name];
+            }
+        }
+        return parent::__get( $name );
+    }
+
+    /**
+     * Returns if the property $name is set.
+     *
+     * @param string $name The property name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            return isset( $this->properties[$name] );
+        }
+        else
+        {
+            return parent::__isset( $name );
+        }
+    }
+
+    /**
+     * Returns true if the element $name is allowed in the current module at the
+     * current level (feed or item), and false otherwise.
+     *
+     * @param string $name The element name to check if allowed in the current module and level (feed or item)
+     * @return bool
+     */
+    public function isElementAllowed( $name )
+    {
+        switch ( $this->level )
+        {
+            case 'feed':
+                // no support yet for content:encoded element at feed-level
+                return false;
+
+            case 'item':
+                if ( in_array( $name, array( 'encoded' ) ) )
+                {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * Adds a new ezcFeedElement element with name $name to this module and
+     * returns it.
+     *
+     * @throws ezcFeedUnsupportedElementException
+     *         if trying to add an element which is not supported.
+     *
+     * @param string $name The element name
+     * @return ezcFeedElement
+     */
+    public function add( $name )
+    {
+        if ( $this->isElementAllowed( $name ) )
+        {
+            switch ( $name )
+            {
+                case 'encoded':
+                    $node = new ezcFeedTextElement();
+                    break;
+            }
+            $this->properties[$name] = $node;
+            return $node;
+        }
+        else
+        {
+            throw new ezcFeedUnsupportedElementException( $name );
+        }
+    }
+
+    /**
      * Adds the module elements to the $xml XML document, in the container $root.
      *
      * @param DOMDocument $xml The XML document in which to add the module elements
@@ -69,23 +176,11 @@ class ezcFeedContentModule extends ezcFeedModule
      */
     public function generate( DOMDocument $xml, DOMNode $root )
     {
-        foreach ( $this->schema[$this->level] as $element => $schema )
+        if ( isset( $this->encoded ) )
         {
-            if ( isset( $this->$element ) )
-            {
-                foreach ( $this->$element as $values )
-                {
-                    $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . $element );
-                    $root->appendChild( $elementTag );
-
-                    switch ( $element )
-                    {
-                        case 'encoded':
-                            $elementTag->nodeValue = htmlspecialchars( $values->__toString(), ENT_NOQUOTES );
-                            break;
-                    }
-                }
-            }
+            $elementTag = $xml->createElement( $this->getNamespacePrefix() . ':' . 'encoded' );
+            $root->appendChild( $elementTag );
+            $elementTag->nodeValue = htmlspecialchars( $this->encoded->__toString(), ENT_NOQUOTES );
         }
     }
 
@@ -106,7 +201,7 @@ class ezcFeedContentModule extends ezcFeedModule
             switch ( $name )
             {
                 case 'encoded':
-                    $element->set( htmlspecialchars_decode( $value, ENT_NOQUOTES ) );
+                    $element->text = htmlspecialchars_decode( $value, ENT_NOQUOTES );
                     break;
             }
         }

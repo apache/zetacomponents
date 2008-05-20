@@ -89,10 +89,7 @@ ezcFeed
   generated into an XML document.
 
 ezcFeedElement
-  Defines an element in a feed object.
-
-ezcFeedItem
-  Defines a feed item in a feed object.
+  Base class for all feed element types.
 
 ezcFeedModule
   Base class for all feed modules.
@@ -130,6 +127,68 @@ The following modules are supported by the Feed component:
 A new module can be defined by creating a class which extends the class
 ezcFeedModule. The new class needs to be added to the supported modules list
 by calling the ezcFeed::registerModule() function.
+
+
+Feed element types
+------------------
+
+The following element types are implemented in the Feed component (extending
+the class ezcFeedElement):
+
+- ezcFeedEntryElement - specifies a feed item (entry) with the sub-elements
+  *author*, *category*, *comments*, *content*, *contributor*, *copyright*,
+  *description*, *enclosure*, *id*, *link*, *published*, *title*, *updated*,
+  *source*
+
+- ezcFeedCategoryElement - specifies a category with the attributes *term*,
+  *scheme*, *label* and *category* (for iTunes subcategories).
+
+- ezcFeedCloudElement - specifies an RSS2 cloud element with the attributes
+  *domain*, *port*, *path*, *registerProcedure*, *protocol*
+
+- ezcFeedContentElement - specifies an ATOM content element with the attributes
+  *text*, *type* (ATOM only), *language* (ATOM only), *src* (ATOM only)
+
+- ezcFeedDateElement - specifies a date element with the attribute *date*. The
+  date is stored as a DateTime object (assigning an integer timestamp or a
+  formatted date work as well)
+
+- ezcFeedEnclosureElement - specifies an RSS2 enclosure element with the
+  attributes *url*, *type*, *length*. Converted to an ezcFeedLinkElement when
+  generating an ATOM feed.
+
+- ezcFeedGeneratorElement - specifies a generator element with the attributes
+  *name*, *uri*, *version*
+
+- ezcFeedIdElement - specifies an identifier element with the attributes *id*,
+  *isPermaLink*
+
+- ezcFeedImageElement - specifies an image with the attributes *link*, *title*,
+  *url* (RSS1 and RSS2), *description*, *width*, *height* (RSS2 only),
+  *about* (RSS1 only)
+
+- ezcFeedLinkElement - specifies a link with the attributes *href*, *rel*,
+  *hreflang*, *title*, *type*, *length*
+
+- ezcFeedPersonElement - specifies a person with the attributes *name*, *email*
+  and *uri*
+
+- ezcFeedSkipDaysElement - specifies an RSS2 skipDays element with the
+  attributes *days*
+
+- ezcFeedSkipHoursElement - specifies an RSS2 skipHours element with the
+  attributes *hours*
+
+- ezcFeedSourceElement - specifies a source element with the RSS2 attributes
+  *source* and *url*, and ATOM elements *title*, *description*, *copyright*,
+  *author*, *contributor*, *updated*, *generator*, *image*, *icon*, *id*,
+  *link*, *category*
+
+- ezcFeedTextElement - specifies a text with the attributes *text*, *type*
+  (ATOM only), *language* (ATOM only)
+
+- ezcFeedTextInputElement - specifies an RSS1 and RSS2 text input element with
+  the attributes *name*, *link*, *title*, *description*, *about* (RSS1 only)
 
 
 How to create a feed
@@ -172,10 +231,13 @@ A news item can be defined by these elements (example for one news item):
 Step 1. Create a feed object
 ----------------------------
 
-A feed object can be created by calling the constructor with the required feed
-type (``atom``, ``rss1`` or ``rss2``). In our case we create an RSS2 feed::
+A feed object can be created by calling the constructor with the optional feed
+type (``atom``, ``rss1`` or ``rss2``). In our case we create an generic feed::
 
-    $feed = new ezcFeed( 'rss2' );
+    $feed = new ezcFeed();
+
+The type of the resulting XML feed document will be specified in
+`Step 5. Generate the XML feed`_.
 
 
 Step 2. Add feed elements
@@ -186,22 +248,44 @@ We add the *title*, *description* and *author* to the feed::
     $feed->title = 'eZ news feed';
     $feed->description = 'This RSS feed contains news feeds for eZ Publish and eZ Components';
     $feed->published = 'Wed, 05 Mar 2008 14:28:45 +0000';
-    $feed->author = 'nospam@ez.no (Derick)';
 
-Because some feed types support multiple *link* elements, multiple *link*
-elements can be added to a feed (although this is not fully supported by RSS2
-|RSS2-specifications|_ or by `aggregator`_ programs).
+Because some feed types support multiple *link* and *author* elements, multiple
+elements of this type can be added to a feed (although this is not fully
+supported by RSS2 |RSS2-specifications|_ or by `aggregator`_ programs).
 
 The way to add an element which can appear multiple times, or an element which
 supports attributes, is to call the method **add()** from ezcFeed or
-ezcFeedElement / ezcFeedItem. The value of the element is set via the method
-**set()** from ezcFeedElement / ezcFeedItem, and the attributes of the element
-are set as simple properties (the way **$feed->title** is set).
+ezcFeedElement classes. The attributes of the element are set as simple
+properties (the way **$feed->title** is set).
 
-So to add a *link* element to our feed, we will do::
+So to add a *author* element to our feed, we will do::
+
+    $author = $feed->add( 'author' );
+    $author->name = 'Derick';
+    $author->email = 'nospam@ez.no';
+
+In the above example. $author is an object of type ezcFeedPersonElement.
+Other properties can be set on it (*uri*) which are mainly used for ATOM feeds.
+When generating an RSS2 feed, the generated XML element will look like this
+(from the values added to the $author object above)::
+
+    <managingEditor>nospam@ez.no (Derick)</managingEditor>
+
+In ATOM it will look like this::
+
+    <author>
+      <name>Derick</name>
+      <email>nospam@ez.no</email>
+    </author>
+
+To add a *link* element to our feed, we will do::
 
     $link = $feed->add( 'link' );
-    $link->set( 'http://ez.no/' );
+    $link->href = 'http://ez.no/';
+
+In the above example. $link is an object of type ezcFeedLinkElement. Other
+properties can be set on it (*title*, *rel*, *hreflang*, *type*, *length*)
+which are mainly used for ATOM feeds.
 
 
 Step 3. Add an item
@@ -218,12 +302,16 @@ Next we add the *title*, *description* and *author* elements to the news item
     $item->title = 'eZ Components 2007.1 released';
     $item->description = 'The new release of eZ Components include Workflow, Authentication...';
     $item->published = 'Mon, 02 Jul 2007 11:36:45 +0000';
-    $item->author = 'nospam@ez.no (Derick)';
 
-We add the *link* element to the news item in the same way as for the feed::
+We add the *link* and *author* elements to the news item in the same way as
+for the feed::
+
+    $author = $item->add( 'author' );
+    $author->name = 'Derick';
+    $author->email = 'nospam@ez.no';
 
     $link = $item->add( 'link' );
-    $link->set( 'http://ezcomponents.org/resources/news/news-2007-07-02' );
+    $link->href = 'http://ezcomponents.org/resources/news/news-2007-07-02';
 
 
 Step 4. Add more items
@@ -239,7 +327,7 @@ Step 5. Generate the XML feed
 To create the XML feed from the $feed object, we call the **generate()** method
 of ezcFeed::
 
-    $xml = $feed->generate();
+    $xml = $feed->generate( 'rss2' );
 
 After running this line, $xml will contain the XML string of the feed (in case
 no exceptions were thrown due to required elements not being present).
@@ -254,6 +342,11 @@ time at generation time), *generator* (``eZ Components Feed`` along with the
 version of the Feed component (``dev``) and a link to this tutorial) and *docs*
 (``http://www.rssboard.org/rss-specification`` - a link to the RSS2
 |RSS2-specifications|_).
+
+If you want to generate ATOM and RSS1 feed documents at this step, you can call
+**generate()** with 'atom' and 'rss1' respectively as arguments. As some
+elements are required for ATOM and RSS1, you might receive an exception. In
+this case add the required elements and call again **generate()**.
 
 
 Step 6. Save the XML feed to a file
@@ -483,10 +576,13 @@ We start with creating an RSS2 feed object, which we fill with *title*,
 
     $feed->title = 'Flight of the RC plane';
     $feed->description = 'A podcast for fans of remote-control planes, with information about planes, competitions, tutorials and tips';
-    $feed->author = 'editor@rcplanes.example.com (Derick)';
+
+    $author = $feed->add( 'author' );
+    $author->name = 'Derick';
+    $author->email = 'editor@rcplanes.example.com';
 
     $link = $feed->add( 'link' );
-    $link->set( 'http://rcplanes.examples.com/' );
+    $link->href = 'http://rcplanes.examples.com/';
 
 
 Step 2. Add iTunes feed elements
@@ -507,7 +603,7 @@ iTunes elements to our $feed object::
 
     // add an image for the podcast
     $image = $iTunes->add( 'image' );
-    $image->href = 'http://rcplanes.example.com/images/rc_plane_big.jpg';
+    $image->link = 'http://rcplanes.example.com/images/rc_plane_big.jpg';
 
     // add the podcast in the category Technology->Gadgets
     $category = $iTunes->add( 'category' );
@@ -530,11 +626,14 @@ Next we will add an episode (*item*) to our $feed object, and we will add the
 
     $item->title = 'Flying an RC plane indoors';
     $item->description = 'In this episode, Derick talks about how to fly an RC plane in a big hall, around people working and throwing stuff at the plane';
-    $item->author = 'derick@rcplanes.example.com (Derick)';
     $item->published = 'Fri, 04 Jan 2008 11:18:34 +0100';
 
+    $author = $item->add( 'author' );
+    $author->name = 'Derick';
+    $author->email = 'derick@rcplanes.example.com';
+
     $link = $item->add( 'link' );
-    $link->set( 'http://rcplanes.example.com/articles/fly-an-rc-plane-indoors.html' );
+    $link->href = 'http://rcplanes.example.com/articles/fly-an-rc-plane-indoors.html';
 
     $enclosure = $item->add( 'enclosure' );
     $enclosure->url = 'http://rcplanes.example.com/media/003-flying-indoors.mp3';
@@ -657,14 +756,20 @@ write::
 
     $title = isset( $feed->title ) ? $feed->title->__toString() : null;
     $description = isset( $feed->description ) ? $feed->description->__toString() : null;
-    $author = isset( $feed->author ) ? $feed->author->__toString() : null;
+
+    if ( isset( $feed->author ) )
+    {
+        $author = isset( $feed->author->name ) ? $feed->author->name : null;
+        // RSS2 feeds usually have the author in this format: email_address (author_name)
+        // the $author string can be parsed to extract the email and name
+    }
 
     $links = array();
     if ( isset( $feed->link ) )
     {
         foreach ( $feed->link as $link )
         {
-            $links[] = $link->__toString();
+            $links[] = $link->href;
         }
     }
 
@@ -686,15 +791,21 @@ and *link* of all items. This is how we will do it::
     {
         $title = isset( $item->title ) ? $item->title->__toString() : null;
         $description = isset( $item->description ) ? $item->description->__toString() : null;
-        $published = isset( $item->published ) ? $item->published->getValue()->format( 'c' ) : null;
-        $author = isset( $item->author ) ? $item->author->__toString() : null;
+        $published = isset( $item->published ) ? $item->published->date->format( 'c' ) : null;
+
+        if ( isset( $item->author ) )
+        {
+            $author = isset( $item->author->name ) ? $item->author->name : null;
+            // RSS2 feeds usually have the author in this format: email_address (author_name)
+            // the $author string can be parsed to extract the email and name
+        }
 
         $links = array();
         if ( isset( $item->link ) )
         {
             foreach ( $item->link as $link )
             {
-                $links[] = $link->__toString();
+                $links[] = $link->href;
             }
         }
 
@@ -704,10 +815,9 @@ and *link* of all items. This is how we will do it::
                           'links' => $links );
     }
 
-The *published* element is an ezcFeedElement object encapsulating a DateTime
-object, so we first get the DateTime object with **getValue()**, then we
-return the date as a string with **format( 'c' )**. Other formats can be used
-also, see the documentation for `date_format()`_.
+The *published* element is an ezcFeedDateElement object encapsulating a DateTime
+object, so we return the date as a string with **format( 'c' )**. Other formats
+can be used also, see the documentation for `date_format()`_.
 
 
 How to parse an iTunes podcast
@@ -749,7 +859,13 @@ write::
 
     $title = isset( $feed->title ) ? $feed->title->__toString() : null;
     $description = isset( $feed->description ) ? $feed->description->__toString() : null;
-    $author = isset( $feed->author ) ? $feed->author->__toString() : null;
+
+    if ( isset( $feed->author ) )
+    {
+        $author = isset( $feed->author->name ) ? $feed->author->name : null;
+        // RSS2 feeds usually have the author in this format: email_address (author_name)
+        // the $author string can be parsed to extract the email and name
+    }
 
     $links = array();
     if ( isset( $feed->link ) )
@@ -789,17 +905,17 @@ fetch the *keywords*, *subtitle*, *image* and *category* elements::
         $iTunes = $feed->iTunes;
         $keywords = isset( $iTunes->keywords ) ? $iTunes->keywords->__toString() : null;
         $subtitle = isset( $iTunes->subtitle ) ? $iTunes->subtitle->__toString() : null;
-        $image = isset( $iTunes->image ) ? $iTunes->image->href->__toString() : null;
+        $image = isset( $iTunes->image ) ? $iTunes->image->__toString() : null;
 
         $categories = array();
         if ( isset( $iTunes->category ) )
         {
             foreach ( $iTunes->category as $category )
             {
-                $cat = array( 'text' => $category->text->__toString() );
+                $cat = array( 'term' => $category->term->__toString() );
                 if ( isset( $category->category ) )
                 {
-                    $cat['subCategory'] = $category->category[0]->text->__toString();
+                    $cat['subCategory'] = $category->category->term;
                 }
 
                 $categories[] = $cat;
@@ -834,8 +950,14 @@ and *link* of all items. This is how we will do it::
     {
         $title = isset( $item->title ) ? $item->title->__toString() : null;
         $description = isset( $item->description ) ? $item->description->__toString() : null;
-        $published = isset( $item->published ) ? $item->published->getValue()->format( 'c' ) : null;
-        $author = isset( $item->author ) ? $item->author->__toString() : null;
+        $published = isset( $item->published ) ? $item->published->date->format( 'c' ) : null;
+
+        if ( isset( $item->author ) )
+        {
+            $author = isset( $item->author->name ) ? $item->author->name : null;
+            // RSS2 feeds usually have the author in this format: email_address (author_name)
+            // the $author string can be parsed to extract the email and name
+        }
 
         $links = array();
         if ( isset( $item->link ) )
@@ -852,9 +974,9 @@ and *link* of all items. This is how we will do it::
             $enclosure = $item->enclosure[0];
 
             $media = array(
-               'url' => isset( $enclosure->url ) ? $enclosure->url->__toString() : null,
-               'length' => isset( $enclosure->length ) ? $enclosure->length__toString() : null,
-               'type' => isset( $enclosure->type ) ? $enclosure->type__toString() : null
+               'url' => isset( $enclosure->url ) ? $enclosure->url : null,
+               'length' => isset( $enclosure->length ) ? $enclosure->length : null,
+               'type' => isset( $enclosure->type ) ? $enclosure->type : null
                );
         }
 
@@ -884,15 +1006,15 @@ The code from the previous section is altered as follows::
             $enclosure = $item->enclosure[0];
 
             $media = array(
-               'url' => isset( $enclosure->url ) ? $enclosure->url->__toString() : null,
-               'length' => isset( $enclosure->length ) ? $enclosure->length__toString() : null,
-               'type' => isset( $enclosure->type ) ? $enclosure->type__toString() : null
+               'url' => isset( $enclosure->url ) ? $enclosure->url : null,
+               'length' => isset( $enclosure->length ) ? $enclosure->length : null,
+               'type' => isset( $enclosure->type ) ? $enclosure->type : null
                );
 
             if ( isset( $item->iTunes ) )
             {
                 $iTunes = $item->iTunes;
-                $media['duration'] = isset( $iTunes->duration ) ? $iTunes->duration->__toString : null;
+                $media['duration'] = isset( $iTunes->duration ) ? $iTunes->duration : null;
             }
         }
     // ...
@@ -916,7 +1038,8 @@ ATOM
 ````
 
 All ATOM feeds must be identified with the ``application/atom+xml`` media
-type. Use the **getContentType()** method of ezcFeed to get this string.
+type. Use the **getContentType()** method of ezcFeed to get this string, or
+**ezcFeedAtom::CONTENT_TYPE**.
 
 
 RSS1
@@ -924,7 +1047,7 @@ RSS1
 
 All RSS1 feeds should be identified with the ``application/rss+xml`` media
 type (although it is not a standard yet). Use the **getContentType()** method
-of ezcFeed to get this string.
+of ezcFeed to get this string, or **ezcFeedRss1::CONTENT_TYPE**.
 
 
 RSS2
@@ -932,76 +1055,7 @@ RSS2
 
 All RSS2 feeds should be identified with the ``application/rss+xml`` media
 type (although it is not a standard yet). Use the **getContentType()** method
-of ezcFeed to get this string.
-
-
-Elements common to all feed types
----------------------------------
-
-As each feed type (RSS1, RSS2, ATOM) is different, it can be quite difficult
-to switch a feed generation application from one feed type to another. It is
-therefore important to know what elements are common to all feed type, and how
-the Feed component handles those elements.
-
-The Feed component will ignore elements which are not defined for the current
-feed type (for example if you set the subtitle element, it will be ignored in
-RSS1 because it is not defined in the RSS1 specifications).
-
-For a full list of the feed elements and how they are expressed in the Feed
-component, see the `specifications`_ page.
-
-
-title
-`````
-
-- Required in all feed types.
-- In ATOM it has other attributes, for example *type* (``text``, ``html`` or
-  ``xhtml``).
-
-
-link
-````
-
-- Required in RSS1 and RSS2.
-- In RSS2 and ATOM can appear multiple times, but in RSS1 can appear only one
-  time.
-
-
-description
-```````````
-
-- Required in RSS1 and RSS2.
-- Called *subtitle* in ATOM (accessed as *description* through ezcFeed).
-- In ATOM it has other attributes, for example *type* (``text``, ``html`` or
-  ``xhtml``).
-
-item
-````
-
-- Optional in RSS2 and ATOM, but RSS1 must have at least one item present.
-- Called *entry* in ATOM (accessed as *item* through ezcFeed).
-- These sub-elements of *item* are present in all feed types:
-
-  *title*
-    Present in all feed types. In ATOM it has other attributes, for example
-    *type* (``text``, ``html`` or ``xhtml``).
-
-  *link*
-    RSS2 can have multiple links per item.
-
-  *description*
-    Called *summary* in ATOM (accessed as *description* through ezcFeed). In
-    ATOM it has other attributes, for example *type* (``text``, ``html`` or
-    ``xhtml``).
-
-
-image
-`````
-
-- Optional in all feed types.
-- Called *logo* in ATOM (accessed as *image* through ezcFeed).
-- RSS1 and RSS2 have attributes for the image (*title*, *link*, *url*, *width*,
-  *height*, *description*), while ATOM does not have them.
+of ezcFeed to get this string, or **ezcFeedRss2::CONTENT_TYPE**.
 
 
 Extending the Feed component
@@ -1019,18 +1073,20 @@ Example of new feed type::
 
     class myOpmlHandler extends ezcFeedProcessor implements ezcFeedParser
     {
-        public function __construct()
+        public function __construct( ezcFeed $container )
         {
+          $this->feedContainer = $container;
           $this->feedType = 'opml';
           $this->contentType = 'text/x-opml';
-          $this->schema = new ezcFeedSchema( /* schema array defining required and optional OPML elements */ );
         }
 
         public function generate()
         {
           // write implementation here
 
-          // should return XML as a string
+          // should return XML as a string based on the feed elements from
+          // $this->feedContainer which are accessed as $this->element_name
+          // (example $this->title)
         }
 
         public static function canParse( DOMDocument $xml )
@@ -1070,12 +1126,6 @@ Example of a new module type::
 
     class mySlashHandler extends ezcFeedModule
     {
-        // schema which defines the elements (at feed and item level) used by this module
-        protected $schema = array(
-            'feed' => array(),
-            'item' => array( 'elementName' => array( '#' => 'string' ),
-                         ) );
-
         public function __construct( $level = 'feed' )
         {
             parent::__construct( $level );
@@ -1085,7 +1135,7 @@ Example of a new module type::
         {
             // write implementation here
 
-            // should fill $root with values from $this, based on the $schema array
+            // should fill $root with values from $this
         }
 
         public function parse( $name, DOMElement $node )

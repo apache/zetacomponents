@@ -1,13 +1,13 @@
 <?php
 return array( 'title' => 'Feed title',
-              'link'  => array( 'Feed link' ),
+              'link'  => array( array( 'href' => 'Feed link' ) ),
               'description' => 'Feed description',
 			  'item' => array( array( 'title' => 'Item title',
                                       'link' => 'Item link',
                                       'description' => 'Item description',
-                                      'category' => array( array( '#' => 'Item category 1',
-                                                                  'domain' => 'Category domain 1' ),
-                                                           array( '#' => 'Item category 2',
-                                                                  'domain' => 'Category domain 2' ) ) ), ),
+                                      'category' => array( array( 'term' => 'Item category 1',
+                                                                  'scheme' => 'Category domain 1' ),
+                                                           array( 'term' => 'Item category 2',
+                                                                  'scheme' => 'Category domain 2' ) ) ), ),
             );
 ?>

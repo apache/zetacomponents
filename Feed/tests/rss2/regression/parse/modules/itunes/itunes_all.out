@@ -3,7 +3,7 @@ $feed = new ezcFeed( 'rss2' );
 $feed->title = 'Feed title';
 
 $link = $feed->add( 'link' );
-$link->set( 'Feed link' );
+$link->href = 'Feed link';
 
 $feed->description = 'Feed description';
 
@@ -12,12 +12,12 @@ $module->author = 'iTunes feed author';
 $module->block = 'iTunes feed block';
 
 $category = $module->add( 'category' );
-$category->text = 'iTunes feed category';
+$category->term = 'iTunes feed category';
 
 $module->explicit = 'iTunes feed explicit';
 
 $image = $module->add( 'image' );
-$image->href = 'iTunes feed image';
+$image->link = 'iTunes feed image';
 
 $module->keywords = 'iTunes feed keywords';
 $module->newfeedurl = 'iTunes feed new-feed-url';
@@ -31,7 +31,10 @@ $module->summary = 'iTunes feed summary';
 
 $item = $feed->add( 'item' );
 $item->title = 'Item title';
-$item->link = 'Item link';
+
+$link = $item->add( 'link' );
+$link->href = 'Item link';
+
 $item->description = 'Item description';
 
 $module = $item->addModule( 'iTunes' );
@@ -42,7 +45,7 @@ $module->duration = 'iTunes item duration';
 $module->explicit = 'iTunes item explicit';
 
 $image = $module->add( 'image' );
-$image->href = 'iTunes item image';
+$image->link = 'iTunes item image';
 
 $module->keywords = 'iTunes item keywords';
 $module->subtitle = 'iTunes item subtitle';

@@ -1,11 +1,11 @@
 <?php
 return array( 'title' => 'Feed title',
-              'link'  => array( 'Feed link' ),
+              'link'  => array( array( 'href' => 'Feed link' ) ),
               'description' => 'Feed description',
               'item' => array( array( 'title' => 'Item title',
                                       'link' => 'Item link',
                                       'description' => 'Item description',
-                                      'DublinCore' => array( array( 'date'        => array( array( '#' => '1202996091',
-                                                                                                   'language' => 'g' ), ), ) ), ) )
+                                      'DublinCore' => array( array( 'date' => array( array( 'date' => 1202996091,
+                                                                                            'language' => 'g' ), ), ) ), ) )
             );
 ?>

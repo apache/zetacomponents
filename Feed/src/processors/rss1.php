@@ -31,83 +31,15 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
     const CONTENT_TYPE = 'application/rss+xml';
 
     /**
-     * Holds the definitions for the elements in RSS1.
-     *
-     * @var array(string=>mixed)
-     */
-    private static $rss1Schema = array(
-        // these are actually part of channel: title, link, description, items, image, textinput
-        // the channel also requires the rdf:about attribute
-        'title'        => array( '#' => 'string' ),
-        'link'         => array( '#' => 'string' ),
-        'description'  => array( '#' => 'string' ),
-        'items'        => array( '#' => 'none',
-                                 'ATTRIBUTES' => array( 'resource' => 'string' ) ),
-
-        'image'        => array( '#'          => 'none',
-                                 'ATTRIBUTES' => array( 'about'   => 'string' ),
-                              
-                                 'NODES'      => array(
-                                                   'title'        => array( '#' => 'string' ),
-                                                   'url'          => array( '#' => 'string' ),
-                                                   'link'         => array( '#' => 'string' ),
-
-                                                   'REQUIRED'     => array( 'title', 'url', 'link' ),
-                                                   ), ),
-
-        // outside channel
-        'item'         => array( '#'          => 'none',
-                                 'ATTRIBUTES' => array( 'about'   => 'string',
-                                                        'resource'=> 'string', ),
-
-                                 'NODES'      => array(
-                                                   'title'        => array( '#' => 'string' ),
-                                                   'link'         => array( '#' => 'string' ),
-
-                                                   'description'  => array( '#' => 'string' ),
-
-                                                   'REQUIRED'     => array( 'title', 'link' ),
-                                                   'OPTIONAL'     => array( 'description' ),
-                                                   ),
-
-                                 'ITEMS_MAP'  => array( 'id'  => 'about' ),
-
-                                 'MULTI'      => 'items' ),
-
-        'textinput'    => array( '#'          => 'string',
-                                 'ATTRIBUTES' => array( 'about'   => 'string' ),
-                                 
-                                 'NODES'      => array(
-                                                   'title'        => array( '#' => 'string' ),
-                                                   'description'  => array( '#' => 'string' ),
-                                                   'name'         => array( '#' => 'string' ),
-                                                   'link'         => array( '#' => 'string' ),
-
-                                                   'REQUIRED'     => array( 'title', 'description', 'name',
-                                                                            'link' ),
-                                                   ), ),
-
-        // the channel/about attribute is required
-        'ATTRIBUTES'   => array( 'about'      => 'string' ),
-
-        'REQUIRED'     => array( 'title', 'link', 'description' ),
-        'OPTIONAL'     => array( 'image', 'textinput' ),
-
-        'MULTI'        => array( 'items'      => 'item' ),
-        
-        'ELEMENTS_MAP' => array( 'textInput'  => 'textinput',
-                                 'id'         => 'about' ),
-
-        );
-
-    /**
      * Creates a new RSS1 processor.
+     *
+     * @param ezcFeed $container The feed data container used when generating
      */
-    public function __construct()
+    public function __construct( ezcFeed $container )
     {
+        $this->feedContainer = $container;
         $this->feedType = self::FEED_TYPE;
         $this->contentType = self::CONTENT_TYPE;
-        $this->schema = new ezcFeedSchema( self::$rss1Schema );
     }
 
     /**
@@ -180,13 +112,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             throw new ezcFeedParseErrorException( null, "No channel tag" );
         }
 
-        if ( $channel->hasAttributes() )
+        if ( $channel->hasAttribute( 'rdf:about' ) )
         {
-            foreach ( $channel->attributes as $attribute )
-            {
-                $tagName = ezcFeedTools::deNormalizeName( $attribute->name, $this->schema->getElementsMap() );
-                $feed->$tagName = $attribute->value;
-            }
+            $feed->id = $channel->getAttribute( 'rdf:about' );
         }
 
         foreach ( $channel->childNodes as $channelChild )
@@ -194,7 +122,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             if ( $channelChild->nodeType == XML_ELEMENT_NODE )
             {
                 $tagName = $channelChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getElementsMap() );
 
                 switch ( $tagName )
                 {
@@ -217,7 +144,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         {
                             $resource = $el->getAttribute( 'resource' );
 
-                            $item = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'item', 'rdf:about', $resource );
+                            $item = $this->getNodeByAttribute( $xml->documentElement, 'item', 'rdf:about', $resource );
                             if ( $item instanceof DOMElement )
                             {
                                 $element = $feed->add( 'item' );
@@ -229,31 +156,21 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                     case 'image':
                         $resource = $channelChild->getAttribute( 'rdf:resource' );
 
-                        $image = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'image', 'rdf:about', $resource );
+                        $image = $this->getNodeByAttribute( $xml->documentElement, 'image', 'rdf:about', $resource );
                         $this->parseImage( $feed, $image );
                         break;
 
-                    case 'textInput':
+                    case 'textinput':
                         $resource = $channelChild->getAttribute( 'rdf:resource' );
 
-                        $textInput = ezcFeedTools::getNodeByAttribute( $xml->documentElement, 'textinput', 'rdf:about', $resource );
+                        $textInput = $this->getNodeByAttribute( $xml->documentElement, 'textinput', 'rdf:about', $resource );
                         $this->parseTextInput( $feed, $textInput );
                         break;
 
                     default:
                         // check if it's part of a known module/namespace
                         $this->parseModules( $feed, $channelChild, $tagName );
-
-                        // continue 2 = ignore modules when getting attributes below
-                        continue 2;
-                }
-            }
-
-            if ( $channelChild->hasAttributes() )
-            {
-                foreach ( $channelChild->attributes as $attribute )
-                {
-                    $feed->$tagName->{$attribute->name} = $attribute->value;
+                        break;
                 }
             }
         }
@@ -293,7 +210,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
         $aboutAttr->appendChild( $aboutVal );
         $this->channel->appendChild( $aboutAttr );
 
-        foreach ( $this->schema->getRequired() as $element )
+        $elements = array( 'title', 'link', 'description' );
+        foreach ( $elements as $element )
         {
             $data = $this->$element;
             if ( is_null( $data ) )
@@ -301,15 +219,17 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/{$element}" );
             }
 
-            $attributes = array();
-            foreach ( $this->schema->getAttributes( $element ) as $attribute => $type )
+            switch ( $element )
             {
-                if ( isset( $data->$attribute ) )
-                {
-                    $attributes[$attribute] = $data->$attribute;
-                }
+                case 'link':
+                    $this->generateMetaData( $this->channel, $element, $data );
+                    break;
+
+                case 'title':
+                case 'description':
+                    $this->generateMetaData( $this->channel, $element, $data );
+                    break;
             }
-            $this->generateMetaDataWithAttributes( $this->channel, $element, $data, $attributes );
         }
 
         $items = $this->item;
@@ -394,7 +314,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $aboutAttr->appendChild( $aboutVal );
             $itemTag->appendChild( $aboutAttr );
 
-            foreach ( $this->schema->getRequired( 'item' ) as $attribute )
+            $elements = array( 'title', 'link' );
+            foreach ( $elements as $attribute )
             {
                 $data = $element->$attribute;
 
@@ -403,27 +324,20 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                     throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/item/{$attribute}" );
                 }
 
-                $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
-                $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
-
-                $attributes = array();
                 $this->generateMetaData( $itemTag, $attribute, $data );
             }
 
-            foreach ( $this->schema->getOptional( 'item' ) as $attribute )
+            $elements = array( 'description' );
+            foreach ( $elements as $attribute )
             {
                 $data = $element->$attribute;
                 if ( !is_null( $data ) )
                 {
-                    $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
-                    $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
-
-                    $attributes = array();
                     $this->generateMetaData( $itemTag, $attribute, $data );
                 }
             }
 
-            $this->generateModules( $element, $itemTag );
+            $this->generateItemModules( $element, $itemTag );
         }
     }
 
@@ -449,7 +363,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $aboutAttr->appendChild( $aboutVal );
             $imageTag->appendChild( $aboutAttr );
 
-            foreach ( $this->schema->getRequired( 'image' ) as $attribute )
+            $elements = array( 'title', 'url', 'link' );
+            foreach ( $elements as $attribute )
             {
                 $data = $image->$attribute;
                 if ( is_null( $data ) )
@@ -457,10 +372,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                     throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/image/{$attribute}" );
                 }
 
-                $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
-                $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
-
-                $attributes = array();
                 $this->generateMetaData( $imageTag, $attribute, $data );
             }
         }
@@ -488,7 +399,8 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             $aboutAttr->appendChild( $aboutVal );
             $textInputTag->appendChild( $aboutAttr );
 
-            foreach ( $this->schema->getRequired( 'textinput' ) as $attribute )
+            $elements = array( 'title', 'description', 'name', 'link' );
+            foreach ( $elements as $attribute )
             {
                 $data = $textInput->$attribute;
                 if ( is_null( $data ) )
@@ -496,10 +408,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                     throw new ezcFeedRequiredMetaDataMissingException( "/{$this->root->nodeName}/textinput/{$attribute}" );
                 }
 
-                $data = ( $data instanceof ezcFeedElement ) ? $data->__toString() : $data;
-                $normalizedAttribute = ezcFeedTools::normalizeName( $attribute, $this->schema->getItemsMap() );
-
-                $attributes = array();
                 $this->generateMetaData( $textInputTag, $attribute, $data );
             }
         }
@@ -513,15 +421,11 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      * @param ezcFeedElement $element The feed element object that will contain the feed item
      * @param DOMElement $xml The XML element object to parse
      */
-    private function parseItem( ezcFeed $feed, ezcFeedElement $element, DOMElement $xml )
+    private function parseItem( ezcFeed $feed, $element, DOMElement $xml )
     {
-        if ( $xml->hasAttributes() )
+        if ( $xml->hasAttribute( 'rdf:about' ) )
         {
-            foreach ( $xml->attributes as $attribute )
-            {
-                $tagName = ezcFeedTools::deNormalizeName( $attribute->name, $this->schema->getItemsMap() );
-                $element->$tagName = $attribute->value;
-            }
+            $element->id = $xml->getAttribute( 'rdf:about' );
         }
 
         foreach ( $xml->childNodes as $itemChild )
@@ -529,7 +433,6 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             if ( $itemChild->nodeType == XML_ELEMENT_NODE )
             {
                 $tagName = $itemChild->tagName;
-                $tagName = ezcFeedTools::deNormalizeName( $tagName, $this->schema->getItemsMap() );
 
                 switch ( $tagName )
                 {
@@ -542,9 +445,7 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                     default:
                         // check if it's part of a known module/namespace
                         $this->parseModules( $element, $itemChild, $tagName );
-
-                        // continue = ignore modules when getting attributes below
-                        continue;
+                        break;
                 }
             }
         }
@@ -578,12 +479,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            if ( $xml->hasAttributes() )
+            if ( $xml->hasAttribute( 'rdf:about' ) )
             {
-                foreach ( $xml->attributes as $attribute )
-                {
-                    $image->{$attribute->name} = $attribute->value;
-                }
+                $image->about = $xml->getAttribute( 'rdf:about' );
             }
         }
     }
@@ -617,12 +515,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            if ( $xml->hasAttributes() )
+            if ( $xml->hasAttribute( 'rdf:about' ) )
             {
-                foreach ( $xml->attributes as $attribute )
-                {
-                    $textInput->{$attribute->name} = $attribute->value;
-                }
+                $textInput->about = $xml->getAttribute( 'rdf:about' );
             }
         }
     }

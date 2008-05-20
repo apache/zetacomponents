@@ -9,123 +9,123 @@ $feed->link = 'Feed link';
 $module = $feed->addModule( 'DublinCore' );
 
 $element = $module->add( 'contributor' );
-$element->set( 'DC contributor 1' );
+$element->name = 'DC contributor 1';
 $element->language = 'a';
 
 $element = $module->add( 'contributor' );
-$element->set( 'DC contributor 2' );
+$element->name = 'DC contributor 2';
 $element->language = 'b';
 
 $element = $module->add( 'coverage' );
-$element->set( 'DC coverage 1' );
+$element->text = 'DC coverage 1';
 $element->language = 'c';
 
 $element = $module->add( 'coverage' );
-$element->set( 'DC coverage 2' );
+$element->text = 'DC coverage 2';
 $element->language = 'd';
 
 $element = $module->add( 'creator' );
-$element->set( 'DC creator 1' );
+$element->name = 'DC creator 1';
 $element->language = 'e';
 
 $element = $module->add( 'creator' );
-$element->set( 'DC creator 2' );
+$element->name = 'DC creator 2';
 $element->language = 'f';
 
 $element = $module->add( 'date' );
-$element->set( 1202996091 );
+$element->date = 1202996091;
 $element->language = 'g';
 
 $element = $module->add( 'date' );
-$element->set( time() );
+$element->date = time();
 $element->language = 'h';
 
 $element = $module->add( 'description' );
-$element->set( 'DC description 1' );
+$element->text = 'DC description 1';
 $element->language = 'i';
 
 $element = $module->add( 'description' );
-$element->set( 'DC description 2' );
+$element->text = 'DC description 2';
 $element->language = 'j';
 
 $element = $module->add( 'format' );
-$element->set( 'DC format 1' );
+$element->text = 'DC format 1';
 $element->language = 'k';
 
 $element = $module->add( 'format' );
-$element->set( 'DC format 2' );
+$element->text = 'DC format 2';
 $element->language = 'l';
 
 $element = $module->add( 'identifier' );
-$element->set( 'DC identifier 1' );
+$element->id = 'DC identifier 1';
 $element->language = 'm';
 
 $element = $module->add( 'identifier' );
-$element->set( 'DC identifier 2' );
+$element->id = 'DC identifier 2';
 $element->language = 'n';
 
 $element = $module->add( 'language' );
-$element->set( 'DC language 1' );
+$element->text = 'DC language 1';
 $element->language = 'o';
 
 $element = $module->add( 'language' );
-$element->set( 'DC language 2' );
+$element->text = 'DC language 2';
 $element->language = 'p';
 
 $element = $module->add( 'publisher' );
-$element->set( 'DC publisher 1' );
+$element->name = 'DC publisher 1';
 $element->language = 'q';
 
 $element = $module->add( 'publisher' );
-$element->set( 'DC publisher 2' );
+$element->name = 'DC publisher 2';
 $element->language = 'r';
 
 $element = $module->add( 'relation' );
-$element->set( 'DC relation 1' );
+$element->text = 'DC relation 1';
 $element->language = 's';
 
 $element = $module->add( 'relation' );
-$element->set( 'DC relation 2' );
+$element->text = 'DC relation 2';
 $element->language = 't';
 
 $element = $module->add( 'rights' );
-$element->set( 'DC rights 1' );
+$element->text = 'DC rights 1';
 $element->language = 'u';
 
 $element = $module->add( 'rights' );
-$element->set( 'DC rights 2' );
+$element->text = 'DC rights 2';
 $element->language = 'v';
 
 $element = $module->add( 'source' );
-$element->set( 'DC source 1' );
+$element->source = 'DC source 1';
 $element->language = 'w';
 
 $element = $module->add( 'source' );
-$element->set( 'DC source 2' );
+$element->source = 'DC source 2';
 $element->language = 'x';
 
 $element = $module->add( 'subject' );
-$element->set( 'DC subject 1' );
+$element->text = 'DC subject 1';
 $element->language = 'y';
 
 $element = $module->add( 'subject' );
-$element->set( 'DC subject 2' );
+$element->text = 'DC subject 2';
 $element->language = 'z';
 
 $element = $module->add( 'title' );
-$element->set( 'DC title 1' );
+$element->text = 'DC title 1';
 $element->language = 'no';
 
 $element = $module->add( 'title' );
-$element->set( 'DC title 2' );
+$element->text = 'DC title 2';
 $element->language = 'de';
 
 $element = $module->add( 'type' );
-$element->set( 'DC type 1' );
+$element->text = 'DC type 1';
 $element->language = 'no';
 
 $element = $module->add( 'type' );
-$element->set( 'DC type 2' );
+$element->text = 'DC type 2';
 $element->language = 'de';
 
 $item = $feed->add( 'item' );

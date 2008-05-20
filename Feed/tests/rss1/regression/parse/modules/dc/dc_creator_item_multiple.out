@@ -14,7 +14,7 @@ $item->description = 'Item description 1';
 
 $module = $item->addModule( 'DublinCore' );
 $element = $module->add( 'creator' );
-$element->set( 'DC creator 1' );
+$element->name = 'DC creator 1';
 
 $item = $feed->add( 'item' );
 $item->id = 'Item link 2';
@@ -24,7 +24,7 @@ $item->description = 'Item description 2';
 
 $module = $item->addModule( 'DublinCore' );
 $element = $module->add( 'creator' );
-$element->set( 'DC creator 2' );
+$element->name = 'DC creator 2';
 
 return $feed;
 ?>

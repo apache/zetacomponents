@@ -1,6 +1,6 @@
 <?php
 return array( 'id' => 'Feed id',
-              'title' => array( array( '#' => 'Feed title',
+              'title' => array( array( 'text' => 'Feed title',
                                        'type' => '' ) ),
               'updated' => 'Feed updated',
               'author' => array( array( 'name' => 'Author name' ) ),
@@ -8,12 +8,12 @@ return array( 'id' => 'Feed id',
                                       'title' => 'Entry title',
                                       'content' => 'Entry content',
                                       'updated' => 'Entry updated',
-                                      'iTunes' => array( array( 'author' => array( array( '#' => 'iTunes item author' ) ),
-                                                                'block' => array( array( '#' => 'iTunes item block' ) ),
-                                                                'duration' => array( array( '#' => 'iTunes item duration' ) ),
-                                                                'explicit' => array( array( '#' => 'iTunes item explicit' ) ),
-                                                                'image' => array( array( 'href' => 'iTunes item image' ) ),
-                                                                'keywords' => array( array( '#' => 'iTunes item keywords' ) ),
-                                                                'subtitle' => array( array( '#' => 'iTunes item subtitle' ) ),
-                                                                'summary' => array( array( '#' => 'iTunes item summary' ) ), ) ) ) ) ) ;
+                                      'iTunes' => array( array( 'author' => array( array( 'name' => 'iTunes item author' ) ),
+                                                                'block' => array( array( 'text' => 'iTunes item block' ) ),
+                                                                'duration' => array( array( 'text' => 'iTunes item duration' ) ),
+                                                                'explicit' => array( array( 'text' => 'iTunes item explicit' ) ),
+                                                                'image' => array( array( 'link' => 'iTunes item image' ) ),
+                                                                'keywords' => array( array( 'text' => 'iTunes item keywords' ) ),
+                                                                'subtitle' => array( array( 'text' => 'iTunes item subtitle' ) ),
+                                                                'summary' => array( array( 'text' => 'iTunes item summary' ) ), ) ) ) ) ) ;
 ?>

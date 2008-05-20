@@ -15,13 +15,13 @@ $item->description = 'Item description 1';
 $module = $item->addModule( 'Geo' );
 
 $element = $module->add( 'alt' );
-$element->set( 'Alt 1' );
+$element->text = 'Alt 1';
 
 $element = $module->add( 'lat' );
-$element->set( 'Lat 1' );
+$element->text = 'Lat 1';
 
 $element = $module->add( 'long' );
-$element->set( 'Long 1' );
+$element->text = 'Long 1';
 
 $item = $feed->add( 'item' );
 $item->id = 'Item link 2';
@@ -32,13 +32,13 @@ $item->description = 'Item description 2';
 $module = $item->addModule( 'Geo' );
 
 $element = $module->add( 'alt' );
-$element->set( 'Alt 2' );
+$element->text = 'Alt 2';
 
 $element = $module->add( 'lat' );
-$element->set( 'Lat 2' );
+$element->text = 'Lat 2';
 
 $element = $module->add( 'long' );
-$element->set( 'Long 2' );
+$element->text = 'Long 2';
 
 return $feed;
 ?>

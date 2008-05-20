@@ -12,12 +12,12 @@ $module->author = 'iTunes feed author';
 $module->block = 'iTunes feed block';
 
 $category = $module->add( 'category' );
-$category->text = 'iTunes feed category';
+$category->term = 'iTunes feed category';
 
 $module->explicit = 'iTunes feed explicit';
 
 $image = $module->add( 'image' );
-$image->href = 'iTunes feed image';
+$image->link = 'iTunes feed image';
 
 $module->keywords = 'iTunes feed keywords';
 $module->newfeedurl = 'iTunes feed new-feed-url';

@@ -9,7 +9,7 @@ $feed->updated = 'Feed updated';
 $module = $feed->addModule( 'DublinCore' );
 
 $element = $module->add( 'creator' );
-$element->set( 'DC feed creator' );
+$element->name = 'DC feed creator';
 $element->language = 'a';
 
 $entry = $feed->add( 'item' );
@@ -20,7 +20,7 @@ $entry->updated = 1195053820;
 $module = $entry->addModule( 'DublinCore' );
 
 $element = $module->add( 'creator' );
-$element->set( 'DC item creator' );
+$element->name = 'DC item creator';
 $element->language = 'b';
 
 return $feed;

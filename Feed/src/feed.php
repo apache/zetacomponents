@@ -68,9 +68,9 @@
  * In the above example mySlashHandler extends {@link ezcFeedModule}.
  *
  * A feed object can be created in different ways:
- *  - by calling the constructor with the required feed type. Example:
+ *  - by calling the constructor (with the optional feed type). Example:
  *  <code>
- *  $feed = new ezcFeed( 'rss2' );
+ *  $feed = new ezcFeed();
  *  </code>
  *  - by parsing an existing XML file or URI. The feed type of the resulting
  *    ezcFeed object will be autodetected. Example:
@@ -83,23 +83,52 @@
  *  $feed = ezcFeed::parseContent( $xmlString );
  *  </code>
  *
- * Operations possible upon ezcFeed objects (in the following examples $feed is
- * an existing {@link ezcFeed} object):
- *  - set a value to the feed object. Example:
- *  <code>
- *  $feed->title = 'News';
- *  </code>
+ * Parsing a feed (in the following examples $feed is an existing ezcFeed object):
  *  - get a value from the feed object. Example:
  *  <code>
- *  $title = $feed->title;
+ *  $title = $feed->title->__toString();
  *  </code>
  *  - iterate over the items in the feed. Example:
  *  <code>
  *  // retrieve the titles from the feed items
- *  foreach ( $feed->items as $item )
+ *  foreach ( $feed->item as $item )
  *  {
- *      $titles[] = $item->title;
+ *      $titles[] = $item->title->__toString();
  *  }
+ *  </code>
+ *  - parse a module. Example of parsing the Geo module:
+ *  <code>
+ *  $locations = array();
+ *  foreach ( $feed->item as $item )
+ *  {
+ *      if ( isset( $item->Geo ) )
+ *      {
+ *          $locations[] = array(
+ *              'title' => $item->title->__toString(),
+ *              'alt' => isset( $item->Geo->alt ) ? $item->Geo->alt->__toString() : null,
+ *              'lat' => isset( $item->Geo->lat ) ? $item->Geo->lat->__toString() : null,
+ *              'long' => isset( $item->Geo->long ) ? $item->Geo->long->__toString() : null
+ *              );
+ *      }
+ *  }
+ *  </code>
+ *  - iterate over the loaded modules in a feed item. Example:
+ *  <code>
+ *  // display the names and namespaces of the modules loaded in the feed item $item
+ *  foreach ( $item->getModules() as $moduleName => $module )
+ *  {
+ *      echo $moduleName . ':' . $module->getNamespace();
+ *  }
+ *  </code>
+ *
+ * Generating a feed:
+ *  - create a feed object. Example:
+ *  <code>
+ *  $feed = new ezcFeed();
+ *  </code>
+ *  - set a value to the feed object. Example:
+ *  <code>
+ *  $feed->title = 'News';
  *  </code>
  *  - add a new item to the feed. Example:
  *  <code>
@@ -112,142 +141,136 @@
  *  $module = $item->addModule( 'Content' );
  *  $content->encoded = 'text content which will be encoded';
  *  </code>
- *  - iterate over the loaded modules in a feed item. Example:
- *  <code>
- *  // display the namespaces of the modules loaded in the feed item $item
- *  foreach ( $item->getModules() as $moduleName => $module )
- *  {
- *      echo $module->getNamespace();
- *  }
- *  </code>
  *  - generate an XML document from the {@link ezcFeed} object. The result
  * string should be saved to a file, and a link to a file made accessible to
  * users of the application. Example:
  *  <code>
- *  $xml = $feed->generate();
+ *  $xmlAtom = $feed->generate( 'atom' );
+ *  $xmlRss1 = $feed->generate( 'rss1' );
+ *  $xmlRss2 = $feed->generate( 'rss2' );
  *  </code>
  *
- * @property array(ezcFeedElement) $author
+ * @property array(ezcFeedPersonElement) $author
  *           Author(s) of the feed.
  *           ATOM-author (required, multiple),
  *           RSS1-none,
  *           RSS2-managingEditor (optional, recommended, single).
- * @property array(ezcFeedElement) $category
+ * @property array(ezcFeedCategoryElement) $category
  *           Categories for the feed.
  *           ATOM-category (optional, multiple),
  *           RSS1-none,
  *           RSS2-category (optional, multiple).
- * @property ezcFeedElement $cloud
+ * @property ezcFeedCloudElement $cloud
  *           Allows processes to register with a cloud to be notified of updates
  *           to the channel, implementing a lightweight publish-subscribe
  *           protocol for RSS feeds.
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-cloud (optional, not recommended, single).
- * @property array(ezcFeedElement) $contributor
+ * @property array(ezcFeedPersonElement) $contributor
  *           One contributor for the feed.
  *           ATOM-contributor (optional, not recommended, multiple),
  *           RSS1-none,
  *           RSS2-none.
- * @property ezcFeedElement $copyright
+ * @property ezcFeedTextElement $copyright
  *           Copyright information for the feed.
  *           ATOM-rights (optional, single),
  *           RSS1-none,
  *           RSS2-copyright (optional, single).
- * @property ezcFeedElement $description
+ * @property ezcFeedTextElement $description
  *           A short description of the feed.
  *           ATOM-subtitle (required, single),
  *           RSS1-description (required, single),
  *           RSS2-description (required, single).
- * @property ezcFeedElement $docs
+ * @property ezcFeedTextElement $docs
  *           An URL that points to the documentation for the format used in the
  *           feed file.
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-docs (optional, not recommended, single) - usual value is
  *           {@link http://www.rssboard.org/rss-specification}.
- * @property ezcFeedElement $generator
+ * @property ezcFeedGeneratorElement $generator
  *           Indicates the software used to generate the feed.
  *           ATOM-generator (optional, single),
  *           RSS1-none,
  *           RSS2-generator (optional, single).
- * @property ezcFeedElement $icon
+ * @property ezcFeedImageElement $icon
  *           An icon for a feed, similar with favicon.ico for websites.
  *           ATOM-icon (optional, not recommended, single),
  *           RSS1-none,
  *           RSS2-none.
- * @property ezcFeedElement $id
+ * @property ezcFeedIdElement $id
  *           A universally unique and permanent identifier for a feed. For
  *           example, it can be an Internet domain name.
  *           ATOM-id (required, single),
  *           RSS1-about (required, single),
  *           RSS2-none.
- * @property ezcFeedElement $image
- *           An image associated with the feed
+ * @property ezcFeedImageElement $image
+ *           An image associated with the feed.
  *           ATOM-logo (optional, single),
  *           RSS1-image (optional, single),
  *           RSS2-image (optional, single).
- * @property-read array(ezcFeedItem) $item
+ * @property-read array(ezcFeedEntryElement) $item
  *           Feed items (entries).
  *           ATOM-entry (optional, recommended, multiple),
  *           RSS1-item (required, multiple),
  *           RSS2-item (required, multiple).
- * @property ezcFeedElement $language
+ * @property ezcFeedTextElement $language
  *           The language for the feed.
  *           ATOM-xml:lang attribute for title, description, copyright, content,
  *           comments (optional, single) - accessed as language through ezcFeed,
  *           RSS1-none,
  *           RSS2-language (optional, single).
- * @property array(ezcFeedElement) $link
+ * @property array(ezcFeedLinkElement) $link
  *           URLs to the HTML websites corresponding to the channel.
  *           ATOM-link (required one link with rel='self', multiple),
  *           RSS1-link (required, single),
  *           RSS2-link (required, single).
- * @property ezcFeedElement $published
+ * @property ezcFeedDateElement $published
  *           The time the feed was published.
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-pubDate (optional, not recommended, single).
- * @property ezcFeedElement $rating
+ * @property ezcFeedTextElement $rating
  *           The {@link http://www.w3.org/PICS/ PICS} rating for the channel.
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-rating (optional, not recommended, single).
- * @property ezcFeedElement $skipDays
+ * @property ezcFeedSkipDaysElement $skipDays
  *           A hint for aggregators telling them which days they can skip when
  *           reading the feed.
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-skipDays (optional, not recommended, single).
- * @property ezcFeedElement $skipHours
+ * @property ezcFeedSkipHoursElement $skipHours
  *           A hint for aggregators telling them which hours they can skip when
  *           reading the feed.
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-skipHours (optional, not recommended, single).
- * @property ezcFeedElement $textInput
+ * @property ezcFeedTextInputElement $textInput
  *           Specifies a text input box that can be displayed with the feed.
  *           ATOM-none,
  *           RSS1-textinput (optional, not recommended, single),
  *           RSS2-textInput (optional, not recommended, single).
- * @property ezcFeedElement $title
+ * @property ezcFeedTextElement $title
  *           Human readable title for the feed. For example, it can be the same
  *           as the website title.
  *           ATOM-title (required, single),
  *           RSS1-title (required, single),
  *           RSS2-title (required, single).
- * @property ezcFeedElement $ttl
+ * @property ezcFeedTextElement $ttl
  *           Number of minutes that indicates how long a channel can be cached
  *           before refreshing from the source.
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-ttl (optional, not recommended, single).
- * @property ezcFeedElement $updated
+ * @property ezcFeedDateElement $updated
  *           The last time the feed was updated.
  *           ATOM-updated (required, single),
  *           RSS1-none,
  *           RSS2-lastBuildDate (optional, recommended, single).
- * @property ezcFeedElement $webMaster
+ * @property ezcFeedPersonElement $webMaster
  *           The email address of the webmaster responsible for the feed.
  *           ATOM-none,
  *           RSS1-none,
@@ -294,14 +317,7 @@ class ezcFeed
     private static $supportedModulesPrefixes = array();
 
     /**
-     * Holds the feed processor.
-     *
-     * @var ezcFeedProcessor
-     */
-    private $feedProcessor;
-
-    /**
-     * Holds the feed type (eg. 'rss2').
+     * Holds the feed type (eg. 'rss1').
      *
      * @var string
      */
@@ -315,96 +331,154 @@ class ezcFeed
     private $contentType;
 
     /**
-     * Creates a new feed of type $type.
+     * Holds the feed elements (ezcFeedElement).
      *
-     * The $type value is one returned by {@link getSupportedTypes()}.
-     *
-     * Example:
-     * <code>
-     * // create an RSS2 feed
-     * $feed = new ezcFeed( 'rss2' );
-     * </code>
-     *
-     * @throws ezcFeedUnsupportedTypeException
-     *         If the passed $type is an unsupported feed type.
-     *
-     * @param string $type The feed type
+     * @var array(string=>mixed)
      */
-    public function __construct( $type )
+    private $elements;
+
+    /**
+     * Holds the modules used by this feed.
+     *
+     * @var array(ezcFeedModule)
+     */
+    private $modules = array();
+
+    /**
+     * Creates a new feed object.
+     *
+     * The $type value is used when calling generate() without specifying a
+     * feed type to output.
+     *
+     * @param string $type The type of feed to create
+     */
+    public function __construct( $type = null )
     {
         self::initSupportedTypes();
 
-        $type = strtolower( $type );
-
-        if ( !isset( self::$supportedFeedTypes[$type] ) )
+        if ( $type !== null )
         {
-            throw new ezcFeedUnsupportedTypeException( $type );
+            $type = strtolower( $type );
+
+            if ( !isset( self::$supportedFeedTypes[$type] ) )
+            {
+                throw new ezcFeedUnsupportedTypeException( $type );
+            }
+
+            $this->feedType = $type;
+            $className = self::$supportedFeedTypes[$type];
+            $this->contentType = $className::CONTENT_TYPE;
         }
 
-        $this->feedType = $type;
-        $this->feedProcessor = new self::$supportedFeedTypes[$type];
-        $this->contentType = $this->feedProcessor->getContentType();
+        // set default values
+        $version = ( ezcFeed::GENERATOR_VERSION === '//auto' . 'gentag//' ) ? 'dev' : ezcFeed::GENERATOR_VERSION;
+
+        $generator = $this->add( 'generator' );
+        $generator->name = 'eZ Components Feed';
+        $generator->version = $version;
+        $generator->url = ezcFeed::GENERATOR_URI;
     }
 
     /**
-     * Sets the property $property to $value.
+     * Sets the property $name to $value.
      *
-     * @param string $property The property name
+     * @param string $name The property name
      * @param mixed $value The property value
      * @ignore
      */
-    public function __set( $property, $value )
+    public function __set( $name, $value )
     {
-        switch ( $property )
+        switch ( $name )
         {
             case 'author':
-            case 'category':
-            case 'cloud':
             case 'contributor':
-            case 'copyright':
+            case 'webMaster':
+                $element = $this->add( $name );
+                $element->name = $value;
+                break;
+
+            case 'title':
             case 'description':
             case 'docs':
-            case 'generator':
-            case 'icon':
-            case 'id':
-            case 'image':
-            case 'language':
-            case 'link':
-            case 'published':
-            case 'rating':
-            case 'skipDays':
-            case 'skipHours':
-            case 'textInput':
-            case 'title':
             case 'ttl':
+            case 'rating':
+            case 'language':
+            case 'copyright':
+                $element = $this->add( $name );
+                $element->text = $value;
+                break;
+
+            case 'generator':
+                $element = $this->add( $name );
+                $element->name = $value;
+                break;
+
+            case 'item':
+                $element = $this->add( $name );
+                break;
+
+            case 'published':
             case 'updated':
-            case 'webMaster':
-                $this->feedProcessor->$property = $value;
+                $element = $this->add( $name );
+                $element->date = $value;
+                break;
+
+            case 'textInput':
+                $element = $this->add( $name );
+                break;
+
+            case 'skipDays':
+                $element = $this->add( $name );
+                break;
+
+            case 'skipHours':
+                $element = $this->add( $name );
+                break;
+
+            case 'link':
+                $element = $this->add( $name );
+                $element->href = $value;
+                break;
+
+            case 'generator':
+                $element = $this->add( $name );
+                $element->name = $value;
+                break;
+
+            case 'image':
+            case 'icon':
+                $element = $this->add( $name );
+                $element->link = $value;
+                break;
+
+            case 'id':
+                $element = $this->add( $name );
+                $element->id = $value;
                 break;
 
             default:
                 $supportedModules = ezcFeed::getSupportedModules();
-                if ( isset( $supportedModules[$property] ) )
+                if ( isset( $supportedModules[$name] ) )
                 {
-                    $this->feedProcessor->setModule( $property, $value );
+                    $this->setModule( $name, $value );
                     return;
                 }
         }
     }
 
     /**
-     * Returns the value of property $property.
+     * Returns the value of property $name.
      *
      * @throws ezcBasePropertyNotFoundException
-     *         If the property $property does not exist.
+     *         If the property $name does not exist.
      *
-     * @param string $property The property name
+     * @param string $name The property name
      * @return mixed
      * @ignore
      */
-    public function __get( $property )
+    public function __get( $name )
     {
-        switch ( $property )
+        switch ( $name )
         {
             case 'author':
             case 'category':
@@ -429,25 +503,28 @@ class ezcFeed
             case 'ttl':
             case 'updated':
             case 'webMaster':
-                $value = $this->feedProcessor->$property;
-                return $value;
+                if ( isset( $this->elements[$name] ) )
+                {
+                    return $this->elements[$name];
+                }
+                break;
 
             default:
                 $supportedModules = ezcFeed::getSupportedModules();
-                if ( isset( $supportedModules[$property] ) )
+                if ( isset( $supportedModules[$name] ) )
                 {
-                    if ( isset( $this->$property ) )
+                    if ( $this->hasModule( $name ) )
                     {
-                        return $this->feedProcessor->getModule( $property );
+                        return $this->getModule( $name );
                     }
                     else
                     {
-                        throw new ezcFeedUndefinedModuleException( $property );
+                        throw new ezcFeedUndefinedModuleException( $name );
                     }
                 }
-        }
 
-        throw new ezcFeedUnsupportedModuleException( $property );
+                throw new ezcFeedUnsupportedModuleException( $name );
+        }
     }
 
     /**
@@ -484,7 +561,7 @@ class ezcFeed
             case 'ttl':
             case 'updated':
             case 'webMaster':
-                return isset( $this->feedProcessor->$name );
+                return isset( $this->elements[$name] );
 
             default:
                 $supportedModules = ezcFeed::getSupportedModules();
@@ -500,8 +577,6 @@ class ezcFeed
     /**
      * Adds a new module to this item and returns it.
      *
-     * @todo check if module is already added, maybe return the existing module
-     *
      * @param string $name The name of the module to add
      * @return ezcFeedModule
      */
@@ -512,6 +587,28 @@ class ezcFeed
     }
 
     /**
+     * Associates the module $module with the name $name.
+     *
+     * @param string $name The name of the module associate
+     * @param ezcFeedModule $module The module to set under the name $name
+     */
+    public function setModule( $name, ezcFeedModule $module )
+    {
+        $this->modules[$name] = $module;
+    }
+
+    /**
+     * Returns the loaded module $name.
+     *
+     * @param string $name The name of the module to return
+     * @return ezcFeedModule
+     */
+    public function getModule( $name )
+    {
+        return $this->modules[$name];
+    }
+
+    /**
      * Returns true if the module $name is loaded, false otherwise.
      *
      * @param string $name The name of the module to check if loaded for this item
@@ -519,7 +616,7 @@ class ezcFeed
      */
     public function hasModule( $name )
     {
-        return $this->feedProcessor->hasModule( $name );
+        return isset( $this->modules[$name] );
     }
 
     /**
@@ -529,35 +626,137 @@ class ezcFeed
      */
     public function getModules()
     {
-        return $this->feedProcessor->getModules();
+        return $this->modules;
     }
 
     /**
-     * Adds a new element with name $name to the feed and returns it.
+     * Adds a new ezcFeedElement element with name $name and returns it, if the
+     * feed schema allows this (returns null if the schema does not allow it).
      *
-     * Example:
-     * <code>
-     * // $feed is an ezcFeed object
-     * $item = $feed->add( 'item' );
-     * $item->title = 'Item title';
-     * </code>
-     *
-     * @param string $name The name of the element to add
-     * @return ezcFeedElement
+     * @param string $name The element name
+     * @return ezcFeedElement|null
      */
     public function add( $name )
     {
-        return $this->feedProcessor->add( $name );
+        switch ( $name )
+        {
+            case 'item':
+                $element = new ezcFeedEntryElement();
+                $this->elements[$name][] = $element;
+                break;
+
+            case 'author':
+            case 'contributor':
+            case 'webMaster':
+                $element = new ezcFeedPersonElement();
+                $this->elements[$name][] = $element;
+                break;
+
+            case 'image':
+            case 'icon':
+                $element = new ezcFeedImageElement();
+                $this->elements[$name] = $element;
+                break;
+
+            case 'category':
+                $element = new ezcFeedCategoryElement();
+                $this->elements[$name][] = $element;
+                break;
+
+            case 'textInput':
+                $element = new ezcFeedTextInputElement();
+                $this->elements[$name] = $element;
+                break;
+
+            case 'title':
+            case 'description':
+            case 'copyright':
+            case 'rating':
+            case 'comments':
+            case 'ttl':
+            case 'language':
+            case 'docs':
+                $element = new ezcFeedTextElement();
+                $this->elements[$name] = $element;
+                break;
+
+            case 'skipDays':
+                $element = new ezcFeedSkipDaysElement();
+                $this->elements[$name] = $element;
+                break;
+
+            case 'skipHours':
+                $element = new ezcFeedSkipHoursElement();
+                $this->elements[$name] = $element;
+                break;
+
+            case 'link':
+                $element = new ezcFeedLinkElement();
+                $this->elements[$name][] = $element;
+                break;
+
+            case 'generator':
+                $element = new ezcFeedGeneratorElement();
+                $this->elements[$name] = $element;
+                break;
+
+            case 'cloud':
+                $element = new ezcFeedCloudElement();
+                $this->elements[$name] = $element;
+                break;
+
+            case 'id':
+                $element = new ezcFeedIdElement();
+                $this->elements[$name] = $element;
+                break;
+
+            case 'updated':
+            case 'published':
+                $element = new ezcFeedDateElement();
+                $this->elements[$name] = $element;
+                break;
+
+            default:
+                throw new ezcFeedUnsupportedElementException( $name );
+        }
+
+        return $element;
     }
 
     /**
      * Generates and returns an XML document from the current object.
      *
+     * @param string $type The feed type to generate (default 'atom')
      * @return string
      */
-    public function generate()
+    public function generate( $type = null )
     {
-        return $this->feedProcessor->generate();
+        if ( $this->feedType === null
+             && $type === null )
+        {
+            throw new ezcFeedUnsupportedTypeException( null );
+        }
+
+        if ( $type !== null )
+        {
+            $type = strtolower( $type );
+
+            if ( !isset( self::$supportedFeedTypes[$type] ) )
+            {
+                throw new ezcFeedUnsupportedTypeException( $type );
+            }
+        }
+
+        if ( $type !== null )
+        {
+            $this->feedType = $type;
+        }
+
+        $className = self::$supportedFeedTypes[$this->feedType];
+        $generator = new $className( $this );
+
+        $this->contentType = $className::CONTENT_TYPE;
+        return $generator->generate();
     }
 
     /**
@@ -827,8 +1026,9 @@ class ezcFeed
             $canParse = call_user_func( array( $feedClass, 'canParse' ), $xml );
             if ( $canParse === true )
             {
-                $processor = new $feedClass;
-                return $processor->parse( $xml );
+                $feed = new ezcFeed( $feedType );
+                $parser = new $feedClass( $feed );
+                return $parser->parse( $xml );
             }
         }
 

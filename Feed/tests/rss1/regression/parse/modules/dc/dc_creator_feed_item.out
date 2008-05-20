@@ -8,7 +8,7 @@ $feed->link = 'Feed link';
 
 $module = $feed->addModule( 'DublinCore' );
 $element = $module->add( 'creator' );
-$element->set( 'DC feed creator' );
+$element->name = 'DC feed creator';
 
 $item = $feed->add( 'item' );
 $item->id = 'Item link';
@@ -18,7 +18,7 @@ $item->description = 'Item description';
 
 $module = $item->addModule( 'DublinCore' );
 $element = $module->add( 'creator' );
-$element->set( 'DC item creator' );
+$element->name = 'DC item creator';
 
 return $feed;
 ?>

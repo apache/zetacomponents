@@ -19,7 +19,7 @@ $module->duration = 'iTunes item duration 1';
 $module->explicit = 'iTunes item explicit 1';
 
 $image = $module->add( 'image' );
-$image->href = 'iTunes item image 1';
+$image->link = 'iTunes item image 1';
 
 $module->keywords = 'iTunes item keywords 1';
 $module->subtitle = 'iTunes item subtitle 1';
@@ -38,7 +38,7 @@ $module->duration = 'iTunes item duration 2';
 $module->explicit = 'iTunes item explicit 2';
 
 $image = $module->add( 'image' );
-$image->href = 'iTunes item image 2';
+$image->link = 'iTunes item image 2';
 
 $module->keywords = 'iTunes item keywords 2';
 $module->subtitle = 'iTunes item subtitle 2';

@@ -14,7 +14,7 @@ $entry->updated = 1195053820;
 $source = $entry->add( 'source' );
 
 $source->generator = 'Source generator';
-$source->generator->uri = 'Source generator uri';
+$source->generator->url = 'Source generator uri';
 $source->generator->version = 'Source generator version';
 
 return $feed;

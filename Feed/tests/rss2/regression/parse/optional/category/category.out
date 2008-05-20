@@ -2,7 +2,7 @@
 $feed = new ezcFeed( 'rss2' );
 
 $category = $feed->add( 'category' );
-$category->set( 'Feed category' );
+$category->term = 'Feed category';
 
 return $feed;
 ?>

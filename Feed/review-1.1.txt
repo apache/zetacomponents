@@ -11,6 +11,9 @@ ezcFeed
   differentiate this.
 
 - ezcFeed::addModule() -> todo.
+
+# Removed.
+
 - How to add a custom module to ezcFeed?
      * A new module can be defined by creating a class which extends the class
      * {@link ezcFeedModule}, and adding it to the {@link self::$supportedModules}
@@ -38,6 +41,9 @@ ezcFeed
 - ezcFeed::__get() makes use of isset( $this->$property ), this also returns
   true for real protected/private properties. It should call $this->__isset()
   directly. This is also more efficient.
+
+# Fixed.
+
 - ezcFeed::__get() should also better throw an ezcBasePropertyNotFoundException.
 
 # In this case, when parsing a feed you will get an exception if trying to fetch
@@ -97,6 +103,47 @@ ezcFeedItem
   itself could always be accessed via $link->href and only for atom the other
   properties could be available.
 
+# I changed all feed types and modules to be used in a more uniform manner.
+  All feed and module elements now have a type (struct) (eg: link, category,
+  person) and the data is stored in these structs. When generating or parsing
+  a feed, the data is fetched from these structs or the structs are filled with
+  data from XML, respectively. The unused data is ignored.
+
+  Example:
+  RSS2 XML: <link>http://ez.no/</link>
+  ATOM XML: <link href="http://ez.no/" title="eZ Systems" type="text/html" />
+
+  Parsed struct:
+  RSS2: ezcFeedLinkElement{ 'href' => 'http://ez.no/',
+                            'title' => null,
+                            'type' => null }
+
+  ATOM: ezcFeedLinkElement{ 'href' => 'http://ez.no/',
+                            'title' => 'eZ Systems',
+                            'type' => 'text/html' }
+
+  parsing a feed:
+  $feed = ezcFeed::parse( /* feed url */ );
+  foreach ( $feed->link as $link )
+  {
+      $href = $link->href;
+      $title = $link->title;
+      $type = $link->type;
+  }
+
+  creating a feed:
+  $feed = new ezcFeed(); // the type of feed is not required anymore
+  $link = $feed->add( 'link' );
+  $link->href = 'http://ez.no/';
+  $link->title = 'eZ Systems';
+  $link->type = 'text/html';
+
+  $xml = $feed->generate( 'rss2' ); // the feed type is specified when calling generate()
+     // results: <link>http://ez.no/</link>
+
+  $xml = $feed->generate( 'atom' );
+     // results: <link href="http://ez.no/" title="eZ Systems" type="text/html" />
+
 - Handling of the $id attribute is not working as noted in the docs. ::
 
 	  $item->id = 'http://example.com/someentry';
@@ -113,6 +160,8 @@ ezcFeedItem
 	Warning: DOMDocument::createElement(): unterminated entity reference
 	Photos in /usr/share/ezcomponents/trunk/Feed/src/interfaces/processor.php on
 	line 122
+
+# This should be fixed now.
 
   The parse handling of this one looks rather scary in the docs.
 
@@ -135,12 +184,17 @@ ezcFeedRss2
   documentation "Holds the RSS2 feed schema." does not tell anything about its
   purpose.
 
-# I changed the schema to be private. I will add some explanations for it.
+# I removed the schemas.
 
 - The generateItems() method is 130 lines long, pure code and not a single
   line of inline docs, and looks absolutly unmaintainable and untestable.
 
+# Sometimes the methods cannot be smaller. How is it unmaintainable and
+  untestable? There is only an foreach and a switch.
+
 - I suspect the other parser/processor classes look similar.
+
+# They look similar. Not much to do to make them smaller.
 
 ezcFeedTools
 ============

@@ -4,19 +4,11 @@ $feed = new ezcFeed( 'rss2' );
 $feed->title = 'Feed title';
 
 $link = $feed->add( 'link' );
-$link->set( 'Feed link' );
+$link->href = 'Feed link';
 
 $feed->description = 'Feed description';
 $skipHours = $feed->add( 'skipHours' );
-
-$hour = $skipHours->add( 'hour' );
-$hour->set( '0' );
-
-$hour = $skipHours->add( 'hour' );
-$hour->set( '5' );
-
-$hour = $skipHours->add( 'hour' );
-$hour->set( '23' );
+$skipHours->hours = array( '0', '5', '23' );
 
 return $feed;
 ?>

@@ -20,7 +20,7 @@ $module->duration = 'iTunes item duration';
 $module->explicit = 'iTunes item explicit';
 
 $image = $module->add( 'image' );
-$image->href = 'iTunes item image';
+$image->link = 'iTunes item image';
 
 $module->keywords = 'iTunes item keywords';
 $module->subtitle = 'iTunes item subtitle';

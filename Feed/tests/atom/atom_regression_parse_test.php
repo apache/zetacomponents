@@ -36,12 +36,16 @@ class ezcFeedAtomRegressionParseTest extends ezcFeedRegressionTest
 
     protected function cleanForCompare( $expected, $parsed )
     {
-        if ( $parsed->updated instanceof ezcFeedElement
-             && $parsed->updated->getValue() instanceof DateTime )
+        $referenceDate = new DateTime();
+
+        if ( isset( $parsed->updated ) )
         {
-            $parsed->updated->set( (int) $parsed->updated->getValue()->format( 'U' ) );
-            $parsed->updated = 'xxx';
-            $expected->updated = 'xxx';
+            if ( $parsed->updated instanceof ezcFeedDateElement
+                 && $parsed->updated->date instanceof DateTime )
+            {
+                $parsed->updated->date = $referenceDate;
+                $expected->updated->date = $referenceDate;
+            }
         }
 
         if ( isset( $parsed->DublinCore )
@@ -50,30 +54,59 @@ class ezcFeedAtomRegressionParseTest extends ezcFeedRegressionTest
         {
             foreach ( $parsed->DublinCore->date as $date )
             {
-                $date->set( (int) $date->getValue()->format( 'U' ) );
+                $date->date = $referenceDate;
             }
         }
 
-        if ( isset( $parsed->item ) )
+        if ( isset( $expected->DublinCore )
+             && isset( $expected->DublinCore->date )
+             && is_array( $expected->DublinCore->date ) )
         {
-            foreach ( $parsed->item as $item )
+            foreach ( $expected->DublinCore->date as $date )
             {
-                if ( isset( $item->updated ) )
-                {
-                    $item->updated->set( (int) $item->updated->getValue()->format( 'U' ) );
-                }
+                $date->date = $referenceDate;
+            }
+        }
 
-                if ( isset( $item->published ) )
+        $this->cleanDate( $parsed, 'updated', $referenceDate );
+        $this->cleanDate( $parsed, 'published', $referenceDate );
+        $this->cleanDate( $expected, 'updated', $referenceDate );
+        $this->cleanDate( $expected, 'published', $referenceDate );
+    }
+
+    protected function cleanDate( $feed, $element, $newDate )
+    {
+        if ( isset( $feed->item ) )
+        {
+            foreach ( $feed->item as $item )
+            {
+                if ( isset( $item->$element ) )
                 {
-                    $item->published->set( (int) $item->published->getValue()->format( 'U' ) );
+                    $item->$element->date = $newDate;
+                }
+            }
+
+            foreach ( $feed->item as $item )
+            {
+                if ( isset( $item->$element ) )
+                {
+                    $item->$element->date = $newDate;
                 }
 
                 if ( isset( $item->source ) )
                 {
-                    $source = $item->source[0];
-                    if ( isset( $source->updated ) )
+                    if ( is_array( $item->source ) )
                     {
-                        $source->updated = (int) $source->updated->getValue()->format( 'U' );
+                        $source = $item->source[0];
+                    }
+                    else
+                    {
+                        $source = $item->source;
+                    }
+
+                    if ( isset( $source->$element ) )
+                    {
+                        $source->$element->date = $newDate;
                     }
                 }
 
@@ -83,7 +116,7 @@ class ezcFeedAtomRegressionParseTest extends ezcFeedRegressionTest
                 {
                     foreach ( $item->DublinCore->date as $date )
                     {
-                        $date->set( (int) $date->getValue()->format( 'U' ) );
+                        $date->date = $newDate;
                     }
                 }
             }

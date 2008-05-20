@@ -82,6 +82,40 @@ class ezcFeedExtendTest extends ezcFeedTestCase
         $this->assertEquals( 'application/atom+xml', $feed->getContentType() );
     }
 
+    public function testCreateFeedEmpty()
+    {
+        $feed = new ezcFeed();
+        $this->assertEquals( 'ezcFeed', get_class( $feed ) );
+        $this->assertEquals( null, $feed->getFeedType() );
+        $this->assertEquals( null, $feed->getContentType() );
+    }
+
+    public function testGenerateRss2()
+    {
+        $feed = new ezcFeed();
+        $feed->title = 'xxx';
+        $feed->link = 'xxx';
+        $feed->description = 'xxx';
+        $expected = <<<EOL
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>xxx</title>
+    <link>xxx</link>
+    <description>xxx</description>
+    <pubDate>XXX</pubDate>
+    <generator>XXX</generator>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+  </channel>
+</rss>
+EOL;
+        $generated = $feed->generate( 'rss2' );
+        $generated = preg_replace( '@<pubDate>.*?</pubDate>@', '<pubDate>XXX</pubDate>', $generated );
+        $generated = preg_replace( '@<lastBuildDate>.*?</lastBuildDate>@', '<lastBuildDate>XXX</lastBuildDate>', $generated );
+        $generated = preg_replace( '@<generator.*?>.*?</generator>@', '<generator>XXX</generator>', $generated );
+        $this->assertEquals( trim( $expected ), trim( $generated ) );
+    }
+
     public function testCreateModuleContent()
     {
         $feed = new ezcFeed( 'atom' );

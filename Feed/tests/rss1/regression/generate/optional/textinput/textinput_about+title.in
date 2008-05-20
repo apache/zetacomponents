@@ -6,7 +6,7 @@ return array( 'id' => 'Channel about',
 			  'item' => array( array( 'id' => 'Item about',
                                       'title' => 'Item title',
                                       'link' => 'Item link' ) ),
-              'textinput' => array( array( 'about' => 'Textinput about',
+              'textInput' => array( array( 'about' => 'Textinput about',
                                            'title' => 'Textinput title' ) ),
             );
 ?>

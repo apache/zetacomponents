@@ -14,13 +14,13 @@ $entry->updated = 1195053820;
 $module = $entry->addModule( 'Geo' );
 
 $element = $module->add( 'alt' );
-$element->set( 'Alt 1' );
+$element->text = 'Alt 1';
 
 $element = $module->add( 'lat' );
-$element->set( 'Lat 1' );
+$element->text = 'Lat 1';
 
 $element = $module->add( 'long' );
-$element->set( 'Long 1' );
+$element->text = 'Long 1';
 
 $entry = $feed->add( 'item' );
 $entry->id = 'Entry id 2';
@@ -30,13 +30,13 @@ $entry->updated = 1195053820;
 $module = $entry->addModule( 'Geo' );
 
 $element = $module->add( 'alt' );
-$element->set( 'Alt 2' );
+$element->text = 'Alt 2';
 
 $element = $module->add( 'lat' );
-$element->set( 'Lat 2' );
+$element->text = 'Lat 2';
 
 $element = $module->add( 'long' );
-$element->set( 'Long 2' );
+$element->text = 'Long 2';
 
 return $feed;
 ?>

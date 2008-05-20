@@ -1,15 +1,15 @@
 <?php
 return array( 'id' => 'Feed id',
-              'title' => array( array( '#' => 'Feed title',
+              'title' => array( array( 'text' => 'Feed title',
                                        'type' => '' ) ),
               'updated' => 'Feed updated',
               'author' => array( array( 'name' => 'Author name' ) ),
-              'DublinCore' => array( array( 'creator'     => array( array( '#' => 'DC feed creator',
+              'DublinCore' => array( array( 'creator'     => array( array( 'name' => 'DC feed creator',
                                                                            'language' => 'a' ) ), ) ),
               'item' => array( array( 'id' => 'Entry id',
                                       'title' => 'Entry title',
                                       'content' => 'Entry content',
                                       'updated' => 'Entry updated',
-                                      'DublinCore' => array( array( 'creator'     => array( array( '#' => 'DC item creator',
-                                                                                                   'language' => 'b' ) ), ) ) ) ) );
+                                      'DublinCore' => array( array( 'creator' => array( array( 'name' => 'DC item creator',
+                                                                                               'language' => 'b' ) ), ) ) ) ) );
 ?>

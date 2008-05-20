@@ -3,13 +3,16 @@ $feed = new ezcFeed( 'rss2' );
 $feed->title = 'Feed title';
 
 $link = $feed->add( 'link' );
-$link->set( 'Feed link' );
+$link->href = 'Feed link';
 
 $feed->description = 'Feed description';
 
 $item = $feed->add( 'item' );
 $item->title = 'Item title';
-$item->link = 'Item link';
+
+$link = $item->add( 'link' );
+$link->href = 'Item link';
+
 $item->description = 'Item description';
 
 $module = $item->addModule( 'CreativeCommons' );

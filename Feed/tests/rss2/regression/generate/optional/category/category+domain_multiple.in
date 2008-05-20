@@ -1,8 +1,8 @@
 <?php
 return array( 'title' => 'Feed title',
-              'link'  => array( 'Feed link' ),
+              'link'  => array( array( 'href' => 'Feed link' ) ),
               'description' => 'Feed description',
-			  'category' => array( array( '#' => 'Feed category 1', 'domain' => 'Category domain 1' ),
-                                   array( '#' => 'Feed category 2', 'domain' => 'Category domain 2' ) ),
+			  'category' => array( array( 'term' => 'Feed category 1', 'scheme' => 'Category domain 1' ),
+                                   array( 'term' => 'Feed category 2', 'scheme' => 'Category domain 2' ) ),
             );
 ?>

@@ -1,11 +1,11 @@
 <?php
 return array( 'title' => 'Feed title',
-              'link'  => array( 'Feed link' ),
+              'link'  => array( array( 'href' => 'Feed link' ) ),
               'description' => 'Feed description',
 			  'item' => array( array( 'title' => 'Item title',
                                       'link' => 'Item link',
                                       'description' => 'Item description',
-                                      'guid' => array( '#' => 'Item guid',
-                                                       'isPermaLink' => true ) ), ),
+                                      'id' => array( 'id' => 'Item guid',
+                                                     'isPermaLink' => true ) ), ),
             );
 ?>

@@ -9,6 +9,15 @@
 - Added the registerFeed() and registerModule() functions to ezcFeed.
 - Removed plural properties from ezcFeed (authors, categories, contributors,
   items, links).
+- Added feed element types (person, category, link, image, etc) to specify
+  different feed and module elements.
+- Removed the method set() from ezcFeed and ezcFeedItem.
+- Removed the class ezcFeedTools.
+- Renamed ezcFeedItem to ezcFeedEntryElement.
+- Added a feed type to the ezcFeed method generate() to specify the output
+  feed type, and made the ezcFeed constructor feed type argument optional.
+- The properties are stored in ezcFeed and are assigned in the same way
+  without being dependent on the feed type.
 
 
 1.1alpha1 - Monday 07 April 2008

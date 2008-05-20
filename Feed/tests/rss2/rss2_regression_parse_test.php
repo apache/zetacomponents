@@ -36,18 +36,20 @@ class ezcFeedRss2RegressionParseTest extends ezcFeedRegressionTest
 
     protected function cleanForCompare( $expected, $parsed )
     {
+        $referenceDate = new DateTime();
+
         if ( $parsed->updated instanceof ezcFeedElement
-             && $parsed->updated->getValue() instanceof DateTime )
+             && $parsed->updated->date instanceof DateTime )
         {
-            $parsed->updated = 'xxx';
-            $expected->updated = 'xxx';
+            $parsed->updated->date = $referenceDate;
+            $expected->updated->date = $referenceDate;
         }
 
         if ( $parsed->published instanceof ezcFeedElement
-             && $parsed->published->getValue() instanceof DateTime )
+             && $parsed->published->date instanceof DateTime )
         {
-            $parsed->published = 'xxx';
-            $expected->published = 'xxx';
+            $parsed->published = $referenceDate;
+            $expected->published = $referenceDate;
         }
 
         if ( isset( $parsed->DublinCore )
@@ -56,27 +58,53 @@ class ezcFeedRss2RegressionParseTest extends ezcFeedRegressionTest
         {
             foreach ( $parsed->DublinCore->date as $date )
             {
-                $date->set( (int) $date->getValue()->format( 'U' ) );
+                $date->date = $referenceDate;
             }
         }
 
-        for ( $i = 0; $i < count( $parsed->item ); $i++ )
+        if ( isset( $expected->DublinCore )
+             && isset( $expected->DublinCore->date )
+             && is_array( $expected->DublinCore->date ) )
         {
-            $item = $parsed->item[$i];
-            $itemExpected = $expected->item[$i];
-            if ( $parsed->item[$i]->published !== $expected->item[$i]->published )
+            foreach ( $expected->DublinCore->date as $date )
             {
-                $item->published = time();
-                $itemExpected->published = time();
+                $date->date = $referenceDate;
+            }
+        }
+
+        $this->cleanDate( $parsed, 'updated', $referenceDate );
+        $this->cleanDate( $parsed, 'published', $referenceDate );
+        $this->cleanDate( $expected, 'updated', $referenceDate );
+        $this->cleanDate( $expected, 'published', $referenceDate );
+    }
+
+    protected function cleanDate( $feed, $element, $newDate )
+    {
+        if ( isset( $feed->item ) )
+        {
+            foreach ( $feed->item as $item )
+            {
+                if ( isset( $item->$element ) )
+                {
+                    $item->$element->date = $newDate;
+                }
             }
 
-            if ( isset( $item->DublinCore )
-                 && isset( $item->DublinCore->date )
-                 && is_array( $item->DublinCore->date ) )
+            foreach ( $feed->item as $item )
             {
-                foreach ( $item->DublinCore->date as $date )
+                if ( isset( $item->$element ) )
                 {
-                    $date->set( (int) $date->getValue()->format( 'U' ) );
+                    $item->$element->date = $newDate;
+                }
+
+                if ( isset( $item->DublinCore )
+                     && isset( $item->DublinCore->date )
+                     && is_array( $item->DublinCore->date ) )
+                {
+                    foreach ( $item->DublinCore->date as $date )
+                    {
+                        $date->date = $newDate;
+                    }
                 }
             }
         }

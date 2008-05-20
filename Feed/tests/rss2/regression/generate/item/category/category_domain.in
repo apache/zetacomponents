@@ -1,11 +1,11 @@
 <?php
 return array( 'title' => 'Feed title',
-              'link'  => array( 'Feed link' ),
+              'link'  => array( array( 'href' => 'Feed link' ) ),
               'description' => 'Feed description',
 			  'item' => array( array( 'title' => 'Item title',
                                       'link' => 'Item link',
                                       'description' => 'Item description',
-                                      'category' => array( array( '#' => 'Item category',
-                                                                  'domain' => 'Category domain' ) ) ), ),
+                                      'category' => array( array( 'term' => 'Item category',
+                                                                  'scheme' => 'Category domain' ) ) ), ),
             );
 ?>

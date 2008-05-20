@@ -1,14 +1,14 @@
 <?php
 return array( 'id' => 'Feed id',
-              'title' => array( array( '#' => 'Feed title',
+              'title' => array( array( 'text' => 'Feed title',
                                        'type' => '' ) ),
               'updated' => 'Feed updated',
               'author' => array( array( 'name' => 'Author name' ) ),
               'iTunes' => array( array( 'author' => 'iTunes feed author',
-                                        'category' => array( array( 'text' => 'iTunes feed category' ) ),
+                                        'category' => array( array( 'term' => 'iTunes feed category' ) ),
                                         'block' => 'iTunes feed block',
                                         'explicit' => 'iTunes feed explicit',
-                                        'image' => array( array( 'href' => 'iTunes feed image' ) ),
+                                        'image' => array( array( 'link' => 'iTunes feed image' ) ),
 
                                         'keywords' => 'iTunes feed keywords',
                                         'newfeedurl' => 'iTunes feed new-feed-url',

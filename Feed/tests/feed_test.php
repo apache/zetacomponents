@@ -230,7 +230,7 @@ class ezcFeedTest extends ezcFeedTestCase
         $titles = array();
         foreach ( $items as $item )
         {
-            $titles[] = $item->title->__toString();
+            $titles[] = $item->title->text;
         }
 
         $this->assertEquals( $expectedTitles, $titles );

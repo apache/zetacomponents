@@ -138,6 +138,7 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                 }
                                 else if ( $subKey === 'MULTI' )
                                 {
+                                    $values = array();
                                     foreach ( $subValue as $multi )
                                     {
                                         foreach ( $multi as $subSubKey => $subSubValue )
@@ -148,10 +149,27 @@ class ezcFeedRegressionTest extends ezcFeedTestCase
                                             }
                                             else
                                             {
-                                                $subElement = $element->add( $subSubKey );
+                                                if ( $property === 'skipDays' )
+                                                {
+                                                    $values[] = $subSubValue;
+                                                    $element->days = $values;
+                                                }
+                                                else if ( $property === 'skipHours' )
+                                                {
+                                                    $values[] = $subSubValue;
+                                                    $element->hours = $values;
+                                                }
+                                                else
+                                                {
+                                                    $subElement = $element->add( $subSubKey );
+                                                }
                                             }
 
-                                            $subElement->set( $subSubValue );
+                                            if ( $property !== 'skipDays'
+                                                 && $property !== 'skipHours' )
+                                            {
+                                                $subElement->set( $subSubValue );
+                                            }
                                         }
                                     }
                                 }
