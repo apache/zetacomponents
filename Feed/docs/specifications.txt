@@ -144,8 +144,8 @@ Create example::
   // $feed is an ezcFeed object
   $author = $feed->add( 'author' );
   $author->name = 'Guybrush Threepwood';
-  $author->uri = 'http://example.com/~guybrush';
   $author->email = 'guybrush@monkey-island.com';
+  $author->uri = 'http://example.com/~guybrush'; // ATOM only
 
 The resulting ATOM XML element will be::
 
@@ -159,7 +159,7 @@ The resulting RSS2 XML element will be::
 
   <managingEditor>guybrush@monkey-island.com (Guybrush Threepwood)</managingEditor>
 
-Parse example (`ATOM`_)::
+Parse example::
 
   $authors = array();
 
@@ -170,16 +170,11 @@ Parse example (`ATOM`_)::
       {
           $authors[] = array(
               'name' => isset( $author->name ) ? $author->name : null,
-              'uri' => isset( $author->uri ) ? $author->uri : null,
-              'email' => isset( $author->email ) ? $author->email : null
+              'uri' => isset( $author->uri ) ? $author->uri : null, // ATOM only
+              'email' => isset( $author->email ) ? $author->email : null // ATOM only
               );
       }
   }
-
-Parse example (`RSS2`_)::
-
-  // $feed is an ezcFeed object
-  $author = isset( $feed->author ) ? $feed->author->__toString() : null;
 
 Equivalents: `ezcFeed-author`_, `ATOM-author`_, RSS1-none,
 `RSS2-managingEditor`_.
@@ -209,10 +204,10 @@ Create example::
   // $feed is an ezcFeed object
   $category = $feed->add( 'category' );
   $category->term = 'holiday';
-  $category->scheme = 'http://example.com/categories/holiday';
-  $category->label = 'Holiday';
+  $category->scheme = 'http://example.com/categories/holiday'; // scheme = RSS2 domain
+  $category->label = 'Holiday'; // ATOM only
 
-Parse example (`ATOM`_)::
+Parse example::
 
   $categories = array();
 
@@ -224,25 +219,8 @@ Parse example (`ATOM`_)::
           $categories[] = array(
               'term' => isset( $category->term ) ? $category->term : null,
               'scheme' => isset( $category->scheme ) ? $category->scheme : null,
-              'label' => isset( $category->label ) ? $category->label : null
-              );
-      }
-  }
-
-Parse example (`RSS2`_)::
-
-  $categories = array();
-
-  // $feed is an ezcFeed object
-  if ( isset( $feed->category ) )
-  {
-      foreach ( $feed->category as $category )
-      {
-          $categories[] = array(
-              'term' => isset( $category->term ) ? $category->term : null,
-                 // term = RSS2 category name
-              'scheme' => isset( $category->scheme ) ? $category->scheme : null
-                 // scheme = RSS2 category domain
+                  // scheme = RSS2 domain
+              'label' => isset( $category->label ) ? $category->label : null // ATOM only
               );
       }
   }
@@ -312,8 +290,8 @@ Create example::
   // $feed is an ezcFeed object
   $contributor = $feed->add( 'contributor' );
   $contributor->name = 'Guybrush Threepwood';
-  $contributor->uri = 'http://example.com/~guybrush';
   $contributor->email = 'guybrush@monkey-island.com';
+  $contributor->uri = 'http://example.com/~guybrush';
 
 Parse example::
 
@@ -364,21 +342,16 @@ Create example::
   $feed->copyright->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
   $feed->copyright->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
 
-Parse example (`ATOM`_)::
+Parse example::
 
   // $feed is an ezcFeed object
   if ( isset( $feed->copyright ) )
   {
       $copyrightElement = $feed->copyright;
       $copyright = $copyrightElement->text;
-      $type = isset( $copyrightElement->type ) ? $copyrightElement->type : null;
-      $language = isset( $copyrightElement->language ) ? $copyrightElement->language : null;
+      $type = isset( $copyrightElement->type ) ? $copyrightElement->type : null;  // ATOM only
+      $language = isset( $copyrightElement->language ) ? $copyrightElement->language : null;  // ATOM only
   }
-
-Parse example (`RSS1`_ and `RSS2`_)::
-
-  // $feed is an ezcFeed object
-  $copyright = isset( $feed->copyright ) ? $feed->copyright->__toString() : null;
 
 Equivalents: `ezcFeed-copyright`_, `ATOM-rights`_, RSS1-none,
 `RSS2-copyright`_.
@@ -411,21 +384,16 @@ Create example::
   $feed->description->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
   $feed->description->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
 
-Parse example (`ATOM`_)::
+Parse example::
 
   // $feed is an ezcFeed object
   if ( isset( $feed->description ) )
   {
       $descriptionElement = $feed->description;
       $description = $descriptionElement->text;
-      $type = isset( $descriptionElement->type ) ? $descriptionElement->type : null;
-      $language = isset( $descriptionElement->language ) ? $descriptionElement->language : null;
+      $type = isset( $descriptionElement->type ) ? $descriptionElement->type : null; // ATOM only
+      $language = isset( $descriptionElement->language ) ? $descriptionElement->language : null; // ATOM only
   }
-
-Parse example (`RSS1`_ and `RSS2`_)::
-
-  // $feed is an ezcFeed object
-  $description = isset( $feed->description ) ? $feed->description->__toString() : null;
 
 Equivalents: `ezcFeed-description`_, `ATOM-subtitle`_, `RSS1-description`_,
 `RSS2-description`_.
@@ -490,22 +458,14 @@ Create example - this is automatically done by ezcFeed when calling the
   $generator->url = 'http://ezcomponents.org/docs/tutorials/Feed';
   $generator->version = '1.0';
 
-Parse example (`ATOM`_)::
+Parse example::
 
   // $feed is an ezcFeed object
   if ( isset( $feed->generator ) )
   {
       $name = isset( $feed->generator->name ) ? $feed->generator->name : null;
-      $url = isset( $feed->generator->url ) ? $feed->generator->url : null;
-      $version = isset( $feed->generator->version ) ? $feed->generator->version : null;
-  }
-
-Parse example (`RSS2`_)::
-
-  // $feed is an ezcFeed object
-  if ( isset( $feed->generator ) )
-  {
-      $name = isset( $feed->generator->name ) ? $feed->generator->name : null;
+      $url = isset( $feed->generator->url ) ? $feed->generator->url : null; // ATOM only
+      $version = isset( $feed->generator->version ) ? $feed->generator->version : null; // ATOM only
   }
 
 Equivalents: `ezcFeed-generator`_, `ATOM-generator`_, RSS1-none,
@@ -583,26 +543,17 @@ as the *url* sub-element.
 `RSS2`_ has 3 optional sub-elements: *width*, *height*, *description*. These
 attributes will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
-Create example (`ATOM`_)::
-
-  // $feed is an ezcFeed object
-  $feed->image = 'http://example.com/image.jpg';
-
-Create example (`RSS1`_ and `RSS2`_)::
+Create example::
 
   // $feed is an ezcFeed object
   $image = $feed->add( 'image' );
-  $image->about = 'http://example.com/image.jpg'; // only for RSS1, ignored for RSS2 and ATOM
-  $image->url = 'http://example.com/image.jpg';
   $image->link = 'http://example.com/target_for_image_click.html';
-  $image->title = 'Click here to go to the link';
-  $image->width = 100; // RSS2 only, ignored for RSS1 and ATOM
-  $image->height = 200; // RSS2 only, ignored for RSS1 and ATOM
-  $image->description = 'This image is cool'; // RSS2 only, ignored for RSS1 and ATOM
-
-Parse example (`ATOM`_)::
-
-  $url = isset( $feed->image ) ? $feed->image->__toString() : null;
+  $image->url = 'http://example.com/image.jpg'; // RSS1 and RSS2 only
+  $image->title = 'Click here to go to the link'; // RSS1 and RSS2 only
+  $image->width = 100; // RSS2 only
+  $image->height = 200; // RSS2 only
+  $image->description = 'This image is cool'; // RSS2 only
+  $image->about = 'http://example.com/image.jpg'; // RSS1 only
 
 Parse example (`RSS1`_ and `RSS2`_)::
 
@@ -610,12 +561,13 @@ Parse example (`RSS1`_ and `RSS2`_)::
   if ( isset( $feed->image ) )
   {
       $image = $feed->image;
-      $url = isset( $image->url ) ? $image->url : null;
       $link = isset( $image->link ) ? $image->link : null;
-      $title = isset( $image->title ) ? $image->title : null;
-      $width = isset( $image->width ) ? $image->witdth : null;
-      $height = isset( $image->height ) ? $image->height : null;
-      $description = isset( $image->description ) ? $image->description : null;
+      $url = isset( $image->url ) ? $image->url : null; // RSS1 and RSS2 only
+      $title = isset( $image->title ) ? $image->title : null; // RSS1 and RSS2 only
+      $width = isset( $image->width ) ? $image->width : null; // RSS2 only
+      $height = isset( $image->height ) ? $image->height : null; // RSS2 only
+      $description = isset( $image->description ) ? $image->description : null; // RSS2 only
+      $about = isset( $image->about ) ? $image->about : null; // RSS1 only
   }
 
 Equivalents: `ezcFeed-image`_, `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
@@ -704,24 +656,18 @@ A maximum of one link with ``rel="alternate"`` can appear per *type* and
 
 These attributes will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
-Create example (`ATOM`_)::
+Create example::
 
   // $feed is an ezcFeed object
   $link = $feed->add( 'link' );
   $link->href = 'http://example.com';
-  $link->rel = 'self';
-  $link->type = 'text/html';
-  $link->hreflang = 'en';
-  $link->title = 'Link to the homepage';
-  $link->length = 12345; // only for rel="enclosure" links
+  $link->rel = 'self'; // ATOM only
+  $link->type = 'text/html'; // ATOM only
+  $link->hreflang = 'en'; // ATOM only
+  $link->title = 'Link to the homepage'; // ATOM only
+  $link->length = 12345;  // ATOM only
 
-Create example (`RSS1`_ and `RSS2`_)::
-
-  // $feed is an ezcFeed object
-  $link = $feed->add( 'link' );
-  $link->href = 'http://example.com';
-
-Parse example (`ATOM`_)::
+Parse example::
 
   $links = array();
 
@@ -730,23 +676,11 @@ Parse example (`ATOM`_)::
   {
       $links[] = array(
           'href' => isset( $link->href ) ? $link->href : null,
-          'rel' => isset( $link->rel ) ? $link->rel : null,
-          'type' => isset( $link->type ) ? $link->type : null,
-          'hreflang' => isset( $link->hreflang ) ? $link->hreflang : null,
-          'title' => isset( $link->title ) ? $link->title : null,
-          'length' => isset( $link->length ) ? $link->length : null,
-          );
-  }
-
-Parse example (`RSS1`_ and `RSS2`_)::
-
-  $links = array();
-
-  // $feed is an ezcFeed object
-  foreach ( $feed->link as $link )
-  {
-      $links[] = array(
-          'href' => isset( $link->href ) ? $link->href : null
+          'rel' => isset( $link->rel ) ? $link->rel : null, // ATOM only
+          'type' => isset( $link->type ) ? $link->type : null, // ATOM only
+          'hreflang' => isset( $link->hreflang ) ? $link->hreflang : null, // ATOM only
+          'title' => isset( $link->title ) ? $link->title : null, // ATOM only
+          'length' => isset( $link->length ) ? $link->length : null, // ATOM only
           );
   }
 
@@ -918,6 +852,7 @@ Parse example::
       $description = isset( $textInput->description ) ? $textInput->description : null;
       $name = isset( $textInput->name ) ? $textInput->name : null;
       $link = isset( $textInput->link ) ? $textInput->link : null;
+      $about = isset( $textInput->about ) ? $textInput->about : null; // RSS1 only
   }
 
 Equivalents: `ezcFeed-textInput`_, ATOM-none, `RSS1-textinput`_,
@@ -952,21 +887,16 @@ Create example::
   $feed->title->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
   $feed->title->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
 
-Parse example (`ATOM`_)::
+Parse example::
 
   // $feed is an ezcFeed object
   if ( isset( $feed->title ) )
   {
       $element = $feed->title;
       $title = isset( $element->text ) ? $element->text : null;
-      $type = isset( $element->type ) ? $element->type : null;
-      $language = isset( $element->language ) ? $element->language : null;
+      $type = isset( $element->type ) ? $element->type : null; // ATOM only
+      $language = isset( $element->language ) ? $element->language : null; // ATOM only
   }
-
-Parse example (`RSS1`_ and `RSS2`_)::
-
-  // $feed is an ezcFeed object
-  $title = isset( $feed->title ) ? $feed->title->__toString() : null;
 
 Equivalents: `ezcFeed-title`_, `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
@@ -1088,10 +1018,22 @@ Create example::
   // $item is an ezcFeedEntryElement object
   $author = $item->add( 'author' );
   $author->name = 'Guybrush Threepwood';
-  $author->uri = 'http://example.com/~guybrush';
   $author->email = 'guybrush@monkey-island.com';
+  $author->uri = 'http://example.com/~guybrush'; // ATOM only
 
-Parse example (`ATOM`_)::
+The resulting ATOM XML element will be::
+
+  <author>
+    <name>Guybrush Threepwood</name>
+    <email>guybrush@monkey-island.com</email>
+    <uri>http://example.com/~guybrush</uri>
+  </author>
+
+The resulting RSS2 XML element will be::
+
+  <author>guybrush@monkey-island.com (Guybrush Threepwood)</author>
+  
+Parse example::
 
   $authors = array();
 
@@ -1102,16 +1044,11 @@ Parse example (`ATOM`_)::
       {
           $authors[] = array(
               'name' => isset( $author->name ) ? $author->name : null,
-              'uri' => isset( $author->uri ) ? $author->uri : null,
-              'email' => isset( $author->email ) ? $author->email : null
+              'uri' => isset( $author->uri ) ? $author->uri : null, // ATOM only
+              'email' => isset( $author->email ) ? $author->email : null // ATOM only
               );
       }
   }
-
-Parse example (`RSS2`_)::
-
-  // $item is an ezcFeedEntryElement object
-  $author = isset( $item->author ) ? $item->author->__toString() : null;
 
 Equivalents: `ezcFeed-item-author`_, `ATOM-entry-author`_, RSS1-none,
 `RSS2-item-author`_.
@@ -1137,27 +1074,10 @@ Create example::
   // $item is an ezcFeedEntryElement object
   $category = $item->add( 'category' );
   $category->term = 'holiday';
-  $category->scheme = 'http://example.com/categories/holiday';
-  $category->label = 'Holiday';
+  $category->scheme = 'http://example.com/categories/holiday'; // scheme = RSS2 domain
+  $category->label = 'Holiday'; // ATOM only
 
-Parse example (`ATOM`_)::
-
-  $categories = array();
-
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->category ) )
-  {
-      foreach ( $item->category as $category )
-      {
-          $categories[] = array(
-              'term' => isset( $category->term ) ? $category->term : null,
-              'scheme' => isset( $category->scheme ) ? $category->scheme : null,
-              'label' => isset( $category->label ) ? $category->label : null
-              );
-      }
-  }
-
-Parse example (`RSS2`_)::
+Parse example::
 
   $categories = array();
 
@@ -1168,9 +1088,8 @@ Parse example (`RSS2`_)::
       {
           $categories[] = array(
               'term' => isset( $category->term ) ? $category->term : null,
-                 // term = RSS2 category name
-              'scheme' => isset( $category->scheme ) ? $category->scheme : null
-                 // scheme = RSS2 category domain
+              'scheme' => isset( $category->scheme ) ? $category->scheme : null, // scheme = RSS2 domain
+              'label' => isset( $category->label ) ? $category->label : null // ATOM only
               );
       }
   }
@@ -1334,18 +1253,18 @@ Create example::
 
   // $item is an ezcFeedEntryElement object
   $item->copyright = 'Copyright <company name>';
-  $item->copyright->type = 'text';
-  $item->copyright->language = 'de';
+  $item->copyright->type = 'text'; // ATOM only
+  $item->copyright->language = 'de'; // ATOM only
 
-Parse example (`ATOM`_)::
+Parse example::
 
   // $item is an ezcFeedEntryElement object
   if ( isset( $item->copyright ) )
   {
       $copyrightElement = $item->copyright;
       $copyright = $copyrightElement->text;
-      $type = isset( $copyrightElement->type ) ? $copyrightElement->type : null;
-      $language = isset( $copyrightElement->language ) ? $copyrightElement->language : null;
+      $type = isset( $copyrightElement->type ) ? $copyrightElement->type : null; // ATOM only
+      $language = isset( $copyrightElement->language ) ? $copyrightElement->language : null; // ATOM only
   }
 
 Equivalents: `ezcFeed-item-copyright`_, `ATOM-entry-rights`_, RSS1-none,
@@ -1380,21 +1299,16 @@ Create example::
   $item->description->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
   $item->description->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
 
-Parse example (`ATOM`_)::
+Parse example::
 
   // $item is an ezcFeedEntryElement object
   if ( isset( $item->description ) )
   {
-      $descriptionElement = $item->description;
-      $description = $descriptionElement->text;
-      $type = isset( $descriptionElement->type ) ? $descriptionElement->type : null;
-      $language = isset( $descriptionElement->language ) ? $descriptionElement->language : null;
+      $desc = $item->description;
+      $description = $desc->text;
+      $type = isset( $desc->type ) ? $desc->type : null; // ATOM only
+      $language = isset( $desc->language ) ? $desc->language : null; // ATOM only
   }
-
-Parse example (`RSS1`_ and `RSS2`_)::
-
-  // $item is an ezcFeedEntryElement object
-  $description = isset( $item->description ) ? $item->description->__toString() : null;
 
 Equivalents: `ezcFeed-item-description`_, `ATOM-entry-summary`_,
 `RSS1-item-description`_, `RSS2-item-description`_.
@@ -1424,7 +1338,15 @@ Create example::
   $enclosure->length = 49099054; // bytes
   $enclosure->type = 'audio/x-mp3';
 
-Parse example::
+`RSS2`_ output::
+
+  <enclosure url="http://example.com/media/episode_001.mp3" length="49099054" type="audio/x-mp3"/>
+
+`ATOM`_ output::
+
+  <link href="http://example.com/media/episode_001.mp3" rel="enclosure" length="49099054" type="audio/x-mp3"/>
+
+Parse example (`RSS2`_)::
 
   // $item is an ezcFeedEntryElement object
   if ( isset( $item->enclosure ) )
@@ -1460,18 +1382,13 @@ Create example::
   $item->id = 'ID value';
   $item->id->isPermLink = false; // RSS2 only, it will be ignored for RSS1 and ATOM
 
-Parse example (`RSS1`_ and `ATOM`_)::
-
-  // $item is an ezcFeedEntryElement object
-  $id = isset( $item->id ) ? $item->id->__toString() : null;
-
-Parse example (`RSS2`_)::
+Parse example::
 
   // $item is an ezcFeedEntryElement object
   if ( isset( $item->id ) )
   {
       $id = isset( $feed->id->id ) : $feed->id->id : null;
-      $isPermLink = isset( $feed->id->isPermLink ) ? $feed->id->isPermLink : null;
+      $isPermLink = isset( $feed->id->isPermLink ) ? $feed->id->isPermLink : null; // RSS2 only
   }
 
 Equivalents: `ezcFeed-item-id`_, `ATOM-entry-id`_, `RSS1-item-about`_,
@@ -1506,24 +1423,18 @@ Recommended only one ``rel="enclosure"`` link to keep compatibility with
 
 These attributes are ignored for `RSS1`_ and `RSS2`_ feeds.
 
-Create example (`ATOM`_)::
+Create example::
 
   // $item is an ezcFeedEntryElement object
   $link = $item->add( 'link' );
   $link->href = 'http://example.com';
-  $link->rel = 'self';
-  $link->type = 'text/html';
-  $link->hreflang = 'en';
-  $link->title = 'Link to the article';
-  $link->length = '20:14'; // only for rel="enclosure" links
+  $link->rel = 'self'; // ATOM only
+  $link->type = 'text/html'; // ATOM only
+  $link->hreflang = 'en'; // ATOM only
+  $link->title = 'Link to the article'; // ATOM only
+  $link->length = '20:14';  // ATOM only
 
-Create example (`RSS1`_ and `RSS2`_)::
-
-  // $item is an ezcFeedEntryElement object
-  $link = $item->add( 'link' );
-  $link->href = 'http://example.com';
-
-Parse example (`ATOM`_)::
+Parse example::
 
   $links = array();
 
@@ -1532,23 +1443,11 @@ Parse example (`ATOM`_)::
   {
       $links[] = array(
           'href' => isset( $link->href ) ? $link->href : null,
-          'rel' => isset( $link->rel ) ? $link->rel : null,
-          'type' => isset( $link->type ) ? $link->type : null,
-          'hreflang' => isset( $link->hreflang ) ? $link->hreflang : null,
-          'title' => isset( $link->title ) ? $link->title : null,
-          'length' => isset( $link->length ) ? $link->length : null,
-          );
-  }
-
-Parse example (`RSS1`_ and `RSS2`_)::
-
-  $links = array();
-
-  // $item is an ezcFeedEntryElement object
-  foreach ( $item->link as $link )
-  {
-      $links[] = array(
-          'href' => isset( $link->href ) ? $link->href : null
+          'rel' => isset( $link->rel ) ? $link->rel : null, // ATOM only
+          'type' => isset( $link->type ) ? $link->type : null, // ATOM only
+          'hreflang' => isset( $link->hreflang ) ? $link->hreflang : null, // ATOM only
+          'title' => isset( $link->title ) ? $link->title : null, // ATOM only
+          'length' => isset( $link->length ) ? $link->length : null, // ATOM only
           );
   }
 
@@ -1612,21 +1511,16 @@ Create example::
   $item->title->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
   $item->title->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
 
-Parse example (`ATOM`_)::
+Parse example::
 
   // $item is an ezcFeedEntryElement object
   if ( isset( $item->title ) )
   {
       $titleElement = $item->title;
       $title = $titleElement->text;
-      $type = isset( $titleElement->type ) ? $titleElement->type : null;
-      $language = isset( $titleElement->language ) ? $titleElement->language : null;
+      $type = isset( $titleElement->type ) ? $titleElement->type : null; // ATOM only
+      $language = isset( $titleElement->language ) ? $titleElement->language : null; // ATOM only
   }
-
-Parse example (`RSS1`_ and `RSS2`_)::
-
-  // $item is an ezcFeedEntryElement object
-  $title = isset( $item->title ) ? $item->title->__toString() : null;
 
 Equivalents: `ezcFeed-item-title`_, `ATOM-entry-title`_, `RSS1-item-title`_,
 `RSS2-item-title`_.
