@@ -1073,45 +1073,52 @@ Example of new feed type::
 
     class myOpmlHandler extends ezcFeedProcessor implements ezcFeedParser
     {
+        const CONTENT_TYPE = 'text/x-opml';
+        const FEED_TYPE = 'opml';
+
         public function __construct( ezcFeed $container )
         {
-          $this->feedContainer = $container;
-          $this->feedType = 'opml';
-          $this->contentType = 'text/x-opml';
+            $this->feedContainer = $container;
+            $this->feedType = self::FEED_TYPE;
+            $this->contentType = self::CONTENT_TYPE;
         }
 
         public function generate()
         {
-          // write implementation here
+            // write implementation here
 
-          // should return XML as a string based on the feed elements from
-          // $this->feedContainer which are accessed as $this->element_name
-          // (example $this->title)
+            // should return XML as a string based on the feed elements from
+            // $this->feedContainer which are accessed as $this->element_name
+            // (example $this->title)
         }
 
         public static function canParse( DOMDocument $xml )
         {
-          // write implementation here
+            // write implementation here
 
-          // should return true if this class can parse the $xml DOMDocument received
-          // and false otherwise
+            // should return true if this class can parse the $xml DOMDocument received
+            // and false otherwise
         }
 
         public function parse( DOMDocument $xml )
         {
-          // write implementation here
+            // write implementation here
 
-          $feed = new ezcFeed( 'opml' );
-          // parse $xml and fill $feed with properties fetched from $xml
-          return $feed;
+            $feed = new ezcFeed();
+
+            // parse $xml and fill $feed with properties fetched from $xml
+
+            return $feed;
         }
     }
 
 Example of how to use the feed type above::
 
     ezcFeed::registerFeed( 'opml', 'myOpmlHandler' );
-    $feed = new ezcFeed( 'opml' );
+    $feed = new ezcFeed();
     // fill $feed with OPML properties
+
+    $xml = $feed->generate( 'opml' );
 
 
 Register a new module
@@ -1145,6 +1152,18 @@ Example of a new module type::
             // should parse $node and add a new ezcFeedElement to $this with name $name
         }
 
+
+        public function isElementAllowed( $name )
+        {
+            // return true if the element $name is allowed in this module at level $this->level,
+            // and false otherwise
+        }
+
+        public function add( $name )
+        {
+            // add the element $name to this module at level $this->level (feed-level or item-level)
+        }
+
         public static function getModuleName()
         {
             return 'Slash';
@@ -1165,10 +1184,12 @@ Example of how to use the module above::
 
     ezcFeed::registerModule( 'Slash', 'mySlashHandler', 'slash');
 
-    $feed = new ezcFeed( 'rss2' );
+    $feed = new ezcFeed();
     $item = $feed->add( 'item' );
     $slash = $item->addModule( 'Slash' );
     // add properties for the Slash module to $slash
+
+    $xml = $feed->generate( 'rss2' );
 
 
 Specifications and RFCs
