@@ -872,7 +872,7 @@ write::
     {
         foreach ( $feed->link as $link )
         {
-            $links[] = $link->__toString();
+            $links[] = $link->href;
         }
     }
 
@@ -912,7 +912,7 @@ fetch the *keywords*, *subtitle*, *image* and *category* elements::
         {
             foreach ( $iTunes->category as $category )
             {
-                $cat = array( 'term' => $category->term->__toString() );
+                $cat = array( 'term' => $category->term );
                 if ( isset( $category->category ) )
                 {
                     $cat['subCategory'] = $category->category->term;
@@ -928,7 +928,7 @@ above reads the *category* values (from the *text* attribute) and the
 sub-category (if any) from each *category*. The $categories array can look like
 this::
 
-    array( 0 => array( 'text' => 'Technology',
+    array( 0 => array( 'term' => 'Technology',
                        'subCategory' => 'Gadgets' ),
          );
 
