@@ -54,7 +54,10 @@ class ezcDatabaseHandlerTest extends ezcTestCase
             case 'ezcDbHandlerSqlite':
                 $quoteChars = array( '"', '"' );
                 break;
-                
+            case 'ezcDbHandlerMssql':
+                $quoteChars = array( '[', ']' );
+                break;
+
             default:
                 $this->markTestSkipped( "No quoting test defined for handler class '{" . get_class( $db ) . "}'" );
         }
