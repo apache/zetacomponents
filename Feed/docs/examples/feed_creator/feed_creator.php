@@ -152,37 +152,21 @@ function readDataFile( $fileName )
  */
 function createFeed( $feedType, $data )
 {
-    $feed = new ezcFeed( $feedType );
+    $feed = new ezcFeed();
     $feed->title = $data['title'];
     $feed->description = $data['description'];
 
-    switch ( $feedType )
-    {
-        case 'atom':
-            $link = $feed->add( 'link' );
-            $link->href = $data['link'];
-            $feed->id = $data['link'];
-            $feed->updated = time();
-            $feed->published = $data['published'];
-            $author = $feed->add( 'author' );
-            $author->name = $data['authorName'];
-            $author->email = $data['authorEmail'];
-            break;
+    $feed->id = $data['link'];
 
-        case 'rss1':
-            $feed->id = $data['link'];
-            $link = $feed->add( 'link' );
-            $link->href = $data['link'];
-            break;
+    $link = $feed->add( 'link' );
+    $link->href = $data['link'];
 
-        case 'rss2':
-            $link = $feed->add( 'link' );
-            $link->href = $data['link'];
-            $feed->updated = time();
-            $feed->published = $data['published'];
-            $feed->author = $data['authorEmail'] . ' (' . $data['authorName'] . ')';
-            break;
-    }
+    $feed->updated = time();
+    $feed->published = $data['published'];
+
+    $author = $feed->add( 'author' );
+    $author->name = $data['authorName'];
+    $author->email = $data['authorEmail'];
 
     foreach ( $data['item'] as $dataItem )
     {
@@ -190,38 +174,21 @@ function createFeed( $feedType, $data )
         $item->title = $dataItem['title'];
         $item->description = $dataItem['description'];
 
-        switch ( $feedType )
-        {
-            case 'atom':
-                $item->id = $dataItem['link'];
-                $link = $item->add( 'link' );
-                $link->href = $dataItem['link'];
-                $link->rel = 'alternate';
-                $item->updated = time();
-                $item->published = $dataItem['published'];
-                $author = $item->add( 'author' );
-                $author->name = $dataItem['authorName'];
-                $author->email = $dataItem['authorEmail'];
-                break;
+        $item->id = $dataItem['link'];
+        $item->id->isPermaLink = true; // RSS2 only
 
-            case 'rss1':
-                $item->id = $dataItem['link'];
-                $link = $item->add( 'link' );
-                $link->href = $dataItem['link'];
-                break;
+        $link = $item->add( 'link' );
+        $link->href = $dataItem['link'];
+        $link->rel = 'alternate';
 
-            case 'rss2':
-                $id = $item->add( 'id' );
-                $id->id = $dataItem['link'];
-                $id->isPermaLink = true;
-                $link = $item->add( 'link' );
-                $link->href = $dataItem['link'];
-                $item->published = $dataItem['published'];
-                $item->author = $dataItem['authorEmail'] . ' (' . $dataItem['authorName'] . ')';
-                break;
-        }
+        $item->updated = time();
+        $item->published = $dataItem['published'];
+
+        $author = $item->add( 'author' );
+        $author->name = $dataItem['authorName'];
+        $author->email = $dataItem['authorEmail'];
     }
 
-    return $feed->generate();
+    return $feed->generate( $feedType );
 }
 ?>
