@@ -33,36 +33,42 @@ class ezcParamValuesTest extends ezcTestCase
             'ezcDbHandlerOracle' => 'char',
             'ezcDbHandlerPgsql' => 'boolean',
             'ezcDbHandlerSqlite' => 'integer',
+            'ezcDbHandlerMssql' => 'integer',
         ),
         'int' => array(
             'ezcDbHandlerMysql' => 'bigint',
             'ezcDbHandlerOracle' => 'number',
             'ezcDbHandlerPgsql' => 'bigint',
             'ezcDbHandlerSqlite' => 'integer',
+            'ezcDbHandlerMssql' => 'bigint',
         ),
         'null' => array(
             'ezcDbHandlerMysql' => 'bigint',
             'ezcDbHandlerOracle' => 'number',
             'ezcDbHandlerPgsql' => 'bigint',
             'ezcDbHandlerSqlite' => 'integer',
+            'ezcDbHandlerMssql' => 'bigint',
         ),
         'str' => array(
             'ezcDbHandlerMysql' => 'varchar( 255 )',
             'ezcDbHandlerOracle' => 'varchar2( 255 )',
             'ezcDbHandlerPgsql' => 'varchar( 255 )',
             'ezcDbHandlerSqlite' => 'text',
+            'ezcDbHandlerMssql' => 'varchar( 255 )',
         ),
         'blob' => array(
             'ezcDbHandlerMysql' => 'longblob',
             'ezcDbHandlerOracle' => 'blob',
             'ezcDbHandlerPgsql' => 'bytea',
             'ezcDbHandlerSqlite' => 'blob',
+            'ezcDbHandlerMssql' => 'image',
         ),
         'clob' => array(
             'ezcDbHandlerMysql' => 'longtext',
             'ezcDbHandlerOracle' => 'clob',
             'ezcDbHandlerPgsql' => 'text',
             'ezcDbHandlerSqlite' => 'clob',
+            'ezcDbHandlerMssql' => 'ntext',
         ),
     );
 
@@ -86,12 +92,12 @@ class ezcParamValuesTest extends ezcTestCase
         $db->exec( 'CREATE TABLE ' .
             $db->quoteIdentifier( __CLASS__ ) . 
             '( ' . 
-                ( $this->boolColumn = $db->quoteIdentifier( 'bool' ) ) . ' ' . $this->columnMapping['bool'][get_class( $db )] . ', ' .
-                ( $this->intColumn =  $db->quoteIdentifier( 'int' )  ) . ' ' . $this->columnMapping['int' ][get_class( $db )] . ', ' .
-                ( $this->nullColumn = $db->quoteIdentifier( 'null' ) ) . ' ' . $this->columnMapping['null'][get_class( $db )] . ', ' .
-                ( $this->strColumn =  $db->quoteIdentifier( 'str' )  ) . ' ' . $this->columnMapping['str' ][get_class( $db )] . ', ' .
-                ( $this->blobColumn = $db->quoteIdentifier( 'blob' ) ) . ' ' . $this->columnMapping['blob'][get_class( $db )] . ', ' .
-                ( $this->clobColumn = $db->quoteIdentifier( 'clob' ) ) . ' ' . $this->columnMapping['clob'][get_class( $db )] .
+                ( $this->boolColumn = $db->quoteIdentifier( 'bool' ) ) . ' ' . $this->columnMapping['bool'][get_class( $db )] . ' NULL, ' .
+                ( $this->intColumn =  $db->quoteIdentifier( 'int' )  ) . ' ' . $this->columnMapping['int' ][get_class( $db )] . ' NULL, ' .
+                ( $this->nullColumn = $db->quoteIdentifier( 'null' ) ) . ' ' . $this->columnMapping['null'][get_class( $db )] . ' NULL, ' .
+                ( $this->strColumn =  $db->quoteIdentifier( 'str' )  ) . ' ' . $this->columnMapping['str' ][get_class( $db )] . ' NULL, ' .
+                ( $this->blobColumn = $db->quoteIdentifier( 'blob' ) ) . ' ' . $this->columnMapping['blob'][get_class( $db )] . ' NULL, ' .
+                ( $this->clobColumn = $db->quoteIdentifier( 'clob' ) ) . ' ' . $this->columnMapping['clob'][get_class( $db )] . ' NULL ' .
             ')'
         );
 

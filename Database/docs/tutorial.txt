@@ -31,6 +31,7 @@ Supported databases
 
 The Database component currently supports:
 
+- MSSQL
 - MySQL
 - PostgreSQL
 - Oracle

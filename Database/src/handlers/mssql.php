@@ -9,13 +9,12 @@
  */
 
 /**
- * MS SQL Server driver implementation
+ * MS SQL Server driver implementation.
  *
  * @see ezcDbHandler
  * @package Database
  * @version //autogentag//
  */
-
 class ezcDbHandlerMssql extends ezcDbHandler
 {
     /**
@@ -24,7 +23,6 @@ class ezcDbHandlerMssql extends ezcDbHandler
      * @var ezcDbMssqlOptions
      */
     public $options;
-
 
     /**
      * Constructs a handler object from the parameters $dbParams.
@@ -70,7 +68,15 @@ class ezcDbHandlerMssql extends ezcDbHandler
             throw new ezcDbMissingParameterException( 'database', 'dbParams' );
         }
 
-        $dsn = "dblib:dbname=$database";
+        if ( ezcBaseFeatures::os() === 'Windows' )
+        {
+            $dsn = "mssql:dbname=$database";
+        }
+        else
+        {
+            // uses FreeTDS
+            $dsn = "dblib:dbname=$database";
+        }
 
         if ( isset( $host ) && $host )
         {
@@ -79,35 +85,33 @@ class ezcDbHandlerMssql extends ezcDbHandler
             {
                 $dsn .= ":$port";
             }
-    
-       }
+        }
 
         parent::__construct( $dbParams, $dsn );
-        
-        // setup options 
+
+        // setup options
         $this->setOptions( new ezcDbMssqlOptions() );
     }
 
     /**
-    * Associates an option object with this handler
-    * and changes settings for opened 
-    * connactions correspondently.
-    *
-    * @param ezcDbMssqlOptions $options
-    */
-    public function setOptions( ezcDbMssqlOptions $options ) 
+     * Associates an option object with this handler and changes settings for
+     * opened connections.
+     *
+     * @param ezcDbMssqlOptions $options
+     */
+    public function setOptions( ezcDbMssqlOptions $options )
     {
         $this->options = $options;
         $this->setupConnection();
     }
-    
+
     /**
-    * Sets up opened connection according to options.
-    */    
+     * Sets up opened connection according to options.
+     */
     private function setupConnection()
-    {   
+    {
         $requiredMode = $this->options->quoteIdentifier;
-        if ( $requiredMode == ezcDbMssqlOptions::QUOTES_GUESS ) 
+        if ( $requiredMode == ezcDbMssqlOptions::QUOTES_GUESS )
         {
             $result = parent::query( "SELECT sessionproperty('QUOTED_IDENTIFIER')" );
             $rows = $result->fetchAll();
@@ -132,9 +136,10 @@ class ezcDbHandlerMssql extends ezcDbHandler
             $this->identifierQuoteChars = array( 'start' => '[', 'end' => ']' );
         }
     }
-    
+
     /**
-     * Returns a new ezcQueryExpression derived object with SQL Server implementation specifics.
+     * Returns a new ezcQueryExpression derived object with SQL Server
+     * implementation specifics.
      *
      * @return ezcQueryExpressionMssql
      */
@@ -154,7 +159,8 @@ class ezcDbHandlerMssql extends ezcDbHandler
     }
 
     /**
-     * Returns a new ezcQuerySelectMssql derived object with SQL Server implementation specifics.
+     * Returns a new ezcQuerySelectMssql derived object with SQL Server
+     * implementation specifics.
      *
      * @return ezcQuerySelectMssql
      */
@@ -167,7 +173,7 @@ class ezcDbHandlerMssql extends ezcDbHandler
      * Begins a transaction.
      *
      * This method executes a begin transaction query unless a
-     * transaction has already been started (transaction nesting level > 0 )
+     * transaction has already been started (transaction nesting level > 0 ).
      *
      * Each call to begin() must have a corresponding commit() or rollback() call.
      *
