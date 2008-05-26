@@ -166,7 +166,32 @@ systems, there are restrictions you have to cope with:
   You are limited to an amount of field types common to all RDBMS, or for which
   at least some kind of mapping exists for all RDBMS.
 
-@TODO: Mapping table (issue #10975).
+Data Types
+==========
+
+The DatabaseSchema component supports a limited set of data types in order to
+be sure that they are supported in all databases that the component supports.
+Below you can find a list of all the supported types with comments.
+
+integer
+    Used for numerical values.
+boolean
+    Used for boolean values - use only with *true* and *false*.
+decimal
+    Numerical values with an optional fraction, fixed fraction size.
+float
+    Numerical values with an optional fraction.
+date
+    A database-specific date field.
+timestamp
+    A database-independent date field that stores Unix timestamps.
+text
+    Text strings, usually limited in field size.
+blob
+    Binary data.
+clob
+    Character data, not limited in field size.
+
 
 
 ..
