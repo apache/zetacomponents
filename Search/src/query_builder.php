@@ -60,15 +60,9 @@ class ezcSearchQueryBuilder
      * @param string $searchQuery
      * @param array(string) $searchFields
      */
-    public function __construct( ezcSearchQuery $query, $searchQuery, $searchFields )
+    public function parseSearchQuery( ezcSearchQuery $query, $searchQuery, $searchFields )
     {
-        $this->state = 'normal';
-        $this->stackLevel = 0;
-        $this->stack = array();
-        $this->stack[$this->stackLevel] = array();
-        $this->stackType = array();
-        $this->stackType[$this->stackLevel] = 'default';
-        $this->prefix = null;
+        $this->reset();
 
         $tokens = $this->tokenize( $searchQuery );
         $this->buildQuery( $query, $tokens, $searchFields );
@@ -83,6 +77,20 @@ class ezcSearchQueryBuilder
         {
             $query->where( $query->lOr( $this->stack[0] ) );
         }
+    }
+
+    /**
+     * Resets the parser to its initial state.
+     */
+    public function reset()
+    {
+        $this->state = 'normal';
+        $this->stackLevel = 0;
+        $this->stack = array();
+        $this->stack[$this->stackLevel] = array();
+        $this->stackType = array();
+        $this->stackType[$this->stackLevel] = 'default';
+        $this->prefix = null;
     }
 
     /**

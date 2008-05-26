@@ -1,3 +1,11 @@
+1.0beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Changed the way how ezcSearchQueryBuilder works. You will now have to
+  run parseSearchQuery() instead of just passing the query object, query
+  string and fields to the constructor.
+
+
 1.0alpha2 - Tuesday 13 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
