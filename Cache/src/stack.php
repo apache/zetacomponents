@@ -29,6 +29,7 @@
  * The slowest cache should be at the very bottom of the stack, so that items
  * don't need to be restored from it that frequently.
  * <code>
+ * <?php
  *  $stack = new ezcCacheStack( 'stack_id' );
  *  $stack->pushStorage(
  *      new ezcCacheStackStorageConfiguration(
@@ -38,6 +39,7 @@
  *          .5
  *      )
  *  );
+ * ?>
  * </code>
  * This operations create a new cache stack and add $storage1 to its very
  * bottom. The first parameter for {@linke ezcCacheStackStorageConfiguration}
@@ -55,6 +57,7 @@
  * custom storage implementation, that stores objects in the current requests
  * memory.
  * <code>
+ * <?php
  *  $stack->pushStorage(
  *      new ezcCacheStackStorageConfiguration(
  *          'apc_storage',
@@ -71,6 +74,7 @@
  *          .3
  *      )
  *  );
+ * ?>
  * </code>
  * The second level of the cache build by $storage2. This storage will contain
  * 10000 items maximum and when it runs full, 8000 items will be deleted from
@@ -83,8 +87,10 @@
  * ezcCacheStackMetaDataStorage}, another storage must be defined to be used
  * for storing meta data about the stack:
  * <code>
+ * <?php
  *  $stack->options->metaStorage = $storage2;
  *  $stack->options->replacementStrategy = 'ezcCacheStackLfuReplacementStrategy';
+ * ?>
  * </code>
  * $storage2 is defined to store the meta information for the stack. In
  * addition, a different replacement strategy than the default {@link
