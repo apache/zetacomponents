@@ -367,7 +367,7 @@ class ezcFeed
 
             $this->feedType = $type;
             $className = self::$supportedFeedTypes[$type];
-            $this->contentType = $className::CONTENT_TYPE;
+            $this->contentType = constant( "{$className}::CONTENT_TYPE" );
         }
 
         // set default values
@@ -755,7 +755,7 @@ class ezcFeed
         $className = self::$supportedFeedTypes[$this->feedType];
         $generator = new $className( $this );
 
-        $this->contentType = $className::CONTENT_TYPE;
+        $this->contentType = constant( "{$className}::CONTENT_TYPE" );
         return $generator->generate();
     }
 
