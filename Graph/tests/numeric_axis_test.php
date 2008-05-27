@@ -554,6 +554,55 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
+    /**
+     * Tests bug #12581
+     * 
+     * @return void
+     */
+    public function testMixedAutomagicAndManualScaling9()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Material1' => 10,
+            'Material2' => 11.1,
+            'Material3' => 11.1,
+            'Material4' => 9.7,
+            'Material5' => 12.3,
+            'Material6' => 6.4,
+            'Material7' => 5.8,
+            'Material8' => 5.4
+        ) );
+        $chart->yAxis->min = 0;
+        $chart->yAxis->max = 13.53;
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            0,
+            $chart->yAxis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            13.53,
+            $chart->yAxis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            2.706,
+            $chart->yAxis->majorStep,
+            'As value for: majorStep; ',
+            .01
+        );
+
+        $this->assertEquals(
+            0.5412,
+            $chart->yAxis->minorStep,
+            'As value for: minorStep; ',
+            .01
+        );
+    }
+
     public function testPositionLeft()
     {
         $chart = new ezcGraphLineChart();

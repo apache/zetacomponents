@@ -283,6 +283,24 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
             $this->properties['maxValue'] = $this->properties['max'];
         }
 
+        // If min and max values are forced, we may not be able to find a
+        // "nice" number for the steps. Try to find such a nice step size, or
+        // fall back to a step size, which is just the span divided by 5.
+        if ( ( $this->properties['min'] !== null ) &&
+             ( $this->properties['max'] !== null ) )
+        {
+            $diff = $this->properties['max'] - $this->properties['min'];
+            $this->calculateMajorStep( $this->properties['minValue'], $this->properties['maxValue'] );
+            $stepInvariance = $diff / $this->properties['majorStep'];
+            if ( ( $stepInvariance - floor( $stepInvariance ) ) > .0000001 )
+            {
+                // For too big step invariances calculate the step size just
+                // from the given difference between min and max value.
+                $this->properties['majorStep'] = ( $this->properties['max'] - $this->properties['min'] ) / self::MIN_MAJOR_COUNT;
+                $this->properties['minorStep'] = $this->properties['majorStep'] / self::MIN_MAJOR_COUNT;
+            }
+        }
+
         // Calculate "nice" values for scaling parameters
         if ( $this->properties['majorStep'] === null )
         {
