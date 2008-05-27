@@ -47,6 +47,10 @@ class ezcBaseFile
      * exclude certain files from being returned. The function will always go
      * into subdirectories even if the entry would not have passed the filters.
      *
+     * Filters are regular expressions and are therefore required to have
+     * starting and ending delimiters. The Perl Compatible syntax is used as
+     * regular expression language.
+     *
      * If you pass an empty array to the $statistics argument, the function
      * will in details about the number of files found into the 'count' array
      * element, and the total filesize in the 'size' array element. Because this 
