@@ -1,4 +1,4 @@
-1.4alpha2 - [RELEASEDATE]
+1.4beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #12993: Hierarchical caching does not prune items in the correct
