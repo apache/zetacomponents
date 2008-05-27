@@ -1,4 +1,4 @@
-1.2beta1 - [RELEASEDATE]
+1.2beta1 - Tuesday 27 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #12992: LDAP registerFetchData() now correctly uses normal case
