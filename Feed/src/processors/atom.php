@@ -806,7 +806,10 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             {
                 foreach ( $links as $link )
                 {
-                    if ( $link->rel === 'alternate' )
+                    // if the rel attribute is not set or if it is "alternate"
+                    // then there is at least one rel="alternate" link in the feed entry
+                    if ( !isset( $link->rel )
+                         || $link->rel === 'alternate' )
                     {
                         $linkAlternatePresent = true;
                         break;
