@@ -1,4 +1,4 @@
-1.4beta1 - [RELEASEDATE]
+1.4beta1 - Tuesday 27 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #12150: Connect to MSSQL database fails due to wrong driver
