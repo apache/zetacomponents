@@ -13,8 +13,6 @@
  * 
  * @package Document
  * @version //autogen//
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  */
 class ezcDocumentRstParser extends ezcDocumentParser
 {
@@ -1278,8 +1276,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $whitespace = array_shift( $tokens );
 
         // Update indentation level
-        // @TODO: There need to be some checks in place before we can really
-        // update the indentation
         $this->indentation = $token->position + strlen( $whitespace->content );
         /* DEBUG
         echo "   => Indentation updated to {$this->indentation}.\n";

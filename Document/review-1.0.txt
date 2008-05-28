@@ -50,6 +50,11 @@ Fixed
 
 	Fixed.
 
+[x] Docblocks are broken for some files (eg. src/document/rst/nodes): there
+    are duplicated @copyright and @license, and the @package is not Document.
+
+	Fixed.
+
 Open
 ----
 
@@ -61,7 +66,4 @@ Documentation
 [ ] The tutorial should mention on how to extend the RST directives thingy.
 
 [ ] A description of how the RST parser actually works should be added.
-
-[ ] Docblocks are broken for some files (eg. src/document/rst/nodes): there
-    are duplicated @copyright and @license, and the @package is not Document.
 
