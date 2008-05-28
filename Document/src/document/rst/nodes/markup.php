@@ -10,7 +10,7 @@
  */
 
 /**
- * The paragraph AST node
+ * The abstract inline markup base AST node
  * 
  * @package TextLine
  * @version //autogen//

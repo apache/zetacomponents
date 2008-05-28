@@ -10,7 +10,7 @@
  */
 
 /**
- * The paragraph AST node
+ * The inline AST node for substitution references
  * 
  * @package TextLine
  * @version //autogen//

@@ -10,7 +10,7 @@
  */
 
 /**
- * The paragraph AST node
+ * The table row AST node
  * 
  * @package TextLine
  * @version //autogen//

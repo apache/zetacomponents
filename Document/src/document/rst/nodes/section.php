@@ -10,7 +10,7 @@
  */
 
 /**
- * The document AST node
+ * The document section AST node
  * 
  * @package Section
  * @version //autogen//

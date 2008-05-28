@@ -10,7 +10,7 @@
  */
 
 /**
- * The document AST node
+ * The AST node for document transitions
  * 
  * @package Transistion
  * @version //autogen//

@@ -10,7 +10,7 @@
  */
 
 /**
- * The paragraph AST node
+ * The inline markup AST node for strong emphasis markup
  * 
  * @package TextLine
  * @version //autogen//

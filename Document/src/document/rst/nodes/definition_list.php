@@ -10,7 +10,7 @@
  */
 
 /**
- * The comment AST node
+ * The definition list item AST node
  * 
  * @package TextLine
  * @version //autogen//

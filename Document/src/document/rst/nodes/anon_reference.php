@@ -10,7 +10,7 @@
  */
 
 /**
- * The comment AST node
+ * The AST node for anonymous hyperlink references
  * 
  * @package TextLine
  * @version //autogen//

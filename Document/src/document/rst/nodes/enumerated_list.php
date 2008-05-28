@@ -10,7 +10,7 @@
  */
 
 /**
- * The paragraph AST node
+ * The enumeration lsit item AST node
  * 
  * @package TextLine
  * @version //autogen//

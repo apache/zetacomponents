@@ -10,7 +10,7 @@
  */
 
 /**
- * The comment AST node
+ * The AST node for RST document directives
  * 
  * @package TextLine
  * @version //autogen//

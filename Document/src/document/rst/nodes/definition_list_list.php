@@ -10,7 +10,7 @@
  */
 
 /**
- * The paragraph AST node
+ * An aggregating AST node for definition list items nodes
  * 
  * @package TextLine
  * @version //autogen//

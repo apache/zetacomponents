@@ -10,7 +10,7 @@
  */
 
 /**
- * The paragraph AST node
+ * The bullet list item AST node
  * 
  * @package TextLine
  * @version //autogen//

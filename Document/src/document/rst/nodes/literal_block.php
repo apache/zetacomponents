@@ -10,7 +10,7 @@
  */
 
 /**
- * The document AST node
+ * The literal block AST node
  * 
  * @package LiteralBlock
  * @version //autogen//
