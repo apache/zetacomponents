@@ -18,50 +18,199 @@
  */
 abstract class ezcDocumentRstNode extends ezcBaseStruct // implements RecursiveIterator
 {
-    // Node types
+    /**
+     * Document AST node
+     */
     const DOCUMENT             = 1;
+
+    /**
+     * Section AST node
+     */
     const SECTION              = 1;
+
+    /**
+     * Title AST node
+     */
     const TITLE                = 2;
+
+    /**
+     * Paragraph AST node
+     */
     const PARAGRAPH            = 3;
+
+    /**
+     * Text line AST node
+     */
     const TEXT_LINE            = 4;
+
+    /**
+     * Blockquote AST node
+     */
     const BLOCKQUOTE           = 5;
+
+    /**
+     * Blockquote anotation AST node
+     */
     const ANNOTATION           = 6;
+
+    /**
+     * Literal block AST node
+     */
     const LITERAL_BLOCK        = 7;
+    /**
+     * Comment AST node
+     */
+
     const COMMENT              = 8;
+
+    /**
+     * Page transition AST node
+     */
     const TRANSITION           = 9;
+
+    /**
+     * Field list AST node
+     */
     const FIELD_LIST           = 10;
+
+    /**
+     * Definition list AST node
+     */
     const DEFINITION_LIST      = 11;
+
+    /**
+     * Line block AST node
+     */
     const LINE_BLOCK           = 12;
+
+    /**
+     * Line block line AST node
+     */
     const LINE_BLOCK_LINE      = 13;
+
+    /**
+     * Definition list item AST node
+     */
     const DEFINITION_LIST_LIST = 14;
-                            
+
+    /**
+     * Bullet list item AST node
+     */
     const BULLET_LIST          = 20;
+
+    /**
+     * Enumerated list item AST node
+     */
     const ENUMERATED_LIST      = 21;
+
+    /**
+     * Bullet list AST node
+     */
     const BULLET_LIST_LIST     = 22;
+
+    /**
+     * Enumerated list AST node
+     */
     const ENUMERATED_LIST_LIST = 23;
-                            
+
+    /**
+     * Emphasis markup AST node
+     */
     const MARKUP_EMPHASIS      = 30;
+
+    /**
+     * Strong emphasis markup AST node
+     */
     const MARKUP_STRONG        = 31;
+
+    /**
+     * Interpreted text markup AST node
+     */
     const MARKUP_INTERPRETED   = 32;
+
+    /**
+     * Inline literal markup AST node
+     */
     const MARKUP_LITERAL       = 33;
+
+    /**
+     * Substitution reference markup AST node
+     */
     const MARKUP_SUBSTITUTION  = 34;
-                            
+
+    /**
+     * Anonymous hyperlink AST node
+     */
     const LINK_ANONYMOUS       = 40;
+
+    /**
+     * External Reference AST node
+     */
     const LINK_REFERENCE       = 41;
+
+    /**
+     * Internal Target AST node
+     */
     const TARGET               = 42;
+
+    /**
+     * Internal Reference AST node
+     */
     const REFERENCE            = 43;
-                            
+
+    /**
+     * Inline Literal AST node
+     */
     const LITERAL              = 50;
+
+    /**
+     * Substitution target AST node
+     */
     const SUBSTITUTION         = 51;
+
+    /**
+     * Directive AST node
+     */
     const DIRECTIVE            = 52;
+
+    /**
+     * Named reference target AST node
+     */
     const NAMED_REFERENCE      = 53;
+
+    /**
+     * Footnote target AST node
+     */
     const FOOTNOTE             = 54;
+
+    /**
+     * Anonymous reference target AST node
+     */
     const ANON_REFERENCE       = 55;
                             
+    /**
+     * Table node AST node
+     */
     const TABLE                = 100;
+
+    /**
+     * Table head node AST node
+     */
     const TABLE_HEAD           = 101;
+
+    /**
+     * Table body node AST node
+     */
     const TABLE_BODY           = 102;
+
+    /**
+     * Table row node AST node
+     */
     const TABLE_ROW            = 103;
+
+    /**
+     * Table cell node AST node
+     */
     const TABLE_CELL           = 104;
 
     /**
