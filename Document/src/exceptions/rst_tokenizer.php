@@ -28,7 +28,7 @@ class ezcDocumentRstTokenizerException extends ezcDocumentException
     public function __construct( $line, $position, $string )
     {
         parent::__construct( 
-            "Could not tokenize string at line $line char $position: '" . substr( $string, 0, 10 ) . "'."
+            "Could not tokenize string at line {$line} char {$position}: '" . substr( $string, 0, 10 ) . "'."
         );
     }
 }

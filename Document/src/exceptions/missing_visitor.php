@@ -25,7 +25,7 @@ class ezcDocumentMissingVisitorException extends ezcDocumentException
     public function __construct( $class )
     {
         parent::__construct( 
-            "Could not find visitor for '$class'."
+            "Could not find visitor for '{$class}'."
         );
     }
 }

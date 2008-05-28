@@ -560,7 +560,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         if ( !isset( $fieldListItemMapping[$fieldName] ) )
         {
             return $this->triggerError(
-                E_NOTICE, "Unhandeled field list type '$fieldName'.",
+                E_NOTICE, "Unhandeled field list type '{$fieldName}'.",
                 null, $node->token->line, $node->token->position
             );
         }

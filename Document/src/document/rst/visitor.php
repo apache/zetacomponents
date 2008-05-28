@@ -330,7 +330,7 @@ abstract class ezcDocumentRstVisitor
         else
         {
             return $this->triggerError(
-                E_WARNING, "Unknown footnote type '$identifier'.",
+                E_WARNING, "Unknown footnote type '{$identifier}'.",
                 null, $node->token->line, $node->token->position
             );
         }
@@ -477,7 +477,7 @@ abstract class ezcDocumentRstVisitor
             }
 
             return $this->triggerError(
-                E_WARNING, "Unknown reference target '$string'.", null
+                E_WARNING, "Unknown reference target '{$string}'.", null
             );
         }
         elseif ( $string[0] === '#' )
@@ -492,7 +492,7 @@ abstract class ezcDocumentRstVisitor
             }
 
             return $this->triggerError(
-                E_WARNING, "Unknown reference target '$string'.", null
+                E_WARNING, "Unknown reference target '{$string}'.", null
             );
         }
 
@@ -507,13 +507,13 @@ abstract class ezcDocumentRstVisitor
         if ( !isset( $this->references[$id] ) )
         {
             return $this->triggerError(
-                E_WARNING, "Missing reference target '$id'.", null
+                E_WARNING, "Missing reference target '{$id}'.", null
             );
         }
         else
         {
             return $this->triggerError(
-                E_NOTICE, "Dublicate reference target '$id'.", null
+                E_NOTICE, "Dublicate reference target '{$id}'.", null
             );
         }
     }
@@ -534,7 +534,7 @@ abstract class ezcDocumentRstVisitor
         }
 
         return $this->triggerError(
-            E_WARNING, "Missing named external reference target '$name'.", null
+            E_WARNING, "Missing named external reference target '{$name}'.", null
         );
     }
 
@@ -572,7 +572,7 @@ abstract class ezcDocumentRstVisitor
         }
 
         $this->triggerError(
-            E_ERROR, "Could not find substitution for '$string'.", null
+            E_ERROR, "Could not find substitution for '{$string}'.", null
         );
         return array();
     }

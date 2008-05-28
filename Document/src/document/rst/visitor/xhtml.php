@@ -632,7 +632,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         if ( !$directiveHandler instanceof ezcDocumentRstXhtmlDirective )
         {
             return $this->triggerError(
-                E_WARNING, "Directive '$handlerClass' does not support HTML rendering.",
+                E_WARNING, "Directive '{$handlerClass}' does not support HTML rendering.",
                 null, $node->token->line, $node->token->position
             );
         }
