@@ -67,3 +67,12 @@ Documentation
 
 [ ] A description of how the RST parser actually works should be added.
 
+[ ] Docblocks are broken for some files (eg. src/document/rst/nodes): there
+    are duplicated @copyright and @license, and the @package is not Document.
+
+[ ] Some classes (eg. ezcDocumentConverter) have a class variable $options and
+    __set() and __get() methods which use $this->options. But the __set() will
+    not get called if $options is already a class variable.
+
+[ ] Strings should enclose variables in {}: "Could not find visitor for '{$class}'"
+
