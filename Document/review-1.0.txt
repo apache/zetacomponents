@@ -1,0 +1,24 @@
+[ ] Shouldn't the ezcDocumentRstXhtmlVisitorTests tests just be
+    ezcDocumentXhtmlVisitorTests ?
+
+[ ] Low code coverage in some parts.
+
+[ ] There are some @TODOs in the code.
+
+[ ] Why is ezcDocumentManager final?
+
+[ ] Why are the option class names including "Base" as in
+    ezcDocumentParserBaseOptions and ezcDocumentConverterBaseOptions,
+    ezcDocumentXmlBaseOptions.
+
+[ ] A description of how the RST parser actually works should be added.
+
+[ ] Some of the class descriptions in document/rst/nodes/* are incorrect
+    (Example is ezcDocumentRstSubstitutionNode).
+
+[ ] ezcDocumentRstToken doesn't have the constants documented - also run
+    the doc analysis tool because there's some other stuff as well.
+
+[ ] WHy is the RstXhtmlVisitor not simple a docbook visitor to generate XHTML?
+
+[ ] The tutorial should mention on how to extend the RST directives thingy.
