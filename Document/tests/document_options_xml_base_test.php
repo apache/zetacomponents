@@ -26,7 +26,7 @@ class ezcDocumentOptionsXmlBaseTests extends ezcDocumentOptionsTestCase
 
     protected function getOptionsClassName()
     {
-        return 'ezcDocumentXmlBaseOptions';
+        return 'ezcDocumentXmlOptions';
     }
 
     public static function provideDefaultValues()

@@ -17,7 +17,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentXhtmlOptions extends ezcDocumentXmlBaseOptions
+class ezcDocumentXhtmlOptions extends ezcDocumentXmlOptions
 {
     /**
      * Constructs an object with the specified values.

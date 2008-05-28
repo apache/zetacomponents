@@ -21,7 +21,7 @@ abstract class ezcDocumentParser
     /**
      * XML document base options.
      * 
-     * @var ezcDocumentParserBaseOptions
+     * @var ezcDocumentParserOptions
      */
     protected $options;
 
@@ -37,12 +37,12 @@ abstract class ezcDocumentParser
     /**
      * Construct new document
      *
-     * @param ezcDocumentParserBaseOptions $options
+     * @param ezcDocumentParserOptions $options
      */
-    public function __construct( ezcDocumentParserBaseOptions $options = null )
+    public function __construct( ezcDocumentParserOptions $options = null )
     {
         $this->options = ( $options === null ?
-            new ezcDocumentParserBaseOptions() :
+            new ezcDocumentParserOptions() :
             $options );
     }
 

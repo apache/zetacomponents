@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentConverterBaseOptions extends ezcBaseOptions
+class ezcDocumentConverterOptions extends ezcBaseOptions
 {
 
     /**

@@ -22,19 +22,19 @@ abstract class ezcDocumentConverter
     /**
      * XML document base options.
      * 
-     * @var ezcDocumentXmlBaseOptions
+     * @var ezcDocumentXmlOptions
      */
     protected $options;
 
     /**
      * Construct new document
      *
-     * @param ezcDocumentConverterBaseOptions $options
+     * @param ezcDocumentConverterOptions $options
      */
-    public function __construct( ezcDocumentConverterBaseOptions $options = null )
+    public function __construct( ezcDocumentConverterOptions $options = null )
     {
         $this->options = ( $options === null ?
-            new ezcDocumentConverterBaseOptions() :
+            new ezcDocumentConverterOptions() :
             $options );
     }
 

@@ -17,7 +17,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentEzp3ToEzp4ConverterOptions extends ezcDocumentConverterBaseOptions
+class ezcDocumentEzp3ToEzp4ConverterOptions extends ezcDocumentConverterOptions
 {
     /**
      * Constructs an object with the specified values.

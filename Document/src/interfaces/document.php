@@ -21,7 +21,7 @@ abstract class ezcDocument
     /**
      * XML document base options.
      * 
-     * @var ezcDocumentXmlBaseOptions
+     * @var ezcDocumentXmlOptions
      */
     protected $options;
 
@@ -35,12 +35,12 @@ abstract class ezcDocument
     /**
      * Construct new document
      *
-     * @param ezcDocumentBaseOptions $options
+     * @param ezcDocumentOptions $options
      */
-    public function __construct( ezcDocumentBaseOptions $options = null )
+    public function __construct( ezcDocumentOptions $options = null )
     {
         $this->options = ( $options === null ?
-            new ezcDocumentBaseOptions() :
+            new ezcDocumentOptions() :
             $options );
     }   
 

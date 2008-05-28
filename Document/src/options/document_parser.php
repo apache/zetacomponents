@@ -19,7 +19,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentParserBaseOptions extends ezcBaseOptions
+class ezcDocumentParserOptions extends ezcBaseOptions
 {
     /**
      * Container to hold the properties
