@@ -15,6 +15,22 @@
  * The struct contains the {@link self::name name} of the filter to use and
  * which {@link self::options options} to use for it.
  *
+ * Possible filter names are determined by the methods defined in the following
+ * filter interfaces:
+ *
+ * <ul>
+ *  <li>{@link ezcImageGeometryFilters}</li>
+ *  <li>{@link ezcImageColorspaceFilters}</li>
+ *  <li>{@link ezcImageEffectFilters}</li>
+ *  <li>{@link ezcImageWatermarkFilters}</li>
+ *  <li>{@link ezcImageThumbnailFilters}</li>
+ * </ul>
+ *
+ * The options for each filter are represented by the parameters received by
+ * their corresponding method. You can determine if a certain {@link
+ * ezcImageHandler} implementation supports a filter by checking the interfaces
+ * this handler implements.
+ *
  * @see ezcImageTransformation
  *
  * @package ImageConversion
