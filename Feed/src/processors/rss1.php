@@ -13,7 +13,7 @@
  * Class providing parsing and generating of RSS1 feeds.
  *
  * Specifications:
- * {@link http://www.rssboard.org/rss-specification RSS1 Specifications}
+ * {@link http://web.resource.org/rss/1.0/spec RSS1 Specifications}
  *
  * @package Feed
  * @version //autogentag//
@@ -29,6 +29,11 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      * Defines the feed content type of this processor.
      */
     const CONTENT_TYPE = 'application/rss+xml';
+
+    /**
+     * Defines the namespace for RSS1 (RDF) feeds.
+     */
+    const NAMESPACE_URI = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 
     /**
      * Creates a new RSS1 processor.
@@ -112,9 +117,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             throw new ezcFeedParseErrorException( null, "No channel tag" );
         }
 
-        if ( $channel->hasAttribute( 'rdf:about' ) )
+        if ( $channel->hasAttributeNS( self::NAMESPACE_URI, 'about' ) )
         {
-            $feed->id = $channel->getAttribute( 'rdf:about' );
+            $feed->id = $channel->getAttributeNS( self::NAMESPACE_URI, 'about' );
         }
 
         foreach ( $channel->childNodes as $channelChild )
@@ -132,13 +137,13 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'items':
-                        $seq = $channelChild->getElementsByTagName( 'Seq' );
+                        $seq = $channelChild->getElementsByTagNameNS( self::NAMESPACE_URI, 'Seq' );
                         if ( $seq->length === 0 )
                         {
                             break;
                         }
 
-                        $lis = $seq->item( 0 )->getElementsByTagName( 'li' );
+                        $lis = $seq->item( 0 )->getElementsByTagNameNS( self::NAMESPACE_URI, 'li' );
 
                         foreach ( $lis as $el )
                         {
@@ -147,10 +152,10 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                             {
                                 // some RSS1 (RDF) feeds specify the "resource" attribute as "rdf:resource"
                                 // see issue #13109
-                                $resource = $el->getAttribute( 'rdf:resource' );
+                                $resource = $el->getAttributeNS( self::NAMESPACE_URI, 'resource' );
                             }
 
-                            $item = $this->getNodeByAttribute( $xml->documentElement, 'item', 'rdf:about', $resource );
+                            $item = $this->getNodeByAttributeNS( $xml->documentElement, 'item', self::NAMESPACE_URI, 'about', $resource );
                             if ( $item instanceof DOMElement )
                             {
                                 $element = $feed->add( 'item' );
@@ -160,16 +165,16 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         break;
 
                     case 'image':
-                        $resource = $channelChild->getAttribute( 'rdf:resource' );
+                        $resource = $channelChild->getAttributeNS( self::NAMESPACE_URI, 'resource' );
 
-                        $image = $this->getNodeByAttribute( $xml->documentElement, 'image', 'rdf:about', $resource );
+                        $image = $this->getNodeByAttributeNS( $xml->documentElement, 'image', self::NAMESPACE_URI, 'about', $resource );
                         $this->parseImage( $feed, $image );
                         break;
 
                     case 'textinput':
-                        $resource = $channelChild->getAttribute( 'rdf:resource' );
+                        $resource = $channelChild->getAttributeNS( self::NAMESPACE_URI, 'resource' );
 
-                        $textInput = $this->getNodeByAttribute( $xml->documentElement, 'textinput', 'rdf:about', $resource );
+                        $textInput = $this->getNodeByAttributeNS( $xml->documentElement, 'textinput', self::NAMESPACE_URI, 'about', $resource );
                         $this->parseTextInput( $feed, $textInput );
                         break;
 
@@ -429,9 +434,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
      */
     private function parseItem( ezcFeed $feed, $element, DOMElement $xml )
     {
-        if ( $xml->hasAttribute( 'rdf:about' ) )
+        if ( $xml->hasAttributeNS( self::NAMESPACE_URI, 'about' ) )
         {
-            $element->id = $xml->getAttribute( 'rdf:about' );
+            $element->id = $xml->getAttributeNS( self::NAMESPACE_URI, 'about' );
         }
 
         foreach ( $xml->childNodes as $itemChild )
@@ -485,9 +490,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            if ( $xml->hasAttribute( 'rdf:about' ) )
+            if ( $xml->hasAttributeNS( self::NAMESPACE_URI, 'about' ) )
             {
-                $image->about = $xml->getAttribute( 'rdf:about' );
+                $image->about = $xml->getAttributeNS( self::NAMESPACE_URI, 'about' );
             }
         }
     }
@@ -521,9 +526,9 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 }
             }
 
-            if ( $xml->hasAttribute( 'rdf:about' ) )
+            if ( $xml->hasAttributeNS( self::NAMESPACE_URI, 'about' ) )
             {
-                $textInput->about = $xml->getAttribute( 'rdf:about' );
+                $textInput->about = $xml->getAttributeNS( self::NAMESPACE_URI, 'about' );
             }
         }
     }
