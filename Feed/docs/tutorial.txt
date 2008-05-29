@@ -607,9 +607,9 @@ iTunes elements to our $feed object::
 
     // add the podcast in the category Technology->Gadgets
     $category = $iTunes->add( 'category' );
-    $category->text = 'Technology';
+    $category->term = 'Technology';
     $subCategory = $category->add( 'category' );
-    $subCategory->text = 'Gadgets';
+    $subCategory->term = 'Gadgets';
 
 See the `iTunes categories`_ page for a list of the iTunes categories you can
 add a podcast to. Note: some category names contain ``&`` which should be

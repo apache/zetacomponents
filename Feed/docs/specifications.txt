@@ -22,57 +22,68 @@ Feed elements
 +----------------------------+-------------------------+----------------------------+---------------------------+
 |         ezcFeed            |           ATOM          |            RSS1            |           RSS2            |
 +============================+=========================+============================+===========================+
-| |ezcFeed-author|_ !*       | |ATOM-author|_ !*       | x                          | |RSS2-managingEditor|_ ?  |
+| |ezcFeed-author|_ *        | |ATOM-author|_ !*       | x                          | |RSS2-managingEditor|_ ?  |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-category|_ ?*     | |ATOM-category|_ ?*     | x                          | |RSS2-category|_ ?*       |
+| |ezcFeed-category|_ *      | |ATOM-category|_ ?*     | x                          | |RSS2-category|_ ?*       |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-cloud|_ ?         | x                       | x                          | |RSS2-cloud|_ ?           |
+| |ezcFeed-cloud|_           | x                       | x                          | |RSS2-cloud|_ ?           |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-contributor|_ ?   | |ATOM-contributor|_ ?*  | x                          | x                         |
+| |ezcFeed-contributor|_     | |ATOM-contributor|_ ?*  | x                          | x                         |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-copyright|_ ?     | |ATOM-rights|_ ?        | x                          | |RSS2-copyright|_ ?       |
+| |ezcFeed-copyright|_       | |ATOM-rights|_ ?        | x                          | |RSS2-copyright|_ ?       |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-description|_ !   | |ATOM-subtitle|_ ?      | |RSS1-description|_ !      | |RSS2-description|_ !     |
+| |ezcFeed-description|_     | |ATOM-subtitle|_ ?      | |RSS1-description|_ !      | |RSS2-description|_ !     |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-docs|_ ?          | x                       | x                          | |RSS2-docs|_ ?            |
+| |ezcFeed-docs|_            | x                       | x                          | |RSS2-docs|_ ?            |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-generator|_ ?     | |ATOM-generator|_ ?     | x                          | |RSS2-generator|_ ?       |
+| |ezcFeed-generator|_       | |ATOM-generator|_ ?     | x                          | |RSS2-generator|_ ?       |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-icon|_ ?          | |ATOM-icon|_ ?          | x                          | x                         |
+| |ezcFeed-icon|_            | |ATOM-icon|_ ?          | x                          | x                         |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-id|_ !            | |ATOM-id|_ !            | |RSS1-about|_ !            | x                         |
+| |ezcFeed-id|_              | |ATOM-id|_ !            | |RSS1-about|_ !            | x                         |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-image|_ ?         | |ATOM-logo|_ ?          | |RSS1-image|_ ?            | |RSS2-image|_ ?           |
+| |ezcFeed-image|_           | |ATOM-logo|_ ?          | |RSS1-image|_ ?            | |RSS2-image|_ ?           |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-item|_ !*         | |ATOM-entry|_ ?*        | |RSS1-item|_ !*            | |RSS2-item|_ !*           |
+| |ezcFeed-item|_ *          | |ATOM-entry|_ ?*        | |RSS1-item|_ !*            | |RSS2-item|_ !*           |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-language|_ ?      | x                       | x                          | |RSS2-language|_ ?        |
+| |ezcFeed-language|_        | x                       | x                          | |RSS2-language|_ ?        |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-link|_ !*         | |ATOM-link|_ !*         | |RSS1-link|_ !             | |RSS2-link|_ !            |
+| |ezcFeed-link|_ *          | |ATOM-link|_ !*         | |RSS1-link|_ !             | |RSS2-link|_ !            |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-published|_ ?     | x                       | x                          | |RSS2-pubDate|_ ?         |
+| |ezcFeed-published|_       | x                       | x                          | |RSS2-pubDate|_ ?         |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-rating|_ ?        | x                       | x                          | |RSS2-rating|_ ?          |
+| |ezcFeed-rating|_          | x                       | x                          | |RSS2-rating|_ ?          |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-skipDays|_ ?      | x                       | x                          | |RSS2-skipDays|_ ?        |
+| |ezcFeed-skipDays|_        | x                       | x                          | |RSS2-skipDays|_ ?        |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-skipHours|_ ?     | x                       | x                          | |RSS2-skipHours|_ ?       |
+| |ezcFeed-skipHours|_       | x                       | x                          | |RSS2-skipHours|_ ?       |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-textInput|_ ?     | x                       | |RSS1-textinput|_ ?        | |RSS2-textInput|_ ?       |
+| |ezcFeed-textInput|_       | x                       | |RSS1-textinput|_ ?        | |RSS2-textInput|_ ?       |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-title|_ !         | |ATOM-title|_ !         | |RSS1-title|_ !            | |RSS2-title|_ !           |
+| |ezcFeed-title|_           | |ATOM-title|_ !         | |RSS1-title|_ !            | |RSS2-title|_ !           |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-ttl|_ ?           | x                       | x                          | |RSS2-ttl|_ ?             |
+| |ezcFeed-ttl|_             | x                       | x                          | |RSS2-ttl|_ ?             |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-updated|_ !       | |ATOM-updated|_ !       | x                          | |RSS2-lastBuildDate|_ ?   |
+| |ezcFeed-updated|_         | |ATOM-updated|_ !       | x                          | |RSS2-lastBuildDate|_ ?   |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-webMaster|_ ?     | x                       | x                          | |RSS2-webMaster|_ ?       |
+| |ezcFeed-webMaster|_       | x                       | x                          | |RSS2-webMaster|_ ?       |
 +----------------------------+-------------------------+----------------------------+---------------------------+
 
 | ! = required
 | ? = optional
 | * = can appear multiple times
 | x = no equivalence
+
+In order to generate all 3 feed types from the same ezcFeed data, these
+elements must be added to an ezcFeed object:
+
+- *author*
+- *description*
+- *id*
+- at least one *item* with all required elements
+- *link*
+- *title*
+- *updated*
 
 
 Item elements
@@ -81,37 +92,85 @@ Item elements
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 |           ezcFeed               |            ATOM               |             RSS1             |            RSS2              |
 +=================================+===============================+==============================+==============================+
-| |ezcFeed-item-author|_ !*       | |ATOM-entry-author|_ !*       | x                            | |RSS2-item-author|_ ?        |
+| |ezcFeed-item-author|_ *        | |ATOM-entry-author|_ !*       | x                            | |RSS2-item-author|_ ?        |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-category|_ ?*     | |ATOM-entry-category|_ ?*     | x                            | |RSS2-item-category|_ ?*     |
+| |ezcFeed-item-category|_ *      | |ATOM-entry-category|_ ?*     | x                            | |RSS2-item-category|_ ?*     |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-comments|_ ?      | x                             | x                            | |RSS2-item-comments|_ ?      |
+| |ezcFeed-item-comments|_        | x                             | x                            | |RSS2-item-comments|_ ?      |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-content|_ ?       | |ATOM-entry-content|_ ?       | x                            | x                            |
+| |ezcFeed-item-content|_         | |ATOM-entry-content|_ ?       | x                            | x                            |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-contributor|_ ?*  | |ATOM-entry-contributor|_ ?*  | x                            | x                            |
+| |ezcFeed-item-contributor|_ *   | |ATOM-entry-contributor|_ ?*  | x                            | x                            |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-copyright|_ ?     | |ATOM-entry-rights|_ ?        | x                            | x                            |
+| |ezcFeed-item-copyright|_       | |ATOM-entry-rights|_ ?        | x                            | x                            |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-description|_ !   | |ATOM-entry-summary|_ !       | |RSS1-item-description|_ !   | |RSS2-item-description|_ !   |
+| |ezcFeed-item-description|_     | |ATOM-entry-summary|_ !       | |RSS1-item-description|_ !   | |RSS2-item-description|_ !   |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-enclosure|_ ?     | |ATOM-entry-link|_ ?*         | x                            | |RSS2-item-enclosure|_ ?     |
+| |ezcFeed-item-enclosure|_       | |ATOM-entry-link|_ ?*         | x                            | |RSS2-item-enclosure|_ ?     |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-id|_ !            | |ATOM-entry-id|_ !            | |RSS1-item-about|_ !         | |RSS2-item-guid|_ ?          |
+| |ezcFeed-item-id|_              | |ATOM-entry-id|_ !            | |RSS1-item-about|_ !         | |RSS2-item-guid|_ ?          |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-link|_ !*         | |ATOM-entry-link|_ !*         | |RSS1-item-link|_ !          | |RSS2-item-link|_ !          |
+| |ezcFeed-item-link|_ *          | |ATOM-entry-link|_ !*         | |RSS1-item-link|_ !          | |RSS2-item-link|_ !          |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-published|_ ?     | |ATOM-entry-published|_ ?     | x                            | |RSS2-item-pubDate|_ ?       |
+| |ezcFeed-item-published|_       | |ATOM-entry-published|_ ?     | x                            | |RSS2-item-pubDate|_ ?       |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-title|_ !         | |ATOM-entry-title|_ !         | |RSS1-item-title|_ !         | |RSS2-item-title|_ !         |
+| |ezcFeed-item-title|_           | |ATOM-entry-title|_ !         | |RSS1-item-title|_ !         | |RSS2-item-title|_ !         |
 +---------------------------------+-------------------------------+------------------------------++-----------------------------+
-| |ezcFeed-item-updated|_ !       | |ATOM-entry-updated|_ !       | x                            | x                            |
+| |ezcFeed-item-updated|_         | |ATOM-entry-updated|_ !       | x                            | x                            |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 
 | ! = required
 | ? = optional
 | * = can appear multiple times
 | x = no equivalence
+
+In order to generate all 3 feed types from the same ezcFeed data, these
+elements must be added to an ezcFeedEntryElement object:
+
+- *author*
+- *description*
+- *id*
+- *link*
+- *title*
+- *updated*
+
+This is a minimal script to be able to generate all 3 feed types from the same
+ezcFeed data::
+
+  $feed = new ezcFeed();
+
+  $author = $feed->add( 'author' );
+  $author->name = "Indiana Jones";
+  $author->email = "indy@example.com";
+
+  $feed->description = "This feed shows Indiana Jones movie releases";
+  $feed->id = "http://indy.example.com/";
+
+  $link = $feed->add( 'link' );
+  $link->href = "http://indy.example.com/";
+
+  $feed->title = "Indiana Jones movie releases";
+  $feed->updated = time();
+
+  // add a feed item
+  $item = $feed->add( 'item' );
+
+  $author = $item->add( 'author' );
+  $author->name = "Indiana Jones";
+  $author->email = "indy@example.com";
+
+  $item->description = "Indy meets ****** and has a hell of an adventure";
+  $item->id = "http://indy.example.com/4";
+
+  $link = $item->add( 'link' );
+  $link->href = "http://indy.example.com/4";
+
+  $item->title = "Indiana Jones and the Kingdom of the Crystal Skull";
+  $item->updated = time();
+
+  $atom = $feed->generate( 'atom' );
+  $rss1 = $feed->generate( 'rss1 );
+  $rss2 = $feed->generate( 'rss2' );
 
 
 ezcFeed
