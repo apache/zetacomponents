@@ -1,0 +1,22 @@
+<?php
+$feed = new ezcFeed( 'rss1' );
+
+$feed->id = 'Channel about';
+$feed->title = 'Feed title';
+$feed->description = 'Feed description';
+$feed->link = 'Feed link';
+
+$item = $feed->add( 'item' );
+$item->id = 'Item link 1';
+$item->title = 'Item title 1';
+$item->link = 'Item link 1';
+$item->description = 'Item description 1';
+
+$item = $feed->add( 'item' );
+$item->id = 'Item link 2';
+$item->title = 'Item title 2';
+$item->link = 'Item link 2';
+$item->description = 'Item description 2';
+
+return $feed;
+?>

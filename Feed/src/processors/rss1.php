@@ -143,6 +143,12 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         foreach ( $lis as $el )
                         {
                             $resource = $el->getAttribute( 'resource' );
+                            if ( empty( $resource ) )
+                            {
+                                // some RSS1 (RDF) feeds specify the "resource" attribute as "rdf:resource"
+                                // see issue #13109
+                                $resource = $el->getAttribute( 'rdf:resource' );
+                            }
 
                             $item = $this->getNodeByAttribute( $xml->documentElement, 'item', 'rdf:about', $resource );
                             if ( $item instanceof DOMElement )

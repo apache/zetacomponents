@@ -3,6 +3,8 @@
 
 - ATOM generator considers feed entry links without the rel attribute set as
   rel="alternate" by default.
+- Fixed issue #13109: Fixed RSS1 (RDF) parsing when the "resource" attribute
+  is specified as "rdf:resource".
 
 
 1.1beta1 - Tuesday 27 May 2008
