@@ -20,10 +20,10 @@
  * $item = $feed->add( 'item' );
  * $module = $item->addModule( 'iTunes' );
  * $category = $module->add( 'category' );
- * $category->text = 'Category name';
+ * $category->term = 'Category name';
  * // add a sub-category
  * $subCategory = $category->add( 'category' );
- * $subCategory->text = 'Sub-category name';
+ * $subCategory->term = 'Sub-category name';
  * </code>
  *
  * Parse example:
@@ -36,12 +36,12 @@
  *     {
  *         foreach ( $iTunes->category as $category )
  *         {
- *             echo $category->text;
+ *             echo $category->term;
  *             if ( isset( $category->category ) )
  *             {
  *                 foreach ( $category->category as $subCategory )
  *                 {
- *                     echo $subCategory->text;
+ *                     echo $subCategory->term;
  *                 }
  *             }
  *         }
