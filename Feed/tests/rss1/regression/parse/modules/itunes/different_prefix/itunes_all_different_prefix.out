@@ -1,0 +1,52 @@
+<?php
+$feed = new ezcFeed( 'rss1' );
+
+$feed->id = 'Channel about';
+$feed->title = 'Feed title';
+$feed->description = 'Feed description';
+$feed->link = 'Feed link';
+
+$module = $feed->addModule( 'iTunes' );
+$module->author = 'iTunes feed author';
+$module->block = 'iTunes feed block';
+
+$category = $module->add( 'category' );
+$category->term = 'iTunes feed category';
+
+$module->explicit = 'iTunes feed explicit';
+
+$image = $module->add( 'image' );
+$image->link = 'iTunes feed image';
+
+$module->keywords = 'iTunes feed keywords';
+$module->newfeedurl = 'iTunes feed new-feed-url';
+
+$owner = $module->add( 'owner' );
+$owner->email = 'iTunes feed owner email';
+$owner->name = 'iTunes feed owner name';
+
+$module->subtitle = 'iTunes feed subtitle';
+$module->summary = 'iTunes feed summary';
+
+$item = $feed->add( 'item' );
+$item->id = 'Item link';
+$item->title = 'Item title';
+$item->link = 'Item link';
+$item->description = 'Item description';
+
+$module = $item->addModule( 'iTunes' );
+
+$module->author = 'iTunes item author';
+$module->block = 'iTunes item block';
+$module->duration = 'iTunes item duration';
+$module->explicit = 'iTunes item explicit';
+
+$image = $module->add( 'image' );
+$image->link = 'iTunes item image';
+
+$module->keywords = 'iTunes item keywords';
+$module->subtitle = 'iTunes item subtitle';
+$module->summary = 'iTunes item summary';
+
+return $feed;
+?>

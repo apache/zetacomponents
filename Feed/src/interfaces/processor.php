@@ -244,9 +244,18 @@ abstract class ezcFeedProcessor
             foreach ( ezcFeed::getSupportedModules() as $moduleName => $moduleClass )
             {
                 $moduleNamespace = call_user_func( array( $moduleClass, 'getNamespace' ) );
+
+                // compare the namespace URIs from the XML source with the supported ones
                 if ( $moduleNamespace === $node->nodeValue )
                 {
-                    $usedPrefixes[call_user_func( array( $moduleClass, 'getNamespacePrefix' ) )] = $moduleName;
+                    // the nodeName looks like: xmlns:some_module
+                    list( $xmlns, $prefix ) = split( ':', $node->nodeName );
+
+                    // use the prefix from the XML source as a key in the array $usedPrefixes
+                    // eg. array( 'some_prefix' => 'DublinCore' );
+                    // then, when calling later parseModules(), if encountering an element
+                    // like <some_prefix:creator>, it is checked if 'DublinCore' is supported
+                    $usedPrefixes[$prefix] = $moduleName;
                 }
             }
         }

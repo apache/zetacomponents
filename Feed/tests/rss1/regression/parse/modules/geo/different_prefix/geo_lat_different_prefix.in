@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:geographical="http://www.w3.org/2003/01/geo/wgs84_pos#">
+  <channel rdf:about="Channel about">
+    <title>Feed title</title>
+    <description>Feed description</description>
+    <link>Feed link</link>
+    <items>
+      <rdf:Seq>
+        <rdf:li resource="Item link"/>
+      </rdf:Seq>
+	</items>
+  </channel>
+  <item rdf:about="Item link">
+    <title>Item title</title>
+    <link>Item link</link>
+    <description>Item description</description>
+    <geographical:lat>Lat</geographical:lat>
+  </item>
+</rdf:RDF>

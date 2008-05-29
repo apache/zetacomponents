@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:mediaplayer="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel rdf:about="Channel about">
+    <title>Feed title</title>
+    <description>Feed description</description>
+    <link>Feed link</link>
+    <items>
+      <rdf:Seq>
+        <rdf:li resource="Item link"/>
+      </rdf:Seq>
+	</items>
+    <mediaplayer:author>iTunes feed author</mediaplayer:author>
+    <mediaplayer:block>iTunes feed block</mediaplayer:block>
+    <mediaplayer:category text="iTunes feed category"/>
+    <mediaplayer:explicit>iTunes feed explicit</mediaplayer:explicit>
+    <mediaplayer:image href="iTunes feed image"/>
+    <mediaplayer:keywords>iTunes feed keywords</mediaplayer:keywords>
+    <mediaplayer:new-feed-url>iTunes feed new-feed-url</mediaplayer:new-feed-url>
+    <mediaplayer:owner>
+      <mediaplayer:email>iTunes feed owner email</mediaplayer:email>
+      <mediaplayer:name>iTunes feed owner name</mediaplayer:name>
+    </mediaplayer:owner>
+    <mediaplayer:subtitle>iTunes feed subtitle</mediaplayer:subtitle>
+    <mediaplayer:summary>iTunes feed summary</mediaplayer:summary>
+  </channel>
+  <item rdf:about="Item link">
+    <title>Item title</title>
+    <link>Item link</link>
+    <description>Item description</description>
+    <mediaplayer:author>iTunes item author</mediaplayer:author>
+    <mediaplayer:block>iTunes item block</mediaplayer:block>
+    <mediaplayer:duration>iTunes item duration</mediaplayer:duration>
+    <mediaplayer:explicit>iTunes item explicit</mediaplayer:explicit>
+    <mediaplayer:image href="iTunes item image"/>
+    <mediaplayer:keywords>iTunes item keywords</mediaplayer:keywords>
+    <mediaplayer:subtitle>iTunes item subtitle</mediaplayer:subtitle>
+    <mediaplayer:summary>iTunes item summary</mediaplayer:summary>
+  </item>
+</rdf:RDF>

@@ -1,0 +1,138 @@
+<?php
+$feed = new ezcFeed( 'rss1' );
+
+$feed->id = 'Channel about';
+$feed->title = 'Feed title';
+$feed->description = 'Feed description';
+$feed->link = 'Feed link';
+
+$item = $feed->add( 'item' );
+$item->id = 'Item link';
+$item->title = 'Item title';
+$item->link = 'Item link';
+$item->description = 'Item description';
+
+$module = $item->addModule( 'DublinCore' );
+
+$element = $module->add( 'contributor' );
+$element->name = 'DC contributor 1';
+$element->language = 'a';
+
+$element = $module->add( 'contributor' );
+$element->name = 'DC contributor 2';
+$element->language = 'b';
+
+$element = $module->add( 'coverage' );
+$element->text = 'DC coverage 1';
+$element->language = 'c';
+
+$element = $module->add( 'coverage' );
+$element->text = 'DC coverage 2';
+$element->language = 'd';
+
+$element = $module->add( 'creator' );
+$element->name = 'DC creator 1';
+$element->language = 'e';
+
+$element = $module->add( 'creator' );
+$element->name = 'DC creator 2';
+$element->language = 'f';
+
+$element = $module->add( 'date' );
+$element->date = 1202996091;
+$element->language = 'g';
+
+$element = $module->add( 'date' );
+$element->date = time();
+$element->language = 'h';
+
+$element = $module->add( 'description' );
+$element->text = 'DC description 1';
+$element->language = 'i';
+
+$element = $module->add( 'description' );
+$element->text = 'DC description 2';
+$element->language = 'j';
+
+$element = $module->add( 'format' );
+$element->text = 'DC format 1';
+$element->language = 'k';
+
+$element = $module->add( 'format' );
+$element->text = 'DC format 2';
+$element->language = 'l';
+
+$element = $module->add( 'identifier' );
+$element->id = 'DC identifier 1';
+$element->language = 'm';
+
+$element = $module->add( 'identifier' );
+$element->id = 'DC identifier 2';
+$element->language = 'n';
+
+$element = $module->add( 'language' );
+$element->text = 'DC language 1';
+$element->language = 'o';
+
+$element = $module->add( 'language' );
+$element->text = 'DC language 2';
+$element->language = 'p';
+
+$element = $module->add( 'publisher' );
+$element->name = 'DC publisher 1';
+$element->language = 'q';
+
+$element = $module->add( 'publisher' );
+$element->name = 'DC publisher 2';
+$element->language = 'r';
+
+$element = $module->add( 'relation' );
+$element->text = 'DC relation 1';
+$element->language = 's';
+
+$element = $module->add( 'relation' );
+$element->text = 'DC relation 2';
+$element->language = 't';
+
+$element = $module->add( 'rights' );
+$element->text = 'DC rights 1';
+$element->language = 'u';
+
+$element = $module->add( 'rights' );
+$element->text = 'DC rights 2';
+$element->language = 'v';
+
+$element = $module->add( 'source' );
+$element->source = 'DC source 1';
+$element->language = 'w';
+
+$element = $module->add( 'source' );
+$element->source = 'DC source 2';
+$element->language = 'x';
+
+$element = $module->add( 'subject' );
+$element->text = 'DC subject 1';
+$element->language = 'y';
+
+$element = $module->add( 'subject' );
+$element->text = 'DC subject 2';
+$element->language = 'z';
+
+$element = $module->add( 'title' );
+$element->text = 'DC title 1';
+$element->language = 'no';
+
+$element = $module->add( 'title' );
+$element->text = 'DC title 2';
+$element->language = 'de';
+
+$element = $module->add( 'type' );
+$element->text = 'DC type 1';
+$element->language = 'no';
+
+$element = $module->add( 'type' );
+$element->text = 'DC type 2';
+$element->language = 'de';
+
+return $feed;
+?>

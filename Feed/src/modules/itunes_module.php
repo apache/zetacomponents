@@ -354,21 +354,18 @@ class ezcFeedITunesModule extends ezcFeedModule
                     break;
 
                 case 'owner':
-                    foreach ( $node->childNodes as $subNode )
-                    {
-                        if ( get_class( $subNode ) === 'DOMElement' )
-                        {
-                            switch ( $subNode->nodeName )
-                            {
-                                case 'itunes:email':
-                                    $element->email = $subNode->textContent;
-                                    break;
+                    $namespace = self::getNamespace();
 
-                                case 'itunes:name':
-                                    $element->name = $subNode->textContent;
-                                    break;
-                            }
-                        }
+                    $nodes = $node->getElementsByTagNameNS( $namespace, 'email' );
+                    if ( $nodes->length >= 1 )
+                    {
+                        $element->email = $nodes->item( 0 )->textContent;
+                    }
+
+                    $nodes = $node->getElementsByTagNameNS( $namespace, 'name' );
+                    if ( $nodes->length >= 1 )
+                    {
+                        $element->name = $nodes->item( 0 )->textContent;
                     }
                     break;
 

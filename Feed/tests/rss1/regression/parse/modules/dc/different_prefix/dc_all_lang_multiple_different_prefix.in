@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:strangemodule="http://purl.org/dc/elements/1.1/">
+  <channel rdf:about="Channel about">
+    <title>Feed title</title>
+    <description>Feed description</description>
+    <link>Feed link</link>
+    <items>
+      <rdf:Seq>
+        <rdf:li resource="Item link"/>
+      </rdf:Seq>
+	</items>
+  </channel>
+  <item rdf:about="Item link">
+    <title>Item title</title>
+    <link>Item link</link>
+    <description>Item description</description>
+    <strangemodule:contributor xml:lang="a">DC contributor 1</strangemodule:contributor>
+    <strangemodule:contributor xml:lang="b">DC contributor 2</strangemodule:contributor>
+    <strangemodule:coverage xml:lang="c">DC coverage 1</strangemodule:coverage>
+    <strangemodule:coverage xml:lang="d">DC coverage 2</strangemodule:coverage>
+    <strangemodule:creator xml:lang="e">DC creator 1</strangemodule:creator>
+    <strangemodule:creator xml:lang="f">DC creator 2</strangemodule:creator>
+    <strangemodule:date xml:lang="g">2008-02-14T14:34:51+01:00</strangemodule:date>
+    <strangemodule:date xml:lang="h">DC date 2</strangemodule:date>
+    <strangemodule:description xml:lang="i">DC description 1</strangemodule:description>
+    <strangemodule:description xml:lang="j">DC description 2</strangemodule:description>
+    <strangemodule:format xml:lang="k">DC format 1</strangemodule:format>
+    <strangemodule:format xml:lang="l">DC format 2</strangemodule:format>
+    <strangemodule:identifier xml:lang="m">DC identifier 1</strangemodule:identifier>
+    <strangemodule:identifier xml:lang="n">DC identifier 2</strangemodule:identifier>
+    <strangemodule:language xml:lang="o">DC language 1</strangemodule:language>
+    <strangemodule:language xml:lang="p">DC language 2</strangemodule:language>
+    <strangemodule:publisher xml:lang="q">DC publisher 1</strangemodule:publisher>
+    <strangemodule:publisher xml:lang="r">DC publisher 2</strangemodule:publisher>
+    <strangemodule:relation xml:lang="s">DC relation 1</strangemodule:relation>
+    <strangemodule:relation xml:lang="t">DC relation 2</strangemodule:relation>
+    <strangemodule:rights xml:lang="u">DC rights 1</strangemodule:rights>
+    <strangemodule:rights xml:lang="v">DC rights 2</strangemodule:rights>
+    <strangemodule:source xml:lang="w">DC source 1</strangemodule:source>
+    <strangemodule:source xml:lang="x">DC source 2</strangemodule:source>
+    <strangemodule:subject xml:lang="y">DC subject 1</strangemodule:subject>
+    <strangemodule:subject xml:lang="z">DC subject 2</strangemodule:subject>
+    <strangemodule:title xml:lang="no">DC title 1</strangemodule:title>
+    <strangemodule:title xml:lang="de">DC title 2</strangemodule:title>
+    <strangemodule:type xml:lang="no">DC type 1</strangemodule:type>
+    <strangemodule:type xml:lang="de">DC type 2</strangemodule:type>
+  </item>
+</rdf:RDF>
