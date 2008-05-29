@@ -31,6 +31,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     const CONTENT_TYPE = 'application/atom+xml';
 
     /**
+     * Defines the namespace for ATOM feeds.
+     */
+    const NAMESPACE_URI = 'http://www.w3.org/2005/Atom';
+
+    /**
      * Creates a new ATOM processor.
      *
      * @param ezcFeed $container The feed data container used when generating
@@ -53,7 +58,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         $this->xml = new DOMDocument( '1.0', 'utf-8' );
         $this->xml->formatOutput = 1;
 
-        $rss = $this->xml->createElementNS( 'http://www.w3.org/2005/Atom', 'feed' );
+        $rss = $this->xml->createElementNS( self::NAMESPACE_URI, 'feed' );
         $this->channel = $rss;
         $this->root = $this->xml->appendChild( $rss );
 
