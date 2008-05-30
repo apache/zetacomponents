@@ -164,7 +164,6 @@ abstract class ezcDocumentRstVisitor
     private function addReferenceTarget( $string )
     {
         $id = $this->calculateId( $string );
-        var_dump( $id );
         $this->references[$id] = isset( $this->references[$id] ) ? self::DUBLICATE : self::UNUSED;
     }
 
