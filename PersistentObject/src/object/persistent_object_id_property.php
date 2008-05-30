@@ -8,8 +8,16 @@
 
 /**
  * Defines a persistent object id field.
- * The column must be of type int both in PHP and in the database.
- * The default value will always be null.
+ *
+ * The column should be of type int both in PHP and in the database, usually.
+ * If you want to use a string ID, you need to use the {@link
+ * ezcPersistentManualGenerator} and set the ID property of the affected object
+ * yourself. Alternatively you can implement your own {@link
+ * ezcPersistentIdentifierGenerator} to perform this operation consistently.
+ * 
+ * The default value for the ID should be null, since {@link
+ * ezcPersistentSession::save()} determines if an object was already saved this
+ * way for integer IDs.
  *
  * For descriptions for some the constants used in this class see:
  * {@link ezcPersisentObjectProperty}
