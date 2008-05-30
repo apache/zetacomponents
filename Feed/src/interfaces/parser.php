@@ -17,6 +17,10 @@
  *  - RSS2 ({@link ezcFeedRss2})
  *  - ATOM ({@link ezcFeedAtom})
  *
+ * The implementing classes must implement these methods:
+ * - canParse() - Returns true if the class can parse the provided XML document.
+ * - parse() - Parse the provided XML document and return an ezcFeed object.
+ *
  * @package Feed
  * @version //autogentag//
  */

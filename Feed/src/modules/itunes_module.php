@@ -15,7 +15,9 @@
  * Specifications: {@link http://www.apple.com/itunes/store/podcaststechspecs.html}.
  *
  * Create example:
+ *
  * <code>
+ * <?php
  * // $feed is an ezcFeed object
  * $item = $feed->add( 'item' );
  * $module = $item->addModule( 'iTunes' );
@@ -24,10 +26,13 @@
  * // add a sub-category
  * $subCategory = $category->add( 'category' );
  * $subCategory->term = 'Sub-category name';
+ * ?>
  * </code>
  *
  * Parse example:
+ *
  * <code>
+ * <?php
  * // $feed is an ezcFeed object
  * if ( isset( $feed->iTunes ) )
  * {
@@ -47,6 +52,7 @@
  *         }
  *     }
  * }
+ * ?>
  * </code>
  *
  * @property ezcFeedPersonElement $author

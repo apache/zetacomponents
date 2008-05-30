@@ -25,10 +25,12 @@
  *    {@link http://backend.userland.com/creativeCommonsRssModule Specifications}
  *
  * The child classes must implement these static methods:
- *  - getModuleName() - Returns the module name (eg. 'DublinCore')
- *  - getNamespace() - Returns the namespace for the module
- *    (eg. 'http://purl.org/dc/elements/1.1/').
- *  - getNamespacePrefix() - Returns the namespace prefix for the module (eg. 'dc').
+ * - isElementAllowed() - Returns true if an element can be added to the module.
+ * - add() - Adds an element to the module.
+ * - getModuleName() - Returns the module name (eg. 'DublinCore')
+ * - getNamespace() - Returns the namespace for the module
+ *   (eg. 'http://purl.org/dc/elements/1.1/').
+ * - getNamespacePrefix() - Returns the namespace prefix for the module (eg. 'dc').
  *
  * @package Feed
  * @version //autogentag//

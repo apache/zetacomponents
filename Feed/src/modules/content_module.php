@@ -16,17 +16,23 @@
  * for the 'encoded' element of the Content module is provided.
  *
  * Create example:
+ *
  * <code>
+ * <?php
  * // $feed is an ezcFeed object
  * $item = $feed->add( 'item' );
  * $module = $item->addModule( 'Content' );
  * $module->encoded = 'text content';
+ * ?>
  * </code>
  *
  * Parse example:
+ *
  * <code>
+ * <?php
  * // $item is an ezcFeedEntryElement object
  * $text = $item->Content->encoded;
+ * ?>
  * </code>
  *
  * @property ezcFeedTextElement $encoded

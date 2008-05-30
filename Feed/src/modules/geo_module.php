@@ -15,21 +15,27 @@
  * Specifications: {@link http://www.w3.org/2003/01/geo/}.
  *
  * Create example:
+ *
  * <code>
+ * <?php
  * // $feed is an ezcFeed object
  * $item = $feed->add( 'item' );
  * $module = $item->addModule( 'Geo' );
  * $module->alt = 1000;
  * $module->lat = 26.58;
  * $module->long = -97.83;
+ * ?>
  * </code>
  *
  * Parse example:
+ *
  * <code>
+ * <?php
  * // $item is an ezcFeedEntryElement object
  * $alt = isset( $item->Geo->alt ) ? $item->Geo->alt->__toString() : null;
  * $lat = isset( $item->Geo->lat ) ? $item->Geo->lat->__toString() : null;
  * $long = isset( $item->Geo->long ) ? $item->Geo->long->__toString() : null;
+ * ?>
  * </code>
  *
  * @property ezcFeedTextElement $alt

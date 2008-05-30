@@ -15,17 +15,23 @@
  * Specifications: {@link http://backend.userland.com/creativeCommonsRssModule}.
  *
  * Create example:
+ *
  * <code>
+ * <?php
  * // $feed is an ezcFeed object
  * $item = $feed->add( 'item' );
  * $module = $item->addModule( 'CreativeCommons' );
  * $module->license = 'text content';
+ * ?>
  * </code>
  *
  * Parse example:
+ *
  * <code>
+ * <?php
  * // $item is an ezcFeedEntryElement object
  * $text = $item->CreativeCommons->license;
+ * ?>
  * </code>
  *
  * @property ezcFeedElement $license

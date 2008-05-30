@@ -17,6 +17,9 @@
  *  - RSS2 ({@link ezcFeedRss2})
  *  - ATOM ({@link ezcFeedAtom})
  *
+ * Child classes must implement these methods:
+ * - generate() - Returns an XML string from the feed information contained.
+ *
  * @package Feed
  * @version //autogentag//
  */

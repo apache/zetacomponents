@@ -21,7 +21,9 @@
  * the generated XML file as a 'xml:lang' attribute.
  *
  * Create example:
+ *
  * <code>
+ * <?php
  * // $feed is an ezcFeed object
  * $item = $feed->add( 'item' );
  * $module = $item->addModule( 'DublinCore' );
@@ -29,16 +31,20 @@
  * $creator->name = 'Creator name';
  * $creator->language = 'en'; // optional
  * // more elements of the same type can be added
+ * ?>
  * </code>
  *
  * Parse example:
+ *
  * <code>
+ * <?php
  * // $item is an ezcFeedEntryElement object
  * foreach ( $item->DublinCore->creator as $creator )
  * {
  *     echo $creator->name;
  *     echo $creator->language;
  * }
+ * ?>
  * </code>
  *
  * @property array(ezcFeedPersonElement) $contributor

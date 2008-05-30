@@ -28,17 +28,6 @@
  * The new class needs to be added to the supported feed types list by calling
  * the function {@link registerFeed}.
  *
- * Example of creating a feed with a user-defined type:
- * <code>
- * ezcFeed::registerFeed( 'opml', 'myOpmlHandler');
- *
- * $feed = new ezcFeed( 'opml' );
- * // add properties for the Opml feed type to $feed
- * </code>
- *
- * In the above example, myOpmlHandler extends {@link ezcFeedProcessor} and
- * implements {@link ezcFeedParser}.
- *
  * The following modules are supported by the Feed component:
  *  - Content ({@link ezcFeedContentModule}) -
  *    {@link http://purl.org/rss/1.0/modules/content/ Specifications}
@@ -54,18 +43,6 @@
  * A new module can be defined by creating a class which extends the class
  * {@link ezcFeedModule}. The new class needs to be added to the supported modules
  * list by calling {@link registerModule}.
- *
- * Example of creating a feed with a user-defined module:
- * <code>
- * ezcFeed::registerModule( 'Slash', 'mySlashHandler', 'slash');
- *
- * $feed = new ezcFeed( 'rss2' );
- * $item = $feed->add( 'item' );
- * $slash = $item->addModule( 'Slash' );
- * // add properties for the Slash module to $slash
- * </code>
- *
- * In the above example mySlashHandler extends {@link ezcFeedModule}.
  *
  * A feed object can be created in different ways:
  *  - by calling the constructor (with the optional feed type). Example:
@@ -84,71 +61,126 @@
  *  </code>
  *
  * Parsing a feed (in the following examples $feed is an existing ezcFeed object):
- *  - get a value from the feed object. Example:
- *  <code>
- *  $title = $feed->title->__toString();
- *  </code>
- *  - iterate over the items in the feed. Example:
- *  <code>
- *  // retrieve the titles from the feed items
- *  foreach ( $feed->item as $item )
- *  {
- *      $titles[] = $item->title->__toString();
- *  }
- *  </code>
- *  - parse a module. Example of parsing the Geo module:
- *  <code>
- *  $locations = array();
- *  foreach ( $feed->item as $item )
- *  {
- *      if ( isset( $item->Geo ) )
- *      {
- *          $locations[] = array(
- *              'title' => $item->title->__toString(),
- *              'alt' => isset( $item->Geo->alt ) ? $item->Geo->alt->__toString() : null,
- *              'lat' => isset( $item->Geo->lat ) ? $item->Geo->lat->__toString() : null,
- *              'long' => isset( $item->Geo->long ) ? $item->Geo->long->__toString() : null
- *              );
- *      }
- *  }
- *  </code>
- *  - iterate over the loaded modules in a feed item. Example:
- *  <code>
- *  // display the names and namespaces of the modules loaded in the feed item $item
- *  foreach ( $item->getModules() as $moduleName => $module )
- *  {
- *      echo $moduleName . ':' . $module->getNamespace();
- *  }
- *  </code>
+ * - get a value from the feed object. Example:
+ *
+ * <code>
+ * $title = $feed->title->__toString();
+ * </code>
+ *
+ * - iterate over the items in the feed. Example:
+ *
+ * <code>
+ * <?php
+ * // retrieve the titles from the feed items
+ * foreach ( $feed->item as $item )
+ * {
+ *     $titles[] = $item->title->__toString();
+ * }
+ * </code>
+ *
+ * - parse a module. Example of parsing the Geo module (ezcFeedGeoModule):
+ * <code>
+ * <?php
+ * $locations = array();
+ * foreach ( $feed->item as $item )
+ * {
+ *     if ( isset( $item->Geo ) )
+ *     {
+ *         $locations[] = array(
+ *             'title' => $item->title->__toString(),
+ *             'alt' => isset( $item->Geo->alt ) ? $item->Geo->alt->__toString() : null,
+ *             'lat' => isset( $item->Geo->lat ) ? $item->Geo->lat->__toString() : null,
+ *             'long' => isset( $item->Geo->long ) ? $item->Geo->long->__toString() : null
+ *             );
+ *     }
+ * }
+ * ?>
+ * </code>
+ *
+ * - iterate over the loaded modules in a feed item. Example:
+ *
+ * <code>
+ * <?php
+ * // display the names and namespaces of the modules loaded in the feed item $item
+ * foreach ( $item->getModules() as $moduleName => $module )
+ * {
+ *     echo $moduleName . ':' . $module->getNamespace();
+ * }
+ * ?>
+ * </code>
  *
  * Generating a feed:
- *  - create a feed object. Example:
- *  <code>
- *  $feed = new ezcFeed();
- *  </code>
- *  - set a value to the feed object. Example:
- *  <code>
- *  $feed->title = 'News';
- *  </code>
- *  - add a new item to the feed. Example:
- *  <code>
- *  $item = $feed->add( 'item' );
- *  $item->title = 'Item title';
- *  </code>
- *  - add a new module to the feed item. Example:
- *  <code>
- *  $item = $feed->add( 'item' );
- *  $module = $item->addModule( 'Content' );
- *  $content->encoded = 'text content which will be encoded';
- *  </code>
- *  - generate an XML document from the {@link ezcFeed} object. The result
- * string should be saved to a file, and a link to a file made accessible to
- * users of the application. Example:
- *  <code>
- *  $xmlAtom = $feed->generate( 'atom' );
- *  $xmlRss1 = $feed->generate( 'rss1' );
- *  $xmlRss2 = $feed->generate( 'rss2' );
- *  </code>
+ * - create a feed object. Example:
+ *
+ * <code>
+ * $feed = new ezcFeed();
+ * </code>
+ *
+ * - set a value to the feed object. Example:
+ *
+ * <code>
+ * $feed->title = 'News';
+ * </code>
+ *
+ * - add a new item to the feed. Example:
+ *
+ * <code>
+ * <?php
+ * $item = $feed->add( 'item' );
+ * $item->title = 'Item title';
+ * ?>
+ * </code>
+ *
+ * - add a new module to the feed item. Example:
+ *
+ * <code>
+ * <?php
+ * $item = $feed->add( 'item' );
+ * $module = $item->addModule( 'Content' );
+ * $content->encoded = 'text content which will be encoded';
+ * ?>
+ * </code>
+ *
+ * - generate an XML document from the {@link ezcFeed} object. The result
+ *   string should be saved to a file, and a link to a file made accessible
+ *   to users of the application. Example:
+ *
+ * <code>
+ * <?php
+ * $xmlAtom = $feed->generate( 'atom' );
+ * $xmlRss1 = $feed->generate( 'rss1' );
+ * $xmlRss2 = $feed->generate( 'rss2' );
+ * ?>
+ * </code>
+ *
+ * Example of creating a feed with a user-defined type:
+ *
+ * <code>
+ * <?php
+ * ezcFeed::registerFeed( 'opml', 'myOpmlHandler');
+ *
+ * $feed = new ezcFeed( 'opml' );
+ * // add properties for the Opml feed type to $feed
+ * ?>
+ * </code>
+ *
+ * In the above example, myOpmlHandler extends {@link ezcFeedProcessor} and
+ * implements {@link ezcFeedParser}.
+ *
+ * Example of creating a feed with a user-defined module:
+ *
+ * <code>
+ * <?php
+ * ezcFeed::registerModule( 'Slash', 'mySlashHandler', 'slash');
+ *
+ * $feed = new ezcFeed( 'rss2' );
+ * $item = $feed->add( 'item' );
+ * $slash = $item->addModule( 'Slash' );
+ * // add properties for the Slash module to $slash
+ * ?>
+ * </code>
+ *
+ * In the above example mySlashHandler extends {@link ezcFeedModule}.
  *
  * @property array(ezcFeedPersonElement) $author
  *           Author(s) of the feed.
@@ -279,6 +311,8 @@
  * @todo parse() and parseContent() should(?) handle common broken XML files
  *       (for example if the first line is not <?xml version="1.0"?>)
  *
+ * @todo handle redirects when parsing (enhancement #13110)
+ *
  * @package Feed
  * @version //autogentag//
  * @mainclass
@@ -349,6 +383,9 @@ class ezcFeed
      *
      * The $type value is used when calling generate() without specifying a
      * feed type to output.
+     *
+     * @throws ezcFeedUnsupportedTypeException
+     *         if the feed type $type is not supported
      *
      * @param string $type The type of feed to create
      */
@@ -724,9 +761,19 @@ class ezcFeed
     }
 
     /**
-     * Generates and returns an XML document from the current object.
+     * Generates and returns an XML document of type $type from the current
+     * object.
      *
-     * @param string $type The feed type to generate (default 'atom')
+     * If the type was defined when creating the ezcFeed object, then that
+     * type will be used if no type is specified when calling generate().
+     *
+     * If no type was specified when calling the constructor and no type
+     * was specified when calling generate then an exception will be thrown.
+     *
+     * @throws ezcFeedUnsupportedTypeException
+     *         if the feed type $type is not supported
+     *
+     * @param string $type The feed type to generate
      * @return string
      */
     public function generate( $type = null )
