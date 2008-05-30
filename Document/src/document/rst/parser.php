@@ -488,7 +488,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // lists the indentation may also change right between two lines
         // without an additional newline.
         if ( isset( $this->documentStack[0] ) &&
-             ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) &&
+             ( in_array( $this->documentStack[0]->type, $this->textNodes, true ) ) &&
              ( isset( $tokens[0] ) ) &&
              ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
              ( in_array( $tokens[0]->content, array(
