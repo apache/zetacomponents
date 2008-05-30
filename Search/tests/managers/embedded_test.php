@@ -23,21 +23,6 @@ class ezcSearchEmbeddedDefinitionManager extends ezcTestCase
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
     }
 
-    public function testCanNotFindClass()
-    {
-        $baseDir = realpath( dirname( __FILE__ ) . '/../../../' );
-        $m = new ezcSearchEmbeddedManager();
-        try
-        {
-            $d = $m->fetchDefinition( 'doesNotExist' );
-            self::fail( 'Expected exception not thrown.' );
-        }
-        catch ( ezcBaseAutoloadException $e )
-        {
-            self::assertEquals( "Could not find a class to file mapping for 'doesNotExist'. Searched for not_exist_autoload.php, not_autoload.php, autoload.php in: $baseDir/autoload", $e->getMessage() );
-        }
-    }
-
     public function testMissingIdProperty()
     {
         $m = new ezcSearchEmbeddedManager();
