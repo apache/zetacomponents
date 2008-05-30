@@ -290,10 +290,18 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      */
     protected function visitExternalReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $target = $this->getNamedExternalReference( $this->nodeToString( $node ) );
+        if ( ( $target = $this->getNamedExternalReference( $this->nodeToString( $node ) ) ) !== false )
+        {
+            $linkUrl = htmlspecialchars( $this->escapeUrl( $target ) );
+        }
+        else
+        {
+            $target = $this->hasReferenceTarget( $this->nodeToString( $node ) );
+            $linkUrl = '#' . htmlspecialchars( $this->escapeUrl( $target ) );
+        }
 
         $link = $this->document->createElement( 'a' );
-        $link->setAttribute( 'href', htmlspecialchars( $this->escapeUrl( $target ) ) );
+        $link->setAttribute( 'href', $linkUrl );
         $root->appendChild( $link );
 
         foreach ( $node->nodes as $child )

@@ -164,6 +164,7 @@ abstract class ezcDocumentRstVisitor
     private function addReferenceTarget( $string )
     {
         $id = $this->calculateId( $string );
+        var_dump( $id );
         $this->references[$id] = isset( $this->references[$id] ) ? self::DUBLICATE : self::UNUSED;
     }
 
@@ -373,10 +374,6 @@ abstract class ezcDocumentRstVisitor
                 $this->aggregateListItems( $node );
                 break;
 
-            case $node instanceof ezcDocumentRstExternalReferenceNode:
-                $this->addReferenceTarget( $this->nodeToString( $node ) );
-                break;
-
             case $node instanceof ezcDocumentRstTargetNode:
                 $this->addReferenceTarget( $this->nodeToString( $node ) );
                 break;
@@ -533,9 +530,7 @@ abstract class ezcDocumentRstVisitor
             return $this->namedExternalReferences[$name];
         }
 
-        return $this->triggerError(
-            E_WARNING, "Missing named external reference target '{$name}'.", null
-        );
+        return false;
     }
 
     /**

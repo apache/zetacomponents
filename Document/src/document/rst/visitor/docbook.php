@@ -259,11 +259,20 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      */
     protected function visitExternalReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $target = $this->getNamedExternalReference( $this->nodeToString( $node ) );
+        if ( $target = $this->getNamedExternalReference( $this->nodeToString( $node ) ) )
+        {
+            $link = $this->document->createElement( 'ulink' );
+            $link->setAttribute( 'url', htmlspecialchars( $target ) );
+            $root->appendChild( $link );
+        }
+        else
+        {
+            $target = $this->hasReferenceTarget( $this->nodeToString( $node ) );
 
-        $link = $this->document->createElement( 'ulink' );
-        $link->setAttribute( 'url', htmlspecialchars( $target ) );
-        $root->appendChild( $link );
+            $link = $this->document->createElement( 'link' );
+            $link->setAttribute( 'linked', htmlspecialchars( $target ) );
+            $root->appendChild( $link );
+        }
 
         foreach ( $node->nodes as $child )
         {
