@@ -127,3 +127,5 @@ $cache = ezcCacheManager::getCache( 'cache' );
     should be separated in different files because it might impede running the
     test case on its own.
 
+[ ] Stack tests throw errors on Windows because they use the hard-coded path
+    '/tmp'. Same with some other tests (storage_file_test, manager_test).
