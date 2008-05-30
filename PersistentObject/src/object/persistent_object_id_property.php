@@ -69,6 +69,7 @@ class ezcPersistentObjectIdProperty
      * @param int $visibility See {@link $visibility} for possible values.
      * @param ezcPersistentGeneratorDefinition $generator Definition of the identifier generator
      * @param int $propertyType See {@link ezcPersistentObjectProperty} for possible values.
+     * @param int $databaseType See {@link PDO::*} for possible values.
      */
     public function __construct( 
         $columnName = null,

@@ -23,6 +23,7 @@ class ezcPersistentRelationNotFoundException extends ezcPersistentObjectExceptio
      *
      * @param string $class
      * @param string $relatedClass
+     * @param string $relationName
      * @return void
      */
     public function __construct( $class, $relatedClass, $relationName = null )

@@ -71,6 +71,8 @@ class ezcPersistentObjectProperty
      * @param string $columnName
      * @param string $propertyName
      * @param int $type
+     * @param ezcPersistentPropertyConverter $converter
+     * @param int $databaseType
      */
     public function __construct(
         $columnName   = null,

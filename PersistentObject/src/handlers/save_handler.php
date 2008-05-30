@@ -122,8 +122,12 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
      * record is stored automatically and there is no need to store
      * $relatedObject explicitly after establishing the relation.
      *
+     * If multiple relations are defined between the class of $object and the
+     * one of $relatedObject, the $relationName is mandatory.
+     *
      * @param object $object
      * @param object $relatedObject
+     * @param string $relationName
      *
      * @throws ezcPersistentRelationOperationNotSupportedException
      *         if a relation to create is marked as "reverse" {@link
@@ -504,6 +508,8 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
      * Inserts the relation record for a many-to-many relation.
      * 
      * @param ezcPersistentManyToManyRelation $relation 
+     * @param ezcPersistentObjectDefinition $def
+     * @param ezcPersistentObjectDefinition $relatedDef
      * @param array $objectState 
      * @param array $relatedObjectState 
      */

@@ -500,8 +500,14 @@ class ezcPersistentSession
      * ezcPersistentManyToManyRelation()}s, for which the relation record is
      * deleted from the database.
      *
+     * If between the classes of $object and $relatedObject multiple relations
+     * are defined using a {@link ezcPersistentRelationCollection}, the
+     * $relationName parameter becomes necessary. It defines which exact
+     * relation to affect here.
+     *
      * @param object $object        Source object of the relation.
      * @param object $relatedObject Related object.
+     * @param string $relationName
      *
      * @throws ezcPersistentRelationOperationNotSupportedException
      *         if a relation to create is marked as "reverse".
@@ -562,10 +568,14 @@ class ezcPersistentSession
 
 
     /**
-     * Returns a hash map between property and column name for the given definition $def.
-     * The alias map can be used with the query classes.
+     * Returns a hash map between property and column name for the given
+     * definition $def.
+     *
+     * The alias map can be used with the query classes. If $prefixTableName is
+     * set to false, only the column names are used as alias targets.
      *
      * @param ezcPersistentObjectDefinition $def Definition.
+     * @param bool $prefixTableName
      * @return array(string=>string)
      */
     public function generateAliasMap( ezcPersistentObjectDefinition $def, $prefixTableName = true )
@@ -587,7 +597,11 @@ class ezcPersistentSession
     /**
      * Returns all the columns defined in the persistent object.
      *
+     * If $prefixTableName is set to false, raw column names will be used,
+     * without prefixed table name.
+     *
      * @param ezcPersistentObjectDefinition $def Defintion.
+     * @param bool $prefixTableName
      * @return array(int=>string)
      */
     public function getColumnsFromDefinition( ezcPersistentObjectDefinition $def, $prefixTableName = true )

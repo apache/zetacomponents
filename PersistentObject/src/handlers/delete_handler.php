@@ -115,8 +115,12 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
      * ezcPersistentManyToManyRelation()}s, for which the relation record is
      * deleted from the database.
      *
+     * If multiple relations between the class of $object and $relatedObject
+     * are defined, the $relationName parameter is mandatory.
+     *
      * @param object $object        Source object of the relation.
      * @param object $relatedObject Related object.
+     * @param string $relationName  Relation name.
      *
      * @throws ezcPersistentRelationOperationNotSupportedException
      *         if a relation to create is marked as "reverse".
@@ -279,12 +283,14 @@ class ezcPersistentDeleteHandler extends ezcPersistentSessionHandler
      * Perform the cascading of deletes on a specific relation.
      *
      * This method checks a given $relation of a given $object for necessary
-     * actions on a cascaded delete and performs them.
+     * actions on a cascaded delete and performs them. If multiple relations
+     * from $object class to $relatedClass exist, the $relationName is
+     * mandatory.
      *
-     * @param object $object                  The persistent object.
-     * @param string $relatedClass            The class of the related persistent
-     *                                        object.
-     * @param ezcPersistentRelation|ezcPersistentRelationCollection $relation The relation to check.
+     * @param object $object
+     * @param string $relatedClass
+     * @param ezcPersistentRelation[Collection] $relation
+     * @param string $relationName
      *
      * @todo Revise cascading code. So far it sends 1 delete statement per
      *       object but we can also collect them table wise and send just 1

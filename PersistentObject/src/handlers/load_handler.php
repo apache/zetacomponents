@@ -486,6 +486,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * createComplexRelationFindQuery()}.
      * 
      * @param ezcQuery $query 
+     * @param ezcPersistentObjectDefinition $def
      * @param ezcPersistentRelation $relation 
      * @param array $objectState 
      */
@@ -520,6 +521,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * $objectState, defined my the relation $relation.
      * 
      * @param ezcQuery $query 
+     * @param ezcPersistentObjectDefinition $def
      * @param ezcPersistentManyToManyRelation $relation 
      * @param array $objectState 
      */
