@@ -237,6 +237,36 @@ class ezcGraphChartTest extends ezcGraphTestCase
         );
     }
 
+    public function testReRenderChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $barChart = new ezcGraphLineChart();
+
+        $barChart->data['test'] = new ezcGraphArrayDataSet(
+            array( 5, 23, 42 )
+        );
+        $color = $barChart->data['test']->color->default;
+        $barChart->render( 400, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+
+        // Render a second time with a new dataset, and expect the same result
+        $barChart->data['test'] = new ezcGraphArrayDataSet(
+            array( 5, 23, 42 )
+        );
+        $barChart->data['test']->color = $color;
+        $barChart->render( 400, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testCustomChartClass()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

@@ -527,6 +527,26 @@ abstract class ezcGraphRenderer
     abstract protected function finish();
 
     /**
+     * Reset renderer properties
+     *
+     * Reset all renderer properties, which were calculated during the
+     * rendering process, to offer a clean environment for rerendering.
+     * 
+     * @return void
+     */
+    protected function resetRenderer()
+    {
+        $this->xAxisSpace = false;
+        $this->yAxisSpace = false;
+
+        // Reset driver, maintaining its configuration
+        $driverClass           = get_class( $this->driver );
+        $driverOptions         = $this->driver->options;
+        $this->driver          = new $driverClass();
+        $this->driver->options = $driverOptions;
+    }
+
+    /**
      * Finally renders the image 
      * 
      * @param string $file Filename of destination file
@@ -544,6 +564,8 @@ abstract class ezcGraphRenderer
         {
             $this->driver->render( $file );
         }
+
+        $this->resetRenderer();
     }
 }
 ?>

@@ -1598,6 +1598,28 @@ class ezcGraphRenderer2d
         return true;
     }
 
+    /**
+     * Reset renderer properties
+     *
+     * Reset all renderer properties, which were calculated during the
+     * rendering process, to offer a clean environment for rerendering.
+     * 
+     * @return void
+     */
+    protected function resetRenderer()
+    {
+        parent::resetRenderer();
+
+        // Also reset special 2D renderer options
+        $this->pieSegmentLabels = array(
+            0 => array(),
+            1 => array(),
+        );
+        $this->pieSegmentBoundings = false;
+        $this->linePostSymbols     = array();
+        $this->axisLabels          = array();
+        $this->circleSectors       = array();
+    }
 
     /**
      * Render odometer chart
