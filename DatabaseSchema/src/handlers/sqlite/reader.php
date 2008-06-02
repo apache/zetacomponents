@@ -133,7 +133,7 @@ class ezcDbSchemaSqliteReader extends ezcDbSchemaCommonSqlReader implements ezcD
      */
     static function convertToGenericType( $typeString, &$typeLength, &$typePrecision )
     {
-        preg_match( "@([a-z ]*)(\((\d*)(,(\d+))?\))?@", $typeString, $matches );
+        preg_match( "@([a-z ]*)(\((\d*)(,(\d+))?\))?@", strtolower( $typeString ), $matches );
         if ( !isset( self::$typeMap[$matches[1]] ) )
         {
             throw new ezcDbSchemaUnsupportedTypeException( 'SQLite', $matches[1] );

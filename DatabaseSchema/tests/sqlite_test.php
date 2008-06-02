@@ -50,6 +50,20 @@ class ezcDatabaseSchemaSqliteTest extends ezcDatabaseSchemaGenericTest
         }
 
     }
+
+    // test for bug #13072
+    public function testUppercaseDataTypes()
+    {
+        $path = dirname( __FILE__ ) . '/testfiles/bug13072.sqlite';
+        $db = ezcDbFactory::create( "sqlite://$path" );
+        $newSchema = ezcDbSchema::createFromDb( $db );
+        $schema = $newSchema->getSchema();
+
+        self::assertEquals( 'integer', $schema['authors']->fields['id']->type );
+        self::assertEquals( 'text', $schema['authors']->fields['firstname']->type );
+        self::assertEquals( 'text', $schema['ownership']->fields['critique']->type );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaSqliteTest' );
