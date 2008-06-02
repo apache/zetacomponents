@@ -3,6 +3,7 @@
     <field type="id">id</field>
     <field type="string" boost="2">title</field>
     <field inResult="true" type="text">summary</field>
-    <field inResult="false" type="html">body</field>
+    <field highLight="true" inResult="false" type="html">body</field>
     <field type="date">published</field>
+    <field type="string" multi="true">author</field>
 </document>

@@ -112,7 +112,7 @@ class ezcSearchXmlManager implements ezcSearchDefinitionManager
             {
                 $boost = 1;
             }
-            $fields[(string) $field] = new ezcSearchDefinitionDocumentField( (string) $field, $type, $boost, ((string) $field['inResult']) !== 'false', ((string) $field['multi']) === 'true' );
+            $fields[(string) $field] = new ezcSearchDefinitionDocumentField( (string) $field, $type, $boost, ((string) $field['inResult']) !== 'false', ((string) $field['multi']) === 'true', ((string) $field['highLight']) === 'true' );
         }
         $def->fields = $fields;
 

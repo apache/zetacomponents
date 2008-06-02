@@ -111,13 +111,19 @@ class ezcSearchXmlDefinitionManager extends ezcTestCase
         $d = $m->fetchDefinition( 'Article' );
 
         self::assertEquals( 'id', $d->idProperty );
-        self::assertEquals( array( 'id', 'title', 'summary', 'body', 'published' ), $d->getFieldNames() );
+        self::assertEquals( array( 'id', 'title', 'summary', 'body', 'published', 'author' ), $d->getFieldNames() );
         self::assertEquals( ezcSearchDocumentDefinition::STRING, $d->fields['id']->type );
         self::assertEquals( ezcSearchDocumentDefinition::STRING, $d->fields['title']->type );
         self::assertEquals( ezcSearchDocumentDefinition::TEXT, $d->fields['summary']->type );
         self::assertEquals( ezcSearchDocumentDefinition::HTML, $d->fields['body']->type );
         self::assertEquals( ezcSearchDocumentDefinition::DATE, $d->fields['published']->type );
         self::assertEquals( 2, $d->fields['title']->boost );
+
+        self::assertEquals( true, $d->fields['body']->highlight );
+        self::assertEquals( false, $d->fields['summary']->highlight );
+
+        self::assertEquals( true, $d->fields['author']->multi );
+        self::assertEquals( false, $d->fields['summary']->multi );
 
         self::assertEquals( false, $d->fields['body']->inResult );
         self::assertEquals( true, $d->fields['summary']->inResult );
@@ -131,13 +137,19 @@ class ezcSearchXmlDefinitionManager extends ezcTestCase
         $d = $m->fetchDefinition( 'Article' );
 
         self::assertEquals( 'id', $d->idProperty );
-        self::assertEquals( array( 'id', 'title', 'summary', 'body', 'published' ), $d->getFieldNames() );
+        self::assertEquals( array( 'id', 'title', 'summary', 'body', 'published', 'author' ), $d->getFieldNames() );
         self::assertEquals( ezcSearchDocumentDefinition::STRING, $d->fields['id']->type );
         self::assertEquals( ezcSearchDocumentDefinition::STRING, $d->fields['title']->type );
         self::assertEquals( ezcSearchDocumentDefinition::TEXT, $d->fields['summary']->type );
         self::assertEquals( ezcSearchDocumentDefinition::HTML, $d->fields['body']->type );
         self::assertEquals( ezcSearchDocumentDefinition::DATE, $d->fields['published']->type );
         self::assertEquals( 2, $d->fields['title']->boost );
+
+        self::assertEquals( true, $d->fields['body']->highlight );
+        self::assertEquals( false, $d->fields['summary']->highlight );
+
+        self::assertEquals( true, $d->fields['author']->multi );
+        self::assertEquals( false, $d->fields['summary']->multi );
 
         self::assertEquals( false, $d->fields['body']->inResult );
         self::assertEquals( true, $d->fields['summary']->inResult );
