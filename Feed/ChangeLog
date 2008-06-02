@@ -7,6 +7,8 @@
   is specified as "rdf:resource".
 - Fixed iTunes module elements handling if using a different prefix than
   'itunes'.
+- Fixed issue #13110: Added redirection support for feed URLs returning the
+  301, 302 and 307 HTTP headers.
 
 
 1.1beta1 - Tuesday 27 May 2008

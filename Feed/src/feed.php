@@ -828,7 +828,12 @@ class ezcFeed
         if ( !file_exists( $uri ) )
         {
             $headers = @get_headers( $uri );
-            if ( preg_match( "|200|", $headers[0] ) === 0 )
+            // HTTP headers
+            // 200 = OK
+            // 301 = moved permanently
+            // 302 = found
+            // 307 = temporary redirect
+            if ( preg_match( "@200|301|302|307@", $headers[0] ) === 0 )
             {
                 throw new ezcBaseFileNotFoundException( $uri );
             }

@@ -47,6 +47,16 @@ class ezcFeedTest extends ezcFeedTestCase
         }
     }
 
+    /**
+     * Test for issue #13110: Add support for feed redirection.
+     */
+    public function testFeedRedirect302Header()
+    {
+        // This feed returns a 302 header and should not produce an ezcBaseFileNotFoundException
+        $feed = ezcFeed::parse( 'http://www.golem.de/rss.php?feed' );
+        $this->assertEquals( "Golem.de", $feed->title->text );
+    }
+
     public function testFeedExistsRemote()
     {
         $feed = ezcFeed::parse( 'http://ez.no/rss/feed/communitynews' );
