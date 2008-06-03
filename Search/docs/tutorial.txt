@@ -26,10 +26,10 @@ component.
 ezcSearchSession
    This class provide access to the search index for both indexing and
    searching. All operations towards the index go through this class which
-   is configured with a search backend and a definition manager.
+   is configured with a search handler and a definition manager.
 
 ezcSearchSolrHandler
-   The backend handler that uses Solr_ for indexing and searching.
+   The handler that uses Solr_ for indexing and searching.
 
 ezcSearchQueryBuilder
    A class that allows you to build a search query from a search string.
@@ -40,29 +40,29 @@ ezcSearchQuery
 
 .. _Solr: http://lucene.apache.org/solr/
 
-Search Backends
+Search Handlers
 ===============
 
-Search backends provide the link between the abstract query and document
+Search handlers provide the link between the abstract query and document
 interfaces to the mechanism that actually stores the index, and allows
-querying for documents. Not all backends handle all the different query
+querying for documents. Not all handlers handle all the different query
 words or datatypes in the index, but effort is to put in to make as much
-use of the backend's functionality as possible.
+use of the handler's functionality as possible.
 
 Solr
 ----
 
-Currently the only implemented backend is a backend that talks to Apache's
-Solr_. This backend can be accessed over TCP/IP as a web service. Solr is a
+Currently the only implemented handler is a handler that talks to Apache's
+Solr_. This handler can be accessed over TCP/IP as a web service. Solr is a
 very capable search provider, with many features__.
 
 __ http://lucene.apache.org/solr/features.html
 
-Using the backend is relatively easy. You basically only have to instantiate
-the backend class which then can be passed to the ezcSearchSession
+Using the handler is relatively easy. You basically only have to instantiate
+the handler class which then can be passed to the ezcSearchSession
 constructor:
 
-.. include:: tutorial/solr_backend.php
+.. include:: tutorial/solr-handler.php
    :literal:
 
 Solr requires a schema to work. This scheme defines how data types work
@@ -76,7 +76,7 @@ Definition Managers
 ===================
 
 A definition manager maps properties of an object to fields in a search
-document. As most search backends support fields with arbitrary names, you
+document. As most search handlers support fields with arbitrary names, you
 don't actually provide the name of the fields in the search index. Instead,
 the mapping configures several things for an object's property. 
 
@@ -161,13 +161,13 @@ Search Session
 ==============
 
 The search session is responsible for indexing documents, and searching
-for documents. The session object requires both a search backend and a
-definition manager. The backend is used for storing the index, while the
+for documents. The session object requires both a search handler and a
+definition manager. The handler is used for storing the index, while the
 definition manager is used to find the definition that maps object's properties
 to search index fields. Creating a session is simple, as is demonstrated in the
 following example:
 
-.. include:: tutorial/create_session.php
+.. include:: tutorial/create-session.php
    :literal:
 
 
@@ -202,7 +202,7 @@ index() method of the session as you can see in the next example:
    :literal:
 
 If you are indexing a large amount of documents, it's wise to wrap this into an
-indexing transaction. For the backends that support this, this will optimize
+indexing transaction. For the handlers that support this, this will optimize
 the indexing process. See the ezcSearchSession->beginTransaction()
 documentation.
 
@@ -211,7 +211,7 @@ Data Types
 ----------
 
 The Search component understands many data types, but they might not always
-be representable by every backend. The table below explains the different 
+be representable by every handler. The table below explains the different 
 data types that are available:
 
 ======== ==============================================================
@@ -246,8 +246,8 @@ which lets you feed it a string and it will build the query from that string.
 Query Language
 --------------
 
-The ezcSearchQuery interface defines all the methods that backends should
-implement to realize the query language for every backend. This interface
+The ezcSearchQuery interface defines all the methods that handlers should
+implement to realize the query language for every handler. This interface
 defines methods such as where(), lOr() and between() - very similar to what the
 ezcQuerySelect and ezcQueryExpression classes provide. The following example
 shows how to use the query language:
@@ -266,7 +266,7 @@ Query Builder
 The query builder approach allows you to use more powerful query strings
 instead of having to use the API to create queries. With this you can allow
 query strings such as ``foo -bar``, while still searching in multiple fields.
-Be aware however, that it depends on the backends whether it will actually
+Be aware however, that it depends on the handlers whether it will actually
 return the expected results. The query builder interface will most likely work
 best if you're only searching in one field only. At the moment the query
 builder understands ``+``, ``-``, grouping ( with '(' and ')' ), AND and OR
