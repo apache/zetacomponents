@@ -1,0 +1,286 @@
+eZ Components - Search
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+
+Introduction
+============
+
+The search component allows you to index and search documents. A document
+consists of an object. A definition maps the object's properties to fields of a
+document, just like the PersistentObject_ component. The indexing process takes
+the document and indexes the fields depending on the data type. The searching
+part allows you to search for documents in the index with a rich query
+language.
+
+.. _PersistentObject: introduction_PersistentObject.html
+
+
+Class overview
+==============
+
+This section gives you an overview of the main classes in the Search
+component.
+
+ezcSearchSession
+   This class provide access to the search index for both indexing and
+   searching. All operations towards the index go trough this class which
+   is configured with a search backend and a definition manager.
+
+ezcSearchSolrHandler
+   The backend handler that uses Solr_ for indexing and searching.
+
+ezcSearchQueryBuilder
+   A class that allows you to build a search query from a search string.
+
+ezcSearchQuery
+   An interface to building complex search queries in case
+   ezcSearchQueryBuilder is not up to the task.
+
+.. _Solr: http://lucene.apache.org/solr/
+
+Search Backends
+===============
+
+Search backends provide the link between the abstract query and document
+interfaces to the mechanism that actually stores the index, and allows
+querying for documents. Not all backends handle all the different query
+words or datatypes in the index, but effort is to put in to make as much
+use of the backend's functionality as possible.
+
+Solr
+----
+
+Currently the only implemented backend is a backend that talks to Apache's
+Solr_. This backend can be accessed over TCP/IP as a web service. Solr is a
+very capable search provide, with many many features__.
+
+__ http://lucene.apache.org/solr/features.html
+
+Using the backend is relatively easy. You basically only have to instantiate
+the backend class which then can be passed to the ezcSearchSession
+constructor:
+
+.. include:: tutorial/solr_backend.php
+   :literal:
+
+Solr requires a schema to work. This scheme defines how data types work
+and allows for many more customizations. The default schema that comes with
+Solr requires a few minor changes to make it work with the Search component.
+`This schema`__ should be used a basis for use with the Search component.
+
+__ Search_solr-schema.html
+
+Definition Managers
+===================
+
+A definition manager maps properties of an object to fields in a search
+document. As most search backends support fields with arbitrary names, you
+don't actually provide the name of the fields in the search index. Instead,
+the mapping configures several things for an object's property. 
+
+First of all, every document type needs an ID type. This ID will uniquely
+define a document in the search index. There can only be one ID field, and
+there has to be one. For each field, you have to define the data type, and
+optionally you can configure:
+
+- The importance of that field (boost factor)
+- Whether the field should be a part of the resulting document
+- Whether the field supports multiple values
+- Whether highlighting should be performed for this field on result documents
+
+Definitions can be supplied in two ways. The `embedded manager`_ retrieves
+the definitions from the document classes directly, whereas the `xml manager`_
+uses external XML file to read definitions from.
+
+
+Embedded Manager
+----------------
+
+The ezcSearchEmbeddedManager retrieves the definition from a class that
+implements the ezcSearchDefinitionProvider interface. This interfaces specifies
+the getDefinition() method that should be implemented by the classes to return
+the document's definition mappings. An example of the implementation of the
+getDefinition() method is::
+
+    static public function getDefinition()
+    {
+        $n = new ezcSearchDocumentDefinition( __CLASS__ );
+        $n->idProperty = 'id';
+        $n->fields['id']        = new ezcSearchDefinitionDocumentField( 'id', ezcSearchDocumentDefinition::TEXT );
+        $n->fields['title']     = new ezcSearchDefinitionDocumentField( 'title', ezcSearchDocumentDefinition::TEXT, 2, true, false, true );
+        $n->fields['body']      = new ezcSearchDefinitionDocumentField( 'body', ezcSearchDocumentDefinition::TEXT, 1, false, false, true );
+        $n->fields['published'] = new ezcSearchDefinitionDocumentField( 'published', ezcSearchDocumentDefinition::DATE );
+        $n->fields['url']       = new ezcSearchDefinitionDocumentField( 'url', ezcSearchDocumentDefinition::STRING );
+        $n->fields['type']      = new ezcSearchDefinitionDocumentField( 'type', ezcSearchDocumentDefinition::STRING, 0, true, false, false );
+
+        return $n;
+    }
+
+Basically what this method does is construct an ezcSearchDocumentDefinition
+object containing all the field definitions. It's required to have an ID
+property. It's recommended to use a TEXT data type for this, although it is not
+required. See the section `Data Types`_ on the differences between data types.
+
+Each field is then added to the fields property as a
+ezcSearchDefinitionDocumentField object. The field index should be the same as
+the first argument to the constructor of this class. By default the type will
+be ezcSearchDefinitionDocumentField::TEXT. Subsequent arguments control the
+importance (boost) of a field, whether it should be part of the result, whether
+multiple values for this field are accepted and whether it should be selected
+for highlighting. 
+
+XML Manager
+-----------
+
+The ezcSearchXmlManager uses XML files to obtain a document definition from.
+The manager is configured with the directory where the XML definition files can
+be found in the constructor::
+
+    <?php
+    $xm = new ezcSearchXmlManager( 'search-defs/' );
+    ?>
+
+The names of the definition files are required to be
+``name-of-class-in-lower-case.xml``. This means that for the class Article the
+file ``article.xml`` is being read. The file itself is a simple XML file. The
+file below demonstrates the same definition as the one in the example in
+`Embedded Manager`_:
+
+.. include:: tutorial/example.xml
+   :literal:
+
+The RelaxNG-Compressed schema is:
+
+.. include:: tutorial/definition-schema.rnc
+   :literal:
+
+
+Search Session
+==============
+
+The search session is responsible for indexing documents, and searching
+for documents. The session object requires both a search backend and a
+definition manager. The backend is used for storing the index, while the
+definition manager is used to find the definition that maps object's properties
+to search index fields. Creating a session is simple, as is demonstrated in the
+following example:
+
+.. include:: tutorial/create_session.php
+   :literal:
+
+
+Indexing
+========
+
+With the session created, it is time to index documents. Before we can index
+anything we need to create an object and create the definition. For this
+tutorial we'll reuse the definition from the `Embedded Manager`_ section and
+create a class out of this. Each class that you want to index through the
+Search component needs to implement the ezcBasePersistable interface.
+This interfaces defines two methods: getState() and setState() as well as the
+requirement that the constructor should be able to be called without any
+arguments. Those methods are used for fetching and re-creating the state
+of this object, similarly to what PersistentObject_ requires.
+
+To see everything in perspective, the full class follows here, including the
+definition method:
+
+.. include:: tutorial/article.php
+   :literal:
+
+The ezcBasePersistable interface is also compatible with PersistentObject_,
+although there the interface is not enforced. 
+
+After we've created the class and definition, indexing an object is relatively
+simple. After instantiation, indexing the document is done by calling the
+index() method of the session as you can see in the next example:
+
+
+.. include:: tutorial/index.php
+   :literal:
+
+If you are indexing a large amount of documents, it's wise to wrap this into an
+indexing transaction. For the backends that support this, this will optimize
+the indexing process. See the ezcSearchSession->beginTransaction()
+documentation.
+
+
+Data Types
+----------
+
+The Search component understands many data types, but they might not always
+be representable by every backend. The table below explains the different 
+data types that are available:
+
+======== ==============================================================
+Constant Description
+======== ==============================================================
+BOOLEAN  Stores a true or false boolean value
+-------- --------------------------------------------------------------
+STRING   Untokenized text, useful for keywords or facets.
+-------- --------------------------------------------------------------
+TEXT     Tokenized text, useful for summaries and large pieces of text.
+-------- --------------------------------------------------------------
+HTML     Tokenized HTML documents, strips out all tags and attributes.
+-------- --------------------------------------------------------------
+DATE     Stores Unix timestamps and DateTime_ objects.
+-------- --------------------------------------------------------------
+INT      Stores integer numbers, which can be used in range searches.
+-------- --------------------------------------------------------------
+FLOAT    Stores floating point numbers, which can be used in range
+         searches.
+======== ==============================================================
+
+.. _DateTime: http://php.net/manual/en/function.date-create.php
+
+Searching
+=========
+
+After documents are indexed, they are searchable. Building a search query can
+be done in two ways. The `Query Language`_ approach is the most powerful one,
+but is more complex. Alternatively you can use the `Query Builder`_ approach
+which lets you feed it a string and it will build the query from that string.
+
+Query Language
+--------------
+
+The ezcSearchQuery interface defines all the methods that backends should
+implement to realize the query language for every backend. This interface
+defines methods such as where(), lOr() and between() - very similar to what the
+ezcQuerySelect and ezcQueryExpression classes provide. The following example
+shows how to use the query language:
+
+.. include:: tutorial/search-query-language.php
+   :literal:
+
+The result of the query is returned in the form of an ezcSearchResult object.
+This contains the documents, but also information about facets and pagination.
+See the documentation of the ezcSearchResult class for more information.
+
+
+Query Builder
+-------------
+
+The query builder approach allows you to use more powerful query strings
+instead of having to use the API to create queries. With this you can allow
+query strings such as ``foo -bar``, while still searching in multiple fields.
+Be aware however, that it depends on the backends whether it will actually
+return the expected results. The query builder interface will most likely work
+best if you're only searching in one field only. At the moment the query
+builder understands ``+``, ``-``, grouping ( with '(' and ')' ), AND and OR
+modifiers, as well as phrases (enclosed in ").
+
+An example that searches in two fields (body and title) follows:
+
+.. include:: tutorial/search-query-builder.php
+   :literal:
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

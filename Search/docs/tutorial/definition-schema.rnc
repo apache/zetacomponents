@@ -1,0 +1,15 @@
+default namespace = "http://components.ez.no/Search"
+
+start =
+  element document {
+    field+
+  }
+field =
+  element field {
+    attribute type { xsd:string },
+	attribute highLight { 'true' | 'false' }?,
+	attribute inResult { 'true' | 'false' }?,
+	attribute multi { 'true' | 'false' }?,
+	attribute boost { xsd:float }?,
+	string
+  }

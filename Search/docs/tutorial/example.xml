@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<document>
+    <field type="id">id</field>
+    <field type="text" highLight="true" boost="2">title</field>
+    <field inResult="false" type="html">body</field>
+    <field type="date">published</field>
+    <field type="string">url</field>
+    <field highLight="true" type="string">type</field>
+</document>
