@@ -164,6 +164,17 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         );
     }
 
+    public function testScaleFailureInvalidParam()
+    {
+        try
+        {
+            $this->handler->scale( 500, 2, 23 );
+            $this->fail( 'Exception not throwen on invalid scale direction.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+    }
+
     public function testScaleWidthBoth()
     {
         $oldDim = array(
@@ -257,6 +268,33 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             imagesy( $this->getActiveResource() ),
             "Width of scaled image incorrect."
         );
+    }
+
+    public function testScaleWidthFailureInvalidParam()
+    {
+        try
+        {
+            $this->handler->scaleWidth( 'foo', ezcImageGeometryFilters::SCALE_DOWN );
+            $this->fail( 'Exception not throwen on invalid width.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->scaleWidth( -23, ezcImageGeometryFilters::SCALE_DOWN );
+            $this->fail( 'Exception not throwen on invalid width.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        
+        try
+        {
+            $this->handler->scaleWidth( 42, 23 );
+            $this->fail( 'Exception not throwen on invalid width.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
     }
 
     public function testScaleHeightBoth()
@@ -354,6 +392,33 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         );
     }
 
+    public function testScaleHeightFailureInvalidParam()
+    {
+        try
+        {
+            $this->handler->scaleHeight( 'foo', ezcImageGeometryFilters::SCALE_DOWN );
+            $this->fail( 'Exception not throwen on invalid width.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->scaleHeight( -23, ezcImageGeometryFilters::SCALE_DOWN );
+            $this->fail( 'Exception not throwen on invalid width.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        
+        try
+        {
+            $this->handler->scaleHeight( 42, 23 );
+            $this->fail( 'Exception not throwen on invalid width.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+    }
+
     public function testScalePercent_1()
     {
         $oldDim = array(
@@ -390,6 +455,33 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             imagesy( $this->getActiveResource() ),
             "Width of scaled image incorrect."
         );
+    }
+
+    public function testScalePercentFailureInvalidParam()
+    {
+        try
+        {
+            $this->handler->scalePercent( -23, 100 );
+            $this->fail( 'Exception not throwen on invalid width.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->scalePercent( 100, -23 );
+            $this->fail( 'Exception not throwen on invalid height.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        
+        try
+        {
+            $this->handler->scalePercent( -23, -23 );
+            $this->fail( 'Exception not throwen on invalid width and height.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
     }
 
     public function testScaleExact_1()
@@ -449,6 +541,33 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         );
     }
 
+    public function testScaleExactFailureInvalidParam()
+    {
+        try
+        {
+            $this->handler->scaleExact( -23, 100 );
+            $this->fail( 'Exception not throwen on invalid width.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->scaleExact( 100, -23 );
+            $this->fail( 'Exception not throwen on invalid height.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        
+        try
+        {
+            $this->handler->scaleExact( -23, -23 );
+            $this->fail( 'Exception not throwen on invalid width and height.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+    }
+
     public function testScaleTransparent()
     {
         $ref = $this->handler->load( dirname( __FILE__ ) . "/data/watermark.png" );
@@ -489,6 +608,18 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
     public function testCrop_3()
     {
         $this->handler->crop( 50, 75, 250, 38 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+
+    public function testCrop_4()
+    {
+        $this->handler->crop( 50, 75, 38, 250 );
         $this->handler->save( $this->imageReference, $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -559,6 +690,41 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         );
     }
 
+    public function testCropFailureInvalidParams()
+    {
+        try
+        {
+            $this->handler->crop( 'foo', 23, 23, 23 );
+            $this->fail( 'Exception not thrown on crop with invalid x coordinate.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->crop( 23, 'foo', 23, 23 );
+            $this->fail( 'Exception not thrown on crop with invalid y coordinate.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->crop( 23, 23, 'foo', 23 );
+            $this->fail( 'Exception not thrown on crop with invalid width.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->crop( 23, 23, 23, 'foo' );
+            $this->fail( 'Exception not thrown on crop with invalid height.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+    }
+
     public function testColorspaceGrey()
     {
         $this->handler->colorspace( ezcImageColorspaceFilters::COLORSPACE_GREY );
@@ -593,6 +759,17 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
+    }
+    
+    public function testColorspaceFailureInvalidParam()
+    {
+        try
+        {
+            $this->handler->colorspace( 23 );
+            $this->fail( 'Exception not thrown on invalid colorspace.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
     }
     
     public function testWatermarkAbsoluteNoScale()
@@ -631,18 +808,6 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         );
     }
     
-    public function testWatermarkAbsoluteScaleNegativeOffset()
-    {
-        $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/watermark.png", -140, -103, 130, 93 );
-        $this->handler->save( $this->imageReference, $this->getTempPath() );
-        $this->assertImageSimilar(
-            strtr( $this->getReferencePath(), array( "NegativeOffset" =>  "" ) ),
-            $this->getTempPath(),
-            "Image not rendered as expected.",
-            750
-        );
-    }
-    
     public function testWatermarkPercentNoScale()
     {
         $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 10, 90 );
@@ -655,6 +820,49 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         );
     }
     
+    public function testWatermarkAbsoluteFailureInvalidParam()
+    {
+        try
+        {
+            $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/foo.png", -140, -103, 130, 93 );
+            $this->fail( 'Exception not throwen on invalid watermark file.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/watermark.png", 'foo', -103, 130, 93 );
+            $this->fail( 'Exception not throwen on invalid x coord.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/watermark.png", -140, 'foo', 130, 93 );
+            $this->fail( 'Exception not throwen on invalid x coord.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/watermark.png", -140, -103, 'foo', 93 );
+            $this->fail( 'Exception not throwen on invalid x coord.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/watermark.png", -140, -103, 130, 'foo' );
+            $this->fail( 'Exception not throwen on invalid x coord.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+    }
+    
     public function testWatermarkPercentScale()
     {
         $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 80, 80, 20 );
@@ -665,6 +873,41 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             "Image not rendered as expected.",
             450
         );
+    }
+    
+    public function testWatermarkPercentFailureInvalidParam()
+    {
+        try
+        {
+            $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/foo.png", 80, 80, 20 );
+            $this->fail( 'Exception not throwen on invalid watermark file.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", -80, 80, 20 );
+            $this->fail( 'Exception not throwen on invalid x coord.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 80, -80, 20 );
+            $this->fail( 'Exception not throwen on invalid x coord.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+
+        try
+        {
+            $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 80, 80, -20 );
+            $this->fail( 'Exception not throwen on invalid x coord.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
     }
     
     public function testCropThumbnailVertical()
@@ -738,6 +981,18 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
     public function testFillThumbnailHorizontal()
     {
         $this->handler->filledThumbnail( 100, 50, array( 255, 0, 0 ) );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+    
+    public function testFillThumbnailTooLargeColorArray()
+    {
+        $this->handler->filledThumbnail( 100, 50, array( 255, 0, 0, 400, 500, 600 ) );
         $this->handler->save( $this->imageReference, $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
