@@ -802,5 +802,60 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
         );
     }
 
+    public function testApplyTransformationFailureFileNotReadable()
+    {
+        $tmpDir  = $this->createTempDir( __CLASS__ );
+        $srcFile = "$tmpDir/non_readable_png.png";
+
+        copy( $this->testFiles['png'], $srcFile );
+        chmod( $srcFile, 0000 );
+
+        $trans = new ezcImageTransformation( $this->converter, "test", array(), array( 'image/jpeg' ) );
+        try
+        {
+            $trans->transform( $srcFile, $srcFile );
+            $this->fail( 'Exception not throwen with unreadable file.' );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {}
+
+        $this->removeTempDir();
+    }
+
+    public function testCreateTransformationFailureInvalidFilters()
+    {
+        $filters   = $this->testFiltersSuccess[0];
+        $filters[] = new stdClass();
+
+        try
+        {
+            $trans = new ezcImageTransformation( $this->converter, 'test', $filters, array( 'image/jpeg' ) );
+            $this->fail( 'Exception not throwen on invalid filter in initial filter array.' );
+        }
+        catch ( ezcBaseSettingValueException $e )
+        {}
+    }
+
+    public function testAddFilterBefore()
+    {
+        $newFilter = new ezcImageFilter(
+            'scale',
+            array( 'width' => 10, 'height' => 10 )
+        );
+        $filtersBefore = $this->testFiltersSuccess[0];
+        $filtersAfter  = $filtersBefore;
+        array_splice( $filtersAfter, 1, 0, array( $newFilter ) );
+
+        $trans = new ezcImageTransformation( $this->converter, 'test', $filtersBefore, array( 'image/jpeg' ) );
+
+        $trans->addFilter( $newFilter, 1 );            
+
+        $this->assertAttributeEquals(
+            $filtersAfter,
+            'filters',
+            $trans
+        );
+    }
+
 }
 ?>

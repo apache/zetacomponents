@@ -148,7 +148,7 @@ class ezcImageTransformation
         }
         if ( isset( $before ) && isset( $this->filters[$before] ) )
         {
-            array_splice( $this->filters, $before, 0, $filter );
+            array_splice( $this->filters, $before, 0, array( $filter ) );
             return;
         }
         $this->filters[] = $filter;
