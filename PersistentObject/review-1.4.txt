@@ -4,7 +4,7 @@ Review Alexandru 2008-05-27
 Enhancement #10151 (new datatype support for PersistentObject)
 --------------------------------------------------------------
 
-[ ] The name of the property databaseType is a bit confusing, because it could
+[X] The name of the property databaseType is a bit confusing, because it could
     mean the "type of the database" (as in "mysql", "pgsql") and not "type in the
     database (as in "int", "bool").
 
