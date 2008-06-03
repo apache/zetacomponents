@@ -378,13 +378,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $obj->setState( $attr );
 
             $idProperty = $def->idProperty;
-            $s->documents[$attr[$idProperty]] = array( 'meta' => array( 'score' => $document->score ), 'document' => $obj );
+            $s->documents[$attr[$idProperty]] = new ezcSearchResultDocument( $document->score, $obj );
         }
 
         // process highlighting
         if ( isset( $response->highlighting ) && count( $s->documents ) )
         {
-            foreach ( $s->documents as $id => &$document )
+            foreach ( $s->documents as $id => $document )
             {
                 $document['highlight'] = array();
                 if ( isset( $response->highlighting->$id ) )
@@ -394,7 +394,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
                         $fieldName = $this->mapFieldType( $field->field, $field->type );
                         if ( $field->highlight && isset( $response->highlighting->$id->$fieldName ) )
                         {
-                            $document['highlight'][$field->field] = $response->highlighting->$id->$fieldName;
+                            $document->highlight[$field->field] = $response->highlighting->$id->$fieldName;
                         }
                     }
                 }

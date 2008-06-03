@@ -47,7 +47,10 @@ class ezcSearchResult
     /**
      * The found documents
      *
-     * @var array(mixed)
+     * The key of the array is the document's ID, where the value contains the
+     * document, the score and highlighted values.
+     *
+     * @var array(string=>ezcSearchResultDocument)
      */
     public $documents;
 
@@ -59,6 +62,17 @@ class ezcSearchResult
     public $error;
 
     /**
+     * A list of facets
+     *
+     * The first index is the field on which the facet was generated for, and the
+     * element consists of an array where they key is the facet string, and the
+     * value is the number of this facet's occurences in the search result.
+     *
+     * @var array(string=>array(string=>mixed))
+     */
+    public $facets;
+
+    /**
      * Contructs a new ezcSearchResult.
      *
      * @param int $status
@@ -67,8 +81,9 @@ class ezcSearchResult
      * @param int $start
      * @param array $documents
      * @param string $error
+     * @param array(string=>array(mixed)) $facets
      */
-    public function __construct( $status =  0, $queryTime =  0, $resultCount =  0, $start =  0, $documents =  array(), $error =  '' )
+    public function __construct( $status =  0, $queryTime =  0, $resultCount =  0, $start =  0, $documents =  array(), $error =  '', $facets = array() )
     {
         $this->status = $status;
         $this->queryTime = $queryTime;
@@ -76,6 +91,7 @@ class ezcSearchResult
         $this->start = $start;
         $this->documents = $documents;
         $this->error = $error;
+        $this->facets = $facets;
     }
 
     /**
@@ -93,7 +109,11 @@ class ezcSearchResult
      */
     static public function __set_state( array $array )
     {
-        return new ezcSearchResult( $array['status'], $array['queryTime'], $array['resultCount'], $array['start'], $array['documents'], $array['error'] );
+        return new ezcSearchResult(
+            $array['status'], $array['queryTime'], $array['resultCount'],
+            $array['start'], $array['documents'], $array['error'],
+            $array['facets']
+        );
     }
 }
 ?>

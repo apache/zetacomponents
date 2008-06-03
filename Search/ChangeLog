@@ -1,9 +1,12 @@
-1.0beta1 - [RELEASEDATE]
+1.0rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Changed the way how ezcSearchQueryBuilder works. You will now have to
   run parseSearchQuery() instead of just passing the query object, query
   string and fields to the constructor.
+- Changed the nested array result for documents into a structure where each
+  ezcSearchResult contains an array of ezcSearchResultDocument objects, which
+  on its turn contain the score, highlighting and document itself.
 
 
 1.0alpha2 - Tuesday 13 May 2008

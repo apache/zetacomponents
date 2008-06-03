@@ -63,7 +63,7 @@ class ezcSearchSession
      *
      * @param ezcSearchQuery $query
      *
-     * @return array(object($class))
+     * @return ezcSearchResult
      */
     public function find( ezcSearchQuery $query )
     {
