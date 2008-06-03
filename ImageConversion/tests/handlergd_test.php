@@ -327,6 +327,28 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         );
     }
 
+    public function testApplyFilterFailureNonExistent()
+    {
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
+
+        $ref = $this->handler->load( $srcPath );
+        
+        try
+        {
+            $this->handler->applyFilter(
+                $ref,
+                new ezcImageFilter(
+                    "non-existent", 
+                    array( "width" => 200, "height" => 200, "direction" => ezcImageGeometryFilters::SCALE_BOTH )
+                )
+            );
+            $this->fail( 'Exception not throwen on apply of non-existent filter.' );
+        }
+        catch ( ezcImageFilterNotAvailableException $e )
+        {}
+    }
+
     public function testConvertTransparentNonTransparent()
     {
 
