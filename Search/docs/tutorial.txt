@@ -25,7 +25,7 @@ component.
 
 ezcSearchSession
    This class provide access to the search index for both indexing and
-   searching. All operations towards the index go trough this class which
+   searching. All operations towards the index go through this class which
    is configured with a search backend and a definition manager.
 
 ezcSearchSolrHandler
@@ -80,7 +80,7 @@ document. As most search backends support fields with arbitrary names, you
 don't actually provide the name of the fields in the search index. Instead,
 the mapping configures several things for an object's property. 
 
-First of all, every document type needs an ID type. This ID will uniquely
+First of all, every document type needs an ID field. This ID will uniquely
 define a document in the search index. There can only be one ID field, and
 there has to be one. For each field, you have to define the data type, and
 optionally you can configure:
