@@ -94,6 +94,30 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
             "Conversions not registered successfully."
         );
     }
+    
+    public function testConstructFailureInvalidSettings()
+    {
+        $conversionsIn = array(
+            "image/gif"  => "image/png",
+            "image/xpm"  => "image/jpeg",
+            "image/wbmp" => "image/jpeg",
+        );
+        if ( ezcBaseFeatures::os() === 'Windows' )
+        {
+            unset( $conversionsIn["image/xpm"] );
+        }
+        try
+        {
+            $settings = new ezcImageConverterSettings(
+                array( new stdClass() ),
+                $conversionsIn
+            );
+            $converter = new ezcImageConverter( $settings );
+            $this->fail( 'Exception not thrown on invalid handler settings.' );
+        }
+        catch ( ezcImageHandlerSettingsInvalidException $e )
+        {}
+    }
 
     public function testConstructSingleHandlerFailureOutputMimeTypeNotSupported()
     {
@@ -346,6 +370,32 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
             2000
         );
     }
+    
+    public function testApplyFilterSuccessColorspaceDefinedHandler()
+    {
+        $srcPath = $this->testFiles['jpeg'];
+        $dstPath = $this->getTempPath();
+        
+
+        $this->converter->applyFilter(
+            new ezcImageFilter(
+                'colorspace',
+                array(
+                    'space' => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME
+                )
+            ),
+            $srcPath,
+            $dstPath,
+            'GD'
+        );
+
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $dstPath,
+            "Image comparison failed.",
+            2000
+        );
+    }
 
     public function testApplyFilterFailureHandlerNotAvailable()
     {
@@ -485,6 +535,80 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
             return;
         }
         $this->fail( "Converter did not throw exception on request of impossible handler." );
+    }
+
+    public function testCreateTransformationFailureCreatedTwice()
+    {
+        $this->converter->createTransformation( 'foo', array(), array() );
+
+        try
+        {
+            $this->converter->createTransformation( 'foo', array(), array() );
+            $this->fail( 'Expected not thrown on double created transformation.' );
+        }
+        catch ( ezcImageTransformationAlreadyExistsException $e )
+        {}
+    }
+
+    public function testRemoveTransformationSuccess()
+    {
+        $this->converter->createTransformation( 'foo', array(), array() );
+        $transformations = $this->readAttribute( $this->converter, "transformations" );
+
+        $this->assertEquals(
+            1,
+            count( $transformations )
+        );
+        
+        $this->converter->removeTransformation( 'foo' );
+
+        $transformations = $this->readAttribute( $this->converter, "transformations" );
+        $this->assertEquals(
+            0,
+            count( $transformations )
+        );
+    }
+
+    public function testRemoveTransformationFailureNotExists()
+    {
+        try
+        {
+            $this->converter->removeTransformation( 'foo' );
+            $this->fail( 'Expected not thrown on remove of non-existent transformation.' );
+        }
+        catch ( ezcImageTransformationNotAvailableException $e )
+        {}
+    }
+
+    public function testApplyTransformationSuccess()
+    {
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
+
+        $this->converter->createTransformation(
+            'foo',
+            array(
+                new ezcImageFilter(
+                    "colorspace",
+                    array(
+                        "space" => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME
+                    )
+                ),
+            ),
+            array( 'image/jpeg' )
+        );
+        $this->converter->transform( 'foo', $srcPath, $dstPath );
+    }
+
+    public function testApplyTransformationFailureNonExistent()
+    {
+        try
+        {
+            $this->converter->transform( 'foo', '', '' );
+            $this->fail( 'Expected not thrown when non-existent transformation should be applied.' );
+        }
+        catch ( ezcImageTransformationNotAvailableException $e )
+        {}
     }
 }
 ?>

@@ -93,6 +93,21 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         $this->fail( "Required exception not thrown on not existing file." );
     }
 
+    public function testLoadFailureUnknownMimeTypeParam()
+    {
+        $filePath = $this->testFiles['png'];
+
+        try
+        {
+            $ref = $this->handler->load( $filePath, 'text/plain' );
+        }
+        catch ( ezcImageMimeTypeUnsupportedException $e )
+        {
+            return;
+        }
+        $this->fail( "Required exception not thrown on not existing file." );
+    }
+
     public function testSaveOldfileNoconvert()
     {
         $srcPath = $this->testFiles["jpeg"];
@@ -222,6 +237,24 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
             filesize( $dstPath ) < 40000,
             "File saved with too low compression."
         );
+    }
+
+    public function testSaveFailureUnknownMimeType()
+    {
+        $srcPath = $this->testFiles['jpeg'];
+        $dstPath = $this->getTempPath();
+
+        $handler = new ezcImageGdHandler( ezcImageGdHandler::defaultSettings() );
+        $ref = $handler->load( $srcPath );
+        try
+        {
+            $handler->save( $ref, $dstPath, 'text/plain' );
+            $this->fail( 'Exception not thrown on save with invalid MIME type.' );
+        }
+        catch ( ezcImageMimeTypeUnsupportedException $e )
+        {}
+
+        $handler->close( $ref );
     }
 
     public function testConvertSuccess()
