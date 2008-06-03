@@ -173,6 +173,22 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         }
         catch ( ezcBaseValueException $e )
         {}
+
+        try
+        {
+            $this->handler->scale( -23, 2, ezcImageGeometryFilters::SCALE_UP );
+            $this->fail( 'Exception not throwen on invalid scale direction.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        
+        try
+        {
+            $this->handler->scale( 500, -23, ezcImageGeometryFilters::SCALE_UP );
+            $this->fail( 'Exception not throwen on invalid scale direction.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
     }
 
     public function testScaleWidthBoth()
