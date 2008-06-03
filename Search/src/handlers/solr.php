@@ -386,7 +386,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         {
             foreach ( $s->documents as $id => $document )
             {
-                $document['highlight'] = array();
+                $document->highlight = array();
                 if ( isset( $response->highlighting->$id ) )
                 {
                     foreach ( $def->fields as $field )

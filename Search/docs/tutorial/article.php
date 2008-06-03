@@ -1,5 +1,5 @@
 <?php
-class Article implements ezcBasePersistable
+class Article implements ezcBasePersistable, ezcSearchDefinitionProvider
 {
     public  $id;
     public  $title;

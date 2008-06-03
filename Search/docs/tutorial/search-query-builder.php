@@ -16,8 +16,8 @@ $searchWord = 'test -article';
 $qb = new ezcSearchQueryBuilder();
 $qb->parseSearchQuery( $q, $searchWord, array( 'body', 'title' ) );
 
-// run the query and show titles for found documents, and it's score
-$r = $session->find();
+// run the query and show titles for found documents, and its score
+$r = $session->find( $q );
 
 foreach( $r->documents as $res )
 {

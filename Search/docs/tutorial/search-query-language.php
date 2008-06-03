@@ -27,7 +27,7 @@ $q->orderBy( 'title' );
 $q->facet( 'url' );
 
 // run the query and show titles for found documents
-$r = $session->find();
+$r = $session->find( $q );
 
 foreach( $r->documents as $res )
 {

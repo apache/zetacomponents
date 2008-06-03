@@ -54,7 +54,7 @@ Solr
 
 Currently the only implemented backend is a backend that talks to Apache's
 Solr_. This backend can be accessed over TCP/IP as a web service. Solr is a
-very capable search provide, with many many features__.
+very capable search provider, with many features__.
 
 __ http://lucene.apache.org/solr/features.html
 
@@ -68,7 +68,7 @@ constructor:
 Solr requires a schema to work. This scheme defines how data types work
 and allows for many more customizations. The default schema that comes with
 Solr requires a few minor changes to make it work with the Search component.
-`This schema`__ should be used a basis for use with the Search component.
+`This schema`__ should be used as a basis for the Search component.
 
 __ http://svn.ez.no/svn/ezcomponents/trunk/Search/docs/schema.xml
 
