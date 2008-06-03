@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<database>
+  <name>
+    <variable>database</variable>
+  </name>
+  <table>
+    <name>liveuser_translations_string_id</name>
+    <declaration>
+      <field>
+        <name>translation_id</name>
+        <type>text</type>
+        <length>255</length>
+      </field>
+      <field>
+        <name>name</name>
+        <type>text</type>
+        <length>50</length>
+        <notnull>false</notnull>
+        <default/>
+      </field>
+      <index>
+        <name>primary</name>
+        <primary>true</primary>
+        <field>
+          <name>translation_id</name>
+          <sorting>ascending</sorting>
+        </field>
+      </index>
+    </declaration>
+  </table>
+</database>

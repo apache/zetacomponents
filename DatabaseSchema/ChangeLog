@@ -3,6 +3,8 @@
 
 - Fixed issue #13072: SQLite schema reader does not work with uppercase type
   names.
+- Fixed issue #12937: PersistentObject definition writer now creates correct
+  PHP type definition for non-number primary keys.
 
 
 1.4beta1 - Tuesday 27 May 2008

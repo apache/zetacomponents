@@ -114,6 +114,7 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
             else
             {
                 fwrite( $file, "\$def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentManualGenerator' );\n" );
+                fwrite( $file, "\$def->idProperty->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;\n" );
             }
         }
         else

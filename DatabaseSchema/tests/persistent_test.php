@@ -83,6 +83,18 @@ class ezcDatabaseSchemaPersistentTest extends ezcTestCase
         $this->fail( "Expected ezcBaseFileException not thrown on saving PersistentObject definitions to a non-directory." );
     }
 
+    /* Issue #12937 */
+    public function testGenerateCorrectTypeStringPrimary()
+    {
+        $schema = ezcDbSchema::createFromFile( 'xml', $this->testFilesDir . '/bug-12937-persitent-string-id.xml' );
+        $schema->writeToFile( 'persistent', $this->tempDir );
+        
+        $this->assertEquals(
+            require $this->tempDir . '/liveuser_translations_string_id.php',
+            require $this->testFilesDir . '/persistent_bug_12937/liveuser_translations_string_id.php'
+        );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaPersistentTest' );
