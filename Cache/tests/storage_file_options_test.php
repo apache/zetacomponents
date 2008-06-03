@@ -212,7 +212,7 @@ class ezcCacheStorageFileOptionsTest extends ezcTestCase
 
     public function testOptions()
     {
-        $obj = new ezcCacheStorageFileArray( '/tmp' );
+        $obj = new ezcCacheStorageFileArray( $this->createTempDir( __CLASS__ ) );
         $options = new ezcCacheStorageFileOptions();
         $optionsGeneral = new ezcCacheStorageOptions();
         
@@ -249,7 +249,7 @@ class ezcCacheStorageFileOptionsTest extends ezcTestCase
 
     public function testProperties()
     {
-        $obj = new ezcCacheStorageFileArray( '/tmp' );
+        $obj = new ezcCacheStorageFileArray( $this->createTempDir( __CLASS__ ) );
         $options = new ezcCacheStorageFileOptions();
 
         $this->assertTrue(

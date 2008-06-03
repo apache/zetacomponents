@@ -174,6 +174,7 @@ class ezcCacheManagerTest extends ezcTestCase
 
     public function testGetCacheDelayedInit2()
     {
+        testDelayedInitCacheManager::$tmpDir = $this->createTempDir( __CLASS__ );
         ezcBaseInit::setCallback( 'ezcInitCacheManager', 'testDelayedInitCacheManager' );
         $cache = ezcCacheManager::getCache( 'simple' );
         self::assertSame( '.cache', $cache->options->extension );

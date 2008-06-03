@@ -22,6 +22,10 @@ require_once 'stack_test_configurator.php';
  */
 class ezcCacheStackTest extends ezcTestCase
 {
+    protected $tmpDir;
+
+    protected $tmpDirCounter;
+
     /**
      * suite 
      * 
@@ -31,6 +35,24 @@ class ezcCacheStackTest extends ezcTestCase
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
+    }
+
+    protected function setUp()
+    {
+        $this->tmpDir        = $this->createTempDir( __CLASS__ );
+        $this->tmpDirCounter = 0;
+    }
+
+    protected function tearDown()
+    {
+        $this->removeTempDir();
+    }
+
+    protected function getTempSubDir()
+    {
+        $dir = $this->tmpDir . '/' . ++$this->tmpDirCounter;
+        mkdir( $dir );
+        return $dir;
     }
 
     public function testCtorNoConfigurator()
@@ -103,13 +125,13 @@ class ezcCacheStackTest extends ezcTestCase
 
         $storageConf1 = new ezcCacheStackStorageConfiguration(
             'id_1',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             10,
             .5
         );
         $storageConf2 = new ezcCacheStackStorageConfiguration(
             'id_2',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             100,
             .9
         );
@@ -141,13 +163,13 @@ class ezcCacheStackTest extends ezcTestCase
 
         $storageConf1 = new ezcCacheStackStorageConfiguration(
             'id_1',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             10,
             .5
         );
         $storageConf2 = new ezcCacheStackStorageConfiguration(
             'id_1',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             100,
             .9
         );
@@ -168,7 +190,7 @@ class ezcCacheStackTest extends ezcTestCase
 
         $storageConf1 = new ezcCacheStackStorageConfiguration(
             'id_1',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             10,
             .5
         );
@@ -195,13 +217,13 @@ class ezcCacheStackTest extends ezcTestCase
 
         $storageConf1 = new ezcCacheStackStorageConfiguration(
             'id_1',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             10,
             .5
         );
         $storageConf2 = new ezcCacheStackStorageConfiguration(
             'id_2',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             100,
             .9
         );
@@ -281,13 +303,13 @@ class ezcCacheStackTest extends ezcTestCase
 
         $storageConf1 = new ezcCacheStackStorageConfiguration(
             'id_1',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             10,
             .5
         );
         $storageConf2 = new ezcCacheStackStorageConfiguration(
             'id_2',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             100,
             .9
         );
@@ -332,13 +354,13 @@ class ezcCacheStackTest extends ezcTestCase
 
         $storageConf1 = new ezcCacheStackStorageConfiguration(
             'id_1',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             10,
             .5
         );
         $storageConf2 = new ezcCacheStackStorageConfiguration(
             'id_2',
-            new ezcCacheStorageFileArray( '/tmp' ),
+            new ezcCacheStorageFileArray( $this->getTempSubDir() ),
             100,
             .9
         );

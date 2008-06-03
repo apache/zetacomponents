@@ -19,35 +19,35 @@ class ezcCacheStorageFileTest extends ezcTestCase
 {
     public function testGenerateIdentifier1()
     {
-        $obj = new ezcCacheStorageFileArray( '/tmp' );
+        $obj = new ezcCacheStorageFileArray( $this->createTempDir( __CLASS__ ) );
         $id = $obj->generateIdentifier( 'contentstructuremenu/show_content_structure-2 file:foobar' );
         $this->assertEquals( 'contentstructuremenu'.DIRECTORY_SEPARATOR.'show_content_structure-2_file:foobar-.cache', $id );
     }
 
     public function testGenerateIdentifier2()
     {
-        $obj = new ezcCacheStorageFileArray( '/tmp' );
+        $obj = new ezcCacheStorageFileArray( $this->createTempDir( __CLASS__ ) );
         $id = $obj->generateIdentifier( 'contentstructuremenu\show_content_structure-2 file:foobar' );
         $this->assertEquals( 'contentstructuremenu'.DIRECTORY_SEPARATOR.'show_content_structure-2_file:foobar-.cache', $id );
     }
 
     public function testGenerateIdentifier3()
     {
-        $obj = new ezcCacheStorageFileArray( '/tmp', array( 'extension' => '.c' ) );
+        $obj = new ezcCacheStorageFileArray( $this->createTempDir( __CLASS__ ), array( 'extension' => '.c' ) );
         $id = $obj->generateIdentifier( 'contentstructuremenu\show_content_structure-2 file:foobar' );
         $this->assertEquals( 'contentstructuremenu'.DIRECTORY_SEPARATOR.'show_content_structure-2_file:foobar-.c', $id );
     }
 
     public function testGenerateIdentifier4()
     {
-        $obj = new ezcCacheStorageFileArray( '/tmp', array( 'extension' => '.c' ) );
+        $obj = new ezcCacheStorageFileArray( $this->createTempDir( __CLASS__ ), array( 'extension' => '.c' ) );
         $id = $obj->generateIdentifier( 1 );
         $this->assertEquals( '1-.c', $id );
     }
 
     public function testGenerateIdentifier5()
     {
-        $obj = new ezcCacheStorageFileArray( '/tmp', array( 'extension' => '.c' ) );
+        $obj = new ezcCacheStorageFileArray( $this->createTempDir( __CLASS__ ), array( 'extension' => '.c' ) );
         $id = $obj->generateIdentifier( 1, array( "foo" => "bar", "baz" => "bam" ) );
         $this->assertEquals( '1-baz=bam-foo=bar.c', $id );
     }
@@ -56,7 +56,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
     {
         try
         {
-            $obj = new ezcCacheStorageFileArray( '/tmp', array( 'eXtEnSiOn' => '.c' ) );
+            $obj = new ezcCacheStorageFileArray( $this->createTempDir( __CLASS__ ), array( 'eXtEnSiOn' => '.c' ) );
             $this->fail( 'Expected exception was not thrown' );
         }
         catch ( ezcBasePropertyNotFoundException $e )

@@ -1,6 +1,9 @@
 <?php
+
 class testDelayedInitCacheManager implements ezcBaseConfigurationInitializer
 {
+    public static $tmpDir;
+
     static function configureObject( $identifier )
     {
         if ( $identifier !== false )
@@ -8,10 +11,11 @@ class testDelayedInitCacheManager implements ezcBaseConfigurationInitializer
             switch ( $identifier )
             {
                 case 'simple':
-                    ezcCacheManager::createCache( $identifier, '/tmp', 'ezcCacheStorageFilePlain' );
+                    ezcCacheManager::createCache( $identifier, self::$tmpDir, 'ezcCacheStorageFilePlain' );
                     break;
             }
         }
     }
 }
+
 ?>
