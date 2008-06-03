@@ -822,6 +822,30 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
         $this->removeTempDir();
     }
 
+    public function testApplyTransformationFailureDestinationNotOverwriteable()
+    {
+        $tmpDir  = $this->createTempDir( __CLASS__ );
+        $dstFile = "$tmpDir/non_writeable_png.png";
+
+        touch( $dstFile );
+        chmod( dirname( $dstFile ), 0555 );
+        clearstatcache();
+
+        $trans = new ezcImageTransformation( $this->converter, "test", array(), array( 'image/jpeg' ) );
+        try
+        {
+            $trans->transform( $this->testFiles['png'], $dstFile );
+            $this->fail( 'Exception not throwen with not writeable file.' );
+        }
+        catch ( ezcImageFileNotProcessableException $e )
+        {}
+        
+        chmod( dirname( $dstFile ), 0777 );
+        clearstatcache();
+
+        $this->removeTempDir();
+    }
+
     public function testCreateTransformationFailureInvalidFilters()
     {
         $filters   = $this->testFiltersSuccess[0];
@@ -855,6 +879,91 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             'filters',
             $trans
         );
+    }
+
+    public function testTransformationChangingHandlersForFilters()
+    {
+        $gdSettings = new ezcImageHandlerSettings( 'GD', 'ezcImageGdHandler' );
+        $imSettings = new ezcImageHandlerSettings( 'IM', 'ezcImageImagemagickHandler');
+        try
+        {
+            $gd = new ezcImageGdHandler( $gdSettings );
+            $im = new ezcImageImagemagickHandler( $imSettings );
+        }
+        catch ( ezcImageHandlerNotAvailableException $e )
+        {
+            $this->markTestSkipped( 'Needs both image handlers.' );
+        }
+
+        $conv = new ezcImageConverter(
+            new ezcImageConverterSettings(
+                array( $gdSettings, $imSettings )
+            )
+        );
+
+        $trans = new ezcImageTransformation(
+            $conv,
+            'test',
+            array(
+                new ezcImageFilter(
+                    'scale',
+                    array( 'width' => 100, 'height' => 100 )
+                ),
+                new ezcImageFilter(
+                    'swirl',
+                    array( 'value' => 100 )
+                ),
+            ),
+            array( 'image/png' )
+        );
+
+
+        $trans->transform( $this->testFiles['png'], $this->getTempPath() );
+
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image  not generated successfully",
+            500
+        );
+    }
+
+    public function testTransformationChangingHandlersForConversion()
+    {
+        $gdSettings = new ezcImageHandlerSettings( 'GD', 'ezcImageGdHandler' );
+        $imSettings = new ezcImageHandlerSettings( 'IM', 'ezcImageImagemagickHandler');
+        try
+        {
+            $gd = new ezcImageGdHandler( $gdSettings );
+            $im = new ezcImageImagemagickHandler( $imSettings );
+        }
+        catch ( ezcImageHandlerNotAvailableException $e )
+        {
+            $this->markTestSkipped( 'Needs both image handlers.' );
+        }
+
+        $conv = new ezcImageConverter(
+            new ezcImageConverterSettings(
+                array( $gdSettings, $imSettings )
+            )
+        );
+
+        $trans = new ezcImageTransformation(
+            $conv,
+            'test',
+            array(
+                new ezcImageFilter(
+                    'scale',
+                    array( 'width' => 100, 'height' => 100 )
+                ),
+            ),
+            array( 'image/g3fax' )
+        );
+
+
+        $trans->transform( $this->testFiles['png'], $this->getTempPath() );
+
+        // No assertion, must simply not throw an exception and just raises code coverage
     }
 
 }
