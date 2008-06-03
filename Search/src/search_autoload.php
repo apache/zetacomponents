@@ -35,6 +35,7 @@ return array(
     'ezcSearchQueryToken'                        => 'Search/structs/query_token.php',
     'ezcSearchQueryTools'                        => 'Search/abstraction/query_tools.php',
     'ezcSearchResult'                            => 'Search/structs/search_result.php',
+    'ezcSearchResultDocument'                    => 'Search/structs/search_result_document.php',
     'ezcSearchRstXmlExtractor'                   => 'Search/extractors/rstxml.php',
     'ezcSearchSession'                           => 'Search/search_session.php',
     'ezcSearchSimpleArticle'                     => 'Search/extractors/helpers/simple.php',
