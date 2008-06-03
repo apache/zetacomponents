@@ -325,7 +325,7 @@ class ezcImageTransformation
                 throw new ezcImageFileNotProcessableException( $fileOut, 'The file exists and could not be unlinked.' );
             }
         }
-        if ( rename( $fileTmp, $fileOut ) === false )
+        if ( @rename( $fileTmp, $fileOut ) === false )
         {
             unlink( $fileTmp );
             throw new ezcImageFileNotProcessableException( $fileOut, "The temporary file {$fileTmp} could not be renamed to {$fileOut}." );
