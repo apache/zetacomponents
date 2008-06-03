@@ -212,7 +212,10 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
     public function close( $image )
     {
         $res = $this->getReferenceData( $image, 'resource' );
-        imagedestroy( $res );
+        if ( is_resource( $res ) )
+        {
+            imagedestroy( $res );
+        }
         $this->closeCommon( $image );
     }
 
