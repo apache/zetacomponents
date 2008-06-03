@@ -111,17 +111,17 @@ have an additional style attribute set, which makes them both appear bold. The
 "fatal" format will also underline the text and give it a black background
 color.
 
-The difference between ezcConsoleOutput::outputText() and
-ezcConsoleOutput::outputLine() is that the latter automatically adds a
+The difference between ezcConsoleOutput->outputText() and
+ezcConsoleOutput->outputLine() is that the latter automatically adds a
 newline value to your text. The newline sequence used here is adjusted based on
-the operating system. The use of ezcConsoleOutput::outputLine() is recommended
+the operating system. The use of ezcConsoleOutput->outputLine() is recommended
 over the direct output of, for example, "\n".
 
 If you leave the second parameter of ezcConsoleOutput::outputText() and
 ezcConsoleOutput::outputLine() out, the "default" format is used. The default
 is set to your console's default setting, but you can also change this as
 for any other format you define. A third variant to format text is
-ezcConsoleOutput::formatText(), which returns the formatted string instead of
+ezcConsoleOutput->formatText(), which returns the formatted string instead of
 printing it.
 
 This example shows some of the options ezcConsoleOutput supports:
@@ -134,8 +134,8 @@ autobreak
   word boundaries intact.
 
 verbosityLevel
-  Allows you to specify a third parameter to ezcConsoleOutput::outputLine() and
-  ezcConsoleOutput::outputText() to indicate a verbosity level for when the text
+  Allows you to specify a third parameter to ezcConsoleOutput->outputLine() and
+  ezcConsoleOutput->outputText() to indicate a verbosity level for when the text
   should be printed. By setting the "verbosityLevel" option for
   ezcConsoleOutput, you define which texts will and will not be printed.
 
@@ -169,18 +169,18 @@ Below is a simple example for ezcConsoleInput:
    
 After instantiating a new ezcConsoleInput object to handle the options, an
 option is registered on lines 7-12. This option will be available as "-h" and
-"--help". The ezcConsoleInput::process() call makes ezcConsoleInput respond to the
+"--help". The ezcConsoleInput->process() call makes ezcConsoleInput respond to the
 options submitted by the user. If any error occurs with the submitted user
 data, the method will throw an exception of type ezcConsoleOptionException. By
 default, all options are registered with the value type
 ezcConsoleInput::TYPE_NONE, which indicates that they don't expect a value
-from the user. If a value is submitted anyway, ezcConsoleInput::process() will
+from the user. If a value is submitted anyway, ezcConsoleInput->process() will
 throw a ezcConsoleOptionTypeViolationException. 
 
 On line 23, a check is performed to see whether an option was submitted. If an option was not 
 submitted, its $value property will contain bool *false*. Depending on the $type
 set, it can contain different value types if it was submitted. If you use the 
-(not shown here) ezcConsoleOption::$multiple property, the value will be an array 
+(not shown here) ezcConsoleOption->$multiple property, the value will be an array 
 containing the specified value types.
 
 The next example is more advanced:
@@ -195,11 +195,11 @@ provide additional properties after construction. We change the type of both
 options to expect a string value from the user (lines 13 and 20).
 
 In lines 25 and 28 we make both parameters depend on each other. If one of them
-is submitted without the other, ezcConsoleInput::process() will throw an
+is submitted without the other, ezcConsoleInput->process() will throw an
 ezcConsoleOptionDependencyViolationException. Aside from dependency rules, you can
-also define exclusion rules using ezcConsoleOption::addExclusion().
+also define exclusion rules using ezcConsoleOption->addExclusion().
 
-On line 43, the method ezcConsoleInput::getSynopsis() is used to retrieve a
+On line 43, the method ezcConsoleInput->getSynopsis() is used to retrieve a
 synopsis string for the program. The synopsis for our example would look like
 this: ::
 
@@ -207,13 +207,13 @@ this: ::
 
 The synopsis will indicate the option value types, whether they are optional, the
 inter-option dependencies and default values (if set). On line 46, the property 
-ezcConsoleOption::$shorthelp is accessed, where you can store some short help
+ezcConsoleOption->$shorthelp is accessed, where you can store some short help
 information. It has a reasonable default value set.
 
 On line 49, the submission of the "-o" option is checked. Because this has a
 dependency on the "-i" option, a check for that is not necessary. Line 52
 shows how you can access the arguments submitted to the program.
-ezcConsoleInput::getArguments() always returns an array (which is empty if no
+ezcConsoleInput->getArguments() always returns an array (which is empty if no
 arguments are submitted). A more advanced way of handling arguments is
 explained further below.
 
@@ -282,10 +282,10 @@ This example defines a simple progress bar:
    :literal:
 
 The created progressbar will count to a maximum value of 15, submitted to 
-ezcConsoleProgressbar::__construct() in line 7. ezcConsoleProgressbar utilizes
+ezcConsoleProgressbar->__construct() in line 7. ezcConsoleProgressbar utilizes
 ezcConsoleOutput to print the generated progress bar. The call to
-ezcConsoleProgressbar::advance() pushes the progress bar one step further on each
-call and redraws it (line 11). Calling ezcConsoleProgressbar::finish() will set
+ezcConsoleProgressbar->advance() pushes the progress bar one step further on each
+call and redraws it (line 11). Calling ezcConsoleProgressbar->finish() will set
 the progress bar to 100% immediately.
 
 The progress bar generated by the example will look like this:
@@ -301,7 +301,7 @@ The defined options array demonstrates only a small subset of options. For
 detailed information, see the API documentation on
 ezcConsoleProgressbarOptions. The "emptyChar" value defines the character to
 prefill the bar, the "barChar" option defines the character to fill the bar
-with when calling ezcConsoleProgressbar::advance().
+with when calling ezcConsoleProgressbar->advance().
 Using the "formatString" option, you define the appearance of the whole bar.
 Here the substitution of several placeholders (like "%fraction%" and "%bar%")
 is permitted. "formatString" must contain the "%bar%" placeholder, while all
@@ -309,7 +309,7 @@ other values are optional. Any other printable character is permitted.
 Formatting options are allowed in the "formatString" option, but
 not in any other option. "redrawFrequency" defines how often the
 progressbar will be redrawn. In the example this will be every 50th call to
-ezcConsoleProgressbar::advance().
+ezcConsoleProgressbar->advance().
 
 The resulting progress bar looks like this:
 
@@ -327,13 +327,13 @@ in advance how many you will perform. The "successChar" and "failureChar" option
 indicate which string to print on a successful or failed action. Lines 11 and
 12 format these strings.
 
-Indicating a status is done using ezcConsoleStatusbar::add(), which expects
+Indicating a status is done using ezcConsoleStatusbar->add(), which expects
 *true* for a succeeded action and *false* for a failed one (line 20). You can 
 access the number of successes and failures through
-ezcConsoleStatusbar::getSuccessCount() and
-ezcConsoleStatusbar::getFailureCount(). To make ezcConsoleStatusbar
+ezcConsoleStatusbar->getSuccessCount() and
+ezcConsoleStatusbar->getFailureCount(). To make ezcConsoleStatusbar
 wrap a line after a certain amount of statuses, you can use 
-ezcConsoleOutput::$autobreak.
+ezcConsoleOutput->$autobreak.
 
 Here the result of the example:
 
@@ -382,7 +382,7 @@ Here is its corresponding source code:
 ezcConsoleTable (like ezcConsoleStatusbar and ezcConsoleProgressbar) uses the
 ezcConsoleOutput class to print to the console. To create a table, you just
 need to submit the maximum width of the table to its constructor:
-ezcConsoleTable::__construct(). Options for table formatting are inherited
+ezcConsoleTable->__construct(). Options for table formatting are inherited
 from the table itself to the table rows and from there to the table cells.
 On each inheritance level, options can be overridden individually. The
 "defaultBorderFormat" option sets the global format value for all borders (line
@@ -400,18 +400,18 @@ to access to its contained objects through the array interface.
 ezcConsoleTableRow and ezcConsoleTableCell have a $format setting to define the
 format of the contained text. All cells (as described above) will inherit the
 setting of their parent ezcConsoleTableRow, as long as this has not been
-explicitly overridden. The same applies to ezcConsoleTableRow::$align and
-ezcConsoleTableCell::$align. Possible align values are:
+explicitly overridden. The same applies to ezcConsoleTableRow->$align and
+ezcConsoleTableCell->$align. Possible align values are:
 
 - ezcConsoleTable::ALIGN_DEFAULT (inherit from parent)
 - ezcConsoleTable::ALIGN_LEFT
 - ezcConsoleTable::ALIGN_RIGHT
 - ezcConsoleTable::ALIGN_CENTER
 
-The content of a cell is stored in the ezcConsoleTableCell::$content property
+The content of a cell is stored in the ezcConsoleTableCell->$content property
 (line 34). The usage of formatted text in a cell is possible, but not recommended. 
 If you want to define the format of cell content, use the 
-ezcConsoleTableCell::$format property.
+ezcConsoleTableCell->$format property.
 
 .. _SPL:         http://php.net/spl
 .. _ArrayAccess: http://www.php.net/~helly/php/ext/spl/interfaceArrayAccess.html
@@ -425,8 +425,8 @@ tables:
 The "corner", "lineHorizontal" and "lineVertical" options define which
 characters to use for the borders of the table. These options must be
 exactly one character long and cannot contain formatting information. To style the
-borders, use the ezcConsoleTable::$defaultBorderFormat and
-ezcConsoleTableRow::$borderFormat properties. 
+borders, use the ezcConsoleTable->$defaultBorderFormat and
+ezcConsoleTableRow->$borderFormat properties. 
 
 The random format and alignment options selected above create the following
 table:
