@@ -681,6 +681,31 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $this->compareDirectories( "$dir/original", "$dir/myzip" );
     }
 
+    // test for issue #13137
+    public function testAppendToArchive()
+    {
+        try 
+        {
+            $name = $this->getTempDir() . DIRECTORY_SEPARATOR . 'my_archive.zip';
+            $archive = ezcArchive::open( $name, ezcArchive::ZIP );
+            $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'testfiles';
+
+            $files = array(
+                "$dir/test2.php",
+                "$dir/test1.php",
+                "$dir/test7.php",
+                "$dir/unicode.php"
+            );
+
+            $archive->append( $files, '' );
+            $archive->close();
+        }
+        catch ( Exception $e )
+        {
+            echo $e->__toString();
+        }
+    }
+
 
     public function unzipAndTest( $dir, $a, $b )
     {
