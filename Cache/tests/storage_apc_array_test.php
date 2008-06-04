@@ -238,9 +238,7 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
 
         file_put_contents( $filename, $data );
 
-        xdebug_start_trace( './borked' );
         $lifetime = $storage->calcLifetime( $filename, false );
-        xdebug_stop_trace();
 
         // 8 for the case that the second switched just during this request
         $this->assertGreaterThan(
