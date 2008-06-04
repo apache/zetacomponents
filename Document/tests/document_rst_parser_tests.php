@@ -41,7 +41,7 @@ class ezcDocumentRstParserTests extends ezcTestCase
             }
         }
 
-//        return self::$testDocuments;
+        return self::$testDocuments;
         return array_slice( self::$testDocuments, -1, 1 );
     }
 
@@ -83,7 +83,7 @@ class ezcDocumentRstParserTests extends ezcTestCase
 
     public static function getErrnousTestDocuments()
     {
-        return array();
+//        return array();
         return array(
             array(
                 dirname( __FILE__ ) . '/files/rst/parser/e_001_non_aligned_text.txt',
