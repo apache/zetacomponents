@@ -866,15 +866,16 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      */
     protected function calcLifetime( $file )
     {
+        $ttl = $this->options->ttl;
         if ( file_exists( $file ) && ( $modTime = filemtime( $file ) ) !== false )
         {
-            if ( $this->options->ttl === false )
+            if ( $ttl === false )
             {
                 return 1;
             }
             return (
-                ( $lifeTime = time() - $modTime ) < $this->options->ttl
-                ? $this->options->ttl - $lifeTime
+                ( $lifeTime = time() - $modTime ) < $ttl
+                ? $ttl - $lifeTime
                 : 0
             );
         }

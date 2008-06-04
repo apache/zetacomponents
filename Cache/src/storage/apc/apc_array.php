@@ -452,6 +452,7 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
      */
     protected function calcLifetime( $filename, $useApc = false )
     {
+        $ttl = $this->options->ttl;
         // Calculate when the APC object was created
         if ( $useApc === true )
         {
@@ -467,13 +468,13 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
 
             if ( is_object( $dataObj ) )
             {
-                if ( $this->options->ttl === false )
+                if ( $ttl === false )
                 {
                     return 1;
                 }
                 return (
-                    ( $lifeTime = ( time() - $dataObj->mtime ) ) > $this->options->ttl
-                    ? $this->options->ttl - $lifeTime 
+                    ( $lifeTime = ( time() - $dataObj->mtime ) ) > $ttl
+                    ? $ttl - $lifeTime 
                     : 0
                 );
             }
@@ -489,13 +490,13 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
             if ( ( file_exists( $filename ) !== false )
                  && ( ( $modTime = @filemtime( $filename ) ) !== false ) )
             {
-                if ( $this->options->ttl === false )
+                if ( $ttl === false )
                 {
                     return 1;
                 }
                 return (
-                    ( $lifeTime = ( time() - $modTime ) ) < $this->options->ttl
-                    ? $this->options->ttl - $lifeTime 
+                    ( $lifeTime = ( time() - $modTime ) ) < $ttl
+                    ? $ttl - $lifeTime 
                     : 0
                 );
             }

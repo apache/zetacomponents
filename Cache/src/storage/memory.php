@@ -483,16 +483,17 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      */
     protected function calcLifetime( $identifier, $dataObject = false )
     {
+        $ttl = $this->options->ttl;
         $dataObject = is_object( $dataObject ) ? $dataObject : $this->fetchData ( $identifier, true );
         if ( is_object( $dataObject ) )
         {
-            if ( $this->options->ttl === false )
+            if ( $ttl === false )
             {
                 return 1;
             }
             return (
-                ( $lifeTime = ( time() - $dataObject->time ) < $this->options->ttl ) 
-                    ? $this->options->ttl - $lifeTime
+                ( $lifeTime = ( time() - $dataObject->time ) < $ttl ) 
+                    ? $ttl - $lifeTime
                     : 0
             );
         }
