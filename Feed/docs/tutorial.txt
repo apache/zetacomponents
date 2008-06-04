@@ -1031,6 +1031,68 @@ Best practices
 This section lists some useful tips for handling feed documents.
 
 
+Universal feed generator
+------------------------
+
+In order to generate all 3 feed types (ATOM, RSS1, RSS2) from the same ezcFeed
+data, these elements must be added to an ezcFeed object:
+
+- *author*
+- *description*
+- *id*
+- at least one *item* with all required elements
+- *link*
+- *title*
+- *updated*
+
+And these elements must be added to an ezcFeedEntryElement object:
+
+- *author*
+- *description*
+- *id*
+- *link*
+- *title*
+- *updated*
+
+This is a minimal script to be able to generate all 3 feed types from the same
+ezcFeed data::
+
+  $feed = new ezcFeed();
+
+  $author = $feed->add( 'author' );
+  $author->name = "Indiana Jones";
+  $author->email = "indy@example.com";
+
+  $feed->description = "This feed shows Indiana Jones movie releases";
+  $feed->id = "http://indy.example.com/";
+
+  $link = $feed->add( 'link' );
+  $link->href = "http://indy.example.com/";
+
+  $feed->title = "Indiana Jones movie releases";
+  $feed->updated = time();
+
+  // add a feed item
+  $item = $feed->add( 'item' );
+
+  $author = $item->add( 'author' );
+  $author->name = "Indiana Jones";
+  $author->email = "indy@example.com";
+
+  $item->description = "Indy meets ****** and has a hell of an adventure";
+  $item->id = "http://indy.example.com/4";
+
+  $link = $item->add( 'link' );
+  $link->href = "http://indy.example.com/4";
+
+  $item->title = "Indiana Jones and the Kingdom of the Crystal Skull";
+  $item->updated = time();
+
+  $atom = $feed->generate( 'atom' );
+  $rss1 = $feed->generate( 'rss1 );
+  $rss2 = $feed->generate( 'rss2' );
+
+
 Media type
 ----------
 
