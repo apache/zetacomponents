@@ -120,6 +120,55 @@ resist in the file system - which is necessary for accessing external files.
 __ http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives
 __ http://docutils.sourceforge.net/docs/ref/rst/directives.html
 
+Directive example
+`````````````````
+
+A full example for a custom directive, where we want to embed real world
+addresses into our RST document and maintain the semantics in the resulting
+docbook could look like::
+
+    Address example
+    ===============
+
+    .. address:: John Doe
+        :street: Some Lane 42
+
+Where we would possibly add more information, like the ZIP code, city and
+state... The implemented directive then would just need to take these
+information and transform it into valid docbook XML using the DOM extension.
+
+.. include: tutorial/address_directive.php
+   :literal:
+
+
+The AST node, which should be rendered is passed to the constructor of the
+custom directive visitor and available in the class property $node. The
+complete DOMDocument and the current DOMNode are passed to the method. In this
+case we just create a `address node`__ with the optional child nodes street and
+personname, depending on the existance of the respective values.
+
+You can now render the RST document after you registered you custom directive
+handler as shown above:
+
+.. include: tutorial/01_custom_directive.php
+   :literal:
+
+The output will then look like::
+
+    <?xml version="1.0"?>
+    <article xmlns="http://docbook.org/ns/docbook">
+      <section id="address_example">
+        <sectioninfo/>
+        <title>Address example</title>
+        <address>
+          <personname> John Doe</personname>
+          <street> Some Lane 42</street>
+        </address>
+      </section>
+    </article>
+
+__ http://docbook.org/tdg/en/html/address.html
+
 XHTML rendering
 ^^^^^^^^^^^^^^^
 
@@ -142,7 +191,7 @@ can be embedded in your source code::
 
     <?php
     $document = new ezcDocumentRst();
-    $document->options->xhtmlVisitor   = 'ezcDocumentRstXhtmlBodyVisitor';
+    $document->options->xhtmlVisitor = 'ezcDocumentRstXhtmlBodyVisitor';
     $document->loadFile( $from );
 
     $xhtml = $document->getAsXhtml();
@@ -152,6 +201,67 @@ can be embedded in your source code::
 You can of course also use the predefined and custom directives for XHtml
 rendering. The directives used during XHtml generation also need to implement
 the interface ezcDocumentRstXhtmlDirective.
+
+Modification of XHtml rendering
+```````````````````````````````
+
+You can modify the generated output of the XHtml redering by creating a custom
+visitor for the RST AST. The easiest way probably is to extend from one of the
+existing XHtml visitors and reusing it. For example you may want to fill the
+type attribute in bullet lists, like known from HTML, which isn't valid XHtml,
+though::
+
+    class myDocumentRstXhtmlVisitor extends ezcDocumentRstXhtmlVisitor
+    {
+        protected function visitBulletList( DOMNode $root, ezcDocumentRstNode $node )
+        {
+            $list = $this->document->createElement( 'ul' );
+            $root->appendChild( $list );
+
+            $listTypes = array(
+                '*'            => 'circle',
+                '+'            => 'disc',
+                '-'            => 'square',
+                "\xe2\x80\xa2" => 'disc',
+                "\xe2\x80\xa3" => 'circle',
+                "\xe2\x81\x83" => 'square',
+            );
+            // Not allowed in XHtml strict
+            $list->setAttribute( 'type', $listTypes[$node->token->content] );
+
+            // Decoratre blockquote contents
+            foreach ( $node->nodes as $child )
+            {
+                $this->visitNode( $list, $child );
+            }
+        }
+    }
+
+The structure, which is not enforced for visitors, but used in the docbook and
+xhtml tree vistors, is to call special methods for each node type in the AST to
+decorate the AST recusively. This method will be called for all bullet list
+nodes in the AST; which contain the list items. As the first parameter the
+current position in the XHtml DOM tree is also provided to the method.
+
+To create the XHTML we can now just create a new list node (<ul>) in the
+current DOMNode, set the new attribute, and recusively decorate all descendants
+using the general vistor dispatching method visitNode() for all childs in the
+AST. For the childs being rendered as childs in the XML tree, we pass the just
+created DOMNode (<ul>) as the root node to the visitNode() method.
+
+After defining such a class, you could use the custom visitor like shown
+above::
+
+    <?php
+    $document = new ezcDocumentRst();
+    $document->options->xhtmlVisitor = 'myDocumentRstXhtmlVisitor';
+    $document->loadFile( $from );
+
+    $xhtml = $document->getAsXhtml();
+    $xml = $xhtml->save();
+    ?>
+
+Now the lists in the generated XHtml will also the type attribute set.
 
 Writing RST
 ^^^^^^^^^^^
