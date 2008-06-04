@@ -237,12 +237,16 @@ class ezcCacheStorageFileApcArrayTest extends ezcCacheStorageTest
         $filename = $this->getTempDir() . DIRECTORY_SEPARATOR . $storage->generateIdentifier( $key, array() );
 
         file_put_contents( $filename, $data );
-        touch( $filename, time() - 10 );
 
+        xdebug_start_trace( './borked' );
         $lifetime = $storage->calcLifetime( $filename, false );
+        xdebug_stop_trace();
 
-        // "8 <= " - for those cases where the current second changes during requests
-        $this->assertEquals( true, 8 <= $lifetime );
+        // 8 for the case that the second switched just during this request
+        $this->assertGreaterThan(
+            8,
+            $lifetime
+        );
 
         $this->removeTempDir();
     }

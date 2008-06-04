@@ -293,7 +293,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
             return false;
         }
         // Cached data outdated, purge it.
-        if ( $this->calcLifetime( $filename ) > $this->properties['options']['ttl']
+        if ( $this->calcLifetime( $filename ) == 0
              && $this->properties['options']['ttl'] !== false )
         {
             $this->delete( $id, $attributes );
@@ -389,12 +389,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
     {
         if ( count( $objects = $this->search( $id, $attributes ) ) > 0 )
         {
-            $lifetime = $this->calcLifetime( $objects[0] );
-            return (
-                ( $remaining = $this->properties['options']['ttl'] - $lifetime ) > 0
-                ? $remaining
-                : 0
-            );
+            return $this->calcLifetime( $objects[0] );
         }
         return 0;
     }
@@ -437,14 +432,13 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
                 'cache location',
                 'Produced an error while globbing for files.'
             );
-
         }
 
         foreach ( $files as $file )
         {
-            if ( $this->calcLifetime( $file ) > $this->properties['options']->ttl )
+            if ( $this->calcLifetime( $file ) == 0 )
             {
-                if ( unlink( $file ) === false )
+                if ( @unlink( $file ) === false )
                 {
                     throw new ezcBaseFilePermissionException(
                         $file,
@@ -863,19 +857,24 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
 
     /**
      * Calculates the lifetime remaining for a cache object.
-     * This calculates the time a cached object stays valid and returns it.
+     *
+     * This calculates the time a cached object stays valid and returns it. In
+     * case the TTL is set to false, this method always returns a value of 1.
      *
      * @param string $file The file to calculate the remaining lifetime for.
-     * @access protected
-     * @return int The remaining lifetime in seconds ( 0 if no time remaining ).
+     * @return int The remaining lifetime in seconds (0 if no time remaining).
      */
     protected function calcLifetime( $file )
     {
         if ( file_exists( $file ) && ( $modTime = filemtime( $file ) ) !== false )
         {
+            if ( $this->options->ttl === false )
+            {
+                return 1;
+            }
             return (
-                ( $lifeTime = time() - $modTime ) > 0
-                ? $lifeTime
+                ( $lifeTime = time() - $modTime ) < $this->options->ttl
+                ? $this->options->ttl - $lifeTime
                 : 0
             );
         }

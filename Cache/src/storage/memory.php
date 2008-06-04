@@ -190,7 +190,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
 
         // Make sure the data is not supposed to be expired
         if ( $this->properties['options']['ttl'] !== false 
-             && $this->calcLifetime( $identifier, $this->registry[$location][$id][$identifier] ) > $this->properties['options']['ttl'] )
+             && $this->calcLifetime( $identifier, $this->registry[$location][$id][$identifier] ) == 0 )
         {
             $this->delete( $id, $attributes, false );
             return false;
@@ -290,11 +290,10 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      */
     public function getRemainingLifetime( $id, $attributes = array() )
     {
-        if ( count( $this->search( $id, $attributes ) ) > 0 ) 
+        if ( count( $found = $this->search( $id, $attributes ) ) > 0 ) 
         {
-            $identifier = $this->generateIdentifier( $id, $attributes );
-            $lifetime = $this->calcLifetime( $identifier );
-            return ( ( $remaining = ( $this->properties['options']['ttl'] - $lifetime ) ) > 0 ) ? $remaining : 0;
+            $identifier = $found[0][2];
+            return $this->calcLifetime( $identifier );
         }
         return 0;
     }
@@ -342,7 +341,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
             $deleted = false;
             foreach( $identifiers as $identifier => $data )
             {
-                if ( $ttl !== false && $this->calcLifetime( $identifier ) >= $ttl )
+                if ( $ttl !== false && $this->calcLifetime( $identifier ) == 0 )
                 {
                     // Since ID <-> identifier mapping is ambigious, this does
                     // not ensure that all data for an ID is deleted. However,
@@ -476,6 +475,8 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
     /**
      * Calculates the lifetime remaining for a cache object.
      *
+     * In case the TTL options is set to true, this method always returns 1.
+     *
      * @param string $identifier The memcache identifier
      * @param bool $dataObject The optional data object for which to calculate the lifetime
      * @return int The remaining lifetime in seconds (0 if no time remaining)
@@ -485,7 +486,15 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
         $dataObject = is_object( $dataObject ) ? $dataObject : $this->fetchData ( $identifier, true );
         if ( is_object( $dataObject ) )
         {
-            return ( ( $lifeTime = ( time() - $dataObject->time ) ) > 0 ) ? $lifeTime : 0;
+            if ( $this->options->ttl === false )
+            {
+                return 1;
+            }
+            return (
+                ( $lifeTime = ( time() - $dataObject->time ) < $this->options->ttl ) 
+                    ? $this->options->ttl - $lifeTime
+                    : 0
+            );
         }
         else
         {

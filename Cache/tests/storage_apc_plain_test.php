@@ -172,7 +172,10 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         $this->storage->store( '2', 'data2', array( 'type' => 'simple' ) );
 
         // "8 <= " - for those cases where the current second changes after the storage
-        $this->assertEquals( true, 8 <= $this->storage->getRemainingLifetime( null, array( 'type' => 'simple' ) ) );
+        $this->assertGreaterThan(
+            8,
+            $this->storage->getRemainingLifetime( null, array( 'type' => 'simple' ) )
+        );
 
     }
 

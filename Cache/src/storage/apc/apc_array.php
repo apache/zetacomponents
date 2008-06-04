@@ -443,6 +443,9 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
     /**
      * Calculates the lifetime remaining for a cache object.
      *
+     * If the TTL option is set to false, this method will always return 1 for
+     * existing items.
+     *
      * @param string $filename The file to calculate the remaining lifetime for
      * @param bool $useApc Use APC or not
      * @return int The remaining lifetime in seconds (0 if no time remaining)
@@ -464,7 +467,15 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
 
             if ( is_object( $dataObj ) )
             {
-                return ( ( $lifeTime = ( time() - $dataObj->mtime ) ) > 0 ) ? $lifeTime : 0;
+                if ( $this->options->ttl === false )
+                {
+                    return 1;
+                }
+                return (
+                    ( $lifeTime = ( time() - $dataObj->mtime ) ) > $this->options->ttl
+                    ? $this->options->ttl - $lifeTime 
+                    : 0
+                );
             }
             else
             {
@@ -478,7 +489,19 @@ class ezcCacheStorageFileApcArray extends ezcCacheStorageApc
             if ( ( file_exists( $filename ) !== false )
                  && ( ( $modTime = @filemtime( $filename ) ) !== false ) )
             {
-                return ( ( $lifeTime = ( time() - $modTime ) ) > 0 ) ? $lifeTime : 0;
+                if ( $this->options->ttl === false )
+                {
+                    return 1;
+                }
+                return (
+                    ( $lifeTime = ( time() - $modTime ) ) < $this->options->ttl
+                    ? $this->options->ttl - $lifeTime 
+                    : 0
+                );
+            }
+            else
+            {
+                return 0;
             }
         }
     }

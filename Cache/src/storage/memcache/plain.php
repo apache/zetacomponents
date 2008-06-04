@@ -26,6 +26,8 @@ class ezcCacheStorageMemcachePlain extends ezcCacheStorageMemcache
      */
     protected function fetchData( $identifier, $object = false )
     {
+        // @TODO: This is also done in the backend, again. However, since the
+        // backend is public, too, we need to keep both for now.
         $data = $this->backend->fetch( $identifier );
         if ( is_object( $data ) && $object === false )
         {
