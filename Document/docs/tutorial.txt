@@ -1,0 +1,173 @@
+========================
+eZ Components - Document
+========================
+
+.. contents:: Table of Contents
+   :depth: 2
+
+Introduction
+============
+
+The document component offers transformations between different semantic markup
+languages, like:
+
+- `ReStructured text`__
+- `XHtml`__
+- `Docbook`__
+- eZ Publish XML markup
+
+Where each format support conversions from and to docbook as a central
+intermediate format and may implement additional shortcuts for conversions
+from and to other formats.
+
+There are central handler classes for each markup language, which follow a
+common conversion interface ezcDocument and all implement the methods
+getAsDocbook() and createFromDocbook().
+
+__ http://docutils.sourceforge.net/rst.html
+__ http://www.w3.org/TR/xhtml1/
+__ http://www.docbook.org/
+
+Markup languages
+================
+
+The following markup languages are currently handled by the document
+component.
+
+ReStructured text
+-----------------
+
+`RsStructured Text`__ (RST) is a simple text based markup language, intended
+to be easy to read and write by humans. Examples can be found in the
+`documentation of RST`__.
+
+The transformation of a simple RST document to docbook can be done just like
+this::
+
+    <?php
+    $document = new ezcDocumentRst();
+    $document->loadFile( 'my_rst_file.txt' );
+
+    $docbook = $document->getAsDocbook();
+    echo $docbook->save();
+    ?>
+
+In line 3 the document is actually loaded and parsed into an internal abstract
+syntax tree. In line 5 the internal structure is then transformed back to a
+docbook document. In the last line the resulting document is returned as a
+string, so that you can echo or store it.
+
+__ http://docutils.sourceforge.net/rst.html
+__ http://docutils.sourceforge.net/docs/user/rst/quickstart.html
+
+Error handling
+^^^^^^^^^^^^^^
+
+By default each parsing or compiling error will be transformed into an
+exception, so that you are noticed about those errors. The error reporting
+settings can be modified like for all other document handlers::
+
+    <?php
+    $document = new ezcDocumentRst();
+    $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+    $document->loadFile( 'my_rst_file.txt' );
+
+    $docbook = $document->getAsDocbook();
+    echo $docbook->save();
+    ?>
+
+Where the setting in line 3 causes, that only warnings, errors and fatal errors
+are transformed to exceptions now, while the notices are only collected, but
+ignored. This setting affects both, the parsing of the source document and the
+compiling into the destination language.
+
+Directives
+^^^^^^^^^^
+
+`RST directives`__ are elements in the RST documents with parameters, optional
+named options and optional content. The document component implements a well
+known subset of the `directives implemented in the docutils RST parser`__. You
+may register custom directive handlers, or overwrite existing directive
+handlers using your own implementation. A directive in RST markup with
+parameters, options and content could look like::
+
+    My document
+    ===========
+
+    The cutom directive:
+
+    .. my_directive:: parameters
+        :option: value
+
+        Some indeted text...
+
+For such a directive you should register a handler on the RST document, like::
+
+    <?php
+    $document = new ezcDocumentRst();
+    $document->registerDirective( 'my_directive', 'myCustomDirective' );
+    $document->loadFile( $from );
+
+    $docbook = $document->getAsDocbook();
+    $xml = $docbook->save();
+    ?>
+
+The class myCustomDirective must extend the class ezcDocumentRstDirective, and
+implement the method toDocbook(). For rendering you get access to the full AST,
+the contents of the current directive and the base path, where the document
+resist in the file system - which is necessary for accessing external files.
+
+__ http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives
+__ http://docutils.sourceforge.net/docs/ref/rst/directives.html
+
+XHTML rendering
+^^^^^^^^^^^^^^^
+
+For RST a conversion shortcut has been implemented, so that you don't need to
+convert the RST to docbook and the docbook to XHtml. This saves conversion time
+and enables you to prevent from information loss during multiple conversions::
+
+    <?php
+    $document = new ezcDocumentRst();
+    $document->loadFile( $from );
+
+    $xhtml = $document->getAsXhtml();
+    $xml = $xhtml->save();
+    ?>
+
+The default XHtml compiler generates comple XHtml documents, including header
+and metadata in the header. If you want to inline the result, you may specify
+another XHtml compiler, which just creates a XHtml block level element, which
+can be embedded in your source code::
+
+    <?php
+    $document = new ezcDocumentRst();
+    $document->options->xhtmlVisitor   = 'ezcDocumentRstXhtmlBodyVisitor';
+    $document->loadFile( $from );
+
+    $xhtml = $document->getAsXhtml();
+    $xml = $xhtml->save();
+    ?>
+
+You can of course also use the predefined and custom directives for XHtml
+rendering. The directives used during XHtml generation also need to implement
+the interface ezcDocumentRstXhtmlDirective.
+
+Writing RST
+^^^^^^^^^^^
+
+This is not yet supported.
+
+XHtml
+-----
+
+XHtml can only be generated from RST, bu not converted from or to docbook yet.
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
