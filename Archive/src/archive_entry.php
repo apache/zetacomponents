@@ -566,17 +566,20 @@ class ezcArchiveEntry
 
             $struct = self::getFileStructureFromFile( $file );
 
-            // Check if it's a hardlink.
-            if ( isset( $inodes[ $struct->ino ] ) )
+            // Check if it's a hardlink if the OS supports it, and handle it.
+            if ( ezcBaseFeatures::supportsLink() )
             {
-                // Yes, it's a hardlink.
-                $struct->type = ezcArchiveEntry::IS_LINK;
-                $struct->size = 0;
-                $struct->link = $inodes[ $struct->ino ];
-            }
-            else
-            {
-                $inodes[ $struct->ino ] = $struct->path;
+                if ( isset( $inodes[ $struct->ino ] ) )
+                {
+                    // Yes, it's a hardlink.
+                    $struct->type = ezcArchiveEntry::IS_LINK;
+                    $struct->size = 0;
+                    $struct->link = $inodes[ $struct->ino ];
+                }
+                else
+                {
+                    $inodes[ $struct->ino ] = $struct->path;
+                }
             }
 
             $entry[$i] = new ezcArchiveEntry( $struct );
