@@ -125,7 +125,7 @@ Directive example
 
 A full example for a custom directive, where we want to embed real world
 addresses into our RST document and maintain the semantics in the resulting
-docbook could look like::
+docbook, could look like::
 
     Address example
     ===============
@@ -133,19 +133,19 @@ docbook could look like::
     .. address:: John Doe
         :street: Some Lane 42
 
-Where we would possibly add more information, like the ZIP code, city and
-state... The implemented directive then would just need to take these
-information and transform it into valid docbook XML using the DOM extension.
+We would possibly add more information, like the ZIP code, city and state, but
+skip this to keep the code short. The implemented directive then would just
+need to take these information and transform it into valid docbook XML using
+the DOM extension.
 
 .. include: tutorial/address_directive.php
    :literal:
 
-
-The AST node, which should be rendered is passed to the constructor of the
+The AST node, which should be rendered, is passed to the constructor of the
 custom directive visitor and available in the class property $node. The
 complete DOMDocument and the current DOMNode are passed to the method. In this
 case we just create a `address node`__ with the optional child nodes street and
-personname, depending on the existance of the respective values.
+personname, depending on the existence of the respective values.
 
 You can now render the RST document after you registered you custom directive
 handler as shown above:
@@ -205,7 +205,7 @@ the interface ezcDocumentRstXhtmlDirective.
 Modification of XHtml rendering
 ```````````````````````````````
 
-You can modify the generated output of the XHtml redering by creating a custom
+You can modify the generated output of the XHtml visitor by creating a custom
 visitor for the RST AST. The easiest way probably is to extend from one of the
 existing XHtml visitors and reusing it. For example you may want to fill the
 type attribute in bullet lists, like known from HTML, which isn't valid XHtml,
@@ -238,16 +238,17 @@ though::
     }
 
 The structure, which is not enforced for visitors, but used in the docbook and
-xhtml tree vistors, is to call special methods for each node type in the AST to
-decorate the AST recusively. This method will be called for all bullet list
-nodes in the AST; which contain the list items. As the first parameter the
-current position in the XHtml DOM tree is also provided to the method.
+XHtml vistors, is to call special methods for each node type in the AST to
+decorate the AST recursively. This method will be called for all bullet list
+nodes in the AST which contain the actual list items. As the first parameter
+the current position in the XHtml DOM tree is also provided to the method.
 
 To create the XHTML we can now just create a new list node (<ul>) in the
-current DOMNode, set the new attribute, and recusively decorate all descendants
-using the general vistor dispatching method visitNode() for all childs in the
-AST. For the childs being rendered as childs in the XML tree, we pass the just
-created DOMNode (<ul>) as the root node to the visitNode() method.
+current DOMNode, set the new attribute, and recursively decorate all
+descendants using the general vistor dispatching method visitNode() for all
+childs in the AST. For the AST childs being also rendered as childs in the XML
+tree, we pass the just created DOMNode (<ul>) as the new root node to the
+visitNode() method.
 
 After defining such a class, you could use the custom visitor like shown
 above::
