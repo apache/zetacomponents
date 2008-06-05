@@ -77,13 +77,13 @@ Feed elements
 In order to generate all 3 feed types from the same ezcFeed data, these
 elements must be added to an ezcFeed object:
 
-- *author*
-- *description*
-- *id*
-- at least one *item* with all required elements
-- *link*
-- *title*
-- *updated*
+- |ezcFeed-author|_
+- |ezcFeed-description|_
+- |ezcFeed-id|_
+- at least one |ezcFeed-item|_ with all required elements
+- |ezcFeed-link|_
+- |ezcFeed-title|_
+- |ezcFeed-updated|_
 
 
 Item elements
@@ -127,12 +127,12 @@ Item elements
 In order to generate all 3 feed types from the same ezcFeed data, these
 elements must be added to an ezcFeedEntryElement object:
 
-- *author*
-- *description*
-- *id*
-- *link*
-- *title*
-- *updated*
+- |ezcFeed-item-author|_
+- |ezcFeed-item-description|_
+- |ezcFeed-item-id|_
+- |ezcFeed-item-link|_
+- |ezcFeed-item-title|_
+- |ezcFeed-item-updated|_
 
 This is a minimal script to be able to generate all 3 feed types from the same
 ezcFeed data::
