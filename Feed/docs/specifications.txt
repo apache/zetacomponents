@@ -2890,8 +2890,8 @@ Equivalents: `ezcFeed-item-title`_, `ATOM-entry-title`_, `RSS1-item-title`_,
 Modules
 =======
 
-Content module
-==============
+Content
+=======
 
 Specifications
 --------------
@@ -2934,8 +2934,8 @@ Parse example::
     ?>
 
 
-CreativeCommons module
-======================
+CreativeCommons
+===============
 
 Specifications
 --------------
@@ -3010,8 +3010,8 @@ Parse example::
     ?>
 
 
-DublinCore module
-=================
+DublinCore
+==========
 
 Specifications
 --------------
@@ -3568,8 +3568,8 @@ A list of allowed languages can be found here: `RSS language codes`_. This
 attribute is accessed as *language*.
 
 
-Geo module
-==========
+Geo
+===
 
 Specifications
 --------------
@@ -3650,8 +3650,8 @@ Can appear only once.
 
 
 
-iTunes module
-=============
+iTunes
+======
 
 Specifications
 --------------
