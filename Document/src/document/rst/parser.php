@@ -11,6 +11,77 @@
 /**
  * Parser for RST documents
  * 
+ * RST is not describable by a context free grammar, so that the common parser
+ * approaches won't work.
+ *
+ * Parser basics
+ * -------------
+ *
+ * We decided to implement a parser roughly following the scheme of common
+ * shift reduce parsers with a dynamic lookahead.
+ *
+ * - Shifting:
+ *
+ *   The shift step commonly tries to convert a token or a sequence of tokens
+ *   to the respective AST node. In the case of RST we may need a dynamic
+ *   lookahead to decide which type of AST node a token relates to, which is
+ *   different from common LRn parsers.
+ *
+ *   There is a map of parser tokens to internal methods for callbacks, which
+ *   are called in the defined order if the main parser methods reach the
+ *   respective token in the provided token array. Each shift method is called
+ *   with the relating token and the array of subsequent, yet unhandled,
+ *   tokens.
+ *
+ *   These methods are expected to return either false, if the current token
+ *   cannot be shifted by the called rule, true, when the token has been
+ *   handled, but no document node has been created from it or a new
+ *   ezcDocumentRstNode object, which is some AST node. When a shift method
+ *   returned false the next shift method in the array is called to handle the
+ *   token.
+ *
+ *   The returned ezcDocumentRstNode objects are put on the document stack in
+ *   the order they are found in the token array.
+ *
+ * - Reducing:
+ *
+ *   The reduce step commonly tries to reduce matching structures, like finding
+ *   the matching opening brace, when a closing brace has been added to the
+ *   document stack. In this case all nodes between the two braces are
+ *   aggregated into the brace node, so that a tree is created.
+ *
+ *   The reductions array defines an array with a mapping of node types to
+ *   rection callbacks, which are called if such a node has been added to the
+ *   document stack. Each reduction method may either return false, if it could
+ *   not handle the given node, or a new node. The reduction methods often
+ *   manipulate the document stack, like searching backwards and aggregating
+ *   nodes.
+ *
+ *   If a reduction method returns a node the parser reenters the reduction
+ *   process with the new node.
+ *
+ * The state of the RST parser heavily depends on the current indentation
+ * level, which is stored in the class property $indentation, and mainly
+ * modified in the special shift method updateIndentation(), which is called on
+ * each line break token.
+ *
+ * Some of the shift methods aggregate additional tokens from the token array,
+ * bypassing the main parser method. This should only be done, if no common
+ * handling is required for the aggregated tokens.
+ *
+ * Tables
+ * ------
+ *
+ * The handling of RST tables is quite complex and the affiliation of tokens to
+ * nodes depend on the line and character position of the token. In this case
+ * the tokens are first aggregated into their cell contexts and reenter the
+ * parser afterwards.
+ *
+ * For token lists, which are required to reenter the parser - independently
+ * from the current global parser state - the method reenterParser() takes such
+ * token lists, removes the overall indentation and returns a new document of
+ * the provided token array.
+ *
  * @package Document
  * @version //autogen//
  */
