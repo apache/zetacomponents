@@ -29,7 +29,7 @@
  * @version //autogen//
  * @mainclass
  */
-final class ezcDocumentManager
+class ezcDocumentManager
 {
     /**
      * Predefined handler list.
