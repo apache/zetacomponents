@@ -234,7 +234,9 @@ Step 1. Create a feed object
 A feed object can be created by calling the constructor with the optional feed
 type (``atom``, ``rss1`` or ``rss2``). In our case we create an generic feed::
 
+    <?php
     $feed = new ezcFeed();
+    ?>
 
 The type of the resulting XML feed document will be specified in
 `Step 5. Generate the XML feed`_.
@@ -245,9 +247,11 @@ Step 2. Add feed elements
 
 We add the *title*, *description* and *author* to the feed::
 
+    <?php
     $feed->title = 'eZ news feed';
     $feed->description = 'This RSS feed contains news feeds for eZ Publish and eZ Components';
     $feed->published = 'Wed, 05 Mar 2008 14:28:45 +0000';
+    ?>
 
 Because some feed types support multiple *link* and *author* elements, multiple
 elements of this type can be added to a feed (although this is not fully
@@ -260,9 +264,11 @@ properties (the way **$feed->title** is set).
 
 So to add a *author* element to our feed, we will do::
 
+    <?php
     $author = $feed->add( 'author' );
     $author->name = 'Derick';
     $author->email = 'nospam@ez.no';
+    ?>
 
 In the above example. $author is an object of type ezcFeedPersonElement.
 Other properties can be set on it (*uri*) which are mainly used for ATOM feeds.
@@ -280,8 +286,10 @@ In ATOM it will look like this::
 
 To add a *link* element to our feed, we will do::
 
+    <?php
     $link = $feed->add( 'link' );
     $link->href = 'http://ez.no/';
+    ?>
 
 In the above example. $link is an object of type ezcFeedLinkElement. Other
 properties can be set on it (*title*, *rel*, *hreflang*, *type*, *length*)
@@ -294,24 +302,30 @@ Step 3. Add an item
 A feed *item* is an element which can appear multiple times, so it is added
 via the method **add()** of ezcFeed::
 
+    <?php
     $item = $feed->add( 'item' );
+    ?>
 
 Next we add the *title*, *description* and *author* elements to the news item
 ::
 
+    <?php
     $item->title = 'eZ Components 2007.1 released';
     $item->description = 'The new release of eZ Components include Workflow, Authentication...';
     $item->published = 'Mon, 02 Jul 2007 11:36:45 +0000';
+    ?>
 
 We add the *link* and *author* elements to the news item in the same way as
 for the feed::
 
+    <?php
     $author = $item->add( 'author' );
     $author->name = 'Derick';
     $author->email = 'nospam@ez.no';
 
     $link = $item->add( 'link' );
     $link->href = 'http://ezcomponents.org/resources/news/news-2007-07-02';
+    ?>
 
 
 Step 4. Add more items
@@ -327,7 +341,9 @@ Step 5. Generate the XML feed
 To create the XML feed from the $feed object, we call the **generate()** method
 of ezcFeed::
 
+    <?php
     $xml = $feed->generate( 'rss2' );
+    ?>
 
 After running this line, $xml will contain the XML string of the feed (in case
 no exceptions were thrown due to required elements not being present).
@@ -355,7 +371,9 @@ Step 6. Save the XML feed to a file
 The generated XML feed needs to be saves in a file in order to be made
 accessible to users of your website::
 
+    <?php
     file_put_contents( 'feeds/news.xml', $xml );
+    ?>
 
 Assuming that our host is ``ez.no``, this will be the location of our newly
 created XML feed: ``http://ez.no/feeds/news.xml``.
@@ -572,6 +590,7 @@ Step 1. Create an RSS2 feed
 We start with creating an RSS2 feed object, which we fill with *title*,
 *description*, *author* and *link* elements::
 
+    <?php
     $feed = new ezcFeed( 'rss2' );
 
     $feed->title = 'Flight of the RC plane';
@@ -583,6 +602,7 @@ We start with creating an RSS2 feed object, which we fill with *title*,
 
     $link = $feed->add( 'link' );
     $link->href = 'http://rcplanes.examples.com/';
+    ?>
 
 
 Step 2. Add iTunes feed elements
@@ -595,6 +615,7 @@ is an object of class ezcFeedModule.
 Next we will add *category*, *keywords*, *image*, *subtitle* and *explicit*
 iTunes elements to our $feed object::
 
+    <?php
     $iTunes = $feed->addModule( 'iTunes' );
 
     $iTunes->keywords = 'RC planes,gadgets,flying';
@@ -610,6 +631,7 @@ iTunes elements to our $feed object::
     $category->term = 'Technology';
     $subCategory = $category->add( 'category' );
     $subCategory->term = 'Gadgets';
+    ?>
 
 See the `iTunes categories`_ page for a list of the iTunes categories you can
 add a podcast to. Note: some category names contain ``&`` which should be
@@ -622,6 +644,7 @@ Step 3. Add an item
 Next we will add an episode (*item*) to our $feed object, and we will add the
 *title*, *description*, *author* and *link* elements to it::
 
+    <?php
     $item = $feed->add( 'item' );
 
     $item->title = 'Flying an RC plane indoors';
@@ -639,6 +662,7 @@ Next we will add an episode (*item*) to our $feed object, and we will add the
     $enclosure->url = 'http://rcplanes.example.com/media/003-flying-indoors.mp3';
     $enclosure->length = 49099054; // bytes
     $enclosure->type = 'audio/x-mp3';
+    ?>
 
 
 Step 4. Add iTunes item elements
@@ -647,10 +671,12 @@ Step 4. Add iTunes item elements
 We will add the iTunes elements *duration* and *keywords* to our $item object
 from the previous step::
 
+    <?php
     $iTunes = $item->addModule( 'iTunes' );
 
     $iTunes->duration = '29:20';
     $iTunes->keywords = 'RC planes,office,flying,enemies';
+    ?>
 
 
 Step 5. Add more items
@@ -704,13 +730,17 @@ Step 1. Parse an XML feed
 If the XML feed is stored in a file or URL, use the static method **parse()**
 from ezcFeed to parse the feed and create an ezcFeed object out of it::
 
+    <?php
     $feed = ezcFeed::parse( 'http://ezcomponents.org/feed/news.xml' );
+    ?>
 
 If the XML feed is stored in a string variable, use the static method
 **parseContent()** from ezcFeed to parse the feed and create an ezcFeed object
 out of it::
 
-    $feed = ezcFeed::parseContent( $xml );
+    <?php
+    $feed = ezcFeed::parseContent( $xml ); // $xml is a string
+    ?>
 
 These things could go wrong when parsing a feed:
 
@@ -733,27 +763,34 @@ read the elements from the feed.
 Depending on the feed type, certain elements are present while others are not.
 The feed type can be retrieved via the method **getFeedType()** from ezcFeed::
 
+    <?php
     $feedType = $feed->getFeedType();
+    ?>
 
 This will return ``rss1``, ``rss2`` or ``atom``.
 
 It is always a good idea to read only those elements which are present in
 $feed. To test if an element is present, call **isset()** on it::
 
+    <?php
     if ( isset( $feed->title ) )
     {
         $title = $feed->title->__toString();
     }
+    ?>
 
 Another way to write this is (assuming that a missing *title* can be
 considered null)::
 
+    <?php
     $title = isset( $feed->title ) ? $feed->title->__toString() : null;
+    ?>
 
 Depending on your application, you might need only some elements, let's say
 *title*, *description*, *author* and *link*. So to read those elements you will
 write::
 
+    <?php
     $title = isset( $feed->title ) ? $feed->title->__toString() : null;
     $description = isset( $feed->description ) ? $feed->description->__toString() : null;
 
@@ -772,6 +809,7 @@ write::
             $links[] = $link->href;
         }
     }
+    ?>
 
 Because *link* can appear multiple times, we had to resort to this long code to
 get the links out of the feed. The $links array will be empty if no links are
@@ -786,6 +824,7 @@ A feed can contain zero or more *item* elements.
 Let's say we want to extract the *title*, *description*, *published*, *author*
 and *link* of all items. This is how we will do it::
 
+    <?php
     $items = array();
     foreach ( $feed->item as $item )
     {
@@ -814,6 +853,7 @@ and *link* of all items. This is how we will do it::
                           'author' => $author,
                           'links' => $links );
     }
+    ?>
 
 The *published* element is an ezcFeedDateElement object encapsulating a DateTime
 object, so we return the date as a string with **format( 'c' )**. Other formats
@@ -834,13 +874,17 @@ Step 1. Parse an XML feed
 If the XML feed is stored in a file or URL, use the static method **parse()**
 from ezcFeed to parse the feed and create an ezcFeed object out of it::
 
+    <?php
     $feed = ezcFeed::parse( 'http://rcplanes.example.com/feed/podcast.xml' );
+    ?>
 
 If the XML feed is stored in a string variable, use the static method
 **parseContent()** from ezcFeed to parse the feed and create an ezcFeed object
 out of it::
 
-    $feed = ezcFeed::parseContent( $xml );
+    <?php
+    $feed = ezcFeed::parseContent( $xml ); // $xml is a string
+    ?>
 
 
 Step 2. Read the feed elements
@@ -849,7 +893,9 @@ Step 2. Read the feed elements
 Depending on the feed type, certain elements are present while others are not.
 The feed type can be retrieved via the method **getFeedType()** from ezcFeed::
 
+    <?php
     $feedType = $feed->getFeedType();
+    ?>
 
 This will return ``rss1``, ``rss2`` or ``atom``.
 
@@ -857,6 +903,7 @@ Depending on your application, you might need only some elements, let's say
 *title*, *description*, *author* and *link*. So to read those elements you will
 write::
 
+    <?php
     $title = isset( $feed->title ) ? $feed->title->__toString() : null;
     $description = isset( $feed->description ) ? $feed->description->__toString() : null;
 
@@ -875,6 +922,7 @@ write::
             $links[] = $link->href;
         }
     }
+    ?>
 
 
 Step 3. Read the iTunes feed elements
@@ -884,22 +932,27 @@ Before reading iTunes elements from the feed, we need to make sure that the
 feed has the iTunes module. We use the method **hasModule()** from ezcFeed or
 ezcFeedItem::
 
+    <?php
     if ( $feed->hasModule( 'iTunes' ) )
     {
         // process the iTunes module
     }
+    ?>
 
 We can also call the **isset()** method to check if the iTunes module is
 present::
 
+    <?php
     if ( isset( $feed->iTunes ) )
     {
         // process the iTunes module
     }
+    ?>
 
 This is how we fetch information from the iTunes module. Let's say we want to
 fetch the *keywords*, *subtitle*, *image* and *category* elements::
 
+    <?php
     if ( isset( $feed->iTunes ) )
     {
         $iTunes = $feed->iTunes;
@@ -922,6 +975,7 @@ fetch the *keywords*, *subtitle*, *image* and *category* elements::
             }
         }
     }
+    ?>
 
 In iTunes, *category* is an element which can have sub-categories. The code
 above reads the *category* values (from the *text* attribute) and the
@@ -945,6 +999,7 @@ Step 4. Iterate over the feed items
 Let's say we want to extract the *title*, *description*, *published*, *author*
 and *link* of all items. This is how we will do it::
 
+    <?php
     $items = array();
     foreach ( $feed->item as $item )
     {
@@ -986,6 +1041,7 @@ and *link* of all items. This is how we will do it::
                           'links' => $links,
                           'media' => $media );
     }
+    ?>
 
 
 After running the code, the $media array will contain the *url*, *length* and
@@ -999,6 +1055,7 @@ Step 5. Read the iTunes item elements
 Let's say we want to fetch the *duration* of the iTunes module inside an item.
 The code from the previous section is altered as follows::
 
+    <?php
     // ...
         $media = array();
         if ( isset( $item->enclosure ) )
@@ -1018,6 +1075,7 @@ The code from the previous section is altered as follows::
             }
         }
     // ...
+    ?>
 
 After running the code, the $media array will contain the *url*, *length* and
 *type* of the media file specified in the feed item, and the *duration* of the
@@ -1057,40 +1115,42 @@ And these elements must be added to an ezcFeedEntryElement object:
 This is a minimal script to be able to generate all 3 feed types from the same
 ezcFeed data::
 
-  $feed = new ezcFeed();
+    <?php
+    $feed = new ezcFeed();
 
-  $author = $feed->add( 'author' );
-  $author->name = "Indiana Jones";
-  $author->email = "indy@example.com";
+    $author = $feed->add( 'author' );
+    $author->name = "Indiana Jones";
+    $author->email = "indy@example.com";
 
-  $feed->description = "This feed shows Indiana Jones movie releases";
-  $feed->id = "http://indy.example.com/";
+    $feed->description = "This feed shows Indiana Jones movie releases";
+    $feed->id = "http://indy.example.com/";
 
-  $link = $feed->add( 'link' );
-  $link->href = "http://indy.example.com/";
+    $link = $feed->add( 'link' );
+    $link->href = "http://indy.example.com/";
 
-  $feed->title = "Indiana Jones movie releases";
-  $feed->updated = time();
+    $feed->title = "Indiana Jones movie releases";
+    $feed->updated = time();
 
-  // add a feed item
-  $item = $feed->add( 'item' );
+    // add a feed item
+    $item = $feed->add( 'item' );
 
-  $author = $item->add( 'author' );
-  $author->name = "Indiana Jones";
-  $author->email = "indy@example.com";
+    $author = $item->add( 'author' );
+    $author->name = "Indiana Jones";
+    $author->email = "indy@example.com";
 
-  $item->description = "Indy meets ****** and has a hell of an adventure";
-  $item->id = "http://indy.example.com/4";
+    $item->description = "Indy meets ****** and has a hell of an adventure";
+    $item->id = "http://indy.example.com/4";
 
-  $link = $item->add( 'link' );
-  $link->href = "http://indy.example.com/4";
+    $link = $item->add( 'link' );
+    $link->href = "http://indy.example.com/4";
 
-  $item->title = "Indiana Jones and the Kingdom of the Crystal Skull";
-  $item->updated = time();
+    $item->title = "Indiana Jones and the Kingdom of the Crystal Skull";
+    $item->updated = time();
 
-  $atom = $feed->generate( 'atom' );
-  $rss1 = $feed->generate( 'rss1 );
-  $rss2 = $feed->generate( 'rss2' );
+    $atom = $feed->generate( 'atom' );
+    $rss1 = $feed->generate( 'rss1 );
+    $rss2 = $feed->generate( 'rss2' );
+    ?>
 
 
 Media type
@@ -1133,6 +1193,7 @@ ezcFeed::registerFeed() function.
 
 Example of new feed type::
 
+    <?php
     class myOpmlHandler extends ezcFeedProcessor implements ezcFeedParser
     {
         const CONTENT_TYPE = 'text/x-opml';
@@ -1173,14 +1234,17 @@ Example of new feed type::
             return $feed;
         }
     }
+    ?>
 
 Example of how to use the feed type above::
 
+    <?php
     ezcFeed::registerFeed( 'opml', 'myOpmlHandler' );
     $feed = new ezcFeed();
     // fill $feed with OPML properties
 
     $xml = $feed->generate( 'opml' );
+    ?>
 
 
 Register a new module
@@ -1193,6 +1257,7 @@ by calling the ezcFeed::registerModule() function.
 
 Example of a new module type::
 
+    <?php
     class mySlashHandler extends ezcFeedModule
     {
         public function __construct( $level = 'feed' )
@@ -1241,9 +1306,11 @@ Example of a new module type::
             return 'slash';
         }
     }
+    ?>
 
 Example of how to use the module above::
 
+    <?php
     ezcFeed::registerModule( 'Slash', 'mySlashHandler', 'slash');
 
     $feed = new ezcFeed();
@@ -1252,6 +1319,7 @@ Example of how to use the module above::
     // add properties for the Slash module to $slash
 
     $xml = $feed->generate( 'rss2' ); // or the feed type which is needed
+    ?>
 
 
 Specifications and RFCs

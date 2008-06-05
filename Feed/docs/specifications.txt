@@ -137,40 +137,42 @@ elements must be added to an ezcFeedEntryElement object:
 This is a minimal script to be able to generate all 3 feed types from the same
 ezcFeed data::
 
-  $feed = new ezcFeed();
+    <?php
+    $feed = new ezcFeed();
 
-  $author = $feed->add( 'author' );
-  $author->name = "Indiana Jones";
-  $author->email = "indy@example.com";
+    $author = $feed->add( 'author' );
+    $author->name = "Indiana Jones";
+    $author->email = "indy@example.com";
 
-  $feed->description = "This feed shows Indiana Jones movie releases";
-  $feed->id = "http://indy.example.com/";
+    $feed->description = "This feed shows Indiana Jones movie releases";
+    $feed->id = "http://indy.example.com/";
 
-  $link = $feed->add( 'link' );
-  $link->href = "http://indy.example.com/";
+    $link = $feed->add( 'link' );
+    $link->href = "http://indy.example.com/";
 
-  $feed->title = "Indiana Jones movie releases";
-  $feed->updated = time();
+    $feed->title = "Indiana Jones movie releases";
+    $feed->updated = time();
 
-  // add a feed item
-  $item = $feed->add( 'item' );
+    // add a feed item
+    $item = $feed->add( 'item' );
 
-  $author = $item->add( 'author' );
-  $author->name = "Indiana Jones";
-  $author->email = "indy@example.com";
+    $author = $item->add( 'author' );
+    $author->name = "Indiana Jones";
+    $author->email = "indy@example.com";
 
-  $item->description = "Indy meets ****** and has a hell of an adventure";
-  $item->id = "http://indy.example.com/4";
+    $item->description = "Indy meets ****** and has a hell of an adventure";
+    $item->id = "http://indy.example.com/4";
 
-  $link = $item->add( 'link' );
-  $link->href = "http://indy.example.com/4";
+    $link = $item->add( 'link' );
+    $link->href = "http://indy.example.com/4";
 
-  $item->title = "Indiana Jones and the Kingdom of the Crystal Skull";
-  $item->updated = time();
+    $item->title = "Indiana Jones and the Kingdom of the Crystal Skull";
+    $item->updated = time();
 
-  $atom = $feed->generate( 'atom' );
-  $rss1 = $feed->generate( 'rss1 );
-  $rss2 = $feed->generate( 'rss2' );
+    $atom = $feed->generate( 'atom' );
+    $rss1 = $feed->generate( 'rss1 );
+    $rss2 = $feed->generate( 'rss2' );
+    ?>
 
 
 ezcFeed
@@ -200,11 +202,13 @@ In `RSS2`_ the generated XML element value will be ``email (name)``.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $author = $feed->add( 'author' );
-  $author->name = 'Guybrush Threepwood';
-  $author->email = 'guybrush@monkey-island.com';
-  $author->uri = 'http://example.com/~guybrush'; // ATOM only
+    <?php
+    // $feed is an ezcFeed object
+    $author = $feed->add( 'author' );
+    $author->name = 'Guybrush Threepwood';
+    $author->email = 'guybrush@monkey-island.com';
+    $author->uri = 'http://example.com/~guybrush'; // ATOM only
+    ?>
 
 The resulting ATOM XML element will be::
 
@@ -220,20 +224,22 @@ The resulting RSS2 XML element will be::
 
 Parse example::
 
-  $authors = array();
+    <?php
+    $authors = array();
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->author ) )
-  {
-      foreach ( $feed->author as $author )
-      {
-          $authors[] = array(
+    // $feed is an ezcFeed object
+    if ( isset( $feed->author ) )
+    {
+        foreach ( $feed->author as $author )
+        {
+            $authors[] = array(
               'name' => isset( $author->name ) ? $author->name : null,
               'uri' => isset( $author->uri ) ? $author->uri : null, // ATOM only
               'email' => isset( $author->email ) ? $author->email : null // ATOM only
               );
-      }
-  }
+        }
+    }
+    ?>
 
 Equivalents: `ezcFeed-author`_, `ATOM-author`_, RSS1-none,
 `RSS2-managingEditor`_.
@@ -260,29 +266,33 @@ attribute).
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $category = $feed->add( 'category' );
-  $category->term = 'holiday';
-  $category->scheme = 'http://example.com/categories/holiday'; // scheme = RSS2 domain
-  $category->label = 'Holiday'; // ATOM only
+    <?php
+    // $feed is an ezcFeed object
+    $category = $feed->add( 'category' );
+    $category->term = 'holiday';
+    $category->scheme = 'http://example.com/categories/holiday'; // scheme = RSS2 domain
+    $category->label = 'Holiday'; // ATOM only
+    ?>
 
 Parse example::
 
-  $categories = array();
+    <?php
+    $categories = array();
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->category ) )
-  {
-      foreach ( $feed->category as $category )
-      {
-          $categories[] = array(
+    // $feed is an ezcFeed object
+    if ( isset( $feed->category ) )
+    {
+        foreach ( $feed->category as $category )
+        {
+            $categories[] = array(
               'term' => isset( $category->term ) ? $category->term : null,
               'scheme' => isset( $category->scheme ) ? $category->scheme : null,
                   // scheme = RSS2 domain
               'label' => isset( $category->label ) ? $category->label : null // ATOM only
               );
-      }
-  }
+        }
+    }
+    ?>
 
 Equivalents: `ezcFeed-category`_, `ATOM-category`_, RSS1-none,
 `RSS2-category`_.
@@ -306,26 +316,30 @@ Has the required attributes: *domain*, *port*, *path*, *registerProcedure*,
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $cloud = $feed->add( 'cloud' );
-  $cloud->domain = 'rpc.sys.com';
-  $cloud->port = 80;
-  $cloud->path = '/RPC2';
-  $cloud->registerProcedure = 'myCloud.rssPleaseNotify';
-  $cloud->protocol = 'xml-rpc';
+    <?php
+    // $feed is an ezcFeed object
+    $cloud = $feed->add( 'cloud' );
+    $cloud->domain = 'rpc.sys.com';
+    $cloud->port = 80;
+    $cloud->path = '/RPC2';
+    $cloud->registerProcedure = 'myCloud.rssPleaseNotify';
+    $cloud->protocol = 'xml-rpc';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->cloud ) )
-  {
-      $cloud = $feed->cloud;
-      $domain = isset( $cloud->domain ) ? $cloud->domain : null;
-      $port = isset( $cloud->port ) ? $cloud->port : null;
-      $path = isset( $cloud->path ) ? $cloud->path : null;
-      $procedure = isset( $cloud->registerProcedure ) ? $cloud->registerProcedure : null;
-      $protocol = isset( $cloud->protocol ) ? $cloud->protocol : null;
-  }
+    <?php
+    // $feed is an ezcFeed object
+    if ( isset( $feed->cloud ) )
+    {
+        $cloud = $feed->cloud;
+        $domain = isset( $cloud->domain ) ? $cloud->domain : null;
+        $port = isset( $cloud->port ) ? $cloud->port : null;
+        $path = isset( $cloud->path ) ? $cloud->path : null;
+        $procedure = isset( $cloud->registerProcedure ) ? $cloud->registerProcedure : null;
+        $protocol = isset( $cloud->protocol ) ? $cloud->protocol : null;
+    }
+    ?>
 
 Equivalents: `ezcFeed-cloud`_, ATOM-none, RSS1-none, `RSS2-cloud`_.
 
@@ -346,28 +360,32 @@ Required elements: *name*. Optional elements: *uri*, *email*.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $contributor = $feed->add( 'contributor' );
-  $contributor->name = 'Guybrush Threepwood';
-  $contributor->email = 'guybrush@monkey-island.com';
-  $contributor->uri = 'http://example.com/~guybrush';
+    <?php
+    // $feed is an ezcFeed object
+    $contributor = $feed->add( 'contributor' );
+    $contributor->name = 'Guybrush Threepwood';
+    $contributor->email = 'guybrush@monkey-island.com';
+    $contributor->uri = 'http://example.com/~guybrush';
+    ?>
 
 Parse example::
 
-  $contributors = array();
+    <?php
+    $contributors = array();
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->contributor ) )
-  {
-      foreach ( $feed->contributor as $contributor )
-      {
-          $contributors[] = array(
+    // $feed is an ezcFeed object
+    if ( isset( $feed->contributor ) )
+    {
+        foreach ( $feed->contributor as $contributor )
+        {
+            $contributors[] = array(
               'name' => isset( $contributor->name ) ? $contributor->name : null,
               'uri' => isset( $contributor->uri ) ? $contributor->uri : null,
               'email' => isset( $contributor->email ) ? $contributor->email : null
               );
-      }
-  }
+        }
+    }
+    ?>
 
 Equivalents: `ezcFeed-contributor`_, `ATOM-contributor`_, RSS1-none,
 RSS2-none.
@@ -396,21 +414,25 @@ the text. A list of allowed languages can be found here:
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->copyright = 'Copyright <company name>';
-  $feed->copyright->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
-  $feed->copyright->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    <?php
+    // $feed is an ezcFeed object
+    $feed->copyright = 'Copyright <company name>';
+    $feed->copyright->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
+    $feed->copyright->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->copyright ) )
-  {
-      $copyrightElement = $feed->copyright;
-      $copyright = $copyrightElement->text;
-      $type = isset( $copyrightElement->type ) ? $copyrightElement->type : null;  // ATOM only
-      $language = isset( $copyrightElement->language ) ? $copyrightElement->language : null;  // ATOM only
-  }
+    <?php
+    // $feed is an ezcFeed object
+    if ( isset( $feed->copyright ) )
+    {
+        $copyrightElement = $feed->copyright;
+        $copyright = $copyrightElement->text;
+        $type = isset( $copyrightElement->type ) ? $copyrightElement->type : null;  // ATOM only
+        $language = isset( $copyrightElement->language ) ? $copyrightElement->language : null;  // ATOM only
+    }
+    ?>
 
 Equivalents: `ezcFeed-copyright`_, `ATOM-rights`_, RSS1-none,
 `RSS2-copyright`_.
@@ -438,21 +460,25 @@ the text. A list of allowed languages can be found here:
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->description = 'Feed description';
-  $feed->description->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
-  $feed->description->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    <?php
+    // $feed is an ezcFeed object
+    $feed->description = 'Feed description';
+    $feed->description->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
+    $feed->description->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->description ) )
-  {
-      $descriptionElement = $feed->description;
-      $description = $descriptionElement->text;
-      $type = isset( $descriptionElement->type ) ? $descriptionElement->type : null; // ATOM only
-      $language = isset( $descriptionElement->language ) ? $descriptionElement->language : null; // ATOM only
-  }
+    <?php
+    // $feed is an ezcFeed object
+    if ( isset( $feed->description ) )
+    {
+        $descriptionElement = $feed->description;
+        $description = $descriptionElement->text;
+        $type = isset( $descriptionElement->type ) ? $descriptionElement->type : null; // ATOM only
+        $language = isset( $descriptionElement->language ) ? $descriptionElement->language : null; // ATOM only
+    }
+    ?>
 
 Equivalents: `ezcFeed-description`_, `ATOM-subtitle`_, `RSS1-description`_,
 `RSS2-description`_.
@@ -472,13 +498,17 @@ Can appear only once.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->docs = 'http://www.rssboard.org/rss-specification';
+    <?php
+    // $feed is an ezcFeed object
+    $feed->docs = 'http://www.rssboard.org/rss-specification';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $docs = isset( $feed->docs ) ? $feed->docs->__toString() : null;
+    <?php
+    // $feed is an ezcFeed object
+    $docs = isset( $feed->docs ) ? $feed->docs->__toString() : null;
+    ?>
 
 Equivalents: `ezcFeed-docs`_, ATOM-none, RSS1-none, `RSS2-docs`_.
 
@@ -511,21 +541,25 @@ pre-alpha1)
 Create example - this is automatically done by ezcFeed when calling the
 **generate()** method::
 
-  // $feed is an ezcFeed object
-  $generator = $feed->add( 'generator' );
-  $generator->name = 'eZ Components Feed';
-  $generator->url = 'http://ezcomponents.org/docs/tutorials/Feed';
-  $generator->version = '1.0';
+    <?php
+    // $feed is an ezcFeed object
+    $generator = $feed->add( 'generator' );
+    $generator->name = 'eZ Components Feed';
+    $generator->url = 'http://ezcomponents.org/docs/tutorials/Feed';
+    $generator->version = '1.0';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->generator ) )
-  {
-      $name = isset( $feed->generator->name ) ? $feed->generator->name : null;
-      $url = isset( $feed->generator->url ) ? $feed->generator->url : null; // ATOM only
-      $version = isset( $feed->generator->version ) ? $feed->generator->version : null; // ATOM only
-  }
+    <?php
+    // $feed is an ezcFeed object
+    if ( isset( $feed->generator ) )
+    {
+        $name = isset( $feed->generator->name ) ? $feed->generator->name : null;
+        $url = isset( $feed->generator->url ) ? $feed->generator->url : null; // ATOM only
+        $version = isset( $feed->generator->version ) ? $feed->generator->version : null; // ATOM only
+    }
+    ?>
 
 Equivalents: `ezcFeed-generator`_, `ATOM-generator`_, RSS1-none,
 `RSS2-generator`_.
@@ -545,13 +579,17 @@ Can appear only once.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->icon = 'http://example.com/favicon.ico';
+    <?php
+    // $feed is an ezcFeed object
+    $feed->icon = 'http://example.com/favicon.ico';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $icon = isset( $feed->icon ) ? $feed->icon->__toString : null;
+    <?php
+    // $feed is an ezcFeed object
+    $icon = isset( $feed->icon ) ? $feed->icon->__toString : null;
+    ?>
 
 Equivalents: `ezcFeed-icon`_, `ATOM-icon`_, RSS1-none, RSS2-none.
 
@@ -571,13 +609,17 @@ Can appear only once.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->id = 'ID value';
+    <?php
+    // $feed is an ezcFeed object
+    $feed->id = 'ID value';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $id = isset( $feed->id ) ? $feed->id->__toString() : null;
+    <?php
+    // $feed is an ezcFeed object
+    $id = isset( $feed->id ) ? $feed->id->__toString() : null;
+    ?>
 
 Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, RSS2-none.
 
@@ -604,30 +646,34 @@ attributes will be ignored for `RSS1`_ and `ATOM`_ feeds.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $image = $feed->add( 'image' );
-  $image->link = 'http://example.com/target_for_image_click.html';
-  $image->url = 'http://example.com/image.jpg'; // RSS1 and RSS2 only
-  $image->title = 'Click here to go to the link'; // RSS1 and RSS2 only
-  $image->width = 100; // RSS2 only
-  $image->height = 200; // RSS2 only
-  $image->description = 'This image is cool'; // RSS2 only
-  $image->about = 'http://example.com/image.jpg'; // RSS1 only
+    <?php
+    // $feed is an ezcFeed object
+    $image = $feed->add( 'image' );
+    $image->link = 'http://example.com/target_for_image_click.html';
+    $image->url = 'http://example.com/image.jpg'; // RSS1 and RSS2 only
+    $image->title = 'Click here to go to the link'; // RSS1 and RSS2 only
+    $image->width = 100; // RSS2 only
+    $image->height = 200; // RSS2 only
+    $image->description = 'This image is cool'; // RSS2 only
+    $image->about = 'http://example.com/image.jpg'; // RSS1 only
+    ?>
 
 Parse example (`RSS1`_ and `RSS2`_)::
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->image ) )
-  {
-      $image = $feed->image;
-      $link = isset( $image->link ) ? $image->link : null;
-      $url = isset( $image->url ) ? $image->url : null; // RSS1 and RSS2 only
-      $title = isset( $image->title ) ? $image->title : null; // RSS1 and RSS2 only
-      $width = isset( $image->width ) ? $image->width : null; // RSS2 only
-      $height = isset( $image->height ) ? $image->height : null; // RSS2 only
-      $description = isset( $image->description ) ? $image->description : null; // RSS2 only
-      $about = isset( $image->about ) ? $image->about : null; // RSS1 only
-  }
+    <?php
+    // $feed is an ezcFeed object
+    if ( isset( $feed->image ) )
+    {
+        $image = $feed->image;
+        $link = isset( $image->link ) ? $image->link : null;
+        $url = isset( $image->url ) ? $image->url : null; // RSS1 and RSS2 only
+        $title = isset( $image->title ) ? $image->title : null; // RSS1 and RSS2 only
+        $width = isset( $image->width ) ? $image->width : null; // RSS2 only
+        $height = isset( $image->height ) ? $image->height : null; // RSS2 only
+        $description = isset( $image->description ) ? $image->description : null; // RSS2 only
+        $about = isset( $image->about ) ? $image->about : null; // RSS1 only
+    }
+    ?>
 
 Equivalents: `ezcFeed-image`_, `ATOM-logo`_, `RSS1-image`_, `RSS2-image`_.
 
@@ -646,20 +692,24 @@ Multiple entries can appear.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $item = $feed->add( 'item' );
+    <?php
+    // $feed is an ezcFeed object
+    $item = $feed->add( 'item' );
 
-  // set $item properties, for example:
-  $item->title = 'Item title';
+    // set $item properties, for example:
+    $item->title = 'Item title';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  foreach ( $feed->item as $item )
-  {
-      // get $item properties, for example:
-      $title = isset( $item->title ) ? $item->title->__toString() : null;
-  }
+    <?php
+    // $feed is an ezcFeed object
+    foreach ( $feed->item as $item )
+    {
+        // get $item properties, for example:
+        $title = isset( $item->title ) ? $item->title->__toString() : null;
+    }
+    ?>
 
 Equivalents: `ezcFeed-item`_, `ATOM-entry`_, `RSS1-item`_, `RSS2-item`_.
 
@@ -682,13 +732,17 @@ A list of allowed languages can be found here: `RSS language codes`_.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->language = 'en';
+    <?php
+    // $feed is an ezcFeed object
+    $feed->language = 'en';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $language = isset( $feed->language ) ? $feed->language->__toString() : null;
+    <?php
+    // $feed is an ezcFeed object
+    $language = isset( $feed->language ) ? $feed->language->__toString() : null;
+    ?>
 
 Equivalents: `ezcFeed-language`_, ATOM-*xml:lang* for each element, RSS1-none,
 `RSS2-language`_.
@@ -717,23 +771,26 @@ These attributes will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $link = $feed->add( 'link' );
-  $link->href = 'http://example.com';
-  $link->rel = 'self'; // ATOM only
-  $link->type = 'text/html'; // ATOM only
-  $link->hreflang = 'en'; // ATOM only
-  $link->title = 'Link to the homepage'; // ATOM only
-  $link->length = 12345;  // ATOM only
+    <?php
+    // $feed is an ezcFeed object
+    $link = $feed->add( 'link' );
+    $link->href = 'http://example.com';
+    $link->rel = 'self'; // ATOM only
+    $link->type = 'text/html'; // ATOM only
+    $link->hreflang = 'en'; // ATOM only
+    $link->title = 'Link to the homepage'; // ATOM only
+    $link->length = 12345;  // ATOM only
+    ?>
 
 Parse example::
 
-  $links = array();
+    <?php
+    $links = array();
 
-  // $feed is an ezcFeed object
-  foreach ( $feed->link as $link )
-  {
-      $links[] = array(
+    // $feed is an ezcFeed object
+    foreach ( $feed->link as $link )
+    {
+        $links[] = array(
           'href' => isset( $link->href ) ? $link->href : null,
           'rel' => isset( $link->rel ) ? $link->rel : null, // ATOM only
           'type' => isset( $link->type ) ? $link->type : null, // ATOM only
@@ -741,7 +798,8 @@ Parse example::
           'title' => isset( $link->title ) ? $link->title : null, // ATOM only
           'length' => isset( $link->length ) ? $link->length : null, // ATOM only
           );
-  }
+    }
+    ?>
 
 Equivalents: `ezcFeed-link`_, `ATOM-link`_, `RSS1-link`_, `RSS2-link`_.
 
@@ -762,13 +820,17 @@ Can be assigned with an integer timestamp, a string date or a DateTime object.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->published = time();
+    <?php
+    // $feed is an ezcFeed object
+    $feed->published = time();
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $published = isset( $feed->published ) ? $feed->published->date->format( 'c' ) : null;
+    <?php
+    // $feed is an ezcFeed object
+    $published = isset( $feed->published ) ? $feed->published->date->format( 'c' ) : null;
+    ?>
 
 Other formats can be used also instead of ``'c'``, see the documentation for
 `date_format()`_.
@@ -790,18 +852,22 @@ Can appear only once.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->rating = '(PICS-1.1 "http://www.gcf.org/v2.5" labels 
-                    on "1994.11.05T08:15-0500" 
-                    exp "1995.12.31T23:59-0000" 
-                    for "http://www.greatdocs.com/foo.html" 
-                    by "George Sanderson, Jr." 
-                    ratings (suds 0.5 density 0 color/hue 1))';
+    <?php
+    // $feed is an ezcFeed object
+    $feed->rating = '(PICS-1.1 "http://www.gcf.org/v2.5" labels 
+                      on "1994.11.05T08:15-0500" 
+                      exp "1995.12.31T23:59-0000" 
+                      for "http://www.greatdocs.com/foo.html" 
+                      by "George Sanderson, Jr." 
+                      ratings (suds 0.5 density 0 color/hue 1))';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $rating = isset( $feed->rating ) ? $feed->rating->__toString() : null;
+    <?php
+    // $feed is an ezcFeed object
+    $rating = isset( $feed->rating ) ? $feed->rating->__toString() : null;
+    ?>
 
 Equivalents: `ezcFeed-rating`_, ATOM-none, RSS1-none, `RSS2-rating`_.
 
@@ -823,18 +889,22 @@ Can have up to 7 *day* elements, each with a value from ``Monday`` to ``Sunday``
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $skip = $feed->add( 'skipDays' );
-  $skip->days = array( 'Saturday', 'Sunday' );
+    <?php
+    // $feed is an ezcFeed object
+    $skip = $feed->add( 'skipDays' );
+    $skip->days = array( 'Saturday', 'Sunday' );
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $days = array( 'Monday' => false, /*...*/ 'Sunday' => false );
-  foreach ( $feed->skipDays->days as $skip )
-  {
-      $days[$skip] = true;
-  }
+    <?php
+    // $feed is an ezcFeed object
+    $days = array( 'Monday' => false, /*...*/ 'Sunday' => false );
+    foreach ( $feed->skipDays->days as $skip )
+    {
+        $days[$skip] = true;
+    }
+    ?>
 
 Equivalents: `ezcFeed-skipDays`_, ATOM-none, RSS1-none, `RSS2-skipDays`_.
 
@@ -857,18 +927,22 @@ Can have up to 24 *hour* elements, each with an integer value from ``0``
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $skip = $feed->add( 'skipHours' );
-  $skip->hours = array( 1, 2, 3, 4, 5 );
+    <?php
+    // $feed is an ezcFeed object
+    $skip = $feed->add( 'skipHours' );
+    $skip->hours = array( 1, 2, 3, 4, 5 );
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $hours = array( '0' => false, /*...*/ '24' => false );
-  foreach ( $feed->skipHours->hours as $skip )
-  {
-      $hours[$skip] = true;
-  }
+    <?php
+    // $feed is an ezcFeed object
+    $hours = array( '0' => false, /*...*/ '24' => false );
+    foreach ( $feed->skipHours->hours as $skip )
+    {
+        $hours[$skip] = true;
+    }
+    ?>
 
 Equivalents: `ezcFeed-skipHours`_, ATOM-none, RSS1-none, `RSS2-skipHours`_.
 
@@ -893,26 +967,30 @@ for `RSS1`_ and `RSS2`_).
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $textInput = $feed->add( 'textInput' );
-  $textInput->title = 'Text input title';
-  $textInput->description = 'Text input description';
-  $textInput->name = 'Text input name';
-  $textInput->link = 'Text input link';
-  $textInput->about = 'Text input link'; // RSS1 only, ignored in RSS2
+    <?php
+    // $feed is an ezcFeed object
+    $textInput = $feed->add( 'textInput' );
+    $textInput->title = 'Text input title';
+    $textInput->description = 'Text input description';
+    $textInput->name = 'Text input name';
+    $textInput->link = 'Text input link';
+    $textInput->about = 'Text input link'; // RSS1 only, ignored in RSS2
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->textInput ) )
-  {
-      $textInput = $feed->textInput;
-      $title = isset( $textInput->title ) ? $textInput->title : null;
-      $description = isset( $textInput->description ) ? $textInput->description : null;
-      $name = isset( $textInput->name ) ? $textInput->name : null;
-      $link = isset( $textInput->link ) ? $textInput->link : null;
-      $about = isset( $textInput->about ) ? $textInput->about : null; // RSS1 only
-  }
+    <?php
+    // $feed is an ezcFeed object
+    if ( isset( $feed->textInput ) )
+    {
+        $textInput = $feed->textInput;
+        $title = isset( $textInput->title ) ? $textInput->title : null;
+        $description = isset( $textInput->description ) ? $textInput->description : null;
+        $name = isset( $textInput->name ) ? $textInput->name : null;
+        $link = isset( $textInput->link ) ? $textInput->link : null;
+        $about = isset( $textInput->about ) ? $textInput->about : null; // RSS1 only
+    }
+    ?>
 
 Equivalents: `ezcFeed-textInput`_, ATOM-none, `RSS1-textinput`_,
 `RSS2-textInput`_.
@@ -941,21 +1019,25 @@ This attribute will be ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->title = 'Feed title';
-  $feed->title->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
-  $feed->title->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    <?php
+    // $feed is an ezcFeed object
+    $feed->title = 'Feed title';
+    $feed->title->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
+    $feed->title->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->title ) )
-  {
-      $element = $feed->title;
-      $title = isset( $element->text ) ? $element->text : null;
-      $type = isset( $element->type ) ? $element->type : null; // ATOM only
-      $language = isset( $element->language ) ? $element->language : null; // ATOM only
-  }
+    <?php
+    // $feed is an ezcFeed object
+    if ( isset( $feed->title ) )
+    {
+        $element = $feed->title;
+        $title = isset( $element->text ) ? $element->text : null;
+        $type = isset( $element->type ) ? $element->type : null; // ATOM only
+        $language = isset( $element->language ) ? $element->language : null; // ATOM only
+    }
+    ?>
 
 Equivalents: `ezcFeed-title`_, `ATOM-title`_, `RSS1-title`_, `RSS2-title`_.
 
@@ -975,13 +1057,17 @@ Can appear only once.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->ttl = '60'; // minutes
+    <?php
+    // $feed is an ezcFeed object
+    $feed->ttl = '60'; // minutes
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $ttl = isset( $feed->ttl ) ? $feed->ttl->__toString() : null;
+    <?php
+    // $feed is an ezcFeed object
+    $ttl = isset( $feed->ttl ) ? $feed->ttl->__toString() : null;
+    ?>
 
 Equivalents: `ezcFeed-ttl`_, ATOM-none, RSS1-none, `RSS2-ttl`_.
 
@@ -1003,13 +1089,17 @@ Can be assigned with an integer timestamp, a string date or a DateTime object.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $feed->updated = 'Tue, 10 Jun 2003 04:00:00 GMT';
+    <?php
+    // $feed is an ezcFeed object
+    $feed->updated = 'Tue, 10 Jun 2003 04:00:00 GMT';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  $updated = isset( $feed->updated ) ? $feed->updated->date->format( 'c' ) : null;
+    <?php
+    // $feed is an ezcFeed object
+    $updated = isset( $feed->updated ) ? $feed->updated->date->format( 'c' ) : null;
+    ?>
 
 Other formats can be used also instead of ``'c'``, see the documentation for
 `date_format()`_.
@@ -1034,18 +1124,22 @@ for example ``john.doe@example.com (John Doe)``.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $webMaster = $feed->add( 'webMaster' );
-  $webMaster->name = 'John Doe';
-  $webMaster->email = 'john.doe@example.com'; 
+    <?php
+    // $feed is an ezcFeed object
+    $webMaster = $feed->add( 'webMaster' );
+    $webMaster->name = 'John Doe';
+    $webMaster->email = 'john.doe@example.com';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->webMaster ) )
-  {
-      $name = isset( $feed->webMaster->name ) ? $feed->webMaster->name : null;
-  }
+    <?php
+    // $feed is an ezcFeed object
+    if ( isset( $feed->webMaster ) )
+    {
+        $name = isset( $feed->webMaster->name ) ? $feed->webMaster->name : null;
+    }
+    ?>
 
 Equivalents: `ezcFeed-webMaster`_, ATOM-none, RSS1-none, `RSS2-webMaster`_.
 
@@ -1074,11 +1168,13 @@ In `RSS2`_ the generated XML element value will be ``email (name)``.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $author = $item->add( 'author' );
-  $author->name = 'Guybrush Threepwood';
-  $author->email = 'guybrush@monkey-island.com';
-  $author->uri = 'http://example.com/~guybrush'; // ATOM only
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $author = $item->add( 'author' );
+    $author->name = 'Guybrush Threepwood';
+    $author->email = 'guybrush@monkey-island.com';
+    $author->uri = 'http://example.com/~guybrush'; // ATOM only
+    ?>
 
 The resulting ATOM XML element will be::
 
@@ -1094,20 +1190,22 @@ The resulting RSS2 XML element will be::
   
 Parse example::
 
-  $authors = array();
+    <?php
+    $authors = array();
 
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->author ) )
-  {
-      foreach ( $item->author as $author )
-      {
-          $authors[] = array(
+    // $item is an ezcFeedEntryElement object
+    if ( isset( $item->author ) )
+    {
+        foreach ( $item->author as $author )
+        {
+            $authors[] = array(
               'name' => isset( $author->name ) ? $author->name : null,
               'uri' => isset( $author->uri ) ? $author->uri : null, // ATOM only
               'email' => isset( $author->email ) ? $author->email : null // ATOM only
               );
-      }
-  }
+        }
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-author`_, `ATOM-entry-author`_, RSS1-none,
 `RSS2-item-author`_.
@@ -1130,28 +1228,32 @@ Multiple categories can appear in `ATOM`_ and `RSS2`_ feeds.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $category = $item->add( 'category' );
-  $category->term = 'holiday';
-  $category->scheme = 'http://example.com/categories/holiday'; // scheme = RSS2 domain
-  $category->label = 'Holiday'; // ATOM only
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $category = $item->add( 'category' );
+    $category->term = 'holiday';
+    $category->scheme = 'http://example.com/categories/holiday'; // scheme = RSS2 domain
+    $category->label = 'Holiday'; // ATOM only
+    ?>
 
 Parse example::
 
-  $categories = array();
+    <?php
+    $categories = array();
 
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->category ) )
-  {
-      foreach ( $item->category as $category )
-      {
-          $categories[] = array(
+    // $item is an ezcFeedEntryElement object
+    if ( isset( $item->category ) )
+    {
+        foreach ( $item->category as $category )
+        {
+            $categories[] = array(
               'term' => isset( $category->term ) ? $category->term : null,
               'scheme' => isset( $category->scheme ) ? $category->scheme : null, // scheme = RSS2 domain
               'label' => isset( $category->label ) ? $category->label : null // ATOM only
               );
-      }
-  }
+        }
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-category`_, `ATOM-entry-category`_, RSS1-none,
 `RSS2-item-category`_.
@@ -1171,13 +1273,17 @@ Can appear only once.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $item->comments = 'http://www.example.com/comments.php';
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $item->comments = 'http://www.example.com/comments.php';
+    ?>
 
 Parse example::
 
-  // $item is an ezcFeedEntryElement object
-  $comments = isset( $item->comments ) ? $item->comments->__toString() : null;
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $comments = isset( $item->comments ) ? $item->comments->__toString() : null;
+    ?>
 
 Equivalents: `ezcFeed-item-comments`_, ATOM-none, RSS1-none,
 `RSS2-item-comments`_.
@@ -1220,23 +1326,27 @@ inline.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $item->content = 'Content';
-  $item->content->type = 'text';
-  $item->content->language = 'de';
-  $item->content->src = 'http://example.com/content_src.html';
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $item->content = 'Content';
+    $item->content->type = 'text';
+    $item->content->language = 'de';
+    $item->content->src = 'http://example.com/content_src.html';
+    ?>
 
 Parse example::
 
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->content ) )
-  {
-      $contentElement = $item->content;
-      $content = $descriptionElement->text;
-      $type = isset( $contentElement->type ) ? $contentElement->type : null;
-      $language = isset( $contentElement->language ) ? $contentElement->language : null;
-      $src = isset( $contentElement->src ) ? $contentElement->src : null;
-  }
+    <?php
+    // $item is an ezcFeedEntryElement object
+    if ( isset( $item->content ) )
+    {
+        $contentElement = $item->content;
+        $content = $descriptionElement->text;
+        $type = isset( $contentElement->type ) ? $contentElement->type : null;
+        $language = isset( $contentElement->language ) ? $contentElement->language : null;
+        $src = isset( $contentElement->src ) ? $contentElement->src : null;
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-content`_/`ezcFeed-item-description`_,
 `ATOM-entry-content`_, RSS1-none, RSS2-none.
@@ -1258,28 +1368,32 @@ Required elements: *name*. Optional elements: *uri*, *email*.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $contributor = $item->add( 'contributor' );
-  $contributor->name = 'Guybrush Threepwood';
-  $contributor->uri = 'http://example.com/~guybrush';
-  $contributor->email = 'guybrush@monkey-island.com';
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $contributor = $item->add( 'contributor' );
+    $contributor->name = 'Guybrush Threepwood';
+    $contributor->uri = 'http://example.com/~guybrush';
+    $contributor->email = 'guybrush@monkey-island.com';
+    ?>
 
 Parse example::
 
-  $contributors = array();
+    <?php
+    $contributors = array();
 
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->contributor ) )
-  {
-      foreach ( $item->contributor as $contributor )
-      {
-          $contributors[] = array(
+    // $item is an ezcFeedEntryElement object
+    if ( isset( $item->contributor ) )
+    {
+        foreach ( $item->contributor as $contributor )
+        {
+            $contributors[] = array(
               'name' => isset( $contributor->name ) ? $contributor->name : null,
               'uri' => isset( $contributor->uri ) ? $contributor->uri : null,
               'email' => isset( $contributor->email ) ? $contributor->email : null
               );
-      }
-  }
+        }
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-contributor`_, `ATOM-entry-contributor`_,
 RSS1-none, RSS2-none.
@@ -1310,21 +1424,25 @@ the text. A list of allowed languages can be found here:
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $item->copyright = 'Copyright <company name>';
-  $item->copyright->type = 'text'; // ATOM only
-  $item->copyright->language = 'de'; // ATOM only
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $item->copyright = 'Copyright <company name>';
+    $item->copyright->type = 'text'; // ATOM only
+    $item->copyright->language = 'de'; // ATOM only
+    ?>
 
 Parse example::
 
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->copyright ) )
-  {
-      $copyrightElement = $item->copyright;
-      $copyright = $copyrightElement->text;
-      $type = isset( $copyrightElement->type ) ? $copyrightElement->type : null; // ATOM only
-      $language = isset( $copyrightElement->language ) ? $copyrightElement->language : null; // ATOM only
-  }
+    <?php
+    // $item is an ezcFeedEntryElement object
+    if ( isset( $item->copyright ) )
+    {
+        $copyrightElement = $item->copyright;
+        $copyright = $copyrightElement->text;
+        $type = isset( $copyrightElement->type ) ? $copyrightElement->type : null; // ATOM only
+        $language = isset( $copyrightElement->language ) ? $copyrightElement->language : null; // ATOM only
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-copyright`_, `ATOM-entry-rights`_, RSS1-none,
 RSS2-none (`RSS2-copyright`_ for the whole feed).
@@ -1353,21 +1471,25 @@ the text. A list of allowed languages can be found here:
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $item->description = 'Feed description';
-  $item->description->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
-  $item->description->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $item->description = 'Feed description';
+    $item->description->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
+    $item->description->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    ?>
 
 Parse example::
 
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->description ) )
-  {
-      $desc = $item->description;
-      $description = $desc->text;
-      $type = isset( $desc->type ) ? $desc->type : null; // ATOM only
-      $language = isset( $desc->language ) ? $desc->language : null; // ATOM only
-  }
+    <?php
+    // $item is an ezcFeedEntryElement object
+    if ( isset( $item->description ) )
+    {
+        $desc = $item->description;
+        $description = $desc->text;
+        $type = isset( $desc->type ) ? $desc->type : null; // ATOM only
+        $language = isset( $desc->language ) ? $desc->language : null; // ATOM only
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-description`_, `ATOM-entry-summary`_,
 `RSS1-item-description`_, `RSS2-item-description`_.
@@ -1391,11 +1513,13 @@ Has 3 required attributes: *url*, *length*, *type*.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $enclosure = $item->add( 'enclosure' );  
-  $enclosure->url = 'http://example.com/media/episode_001.mp3';
-  $enclosure->length = 49099054; // bytes
-  $enclosure->type = 'audio/x-mp3';
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $enclosure = $item->add( 'enclosure' );  
+    $enclosure->url = 'http://example.com/media/episode_001.mp3';
+    $enclosure->length = 49099054; // bytes
+    $enclosure->type = 'audio/x-mp3';
+    ?>
 
 `RSS2`_ output::
 
@@ -1407,14 +1531,16 @@ Create example::
 
 Parse example (`RSS2`_)::
 
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->enclosure ) )
-  {
-      $enclosure = $item->enclosure[0];
-      $url = isset( $enclosure->url ) ? $enclosure->url : null;
-      $length = isset( $enclosure->length ) ? $enclosure->length : null;
-      $type = isset( $enclosure->type ) ? $enclosure->type : null;
-  }
+    <?php
+    // $item is an ezcFeedEntryElement object
+    if ( isset( $item->enclosure ) )
+    {
+        $enclosure = $item->enclosure[0];
+        $url = isset( $enclosure->url ) ? $enclosure->url : null;
+        $length = isset( $enclosure->length ) ? $enclosure->length : null;
+        $type = isset( $enclosure->type ) ? $enclosure->type : null;
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-enclosure`_, ATOM-none (`ATOM-entry-link`_ for
 similar functionality), RSS1-none, `RSS2-item-enclosure`_.
@@ -1437,18 +1563,22 @@ Can appear only once.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $item->id = 'ID value';
-  $item->id->isPermLink = false; // RSS2 only, it will be ignored for RSS1 and ATOM
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $item->id = 'ID value';
+    $item->id->isPermLink = false; // RSS2 only, it will be ignored for RSS1 and ATOM
+    ?>
 
 Parse example::
 
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->id ) )
-  {
-      $id = isset( $feed->id->id ) : $feed->id->id : null;
-      $isPermLink = isset( $feed->id->isPermLink ) ? $feed->id->isPermLink : null; // RSS2 only
-  }
+    <?php
+    // $item is an ezcFeedEntryElement object
+    if ( isset( $item->id ) )
+    {
+        $id = isset( $feed->id->id ) : $feed->id->id : null;
+        $isPermLink = isset( $feed->id->isPermLink ) ? $feed->id->isPermLink : null; // RSS2 only
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-id`_, `ATOM-entry-id`_, `RSS1-item-about`_,
 `RSS2-item-guid`_.
@@ -1484,23 +1614,26 @@ These attributes are ignored for `RSS1`_ and `RSS2`_ feeds.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $link = $item->add( 'link' );
-  $link->href = 'http://example.com';
-  $link->rel = 'self'; // ATOM only
-  $link->type = 'text/html'; // ATOM only
-  $link->hreflang = 'en'; // ATOM only
-  $link->title = 'Link to the article'; // ATOM only
-  $link->length = '20:14';  // ATOM only
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $link = $item->add( 'link' );
+    $link->href = 'http://example.com';
+    $link->rel = 'self'; // ATOM only
+    $link->type = 'text/html'; // ATOM only
+    $link->hreflang = 'en'; // ATOM only
+    $link->title = 'Link to the article'; // ATOM only
+    $link->length = '20:14';  // ATOM only
+    ?>
 
 Parse example::
 
-  $links = array();
+    <?php
+    $links = array();
 
-  // $item is an ezcFeedEntryElement object
-  foreach ( $item->link as $link )
-  {
-      $links[] = array(
+    // $item is an ezcFeedEntryElement object
+    foreach ( $item->link as $link )
+    {
+        $links[] = array(
           'href' => isset( $link->href ) ? $link->href : null,
           'rel' => isset( $link->rel ) ? $link->rel : null, // ATOM only
           'type' => isset( $link->type ) ? $link->type : null, // ATOM only
@@ -1508,7 +1641,8 @@ Parse example::
           'title' => isset( $link->title ) ? $link->title : null, // ATOM only
           'length' => isset( $link->length ) ? $link->length : null, // ATOM only
           );
-  }
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-link`_/`ezcFeed-item-enclosure`_,
 `ATOM-entry-link`_, `RSS1-item-link`_, `RSS2-item-link`_/
@@ -1531,13 +1665,17 @@ Can be assigned with an integer timestamp, a string date or a DateTime object.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $item->published = time();
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $item->published = time();
+    ?>
 
 Parse example::
 
-  // $item is an ezcFeedEntryElement object
-  $published = isset( $item->published ) ? $item->published->date->format( 'c' ) : null;
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $published = isset( $item->published ) ? $item->published->date->format( 'c' ) : null;
+    ?>
 
 Equivalents: `ezcFeed-item-published`_, `ATOM-entry-published`_, RSS1-none,
 `RSS2-item-pubDate`_.
@@ -1565,21 +1703,25 @@ the text. A list of allowed languages can be found here:
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $item->title = 'Feed title';
-  $item->title->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
-  $item->title->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $item->title = 'Feed title';
+    $item->title->type = 'text'; // ATOM only, ignored in RSS1 and RSS2
+    $item->title->language = 'de'; // ATOM only, ignored in RSS1 and RSS2
+    ?>
 
 Parse example::
 
-  // $item is an ezcFeedEntryElement object
-  if ( isset( $item->title ) )
-  {
-      $titleElement = $item->title;
-      $title = $titleElement->text;
-      $type = isset( $titleElement->type ) ? $titleElement->type : null; // ATOM only
-      $language = isset( $titleElement->language ) ? $titleElement->language : null; // ATOM only
-  }
+    <?php
+    // $item is an ezcFeedEntryElement object
+    if ( isset( $item->title ) )
+    {
+        $titleElement = $item->title;
+        $title = $titleElement->text;
+        $type = isset( $titleElement->type ) ? $titleElement->type : null; // ATOM only
+        $language = isset( $titleElement->language ) ? $titleElement->language : null; // ATOM only
+    }
+    ?>
 
 Equivalents: `ezcFeed-item-title`_, `ATOM-entry-title`_, `RSS1-item-title`_,
 `RSS2-item-title`_.
@@ -1601,13 +1743,17 @@ Can be assigned with an integer timestamp, a string date or a DateTime object.
 
 Create example::
 
-  // $item is an ezcFeedEntryElement object
-  $item->updated = 'Tue, 10 Jun 2003 04:00:00 GMT';
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $item->updated = 'Tue, 10 Jun 2003 04:00:00 GMT';
+    ?>
 
 Parse example::
 
-  // $item is an ezcFeedEntryElement object
-  $updated = isset( $item->updated ) ? $item->updated->date->format( 'c' ) : null;
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $updated = isset( $item->updated ) ? $item->updated->date->format( 'c' ) : null;
+    ?>
 
 Equivalents: `ezcFeed-item-updated`_, `ATOM-entry-updated`_, RSS1-none,
 RSS2-none.
@@ -2773,15 +2919,19 @@ Can appear only once.
 
 Create example::
 
-  $feed = new ezcFeed( 'rss2' );
-  $item = $feed->add( 'item' );
-  $module = $item->addModule( 'Content' );
-  $module->encoded = 'text content';
+    <?php
+    $feed = new ezcFeed( 'rss2' );
+    $item = $feed->add( 'item' );
+    $module = $item->addModule( 'Content' );
+    $module->encoded = 'text content';
+    ?>
 
 Parse example::
 
-  // $item is a feed item (ezcFeedEntryElement)
-  $text = $item->Content->encoded->__toString();
+    <?php
+    // $item is a feed item (ezcFeedEntryElement)
+    $text = $item->Content->encoded->__toString();
+    ?>
 
 
 CreativeCommons module
@@ -2812,14 +2962,18 @@ but other licenses can be used as well.
 
 Create example::
 
-  $feed = new ezcFeed( 'rss2' );
-  $module = $feed->addModule( 'CreativeCommons' );
-  $module->license = 'text content';
+    <?php
+    $feed = new ezcFeed( 'rss2' );
+    $module = $feed->addModule( 'CreativeCommons' );
+    $module->license = 'text content';
+    ?>
 
 Parse example::
 
-  // $item is a feed object (ezcFeed)
-  $text = $feed->CreativeCommons->license->__toString();
+    <?php
+    // $item is a feed object (ezcFeed)
+    $text = $feed->CreativeCommons->license->__toString();
+    ?>
 
 
 Item elements
@@ -2841,15 +2995,19 @@ but other licenses can be used as well.
 
 Create example::
 
-  $feed = new ezcFeed( 'rss2' );
-  $item = $feed->add( 'item' );
-  $module = $item->addModule( 'CreativeCommons' );
-  $module->license = 'text content';
+    <?php
+    $feed = new ezcFeed( 'rss2' );
+    $item = $feed->add( 'item' );
+    $module = $item->addModule( 'CreativeCommons' );
+    $module->license = 'text content';
+    ?>
 
 Parse example::
 
-  // $item is a feed item (ezcFeedEntryElement)
-  $text = $item->CreativeCommons->license->__toString();
+    <?php
+    // $item is a feed item (ezcFeedEntryElement)
+    $text = $item->CreativeCommons->license->__toString();
+    ?>
 
 
 DublinCore module
@@ -2882,20 +3040,24 @@ attribute is accessed as *language*.
 
 Create example::
 
-  $feed = new ezcFeed( 'rss2' );
-  $module = $feed->addModule( 'DublinCore' );
-  $element = $module->add( 'contributor' );
-  $element->name = 'Contributor name';
-  $element->language = 'no'; // optional language specification
+    <?php
+    $feed = new ezcFeed( 'rss2' );
+    $module = $feed->addModule( 'DublinCore' );
+    $element = $module->add( 'contributor' );
+    $element->name = 'Contributor name';
+    $element->language = 'no'; // optional language specification
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  foreach ( $feed->DublinCore->contributor as $element )
-  {
-      echo $element->name;
-      echo $element->language;
-  }
+    <?php
+    // $feed is an ezcFeed object
+    foreach ( $feed->DublinCore->contributor as $element )
+    {
+        echo $element->name;
+        echo $element->language;
+    }
+    ?>
 
 
 DublinCore-coverage
@@ -3152,21 +3314,25 @@ attribute is accessed as *language*.
 
 Create example::
 
-  $feed = new ezcFeed();
-  $item = $feed->add( 'item' );
-  $module = $item->addModule( 'DublinCore' );
-  $element = $module->add( 'contributor' );
-  $element->name = 'Contributor name';
-  $element->language = 'no'; // optional language specification
+    <?php
+    $feed = new ezcFeed();
+    $item = $feed->add( 'item' );
+    $module = $item->addModule( 'DublinCore' );
+    $element = $module->add( 'contributor' );
+    $element->name = 'Contributor name';
+    $element->language = 'no'; // optional language specification
+    ?>
 
 Parse example::
 
-  // $item is a feed item (ezcFeedEntryElement) object
-  foreach ( $item->DublinCore->contributor as $element )
-  {
-      echo $element->name;
-      echo $element->language;
-  }
+    <?php
+    // $item is a feed item (ezcFeedEntryElement) object
+    foreach ( $item->DublinCore->contributor as $element )
+    {
+        echo $element->name;
+        echo $element->language;
+    }
+    ?>
 
 
 DublinCore-item-coverage
@@ -3431,26 +3597,32 @@ Can appear only once.
 
 Create example::
 
-  $feed = new ezcFeed( 'rss2' );
-  $item = $feed->add( 'item' );
-  $module = $item->addModule( 'Geo' );
-  $module->alt = 509.2;
+    <?php
+    $feed = new ezcFeed( 'rss2' );
+    $item = $feed->add( 'item' );
+    $module = $item->addModule( 'Geo' );
+    $module->alt = 509.2;
+    ?>
 
 Parse example::
 
-  $locations = array();
-  foreach ( $feed->item as $item )
-  {
-      if ( isset( $item->Geo ) )
-      {
-          $locations[] = array(
+    <?php
+    $locations = array();
+
+    // $feed is an ezcFeed object
+    foreach ( $feed->item as $item )
+    {
+        if ( isset( $item->Geo ) )
+        {
+            $locations[] = array(
               'title' => $item->title->__toString(),
               'alt' => isset( $item->Geo->alt ) ? $item->Geo->alt->__toString() : null,
               'lat' => isset( $item->Geo->lat ) ? $item->Geo->lat->__toString() : null,
               'long' => isset( $item->Geo->long ) ? $item->Geo->long->__toString() : null
               );
-      }
-  }
+        }
+    }
+    ?>
 
 
 Geo-item-lat
@@ -3551,36 +3723,40 @@ the `iTunes specifications`_. A maximum of 3 categories are recommended.
 
 Create example::
 
-  // $feed is an ezcFeed object
-  $iTunes = $feed->addModule( 'iTunes' );
+    <?php
+    // $feed is an ezcFeed object
+    $iTunes = $feed->addModule( 'iTunes' );
 
-  // add the podcast in one or more categories + sub-categories
-  $category = $iTunes->add( 'category' );
-  $category->term = 'iTunes category';
-  $subCategory = $category->add( 'category' );
-  $subCategory->term = 'iTunes sub-category';
+    // add the podcast in one or more categories + sub-categories
+    $category = $iTunes->add( 'category' );
+    $category->term = 'iTunes category';
+    $subCategory = $category->add( 'category' );
+    $subCategory->term = 'iTunes sub-category';
+    ?>
 
 Parse example::
 
-  // $feed is an ezcFeed object
-  if ( isset( $feed->iTunes ) )
-  {
-      $iTunes = $feed->iTunes;
-      if ( isset( $iTunes->category ) )
-      {
-          foreach ( $iTunes->category as $category )
-          {
-              echo $category->term;
-              if ( isset( $category->category ) )
-              {
-                  foreach ( $category->category as $subCategory )
-                  {
-                      echo $subCategory->term;
-                  }
-              }
-          }
-      }
-  }
+    <?php
+    // $feed is an ezcFeed object
+    if ( isset( $feed->iTunes ) )
+    {
+        $iTunes = $feed->iTunes;
+        if ( isset( $iTunes->category ) )
+        {
+            foreach ( $iTunes->category as $category )
+            {
+                echo $category->term;
+                if ( isset( $category->category ) )
+                {
+                    foreach ( $category->category as $subCategory )
+                    {
+                        echo $subCategory->term;
+                    }
+                }
+            }
+        }
+    }
+    ?>
 
 
 iTunes-explicit
