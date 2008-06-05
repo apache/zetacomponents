@@ -46,16 +46,21 @@
  *
  * A feed object can be created in different ways:
  *  - by calling the constructor (with the optional feed type). Example:
+ *
  *  <code>
  *  $feed = new ezcFeed();
  *  </code>
+ *
  *  - by parsing an existing XML file or URI. The feed type of the resulting
  *    ezcFeed object will be autodetected. Example:
+ *
  *  <code>
  *  $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
  *  </code>
+ *
  *  - by parsing an XML document stored in a string variable. The feed type of
  *    the resulting ezcFeed object will be autodetected. Example:
+ *
  *  <code>
  *  $feed = ezcFeed::parseContent( $xmlString );
  *  </code>
@@ -79,6 +84,7 @@
  * </code>
  *
  * - parse a module. Example of parsing the Geo module (ezcFeedGeoModule):
+ *
  * <code>
  * <?php
  * $locations = array();
@@ -159,8 +165,10 @@
  * <?php
  * ezcFeed::registerFeed( 'opml', 'myOpmlHandler');
  *
- * $feed = new ezcFeed( 'opml' );
- * // add properties for the Opml feed type to $feed
+ * $feed = new ezcFeed();
+ * // add properties to $feed
+ *
+ * $xml = $feed->generate( 'opml' );
  * ?>
  * </code>
  *
@@ -173,10 +181,12 @@
  * <?php
  * ezcFeed::registerModule( 'Slash', 'mySlashHandler', 'slash');
  *
- * $feed = new ezcFeed( 'rss2' );
+ * $feed = new ezcFeed();
  * $item = $feed->add( 'item' );
  * $slash = $item->addModule( 'Slash' );
  * // add properties for the Slash module to $slash
+ *
+ * $xml = $feed->generate( 'rss2' ); // or the feed type which is needed
  * ?>
  * </code>
  *
@@ -310,8 +320,6 @@
  *
  * @todo parse() and parseContent() should(?) handle common broken XML files
  *       (for example if the first line is not <?xml version="1.0"?>)
- *
- * @todo handle redirects when parsing (enhancement #13110)
  *
  * @package Feed
  * @version //autogentag//

@@ -1251,7 +1251,7 @@ Example of how to use the module above::
     $slash = $item->addModule( 'Slash' );
     // add properties for the Slash module to $slash
 
-    $xml = $feed->generate( 'rss2' );
+    $xml = $feed->generate( 'rss2' ); // or the feed type which is needed
 
 
 Specifications and RFCs
