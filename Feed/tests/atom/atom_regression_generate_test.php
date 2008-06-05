@@ -39,6 +39,8 @@ class ezcFeedAtomRegressionGenerateTest extends ezcFeedRegressionTest
         $text = preg_replace( '@<updated>.*?</updated>@', '<updated>XXX</updated>', $text );
         $text = preg_replace( '@<published>.*?</published>@', '<published>XXX</published>', $text );
         $text = preg_replace( '@<generator.*?>.*?</generator>@', '<generator>XXX</generator>', $text );
+
+        $text = preg_replace( '@<dc:date.*?>.*?</dc:date>@', '<dc:date>XXX</dc:date>', $text );
         return $text;
     }
 
