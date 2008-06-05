@@ -12,7 +12,7 @@ The document component offers transformations between different semantic markup
 languages, like:
 
 - `ReStructured text`__
-- `XHtml`__
+- `XHTML`__
 - `Docbook`__
 - eZ Publish XML markup
 
@@ -97,12 +97,12 @@ parameters, options and content could look like::
     My document
     ===========
 
-    The cutom directive:
+    The custom directive:
 
     .. my_directive:: parameters
         :option: value
 
-        Some indeted text...
+        Some indented text...
 
 For such a directive you should register a handler on the RST document, like::
 
@@ -176,7 +176,7 @@ XHTML rendering
 ^^^^^^^^^^^^^^^
 
 For RST a conversion shortcut has been implemented, so that you don't need to
-convert the RST to docbook and the docbook to XHtml. This saves conversion time
+convert the RST to docbook and the docbook to XHTML. This saves conversion time
 and enables you to prevent from information loss during multiple conversions::
 
     <?php
@@ -187,9 +187,9 @@ and enables you to prevent from information loss during multiple conversions::
     $xml = $xhtml->save();
     ?>
 
-The default XHtml compiler generates comple XHtml documents, including header
-and metadata in the header. If you want to inline the result, you may specify
-another XHtml compiler, which just creates a XHtml block level element, which
+The default XHTML compiler generates compile XHTML documents, including header
+and metadata in the header. If you want to in-line the result, you may specify
+another XHTML compiler, which just creates a XHTML block level element, which
 can be embedded in your source code::
 
     <?php
@@ -201,17 +201,17 @@ can be embedded in your source code::
     $xml = $xhtml->save();
     ?>
 
-You can of course also use the predefined and custom directives for XHtml
-rendering. The directives used during XHtml generation also need to implement
+You can of course also use the predefined and custom directives for XHTML
+rendering. The directives used during XHTML generation also need to implement
 the interface ezcDocumentRstXhtmlDirective.
 
-Modification of XHtml rendering
+Modification of XHTML rendering
 ```````````````````````````````
 
-You can modify the generated output of the XHtml visitor by creating a custom
+You can modify the generated output of the XHTML visitor by creating a custom
 visitor for the RST AST. The easiest way probably is to extend from one of the
-existing XHtml visitors and reusing it. For example you may want to fill the
-type attribute in bullet lists, like known from HTML, which isn't valid XHtml,
+existing XHTML visitors and reusing it. For example you may want to fill the
+type attribute in bullet lists, like known from HTML, which isn't valid XHTML,
 though::
 
     class myDocumentRstXhtmlVisitor extends ezcDocumentRstXhtmlVisitor
@@ -229,7 +229,7 @@ though::
                 "\xe2\x80\xa3" => 'circle',
                 "\xe2\x81\x83" => 'square',
             );
-            // Not allowed in XHtml strict
+            // Not allowed in XHTML strict
             $list->setAttribute( 'type', $listTypes[$node->token->content] );
 
             // Decoratre blockquote contents
@@ -241,15 +241,15 @@ though::
     }
 
 The structure, which is not enforced for visitors, but used in the docbook and
-XHtml vistors, is to call special methods for each node type in the AST to
+XHTML visitors, is to call special methods for each node type in the AST to
 decorate the AST recursively. This method will be called for all bullet list
 nodes in the AST which contain the actual list items. As the first parameter
-the current position in the XHtml DOM tree is also provided to the method.
+the current position in the XHTML DOM tree is also provided to the method.
 
 To create the XHTML we can now just create a new list node (<ul>) in the
 current DOMNode, set the new attribute, and recursively decorate all
-descendants using the general vistor dispatching method visitNode() for all
-childs in the AST. For the AST childs being also rendered as childs in the XML
+descendants using the general visitor dispatching method visitNode() for all
+children in the AST. For the AST childs being also rendered as children in the XML
 tree, we pass the just created DOMNode (<ul>) as the new root node to the
 visitNode() method.
 
@@ -265,17 +265,17 @@ above::
     $xml = $xhtml->save();
     ?>
 
-Now the lists in the generated XHtml will also the type attribute set.
+Now the lists in the generated XHTML will also the type attribute set.
 
 Writing RST
 ^^^^^^^^^^^
 
 This is not yet supported.
 
-XHtml
+XHTML
 -----
 
-XHtml can only be generated from RST, bu not converted from or to docbook yet.
+XHTML can only be generated from RST, but not converted from or to docbook yet.
 
 
 
