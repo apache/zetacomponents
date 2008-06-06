@@ -378,6 +378,21 @@ accessible to users of your website::
 Assuming that our host is ``ez.no``, this will be the location of our newly
 created XML feed: ``http://ez.no/feeds/news.xml``.
 
+You can also output the XML directly, while setting the HTTP Content-Type
+header::
+
+    <?php
+    $xml = $feed->generate( 'rss2' );
+    header( 'Content-Type: ' . $feed->getContentType() . '; charset=utf-8' );
+    echo $xml;
+    ?>
+
+Assuming that this script is kept in ``http://ez.no/feeds/news.php``, when
+opening this URL in a web browser, the XML will be output with the
+content-type *application/rss+xml*. If the browser is configured properly to
+handle this content-type, it will open the feed aggregator software program,
+otherwise it will ask the user which application to use for that content-type.
+
 
 Step 7. Feed validation
 -----------------------
