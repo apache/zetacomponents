@@ -1148,7 +1148,7 @@ ezcFeed data::
     $item->updated = time();
 
     $atom = $feed->generate( 'atom' );
-    $rss1 = $feed->generate( 'rss1 );
+    $rss1 = $feed->generate( 'rss1' );
     $rss2 = $feed->generate( 'rss2' );
     ?>
 
