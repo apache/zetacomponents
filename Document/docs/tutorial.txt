@@ -187,8 +187,8 @@ and enables you to prevent from information loss during multiple conversions::
     $xml = $xhtml->save();
     ?>
 
-The default XHTML compiler generates compile XHTML documents, including header
-and metadata in the header. If you want to in-line the result, you may specify
+The default XHTML compiler generates complete XHTML documents, including header
+and meta-data in the header. If you want to in-line the result, you may specify
 another XHTML compiler, which just creates a XHTML block level element, which
 can be embedded in your source code::
 
