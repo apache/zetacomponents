@@ -360,15 +360,15 @@ version of the Feed component (``dev``) and a link to this tutorial) and *docs*
 |RSS2-specifications|_).
 
 If you want to generate ATOM and RSS1 feed documents at this step, you can call
-**generate()** with 'atom' and 'rss1' respectively as arguments. As some
+**generate()** with ``atom`` and ``rss1`` respectively as arguments. As some
 elements are required for ATOM and RSS1, you might receive an exception. In
-this case add the required elements and call again **generate()**.
+this case add the required elements and call **generate()** again.
 
 
 Step 6. Save the XML feed to a file
 -----------------------------------
 
-The generated XML feed needs to be saves in a file in order to be made
+The generated XML feed needs to be saved in a file in order to be made
 accessible to users of your website::
 
     <?php
@@ -502,9 +502,9 @@ An example of an input text file:
    :literal:
 
 The **feed_creator** application will read an input file with the above
-structure and output an XML feed of the chosen type (rss1, rss2 or atom). An
-XML file will also be written in the same directory as the input file, with
-the name of the input file plus the ``.xml`` extension.
+structure and output an XML feed of the chosen type (``rss1``, ``rss2`` or
+``atom``). An XML file will also be written in the same directory as the
+input file, with the name of the input file plus the ``.xml`` extension.
 
 Example of usage (current directory is the **feed_creator** directory)::
 
@@ -557,7 +557,7 @@ The information which we want to show in the podcast is:
 iTunes elements for the whole feed:
 
 - one or more *category* elements (from the page `iTunes categories`_). Our
-  podcast could be for example be in the category ``Technology``,
+  podcast could be for example in the category ``Technology``,
   sub-category ``Gadgets``
 - one or more *keywords*, separated by commas: ``RC planes,gadgets,flying``
 - an *image* for our podcast. `iTunes`_ recommends an image of at least 500x500
@@ -757,16 +757,12 @@ out of it::
     $feed = ezcFeed::parseContent( $xml ); // $xml is a string
     ?>
 
-These things could go wrong when parsing a feed:
+These exceptions can be thrown while parsing a feed:
 
-URL or file not found
-  an ezcBaseFileNotFoundException is thrown
-
-XML content is broken or not a feed or unsupported feed
-  an ezcFeedCanNotParseException is thrown
-
-RSS1 or RSS2 feed without <channel> element
-  an ezcFeedParseErrorException is thrown
+- ezcBaseFileNotFoundException - if the feed URL or file is not found
+- ezcFeedParseErrorException - if the XML content is broken, or not a feed,
+  or unsupported feed type, or if RSS1 and RSS2 feeds are missing the
+  <channel> element
 
 
 Step 2. Read the feed elements
@@ -803,7 +799,7 @@ considered null)::
 
 Depending on your application, you might need only some elements, let's say
 *title*, *description*, *author* and *link*. So to read those elements you will
-write::
+use::
 
     <?php
     $title = isset( $feed->title ) ? $feed->title->__toString() : null;
@@ -813,7 +809,10 @@ write::
     {
         $author = isset( $feed->author->name ) ? $feed->author->name : null;
         // RSS2 feeds usually have the author in this format: email_address (author_name)
-        // the $author string can be parsed to extract the email and name
+        // the $author string can be parsed to extract the email and name.
+        //
+        // ATOM feeds contain the author's email in a separate element: $feed->author->email.
+        // and in addition they have the uri element for authors: $feed->author->uri
     }
 
     $links = array();
@@ -852,6 +851,9 @@ and *link* of all items. This is how we will do it::
             $author = isset( $item->author->name ) ? $item->author->name : null;
             // RSS2 feeds usually have the author in this format: email_address (author_name)
             // the $author string can be parsed to extract the email and name
+            //
+            // ATOM feeds contain the author's email in a separate element: $item->author->email.
+            // and in addition they have the uri element for authors: $item->author->uri
         }
 
         $links = array();
@@ -880,7 +882,7 @@ How to parse an iTunes podcast
 
 See the section `How to parse an XML feed`_ for detailed steps. This part of
 the tutorial will concentrate on how to fetch the `iTunes`_ information from
-the feed.
+an RSS2 feed.
 
 
 Step 1. Parse an XML feed
@@ -916,7 +918,7 @@ This will return ``rss1``, ``rss2`` or ``atom``.
 
 Depending on your application, you might need only some elements, let's say
 *title*, *description*, *author* and *link*. So to read those elements you will
-write::
+use::
 
     <?php
     $title = isset( $feed->title ) ? $feed->title->__toString() : null;
@@ -927,6 +929,9 @@ write::
         $author = isset( $feed->author->name ) ? $feed->author->name : null;
         // RSS2 feeds usually have the author in this format: email_address (author_name)
         // the $author string can be parsed to extract the email and name
+        //
+        // ATOM feeds contain the author's email in a separate element: $feed->author->email.
+        // and in addition they have the uri element for authors: $feed->author->uri
     }
 
     $links = array();
@@ -1027,6 +1032,9 @@ and *link* of all items. This is how we will do it::
             $author = isset( $item->author->name ) ? $item->author->name : null;
             // RSS2 feeds usually have the author in this format: email_address (author_name)
             // the $author string can be parsed to extract the email and name
+            //
+            // ATOM feeds contain the author's email in a separate element: $item->author->email.
+            // and in addition they have the uri element for authors: $item->author->uri
         }
 
         $links = array();
@@ -1094,8 +1102,7 @@ The code from the previous section is altered as follows::
 
 After running the code, the $media array will contain the *url*, *length* and
 *type* of the media file specified in the feed item, and the *duration* of the
-media file taken from the iTunes module (if available). The $media array is
-added to the $items array to be processed later by the application.
+media file taken from the iTunes module (if available).
 
 
 Best practices
@@ -1175,7 +1182,8 @@ ATOM
 ````
 
 All ATOM feeds must be identified with the ``application/atom+xml`` media
-type. Use the **getContentType()** method of ezcFeed to get this string, or
+type. Use the **getContentType()** method after calling
+**generate( 'atom' )** on an ezcFeed object to get this string, or use
 **ezcFeedAtom::CONTENT_TYPE**.
 
 
@@ -1184,7 +1192,8 @@ RSS1
 
 All RSS1 feeds should be identified with the ``application/rss+xml`` media
 type (although it is not a standard yet). Use the **getContentType()** method
-of ezcFeed to get this string, or **ezcFeedRss1::CONTENT_TYPE**.
+after calling **generate( 'rss1' )** on an ezcFeed object to get this
+string, or use **ezcFeedRss1::CONTENT_TYPE**.
 
 
 RSS2
@@ -1192,7 +1201,8 @@ RSS2
 
 All RSS2 feeds should be identified with the ``application/rss+xml`` media
 type (although it is not a standard yet). Use the **getContentType()** method
-of ezcFeed to get this string, or **ezcFeedRss2::CONTENT_TYPE**.
+after calling **generate( 'rss2' )** on an ezcFeed object to get this string,
+or use **ezcFeedRss2::CONTENT_TYPE**.
 
 
 Extending the Feed component
