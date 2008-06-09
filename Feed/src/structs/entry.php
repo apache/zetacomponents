@@ -13,34 +13,76 @@
  * Class defining a feed entry.
  *
  * @property array(ezcFeedPersonElement) $author
- *                                       The authors of the entry.
+ *           The authors of the entry. Equivalents:
+ *           ATOM-author (required, multiple),
+ *           RSS1-none,
+ *           RSS2-author (optional, recommended, single).
  * @property array(ezcFeedCategoryElement) $category
- *                                         The categories of the entry.
+ *           The categories of the entry. Equivalents:
+ *           ATOM-author (optional, multiple),
+ *           RSS1-none,
+ *           RSS2-category (optional, multiple).
  * @property ezcFeedTextElement $comments
- *                              The comments of the entry.
+ *           The comments of the entry. Equivalents:
+ *           ATOM-none,
+ *           RSS1-none,
+ *           RSS2-author (optional, single).
  * @property ezcFeedContentElement $content
- *                                 The complex text content of the entry.
+ *           The complex text content of the entry. Equivalents:
+ *           ATOM-content (optional, single),
+ *           RSS1-none,
+ *           RSS2-none.
  * @property array(ezcFeedPersonElement) $contributor
- *                                       The contributors of the entry.
+ *           The contributors of the entry. Equivalents:
+ *           ATOM-contributor (optional, not recommended, multiple),
+ *           RSS1-none,
+ *           RSS2-none.
  * @property ezcFeedTextElement $copyright
- *                              The copyright of the entry.
+ *           The copyright of the entry. Equivalents:
+ *           ATOM-rights (optional, single),
+ *           RSS1-none,
+ *           RSS2-none.
  * @property ezcFeedTextElement $description
- *                              The description of the entry.
+ *           The description of the entry. Equivalents:
+ *           ATOM-summary (required, single),
+ *           RSS1-description (required, single),
+ *           RSS2-description (required, single).
  * @property array(ezcFeedLinkElement) $enclosure
- *                                     The enclosures of the entry.
+ *           The enclosures of the entry. Equivalents:
+ *           ATOM-link@rel="enclosure" (optional, multiple),
+ *           RSS1-none,
+ *           RSS2-enclosure (optional, single).
  * @property ezcFeedTextElement $id
- *                              The id of the entry.
+ *           The id of the entry. Equivalents:
+ *           ATOM-id (required, single),
+ *           RSS1-about (required, single),
+ *           RSS2-guid (optional, single).
  * @property array(ezcFeedLinkElement) $link
- *                                     The links of the entry.
+ *           The links of the entry. Equivalents:
+ *           ATOM-link (required, multiple),
+ *           RSS1-link (required, single),
+ *           RSS2-link (required, single).
  * @property ezcFeedDateElement $published
- *                              The published date of the entry.
+ *           The published date of the entry. Equivalents:
+ *           ATOM-published (optional, single),
+ *           RSS1-none,
+ *           RSS2-pubDate (optional, single).
  * @property ezcFeedTextElement $title
- *                              The title of the entry.
+ *           The title of the entry. Equivalents:
+ *           ATOM-title (required, single),
+ *           RSS1-title (required, single),
+ *           RSS2-title (required, single).
  * @property ezcFeedDateElement $updated
- *                              The updated date of the entry.
+ *           The updated date of the entry. Equivalents:
+ *           ATOM-updated (required, single),
+ *           RSS1-none,
+ *           RSS2-none.
  * @property ezcFeedSourceElement $source
- *                                The source of the entry.
- *
+ *           The source of the entry. Equivalents:
+ *           ATOM-source (optional, not recommended, single),
+ *           RSS1-none,
+ *           RSS2-source (optional, not recommended, single).
+*
  * @package Feed
  * @version //autogentag//
  * @mainclass
@@ -216,6 +258,9 @@ class ezcFeedEntryElement extends ezcFeedElement
      * $link = $item->add( 'link' );
      * $link->href = 'http://ez.no/';
      * </code>
+     *
+     * @throws ezcFeedUnsupportedElementException
+     *         if the element $name is not supported
      *
      * @param string $name The name of the element to add
      * @return ezcFeedElement

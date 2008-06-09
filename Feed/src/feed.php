@@ -193,127 +193,127 @@
  * In the above example mySlashHandler extends {@link ezcFeedModule}.
  *
  * @property array(ezcFeedPersonElement) $author
- *           Author(s) of the feed.
+ *           Author(s) of the feed. Equivalents:
  *           ATOM-author (required, multiple),
  *           RSS1-none,
  *           RSS2-managingEditor (optional, recommended, single).
  * @property array(ezcFeedCategoryElement) $category
- *           Categories for the feed.
+ *           Categories for the feed. Equivalents:
  *           ATOM-category (optional, multiple),
  *           RSS1-none,
  *           RSS2-category (optional, multiple).
  * @property ezcFeedCloudElement $cloud
  *           Allows processes to register with a cloud to be notified of updates
  *           to the channel, implementing a lightweight publish-subscribe
- *           protocol for RSS feeds.
+ *           protocol for RSS feeds. Equivalents:
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-cloud (optional, not recommended, single).
  * @property array(ezcFeedPersonElement) $contributor
- *           One contributor for the feed.
+ *           Contributor(s) for the feed. Equivalents:
  *           ATOM-contributor (optional, not recommended, multiple),
  *           RSS1-none,
  *           RSS2-none.
  * @property ezcFeedTextElement $copyright
- *           Copyright information for the feed.
+ *           Copyright information for the feed. Equivalents:
  *           ATOM-rights (optional, single),
  *           RSS1-none,
  *           RSS2-copyright (optional, single).
  * @property ezcFeedTextElement $description
- *           A short description of the feed.
+ *           A short description of the feed. Equivalents:
  *           ATOM-subtitle (required, single),
  *           RSS1-description (required, single),
  *           RSS2-description (required, single).
  * @property ezcFeedTextElement $docs
  *           An URL that points to the documentation for the format used in the
- *           feed file.
+ *           feed file. Equivalents:
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-docs (optional, not recommended, single) - usual value is
  *           {@link http://www.rssboard.org/rss-specification}.
  * @property ezcFeedGeneratorElement $generator
- *           Indicates the software used to generate the feed.
+ *           Indicates the software used to generate the feed. Equivalents:
  *           ATOM-generator (optional, single),
  *           RSS1-none,
  *           RSS2-generator (optional, single).
  * @property ezcFeedImageElement $icon
- *           An icon for a feed, similar with favicon.ico for websites.
+ *           An icon for a feed, similar with favicon.ico for websites. Equivalents:
  *           ATOM-icon (optional, not recommended, single),
  *           RSS1-none,
  *           RSS2-none.
  * @property ezcFeedIdElement $id
  *           A universally unique and permanent identifier for a feed. For
- *           example, it can be an Internet domain name.
+ *           example, it can be an Internet domain name. Equivalents:
  *           ATOM-id (required, single),
  *           RSS1-about (required, single),
  *           RSS2-none.
  * @property ezcFeedImageElement $image
- *           An image associated with the feed.
+ *           An image associated with the feed. Equivalents:
  *           ATOM-logo (optional, single),
  *           RSS1-image (optional, single),
  *           RSS2-image (optional, single).
  * @property-read array(ezcFeedEntryElement) $item
- *           Feed items (entries).
+ *           Feed items (entries). Equivalents:
  *           ATOM-entry (optional, recommended, multiple),
  *           RSS1-item (required, multiple),
  *           RSS2-item (required, multiple).
  * @property ezcFeedTextElement $language
- *           The language for the feed.
+ *           The language for the feed. Equivalents:
  *           ATOM-xml:lang attribute for title, description, copyright, content,
  *           comments (optional, single) - accessed as language through ezcFeed,
  *           RSS1-none,
  *           RSS2-language (optional, single).
  * @property array(ezcFeedLinkElement) $link
- *           URLs to the HTML websites corresponding to the channel.
+ *           URLs to the HTML websites corresponding to the channel. Equivalents:
  *           ATOM-link (required one link with rel='self', multiple),
  *           RSS1-link (required, single),
  *           RSS2-link (required, single).
  * @property ezcFeedDateElement $published
- *           The time the feed was published.
+ *           The time the feed was published. Equivalents:
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-pubDate (optional, not recommended, single).
  * @property ezcFeedTextElement $rating
- *           The {@link http://www.w3.org/PICS/ PICS} rating for the channel.
+ *           The {@link http://www.w3.org/PICS/ PICS} rating for the channel. Equivalents:
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-rating (optional, not recommended, single).
  * @property ezcFeedSkipDaysElement $skipDays
  *           A hint for aggregators telling them which days they can skip when
- *           reading the feed.
+ *           reading the feed. Equivalents:
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-skipDays (optional, not recommended, single).
  * @property ezcFeedSkipHoursElement $skipHours
  *           A hint for aggregators telling them which hours they can skip when
- *           reading the feed.
+ *           reading the feed. Equivalents:
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-skipHours (optional, not recommended, single).
  * @property ezcFeedTextInputElement $textInput
- *           Specifies a text input box that can be displayed with the feed.
+ *           Specifies a text input box that can be displayed with the feed. Equivalents:
  *           ATOM-none,
  *           RSS1-textinput (optional, not recommended, single),
  *           RSS2-textInput (optional, not recommended, single).
  * @property ezcFeedTextElement $title
  *           Human readable title for the feed. For example, it can be the same
- *           as the website title.
+ *           as the website title. Equivalents:
  *           ATOM-title (required, single),
  *           RSS1-title (required, single),
  *           RSS2-title (required, single).
  * @property ezcFeedTextElement $ttl
  *           Number of minutes that indicates how long a channel can be cached
- *           before refreshing from the source.
+ *           before refreshing from the source. Equivalents:
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-ttl (optional, not recommended, single).
  * @property ezcFeedDateElement $updated
- *           The last time the feed was updated.
+ *           The last time the feed was updated. Equivalents:
  *           ATOM-updated (required, single),
  *           RSS1-none,
  *           RSS2-lastBuildDate (optional, recommended, single).
  * @property ezcFeedPersonElement $webMaster
- *           The email address of the webmaster responsible for the feed.
+ *           The email address of the webmaster responsible for the feed. Equivalents:
  *           ATOM-none,
  *           RSS1-none,
  *           RSS2-webMaster (optional, not recommended, single).
@@ -675,8 +675,10 @@ class ezcFeed
     }
 
     /**
-     * Adds a new ezcFeedElement element with name $name and returns it, if the
-     * feed schema allows this (returns null if the schema does not allow it).
+     * Adds a new ezcFeedElement element with name $name and returns it.
+     *
+     * @throws ezcFeedUnsupportedElementException
+     *         if the element $name is not supported
      *
      * @param string $name The element name
      * @return ezcFeedElement|null

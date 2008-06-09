@@ -12,20 +12,49 @@
 /**
  * Class defining a feed source element.
  *
+ * @property string $source
+ *           The name of the source feed (RSS2 only).
+ * @property string $url
+ *           The url of the source feed (RSS2 only).
+ * @property array(ezcFeedAuthorElement) $author
+ *           The authors from the source feed (ATOM only).
+ * @property ezcFeedCategoryElement $category
+ *           The categories from the source feed (ATOM only).
+ * @property array(ezcFeedAuthorElement) $contributor
+ *           The contributors from the source feed (ATOM only).
+ * @property ezcFeedTextElement $copyright
+ *           The copyright information from the source feed (ATOM only).
+ * @property ezcFeedTextElement $description
+ *           The description from the source feed (ATOM only).
+ * @property ezcFeedGeneratorElement $generator
+ *           The generator information from the source feed (ATOM only).
+ * @property ezcFeedImageElement $icon
+ *           The icon from the source feed (ATOM only).
+ * @property ezcFeedIdElement $id
+ *           The id from the source feed (ATOM only).
+ * @property ezcFeedImageElement $image
+ *           The image from the source feed (ATOM only).
+ * @property array(ezcFeedLinkElement) $link
+ *           The links from the source feed (ATOM only).
+ * @property ezcFeedTextElement $title
+ *           The title from the source feed (ATOM only).
+ * @property ezcFeedDateElement $updated
+ *           The date and time of the last update from the source feed (ATOM only).
+ *
  * @package Feed
  * @version //autogentag//
  */
 class ezcFeedSourceElement extends ezcFeedElement
 {
     /**
-     * The authors of the entry.
+     * The name of the source feed (RSS2 only).
      *
      * @var string
      */
     public $source;
 
     /**
-     * The categories of the entry.
+     * The url of the source feed (RSS2 only).
      *
      * @var string
      */

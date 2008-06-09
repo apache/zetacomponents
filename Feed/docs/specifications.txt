@@ -114,6 +114,8 @@ Item elements
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-published|_       | |ATOM-entry-published|_ ?     | x                            | |RSS2-item-pubDate|_ ?       |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
+| |ezcFeed-item-source|_          | |ATOM-entry-source|_ ?        | x                            | |RSS2-item-source|_ ?        |
++---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-title|_           | |ATOM-entry-title|_ !         | |RSS1-item-title|_ !         | |RSS2-item-title|_ !         |
 +---------------------------------+-------------------------------+------------------------------++-----------------------------+
 | |ezcFeed-item-updated|_         | |ATOM-entry-updated|_ !       | x                            | x                            |
@@ -1687,6 +1689,55 @@ Equivalents: `ezcFeed-item-published`_, `ATOM-entry-published`_, RSS1-none,
 `RSS2-item-pubDate`_.
 
 
+ezcFeed-item-source
+```````````````````
+
+Type: ezcFeedSourceElement.
+
+The source (another feed) of the feed item.
+
+Optional (not recommended). Only `ATOM`_ and `RSS2`_ feeds will have this
+element after generating the feed. It will be ignored for `RSS1`_ feeds.
+
+For `ATOM`_ feeds, all `ATOM`_ feed-level elements can be added, minus the
+|ezcFeed-item|_ element. `RSS2`_ feeds have the attributes *source* and *url*.
+
+Can appear only once.
+
+Create example::
+
+    <?php
+    // $item is an ezcFeedEntryElement object
+    $source = $item->add( 'source' );
+    $source->source = 'Source feed name'; // RSS2 only, ignored for ATOM
+    $source->url = 'http://source.feed.url/'; // RSS2 only, ignored for ATOM
+
+    $author = $source->add( 'author' ); // ATOM only, ignored for RSS2
+    $author->name = 'Author of the source feed';
+    $author->email = 'Email address of the author of the source feed';
+
+    // more elements which pertain to ATOM feeds can be added
+    ?>
+
+Parse example::
+
+    <?php
+    // $item is an ezcFeedSourceElement object
+    if ( isset( $item->source ) )
+    {
+        $source = $item->source;
+
+        $rss2SourceName = isset( $source->source ) ? $source->source : null;
+        $rss2SourceUrl = isset( $source->url ) ? $source->url : null;
+
+        $atomSourceTitle = isset( $source->title ) ? $source->title->__toString() : null;
+    }
+    ?>
+
+Equivalents: `ezcFeed-item-source`_, `ATOM-entry-source`_, RSS1-none,
+`RSS2-item-source`_.
+
+
 ezcFeed-item-title
 ``````````````````
 
@@ -2217,6 +2268,35 @@ A list of allowed languages can be found here: `RSS language codes`_.
 
 Equivalents: `ezcFeed-item-description`_, `ATOM-entry-summary`_/
 `ATOM-entry-content`_, `RSS1-item-description`_, `RSS2-item-description`_.
+
+
+ATOM-entry-source
+`````````````````
+
+The source feed of the feed item.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Can have the same elements which are present at feed-level in ATOM, minus the
+|ATOM-entry|_ element:
+
+- |ATOM-author|_
+- |ATOM-category|_
+- |ATOM-contributor|_
+- |ATOM-rights|_
+- |ATOM-subtitle|_
+- |ATOM-generator|_
+- |ATOM-icon|_
+- |ATOM-id|_
+- |ATOM-logo|_
+- |ATOM-link|_
+- |ATOM-title|_
+- |ATOM-updated|_
+
+Equivalents: `ezcFeed-item-source`_, `ATOM-entry-source`_, RSS1-none,
+`RSS2-item-source`_.
 
 
 ATOM-entry-title
@@ -2877,6 +2957,21 @@ Must conform to `RFC 822`_ (eg. ``Sat, 07 Sep 2002 09:42:31 GMT``).
 
 Equivalents: `ezcFeed-item-published`_, `ATOM-entry-published`_, RSS1-none,
 `RSS2-item-pubDate`_.
+
+
+RSS2-item-source
+````````````````
+
+The source feed of the feed item.
+
+Optional (not recommended).
+
+Can appear only once.
+
+Has 2 optional attributes: *source*, *url*.
+
+Equivalents: `ezcFeed-item-source`_, `ATOM-entry-source`_, RSS1-none,
+`RSS2-item-source`_.
 
 
 RSS2-item-title
