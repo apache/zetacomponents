@@ -135,60 +135,62 @@ Feed element types
 The following element types are implemented in the Feed component (extending
 the class ezcFeedElement):
 
-- ezcFeedEntryElement - specifies a feed item (entry) with the sub-elements
-  *author*, *category*, *comments*, *content*, *contributor*, *copyright*,
-  *description*, *enclosure*, *id*, *link*, *published*, *title*, *updated*,
-  *source*
+- **item** (ezcFeedEntryElement) - specifies a feed item (entry) with the
+  sub-elements *author*, *category*, *comments*, *content*, *contributor*,
+  *copyright*, *description*, *enclosure*, *id*, *link*, *published*, *title*,
+  *updated*, *source*
 
-- ezcFeedCategoryElement - specifies a category with the attributes *term*,
-  *scheme*, *label* and *category* (for iTunes subcategories).
+- **category** (ezcFeedCategoryElement) - specifies a category with the
+  attributes *term*, *scheme*, *label* and *category* (for iTunes
+  subcategories).
 
-- ezcFeedCloudElement - specifies an RSS2 cloud element with the attributes
-  *domain*, *port*, *path*, *registerProcedure*, *protocol*
+- **cloud** (ezcFeedCloudElement) - specifies an RSS2 cloud element with the
+  attributes *domain*, *port*, *path*, *registerProcedure*, *protocol*
 
-- ezcFeedContentElement - specifies an ATOM content element with the attributes
-  *text*, *type* (ATOM only), *language* (ATOM only), *src* (ATOM only)
+- **content** (ezcFeedContentElement) - specifies an ATOM content element with
+  the attributes *text*, *type*, *language*, *src*
 
-- ezcFeedDateElement - specifies a date element with the attribute *date*. The
-  date is stored as a DateTime object (assigning an integer timestamp or a
-  formatted date work as well)
+- **date** (ezcFeedDateElement) - specifies a date element with the attribute
+  *date*. The date is stored as a DateTime object (assigning an integer
+  timestamp or a formatted date works as well)
 
-- ezcFeedEnclosureElement - specifies an RSS2 enclosure element with the
-  attributes *url*, *type*, *length*. Converted to an ezcFeedLinkElement when
-  generating an ATOM feed.
+- **enclosure** (ezcFeedEnclosureElement) - specifies an RSS2 enclosure
+  element with the attributes *url*, *type*, *length*. Converted to an
+  ezcFeedLinkElement when generating an ATOM feed.
 
-- ezcFeedGeneratorElement - specifies a generator element with the attributes
-  *name*, *uri*, *version*
+- **generator** (ezcFeedGeneratorElement) - specifies a generator element with
+  the attributes *name*, *url*, *version*
 
-- ezcFeedIdElement - specifies an identifier element with the attributes *id*,
-  *isPermaLink*
+- **id** (ezcFeedIdElement) - specifies an identifier element with the
+  attributes *id*, *isPermaLink*
 
-- ezcFeedImageElement - specifies an image with the attributes *link*, *title*,
-  *url* (RSS1 and RSS2), *description*, *width*, *height* (RSS2 only),
+- **image** (ezcFeedImageElement) - specifies an image with the attributes
+  *link*, *title*, *url* (RSS1 and RSS2), *description*, *width*, *height*
+  (RSS2 only), *about* (RSS1 only)
+
+- **link** (ezcFeedLinkElement) - specifies a link with the attributes *href*,
+  *rel*, *hreflang*, *title*, *type*, *length*
+
+- **person** (ezcFeedPersonElement) - specifies a person with the attributes
+  *name*, *email*, *uri* (ATOM only)
+
+- **skipDays** (ezcFeedSkipDaysElement) - specifies an RSS2 skipDays element
+  with the attributes *days*
+
+- **skipHours** (ezcFeedSkipHoursElement) - specifies an RSS2 skipHours
+  element with the attributes *hours*
+
+- **source** (ezcFeedSourceElement) - specifies a source element with the RSS2
+  attributes *source* and *url*, and ATOM elements *title*, *description*,
+  *copyright*, *author*, *contributor*, *updated*, *generator*, *image*,
+  *icon*, *id*, *link*, *category*
+
+- **text** (ezcFeedTextElement) - specifies a text with the attributes *text*,
+  *type* (ATOM only), *language* (ATOM only)
+
+- **textInput** (ezcFeedTextInputElement) - specifies an RSS1 and RSS2 text
+  input element with the attributes *name*, *link*, *title*, *description*,
   *about* (RSS1 only)
-
-- ezcFeedLinkElement - specifies a link with the attributes *href*, *rel*,
-  *hreflang*, *title*, *type*, *length*
-
-- ezcFeedPersonElement - specifies a person with the attributes *name*, *email*
-  and *uri*
-
-- ezcFeedSkipDaysElement - specifies an RSS2 skipDays element with the
-  attributes *days*
-
-- ezcFeedSkipHoursElement - specifies an RSS2 skipHours element with the
-  attributes *hours*
-
-- ezcFeedSourceElement - specifies a source element with the RSS2 attributes
-  *source* and *url*, and ATOM elements *title*, *description*, *copyright*,
-  *author*, *contributor*, *updated*, *generator*, *image*, *icon*, *id*,
-  *link*, *category*
-
-- ezcFeedTextElement - specifies a text with the attributes *text*, *type*
-  (ATOM only), *language* (ATOM only)
-
-- ezcFeedTextInputElement - specifies an RSS1 and RSS2 text input element with
-  the attributes *name*, *link*, *title*, *description*, *about* (RSS1 only)
 
 
 How to create a feed
@@ -414,13 +416,17 @@ Automatic feed discovery
 
 In the HTML source of every page add this line for RSS1 or RSS2 feeds::
 
-    <link rel="alternate" type="application/rss+xml" href="http://ez.no/feeds/news.xml"
-    title="eZ news feed" />
+    <link rel="alternate"
+          type="application/rss+xml"
+          href="http://ez.no/feeds/news.xml"
+          title="eZ news feed" />
 
 Or this line for ATOM feeds::
 
-    <link rel="alternate" type="application/atom+xml" href="http://ez.no/feeds/news.xml"
-    title="eZ news feed" />
+    <link rel="alternate"
+          type="application/atom+xml"
+          href="http://ez.no/feeds/news.xml"
+          title="eZ news feed" />
 
 In modern browsers the user will be informed (usually via a small icon like
 |feed icon| in one corner of the browser or in the address bar) that the
@@ -444,13 +450,15 @@ Link to the feed document
 In the HTML source of every page (usually in the header and/or footer) add
 this line for RSS1 or RSS2 feeds::
 
-    <a type="application/rss+xml" href="http://ez.no/feeds/news.xml"
-    title="eZ news feed">RSS feed</a>
+    <a type="application/rss+xml"
+       href="http://ez.no/feeds/news.xml"
+       title="eZ news feed">RSS feed</a>
 
 Or this line for ATOM feeds::
 
-    <a type="application/atom+xml" href="http://ez.no/feeds/news.xml"
-    title="eZ news feed">ATOM feed</a>
+    <a type="application/atom+xml"
+       href="http://ez.no/feeds/news.xml"
+       title="eZ news feed">ATOM feed</a>
 
 The user can drag this link to his feed `aggregator`_, where it will be added
 to the aggregator's database of feeds.

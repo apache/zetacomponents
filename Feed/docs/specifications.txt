@@ -28,7 +28,7 @@ Feed elements
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-cloud|_           | x                       | x                          | |RSS2-cloud|_ ?           |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-contributor|_     | |ATOM-contributor|_ ?*  | x                          | x                         |
+| |ezcFeed-contributor|_ *   | |ATOM-contributor|_ ?*  | x                          | x                         |
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-copyright|_       | |ATOM-rights|_ ?        | x                          | |RSS2-copyright|_ ?       |
 +----------------------------+-------------------------+----------------------------+---------------------------+
@@ -106,7 +106,7 @@ Item elements
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-description|_     | |ATOM-entry-summary|_ !       | |RSS1-item-description|_ !   | |RSS2-item-description|_ !   |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
-| |ezcFeed-item-enclosure|_       | |ATOM-entry-link|_ ?*         | x                            | |RSS2-item-enclosure|_ ?     |
+| |ezcFeed-item-enclosure|_ *     | |ATOM-entry-link|_ ?*         | x                            | |RSS2-item-enclosure|_ ?     |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-id|_              | |ATOM-entry-id|_ !            | |RSS1-item-about|_ !         | |RSS2-item-guid|_ ?          |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
@@ -1504,10 +1504,11 @@ A link to a multimedia file attached to the feed item.
 
 Optional. Only `RSS2`_ feeds will have this element after generating the feed.
 It will be ignored for `RSS1`_. For `ATOM`_ feeds the enclosure elements will
-be converted to `ATOM-entry-link`_ elements with the attribute
+be converted to |ATOM-entry-link|_ elements with the attribute
 ``rel="enclosure"``.
 
-Can appear only once.
+Can appear only once in `RSS2`_ and multiple times in `ATOM`_ (as
+|ATOM-entry-link|_).
 
 Has 3 required attributes: *url*, *length*, *type*.
 
@@ -1523,11 +1524,16 @@ Create example::
 
 `RSS2`_ output::
 
-  <enclosure url="http://example.com/media/episode_001.mp3" length="49099054" type="audio/x-mp3"/>
+  <enclosure url="http://example.com/media/episode_001.mp3"
+             length="49099054"
+             type="audio/x-mp3"/>
 
 `ATOM`_ output::
 
-  <link href="http://example.com/media/episode_001.mp3" rel="enclosure" length="49099054" type="audio/x-mp3"/>
+  <link href="http://example.com/media/episode_001.mp3"
+        rel="enclosure"
+        length="49099054"
+        type="audio/x-mp3"/>
 
 Parse example (`RSS2`_)::
 
