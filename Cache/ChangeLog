@@ -1,10 +1,11 @@
 1.4rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #13112: Corrected the tutorial text.
-- Fixed issue #13119: Replaced references to /tmp with createTempDir() calls.
 - Fixed issue #13053: Fixed calculation of remaining life time in all storage
   classes and with that resolved the strange behavior in the Memcach storage.
+- Fixed issue #13112: Corrected the tutorial text.
+- Fixed issue #13119: Replaced references to /tmp with createTempDir() calls.
+
 
 1.4beta1 - Tuesday 27 May 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
