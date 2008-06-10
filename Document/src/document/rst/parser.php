@@ -614,7 +614,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::DEFINITION_LIST ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::ENUMERATED_LIST ) )
         {
-            var_dump( $this->documentStack[0], $tokens );
             $this->triggerError(
                 E_PARSE,
                 "Unexpected indentation change from level {$this->indentation} to {$indentation}.",
