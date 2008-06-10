@@ -322,6 +322,26 @@ class ezcTreeXmlTest extends ezcTreeTest
         self::assertSame( "Loempa", $camelus->data );
     }
 
+    // test for bug #13155
+    public function testFetchDataNode1()
+    {
+        $dirname = dirname( __FILE__ );
+        $tree = new ezcTreeXml( 
+            "$dirname/files/fetch-data-test.xml",
+            new ezcTreeXmlInternalDataStore()
+        );
+        try
+        {
+            $node = $tree->fetchNodeById( 1 );
+            $data = $node->data;
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcTreeDataStoreMissingDataException $e )
+        {
+            self::assertEquals( "The data store does not have data stored for the node with ID '1'.", $e->getMessage() );
+        }
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeXmlTest" );

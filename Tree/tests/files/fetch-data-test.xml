@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE tree PUBLIC "" "">
+<tree prefix="id" xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data">
+    <node id="id1">
+        <node id="id2">
+            <etd:data>Node 2</etd:data>
+        </node>
+        <node id="id3">
+            <etd:data>Node 3</etd:data>
+        </node>
+    </node>
+</tree>

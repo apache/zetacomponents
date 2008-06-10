@@ -75,7 +75,7 @@ class ezcTreeXmlInternalDataStore implements ezcTreeXmlDataStore
         $id = $node->id;
         $elem = $this->dom->getElementById( "{$node->tree->prefix}{$id}" );
         $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item( 0 );
-        if ( $dataElem === null )
+        if ( $dataElem === null || ( (string) $dataElem->parentNode->getAttribute( 'id' ) !== "{$node->tree->prefix}{$id}" ) )
         {
             throw new ezcTreeDataStoreMissingDataException( $node->id );
         }
