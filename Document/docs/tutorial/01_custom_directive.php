@@ -18,4 +18,4 @@ EORST
 
 $docbook = $document->getAsDocbook();
 echo $docbook->save();
-
+?>
