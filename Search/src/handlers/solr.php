@@ -145,6 +145,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param string $type
      * @param array(string=>string) $queryString
      * @return string
+     * @access private
      */
     public function sendRawGetCommand( $type, $queryString = array() )
     {
@@ -218,6 +219,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $queryString
      * @param string $data
      * @return string
+     * @access private
      */
     public function sendRawPostCommand( $type, $queryString, $data )
     {
@@ -274,7 +276,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $order
      * @return array
      */
-    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = false, $order = array() )
+    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = null, $offset = false, $order = array() )
     {
         if ( count( $searchFieldList ) > 0 )
         {
@@ -326,7 +328,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $queryFlags['sort'] = join( ', ', $sortFlags );
         }
         $queryFlags['start'] = $offset;
-        $queryFlags['rows'] = $limit;
+        $queryFlags['rows'] = $limit === null ? 999999 : $limit;
         return $queryFlags;
     }
 
@@ -439,7 +441,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * @param array(string=>string) $order
      * @return stdClass
      */
-    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = 10, $offset = 0, $order = array() )
+    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = null, $offset = 0, $order = array() )
     {
         $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order ) );
         $result = json_decode( $result );

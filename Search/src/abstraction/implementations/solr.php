@@ -47,9 +47,11 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
     /**
      * Holds the maximum number of results for the query.
      *
+     * null for unlimited
+     *
      * @var int
      */
-    public $limit = 10;
+    public $limit = null;
 
     /**
      * Holds the number of the first element to return in the results.
@@ -105,7 +107,7 @@ class ezcSearchQuerySolr implements ezcSearchFindQuery
         $this->resultFields = array();
         $this->highlightFields = array();
         $this->whereClauses = array();
-        $this->limit = 10;
+        $this->limit = null;
         $this->offset = 0;
         $this->facets = array();
     }

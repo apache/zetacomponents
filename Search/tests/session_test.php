@@ -327,7 +327,7 @@ class ezcSearchSessionTest extends ezcTestCase
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->important( $q->eq( 'title', 'Twee' ) ) );
-        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+%2Btitle_t%3ATwee%5E2&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10", $q->getQuery() );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+%2Btitle_t%3ATwee%5E2&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=999999", $q->getQuery() );
     }
 
     public function testCreateFindQueryBoost()
@@ -341,7 +341,7 @@ class ezcSearchSessionTest extends ezcTestCase
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->boost( $q->eq( 'title', 'Twee' ), 2.5 ) );
-        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2.5&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10",  $q->getQuery() );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2.5&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=999999",  $q->getQuery() );
     }
 
     public function testCreateFindQueryFuzz()
@@ -355,7 +355,7 @@ class ezcSearchSessionTest extends ezcTestCase
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->fuzz( $q->eq( 'title', 'Twee' ) ) );
-        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2%7E&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10", $q->getQuery() );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2%7E&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=999999", $q->getQuery() );
     }
 
     public function testCreateFindQueryFuzzWithFactor()
@@ -369,7 +369,7 @@ class ezcSearchSessionTest extends ezcTestCase
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->fuzz( $q->eq( 'title', 'Twee' ), 2.5 ) );
-        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2%7E2.5&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10", $q->getQuery() );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2%7E2.5&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=999999", $q->getQuery() );
     }
 
     public function testCreateFindQueryLimit()
@@ -524,7 +524,7 @@ class ezcSearchSessionTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 2, count( $r->documents ) );
-        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+published_l%3A%5B$timeb1+TO+$timeb2%5D&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10", $q->getQuery() );
+        self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+published_l%3A%5B$timeb1+TO+$timeb2%5D&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=999999", $q->getQuery() );
     }
 
     public function testCreateFindWithPhrase()
