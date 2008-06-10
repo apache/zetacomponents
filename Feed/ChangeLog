@@ -1,4 +1,4 @@
-1.1rc1 - [RELEASEDATE]
+1.1rc1 - Tuesday 10 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - ATOM generator considers feed entry links without the rel attribute set as
