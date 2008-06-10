@@ -1,2 +1,2 @@
-Template: 1.3beta1
-Translation: 1.2beta1
+Template: 1.3rc1
+Translation: 1.2rc1
