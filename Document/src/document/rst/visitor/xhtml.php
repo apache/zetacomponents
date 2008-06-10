@@ -290,7 +290,11 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      */
     protected function visitExternalReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        if ( ( $target = $this->getNamedExternalReference( $this->nodeToString( $node ) ) ) !== false )
+        if ( $node->target !== false )
+        {
+            $linkUrl = htmlspecialchars( $this->escapeUrl( $node->target ) );
+        }
+        elseif ( ( $target = $this->getNamedExternalReference( $this->nodeToString( $node ) ) ) !== false )
         {
             $linkUrl = htmlspecialchars( $this->escapeUrl( $target ) );
         }
@@ -371,7 +375,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      */
     protected function visitAnonymousReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $target = $this->getAnonymousReferenceTarget();
+        $target = $node->target !== false ? $node->target : $this->getAnonymousReferenceTarget();
 
         $link = $this->document->createElement( 'a' );
         $link->setAttribute( 'href', htmlspecialchars( $this->escapeUrl( $target ) ) );

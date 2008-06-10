@@ -259,7 +259,13 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      */
     protected function visitExternalReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        if ( $target = $this->getNamedExternalReference( $this->nodeToString( $node ) ) )
+        if ( $node->target !== false )
+        {
+            $link = $this->document->createElement( 'ulink' );
+            $link->setAttribute( 'url', htmlspecialchars( $node->target ) );
+            $root->appendChild( $link );
+        }
+        elseif ( $target = $this->getNamedExternalReference( $this->nodeToString( $node ) ) )
         {
             $link = $this->document->createElement( 'ulink' );
             $link->setAttribute( 'url', htmlspecialchars( $target ) );
@@ -319,7 +325,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      */
     protected function visitAnonymousReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $target = $this->getAnonymousReferenceTarget();
+        $target = $node->target !== false ? $node->target : $this->getAnonymousReferenceTarget();
 
         $link = $this->document->createElement( 'ulink' );
         $link->setAttribute( 'url', htmlspecialchars( $target ) );
