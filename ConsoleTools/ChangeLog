@@ -1,4 +1,4 @@
-1.4rc1 - [RELEASEDATE]
+1.4rc1 - Tuesday 10 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13118: Class::method() replaced by Class->method() for object
