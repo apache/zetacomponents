@@ -23,3 +23,10 @@ term 3 : classifier
 term 4 : classifier one : classifier two
     Definition 4.
 
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

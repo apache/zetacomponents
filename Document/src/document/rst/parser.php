@@ -611,8 +611,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::BLOCKQUOTE ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::DIRECTIVE ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::BULLET_LIST ) &&
+             ( $this->documentStack[0]->type !== ezcDocumentRstNode::DEFINITION_LIST ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::ENUMERATED_LIST ) )
         {
+            var_dump( $this->documentStack[0], $tokens );
             $this->triggerError(
                 E_PARSE,
                 "Unexpected indentation change from level {$this->indentation} to {$indentation}.",
@@ -4002,16 +4004,66 @@ class ezcDocumentRstParser extends ezcDocumentParser
             return new ezcDocumentRstTextLineNode( $node->token );
         }
 
-        // If it is a literal node, just use it as link content
-        if ( ( $this->documentStack[0]->type === ezcDocumentRstNode::MARKUP_INTERPRETED ) ||
-             ( ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) &&
-               ( strpos( $this->documentStack[0]->token->content, ' ' ) === false ) ) )
+        // Aggregate token to check for an embedded inline URL
+        $text = false;
+        if ( $this->documentStack[0]->type === ezcDocumentRstNode::MARKUP_INTERPRETED )
         {
+            /* DEBUG
+            echo "   - Scan literal for embedded URI.\n";
+            // /DEBUG */
+            $textNode = false;
             $text = array_shift( $this->documentStack );
+            foreach ( $text->nodes as $child )
+            {
+                if ( $child->type !== ezcDocumentRstNode::TEXT_LINE )
+                {
+                    /* DEBUG
+                    echo "     - Invalid subnode type found: " . ezcDocumentRstNode::getTokenName( $child->type ) .  ".\n";
+                    // /DEBUG */
+                    $textNode = false;
+                    break;
+                }
+                else
+                {
+                    $textNode .= $child->token->content;
+                }
+            }
+
+            // If we could aggregate the texts easily, because there is only
+            // plain text included, we can check for an URL.
+            if ( ( $textNode !== false ) &&
+                 ( preg_match( '(\s*<(?P<url>[^>]+)>)', $textNode, $match ) ) )
+            {
+                // We found an URL - remove it from the text and use it as link
+                // target.
+                /* DEBUG
+                echo "   - Matched embedded URI: " . $match['url'] . ".\n";
+                // /DEBUG */
+                $text = new ezcDocumentRstTextLineNode( $text->nodes[0]->token );
+                $text->token->content = str_replace( $match[0], '', $textNode );
+                $node->target = $match['url'];
+            }
+        }
+        elseif ( ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) &&
+                 ( strpos( $this->documentStack[0]->token->content, ' ' ) === false ) )
+        {
+            /* DEBUG
+            echo "   - Spaceless text text found.\n";
+            // /DEBUG */
+            $text = array_shift( $this->documentStack );
+        }
+
+        if ( $text !== false )
+        {
+            /* DEBUG
+            echo "   - Return created node.\n";
+            // /DEBUG */
             $node->nodes = array( $text );
             return $node;
         }
 
+        // If the single text node contains spaces we need to split it up here,
+        // because the link only covers the last word in the string.
         if ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE )
         {
             // This is bit hackish, but otherwise the tokenizer would produce
