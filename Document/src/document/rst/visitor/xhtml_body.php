@@ -86,8 +86,6 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
      */
     protected function visitSection( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $titleString = trim( $node->title );
-
         $header = $this->document->createElement( 'h' . min( 6, ++$this->depth ) );
         $root->appendChild( $header );
 
@@ -96,9 +94,14 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
             $header->setAttribute( 'class', 'h' . $this->depth );
         }
 
-        $reference = $this->document->createElement( 'a', htmlspecialchars( $titleString ) );
-        $reference->setAttribute( 'name', $this->calculateId( $titleString ) );
+        $reference = $this->document->createElement( 'a' );
+        $reference->setAttribute( 'name', $this->calculateId( $this->nodeToString( $node->title ) ) );
         $header->appendChild( $reference );
+
+        foreach ( $node->title->nodes as $child )
+        {
+            $this->visitNode( $reference, $child );
+        }
 
         foreach ( $node->nodes as $child )
         {

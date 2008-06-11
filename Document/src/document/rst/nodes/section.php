@@ -36,14 +36,15 @@ class ezcDocumentRstSectionNode extends ezcDocumentRstNode
      * Construct RST document node
      * 
      * @param ezcDocumentRstToken $token 
+     * @param ezcDocumentRstTitleNode $title
      * @param int $depth
      * @return void
      */
-    public function __construct( ezcDocumentRstToken $token, $depth = 0 )
+    public function __construct( ezcDocumentRstToken $token, ezcDocumentRstTitleNode $title = null, $depth = 0 )
     {
         parent::__construct( $token, self::SECTION );
 
-        $this->title = $token->content;
+        $this->title = $title;
         $this->depth = $depth;
     }
 
@@ -68,6 +69,7 @@ class ezcDocumentRstSectionNode extends ezcDocumentRstNode
     {
         $node = new ezcDocumentRstSectionNode(
             $properties['token'],
+            $properties['title'],
             $properties['depth']
         );
 

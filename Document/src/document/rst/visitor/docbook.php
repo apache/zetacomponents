@@ -180,14 +180,19 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
     protected function visitSection( DOMNode $root, ezcDocumentRstNode $node )
     {
         $section = $this->document->createElement( 'section' );
-        $section->setAttribute( 'id', $this->calculateId( $node->title ) );
+        $section->setAttribute( 'id', $this->calculateId( $this->nodeToString( $node->title ) ) );
         $root->appendChild( $section );
 
         $info = $this->document->createElement( 'sectioninfo' );
         $section->appendChild( $info );
 
-        $title = $this->document->createElement( 'title', htmlspecialchars( trim( $node->title ) ) );
+        $title = $this->document->createElement( 'title' );
         $section->appendChild( $title );
+
+        foreach ( $node->title->nodes as $child )
+        {
+            $this->visitNode( $title, $child );
+        }
 
         foreach ( $node->nodes as $child )
         {

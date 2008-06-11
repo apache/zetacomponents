@@ -363,7 +363,7 @@ abstract class ezcDocumentRstVisitor
         switch ( true )
         {
             case $node instanceof ezcDocumentRstSectionNode:
-                $this->addReferenceTarget( $node->title );
+                $this->addReferenceTarget( $this->nodeToString( $node->title ) );
                 $this->aggregateListItems( $node );
                 break;
 
@@ -581,7 +581,7 @@ abstract class ezcDocumentRstVisitor
      */
     protected function calculateId( $string )
     {
-        return preg_replace( '([^a-z0-9-]+)', '_', strtolower( $string ) );
+        return preg_replace( '([^a-z0-9-]+)', '_', strtolower( trim( $string ) ) );
     }
 
     /**

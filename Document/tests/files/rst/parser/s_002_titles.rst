@@ -9,54 +9,300 @@ return ezcDocumentRstDocumentNode::__set_state(array(
   array (
     0 => 
     ezcDocumentRstSectionNode::__set_state(array(
-       'title' => '  Section Title 1',
+       'title' => 
+      ezcDocumentRstTitleNode::__set_state(array(
+         'line' => 3,
+         'position' => 1,
+         'type' => 2,
+         'nodes' => 
+        array (
+          0 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 2,
+             'position' => 1,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 1,
+               'content' => ' ',
+               'line' => 2,
+               'position' => 1,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+          1 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 2,
+             'position' => 2,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'Section Title 1',
+               'line' => 2,
+               'position' => 2,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+          2 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 2,
+             'position' => 17,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 1,
+               'content' => '  ',
+               'line' => 2,
+               'position' => 17,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+        ),
+         'token' => 
+        ezcDocumentRstToken::__set_state(array(
+           'type' => 4,
+           'content' => '=================',
+           'line' => 3,
+           'position' => 1,
+           'escaped' => false,
+        )),
+         'identifier' => NULL,
+      )),
        'depth' => 1,
-       'line' => 2,
+       'line' => 3,
        'position' => 1,
        'type' => 1,
        'nodes' => 
       array (
         0 => 
         ezcDocumentRstSectionNode::__set_state(array(
-           'title' => 'Section Title 2',
+           'title' => 
+          ezcDocumentRstTitleNode::__set_state(array(
+             'line' => 7,
+             'position' => 1,
+             'type' => 2,
+             'nodes' => 
+            array (
+              0 => 
+              ezcDocumentRstTextLineNode::__set_state(array(
+                 'line' => 6,
+                 'position' => 1,
+                 'type' => 4,
+                 'nodes' => 
+                array (
+                ),
+                 'token' => 
+                ezcDocumentRstToken::__set_state(array(
+                   'type' => 5,
+                   'content' => 'Section Title 2 ',
+                   'line' => 6,
+                   'position' => 1,
+                   'escaped' => false,
+                )),
+                 'identifier' => NULL,
+              )),
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 4,
+               'content' => '---------------',
+               'line' => 7,
+               'position' => 1,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
            'depth' => 2,
-           'line' => 6,
+           'line' => 7,
            'position' => 1,
            'type' => 1,
            'nodes' => 
           array (
             0 => 
             ezcDocumentRstSectionNode::__set_state(array(
-               'title' => 'Section Title 3',
+               'title' => 
+              ezcDocumentRstTitleNode::__set_state(array(
+                 'line' => 10,
+                 'position' => 1,
+                 'type' => 2,
+                 'nodes' => 
+                array (
+                  0 => 
+                  ezcDocumentRstTextLineNode::__set_state(array(
+                     'line' => 9,
+                     'position' => 1,
+                     'type' => 4,
+                     'nodes' => 
+                    array (
+                    ),
+                     'token' => 
+                    ezcDocumentRstToken::__set_state(array(
+                       'type' => 5,
+                       'content' => 'Section Title 3 ',
+                       'line' => 9,
+                       'position' => 1,
+                       'escaped' => false,
+                    )),
+                     'identifier' => NULL,
+                  )),
+                ),
+                 'token' => 
+                ezcDocumentRstToken::__set_state(array(
+                   'type' => 4,
+                   'content' => '===============',
+                   'line' => 10,
+                   'position' => 1,
+                   'escaped' => false,
+                )),
+                 'identifier' => NULL,
+              )),
                'depth' => 3,
-               'line' => 9,
+               'line' => 10,
                'position' => 1,
                'type' => 1,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentRstSectionNode::__set_state(array(
-                   'title' => 'Section Title 4',
+                   'title' => 
+                  ezcDocumentRstTitleNode::__set_state(array(
+                     'line' => 13,
+                     'position' => 1,
+                     'type' => 2,
+                     'nodes' => 
+                    array (
+                      0 => 
+                      ezcDocumentRstTextLineNode::__set_state(array(
+                         'line' => 12,
+                         'position' => 1,
+                         'type' => 4,
+                         'nodes' => 
+                        array (
+                        ),
+                         'token' => 
+                        ezcDocumentRstToken::__set_state(array(
+                           'type' => 5,
+                           'content' => 'Section Title 4 ',
+                           'line' => 12,
+                           'position' => 1,
+                           'escaped' => false,
+                        )),
+                         'identifier' => NULL,
+                      )),
+                    ),
+                     'token' => 
+                    ezcDocumentRstToken::__set_state(array(
+                       'type' => 4,
+                       'content' => '---------------',
+                       'line' => 13,
+                       'position' => 1,
+                       'escaped' => false,
+                    )),
+                     'identifier' => NULL,
+                  )),
                    'depth' => 4,
-                   'line' => 12,
+                   'line' => 13,
                    'position' => 1,
                    'type' => 1,
                    'nodes' => 
                   array (
                     0 => 
                     ezcDocumentRstSectionNode::__set_state(array(
-                       'title' => 'Section Title 5',
+                       'title' => 
+                      ezcDocumentRstTitleNode::__set_state(array(
+                         'line' => 16,
+                         'position' => 1,
+                         'type' => 2,
+                         'nodes' => 
+                        array (
+                          0 => 
+                          ezcDocumentRstTextLineNode::__set_state(array(
+                             'line' => 15,
+                             'position' => 1,
+                             'type' => 4,
+                             'nodes' => 
+                            array (
+                            ),
+                             'token' => 
+                            ezcDocumentRstToken::__set_state(array(
+                               'type' => 5,
+                               'content' => 'Section Title 5 ',
+                               'line' => 15,
+                               'position' => 1,
+                               'escaped' => false,
+                            )),
+                             'identifier' => NULL,
+                          )),
+                        ),
+                         'token' => 
+                        ezcDocumentRstToken::__set_state(array(
+                           'type' => 4,
+                           'content' => '```````````````',
+                           'line' => 16,
+                           'position' => 1,
+                           'escaped' => false,
+                        )),
+                         'identifier' => NULL,
+                      )),
                        'depth' => 5,
-                       'line' => 15,
+                       'line' => 16,
                        'position' => 1,
                        'type' => 1,
                        'nodes' => 
                       array (
                         0 => 
                         ezcDocumentRstSectionNode::__set_state(array(
-                           'title' => 'Section Title 6',
+                           'title' => 
+                          ezcDocumentRstTitleNode::__set_state(array(
+                             'line' => 19,
+                             'position' => 1,
+                             'type' => 2,
+                             'nodes' => 
+                            array (
+                              0 => 
+                              ezcDocumentRstTextLineNode::__set_state(array(
+                                 'line' => 18,
+                                 'position' => 1,
+                                 'type' => 4,
+                                 'nodes' => 
+                                array (
+                                ),
+                                 'token' => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 5,
+                                   'content' => 'Section Title 6 ',
+                                   'line' => 18,
+                                   'position' => 1,
+                                   'escaped' => false,
+                                )),
+                                 'identifier' => NULL,
+                              )),
+                            ),
+                             'token' => 
+                            ezcDocumentRstToken::__set_state(array(
+                               'type' => 4,
+                               'content' => '\'\'\'\'\'\'\'\'\'\'\'\'\'\'\'',
+                               'line' => 19,
+                               'position' => 1,
+                               'escaped' => false,
+                            )),
+                             'identifier' => NULL,
+                          )),
                            'depth' => 6,
-                           'line' => 18,
+                           'line' => 19,
                            'position' => 1,
                            'type' => 1,
                            'nodes' => 
@@ -64,55 +310,197 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                           ),
                            'token' => 
                           ezcDocumentRstToken::__set_state(array(
-                             'type' => 5,
-                             'content' => 'Section Title 6',
-                             'line' => 18,
+                             'type' => 4,
+                             'content' => '\'\'\'\'\'\'\'\'\'\'\'\'\'\'\'',
+                             'line' => 19,
                              'position' => 1,
                              'escaped' => false,
                           )),
+                           'identifier' => NULL,
                         )),
                       ),
                        'token' => 
                       ezcDocumentRstToken::__set_state(array(
-                         'type' => 5,
-                         'content' => 'Section Title 5',
-                         'line' => 15,
+                         'type' => 4,
+                         'content' => '```````````````',
+                         'line' => 16,
                          'position' => 1,
                          'escaped' => false,
                       )),
+                       'identifier' => NULL,
                     )),
                     1 => 
                     ezcDocumentRstSectionNode::__set_state(array(
-                       'title' => 'Section Title 5',
+                       'title' => 
+                      ezcDocumentRstTitleNode::__set_state(array(
+                         'line' => 22,
+                         'position' => 1,
+                         'type' => 2,
+                         'nodes' => 
+                        array (
+                          0 => 
+                          ezcDocumentRstTextLineNode::__set_state(array(
+                             'line' => 21,
+                             'position' => 1,
+                             'type' => 4,
+                             'nodes' => 
+                            array (
+                            ),
+                             'token' => 
+                            ezcDocumentRstToken::__set_state(array(
+                               'type' => 5,
+                               'content' => 'Section Title 5 ',
+                               'line' => 21,
+                               'position' => 1,
+                               'escaped' => false,
+                            )),
+                             'identifier' => NULL,
+                          )),
+                        ),
+                         'token' => 
+                        ezcDocumentRstToken::__set_state(array(
+                           'type' => 4,
+                           'content' => '```````````````',
+                           'line' => 22,
+                           'position' => 1,
+                           'escaped' => false,
+                        )),
+                         'identifier' => NULL,
+                      )),
                        'depth' => 5,
-                       'line' => 21,
+                       'line' => 22,
                        'position' => 1,
                        'type' => 1,
                        'nodes' => 
                       array (
                         0 => 
                         ezcDocumentRstSectionNode::__set_state(array(
-                           'title' => 'Section Title 6',
+                           'title' => 
+                          ezcDocumentRstTitleNode::__set_state(array(
+                             'line' => 25,
+                             'position' => 1,
+                             'type' => 2,
+                             'nodes' => 
+                            array (
+                              0 => 
+                              ezcDocumentRstTextLineNode::__set_state(array(
+                                 'line' => 24,
+                                 'position' => 1,
+                                 'type' => 4,
+                                 'nodes' => 
+                                array (
+                                ),
+                                 'token' => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 5,
+                                   'content' => 'Section Title 6 ',
+                                   'line' => 24,
+                                   'position' => 1,
+                                   'escaped' => false,
+                                )),
+                                 'identifier' => NULL,
+                              )),
+                            ),
+                             'token' => 
+                            ezcDocumentRstToken::__set_state(array(
+                               'type' => 4,
+                               'content' => '\'\'\'\'\'\'\'\'\'\'\'\'\'\'\'',
+                               'line' => 25,
+                               'position' => 1,
+                               'escaped' => false,
+                            )),
+                             'identifier' => NULL,
+                          )),
                            'depth' => 6,
-                           'line' => 24,
+                           'line' => 25,
                            'position' => 1,
                            'type' => 1,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstSectionNode::__set_state(array(
-                               'title' => 'Section Title 7',
+                               'title' => 
+                              ezcDocumentRstTitleNode::__set_state(array(
+                                 'line' => 28,
+                                 'position' => 1,
+                                 'type' => 2,
+                                 'nodes' => 
+                                array (
+                                  0 => 
+                                  ezcDocumentRstTextLineNode::__set_state(array(
+                                     'line' => 27,
+                                     'position' => 1,
+                                     'type' => 4,
+                                     'nodes' => 
+                                    array (
+                                    ),
+                                     'token' => 
+                                    ezcDocumentRstToken::__set_state(array(
+                                       'type' => 5,
+                                       'content' => 'Section Title 7 ',
+                                       'line' => 27,
+                                       'position' => 1,
+                                       'escaped' => false,
+                                    )),
+                                     'identifier' => NULL,
+                                  )),
+                                ),
+                                 'token' => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 4,
+                                   'content' => '...............',
+                                   'line' => 28,
+                                   'position' => 1,
+                                   'escaped' => false,
+                                )),
+                                 'identifier' => NULL,
+                              )),
                                'depth' => 7,
-                               'line' => 27,
+                               'line' => 28,
                                'position' => 1,
                                'type' => 1,
                                'nodes' => 
                               array (
                                 0 => 
                                 ezcDocumentRstSectionNode::__set_state(array(
-                                   'title' => 'Section Title 8',
+                                   'title' => 
+                                  ezcDocumentRstTitleNode::__set_state(array(
+                                     'line' => 31,
+                                     'position' => 1,
+                                     'type' => 2,
+                                     'nodes' => 
+                                    array (
+                                      0 => 
+                                      ezcDocumentRstTextLineNode::__set_state(array(
+                                         'line' => 30,
+                                         'position' => 1,
+                                         'type' => 4,
+                                         'nodes' => 
+                                        array (
+                                        ),
+                                         'token' => 
+                                        ezcDocumentRstToken::__set_state(array(
+                                           'type' => 5,
+                                           'content' => 'Section Title 8 ',
+                                           'line' => 30,
+                                           'position' => 1,
+                                           'escaped' => false,
+                                        )),
+                                         'identifier' => NULL,
+                                      )),
+                                    ),
+                                     'token' => 
+                                    ezcDocumentRstToken::__set_state(array(
+                                       'type' => 4,
+                                       'content' => '~~~~~~~~~~~~~~~',
+                                       'line' => 31,
+                                       'position' => 1,
+                                       'escaped' => false,
+                                    )),
+                                     'identifier' => NULL,
+                                  )),
                                    'depth' => 8,
-                                   'line' => 30,
+                                   'line' => 31,
                                    'position' => 1,
                                    'type' => 1,
                                    'nodes' => 
@@ -120,64 +508,241 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                   ),
                                    'token' => 
                                   ezcDocumentRstToken::__set_state(array(
-                                     'type' => 5,
-                                     'content' => 'Section Title 8',
-                                     'line' => 30,
+                                     'type' => 4,
+                                     'content' => '~~~~~~~~~~~~~~~',
+                                     'line' => 31,
                                      'position' => 1,
                                      'escaped' => false,
                                   )),
+                                   'identifier' => NULL,
                                 )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
-                                 'type' => 5,
-                                 'content' => 'Section Title 7',
-                                 'line' => 27,
+                                 'type' => 4,
+                                 'content' => '...............',
+                                 'line' => 28,
                                  'position' => 1,
                                  'escaped' => false,
                               )),
+                               'identifier' => NULL,
                             )),
                             1 => 
                             ezcDocumentRstSectionNode::__set_state(array(
-                               'title' => 'Section Title 7',
+                               'title' => 
+                              ezcDocumentRstTitleNode::__set_state(array(
+                                 'line' => 34,
+                                 'position' => 1,
+                                 'type' => 2,
+                                 'nodes' => 
+                                array (
+                                  0 => 
+                                  ezcDocumentRstTextLineNode::__set_state(array(
+                                     'line' => 33,
+                                     'position' => 1,
+                                     'type' => 4,
+                                     'nodes' => 
+                                    array (
+                                    ),
+                                     'token' => 
+                                    ezcDocumentRstToken::__set_state(array(
+                                       'type' => 5,
+                                       'content' => 'Section Title 7 ',
+                                       'line' => 33,
+                                       'position' => 1,
+                                       'escaped' => false,
+                                    )),
+                                     'identifier' => NULL,
+                                  )),
+                                ),
+                                 'token' => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 4,
+                                   'content' => '...............',
+                                   'line' => 34,
+                                   'position' => 1,
+                                   'escaped' => false,
+                                )),
+                                 'identifier' => NULL,
+                              )),
                                'depth' => 7,
-                               'line' => 33,
+                               'line' => 34,
                                'position' => 1,
                                'type' => 1,
                                'nodes' => 
                               array (
                                 0 => 
                                 ezcDocumentRstSectionNode::__set_state(array(
-                                   'title' => 'Section Title 8',
+                                   'title' => 
+                                  ezcDocumentRstTitleNode::__set_state(array(
+                                     'line' => 37,
+                                     'position' => 1,
+                                     'type' => 2,
+                                     'nodes' => 
+                                    array (
+                                      0 => 
+                                      ezcDocumentRstTextLineNode::__set_state(array(
+                                         'line' => 36,
+                                         'position' => 1,
+                                         'type' => 4,
+                                         'nodes' => 
+                                        array (
+                                        ),
+                                         'token' => 
+                                        ezcDocumentRstToken::__set_state(array(
+                                           'type' => 5,
+                                           'content' => 'Section Title 8 ',
+                                           'line' => 36,
+                                           'position' => 1,
+                                           'escaped' => false,
+                                        )),
+                                         'identifier' => NULL,
+                                      )),
+                                    ),
+                                     'token' => 
+                                    ezcDocumentRstToken::__set_state(array(
+                                       'type' => 4,
+                                       'content' => '~~~~~~~~~~~~~~~',
+                                       'line' => 37,
+                                       'position' => 1,
+                                       'escaped' => false,
+                                    )),
+                                     'identifier' => NULL,
+                                  )),
                                    'depth' => 8,
-                                   'line' => 36,
+                                   'line' => 37,
                                    'position' => 1,
                                    'type' => 1,
                                    'nodes' => 
                                   array (
                                     0 => 
                                     ezcDocumentRstSectionNode::__set_state(array(
-                                       'title' => 'Section Title 9',
+                                       'title' => 
+                                      ezcDocumentRstTitleNode::__set_state(array(
+                                         'line' => 40,
+                                         'position' => 1,
+                                         'type' => 2,
+                                         'nodes' => 
+                                        array (
+                                          0 => 
+                                          ezcDocumentRstTextLineNode::__set_state(array(
+                                             'line' => 39,
+                                             'position' => 1,
+                                             'type' => 4,
+                                             'nodes' => 
+                                            array (
+                                            ),
+                                             'token' => 
+                                            ezcDocumentRstToken::__set_state(array(
+                                               'type' => 5,
+                                               'content' => 'Section Title 9 ',
+                                               'line' => 39,
+                                               'position' => 1,
+                                               'escaped' => false,
+                                            )),
+                                             'identifier' => NULL,
+                                          )),
+                                        ),
+                                         'token' => 
+                                        ezcDocumentRstToken::__set_state(array(
+                                           'type' => 4,
+                                           'content' => '***************',
+                                           'line' => 40,
+                                           'position' => 1,
+                                           'escaped' => false,
+                                        )),
+                                         'identifier' => NULL,
+                                      )),
                                        'depth' => 9,
-                                       'line' => 39,
+                                       'line' => 40,
                                        'position' => 1,
                                        'type' => 1,
                                        'nodes' => 
                                       array (
                                         0 => 
                                         ezcDocumentRstSectionNode::__set_state(array(
-                                           'title' => 'Section Title 10',
+                                           'title' => 
+                                          ezcDocumentRstTitleNode::__set_state(array(
+                                             'line' => 43,
+                                             'position' => 1,
+                                             'type' => 2,
+                                             'nodes' => 
+                                            array (
+                                              0 => 
+                                              ezcDocumentRstTextLineNode::__set_state(array(
+                                                 'line' => 42,
+                                                 'position' => 1,
+                                                 'type' => 4,
+                                                 'nodes' => 
+                                                array (
+                                                ),
+                                                 'token' => 
+                                                ezcDocumentRstToken::__set_state(array(
+                                                   'type' => 5,
+                                                   'content' => 'Section Title 10 ',
+                                                   'line' => 42,
+                                                   'position' => 1,
+                                                   'escaped' => false,
+                                                )),
+                                                 'identifier' => NULL,
+                                              )),
+                                            ),
+                                             'token' => 
+                                            ezcDocumentRstToken::__set_state(array(
+                                               'type' => 4,
+                                               'content' => '++++++++++++++++',
+                                               'line' => 43,
+                                               'position' => 1,
+                                               'escaped' => false,
+                                            )),
+                                             'identifier' => NULL,
+                                          )),
                                            'depth' => 10,
-                                           'line' => 42,
+                                           'line' => 43,
                                            'position' => 1,
                                            'type' => 1,
                                            'nodes' => 
                                           array (
                                             0 => 
                                             ezcDocumentRstSectionNode::__set_state(array(
-                                               'title' => 'Section Title 11',
+                                               'title' => 
+                                              ezcDocumentRstTitleNode::__set_state(array(
+                                                 'line' => 46,
+                                                 'position' => 1,
+                                                 'type' => 2,
+                                                 'nodes' => 
+                                                array (
+                                                  0 => 
+                                                  ezcDocumentRstTextLineNode::__set_state(array(
+                                                     'line' => 45,
+                                                     'position' => 1,
+                                                     'type' => 4,
+                                                     'nodes' => 
+                                                    array (
+                                                    ),
+                                                     'token' => 
+                                                    ezcDocumentRstToken::__set_state(array(
+                                                       'type' => 5,
+                                                       'content' => 'Section Title 11 ',
+                                                       'line' => 45,
+                                                       'position' => 1,
+                                                       'escaped' => false,
+                                                    )),
+                                                     'identifier' => NULL,
+                                                  )),
+                                                ),
+                                                 'token' => 
+                                                ezcDocumentRstToken::__set_state(array(
+                                                   'type' => 4,
+                                                   'content' => '^^^^^^^^^^^^^^^^',
+                                                   'line' => 46,
+                                                   'position' => 1,
+                                                   'escaped' => false,
+                                                )),
+                                                 'identifier' => NULL,
+                                              )),
                                                'depth' => 11,
-                                               'line' => 45,
+                                               'line' => 46,
                                                'position' => 1,
                                                'type' => 1,
                                                'nodes' => 
@@ -185,116 +750,230 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                               ),
                                                'token' => 
                                               ezcDocumentRstToken::__set_state(array(
-                                                 'type' => 5,
-                                                 'content' => 'Section Title 11',
-                                                 'line' => 45,
+                                                 'type' => 4,
+                                                 'content' => '^^^^^^^^^^^^^^^^',
+                                                 'line' => 46,
                                                  'position' => 1,
                                                  'escaped' => false,
                                               )),
+                                               'identifier' => NULL,
                                             )),
                                           ),
                                            'token' => 
                                           ezcDocumentRstToken::__set_state(array(
-                                             'type' => 5,
-                                             'content' => 'Section Title 10',
-                                             'line' => 42,
+                                             'type' => 4,
+                                             'content' => '++++++++++++++++',
+                                             'line' => 43,
                                              'position' => 1,
                                              'escaped' => false,
                                           )),
+                                           'identifier' => NULL,
                                         )),
                                       ),
                                        'token' => 
                                       ezcDocumentRstToken::__set_state(array(
-                                         'type' => 5,
-                                         'content' => 'Section Title 9',
-                                         'line' => 39,
+                                         'type' => 4,
+                                         'content' => '***************',
+                                         'line' => 40,
                                          'position' => 1,
                                          'escaped' => false,
                                       )),
+                                       'identifier' => NULL,
                                     )),
                                   ),
                                    'token' => 
                                   ezcDocumentRstToken::__set_state(array(
-                                     'type' => 5,
-                                     'content' => 'Section Title 8',
-                                     'line' => 36,
+                                     'type' => 4,
+                                     'content' => '~~~~~~~~~~~~~~~',
+                                     'line' => 37,
                                      'position' => 1,
                                      'escaped' => false,
                                   )),
+                                   'identifier' => NULL,
                                 )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
-                                 'type' => 5,
-                                 'content' => 'Section Title 7',
-                                 'line' => 33,
+                                 'type' => 4,
+                                 'content' => '...............',
+                                 'line' => 34,
                                  'position' => 1,
                                  'escaped' => false,
                               )),
+                               'identifier' => NULL,
                             )),
                           ),
                            'token' => 
                           ezcDocumentRstToken::__set_state(array(
-                             'type' => 5,
-                             'content' => 'Section Title 6',
-                             'line' => 24,
+                             'type' => 4,
+                             'content' => '\'\'\'\'\'\'\'\'\'\'\'\'\'\'\'',
+                             'line' => 25,
                              'position' => 1,
                              'escaped' => false,
                           )),
+                           'identifier' => NULL,
                         )),
                       ),
                        'token' => 
                       ezcDocumentRstToken::__set_state(array(
-                         'type' => 5,
-                         'content' => 'Section Title 5',
-                         'line' => 21,
+                         'type' => 4,
+                         'content' => '```````````````',
+                         'line' => 22,
                          'position' => 1,
                          'escaped' => false,
                       )),
+                       'identifier' => NULL,
                     )),
                   ),
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
-                     'type' => 5,
-                     'content' => 'Section Title 4',
-                     'line' => 12,
+                     'type' => 4,
+                     'content' => '---------------',
+                     'line' => 13,
                      'position' => 1,
                      'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(
-                 'type' => 5,
-                 'content' => 'Section Title 3',
-                 'line' => 9,
+                 'type' => 4,
+                 'content' => '===============',
+                 'line' => 10,
                  'position' => 1,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             1 => 
             ezcDocumentRstSectionNode::__set_state(array(
-               'title' => 'Section Title 3',
+               'title' => 
+              ezcDocumentRstTitleNode::__set_state(array(
+                 'line' => 49,
+                 'position' => 1,
+                 'type' => 2,
+                 'nodes' => 
+                array (
+                  0 => 
+                  ezcDocumentRstTextLineNode::__set_state(array(
+                     'line' => 48,
+                     'position' => 1,
+                     'type' => 4,
+                     'nodes' => 
+                    array (
+                    ),
+                     'token' => 
+                    ezcDocumentRstToken::__set_state(array(
+                       'type' => 5,
+                       'content' => 'Section Title 3 ',
+                       'line' => 48,
+                       'position' => 1,
+                       'escaped' => false,
+                    )),
+                     'identifier' => NULL,
+                  )),
+                ),
+                 'token' => 
+                ezcDocumentRstToken::__set_state(array(
+                   'type' => 4,
+                   'content' => '===============',
+                   'line' => 49,
+                   'position' => 1,
+                   'escaped' => false,
+                )),
+                 'identifier' => NULL,
+              )),
                'depth' => 3,
-               'line' => 48,
+               'line' => 49,
                'position' => 1,
                'type' => 1,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentRstSectionNode::__set_state(array(
-                   'title' => 'Section Title 4',
+                   'title' => 
+                  ezcDocumentRstTitleNode::__set_state(array(
+                     'line' => 52,
+                     'position' => 1,
+                     'type' => 2,
+                     'nodes' => 
+                    array (
+                      0 => 
+                      ezcDocumentRstTextLineNode::__set_state(array(
+                         'line' => 51,
+                         'position' => 1,
+                         'type' => 4,
+                         'nodes' => 
+                        array (
+                        ),
+                         'token' => 
+                        ezcDocumentRstToken::__set_state(array(
+                           'type' => 5,
+                           'content' => 'Section Title 4 ',
+                           'line' => 51,
+                           'position' => 1,
+                           'escaped' => false,
+                        )),
+                         'identifier' => NULL,
+                      )),
+                    ),
+                     'token' => 
+                    ezcDocumentRstToken::__set_state(array(
+                       'type' => 4,
+                       'content' => '---------------',
+                       'line' => 52,
+                       'position' => 1,
+                       'escaped' => false,
+                    )),
+                     'identifier' => NULL,
+                  )),
                    'depth' => 4,
-                   'line' => 51,
+                   'line' => 52,
                    'position' => 1,
                    'type' => 1,
                    'nodes' => 
                   array (
                     0 => 
                     ezcDocumentRstSectionNode::__set_state(array(
-                       'title' => 'Section Title 5',
+                       'title' => 
+                      ezcDocumentRstTitleNode::__set_state(array(
+                         'line' => 55,
+                         'position' => 1,
+                         'type' => 2,
+                         'nodes' => 
+                        array (
+                          0 => 
+                          ezcDocumentRstTextLineNode::__set_state(array(
+                             'line' => 54,
+                             'position' => 1,
+                             'type' => 4,
+                             'nodes' => 
+                            array (
+                            ),
+                             'token' => 
+                            ezcDocumentRstToken::__set_state(array(
+                               'type' => 5,
+                               'content' => 'Section Title 5 ',
+                               'line' => 54,
+                               'position' => 1,
+                               'escaped' => false,
+                            )),
+                             'identifier' => NULL,
+                          )),
+                        ),
+                         'token' => 
+                        ezcDocumentRstToken::__set_state(array(
+                           'type' => 4,
+                           'content' => '```````````````',
+                           'line' => 55,
+                           'position' => 1,
+                           'escaped' => false,
+                        )),
+                         'identifier' => NULL,
+                      )),
                        'depth' => 5,
-                       'line' => 54,
+                       'line' => 55,
                        'position' => 1,
                        'type' => 1,
                        'nodes' => 
@@ -302,54 +981,60 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                       ),
                        'token' => 
                       ezcDocumentRstToken::__set_state(array(
-                         'type' => 5,
-                         'content' => 'Section Title 5',
-                         'line' => 54,
+                         'type' => 4,
+                         'content' => '```````````````',
+                         'line' => 55,
                          'position' => 1,
                          'escaped' => false,
                       )),
+                       'identifier' => NULL,
                     )),
                   ),
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
-                     'type' => 5,
-                     'content' => 'Section Title 4',
-                     'line' => 51,
+                     'type' => 4,
+                     'content' => '---------------',
+                     'line' => 52,
                      'position' => 1,
                      'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(
-                 'type' => 5,
-                 'content' => 'Section Title 3',
-                 'line' => 48,
+                 'type' => 4,
+                 'content' => '===============',
+                 'line' => 49,
                  'position' => 1,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
           ),
            'token' => 
           ezcDocumentRstToken::__set_state(array(
-             'type' => 5,
-             'content' => 'Section Title 2',
-             'line' => 6,
+             'type' => 4,
+             'content' => '---------------',
+             'line' => 7,
              'position' => 1,
              'escaped' => false,
           )),
+           'identifier' => NULL,
         )),
       ),
        'token' => 
       ezcDocumentRstToken::__set_state(array(
-         'type' => 1,
-         'content' => '  Section Title 1',
-         'line' => 2,
+         'type' => 4,
+         'content' => '=================',
+         'line' => 3,
          'position' => 1,
          'escaped' => false,
       )),
+       'identifier' => NULL,
     )),
   ),
    'token' => NULL,
+   'identifier' => NULL,
 ));
 

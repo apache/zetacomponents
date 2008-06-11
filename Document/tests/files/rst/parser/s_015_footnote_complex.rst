@@ -9,9 +9,44 @@ return ezcDocumentRstDocumentNode::__set_state(array(
   array (
     0 => 
     ezcDocumentRstSectionNode::__set_state(array(
-       'title' => 'Complex footnotes',
+       'title' => 
+      ezcDocumentRstTitleNode::__set_state(array(
+         'line' => 2,
+         'position' => 1,
+         'type' => 2,
+         'nodes' => 
+        array (
+          0 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 1,
+             'position' => 1,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'Complex footnotes ',
+               'line' => 1,
+               'position' => 1,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+        ),
+         'token' => 
+        ezcDocumentRstToken::__set_state(array(
+           'type' => 4,
+           'content' => '=================',
+           'line' => 2,
+           'position' => 1,
+           'escaped' => false,
+        )),
+         'identifier' => NULL,
+      )),
        'depth' => 1,
-       'line' => 1,
+       'line' => 2,
        'position' => 1,
        'type' => 1,
        'nodes' => 
@@ -808,6 +843,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'escaped' => false,
             )),
           ),
+           'number' => NULL,
            'line' => 8,
            'position' => 1,
            'type' => 54,
@@ -901,6 +937,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'escaped' => false,
             )),
           ),
+           'number' => NULL,
            'line' => 10,
            'position' => 1,
            'type' => 54,
@@ -1292,6 +1329,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'escaped' => false,
             )),
           ),
+           'number' => NULL,
            'line' => 15,
            'position' => 1,
            'type' => 54,
@@ -1619,9 +1657,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
       ),
        'token' => 
       ezcDocumentRstToken::__set_state(array(
-         'type' => 5,
-         'content' => 'Complex footnotes',
-         'line' => 1,
+         'type' => 4,
+         'content' => '=================',
+         'line' => 2,
          'position' => 1,
          'escaped' => false,
       )),

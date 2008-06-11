@@ -9,9 +9,44 @@ return ezcDocumentRstDocumentNode::__set_state(array(
   array (
     0 => 
     ezcDocumentRstSectionNode::__set_state(array(
-       'title' => 'Anonymous hyperlink targets',
+       'title' => 
+      ezcDocumentRstTitleNode::__set_state(array(
+         'line' => 2,
+         'position' => 1,
+         'type' => 2,
+         'nodes' => 
+        array (
+          0 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 1,
+             'position' => 1,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'Anonymous hyperlink targets ',
+               'line' => 1,
+               'position' => 1,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+        ),
+         'token' => 
+        ezcDocumentRstToken::__set_state(array(
+           'type' => 4,
+           'content' => '===========================',
+           'line' => 2,
+           'position' => 1,
+           'escaped' => false,
+        )),
+         'identifier' => NULL,
+      )),
        'depth' => 1,
-       'line' => 1,
+       'line' => 2,
        'position' => 1,
        'type' => 1,
        'nodes' => 
@@ -40,6 +75,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 1,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             1 => 
             ezcDocumentRstAnonymousLinkNode::__set_state(array(
@@ -65,6 +101,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'position' => 1,
                      'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
               ),
                'token' => 
@@ -75,6 +112,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 14,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             2 => 
             ezcDocumentRstTextLineNode::__set_state(array(
@@ -92,6 +130,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 16,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             3 => 
             ezcDocumentRstTextLineNode::__set_state(array(
@@ -109,6 +148,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 17,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             4 => 
             ezcDocumentRstTextLineNode::__set_state(array(
@@ -126,6 +166,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 26,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             5 => 
             ezcDocumentRstAnonymousLinkNode::__set_state(array(
@@ -159,6 +200,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                          'position' => 28,
                          'escaped' => false,
                       )),
+                       'identifier' => NULL,
                     )),
                   ),
                    'token' => 
@@ -169,6 +211,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'position' => 45,
                      'escaped' => false,
                   )),
+                   'identifier' => NULL,
                 )),
               ),
                'token' => 
@@ -179,6 +222,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 46,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             6 => 
             ezcDocumentRstTextLineNode::__set_state(array(
@@ -196,6 +240,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 48,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
           ),
            'token' => 
@@ -207,6 +252,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'position' => 49,
              'escaped' => false,
           )),
+           'identifier' => NULL,
         )),
         1 => 
         ezcDocumentRstAnonymousReferenceNode::__set_state(array(
@@ -231,6 +277,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 4,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             1 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -248,6 +295,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 8,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             2 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -265,6 +313,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 9,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             3 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -282,6 +331,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 11,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             4 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -299,6 +349,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 20,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             5 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -316,6 +367,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 21,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             6 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -334,6 +386,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 24,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
           ),
            'token' => 
@@ -344,6 +397,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'position' => 1,
              'escaped' => false,
           )),
+           'identifier' => NULL,
         )),
         2 => 
         ezcDocumentRstAnonymousReferenceNode::__set_state(array(
@@ -368,6 +422,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 8,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             1 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -385,6 +440,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 12,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             2 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -402,6 +458,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 13,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             3 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -419,6 +476,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 15,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             4 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -436,6 +494,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 21,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             5 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -453,6 +512,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 22,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
             6 => 
             ezcDocumentRstLiteralNode::__set_state(array(
@@ -471,6 +531,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'position' => 25,
                  'escaped' => false,
               )),
+               'identifier' => NULL,
             )),
           ),
            'token' => 
@@ -481,18 +542,21 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'position' => 1,
              'escaped' => false,
           )),
+           'identifier' => NULL,
         )),
       ),
        'token' => 
       ezcDocumentRstToken::__set_state(array(
-         'type' => 5,
-         'content' => 'Anonymous hyperlink targets',
-         'line' => 1,
+         'type' => 4,
+         'content' => '===========================',
+         'line' => 2,
          'position' => 1,
          'escaped' => false,
       )),
+       'identifier' => NULL,
     )),
   ),
    'token' => NULL,
+   'identifier' => NULL,
 ));
 

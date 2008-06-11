@@ -2,7 +2,7 @@
 <article xmlns="http://docbook.org/ns/docbook">
   <section id="enumerated_lists">
     <sectioninfo/>
-    <title>Enumerated lists</title>
+    <title>Enumerated lists </title>
     <orderedlist numeration="arabic">
       <listitem>
         <para>This is an enumerated list.</para>

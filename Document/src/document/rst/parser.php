@@ -3216,34 +3216,38 @@ class ezcDocumentRstParser extends ezcDocumentParser
     protected function reduceTitle( ezcDocumentRstTitleNode $node )
     {
         if ( !isset( $this->documentStack[0] ) ||
-             ( $this->documentStack[0]->type !== ezcDocumentRstNode::TEXT_LINE ) )
+             !in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
             // This is a title top line, just skip for now.
             return $node;
         }
 
         // Pop all text lines from stack and aggregate them into the title
-        $titleText = '';
+        $nodes           = array();
+        $titleTextLength = 0;
         while ( ( isset( $this->documentStack[0] ) ) &&
-                ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) )
+                in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
-            $textNode = array_shift( $this->documentStack );
-            $titleText .= $textNode->token->content;
+            $nodes[] = $textNode = array_shift( $this->documentStack );
+            
+            if ( ( $titleTextLength > 0 ) ||
+                 ( $textNode->token->type !== ezcDocumentRstToken::WHITESPACE ) )
+            {
+                $titleTextLength += strlen( $textNode->token->content );
+            }
         }
+        $node->nodes = array_reverse( $nodes );
 
         // There is one additional whitespace appended because of the newline -
         // remove it:
-        $titleText = substr( $titleText, 0, -1 );
-
-        $title = $textNode;
-        $title->token->content = $titleText;
+        --$titleTextLength;
 
         // Check if the lengths of the top line and the text matches.
-        if ( strlen( $node->token->content ) !== strlen( $titleText ) )
+        if ( ( $titleLength = strlen( $node->token->content ) ) < $titleTextLength )
         {
             $this->triggerError(
                 E_NOTICE,
-                "Title underline length does not match text length.",
+                "Title underline length ({$titleLength}) is shorter then text length ({$titleTextLength}).",
                 null, $node->token->line, $node->token->position
             );
         }
@@ -3280,7 +3284,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Prepend section element to document stack
         return new ezcDocumentRstSectionNode(
-            $title->token, $depth
+            $node->token, $node, $depth
         );
     }
 

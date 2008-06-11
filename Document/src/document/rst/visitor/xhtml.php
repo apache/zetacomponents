@@ -227,12 +227,13 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      */
     protected function visitSection( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $titleString = trim( $node->title );
-
         if ( $this->depth <= 0 )
         {
             // Set document title from section
-            $title = $this->document->createElement( 'title', htmlspecialchars( $titleString ) );
+            $title = $this->document->createElement(
+                'title',
+                htmlspecialchars( $this->nodeToString( $node->title ) )
+            );
             $this->head->appendChild( $title );
         }
 
@@ -244,9 +245,14 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
             $header->setAttribute( 'class', 'h' . $this->depth );
         }
 
-        $reference = $this->document->createElement( 'a', htmlspecialchars( $titleString ) );
-        $reference->setAttribute( 'name', $this->calculateId( $titleString ) );
+        $reference = $this->document->createElement( 'a' );
+        $reference->setAttribute( 'name', $this->calculateId( $this->nodeToString( $node->title ) ) );
         $header->appendChild( $reference );
+
+        foreach ( $node->title->nodes as $child )
+        {
+            $this->visitNode( $reference, $child );
+        }
 
         foreach ( $node->nodes as $child )
         {

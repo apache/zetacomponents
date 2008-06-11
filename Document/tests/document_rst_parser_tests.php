@@ -42,7 +42,7 @@ class ezcDocumentRstParserTests extends ezcTestCase
         }
 
         return self::$testDocuments;
-        return array_slice( self::$testDocuments, -23, 1 );
+        return array_slice( self::$testDocuments, -1, 1 );
     }
 
     /**
@@ -91,11 +91,11 @@ class ezcDocumentRstParserTests extends ezcTestCase
             ),
             array(
                 dirname( __FILE__ ) . '/files/rst/parser/e_002_titles_mismatch.txt',
-                'Parse error: Notice: \'Title underline length does not match text length.\' in line 3 at position 1.',
+                'Parse error: Notice: \'Title underline length (12) is shorter then text length (13).\' in line 3 at position 1.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/rst/parser/e_003_titles_depth.txt',
-                'Parse error: Fatal error: \'Title depth inconsitency.\' in line 12 at position 1.',
+                'Parse error: Fatal error: \'Title depth inconsitency.\' in line 13 at position 1.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/rst/parser/e_004_blockquotes_depth.txt',

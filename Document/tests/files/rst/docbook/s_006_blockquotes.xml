@@ -2,7 +2,7 @@
 <article xmlns="http://docbook.org/ns/docbook">
   <section id="blockquotes">
     <sectioninfo/>
-    <title>Blockquotes</title>
+    <title>Blockquotes </title>
     <para>This is an ordinary paragraph, introducing a block quote.</para>
     <blockquote>
       <annotation>

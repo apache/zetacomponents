@@ -42,6 +42,8 @@ class ezcDocumentRstTitleNode extends ezcDocumentRstNode
             $properties['token']
         );
 
+        $node->nodes = $properties['nodes'];
+
         return $node;
     }
 }

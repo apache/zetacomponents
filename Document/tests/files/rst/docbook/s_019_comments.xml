@@ -2,7 +2,7 @@
 <article xmlns="http://docbook.org/ns/docbook">
   <section id="comments">
     <sectioninfo/>
-    <title>Comments</title>
+    <title>Comments </title>
     <para>Different types of comments</para>
     <comment>This is a comment</comment>
     <comment>_so: is this!
