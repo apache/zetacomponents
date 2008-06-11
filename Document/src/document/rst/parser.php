@@ -798,7 +798,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                  ( $tokens[2]->type === ezcDocumentRstToken::NEWLINE ) ) ||
                ( strlen( $tokens[1]->content ) > strlen( $token->content ) ) ) &&
              isset( $this->documentStack[0] ) &&
-             ( $this->documentStack[0]->type !== ezcDocumentRstNode::TEXT_LINE ) )
+             !in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
             // This seems to be something else, like a liteal block marker.
             return false;
@@ -3229,6 +3229,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
             $nodes[] = $textNode = array_shift( $this->documentStack );
+            /* DEBUG
+            echo "  -> Add ", ezcDocumentRstNode::getTokenName( $textNode->type ), " to title.\n";
+            // /DEBUG */
             
             if ( ( $titleTextLength > 0 ) ||
                  ( $textNode->token->type !== ezcDocumentRstToken::WHITESPACE ) )
