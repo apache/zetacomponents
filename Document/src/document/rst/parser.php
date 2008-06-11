@@ -276,6 +276,32 @@ class ezcDocumentRstParser extends ezcDocumentParser
     );
 
     /**
+     * List of node types, which are valid block nodes, where we can
+     * indentation changes after, or which can be aggregated into sections.
+     * 
+     * @var array
+     */
+    protected $blockNodes = array(
+        ezcDocumentRstNode::PARAGRAPH,
+        ezcDocumentRstNode::BLOCKQUOTE,
+        ezcDocumentRstNode::SECTION,
+        ezcDocumentRstNode::BULLET_LIST,
+        ezcDocumentRstNode::ENUMERATED_LIST,
+        ezcDocumentRstNode::TABLE,
+        ezcDocumentRstNode::LITERAL_BLOCK,
+        ezcDocumentRstNode::COMMENT,
+        ezcDocumentRstNode::DIRECTIVE,
+        ezcDocumentRstNode::SUBSTITUTION,
+        ezcDocumentRstNode::NAMED_REFERENCE,
+        ezcDocumentRstNode::FOOTNOTE,
+        ezcDocumentRstNode::ANON_REFERENCE,
+        ezcDocumentRstNode::TRANSITION,
+        ezcDocumentRstNode::FIELD_LIST,
+        ezcDocumentRstNode::DEFINITION_LIST,
+        ezcDocumentRstNode::LINE_BLOCK,
+    );
+
+    /**
      * Contains a list of detected syntax elements.
      *
      * At the end of a successfull parsing process this should only contain one
@@ -628,13 +654,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // elsewhere.
         if ( ( $this->indentation !== $indentation ) &&
              isset( $this->documentStack[0] ) &&
-             ( $this->documentStack[0]->type !== ezcDocumentRstNode::PARAGRAPH ) &&
-             ( $this->documentStack[0]->type !== ezcDocumentRstNode::LITERAL_BLOCK ) &&
-             ( $this->documentStack[0]->type !== ezcDocumentRstNode::BLOCKQUOTE ) &&
-             ( $this->documentStack[0]->type !== ezcDocumentRstNode::DIRECTIVE ) &&
-             ( $this->documentStack[0]->type !== ezcDocumentRstNode::BULLET_LIST ) &&
-             ( $this->documentStack[0]->type !== ezcDocumentRstNode::DEFINITION_LIST ) &&
-             ( $this->documentStack[0]->type !== ezcDocumentRstNode::ENUMERATED_LIST ) )
+             !in_array( $this->documentStack[0]->type, $this->blockNodes, true ) )
         {
             // Enumerated lists are relabeled to paragraphs, if the indentation
             // level is changed right after the list item seemed to start.
@@ -3314,25 +3334,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             /* DEBUG
             echo "  -> Try node: " . ezcDocumentRstNode::getTokenName( $child->type ) . ".\n";
             // /DEBUG */
-            if ( !in_array( $child->type, array(
-                ezcDocumentRstNode::PARAGRAPH,
-                ezcDocumentRstNode::BLOCKQUOTE,
-                ezcDocumentRstNode::SECTION,
-                ezcDocumentRstNode::BULLET_LIST,
-                ezcDocumentRstNode::ENUMERATED_LIST,
-                ezcDocumentRstNode::TABLE,
-                ezcDocumentRstNode::LITERAL_BLOCK,
-                ezcDocumentRstNode::COMMENT,
-                ezcDocumentRstNode::DIRECTIVE,
-                ezcDocumentRstNode::SUBSTITUTION,
-                ezcDocumentRstNode::NAMED_REFERENCE,
-                ezcDocumentRstNode::FOOTNOTE,
-                ezcDocumentRstNode::ANON_REFERENCE,
-                ezcDocumentRstNode::TRANSITION,
-                ezcDocumentRstNode::FIELD_LIST,
-                ezcDocumentRstNode::DEFINITION_LIST,
-                ezcDocumentRstNode::LINE_BLOCK,
-            ), true ) )
+            if ( !in_array( $child->type, $this->blockNodes, true ) )
             {
                 $this->triggerError(
                     E_PARSE,

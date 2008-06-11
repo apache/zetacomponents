@@ -476,7 +476,8 @@ abstract class ezcDocumentRstVisitor
                 E_WARNING, "Unknown reference target '{$string}'.", null
             );
         }
-        elseif ( $string[0] === '#' )
+        elseif ( ( strlen( $string ) > 0 ) &&
+                 ( $string[0] === '#' ) )
         {
             // We found a (labeled) autonumbered footnote.
             $label = ( strlen( $string ) > 1 ? substr( $string, 1 ) : 0 );
