@@ -308,8 +308,7 @@ via the method **add()** of ezcFeed::
     $item = $feed->add( 'item' );
     ?>
 
-Next we add the *title*, *description* and *author* elements to the news item
-::
+Next we add the *title*, *description* and *author* elements to the news item::
 
     <?php
     $item->title = 'eZ Components 2007.1 released';
