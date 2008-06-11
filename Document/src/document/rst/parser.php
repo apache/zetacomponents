@@ -623,8 +623,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
             return $this->shiftDefinitionList( $token, $tokens );
         }
 
-        // The indentation may only change after we reduced a paragraph. There
-        // are other spcial cases, which are handled elsewhere.
+        // The indentation may only change after we reduced a block level
+        // element. There may be other spcial cases, which are handled
+        // elsewhere.
         if ( ( $this->indentation !== $indentation ) &&
              isset( $this->documentStack[0] ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::PARAGRAPH ) &&
@@ -635,6 +636,31 @@ class ezcDocumentRstParser extends ezcDocumentParser
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::DEFINITION_LIST ) &&
              ( $this->documentStack[0]->type !== ezcDocumentRstNode::ENUMERATED_LIST ) )
         {
+            // Enumerated lists are relabeled to paragraphs, if the indentation
+            // level is changed right after the list item seemed to start.
+            for ( $i = 0; $i < count( $this->documentStack ); ++$i )
+            {
+                if ( in_array( $this->documentStack[$i]->type, $this->textNodes, true ) )
+                {
+                    // This is just text, we are looking for the next block level element.
+                    continue;
+                }
+
+                // If the last block level element was a enumerated list, just relabel.
+                if ( $this->documentStack[$i]->type === ezcDocumentRstNode::ENUMERATED_LIST )
+                {
+                    // Readd enumeration lsit marker as plain text.
+                    $textNode = new ezcDocumentRstTextLineNode( $this->documentStack[$i]->token );
+                    $textNode->token->content = $this->documentStack[$i]->text;
+                    $this->documentStack[$i] = $textNode;
+
+                    // Reset indentation level.
+                    $this->indentation = $indentation;
+                    $this->postIndentation = null;
+                    return false;
+                }
+            }
+
             $this->triggerError(
                 E_PARSE,
                 "Unexpected indentation change from level {$this->indentation} to {$indentation}.",
@@ -1337,9 +1363,11 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // An opening brace is the only possible content before the actual list
         // item identifier - skip it.
+        $content = '';
         if ( $token->content === '(' )
         {
             $token = array_shift( $tokens );
+            $content .= $token->content;
         }
 
         // The bullet list should always start at the very beginning of a line
@@ -1365,6 +1393,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $this->indentation = $text->position + strlen( $text->content ) + 
             strlen( $whitespace->content ) + strlen( $char->content ) - 1;
         $node = new ezcDocumentRstEnumeratedListNode( $text );
+        $node->text        = $content . $text->content . $char->content . $whitespace->content;
         $node->indentation = $this->indentation;
         return $node;
     }

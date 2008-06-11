@@ -38,6 +38,15 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstNode
     public $type;
 
     /**
+     * Storage for complete textual representation of the enunmeration list
+     * marker, for the case, that enumeration list items needs to be converted
+     * back to text.
+     *
+     * @var string
+     */
+    public $text;
+
+    /**
      * Construct RST document node
      * 
      * @param ezcDocumentRstToken $token 
@@ -76,6 +85,7 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstNode
         $node->type        = $properties['type'];
         $node->nodes       = $properties['nodes'];
         $node->indentation = $properties['indentation'];
+        $node->text        = isset( $properties['text'] ) ? $properties['text'] : '';
         return $node;
     }
 }
