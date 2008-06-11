@@ -171,13 +171,13 @@ class ezcConsoleQuestionDialogTest extends ezcConsoleDialogTest
     {
         $this->runDialog( __METHOD__ );
 
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "A\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "Y\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         // $this->saveDialogResult( __METHOD__, $res );
         $this->assertEquals( $this->res, $res );
@@ -187,19 +187,19 @@ class ezcConsoleQuestionDialogTest extends ezcConsoleDialogTest
     {
         $this->runDialog( __METHOD__ );
 
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
 
         fputs( $this->pipes[0], "A\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "3.14\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "true\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "23\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         // $this->saveDialogResult( __METHOD__, $res );
         $this->assertEquals( $this->res, $res );
@@ -209,13 +209,13 @@ class ezcConsoleQuestionDialogTest extends ezcConsoleDialogTest
     {
         $this->runDialog( __METHOD__ );
 
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
 
         fputs( $this->pipes[0], "A\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "y\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         // $this->saveDialogResult( __METHOD__, $res );
         $this->assertEquals( $this->res, $res );
@@ -225,19 +225,19 @@ class ezcConsoleQuestionDialogTest extends ezcConsoleDialogTest
     {
         $this->runDialog( __METHOD__ );
 
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
 
         fputs( $this->pipes[0], "foo\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "foo.bar@\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "foo.bar@example\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "foo.bar@example.com\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         // $this->saveDialogResult( __METHOD__, $res );
         $this->assertEquals( $this->res, $res );

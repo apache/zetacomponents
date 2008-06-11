@@ -17,6 +17,7 @@
  */
 class ezcConsoleDialogTest extends ezcTestCase
 {
+    const PIPE_READ_SLEEP = 1000;
 
     protected $dataDir;
 
@@ -86,6 +87,12 @@ class ezcConsoleDialogTest extends ezcTestCase
             $resFile,
             "<?php\n\nreturn " . var_export( $res, true ) . ";\n\n?>"
         );
+    }
+
+    protected function readPipe( $pipe )
+    {
+        usleep( self::PIPE_READ_SLEEP );
+        return fread( $pipe, 1024 );
     }
 }
 

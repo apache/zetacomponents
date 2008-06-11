@@ -157,13 +157,13 @@ class ezcConsoleMenuDialogTest extends ezcConsoleDialogTest
     {
         $this->runDialog( __METHOD__ );
 
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "K\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "Z\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         // $this->saveDialogResult( __METHOD__, $res );
         $this->assertEquals( $this->res, $res );
@@ -173,13 +173,13 @@ class ezcConsoleMenuDialogTest extends ezcConsoleDialogTest
     {
         $this->runDialog( __METHOD__ );
 
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "k\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "z\n" );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         // $this->saveDialogResult( __METHOD__, $res );
         $this->assertEquals( $this->res, $res );
@@ -189,27 +189,22 @@ class ezcConsoleMenuDialogTest extends ezcConsoleDialogTest
     {
         $this->runDialog( __METHOD__ );
 
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "A\n" );
-        usleep( 1000 );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "K\n" );
-        usleep( 1000 );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "B\n" );
-        usleep( 1000 );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "T\n" );
-        usleep( 1000 );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         fputs( $this->pipes[0], "Z\n" );
-        usleep( 1000 );
-        $res[] = fread( $this->pipes[1], 1024 );
+        $res[] = $this->readPipe( $this->pipes[1] );
         
         //$this->saveDialogResult( __METHOD__, $res );
         $this->assertEquals( $this->res, $res );
