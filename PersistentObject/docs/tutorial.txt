@@ -491,6 +491,9 @@ ezcPersistentManyToOneRelation
   This relation (n:1) does not make sense on its own, but as the reverse
   connection for a 1:n relation.
 
+ezcPersistentRelationCollection
+  This class allows you to define multiple relations to the same PHP class.
+
 All of these classes extend the abstract class ezcPersistentRelation.
 
 Relations basics
@@ -965,6 +968,135 @@ are deleted: ::
 Beware that this does not work with ezcPersistentManyToManyRelation instances,
 because it could cause serious inconsistencies in your data.
 
+Defining multiple relations to the same PHP class
+-------------------------------------------------
+
+In some cases it might be necessary to define multiple relations to the same
+PHP class. An example for this can be seen when enhancing the Person example
+from `The persistence mapping`_  as follows: ::
+
+  CREATE TABLE persons
+  (
+    id integer unsigned not null auto_increment,
+    full_name varchar(255),
+    age integer,
+    mother integer,
+    father integer,
+    PRIMARY KEY (id)
+  )
+
+Here each person is connected to 2 objects of the same table: The mother and
+the father. Since only 1 PHP class per table is desired, the class needs to be
+referenced by the Person class twice.
+
+Assuming that the 2 new properties of the Person class have been defined
+correctly in the persistence mapping, the following code can be used to achieve
+the desired relations. ::
+
+    $relations = new ezcPersistentRelationCollection();
+
+    // Mother relation
+
+    $relations['mothers_children'] = new ezcPersistentOneToManyRelation(
+        'PO_person',
+        'PO_person'
+    );
+    $relations['mothers_children']->columnMap = array(
+        new ezcPersistentSingleTableMap( 'id', 'mother' )
+    );
+    $relations['mothers_children']->cascade = true;
+
+    $relations['mother'] = new ezcPersistentManyToOneRelation(
+        'PO_person',
+        'PO_person'
+    );
+    $relations['mother']->columnMap = array(
+        new ezcPersistentSingleTableMap( 'mother', 'id' )
+    );
+
+    // ..
+
+    $def->relations['Person'] = $relations;
+
+2 relations need to be defined to reflect the relation between a mother an her
+children. "mother" defines the relation from a child to its mother and
+"mothers_children" defines the opposite direction, from a child to its mother.
+Both relations operate on the Person class itself, therefore an
+ezcPersistentRelationCollection is used to carry the relation definitions.
+
+Relations are defined as shown earlier in this section. The only difference
+here is, that the relation definitions themselves are not added directly to the
+$relations property of the ezcPersistentObjectDefinition instance. Instead they
+are assigned to unique names on a relation collection, which is then added to
+the $relations property of the object definition.
+
+The comment indicating further code (...) in the example above indicates that
+further relations are missing in the collection: The relations "father" and
+"fathers_children" are excluded here, since they work exactly like the
+corresponding mother relations, above. A fifth relation is shown below: ::
+
+    $relations = new ezcPersistentRelationCollection();
+
+    // ... mother / father relations
+
+    // Sibling relation
+
+    $relations['siblings'] = new ezcPersistentManyToManyRelation(
+        "PO_person",
+        "PO_person",
+        "PO_sibling"
+    );
+    $relations['siblings']->columnMap = array(
+        new ezcPersistentDoubleTableMap( "id", "person", "sibling", "id" ),
+    );
+
+    $def->relations['MultiRelationTestPerson'] = $relations;
+
+    // assigning the relation collection
+
+    $def->relations['Person'] = $relations;
+
+As can be seen above, a relation collection can carry an arbitrary number of
+relations, which are of arbitrary type.
+
+Using multiple relations to the same PHP class
+----------------------------------------------
+
+To make use of the relations to the Person class defined in the last section,
+the name of the desired relation has to be submitted to all relation
+operations. ::
+
+    $mother   = $this->session->load( 'Person', 1 );
+    $children = $this->session->getRelatedObjects(
+        $mother,
+        'Person',
+        'mothers_children'
+    );
+
+The code above fetches all children of a mother, as defined by the relation
+"mothers_children". The third parameter to
+ezcPersistentSession->getRelatedObject() is mandatory in this case. If you
+leave it out, a ezcPersistentUndeterministicRelationException will be thrown.
+The parameter is ignored if you submit it when not working with a relation
+collection.
+
+In the same manor a new related object can only be added if the affected
+relation is submitted to ezcPersistentSession->addRelatedObject() as shown
+below: ::
+
+    $newChild = new Person();
+    $newChild->name = "New child";
+
+    $this->session->save( $newChild );
+
+    $this->session->addRelatedObject(
+        $mother,
+        $newChild,
+        'mothers_children'
+    );
+
+    // Make relation changes take effect
+    $this->session->save( $newChild );
 
 
 ..
