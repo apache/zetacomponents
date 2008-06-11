@@ -579,7 +579,28 @@ class ezcDocumentRstParser extends ezcDocumentParser
             $paragraph = new ezcDocumentRstParagraphNode( $token );
 //            $paragraph->indentation = $tokens[0]->position + strlen( $tokens[1]->content );
             /* DEBUG
-            echo "   => Paragraph indentation set to {$paragraph->indentation}.\n";
+            echo "   => Paragraph post indentation set to {$paragraph->indentation}.\n";
+            // /DEBUG */
+            return $paragraph;
+        }
+
+        // There is also a special case for dense enumeration lists, very
+        // similar to bullet lists.
+        if ( isset( $this->documentStack[0] ) &&
+             ( in_array( $this->documentStack[0]->type, $this->textNodes, true ) ) &&
+             ( $this->isEnumeratedList( $tokens ) ) )
+        {
+            // We update the indentation in this case and add a paragraph node
+            // to close the prior paragraph.
+            $this->postIndentation = $indentation;
+            /* DEBUG
+            echo "   -> Enumeration list special paragraph update\n";
+            echo "   => Updated indentation to {$indentation}.\n";
+            // /DEBUG */
+            $paragraph = new ezcDocumentRstParagraphNode( $token );
+//            $paragraph->indentation = $tokens[0]->position + strlen( $tokens[1]->content );
+            /* DEBUG
+            echo "   => Paragraph post indentation set to {$paragraph->indentation}.\n";
             // /DEBUG */
             return $paragraph;
         }
@@ -1218,6 +1239,69 @@ class ezcDocumentRstParser extends ezcDocumentParser
     }
 
     /**
+     * Is enumerated list?
+     *
+     * As defined at
+     * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#bullet-lists
+     *
+     * Checks if the curretn token with thw following tokens may be an
+     * enumerated list. Used by the repective shifting method and when checking
+     * for indentation updates.
+     *
+     * Returns true, if the tokens may be an enumerated list, and false otherwise.
+     *
+     * @param array $tokens 
+     * @return bool
+     */
+    protected function isEnumeratedList( array $tokens )
+    {
+        // This pattern matches upper and lowercase roman numbers up 4999,
+        // normal integers to any limit and alphabetic chracters.
+        $enumeratedListPattern = '(^(?:m{0,4}d?c{0,3}l?x{0,3}v{0,3}i{0,3}v?x?l?c?d?m?|M{0,4}D?C{0,3}L?X{0,3}V{0,3}I{0,3}V?X?L?C?D?M?|[1-9]+[0-9]*|[a-z]|[A-Z])$)';
+
+        // Create enumerated list from list items surrounded by parantheses
+        if ( ( $tokens[0]->content === '(' ) &&
+             isset( $tokens[1] ) &&
+             ( $tokens[1]->type === ezcDocumentRstToken::TEXT_LINE ) &&
+             ( preg_match( $enumeratedListPattern, $tokens[1]->content ) ) &&
+             isset( $tokens[2] ) &&
+             ( $tokens[2]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+             ( $tokens[2]->content === ')' ) &&
+             isset( $tokens[3] ) &&
+             ( ( $tokens[3]->type === ezcDocumentRstToken::WHITESPACE ) ||
+               ( $tokens[3]->type === ezcDocumentRstToken::NEWLINE ) ) )
+        {
+            /* DEBUG
+            echo "   -> Found full framed enumeration list item.\n";
+            // /DEBUG */
+            return true;
+        }
+
+        // Create enumerated list from list items followed by a parantheses or
+        // a dot
+        if ( ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) &&
+             ( preg_match( $enumeratedListPattern, $tokens[0]->content ) ) &&
+             isset( $tokens[1] ) &&
+             ( $tokens[1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+             ( ( $tokens[1]->content === ')' ) ||
+               ( $tokens[1]->content === '.' ) ) &&
+             isset( $tokens[2] ) &&
+             ( ( $tokens[2]->type === ezcDocumentRstToken::WHITESPACE ) ||
+               ( $tokens[2]->type === ezcDocumentRstToken::NEWLINE ) ) )
+        {
+            /* DEBUG
+            echo "   -> Found half framed enumeration list item.\n";
+            // /DEBUG */
+            return true;
+        }
+
+        /* DEBUG
+        echo "   -> Not an enumeration list item.\n";
+        // /DEBUG */
+        return false;
+    }
+
+    /**
      * Enumerated lists
      *
      * As defined at
@@ -1240,67 +1324,49 @@ class ezcDocumentRstParser extends ezcDocumentParser
             return false;
         }
 
-        // This pattern matches upper and lowercase roman numbers up 4999,
-        // normal integers to any limit and alphabetic chracters.
-        $enumeratedListPattern = '(^(?:m{0,4}d?c{0,3}l?x{0,3}v{0,3}i{0,3}v?x?l?c?d?m?|M{0,4}D?C{0,3}L?X{0,3}V{0,3}I{0,3}V?X?L?C?D?M?|[1-9]+[0-9]*|[a-z]|[A-Z])$)';
-
-        if ( ( ( $token->type === ezcDocumentRstToken::TEXT_LINE ) &&
-               !preg_match( $enumeratedListPattern, $token->content ) ) ||
-             ( ( $token->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-               ( $token->content !== '(' ) ) )
+        if ( !$this->isEnumeratedList( array_merge( 
+                array( $token ),
+                $tokens
+             ) ) )
         {
-            // Nothing like a enumerated list here, exit early.
+            return false;
+        }
+
+        // We now know, that we have a bullet list, and can just shift the
+        // tokens accordingly.
+
+        // An opening brace is the only possible content before the actual list
+        // item identifier - skip it.
+        if ( $token->content === '(' )
+        {
+            $token = array_shift( $tokens );
+        }
+
+        // The bullet list should always start at the very beginning of a line
+        // / paragraph, so that the char postion should match the current
+        // identation level.
+        if ( $token->position !== ( $this->indentation + 1 ) )
+        {
             /* DEBUG
-            echo "   -> Nothing to start a enumerated list item with.\n";
+            echo "   -> Indentation mismatch ({$token->position} <> {$this->indentation})\n";
             // /DEBUG */
             return false;
         }
 
-        // Create enumerated list from list items surrounded by parantheses
-        if ( ( $token->content === '(' ) &&
-             isset( $tokens[0] ) && ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) &&
-             ( preg_match( $enumeratedListPattern, $tokens[0]->content ) ) &&
-             isset( $tokens[1] ) && ( $tokens[1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-             ( $tokens[1]->content === ')' ) &&
-             isset( $tokens[2] ) && ( $tokens[2]->type === ezcDocumentRstToken::WHITESPACE ) )
-        {
-            $text = array_shift( $tokens );
-            $char = array_shift( $tokens );
-            $whitespace = array_shift( $tokens );
+        $text = $token;
+        $char = array_shift( $tokens );
 
-            /* DEBUG
-            echo "   => Indentation updated to {$this->indentation}.\n";
-            // /DEBUG */
-            $this->indentation = $text->position + strlen( $text->content ) + 
-                strlen( $whitespace->content ) + strlen( $char->content ) - 1;
-            $node = new ezcDocumentRstEnumeratedListNode( $text );
-            $node->indentation = $this->indentation;
-            return $node;
-        }
+        // Only shift next token, if it is a whitespace - preserve newlines
+        $whitespace = ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ? array_shift( $tokens ) : $tokens[0];
 
-        // Create enumerated list from list items followed by a parantheses or
-        // a dot
-        if ( isset( $tokens[0] ) && ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-             ( ( $tokens[0]->content === ')' ) ||
-               ( $tokens[0]->content === '.' ) ) &&
-             isset( $tokens[1] ) && ( $tokens[1]->type === ezcDocumentRstToken::WHITESPACE ) )
-        {
-            $text = $token;
-            $char = array_shift( $tokens );
-            $whitespace = array_shift( $tokens );
-
-            /* DEBUG
-            echo "   => Indentation updated to {$this->indentation}.\n";
-            // /DEBUG */
-            $this->indentation = $text->position + strlen( $text->content ) + 
-                strlen( $whitespace->content ) + strlen( $char->content ) - 1;
-            $node = new ezcDocumentRstEnumeratedListNode( $text );
-            $node->indentation = $this->indentation;
-            return $node;
-        }
-
-        // No enumerated list type matched
-        return false;
+        /* DEBUG
+        echo "   => Indentation updated to {$this->indentation}.\n";
+        // /DEBUG */
+        $this->indentation = $text->position + strlen( $text->content ) + 
+            strlen( $whitespace->content ) + strlen( $char->content ) - 1;
+        $node = new ezcDocumentRstEnumeratedListNode( $text );
+        $node->indentation = $this->indentation;
+        return $node;
     }
 
     /**
