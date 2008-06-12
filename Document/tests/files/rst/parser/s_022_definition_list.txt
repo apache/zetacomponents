@@ -23,6 +23,23 @@ term 3 : classifier
 term 4 : classifier one : classifier two
     Definition 4.
 
+Definition list with markup
+---------------------------
+
+`Term`_
+    Text *with* **markup**.
+
+.. _term: http://en.wikipedia.org/wiki/Term
+
+Stacked definition lists
+------------------------
+
+Term
+    Text with:
+
+    Term 2
+        More Text...
+
 
 ..
    Local Variables:

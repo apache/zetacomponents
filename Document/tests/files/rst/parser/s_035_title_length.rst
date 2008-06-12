@@ -71,27 +71,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'token' => 
                 ezcDocumentRstToken::__set_state(array(
                    'type' => 5,
-                   'content' => 'Title with appended space',
+                   'content' => 'Title with appended space ',
                    'line' => 5,
                    'position' => 1,
-                   'escaped' => false,
-                )),
-                 'identifier' => NULL,
-              )),
-              1 => 
-              ezcDocumentRstTextLineNode::__set_state(array(
-                 'line' => 5,
-                 'position' => 26,
-                 'type' => 4,
-                 'nodes' => 
-                array (
-                ),
-                 'token' => 
-                ezcDocumentRstToken::__set_state(array(
-                   'type' => 1,
-                   'content' => '  ',
-                   'line' => 5,
-                   'position' => 26,
                    'escaped' => false,
                 )),
                  'identifier' => NULL,

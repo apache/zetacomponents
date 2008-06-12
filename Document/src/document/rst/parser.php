@@ -603,7 +603,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
             echo "   => Updated indentation to {$indentation}.\n";
             // /DEBUG */
             $paragraph = new ezcDocumentRstParagraphNode( $token );
-//            $paragraph->indentation = $tokens[0]->position + strlen( $tokens[1]->content );
             /* DEBUG
             echo "   => Paragraph post indentation set to {$paragraph->indentation}.\n";
             // /DEBUG */
@@ -624,7 +623,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
             echo "   => Updated indentation to {$indentation}.\n";
             // /DEBUG */
             $paragraph = new ezcDocumentRstParagraphNode( $token );
-//            $paragraph->indentation = $tokens[0]->position + strlen( $tokens[1]->content );
             /* DEBUG
             echo "   => Paragraph post indentation set to {$paragraph->indentation}.\n";
             // /DEBUG */
@@ -636,7 +634,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( ( $this->indentation === 0 ) &&
              ( $indentation > $this->indentation ) &&
              ( isset( $this->documentStack[0] ) ) &&
-             ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) )
+             ( in_array( $this->documentStack[0]->type, $this->textNodes, true ) ) )
         {
             /* DEBUG
             echo "  => Definition list detected.\n";
@@ -1193,7 +1191,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // For the anonymous hyperlink marker the same rules apply as for a
         // common end marker.
         if ( // Custom rule to detect citation and footnote references
-             ( ( $this->documentStack[0]->token->content === ']' ) &&
+             ( ( isset( $this->documentStack[0] ) ) &&
+               ( $this->documentStack[0]->token->content === ']' ) &&
                ( $this->documentStack[0]->token->type === ezcDocumentRstToken::SPECIAL_CHARS ) ) &&
              // Rule 4
              ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ||
@@ -1233,7 +1232,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // For the anonymous hyperlink marker the same rules apply as for a
         // common end marker.
         if ( // Rule 3
-             ( $this->documentStack[0]->token->type !== ezcDocumentRstToken::WHITESPACE ) &&
+             ( ( isset( $this->documentStack[0] ) ) &&
+               ( $this->documentStack[0]->token->type !== ezcDocumentRstToken::WHITESPACE ) ) &&
              // Rule 4
              ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ||
                ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
@@ -1624,12 +1624,14 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         $collected = array();
+        $minIndentation = strlen( $baseIndetation->content );
         while ( // Empty lines are inlcuded.
                 ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
                 // All other lines must start with the determined base
                 // indentation
                 ( ( $tokens[0]->type === $baseIndetation->type ) &&
-                  ( strpos( $tokens[0]->content, $baseIndetation->content ) === 0 ) ) )
+                  ( ( strpos( $tokens[0]->content, $baseIndetation->content ) === 0 ) ||
+                    ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE ) ) ) )
         {
             $literalToken = array_shift( $tokens );
             if ( $literalToken->type === ezcDocumentRstToken::NEWLINE )
@@ -1646,10 +1648,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
             if ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE )
             {
                 // Remove whitespaces used for indentation in literal blocks
+                $minIndentation = min ( strlen( $literalToken->content ), $minIndentation );
                 /* DEBUG
-                echo "  -> Remove whitespace indentation.\n";
+                echo "  -> Minimum indentation: $minIndentation.\n";
                 // /DEBUG */
-                $literalToken->content = substr( $literalToken->content, strlen( $baseIndetation->content ) );
             }
 
             $collected[] = new ezcDocumentRstLiteralNode( $literalToken );
@@ -1676,6 +1678,19 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Readd the last newline to the token stack
         array_unshift( $tokens, $item );
+
+        // When literal block is indented by whitespace, remove the minimum
+        // indentation. from each line.
+        if ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE )
+        {
+            foreach ( $collected as $node )
+            {
+                if ( $node->token->position <= 1 )
+                {
+                    $node->token->content = substr( $node->token->content, $minIndentation );
+                }
+            }
+        }
 
         // Nothing more could be collected, either because the indentation has
         // been reduced, or the markers are missing. Create the literal block
@@ -1773,9 +1788,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
             return $collected;
         }
 
+        $minIndentation = strlen( $indentation->content );
         while ( ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
-                ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
-                  ( strpos( $tokens[0]->content, $indentation->content ) === 0 ) ) )
+                ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) )
         {
             if ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE )
             {
@@ -1787,23 +1802,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 continue;
             }
 
-            if ( $strict &&
-                 ( $tokens[0]->content !== $indentation->content ) )
-            {
-                $this->triggerError(    
-                    E_ERROR,
-                    'Indentation mismatch.',
-                    null, $token->line, $token->position
-                );
-            }
-
-            // Remove whitespaces used for indentation
+            // Update minimum indentation
             $whitespace = array_shift( $tokens );
-            if ( strlen( $whitespace->content ) > ( $inLength = strlen( $indentation->content ) ) )
-            {
-                $whitespace->content = substr( $whitespace->content, $inLength );
-                $collected[] = $whitespace;
-            }
+            $minIndentation = min ( strlen( $whitespace->content ), $minIndentation );
 
             // Read all further nodes until the next newline, and check for
             // indentation again then.
@@ -1823,6 +1824,15 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Add last to to stack again, is useful for common reduction handling.
         array_unshift( $tokens, $token );
+
+        // Remove minimum found indentation from indentation tokens.
+        foreach ( $collected as $token )
+        {
+            if ( $token->position <= 1 )
+            {
+                $token->content = substr( $token->content, $minIndentation );
+            }
+        }
         /* DEBUG
         echo "  => Collected " . count( $collected ) . " tokens.\n";
         // /DEBUG */
@@ -3205,7 +3215,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             echo '.';
             // /DEBUG */
         } while ( isset( $this->documentStack[0] ) &&
-                  ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) );
+                  in_array( $this->documentStack[0]->type, $this->textNodes, true ) );
         /* DEBUG
         echo "\n";
         // /DEBUG */
@@ -3221,7 +3231,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $content = $this->readMutlipleIndentedLines( $tokens, true );
         array_shift( $content );
         $section = $this->reenterParser( $content );
-        $node->nodes = $section->nodes;
+        $node->nodes = $section instanceof ezcDocumentRstDocumentNode ? $section->nodes : $section;
 
         // There is nothing more to read. We can exit immediately.
         return $node;

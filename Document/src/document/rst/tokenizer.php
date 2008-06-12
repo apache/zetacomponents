@@ -57,10 +57,10 @@ class ezcDocumentRstTokenizer
     {
         $this->tokens = array(
             // Whitespaces
+            ezcDocumentRstToken::NEWLINE =>
+                '(\\A[' . self::WHITESPACE_CHARS . ']*(?P<value>\\r\\n|\\r|\\n))S',
             ezcDocumentRstToken::WHITESPACE =>
                 '(\\A(?P<value>[' . self::WHITESPACE_CHARS . ']+))S',
-            ezcDocumentRstToken::NEWLINE =>
-                '(\\A(?P<value>\\r\\n|\\r|\\n))S',
             ezcDocumentRstToken::EOF =>
                 '(\\A(?P<value>))S',
 

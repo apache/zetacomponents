@@ -38,3 +38,24 @@ John Doe wrote::
 
 You just did!  ;-)
 
+Deacreasing indentation::
+
+            Decreasing
+        indentation
+    should
+ also
+    work!
+
+Tabs:
+
+::
+
+	$doc = new ezcDocumentXhtmlDocument();
+	$result_1 = $doc->validate( '/path/to/first.htm' );
+	$result_2 = $doc->validate( '/path/to/second.htm' );
+
+	foreach ( $result_1 as $error )
+	{
+		echo "- {$error->msg} in {$error->line} in {$error->file}.\n";
+	}
+
