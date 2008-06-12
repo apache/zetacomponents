@@ -14,7 +14,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 1,
-     'position' => 3,
+     'position' => 9,
      'escaped' => false,
   )),
   2 => 
@@ -23,7 +23,7 @@ return array (
      'content' => '
 ',
      'line' => 1,
-     'position' => 7,
+     'position' => 13,
      'escaped' => false,
   )),
   3 => 
@@ -39,7 +39,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 2,
-     'position' => 4,
+     'position' => 9,
      'escaped' => false,
   )),
   5 => 
@@ -48,7 +48,7 @@ return array (
      'content' => '
 ',
      'line' => 2,
-     'position' => 8,
+     'position' => 13,
      'escaped' => false,
   )),
   6 => 
@@ -64,7 +64,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 3,
-     'position' => 7,
+     'position' => 9,
      'escaped' => false,
   )),
   8 => 
@@ -73,7 +73,7 @@ return array (
      'content' => '
 ',
      'line' => 3,
-     'position' => 11,
+     'position' => 13,
      'escaped' => false,
   )),
   9 => 
@@ -89,7 +89,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 4,
-     'position' => 9,
+     'position' => 17,
      'escaped' => false,
   )),
   11 => 
@@ -98,7 +98,7 @@ return array (
      'content' => '
 ',
      'line' => 4,
-     'position' => 13,
+     'position' => 21,
      'escaped' => false,
   )),
   12 => 
@@ -114,7 +114,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 5,
-     'position' => 10,
+     'position' => 17,
      'escaped' => false,
   )),
   14 => 
@@ -123,7 +123,7 @@ return array (
      'content' => '
 ',
      'line' => 5,
-     'position' => 14,
+     'position' => 21,
      'escaped' => false,
   )),
   15 => 
@@ -139,7 +139,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 6,
-     'position' => 10,
+     'position' => 17,
      'escaped' => false,
   )),
   17 => 
@@ -148,7 +148,7 @@ return array (
      'content' => '
 ',
      'line' => 6,
-     'position' => 14,
+     'position' => 21,
      'escaped' => false,
   )),
   18 => 
@@ -164,7 +164,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 7,
-     'position' => 14,
+     'position' => 17,
      'escaped' => false,
   )),
   20 => 
@@ -173,7 +173,7 @@ return array (
      'content' => '
 ',
      'line' => 7,
-     'position' => 18,
+     'position' => 21,
      'escaped' => false,
   )),
   21 => 
@@ -214,7 +214,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 9,
-     'position' => 3,
+     'position' => 17,
      'escaped' => false,
   )),
   26 => 
@@ -223,7 +223,7 @@ return array (
      'content' => '
 ',
      'line' => 9,
-     'position' => 7,
+     'position' => 21,
      'escaped' => false,
   )),
   27 => 
@@ -239,7 +239,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 10,
-     'position' => 16,
+     'position' => 41,
      'escaped' => false,
   )),
   29 => 
@@ -248,7 +248,7 @@ return array (
      'content' => '
 ',
      'line' => 10,
-     'position' => 20,
+     'position' => 45,
      'escaped' => false,
   )),
   30 => 
@@ -272,7 +272,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 11,
-     'position' => 4,
+     'position' => 9,
      'escaped' => false,
   )),
   33 => 
@@ -281,7 +281,7 @@ return array (
      'content' => '
 ',
      'line' => 11,
-     'position' => 8,
+     'position' => 13,
      'escaped' => false,
   )),
   34 => 
@@ -297,15 +297,15 @@ return array (
      'type' => 5,
      'content' => 'a',
      'line' => 12,
-     'position' => 2,
+     'position' => 9,
      'escaped' => false,
   )),
   36 => 
   ezcDocumentRstToken::__set_state(array(
      'type' => 1,
-     'content' => '              ',
+     'content' => '               ',
      'line' => 12,
-     'position' => 3,
+     'position' => 10,
      'escaped' => false,
   )),
   37 => 
@@ -313,15 +313,15 @@ return array (
      'type' => 5,
      'content' => 'a',
      'line' => 12,
-     'position' => 7,
+     'position' => 25,
      'escaped' => false,
   )),
   38 => 
   ezcDocumentRstToken::__set_state(array(
      'type' => 1,
-     'content' => '         ',
+     'content' => '       ',
      'line' => 12,
-     'position' => 8,
+     'position' => 26,
      'escaped' => false,
   )),
   39 => 
@@ -329,7 +329,7 @@ return array (
      'type' => 5,
      'content' => 'test',
      'line' => 12,
-     'position' => 10,
+     'position' => 33,
      'escaped' => false,
   )),
   40 => 
@@ -338,7 +338,7 @@ return array (
      'content' => '
 ',
      'line' => 12,
-     'position' => 14,
+     'position' => 37,
      'escaped' => false,
   )),
   41 => 

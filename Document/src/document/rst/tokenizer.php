@@ -151,13 +151,12 @@ class ezcDocumentRstTokenizer
 
                     // Removed matched stuff from input string
                     $string = substr( $string, $length = strlen( $matches[0] ) );
-                    $position += $length;
 
                     // On a newline token reset the line position and increase the line value
                     if ( $token === ezcDocumentRstToken::NEWLINE )
                     {
                         ++$line;
-                        $position = 1;
+                        $position = 0;
                     }
 
                     // Convert tabs to spaces for whitespace tokens
@@ -174,6 +173,9 @@ class ezcDocumentRstTokenizer
 
                     // Add token to extracted token list
                     $tokens[] = $newToken;
+
+                    // Update position, not before converting tabs to spaces.
+                    $position += strlen( $newToken->content );
 
                     // Restart the while loop, because we matched a token and
                     // can retry with shortened string.

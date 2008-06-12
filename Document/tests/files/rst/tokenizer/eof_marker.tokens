@@ -84,7 +84,7 @@ return array (
      'content' => '
 ',
      'line' => 6,
-     'position' => 2,
+     'position' => 1,
      'escaped' => false,
   )),
   10 => 
@@ -92,7 +92,7 @@ return array (
      'type' => 6,
      'content' => NULL,
      'line' => 6,
-     'position' => 2,
+     'position' => 1,
      'escaped' => false,
   )),
 );
