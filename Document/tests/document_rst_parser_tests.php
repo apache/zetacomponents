@@ -99,7 +99,7 @@ class ezcDocumentRstParserTests extends ezcTestCase
             ),
             array(
                 dirname( __FILE__ ) . '/files/rst/parser/e_004_blockquotes_depth.txt',
-                'Parse error: Error: \'Indentation level changed between block quotes from 4 to 9.\' in line 9 at position 27.',
+                'Parse error: Error: \'Indentation level changed between block quotes from 4 to 9.\' in line 9 at position 34.',
             ),
         );
     }
