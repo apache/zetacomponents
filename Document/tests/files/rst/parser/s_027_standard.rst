@@ -14733,7 +14733,8 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                            'token' => 
                           ezcDocumentRstToken::__set_state(array(
                              'type' => 2,
-                             'content' => false,
+                             'content' => '
+',
                              'line' => 260,
                              'position' => 1,
                              'escaped' => false,

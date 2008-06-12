@@ -2522,6 +2522,21 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 // /DEBUG */
             }
 
+            // Check if we need to split up the token, because of a single
+            // seperating whitespace at the column boundings.
+            if ( ( $token->type === ezcDocumentRstToken::TEXT_LINE ) &&
+                 isset( $cellStarts[$column + 1] ) &&
+                 ( isset( $token->content[$split = $cellStarts[$column + 1] - $token->position - 1] ) ) &&
+                 ( $token->content[$split] === ' ' ) )
+            {
+                $newToken = clone( $token );
+                $token->content = substr( $token->content, 0, $split );
+
+                $newToken->content = substr( $newToken->content, $split + 1 );
+                $newToken->position = $newToken->position + $split + 1;
+                array_unshift( $tokens, $newToken );
+            }
+
             // Append contents to column
             $cellContents[$row][$column][] = $token;
         }
@@ -2556,7 +2571,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                    ( ( $specToken->content[0] === '=' ) ||
                      ( $specToken->content[0] === '-' ) ) ) ||
                  ( ( $specToken->type === ezcDocumentRstToken::WHITESPACE ) &&
-                   ( strlen( $specToken->content ) > 1 ) ) )
+                   ( strlen( $specToken->content ) >= 1 ) ) )
             {
                 $tableSpec[] = array( $specToken->type, strlen( $specToken->content ) );
                 /* DEBUG
