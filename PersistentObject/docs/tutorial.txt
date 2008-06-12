@@ -38,7 +38,7 @@ The persistent class
 --------------------
 
 We want to make a simple class, representing a person, persistent using
-a persistent object. This is a simple class with only a few members: ::
+a persistent object. This is a simple class with only a few members::
 
     <?php
     class Person
@@ -86,7 +86,7 @@ only one member at the time.
 The persistence mapping
 -----------------------
 
-We are going to map the Person class onto the following SQL table: ::
+We are going to map the Person class onto the following SQL table::
 
   CREATE TABLE persons
   (
@@ -109,7 +109,7 @@ required.
 
 ezcPersistentCodeManager requires us to define the mapping using the
 ezcPersistentObjectDefinition, ezcPersistentObjectIdProperty and
-ezcPersistentObjectProperty classes: ::
+ezcPersistentObjectProperty classes::
 
     <?php
     $def = new ezcPersistentObjectDefinition();
@@ -190,7 +190,7 @@ definition is loaded from disk only once.
 While it is possible to create a new session each time you want to manipulate a
 persistent object, you will probably want to use the same session each
 time. This functionality can be achieved by using the
-ezcPersistentSessionInstance class: ::
+ezcPersistentSessionInstance class::
 
    <?php
    $session = new ezcPersistentSession( ezcDbInstance::get(),
@@ -204,7 +204,7 @@ ezcPersistentSessionInstance class: ::
 Creating and updating an object
 -------------------------------
 
-Creating a new Person object and making it persistent is straightforward: ::
+Creating a new Person object and making it persistent is straightforward::
 
     <?php
     $object = new Person();
@@ -267,7 +267,7 @@ components tutorial`_.
 The find() method will fetch the complete result set and instantiate it for
 you. This is not desirable if you are fetching large numbers of objects and you
 want it to be fast and efficient. For this you can use the findIterator()
-method: ::
+method::
 
     <?php
     $q = $session->createFindQuery( 'Person' );
@@ -286,7 +286,7 @@ This code will produce the same result as the first find() example. However,
 only one object will be instantiated and the data will be transferred from the
 database only when it is needed.
 
-The final example uses a find query with a logical and to find objects: ::
+The final example uses a find query with a logical and to find objects::
 
     <?php
     $q = $session->createFindQuery( 'Person' );
@@ -307,7 +307,7 @@ Deleting objects
 -----------------
 
 The easiest way to delete persistent objects is to use the delete() method on
-the session: ::
+the session::
 
     <?php
     $object = $session->load( 'Person', 1 );
@@ -316,7 +316,7 @@ the session: ::
 
 Of course, you can only delete instantiated objects this way. If you want to
 delete an object or a whole series of objects that are not instantiated, you can
-use the deleteFromQuery() method: ::
+use the deleteFromQuery() method::
 
     <?php
     $q = $session->createDeleteQuery( 'Person' );
@@ -343,7 +343,7 @@ ids for newly created persistent objects.
 
 For databases supporting auto_increment (like MySQL and SQLite), use
 ezcPersistentNativeGenerator. Other databases must use a sequence. For example,
-the PostgreSQL person table definition should be as follows: ::
+the PostgreSQL person table definition should be as follows::
 
   CREATE TABLE persons
   (
@@ -368,7 +368,7 @@ ezcPersistentNativeGenerator
 ----------------------------
 
 The native generator relies on auto_increment, which is supported by, among
-others, MySQL and SQLite. An example table definition looks like this: ::
+others, MySQL and SQLite. An example table definition looks like this::
 
     CREATE TABLE persons
     (
@@ -378,7 +378,7 @@ others, MySQL and SQLite. An example table definition looks like this: ::
         PRIMARY KEY (id)
     );
 
-The corresponding generator definition is below: ::
+The corresponding generator definition is below::
 
     <?php
     $def->idProperty->generator = new ezcPersistentGeneratorDefinition(
@@ -393,7 +393,7 @@ If you do not rely on a database mechanism to generate values for a primary
 key column, you have to use the ezcPersistentManualGenerator class. You can
 then set the value of the id property by hand and save the object afterwards.
 
-For example: ::
+For example::
     
     CREATE TABLE persons
     (
@@ -404,7 +404,7 @@ For example: ::
     );
 
 In this table, the string value is used as the primary key. Therefore, we have
-to generate id values manually. Use the following definition: ::
+to generate id values manually. Use the following definition::
 
     <?php
     $def->idProperty->generator = new ezcPersistentGeneratorDefinition(
@@ -412,7 +412,7 @@ to generate id values manually. Use the following definition: ::
     );
     ?>
 
-For saving a new instance, use the following code: ::
+For saving a new instance, use the following code::
     
     <?php
     $object = new Person();
@@ -448,7 +448,7 @@ Extending the definition loader
 
 It is very easy to create your own definition loader. Simply extend the
 ezcPersistentDefinitionManager abstract class and implement the
-fetchDefinition() method: ::
+fetchDefinition() method::
 
     <?php
     class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
@@ -592,7 +592,7 @@ Person it is related to. ::
     ?>
 
 Additionally, we need to define the new property $person in the persistence
-mapping of the Address class: ::
+mapping of the Address class::
 
     <?php
     // ...
@@ -647,7 +647,7 @@ class name/property name.
 If you want to map using several columns, you can add more
 ezcPersistentSingleTableMap instances to the columnMap array. For example, if
 you are using a person's first and last name as the primary key for the
-"persons" table, you could define the relation like this: ::
+"persons" table, you could define the relation like this::
 
     <?php
     // ...
@@ -774,7 +774,7 @@ mapping. In our example, the relation table "persons_addresses" has a column
 
 As with ezcPersistentSingleTableMap instances, you can use multiple
 mappings in one ezcPersistentManyToManyRelation->columnMap array. Here, we use
-a person's first and last name for the mapping: ::
+a person's first and last name for the mapping::
 
     <?php
     // ...
@@ -813,7 +813,7 @@ Special 1:1 relations
 If you want to use 1:1 relations, where two tables share a common primary key,
 you need to define a table to generate the key and the other table to use
 ezcPersistentManualGenerator. For our example, if one person may only have one
-address, the definition would be as follows: ::
+address, the definition would be as follows::
 
     <?php
     $def = new ezcPersistentObjectDefinition();
@@ -828,7 +828,7 @@ address, the definition would be as follows: ::
     return $def;
     ?>
 
-This is the relation (defined in the definition file of the Person): ::
+This is the relation (defined in the definition file of the Person)::
 
     <?php
     // ...
@@ -898,7 +898,7 @@ example::
 With the relation definition shown above, you would still be able to relate the
 Persons object to an Address object, but not to add or remove related
 Person objects to/from an Address. In other words, the following code still
-works: ::
+works::
 
     <?php
     $address = $session->load( "Address", 23 );
@@ -906,7 +906,7 @@ works: ::
     // ...
     ?>
 
-While the following would not work: ::
+While the following would not work::
 
     <?php
     // ...
@@ -958,7 +958,7 @@ definition, based on the example from `Defining a simple relation`_::
     ?>
 
 If you now use the following, the Person object and all related Address objects
-are deleted: ::
+are deleted::
 
     <?php
     $person = $session->load( "Person", 1 );
@@ -973,7 +973,7 @@ Defining multiple relations to the same PHP class
 
 In some cases it might be necessary to define multiple relations to the same
 PHP class. An example for this can be seen when enhancing the Person example
-from `The persistence mapping`_  as follows: ::
+from `The persistence mapping`_  as follows::
 
   CREATE TABLE persons
   (
@@ -991,7 +991,10 @@ referenced by the Person class twice.
 
 Assuming that the 2 new properties of the Person class have been defined
 correctly in the persistence mapping, the following code can be used to achieve
-the desired relations. ::
+the desired relations::
+
+    <?php
+    // ... $def is the persistence defintion
 
     $relations = new ezcPersistentRelationCollection();
 
@@ -1017,6 +1020,7 @@ the desired relations. ::
     // ..
 
     $def->relations['Person'] = $relations;
+    ?>
 
 2 relations need to be defined to reflect the relation between a mother an her
 children. "mother" defines the relation from a child to its mother and
@@ -1033,8 +1037,9 @@ the $relations property of the object definition.
 The comment indicating further code (...) in the example above indicates that
 further relations are missing in the collection: The relations "father" and
 "fathers_children" are excluded here, since they work exactly like the
-corresponding mother relations, above. A fifth relation is shown below: ::
+corresponding mother relations, above. A fifth relation is shown below::
 
+    <?php
     $relations = new ezcPersistentRelationCollection();
 
     // ... mother / father relations
@@ -1055,6 +1060,7 @@ corresponding mother relations, above. A fifth relation is shown below: ::
     // assigning the relation collection
 
     $def->relations['Person'] = $relations;
+    ?>
 
 As can be seen above, a relation collection can carry an arbitrary number of
 relations, which are of arbitrary type.
@@ -1064,14 +1070,16 @@ Using multiple relations to the same PHP class
 
 To make use of the relations to the Person class defined in the last section,
 the name of the desired relation has to be submitted to all relation
-operations. ::
+operations::
 
+    <?php
     $mother   = $this->session->load( 'Person', 1 );
     $children = $this->session->getRelatedObjects(
         $mother,
         'Person',
         'mothers_children'
     );
+    ?>
 
 The code above fetches all children of a mother, as defined by the relation
 "mothers_children". The third parameter to
@@ -1082,8 +1090,9 @@ collection.
 
 In the same manor a new related object can only be added if the affected
 relation is submitted to ezcPersistentSession->addRelatedObject() as shown
-below: ::
+below::
 
+    <?php
     $newChild = new Person();
     $newChild->name = "New child";
 
@@ -1097,6 +1106,7 @@ below: ::
 
     // Make relation changes take effect
     $this->session->save( $newChild );
+    ?>
 
 
 ..
