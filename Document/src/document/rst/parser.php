@@ -1685,7 +1685,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
         {
             foreach ( $collected as $node )
             {
-                if ( $node->token->position <= 1 )
+                if ( ( $node->token->position <= 1 ) &&
+                     ( $node->token->type === ezcDocumentRstToken::WHITESPACE ) )
                 {
                     $node->token->content = substr( $node->token->content, $minIndentation );
                 }
