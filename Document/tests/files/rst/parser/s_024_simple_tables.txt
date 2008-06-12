@@ -33,3 +33,12 @@ col 1  col 2
          list (row 3, column 2).
 =====  =====
 
+===============  ======================================================
+-a, --all        Do not hide entries starting with .
+--color=WHEN     Control whether color is used to distinguish file types. WHEN
+                 may be never, always, or auto
+-d, --directory  List directory entries instead of contents, and do not
+                 dereference symbolic links
+-l               Use a long listing format
+===============  ======================================================
+

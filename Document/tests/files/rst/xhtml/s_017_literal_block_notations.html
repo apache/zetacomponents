@@ -10,22 +10,17 @@
     </h1>
     <p>Paragraph:</p>
     <pre>Literal block, where \ are preserved.
-
 </pre>
     <p>Paragraph: </p>
     <pre>Literal block
-
 Which may also contain multiple lines,
             where
                     indentation
       should be maintained.
-
 </pre>
     <p>Paragraph:</p>
     <pre>Literal block
-
     Do handle all types of special characters, just as they are, like those tokenizer regular expressions:
-
     array (
       1 =&gt; '(\A(?P&lt;value&gt;[ \t]+))S',
       2 =&gt; '(\A(?P&lt;value&gt;\r\n|\r|\n))S',
@@ -33,7 +28,6 @@ Which may also contain multiple lines,
       3 =&gt; '(\A(?P&lt;value&gt;\\))S',
       5 =&gt; '(\A(?P&lt;value&gt;(?: [^`*_\\[\]|()"\':.\r\n\t ]|[^`*_\\[\]|()"\':.\r\n\t ])+))S',
     )
-
 </pre>
     <p>John Doe wrote:</p>
     <pre>&gt;&gt; Great idea!

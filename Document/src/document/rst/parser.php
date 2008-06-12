@@ -2470,7 +2470,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $cellContents = array();
         $row = -1;
         // Read until we got some kind of definition line.
-        while ( ( ( $tokens[0]->position > 1 ) ||
+        while ( ( ( !isset( $tokens[0] ) ) ||
+                  ( $tokens[0]->position > 1 ) ||
                   ( $tokens[0]->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
                   ( ( $tokens[0]->content[0] !== '=' ) &&
                     ( $tokens[0]->content[0] !== '-' ) ) ||
@@ -2546,7 +2547,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
         /* DEBUG
         echo "  -> Table specification: ";
         // /DEBUG */
-        while ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE )
+        while ( isset( $tokens[0] ) &&
+                ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE ) )
         {
             $specToken = array_shift( $tokens );
             if ( ( ( $specToken->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
@@ -2634,7 +2636,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
         } while ( isset( $tokens[0] ) &&
                   ( $tokens[0]->type == ezcDocumentRstToken::SPECIAL_CHARS ) &&
                   ( $tokens[0]->content[0] === '-' ) &&
-                  // We ignoe the actual header undeline table cell
+                  ( $tokens[0]->position === 1 ) &&
+                  ( isset( $tokens[1] ) ) &&
+                  ( $tokens[1]->type == ezcDocumentRstToken::WHITESPACE ) &&
+                  // We ignore the actual header undeline table cell
                   // redefinition, as we detect this magically while reading
                   // the cells already.
                   $this->readSimpleTableSpecification( $tokens ) );
@@ -2650,17 +2655,27 @@ class ezcDocumentRstParser extends ezcDocumentParser
             );
         }
 
-        // Read actual table contents.
-        $contents = $this->readSimpleCells( $cellStarts, $tokens );
-
-        // Last line should also match specification.
-        if ( $tableSpec !== $this->readSimpleTableSpecification( $tokens ) )
+        if ( !isset( $tokens[0] ) ||
+             ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) )
         {
-            $this->triggerError(
-                E_WARNING,
-                'Table specification mismatch in simple table.',
-                null, $tokens[0]->line, $tokens[0]->position
-            );
+            // The simple table only contains a body
+            $contents = $titles;
+            $titles = array();
+        }
+        else
+        {
+            // Read actual table contents.
+            $contents = $this->readSimpleCells( $cellStarts, $tokens );
+
+            // Last line should also match specification.
+            if ( $tableSpec !== $this->readSimpleTableSpecification( $tokens ) )
+            {
+                $this->triggerError(
+                    E_WARNING,
+                    'Table specification mismatch in simple table.',
+                    null, $token->line, $token->position
+                );
+            }
         }
 
         // Reenter parser for table titels and contents, and create table AST
