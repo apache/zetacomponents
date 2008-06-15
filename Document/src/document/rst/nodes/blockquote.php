@@ -16,15 +16,8 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentRstBlockquoteNode extends ezcDocumentRstNode
+class ezcDocumentRstBlockquoteNode extends ezcDocumentRstBlockNode
 {
-    /**
-     * Blockquote indentation level
-     * 
-     * @var int
-     */
-    public $indentation;
-
     /**
      * Blockquote annotation
      * 
@@ -67,9 +60,9 @@ class ezcDocumentRstBlockquoteNode extends ezcDocumentRstNode
         );
 
         $node->nodes       = $properties['nodes'];
-        $node->indentation = $properties['indentation'];
         $node->annotation  = $properties['annotation'];
         $node->closed      = $properties['closed'];
+        $node->indentation = isset( $properties['indentation'] ) ? $properties['indentation'] : 0;
         return $node;
     }
 }

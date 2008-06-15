@@ -212,16 +212,15 @@ class ezcDocumentRstParser extends ezcDocumentParser
         ),
         ezcDocumentRstNode::PARAGRAPH           => array(
             'reduceParagraph',
-            'reduceBulletListParagraph',
-            'reduceEnumeratedListParagraph',
+            'reduceListParagraph',
             'reduceBlockquoteAnnotationParagraph',
             'reduceBlockquote',
         ),
         ezcDocumentRstNode::BULLET_LIST         => array(
-            'reduceBulletList',
+            'reduceList',
         ),
         ezcDocumentRstNode::ENUMERATED_LIST     => array(
-            'reduceEnumeratedList',
+            'reduceList',
         ),
 
         ezcDocumentRstNode::ANNOTATION          => array(
@@ -3525,101 +3524,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
     }
 
     /**
-     * Reduce paragraph to enumerated lists
-     *
-     * Indented paragraphs are enumerated lists, if prefixed by a enumerated
-     * list indicator.
-     * 
-     * @param ezcDocumentRstNode $node 
-     * @return void
-     */
-    protected function reduceEnumeratedListParagraph( ezcDocumentRstNode $node )
-    {
-        $childs = array();
-        $lastIndentationLevel = $node->indentation;
-
-        // If this is the very first paragraph, we have nothing we can reduce
-        // to, so just skip this rule.
-        if ( !count( $this->documentStack ) )
-        {
-            /* DEBUG
-            echo "  => Nothing to reduce to.\n";
-            // /DEBUG */
-            return $node;
-        }
-
-        // Include all paragraphs, lists and blockquotes
-        while ( $child = array_shift( $this->documentStack ) )
-        {
-            if ( !in_array( $child->type, array(
-                    ezcDocumentRstNode::PARAGRAPH,
-                    ezcDocumentRstNode::BLOCKQUOTE,
-                    ezcDocumentRstNode::ENUMERATED_LIST,
-                 ), true ) ||
-                 ( $child->indentation < $node->indentation ) )
-            {
-                // We did not find a enumerated list to reduce to, so it is time to
-                // put the stuff back to the stack and leave.
-                /* DEBUG
-                echo "   -> No reduction target found.\n";
-                // /DEBUG */
-                $this->documentStack = array_merge(
-                    $childs,
-                    array( $child ),
-                    $this->documentStack
-                );
-                return $node;
-            }
-
-            if ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) &&
-                 ( $child->indentation === $node->indentation ) )
-            {
-                // We found a enumerated list for the current paragraph.
-                /* DEBUG
-                echo "   => Found matching enumerated list.\n";
-                // /DEBUG */
-                $child->nodes[] = $node;
-                $this->documentStack = array_merge(
-                    $childs,
-                    array( $child ),
-                    $this->documentStack
-                );
-                return null;
-            }
-
-            if ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) &&
-                 ( $child->indentation < $lastIndentationLevel ) )
-            {
-                // The indentation level reduced during the processing of
-                // childs. We can reduce the found childs to the new child with
-                // lowest indentation.
-                /* DEBUG
-                echo "   -> Reduce subgroup (" . count( $childs ) . " items).\n";
-                // /DEBUG */
-                $child->nodes = array_merge(
-                    $child->nodes,
-                    array_reverse( $childs )
-                );
-                $childs = array();
-            }
-
-            // Else just append item to curernt child list, and update current
-            // indentation.
-            /* DEBUG
-            echo "   -> Appending " . ezcDocumentRstNode::getTokenName( $child->type ) . ".\n";
-            // /DEBUG */
-            $childs[] = $child;
-            $lastIndentationLevel = $child->indentation;
-        }
-
-        // Clean up and return node
-        /* DEBUG
-        echo "   => Done (" . count( $this->documentStack ) . " elements on stack).\n";
-        // /DEBUG */
-        return null;
-    }
-
-    /**
      * Reduce paragraph to bullet lsit
      *
      * Indented paragraphs are bllet lists, if prefixed by a bullet list
@@ -3628,7 +3532,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function reduceBulletListParagraph( ezcDocumentRstNode $node )
+    protected function reduceListParagraph( ezcDocumentRstNode $node )
     {
         $childs = array();
         $lastIndentationLevel = $node->indentation;
@@ -3646,11 +3550,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // Include all paragraphs, lists and blockquotes
         while ( $child = array_shift( $this->documentStack ) )
         {
-            if ( !in_array( $child->type, array(
-                    ezcDocumentRstNode::PARAGRAPH,
-                    ezcDocumentRstNode::BLOCKQUOTE,
-                    ezcDocumentRstNode::BULLET_LIST,
-                 ), true ) ||
+            if ( ( !$child instanceof ezcDocumentRstBlockNode ) ||
                  ( $child->indentation < $node->indentation ) )
             {
                 // We did not find a bullet list to reduce to, so it is time to
@@ -3666,12 +3566,13 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 return $node;
             }
 
-            if ( ( $child->type === ezcDocumentRstNode::BULLET_LIST ) &&
+            if ( ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) ||
+                   ( $child->type === ezcDocumentRstNode::BULLET_LIST ) ) &&
                  ( $child->indentation === $node->indentation ) )
             {
                 // We found a bullet list for the current paragraph.
                 /* DEBUG
-                echo "   => Found matching bullet list.\n";
+                echo "   => Found matching list.\n";
                 // /DEBUG */
                 $child->nodes[] = $node;
                 $this->documentStack = array_merge(
@@ -3682,7 +3583,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 return null;
             }
 
-            if ( ( $child->type === ezcDocumentRstNode::BULLET_LIST ) &&
+            if ( ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) ||
+                   ( $child->type === ezcDocumentRstNode::BULLET_LIST ) ) &&
                  ( $child->indentation < $lastIndentationLevel ) )
             {
                 // The indentation level reduced during the processing of
@@ -3728,7 +3630,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function reduceBulletList( ezcDocumentRstNode $node )
+    protected function reduceList( ezcDocumentRstNode $node )
     {
         $childs = array();
         $lastIndentationLevel = 0;
@@ -3740,15 +3642,11 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // Include all paragraphs, lists and blockquotes
         while ( $child = array_shift( $this->documentStack ) )
         {
-            if ( !in_array( $child->type, array(
-                    ezcDocumentRstNode::PARAGRAPH,
-                    ezcDocumentRstNode::BLOCKQUOTE,
-                    ezcDocumentRstNode::BULLET_LIST,
-                 ), true ) ||
+            if ( ( !$child instanceof ezcDocumentRstBlockNode ) ||
                  ( $child->indentation < $node->indentation ) )
             {
-                // We did not find a bullet list to reduce to, so it is time to
-                // put the stuff back to the stack and leave.
+                // We did not find a list to reduce to, so it is time to put
+                // the stuff back to the stack and leave.
                 /* DEBUG
                 echo "   -> No reduction target found.\n";
                 // /DEBUG */
@@ -3756,13 +3654,15 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 break;
             }
 
-            if ( ( $child->type === ezcDocumentRstNode::BULLET_LIST ) &&
+            if ( ( $child->type === $node->type ) &&
+                 ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) ||
+                   ( $child->type === ezcDocumentRstNode::BULLET_LIST ) ) &&
                  ( $child->indentation === $node->indentation ) )
             {
-                // We found a bullet lsit on the same level, so this is a new
-                // bullet list item.
+                // We found a list on the same level, so this is a new list
+                // item.
                 /* DEBUG
-                echo "   => Found same level bullet list item.\n";
+                echo "   => Found same level list item.\n";
                 // /DEBUG */
                 $child->nodes = array_merge( 
                     $child->nodes,
@@ -3777,101 +3677,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 return $node;
             }
 
-            if ( ( $child->type === ezcDocumentRstNode::BULLET_LIST ) &&
-                 ( $child->indentation < $lastIndentationLevel ) )
-            {
-                // The indentation level reduced during the processing of
-                // childs. We can reduce the found childs to the new child with
-                // lowest indentation.
-                /* DEBUG
-                echo "   -> Reduce subgroup (" . count( $childs ) . " items).\n";
-                // /DEBUG */
-                $child->nodes = array_merge(
-                    $child->nodes,
-                    array_reverse( $childs )
-                );
-                $childs = array();
-            }
-
-            // Else just append item to curernt child list, and update current
-            // indentation.
-            /* DEBUG
-            echo "   -> Appending " . ezcDocumentRstNode::getTokenName( $child->type ) . ".\n";
-            // /DEBUG */
-            $childs[] = $child;
-            $lastIndentationLevel = $child->indentation;
-        }
-
-        // Clean up and return node
-        /* DEBUG
-        echo "   => Done.\n";
-        // /DEBUG */
-        $this->documentStack = array_merge(
-            $childs,
-            $this->documentStack
-        );
-        return $node;
-    }
-
-    /**
-     * Reduce item to enumerated list
-     *
-     * Called for all items, which may be part of enumerated lists. Depending on
-     * the indentation level we reduce some amount of items to a enumerated list.
-     * 
-     * @param ezcDocumentRstNode $node 
-     * @return void
-     */
-    protected function reduceEnumeratedList( ezcDocumentRstNode $node )
-    {
-        $childs = array();
-        $lastIndentationLevel = 0;
-
-        /* DEBUG
-        echo "   - Indentation {$node->indentation}.\n";
-        // /DEBUG */
-
-        // Include all paragraphs, lists and blockquotes
-        while ( $child = array_shift( $this->documentStack ) )
-        {
-            if ( !in_array( $child->type, array(
-                    ezcDocumentRstNode::PARAGRAPH,
-                    ezcDocumentRstNode::BLOCKQUOTE,
-                    ezcDocumentRstNode::ENUMERATED_LIST,
-                 ), true ) ||
-                 ( $child->indentation < $node->indentation ) )
-            {
-                // We did not find a enumerated list to reduce to, so it is time to
-                // put the stuff back to the stack and leave.
-                /* DEBUG
-                echo "   -> No reduction target found.\n";
-                // /DEBUG */
-                array_unshift( $this->documentStack, $child );
-                break;
-            }
-
-            if ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) &&
-                 ( $child->indentation === $node->indentation ) )
-            {
-                // We found a enumerated lsit on the same level, so this is a new
-                // enumerated list item.
-                /* DEBUG
-                echo "   => Found same level enumerated list item.\n";
-                // /DEBUG */
-                $child->nodes = array_merge( 
-                    $child->nodes,
-                    $childs
-                );
-
-                $this->documentStack = array_merge(
-                    array( $child ),
-                    $this->documentStack
-                );
-                
-                return $node;
-            }
-
-            if ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) &&
+            if ( ( $child->type === $node->type ) &&
+                 ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) ||
+                   ( $child->type === ezcDocumentRstNode::BULLET_LIST ) ) &&
                  ( $child->indentation < $lastIndentationLevel ) )
             {
                 // The indentation level reduced during the processing of

@@ -16,7 +16,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentRstFieldListNode extends ezcDocumentRstNode
+class ezcDocumentRstFieldListNode extends ezcDocumentRstBlockNode
 {
     /**
      * FieldList target name
@@ -54,7 +54,8 @@ class ezcDocumentRstFieldListNode extends ezcDocumentRstNode
             $properties['name']
         );
 
-        $node->nodes = $properties['nodes'];
+        $node->nodes       = $properties['nodes'];
+        $node->indentation = isset( $properties['indentation'] ) ? $properties['indentation'] : 0;
         return $node;
     }
 }

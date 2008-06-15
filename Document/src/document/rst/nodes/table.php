@@ -16,7 +16,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentRstTableNode extends ezcDocumentRstNode
+class ezcDocumentRstTableNode extends ezcDocumentRstBlockNode
 {
     /**
      * Construct RST document node
@@ -44,7 +44,8 @@ class ezcDocumentRstTableNode extends ezcDocumentRstNode
             $properties['token']
         );
 
-        $node->nodes = $properties['nodes'];
+        $node->nodes       = $properties['nodes'];
+        $node->indentation = isset( $properties['indentation'] ) ? $properties['indentation'] : 0;
 
         return $node;
     }

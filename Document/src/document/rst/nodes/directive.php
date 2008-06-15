@@ -16,7 +16,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentRstDirectiveNode extends ezcDocumentRstNode
+class ezcDocumentRstDirectiveNode extends ezcDocumentRstBlockNode
 {
     /**
      * Directive target identifier
@@ -68,9 +68,10 @@ class ezcDocumentRstDirectiveNode extends ezcDocumentRstNode
             $properties['identifier']
         );
 
-        $node->nodes      = $properties['nodes'];
-        $node->parameters = $properties['parameters'];
-        $node->options    = $properties['options'];
+        $node->nodes       = $properties['nodes'];
+        $node->parameters  = $properties['parameters'];
+        $node->options     = $properties['options'];
+        $node->indentation = isset( $properties['indentation'] ) ? $properties['indentation'] : 0;
         return $node;
     }
 }

@@ -16,10 +16,8 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentRstLiteralBlockNode extends ezcDocumentRstNode
+class ezcDocumentRstLiteralBlockNode extends ezcDocumentRstBlockNode
 {
-    
-
     /**
      * Construct RST document node
      * 
@@ -54,10 +52,13 @@ class ezcDocumentRstLiteralBlockNode extends ezcDocumentRstNode
      */
     public static function __set_state( $properties )
     {
-        return new ezcDocumentRstLiteralBlockNode(
+        $node = new ezcDocumentRstLiteralBlockNode(
             $properties['token'],
             $properties['nodes']
         );
+
+        $node->indentation = isset( $properties['indentation'] ) ? $properties['indentation'] : 0;
+        return $node;
     }
 }
 

@@ -16,15 +16,8 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstNode
+class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstBlockNode
 {
-    /**
-     * EnumeratedList indentation level
-     * 
-     * @var int
-     */
-    public $indentation;
-
     /**
      * Enumerated list type, should be one of the following:
      *  - 0: Numeric
@@ -84,7 +77,7 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstNode
 
         $node->type        = $properties['type'];
         $node->nodes       = $properties['nodes'];
-        $node->indentation = $properties['indentation'];
+        $node->indentation = isset( $properties['indentation'] ) ? $properties['indentation'] : 0;
         $node->text        = isset( $properties['text'] ) ? $properties['text'] : '';
         return $node;
     }

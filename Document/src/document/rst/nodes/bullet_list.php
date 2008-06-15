@@ -16,15 +16,8 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentRstBulletListNode extends ezcDocumentRstNode
+class ezcDocumentRstBulletListNode extends ezcDocumentRstBlockNode
 {
-    /**
-     * BulletList indentation level
-     * 
-     * @var int
-     */
-    public $indentation;
-
     /**
      * Construct RST document node
      * 
@@ -62,7 +55,7 @@ class ezcDocumentRstBulletListNode extends ezcDocumentRstNode
         );
 
         $node->nodes       = $properties['nodes'];
-        $node->indentation = $properties['indentation'];
+        $node->indentation = isset( $properties['indentation'] ) ? $properties['indentation'] : 0;
         return $node;
     }
 }
