@@ -1,27 +1,16 @@
 Enumerated bullet lists
 =======================
 
-Enumeration on top
-------------------
+1) Hello
+   - world.
+2) Hallo
+   - Welt.
 
-1. Click on "Create a Package" in the left top
-2. Fill in details:
+Paragraph.
 
-	- Name (example: ConsoleTools, Mail, PhpGenerator)
-	- Category: select the category from the overview that will be soon at
-	  http://ez.no/products/ez_components/ez_components_technical_details
-	- License: New BSD
-	- License URL: http://ez.no/licenses/new_bsd
-	- Summary: take the text from the DESCRIPTION File, but shorted to one
-	  sentence.
-	- Description: take the text from the DESCRIPTION file
-	- The others can be empty
+- Hello
+  1) world.
+- Hallo
+  2) Welt.
 
-Bullets on top
---------------
-
-- Needs more tests:
-  1. it should create the object with a given url and then examine all properties for expected values.
-  2. create url object with string then modify one or more properties, then examine built url
-  3. insert invalid data to properties, expects exceptions
 

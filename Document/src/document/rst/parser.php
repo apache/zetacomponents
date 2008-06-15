@@ -205,6 +205,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             'reduceSection',
         ),
         ezcDocumentRstNode::SECTION             => array(
+            'reduceList',
             'reduceSection',
         ),
         ezcDocumentRstNode::TITLE               => array(
@@ -3635,29 +3636,31 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $childs = array();
         $lastIndentationLevel = 0;
 
+        $nodeIndentation = $node instanceof ezcDocumentRstBlockNode ? $node->indentation : 0;
+
         /* DEBUG
-        echo "   - Indentation {$node->indentation}.\n";
+        echo "   - Indentation {$nodeIndentation}.\n";
         // /DEBUG */
 
         // Include all paragraphs, lists and blockquotes
         while ( $child = array_shift( $this->documentStack ) )
         {
             if ( ( !$child instanceof ezcDocumentRstBlockNode ) ||
-                 ( $child->indentation < $node->indentation ) )
+                 ( $child->indentation < $nodeIndentation ) )
             {
                 // We did not find a list to reduce to, so it is time to put
                 // the stuff back to the stack and leave.
                 /* DEBUG
-                echo "   -> No reduction target found.\n";
+                echo "   -> No reduction target found, reached ", ezcDocumentRstNode::getTokenName( $child->type ), ".\n";
                 // /DEBUG */
                 array_unshift( $this->documentStack, $child );
                 break;
             }
 
-            if ( ( $child->type === $node->type ) &&
+            if ( ( $child->indentation === $nodeIndentation ) &&
+                 ( $child->type === $node->type ) &&
                  ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) ||
-                   ( $child->type === ezcDocumentRstNode::BULLET_LIST ) ) &&
-                 ( $child->indentation === $node->indentation ) )
+                   ( $child->type === ezcDocumentRstNode::BULLET_LIST ) ) )
             {
                 // We found a list on the same level, so this is a new list
                 // item.
@@ -3677,8 +3680,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 return $node;
             }
 
-            if ( ( $child->type === $node->type ) &&
-                 ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) ||
+            if ( ( ( $child->type === ezcDocumentRstNode::ENUMERATED_LIST ) ||
                    ( $child->type === ezcDocumentRstNode::BULLET_LIST ) ) &&
                  ( $child->indentation < $lastIndentationLevel ) )
             {
