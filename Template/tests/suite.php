@@ -38,7 +38,8 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
     public function __construct()
     {
         parent::__construct();
-        $this->setName( "Template" );
+        $this->setName( 'Template' );
+
         $this->addTest( ezcTemplateRegressionTest::suite() );
         $this->addTest( ezcTemplateParserTest::suite() );
         $this->addTest( ezcTemplateFileExceptionTest::suite() );
@@ -54,11 +55,10 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcTemplateSourceCodeTest::suite() );
         $this->addTest( ezcTemplateCompiledCodeTest::suite() );
         $this->addTest( ezcTemplateConfigurationTest::suite() );
-        $this->addTest( ezcTemplateCacheTest::suite() );
-        $this->addTest( ezcTemplateCacheManagerTest::suite() );
         $this->addTest( ezcTemplateTest::suite() );
         $this->addTest( ezcTemplateLocaleTest::suite() );
-
+        $this->addTest( ezcTemplateCacheTest::suite() );
+        $this->addTest( ezcTemplateCacheManagerTest::suite() );
     }
 
     public static function suite()
@@ -66,5 +66,4 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         return new ezcTemplateSuite();
     }
 }
-
 ?>
