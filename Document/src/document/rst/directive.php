@@ -39,6 +39,13 @@ abstract class ezcDocumentRstDirective
     protected $path;
 
     /**
+     * The calling visitor.
+     * 
+     * @var ezcDocumentRstVisitor
+     */
+    protected $visitor;
+
+    /**
      * Construct directive from AST and node
      * 
      * @param ezcDocumentRstDocumentNode $ast 
@@ -51,6 +58,20 @@ abstract class ezcDocumentRstDirective
         $this->ast  = $ast;
         $this->path = $path;
         $this->node = $node;
+    }
+
+    /**
+     * Set the calling vaisitor
+     *
+     * Pass the visitor which called the rendering function on the directive
+     * for optional reference.
+     * 
+     * @param ezcDocumentRstVisitor $visitor 
+     * @return void
+     */
+    public function setSourceVisitor( ezcDocumentRstVisitor $visitor )
+    {
+        $this->visitor = $visitor;
     }
 
     /**

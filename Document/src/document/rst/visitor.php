@@ -176,7 +176,7 @@ abstract class ezcDocumentRstVisitor
      * @param ezcDocumentRstNode $node 
      * @return string
      */
-    protected function nodeToString( ezcDocumentRstNode $node )
+    public function nodeToString( ezcDocumentRstNode $node )
     {
         $text = '';
 
@@ -460,7 +460,7 @@ abstract class ezcDocumentRstVisitor
      * @param string $string
      * @return string
      */
-    protected function hasReferenceTarget( $string )
+    public function hasReferenceTarget( $string )
     {
         // Check if the target name is a footnote reference
         if ( is_numeric( $string ) )
@@ -523,7 +523,7 @@ abstract class ezcDocumentRstVisitor
      * @param string $name 
      * @return string
      */
-    protected function getNamedExternalReference( $name )
+    public function getNamedExternalReference( $name )
     {
         if ( isset( $this->namedExternalReferences[$name] ) ) 
         {
@@ -540,7 +540,7 @@ abstract class ezcDocumentRstVisitor
      * 
      * @return string
      */
-    protected function getAnonymousReferenceTarget()
+    public function getAnonymousReferenceTarget()
     {
         if ( isset( $this->anonymousReferences[$this->anonymousReferenceCounter] ) )
         {

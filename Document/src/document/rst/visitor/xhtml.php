@@ -282,7 +282,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      * @param string $url 
      * @return string
      */
-    protected function escapeUrl( $url )
+    public function escapeUrl( $url )
     {
         return preg_replace_callback( '([^a-z0-9._:/#&?@-]+)', 'ezcDocumentRstXhtmlVisitor::urlEscapeArray', $url );
     }
@@ -646,6 +646,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     {
         $handlerClass = $this->rst->getDirectiveHandler( $node->identifier );
         $directiveHandler = new $handlerClass( $this->ast, $this->path, $node );
+        $directiveHandler->setSourceVisitor( $this );
 
         if ( !$directiveHandler instanceof ezcDocumentRstXhtmlDirective )
         {
