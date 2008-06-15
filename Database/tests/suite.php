@@ -17,6 +17,8 @@ require_once 'instance_test.php';
 require_once 'pdo_test.php';
 require_once 'instance_delayed_init_test.php';
 require_once 'handler_test.php';
+require_once 'handler_tests/sqlite.php';
+require_once 'handler_tests/mysql.php';
 require_once 'sqlabstraction/expression_test.php';
 require_once 'sqlabstraction/query_test.php';
 require_once 'sqlabstraction/query_select_test.php';
@@ -45,6 +47,8 @@ class ezcDatabaseSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDatabaseInstanceTest::suite() );
         $this->addTest( ezcDatabaseInstanceDelayedInitTest::suite() );
         $this->addTest( ezcDatabaseHandlerTest::suite() );
+        $this->addTest( ezcDatabaseHandlerSqliteTest::suite() );
+        $this->addTest( ezcDatabaseHandlerMysqlTest::suite() );
         $this->addTest( ezcQueryExpressionTest::suite() );
         $this->addTest( ezcQueryTest::suite() );
         $this->addTest( ezcQuerySelectTest::suite() );

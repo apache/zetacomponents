@@ -115,7 +115,7 @@ class ezcQuerySubSelectTest extends ezcTestCase
 
     public function testSubSelectIn()
     {
-        $reference = 'SELECT * FROM table WHERE id IN ( ( SELECT column FROM table2 ) )';
+        $reference = 'SELECT * FROM table WHERE id IN ( SELECT column FROM table2 )';
 
         $q2 = $this->q->subSelect();
         $q2->select( 'column' )->from( 'table2' );
@@ -174,7 +174,7 @@ class ezcQuerySubSelectTest extends ezcTestCase
             $q->expr->in( 'question', $qQuestions )
         );
 
-        $this->assertEquals( "SELECT somecol FROM quiz WHERE question IN ( ( SELECT id FROM question WHERE quiz = :ezcValue1 ) )", $q->getQuery() );
+        $this->assertEquals( "SELECT somecol FROM quiz WHERE question IN ( SELECT id FROM question WHERE quiz = :ezcValue1 )", $q->getQuery() );
     }
 
     public function testSubselectWithUpdate()
@@ -192,7 +192,7 @@ class ezcQuerySubSelectTest extends ezcTestCase
             $q->expr->in( 'question', $qQuestions )
         );
 
-        $this->assertEquals( "UPDATE quiz SET somecol = :ezcValue1 WHERE question IN ( ( SELECT id FROM question WHERE quiz = :ezcValue2 ) )", $q->getQuery() );
+        $this->assertEquals( "UPDATE quiz SET somecol = :ezcValue1 WHERE question IN ( SELECT id FROM question WHERE quiz = :ezcValue2 )", $q->getQuery() );
     }
 
 
@@ -211,7 +211,7 @@ class ezcQuerySubSelectTest extends ezcTestCase
             $q->expr->in( 'question', $qQuestions )
         );
 
-        $this->assertEquals( "DELETE FROM quiz WHERE question IN ( ( SELECT id FROM question WHERE quiz = :ezcValue1 ) )", $q->getQuery() );
+        $this->assertEquals( "DELETE FROM quiz WHERE question IN ( SELECT id FROM question WHERE quiz = :ezcValue1 )", $q->getQuery() );
     }
 
 
