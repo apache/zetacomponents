@@ -213,9 +213,18 @@ class ezcDocumentRstParser extends ezcDocumentParser
         ),
         ezcDocumentRstNode::PARAGRAPH           => array(
             'reduceParagraph',
-            'reduceListParagraph',
+            'reduceListItem',
             'reduceBlockquoteAnnotationParagraph',
             'reduceBlockquote',
+        ),
+        ezcDocumentRstNode::COMMENT             => array(
+            'reduceListItem',
+        ),
+        ezcDocumentRstNode::DIRECTIVE           => array(
+            'reduceListItem',
+        ),
+        ezcDocumentRstNode::LITERAL_BLOCK       => array(
+            'reduceListItem',
         ),
         ezcDocumentRstNode::BULLET_LIST         => array(
             'reduceList',
@@ -1555,7 +1564,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         {
             array_unshift( $tokens,
                 new ezcDocumentRstToken(
-                    ezcDocumentRstToken::SPECIAL_CHARS, '::', $token->line, 0
+                    ezcDocumentRstToken::SPECIAL_CHARS, '::', $token->line, $this->indentation
                 )
             );
 
@@ -1631,7 +1640,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 // indentation
                 ( ( $tokens[0]->type === $baseIndetation->type ) &&
                   ( ( strpos( $tokens[0]->content, $baseIndetation->content ) === 0 ) ||
-                    ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE ) ) ) )
+                    ( ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE ) &&
+                      ( strlen( $tokens[0]->content ) > $this->indentation ) ) ) ) )
         {
             $literalToken = array_shift( $tokens );
             if ( $literalToken->type === ezcDocumentRstToken::NEWLINE )
@@ -1696,7 +1706,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // Nothing more could be collected, either because the indentation has
         // been reduced, or the markers are missing. Create the literal block
         // node.
-        return new ezcDocumentRstLiteralBlockNode( $token, $collected );
+        $node = new ezcDocumentRstLiteralBlockNode( $token, $collected );
+        $node->indentation = $this->indentation;
+        return $node;
     }
 
     /**
@@ -1772,7 +1784,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Now check for the actual indentation and aggregate everything which
         // stays indented like this.
-        if ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE )
+        if ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
+             ( strlen( $tokens[0]->content ) > $this->indentation ) )
         {
             /* DEBUG
             echo "  -> Whitespace indentation.\n";
@@ -1791,7 +1804,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         $minIndentation = strlen( $indentation->content );
         while ( ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
-                ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) )
+                ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
+                  ( strlen( $tokens[0]->content ) > $this->indentation ) ) )
         {
             if ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE )
             {
@@ -1933,7 +1947,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
     protected function shiftComment( ezcDocumentRstToken $token, array &$tokens )
     {
         if ( ( $token->content !== '..' ) ||
-             ( $token->position > 1 ) ||
+             ( $token->position > ( $this->indentation + 1 ) ) ||
              ( !isset( $tokens[0] ) ) ||
              ( ( $tokens[0]->type !== ezcDocumentRstToken::WHITESPACE ) &&
                ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE ) ) ||
@@ -2228,6 +2242,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
             }
         }
 
+        // Set current indentation on returned node
+        $node->indentation = $this->indentation;
+
         // If this is part of a substitution reference, we return the
         // substitution after the process and not just the plain node.
         if ( $substitution !== null )
@@ -2249,17 +2266,19 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         // Skip all empty lines first
+        $skippedLine = null;
         while ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE )
         {
             /* DEBUG
             echo "  -> Skip newline.\n";
             // /DEBUG */
-            array_shift( $tokens );
+            $skippedLine = array_shift( $tokens );
         }
 
         // Once we got the first line after the literal block start marker, we
         // check for the quoting style
-        if ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE )
+        if ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
+             ( strlen( $tokens[0]->content ) > $this->indentation ) )
         {
             // In case of a whitespace indentation token, this is used
             // completely as indentation marker.
@@ -2272,6 +2291,13 @@ class ezcDocumentRstParser extends ezcDocumentParser
         {
             // If no qouting could be detected, we are finished now, and the
             // comment / directive / ... has no more content.
+
+            // Readd the last newline to the token stack
+            if ( $skippedLine !== null )
+            {
+                array_unshift( $tokens, $skippedLine );
+            }
+
             return $return;
         }
 
@@ -2281,8 +2307,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
                 // All other lines must start with the determined base
                 // indentation
-                ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
-                  ( strpos( $tokens[0]->content, $baseIndetation->content ) === 0 ) ) )
+                ( ( $tokens[0]->type === $baseIndetation->type ) &&
+                  ( ( strpos( $tokens[0]->content, $baseIndetation->content ) === 0 ) ||
+                    ( ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE ) &&
+                      ( strlen( $tokens[0]->content ) > $this->indentation ) ) ) ) )
         {
             $literalToken = array_shift( $tokens );
             if ( $literalToken->type === ezcDocumentRstToken::NEWLINE )
@@ -3533,7 +3561,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function reduceListParagraph( ezcDocumentRstNode $node )
+    protected function reduceListItem( ezcDocumentRstNode $node )
     {
         $childs = array();
         $lastIndentationLevel = $node->indentation;
@@ -3557,7 +3585,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 // We did not find a bullet list to reduce to, so it is time to
                 // put the stuff back to the stack and leave.
                 /* DEBUG
-                echo "   -> No reduction target found.\n";
+                echo "   -> No reduction target found, reached ", ezcDocumentRstNode::getTokenName( $child->type ), ".\n";
                 // /DEBUG */
                 $this->documentStack = array_merge(
                     $childs,
