@@ -17,7 +17,7 @@
  */
 class ezcConsoleDialogTest extends ezcTestCase
 {
-    const PIPE_READ_SLEEP = 1000;
+    const PIPE_READ_SLEEP = 5000;
 
     protected $dataDir;
 
