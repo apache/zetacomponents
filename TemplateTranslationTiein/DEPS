@@ -1,2 +1,2 @@
-Template: 1.3rc1
-Translation: 1.2rc1
+Template: 1.3
+Translation: 1.2
