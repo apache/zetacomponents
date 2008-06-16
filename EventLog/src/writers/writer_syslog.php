@@ -55,7 +55,7 @@ class ezcLogSyslogWriter implements ezcLogWriter
      */
     public function __construct( $ident, $option = null, $facility = LOG_USER )
     {
-        if( $option == null )
+        if ( $option == null )
         {
             $option = LOG_PID|LOG_ODELAY;
         }
@@ -100,7 +100,7 @@ class ezcLogSyslogWriter implements ezcLogWriter
 
         // Map severity to syslog severity
         $syslogSeverity = LOG_INFO;
-        switch( $severity )
+        switch ( $severity )
         {
             case ezcLog::DEBUG:
                 $syslogSeverity = LOG_DEBUG;
@@ -129,7 +129,7 @@ class ezcLogSyslogWriter implements ezcLogWriter
 
         // write to syslog
         $success = syslog( $syslogSeverity, $logMsg );
-        if( !$success )
+        if ( !$success )
         {
             throw new ezcLogWriterException( new Exception( "Couldn't not write to syslog" ) );
         }
