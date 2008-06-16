@@ -1,14 +1,74 @@
 <?php
+/**
+ * File containing the ezcSearchSimpleImage class.
+ *
+ * @package Search
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * A sample definition for indexing images.
+ *
+ * @package Search
+ * @version //autogentag//
+ */
 class ezcSearchSimpleImage implements ezcSearchDefinitionProvider
 {
+    /**
+     * Id for the image.
+     *
+     * @var string
+     */
     public $id;
+
+    /**
+     * Image title.
+     *
+     * @var string
+     */
     public $title;
+
+    /**
+     * URL for the image.
+     *
+     * @var string
+     */
     public $url;
+
+    /**
+     * Image width.
+     *
+     * @var int
+     */
     public $width;
+
+    /**
+     * Image height.
+     *
+     * @var int
+     */
     public $height;
+
+    /**
+     * Image mime-type.
+     *
+     * @var string
+     */
     public $mime;
 
-    function __construct( $id = null, $title = null, $url = null, $width = null, $height = null, $mime = null )
+    /**
+     * Constructs a new image definition.
+     *
+     * @param string $id
+     * @param string $title
+     * @param string $url
+     * @param int $width
+     * @param int $height
+     * @param string $mime
+     */
+    public function __construct( $id = null, $title = null, $url = null, $width = null, $height = null, $mime = null )
     {
         $this->id = $id;
         $this->title = $title;
@@ -18,6 +78,11 @@ class ezcSearchSimpleImage implements ezcSearchDefinitionProvider
         $this->mime = $mime;
     }
 
+    /**
+     * Returns the definition of this class.
+     *
+     * @return ezcSearchDocumentDefinition
+     */
     static public function getDefinition()
     {
         $n = new ezcSearchDocumentDefinition( 'ezcSearchSimpleImage' );
@@ -32,7 +97,12 @@ class ezcSearchSimpleImage implements ezcSearchDefinitionProvider
         return $n;
     }
 
-    function getState()
+    /**
+     * Returns the state of this definition as an array.
+     *
+     * @return array(string=>string)
+     */
+    public function getState()
     {
         return array(
             'id' => $this->id,
@@ -44,7 +114,12 @@ class ezcSearchSimpleImage implements ezcSearchDefinitionProvider
         );
     }
 
-    function setState( $state )
+    /**
+     * Sets the state of this definition.
+     *
+     * @param array(string=>string) $state
+     */
+    public function setState( array $state )
     {
         foreach ( $state as $key => $value )
         {

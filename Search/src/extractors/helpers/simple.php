@@ -1,14 +1,74 @@
 <?php
+/**
+ * File containing the ezcSearchSimpleArticle class.
+ *
+ * @package Search
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * A sample definition for indexing articles.
+ *
+ * @package Search
+ * @version //autogentag//
+ */
 class ezcSearchSimpleArticle implements ezcSearchDefinitionProvider, ezcBasePersistable
 {
+    /**
+     * Id for the article.
+     *
+     * @var string
+     */
     public $id;
+
+    /**
+     * Article title.
+     *
+     * @var string
+     */
     public $title;
+
+    /**
+     * Article body.
+     *
+     * @var string
+     */
     public $body;
+
+    /**
+     * Published date for the article.
+     *
+     * @var DateTime
+     */
     public $published;
+
+    /**
+     * URL for the article.
+     *
+     * @var string
+     */
     public $url;
+
+    /**
+     * Article type.
+     *
+     * @var string
+     */
     public $type;
 
-    function __construct( $id = null, $title = null, $body = null, $published = null, $url = null, $type = null )
+    /**
+     * Constructs a new image definition.
+     *
+     * @param string $id
+     * @param string $title
+     * @param string $body
+     * @param DateTime $published
+     * @param string $url
+     * @param string $type
+     */
+    public function __construct( $id = null, $title = null, $body = null, $published = null, $url = null, $type = null )
     {
         $this->id = $id;
         $this->title = $title;
@@ -18,6 +78,11 @@ class ezcSearchSimpleArticle implements ezcSearchDefinitionProvider, ezcBasePers
         $this->type = $type;
     }
 
+    /**
+     * Returns the definition of this class.
+     *
+     * @return ezcSearchDocumentDefinition
+     */
     static public function getDefinition()
     {
         $n = new ezcSearchDocumentDefinition( 'ezcSearchSimpleArticle' );
@@ -32,7 +97,12 @@ class ezcSearchSimpleArticle implements ezcSearchDefinitionProvider, ezcBasePers
         return $n;
     }
 
-    function getState()
+    /**
+     * Returns the state of this definition as an array.
+     *
+     * @return array(string=>string)
+     */
+    public function getState()
     {
         return array(
             'id' => $this->id,
@@ -44,7 +114,12 @@ class ezcSearchSimpleArticle implements ezcSearchDefinitionProvider, ezcBasePers
         );
     }
 
-    function setState( array $state )
+    /**
+     * Sets the state of this definition.
+     *
+     * @param array(string=>string) $state
+     */
+    public function setState( array $state )
     {
         foreach ( $state as $key => $value )
         {
