@@ -225,7 +225,7 @@ class ezcQueryExpressionSqlite extends ezcQueryExpression
             return "{$column} IN " . $values[0]->getQuery();
         }
         
-        parent::in( $column, $values );
+        return parent::in( $column, $values );
     }
 }
 ?>
