@@ -97,7 +97,7 @@ abstract class ezcDocumentRstVisitor
     const USED      = 2;
 
     /**
-     * Dublicate reference target. Will throw an error on use.
+     * Duplicate reference target. Will throw an error on use.
      */
     const DUBLICATE = 4;
 
@@ -454,7 +454,7 @@ abstract class ezcDocumentRstVisitor
      * Check for internal reference target
      *
      * Returns the target name, when an internal reference target exists and
-     * sets it to used, and false otherwise. For dublicate reference targets
+     * sets it to used, and false otherwise. For duplicate reference targets
      * and missing reference targets an error will be triggered.
      *
      * @param string $string
@@ -510,7 +510,7 @@ abstract class ezcDocumentRstVisitor
         else
         {
             return $this->triggerError(
-                E_NOTICE, "Dublicate reference target '{$id}'.", null
+                E_NOTICE, "Duplicate reference target '{$id}'.", null
             );
         }
     }
