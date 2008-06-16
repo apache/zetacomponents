@@ -1005,10 +1005,21 @@ simple pie chart rendered using this template.
 
 The only drawback of SVG is that it is impossible to determine or define the 
 exact width of text strings. As a result, the driver can only estimate the size of 
-text in the resulting image, which will sometimes fail slightly.
+text in the resulting image, which will sometimes fail slightly. Since the
+1.3 (2008.1) release you can work around this issue, by using the `Glyph support`_.
 
 .. [1] Abobe SVG plugin: http://www.adobe.com/svg/viewer/install/main.html
 .. [2] Corel SVG plugin: http://www.corel.com/servlet/Satellite?pagename=CorelCom/Layout&c=Content_C1&cid=1152796555406&lc=en
+
+Glyph support
+~~~~~~~~~~~~~
+
+Since version 1.3 (2008.1) you may set a SVG font to be used by the SVG driver,
+which will result in exact text width estimation using glyphs for the chracters
+in texts. SVG fonts may be created from TTF fonts using the ttf2svg command
+available in the `apache batik`__ package.
+
+__ http://xml.apache.org/batik/
 
 Embedding SVG in HTML
 ~~~~~~~~~~~~~~~~~~~~~
@@ -1054,12 +1065,12 @@ Another alternative for embedding SVGs in your HTML would be to use iframes.
 GD driver
 ---------
 
-The GD driver is, for now, the choice for generating bitmap images. It supports
+The GD driver is one of the choices for generating bitmap images. It supports
 different font types, if available in your PHP installation, like True Type
-Fonts (using the FreeType 2 library or native TTF support) and PostScript 
-Type 1 fonts. We use super sampling to enable basic anti aliasing in the GD
-driver, where the image is rendered twice as big and resized back to the
-requested size. This is used for all image primitives except text and images.
+Fonts (using the FreeType 2 library or native TTF support) and PostScript Type
+1 fonts. We use super sampling to enable basic anti aliasing in the GD driver,
+where the image is rendered twice as big and resized back to the requested
+size. This is used for all image primitives except text and images.
 
 There are some drawbacks in the GD library that we have not been able to
 overcome:
@@ -1079,6 +1090,29 @@ following example.
 
 .. image:: img/tutorial_driver_gd.jpg
    :alt:   GD driver example jpeg
+
+Cairo driver
+------------
+
+	Cairo is a software library used to provide a vector graphics-based,
+	device-independent API for software developers. It is designed to provide
+	primitives for 2-dimensional drawing across a number of different
+	backends. Cairo is designed to use hardware acceleration when available.
+
+	.. Wikipedia
+
+Using the PHP extension `pecl/cairo_wrapper`__ and the driver class
+ezcGraphCairoDriver you can also create bitmaps with a far better quality then
+the GD driver, supporting all features required by the graph components with
+high quality anti aliasing.
+
+.. include:: tutorial/tutorial_driver_cairo.php
+   :literal:
+
+.. image:: img/tutorial_driver_cairo.jpg
+   :alt:   Cairo driver example jpeg
+
+__ http://pecl.php.net/package/cairo_wrapper
 
 Ming/Flash driver
 -----------------
