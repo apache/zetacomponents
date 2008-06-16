@@ -55,10 +55,10 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcTemplateSourceCodeTest::suite() );
         $this->addTest( ezcTemplateCompiledCodeTest::suite() );
         $this->addTest( ezcTemplateConfigurationTest::suite() );
-        $this->addTest( ezcTemplateTest::suite() );
-        $this->addTest( ezcTemplateLocaleTest::suite() );
         $this->addTest( ezcTemplateCacheTest::suite() );
         $this->addTest( ezcTemplateCacheManagerTest::suite() );
+        $this->addTest( ezcTemplateTest::suite() );
+        $this->addTest( ezcTemplateLocaleTest::suite() );
     }
 
     public static function suite()
