@@ -151,14 +151,16 @@ class ezcDatabaseHandlerBaseTest extends ezcTestCase
 
     protected function tearDownTables()
     {
-        $stmt = $this->db->prepare(
-<<<EOT
-    DROP TABLE IF EXISTS books;
-    DROP TABLE IF EXISTS authors;
-    DROP TABLE IF EXISTS books_authors;
-    DROP TABLE IF EXISTS ownership;
-EOT
-        );
+        $stmt = $this->db->prepare( 'DROP TABLE books' );
+        $stmt->execute();
+        $stmt->closeCursor();
+        $stmt = $this->db->prepare( 'DROP TABLE authors' );
+        $stmt->execute();
+        $stmt->closeCursor();
+        $stmt = $this->db->prepare( 'DROP TABLE books_authors' );
+        $stmt->execute();
+        $stmt->closeCursor();
+        $stmt = $this->db->prepare( 'DROP TABLE ownership' );
         $stmt->execute();
         $stmt->closeCursor();
     }
@@ -231,11 +233,11 @@ EOT
             $this->db->quoteIdentifier( 'ownership' )
          );
 
-        $query->select( '*' )->from( 'books' )
+        $query->select( '*' )->from( $this->db->quoteIdentifier( 'books' ) )
               ->where(
                 $query->expr->not(
                     $query->expr->in(
-                        'id', $subQuery
+                        $this->db->quoteIdentifier( 'id' ), $subQuery
                     )
                 )
         );

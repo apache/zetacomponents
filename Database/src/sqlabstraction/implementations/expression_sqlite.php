@@ -174,5 +174,58 @@ class ezcQueryExpressionSqlite extends ezcQueryExpression
         $column = $this->getIdentifier( $column );
         return " strftime( '{$type}', {$column} ) ";
     }
+
+    /**
+     * Returns the SQL to check if a value is one in a set of
+     * given values..
+     *
+     * in() accepts an arbitrary number of parameters. The first parameter
+     * must always specify the value that should be matched against. Successive
+     * parameters must contain a logical expression or an array with logical
+     * expressions.  These expressions will be matched against the first
+     * parameter.
+     *
+     * Example:
+     * <code>
+     * $q->select( '*' )->from( 'table' )
+     *                  ->where( $q->expr->in( 'id', 1, 2, 3 ) );
+     * </code>
+     *
+     * Optimization note: Call setQuotingValues( false ) before using in() with
+     * big lists of numeric parameters. This avoid redundant quoting of numbers
+     * in resulting SQL query and saves time of converting strings to
+     * numbers inside RDBMS.
+     *
+     * @throws ezcQueryVariableParameterException if called with less than two
+     *         parameters.
+     * @throws ezcQueryInvalidParameterException if the 2nd parameter is an
+     *         empty array.
+     * @param string $column the value that should be matched against
+     * @param string|array(string) $... values that will be matched against $column
+     * @return string logical expression
+     */
+    public function in( $column )
+    {
+        $args = func_get_args();
+        if ( count( $args ) < 2 )
+        {
+            throw new ezcQueryVariableParameterException( 'in', count( $args ), 2 );
+        }
+
+        if ( is_array( $args[1] ) && count( $args[1] ) == 0 )
+        {
+            throw new ezcQueryInvalidParameterException( 'in', 2, 'an empty array', 'a non-empty array' );
+        }
+
+        $values = ezcQuerySelect::arrayFlatten( array_slice( $args, 1 ) );
+
+        // Special handling of sub selects to avoid double braces
+        if ( count( $values ) === 1 && $values[0] instanceof ezcQuerySubSelect )
+        {
+            return "{$column} IN " . $values[0]->getQuery();
+        }
+        
+        parent::in( $column, $values );
+    }
 }
 ?>
