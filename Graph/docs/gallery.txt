@@ -1,0 +1,127 @@
+=============
+Graph gallery
+=============
+
+These are examples of images, which can be created using the graph component
+from the eZ Components.
+
+Pie charts
+==========
+
+.. figure:: gallery/pie_chart_2d.png
+   :target: gallery/pie_chart_2d.png
+   :alt:   2D pie chart using black palette
+
+   2D pie chart using black palette
+
+.. figure:: gallery/pie_chart_3d.png
+   :target: gallery/pie_chart_3d.png
+   :alt:   3D pie chart using red palette
+
+   3D pie chart using red palette
+
+.. figure:: gallery/pie_chart_background.png
+   :target: gallery/pie_chart_background.png
+   :alt:   Pie chart with custom background
+
+   Pie chart with custom background
+
+.. figure:: gallery/pie_chart_in_template.png
+   :target: gallery/pie_chart_in_template.png
+   :alt:   Pie chart in a SVG template
+
+   Pie chart in a SVG template
+
+Radar charts
+============
+
+.. figure:: gallery/radar_chart_trivial.png
+   :target: gallery/radar_chart_trivial.png
+   :alt:   Trivial radar chart example
+
+   Trivial radar chart example
+
+.. figure:: gallery/radar_chart_average.png
+   :target: gallery/radar_chart_average.png
+   :alt:   Radar chart with average line
+
+   Radar chart with average line
+
+Bar & line charts
+=================
+
+.. figure:: gallery/bar_chart_3d.png
+   :target: gallery/bar_chart_3d.png
+   :alt:   §D bar chart with different symbols
+
+   §D bar chart with different symbols
+
+.. figure:: gallery/bar_chart_stacked.png
+   :target: gallery/bar_chart_stacked.png
+   :alt:   2D stacked bar chart
+
+   2D stacked bar chart
+
+.. figure:: gallery/bar_chart_stacked_3d.png
+   :target: gallery/bar_chart_stacked_3d.png
+   :alt:   3D stacked bar chart
+
+   3D stacked bar chart
+
+.. figure:: gallery/line_chart_annotations.png
+   :target: gallery/line_chart_annotations.png
+   :alt:   Combined line / bar chart with annotations
+
+   Combined line / bar chart with annotations
+
+.. figure:: gallery/line_chart_average.png
+   :target: gallery/line_chart_average.png
+   :alt:   2D line chart with interpolated average line
+
+   2D line chart with interpolated average line
+
+.. figure:: gallery/line_chart_average_3d.png
+   :target: gallery/line_chart_average_3d.png
+   :alt:   3D line chart with interpolated average line
+
+   3D line chart with interpolated average line
+
+.. figure:: gallery/line_chart_black.png
+   :target: gallery/line_chart_black.png
+   :alt:   Combined line/bar chart with black palette
+
+   Combined line/bar chart with black palette
+
+.. figure:: gallery/line_chart_date_axis.png
+   :target: gallery/line_chart_date_axis.png
+   :alt:   Line chat on date time axis with dynamic step sizes
+
+   Line chat on date time axis with dynamic step sizes
+
+.. figure:: gallery/line_chart_phpuc.png
+   :target: gallery/line_chart_phpuc.png
+   :alt:   Highly reformatted line chart elements
+
+   Highly reformatted line chart elements
+
+.. figure:: gallery/line_chart_rotated_labels.png
+   :target: gallery/line_chart_rotated_labels.png
+   :alt:   Rotated labels on X axis
+
+   Rotated labels on X axis
+
+.. figure:: gallery/line_chart_mathematical.png
+   :target: gallery/line_chart_mathematical.png
+   :alt:   Sinus function with numeric axis
+
+   Sinus function with numeric axis
+
+Others
+======
+
+.. figure:: gallery/odometer_chart.png
+   :target: gallery/odometer_chart.png
+   :alt:   Odometer chart
+
+   Odometer chart
+
