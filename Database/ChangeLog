@@ -1,7 +1,8 @@
 1.4 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- No changes.
+- Fixed issue #13188: Sub select queries are no more quoted in SQLite IN
+  statements.
 
 
 1.4rc1 - Tuesday 10 June 2008
