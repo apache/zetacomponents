@@ -1841,6 +1841,85 @@ class ezcConsoleInputTest extends ezcTestCase
         );
     }
 
+    public function testGetHelpWithGrouping()
+    {
+        $res = array( 
+            array( 'Section 1', '' ),
+            array( 
+                '-t / --testing',
+                'No help available.',
+            ),
+            array( 
+                '--carry',
+                'No help available.',
+            ),
+            array( 
+                '-b / --build',
+                'No help available.',
+            ),
+            array( '', '' ),
+            array( 'Another section', '' ),
+            array( 
+                '-c / --console',
+                'Some stupid short text.',
+            ),
+            array( 
+                '-n / --new',
+                'No help available.',
+            ),
+            array( 
+                '-e / --edit',
+                'No help available.',
+            ),
+            array( '', '' ),
+            array( 'Third section', '' ),
+            array( 
+                '-s / --subway',
+                'No help available.',
+            ),
+            array( 
+                '-v / --visual',
+                'No help available.',
+            ),
+            array( 
+                '-o / --original',
+                'No help available.',
+            ),
+            array( 
+                '-d / --destroy',
+                'No help available.',
+            ),
+            array( '', '' ),
+            array( 'Last section', '' ),
+            array( 
+                '-y / --yank',
+                'Some stupid short text.',
+            ),
+        );
+        $this->assertEquals( 
+            $res,
+            $this->input->getHelp(
+                false,
+                array(),
+                array(
+                    'Section 1' => array(
+                        't', 'carry', 'build'
+                    ),
+                    'Another section' => array(
+                        'c', 'new', 'edit'
+                    ),
+                    'Third section' => array(
+                        'subway', 'v', 'o', 'd',
+                    ),
+                    'Last section' => array(
+                        'y',
+                    ),
+                )
+            ),
+            'Help array was not generated correctly.'
+        );
+    }
+
     public function testGetHelpNewArgs()
     {
         $res = array( 
@@ -2320,6 +2399,63 @@ class ezcConsoleInputTest extends ezcTestCase
                 
         $table = new ezcConsoleTable( $output, 80 );
         $table = $this->input->getHelpTable( $table, true, array( 't', 'subway', 'yank', 'e' ) );
+        $this->assertEquals(
+            $res,
+            $table,
+            'Help table not generated correctly.'
+        );
+    }
+    
+    public function testGetHelpTableGrouping()
+    {
+        $output = new ezcConsoleOutput();
+        
+        $res = new ezcConsoleTable( $output, 80 ); 
+        $res[0][0]->content = 'Section uno';
+        $res[0][1]->content = '';
+
+        $res[1][0]->content = '-t / --testing';
+        $res[1][1]->content = 'Sorry, there is no help text available for this parameter.';
+
+        $res[2][0]->content = '';
+        $res[2][1]->content = '';
+
+        $res[3][0]->content = 'Section 2';
+        $res[3][1]->content = '';
+
+        $res[4][0]->content = '-e / --edit';
+        $res[4][1]->content = 'Sorry, there is no help text available for this parameter.';
+                
+        $res[5][0]->content = '-s / --subway';
+        $res[5][1]->content = 'Sorry, there is no help text available for this parameter.';
+
+        $res[6][0]->content = '';
+        $res[6][1]->content = '';
+
+        $res[7][0]->content = 'Final section';
+        $res[7][1]->content = '';
+                
+        $res[8][0]->content = '-y / --yank';
+        $res[8][1]->content = 'Some even more stupid, but somewhat longer long describtion.';
+                
+                
+        $table = new ezcConsoleTable( $output, 80 );
+        $table = $this->input->getHelpTable(
+            $table,
+            true,
+            array( 't', 'subway', 'yank', 'e' ),
+            array(
+                'Section uno' => array(
+                    't'
+                ),
+                'Section 2' => array(
+                    'e', 'subway'
+                ),
+                'Final section' => array(
+                    'y',
+                ),
+            )
+        );
         $this->assertEquals(
             $res,
             $table,
