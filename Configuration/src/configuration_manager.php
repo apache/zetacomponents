@@ -229,6 +229,26 @@ class ezcConfigurationManager
     }
 
     /**
+     * Returns if the requested configuration file exists.
+     *
+     * Returns a boolean value indicating whether the configuration file exists
+     * or not.
+     *
+     * @throws ezcConfigurationManagerNotInitializedException
+     *         if the manager has not been initialized with the init() method.
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function hasConfigFile( $name )
+    {
+        $reader = $this->fetchReader( $name );
+        $config = $reader->getConfig();
+        
+        return $config instanceof ezcConfiguration;
+    }
+
+    /**
      * Returns the configuration object for the configuration named $name.
      *
      * @throws ezcConfigurationUnknownConfigException if the configuration

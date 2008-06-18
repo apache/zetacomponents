@@ -92,6 +92,18 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $this->assertEquals( false, $setting );
     }
 
+    public function testConfigFile()
+    {
+        $config = ezcConfigurationManager::getInstance();
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
+
+        $setting = $config->hasConfigFile( 'one-group' );
+        $this->assertEquals( true, $setting );
+
+        $setting = $config->hasConfigFile( 'not-existing' );
+        $this->assertEquals( false, $setting );
+    }
+
     public function testExists()
     {
         $config = ezcConfigurationManager::getInstance();
