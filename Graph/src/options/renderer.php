@@ -80,6 +80,9 @@
  *           Style of axis end markers. Defauls to arrow heads, but you may
  *           also use all symbol constants defined ein the ezcGraph class,
  *           especially ezcGraph::NO_SYMBOL.
+ * @property bool $shortAxis
+ *           Defines wheather to render the axis extending the chart boundings
+ *           or stop them at the chart boundings. Deafults to false.
  * 
  * @version //autogentag//
  * @package Graph
@@ -116,6 +119,7 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
         $this->properties['pieHorizontalSize'] = .25;
         $this->properties['syncAxisFonts'] = true;
         $this->properties['axisEndStyle'] = ezcGraph::ARROW;
+        $this->properties['shortAxis'] = false;
 
         parent::__construct( $options );
     }
@@ -185,6 +189,7 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
 
             case 'showSymbol':
             case 'syncAxisFonts':
+            case 'shortAxis':
                 if ( !is_bool( $propertyValue ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );

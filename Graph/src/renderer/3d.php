@@ -2062,11 +2062,42 @@ class ezcGraphRenderer3d
         $end->x += $boundings->x0;
         $end->y += $boundings->y0;
 
+        // Shorten drawn axis, if requested.
+        if ( ( $this->options->shortAxis === true ) &&
+             ( ( $axis->position === ezcGraph::TOP ) ||
+               ( $axis->position === ezcGraph::BOTTOM ) ) )
+        {
+            $axisStart = clone $start;
+            $axisEnd   = clone $end;
+
+            $axisStart->y += $boundings->height * $axis->axisSpace *
+                ( $axis->position === ezcGraph::TOP ? 1 : -1 );
+            $axisEnd->y   -= $boundings->height * $axis->axisSpace *
+                ( $axis->position === ezcGraph::TOP ? 1 : -1 );
+        }
+        elseif ( ( $this->options->shortAxis === true ) &&
+             ( ( $axis->position === ezcGraph::LEFT ) ||
+               ( $axis->position === ezcGraph::RIGHT ) ) )
+        {
+            $axisStart = clone $start;
+            $axisEnd   = clone $end;
+
+            $axisStart->x += $boundings->width * $axis->axisSpace *
+                ( $axis->position === ezcGraph::LEFT ? 1 : -1 );
+            $axisEnd->x   -= $boundings->width * $axis->axisSpace *
+                ( $axis->position === ezcGraph::LEFT ? 1 : -1 );
+        }
+        else
+        {
+            $axisStart = $start;
+            $axisEnd   = $end;
+        }
+
         $axisPolygonCoordinates = array(
-            $this->get3dCoordinate( $start, true ),
-            $this->get3dCoordinate( $end, true ),
-            $this->get3dCoordinate( $end, false ),
-            $this->get3dCoordinate( $start, false ),
+            $this->get3dCoordinate( $axisStart, true ),
+            $this->get3dCoordinate( $axisEnd, true ),
+            $this->get3dCoordinate( $axisEnd, false ),
+            $this->get3dCoordinate( $axisStart, false ),
         );
 
         // Draw axis

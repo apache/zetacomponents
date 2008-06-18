@@ -1304,6 +1304,37 @@ class ezcGraphRenderer2d
         $end->x += $boundings->x0;
         $end->y += $boundings->y0;
 
+        // Shorten drawn axis, if requested.
+        if ( ( $this->options->shortAxis === true ) &&
+             ( ( $axis->position === ezcGraph::TOP ) ||
+               ( $axis->position === ezcGraph::BOTTOM ) ) )
+        {
+            $axisStart = clone $start;
+            $axisEnd   = clone $end;
+
+            $axisStart->y += $boundings->height * $axis->axisSpace *
+                ( $axis->position === ezcGraph::TOP ? 1 : -1 );
+            $axisEnd->y   -= $boundings->height * $axis->axisSpace *
+                ( $axis->position === ezcGraph::TOP ? 1 : -1 );
+        }
+        elseif ( ( $this->options->shortAxis === true ) &&
+             ( ( $axis->position === ezcGraph::LEFT ) ||
+               ( $axis->position === ezcGraph::RIGHT ) ) )
+        {
+            $axisStart = clone $start;
+            $axisEnd   = clone $end;
+
+            $axisStart->x += $boundings->width * $axis->axisSpace *
+                ( $axis->position === ezcGraph::LEFT ? 1 : -1 );
+            $axisEnd->x   -= $boundings->width * $axis->axisSpace *
+                ( $axis->position === ezcGraph::LEFT ? 1 : -1 );
+        }
+        else
+        {
+            $axisStart = $start;
+            $axisEnd   = $end;
+        }
+
         // Determine normalized direction
         $direction = new ezcGraphVector(
             $start->x - $end->x,
@@ -1313,15 +1344,15 @@ class ezcGraphRenderer2d
 
         // Draw axis
         $this->driver->drawLine(
-            $start,
-            $end,
+            $axisStart,
+            $axisEnd,
             $axis->border,
             1
         );
 
         // Draw small arrowhead
         $this->drawAxisArrowHead(
-            $end,
+            $axisEnd,
             $direction,
             max(
                 $axis->minArrowHeadSize,
