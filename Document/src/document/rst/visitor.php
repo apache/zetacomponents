@@ -45,6 +45,13 @@ abstract class ezcDocumentRstVisitor
     protected $references = array();
 
     /**
+     * Counter of duplicate references for duplicate references.
+     *
+     * @array
+     */
+    protected $referenceCounter = array();
+
+    /**
      * Collected named external reference targets
      * 
      * @var array
@@ -153,6 +160,9 @@ abstract class ezcDocumentRstVisitor
         {
             $this->footnoteCounter[$label] = 0;
         }
+
+        // Reset duplicate reference counter
+        $this->referenceCounter = array();
     }
 
     /**
@@ -165,6 +175,16 @@ abstract class ezcDocumentRstVisitor
     {
         $id = $this->calculateId( $string );
         $this->references[$id] = isset( $this->references[$id] ) ? self::DUBLICATE : self::UNUSED;
+
+        if ( $this->references[$id] === self::UNUSED )
+        {
+            $this->referenceCounter[$id] = 0;
+            return $id;
+        }
+        else
+        {
+            return $id . '__' . ( ++$this->referenceCounter[$id] );
+        }
     }
 
     /**
@@ -363,7 +383,7 @@ abstract class ezcDocumentRstVisitor
         switch ( true )
         {
             case $node instanceof ezcDocumentRstSectionNode:
-                $this->addReferenceTarget( $this->nodeToString( $node->title ) );
+                $node->reference = $this->addReferenceTarget( $this->nodeToString( $node->title ) );
                 $this->aggregateListItems( $node );
                 break;
 
@@ -457,10 +477,15 @@ abstract class ezcDocumentRstVisitor
      * sets it to used, and false otherwise. For duplicate reference targets
      * and missing reference targets an error will be triggered.
      *
+     * An optional second parameter may enforce the fetching of the reference,
+     * even if there are duplicates, so that they still can be referenced in
+     * some way.
+     *
      * @param string $string
+     * @param bool $force
      * @return string
      */
-    public function hasReferenceTarget( $string )
+    public function hasReferenceTarget( $string, $force = false )
     {
         // Check if the target name is a footnote reference
         if ( is_numeric( $string ) )
@@ -506,6 +531,19 @@ abstract class ezcDocumentRstVisitor
             return $this->triggerError(
                 E_WARNING, "Missing reference target '{$id}'.", null
             );
+        }
+        elseif ( $force === true )
+        {
+            // Check if the reference target has been force-requested.
+            if ( !isset( $this->referenceCounter[$id] ) )
+            {
+                $this->referenceCounter[$id] = 0;
+                return $id;
+            }
+            else
+            {
+                return $id . '__' . ( ++$this->referenceCounter[$id] );
+            }
         }
         else
         {

@@ -33,6 +33,13 @@ class ezcDocumentRstSectionNode extends ezcDocumentRstNode
     public $depth;
 
     /**
+     * Title reference name
+     * 
+     * @var string
+     */
+    public $reference;
+
+    /**
      * Construct RST document node
      * 
      * @param ezcDocumentRstToken $token 

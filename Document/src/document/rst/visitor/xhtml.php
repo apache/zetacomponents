@@ -246,7 +246,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         }
 
         $reference = $this->document->createElement( 'a' );
-        $reference->setAttribute( 'name', $this->calculateId( $this->nodeToString( $node->title ) ) );
+        $reference->setAttribute( 'name', htmlspecialchars( $node->reference ) );
         $header->appendChild( $reference );
 
         foreach ( $node->title->nodes as $child )

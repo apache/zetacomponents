@@ -72,7 +72,9 @@ class ezcDocumentRstContentsDirective extends ezcDocumentRstDirective implements
                 $link = new DOMElement( 'a', htmlspecialchars( $title = $this->visitor->nodeToString( $child->title ) ) );
                 $item->appendChild( $link );
 
-                $target = $this->visitor->hasReferenceTarget( $title );
+                // Force getting the reference target, as we don't care for
+                // duplicate titles in the TOC.
+                $target = $this->visitor->hasReferenceTarget( $title, true );
                 $link->setAttribute( 'href', '#' . htmlspecialchars( $this->visitor->escapeUrl( $target ) ) );
 
                 $this->generateTocList( $child, $item, $depth - 1 );
