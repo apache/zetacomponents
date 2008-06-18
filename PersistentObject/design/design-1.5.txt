@@ -70,7 +70,7 @@ means, the following operations are affected in the described way:
   stored into another instance. In case the correct instance is given to the
   method, no changes are necessary. If a different object is given to load data
   into, 2 cases can occur:
-  
+
   a) the object already has (stored) data. In this case an error must be
      indicated, since most probably there is no way to replace all of its
      instances with a clone in the cache mappings.
@@ -93,7 +93,7 @@ means, the following operations are affected in the described way:
   element by element. Already loaded elements must be replaced with their
   cached version, newly loaded objects must be cached.
 
-- findIterator() 
+- findIterator()
 
   The iterator class, which is responsible for the retrieval of the data, must
   take care to realize the same behavior as find() does, here.
@@ -111,7 +111,7 @@ means, the following operations are affected in the described way:
   Same as getRelatedObjects().
 
 - save()
-  
+
   Whenever a new object is saved, it should be stored in the cache for later
   retrieval.
 
@@ -142,11 +142,11 @@ means, the following operations are affected in the described way:
   This would lead to heavy inconsistencies.
 
 - create*Query()
-  
+
   Corresponding to \*FromQuery() method, these methods cannot be supported,
   since the \*FromQuery() methods would be needed here, too. An exception is
   the createRelationFindQuery() and createFindQuery() method.
-  
+
 
 Design
 ======
@@ -180,7 +180,7 @@ ezcPersistentIdentityMapSession to allow direct manipulation of the identity
 map:
 
 - resetIdentityMap()
-  
+
   This method cleans out the whole identity map completely. This might be
   dangerous since already loaded objects are not recorded anymore and therefore
   duplicates might occur again.
@@ -245,7 +245,7 @@ The following 3 areas of identity mapping will be handled:
                 <id_value> => <object>,
                 <id_value> => <object>,
                 <id_value> => <object>,
-                // ... 
+                // ...
             ),
             // ...
         )
@@ -334,7 +334,7 @@ The following methods will be provided by the map:
   already been recorded. These are then replaced.
 
 - addRelatedObject( object $sourceObject, object $relatedObject )
-  
+
   Appends a related object to an existing recorded relation. Used in
   ezcPersistentIdentitySession->addRelatedObject().
 
@@ -525,25 +525,94 @@ Open questions
 Fetching related objects through joins
 --------------------------------------
 
-Currently ezcPersistentSession allows fetching of related objects only when
-they are requested, which can result in a lot of SELECT queries, when you need
-to fetch related objects for multiple objects or relation chains of a certain
-depth. This feature should give the possibility to pre-fetch related objects.
+Relation management with Persistent Objects is very convenient and powerful.
+However, it suffers from one of the common consequences of such methods: the
+amount of SQL queries you end up executing.
 
-Requirements
-============
+Since using relations is easy, you will easily end up running dozens or hundreds
+of SQL queries, especially when using the templates component:
 
-To be added.
+{{{
+	{$event->location->name}
+}}}
+
+very convenient, but this will run at least one extra query here; if you do this
+when listing, let's say events, you will execute one extra query for each event
+you display the location for. If you also display the event's responsible name,
+it's another query. If you show 10 events, you execute 21 queries, and this is
+not acceptable.
+
+Since ezcPersistentObject allows us to define relations between persistent classes,
+we have everything we need to fetch all the objects in one operation.
+The API would look like this:
+
+{{{
+	$query = $pSession->createRelationFindQuery( 'Event', array( 'Location', 'Responsible' ) );
+}}}
+
+This will generate a query that selects data for event, location and responsible objects,
+and generate the JOIN calls in the SQL query.
+
+This query can next be sent to the equivalent of ezcPersistentSession::find:
+
+{{{
+	$results = $pSession->findWithRelations( $query, 'Person', array( 'Location', 'Reponsible' ) );
+}}}
+
+This call will return what ezcPersistentSession::find() would have returned: the
+array of Location objects that matches the query.
+The only difference is that ezcPersistenSession:findWithRelations will have
+fetched Location and Reponsible objects related to each Person object, and stored
+them in memory.
+
+When these objects are requested from PHP / template code, they will be loaded
+from memory, and not requested from the database.
+
+With this feature, 21 queries are replaced with one.
 
 Design
 ======
 
-To be added.
+These methods should be added to ezcPersistentIdentitySession or whatever
+it's called.
 
-
+Three new methods are required right now
+
+createRelationPrefetchFindQuery( string $class, array $relatedClasses )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+$class is the basic class we want to fetch data for
+$relatedClasses is the array listing the relations to $class we want prefetched
+
+The method will return an ezcQuerySelect object that can be further customized
+using any ezcQuery method (where, order, etc)
+
+Recursion support can also be added here:
+{{{
+    createRelationPrefetchFindQuery( Event, array( 'Person', 'Location' => array( 'Country' ) ) );
+}}}
+Nothing very complex, except that createRelationPrefetchFindQuery has to be
+refactored to handle that structure:
+    - adding SELECTs can use a "flat" structure
+    - adding JOINs need to be called recursively: the 'Location' class here is
+    the one with a relation to 'Country'
+
+getAliasedColumnsFromDefinition( ezcPersistentObjectDefinition $def )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This internal methods is used to create the list of SELECTed fields. It will,
+for a given PO definition, return an array where each key is the field string
+(`table`.`field`), and each value is the matching alias, as table_field
+
+findWithRelations( $query, $class, $relatedClasses )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This method, that expects the query object generated with createRelationFindQuery,
+will return the array of $class objects, and will also instanciate the related
+objects of all classes from the $relatedClasses array.
+
+
+
 ..
    Local Variables:
    mode: rst
    fill-column: 79
-   End: 
+   End:
    vim: et syn=rst tw=79
