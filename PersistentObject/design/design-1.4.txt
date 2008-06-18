@@ -1,10 +1,10 @@
 eZ component: PersistentObject, Design, 1.4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:Author: Frederik Holljen
-         Tobias Schlitt
-:Revision: $Rev: 3576 $
-:Date: $Date: 2006-09-25 13:44:15 +0400 (Mon, 25 Sep 2006) $
-:Status: Draft
+:Author:    Frederik Holljen
+            Tobias Schlitt
+:Revision:  $Rev: 3576 $
+:Date:      $Date: 2006-09-25 13:44:15 +0400 (Mon, 25 Sep 2006) $
+:Status:    Final
 
 .. contents::
 
