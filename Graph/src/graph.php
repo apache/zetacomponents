@@ -31,6 +31,11 @@ class ezcGraph
      * Non filled circle
      */
     const CIRCLE = 3;
+    /**
+     * Arrow head symbol, used for axis end markers, not available as a dataset
+     * symbol.
+     */
+    const ARROW = 4;
 
     /**
      * Constant used for background repetition. No repeat.

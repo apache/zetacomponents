@@ -76,6 +76,10 @@
  * @property bool $syncAxisFonts
  *           Synchronize fonts of axis. With the defaut true value, the only
  *           the fonts of the yAxis will be used.
+ * @property bool $axisEndStyle
+ *           Style of axis end markers. Defauls to arrow heads, but you may
+ *           also use all symbol constants defined ein the ezcGraph class,
+ *           especially ezcGraph::NO_SYMBOL.
  * 
  * @version //autogentag//
  * @package Graph
@@ -111,6 +115,7 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
         $this->properties['pieVerticalSize'] = .5;
         $this->properties['pieHorizontalSize'] = .25;
         $this->properties['syncAxisFonts'] = true;
+        $this->properties['axisEndStyle'] = ezcGraph::ARROW;
 
         parent::__construct( $options );
     }
@@ -168,6 +173,7 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
             case 'titlePosition':
             case 'titleAlignement':
             case 'pieChartGleamBorder':
+            case 'axisEndStyle':
                 if ( !is_numeric( $propertyValue ) ||
                      ( $propertyValue < 0 ) )
                 {

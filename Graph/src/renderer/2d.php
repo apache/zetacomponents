@@ -1320,42 +1320,17 @@ class ezcGraphRenderer2d
         );
 
         // Draw small arrowhead
-        $size = max(
-            $axis->minArrowHeadSize,
-            min(
-                $axis->maxArrowHeadSize,
-                abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $axis->axisSpace / 4 ) )
-            )
-        );
-
-        $orthogonalDirection = clone $direction;
-        $orthogonalDirection->rotateClockwise();
-
-        $this->driver->drawPolygon(
-            array(
-                new ezcGraphCoordinate(
-                    $end->x,
-                    $end->y
-                ),
-                new ezcGraphCoordinate(
-                    $end->x
-                        - $orthogonalDirection->x * $size / 2
-                        + $direction->x * $size,
-                    $end->y
-                        - $orthogonalDirection->y * $size / 2
-                        + $direction->y * $size
-                ),
-                new ezcGraphCoordinate(
-                    $end->x
-                        + $orthogonalDirection->x * $size / 2
-                        + $direction->x * $size,
-                    $end->y
-                        + $orthogonalDirection->y * $size / 2
-                        + $direction->y * $size
-                ),
+        $this->drawAxisArrowHead(
+            $end,
+            $direction,
+            max(
+                $axis->minArrowHeadSize,
+                min(
+                    $axis->maxArrowHeadSize,
+                    abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $axis->axisSpace / 4 ) )
+                )
             ),
-            $axis->border,
-            true
+            $axis->border
         );
 
         // Draw axis label

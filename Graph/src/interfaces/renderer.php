@@ -322,6 +322,84 @@ abstract class ezcGraphRenderer
     );
 
     /**
+     * Draw axis arrow head
+     * 
+     * Draw an arrow head at the specified position using specified size
+     * and direction of the error head. Repsects the axisEndStyle option in
+     * the base renderer options class.
+     *
+     * @param ezcGraphCoordinate $position 
+     * @param ezcGraphVector $direction 
+     * @param float $size 
+     * @param ezcGraphColor $color 
+     * @return void
+     */
+    protected function drawAxisArrowHead( ezcGraphCoordinate $position, ezcGraphVector $direction, $size, ezcGraphColor $color )
+    {
+        $orthogonalDirection = clone $direction;
+        $orthogonalDirection->rotateClockwise();
+
+        if ( $this->options->axisEndStyle === ezcGraph::ARROW )
+        {
+            $this->driver->drawPolygon(
+                array(
+                    new ezcGraphCoordinate(
+                        $position->x,
+                        $position->y
+                    ),
+                    new ezcGraphCoordinate(
+                        $position->x
+                            - $orthogonalDirection->x * $size / 2
+                            + $direction->x * $size,
+                        $position->y
+                            - $orthogonalDirection->y * $size / 2
+                            + $direction->y * $size
+                    ),
+                    new ezcGraphCoordinate(
+                        $position->x
+                            + $orthogonalDirection->x * $size / 2
+                            + $direction->x * $size,
+                        $position->y
+                            + $orthogonalDirection->y * $size / 2
+                            + $direction->y * $size
+                    ),
+                ),
+                $color,
+                true
+            );
+        }
+        elseif ( $this->options->axisEndStyle !== ezcGraph::NO_SYMBOL )
+        {
+            $topLeft = new ezcGraphCoordinate(
+                $position->x
+                    + $orthogonalDirection->x * $size / 2
+                    + $direction->x * $size,
+                $position->y
+                    + $orthogonalDirection->y * $size / 2
+                    + $direction->y * $size
+            );
+
+            $bottomRight = new ezcGraphCoordinate(
+                $position->x
+                    - $orthogonalDirection->x * $size / 2,
+                $position->y
+                    - $orthogonalDirection->y * $size / 2
+            );
+
+            $this->drawSymbol(
+                $boundings = new ezcGraphBoundings(
+                    min( $topLeft->x, $bottomRight->x ),
+                    min( $topLeft->y, $bottomRight->y ),
+                    max( $topLeft->x, $bottomRight->x ),
+                    max( $topLeft->y, $bottomRight->y )
+                ),
+                $color,
+                $this->options->axisEndStyle
+            );
+        }
+    }
+
+    /**
      * Draw background image
      *
      * Draws a background image at the defined position. If repeat is set the

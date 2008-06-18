@@ -1323,6 +1323,50 @@ class ezcGraphRenderer3dTest extends ezcGraphTestCase
         );
     }
 
+    public function testNoArrowHead()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        
+        $graph = new ezcGraphLineChart();
+        $graph->palette = new ezcGraphPaletteBlack();
+        $graph->legend->position = ezcGraph::BOTTOM;
+
+        $graph->data['sample'] = new ezcGraphArrayDataSet(
+            array( 1, 4, 6, 8, 2 )
+        );
+
+        $graph->renderer = new ezcGraphRenderer3d();
+        $graph->renderer->options->axisEndStyle = ezcGraph::NO_SYMBOL;
+        $graph->render( 560, 250, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testCircleArrowHead()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        
+        $graph = new ezcGraphLineChart();
+        $graph->palette = new ezcGraphPaletteBlack();
+        $graph->legend->position = ezcGraph::BOTTOM;
+
+        $graph->data['sample'] = new ezcGraphArrayDataSet(
+            array( 1, 4, 6, 8, 2 )
+        );
+
+        $graph->renderer = new ezcGraphRenderer3d();
+        $graph->renderer->options->axisEndStyle = ezcGraph::CIRCLE;
+        $graph->render( 560, 250, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRenderer3dOptionsPropertySeperateLines()
     {
         $options = new ezcGraphRenderer3dOptions();

@@ -2133,6 +2133,50 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         );
     }
 
+    public function testNoArrowHead()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        
+        $graph = new ezcGraphLineChart();
+        $graph->palette = new ezcGraphPaletteBlack();
+        $graph->legend->position = ezcGraph::BOTTOM;
+
+        $graph->data['sample'] = new ezcGraphArrayDataSet(
+            array( 1, 4, 6, 8, 2 )
+        );
+
+        $graph->renderer->options->axisEndStyle = ezcGraph::NO_SYMBOL;
+
+        $graph->render( 560, 250, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testCircleArrowHead()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        
+        $graph = new ezcGraphLineChart();
+        $graph->palette = new ezcGraphPaletteBlack();
+        $graph->legend->position = ezcGraph::BOTTOM;
+
+        $graph->data['sample'] = new ezcGraphArrayDataSet(
+            array( 1, 4, 6, 8, 2 )
+        );
+
+        $graph->renderer->options->axisEndStyle = ezcGraph::CIRCLE;
+
+        $graph->render( 560, 250, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRendererOptionsPropertyMaxLabelHeight()
     {
         $options = new ezcGraphRendererOptions();
@@ -2820,6 +2864,32 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         }
 
         $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testRendererOptionsPropertyAxisEndStyle()
+    {
+        $options = new ezcGraphRenderer2dOptions();
+
+        $this->assertEquals(
+            ezcGraph::ARROW,
+            $options->axisEndStyle,
+            'Wrong default value for property axisEndStyle in class ezcGraphRenderer2dOptions'
+        );
+
+        $options->axisEndStyle = ezcGraph::NO_SYMBOL;
+        $this->assertSame(
+            ezcGraph::NO_SYMBOL,
+            $options->axisEndStyle,
+            'Setting property value did not work for property axisEndStyle in class ezcGraphRenderer2dOptions'
+        );
+
+        try
+        {
+            $options->axisEndStyle = false;
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expected */ }
     }
 
     public function testChartOptionsPropertyWidth()
