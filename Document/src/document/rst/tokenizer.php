@@ -175,7 +175,7 @@ class ezcDocumentRstTokenizer
                     $tokens[] = $newToken;
 
                     // Update position, not before converting tabs to spaces.
-                    $position += strlen( $newToken->content );
+                    $position += ( $token === ezcDocumentRstToken::NEWLINE ) ? 1 : strlen( $newToken->content );
 
                     // Restart the while loop, because we matched a token and
                     // can retry with shortened string.
