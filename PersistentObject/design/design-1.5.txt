@@ -161,8 +161,8 @@ be declared private and throw an exception is used externally.
 
 The class design will work as follows:
 
-ezcPersistenIdentityMapSession
-------------------------------
+ezcPersistenIdentitySession
+---------------------------
 
 This main class will be used exactly like its parent ezcPersistentSession and
 realizes the desired functionality completely transparent to the user. This
@@ -203,6 +203,26 @@ The rest of the methods either stays as it is or is slightly enhanced by an
 optional parameter. The real enhancements will be implemented in the
 ezcPersistentIdenityMap, which is utilized by extended session handlers as
 described further below.
+
+ezcPersistentIdenitySessionOptions
+----------------------------------
+
+The new ezcPersistentIdentitySession can be configured to switch on and off
+certain features. The options are:
+
+$relationCache = true;
+  Switching this to false makes all relation query be executed and no result
+  sets for relations be cached.
+$refetchRelations = false;
+  Setting this to true overwrites the $refetch parameter for
+  getRelatedObjects() globally, so that relation queries are always executed
+  but the results are still put into the cache.
+$queryCache = false;
+  Switching this on will enable the query cache for find queries and relatio
+  queries.
+$refetchQueries = false;
+  If this option is enabled, queries are still cached, but are executed
+  everytime to refetch the cache.
 
 ezcPersistentIdentityMap
 ------------------------
@@ -496,6 +516,29 @@ Open questions
   method try to load again if no object has been loaded successfully, yet?
 - The updates to perform in the delete() method can become quite time consuming
   if all caching facilities are switched on.
+- A nice idea would be to enable the replacement of ezcPersistentIdentityMap
+  with a custom implementation. For example it could make sense to offer a
+  PersistentObjectCacheTiein to have the identity map cache objects to disc
+  (request by BD).
+
+--------------------------------------
+Fetching related objects through joins
+--------------------------------------
+
+Currently ezcPersistentSession allows fetching of related objects only when
+they are requested, which can result in a lot of SELECT queries, when you need
+to fetch related objects for multiple objects or relation chains of a certain
+depth. This feature should give the possibility to pre-fetch related objects.
+
+Requirements
+============
+
+To be added.
+
+Design
+======
+
+To be added.
 
 
 ..
