@@ -9,17 +9,23 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . '/test_case.php';
+
 /**
  * Tests for ezcGraph class.
  * 
  * @package Graph
  * @subpackage Tests
  */
-class ezcGraphAxisExactRendererTest extends ezcTestCase
+class ezcGraphAxisExactRendererTest extends ezcGraphTestCase
 {
+    protected $basePath;
+
     protected $renderer;
 
     protected $driver;
+
+    protected $tempDir;
 
 	public static function suite()
 	{
@@ -28,9 +34,22 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
 
     protected function setUp()
     {
+        static $i = 0;
+
         if ( version_compare( phpversion(), '5.1.3', '<' ) )
         {
             $this->markTestSkipped( "This test requires PHP 5.1.3 or later." );
+        }
+
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
+        $this->basePath = dirname( __FILE__ ) . '/data/';
+    }
+
+    protected function tearDown()
+    {
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
         }
     }
 
@@ -874,5 +893,85 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
 
         $this->fail( 'Expected ezcBaseValueException.' );
     }
+
+    public function testAxisExactLabelRendererPropertyRenderLastOutside()
+    {
+        $options = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            false,
+            $options->renderLastOutside,
+            'Wrong default value for property renderLastOutside in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $options->renderLastOutside = true;
+        $this->assertSame(
+            true,
+            $options->renderLastOutside,
+            'Setting property value did not work for property renderLastOutside in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $options->renderLastOutside = 42;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testOutsideLabelsBottomLeft()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        
+        $graph = new ezcGraphLineChart();
+        $graph->legend = false;
+
+        $graph->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $graph->xAxis->axisLabelRenderer->renderLastOutside = true;
+        $graph->yAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $graph->yAxis->axisLabelRenderer->renderLastOutside = true;
+
+        $graph->data['sample'] = new ezcGraphArrayDataSet(
+            array( 1, 4, 6, 8, 2 )
+        );
+
+        $graph->render( 560, 250, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testOutsideLabelsTopRight()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        
+        $graph = new ezcGraphLineChart();
+        $graph->legend = false;
+
+        $graph->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $graph->xAxis->axisLabelRenderer->renderLastOutside = true;
+        $graph->xAxis->position = ezcGraph::RIGHT;
+        $graph->yAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $graph->yAxis->axisLabelRenderer->renderLastOutside = true;
+        $graph->yAxis->position = ezcGraph::TOP;
+
+        $graph->data['sample'] = new ezcGraphArrayDataSet(
+            array( 1, 4, 6, 8, 2 )
+        );
+
+        $graph->render( 560, 250, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
+
 ?>

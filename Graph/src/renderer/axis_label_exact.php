@@ -18,6 +18,10 @@
  *           Show the last value on the axis, which will be aligned different 
  *           than all other values, to not interfere with the arrow head of 
  *           the axis.
+ * @property bool $renderLastOutside
+ *           Render the last label outside of the normal axis label boundings
+ *           next to the chart boundings. This may interfere with axis labels
+ *           or cause small font size with a low axisSpace.
  *
  * @version //autogentag//
  * @package Graph
@@ -35,7 +39,8 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['showLastValue'] = true;
+        $this->properties['showLastValue']     =  true;
+        $this->properties['renderLastOutside'] =  false;
 
         parent::__construct( $options );
     }
@@ -57,12 +62,13 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
         switch ( $propertyName )
         {
             case 'showLastValue':
+            case 'renderLastOutside':
                 if ( !is_bool( $propertyValue ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
                 }
 
-                $this->properties['showLastValue'] = (bool) $propertyValue;
+                $this->properties[$propertyName] = (bool) $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
@@ -164,6 +170,12 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                             $steps[$nr - $step->isLast]->width /
                             ( $this->showLastValue + 1 );
                         $labelHeight = $renderer->yAxisSpace;
+
+                        if ( ( $this->renderLastOutside === true ) &&
+                             ( $step->isLast === true ) )
+                        {
+                            $labelWidth = ( $boundings->width - $axisBoundings->width ) / 2;
+                        }
                         break;
 
                     case ezcGraph::BOTTOM:
@@ -172,6 +184,12 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                         $labelHeight = $axisBoundings->height * 
                             $steps[$nr - $step->isLast]->width /
                             ( $this->showLastValue + 1 );
+
+                        if ( ( $this->renderLastOutside === true ) &&
+                             ( $step->isLast === true ) )
+                        {
+                            $labelHeight = ( $boundings->height - $axisBoundings->height ) / 2;
+                        }
                         break;
                 }
 
@@ -185,8 +203,12 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                     // Draw label at top left of step
                     case ( ( $axis->position === ezcGraph::BOTTOM ) &&
                            ( !$step->isLast ) ) ||
+                         ( ( $axis->position === ezcGraph::BOTTOM ) &&
+                           ( $step->isLast ) &&
+                           ( $this->renderLastOutside ) ) ||
                          ( ( $axis->position === ezcGraph::TOP ) &&
-                           ( $step->isLast ) ):
+                           ( $step->isLast ) &&
+                           ( !$this->renderLastOutside ) ):
                         $labelBoundings = new ezcGraphBoundings(
                             $position->x - $labelWidth + $this->labelPadding,
                             $position->y - $labelHeight + $this->labelPadding,
@@ -198,8 +220,12 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                     // Draw label at bottom right of step
                     case ( ( $axis->position === ezcGraph::LEFT ) &&
                            ( !$step->isLast ) ) ||
+                         ( ( $axis->position === ezcGraph::LEFT ) &&
+                           ( $step->isLast ) &&
+                           ( $this->renderLastOutside ) ) ||
                          ( ( $axis->position === ezcGraph::RIGHT ) &&
-                           ( $step->isLast ) ):
+                           ( $step->isLast ) &&
+                           ( !$this->renderLastOutside ) ):
                         $labelBoundings = new ezcGraphBoundings(
                             $position->x + $this->labelPadding,
                             $position->y + $this->labelPadding,
@@ -211,12 +237,20 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                     // Draw label at bottom left of step
                     case ( ( $axis->position === ezcGraph::TOP ) &&
                            ( !$step->isLast ) ) ||
+                         ( ( $axis->position === ezcGraph::TOP ) &&
+                           ( $step->isLast ) &&
+                           ( $this->renderLastOutside ) ) ||
                          ( ( $axis->position === ezcGraph::RIGHT ) &&
                            ( !$step->isLast ) ) ||
+                         ( ( $axis->position === ezcGraph::RIGHT ) &&
+                           ( $step->isLast ) &&
+                           ( $this->renderLastOutside ) ) ||
                          ( ( $axis->position === ezcGraph::BOTTOM ) &&
-                           ( $step->isLast ) ) ||
+                           ( $step->isLast ) &&
+                           ( !$this->renderLastOutside ) ) ||
                          ( ( $axis->position === ezcGraph::LEFT ) &&
-                           ( $step->isLast ) ):
+                           ( $step->isLast ) &&
+                           ( !$this->renderLastOutside ) ):
                         $labelBoundings = new ezcGraphBoundings(
                             $position->x - $labelWidth + $this->labelPadding,
                             $position->y + $this->labelPadding,

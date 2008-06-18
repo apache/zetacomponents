@@ -3,6 +3,8 @@
 
 - Implemented feature #13103: Different axes end styles.
 - Implemented feature #13102: Axes not extending beyond zero in line charts
+- Implemented feature #11981: Provide option for exact axis label renderer to
+  put last value outside of the normal label boundings
 
 
 1.3 - Monday 16 June 2008
