@@ -530,11 +530,9 @@ However, it suffers from one of the common consequences of such methods: the
 amount of SQL queries you end up executing.
 
 Since using relations is easy, you will easily end up running dozens or hundreds
-of SQL queries, especially when using the templates component:
+of SQL queries, especially when using the templates component::
 
-{{{
 	{$event->location->name}
-}}}
 
 very convenient, but this will run at least one extra query here; if you do this
 when listing, let's say events, you will execute one extra query for each event
@@ -544,20 +542,23 @@ not acceptable.
 
 Since ezcPersistentObject allows us to define relations between persistent classes,
 we have everything we need to fetch all the objects in one operation.
-The API would look like this:
+The API would look like this::
 
-{{{
-	$query = $pSession->createRelationFindQuery( 'Event', array( 'Location', 'Responsible' ) );
-}}}
+	$query = $pSession->createRelationFindQuery(
+        'Event',
+        array( 'Location', 'Responsible' )
+    );
 
 This will generate a query that selects data for event, location and responsible objects,
 and generate the JOIN calls in the SQL query.
 
-This query can next be sent to the equivalent of ezcPersistentSession::find:
+This query can next be sent to the equivalent of ezcPersistentSession::find::
 
-{{{
-	$results = $pSession->findWithRelations( $query, 'Person', array( 'Location', 'Reponsible' ) );
-}}}
+	$results = $pSession->findWithRelations(
+        $query,
+        'Person',
+        array( 'Location', 'Reponsible' )
+    );
 
 This call will return what ezcPersistentSession::find() would have returned: the
 array of Location objects that matches the query.
@@ -586,10 +587,18 @@ $relatedClasses is the array listing the relations to $class we want prefetched
 The method will return an ezcQuerySelect object that can be further customized
 using any ezcQuery method (where, order, etc)
 
-Recursion support can also be added here:
-{{{
-    createRelationPrefetchFindQuery( Event, array( 'Person', 'Location' => array( 'Country' ) ) );
-}}}
+Recursion support can also be added here::
+    
+    createRelationPrefetchFindQuery(
+        'Event',
+        array(
+            'Person',
+            'Location' => array(
+                'Country'
+            )
+        )
+    );
+
 Nothing very complex, except that createRelationPrefetchFindQuery has to be
 refactored to handle that structure:
     - adding SELECTs can use a "flat" structure
@@ -607,8 +616,6 @@ findWithRelations( $query, $class, $relatedClasses )
 This method, that expects the query object generated with createRelationFindQuery,
 will return the array of $class objects, and will also instanciate the related
 objects of all classes from the $relatedClasses array.
-
-
 
 ..
    Local Variables:
