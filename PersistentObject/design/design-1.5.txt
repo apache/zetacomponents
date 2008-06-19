@@ -617,6 +617,15 @@ This method, that expects the query object generated with createRelationFindQuer
 will return the array of $class objects, and will also instanciate the related
 objects of all classes from the $relatedClasses array.
 
+Open issues
+===========
+
+- Basically, this should be integrated with the ezcPersistentIdentitySession,
+  because the related objects can then simply be store in the relation cache
+  and be retrieved using getRelatedObjects() as usual. This requires only very
+  few code changes for migrating users (just adding the fetches in a central
+  place).
+
 ..
    Local Variables:
    mode: rst
