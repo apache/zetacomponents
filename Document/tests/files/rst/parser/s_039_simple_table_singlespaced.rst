@@ -89,27 +89,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 5,
-                 'content' => 'A simple table with a singl separation space',
+                 'content' => 'A simple table with a singl separation space:',
                  'line' => 4,
                  'position' => 1,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            1 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 4,
-               'position' => 45,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 4,
-                 'content' => ':',
-                 'line' => 4,
-                 'position' => 45,
                  'escaped' => false,
               )),
                'identifier' => NULL,

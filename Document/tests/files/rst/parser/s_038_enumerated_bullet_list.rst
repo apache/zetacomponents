@@ -144,27 +144,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                        'token' => 
                       ezcDocumentRstToken::__set_state(array(
                          'type' => 5,
-                         'content' => 'world',
+                         'content' => 'world.',
                          'line' => 5,
                          'position' => 6,
-                         'escaped' => false,
-                      )),
-                       'identifier' => NULL,
-                    )),
-                    1 => 
-                    ezcDocumentRstTextLineNode::__set_state(array(
-                       'line' => 5,
-                       'position' => 11,
-                       'type' => 4,
-                       'nodes' => 
-                      array (
-                      ),
-                       'token' => 
-                      ezcDocumentRstToken::__set_state(array(
-                         'type' => 4,
-                         'content' => '.',
-                         'line' => 5,
-                         'position' => 11,
                          'escaped' => false,
                       )),
                        'identifier' => NULL,
@@ -277,27 +259,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                        'token' => 
                       ezcDocumentRstToken::__set_state(array(
                          'type' => 5,
-                         'content' => 'Welt',
+                         'content' => 'Welt.',
                          'line' => 7,
                          'position' => 6,
-                         'escaped' => false,
-                      )),
-                       'identifier' => NULL,
-                    )),
-                    1 => 
-                    ezcDocumentRstTextLineNode::__set_state(array(
-                       'line' => 7,
-                       'position' => 10,
-                       'type' => 4,
-                       'nodes' => 
-                      array (
-                      ),
-                       'token' => 
-                      ezcDocumentRstToken::__set_state(array(
-                         'type' => 4,
-                         'content' => '.',
-                         'line' => 7,
-                         'position' => 10,
                          'escaped' => false,
                       )),
                        'identifier' => NULL,
@@ -355,27 +319,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 5,
-                 'content' => 'Paragraph',
+                 'content' => 'Paragraph.',
                  'line' => 9,
                  'position' => 1,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            1 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 9,
-               'position' => 10,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 4,
-                 'content' => '.',
-                 'line' => 9,
-                 'position' => 10,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -466,27 +412,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                        'token' => 
                       ezcDocumentRstToken::__set_state(array(
                          'type' => 5,
-                         'content' => 'world',
+                         'content' => 'world.',
                          'line' => 12,
                          'position' => 6,
-                         'escaped' => false,
-                      )),
-                       'identifier' => NULL,
-                    )),
-                    1 => 
-                    ezcDocumentRstTextLineNode::__set_state(array(
-                       'line' => 12,
-                       'position' => 11,
-                       'type' => 4,
-                       'nodes' => 
-                      array (
-                      ),
-                       'token' => 
-                      ezcDocumentRstToken::__set_state(array(
-                         'type' => 4,
-                         'content' => '.',
-                         'line' => 12,
-                         'position' => 11,
                          'escaped' => false,
                       )),
                        'identifier' => NULL,
@@ -599,27 +527,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                        'token' => 
                       ezcDocumentRstToken::__set_state(array(
                          'type' => 5,
-                         'content' => 'Welt',
+                         'content' => 'Welt.',
                          'line' => 14,
                          'position' => 6,
-                         'escaped' => false,
-                      )),
-                       'identifier' => NULL,
-                    )),
-                    1 => 
-                    ezcDocumentRstTextLineNode::__set_state(array(
-                       'line' => 14,
-                       'position' => 10,
-                       'type' => 4,
-                       'nodes' => 
-                      array (
-                      ),
-                       'token' => 
-                      ezcDocumentRstToken::__set_state(array(
-                         'type' => 4,
-                         'content' => '.',
-                         'line' => 14,
-                         'position' => 10,
                          'escaped' => false,
                       )),
                        'identifier' => NULL,

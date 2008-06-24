@@ -1096,27 +1096,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 5,
-                 'content' => 'End of comments',
+                 'content' => 'End of comments.',
                  'line' => 24,
                  'position' => 1,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            1 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 24,
-               'position' => 16,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 4,
-                 'content' => '.',
-                 'line' => 24,
-                 'position' => 16,
                  'escaped' => false,
               )),
                'identifier' => NULL,

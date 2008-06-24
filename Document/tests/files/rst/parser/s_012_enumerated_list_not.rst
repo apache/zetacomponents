@@ -89,81 +89,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 5,
-                 'content' => 'A. ',
+                 'content' => 'A. Einstein was a really smart dude.',
                  'line' => 4,
                  'position' => 1,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            1 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 4,
-               'position' => 4,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 5,
-                 'content' => 'Einstein was a really',
-                 'line' => 4,
-                 'position' => 4,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            2 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 4,
-               'position' => 25,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 2,
-                 'content' => ' ',
-                 'line' => 4,
-                 'position' => 25,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            3 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 5,
-               'position' => 1,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 5,
-                 'content' => 'smart dude',
-                 'line' => 5,
-                 'position' => 1,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            4 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 5,
-               'position' => 11,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 4,
-                 'content' => '.',
-                 'line' => 5,
-                 'position' => 11,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -199,82 +127,10 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 5,
-                 'content' => 'A',
+                 'content' => 'A. Einstein was a really smart dude.',
                  'line' => 7,
                  'position' => 2,
                  'escaped' => true,
-              )),
-               'identifier' => NULL,
-            )),
-            1 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 7,
-               'position' => 3,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 4,
-                 'content' => '.',
-                 'line' => 7,
-                 'position' => 3,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            2 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 7,
-               'position' => 4,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 1,
-                 'content' => ' ',
-                 'line' => 7,
-                 'position' => 4,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            3 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 7,
-               'position' => 5,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 5,
-                 'content' => 'Einstein was a really smart dude',
-                 'line' => 7,
-                 'position' => 5,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            4 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 7,
-               'position' => 37,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 4,
-                 'content' => '.',
-                 'line' => 7,
-                 'position' => 37,
-                 'escaped' => false,
               )),
                'identifier' => NULL,
             )),
@@ -309,27 +165,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 5,
-                 'content' => 'And those are only common paragraphs',
+                 'content' => 'And those are only common paragraphs.',
                  'line' => 9,
                  'position' => 1,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            1 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 9,
-               'position' => 37,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 4,
-                 'content' => '.',
-                 'line' => 9,
-                 'position' => 37,
                  'escaped' => false,
               )),
                'identifier' => NULL,

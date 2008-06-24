@@ -3763,6 +3763,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Include all paragraphs, tables, lists and sections with a higher
         // nesting depth
+        $nodes = array();
         while ( isset( $this->documentStack[0] ) &&
             in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
@@ -3783,12 +3784,38 @@ class ezcDocumentRstParser extends ezcDocumentParser
             /* DEBUG
             echo "   -> Append text to paragraph\n";
             // /DEBUG */
-            array_unshift( $node->nodes, $text );
+            array_unshift( $nodes, $text );
             ++$found;
         }
 
         if ( $found > 0 )
         {
+            // Reduce text nodes in single AST nodes
+            $textNode = null;
+            foreach ( $nodes as $nr => $child )
+            {
+                if ( $child->type === ezcDocumentRstNode::TEXT_LINE )
+                {
+                    if ( $textNode === null )
+                    {
+                        $textNode = $child;
+                    }
+                    else
+                    {
+                        $textNode->token->content .= $child->token->content;
+                        unset( $nodes[$nr] );
+                    }
+                }
+                else
+                {
+                    if ( $textNode !== null )
+                    {
+                        $textNode = null;
+                    }
+                }
+            }
+            $node->nodes = $nodes;
+
             $node->indentation = $this->indentation;
             /* DEBUG
             echo "   => Create paragraph with indentation {$node->indentation}\n";

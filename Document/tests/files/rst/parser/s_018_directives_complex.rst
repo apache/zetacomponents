@@ -255,27 +255,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'Here is a bullet list',
+                     'content' => 'Here is a bullet list.',
                      'line' => 13,
                      'position' => 6,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
-                1 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 13,
-                   'position' => 27,
-                   'type' => 4,
-                   'nodes' => 
-                  array (
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 4,
-                     'content' => '.',
-                     'line' => 13,
-                     'position' => 27,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
@@ -359,45 +341,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 4,
-                 'content' => ':',
+                 'content' => ': modify at your own risk!',
                  'line' => 15,
                  'position' => 10,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            1 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 15,
-               'position' => 11,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 1,
-                 'content' => ' ',
-                 'line' => 15,
-                 'position' => 11,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            2 => 
-            ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 15,
-               'position' => 12,
-               'type' => 4,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 5,
-                 'content' => 'modify at your own risk!',
-                 'line' => 15,
-                 'position' => 12,
                  'escaped' => false,
               )),
                'identifier' => NULL,

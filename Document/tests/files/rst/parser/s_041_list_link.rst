@@ -152,45 +152,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 2,
-                     'content' => ' ',
+                     'content' => ' with line break.',
                      'line' => 4,
                      'position' => 28,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
-                3 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 5,
-                   'position' => 3,
-                   'type' => 4,
-                   'nodes' => 
-                  array (
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 5,
-                     'content' => 'with line break',
-                     'line' => 5,
-                     'position' => 3,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
-                4 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 5,
-                   'position' => 18,
-                   'type' => 4,
-                   'nodes' => 
-                  array (
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 4,
-                     'content' => '.',
-                     'line' => 5,
-                     'position' => 18,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
@@ -245,63 +209,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'Some normal',
+                     'content' => 'Some normal line break.',
                      'line' => 7,
                      'position' => 3,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
-                1 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 7,
-                   'position' => 14,
-                   'type' => 4,
-                   'nodes' => 
-                  array (
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 2,
-                     'content' => ' ',
-                     'line' => 7,
-                     'position' => 14,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
-                2 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 8,
-                   'position' => 3,
-                   'type' => 4,
-                   'nodes' => 
-                  array (
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 5,
-                     'content' => 'line break',
-                     'line' => 8,
-                     'position' => 3,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
-                3 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 8,
-                   'position' => 13,
-                   'type' => 4,
-                   'nodes' => 
-                  array (
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 4,
-                     'content' => '.',
-                     'line' => 8,
-                     'position' => 13,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
