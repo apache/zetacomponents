@@ -27,9 +27,27 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 5,
-               'content' => 'Complex directives ',
+               'content' => 'Complex directives',
                'line' => 1,
                'position' => 1,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+          1 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 1,
+             'position' => 19,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => ' ',
+               'line' => 1,
+               'position' => 19,
                'escaped' => false,
             )),
              'identifier' => NULL,
@@ -46,6 +64,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
          'identifier' => NULL,
       )),
        'depth' => 1,
+       'reference' => NULL,
        'line' => 2,
        'position' => 1,
        'type' => 1,
@@ -59,6 +78,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
           array (
             'alt' => '   My Logo',
           ),
+           'indentation' => 0,
            'line' => 4,
            'position' => 1,
            'type' => 52,
@@ -79,6 +99,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
            'identifier' => 'figure',
            'parameters' => ' larch.png',
            'options' => NULL,
+           'indentation' => 0,
            'line' => 7,
            'position' => 1,
            'type' => 52,
@@ -191,6 +212,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
            'identifier' => 'note',
            'parameters' => ' This is a paragraph',
            'options' => NULL,
+           'indentation' => 0,
            'line' => 11,
            'position' => 1,
            'type' => 52,
@@ -283,6 +305,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         4 => 
         ezcDocumentRstCommentNode::__set_state(array(
+           'indentation' => 0,
            'line' => 15,
            'position' => 1,
            'type' => 8,
@@ -399,6 +422,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
           array (
             'scale' => ' 50',
           ),
+           'indentation' => 0,
            'line' => 17,
            'position' => 1,
            'type' => 52,
@@ -515,6 +539,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             'option1' => ' Some content',
             'option2' => ' Some content',
           ),
+           'indentation' => 0,
            'line' => 22,
            'position' => 1,
            'type' => 52,

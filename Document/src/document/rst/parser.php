@@ -1508,9 +1508,13 @@ class ezcDocumentRstParser extends ezcDocumentParser
     protected function shiftAsWhitespace( ezcDocumentRstToken $token, array &$tokens )
     {
         if ( isset( $this->documentStack[0] ) &&
-             ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) )
+             ( in_array( $this->documentStack[0]->type, $this->textNodes ) ) )
         {
-            $this->documentStack[0]->token->content .= ' ';
+            /* DEBUG
+            echo "    => Add additional whitespace to last node.\n";
+            // /DEBUG */
+            $token->content = ' ';
+            return new ezcDocumentRstTextLineNode( $token );
         }
 
         return false;
@@ -4051,7 +4055,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // This is bit hackish, but otherwise the tokenizer would produce
             // too large amounts of structs.
             $words = explode( ' ', $this->documentStack[0]->token->content );
-            $this->documentStack[0]->token->content = implode( ' ', array_slice( $words, 0, -1 ) );
+            $this->documentStack[0]->token->content = implode( ' ', array_slice( $words, 0, -1 ) ) . ' ';
 
             $token = clone $this->documentStack[0]->token;
             $token->content = end( $words );

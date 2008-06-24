@@ -306,7 +306,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         }
         else
         {
-            $target = $this->hasReferenceTarget( $this->nodeToString( $node ) );
+            $target = $this->hasReferenceTarget( $this->nodeToString( $node ), $node );
             $linkUrl = '#' . htmlspecialchars( $this->escapeUrl( $target ) );
         }
 
@@ -329,7 +329,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      */
     protected function visitInternalReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $target = $this->hasReferenceTarget( $this->nodeToString( $node ) );
+        $target = $this->hasReferenceTarget( $this->nodeToString( $node ), $node );
 
         if ( $target instanceof ezcDocumentRstFootnoteNode )
         {

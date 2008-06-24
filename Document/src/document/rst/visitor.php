@@ -402,7 +402,8 @@ abstract class ezcDocumentRstVisitor
                 {
                     // This is a direct reference to an external URL, just add
                     // to the list of named external references.
-                    $this->namedExternalReferences[$this->tokenListToString( $node->name )] = 
+#                    var_dump( $this->tokenListToString( $node->name ), trim( $this->nodeToString( $node ) ) );
+                    $this->namedExternalReferences[$this->calculateId( $this->tokenListToString( $node->name ) )] = 
                         trim( $this->nodeToString( $node ) );
                 }
                 break;
@@ -485,7 +486,7 @@ abstract class ezcDocumentRstVisitor
      * @param bool $force
      * @return string
      */
-    public function hasReferenceTarget( $string, $force = false )
+    public function hasReferenceTarget( $string, ezcDocumentRstNode $node = null, $force = false )
     {
         // Check if the target name is a footnote reference
         if ( is_numeric( $string ) )
@@ -498,7 +499,9 @@ abstract class ezcDocumentRstVisitor
             }
 
             return $this->triggerError(
-                E_WARNING, "Unknown reference target '{$string}'.", null
+                E_WARNING, "Unknown reference target '{$string}'.", null,
+                ( $node !== null ? $node->token->line : null ),
+                ( $node !== null ? $node->token->position : null )
             );
         }
         elseif ( ( strlen( $string ) > 0 ) &&
@@ -514,7 +517,9 @@ abstract class ezcDocumentRstVisitor
             }
 
             return $this->triggerError(
-                E_WARNING, "Unknown reference target '{$string}'.", null
+                E_WARNING, "Unknown reference target '{$string}'.", null,
+                ( $node !== null ? $node->token->line : null ),
+                ( $node !== null ? $node->token->position : null )
             );
         }
 
@@ -529,7 +534,9 @@ abstract class ezcDocumentRstVisitor
         if ( !isset( $this->references[$id] ) )
         {
             return $this->triggerError(
-                E_WARNING, "Missing reference target '{$id}'.", null
+                E_WARNING, "Missing reference target '{$id}'.", null,
+                ( $node !== null ? $node->token->line : null ),
+                ( $node !== null ? $node->token->position : null )
             );
         }
         elseif ( $force === true )
@@ -548,7 +555,9 @@ abstract class ezcDocumentRstVisitor
         else
         {
             return $this->triggerError(
-                E_NOTICE, "Duplicate reference target '{$id}'.", null
+                E_NOTICE, "Duplicate reference target '{$id}'.", null,
+                ( $node !== null ? $node->token->line : null ),
+                ( $node !== null ? $node->token->position : null )
             );
         }
     }
@@ -563,6 +572,8 @@ abstract class ezcDocumentRstVisitor
      */
     public function getNamedExternalReference( $name )
     {
+        $name = $this->calculateId( $name );
+
         if ( isset( $this->namedExternalReferences[$name] ) ) 
         {
             return $this->namedExternalReferences[$name];
@@ -620,7 +631,7 @@ abstract class ezcDocumentRstVisitor
      */
     protected function calculateId( $string )
     {
-        return preg_replace( '([^a-z0-9-]+)', '_', strtolower( trim( $string ) ) );
+        return trim( preg_replace( '([^a-z0-9-]+)', '_', strtolower( trim( $string ) ) ), '_' );
     }
 
     /**

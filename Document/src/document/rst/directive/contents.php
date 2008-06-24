@@ -74,7 +74,7 @@ class ezcDocumentRstContentsDirective extends ezcDocumentRstDirective implements
 
                 // Force getting the reference target, as we don't care for
                 // duplicate titles in the TOC.
-                $target = $this->visitor->hasReferenceTarget( $title, true );
+                $target = $this->visitor->hasReferenceTarget( $title, $this->node, true );
                 $link->setAttribute( 'href', '#' . htmlspecialchars( $this->visitor->escapeUrl( $target ) ) );
 
                 $this->generateTocList( $child, $item, $depth - 1 );

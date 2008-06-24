@@ -27,9 +27,27 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 5,
-               'content' => 'Various type sof literal blocks ',
+               'content' => 'Various type sof literal blocks',
                'line' => 1,
                'position' => 1,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+          1 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 1,
+             'position' => 32,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => ' ',
+               'line' => 1,
+               'position' => 32,
                'escaped' => false,
             )),
              'identifier' => NULL,
@@ -46,6 +64,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
          'identifier' => NULL,
       )),
        'depth' => 1,
+       'reference' => NULL,
        'line' => 2,
        'position' => 1,
        'type' => 1,
@@ -109,6 +128,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         1 => 
         ezcDocumentRstLiteralBlockNode::__set_state(array(
+           'indentation' => 0,
            'line' => 6,
            'position' => 1,
            'type' => 7,
@@ -364,6 +384,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         3 => 
         ezcDocumentRstLiteralBlockNode::__set_state(array(
+           'indentation' => 0,
            'line' => 10,
            'position' => 12,
            'type' => 7,
@@ -768,6 +789,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         5 => 
         ezcDocumentRstLiteralBlockNode::__set_state(array(
+           'indentation' => 0,
            'line' => 19,
            'position' => 0,
            'type' => 7,
@@ -5011,6 +5033,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         7 => 
         ezcDocumentRstLiteralBlockNode::__set_state(array(
+           'indentation' => 0,
            'line' => 33,
            'position' => 0,
            'type' => 7,
@@ -5432,6 +5455,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         10 => 
         ezcDocumentRstLiteralBlockNode::__set_state(array(
+           'indentation' => 0,
            'line' => 41,
            'position' => 0,
            'type' => 7,
@@ -5800,6 +5824,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         12 => 
         ezcDocumentRstLiteralBlockNode::__set_state(array(
+           'indentation' => 0,
            'line' => 51,
            'position' => 1,
            'type' => 7,

@@ -3,11 +3,11 @@
   <section id="various_types_of_hyperlink_targets">
     <sectioninfo/>
     <title>Various types of hyperlink targets </title>
-    <para>Clicking on this internal hyperlink will take us to the<ulink url="target">target</ulink>below.</para>
+    <para>Clicking on this internal hyperlink will take us to the <ulink url="target">target</ulink> below.</para>
     <para id="target">The hyperlink target above points to this paragraph.</para>
     <para id="target2">The targets "target1" and "target2" are synonyms; they both point to this paragraph.</para>
-    <para>See the<ulink url="http://www.python.org">Python</ulink> home page or the<ulink url="http://mail.python.org/pipermail/doc-sig/">archive</ulink> for info.</para>
+    <para>See the <ulink url="http://www.python.org">Python</ulink> home page or the <ulink url="http://mail.python.org/pipermail/doc-sig/">archive</ulink> for info.</para>
     <para><ulink url="jdoe@example.com">Write to me</ulink> with your questions.</para>
-    <para>This<ulink url="underscore\_">link</ulink> refers to a file called ``underscore_``.</para>
+    <para>This <ulink url="underscore\_">link</ulink> refers to a file called ``underscore_``.</para>
   </section>
 </article>

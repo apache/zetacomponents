@@ -27,9 +27,27 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 5,
-               'content' => 'Blockquotes ',
+               'content' => 'Blockquotes',
                'line' => 1,
                'position' => 1,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+          1 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 1,
+             'position' => 12,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => ' ',
+               'line' => 1,
+               'position' => 12,
                'escaped' => false,
             )),
              'identifier' => NULL,
@@ -46,6 +64,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
          'identifier' => NULL,
       )),
        'depth' => 1,
+       'reference' => NULL,
        'line' => 2,
        'position' => 1,
        'type' => 1,
@@ -109,7 +128,6 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         1 => 
         ezcDocumentRstBlockquoteNode::__set_state(array(
-           'indentation' => 4,
            'annotation' => 
           ezcDocumentRstBlockquoteAnnotationNode::__set_state(array(
              'line' => 8,
@@ -182,6 +200,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'identifier' => NULL,
           )),
            'closed' => true,
+           'indentation' => 4,
            'line' => 6,
            'position' => 5,
            'type' => 5,
@@ -402,7 +421,6 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         3 => 
         ezcDocumentRstBlockquoteNode::__set_state(array(
-           'indentation' => 4,
            'annotation' => 
           ezcDocumentRstBlockquoteAnnotationNode::__set_state(array(
              'line' => 14,
@@ -475,6 +493,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'identifier' => NULL,
           )),
            'closed' => true,
+           'indentation' => 4,
            'line' => 12,
            'position' => 5,
            'type' => 5,
@@ -549,9 +568,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         4 => 
         ezcDocumentRstBlockquoteNode::__set_state(array(
-           'indentation' => 4,
            'annotation' => NULL,
            'closed' => false,
+           'indentation' => 4,
            'line' => 16,
            'position' => 5,
            'type' => 5,
@@ -576,7 +595,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'For testing we also want a multiline blockquote to see if the indentation ',
+                     'content' => 'For testing we also want a multiline blockquote to see if the indentation',
                      'line' => 16,
                      'position' => 5,
                      'escaped' => false,
@@ -584,6 +603,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'identifier' => NULL,
                 )),
                 1 => 
+                ezcDocumentRstTextLineNode::__set_state(array(
+                   'line' => 16,
+                   'position' => 78,
+                   'type' => 4,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 2,
+                     'content' => ' ',
+                     'line' => 16,
+                     'position' => 78,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+                2 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 17,
                    'position' => 5,
@@ -601,7 +638,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                   )),
                    'identifier' => NULL,
                 )),
-                2 => 
+                3 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 17,
                    'position' => 28,
@@ -635,7 +672,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
            'token' => 
           ezcDocumentRstToken::__set_state(array(
              'type' => 5,
-             'content' => 'For testing we also want a multiline blockquote to see if the indentation ',
+             'content' => 'For testing we also want a multiline blockquote to see if the indentation',
              'line' => 16,
              'position' => 5,
              'escaped' => false,
@@ -682,7 +719,6 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         6 => 
         ezcDocumentRstBlockquoteNode::__set_state(array(
-           'indentation' => 4,
            'annotation' => 
           ezcDocumentRstBlockquoteAnnotationNode::__set_state(array(
              'line' => 26,
@@ -773,6 +809,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'identifier' => NULL,
           )),
            'closed' => true,
+           'indentation' => 4,
            'line' => 21,
            'position' => 5,
            'type' => 5,
@@ -797,7 +834,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'Blockquotes may also consist of multiple paragraphs, as they need to ',
+                     'content' => 'Blockquotes may also consist of multiple paragraphs, as they need to',
                      'line' => 21,
                      'position' => 5,
                      'escaped' => false,
@@ -805,6 +842,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'identifier' => NULL,
                 )),
                 1 => 
+                ezcDocumentRstTextLineNode::__set_state(array(
+                   'line' => 21,
+                   'position' => 73,
+                   'type' => 4,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 2,
+                     'content' => ' ',
+                     'line' => 21,
+                     'position' => 73,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+                2 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 22,
                    'position' => 5,
@@ -822,7 +877,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                   )),
                    'identifier' => NULL,
                 )),
-                2 => 
+                3 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 22,
                    'position' => 31,
@@ -840,7 +895,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                   )),
                    'identifier' => NULL,
                 )),
-                3 => 
+                4 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 22,
                    'position' => 32,
@@ -858,7 +913,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                   )),
                    'identifier' => NULL,
                 )),
-                4 => 
+                5 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 22,
                    'position' => 33,
@@ -876,7 +931,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                   )),
                    'identifier' => NULL,
                 )),
-                5 => 
+                6 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 22,
                    'position' => 35,
@@ -894,7 +949,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                   )),
                    'identifier' => NULL,
                 )),
-                6 => 
+                7 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 22,
                    'position' => 36,
@@ -984,7 +1039,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
            'token' => 
           ezcDocumentRstToken::__set_state(array(
              'type' => 5,
-             'content' => 'Blockquotes may also consist of multiple paragraphs, as they need to ',
+             'content' => 'Blockquotes may also consist of multiple paragraphs, as they need to',
              'line' => 21,
              'position' => 5,
              'escaped' => false,

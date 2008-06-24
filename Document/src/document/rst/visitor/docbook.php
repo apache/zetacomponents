@@ -278,7 +278,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         }
         else
         {
-            $target = $this->hasReferenceTarget( $this->nodeToString( $node ) );
+            $target = $this->hasReferenceTarget( $this->nodeToString( $node ), $node );
 
             $link = $this->document->createElement( 'link' );
             $link->setAttribute( 'linked', htmlspecialchars( $target ) );
@@ -300,7 +300,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      */
     protected function visitInternalReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $target = $this->hasReferenceTarget( $this->nodeToString( $node ) );
+        $target = $this->hasReferenceTarget( $this->nodeToString( $node ), $node );
 
         if ( $target instanceof ezcDocumentRstFootnoteNode )
         {

@@ -27,9 +27,27 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 5,
-               'content' => 'Enumerated lists ',
+               'content' => 'Enumerated lists',
                'line' => 1,
                'position' => 1,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+          1 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 1,
+             'position' => 17,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => ' ',
+               'line' => 1,
+               'position' => 17,
                'escaped' => false,
             )),
              'identifier' => NULL,
@@ -46,6 +64,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
          'identifier' => NULL,
       )),
        'depth' => 1,
+       'reference' => NULL,
        'line' => 2,
        'position' => 1,
        'type' => 1,
@@ -53,9 +72,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
       array (
         0 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'indentation' => 3,
            'type' => 21,
            'text' => '1. ',
+           'indentation' => 3,
            'line' => 4,
            'position' => 1,
            'nodes' => 
@@ -129,9 +148,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         1 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'indentation' => 3,
            'type' => 21,
            'text' => '2. ',
+           'indentation' => 3,
            'line' => 6,
            'position' => 1,
            'nodes' => 
@@ -155,7 +174,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'Enumerators may be arabic numbers, letters, or roman ',
+                     'content' => 'Enumerators may be arabic numbers, letters, or roman',
                      'line' => 6,
                      'position' => 4,
                      'escaped' => false,
@@ -163,6 +182,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'identifier' => NULL,
                 )),
                 1 => 
+                ezcDocumentRstTextLineNode::__set_state(array(
+                   'line' => 6,
+                   'position' => 56,
+                   'type' => 4,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 2,
+                     'content' => ' ',
+                     'line' => 6,
+                     'position' => 56,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+                2 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 7,
                    'position' => 4,
@@ -180,7 +217,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                   )),
                    'identifier' => NULL,
                 )),
-                2 => 
+                3 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 7,
                    'position' => 12,
@@ -279,9 +316,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         3 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'indentation' => 3,
            'type' => 21,
            'text' => 'i. ',
+           'indentation' => 3,
            'line' => 11,
            'position' => 1,
            'nodes' => 
@@ -344,9 +381,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             1 => 
             ezcDocumentRstEnumeratedListNode::__set_state(array(
-               'indentation' => 6,
                'type' => 21,
                'text' => 'a) ',
+               'indentation' => 6,
                'line' => 13,
                'position' => 4,
                'nodes' => 
@@ -420,9 +457,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             2 => 
             ezcDocumentRstEnumeratedListNode::__set_state(array(
-               'indentation' => 6,
                'type' => 21,
                'text' => 'b) ',
+               'indentation' => 6,
                'line' => 15,
                'position' => 4,
                'nodes' => 
@@ -496,9 +533,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             3 => 
             ezcDocumentRstEnumeratedListNode::__set_state(array(
-               'indentation' => 4,
                'type' => 21,
                'text' => 'ii. ',
+               'indentation' => 4,
                'line' => 17,
                'position' => 1,
                'nodes' => 
@@ -561,9 +598,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                 )),
                 1 => 
                 ezcDocumentRstEnumeratedListNode::__set_state(array(
-                   'indentation' => 7,
                    'type' => 21,
                    'text' => 'a) ',
+                   'indentation' => 7,
                    'line' => 17,
                    'position' => 5,
                    'nodes' => 
@@ -637,9 +674,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                 )),
                 2 => 
                 ezcDocumentRstEnumeratedListNode::__set_state(array(
-                   'indentation' => 7,
                    'type' => 21,
                    'text' => 'b) ',
+                   'indentation' => 7,
                    'line' => 19,
                    'position' => 5,
                    'nodes' => 

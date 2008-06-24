@@ -27,9 +27,27 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 5,
-               'content' => 'Definition lists ',
+               'content' => 'Definition lists',
                'line' => 1,
                'position' => 1,
+               'escaped' => false,
+            )),
+             'identifier' => NULL,
+          )),
+          1 => 
+          ezcDocumentRstTextLineNode::__set_state(array(
+             'line' => 1,
+             'position' => 17,
+             'type' => 4,
+             'nodes' => 
+            array (
+            ),
+             'token' => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => ' ',
+               'line' => 1,
+               'position' => 17,
                'escaped' => false,
             )),
              'identifier' => NULL,
@@ -46,6 +64,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
          'identifier' => NULL,
       )),
        'depth' => 1,
+       'reference' => NULL,
        'line' => 2,
        'position' => 1,
        'type' => 1,
@@ -64,6 +83,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'escaped' => false,
             )),
           ),
+           'indentation' => 0,
            'line' => 4,
            'position' => 5,
            'type' => 11,
@@ -150,6 +170,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'escaped' => false,
             )),
           ),
+           'indentation' => 0,
            'line' => 7,
            'position' => 4,
            'type' => 11,
@@ -174,7 +195,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'The term is a one-line phrase, and the definition is one ',
+                     'content' => 'The term is a one-line phrase, and the definition is one',
                      'line' => 8,
                      'position' => 1,
                      'escaped' => false,
@@ -182,6 +203,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'identifier' => NULL,
                 )),
                 1 => 
+                ezcDocumentRstTextLineNode::__set_state(array(
+                   'line' => 8,
+                   'position' => 57,
+                   'type' => 4,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 2,
+                     'content' => ' ',
+                     'line' => 8,
+                     'position' => 57,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+                2 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 9,
                    'position' => 1,
@@ -192,14 +231,32 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'or more paragraphs or body elements, indented relative to ',
+                     'content' => 'or more paragraphs or body elements, indented relative to',
                      'line' => 9,
                      'position' => 1,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
                 )),
-                2 => 
+                3 => 
+                ezcDocumentRstTextLineNode::__set_state(array(
+                   'line' => 9,
+                   'position' => 58,
+                   'type' => 4,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 2,
+                     'content' => ' ',
+                     'line' => 9,
+                     'position' => 58,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+                4 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 10,
                    'position' => 1,
@@ -217,7 +274,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                   )),
                    'identifier' => NULL,
                 )),
-                3 => 
+                5 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 10,
                    'position' => 9,
@@ -272,6 +329,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'escaped' => false,
             )),
           ),
+           'indentation' => 0,
            'line' => 12,
            'position' => 7,
            'type' => 11,
@@ -358,6 +416,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'escaped' => false,
             )),
           ),
+           'indentation' => 0,
            'line' => 15,
            'position' => 7,
            'type' => 11,
@@ -532,6 +591,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'escaped' => false,
             )),
           ),
+           'indentation' => 0,
            'line' => 20,
            'position' => 20,
            'type' => 11,
@@ -682,6 +742,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'escaped' => false,
             )),
           ),
+           'indentation' => 0,
            'line' => 23,
            'position' => 41,
            'type' => 11,
@@ -775,9 +836,27 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'token' => 
                 ezcDocumentRstToken::__set_state(array(
                    'type' => 5,
-                   'content' => 'Definition list with markup ',
+                   'content' => 'Definition list with markup',
                    'line' => 26,
                    'position' => 1,
+                   'escaped' => false,
+                )),
+                 'identifier' => NULL,
+              )),
+              1 => 
+              ezcDocumentRstTextLineNode::__set_state(array(
+                 'line' => 26,
+                 'position' => 28,
+                 'type' => 4,
+                 'nodes' => 
+                array (
+                ),
+                 'token' => 
+                ezcDocumentRstToken::__set_state(array(
+                   'type' => 2,
+                   'content' => ' ',
+                   'line' => 26,
+                   'position' => 28,
                    'escaped' => false,
                 )),
                  'identifier' => NULL,
@@ -794,6 +873,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'identifier' => NULL,
           )),
            'depth' => 2,
+           'reference' => NULL,
            'line' => 27,
            'position' => 1,
            'type' => 1,
@@ -812,6 +892,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'escaped' => false,
                 )),
               ),
+               'indentation' => 0,
                'line' => 29,
                'position' => 8,
                'type' => 11,
@@ -1218,9 +1299,27 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'token' => 
                 ezcDocumentRstToken::__set_state(array(
                    'type' => 5,
-                   'content' => 'Stacked definition lists ',
+                   'content' => 'Stacked definition lists',
                    'line' => 34,
                    'position' => 1,
+                   'escaped' => false,
+                )),
+                 'identifier' => NULL,
+              )),
+              1 => 
+              ezcDocumentRstTextLineNode::__set_state(array(
+                 'line' => 34,
+                 'position' => 25,
+                 'type' => 4,
+                 'nodes' => 
+                array (
+                ),
+                 'token' => 
+                ezcDocumentRstToken::__set_state(array(
+                   'type' => 2,
+                   'content' => ' ',
+                   'line' => 34,
+                   'position' => 25,
                    'escaped' => false,
                 )),
                  'identifier' => NULL,
@@ -1237,6 +1336,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'identifier' => NULL,
           )),
            'depth' => 2,
+           'reference' => NULL,
            'line' => 35,
            'position' => 1,
            'type' => 1,
@@ -1255,6 +1355,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'escaped' => false,
                 )),
               ),
+               'indentation' => 0,
                'line' => 37,
                'position' => 5,
                'type' => 11,
@@ -1329,6 +1430,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                        'escaped' => false,
                     )),
                   ),
+                   'indentation' => 0,
                    'line' => 40,
                    'position' => 7,
                    'type' => 11,
