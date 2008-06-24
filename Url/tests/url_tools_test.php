@@ -158,7 +158,7 @@ class ezcUrlToolsTest extends ezcTestCase
         array( 'fo[0]o=bar',                    array( 'fo'     => array( 'bar' ) ),                          'fo[0]=bar' ),
         );
 
-    protected static $serverValues = array( // HTTPS, HTTP_HOST, SERVER_PORT, REQUEST_URI, constructed URL
+    protected static $serverValues = array( // HTTPS, SERVER_NAME, SERVER_PORT, REQUEST_URI, constructed URL
         array( null, 'www.example.com', 80,   '/index.php',               'http://www.example.com/index.php' ),
         array( '1',  'www.example.com', 80,   '/index.php',               'https://www.example.com/index.php' ),
         array( 'on', 'www.example.com', 80,   '/index.php',               'https://www.example.com/index.php' ),
@@ -188,7 +188,7 @@ class ezcUrlToolsTest extends ezcTestCase
         );
 
     // the order of fields in self::$serverValues
-    protected static $serverMapping = array( 'HTTPS', 'HTTP_HOST', 'SERVER_PORT', 'REQUEST_URI' );
+    protected static $serverMapping = array( 'HTTPS', 'SERVER_NAME', 'SERVER_PORT', 'REQUEST_URI' );
 
     public static function suite()
     {

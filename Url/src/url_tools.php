@@ -112,7 +112,7 @@ class ezcUrlTools
      * The following fields are used in building the URL:
      *  - HTTPS - determines the scheme ('http' or 'https'). 'https' only if
      *    the 'HTTPS' field is set or if it is 'on' or '1'
-     *  - HTTP_HOST
+     *  - SERVER_NAME
      *  - SERVER_PORT - determines if port is default (80 = do not include port)
      *    or not default (other than 80 = include port)
      *  - REQUEST_URI
@@ -121,7 +121,7 @@ class ezcUrlTools
      * <code>
      * $_SERVER = array(
      *     'HTTPS' => '1',
-     *     'HTTP_HOST' => 'www.example.com',
+     *     'SERVER_NAME' => 'www.example.com',
      *     'SERVER_PORT' => 80,
      *     'REQUEST_URI' => '/index.php'
      * );
@@ -161,7 +161,7 @@ class ezcUrlTools
             $url .= 'http://';
         }
 
-        $url .= isset( $source['HTTP_HOST'] ) ? $source['HTTP_HOST'] : null;
+        $url .= isset( $source['SERVER_NAME'] ) ? $source['SERVER_NAME'] : null;
         if ( isset( $source['SERVER_PORT'] ) && $source['SERVER_PORT'] != 80 )
         {
             $url .= ":{$source['SERVER_PORT']}";

@@ -40,7 +40,7 @@ Working with path, params and query parts
 -----------------------------------------
 
 Do not work with the path, params and query properties directly, because this
-will not work in PHP5.2.0 (that is, do not set/get $url->query[0], because a
+will not work in PHP 5.2.0 (that is, do not set/get $url->query[0], because a
 notice will be thrown: "Notice: Indirect modification of overloaded property
 ezcUrl::$query has no effect"). Instead, use the following methods.
 
@@ -376,7 +376,7 @@ For example, if the $_SERVER array has these fields::
     <?php
     $_SERVER = array(
         'HTTPS' => '1',
-        'HTTP_HOST' => 'www.example.com',
+        'SERVER_NAME' => 'www.example.com',
         'SERVER_PORT' => 80,
         'REQUEST_URI' => '/index.php'
         );
