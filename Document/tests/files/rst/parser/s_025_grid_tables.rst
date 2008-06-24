@@ -1766,7 +1766,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               )),
                                'identifier' => NULL,
                             )),
-                            2 => 
+                            1 => 
                             ezcDocumentRstMarkupEmphasisNode::__set_state(array(
                                'openTag' => false,
                                'line' => 24,
@@ -1803,7 +1803,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               )),
                                'identifier' => NULL,
                             )),
-                            3 => 
+                            2 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 24,
                                'position' => 25,
@@ -4896,7 +4896,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               )),
                                'identifier' => NULL,
                             )),
-                            3 => 
+                            1 => 
                             ezcDocumentRstMarkupInlineLiteralNode::__set_state(array(
                                'openTag' => false,
                                'line' => 57,
@@ -5005,7 +5005,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               )),
                                'identifier' => NULL,
                             )),
-                            4 => 
+                            2 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 57,
                                'position' => 30,
@@ -5821,7 +5821,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               )),
                                'identifier' => NULL,
                             )),
-                            2 => 
+                            1 => 
                             ezcDocumentRstMarkupInlineLiteralNode::__set_state(array(
                                'openTag' => false,
                                'line' => 65,
@@ -5930,7 +5930,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               )),
                                'identifier' => NULL,
                             )),
-                            3 => 
+                            2 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 65,
                                'position' => 29,

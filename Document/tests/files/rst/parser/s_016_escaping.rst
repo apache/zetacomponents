@@ -96,7 +96,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            14 => 
+            1 => 
             ezcDocumentRstMarkupEmphasisNode::__set_state(array(
                'openTag' => false,
                'line' => 5,
@@ -187,7 +187,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            15 => 
+            2 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 5,
                'position' => 50,
@@ -205,7 +205,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            21 => 
+            3 => 
             ezcDocumentRstMarkupEmphasisNode::__set_state(array(
                'openTag' => false,
                'line' => 6,
@@ -260,7 +260,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            22 => 
+            4 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 6,
                'position' => 36,

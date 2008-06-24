@@ -348,6 +348,30 @@ class ezcDocumentRstParser extends ezcDocumentParser
     );
 
     /**
+     * PCRE regular expression for detection of URLs in texts.
+     */
+    const REGEXP_INLINE_LINK = '(
+        (?:^|[\s,.!?])
+            (?# Ignore matching braces around the URL)
+                (<)?
+                    (\[)?
+                        (\()?
+                            (?# Ignore quoting around the URL)
+                            ([\'"]?)
+                                (?# Actually match the URL)
+                                (?P<match>
+                                    (?P<url>[a-z]+://[^\s]*?) |
+                                    (?:mailto:)?(?P<mail>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})
+                                )
+                            \4
+                        (?(3)\))
+                    (?(2)\])
+                (?(1)>)
+            (?# Ignore common punctuation after the URL)
+        [.,?!]?(?:\s|$)
+    )xm';
+
+    /**
      * Shift- / reduce-parser for RST token stack
      * 
      * @param array $tokens 
@@ -3814,9 +3838,47 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     }
                 }
             }
-            $node->nodes = $nodes;
+
+            // Find inline markup in all paragraph text nodes
+            $linkedNodes = array();
+            foreach ( $nodes as $nr => $child )
+            {
+                if ( $child->type === ezcDocumentRstNode::TEXT_LINE )
+                {
+                    // Find links in text nodes
+                    while ( preg_match( self::REGEXP_INLINE_LINK, $child->token->content, $match ) )
+                    {
+                        $urlPosition = strpos( $child->token->content, $match['match'] );
+
+                        // Create new token from text before URL.
+                        $textToken = clone $child->token;
+                        $textToken->content = substr( $child->token->content, 0, $urlPosition );
+                        $linkedNodes[] = new ezcDocumentRstTextLineNode( $textToken );
+
+                        // Create linked node from found URL
+                        $linkToken = clone $child->token;
+                        $linkToken->position += $urlPosition;
+                        $linkToken->content   = $match['match'];
+                        $newChild = new ezcDocumentRstExternalReferenceNode( $linkToken );
+                        $newChild->target = ( isset( $match['mail'] ) ? 'mailto:' . $match['mail'] : $match['url'] );
+                        $newChild->nodes = array(
+                            new ezcDocumentRstTextLineNode( $linkToken ),
+                        );
+                        $linkedNodes[] = $newChild;
+
+                        // Check the child for other URLs
+                        $child->token->position += $offset = $urlPosition + strlen( $match['match'] );
+                        $child->token->content   = substr( $child->token->content, $offset );
+                        $child->position         = $child->token->position;
+                    }
+                }
+
+                // Add child, which had no more matches, or isn't plain inline text.
+                $linkedNodes[] = $child;
+            }
 
             $node->indentation = $this->indentation;
+            $node->nodes = $linkedNodes;
             /* DEBUG
             echo "   => Create paragraph with indentation {$node->indentation}\n";
             // /DEBUG */

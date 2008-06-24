@@ -133,7 +133,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            13 => 
+            2 => 
             ezcDocumentRstReferenceNode::__set_state(array(
                'target' => false,
                'line' => 5,
@@ -170,7 +170,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            14 => 
+            3 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 5,
                'position' => 5,
@@ -188,7 +188,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            28 => 
+            4 => 
             ezcDocumentRstReferenceNode::__set_state(array(
                'target' => false,
                'line' => 6,
@@ -243,7 +243,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            29 => 
+            5 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 6,
                'position' => 10,

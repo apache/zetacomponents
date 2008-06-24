@@ -27,7 +27,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 5,
-               'content' => 'Embedded URLs',
+               'content' => 'Inline URLs',
                'line' => 1,
                'position' => 1,
                'escaped' => false,
@@ -37,7 +37,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
           1 => 
           ezcDocumentRstTextLineNode::__set_state(array(
              'line' => 1,
-             'position' => 14,
+             'position' => 12,
              'type' => 4,
              'nodes' => 
             array (
@@ -47,7 +47,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'type' => 2,
                'content' => ' ',
                'line' => 1,
-               'position' => 14,
+               'position' => 12,
                'escaped' => false,
             )),
              'identifier' => NULL,
@@ -56,7 +56,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
          'token' => 
         ezcDocumentRstToken::__set_state(array(
            'type' => 4,
-           'content' => '=============',
+           'content' => '===========',
            'line' => 2,
            'position' => 1,
            'escaped' => false,
@@ -73,8 +73,8 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         0 => 
         ezcDocumentRstParagraphNode::__set_state(array(
            'indentation' => 0,
-           'line' => 4,
-           'position' => 62,
+           'line' => 6,
+           'position' => 51,
            'type' => 3,
            'nodes' => 
           array (
@@ -89,7 +89,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 5,
-                 'content' => 'See the ',
+                 'content' => 'A paragraph with inline URLs, like ',
                  'line' => 4,
                  'position' => 1,
                  'escaped' => false,
@@ -98,16 +98,16 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             1 => 
             ezcDocumentRstExternalReferenceNode::__set_state(array(
-               'target' => 'http://www.python.org',
+               'target' => 'http://ezcomponents.org',
                'line' => 4,
-               'position' => 51,
+               'position' => 36,
                'type' => 41,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 4,
-                   'position' => 10,
+                   'position' => 36,
                    'type' => 4,
                    'nodes' => 
                   array (
@@ -115,9 +115,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'Python home page',
+                     'content' => 'http://ezcomponents.org',
                      'line' => 4,
-                     'position' => 10,
+                     'position' => 36,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
@@ -125,10 +125,10 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(
-                 'type' => 4,
-                 'content' => '_',
+                 'type' => 5,
+                 'content' => 'http://ezcomponents.org',
                  'line' => 4,
-                 'position' => 51,
+                 'position' => 36,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -136,52 +136,32 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             2 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 4,
-               'position' => 52,
+               'position' => 1,
                'type' => 4,
                'nodes' => 
               array (
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(
-                 'type' => 1,
-                 'content' => ' for info.',
+                 'type' => 5,
+                 'content' => ' and inline ',
                  'line' => 4,
-                 'position' => 52,
+                 'position' => 59,
                  'escaped' => false,
               )),
                'identifier' => NULL,
             )),
-          ),
-           'token' => 
-          ezcDocumentRstToken::__set_state(array(
-             'type' => 2,
-             'content' => '
-',
-             'line' => 4,
-             'position' => 62,
-             'escaped' => false,
-          )),
-           'identifier' => NULL,
-        )),
-        1 => 
-        ezcDocumentRstParagraphNode::__set_state(array(
-           'indentation' => 0,
-           'line' => 8,
-           'position' => 27,
-           'type' => 3,
-           'nodes' => 
-          array (
-            0 => 
-            ezcDocumentRstAnonymousLinkNode::__set_state(array(
-               'target' => 'http://www.rfc-editor.org/rfc/rfc2396.txt',
-               'line' => 6,
-               'position' => 55,
-               'type' => 40,
+            3 => 
+            ezcDocumentRstMarkupEmphasisNode::__set_state(array(
+               'openTag' => false,
+               'line' => 5,
+               'position' => 8,
+               'type' => 30,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 6,
+                   'line' => 5,
                    'position' => 2,
                    'type' => 4,
                    'nodes' => 
@@ -190,8 +170,8 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
                      'type' => 5,
-                     'content' => 'RFC 2396',
-                     'line' => 6,
+                     'content' => 'markup',
+                     'line' => 5,
                      'position' => 2,
                      'escaped' => false,
                   )),
@@ -201,53 +181,53 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 4,
-                 'content' => '__',
-                 'line' => 6,
-                 'position' => 55,
+                 'content' => '*',
+                 'line' => 5,
+                 'position' => 8,
                  'escaped' => false,
               )),
                'identifier' => NULL,
             )),
-            1 => 
+            4 => 
             ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 6,
-               'position' => 57,
+               'line' => 5,
+               'position' => 9,
                'type' => 4,
                'nodes' => 
               array (
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(
-                 'type' => 1,
-                 'content' => ' and ',
-                 'line' => 6,
-                 'position' => 57,
+                 'type' => 4,
+                 'content' => ', also with mail links to ',
+                 'line' => 5,
+                 'position' => 9,
                  'escaped' => false,
               )),
                'identifier' => NULL,
             )),
-            2 => 
-            ezcDocumentRstAnonymousLinkNode::__set_state(array(
-               'target' => 'http://www.rfc-editor.org/rfc/rfc2732.txt',
-               'line' => 7,
-               'position' => 50,
-               'type' => 40,
+            5 => 
+            ezcDocumentRstExternalReferenceNode::__set_state(array(
+               'target' => 'mailto:mail@example.com',
+               'line' => 5,
+               'position' => 35,
+               'type' => 41,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 6,
-                   'position' => 63,
+                   'line' => 5,
+                   'position' => 35,
                    'type' => 4,
                    'nodes' => 
                   array (
                   ),
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
-                     'type' => 5,
-                     'content' => 'RFC 2732',
-                     'line' => 6,
-                     'position' => 63,
+                     'type' => 4,
+                     'content' => 'mail@example.com',
+                     'line' => 5,
+                     'position' => 35,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
@@ -256,27 +236,82 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 4,
-                 'content' => '__',
-                 'line' => 7,
-                 'position' => 50,
+                 'content' => 'mail@example.com',
+                 'line' => 5,
+                 'position' => 35,
                  'escaped' => false,
               )),
                'identifier' => NULL,
             )),
-            3 => 
+            6 => 
             ezcDocumentRstTextLineNode::__set_state(array(
-               'line' => 7,
-               'position' => 52,
+               'line' => 5,
+               'position' => 51,
                'type' => 4,
                'nodes' => 
               array (
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(
-                 'type' => 1,
-                 'content' => ' together define the syntax of URIs.',
-                 'line' => 7,
-                 'position' => 52,
+                 'type' => 4,
+                 'content' => ' and URLs with some different scheme like ',
+                 'line' => 5,
+                 'position' => 51,
+                 'escaped' => false,
+              )),
+               'identifier' => NULL,
+            )),
+            7 => 
+            ezcDocumentRstExternalReferenceNode::__set_state(array(
+               'target' => 'ftp://user:pass@example.org',
+               'line' => 5,
+               'position' => 93,
+               'type' => 41,
+               'nodes' => 
+              array (
+                0 => 
+                ezcDocumentRstTextLineNode::__set_state(array(
+                   'line' => 5,
+                   'position' => 93,
+                   'type' => 4,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 4,
+                     'content' => 'ftp://user:pass@example.org',
+                     'line' => 5,
+                     'position' => 93,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+              ),
+               'token' => 
+              ezcDocumentRstToken::__set_state(array(
+                 'type' => 4,
+                 'content' => 'ftp://user:pass@example.org',
+                 'line' => 5,
+                 'position' => 93,
+                 'escaped' => false,
+              )),
+               'identifier' => NULL,
+            )),
+            8 => 
+            ezcDocumentRstTextLineNode::__set_state(array(
+               'line' => 5,
+               'position' => 9,
+               'type' => 4,
+               'nodes' => 
+              array (
+              ),
+               'token' => 
+              ezcDocumentRstToken::__set_state(array(
+                 'type' => 4,
+                 'content' => '.',
+                 'line' => 5,
+                 'position' => 120,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -287,8 +322,8 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'type' => 2,
              'content' => '
 ',
-             'line' => 8,
-             'position' => 27,
+             'line' => 6,
+             'position' => 51,
              'escaped' => false,
           )),
            'identifier' => NULL,
@@ -297,7 +332,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
        'token' => 
       ezcDocumentRstToken::__set_state(array(
          'type' => 4,
-         'content' => '=============',
+         'content' => '===========',
          'line' => 2,
          'position' => 1,
          'escaped' => false,

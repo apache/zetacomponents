@@ -455,7 +455,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               )),
                                'identifier' => NULL,
                             )),
-                            2 => 
+                            1 => 
                             ezcDocumentRstMarkupEmphasisNode::__set_state(array(
                                'openTag' => false,
                                'line' => 8,
@@ -492,7 +492,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               )),
                                'identifier' => NULL,
                             )),
-                            3 => 
+                            2 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 8,
                                'position' => 25,

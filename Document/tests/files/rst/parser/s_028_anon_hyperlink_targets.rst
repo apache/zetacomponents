@@ -151,7 +151,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            5 => 
+            3 => 
             ezcDocumentRstAnonymousLinkNode::__set_state(array(
                'target' => false,
                'line' => 4,
@@ -207,7 +207,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               )),
                'identifier' => NULL,
             )),
-            6 => 
+            4 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 4,
                'position' => 48,
