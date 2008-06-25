@@ -2723,7 +2723,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             $this->triggerError(
                 E_WARNING,
                 'Table specification mismatch in simple table.',
-                null, $tokens[0]->line, $tokens[0]->position
+                null, $token->line, $token->position
             );
         }
 
@@ -2736,10 +2736,26 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
         else
         {
-            // Read actual table contents.
-            $contents = $this->readSimpleCells( $cellStarts, $tokens );
+            $contents = array();
+            do
+            {
+                $contents = array_merge(
+                    $contents,
+                    $this->readSimpleCells( $cellStarts, $tokens )
+                );
+            } while ( isset( $tokens[0] ) &&
+                      ( $tokens[0]->type == ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                      ( $tokens[0]->content[0] === '-' ) &&
+                      ( $tokens[0]->position === 1 ) &&
+                      ( isset( $tokens[1] ) ) &&
+                      ( $tokens[1]->type == ezcDocumentRstToken::WHITESPACE ) &&
+                      // We ignore the actual header undeline table cell
+                      // redefinition, as we detect this magically while reading
+                      // the cells already.
+                      $this->readSimpleTableSpecification( $tokens ) );
 
-            // Last line should also match specification.
+            // After the titles we get another specification line, which should
+            // match the top specification
             if ( $tableSpec !== $this->readSimpleTableSpecification( $tokens ) )
             {
                 $this->triggerError(

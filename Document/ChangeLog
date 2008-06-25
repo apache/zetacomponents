@@ -9,6 +9,8 @@
   are skipped.
 - Fixed issue #13237: Whitespaces before single word named external
   references are skipped
+- Fixed issue #13220: Support for row seperators in simple table bodies
+  missing.
 
 1.0 - Monday 16 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
