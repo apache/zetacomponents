@@ -59,11 +59,13 @@ means, the following operations are affected in the described way:
   returned. It must be evaluated if there is need to switch this lookup of in
   certain cases. However, usually the refresh() method should be used on the
   existing object in that case.
+
 - loadIfExists()
 
   This method must check for an existing object instance like load() does.
   However, since it returns null if it does not, this result could also be
   cached or be re-evaluated as long as no object has been loaded successfully.
+
 - loadIntoObject()
 
   This method should indicate an error, if an already loaded object is to be
