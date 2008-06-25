@@ -220,11 +220,11 @@ $refetchRelations = false;
   getRelatedObjects() globally, so that relation queries are always executed
   but the results are still put into the cache.
 $queryCache = false;
-  Switching this on will enable the query cache for find queries and relatio
+  Switching this on will enable the query cache for find queries and relation
   queries.
 $refetchQueries = false;
   If this option is enabled, queries are still cached, but are executed
-  everytime to refetch the cache.
+  every time to re-fetch the cache.
 
 ezcPersistentIdentityMap
 ------------------------
@@ -517,7 +517,7 @@ Open questions
   - No transparent replacement of current $session objects possible, due to
     instanceof checks. Maybe introduce a common interface (would also allow
     different implementations of ezcPersistentSession in future)?
-  - It would make sense to allow the identity mapping session to acces certain
+  - It would make sense to allow the identity mapping session to access certain
     protected functionality (creation of queries, execution, ...). This could
     be solved by making the affected methods public and documenting them as
     protected.
@@ -557,7 +557,7 @@ Design
 Since ezcPersistentObject allows us to define relations between persistent
 classes, we have everything we need to fetch all desired objects in one
 operation. To allow the user to limit the fetched objects effectively, the
-createFindQuery method will be enhanced to create queries that fetch objectes
+createFindQuery method will be enhanced to create queries that fetch objects
 and their relatives. ::
 
     ezcQuerySelect createFindQuery( string $class, array $relations = null )
@@ -619,7 +619,7 @@ of the result set is submitted to it.
 
 .. note::
    This functionality can either be implemented on its own or be integrated
-   with the identity map fucntionality, which also has the relation caching
+   with the identity map functionality, which also has the relation caching
    facilities.
 
 Open issues
@@ -632,7 +632,7 @@ Open issues
 - It makes sense to use a decorated select query object to avoid the need for
   users to submit the $relations array twice: Once to the createFindQuery()
   method and once to the find() method. In ezcPersistentSession, it is
-  currently required to submit the class name twice, which is redundant anway.
+  currently required to submit the class name twice, which is redundant anyway.
   An idea would be to provide a generally decorated ezcQuerySelect class for
   PersistentObject, which would also orphan this redundant submission.
 - Basically, this should be integrated with the ezcPersistentIdentitySession,
