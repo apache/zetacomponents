@@ -176,5 +176,10 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
 
         $this->fail();
     }
+
+    public function testExceptionWhenLoadingNotValidWorkflow()
+    {
+        $this->markTestIncomplete();
+    }
 }
 ?>
