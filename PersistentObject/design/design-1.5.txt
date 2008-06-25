@@ -512,6 +512,15 @@ the cache before it is actually removed.
 Open questions
 ==============
 
+- Making the identity map a decorator to ezcPersistentSession would design wise
+  be a nicer solution, but also has some flaws:
+  - No transparent replacement of current $session objects possible, due to
+    instanceof checks. Maybe introduce a common interface (would also allow
+    different implementations of ezcPersistentSession in future)?
+  - It would make sense to allow the identity mapping session to acces certain
+    protected functionality (creation of queries, execution, ...). This could
+    be solved by making the affected methods public and documenting them as
+    protected.
 - Do we need an option to explicitly reload (load()) an object? refresh() on
   the existing version is more logical.
 - loadIfExists() can return null. Should this result be cached or should the
@@ -536,92 +545,96 @@ of SQL queries, especially when using the templates component::
 
 	{$event->location->name}
 
-very convenient, but this will run at least one extra query here; if you do this
+Very convenient, but this will run at least one extra query here; if you do this
 when listing, let's say events, you will execute one extra query for each event
 you display the location for. If you also display the event's responsible name,
 it's another query. If you show 10 events, you execute 21 queries, and this is
 not acceptable.
 
-Since ezcPersistentObject allows us to define relations between persistent classes,
-we have everything we need to fetch all the objects in one operation.
-The API would look like this::
-
-	$query = $pSession->createRelationFindQuery(
-        'Event',
-        array( 'Location', 'Responsible' )
-    );
-
-This will generate a query that selects data for event, location and responsible objects,
-and generate the JOIN calls in the SQL query.
-
-This query can next be sent to the equivalent of ezcPersistentSession::find::
-
-	$results = $pSession->findWithRelations(
-        $query,
-        'Person',
-        array( 'Location', 'Reponsible' )
-    );
-
-This call will return what ezcPersistentSession::find() would have returned: the
-array of Location objects that matches the query.
-The only difference is that ezcPersistenSession:findWithRelations will have
-fetched Location and Reponsible objects related to each Person object, and stored
-them in memory.
-
-When these objects are requested from PHP / template code, they will be loaded
-from memory, and not requested from the database.
-
-With this feature, 21 queries are replaced with one.
-
 Design
 ======
 
-These methods should be added to ezcPersistentIdentitySession or whatever
-it's called.
+Since ezcPersistentObject allows us to define relations between persistent
+classes, we have everything we need to fetch all desired objects in one
+operation. To allow the user to limit the fetched objects effectively, the
+createFindQuery method will be enhanced to create queries that fetch objectes
+and their relatives. ::
 
-Three new methods are required right now
+    ezcQuerySelect createFindQuery( string $class, array $relations = null )
 
-createRelationPrefetchFindQuery( string $class, array $relatedClasses )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-$class is the basic class we want to fetch data for
-$relatedClasses is the array listing the relations to $class we want prefetched
+The $relations parameter contains an array structure which represents the
+relation tree to fetch. The structure of this array will look as follows::
 
-The method will return an ezcQuerySelect object that can be further customized
-using any ezcQuery method (where, order, etc)
+    array(
+        'myLocation' => true,
+        'myResponsible' => array(
+            'myAddress' => true,
+            'myCompany' => true,
+        ),
+    )
 
-Recursion support can also be added here::
-    
-    createRelationPrefetchFindQuery(
-        'Event',
-        array(
-            'Person',
-            'Location' => array(
-                'Country'
-            )
-        )
+The keys of the array structure represent persistent class names. A key might
+either be assigned to the value true or to another array of relatives to fetch.
+True means "fetch the desired relatives, but no further ones in this
+direction". An array as the value describes to fetch further relatives for the
+relative.
+
+In the example above objects of 2 different classes will be fetched for the
+source objects originally fetched by the find query: myLocation and
+myResponsible. For the objects fetched fore the myResponsible class further
+relatives will be fetched in addition: myAddress and myCompany.
+
+The query object returned by the createFindQuery() method already implements
+all joins necessary to fetch the desired objects. Beside that, is has aliases
+registered for all requested relatives as well as for the source class. The
+source class aliases are registered without any prefix, as known from the
+original behavior of createFindQuery(). For the relatives, the aliases will be
+prefixed by the class hierarchy indicated by the relation array. This allows
+the user to define additional WHERE and ORDER BY statements on the SELECT
+query.
+
+For example, if the myLocation class defines a persistent attribute $city, an
+alias myLocation_city will be available. The myAddress->$zip property will be
+available through the alias myRepsonsible_myAddress_zip. The prefixing with all
+ascending classes is necessary to avoid conflicts if relations to one class
+should be resolved in different places.
+
+The query object returned by createFindQuery() with the additional $relations
+parameter will not be an instanca of ezcQuerySelect directly, but a decorated
+version. This allows the method to annotate the query with the $relations
+information, so that it is available when fetching and creating the requested
+objects.
+
+The query can then be executed simply using::
+
+	$results = $pSession->find(
+        $query,
+        'myEvent'
     );
 
-Nothing very complex, except that createRelationPrefetchFindQuery has to be
-refactored to handle that structure:
-    - adding SELECTs can use a "flat" structure
-    - adding JOINs need to be called recursively: the 'Location' class here is
-    the one with a relation to 'Country'
+This call returns only the requested objects of myEvent, behaving like the
+original  ezcPersistentSession->find() method, The related objects will be kept
+in memory and will be returned by the getRelatedObjects() method, if an object
+of the result set is submitted to it.
 
-getAliasedColumnsFromDefinition( ezcPersistentObjectDefinition $def )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This internal methods is used to create the list of SELECTed fields. It will,
-for a given PO definition, return an array where each key is the field string
-(`table`.`field`), and each value is the matching alias, as table_field
-
-findWithRelations( $query, $class, $relatedClasses )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This method, that expects the query object generated with createRelationFindQuery,
-will return the array of $class objects, and will also instanciate the related
-objects of all classes from the $relatedClasses array.
+.. note::
+   This functionality can either be implemented on its own or be integrated
+   with the identity map fucntionality, which also has the relation caching
+   facilities.
 
 Open issues
 ===========
 
+- PersistentObject allows multiple relations between the same PHP classes (see
+  design 1.4). This leads to problems in the definition of the $relations array
+  provided to the createFindQuery() method. It needs to be figured out how this
+  information can be encoded there.
+- It makes sense to use a decorated select query object to avoid the need for
+  users to submit the $relations array twice: Once to the createFindQuery()
+  method and once to the find() method. In ezcPersistentSession, it is
+  currently required to submit the class name twice, which is redundant anway.
+  An idea would be to provide a generally decorated ezcQuerySelect class for
+  PersistentObject, which would also orphan this redundant submission.
 - Basically, this should be integrated with the ezcPersistentIdentitySession,
   because the related objects can then simply be store in the relation cache
   and be retrieved using getRelatedObjects() as usual. This requires only very
