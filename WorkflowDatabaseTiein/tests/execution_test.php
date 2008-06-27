@@ -148,18 +148,12 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $this->assertFalse( $execution->isSuspended() );
     }
 
+    /**
+     * @expectedException ezcWorkflowExecutionException
+     */
     public function testNotExistingExecutionThrowsException()
     {
-        try
-        {
-            $execution = new ezcWorkflowDatabaseExecution( $this->db, 1 );
-        }
-        catch ( ezcWorkflowExecutionException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $execution = new ezcWorkflowDatabaseExecution( $this->db, 1 );
     }
 
     public function testProperties()
@@ -171,68 +165,47 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $this->assertFalse( isset( $execution->foo ) );
     }
 
+    /**
+     * @expectedException ezcBaseValueException
+     */
     public function testProperties2()
     {
-        try
-        {
-            $execution = new ezcWorkflowDatabaseExecution( $this->db );
-            $execution->workflow = new StdClass;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $execution = new ezcWorkflowDatabaseExecution( $this->db );
+        $execution->workflow = new StdClass;
     }
 
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
     public function testProperties3()
     {
-        try
-        {
-            $execution = new ezcWorkflowDatabaseExecution( $this->db );
-            $foo = $execution->foo;
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $execution = new ezcWorkflowDatabaseExecution( $this->db );
+        $foo = $execution->foo;
     }
 
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
     public function testProperties4()
     {
         $this->setUpStartEnd();
 
-        try
-        {
-            $execution = new ezcWorkflowDatabaseExecution( $this->db );
-            $execution->foo = null;
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $execution = new ezcWorkflowDatabaseExecution( $this->db );
+        $execution->foo = null;
     }
 
+    /**
+     * @expectedException ezcBaseValueException
+     */
     public function testProperties5()
     {
-        try
-        {
-            $execution = new ezcWorkflowDatabaseExecution( $this->db );
-            $execution->definitionStorage = new StdClass;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $execution = new ezcWorkflowDatabaseExecution( $this->db );
+        $execution->definitionStorage = new StdClass;
     }
 
+    /**
+     * @expectedException ezcBaseValueException
+     */
     public function testProperties6()
     {
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
@@ -241,16 +214,7 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $execution->options = $options;
         $this->assertSame( $options, $execution->options );
 
-        try
-        {
-            $execution->options = new StdClass;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $execution->options = new StdClass;
     }
 }
 ?>

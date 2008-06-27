@@ -132,49 +132,31 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->assertEquals( $this->workflow, $workflow );
     }
 
+    /**
+     * @expectedException ezcWorkflowDefinitionStorageException
+     */
     public function testExceptionWhenLoadingNotExistingWorkflow()
     {
-        try
-        {
-            $this->definition->loadById( 1 );
-        }
-        catch ( ezcWorkflowDefinitionStorageException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->definition->loadById( 1 );
     }
 
+    /**
+     * @expectedException ezcWorkflowDefinitionStorageException
+     */
     public function testExceptionWhenLoadingNotExistingWorkflow2()
     {
-        try
-        {
-            $this->definition->loadByName( 'NotExisting' );
-        }
-        catch ( ezcWorkflowDefinitionStorageException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->definition->loadByName( 'NotExisting' );
     }
 
+    /**
+     * @expectedException ezcWorkflowDefinitionStorageException
+     */
     public function testExceptionWhenLoadingNotExistingWorkflowVersion()
     {
         $this->setUpStartEnd();
         $this->definition->save( $this->workflow );
 
-        try
-        {
-            $workflow = $this->definition->loadByName( 'StartEnd', 2 );
-        }
-        catch ( ezcWorkflowDefinitionStorageException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $workflow = $this->definition->loadByName( 'StartEnd', 2 );
     }
 
     public function testExceptionWhenLoadingNotValidWorkflow()
@@ -188,6 +170,9 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->assertFalse(isset($this->definition->foo));
     }
 
+    /**
+     * @expectedException ezcBaseValueException
+     */
     public function testProperties2()
     {
         $options = new ezcWorkflowDatabaseOptions;
@@ -195,44 +180,23 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
 
         $this->assertSame( $options, $this->definition->options );
 
-        try
-        {
-            $this->definition->options = new StdClass;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->definition->options = new StdClass;
     }
 
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
     public function testProperties3()
     {
-        try
-        {
-            $foo = $this->definition->foo;
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $foo = $this->definition->foo;
     }
 
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
     public function testProperties4()
     {
-        try
-        {
-            $this->definition->foo = null;
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->definition->foo = null;
     }
 }
 ?>

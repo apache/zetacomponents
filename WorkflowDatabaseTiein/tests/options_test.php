@@ -36,32 +36,20 @@ class ezcWorkflowDatabaseTieinOptionsTest extends ezcTestCase
         $this->assertEquals( 'myPrefix', $this->options['prefix'] );
     }
 
+    /**
+     * @expectedException ezcBaseValueException
+     */
     public function testOptions2()
     {
-        try
-        {
-            $this->options['prefix'] = null;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->options['prefix'] = null;
     }
 
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
     public function testOptions3()
     {
-        try
-        {
-            $this->options['foo'] = 'bar';
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->options['foo'] = 'bar';
     }
 }
 ?>
