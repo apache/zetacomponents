@@ -33,6 +33,17 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     protected $loaded = false;
 
     /**
+     * Container to hold the properties
+     *
+     * @var array(string=>mixed)
+     */
+    protected $properties = array(
+      'definitionStorage' => null,
+      'workflow' => null,
+      'options' => null
+    );
+
+    /**
      * Construct a new database execution.
      *
      * This constructor is a tie-in.
@@ -44,11 +55,88 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     {
         $this->db = $db;
         $this->properties['definitionStorage'] = new ezcWorkflowDatabaseDefinitionStorage( $db );
+        $this->properties['options'] = new ezcWorkflowDatabaseOptions;
 
         if ( is_int( $executionId ) )
         {
             $this->loadExecution( $executionId );
         }
+    }
+
+    /**
+     * Property get access.
+     *
+     * @param string $propertyName
+     * @return mixed
+     * @throws ezcBasePropertyNotFoundException
+     *         If the given property could not be found.
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'definitionStorage':
+            case 'workflow':
+            case 'options':
+                return $this->properties[$propertyName];
+        }
+
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Property set access.
+     *
+     * @param string $propertyName
+     * @param string $propertyValue
+     * @throws ezcBasePropertyNotFoundException
+     *         If the given property could not be found.
+     * @throws ezcBaseValueException
+     *         If the value for the property options is not an ezcWorkflowDatabaseOptions object.
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'definitionStorage':
+            case 'workflow':
+                return parent::__set( $propertyName, $propertyValue );
+            case 'options':
+                if ( !( $propertyValue instanceof ezcWorkflowDatabaseOptions ) )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'ezcWorkflowDatabaseOptions'
+                    );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
+
+    /**
+     * Property isset access.
+     *
+     * @param string $propertyName
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'definitionStorage':
+            case 'workflow':
+            case 'options':
+                return true;
+        }
+
+        return false;
     }
 
     /**
@@ -63,7 +151,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
 
         $query = $this->db->createInsertQuery();
 
-        $query->insertInto( $this->db->quoteIdentifier( 'execution' ) )
+        $query->insertInto( $this->db->quoteIdentifier( $this->options['prefix'] . 'execution' ) )
               ->set( $this->db->quoteIdentifier( 'workflow_id' ), $query->bindValue( (int)$this->workflow->id ) )
               ->set( $this->db->quoteIdentifier( 'execution_parent' ), $query->bindValue( (int)$parentId ) )
               ->set( $this->db->quoteIdentifier( 'execution_started' ), $query->bindValue( time() ) )
@@ -87,7 +175,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     {
         $query = $this->db->createUpdateQuery();
 
-        $query->update( $this->db->quoteIdentifier( 'execution' ) )
+        $query->update( $this->db->quoteIdentifier( $this->options['prefix'] . 'execution' ) )
               ->where( $query->expr->eq( $this->db->quoteIdentifier( 'execution_id' ), $query->bindValue( (int)$this->id ) ) )
               ->set( $this->db->quoteIdentifier( 'execution_variables' ), $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->variables ) ) )
               ->set( $this->db->quoteIdentifier( 'execution_waiting_for' ), $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->waitingFor ) ) )
@@ -101,7 +189,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         {
             $query = $this->db->createInsertQuery();
 
-            $query->insertInto( $this->db->quoteIdentifier( 'execution_state' ) )
+            $query->insertInto( $this->db->quoteIdentifier( $this->options['prefix'] . 'execution_state' ) )
                   ->set( $this->db->quoteIdentifier( 'execution_id' ), $query->bindValue( (int)$this->id ) )
                   ->set( $this->db->quoteIdentifier( 'node_id' ), $query->bindValue( (int)$node->getId() ) )
                   ->set( $this->db->quoteIdentifier( 'node_state' ), $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $node->getState() ) ) )
@@ -162,7 +250,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     protected function cleanupTable( $tableName )
     {
         $query = $this->db->createDeleteQuery();
-        $query->deleteFrom( $this->db->quoteIdentifier( $tableName ) );
+        $query->deleteFrom( $this->db->quoteIdentifier( $this->options['prefix'] . $tableName ) );
 
         $id = $query->expr->eq( $this->db->quoteIdentifier( 'execution_id' ), $query->bindValue( (int)$this->id ) );
 
@@ -195,9 +283,9 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
               ->select( $this->db->quoteIdentifier( 'execution_threads' ) )
               ->select( $this->db->quoteIdentifier( 'execution_next_thread_id' ) )
               ->select( $this->db->quoteIdentifier( 'execution_waiting_for' ) )
-              ->from( $this->db->quoteIdentifier( 'execution' ) )
+              ->from( $this->db->quoteIdentifier( $this->options['prefix'] . 'execution' ) )
               ->where( $query->expr->eq( $this->db->quoteIdentifier( 'execution_id' ),
-                                          $query->bindValue( (int)$executionId ) ) );
+                                         $query->bindValue( (int)$executionId ) ) );
 
         $stmt = $query->prepare();
         $stmt->execute();
@@ -227,9 +315,9 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
               ->select( $this->db->quoteIdentifier( 'node_state' ) )
               ->select( $this->db->quoteIdentifier( 'node_activated_from' ) )
               ->select( $this->db->quoteIdentifier( 'node_thread_id' ) )
-              ->from( $this->db->quoteIdentifier( 'execution_state' ) )
+              ->from( $this->db->quoteIdentifier( $this->options['prefix'] . 'execution_state' ) )
               ->where( $query->expr->eq( $this->db->quoteIdentifier( 'execution_id' ),
-                                          $query->bindValue( (int)$executionId ) ) );
+                                         $query->bindValue( (int)$executionId ) ) );
 
         $stmt = $query->prepare();
         $stmt->execute();

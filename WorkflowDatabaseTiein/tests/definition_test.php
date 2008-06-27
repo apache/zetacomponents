@@ -181,5 +181,58 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
     {
         $this->markTestIncomplete();
     }
+
+    public function testProperties()
+    {
+        $this->assertTrue(isset($this->definition->options));
+        $this->assertFalse(isset($this->definition->foo));
+    }
+
+    public function testProperties2()
+    {
+        $options = new ezcWorkflowDatabaseOptions;
+        $this->definition->options = $options;
+
+        $this->assertSame( $options, $this->definition->options );
+
+        try
+        {
+            $this->definition->options = new StdClass;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
+
+    public function testProperties3()
+    {
+        try
+        {
+            $foo = $this->definition->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
+
+    public function testProperties4()
+    {
+        try
+        {
+            $this->definition->foo = null;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
 }
 ?>

@@ -18,12 +18,21 @@
  */
 class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStorage
 {
-    /** 
+    /**
      * ezcDbHandler instance to be used.
      *
      * @var ezcDbHandler
      */
     protected $db;
+
+    /**
+     * Container to hold the properties
+     *
+     * @var array(string=>mixed)
+     */
+    protected $properties = array(
+      'options' => null
+    );
 
     /**
      * Construct a new database definition handler.
@@ -35,6 +44,76 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
     public function __construct( ezcDbHandler $db )
     {
         $this->db = $db;
+        $this->properties['options'] = new ezcWorkflowDatabaseOptions;
+    }
+
+    /**
+     * Property get access.
+     *
+     * @param string $propertyName
+     * @return mixed
+     * @throws ezcBasePropertyNotFoundException
+     *         If the given property could not be found.
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'options':
+                return $this->properties[$propertyName];
+        }
+
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Property set access.
+     *
+     * @param string $propertyName
+     * @param string $propertyValue
+     * @throws ezcBasePropertyNotFoundException
+     *         If the given property could not be found.
+     * @throws ezcBaseValueException
+     *         If the value for the property options is not an ezcWorkflowDatabaseOptions object.
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'options':
+                if ( !( $propertyValue instanceof ezcWorkflowDatabaseOptions ) )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'ezcWorkflowDatabaseOptions'
+                    );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
+
+    /**
+     * Property isset access.
+     *
+     * @param string $propertyName
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'options':
+                return true;
+        }
+
+        return false;
     }
 
     /**
@@ -59,7 +138,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
 
             $query->select( $this->db->quoteIdentifier( 'workflow_name' ) )
                   ->select( $this->db->quoteIdentifier( 'workflow_version' ) )
-                  ->from( $this->db->quoteIdentifier( 'workflow' ) )
+                  ->from( $this->db->quoteIdentifier( $this->options['prefix'] . 'workflow' ) )
                   ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_id' ),
                                              $query->bindValue( (int)$workflowId ) ) );
 
@@ -87,7 +166,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         $query->select( $this->db->quoteIdentifier( 'node_id' ) )
               ->select( $this->db->quoteIdentifier( 'node_class' ) )
               ->select( $this->db->quoteIdentifier( 'node_configuration' ) )
-              ->from( $this->db->quoteIdentifier( 'node' ) )
+              ->from( $this->db->quoteIdentifier( $this->options['prefix'] . 'node' ) )
               ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_id' ),
                                           $query->bindValue( (int)$workflowId ) ) );
 
@@ -147,8 +226,8 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
                                        $this->db->quoteIdentifier( 'incoming_node_id' ) ) )
               ->select( $query->alias( 'node_connection.outgoing_node_id',
                                        $this->db->quoteIdentifier( 'outgoing_node_id' ) ) )
-              ->from( $query->innerJoin( $this->db->quoteIdentifier( 'node_connection' ),
-                                         $this->db->quoteIdentifier( 'node' ),
+              ->from( $query->innerJoin( $this->db->quoteIdentifier( $this->options['prefix'] . 'node_connection' ),
+                                         $this->db->quoteIdentifier( $this->options['prefix'] . 'node' ),
                                          'node_connection.incoming_node_id',
                                          'node.node_id' ) )
               ->where( $query->expr->eq( 'node.workflow_id',
@@ -183,7 +262,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
 
         $query->select( $this->db->quoteIdentifier( 'variable' ) )
               ->select( $this->db->quoteIdentifier( 'class' ) )
-              ->from( $this->db->quoteIdentifier( 'variable_handler' ) )
+              ->from( $this->db->quoteIdentifier( $this->options['prefix'] . 'variable_handler' ) )
               ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_id' ),
                                          $query->bindValue( (int)$workflowId ) ) );
 
@@ -232,9 +311,9 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
 
         // Query for the workflow_id.
         $query->select( $this->db->quoteIdentifier( 'workflow_id' ) )
-              ->from( $this->db->quoteIdentifier( 'workflow' ) )
+              ->from( $this->db->quoteIdentifier( $this->options['prefix'] . 'workflow' ) )
               ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_name' ),
-                                          $query->bindValue( $workflowName ) ) )
+                                         $query->bindValue( $workflowName ) ) )
               ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_version' ),
                                          $query->bindValue( (int)$workflowVersion ) ) );
 
@@ -279,7 +358,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         // Write workflow table row.
         $query = $this->db->createInsertQuery();
 
-        $query->insertInto( $this->db->quoteIdentifier( 'workflow' ) )
+        $query->insertInto( $this->db->quoteIdentifier( $this->options['prefix'] . 'workflow' ) )
               ->set( $this->db->quoteIdentifier( 'workflow_name' ), $query->bindValue( $workflow->name ) )
               ->set( $this->db->quoteIdentifier( 'workflow_version' ), $query->bindValue( (int)$workflowVersion ) )
               ->set( $this->db->quoteIdentifier( 'workflow_created' ), $query->bindValue( time() ) );
@@ -303,7 +382,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
 
             $query = $this->db->createInsertQuery();
 
-            $query->insertInto( $this->db->quoteIdentifier( 'node' ) )
+            $query->insertInto( $this->db->quoteIdentifier( $this->options['prefix'] . 'node' ) )
                   ->set( $this->db->quoteIdentifier( 'workflow_id' ), $query->bindValue( (int)$workflow->id ) )
                   ->set( $this->db->quoteIdentifier( 'node_class' ), $query->bindValue( get_class( $node ) ) )
                   ->set( $this->db->quoteIdentifier( 'node_configuration' ), $query->bindValue(
@@ -326,7 +405,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
             {
                 $query = $this->db->createInsertQuery();
 
-                $query->insertInto( $this->db->quoteIdentifier( 'node_connection' ) )
+                $query->insertInto( $this->db->quoteIdentifier( $this->options['prefix'] . 'node_connection' ) )
                       ->set( $this->db->quoteIdentifier( 'incoming_node_id' ), $query->bindValue( (int)$node->getId() ) )
                       ->set( $this->db->quoteIdentifier( 'outgoing_node_id' ), $query->bindValue( (int)$outNode->getId() ) );
 
@@ -340,7 +419,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         {
             $query = $this->db->createInsertQuery();
 
-            $query->insertInto( $this->db->quoteIdentifier( 'variable_handler' ) )
+            $query->insertInto( $this->db->quoteIdentifier( $this->options['prefix'] . 'variable_handler' ) )
                   ->set( $this->db->quoteIdentifier( 'workflow_id' ), $query->bindValue( (int)$workflow->id ) )
                   ->set( $this->db->quoteIdentifier( 'variable' ), $query->bindValue( $variable ) )
                   ->set( $this->db->quoteIdentifier( 'class' ), $query->bindValue( $class ) );
@@ -365,9 +444,9 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
 
         $query->select( $query->alias( $query->expr->max( $this->db->quoteIdentifier( 'workflow_version' ) ),
                                        'version' ) )
-              ->from( $this->db->quoteIdentifier( 'workflow' ) )
+              ->from( $this->db->quoteIdentifier( $this->options['prefix'] . 'workflow' ) )
               ->where( $query->expr->eq( $this->db->quoteIdentifier( 'workflow_name' ),
-                                          $query->bindValue( $workflowName ) ) );
+                                         $query->bindValue( $workflowName ) ) );
 
         $stmt = $query->prepare();
         $stmt->execute();

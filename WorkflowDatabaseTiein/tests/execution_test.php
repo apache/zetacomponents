@@ -161,5 +161,96 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
 
         $this->fail();
     }
+
+    public function testProperties()
+    {
+        $execution = new ezcWorkflowDatabaseExecution( $this->db );
+
+        $this->assertTrue( isset( $execution->definitionStorage ) );
+        $this->assertTrue( isset( $execution->workflow ) );
+        $this->assertFalse( isset( $execution->foo ) );
+    }
+
+    public function testProperties2()
+    {
+        try
+        {
+            $execution = new ezcWorkflowDatabaseExecution( $this->db );
+            $execution->workflow = new StdClass;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
+
+    public function testProperties3()
+    {
+        try
+        {
+            $execution = new ezcWorkflowDatabaseExecution( $this->db );
+            $foo = $execution->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
+
+    public function testProperties4()
+    {
+        $this->setUpStartEnd();
+
+        try
+        {
+            $execution = new ezcWorkflowDatabaseExecution( $this->db );
+            $execution->foo = null;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
+
+    public function testProperties5()
+    {
+        try
+        {
+            $execution = new ezcWorkflowDatabaseExecution( $this->db );
+            $execution->definitionStorage = new StdClass;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
+
+    public function testProperties6()
+    {
+        $execution = new ezcWorkflowDatabaseExecution( $this->db );
+        $options   = new ezcWorkflowDatabaseOptions;
+
+        $execution->options = $options;
+        $this->assertSame( $options, $execution->options );
+
+        try
+        {
+            $execution->options = new StdClass;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+
+        $this->fail();
+    }
 }
 ?>

@@ -9,6 +9,7 @@
 
 require_once 'definition_test.php';
 require_once 'execution_test.php';
+require_once 'options_test.php';
 
 /**
  * @package WorkflowDatabaseTiein
@@ -23,6 +24,7 @@ class ezcWorkflowDatabaseTieinSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcWorkflowDatabaseTieinDefinitionTest::suite() );
         $this->addTest( ezcWorkflowDatabaseTieinExecutionTest::suite() );
+        $this->addTest( ezcWorkflowDatabaseTieinOptionsTest::suite() );
     }
 
     public static function suite()
