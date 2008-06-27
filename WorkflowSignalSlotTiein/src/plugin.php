@@ -20,8 +20,8 @@
 class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
 {
     /**
-     * Properties. 
-     * 
+     * Properties.
+     *
      * @var array(string=>mixed)
      */
     protected $properties = array();
@@ -65,9 +65,9 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
      * @param string $propertyValue
      * @throws ezcBasePropertyNotFoundException
      *         If the given property could not be found.
-     * @throws ezcBaseValueException 
+     * @throws ezcBaseValueException
      *         If the value for the property options is not an ezcWorkflowSignalSlotPluginOptions object.
-     * @throws ezcBaseValueException 
+     * @throws ezcBaseValueException
      *         If the value for the property signals is not an ezcSignalCollection object.
      * @ignore
      */
@@ -103,9 +103,9 @@ class ezcWorkflowSignalSlotPlugin extends ezcWorkflowExecutionPlugin
     }
 
     /**
-     * Property isset access. 
-     * 
-     * @param string $propertyName 
+     * Property isset access.
+     *
+     * @param string $propertyName
      * @return bool
      * @ignore
      */
