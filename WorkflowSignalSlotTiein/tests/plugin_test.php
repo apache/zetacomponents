@@ -56,32 +56,20 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->signals->connect( 'afterVariableUnset', array( $this->receiver, 'afterVariableUnset' ) );
     }
 
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
     public function testProperties()
     {
-        try
-        {
-            $foo = $this->plugin->foo;
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $foo = $this->plugin->foo;
     }
 
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
     public function testProperties2()
     {
-        try
-        {
-            $this->plugin->foo = 'foo';
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->plugin->foo = 'foo';
     }
 
     public function testSignalsForStartEnd()
@@ -632,60 +620,36 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 'myAfterExecutionStarted', $this->plugin->options['afterExecutionStarted'] );
     }
 
+    /**
+     * @expectedException ezcBaseValueException
+     */
     public function testOptions2()
     {
-        try
-        {
-            $this->plugin->options['afterExecutionStarted'] = null;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->plugin->options['afterExecutionStarted'] = null;
     }
 
+    /**
+     * @expectedException ezcBaseValueException
+     */
     public function testOptions3()
     {
-        try
-        {
-            $this->plugin->options = null;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->plugin->options = null;
     }
 
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
     public function testOptions4()
     {
-        try
-        {
-            $this->plugin->options['foo'] = null;
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->plugin->options['foo'] = null;
     }
 
+    /**
+     * @expectedException ezcBaseValueException
+     */
     public function testOptions5()
     {
-        try
-        {
-            $this->plugin->signals = null;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-
-        $this->fail();
+        $this->plugin->signals = null;
     }
 
     public function testOptions6()
