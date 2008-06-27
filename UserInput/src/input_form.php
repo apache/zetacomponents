@@ -132,7 +132,7 @@ class ezcInputForm
      * that do not have valid data.
      * @var array
      */
-    private $propertyValues;
+    protected $propertyValues;
 
     /**
      * Contains the input source to be used.
