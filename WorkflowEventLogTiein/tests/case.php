@@ -22,14 +22,14 @@ abstract class ezcWorkflowEventLogTieinTestCase extends ezcWorkflowDatabaseTiein
         parent::setUp();
 
         $writer = new ezcLogUnixFileWriter(
-          dirname( __FILE__ ) . '/data', 'actual.log' 
+          dirname( __FILE__ ) . '/data', 'actual.log'
         );
 
         $this->log = ezcLog::getInstance();
         $mapper = $this->log->getMapper();
         $filter = new ezcLogFilter;
         $rule = new ezcLogFilterRule( $filter, $writer, true );
-        $mapper->appendRule( $rule ); 
+        $mapper->appendRule( $rule );
 
         $this->setUpExecution();
     }

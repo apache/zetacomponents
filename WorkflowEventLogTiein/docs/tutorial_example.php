@@ -6,7 +6,7 @@ $log = ezcLog::getInstance();
 $mapper = $log->getMapper();
 $filter = new ezcLogFilter;
 $rule = new ezcLogFilterRule( $filter, $writer, true );
-$mapper->appendRule( $rule ); 
+$mapper->appendRule( $rule );
 
 // Set up database connection.
 $db = ezcDbFactory::create( 'mysql://test@localhost/test' );

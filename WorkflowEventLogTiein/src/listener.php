@@ -17,10 +17,10 @@
  */
 class ezcWorkflowEventLogListener implements ezcWorkflowExecutionListener
 {
-    /** 
+    /**
      * ezcLog instance to be used.
      *
-     * @var ezcLog 
+     * @var ezcLog
      */
     protected $log;
 
