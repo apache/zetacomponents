@@ -56,7 +56,7 @@ means, the following operations are affected in the described way:
 
   Whenever an object is to be loaded, a lookup must take place, if this object
   has already been loaded. If this is the case, the loaded version should be
-  returned. It must be evaluated if there is need to switch this lookup of in
+  returned. It must be evaluated if there is need to switch this lookup off in
   certain cases. However, usually the refresh() method should be used on the
   existing object in that case.
 
@@ -81,7 +81,7 @@ means, the following operations are affected in the described way:
 
 - refresh()
 
-  In this method, the object data can safely be refresh, since the instance
+  In this method, the object data can safely be refreshed, since the instance
   should be the one already in the mapping cache. After all, a re-check should
   occur. If another instance exists in the cache, an error must be raised. If
   the object is not cached at all, it must be added.
@@ -163,16 +163,16 @@ be declared private and throw an exception is used externally.
 
 The class design will work as follows:
 
-ezcPersistenIdentitySession
----------------------------
+ezcPersistentIdentitySession
+----------------------------
 
 This main class will be used exactly like its parent ezcPersistentSession and
 realizes the desired functionality completely transparent to the user. This
-allows users to transparently replace the old version and wise versa.
+allows users to transparently replace the old version and vise versa.
 
 The central point of the class is an instance property $identityMap, that is
 used as the session cache. All method calls that are affected as described in
-the requirements will utilized this one to grab cached objects and to reflect
+the requirements will utilize this one to grab cached objects and to reflect
 their changes.
 
 The $identityMap property will contain an instance of ezcPersistentIdentityMap,
@@ -263,7 +263,8 @@ The following 3 areas of identity mapping will be handled:
    The getRelatedObject[s]() methods are highly essential and also most
    performance hungry, if related objects need to be fetched for a large number
    of objects. To avoid this being performed multiple times in a request,
-   results of calls to these methods should be cached dedicatedly. Whenever a
+   results of calls to these methods should be stored in a dedicated cache.
+   Whenever a
    set of related objects is retrieved, the following data structure will be
    updated::
 
@@ -467,7 +468,7 @@ addRelatedObject( object $sourceObject, object $relatedObject )
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If relation caching is globally switched on, the first check this method
-performs is, if another object was previously related to this one and the new
+performs is to see if another object was previously related to this one and the new
 $relatedObject replaces this relation. In this case, the old relation (if
 recorded) is removed. After that, the new relation is recorded.
 
@@ -600,7 +601,7 @@ ascending classes is necessary to avoid conflicts if relations to one class
 should be resolved in different places.
 
 The query object returned by createFindQuery() with the additional $relations
-parameter will not be an instanca of ezcQuerySelect directly, but a decorated
+parameter will not be an instance of ezcQuerySelect directly, but a decorated
 version. This allows the method to annotate the query with the $relations
 information, so that it is available when fetching and creating the requested
 objects.
@@ -613,7 +614,7 @@ The query can then be executed simply using::
     );
 
 This call returns only the requested objects of myEvent, behaving like the
-original  ezcPersistentSession->find() method, The related objects will be kept
+original  ezcPersistentSession->find() method. The related objects will be kept
 in memory and will be returned by the getRelatedObjects() method, if an object
 of the result set is submitted to it.
 
