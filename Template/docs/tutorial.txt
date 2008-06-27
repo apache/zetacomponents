@@ -2307,9 +2307,10 @@ better control over the cache and can also remove old cache files.
 Cache keys
 ``````````
 Both *cache_block* and *cache_template*  have a *keys* parameter. This
-parameter can be used to define the uniqueness of a cache block. When the value
-changes, the cache block will be renewed. The *keys* parameter can be an
-expression but is usually limited to a variable or function call. The next
+parameter can be used to define the uniqueness of a cache block. For every
+combination of different values of the parameter, a separate file is stored on
+the disk, containing the output of the cache block. The *keys* parameter can be
+an expression but is usually limited to a variable or function call. The next
 example creates new cache files when the user ID changes: ::
 
     {use $user_id}
