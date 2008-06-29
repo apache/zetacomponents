@@ -1,0 +1,134 @@
+eZ component: PersistentObject, Requirements, 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Tobias Schlitt
+:Revision: $Rev$
+:Date:     $Date$
+:Status:   Draft
+
+.. contents::
+
+=====
+Scope
+=====
+
+The scope of this document is to describe the requirements for the
+enhancements proposed for the PersistentObject component version 1.5.
+
+The general goal for this version is to implement various features
+described by these issues in our issue tracker:
+
+- #11831: isRelated() Method.
+- #12473: Identity map for PersistentObject.
+- #13073: Sub-select support for PersistentObject.
+- #13074: Fetching related objects through joins.
+- #13170: Support for custom relation implementations.
+
+For each of the issues the requirements are explained in a separate section in
+this document. The design of the enhancements, fulfilling the requirements
+stated below, can be found in the corresponding design document.
+
+---------------------------------
+Identity map for PersistentObject
+---------------------------------
+
+The implementation of this feature must try to take care that no object that is
+loaded once from the database exists in a 2nd copy in the same request. This
+means, the following operations are affected in the described way:
+
+- load()
+
+  Whenever an object is to be loaded, a lookup must take place, if this object
+  has already been loaded. If this is the case, the loaded version should be
+  returned. It must be evaluated if there is need to switch this lookup off in
+  certain cases. However, usually the refresh() method should be used on the
+  existing object in that case.
+
+- loadIfExists()
+
+  This method must check for an existing object instance like load() does.
+  However, since it returns null if it does not, this result could also be
+  cached or be re-evaluated as long as no object has been loaded successfully.
+
+- loadIntoObject()
+
+  This method should indicate an error, if an already loaded object is to be
+  stored into another instance. In case the correct instance is given to the
+  method, no changes are necessary. If a different object is given to load data
+  into, 2 cases can occur:
+
+  a) the object already has (stored) data. In this case an error must be
+     indicated, since most probably there is no way to replace all of its
+     instances with a clone in the cache mappings.
+  b) the object has data, which has not been stored, yet. In this case, the
+     data can be overwritten, as requested by the user.
+
+- refresh()
+
+  In this method, the object data can safely be refreshed, since the instance
+  should be the one already in the mapping cache. After all, a re-check should
+  occur. If another instance exists in the cache, an error must be raised. If
+  the object is not cached at all, it must be added.
+
+- find()
+
+  Inside this method, first it should be checked if the same find query was
+  already performed earlier. In this case, a cached result set can be returned.
+  There should be a switch to switch of this behavior, to make a new find to
+  check for new objects. For a new query, the returned results must be checked
+  element by element. Already loaded elements must be replaced with their
+  cached version, newly loaded objects must be cached.
+
+- findIterator()
+
+  The iterator class, which is responsible for the retrieval of the data, must
+  take care to realize the same behavior as find() does, here.
+
+- getRelatedObjects()
+
+  This method needs to check a cache first, if related object with the given
+  criteria have already been loaded. If this is the case, they can safely be
+  returned. It should be possible to switch off this behavior to reload related
+  objects. If no objects are found, yet, the method must react as find() does,
+  including the query cached objects.
+
+- getRelatedObject()
+
+  Same as getRelatedObjects().
+
+- save()
+
+  Whenever a new object is saved, it should be stored in the cache for later
+  retrieval.
+
+- saveOrUpdate()
+
+  Same as save().
+
+- addRelatedObject()
+
+  If this method is called, the newly added related object should be added to
+  the cache that is looked up by getRelatedObjects().
+
+- delete()
+
+  This method must take care to remove all references to the given object from
+  the caches. This can lead to problems, if multiple caches need to be checked.
+
+- removeRelatedObject()
+
+  In this method, the relation cache needs to be updated in the opposite
+  direction of addRelatedObject().
+
+
+- \*FromQuery()
+
+  This class of methods cannot be supported by the Identity Map, since it is
+  not possible to determine the affected objects from the query,
+  automatically.  This would lead to heavy inconsistencies. Therefore a
+  solution must be found how calls to these methods are handled.
+
+- create*Query()
+
+  Corresponding to \*FromQuery() method, these methods cannot be supported,
+  since the \*FromQuery() methods would be needed here, too. An exception is
+  the createRelationFindQuery() and createFindQuery() method.
