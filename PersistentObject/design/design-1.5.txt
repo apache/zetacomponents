@@ -28,9 +28,9 @@ chapter in this document. Some issues relate to each other, which is also
 explained in the issue descriptions. The requirements for each of the
 enhancements can be found in the corresponding requirements document.
 
----------------------------------
+=================================
 Identity map for PersistentObject
----------------------------------
+=================================
 
 The Identity Map pattern is described by Martin Fowler in his book Patterns of
 Enterprise Application Architecture. The purpose of this pattern is to avoid
@@ -46,8 +46,9 @@ certain queries as long as manipulations are reflected properly. The data
 manipulation mechanisms in our case are realized in the ezcPersistentSession
 and related (internal) handler classes.
 
+------
 Design
-======
+------
 
 The Identity Map support should be optional to not break BC and keep
 flexibility. Therefore, a new class named ezcPersistentIdentityMapSession is
@@ -60,7 +61,7 @@ be declared private and throw an exception is used externally.
 The class design will work as follows:
 
 ezcPersistentIdentitySession
-----------------------------
+============================
 
 This main class will be used exactly like its parent ezcPersistentSession and
 realizes the desired functionality completely transparent to the user. This
@@ -103,7 +104,7 @@ ezcPersistentIdenityMap, which is utilized by extended session handlers as
 described further below.
 
 ezcPersistentIdenitySessionOptions
-----------------------------------
+==================================
 
 The new ezcPersistentIdentitySession can be configured to switch on and off
 certain features. The options are:
@@ -123,13 +124,13 @@ $refetchQueries = false;
   every time to re-fetch the cache.
 
 ezcPersistentIdentityMap
-------------------------
+========================
 
 This class is the internal heart of the identity map enhancement. It handles
 all caching and mapping activities globally for a session.
 
 Functionality
-^^^^^^^^^^^^^
+-------------
 
 The following 3 areas of identity mapping will be handled:
 
@@ -212,7 +213,7 @@ The following 3 areas of identity mapping will be handled:
    checking the cache for previous execution results.
 
 Interface
-^^^^^^^^^
+---------
 
 The following methods will be provided by the map:
 
@@ -282,19 +283,19 @@ The following methods will be provided by the map:
   Calls all 3 methods above.
 
 ezcPersistentIdentityLoadHandler
---------------------------------
+================================
 
 The following methods of the load handler will be enhanced as follows:
 
 load( string $class, mixed $id )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------
 
 In case the requested object is found in the identity map, it will be returned
 from there. Otherwise it will be loaded and recorded. loadIfExists() will react
 the same way.
 
 loadIntoObject( object $object, mixed $id )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------
 
 In case the given $object already is a loaded instance of an object, an
 exception will be thrown. If the desired object with the $id was already
@@ -303,7 +304,7 @@ would result in a copy. Otherwise the load is performed as desired and the
 resulting object instance is returned.
 
 find( ezcQuerySelect $query, string $class, bool $refetch = false )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------------------------
 
 The find method is enhanced by a new 3rd parameter. If $fetch is false, first
 the identity map will be asked for a cached result of the given query, if query
@@ -315,7 +316,7 @@ one object already exists, this is replaced into the resulting array. If not,
 the newly created instance is recorded.
 
 findIterator( ezcQuerySelect $query, string $class )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------
 
 This method does not support query caching, because of 3 reasons: 1. the
 results of the received query might not be processed at all. 2. another
@@ -329,7 +330,7 @@ if it is already recorded in the map. If it is, the recorded instance will be
 returned. Otherwise the new instance will be recorded and returned.
 
 getRelatedObjects( object $object, $relatedClass, $relationName = null, $refetch = false )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------------------------------------------
 
 This method is enhanced by the $refetch as the find() method is. If relation
 caching is turned on globally and $refetch is false, the identity map is
@@ -340,28 +341,28 @@ turned on, the result set is cached.
 
 
 getRelatedObject( object $object, $relatedClass, $relationName = null, $refetch = false )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------------------------------------
 
 Same as above.
 
 ezcPersistentIdentitySaveHandler
---------------------------------
+================================
 
 The save handler methods will be enhanced as follows.
 
 save( object $object )
-^^^^^^^^^^^^^^^^^^^^^^
+----------------------
 
 Whenever a new object was saved successfully, it is recorded in the identity
 map.
 
 saveOrUpdate( object $object )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------
 
 This method reacts the same as save() if the operation was not an update.
 
 addRelatedObject( object $sourceObject, object $relatedObject )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------------------------
 
 If relation caching is globally switched on, the first check this method
 performs is to see if another object was previously related to this one and the new
@@ -376,7 +377,7 @@ recorded) is removed. After that, the new relation is recorded.
    ezcPersistentSession to activate this overall might be sensible?
 
 delete( object $object )
-^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------
 
 This method must remove all references to the object from all mapping caches
 before actually deleting the object itself from the DB. This is the most time
@@ -394,7 +395,7 @@ should be a major concern while writing this code.
    also removes related objects. Therefore the operation might even run longer.
 
 removeRelatedObject( object $sourceObject, object $relatedObject, string $relationName = null )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------------------------------------------
 
 If relation caching is globally turned on, the relation must be removed from
 the cache before it is actually removed.
@@ -406,8 +407,9 @@ the cache before it is actually removed.
    does not do this, to avoid multiple UPDATE queries. Maybe a global switch in
    ezcPersistentSession to activate this overall might be sensible?
 
-Open questions
-==============
+-----------
+Open issues
+-----------
 
 - Making the identity map a decorator to ezcPersistentSession would design wise
   be a nicer solution, but also has some flaws:
@@ -432,9 +434,9 @@ Open questions
   PersistentObjectCacheTiein to have the identity map cache objects to disc
   (request by BD).
 
---------------------------------------
+======================================
 Fetching related objects through joins
---------------------------------------
+======================================
 
 Relation management with Persistent Objects is very convenient and powerful.
 However, it suffers from one of the common consequences of such methods: the
@@ -451,8 +453,9 @@ you display the location for. If you also display the event's responsible name,
 it's another query. If you show 10 events, you execute 21 queries, and this is
 not acceptable.
 
+------
 Design
-======
+------
 
 Since ezcPersistentObject allows us to define relations between persistent
 classes, we have everything we need to fetch all desired objects in one
@@ -522,8 +525,9 @@ of the result set is submitted to it.
    with the identity map functionality, which also has the relation caching
    facilities.
 
+-----------
 Open issues
-===========
+-----------
 
 - PersistentObject allows multiple relations between the same PHP classes (see
   design 1.4). This leads to problems in the definition of the $relations array
