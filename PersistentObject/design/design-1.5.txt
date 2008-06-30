@@ -63,65 +63,181 @@ The class design will work as follows:
 ezcPersistentIdentitySession
 ============================
 
-This main class will be used exactly like its parent ezcPersistentSession and
-realizes the desired functionality completely transparent to the user. This
-allows users to transparently replace the old version and vise versa.
+This main class will be used exactly like ezcPersistentSession and realizes the
+desired functionality completely transparent to the user. This allows users to
+transparently replace the old version and vise versa. The class will moddel a
+decorator for the existing ezcPersistentSession.
 
-The central point of the class is an instance property $identityMap, that is
-used as the session cache. All method calls that are affected as described in
-the requirements will utilize this one to grab cached objects and to reflect
-their changes.
+Functionality
+-------------
 
-The $identityMap property will contain an instance of ezcPersistentIdentityMap,
-which is responsible to handle the actual caching process. Users do not have
-direct access to this map. The following methods will be implemented on
-ezcPersistentIdentityMapSession to allow direct manipulation of the identity
-map:
+The constructor of the class receives an ezcPersistentSession instance to
+decorate and an object of type ezcPersistentIdentityMap, which realizes the
+identity mapping itself. This central point is used as the session cache. All
+method calls, that are affected as described in the requirements document, will
+utilize this object to grab cached object identities and to reflect their
+changes.
 
-- resetIdentityMap()
-
-  This method cleans out the whole identity map completely. This might be
-  dangerous since already loaded objects are not recorded anymore and therefore
-  duplicates might occur again.
-
-- resetIndentityQueryMap()
-
-  This method just affects the query cache (see ezcPersistentIdentityMap_) and
-  cleans it out completely. There is no risk in doing this, since objects are
-  still recorded any only queries are affected.
-
-The following methods will be marked as private and throw an exception if
-publicly called:
+ezcPersistentIdentitySession will implement the same methods as
+ezcPersistentSession and perform the necessary cache inserts, updates and
+lookups around it. The following methods cannot be traced correctly and may
+therefore lead to inconsistencies:
 
 - createUpdateQuery()
 - updateFromQuery()
 - createDeleteQuery()
 - deleteFromQuery()
 
-The rest of the methods either stays as it is or is slightly enhanced by an
-optional parameter. The real enhancements will be implemented in the
-ezcPersistentIdenityMap, which is utilized by extended session handlers as
-described further below.
+The use of the \*FromQuery() methods will therefore result in a complete purge
+of the identity map to ensure consistency.
 
-ezcPersistentIdenitySessionOptions
-==================================
+Interface
+---------
 
-The new ezcPersistentIdentitySession can be configured to switch on and off
+load( string $class, mixed $id )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In case the requested object is found in the identity map, it will be returned
+from there. Otherwise the decorated persistent session will issue a normal
+load() operation and the result will be recorded in the identity map.
+loadIfExists() will react the same way.
+
+loadIntoObject( object $object, mixed $id )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In case the given $object already is a loaded instance of an object, an
+exception will be thrown. If the desired object with the $id was already
+recorded in the identity map, an exception is thrown, too, since the operation
+would result in a copy. Otherwise the load is performed as desired and the
+resulting object instance is recorded and returned.
+
+find( ezcQuerySelect $query, $class )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ezcPersistentSession->find() is executed. In the resulting array, each object
+is checked in the identity map. If an identity is found, it is replaced into
+the result. If the identity of the object is not yet knowen, it is recorded.
+
+.. note::
+   The $class parameter could be deprecated here by introcuding a decorated
+   ezcQuerySelect class for the PersistentObject component. We should still
+   keep it for BC reasons.
+
+It is possible to disable the identity caching globally when performing a
+find(), using the $refetch option of the identity map. In that case, recorded
+indenities will be overwritten by found ones.
+
+.. note::
+   This is dangerous, since duplicates can occur in the application. A better
+   way is to leave $refetch off and explicitly update the existing instances
+   using the update() method.
+
+findIterator( ezcQuerySelect $query, string $class )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To support this method properly, a new class ezcPersistentIdenitiyFindIterator
+is introduced. This one decorates the ezcPersistentFindIterator returned by
+ezcPersistentSession->findIterator(). The decorating class will take care of
+modelling the same behavior as described above with the find() method.
+
+getRelatedObjects( object $object, $relatedClass, $relationName = null )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method checks the relation cache of the identity map first, if a result
+set has already been stored for the given relation. If this is the case, the
+cached result will be returned.
+
+This behavior can be switched off using the $cacheRelations option of the
+identity map. If this option is switched to false, relations will always be
+fetched from the database and not be recorded.
+
+Beside that, the option $refetchRelations can be set to true. This way,
+relations will be refetched from the database and the fetched result will be
+recorded.
+
+Both options do not affect the identity mapping itself. In case the identity of
+an object has been recorded, the cached identity will be replaced into the
+result set.
+
+getRelatedObject( object $object, $relatedClass, $relationName = null )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Same as above, only for a single object.
+
+save( object $object )
+^^^^^^^^^^^^^^^^^^^^^^
+
+Whenever a new object was saved successfully, it is recorded in the identity
+map.
+
+saveOrUpdate( object $object )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method reacts the same as save() if the operation was not an update. In
+case of an update nothing is to do, since the object is already part of the
+identity map.
+
+addRelatedObject( object $sourceObject, object $relatedObject )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If relation caching is globally switched on, the first check this method
+performs is to see if another object was previously related to this one and the new
+$relatedObject replaces this relation. In this case, the old relation (if
+recorded) is removed. After that, the new relation is recorded.
+
+.. note::
+   It should be discussed if it is feasible to perform the save() operation
+   after a newly established relation automatically here, since otherwise
+   inconsistencies might occur with the mapping cache. ezcPersistentSession
+   does not do this, to avoid multiple UPDATE queries. Maybe a global switch in
+   ezcPersistentSession to activate this overall might be sensible?
+
+delete( object $object )
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method must remove all references to the object from all mapping caches
+before actually deleting the object itself from the DB. This is the most time
+consuming work, since multiple isset() calls might be necessary to remove all
+identities from the relation cache.
+
+.. note::
+   The delete() operation also removes all relations and, if cascading is used,
+   also removes related objects. Therefore the operation might even run longer.
+
+Performance should be a major concern when writing this code.
+
+removeRelatedObject( object $sourceObject, object $relatedObject, string $relationName = null )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If relation caching is globally turned on, the relation must be removed from
+the cache before it is actually removed from the object / database.
+
+.. note::
+   It should be discussed if it is feasible to perform the save() operation
+   after a newly established relation automatically here, since otherwise
+   inconsistencies might occur with the mapping cache. ezcPersistentSession
+   does not do this, to avoid multiple UPDATE queries. Maybe a global switch in
+   ezcPersistentSession to activate this overall might be sensible?
+
+ezcPersistentIdenityOptions
+===========================
+
+The new ezcPersistentIdentityMap can be configured to switch on and off
 certain features. The options are:
 
-$relationCache = true;
+$refetch = false;
+  Setting this to true will make the identity map indicate that no results have
+  been cached, yet. The result is, that the persistent session will re-fetch
+  all objects and record them in the identity map. This also affects the
+  relation cache ($refetchRelations = true).
+$cacheRelations = true;
   Switching this to false makes all relation query be executed and no result
   sets for relations be cached.
 $refetchRelations = false;
-  Setting this to true overwrites the $refetch parameter for
-  getRelatedObjects() globally, so that relation queries are always executed
-  but the results are still put into the cache.
-$queryCache = false;
-  Switching this on will enable the query cache for find queries and relation
-  queries.
-$refetchQueries = false;
-  If this option is enabled, queries are still cached, but are executed
-  every time to re-fetch the cache.
+  This switch allows to switch refetching on for relations. Cached relations
+  will be ignored and the persistent session will refetch related objects.
+  However, only the relation result sets will be overwritten, the object
+  identities will still be fetched from the map, if possible.
 
 ezcPersistentIdentityMap
 ========================
@@ -129,10 +245,16 @@ ezcPersistentIdentityMap
 This class is the internal heart of the identity map enhancement. It handles
 all caching and mapping activities globally for a session.
 
+Users shall usually not access the identity map object directly to fetch cached
+objects or add new ones. On the other hand, the identity map should be
+replaceable to allow more advanced implementations (e.g. involving the Cache
+component). Therefore most methods of this class will public, but marked as
+proteced via documentation.
+
 Functionality
 -------------
 
-The following 3 areas of identity mapping will be handled:
+The following 2 areas of identity mapping will be handled:
 
 1. The identity mapping itself.
 
@@ -161,9 +283,8 @@ The following 3 areas of identity mapping will be handled:
    performance hungry, if related objects need to be fetched for a large number
    of objects. To avoid this being performed multiple times in a request,
    results of calls to these methods should be stored in a dedicated cache.
-   Whenever a
-   set of related objects is retrieved, the following data structure will be
-   updated::
+   Whenever a set of related objects is retrieved, the following data structure
+   will be updated::
 
         array(
             <source_class> => array(
@@ -184,33 +305,9 @@ The following 3 areas of identity mapping will be handled:
     Once again the same request is submitted to getRelatedObject[s](), the
     cached results will be returned. Since this behavior can be memory
     consuming if many of the loaded objects are discarded by the user directly
-    after being loaded, it is be possible to disable this cache globally.  In
+    after being loaded, it is be possible to disable this cache globally. In
     addition, the refreshing of a set of objects will easily be possible, to
     update the cached results on request.
-
-3. Query cache
-
-   This 3rd, optional, cache map stores assignments of objects to search
-   queries. This way, a duplicate performing of a custom query can completely be
-   avoided. Whenever a query is performed through the persistent session, the
-   result set of this query is cached in the following data structure::
-
-        array(
-            <query> => array(
-                <object>,
-                <object>,
-                <object>,
-                // ...
-            ),
-            // ...
-        )
-
-   This behavior will only be configurable globally, since not all query
-   creations can directly be influenced by the user. Two switches are
-   responsible for this: One to switch of the behavior in general, the second
-   one to enable the regeneration of this cache globally. If the latter one is
-   switched on, queries are still cached, but each query is executed instead of
-   checking the cache for previous execution results.
 
 Interface
 ---------
@@ -227,16 +324,20 @@ The following methods will be provided by the map:
   Returns the object recorded for $class, identified by $id. If such object is
   not available, null is returned.
 
+- resetObjectMap()
+
+  Resets the object map. Attention, dangerous!
+
 - recordRelatedObjects( object $sourceObject, array(object) $relatedObjects )
 
-  Records the set of $relatedObjects to belong to $object. $relatedObjects
-  must all be of the same type. The array may also contain objects that have
-  already been recorded. These are then replaced.
+  Records the set of $relatedObjects to belong to $object. The array may also
+  contain objects that have already been recorded. These are then replaced.
 
 - addRelatedObject( object $sourceObject, object $relatedObject )
 
   Appends a related object to an existing recorded relation. Used in
-  ezcPersistentIdentitySession->addRelatedObject().
+  ezcPersistentIdentitySession->addRelatedObject(). If the relation is not
+  recorded yet, it is not created, but the call is ignored.
 
 - removeRelatedObject( object $sourceObject, object $relatedObject )
 
@@ -255,157 +356,14 @@ The following methods will be provided by the map:
   $sourceObject. This method should be used to re-initialize the mapping before
   a re-fetch takes place.
 
-- recordQueryResult( ezcQuerySelect $query, array(object) $objects )
-
-  Records the given set of objects to be the result of the given query. If
-  already results exist, the complete result array will be overwritten.
-
-- getQueryResult( ezcQuerySelect $query )
-
-  Returns an array of objects that resulted from the given $query. This might
-  also be an empty array, if the query returned an empty result set. If no
-  results have been recorded for the given query, yet, null is returned.
-
-- resetObjectMap()
-
-  Resets the object map. Attention, dangerous!
-
 - resetRelationMap()
 
   Resets the relation map. Attention, dangerous!
 
-- resetQueryMap()
-
-  Resets the query map.
-
 - reset()
 
-  Calls all 3 methods above.
+  Calls the 2 methods above.
 
-ezcPersistentIdentityLoadHandler
-================================
-
-The following methods of the load handler will be enhanced as follows:
-
-load( string $class, mixed $id )
---------------------------------
-
-In case the requested object is found in the identity map, it will be returned
-from there. Otherwise it will be loaded and recorded. loadIfExists() will react
-the same way.
-
-loadIntoObject( object $object, mixed $id )
--------------------------------------------
-
-In case the given $object already is a loaded instance of an object, an
-exception will be thrown. If the desired object with the $id was already
-recorded in the identity map, an exception is thrown, too, since the operation
-would result in a copy. Otherwise the load is performed as desired and the
-resulting object instance is returned.
-
-find( ezcQuerySelect $query, string $class, bool $refetch = false )
--------------------------------------------------------------------
-
-The find method is enhanced by a new 3rd parameter. If $fetch is false, first
-the identity map will be asked for a cached result of the given query, if query
-caching is enabled globally. If both requirements are fulfilled, the cached
-query result will be returned. Otherwise the query will be performed and the
-query result will be recorded, if query caching is globally switched on. Each
-object returned by the query is checked in the identity map. If an instance of
-one object already exists, this is replaced into the resulting array. If not,
-the newly created instance is recorded.
-
-findIterator( ezcQuerySelect $query, string $class )
-----------------------------------------------------
-
-This method does not support query caching, because of 3 reasons: 1. the
-results of the received query might not be processed at all. 2. another
-implementation of the find iterator would be necessary to handle iteration over
-cached results. 3. it might happen that the identity map is reset during
-iteration, which would result in completely inconsistent results.
-
-However, the method will return an extended version of the current
-ezcPersistentFindIterator. This object will check before an object is returned,
-if it is already recorded in the map. If it is, the recorded instance will be
-returned. Otherwise the new instance will be recorded and returned.
-
-getRelatedObjects( object $object, $relatedClass, $relationName = null, $refetch = false )
-------------------------------------------------------------------------------------------
-
-This method is enhanced by the $refetch as the find() method is. If relation
-caching is turned on globally and $refetch is false, the identity map is
-requested for a cached result. In case this is found it is returned. Otherwise
-the relation search is performed. Since the find() method is involved here, the
-objects are already checked for their identity. If relation caching is globally
-turned on, the result set is cached.
-
-
-getRelatedObject( object $object, $relatedClass, $relationName = null, $refetch = false )
------------------------------------------------------------------------------------------
-
-Same as above.
-
-ezcPersistentIdentitySaveHandler
-================================
-
-The save handler methods will be enhanced as follows.
-
-save( object $object )
-----------------------
-
-Whenever a new object was saved successfully, it is recorded in the identity
-map.
-
-saveOrUpdate( object $object )
-------------------------------
-
-This method reacts the same as save() if the operation was not an update.
-
-addRelatedObject( object $sourceObject, object $relatedObject )
----------------------------------------------------------------
-
-If relation caching is globally switched on, the first check this method
-performs is to see if another object was previously related to this one and the new
-$relatedObject replaces this relation. In this case, the old relation (if
-recorded) is removed. After that, the new relation is recorded.
-
-.. note::
-   It should be discussed if it is feasible to perform the save() operation
-   after a newly established relation automatically here, since otherwise
-   inconsistencies might occur with the mapping cache. ezcPersistentSession
-   does not do this, to avoid multiple UPDATE queries. Maybe a global switch in
-   ezcPersistentSession to activate this overall might be sensible?
-
-delete( object $object )
-------------------------
-
-This method must remove all references to the object from all mapping caches
-before actually deleting the object itself from the DB. This is the most time
-consuming work, since multiple array_search()/isset() calls might be necessary
-in the following places:
-
-- Query cache
-- Relation cache
-
-These only occur if the affected cache map is globally active. Performance
-should be a major concern while writing this code.
-
-.. note::
-   The delete() operation also removes all relations and, if cascading is used,
-   also removes related objects. Therefore the operation might even run longer.
-
-removeRelatedObject( object $sourceObject, object $relatedObject, string $relationName = null )
------------------------------------------------------------------------------------------------
-
-If relation caching is globally turned on, the relation must be removed from
-the cache before it is actually removed.
-
-.. note::
-   It should be discussed if it is feasible to perform the save() operation
-   after a newly established relation automatically here, since otherwise
-   inconsistencies might occur with the mapping cache. ezcPersistentSession
-   does not do this, to avoid multiple UPDATE queries. Maybe a global switch in
-   ezcPersistentSession to activate this overall might be sensible?
 
 -----------
 Open issues
@@ -433,6 +391,11 @@ Open issues
   with a custom implementation. For example it could make sense to offer a
   PersistentObjectCacheTiein to have the identity map cache objects to disc
   (request by BD).
+
+- The update() method only allows to update 1 specific object right now. This
+  results in a lot of select queries, if multiple objects need to be updated.
+  We should allow arrays of objects here and update them in a row using <id> IN
+  ( ... ).
 
 ======================================
 Fetching related objects through joins
