@@ -130,7 +130,7 @@ indenities will be overwritten by found ones.
 .. note::
    This is dangerous, since duplicates can occur in the application. A better
    way is to leave $refetch off and explicitly update the existing instances
-   using the update() method.
+   using the refresh() method.
 
 findIterator( ezcQuerySelect $query, string $class )
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -369,28 +369,11 @@ The following methods will be provided by the map:
 Open issues
 -----------
 
-- Making the identity map a decorator to ezcPersistentSession would design wise
-  be a nicer solution, but also has some flaws:
-
-  - No transparent replacement of current $session objects possible, due to
-    instanceof checks. Maybe introduce a common interface (would also allow
-    different implementations of ezcPersistentSession in future)?
-  
-  - It would make sense to allow the identity mapping session to access certain
-    protected functionality (creation of queries, execution, ...). This could
-    be solved by making the affected methods public and documenting them as
-    protected.
-
-- Do we need an option to explicitly reload (load()) an object? refresh() on
-  the existing version is more logical.
+- Since ezcPersistentIdentitySession only decorates ezcPersistentSessions, it
+  is not seamlessly possible to replace both in an application: Instanceof
+  checks will not work.
 - loadIfExists() can return null. Should this result be cached or should the
   method try to load again if no object has been loaded successfully, yet?
-- The updates to perform in the delete() method can become quite time consuming
-  if all caching facilities are switched on.
-- A nice idea would be to enable the replacement of ezcPersistentIdentityMap
-  with a custom implementation. For example it could make sense to offer a
-  PersistentObjectCacheTiein to have the identity map cache objects to disc
-  (request by BD).
 
 - The update() method only allows to update 1 specific object right now. This
   results in a lot of select queries, if multiple objects need to be updated.
