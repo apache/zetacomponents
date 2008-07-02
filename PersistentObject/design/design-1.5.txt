@@ -55,8 +55,7 @@ flexibility. Therefore, a new class named ezcPersistentIdentityMapSession is
 implemented. This extends the current implementation ezcPersistentSession to
 make instanceof checks still work. All of the methods will be overwritten and
 new handler classes, extending the existing ones will be implemented to reflect
-the actual additions. The methods that are not supported by the new class will
-be declared private and throw an exception is used externally.
+the actual additions.
 
 The class design will work as follows:
 
