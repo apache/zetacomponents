@@ -2,7 +2,7 @@
 <article xmlns="http://docbook.org/ns/docbook">
   <section id="literal_string">
     <sectioninfo/>
-    <title>Literal string </title>
+    <title>Literal string</title>
     <para>Normally backslashes are used to escape *markup*, or similar. You may still escape a backslash using anonther <emphasis>backslash: \</emphasis>. We can also partially escape <emphasis>special character groups*</emphasis> or completely remove a whitespace with them.</para>
   </section>
 </article>

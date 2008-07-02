@@ -3372,7 +3372,22 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 $titleTextLength += strlen( $textNode->token->content );
             }
         }
-        $node->nodes = array_reverse( $nodes );
+
+        // Trim whitespaces in text nodes.
+        if ( isset( $nodes[0] ) &&
+             ( $nodes[0]->type = ezcDocumentRstNode::TEXT_LINE ) )
+        {
+            $nodes[0]->token->content = rtrim( $nodes[0]->token->content );
+        }
+
+        $nodes = array_reverse( $nodes );
+        if ( isset( $nodes[0] ) &&
+             ( $nodes[0]->type = ezcDocumentRstNode::TEXT_LINE ) )
+        {
+            $nodes[0]->token->content = rtrim( $nodes[0]->token->content );
+        }
+
+        $node->nodes = $nodes;
 
         // There is one additional whitespace appended because of the newline -
         // remove it:

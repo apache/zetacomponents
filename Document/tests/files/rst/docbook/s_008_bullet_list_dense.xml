@@ -2,7 +2,7 @@
 <article xmlns="http://docbook.org/ns/docbook">
   <section id="dense_bullet_list">
     <sectioninfo/>
-    <title>Dense bullet list </title>
+    <title>Dense bullet list</title>
     <itemizedlist>
       <listitem>
         <para>This is a special case for bullet lists, where</para>
