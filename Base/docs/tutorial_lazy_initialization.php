@@ -21,7 +21,7 @@ class customSingleton
 // Implement your configuration class
 class customSingletonConfiguration implements ezcBaseConfigurationInitializer
 {
-    public static function configureObject( customSingleton $object )
+    public static function configureObject( $object )
     {
         echo "Configure customSingleton.\n";
         $object->value = 42;
