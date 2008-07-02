@@ -1198,5 +1198,36 @@ class ezcGraphLineChartTest extends ezcGraphTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testStackedBarChartBug13253()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        $graph = new ezcGraphBarChart();
+
+        $graph->data['values']  = new ezcGraphArrayDataSet( array(
+            'string 1' => 55,
+            'string 2' => 25,
+            'string 3' => 10,
+            'string 4' => 10,
+            'string 5' => 5,
+        ) );
+        $graph->data['remains']  = new ezcGraphArrayDataSet( array(
+            'string 1' => 45,
+            'string 2' => 75,
+            'string 3' => 90,
+            'string 4' => 90,
+            'string 5' => 95,
+        ) );
+        
+        $graph->palette = new ezcGraphPaletteEzRed();
+        $graph->options->stackBars = true;
+
+        $graph->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 ?>

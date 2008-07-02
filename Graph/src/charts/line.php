@@ -350,7 +350,8 @@ class ezcGraphLineChart extends ezcGraphChart
                         }
 
                         // Store stacked value for next iteration
-                        $stacked[(int) ( $point->x * 10000 )][$point->y / abs( $point->y )] = $point;
+                        $side = ( $point->y == 0 ? 1 : $point->y / abs( $point->y ) );
+                        $stacked[(int) ( $point->x * 10000 )][$side] = $point;
 
                         $renderer->drawStackedBar(
                             $boundings,
