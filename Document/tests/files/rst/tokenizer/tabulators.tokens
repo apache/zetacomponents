@@ -352,6 +352,15 @@ return array (
   )),
   42 => 
   ezcDocumentRstToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 13,
+     'position' => 1,
+     'escaped' => false,
+  )),
+  43 => 
+  ezcDocumentRstToken::__set_state(array(
      'type' => 6,
      'content' => NULL,
      'line' => 13,

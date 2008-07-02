@@ -490,6 +490,15 @@ return array (
   )),
   60 => 
   ezcDocumentRstToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 7,
+     'position' => 1,
+     'escaped' => false,
+  )),
+  61 => 
+  ezcDocumentRstToken::__set_state(array(
      'type' => 6,
      'content' => NULL,
      'line' => 7,
