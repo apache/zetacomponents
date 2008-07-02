@@ -11,6 +11,7 @@
   references are skipped
 - Fixed issue #13220: Support for row seperators in simple table bodies
   missing.
+- Fixed issue #13266: Parse error on no newlines at the end of input text.
 
 1.0 - Monday 16 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

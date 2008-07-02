@@ -200,6 +200,10 @@ class ezcDocumentRstTokenizer
             "\n", $line, $position
         );
         $tokens[] = new ezcDocumentRstToken(
+            ezcDocumentRstToken::NEWLINE,
+            "\n", $line, $position
+        );
+        $tokens[] = new ezcDocumentRstToken(
             ezcDocumentRstToken::EOF,
             null, $line, $position
         );
