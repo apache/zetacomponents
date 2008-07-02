@@ -154,6 +154,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             'shiftTitle',
             'shiftTransition',
             'shiftLineBlock',
+            'shiftInlineLiteral',
             'shiftInlineMarkup',
             'shiftReference',
             'shiftAnonymousHyperlinks',
@@ -246,9 +247,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
         ezcDocumentRstNode::MARKUP_INTERPRETED  => array(
             'reduceMarkup',
             'reduceInternalTarget',
-        ),
-        ezcDocumentRstNode::MARKUP_LITERAL      => array(
-            'reduceMarkup',
         ),
         ezcDocumentRstNode::MARKUP_SUBSTITUTION => array(
             'reduceMarkup',
@@ -1068,6 +1066,136 @@ class ezcDocumentRstParser extends ezcDocumentParser
     }
 
     /**
+     * Check if token is an inline markup start token.
+     * 
+     * For a user readable list of the following rules, see:
+     * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
+     *
+     * @param ezcDocumentRstToken $token 
+     * @param array $tokens 
+     * @return boolean
+     */
+    protected function isInlineStartToken( ezcDocumentRstToken $token, array &$tokens )
+    {
+        return ( // Rule 1
+             ( ( !isset( $this->documentStack[0] ) ) ||
+               ( ( $this->documentStack[0]->token->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                 ( strpos( '\'"([{<-/:_', $this->documentStack[0]->token->content[0] ) !== false ) ) ||
+               ( $this->documentStack[0]->token->type === ezcDocumentRstToken::WHITESPACE ) ||
+               ( $token->position <= ( $this->indentation + 1 ) ) ) &&
+             // Rule 2
+             ( $tokens[0]->type !== ezcDocumentRstToken::WHITESPACE ) &&
+             // Rule 5
+             ( ( !isset( $this->documentStack[0] ) ) ||
+               ( ( ( $this->documentStack[0]->token->content !== '"' ) || ( $tokens[0]->content !== '"' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '\'' ) || ( $tokens[0]->content !== '\'' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '(' ) || ( $tokens[0]->content !== ')' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '[' ) || ( $tokens[0]->content !== ']' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '{' ) || ( $tokens[0]->content !== '}' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '<' ) || ( $tokens[0]->content !== '>' ) ) ) ) );
+    }
+
+    /**
+     * Check if token is an inline markup end token.
+     * 
+     * For a user readable list of the following rules, see:
+     * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
+     *
+     * @param ezcDocumentRstToken $token 
+     * @param array $tokens 
+     * @return boolean
+     */
+    protected function isInlineEndToken( ezcDocumentRstToken $token, array &$tokens )
+    {
+        return ( // Rule 3
+             ( isset( $this->documentStack[0] ) ) &&
+             ( $this->documentStack[0]->token->type !== ezcDocumentRstToken::WHITESPACE ) &&
+             ( $token->position > ( $this->indentation + 1 ) ) &&
+             // Rule 4
+             ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ||
+               ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
+               ( strpos( '\'")]}>-/:.,;!?\\_', $tokens[0]->content[0] ) !== false ) ) );
+    }
+
+    /**
+     * Detect inline literal
+     *
+     * As defined at:
+     * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-literals
+     * 
+     * @param ezcDocumentRstToken $token 
+     * @param array $tokens 
+     * @return ezcDocumentRstMarkupEmphasisNode
+     */
+    protected function shiftInlineLiteral( ezcDocumentRstToken $token, array &$tokens )
+    {
+        if ( $token->content !== '``' )
+        {
+            return false;
+        }
+
+        if ( $this->isInlineStartToken( $token, $tokens ) )
+        {
+            /* DEBUG
+            echo "   -> Found inline literal.\n";
+            // /DEBUG */
+
+            $node = new ezcDocumentRstMarkupInlineLiteralNode( $token );
+
+            // Scan all subsequent tokens until we reach the closing token
+            /* DEBUG
+            echo "   -> Inline literal tokens: ";
+            // /DEBUG */
+            $nodes = array();
+            while ( ( $literalToken = array_shift( $tokens ) ) &&
+                    ( ( $literalToken->content !== '``' ) ||
+                      // The common inline markup end check does not apply
+                      // here, as whitespace is not required preceed the
+                      // closing ``.
+                      !( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ||
+                         ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
+                         ( strpos( '\'")]}>-/:.,;!?\\_', $tokens[0]->content[0] ) !== false ) ) ) )
+            {
+                /* DEBUG
+                echo ".";
+                // /DEBUG */
+                $nodes[] = new ezcDocumentRstLiteralNode( $literalToken );
+            }
+            /* DEBUG
+            echo "\n";
+            // /DEBUG */
+
+            // We found a closing markup node.
+            if ( $literalToken !== null )
+            {
+                /* DEBUG
+                echo "   => Shift inline literal node.\n";
+                // /DEBUG */
+                $node->nodes = $nodes;
+                return $node;
+            }
+            else
+            {
+                /* DEBUG
+                echo "   => No closing mark detected.\n";
+                // /DEBUG */
+
+                // Put all tokens back on stack.
+                $nodes = array_reverse( $nodes );
+                foreach ( $nodes as $node )
+                {
+                    array_unshift( $tokens, $node->token );
+                }
+
+                return false;
+            }
+        }
+
+        // In other preconditions this is no inline markup, but maybe just text.
+        return false;
+    }
+
+    /**
      * Detect inline markup
      *
      * As defined at:
@@ -1090,9 +1218,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
             case '`':
                 $class = 'ezcDocumentRstMarkupInterpretedTextNode';
                 break;
-            case '``':
-                $class = 'ezcDocumentRstMarkupInlineLiteralNode';
-                break;
             case '|':
                 $class = 'ezcDocumentRstMarkupSubstitutionNode';
                 break;
@@ -1106,25 +1231,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         echo "   -> Class: $class\n";
         // /DEBUG */
 
-        // For a user readable list of the following rules, see:
-        // http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
-
-        if ( // Rule 1
-             ( ( !isset( $this->documentStack[0] ) ) ||
-               ( ( $this->documentStack[0]->token->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-                 ( strpos( '\'"([{<-/:_', $this->documentStack[0]->token->content[0] ) !== false ) ) ||
-               ( $this->documentStack[0]->token->type === ezcDocumentRstToken::WHITESPACE ) ||
-               ( $token->position <= ( $this->indentation + 1 ) ) ) &&
-             // Rule 2
-             ( $tokens[0]->type !== ezcDocumentRstToken::WHITESPACE ) &&
-             // Rule 5
-             ( ( !isset( $this->documentStack[0] ) ) ||
-               ( ( ( $this->documentStack[0]->token->content !== '"' ) || ( $tokens[0]->content !== '"' ) ) &&
-                 ( ( $this->documentStack[0]->token->content !== '\'' ) || ( $tokens[0]->content !== '\'' ) ) &&
-                 ( ( $this->documentStack[0]->token->content !== '(' ) || ( $tokens[0]->content !== ')' ) ) &&
-                 ( ( $this->documentStack[0]->token->content !== '[' ) || ( $tokens[0]->content !== ']' ) ) &&
-                 ( ( $this->documentStack[0]->token->content !== '{' ) || ( $tokens[0]->content !== '}' ) ) &&
-                 ( ( $this->documentStack[0]->token->content !== '<' ) || ( $tokens[0]->content !== '>' ) ) ) ) )
+        if ( $this->isInlineStartToken( $token, $tokens ) )
         {
             // Create a markup open tag
             /* DEBUG
@@ -1133,17 +1240,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             return new $class( $token, true );
         }
 
-        // For a user readable list of the following rules, see:
-        // http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
-
-        if ( // Rule 3
-             ( isset( $this->documentStack[0] ) ) &&
-             ( $this->documentStack[0]->token->type !== ezcDocumentRstToken::WHITESPACE ) &&
-             ( $token->position > ( $this->indentation + 1 ) ) &&
-             // Rule 4
-             ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ||
-               ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
-               ( strpos( '\'")]}>-/:.,;!?\\_', $tokens[0]->content[0] ) !== false ) ) )
+        if ( $this->isInlineEndToken( $token, $tokens ) )
         {
             // Create a markup close tag
             /* DEBUG

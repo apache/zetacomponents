@@ -7,3 +7,6 @@ backquotes: ` `` etc.
 underscores: _ __ __init__ __init__() etc.
 vertical bars: | || etc.
 
+For instance, function int mail(char *to, char *from) should NOT free
+to and/or from.
+

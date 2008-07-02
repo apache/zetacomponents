@@ -45,7 +45,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 2,
-               'content' => ' ',
+               'content' => '',
                'line' => 1,
                'position' => 10,
                'escaped' => false,
@@ -104,6 +104,44 @@ return ezcDocumentRstDocumentNode::__set_state(array(
 ',
              'line' => 8,
              'position' => 25,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        1 => 
+        ezcDocumentRstParagraphNode::__set_state(array(
+           'indentation' => 0,
+           'line' => 11,
+           'position' => 16,
+           'type' => 3,
+           'nodes' => 
+          array (
+            0 => 
+            ezcDocumentRstTextLineNode::__set_state(array(
+               'line' => 10,
+               'position' => 1,
+               'type' => 4,
+               'nodes' => 
+              array (
+              ),
+               'token' => 
+              ezcDocumentRstToken::__set_state(array(
+                 'type' => 5,
+                 'content' => 'For instance, function int mail(char *to, char *from) should NOT free to and/or from.',
+                 'line' => 10,
+                 'position' => 1,
+                 'escaped' => false,
+              )),
+               'identifier' => NULL,
+            )),
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 2,
+             'content' => '
+',
+             'line' => 11,
+             'position' => 16,
              'escaped' => false,
           )),
            'identifier' => NULL,

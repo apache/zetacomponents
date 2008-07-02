@@ -16,7 +16,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentRstMarkupInlineLiteralNode extends ezcDocumentRstMarkupNode
+class ezcDocumentRstMarkupInlineLiteralNode extends ezcDocumentRstNode
 {
     /**
      * Construct RST document node
@@ -25,10 +25,9 @@ class ezcDocumentRstMarkupInlineLiteralNode extends ezcDocumentRstMarkupNode
      * @param bool $open
      * @return void
      */
-    public function __construct( ezcDocumentRstToken $token, $open )
+    public function __construct( ezcDocumentRstToken $token )
     {
         parent::__construct( $token, self::MARKUP_LITERAL );
-        $this->openTag = (bool) $open;
     }
 
     /**
@@ -41,8 +40,7 @@ class ezcDocumentRstMarkupInlineLiteralNode extends ezcDocumentRstMarkupNode
     public static function __set_state( $properties )
     {
         $node = new ezcDocumentRstMarkupInlineLiteralNode(
-            $properties['token'],
-            $properties['openTag']
+            $properties['token']
         );
 
         $node->nodes = $properties['nodes'];

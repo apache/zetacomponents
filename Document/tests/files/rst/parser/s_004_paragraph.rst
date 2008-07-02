@@ -45,7 +45,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 2,
-               'content' => ' ',
+               'content' => '',
                'line' => 1,
                'position' => 29,
                'escaped' => false,
@@ -299,17 +299,16 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             7 => 
             ezcDocumentRstMarkupInlineLiteralNode::__set_state(array(
-               'openTag' => false,
                'line' => 5,
-               'position' => 50,
+               'position' => 33,
                'type' => 33,
                'nodes' => 
               array (
                 0 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
+                ezcDocumentRstLiteralNode::__set_state(array(
                    'line' => 5,
                    'position' => 35,
-                   'type' => 4,
+                   'type' => 50,
                    'nodes' => 
                   array (
                   ),
@@ -329,7 +328,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'type' => 4,
                  'content' => '``',
                  'line' => 5,
-                 'position' => 50,
+                 'position' => 33,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -356,7 +355,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             ezcDocumentRstExternalReferenceNode::__set_state(array(
                'target' => 'http://www.python.org',
                'line' => 5,
-               'position' => 52,
+               'position' => 77,
                'type' => 41,
                'nodes' => 
               array (
@@ -392,7 +391,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             10 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 5,
-               'position' => 52,
+               'position' => 98,
                'type' => 4,
                'nodes' => 
               array (

@@ -45,7 +45,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 2,
-               'content' => ' ',
+               'content' => '',
                'line' => 1,
                'position' => 35,
                'escaped' => false,
@@ -1889,9 +1889,81 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 1,
-                 'content' => ' refers to a file called ``underscore_``.',
+                 'content' => ' refers to a file called ',
                  'line' => 37,
                  'position' => 11,
+                 'escaped' => false,
+              )),
+               'identifier' => NULL,
+            )),
+            3 => 
+            ezcDocumentRstMarkupInlineLiteralNode::__set_state(array(
+               'line' => 37,
+               'position' => 36,
+               'type' => 33,
+               'nodes' => 
+              array (
+                0 => 
+                ezcDocumentRstLiteralNode::__set_state(array(
+                   'line' => 37,
+                   'position' => 38,
+                   'type' => 50,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 5,
+                     'content' => 'underscore',
+                     'line' => 37,
+                     'position' => 38,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+                1 => 
+                ezcDocumentRstLiteralNode::__set_state(array(
+                   'line' => 37,
+                   'position' => 48,
+                   'type' => 50,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 4,
+                     'content' => '_',
+                     'line' => 37,
+                     'position' => 48,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+              ),
+               'token' => 
+              ezcDocumentRstToken::__set_state(array(
+                 'type' => 4,
+                 'content' => '``',
+                 'line' => 37,
+                 'position' => 36,
+                 'escaped' => false,
+              )),
+               'identifier' => NULL,
+            )),
+            4 => 
+            ezcDocumentRstTextLineNode::__set_state(array(
+               'line' => 37,
+               'position' => 51,
+               'type' => 4,
+               'nodes' => 
+              array (
+              ),
+               'token' => 
+              ezcDocumentRstToken::__set_state(array(
+                 'type' => 4,
+                 'content' => '.',
+                 'line' => 37,
+                 'position' => 51,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -2648,6 +2720,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'identifier' => NULL,
             )),
             8 => 
+            ezcDocumentRstLiteralNode::__set_state(array(
+               'line' => 51,
+               'position' => 1,
+               'type' => 50,
+               'nodes' => 
+              array (
+              ),
+               'token' => 
+              ezcDocumentRstToken::__set_state(array(
+                 'type' => 2,
+                 'content' => false,
+                 'line' => 51,
+                 'position' => 1,
+                 'escaped' => false,
+              )),
+               'identifier' => NULL,
+            )),
+            9 => 
             ezcDocumentRstLiteralNode::__set_state(array(
                'line' => 51,
                'position' => 1,

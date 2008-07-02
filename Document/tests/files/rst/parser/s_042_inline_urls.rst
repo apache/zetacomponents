@@ -45,7 +45,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 2,
-               'content' => ' ',
+               'content' => '',
                'line' => 1,
                'position' => 12,
                'escaped' => false,
@@ -136,7 +136,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             2 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 4,
-               'position' => 1,
+               'position' => 59,
                'type' => 4,
                'nodes' => 
               array (
@@ -301,7 +301,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             8 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 5,
-               'position' => 9,
+               'position' => 120,
                'type' => 4,
                'nodes' => 
               array (
