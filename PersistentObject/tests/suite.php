@@ -42,6 +42,7 @@ require_once 'property_date_time_converter_test.php';
 require_once 'database_type_test.php';
 
 require_once 'persistent_object_test.php';
+require_once 'instance_delayed_init_test.php';
 
 /**
  * @package PersistentObject
@@ -81,6 +82,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentPropertyDateTimeConverterTest::suite() );
         $this->addTest( ezcPersistentDatabaseTypeTest::suite() );
         $this->addTest( ezcPersistentObjectTest::suite() );
+        $this->addTest( ezcPersistentObjectInstanceDelayedInitTest::suite() );
     }
 
     public static function suite()

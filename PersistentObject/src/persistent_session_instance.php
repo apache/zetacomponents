@@ -72,7 +72,17 @@ class ezcPersistentSessionInstance
 
         if ( !isset( self::$instances[$identifier] ) )
         {
-            throw new ezcPersistentSessionNotFoundException( $identifier );
+            // The ezcInitPersistentSessionInstance callback should return an
+            // ezcPersistentSession object which will then be set as instance.
+            $ret = ezcBaseInit::fetchConfig( 'ezcInitPersistentSessionInstance', $identifier );
+            if ( $ret === null )
+            {
+                throw new ezcPersistentSessionNotFoundException( $identifier );
+            }
+            else
+            {
+                self::set( $ret, $identifier );
+            }
         }
 
         return self::$instances[$identifier];
