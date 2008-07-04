@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<tree xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data">
+<tree xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data" prefix="id">
   <node id="idElements">
     <etd:data>Elements</etd:data>
     <node id="idNonMetals">
