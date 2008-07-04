@@ -96,6 +96,7 @@ abstract class ezcTree implements ezcTreeVisitable
     {
         switch ( $name )
         {
+            case 'autoId':
             case 'store':
             case 'nodeClassName':
                 return $this->properties[$name];
@@ -458,6 +459,26 @@ abstract class ezcTree implements ezcTreeVisitable
         $to->setRootNode( new ezcTreeNode( $to, $fromRootNode->id, $fromRootNode->data ) );
         $toRootNode = $to->getRootNode();
         self::copyChildren( $from, $to, $fromRootNode, $toRootNode );
+    }
+
+    /**
+     * Returns whether we are currently in a transaction or not
+     *
+     * @return bool
+     */
+    public function inTransaction()
+    {
+        return $this->inTransaction;
+    }
+
+    /**
+     * Returns whether we are currently in a transaction commit state or not
+     *
+     * @return bool
+     */
+    public function inTransactionCommit()
+    {
+        return $this->inTransactionCommit;
     }
 
     /**

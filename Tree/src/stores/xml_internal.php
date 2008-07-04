@@ -122,7 +122,10 @@ class ezcTreeXmlInternalDataStore implements ezcTreeXmlDataStore
         $dataNode = $elem->ownerDocument->createElementNS( 'http://components.ez.no/Tree/data', 'etd:data', $node->data );
         $elem->appendChild( $dataNode );
         $node->dataStored = true;
-        $node->tree->saveFile();
+        if ( !$node->tree->inTransactionCommit() )
+        {
+            $node->tree->saveFile();
+        }
     }
 }
 ?>

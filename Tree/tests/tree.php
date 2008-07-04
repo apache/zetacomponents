@@ -89,6 +89,26 @@ abstract class ezcTreeTest extends ezcTestCase
         }
     }
 
+    public function testSetAutoId()
+    {
+        $tree = $this->setUpTestTree();
+
+        $tree->autoId = false;
+        self::assertSame( false, $tree->autoId );
+        $tree->autoId = true;
+        self::assertSame( true, $tree->autoId );
+
+        try
+        {
+            $tree->autoId = "foobar";
+            self::fail( "Expected exception not thrown" );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertSame( "The value 'foobar' that you were trying to assign to setting 'autoId' is invalid. Allowed values are: boolean.", $e->getMessage() );
+        }
+    }
+
     public function testIssetNodeClassName()
     {
         $tree = $this->setUpTestTree();
@@ -596,6 +616,17 @@ abstract class ezcTreeTest extends ezcTestCase
 
         self::assertSame( true, $tree->fetchNodeById( 4 )->isChildOf( $tree->fetchNodeById( 5 ) ) );
         self::assertSame( true, $tree->fetchNodeById( 4 )->isSiblingOf( $tree->fetchNodeById( 9 ) ) );
+    }
+
+    public function testTreeInTransaction()
+    {
+        $tree = $this->setUpTestTree();
+
+        self::assertSame( false, $tree->inTransaction() );
+
+        $tree->beginTransaction();
+
+        self::assertSame( true, $tree->inTransaction() );
     }
 
     public function testTreeDeleteNode1()
