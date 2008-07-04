@@ -56,22 +56,6 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->signals->connect( 'afterVariableUnset', array( $this->receiver, 'afterVariableUnset' ) );
     }
 
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
-    public function testProperties()
-    {
-        $foo = $this->plugin->foo;
-    }
-
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
-    public function testProperties2()
-    {
-        $this->plugin->foo = 'foo';
-    }
-
     public function testSignalsForStartEnd()
     {
         $this->setUpStartEnd();
@@ -628,10 +612,18 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->plugin->options['afterExecutionStarted'] = null;
     }
 
+    public function testOptions3()
+    {
+        $options = new ezcWorkflowSignalSlotPluginOptions;
+        $this->plugin->options = $options;
+
+        $this->assertSame($options, $this->plugin->options);
+    }
+
     /**
      * @expectedException ezcBaseValueException
      */
-    public function testOptions3()
+    public function testOptions4()
     {
         $this->plugin->options = null;
     }
@@ -639,7 +631,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
     /**
      * @expectedException ezcBasePropertyNotFoundException
      */
-    public function testOptions4()
+    public function testOptions5()
     {
         $this->plugin->options['foo'] = null;
     }
@@ -647,17 +639,33 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
     /**
      * @expectedException ezcBaseValueException
      */
-    public function testOptions5()
+    public function testOptions6()
     {
         $this->plugin->signals = null;
     }
 
-    public function testOptions6()
+    public function testOptions7()
     {
         $signals = new ezcSignalCollection;
         $this->plugin->signals = $signals;
 
         $this->assertSame($signals, $this->plugin->signals);
+    }
+
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
+    public function testProperties()
+    {
+        $foo = $this->plugin->foo;
+    }
+
+    /**
+     * @expectedException ezcBasePropertyNotFoundException
+     */
+    public function testProperties2()
+    {
+        $this->plugin->foo = 'foo';
     }
 }
 ?>
