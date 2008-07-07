@@ -4,6 +4,13 @@ libxml_use_internal_errors( true );
 
 abstract class ezcWebdavClientTest extends ezcTestCase
 {
+    /**
+     * If the backend used in client tests should be stored.
+     *
+     * Helpfull if new client tests should be appended to existing ones.
+     */
+    const STORE_BACKEND = true;
+
     protected $setupClass;
 
     public $dataDir;
@@ -17,6 +24,8 @@ abstract class ezcWebdavClientTest extends ezcTestCase
     private $currentTestSet;
 
     private $reset = false;
+
+    protected static $backendDir;
 
     /**
      * Needs to set different options.
@@ -32,6 +41,13 @@ abstract class ezcWebdavClientTest extends ezcTestCase
     public function __construct()
     {
         parent::__construct();
+
+        // Initialize directory to store backend dumps in
+        if ( self::STORE_BACKEND && self::$backendDir === null )
+        {
+            self::$backendDir = $this->createTempDir( 'WebdavBackendDump' );
+        }
+
         $this->setupTestEnvironment();
 
         // Reset the backend at start of the suite
@@ -121,6 +137,22 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'] );
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'] );
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'] );
+
+        // Store backend after test execution, if desired
+        if ( self::STORE_BACKEND )
+        {
+            $backendDir = self::$backendDir . '/' . get_class( $this );
+
+            if ( !is_dir( $backendDir ) )
+            {
+                mkdir( $backendDir );
+            }
+
+            file_put_contents(
+                $backendDir . '/' . basename( $testSetName ) . '.ser',
+                serialize( $this->backend )
+            );
+        }
 
         $this->assertEquals(
             $response,
