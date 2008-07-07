@@ -180,7 +180,10 @@ class ezcWebdavPropertyHandler
                     )
                 )
             );
+        }
 
+        if ( $property === null )
+        {
             // Second, parse dead property instead
             $property = $this->dispatchExtractDeadProperty( $element );
         }
