@@ -1,13 +1,10 @@
 TODO
 ====
 
-- Implement XHTML -> Docbook conversion class (ezcDocumentXhtmlToDocbook) and XSLT.
-- Implement Docbook -> XHTML conversion class and XSLT.
-- Implement eZp 3 -> eZp 4 conversion class and XSLT.
-- Implement eZp -> Docbook conversion class and XSLT.
-- Implement Docbook -> eZp conversion class and XSLT.
-- Implement ReST parsing to XML and ReST-XML -> Docbook conversion class and XSLT.
-- Implement Docbook -> ReST conversion class and XSLT.
-- Implement OEHTML/XHTML -> eZp conversion class and XSLT.
-- Implement eZp -> OEHTML/XHTML conversion class and XSLT.
-- Implement DocumentTemplateTieIn component for eZp format output with templates.
+- XHTML reading, is tricky
+- Docbook to XHTML, check PHD: http://cvs.php.net/viewvc.cgi/phd/
+- Write ReST files back from docbook
+- eZ Publish formats needs checking
+  - stuff by Kirill, needs testcase.
+- Evaluate different wiki syntaxes, pick multiple, but still in a generic parser.
+
