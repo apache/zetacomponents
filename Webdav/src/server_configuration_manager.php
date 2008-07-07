@@ -59,7 +59,7 @@ class ezcWebdavServerConfigurationManager implements ArrayAccess, Iterator
         );
         // Add Nautilus configuration
         $this[] = new ezcWebdavServerConfiguration(
-            '(gnome-vfs/[0-9.]+ neon/[0-9.]*)i',
+            '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
             'ezcWebdavTransport',
             'ezcWebdavXmlTool',
             'ezcWebdavNautilusPropertyHandler'
