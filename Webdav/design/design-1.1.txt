@@ -58,6 +58,7 @@ The following design only refers to the support of entity tags as defined in
 the HTTP/1.1 RFC. This includes the headers mentioned in the RFC overview
 document and the generation and comparison of entity tags.
 
+=====================
 Entity tag generation
 =====================
 
@@ -87,6 +88,7 @@ by a mechanism that uses the last modification time and the size of the file.
 This mechanism will be implemented generically in ezcWebdavSimpleBackend to
 allow other extending backends to use it.
 
+===============
 Header handling
 ===============
 
@@ -94,7 +96,7 @@ The handling of entity tag related headers must take place in several different
 architecture levels of the Webdav component.
 
 Transport layer
----------------
+===============
 
 The transport layer needs to be able to parse the request headers and to
 serialize the response headers. Therefore the ezcWebdavHeaderHandler class
@@ -132,7 +134,7 @@ only contain the string value of an entity tag this mechanism is already
 implemented in the current response processing.
 
 Back end layer
---------------
+==============
 
 The interpretation of incoming If-Match and If-None-Match headers must be done
 in the back end. The implementation will take place in the
@@ -919,7 +921,7 @@ maintainability.
 Transport layer
 ===============
 
-The functionality described for the `Plugin base approach`_ need to be included
+The functionality described for the plugin base approach need to be included
 into the current transport layer. The implementations themselves stay almost
 exactly the same. The main change is the place of implementation. Instead of
 creating new classes and using the plugin API some new methods in
@@ -994,7 +996,7 @@ Plugin based
 
 This section tries to design the honoring of the If header in the Webdav
 component using a plugin based approach for lock handling. This works
-corresponding to the plugin approach described in `Plugin design draft`_.
+corresponding to the plugin approach described in plugin design draft.
 
 It is not possibly to extract all parts of locking support into the lock
 plugin, since the If header must be parsed in one go. Since this can also
@@ -1122,7 +1124,7 @@ Server layer
 ============
 
 If the lock plugin is active, it needs to hook into every affected request (see
-`Affected base methods`_) and check the If header conditions. The check does
+affected base methods) and check the If header conditions. The check does
 not only affect the checking of lock token conditions, but also the check of
 entity tag validation, because both condition types are combinable. The checks are
 performed via the receivedRequest hook of the plugin API.
