@@ -17,7 +17,6 @@ return array(
     'ezcDebug'                               => 'Debug/debug.php',
     'ezcDebugHtmlFormatter'                  => 'Debug/formatters/html_formatter.php',
     'ezcDebugMemoryWriter'                   => 'Debug/writers/memory_writer.php',
-    'ezcDebugMessage'                        => 'Debug/debug_message.php',
     'ezcDebugOptions'                        => 'Debug/options.php',
     'ezcDebugPhpStacktraceIterator'          => 'Debug/stacktrace/php_iterator.php',
     'ezcDebugStructure'                      => 'Debug/structs/debug_structure.php',
