@@ -1,19 +1,20 @@
-1.1aplha1 - [RELEASEDATE]
+1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13200: Problem with multiple headers with the same name, when
   generating table of contents in an rst document.
-- Fixed issue #13239: Named external references with literal markup in
-  destination nodes are not found.
-- Fixed issue #13238: Whitespaces at line ends, with markup as last element
-  are skipped.
-- Fixed issue #13237: Whitespaces before single word named external
-  references are skipped
 - Fixed issue #13220: Support for row seperators in simple table bodies
   missing.
+- Fixed issue #13237: Whitespaces before single word named external
+  references are skipped.
+- Fixed issue #13238: Whitespaces at line ends, with markup as last element
+  are skipped.
+- Fixed issue #13239: Named external references with literal markup in
+  destination nodes are not found.
+- Fixed issue #13265: Handle inline literals correctly.
 - Fixed issue #13266: Parse error on no newlines at the end of input text.
 - Fixed issue #13267: Trim surrounding whitespaces in title strings.
-- Fixed issue #13265: Handle inline literals correctly.
+
 
 1.0 - Monday 16 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
