@@ -81,17 +81,17 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             0 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 4,
-               'position' => 33,
+               'position' => 1,
                'type' => 4,
                'nodes' => 
               array (
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(
-                 'type' => 4,
-                 'content' => '{ ]*( )*\' "*asterisks: * "*\' (* [*} 1*x BOM32_* double asterisks: ** a**b O(N**2) etc. backquotes: ` `` etc. underscores: _ __ __init__ __init__() etc. vertical bars: | || etc.',
+                 'type' => 5,
+                 'content' => 'asterisks: * "*" \'*\' (*) (* [*] {*} 1*x BOM32_* double asterisks: ** a**b O(N**2) etc. backquotes: ` `` etc. underscores: _ __ __init__ __init__() etc. vertical bars: | || etc.',
                  'line' => 4,
-                 'position' => 33,
+                 'position' => 1,
                  'escaped' => false,
               )),
                'identifier' => NULL,

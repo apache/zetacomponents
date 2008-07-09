@@ -1084,6 +1084,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                ( $token->position <= ( $this->indentation + 1 ) ) ) &&
              // Rule 2
              ( $tokens[0]->type !== ezcDocumentRstToken::WHITESPACE ) &&
+             ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE ) &&
              // Rule 5
              ( ( !isset( $this->documentStack[0] ) ) ||
                ( ( ( $this->documentStack[0]->token->content !== '"' ) || ( $tokens[0]->content !== '"' ) ) &&
@@ -4046,11 +4047,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 // stack.
                 $node->nodes = $childs;
                 return $node;
-                return;
             }
 
             /* DEBUG
-            echo "     - Collected " . ezcDocumentRstNode::getTokenName( $child->type ) . ".\n";
+            echo "     - Collected " . ezcDocumentRstNode::getTokenName( $child->type ) . " ({$child->token->content}).\n";
             // /DEBUG */
 
             // Append unusable but inline node to potential child list.
@@ -4066,7 +4066,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         echo "   => Use as Text.\n";
         // /DEBUG */
         $this->documentStack = array_merge(
-            $childs,
+            array_reverse( $childs ),
             $this->documentStack
         );
 

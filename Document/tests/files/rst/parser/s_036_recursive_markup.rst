@@ -81,7 +81,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             0 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 4,
-               'position' => 49,
+               'position' => 1,
                'type' => 4,
                'nodes' => 
               array (
@@ -89,9 +89,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 5,
-                 'content' => 'properly ',
+                 'content' => 'We ',
                  'line' => 4,
-                 'position' => 49,
+                 'position' => 1,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -265,7 +265,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             2 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 4,
-               'position' => 3,
+               'position' => 48,
                'type' => 4,
                'nodes' => 
               array (
@@ -273,9 +273,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 1,
-                 'content' => ' We**. Even the docutils parser doesn\'t.',
+                 'content' => ' properly**. Even the docutils parser doesn\'t.',
                  'line' => 4,
-                 'position' => 3,
+                 'position' => 48,
                  'escaped' => false,
               )),
                'identifier' => NULL,

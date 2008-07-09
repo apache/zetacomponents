@@ -3,6 +3,8 @@
 
 - Fixed issue #13326: Paragraph order mixed up with blockquotes in bullet
   lists.
+- Fixed issue #13327: Emphasis closing node wrongly recognized as opening
+  node.
 
 
 1.0.1 - Tuesday 08 July 2008
