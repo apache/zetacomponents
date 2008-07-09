@@ -97,10 +97,6 @@ class ezcDocumentRstParserTests extends ezcTestCase
                 dirname( __FILE__ ) . '/files/rst/parser/e_003_titles_depth.txt',
                 'Parse error: Fatal error: \'Title depth inconsitency.\' in line 13 at position 1.',
             ),
-            array(
-                dirname( __FILE__ ) . '/files/rst/parser/e_004_blockquotes_depth.txt',
-                'Parse error: Error: \'Indentation level changed between block quotes from 4 to 9.\' in line 9 at position 34.',
-            ),
         );
     }
 

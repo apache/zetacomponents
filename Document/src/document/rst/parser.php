@@ -202,7 +202,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
      */
     protected $reductions = array(
         ezcDocumentRstNode::DOCUMENT            => array( 
-//            'reduceParagraph',
             'reduceSection',
         ),
         ezcDocumentRstNode::SECTION             => array(
@@ -3683,18 +3682,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // there.
         if ( isset( $this->documentStack[0] ) &&
              ( $this->documentStack[0]->type === ezcDocumentRstNode::BLOCKQUOTE ) &&
-             ( $this->documentStack[0]->closed === false ) )
+             ( $this->documentStack[0]->closed === false ) &&
+             ( $this->documentStack[0]->indentation <= $node->indentation ) )
         {
-            // The indentation level of blockquotes should stay the same
-            if ( $this->documentStack[0]->indentation !== $node->indentation )
-            {
-                $this->triggerError(
-                    E_ERROR,
-                    "Indentation level changed between block quotes from {$this->documentStack[0]->indentation} to {$node->indentation}.",
-                    null, $node->token->line, $node->token->position
-                );
-            }
-
             // Just append paragraph and exit
             $quote = array_shift( $this->documentStack );
             $quote->nodes[] = $node;
@@ -3703,8 +3693,13 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Create a new blockquote
         $blockquote = new ezcDocumentRstBlockquoteNode( $node->nodes[0]->token );
-        $blockquote->indentation = $node->indentation;
         array_unshift( $blockquote->nodes, $node );
+
+        // Set blockquote indentation to the indentation of the last item on
+        // the document stack. This way it can be handled like other block
+        // level elements and already has the special markup.
+        $blockquote->indentation = isset( $this->documentStack[0] ) ? $this->documentStack[0]->indentation : 0;
+
         return $blockquote;
     }
 
@@ -3759,9 +3754,12 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 /* DEBUG
                 echo "   => Found matching list.\n";
                 // /DEBUG */
-                $child->nodes[] = $node;
+                $child->nodes = array_merge( 
+                    $child->nodes,
+                    array_reverse( $childs ),
+                    array( $node )
+                );
                 $this->documentStack = array_merge(
-                    $childs,
                     array( $child ),
                     $this->documentStack
                 );

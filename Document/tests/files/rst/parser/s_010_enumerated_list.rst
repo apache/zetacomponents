@@ -397,44 +397,6 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'nodes' => 
               array (
                 0 => 
-                ezcDocumentRstParagraphNode::__set_state(array(
-                   'indentation' => 4,
-                   'line' => 21,
-                   'position' => 25,
-                   'type' => 3,
-                   'nodes' => 
-                  array (
-                    0 => 
-                    ezcDocumentRstTextLineNode::__set_state(array(
-                       'line' => 21,
-                       'position' => 5,
-                       'type' => 4,
-                       'nodes' => 
-                      array (
-                      ),
-                       'token' => 
-                      ezcDocumentRstToken::__set_state(array(
-                         'type' => 5,
-                         'content' => 'Paragraph in list...',
-                         'line' => 21,
-                         'position' => 5,
-                         'escaped' => false,
-                      )),
-                       'identifier' => NULL,
-                    )),
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 2,
-                     'content' => '
-',
-                     'line' => 21,
-                     'position' => 25,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
-                1 => 
                 ezcDocumentRstEnumeratedListNode::__set_state(array(
                    'type' => 21,
                    'text' => 'a) ',
@@ -492,7 +454,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                   )),
                    'identifier' => NULL,
                 )),
-                2 => 
+                1 => 
                 ezcDocumentRstEnumeratedListNode::__set_state(array(
                    'type' => 21,
                    'text' => 'b) ',
@@ -546,6 +508,44 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'content' => 'b',
                      'line' => 19,
                      'position' => 5,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+                2 => 
+                ezcDocumentRstParagraphNode::__set_state(array(
+                   'indentation' => 4,
+                   'line' => 21,
+                   'position' => 25,
+                   'type' => 3,
+                   'nodes' => 
+                  array (
+                    0 => 
+                    ezcDocumentRstTextLineNode::__set_state(array(
+                       'line' => 21,
+                       'position' => 5,
+                       'type' => 4,
+                       'nodes' => 
+                      array (
+                      ),
+                       'token' => 
+                      ezcDocumentRstToken::__set_state(array(
+                         'type' => 5,
+                         'content' => 'Paragraph in list...',
+                         'line' => 21,
+                         'position' => 5,
+                         'escaped' => false,
+                      )),
+                       'identifier' => NULL,
+                    )),
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 2,
+                     'content' => '
+',
+                     'line' => 21,
+                     'position' => 25,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,

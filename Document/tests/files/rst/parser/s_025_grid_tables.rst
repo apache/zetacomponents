@@ -3297,7 +3297,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstBlockquoteNode::__set_state(array(
                            'annotation' => NULL,
                            'closed' => false,
-                           'indentation' => 21,
+                           'indentation' => 0,
                            'line' => 42,
                            'position' => 22,
                            'type' => 5,

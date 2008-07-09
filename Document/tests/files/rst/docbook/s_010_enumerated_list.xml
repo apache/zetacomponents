@@ -23,7 +23,6 @@
             <para>Item 1b.</para>
           </listitem>
           <listitem>
-            <para>Paragraph in list...</para>
             <orderedlist numeration="loweralpha">
               <listitem>
                 <para>Item 2a.</para>
@@ -32,6 +31,7 @@
                 <para>Item 2b.</para>
               </listitem>
             </orderedlist>
+            <para>Paragraph in list...</para>
           </listitem>
         </orderedlist>
       </listitem>

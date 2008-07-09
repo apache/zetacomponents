@@ -212,44 +212,6 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'identifier' => NULL,
             )),
             2 => 
-            ezcDocumentRstParagraphNode::__set_state(array(
-               'indentation' => 2,
-               'line' => 21,
-               'position' => 61,
-               'type' => 3,
-               'nodes' => 
-              array (
-                0 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 21,
-                   'position' => 3,
-                   'type' => 4,
-                   'nodes' => 
-                  array (
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 5,
-                     'content' => 'And after a sublist there may also follow more paragraphs.',
-                     'line' => 21,
-                     'position' => 3,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
-              ),
-               'token' => 
-              ezcDocumentRstToken::__set_state(array(
-                 'type' => 2,
-                 'content' => '
-',
-                 'line' => 21,
-                 'position' => 61,
-                 'escaped' => false,
-              )),
-               'identifier' => NULL,
-            )),
-            3 => 
             ezcDocumentRstBulletListNode::__set_state(array(
                'indentation' => 4,
                'line' => 15,
@@ -340,6 +302,44 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'content' => '-',
                  'line' => 15,
                  'position' => 3,
+                 'escaped' => false,
+              )),
+               'identifier' => NULL,
+            )),
+            3 => 
+            ezcDocumentRstParagraphNode::__set_state(array(
+               'indentation' => 2,
+               'line' => 21,
+               'position' => 61,
+               'type' => 3,
+               'nodes' => 
+              array (
+                0 => 
+                ezcDocumentRstTextLineNode::__set_state(array(
+                   'line' => 21,
+                   'position' => 3,
+                   'type' => 4,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentRstToken::__set_state(array(
+                     'type' => 5,
+                     'content' => 'And after a sublist there may also follow more paragraphs.',
+                     'line' => 21,
+                     'position' => 3,
+                     'escaped' => false,
+                  )),
+                   'identifier' => NULL,
+                )),
+              ),
+               'token' => 
+              ezcDocumentRstToken::__set_state(array(
+                 'type' => 2,
+                 'content' => '
+',
+                 'line' => 21,
+                 'position' => 61,
                  'escaped' => false,
               )),
                'identifier' => NULL,

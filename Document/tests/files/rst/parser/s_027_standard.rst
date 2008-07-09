@@ -14441,7 +14441,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                          'identifier' => NULL,
                       )),
                        'closed' => true,
-                       'indentation' => 4,
+                       'indentation' => 0,
                        'line' => 314,
                        'position' => 5,
                        'type' => 5,
