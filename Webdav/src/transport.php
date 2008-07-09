@@ -172,7 +172,7 @@ class ezcWebdavTransport
     public final function parseRequest( $uri )
     {
         $body = $this->retreiveBody();
-        $path = ezcWebdavServer::getInstance()->pathFactory->parseUriToPath( $uri );
+        $path = $this->retrievePath( $uri );
 
         if ( isset( self::$parsingMap[$_SERVER['REQUEST_METHOD']] )  )
         {
@@ -345,6 +345,20 @@ class ezcWebdavTransport
         }
         // @codeCoverageIgnoreEnd
         return $body;
+    }
+
+    /**
+     * Returns the translated request path.
+     *
+     * This method calls the configured path factory to  translate the
+     * submitted URI into a local path. It can be overwritten to perform client
+     * specific path adjustments.
+     *
+     * @return string
+     */
+    protected function retrievePath( $uri )
+    {
+        return ezcWebdavServer::getInstance()->pathFactory->parseUriToPath( $uri );
     }
 
     /**
