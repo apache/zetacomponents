@@ -64,6 +64,11 @@ class ezcWebdavServerConfigurationManager implements ArrayAccess, Iterator
             'ezcWebdavXmlTool',
             'ezcWebdavNautilusPropertyHandler'
         );
+        // Add Konqueror configuration
+        $this[] = new ezcWebdavServerConfiguration(
+            '(Konqueror)i',
+            'ezcWebdavKonquerorCompatibleTransport'
+        );
         // Add default RFC compliant transport as final catchall
         $this[] = new ezcWebdavServerConfiguration();
     }

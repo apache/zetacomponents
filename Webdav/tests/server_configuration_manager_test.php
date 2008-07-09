@@ -48,7 +48,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -66,6 +70,10 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
             'ezcWebdavMicrosoftCompatibleTransport'
         );
         $thirdCfg = new ezcWebdavServerConfiguration(
+            '(Konqueror)i',
+            'ezcWebdavKonquerorCompatibleTransport'
+        );
+        $fourthCfg = new ezcWebdavServerConfiguration(
             '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
             'ezcWebdavTransport',
             'ezcWebdavXmlTool',
@@ -75,45 +83,48 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0 => $secondCfg,
-                1 => $thirdCfg,
-                2 => $firstCfg,
+                1 => $fourthCfg,
+                2 => $thirdCfg,
+                3 => $firstCfg,
             ),
             'configurations',
             $dp,
             'Default properties not created correctly on empty ctor.'
         );
         
-        $fourthCfg = new ezcWebdavServerConfiguration(
+        $fifthCfg = new ezcWebdavServerConfiguration(
             'fooregex'
         );
 
-        $dp->insertBefore( $fourthCfg );
+        $dp->insertBefore( $fifthCfg );
 
         $this->assertAttributeEquals(
             array(
-                0 => $fourthCfg,
+                0 => $fifthCfg,
                 1 => $secondCfg,
-                2 => $thirdCfg,
-                3 => $firstCfg,
+                2 => $fourthCfg,
+                3 => $thirdCfg,
+                4 => $firstCfg,
             ),
             'configurations',
             $dp,
             'Third transport not added correctly.'
         );
 
-        $fifthCfg = new ezcWebdavServerConfiguration(
+        $sixthCfg = new ezcWebdavServerConfiguration(
             'barregex'
         );
 
-        $dp->insertBefore( $fifthCfg, 1 );
+        $dp->insertBefore( $sixthCfg, 1 );
 
         $this->assertAttributeEquals(
             array(
-                0 => $fourthCfg,
-                1 => $fifthCfg,
+                0 => $fifthCfg,
+                1 => $sixthCfg,
                 2 => $secondCfg,
-                3 => $thirdCfg,
-                4 => $firstCfg,
+                3 => $fourthCfg,
+                4 => $thirdCfg,
+                5 => $firstCfg,
             ),
             'configurations',
             $dp,
@@ -125,11 +136,12 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array(
                 0 => $thirdCfg,
-                1 => $fourthCfg,
-                2 => $fifthCfg,
+                1 => $fifthCfg,
+                2 => $sixthCfg,
                 3 => $secondCfg,
-                4 => $thirdCfg,
-                5 => $firstCfg,
+                4 => $fourthCfg,
+                5 => $thirdCfg,
+                6 => $firstCfg,
             ),
             'configurations',
             $dp,
@@ -155,7 +167,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -185,7 +201,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -211,7 +231,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -237,7 +261,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -246,7 +274,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
 
         try
         {
-            $dp->insertBefore( $secondCfg, 3 );
+            $dp->insertBefore( $secondCfg, 4 );
             $this->fail( 'ezcBaseValueException not thrown on to large int $offset.' );
         }
         catch ( ezcBaseValueException $e ) {}
@@ -263,7 +291,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -343,6 +375,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         unset( $dp[0] );
         unset( $dp[0] );
         unset( $dp[0] );
+        unset( $dp[0] );
 
         try
         {
@@ -386,8 +419,12 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
-                2 => new ezcWebdavServerConfiguration(),
-                3 => $second,
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
+                4 => $second,
             ),
             'configurations',
             $dp,
@@ -398,10 +435,14 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         
         $this->assertAttributeEquals(
             array(
-                0 => $second,
+                0  => $second,
                 1 => $first,
-                2 => new ezcWebdavServerConfiguration(),
-                3 => $second,
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
+                4 => $second,
             ),
             'configurations',
             $dp,
@@ -418,7 +459,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
 
         try
         {
-            $dp[4]   = $first;
+            $dp[5]   = $first;
             $this->fail( 'ezcBaseValueException not thrown on set access with too large offset.' );
         }
         catch ( ezcBaseValueException $e ) {}
@@ -435,7 +476,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -461,7 +506,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -487,7 +536,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -513,7 +566,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -539,7 +596,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -565,7 +626,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -591,7 +656,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -615,8 +684,12 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
-                2 => new ezcWebdavServerConfiguration(),
-                3 => $second,
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
+                4 => $second,
             ),
             'configurations',
             $dp,
@@ -639,14 +712,23 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         );
 
         $this->assertEquals(
-            new ezcWebdavServerConfiguration(),
+            new ezcWebdavServerConfiguration(
+                '(Konqueror)i',
+                'ezcWebdavKonquerorCompatibleTransport'
+            ),
             $dp[2],
+            'Index 2 not got correctly.'
+        );
+
+        $this->assertEquals(
+            new ezcWebdavServerConfiguration(),
+            $dp[3],
             'Index 2 not got correctly.'
         );
 
         $this->assertSame(
             $second,
-            $dp[3],
+            $dp[4],
             'Index 3 not got correctly.'
         );
     }
@@ -659,8 +741,8 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
         $dp      = new ezcWebdavServerConfigurationManager();
 
         $this->assertNull(
-            $dp[3],
-            'Offset 3 not null.'
+            $dp[4],
+            'Offset 4 not null.'
         );
         
         $this->assertAttributeEquals(
@@ -675,7 +757,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -701,7 +787,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -727,7 +817,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -754,7 +848,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -770,7 +868,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
             ),
             'configurations',
             $dp,
@@ -786,12 +888,36 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
+                4 => $second,
+            ),
+            'configurations',
+            $dp,
+            'Configurations not added correctly through offsetSet(null).'
+        );
+
+        unset( $dp[1] );
+        
+        $this->assertAttributeEquals(
+            array(
+                0  => new ezcWebdavServerConfiguration(
+                    '(Microsoft\s+Data\s+Access|MSIE|MiniRedir)i',
+                    'ezcWebdavMicrosoftCompatibleTransport'
+                ),
+                1 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
                 2 => new ezcWebdavServerConfiguration(),
                 3 => $second,
             ),
             'configurations',
             $dp,
-            'Configurations not added correctly through offsetSet(null).'
+            'Configurations not removed from offset 1 correctly through offsetUnset().'
         );
 
         unset( $dp[1] );
@@ -875,7 +1001,10 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
             ),
             'configurations',
             $dp,
@@ -901,7 +1030,10 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
             ),
             'configurations',
             $dp,
@@ -927,7 +1059,10 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
             ),
             'configurations',
             $dp,
@@ -951,8 +1086,12 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
-                2 => new ezcWebdavServerConfiguration(),
-                3 => $second,
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
+                4 => $second,
             ),
             'configurations',
             $dp,
@@ -975,6 +1114,10 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
             isset( $dp[3] ),
             'Offset 3 does not seem to be set.'
         );
+        $this->assertTrue(
+            isset( $dp[4] ),
+            'Offset 4 does not seem to be set.'
+        );
     }
 
     public function testOffsetExistsFailure()
@@ -993,8 +1136,12 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavMicrosoftCompatibleTransport'
                 ),
                 1 => $first,
-                2 => new ezcWebdavServerConfiguration(),
-                3 => $second,
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
+                4 => $second,
             ),
             'configurations',
             $dp,
@@ -1006,7 +1153,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
             'Offset -1 does seem to be set.'
         );
         $this->assertFalse(
-            isset( $dp[4] ),
+            isset( $dp[5] ),
             'Offset 3 does seem to be set.'
         );
         $this->assertFalse(
@@ -1030,7 +1177,11 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
-                2 => new ezcWebdavServerConfiguration(),
+                2 => new ezcWebdavServerConfiguration(
+                    '(Konqueror)i',
+                    'ezcWebdavKonquerorCompatibleTransport'
+                ),
+                3 => new ezcWebdavServerConfiguration(),
         );
         
         $i = 0;
@@ -1092,9 +1243,13 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
                 'ezcWebdavXmlTool',
                 'ezcWebdavNautilusPropertyHandler'
             ),
-            2 => new ezcWebdavServerConfiguration(),
-            3 => new ezcWebdavServerConfiguration( '(.*nautilus.*)i' ),
-            4 => new ezcWebdavServerConfiguration( '(.*konqueror.*)i' ),
+            2 => new ezcWebdavServerConfiguration(
+                '(Konqueror)i',
+                'ezcWebdavKonquerorCompatibleTransport'
+            ),
+            3 => new ezcWebdavServerConfiguration(),
+            4 => new ezcWebdavServerConfiguration( '(.*nautilus.*)i' ),
+            5 => new ezcWebdavServerConfiguration( '(.*konqueror.*)i' ),
         );
         
         $i = 0;
@@ -1142,6 +1297,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
     public function testIteratorEmpty()
     {
         $dp   = new ezcWebdavServerConfigurationManager();
+        unset( $dp[0] );
         unset( $dp[0] );
         unset( $dp[0] );
         unset( $dp[0] );
