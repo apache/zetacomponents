@@ -111,16 +111,21 @@ class ezcTreeXmlInternalDataStore implements ezcTreeXmlDataStore
         $id = $node->id;
         $elem = $this->dom->getElementById( "{$node->tree->prefix}{$id}" );
 
+        // Create the new element
+        $dataNode = $elem->ownerDocument->createElementNS( 'http://components.ez.no/Tree/data', 'etd:data', $node->data );
+
         // Locate the data element, and remove it
         $dataElem = $elem->getElementsByTagNameNS( 'http://components.ez.no/Tree/data', 'data' )->item( 0 );
         if ( $dataElem !== null )
         {
-            $dataElem->parentNode->removeChild( $dataElem );
+            $dataElem->parentNode->replaceChild( $dataNode, $dataElem );
+        }
+        else
+        {
+            $elem->appendChild( $dataNode );
         }
 
         // Create the new data element and add it
-        $dataNode = $elem->ownerDocument->createElementNS( 'http://components.ez.no/Tree/data', 'etd:data', $node->data );
-        $elem->appendChild( $dataNode );
         $node->dataStored = true;
         if ( !$node->tree->inTransactionCommit() )
         {

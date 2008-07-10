@@ -5,6 +5,7 @@
   although it was a read/write property.
 - Fixed issue #13156 (allow the ezcTreeXmlDataStore (or its Internal
   implementation) to have deferred file saving).
+- Fixed issue #13331: Renaming a node when using ezcTreeXml corrupts the XML.
 
 
 1.1 - Monday 16 June 2008

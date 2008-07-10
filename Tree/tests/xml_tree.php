@@ -250,6 +250,44 @@ class ezcTreeXmlTest extends ezcTreeTest
         self::assertSame( "Camels", $camelus->data );
     }
 
+    public function testStoreUpdatedData2()
+    {
+        $tree = ezcTreeXml::create(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+        $tree->autoId = true;
+
+        $rootNode = $tree->createNode( null, 'Elements' );
+        $tree->setRootNode( $rootNode );
+
+        $nonMetal = $tree->createNode( 'NonMetals', 'Non-Metals' );
+        $rootNode->addChild( $nonMetal );
+        $nobleGasses = $tree->createNode( null, 'Noble Gasses' );
+        $rootNode->addChild( $nobleGasses );
+
+        $nonMetal->addChild( $tree->createNode( null, 'Hydrogen' ) );
+        $nonMetal->addChild( $tree->createNode( null, 'Carbon' ) );
+
+        // start over
+        $tree = new ezcTreeXml(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+
+        $nonMetals = $tree->fetchNodeById( 'NonMetals' );
+        self::assertSame( "Non-Metals", $nonMetals->data );
+        $nonMetals->data = "Non-Metals renamed";
+
+        // start over
+        $tree = new ezcTreeXml(
+            $this->tempDir . '/new-tree.xml', 
+            new ezcTreeXmlInternalDataStore()
+        );
+        $nonMetals = $tree->fetchNodeById( 'NonMetals' );
+        self::assertSame( "Non-Metals renamed", $nonMetals->data );
+    }
+
     public function testReloadAutoGenId()
     {
         $tree = ezcTreeXml::create(

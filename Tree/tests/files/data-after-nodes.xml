@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tree xmlns="http://components.ez.no/Tree" xmlns:etd="http://components.ez.no/Tree/data" prefix="id" lastNodeId="4">
+  <node id="id1">
+    <etd:data>Elements</etd:data>
+    <node id="idNonMetals">
+      <node id="id3">
+        <etd:data>Hydrogen</etd:data>
+      </node>
+      <node id="id4">
+        <etd:data>Carbon</etd:data>
+      </node>
+      <etd:data>Non-Metals renamed</etd:data>
+    </node>
+    <node id="id2">
+      <etd:data>Noble Gasses</etd:data>
+    </node>
+  </node>
+</tree>
