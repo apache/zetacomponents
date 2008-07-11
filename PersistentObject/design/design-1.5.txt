@@ -17,10 +17,11 @@ PersistentObject component version 1.5.
 The general goal for this version is to implement various features
 described by these issues in our issue tracker:
 
-- #11831: isRelated() Method.
+- Select query decorator.
 - #12473: Identity map for PersistentObject.
-- #13073: Sub-select support for PersistentObject.
 - #13074: Fetching related objects through joins.
+- #13073: Sub-select support for PersistentObject.
+- #11831: isRelated() Method.
 - #13170: Support for custom relation implementations.
 
 Each of the issues and their proposed solutions are explained in a separate
@@ -28,17 +29,78 @@ chapter in this document. Some issues relate to each other, which is also
 explained in the issue descriptions. The requirements for each of the
 enhancements can be found in the corresponding requirements document.
 
+======================
+Select query decorator
+======================
+
+The initial design of the PersistentObject component defined the following code
+flow to create a find query for certain objects and fetch the desired objects::
+
+    <?php
+    $query = $session->createFindQuery( 'SomeClass' );
+
+    $query->where( /*...*/ );
+    
+    $objects = $session->find( $query, 'SomeClass' );
+    ?>
+
+The class name of the objects to fetch is actually submitted twice to the
+ezcPersistentSession instance. This is uncomfortable for the user of the
+component and should be solved by a custom decorator for the SELECT query
+classes provided by the Database component.
+
+The idea is to create a wrapper class for the (database specific)
+ezcQuerySelect instance that is returned by
+ezcPersistentSession->createFindQuery(). This decorator class will dispatch all
+method and attribute accesses to the internal query class, but also accepts
+further meta information from the ezcPersistentSession instance it was created
+by.
+
+------
+Design
+------
+
+The basic decorator class (ezcPersistentFindQuery) will consist only of a
+constructor that adds a single virtual property $className as meta data to the
+query::
+
+    public function __construct( ezcQuerySelect $q, string $className );
+
+All further method calls are delegate to the given $q object using __call().
+The same applies for property and attribute accesses, except for the $className
+property.
+
+The resulting code for user will be simplified as follows::
+
+    <?php
+    $query = $session->createFindQuery( 'SomeClass' );
+
+    $query->where( /*...*/ );
+    
+    $objects = $session->find( $query );
+    ?>
+
+Since the decorated query class is completly transparent to the user, the old
+code will still work as expected, maintaining backwards compatibility.
+
+Further enhancements of the PersistentObject component may enhance
+ezcPersistentFindQuery by extending the class. It is mandatory that these
+extensions maintain BC with ezcQuerySelect for all methods that already exist
+in ezcPersistentSession.
+
 =================================
 Identity map for PersistentObject
 =================================
 
-The Identity Map pattern is described by Martin Fowler in his book Patterns of
-Enterprise Application Architecture. The purpose of this pattern is to avoid
+The Identity Map pattern is described by Martin Fowler in his book `Patterns of
+Enterprise Application Architecture`__. The purpose of this pattern is to avoid
 that 2 or more objects representing the same database row reside in memory. The
 problems here are:
 
 a) Duplicate memory consumption
 b) Potential inconsistencies between different copies of the same object.
+
+.. __: http://martinfowler.com/books.html#eaa
 
 To avoid this, the data manipulation mechanisms must take care of not
 delivering duplicate instances of the same data. Beside that, it can cache
@@ -56,6 +118,24 @@ implemented. This extends the current implementation ezcPersistentSession to
 make instanceof checks still work. All of the methods will be overwritten and
 new handler classes, extending the existing ones will be implemented to reflect
 the actual additions.
+
+The following list gives an overview of classes to be implemented and their
+role in this design:
+
+- ezcPersistentIdentitySession
+
+  This class is a decorator to the existing ezcPersistentSession. An object of
+  this class wraps around the typically used persistence session and adds the
+  desired functionality to it. Database related method calls are still
+  performed using the original ezcPersistentSession instance.
+
+- ezcPersistentIdentityMap
+  
+  An instance of this class builds the heart of ezcPersistentIdentitySession.
+  It takes care for the in-memory management of object identities. The instance
+  used by ezcPersistentIdentitySession is replaceable, to allow custom
+  implementations like e.g. an identity map that uses the Cache component
+  instead of local memory.
 
 The class design will work as follows:
 
