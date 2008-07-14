@@ -599,10 +599,10 @@ createFindQueryWithRelations( string $class, array $relations )
 This method works like ezcPersistentSession->createFindQuery() and returns a
 query object, that may be manipulated by the user. The returned instance is of
 type ezcPersistentFindWithRelationsQuery, which is a decorator for
-ezcQuerySelect, which extends `ezcPersistentFindQuery`_, defined earlier in
-this document. Aliases for $class are defined as known from createFindQuery().
-For the related objects not aliases are set and the necessary JOINs are not yet
-part of the query.
+ezcQuerySelect, which extends ezcPersistentFindQuery, defined earlier in
+`Select query decorator`_. Aliases for $class are defined as known from
+createFindQuery().  For the related objects not aliases are set and the
+necessary JOINs are not yet part of the query.
 
 The query objects contains additional information about the $relations to
 fetch, which will be used by the findWithRelations() method to define the
@@ -636,7 +636,7 @@ ezcPersistentIdentitySession and can be retrieved by the user through
 ezcPersistentIdentitySession->getRelatedObjects().
 
 createFindQueryWithRelationSubset( string $class, array $relations )
---------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------
 
 This method behaves almost like createFindQueryWithRelations(). In contrast to
 this one, it returns a query object of type
