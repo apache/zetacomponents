@@ -62,7 +62,7 @@ class ezcBase
      * Contains which development mode is used. It's "development" by default,
      * because of backwards compatibility reasons.
      */
-    private static $runMode;
+    private static $runMode = self::MODE_DEVELOPMENT;
 
     /**
      * Stores info with additional paths where autoload files and classes for

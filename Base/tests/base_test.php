@@ -514,7 +514,6 @@ class ezcBaseTest extends ezcTestCase
         $options = new ezcBaseAutoloadOptions;
         $options->debug = true;
         ezcBase::setOptions( $options );
-        ezcBase::setRunMode( ezcBase::MODE_DEVELOPMENT );
     }
 
     public static function suite()
