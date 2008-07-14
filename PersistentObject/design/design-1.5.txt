@@ -379,7 +379,7 @@ The following methods will be provided by the ezcPersistentIdentityMap class:
   Adds a new object to the identity map. If the object already exists in the
   map, an exception is throwen.
 
-- getObject( string $class, mixed $id )
+- getIdentity( string $class, mixed $id )
 
   Returns the object recorded for $class, identified by $id. If such object is
   not available, null is returned.
@@ -595,6 +595,16 @@ subset of relations. If the subset already exists, an exception is thrown.
 replaceRelationSubset( object $sourceObject, array $relatedObjects, string $setName, string $relationName = null )
 ------------------------------------------------------------------------------------------------------------------
 
+Corresponding to addRelationSubset() this method acts like
+replaceRelatedObjects(). In case the relation subset does not exist, yet, it is
+added. If it already exists, the existing set is replaced. In both cases, the
+relation subset is returned.
+
+getRelationSubset( object $object, string $relatedClass, string $setName, string $relationName = null )
+-------------------------------------------------------------------------------------------------------
+
+Returns the relation subset defined by the parameters. In case the subset is
+not cached, null is returned.
 
 ..
    Local Variables:
