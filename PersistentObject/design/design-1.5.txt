@@ -549,7 +549,7 @@ amount of SQL queries you end up executing.
 Since using relations is easy, you will easily end up running dozens or hundreds
 of SQL queries, especially when using the templates component::
 
-	{$event->location->name}
+    {$event->location->name}
 
 Very convenient, but this will run at least one extra query here; if you do this
 when listing, let's say events, you will execute one extra query for each event
