@@ -475,30 +475,30 @@ class ezcBaseTest extends ezcTestCase
         self::assertEquals( DIRECTORY_SEPARATOR, substr( $path, -1 ) );
     }
 
-    public function testSetInvalidDevMode()
+    public function testSetInvalidRunMode()
     {
         try
         {
-            ezcBase::setDevMode( -3 );
+            ezcBase::setRunMode( -3 );
             self::fail( "Expected exception not thrown." );
         }
         catch ( ezcBaseValueException $e )
         {
-            self::assertEquals( "The value '-3' that you were trying to assign to setting 'devMode' is invalid. Allowed values are: ezcBase::MODE_PRODUCTION or ezcBase::MODE_DEVELOPMENT.", $e->getMessage() );
+            self::assertEquals( "The value '-3' that you were trying to assign to setting 'runMode' is invalid. Allowed values are: ezcBase::MODE_PRODUCTION or ezcBase::MODE_DEVELOPMENT.", $e->getMessage() );
         }
     }
 
-    public function testSetGetDevMode()
+    public function testSetGetRunMode()
     {
-        self::assertEquals( ezcBase::MODE_DEVELOPMENT, ezcBase::getDevMode() );
+        self::assertEquals( ezcBase::MODE_DEVELOPMENT, ezcBase::getRunMode() );
         self::assertEquals( true, ezcBase::inDevMode() );
 
-        ezcBase::setDevMode( ezcBase::MODE_PRODUCTION );
-        self::assertEquals( ezcBase::MODE_PRODUCTION, ezcBase::getDevMode() );
+        ezcBase::setRunMode( ezcBase::MODE_PRODUCTION );
+        self::assertEquals( ezcBase::MODE_PRODUCTION, ezcBase::getRunMode() );
         self::assertEquals( false, ezcBase::inDevMode() );
 
-        ezcBase::setDevMode( ezcBase::MODE_DEVELOPMENT );
-        self::assertEquals( ezcBase::MODE_DEVELOPMENT, ezcBase::getDevMode() );
+        ezcBase::setRunMode( ezcBase::MODE_DEVELOPMENT );
+        self::assertEquals( ezcBase::MODE_DEVELOPMENT, ezcBase::getRunMode() );
         self::assertEquals( true, ezcBase::inDevMode() );
     }
 
@@ -514,7 +514,7 @@ class ezcBaseTest extends ezcTestCase
         $options = new ezcBaseAutoloadOptions;
         $options->debug = true;
         ezcBase::setOptions( $options );
-        ezcBase::setDevMode( ezcBase::MODE_DEVELOPMENT );
+        ezcBase::setRunMode( ezcBase::MODE_DEVELOPMENT );
     }
 
     public static function suite()

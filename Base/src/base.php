@@ -62,7 +62,7 @@ class ezcBase
      * Contains which development mode is used. It's "development" by default,
      * because of backwards compatibility reasons.
      */
-    private static $devMode;
+    private static $runMode;
 
     /**
      * Stores info with additional paths where autoload files and classes for
@@ -608,16 +608,16 @@ class ezcBase
     /**
      * Sets the development mode to the one specified.
      *
-     * @param int $devMode
+     * @param int $runMode
      */
-    public static function setDevMode( $devMode )
+    public static function setRunMode( $runMode )
     {
-        if ( !in_array( $devMode, array( ezcBase::MODE_PRODUCTION, ezcBase::MODE_DEVELOPMENT ) ) )
+        if ( !in_array( $runMode, array( ezcBase::MODE_PRODUCTION, ezcBase::MODE_DEVELOPMENT ) ) )
         {
-            throw new ezcBaseValueException( 'devMode', $devMode, 'ezcBase::MODE_PRODUCTION or ezcBase::MODE_DEVELOPMENT' );
+            throw new ezcBaseValueException( 'runMode', $runMode, 'ezcBase::MODE_PRODUCTION or ezcBase::MODE_DEVELOPMENT' );
         }
 
-        self::$devMode = $devMode;
+        self::$runMode = $runMode;
     }
 
     /**
@@ -625,9 +625,9 @@ class ezcBase
      *
      * @return int
      */
-    public static function getDevMode()
+    public static function getRunMode()
     {
-        return self::$devMode;
+        return self::$runMode;
     }
 
     /**
@@ -637,7 +637,7 @@ class ezcBase
      */
     public static function inDevMode()
     {
-        return self::$devMode == ezcBase::MODE_DEVELOPMENT;
+        return self::$runMode == ezcBase::MODE_DEVELOPMENT;
     }
 }
 ?>
