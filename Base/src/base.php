@@ -25,6 +25,16 @@ class ezcBase
      * Used for dependency checking, to check for a PHP version.
      */
     const DEP_PHP_VERSION = "version";
+
+    /**
+     * Denotes the production mode
+     */
+    const MODE_PRODUCTION = 0;
+
+    /**
+     * Denotes the development mode
+     */
+    const MODE_DEVELOPMENT = 1;
     
     /**
      * Indirectly it determines the path where the autoloads are stored.
@@ -47,6 +57,12 @@ class ezcBase
      * @var string
      */
     protected static $packageDir = null;
+
+    /**
+     * Contains which development mode is used. It's "development" by default,
+     * because of backwards compatibility reasons.
+     */
+    private static $devMode;
 
     /**
      * Stores info with additional paths where autoload files and classes for
@@ -587,6 +603,41 @@ class ezcBase
             $path .= DIRECTORY_SEPARATOR;
         }
         return $path;
+    }
+
+    /**
+     * Sets the development mode to the one specified.
+     *
+     * @param int $devMode
+     */
+    public static function setDevMode( $devMode )
+    {
+        if ( !in_array( $devMode, array( ezcBase::MODE_PRODUCTION, ezcBase::MODE_DEVELOPMENT ) ) )
+        {
+            throw new ezcBaseValueException( 'devMode', $devMode, 'ezcBase::MODE_PRODUCTION or ezcBase::MODE_DEVELOPMENT' );
+        }
+
+        self::$devMode = $devMode;
+    }
+
+    /**
+     * Returns the current development mode.
+     *
+     * @return int
+     */
+    public static function getDevMode()
+    {
+        return self::$devMode;
+    }
+
+    /**
+     * Returns true when we are in development mode.
+     *
+     * @return bool
+     */
+    public static function inDevMode()
+    {
+        return self::$devMode == ezcBase::MODE_DEVELOPMENT;
     }
 }
 ?>

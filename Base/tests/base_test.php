@@ -475,6 +475,33 @@ class ezcBaseTest extends ezcTestCase
         self::assertEquals( DIRECTORY_SEPARATOR, substr( $path, -1 ) );
     }
 
+    public function testSetInvalidDevMode()
+    {
+        try
+        {
+            ezcBase::setDevMode( -3 );
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertEquals( "The value '-3' that you were trying to assign to setting 'devMode' is invalid. Allowed values are: ezcBase::MODE_PRODUCTION or ezcBase::MODE_DEVELOPMENT.", $e->getMessage() );
+        }
+    }
+
+    public function testSetGetDevMode()
+    {
+        self::assertEquals( ezcBase::MODE_DEVELOPMENT, ezcBase::getDevMode() );
+        self::assertEquals( true, ezcBase::inDevMode() );
+
+        ezcBase::setDevMode( ezcBase::MODE_PRODUCTION );
+        self::assertEquals( ezcBase::MODE_PRODUCTION, ezcBase::getDevMode() );
+        self::assertEquals( false, ezcBase::inDevMode() );
+
+        ezcBase::setDevMode( ezcBase::MODE_DEVELOPMENT );
+        self::assertEquals( ezcBase::MODE_DEVELOPMENT, ezcBase::getDevMode() );
+        self::assertEquals( true, ezcBase::inDevMode() );
+    }
+
     public function setup()
     {
         $options = new ezcBaseAutoloadOptions;
@@ -487,6 +514,7 @@ class ezcBaseTest extends ezcTestCase
         $options = new ezcBaseAutoloadOptions;
         $options->debug = true;
         ezcBase::setOptions( $options );
+        ezcBase::setDevMode( ezcBase::MODE_DEVELOPMENT );
     }
 
     public static function suite()
