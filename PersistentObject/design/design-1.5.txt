@@ -428,6 +428,101 @@ The following methods will be provided by the ezcPersistentIdentityMap class:
   Resets the complete identity map to its original state, purging all related
   objects and relation result sets.
 
+--------------
+Usage examples
+--------------
+
+The following code snippes illustrate how the features described above are
+intended to be used.
+
+Replacing ezcPersistentSession with ezcPersistentIdentitySession
+================================================================
+
+The current code to create and use a persistent session looks like this::
+
+    <?php
+    $db = ezcDbFactory::create( '<some dsn>' );
+
+    $session = new ezcPersistentSession(
+        $db,
+        new ezcPersistentCodeManager( "path/to/definitions" )
+    );
+    ?>
+
+A user can transparently replace the $session with the new identity session::
+
+    <?php
+    $db = ezcDbFactory::create( '<some dsn>' );
+
+    $persistentSession = new ezcPersistentSession(
+        $db,
+        new ezcPersistentCodeManager( "path/to/definitions" )
+    );
+
+    $map = new ezcPersistentIdentityMap();
+    $session = new ezcPersistentIdentitySession(
+        $persistentSession,
+        $map
+    );
+    ?>
+
+After this change, no duplicates of identities will be returned by
+PersistentObject. In addition, SELECT statemenst from the load() method might
+be avoided if an identity is to be loaded twice and duplicate relation fetches
+in getRelatedObjects() are avoided.
+
+Refetching object identities and relations
+==========================================
+
+It might be necessary to refresh several object identities at once in an
+application. To prevent the persistent session to re-use the user can use the
+following code::
+
+    <?php
+    $userA = $session->load( 'User', 23 );
+    $userB = $session->load( 'User', 42 );
+
+    $q = $session->createFindQuery( 'User' );
+    $q->where( 
+        $q->expr->lessThan( 'id, 1000 )
+    );
+
+    $session->options->refetch = true;
+    $users = $session->find( $q, 'User' );
+    $session->options->refetch = false;
+    ?>
+
+In this example, the User objects with IDs 23 and 42 are already loaded and
+their identity is cached in the identity map. Therefore, the find() of users
+with IDs lower than 1000 would normally return an array with 999 elements,
+containing the cached identities of the users 23 and 42. Since the $refetch
+option is switched on, the cached identities will be updated from the loaded
+data before they are returned.
+
+The same applies to relations::
+
+    <?php
+    $addresses = $session->getRelatedObjects( $user, 'Address' );
+    
+    // ...
+    $addresses = $session->getRelatedObjects( $user, 'Address' );
+
+    // ...
+    $session->options->refetch = true;
+    $addresses = $session->getRelatedObjects( $user, 'Address' );
+    $session->options->refetch = false;
+    ?>
+
+The first fetch of related Address objects for the User object results in a
+database query anyway. After that, the relation result is cached. Therefore the
+second call to getRelatedObjecst() does not perform a database query at all,
+but simple returns the cached relation set. For the third call, the $refetch
+option is set to true. Therefore the database query is issued and the relation
+result set is overwritten. In addition, all found identities are updated with
+the newly fetched values. Note still no duplicates are created, but already
+existing identities are updated and existing object references are used in the
+result returned by getRelatedObjects().
+
 -----------
 Open issues
 -----------
