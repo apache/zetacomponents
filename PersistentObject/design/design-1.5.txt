@@ -593,8 +593,8 @@ This method takes care about finding a speicifc persistent object (like the
 ezcPersistentSession->load() method) and finds related objects in addition. The
 $relations parameter contains a struct, defining the related objects to load.
 
-createFindQueryWithRelations( string $class, ezcPersistentRelationFindDefinition $relations )
----------------------------------------------------------------------------------------------
+createFindQueryWithRelations( string $class, array $relations )
+---------------------------------------------------------------
 
 This method works like ezcPersistentSession->createFindQuery() and returns a
 query object, that may be manipulated by the user. The returned instance is of
@@ -635,7 +635,7 @@ The related objects are stored in the relation cache of the
 ezcPersistentIdentitySession and can be retrieved by the user through
 ezcPersistentIdentitySession->getRelatedObjects().
 
-createFindQueryWithRelationSubset( string $class, ezcPersistentRelationFindDefinition $relations )
+createFindQueryWithRelationSubset( string $class, array $relations )
 --------------------------------------------------------------------------------------------------
 
 This method behaves almost like createFindQueryWithRelations(). In contrast to
@@ -700,6 +700,35 @@ getRelationSubset( object $object, string $relatedClass, string $setName, string
 
 Returns the relation subset defined by the parameters. In case the subset is
 not cached, null is returned.
+
+ezcPersistentRelationFindDefinition
+===================================
+
+This struct class is used to define relations for pre-fetching. An array of
+such structs is used in favor of deeply nested array structures.
+
+The struct looks as follows::
+
+    <?php
+    class ezcPersistentRelationFindDefinition extends ezcBaseStruct
+    {
+        public $relatedClass;
+
+        public $relationName;
+
+        public $furtherRelations = array();
+
+        public function __construct(
+            $relatedClass,
+            $relationName = null,
+            array $furtherRelations = null
+        )
+        {
+            // ...
+        }
+    
+    }
+    ?>
 
 ..
    Local Variables:
