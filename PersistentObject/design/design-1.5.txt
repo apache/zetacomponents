@@ -730,6 +730,196 @@ The struct looks as follows::
     }
     ?>
 
+--------------
+Usage examples
+--------------
+
+The following code snippes illustrate how the features described above are
+intended to be used.
+
+Simple pre-fetching
+===================
+
+The most common usage of the pre-fetching will be the following use case::
+
+    <?php
+    $q = $session->createFindQuery( 'Book' );
+    $q->where(
+        $q->expr->gt(
+            'releaseDate', ( time() - 10080 )
+        )
+    );
+    $books = $session->find( $q, 'Book' );
+
+    foreach ( $books as $book )
+    {
+        $authors = $session->getRelatedObjects( $book, 'Author' );
+        foreach ( $authors as $author )
+        {
+            // Do something with Author objects...
+            $addresses = $session->getRelatedObjects( $author, 'Address', 'private' );
+            // Do something with Address objects...
+        }
+
+        $reviews = $session->getRelatedObjects( $book, 'Review' );
+        // Do something with Review objects...
+    }
+    ?>
+
+In this code snippet, Book objects are loaded that have been released within
+the last week. For each of the objects, 1 SELECT query is issued to find the
+Author objects for the book and another one to find reviews for the book. For
+each found Author object, another SQL query is issued to fetch the private
+Address objects registered for it. Asuming that 20 books are found, this make
+at least 60 SQL queries to fetch all the objects from the database.
+
+With pre-fetching, this becomes much more efficient, by changing the loading of
+Book objects to the following code::
+
+    <?php
+    $q = $session->createFindQueryWithRelations(
+        'Book'
+        array(
+            new ezcPersistentRelationFindDefinition(
+                'Author',
+                null,
+                array(
+                    new ezcPersistentRelationFindDefinition(
+                        'Address',
+                        'private'
+                    ),
+                )
+            ),
+            new ezcPersistentRelationFindDefinition(
+                'Review'
+            ),
+        )
+    );
+    $q->where(
+        $q->expr->gt(
+            'releaseDate', ( time() - 10080 )
+        )
+    );
+    $books = $session->findWithRelations( $q );
+    
+    // ...
+    ?>
+
+The rest of the code stays as showen in the first snippet. Instead of using 60
+SQL queries to fetch all desired objects, 1 single query is used.
+
+Complex pre-fetching
+====================
+
+In large applications fetching all related objects for a certain object is not
+desired. Instead, one usually wants to define the sub-sets of related objects
+to fetch pretty fine graned. An example, how to realize this, is shown below::
+
+    <?php
+    $q = $session->createFindQueryWithRelationSubset(
+        'Book'
+        array(
+            new ezcPersistentRelationFindDefinition(
+                'Author',
+                null,
+                array(
+                    new ezcPersistentRelationFindDefinition(
+                        'Address',
+                        'private'
+                    ),
+                )
+            ),
+            new ezcPersistentRelationFindDefinition(
+                'Review'
+            ),
+        )
+    );
+
+    $q->where(
+        $q->expr->gt(
+            'releaseDate', ( time() - 10080 )
+        )
+    );
+    $q->where(
+        $q->expr->gt(
+            'Review_date', ( time() - 1440 )
+        )
+    );
+
+    $books = $session->findWithRelationSubset( $q, 'latest_reviews' );
+    ?>
+
+The example is almost the same as for the last section, except that the Review
+objects fetched are limited to those that have been written in the past 24
+hours. Since the results fetched by this query do not correspond to the usual
+behavior of getRelatedObjects() anymore, a new method must be used here to
+retrieve the named subset::
+
+    <?php
+    foreach ( $books as $book )
+    {
+        $authors = $session->getRelatedObjectsSubset(
+            $book,
+            'Author',
+            'latest_reviews'
+        );
+        foreach ( $authors as $author )
+        {
+            // Do something with Author objects...
+            $addresses = $session->getRelatedObjects(
+                $author,
+                'Address',
+                'latest_reviews',
+                'private'
+            );
+            // Do something with Address objects...
+        }
+
+        $reviews = $session->getRelatedObjects(
+            $book,
+            'Review',
+            'latest_reviews'
+         );
+        // Do something with Review objects...
+    }
+    ?>
+
+-----------
+Open issues
+-----------
+
+- Currently, the aliasing of related object attribute names is ambiguous (e.g.
+  Author_name). A good solution could be here to make the user simply define
+  prexifes himself::
+
+    <?php
+    $q = $session->createFindQueryWithRelationSubset(
+        'Book'
+        array(
+            'Author' => new ezcPersistentRelationFindDefinition(
+                'Author',
+                null,
+                array(
+                    'privAddress' => new ezcPersistentRelationFindDefinition(
+                        'Address',
+                        'private'
+                    ),
+                )
+            ),
+            'Review' => new ezcPersistentRelationFindDefinition(
+                'Review'
+            ),
+        )
+    );
+    ?>
+
+  In this example, the $name attribute of the Author class can be accessed via
+  'Author_name' and the $street attribute of the Address class through
+  'privAddress_street'.
+
+- It has to be decided if these enhancements should become directly part of
+  ezcPersistentIdentitySession or if they should go into an extended class.
+
 ..
    Local Variables:
    mode: rst
