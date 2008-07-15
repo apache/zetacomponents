@@ -33,6 +33,15 @@
  *           The format to display the actual value with.
  * @property string $maxFormat
  *           The format to display the actual value with.
+ * @property int $minVerbosity
+ *           Defines the minimum {ezcConsoleOutputOptions->$verbosityLevel}
+ *           that is needed by the progress bar to be rendered. If
+ *           $verbosityLevel is lower, the bar is skipped. Default is 0 to
+ *           render always.
+ * @property int $maxVerbosity
+ *           Defines the maximum {ezcConsoleOutputOptions->$verbosityLevel} on
+ *           which the progress bar is rendered. If $verbosityLevel is higher,
+ *           the bar is skipped. Default is false, to render always.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -51,6 +60,8 @@ class ezcConsoleProgressbarOptions extends ezcBaseOptions
         'width'           => 78,
         'actFormat'       => '%.0f',
         'maxFormat'       => '%.0f',
+        'minVerbosity'    => 1,
+        'maxVerbosity'    => false,
     );
 
     /**
@@ -92,6 +103,18 @@ class ezcConsoleProgressbarOptions extends ezcBaseOptions
                 if ( ( !is_int( $value ) && !is_float( $value ) ) || $value < 1 )
                 {
                     throw new ezcBaseValueException( $key, $value, 'int > 0' );
+                }
+                break;
+            case 'minVerbosity':
+                if ( !is_int( $value ) || $value < 0 )
+                {
+                    throw new ezcBaseValueException( $key, $value, 'int >= 0' );
+                }
+                break;
+            case 'maxVerbosity':
+                if ( ( !is_int( $value ) || $value < 0 ) && $value !== false )
+                {
+                    throw new ezcBaseValueException( $key, $value, 'int >= 0 or false' );
                 }
                 break;
             default:

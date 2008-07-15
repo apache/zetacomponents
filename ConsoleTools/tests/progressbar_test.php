@@ -108,6 +108,130 @@ class ezcConsoleProgressbarTest extends ezcTestCase
         $this->commonProgressbarTest( __FUNCTION__, 100, 2.5, array ( 'actFormat' => '%01.8f', 'maxFormat' => '%01.2f' ) );
     }
 
+    public function testProgressNoPrintMinVerbosity()
+    {
+        $out = new ezcConsoleOutput();
+        $out->options->verbosityLevel = 0;
+
+        $progress = new ezcConsoleProgressbar( $out, 10 );
+
+        ob_start();
+
+        for ( $i = 0; $i < 10; ++$i )
+        {
+            $progress->advance();
+        }
+        $progress->finish();
+
+        $content = ob_get_clean();
+
+        $this->assertEquals(
+            '',
+            $content,
+            'Progress bar printed although verbosity level to low.'
+        );
+    }
+
+    public function testProgressNoPrintMinVerbosityNoDefault()
+    {
+        $out = new ezcConsoleOutput();
+        $out->options->verbosityLevel = 10;
+
+        $progress = new ezcConsoleProgressbar( $out, 10 );
+        $progress->options->minVerbosity = 20;
+
+        ob_start();
+
+        for ( $i = 0; $i < 10; ++$i )
+        {
+            $progress->advance();
+        }
+        $progress->finish();
+
+        $content = ob_get_clean();
+
+        $this->assertEquals(
+            '',
+            $content,
+            'Progress bar printed although verbosity level to low.'
+        );
+    }
+
+    public function testProgressNoPrintMaxVerbosity()
+    {
+        $out = new ezcConsoleOutput();
+
+        $progress = new ezcConsoleProgressbar( $out, 10 );
+        $progress->options->maxVerbosity = 0;
+
+        ob_start();
+
+        for ( $i = 0; $i < 10; ++$i )
+        {
+            $progress->advance();
+        }
+        $progress->finish();
+
+        $content = ob_get_clean();
+
+        $this->assertEquals(
+            '',
+            $content,
+            'Progress bar printed although verbosity level to low.'
+        );
+    }
+
+    public function testProgressNoPrintMaxVerbosityNoDefault()
+    {
+        $out = new ezcConsoleOutput();
+        $out->options->verbosityLevel = 10;
+
+        $progress = new ezcConsoleProgressbar( $out, 10 );
+        $progress->options->maxVerbosity = 9;
+
+        ob_start();
+
+        for ( $i = 0; $i < 10; ++$i )
+        {
+            $progress->advance();
+        }
+        $progress->finish();
+
+        $content = ob_get_clean();
+
+        $this->assertEquals(
+            '',
+            $content,
+            'Progress bar printed although verbosity level to low.'
+        );
+    }
+
+    public function testProgressPrintMinMaxVerbosity()
+    {
+        $out = new ezcConsoleOutput();
+        $out->options->verbosityLevel = 10;
+
+        $progress = new ezcConsoleProgressbar( $out, 10 );
+        $progress->options->maxVerbosity = 10;
+        $progress->options->minVerbosity = 10;
+
+        ob_start();
+
+        for ( $i = 0; $i < 10; ++$i )
+        {
+            $progress->advance();
+        }
+        $progress->finish();
+
+        $content = ob_get_clean();
+
+        $this->assertNotEquals(
+            '',
+            $content,
+            'Progress bar printed although verbosity level to low.'
+        );
+    }
+
     public function testSetOptionsSuccess()
     {
         $out = new ezcConsoleOutput();

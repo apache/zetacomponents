@@ -42,6 +42,8 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
                 "width" => 78,
                 "actFormat" => "%.0f",
                 "maxFormat" => "%.0f",
+                "minVerbosity" => 0,
+                "maxVerbosity" => false,
             )
         );
         $this->assertEquals( 
@@ -64,6 +66,8 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $this->assertEquals( 78, $opt->width );
         $this->assertEquals( "%.0f", $opt->actFormat );
         $this->assertEquals( "%.0f", $opt->maxFormat );
+        $this->assertEquals( 0, $opt->minVerbosity );
+        $this->assertEquals( false, $opt->maxVerbosity );
 
         $this->assertEquals( $opt["barChar"], "+" );
         $this->assertEquals( $opt["emptyChar"], "-" );
@@ -75,6 +79,8 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $this->assertEquals( $opt["width"], 78 );
         $this->assertEquals( $opt["actFormat"], "%.0f" );
         $this->assertEquals( $opt["maxFormat"], "%.0f" );
+        $this->assertEquals( $opt["minVerbosity"], 0 );
+        $this->assertEquals( $opt["maxVerbosity"], false );
     }
 
     public function testGetAccessSuccess()
@@ -90,6 +96,8 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $this->assertEquals( 78, $opt->width );
         $this->assertEquals( '%.0f', $opt->actFormat );
         $this->assertEquals( '%.0f', $opt->maxFormat );
+        $this->assertEquals( 0, $opt->minVerbosity );
+        $this->assertEquals( false, $opt->maxVerbosity );
     }
 
     public function testGetAccessFailure()
@@ -121,6 +129,8 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $opt->width = 42;
         $opt->actFormat = '%.10f';
         $opt->maxFormat = '%.10f';
+        $opt->minVerbosity = 23;
+        $opt->maxVerbosity = 42;
 
         $this->assertEquals( "*", $opt->barChar );
         $this->assertEquals( "_", $opt->emptyChar );
@@ -132,6 +142,8 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $this->assertEquals( 42, $opt->width );
         $this->assertEquals( '%.10f', $opt->actFormat );
         $this->assertEquals( '%.10f', $opt->maxFormat );
+        $this->assertEquals( 23, $opt->minVerbosity );
+        $this->assertEquals( 42, $opt->maxVerbosity );
     }
 
     public function testSetAccessFailure()
@@ -251,6 +263,28 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $exceptionThrown = false;
         try
         {
+            $opt->minVerbosity = 'some val';
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property minVerbosity." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $opt->maxVerbosity = 'some val';
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property maxVerbosity." );
+
+        $exceptionThrown = false;
+        try
+        {
             $opt->foo = true;
         }
         catch ( ezcBasePropertyNotFoundException $e )
@@ -273,6 +307,8 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $this->assertTrue( isset( $opt->width ) );
         $this->assertTrue( isset( $opt->actFormat ) );
         $this->assertTrue( isset( $opt->maxFormat ) );
+        $this->assertTrue( isset( $opt->minVerbosity ) );
+        $this->assertTrue( isset( $opt->maxVerbosity ) );
         $this->assertFalse( isset( $opt->foo ) );
     }
 }

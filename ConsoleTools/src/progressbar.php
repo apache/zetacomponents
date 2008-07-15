@@ -290,6 +290,17 @@ class ezcConsoleProgressbar
      */
     public function output()
     {
+        if ( $this->options->minVerbosity > $this->output->options->verbosityLevel
+             || ( $this->options->maxVerbosity !== false 
+                  && $this->options->maxVerbosity < $this->output->options->verbosityLevel
+                )
+           )
+        {
+            // Do not print progress bar if verbosity level is lower than it's
+            // output objects value.
+            return;
+        }
+
         if ( $this->started === false )
         {
             $this->start();
