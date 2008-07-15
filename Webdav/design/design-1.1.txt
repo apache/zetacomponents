@@ -12,7 +12,7 @@ Scope
 ^^^^^
 
 The scope of this document is to describe the enhancements for the Webdav
-component version 1.2.
+component version 1.1.
 
 The general goal for this version is to support locking as described in RFC
 2518. To achieve this, the if-header must be parsed and respected by the Webdav
@@ -24,6 +24,8 @@ The following issues are covered in this design:
 
 - Webdav does not provide ETags and does not honor the if-header with them
   (#12583).
+- Webdav needs to support authentication and authorization to properly support
+  locking (#13344).
 - Lock support (#12286).
 
 For locking, a plugin based approach has been favored while the Webav
@@ -156,6 +158,160 @@ Since this behavior will be implemented within the ezcWebdavSimpleBackend
 class, it automatically works with all extending back end classes. Back ends
 that do not extend ezcWebdavSimpleBackend will have to take care for these
 headers on their own.
+
+Authentication and Authorization support
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Support for locking does not work without a proper authentication and
+authorization mechanism.
+
+============
+Requirements
+============
+
+General requirements for authentication and authorization are:
+
+- Authenticate the user by username and password.
+- Check if the authenticated user has access to the pathes affected by the
+  request.
+
+In respect to locking, the following additional requirements must be met:
+
+- Assign a lock token to an authenticated user.
+- Check if given lock tokens belong to the authenticated user.
+
+Both requirements should be implemented independently from each other, to allow
+using Webdav without suppport for locking, but still have authentication /
+authorization support.
+
+======
+Design
+======
+
+The authentication / authorization support (in future: short "auth support")
+will be implemented in the Webdav component itself, not as a plugin. The reason
+for this is, that Webdav without auth support does make very little sense.
+Plugins will have access to the auth mechanisms to perform additional checks
+for custom requests. To fulfill the need of independance between the general
+auth support and lock specific auth support, the additional features will be
+defined by an interface in the lock plugin that must be implemented by the
+configured auth mechanism.
+
+Interfaces
+==========
+
+The following sections describe interfaces that are implemented in the Webdav
+component itself.
+
+ezcWebdavAuth
+-------------
+
+This interface must be implemented by a class that acts as the central auth
+instance inside the Webdav component::
+
+    <?php
+    interface ezcWebdavAuth
+    {
+        const ACCESS_READ = 1;
+        const ACCESS_WRITE = 2;
+
+        authenticate( string $user, string $password );
+
+        authorize( string $user, string $path, $access = self::ACCESS_READ );
+    }
+    ?>
+
+The authenticate() method will be called to authenticate a user. If either of
+the credentials is not provided, an empty string is submitted. Anonymous
+requests are therefore authenticated with empty $user and $password parameters.
+The authorize method receives the $user name again (possibly empty) and a path
+that is affected by the request. The $access parameter defines if the given
+path is affected for reading or writing.
+
+ezcWebdavLockAuth
+-----------------
+
+This interface will be provided in the lock plugin and must be implemented by
+the central auth instance to support the lock plugin. If this is not the case
+and the lock plugin is activated, an exception will be thrown. ::
+    
+    <?php
+    interface ezcWebdavLockAuth extends ezcWebdavAuth
+    {
+        assignLock( string $user, string $lockToken, int $timeout );
+        ownsLock( string $user, string $lockToken );
+        releaseLock( string $lockToken );
+
+        refreshLock( string $lockToken, int $timeout );
+    }
+    ?>
+
+Whenever a lock token is created by a user, the assignLock() method is called.
+A lockToken can only be assigned to 1 user, so the assignLock() method must
+throw an exception in case a $lockToken is submitted twice. The $timeout value
+defines the Unix timestamp when the $lockToken will expire. After that, the
+authentication mechanism must release the lock and return false from
+ownsLock(). The ownsLock() method checks if the given $user is the owner of the
+$lockToken. In case the $lockToken does not exist (maybe because it is
+expired), this method throws an exception. The releaseLock() method removes the
+$lockToken and the assignement of its user.
+
+A $lockToken might be refreshed, as long as it exists. In case a lock does not
+exist anymore, the refreshLock() method must indicate an exception.
+
+Classes
+=======
+
+The following basic implementations will be shipped with the Webdav component.
+The implementations are not created to provide real auth facilities, but to
+ensure that Webdav still works without a proper auth implementation, although
+this will be mandatory from 1.1 on.
+
+ezcWebdavNoAuth
+---------------
+
+This class will implement the ezcWebdavAuth interface. It will simple return
+true to all method calls to indicate success.
+
+.. note::
+   This does not provide any kind of auth facilities, but only fakes the Webdav
+   component to work. A user must implement his own auth class to realize this
+   feature properly.
+
+No default implementation of the ezcWebdavLockAuth interface will be provided.
+Users will have to implement this feature on their own.
+
+.. note::
+   It might be an idea for the future to implement a WebdavAuthenticationTiein,
+   which supports some of the Authentication filter classes as backends for
+   authentication. However, those can only be abstract, since the user still
+   needs to implement the authorization part on his own.
+
+Integration
+===========
+
+The auth facilities will be implemented in the Webdav component on the server
+layer. The auth process will work as follows:
+
+1. Parse request (transport layer).
+2. Authenticate user on basis of abstract request data.
+
+   - In case the authentication fails, cancel request processing and return 401
+     (Unauthorized).
+
+3. Authenticate user on basis of abstract request data (including affected
+   pathes.
+
+   - In case the authorization fails, cancel request processing and return 401
+     (Unauthorized).
+
+4. Go on with normal request processing (plugins, backend).
+
+The ezcWebdavAuth instance used for the auth process is stored in a read/write
+property in ezcWebdavServer. It defaults to eczWebdavNoAuth and can be replaced
+by an arbitrary object implementing ezcWebdavAuth by the user. Logically this
+should happen before the handle() method is called, but theoretically it is
+possible anytime.
 
 Lock support
 ^^^^^^^^^^^^
