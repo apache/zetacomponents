@@ -3,7 +3,7 @@
 
 - Implemented feature #12567: All help generation methods now support grouping
   of options.
-- Fixed issue #13240: ezcConsoleProgressbar now allows to specify
+- Implemented feature #13240: ezcConsoleProgressbar now allows to specify
   $minVerbosity and $maxVerbosity options.
 
 
