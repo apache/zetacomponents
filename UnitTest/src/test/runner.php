@@ -163,7 +163,11 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         $this->printCredits();
 
-        $params = array();
+        $params = array(
+          'convertErrorsToExceptions'   => TRUE,
+          'convertNoticesToExceptions'  => FALSE,
+          'convertWarningsToExceptions' => FALSE
+        );
 
         // Set the release. Default is trunk. 
         $release = $consoleInput->getOption( 'release' )->value;
