@@ -954,6 +954,35 @@ The operation will work without a database query for the following relations
 
 but will perform a database query for the Many-To-Many relation type.
 
+=======================================
+Sub-select support for PersistentObject
+=======================================
+
+The method ezcPersistentSession->createFindQuery() allows the user to create a
+pre-configured ezcQuerySelect object, which has aliases assigned from object
+attributes to column names. This has 2 advantages:
+
+a) The user does not need to remember any column names, but only needs to know
+   the object attribute names.
+b) The user does not need to manually escape the column names.
+
+If the user wants to create a sub select query. he usually calls
+$query->subSelect(), which returns a new query object. For the persistent
+object queries, he then needs to manually configure the table name and needs to
+make use of the column names.
+
+------
+Design
+------
+
+The new `Select query decorator`_ which will be returned by createFindQuery()
+from this version on, will be enhanced by a method::
+    
+    createSubFindQuery( string $className )
+
+This method will call ezcQuerySelect->subSelect() on the inner query object and
+prepare the query according to the behavior of createFindQuery().
+
 ..
    Local Variables:
    mode: rst
