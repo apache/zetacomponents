@@ -20,8 +20,8 @@ described by these issues in our issue tracker:
 - Select query decorator.
 - #12473: Identity map for PersistentObject.
 - #13074: Fetching related objects through joins.
-- #13073: Sub-select support for PersistentObject.
 - #11831: isRelated() Method.
+- #13073: Sub-select support for PersistentObject.
 - #13170: Support for custom relation implementations.
 
 Each of the issues and their proposed solutions are explained in a separate
@@ -919,6 +919,40 @@ Open issues
 
 - It has to be decided if these enhancements should become directly part of
   ezcPersistentIdentitySession or if they should go into an extended class.
+
+==================
+isRelated() method
+==================
+
+It might be useful in an application to know if to given objects are related to
+each other. This way, the user does not need to remember how the relation
+between 2 objects is practically established.
+
+------
+Design
+------
+
+A new method::
+
+    bool isRelated( object $object1, object $object2 )
+
+is added to ezcPersistentSession. This method will perform the following
+operations when being called with 2 objects:
+
+- Check if the object classes have a relation assigned in their persistent
+  object definition (forward or backward).
+  - If not: Return false.
+- Check if the objects are related to each other.
+  - If not: Return false.
+- Return true.
+
+The operation will work without a database query for the following relations
+
+- One-To-One
+- One-To-Many
+- Many-To-One
+
+but will perform a database query for the Many-To-Many relation type.
 
 ..
    Local Variables:
