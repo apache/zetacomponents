@@ -389,6 +389,41 @@ class ezcGraphGdDriverTest extends ezcTestImageCase
         );
     }
 
+    public function testDrawCircleSectorAcuteVerySmallBug13361()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $return = $this->driver->drawCircleSector(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            30,
+            30.1,
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+
+        $this->assertEquals(
+            $return,
+            array(),
+            'Expected empty point array as return value.',
+            1.
+        );
+    }
+
     public function testDrawCircleSectorAcuteNonFilled()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';

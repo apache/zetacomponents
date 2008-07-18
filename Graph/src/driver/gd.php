@@ -739,6 +739,28 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $endAngle = $tmp;
         }
 
+        // Because of bug #45552 in PHPs ext/GD we check for a minimal distance
+        // on the outer border of the circle sector, and skip the drawing if
+        // the distance is lower then 1.
+        //
+        // See also: http://bugs.php.net/45552
+        $startPoint = new ezcGraphVector( 
+            $center->x + 
+                ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
+            $center->y + 
+                ( ( sin( deg2rad( $startAngle ) ) * $height ) / 2 )
+        );
+        if ( $startPoint->sub( new ezcGraphVector( 
+                $center->x + 
+                    ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
+                $center->y + 
+                    ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 )
+             ) )->length() < 1 )
+        {
+            // Skip this circle sector
+            return array();
+        }
+
         if ( $filled )
         {
             imagefilledarc( 

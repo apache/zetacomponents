@@ -6,6 +6,8 @@
 - Implemented feature #11981: Provide option for exact axis label renderer to
   put last value outside of the normal label boundings
 - Fixed issue #13253: Division by zero when trying to render stacked bars.
+- Fixed issue #13361: Provided workaround for ext/GD bug:
+  http://bugs.php.net/45552
 
 1.3 - Monday 16 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
