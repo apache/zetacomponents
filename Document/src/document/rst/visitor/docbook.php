@@ -409,12 +409,12 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         $quote = $this->document->createElement( 'blockquote' );
         $root->appendChild( $quote );
 
-        // Add blockquote annotation
+        // Add blockquote attribution
         if ( !empty( $node->annotation ) )
         {
-            $annotation = $this->document->createElement( 'annotation' );
-            $quote->appendChild( $annotation );
-            $this->visitNode( $annotation, $node->annotation->nodes );
+            $attribution = $this->document->createElement( 'attribution' );
+            $quote->appendChild( $attribution );
+            $this->visitNode( $attribution, $node->annotation->nodes );
         }
 
         // Decoratre blockquote contents
