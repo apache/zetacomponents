@@ -35,7 +35,6 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
         'html'       => 'section',
         'i'          => 'emphasis',
         'li'         => 'listitem',
-        'ol'         => 'orderedlist',
         'p'          => 'para',
         'q'          => 'blockquote',
         'title'      => 'title',
@@ -62,6 +61,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
         'b'      => 'filterStrongEmphasis',
         'strong' => 'filterStrongEmphasis',
         'cite'   => 'filterBlockquoteAnnotation',
+        'ol'     => 'filterEnumeratedList',
     );
 
     // Special handling required
@@ -356,7 +356,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
              // HTML conversion
              ( ( strtolower( $element->parentNode->tagName ) === 'div' ) &&
                ( $element->parentNode->hasAttribute( 'class' ) ) &&
-               ( substr( $element->parentNode->getAttribute( 'class' ), 'attribution' ) !== false ) ) )
+               ( strpos( $element->parentNode->getAttribute( 'class' ), 'attribution' ) !== false ) ) )
         {
             // Assume this is an attribution.
             $element->setProperty( 'type', 'attribution' );
@@ -368,6 +368,25 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
         else
         {
             $element->setProperty( 'type', 'quote' );
+        }
+    }
+
+    protected function filterEnumeratedList( DOMElement $element )
+    {
+        $element->setProperty( 'type', 'orderedlist' );
+
+        $types = array(
+            'a' => 'loweralpha',
+            'A' => 'upperalpha',
+            'i' => 'lowerroman',
+            'I' => 'upperroman',
+        );
+        if ( $element->hasAttribute( 'type' ) &&
+             isset( $types[$type = $element->getAttribute( 'type' )] ) )
+        {
+            $element->setProperty( 'attributes', array( 
+                'numeration' => $types[$type],
+            ) );
         }
     }
 }
