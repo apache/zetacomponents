@@ -17,6 +17,13 @@
 class ezcDocumentXhtml extends ezcDocumentXmlBase
 {
     /**
+     * Array with filter objects for the input HTML document.
+     * 
+     * @var array(ezcDocumentXhtmlFilter)
+     */
+    protected $filters;
+    
+    /**
      * Construct document xml base.
      * 
      * @ignore
@@ -28,6 +35,128 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
         parent::__construct( $options === null ?
             new ezcDocumentXhtmlOptions() :
             $options );
+
+        $this->filters = array(
+            new ezcDocumentXhtmlElementFilter(),
+        );
+    }
+
+    /**
+     * Create document from input string
+     * 
+     * Create a document of the current type handler class and parse it into a
+     * usable internal structure.
+     *
+     * @param string $string 
+     * @return void
+     */
+    public function loadString( $string )
+    {
+        // Use internal error handling to handle XML errors manually.
+        $oldXmlErrorHandling = libxml_use_internal_errors( true );
+        libxml_clear_errors();
+
+        // Load XML document
+        $this->document = new DOMDocument();
+        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentXhtmlDomElement' );
+        $this->document->loadXml( $string );
+
+        $errors = ( $this->options->failOnError ?
+            libxml_get_errors() :
+            null );
+
+        libxml_clear_errors();
+        libxml_use_internal_errors( $oldXmlErrorHandling );
+
+        // If there are errors and the error handling is activated throw an
+        // exception with the occured errors.
+        if ( $errors )
+        {
+            throw new ezcDocumentErrnousXmlException( $errors );
+        }
+    }
+
+    /**
+     * Set filters
+     *
+     * Set an array with filter objects, which extract the sematic
+     * information from the given XHtml document.
+     * 
+     * @param array $filters 
+     * @return void
+     */
+    public function setFilters( array $filters )
+    {
+        $this->filters = $filters;
+    }
+
+    /**
+     * Build docbook document out of annotated XHtml document
+     * 
+     * @param DOMDocument $document 
+     * @return DOMDocument
+     */
+    protected function buildDocbookDocument( DOMDocument $document )
+    {
+        $docbook = new DOMDocument();
+        $docbook->preserveWhiteSpace = false;
+        $docbook->formatOutput = true;
+
+        $root = $docbook->createElementNs( 'http://docbook.org/ns/docbook', 'article' );
+        $docbook->appendChild( $root );
+
+        $this->transformToDocbook( $document->firstChild, $root );
+
+        return $docbook;
+    }
+
+    /**
+     * Recursively transform annotated XHtml elements to docbook
+     * 
+     * @param DOMElement $xhtml 
+     * @param DOMElement $docbook 
+     * @return void
+     */
+    protected function transformToDocbook( DOMElement $xhtml, DOMElement $docbook )
+    {
+        if ( ( $tagName = $xhtml->getProperty( 'type' ) ) !== false )
+        {
+            $node = new DOMElement( $tagName );
+            $docbook->appendChild( $node );
+            $docbook = $node;
+
+            // @TODO: Append annotated attributes.
+        }
+
+        foreach ( $xhtml->childNodes as $child )
+        {
+            switch ( $child->nodeType )
+            {
+                case XML_ELEMENT_NODE:
+                    $this->transformToDocbook( $child, $docbook );
+                    break;
+                
+                case XML_TEXT_NODE:
+                    $text = new DOMText( $child->wholeText );
+                    $docbook->appendChild( $text );
+                    break;
+                
+                case XML_CDATA_SECTION_NODE:
+                    $data = new DOMCharacterData();
+                    $data->appendData( $child->data );
+                    $docbook->appendChild( $data );
+                    break;
+
+                case XML_ENTITY_NODE:
+                    // @TODO: Implement
+                    break;
+
+                case XML_COMMENT_NODE:
+                    $comment = new DOMComment( $child->data );
+                    $docbook->appendChild( $comment );
+                    break;
+            }
+        }
     }
 
     /**
@@ -46,7 +175,16 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
      */
     public function getAsDocbook()
     {
-        // @TODO: Implement
+        foreach ( $this->filters as $filter )
+        {
+            $filter->filter( $this->document );
+        }
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->setDomDocument(
+            $this->buildDocbookDocument( $this->document )
+        );
+        return $docbook;
     }
 
     /**

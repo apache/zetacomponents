@@ -31,21 +31,6 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
     }
 
     /**
-     * Create document from input string
-     * 
-     * Create a document of the current type handler class and parse it into a
-     * usable internal structure.
-     *
-     * @param string $string 
-     * @return void
-     */
-    public function loadString( $string )
-    {
-        $this->document = new DOMDocument();
-        $this->document->loadXml( $string );
-    }
-
-    /**
      * Return document compiled to the docbook format
      * 
      * The internal document structure is compiled to the docbook format and

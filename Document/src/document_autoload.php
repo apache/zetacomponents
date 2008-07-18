@@ -31,6 +31,7 @@ return array(
     'ezcDocumentRstLinkNode'                  => 'Document/document/rst/nodes/link.php',
     'ezcDocumentRstMarkupNode'                => 'Document/document/rst/nodes/markup.php',
     'ezcDocumentRstXhtmlVisitor'              => 'Document/document/rst/visitor/xhtml.php',
+    'ezcDocumentXhtmlBaseFilter'              => 'Document/document/xml/xhtml/filter/base.php',
     'ezcDocumentXhtmlConversion'              => 'Document/interfaces/conversion_xhtml.php',
     'ezcDocumentXmlBase'                      => 'Document/document/xml_base.php',
     'ezcDocumentXmlOptions'                   => 'Document/options/document_xml.php',
@@ -102,6 +103,8 @@ return array(
     'ezcDocumentRstWarningDirective'          => 'Document/document/rst/directive/warning.php',
     'ezcDocumentRstXhtmlBodyVisitor'          => 'Document/document/rst/visitor/xhtml_body.php',
     'ezcDocumentXhtml'                        => 'Document/document/xml/xhtml.php',
+    'ezcDocumentXhtmlDomElement'              => 'Document/document/xml/xhtml/element.php',
+    'ezcDocumentXhtmlElementFilter'           => 'Document/document/xml/xhtml/filter/element.php',
     'ezcDocumentXhtmlOptions'                 => 'Document/options/document_xhtml.php',
     'ezcDocumentXhtmlToDocbookConverter'      => 'Document/converters/xslt/xhtml_docbook.php',
 );

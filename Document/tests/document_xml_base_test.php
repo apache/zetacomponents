@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcDocTestConvertXhtmlDocbook
+ * ezcDocTestConvertDocbookDocbook
  * 
  * @package Document
  * @version //autogen//
@@ -24,7 +24,7 @@ class ezcDocumentXmlBaseTests extends ezcTestCase
 
     public function testLoadXmlDocumentFromFile()
     {
-        $doc = new ezcDocumentXhtml();
+        $doc = new ezcDocumentDocbook();
         $doc->loadFile( 
             dirname( __FILE__ ) . '/files/xhtml_sample_basic.xml'
         );
@@ -41,7 +41,7 @@ class ezcDocumentXmlBaseTests extends ezcTestCase
             dirname( __FILE__ ) . '/files/xhtml_sample_basic.xml'
         );
 
-        $doc = new ezcDocumentXhtml();
+        $doc = new ezcDocumentDocbook();
         $doc->loadString( $string );
 
         $this->assertTrue(
@@ -52,7 +52,7 @@ class ezcDocumentXmlBaseTests extends ezcTestCase
 
     public function testLoadErrnousXmlDocument()
     {
-        $doc = new ezcDocumentXhtml();
+        $doc = new ezcDocumentDocbook();
 
         try
         {
@@ -79,7 +79,7 @@ class ezcDocumentXmlBaseTests extends ezcTestCase
 
     public function testLoadErrnousXmlDocumentSilent()
     {
-        $doc = new ezcDocumentXhtml();
+        $doc = new ezcDocumentDocbook();
         $doc->options->failOnError = false;
         $doc->loadFile( 
             dirname( __FILE__ ) . '/files/xhtml_sample_errnous.xml'
@@ -93,7 +93,7 @@ class ezcDocumentXmlBaseTests extends ezcTestCase
 
     public function testSerializeXml()
     {
-        $doc = new ezcDocumentXhtml();
+        $doc = new ezcDocumentDocbook();
         $doc->loadFile( 
             dirname( __FILE__ ) . '/files/xhtml_sample_basic.xml'
         );
@@ -106,7 +106,7 @@ class ezcDocumentXmlBaseTests extends ezcTestCase
 
     public function testSerializeXmlFormat()
     {
-        $doc = new ezcDocumentXhtml();
+        $doc = new ezcDocumentDocbook();
         $doc->options->indentXml = true;
         $doc->loadFile( 
             dirname( __FILE__ ) . '/files/xhtml_sample_basic.xml'
