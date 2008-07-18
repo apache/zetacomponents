@@ -25,7 +25,6 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
     protected $nameMapping = array(
         'abbr'       => 'abbrev',
         'acronym'    => 'acronym',
-        'b'          => 'emphasis',
         'big'        => 'emphasis',
         'blockquote' => 'blockquote',
         'cite'       => 'blockquote',
@@ -38,7 +37,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
         'i'          => 'emphasis',
         'li'         => 'listitem',
         'ol'         => 'orderedlist',
-        'p'          => 'paragraph',
+        'p'          => 'para',
         'q'          => 'blockquote',
         'title'      => 'title',
         'tt'         => 'literal',
@@ -52,18 +51,20 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
      * @var array
      */
     protected $processingCallbacks = array(
-        'code' => 'filterLiteralBlock',
-        'pre'  => 'filterLiteralBlock',
-        'h1'   => 'filterHeader',
-        'h2'   => 'filterHeader',
-        'h3'   => 'filterHeader',
-        'h4'   => 'filterHeader',
-        'h5'   => 'filterHeader',
-        'h6'   => 'filterHeader',
+        'code'   => 'filterLiteralBlock',
+        'pre'    => 'filterLiteralBlock',
+        'h1'     => 'filterHeader',
+        'h2'     => 'filterHeader',
+        'h3'     => 'filterHeader',
+        'h4'     => 'filterHeader',
+        'h5'     => 'filterHeader',
+        'h6'     => 'filterHeader',
+        'a'      => 'filterLink',
+        'b'      => 'filterStrongEmphasis',
+        'strong' => 'filterStrongEmphasis',
     );
 
     // Special handling required
-    //  - a
     //  - img
     //  - object
     //  - strong
@@ -271,6 +272,71 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
                 $parent->removeChild( $node );
             }
         }
+    }
+
+    /**
+     * Filter link elements
+     *
+     * Link elements (<a>) may be anchors and references in XHtml. Also they
+     * may be internal or external links. We annotate them on base of the
+     * provided attributes.
+     * 
+     * @param DOMElement $element 
+     * @return void
+     */
+    protected function filterLink( DOMElement $element )
+    {
+        if ( $element->hasAttribute( 'name' ) )
+        {
+            $span = new ezcDocumentXhtmlDomElement( 'span' );
+            $element->parentNode->insertBefore( $span, $element );
+
+            // The a element is an anchor
+            $span->setProperty( 'type', 'anchor' );
+            $span->setProperty( 'attributes', array( 
+                'id' => $element->getAttribute( 'name' ),
+            ) );
+        }
+        elseif ( $element->hasAttribute( 'href' ) )
+        {
+            // The element is a reference, but still may be internal or
+            // external
+            $target = $element->getAttribute( 'href' );
+            if ( $target[0] === '#' )
+            {
+                // Internal target
+                $element->setProperty( 'type', 'link' );
+                $element->setProperty( 'attributes', array( 
+                    'linked' => substr( $target, 1 ),
+                ) );
+            }
+            else
+            {
+                // External target
+                $element->setProperty( 'type', 'ulink' );
+                $element->setProperty( 'attributes', array( 
+                    'url' => $target,
+                ) );
+            }
+        }
+    }
+
+    /**
+     * Filter strong emphasis
+     *
+     * Even there is no real strong empasis in docbook this may be annotated by
+     * the additional attribute role, which is set for XHtml elements
+     * indicating strong emphasis.
+     * 
+     * @param DOMElement $element 
+     * @return void
+     */
+    protected function filterStrongEmphasis( DOMElement $element )
+    {
+        $element->setProperty( 'type', 'emphasis' );
+        $element->setProperty( 'attributes', array( 
+            'role' => 'strong',
+        ) );
     }
 }
 

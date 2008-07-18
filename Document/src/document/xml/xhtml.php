@@ -125,7 +125,13 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
             $docbook->appendChild( $node );
             $docbook = $node;
 
-            // @TODO: Append annotated attributes.
+            if ( ( $attributes = $xhtml->getProperty( 'attributes' ) ) !== false )
+            {
+                foreach ( $attributes as $name => $value )
+                {
+                    $node->setAttribute( $name, htmlspecialchars( $value ) );
+                }
+            }
         }
 
         foreach ( $xhtml->childNodes as $child )
