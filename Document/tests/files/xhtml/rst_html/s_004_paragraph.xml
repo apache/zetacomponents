@@ -1,17 +1,12 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-  
-    
     <title>Paragraph with inline markup</title>
-  
-  
-    <section><title>
-      <anchor id="paragraph_with_inline_markup"/>Paragraph with inline markup
-    </title>
-    <para>Paragraphs contain text and may contain inline markup: <emphasis>emphasis</emphasis>, <emphasis role="strong">strong emphasis</emphasis>, interpreted text, <literal>inline literals</literal>, standalone hyperlinks (<ulink url="http://www.python.org">http://www.python.org</ulink>), external hyperlinks (<ulink url="http://python.org">Python</ulink>), internal cross-references (<ulink url="http://example.org">example</ulink>), substitution references (), and <anchor id="inline_internal_targets"/>inline internal targets. There are also <ulink url="http://example.org">anonomyous</ulink> hyperlinks, which also <ulink url="http://example.org">may contain more then one word</ulink>.</para>
-    <para><emphasis>Markup</emphasis> is also allwoed at the very beginning of a paragraph.</para>
-    <para>Paragraphs are separated by blank lines and are left-aligned.</para>
+    <section>
+      <title><anchor id="paragraph_with_inline_markup"/>Paragraph with inline markup</title>
+      <para>Paragraphs contain text and may contain inline markup: <emphasis>emphasis</emphasis>, <emphasis role="strong">strong emphasis</emphasis>, interpreted text, <literal>inline literals</literal>, standalone hyperlinks (<ulink url="http://www.python.org">http://www.python.org</ulink>), external hyperlinks (<ulink url="http://python.org">Python</ulink>), internal cross-references (<ulink url="http://example.org">example</ulink>), substitution references (), and <anchor id="inline_internal_targets"/>inline internal targets. There are also <ulink url="http://example.org">anonomyous</ulink> hyperlinks, which also <ulink url="http://example.org">may contain more then one word</ulink>.</para>
+      <para><emphasis>Markup</emphasis> is also allwoed at the very beginning of a paragraph.</para>
+      <para>Paragraphs are separated by blank lines and are left-aligned.</para>
+    </section>
   </section>
-</section>
 </article>

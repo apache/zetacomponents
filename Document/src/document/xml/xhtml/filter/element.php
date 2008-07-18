@@ -371,6 +371,15 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
         }
     }
 
+    /**
+     * Filter enumerated lists
+     *
+     * Enumerated lists may have additional information about the list type
+     * they are numbered with (alpha, roman, ..), which is kept by this method.
+     * 
+     * @param DOMElement $element 
+     * @return void
+     */
     protected function filterEnumeratedList( DOMElement $element )
     {
         $element->setProperty( 'type', 'orderedlist' );

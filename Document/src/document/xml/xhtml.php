@@ -143,8 +143,12 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
                     break;
                 
                 case XML_TEXT_NODE:
-                    $text = new DOMText( $child->wholeText );
-                    $docbook->appendChild( $text );
+                    // Skip pure whitespace text nodes
+                    if ( trim( $child->wholeText ) !== '' )
+                    {
+                        $text = new DOMText( $child->wholeText );
+                        $docbook->appendChild( $text );
+                    }
                     break;
                 
                 case XML_CDATA_SECTION_NODE:
