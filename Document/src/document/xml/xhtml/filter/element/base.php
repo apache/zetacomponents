@@ -51,6 +51,7 @@ abstract class ezcDocumentXhtmlElementBaseFilter
             array(
                 'address',
                 'blockquote',
+                'body',
                 'center',
                 'del',
                 'dir',
