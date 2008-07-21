@@ -50,6 +50,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
             new ezcDocumentXhtmlImageElementFilter(),
             new ezcDocumentXhtmlFootnoteElementFilter(),
             new ezcDocumentXhtmlDefinitionListElementFilter(),
+            new ezcDocumentXhtmlLineBlockElementFilter(),
         );
     }
 

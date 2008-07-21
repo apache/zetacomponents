@@ -113,6 +113,7 @@ return array(
     'ezcDocumentXhtmlFootnoteElementFilter'       => 'Document/document/xml/xhtml/filter/element/footnote.php',
     'ezcDocumentXhtmlHeaderElementFilter'         => 'Document/document/xml/xhtml/filter/element/header.php',
     'ezcDocumentXhtmlImageElementFilter'          => 'Document/document/xml/xhtml/filter/element/image.php',
+    'ezcDocumentXhtmlLineBlockElementFilter'      => 'Document/document/xml/xhtml/filter/element/lineblock.php',
     'ezcDocumentXhtmlLinkElementFilter'           => 'Document/document/xml/xhtml/filter/element/link.php',
     'ezcDocumentXhtmlLiteralElementFilter'        => 'Document/document/xml/xhtml/filter/element/literal.php',
     'ezcDocumentXhtmlOptions'                     => 'Document/options/document_xhtml.php',

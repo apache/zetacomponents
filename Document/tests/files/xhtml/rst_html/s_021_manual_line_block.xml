@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<article xmlns="http://docbook.org/ns/docbook">
+  <section>
+    <title>Line blocks</title>
+    <section>
+      <title><anchor id="line_blocks"/>Line blocks</title>
+      <literallayout class="Normal">Lend us a couple of bob till Thursday.
+I'm absolutely skint.
+But I'm expecting a postal order and I can pay you back
+as soon as it comes.
+Love, Ewan.
+</literallayout>
+    </section>
+  </section>
+</article>
