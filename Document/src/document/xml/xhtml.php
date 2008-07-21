@@ -162,7 +162,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
                     break;
 
                 case XML_COMMENT_NODE:
-                    $comment = new DOMComment( $child->data );
+                    $comment = new DOMElement( 'comment', $child->data );
                     $docbook->appendChild( $comment );
                     break;
             }

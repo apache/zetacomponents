@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<article xmlns="http://docbook.org/ns/docbook">
+  <section>
+    <title>Complex directives</title>
+    <section>
+      <title><anchor id="complex_directives"/>Complex directives</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="mylogo.jpeg"/>
+        </imageobject>
+        <textobject>
+          <phrase>My Logo</phrase>
+        </textobject>
+      </mediaobject>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="larch.png"/>
+        </imageobject>
+        <textobject>
+          <phrase>larch.png</phrase>
+        </textobject>
+      </mediaobject>
+      <para>The larch.</para>
+      <para> This is a paragraph</para>
+      <itemizedlist>
+        <listitem>
+          <para>Here is a bullet list.</para>
+        </listitem>
+      </itemizedlist>
+      <para> modify at your own risk!</para>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="larch.png"/>
+        </imageobject>
+        <textobject>
+          <phrase>larch.png</phrase>
+        </textobject>
+      </mediaobject>
+      <para>The larch.</para>
+    </section>
+  </section>
+</article>
