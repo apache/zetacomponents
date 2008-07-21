@@ -109,6 +109,7 @@ return array(
     'ezcDocumentXhtmlElementFilter'           => 'Document/document/xml/xhtml/filter/element.php',
     'ezcDocumentXhtmlElementMappingFilter'    => 'Document/document/xml/xhtml/filter/element/mapping.php',
     'ezcDocumentXhtmlEnumeratedElementFilter' => 'Document/document/xml/xhtml/filter/element/enumerated.php',
+    'ezcDocumentXhtmlFootnoteElementFilter'   => 'Document/document/xml/xhtml/filter/element/footnote.php',
     'ezcDocumentXhtmlHeaderElementFilter'     => 'Document/document/xml/xhtml/filter/element/header.php',
     'ezcDocumentXhtmlImageElementFilter'      => 'Document/document/xml/xhtml/filter/element/image.php',
     'ezcDocumentXhtmlLinkElementFilter'       => 'Document/document/xml/xhtml/filter/element/link.php',

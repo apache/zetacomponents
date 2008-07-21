@@ -98,6 +98,26 @@ abstract class ezcDocumentXhtmlElementBaseFilter
             ( $this->isBlockLevelElement( $element->parentNode ) )
         );
     }
+
+    /**
+     * Check for element class
+     *
+     * Check if element has the given class in its class attribute. Returns
+     * true, if it is contained, or false, if not.
+     * 
+     * @param DOMElement $element 
+     * @param string $class 
+     * @return bool
+     */
+    protected function hasClass( DOMElement $element, $class )
+    {
+        return ( $element->hasAttribute( 'class' ) &&
+                 preg_match( 
+                    '((?:^|\s)' . preg_quote( $class ) . '(?:\s|$))', 
+                    $element->getAttribute( 'class' ) 
+                 )
+        );
+    }
 }
 
 ?>

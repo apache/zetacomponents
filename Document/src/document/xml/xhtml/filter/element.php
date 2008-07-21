@@ -48,6 +48,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
             new ezcDocumentXhtmlBlockquoteElementFilter(),
             new ezcDocumentXhtmlEnumeratedElementFilter(),
             new ezcDocumentXhtmlImageElementFilter(),
+            new ezcDocumentXhtmlFootnoteElementFilter(),
         );
     }
 
