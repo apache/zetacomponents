@@ -39,6 +39,7 @@ class ezcDocumentXhtmlHeaderElementFilter extends ezcDocumentXhtmlElementBaseFil
         $section->appendChild( $element );
         $element->setProperty( 'type', 'title' );
 
+        // Skip all preceeding child elements, until we reach the current node.
         $children = $parent->childNodes;
         $childCount = $children->length;
         for ( $i = 0; $i < $childCount; ++$i )

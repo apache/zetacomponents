@@ -29,7 +29,7 @@ class ezcDocumentXhtmlElementMappingFilter extends ezcDocumentXhtmlElementBaseFi
         'blockquote' => 'blockquote',
         'dl'         => 'variablelist',
         'dt'         => 'term',
-        'dd'         => 'varlistentry',
+        'dd'         => 'listitem',
         'em'         => 'emphasis',
         'hr'         => 'beginpage',
         'html'       => 'section',

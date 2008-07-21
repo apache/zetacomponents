@@ -49,6 +49,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
             new ezcDocumentXhtmlEnumeratedElementFilter(),
             new ezcDocumentXhtmlImageElementFilter(),
             new ezcDocumentXhtmlFootnoteElementFilter(),
+            new ezcDocumentXhtmlDefinitionListElementFilter(),
         );
     }
 
@@ -105,6 +106,11 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
         }
 
         // Recurse into child elements
+        //
+        // We do the recursion in the reverse order of the elements, so that
+        // restructuring of the tree does not affect the nodes, which are yet
+        // up for filtering - this might end in errors about missing nodes
+        // otherwise.
         for ( $i = ( $element->childNodes->length - 1 ); $i >= 0; --$i )
         {
             $child = $element->childNodes->item( $i );
