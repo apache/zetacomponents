@@ -75,7 +75,7 @@ parses and responds to the request with the created back-end as a parameter.
 Basic path factory
 ------------------
 
-The custom path factory enables you to specify the request path mapping to the
+A custom path factory enables you to specify the request path mapping to the
 path of a resource in the repository. This can be used if the automatic
 detection does not work.
 
@@ -83,7 +83,7 @@ detection does not work.
    :literal:
 
 When assigning the server configuration to the new ezcWebdavBasicPathFactory
-object, you provide the base path, which will always be removed from
+object, you provide the base URL, which will always be removed from
 the request URLs.
 
 If you need more specialized mapping of request paths to repository paths,

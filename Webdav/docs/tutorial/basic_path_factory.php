@@ -4,8 +4,14 @@ require_once 'tutorial_autoload.php';
 
 $server = ezcWebdavServer::getInstance();
 
-$server->configurations->pathFactory =
-    new ezcWebdavBasicPathFactory( '/path/to/webdav' );
+$pathFactory = new ezcWebdavBasicPathFactory(
+    'http://example.com/webdav/index.php'
+);
+
+foreach ( $server->configurations as $conf )
+{
+    $conf->pathFactory = $pathFactory;
+}
 
 $backend = new ezcWebdavFileBackend(
    dirname( __FILE__ ) . '/backend'
