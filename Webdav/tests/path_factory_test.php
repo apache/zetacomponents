@@ -175,5 +175,50 @@ class ezcWebdavBasicPathFactoryTest extends ezcWebdavTestCase
             'Restoring of URI failed'
         );
     }
+
+    // Issue #13389
+    public function testCtorFailureUriWithoutScheme()
+    {   
+        try
+        {
+            $pathFactory = new ezcWebdavBasicPathFactory(
+                '/some/path/without/uri'
+            );
+            $this->fail(
+                'Exception not thrown on creation of basic path factory with invalid URI.'
+            );
+        }
+        catch ( ezcWebdavBrokenBaseUriException $e ) {}
+    }
+
+    // Issue #13389
+    public function testCtorFailureUriWithoutHost()
+    {   
+        try
+        {
+            $pathFactory = new ezcWebdavBasicPathFactory(
+                'http:///some'
+            );
+            $this->fail(
+                'Exception not thrown on creation of basic path factory with invalid URI.'
+            );
+        }
+        catch ( ezcWebdavBrokenBaseUriException $e ) {}
+    }
+
+    // Issue #13389
+    public function testCtorFailureBrokenUri()
+    {   
+        try
+        {
+            $pathFactory = new ezcWebdavBasicPathFactory(
+                'http//some/foo/bar'
+            );
+            $this->fail(
+                'Exception not thrown on creation of basic path factory with invalid URI.'
+            );
+        }
+        catch ( ezcWebdavBrokenBaseUriException $e ) {}
+    }
 }
 ?>

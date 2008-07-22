@@ -156,7 +156,7 @@ class ezcWebdavServerConfigurationTest extends ezcWebdavTestCase
             'fooCustomXmlTool',
             'fooCustomPropertyHandler',
             'fooCustomHeaderHandler',
-            new ezcWebdavBasicPathFactory()
+            new ezcWebdavBasicPathFactory( 'http://example.com' )
         );
 
         $this->assertAttributeEquals(
@@ -166,7 +166,7 @@ class ezcWebdavServerConfigurationTest extends ezcWebdavTestCase
                 'xmlToolClass'         => 'fooCustomXmlTool',
                 'propertyHandlerClass' => 'fooCustomPropertyHandler',
                 'headerHandlerClass'   => 'fooCustomHeaderHandler',
-                'pathFactory'          => new ezcWebdavBasicPathFactory(),
+                'pathFactory'          => new ezcWebdavBasicPathFactory( 'http://example.com' ),
             ),
             'properties',
             $cfg,
@@ -251,7 +251,7 @@ class ezcWebdavServerConfigurationTest extends ezcWebdavTestCase
             'fooCustomXmlTool',
             'fooCustomPropertyHandler',
             'fooCustomHeaderHandler',
-            new ezcWebdavBasicPathFactory()
+            new ezcWebdavBasicPathFactory( 'http://example.com' )
         );
 
         $values = array(
@@ -260,7 +260,7 @@ class ezcWebdavServerConfigurationTest extends ezcWebdavTestCase
             'xmlToolClass'         => 'fooCustomXmlTool',
             'propertyHandlerClass' => 'fooCustomPropertyHandler',
             'headerHandlerClass'   => 'fooCustomHeaderHandler',
-            'pathFactory'          => new ezcWebdavBasicPathFactory(),
+            'pathFactory'          => new ezcWebdavBasicPathFactory( 'http://example.com' ),
         );
 
         foreach ( $values as $property => $value )
@@ -298,7 +298,8 @@ class ezcWebdavServerConfigurationTest extends ezcWebdavTestCase
             'xmlToolClass'         => 'fooCustomXmlTool',
             'propertyHandlerClass' => 'fooCustomPropertyHandler',
             'headerHandlerClass'   => 'fooCustomHeaderHandler',
-            'pathFactory'          => new ezcWebdavBasicPathFactory(),
+            'pathFactory'          => new ezcWebdavBasicPathFactory( 'http://example.com' ),
+            
         );
 
         foreach( $values as $property => $value )
@@ -386,7 +387,7 @@ class ezcWebdavServerConfigurationTest extends ezcWebdavTestCase
             'fooCustomXmlTool',
             'fooCustomPropertyHandler',
             'fooCustomHeaderHandler',
-            new ezcWebdavBasicPathFactory()
+            new ezcWebdavBasicPathFactory( 'http://example.com' )
         );
 
         $properties =array(

@@ -12,6 +12,7 @@
 return array(
     'ezcWebdavException'                              => 'Webdav/exceptions/exception.php',
     'ezcWebdavBadRequestException'                    => 'Webdav/exceptions/bad_request.php',
+    'ezcWebdavBrokenBaseUriException'                 => 'Webdav/exceptions/broken_base_uri.php',
     'ezcWebdavBrokenRequestUriException'              => 'Webdav/exceptions/broken_request_uri.php',
     'ezcWebdavHeadersNotValidatedException'           => 'Webdav/exceptions/headers_not_validated.php',
     'ezcWebdavInvalidHeaderException'                 => 'Webdav/exceptions/invalid_header.php',

@@ -59,7 +59,24 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
      */
     public function __construct( $baseUri = '' )
     {
-        $this->baseUriParts = parse_url( $baseUri );
+        if ( ( $this->baseUriParts = @parse_url( $baseUri ) ) === false )
+        {
+            throw new ezcWebdavBrokenBaseUriException( $baseUri );
+        }
+        
+        // Sanity checks for essential elements
+        if ( !isset( $this->baseUriParts['scheme'] ) )
+        {
+            throw new ezcWebdavBrokenBaseUriException(
+                $baseUri, 'Missing URI scheme.'
+            );
+        }
+        if ( !isset( $this->baseUriParts['host'] ) )
+        {
+            throw new ezcWebdavBrokenBaseUriException(
+                $baseUri, 'Missing URI host.'
+            );
+        }
     }
 
     /**

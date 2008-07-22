@@ -3,6 +3,8 @@
 
 - Fixed issue #13313: Webdav does now correctly identify recent Nautilus
   version.
+- Fixed issue #13389: ezcWebdavBasicPathFactory does now perform sanity checks
+  on the given base URI during construction.
 
 1.0 - Monday 17 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
