@@ -1,6 +1,7 @@
-1.6alpha1 - [RELEASEDATE]
+1.5.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #13370: Infinitive loop in ezcBaseFile::calculateRelativePath().
 - Implemented issue #11865: Different development modes.
 
 

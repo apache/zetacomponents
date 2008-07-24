@@ -282,7 +282,11 @@ class ezcBaseFile
     /**
      * Calculates the relative path of the file/directory '$path' to a given
      * $base path.
-     * This method does not touch the filesystem.
+     *
+     * $path and $base should be fully absolute paths. This function returns the
+     * answer of "How do I go from $base to $path". If the $path and $base are
+     * the same path, the function returns '.'. This method does not touch the
+     * filesystem.
      *
      * @param string $path
      * @param string $base
@@ -296,6 +300,12 @@ class ezcBaseFile
 
         $base = explode( DIRECTORY_SEPARATOR, $base );
         $path = explode( DIRECTORY_SEPARATOR, $path );
+
+        // If the paths are the same we return
+        if ( $base === $path )
+        {
+            return '.';
+        }
 
         $result = '';
 
@@ -317,6 +327,11 @@ class ezcBaseFile
         }
 
         $result = str_repeat( '..' . DIRECTORY_SEPARATOR, count( $base ) );
+        // prevent a trailing DIRECTORY_SEPARATOR in case there is only a ..
+        if ( count( $path ) == 0 )
+        {
+            $result = substr( $result, 0, -strlen( DIRECTORY_SEPARATOR ) );
+        }
         $result .= join( DIRECTORY_SEPARATOR, $path );
 
         return $result;
