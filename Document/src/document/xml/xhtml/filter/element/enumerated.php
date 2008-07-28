@@ -6,6 +6,7 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
  */
 
 /**
@@ -16,6 +17,7 @@
  *
  * @package Document
  * @version //autogen//
+ * @access private
  */
 class ezcDocumentXhtmlEnumeratedElementFilter extends ezcDocumentXhtmlElementBaseFilter
 {
