@@ -159,32 +159,32 @@ class ezcUrlToolsTest extends ezcTestCase
         );
 
     protected static $serverValues = array( // HTTPS, SERVER_NAME, SERVER_PORT, REQUEST_URI, constructed URL
-        array( null, 'www.example.com', 80,   '/index.php',               'http://www.example.com/index.php' ),
-        array( '1',  'www.example.com', 80,   '/index.php',               'https://www.example.com/index.php' ),
-        array( 'on', 'www.example.com', 80,   '/index.php',               'https://www.example.com/index.php' ),
+        array( array( null, 'www.example.com', 80,   '/index.php',               'http://www.example.com/index.php' ) ),
+        array( array( '1',  'www.example.com', 80,   '/index.php',               'https://www.example.com/index.php' ) ),
+        array( array( 'on', 'www.example.com', 80,   '/index.php',               'https://www.example.com/index.php' ) ),
 
-        array( null, 'www.example.com', 443,  '/index.php',               'http://www.example.com:443/index.php' ),
-        array( '1',  'www.example.com', 443,  '/index.php',               'https://www.example.com:443/index.php' ),
-        array( 'on', 'www.example.com', 443,  '/index.php',               'https://www.example.com:443/index.php' ),
+        array( array( null, 'www.example.com', 443,  '/index.php',               'http://www.example.com:443/index.php' ) ),
+        array( array( '1',  'www.example.com', 443,  '/index.php',               'https://www.example.com:443/index.php' ) ),
+        array( array( 'on', 'www.example.com', 443,  '/index.php',               'https://www.example.com:443/index.php' ) ),
 
-        array( null, 'www.example.com', 80,   '',                         'http://www.example.com' ),
-        array( null, 'www.example.com', 80,   '/',                        'http://www.example.com/' ),
-        array( null, 'www.example.com', 80,   '/mydir/index.php',         'http://www.example.com/mydir/index.php' ),
-        array( null, 'www.example.com', 80,   '/mydir/index.php/content', 'http://www.example.com/mydir/index.php/content' ),
+        array( array( null, 'www.example.com', 80,   '',                         'http://www.example.com' ) ),
+        array( array( null, 'www.example.com', 80,   '/',                        'http://www.example.com/' ) ),
+        array( array( null, 'www.example.com', 80,   '/mydir/index.php',         'http://www.example.com/mydir/index.php' ) ),
+        array( array( null, 'www.example.com', 80,   '/mydir/index.php/content', 'http://www.example.com/mydir/index.php/content' ) ),
 
-        array( null, 'www.example.com', 80,   '/index.php?',              'http://www.example.com/index.php?' ),
-        array( null, 'www.example.com', 80,   '/index.php?foo=bar',       'http://www.example.com/index.php?foo=bar' ),
-        array( null, 'www.example.com', 80,   '/index.php?foo=bar#p1',    'http://www.example.com/index.php?foo=bar#p1' ),
+        array( array( null, 'www.example.com', 80,   '/index.php?',              'http://www.example.com/index.php?' ) ),
+        array( array( null, 'www.example.com', 80,   '/index.php?foo=bar',       'http://www.example.com/index.php?foo=bar' ) ),
+        array( array( null, 'www.example.com', 80,   '/index.php?foo=bar#p1',    'http://www.example.com/index.php?foo=bar#p1' ) ),
 
-        array( null, null,              null, null,                       'http://' ),
-        array( 'on', null,              null, null,                       'https://' ),
-        array( null, 'www.example.com', null, null,                       'http://www.example.com' ),
-        array( null, 'www.example.com', 81,   null,                       'http://www.example.com:81' ),
-        array( null, null,              81,   null,                       'http://:81' ),
-        array( null, null,              81,   '/',                        'http://:81/' ),
-        array( null, null,              null, '/',                        'http:///' ),
-        array( null, null,              80,   '/',                        'http:///' ),
-        array( true, null,              80,   '/',                        'http:///' ),
+        array( array( null, null,              null, null,                       'http://' ) ),
+        array( array( 'on', null,              null, null,                       'https://' ) ),
+        array( array( null, 'www.example.com', null, null,                       'http://www.example.com' ) ),
+        array( array( null, 'www.example.com', 81,   null,                       'http://www.example.com:81' ) ),
+        array( array( null, null,              81,   null,                       'http://:81' ) ),
+        array( array( null, null,              81,   '/',                        'http://:81/' ) ),
+        array( array( null, null,              null, '/',                        'http:///' ) ),
+        array( array( null, null,              80,   '/',                        'http:///' ) ),
+        array( array( true, null,              80,   '/',                        'http:///' ) ),
         );
 
     // the order of fields in self::$serverValues
@@ -195,66 +195,81 @@ class ezcUrlToolsTest extends ezcTestCase
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public function testParseStr()
+    public static function getQueriesParseStr()
     {
-        foreach ( self::$queriesParseStr as $query )
-        {
-            parse_str( $query[0], $params );
-
-            $this->assertEquals( $query[1], $params, "Failed parsing '{$query[0]}'" );
-            $this->assertEquals( $query[2], urldecode( http_build_query( $params ) ), "Failed building back the query '{$query[0]}' to '{$query[2]}'" );
-        }
+        return self::$queriesParseStr;
     }
 
-    public function testParseQueryString()
+    public static function getQueriesParseQueryString()
     {
-        foreach ( self::$queriesParseQueryString as $query )
-        {
-            $params = ezcUrlTools::parseQueryString( $query[0] );
-
-            $this->assertEquals( $query[1], $params, "Failed parsing '{$query[0]}'" );
-            $this->assertEquals( $query[2], urldecode( http_build_query( $params ) ), "Failed building back the query '{$query[0]}' to '{$query[2]}'" );
-        }
+        return self::$queriesParseQueryString;
     }
 
-    public function testGetCurrentUrlServer()
+    public static function getServerValues()
     {
-        foreach ( self::$serverValues as $data )
-        {
-            $_SERVER = array();
+        return self::$serverValues;
+    }
 
-            foreach ( self::$serverMapping as $key => $mapping )
+    /**
+     * @dataProvider getQueriesParseStr
+     */
+    public function testParseStr( $query0, $query1, $query2 )
+    {
+        parse_str( $query0, $params );
+
+        $this->assertEquals( $query1, $params, "Failed parsing '{$query0}'" );
+        $this->assertEquals( $query2, urldecode( http_build_query( $params ) ), "Failed building back the query '{$query0}' to '{$query2}'" );
+    }
+
+    /**
+     * @dataProvider getQueriesParseQueryString
+     */
+    public function testParseQueryString( $query0, $query1, $query2 )
+    {
+        $params = ezcUrlTools::parseQueryString( $query0 );
+
+        $this->assertEquals( $query1, $params, "Failed parsing '{$query0}'" );
+        $this->assertEquals( $query2, urldecode( http_build_query( $params ) ), "Failed building back the query '{$query0}' to '{$query2}'" );
+    }
+
+    /**
+     * @dataProvider getServerValues
+     */
+    public function testGetCurrentUrlServer( $data )
+    {
+        $_SERVER = array();
+
+        foreach ( self::$serverMapping as $key => $mapping )
+        {
+            if ( $data[$key] !== null )
             {
-                if ( $data[$key] !== null )
-                {
-                    $_SERVER[$mapping] = $data[$key];
-                }
+                $_SERVER[$mapping] = $data[$key];
             }
-
-            $expected = $data[4];
-
-            $this->assertEquals( $expected, ezcUrlTools::getCurrentUrl(), "Failed building URL " . $data[4] );
         }
+
+        $expected = $data[4];
+
+        $this->assertEquals( $expected, ezcUrlTools::getCurrentUrl(), "Failed building URL " . $data[4] );
     }
 
-    public function testGetCurrentUrlOtherSource()
+    /**
+     * @dataProvider getServerValues
+     */
+    public function testGetCurrentUrlOtherSource( $data )
     {
-        foreach ( self::$serverValues as $data )
+        $source = array();
+
+        foreach ( self::$serverMapping as $key => $mapping )
         {
-            $source = array();
-
-            foreach ( self::$serverMapping as $key => $mapping )
+            if ( $data[$key] !== null )
             {
-                if ( $data[$key] !== null )
-                {
-                    $source[$mapping] = $data[$key];
-                }
+                $source[$mapping] = $data[$key];
             }
-
-            $expected = $data[4];
-
-            $this->assertEquals( $expected, ezcUrlTools::getCurrentUrl( $source ), "Failed building URL " . $data[4] );
         }
+
+        $expected = $data[4];
+
+        $this->assertEquals( $expected, ezcUrlTools::getCurrentUrl( $source ), "Failed building URL " . $data[4] );
     }
 }
 ?>
