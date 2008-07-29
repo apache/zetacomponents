@@ -118,6 +118,7 @@ return array(
     'ezcDocumentXhtmlLiteralElementFilter'        => 'Document/document/xml/xhtml/filter/element/literal.php',
     'ezcDocumentXhtmlOptions'                     => 'Document/options/document_xhtml.php',
     'ezcDocumentXhtmlStrongElementFilter'         => 'Document/document/xml/xhtml/filter/element/strong.php',
+    'ezcDocumentXhtmlTableElementFilter'          => 'Document/document/xml/xhtml/filter/element/table.php',
     'ezcDocumentXhtmlToDocbookConverter'          => 'Document/converters/xslt/xhtml_docbook.php',
 );
 ?>

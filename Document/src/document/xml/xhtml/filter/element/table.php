@@ -1,0 +1,131 @@
+<?php
+/**
+ * File containing the ezcDocumentXhtmlTableElementFilter class
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
+
+/**
+ * Filter for XHtml table elements.
+ *
+ * Tables, where the rows are nor structured into a tbody and thead are
+ * restructured into those by this filter.
+ * 
+ * @package Document
+ * @version //autogen//
+ * @access private
+ */
+class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilter
+{
+    /**
+     * Filter a single element
+     * 
+     * @param DOMElement $element 
+     * @return void
+     */
+    public function filterElement( DOMElement $element )
+    {
+        $type = false;
+        $aggregated = array();
+        for ( $i = ( $element->childNodes->length - 1 ); $i >= 0; --$i )
+        {
+            // Get type of current row, or set row type to null, if it is no
+            // table row.
+            $child = $element->childNodes->item( $i );
+            if ( ( $child->nodeType === XML_ELEMENT_NODE ) &&
+                 ( strtolower(  $child->tagName ) === 'tr' ) )
+            {
+                $rowType = $this->getType( $child );
+            }
+            else
+            {
+                $rowType = null;
+            }
+
+            // There are three different actions, which need to be performed in
+            // this loop:
+            //  - Skip irrelevant nodes (whitespaces)
+            //  - Aggregate tr nodes
+            //  - Move tr nodes to new tbody / thead nodes, depending on their
+            //    type, when the row type changes, we reached the last row, or
+            //    their is some tbody / thead node found.
+            if ( ( $aggregated !== array() ) &&
+                   ( ( $i <= 0 ) ||
+                     ( ( $rowType !== null ) &&
+                       ( $rowType !== $type ) ) ) )
+            {
+                // Move nodes to new subnode
+                $lastNode = end( $aggregated );
+                $newNode = new ezcDocumentXhtmlDomElement( $type );
+                $child->parentNode->insertBefore( $newNode, $lastNode );
+                $newNode->setProperty( 'type', $type );
+
+                // Append all aggregated nodes
+                foreach ( $aggregated as $node )
+                {
+                    $cloned = $node->cloneNode( true );
+                    $newNode->appendChild( $cloned );
+                    $child->parentNode->removeChild( $node );
+                }
+
+                // Clean up
+                $aggregated = array();
+                $type = false;
+
+                // Maybe we need to handle the current element again.
+                ++$i;
+            }
+            elseif ( $child->nodeType !== XML_ELEMENT_NODE )
+            {
+                $child->parentNode->removeChild( $child );
+                continue;
+            }
+            elseif ( $rowType !== null )
+            {
+                // Aggregate nodes
+                $aggregated[] = $child;
+                $type = $rowType;
+            }
+        }
+    }
+
+    /**
+     * Estimate type of a row
+     *
+     * Estimate, if a row in a table is a header or a footer row. This
+     * estiamtion checks if there are more th elements, the td elements and
+     * returns either 'thead' or 'tbody' as the row type on base of that.
+     * 
+     * @param DOMElement $element 
+     * @return string
+     */
+    protected function getType( DOMElement $element )
+    {
+        $thCount = $element->getElementsByTagName( 'th' )->length +
+            $element->getElementsByTagName( 'TH' )->length;
+        $tdCount = $element->getElementsByTagName( 'td' )->length +
+            $element->getElementsByTagName( 'TD' )->length;
+
+        return ( $thCount < $tdCount ) ? 'tbody' : 'thead';
+    }
+
+    /**
+     * Check if filter handles the current element
+     *
+     * Returns a boolean value, indicating weather this filter can handle
+     * the current element.
+     * 
+     * @param DOMElement $element 
+     * @return void
+     */
+    public function handles( DOMElement $element )
+    {
+        return ( strtolower( $element->tagName ) === 'table' );
+    }
+}
+
+?>
