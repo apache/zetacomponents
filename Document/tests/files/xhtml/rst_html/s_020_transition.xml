@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<article xmlns="http://docbook.org/ns/docbook">
+  <section>
+    <title>Transitions</title>
+    <section>
+      <title><anchor id="transitions"/>Transitions</title>
+      <para>A paragraph.</para>
+      <beginpage/>
+      <para>A paragraph after a page transistion.</para>
+    </section>
+  </section>
+</article>

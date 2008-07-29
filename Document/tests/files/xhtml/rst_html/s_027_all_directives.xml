@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<article xmlns="http://docbook.org/ns/docbook">
+  <section>
+    <title>All known directives</title>
+    <section><title><anchor id="all_known_directives"/>All known directives</title> Table of contents<note> Just a note!</note><tip> You might want to use these more!</tip><warning> Be careful about this!</warning><important> Do not overdo it!</important><caution> May have a bad impact on userexperience.</caution><blockquote><para>Lets get something colorful!</para></blockquote><mediaobject><imageobject><imagedata fileref="test.png" width="256" depth="23"/></imageobject><textobject><phrase>Some alternative text.</phrase></textobject></mediaobject><blockquote><para>Figures may contain addition text!</para></blockquote><mediaobject><imageobject><imagedata fileref="test.png" width="256" depth="23"/></imageobject><caption><phrase>The figure actually shows nothing.</phrase></caption><textobject><phrase>Some alternative text.</phrase></textobject></mediaobject><para/><para>And you can even inline other RST files.</para></section>
+    <section>
+      <title><anchor id="main_title"/>Main Title</title>
+      <para>Hello world</para>
+      <section>
+        <title><anchor id="subsection"/>Subsection</title>
+        <para>A bit more text, which exceeds one line to test for a simple paragraph with more then one line.</para>
+        <para>but perhaps you want prevent them from being parsed...</para>
+        <literallayout>==========
+Main Title
+==========
+
+Hello world
+
+Subsection
+==========
+
+A bit more text, which exceeds one line to test for a simple paragraph with
+more then one line.
+
+</literallayout>
+        <para>That's all for now.</para>
+      </section>
+    </section>
+  </section>
+</article>

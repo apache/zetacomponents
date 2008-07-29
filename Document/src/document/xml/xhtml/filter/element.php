@@ -55,6 +55,12 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
             new ezcDocumentXhtmlLineBlockElementFilter(),
             new ezcDocumentXhtmlTableElementFilter(),
             new ezcDocumentXhtmlTableCellElementFilter(),
+            new ezcDocumentXhtmlSpecialParagraphElementFilter(),
+
+            // Since paragraphs are often annotated differently, or texts may
+            // be removed in other filters, it is best to keep this filter near
+            // the end.
+            new ezcDocumentXhtmlParagraphElementFilter(),
         );
     }
 

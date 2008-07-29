@@ -72,6 +72,21 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
         // Store attributes for element
         $imageData->setProperty( 'attributes', $attributes );
 
+        // Check if there is a parent node, which may be some kind of wrapping
+        // element of the image and its caption.
+        if ( ( strtolower( $element->parentNode->tagName ) === 'div' ) &&
+             ( $text = trim( $this->extractText( $element->parentNode ) ) ) )
+        {
+            // Create the docbook caption node structure
+            $textObject = new ezcDocumentXhtmlDomElement( 'span' );
+            $element->appendChild( $textObject );
+            $textObject->setProperty( 'type', 'caption' );
+
+            $phrase = new ezcDocumentXhtmlDomElement( 'span', htmlspecialchars( $text ) );
+            $textObject->appendChild( $phrase );
+            $phrase->setProperty( 'type', 'phrase' );
+        }
+
         // Keep textual image annotations
         if ( $element->hasAttribute( 'alt' ) )
         {
@@ -79,10 +94,40 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
             $element->appendChild( $textObject );
             $textObject->setProperty( 'type', 'textobject' );
 
-            $phrase = new ezcDocumentXhtmlDomElement( 'span', $element->getAttribute( 'alt' ) );
+            $phrase = new ezcDocumentXhtmlDomElement( 'span', htmlspecialchars( $element->getAttribute( 'alt' ) ) );
             $textObject->appendChild( $phrase );
             $phrase->setProperty( 'type', 'phrase' );
         }
+    }
+
+    /**
+     * Extract text content
+     *
+     * Extract and remove all textual contents from the node and its
+     * descendants.
+     * 
+     * @param DOMElement $element 
+     * @return string
+     */
+    protected function extractText( DOMElement $element )
+    {
+        $text = '';
+        foreach ( $element->childNodes as $child )
+        {
+            switch ( $child->nodeType )
+            {
+                case XML_TEXT_NODE:
+                    $text .= $child->nodeValue;
+                    $child->nodeValue = '';
+                    break;
+
+                case XML_ELEMENT_NODE:
+                    $text .= $this->extractText( $child );
+                    break;
+            }
+        }
+
+        return $text;
     }
 
     /**

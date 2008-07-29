@@ -37,7 +37,6 @@ class ezcDocumentXhtmlElementMappingFilter extends ezcDocumentXhtmlElementBaseFi
         'html'       => 'section',
         'i'          => 'emphasis',
         'li'         => 'listitem',
-        'p'          => 'para',
         'q'          => 'blockquote',
         'title'      => 'title',
         'tt'         => 'literal',
