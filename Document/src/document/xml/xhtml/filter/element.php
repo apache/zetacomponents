@@ -54,6 +54,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
             new ezcDocumentXhtmlDefinitionListElementFilter(),
             new ezcDocumentXhtmlLineBlockElementFilter(),
             new ezcDocumentXhtmlTableElementFilter(),
+            new ezcDocumentXhtmlTableCellElementFilter(),
         );
     }
 

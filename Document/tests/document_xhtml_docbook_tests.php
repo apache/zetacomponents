@@ -44,7 +44,7 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         }
 
 //        return self::$testDocuments;
-        return array_slice( self::$testDocuments, 0, 22 );
+        return array_slice( self::$testDocuments, 0, 23 );
     }
 
     /**
