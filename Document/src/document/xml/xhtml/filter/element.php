@@ -85,15 +85,9 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
      */
     public function filter( DOMDocument $document )
     {
-        $oldXmlErrorHandling = libxml_use_internal_errors( true );
-        libxml_clear_errors();
-
         $xpath = new DOMXPath( $document );
         $root = $xpath->query( '/*[local-name() = "html"]' )->item( 0 );
         $this->filterNode( $root );
-
-        libxml_clear_errors();
-        libxml_use_internal_errors( $oldXmlErrorHandling );
     }
 
     /**
