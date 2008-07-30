@@ -48,7 +48,7 @@ class ezcDocumentXhtmlParagraphElementFilter extends ezcDocumentXhtmlElementBase
      */
     public function handles( DOMElement $element )
     {
-        return ( strtolower( $element->tagName ) === 'p' );
+        return ( $element->tagName === 'p' );
     }
 }
 

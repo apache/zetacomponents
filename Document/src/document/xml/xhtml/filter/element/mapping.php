@@ -60,7 +60,7 @@ class ezcDocumentXhtmlElementMappingFilter extends ezcDocumentXhtmlElementBaseFi
     {
         $element->setProperty( 
             'type',
-            $this->nameMapping[strtolower( $element->tagName )]
+            $this->nameMapping[$element->tagName]
         );
     }
 
@@ -75,7 +75,7 @@ class ezcDocumentXhtmlElementMappingFilter extends ezcDocumentXhtmlElementBaseFi
      */
     public function handles( DOMElement $element )
     {
-        return isset( $this->nameMapping[strtolower( $element->tagName )] );
+        return isset( $this->nameMapping[$element->tagName] );
     }
 }
 

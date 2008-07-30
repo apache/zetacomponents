@@ -135,7 +135,7 @@ class ezcDocumentXhtmlFootnoteElementFilter extends ezcDocumentXhtmlElementBaseF
      */
     public function handles( DOMElement $element )
     {
-        return ( ( strtolower( $element->tagName ) === 'a' ) &&
+        return ( ( $element->tagName === 'a' ) &&
                  $this->hasClass( $element, 'footnote' ) );
     }
 }

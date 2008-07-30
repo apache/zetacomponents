@@ -57,7 +57,7 @@ class ezcDocumentXhtmlEnumeratedElementFilter extends ezcDocumentXhtmlElementBas
      */
     public function handles( DOMElement $element )
     {
-        return  ( strtolower( $element->tagName ) === 'ol' );
+        return  ( $element->tagName === 'ol' );
     }
 }
 

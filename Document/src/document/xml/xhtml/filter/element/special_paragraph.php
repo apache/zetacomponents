@@ -65,7 +65,7 @@ class ezcDocumentXhtmlSpecialParagraphElementFilter extends ezcDocumentXhtmlElem
      */
     public function handles( DOMElement $element )
     {
-        return ( strtolower( $element->tagName ) === 'p' ) &&
+        return ( $element->tagName === 'p' ) &&
                ( $element->hasAttribute( 'class' ) );
     }
 }

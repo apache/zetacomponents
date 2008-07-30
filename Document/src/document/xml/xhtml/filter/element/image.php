@@ -74,7 +74,7 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
 
         // Check if there is a parent node, which may be some kind of wrapping
         // element of the image and its caption.
-        if ( ( strtolower( $element->parentNode->tagName ) === 'div' ) &&
+        if ( ( $element->parentNode->tagName === 'div' ) &&
              ( $text = trim( $this->extractText( $element->parentNode ) ) ) )
         {
             // Create the docbook caption node structure
@@ -141,7 +141,7 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
      */
     public function handles( DOMElement $element )
     {
-        return ( strtolower( $element->tagName ) === 'img' );
+        return ( $element->tagName === 'img' );
     }
 }
 

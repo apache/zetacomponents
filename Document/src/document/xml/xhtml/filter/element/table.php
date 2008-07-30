@@ -29,15 +29,17 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
      */
     public function filterElement( DOMElement $element )
     {
-        $type = false;
+        $type       = false;
         $aggregated = array();
+        $processed  = array();
         for ( $i = ( $element->childNodes->length - 1 ); $i >= 0; --$i )
         {
             // Get type of current row, or set row type to null, if it is no
             // table row.
-            $child = $element->childNodes->item( $i );
+            $child   = $element->childNodes->item( $i );
+            $childNr = $i;
             if ( ( $child->nodeType === XML_ELEMENT_NODE ) &&
-                 ( strtolower(  $child->tagName ) === 'tr' ) )
+                 ( $child->tagName === 'tr' ) )
             {
                 $rowType = $this->getType( $child );
             }
@@ -53,7 +55,7 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
             //  - Move tr nodes to new tbody / thead nodes, depending on their
             //    type, when the row type changes, we reached the last row, or
             //    their is some tbody / thead node found.
-            if ( ( $aggregated !== array() ) &&
+            if ( ( count( $aggregated ) ) &&
                    ( ( $i <= 0 ) ||
                      ( ( $rowType !== null ) &&
                        ( $rowType !== $type ) ) ) )
@@ -79,16 +81,19 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
                 // Maybe we need to handle the current element again.
                 ++$i;
             }
-            elseif ( $child->nodeType !== XML_ELEMENT_NODE )
+
+            if ( $child->nodeType !== XML_ELEMENT_NODE )
             {
                 $child->parentNode->removeChild( $child );
                 continue;
             }
-            elseif ( $rowType !== null )
+            elseif ( ( $rowType !== null ) &&
+                     ( !isset( $processed[$childNr] ) ) )
             {
                 // Aggregate nodes
-                $aggregated[] = $child;
-                $type = $rowType;
+                $aggregated[]        = $child;
+                $processed[$childNr] = true;
+                $type                = $rowType;
             }
         }
     }
@@ -105,10 +110,8 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
      */
     protected function getType( DOMElement $element )
     {
-        $thCount = $element->getElementsByTagName( 'th' )->length +
-            $element->getElementsByTagName( 'TH' )->length;
-        $tdCount = $element->getElementsByTagName( 'td' )->length +
-            $element->getElementsByTagName( 'TD' )->length;
+        $thCount = $element->getElementsByTagName( 'th' )->length;
+        $tdCount = $element->getElementsByTagName( 'td' )->length;
 
         return ( $thCount < $tdCount ) ? 'tbody' : 'thead';
     }
@@ -124,7 +127,7 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
      */
     public function handles( DOMElement $element )
     {
-        return ( strtolower( $element->tagName ) === 'table' );
+        return ( $element->tagName === 'table' );
     }
 }
 

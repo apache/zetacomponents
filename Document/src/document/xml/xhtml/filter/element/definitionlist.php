@@ -57,8 +57,8 @@ class ezcDocumentXhtmlDefinitionListElementFilter extends ezcDocumentXhtmlElemen
         while ( ( $node = $children->item( $i ) ) !== null )
         {
             if ( ( $node->nodeType === XML_ELEMENT_NODE ) &&
-                 ( ( strtolower( $node->tagName ) === 'dt' ) ||
-                   ( strtolower( $node->tagName ) === 'dd' ) ) )
+                 ( ( $node->tagName === 'dt' ) ||
+                   ( $node->tagName === 'dd' ) ) )
             {
                 $new = $node->cloneNode( true );
                 $entry->appendChild( $new );
@@ -83,7 +83,7 @@ class ezcDocumentXhtmlDefinitionListElementFilter extends ezcDocumentXhtmlElemen
      */
     public function handles( DOMElement $element )
     {
-        return ( strtolower( $element->tagName ) === 'dt' );
+        return ( $element->tagName === 'dt' );
     }
 }
 

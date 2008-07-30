@@ -47,8 +47,8 @@ class ezcDocumentXhtmlStrongElementFilter extends ezcDocumentXhtmlElementBaseFil
      */
     public function handles( DOMElement $element )
     {
-        return ( ( strtolower( $element->tagName ) === 'strong' ) ||
-                 ( strtolower( $element->tagName ) === 'b' ) );
+        return ( ( $element->tagName === 'strong' ) ||
+                 ( $element->tagName === 'b' ) );
     }
 }
 

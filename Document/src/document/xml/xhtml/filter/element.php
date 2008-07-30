@@ -37,7 +37,6 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
     {
         // Special handling required
         //  - object
-        //  - table (and childs)
         $this->elementFilter = array(
             // Basic mapping filter
             new ezcDocumentXhtmlElementMappingFilter(),
@@ -89,7 +88,9 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
         $oldXmlErrorHandling = libxml_use_internal_errors( true );
         libxml_clear_errors();
 
-        $this->filterNode( $document->firstChild );
+        $xpath = new DOMXPath( $document );
+        $root = $xpath->query( '/*[local-name() = "html"]' )->item( 0 );
+        $this->filterNode( $root );
 
         libxml_clear_errors();
         libxml_use_internal_errors( $oldXmlErrorHandling );

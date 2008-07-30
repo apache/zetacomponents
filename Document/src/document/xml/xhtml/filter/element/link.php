@@ -73,7 +73,7 @@ class ezcDocumentXhtmlLinkElementFilter extends ezcDocumentXhtmlElementBaseFilte
     public function handles( DOMElement $element )
     {
         // @TODO: Add support for xlink
-        return ( strtolower( $element->tagName ) === 'a' );
+        return ( $element->tagName === 'a' );
     }
 }
 

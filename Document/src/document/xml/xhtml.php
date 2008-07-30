@@ -59,7 +59,11 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
         // Load XML document
         $this->document = new DOMDocument();
         $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentXhtmlDomElement' );
-        $this->document->loadXml( $string );
+
+        // Use the loadHtml method here, as it for example convers tag names
+        // and attribute names to lower case, and handles some more errors
+        // common in HTML documents.
+        $this->document->loadHtml( $string );
 
         $errors = ( $this->options->failOnError ?
             libxml_get_errors() :
@@ -105,7 +109,9 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
         $root = $docbook->createElementNs( 'http://docbook.org/ns/docbook', 'article' );
         $docbook->appendChild( $root );
 
-        $this->transformToDocbook( $document->firstChild, $root );
+        $xpath = new DOMXPath( $document );
+        $html = $xpath->query( '/*[local-name() = "html"]' )->item( 0 );
+        $this->transformToDocbook( $html, $root );
 
         return $docbook;
     }

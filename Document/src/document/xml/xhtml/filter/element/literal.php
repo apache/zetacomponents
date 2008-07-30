@@ -52,8 +52,8 @@ class ezcDocumentXhtmlLiteralElementFilter extends ezcDocumentXhtmlElementBaseFi
      */
     public function handles( DOMElement $element )
     {
-        return ( ( strtolower( $element->tagName ) === 'pre' ) ||
-                 ( strtolower( $element->tagName ) === 'code' ) );
+        return ( ( $element->tagName === 'pre' ) ||
+                 ( $element->tagName === 'code' ) );
     }
 }
 

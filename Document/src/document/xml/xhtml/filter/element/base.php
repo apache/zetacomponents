@@ -49,7 +49,7 @@ abstract class ezcDocumentXhtmlElementBaseFilter
     protected function isBlockLevelElement( DOMElement $element )
     {
         return in_array(
-            strtolower( $element->tagName ),
+            $element->tagName,
             array(
                 'address',
                 'blockquote',
@@ -97,7 +97,7 @@ abstract class ezcDocumentXhtmlElementBaseFilter
     protected function isInlineElement( DOMElement $element )
     {
         return !(
-            ( strtolower( $element->parentNode->tagName ) !== 'p' ) &&
+            ( $element->parentNode->tagName !== 'p' ) &&
             ( $this->isBlockLevelElement( $element->parentNode ) )
         );
     }
