@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Transitions</title>
+    <secinfo>
+      <title>Transitions</title>
+    </secinfo>
     <section>
       <title><anchor id="transitions"/>Transitions</title>
       <para>A paragraph.</para>

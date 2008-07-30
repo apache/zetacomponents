@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Complex directives</title>
+    <secinfo>
+      <title>Complex directives</title>
+    </secinfo>
     <section>
       <title><anchor id="complex_directives"/>Complex directives</title>
       <mediaobject>

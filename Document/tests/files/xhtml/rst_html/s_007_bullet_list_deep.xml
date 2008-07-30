@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Bullet list</title>
+    <secinfo>
+      <title>Bullet list</title>
+    </secinfo>
     <section>
       <title><anchor id="bullet_list"/>Bullet list</title>
       <itemizedlist>

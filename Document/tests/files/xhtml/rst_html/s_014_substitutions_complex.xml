@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Various substitution examples</title>
+    <secinfo>
+      <title>Various substitution examples</title>
+    </secinfo>
     <section>
       <title><anchor id="various_substitution_examples"/>Various substitution examples</title>
       <para> and  are our widget-wranglers.</para>

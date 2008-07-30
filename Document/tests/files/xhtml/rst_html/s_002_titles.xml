@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Section Title 1</title>
+    <secinfo>
+      <title>Section Title 1</title>
+    </secinfo>
     <section>
       <title><anchor id="section_title_1"/>Section Title 1</title>
       <section>

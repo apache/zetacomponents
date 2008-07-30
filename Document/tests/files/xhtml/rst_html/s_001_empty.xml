@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Empty document</title>
+    <secinfo>
+      <title>Empty document</title>
+    </secinfo>
   </section>
 </article>

@@ -116,6 +116,7 @@ return array(
     'ezcDocumentXhtmlLineBlockElementFilter'        => 'Document/document/xml/xhtml/filter/element/lineblock.php',
     'ezcDocumentXhtmlLinkElementFilter'             => 'Document/document/xml/xhtml/filter/element/link.php',
     'ezcDocumentXhtmlLiteralElementFilter'          => 'Document/document/xml/xhtml/filter/element/literal.php',
+    'ezcDocumentXhtmlMetadataFilter'                => 'Document/document/xml/xhtml/filter/metadata.php',
     'ezcDocumentXhtmlOptions'                       => 'Document/options/document_xhtml.php',
     'ezcDocumentXhtmlParagraphElementFilter'        => 'Document/document/xml/xhtml/filter/element/paragraph.php',
     'ezcDocumentXhtmlSpecialParagraphElementFilter' => 'Document/document/xml/xhtml/filter/element/special_paragraph.php',

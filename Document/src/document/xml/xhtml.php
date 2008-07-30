@@ -38,6 +38,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
 
         $this->filters = array(
             new ezcDocumentXhtmlElementFilter(),
+            new ezcDocumentXhtmlMetadataFilter(),
         );
     }
 

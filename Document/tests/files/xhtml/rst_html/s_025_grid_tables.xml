@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Grid tables</title>
+    <secinfo>
+      <title>Grid tables</title>
+    </secinfo>
     <section>
       <title><anchor id="grid_tables"/>Grid tables</title>
       <table>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<article xmlns="http://docbook.org/ns/docbook">
+  <section>
+    <secinfo>
+      <title>Field lists</title>
+      <date>2001-08-16</date>
+      <releaseinfo>1</releaseinfo>
+      <author>Some guy.</author>
+    </secinfo>
+    <section>
+      <title><anchor id="field_lists"/>Field lists</title>
+    </section>
+  </section>
+</article>

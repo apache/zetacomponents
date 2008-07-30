@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Comments</title>
+    <secinfo>
+      <title>Comments</title>
+    </secinfo>
     <section>
       <title><anchor id="comments"/>Comments</title>
       <para>Different types of comments</para>

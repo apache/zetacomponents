@@ -19,16 +19,17 @@ require_once 'rst_dummy_directives.php';
  */
 class ezcDocumentXhtmlDocbookTests extends ezcTestCase
 {
-    protected static $testDocuments = null;
+    protected static $rstTestDocuments = null;
+    protected static $metadataTestDocuments = null;
 
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public static function getTestDocuments()
+    public static function getRstTestDocuments()
     {
-        if ( self::$testDocuments === null )
+        if ( self::$rstTestDocuments === null )
         {
             // Get a list of all test files from the respektive folder
             $testFiles = glob( dirname( __FILE__ ) . '/files/xhtml/rst_html/s_*.html' );
@@ -36,15 +37,36 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
             {
-                self::$testDocuments[] = array(
+                self::$rstTestDocuments[] = array(
                     $file,
                     substr( $file, 0, -4 ) . 'xml'
                 );
             }
         }
 
-//        return self::$testDocuments;
-        return array_slice( self::$testDocuments, 0, 27 );
+        return self::$rstTestDocuments;
+        return array_slice( self::$rstTestDocuments, 0, 27 );
+    }
+
+    public static function getMetadataTestDocuments()
+    {
+        if ( self::$metadataTestDocuments === null )
+        {
+            // Get a list of all test files from the respektive folder
+            $testFiles = glob( dirname( __FILE__ ) . '/files/xhtml/metadata/s_*.html' );
+
+            // Create array with the test file and the expected result file
+            foreach ( $testFiles as $file )
+            {
+                self::$metadataTestDocuments[] = array(
+                    $file,
+                    substr( $file, 0, -4 ) . 'xml'
+                );
+            }
+        }
+
+        return self::$metadataTestDocuments;
+        return array_slice( self::$metadataTestDocuments, 0, 27 );
     }
 
     /**
@@ -95,9 +117,43 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
     }
 
     /**
-     * @dataProvider getTestDocuments
+     * @dataProvider getRstTestDocuments
      */
     public function testParseRstFile( $from, $to )
+    {
+        if ( !is_file( $to ) )
+        {
+            $this->markTestSkipped( "Comparision file '$to' not yet defined." );
+        }
+
+        $document = new ezcDocumentXhtml();
+        $document->loadFile( $from );
+
+        $docbook = $document->getAsDocbook();
+        $xml = $docbook->save();
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'docbook_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml );
+
+        // We need a proper XSD first, the current one does not accept legal
+        // XML.
+//        $this->checkDocbook( $docbook->getDomDocument() );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
+        );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
+    }
+
+    /**
+     * @dataProvider getMetadataTestDocuments
+     */
+    public function testExtractMetadata( $from, $to )
     {
         if ( !is_file( $to ) )
         {

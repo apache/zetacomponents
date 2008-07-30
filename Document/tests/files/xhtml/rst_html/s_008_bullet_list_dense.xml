@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Dense bullet list</title>
+    <secinfo>
+      <title>Dense bullet list</title>
+    </secinfo>
     <section>
       <title><anchor id="dense_bullet_list"/>Dense bullet list</title>
       <itemizedlist>

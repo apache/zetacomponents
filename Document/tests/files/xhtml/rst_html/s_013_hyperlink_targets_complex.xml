@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <title>Various types of hyperlink targets</title>
+    <secinfo>
+      <title>Various types of hyperlink targets</title>
+    </secinfo>
     <section>
       <title><anchor id="various_types_of_hyperlink_targets"/>Various types of hyperlink targets</title>
       <para>Clicking on this internal hyperlink will take us to the <ulink url="target">target</ulink> below.</para>
