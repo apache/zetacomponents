@@ -36,7 +36,7 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
             return;
         }
 
-        if ( $this->isInlineElement( $element ) )
+        if ( $this->isInline( $element ) )
         {
             // Image inline in text.
             $element->setProperty( 'type', 'inlinemediaobject' );

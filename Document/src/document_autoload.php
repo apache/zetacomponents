@@ -123,6 +123,6 @@ return array(
     'ezcDocumentXhtmlStrongElementFilter'           => 'Document/document/xml/xhtml/filter/element/strong.php',
     'ezcDocumentXhtmlTableCellElementFilter'        => 'Document/document/xml/xhtml/filter/element/tablecell.php',
     'ezcDocumentXhtmlTableElementFilter'            => 'Document/document/xml/xhtml/filter/element/table.php',
-    'ezcDocumentXhtmlToDocbookConverter'            => 'Document/converters/xslt/xhtml_docbook.php',
+    'ezcDocumentXhtmlTextToParagraphFilter'         => 'Document/document/xml/xhtml/filter/element/text.php',
 );
 ?>

@@ -40,7 +40,7 @@ class ezcDocumentXhtmlBlockquoteElementFilter extends ezcDocumentXhtmlElementBas
             // Assume this is an attribution.
             $element->setProperty( 'type', 'attribution' );
         }
-        elseif ( !$this->isInlineElement( $element ) )
+        elseif ( !$this->isInline( $element ) )
         {
             $element->setProperty( 'type', 'blockquote' );
         }

@@ -21,6 +21,7 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
 {
     protected static $rstTestDocuments = null;
     protected static $metadataTestDocuments = null;
+    protected static $badTestDocuments = null;
 
     public static function suite()
     {
@@ -67,6 +68,27 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
 
         return self::$metadataTestDocuments;
         return array_slice( self::$metadataTestDocuments, 0, 27 );
+    }
+
+    public static function getBadTestDocuments()
+    {
+        if ( self::$badTestDocuments === null )
+        {
+            // Get a list of all test files from the respektive folder
+            $testFiles = glob( dirname( __FILE__ ) . '/files/xhtml/bad_markup/s_*.html' );
+
+            // Create array with the test file and the expected result file
+            foreach ( $testFiles as $file )
+            {
+                self::$badTestDocuments[] = array(
+                    $file,
+                    substr( $file, 0, -4 ) . 'xml'
+                );
+            }
+        }
+
+        return self::$badTestDocuments;
+        return array_slice( self::$badTestDocuments, 0, 27 );
     }
 
     /**
@@ -154,6 +176,40 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
      * @dataProvider getMetadataTestDocuments
      */
     public function testExtractMetadata( $from, $to )
+    {
+        if ( !is_file( $to ) )
+        {
+            $this->markTestSkipped( "Comparision file '$to' not yet defined." );
+        }
+
+        $document = new ezcDocumentXhtml();
+        $document->loadFile( $from );
+
+        $docbook = $document->getAsDocbook();
+        $xml = $docbook->save();
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'docbook_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml );
+
+        // We need a proper XSD first, the current one does not accept legal
+        // XML.
+//        $this->checkDocbook( $docbook->getDomDocument() );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
+        );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
+    }
+
+    /**
+     * @dataProvider getBadTestDocuments
+     */
+    public function testConvertBadMarkup( $from, $to )
     {
         if ( !is_file( $to ) )
         {

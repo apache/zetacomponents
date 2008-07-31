@@ -83,9 +83,65 @@ abstract class ezcDocumentXhtmlElementBaseFilter
             )
         );
     }
+    
+    /**
+     * Check if node is an inline element
+     *
+     * Check if the passed node is an inline element, eg. may occur inside a
+     * text block, like a paragraph.
+     * 
+     * @param DOMNode $node 
+     * @return bool
+     */
+    protected function isInlineElement( DOMNode $node )
+    {
+        return (
+            ( $node->nodeType === XML_TEXT_NODE ) ||
+            ( ( $node->nodeType === XML_ELEMENT_NODE ) &&
+              in_array( $node->tagName, array(
+                'a',
+                'abbr',
+                'acronym',
+                'applet',
+                'b',
+                'basefont',
+                'bdo',
+                'big',
+                'button',
+                'cite',
+                'code',
+                'del',
+                'dfn',
+                'em',
+                'font',
+                'i',
+                'img',
+                'ins',
+                'input',
+                'iframe',
+                'kbd',
+                'label',
+                'map',
+                'object',
+                'q',
+                'samp',
+                'script',
+                'select',
+                'small',
+                'span',
+                'strong',
+                'sub',
+                'sup',
+                'textarea',
+                'tt',
+                'var',
+              ), true )
+            )
+        );
+    }
 
     /**
-     * Is current element an inline element
+     * Is current element placed inline
      *
      * Checks if the current element is placed inline, which means, it is
      * either a descendant of some other inline element, or part of a
@@ -94,7 +150,7 @@ abstract class ezcDocumentXhtmlElementBaseFilter
      * @param DOMElement $element 
      * @return void
      */
-    protected function isInlineElement( DOMElement $element )
+    protected function isInline( DOMElement $element )
     {
         return !(
             ( $element->parentNode->tagName !== 'p' ) &&
