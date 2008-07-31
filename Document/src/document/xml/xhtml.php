@@ -103,7 +103,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
      */
     protected function buildDocbookDocument( DOMDocument $document )
     {
-        $docbook = new DOMDocument();
+        $docbook = new DOMDocument( '1.0', 'utf-8' );
         $docbook->preserveWhiteSpace = false;
         $docbook->formatOutput = true;
 

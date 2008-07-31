@@ -35,6 +35,10 @@ class ezcDocumentXhtmlOptions extends ezcDocumentXmlOptions
         */
 
         parent::__construct( $options );
+
+        // Do not fail on error by default in (X)Html documents, as they
+        // often contain errors.
+        $this->failOnError = false;
     }
 
     /**
