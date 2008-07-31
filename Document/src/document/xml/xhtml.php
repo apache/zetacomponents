@@ -159,16 +159,21 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
                     break;
                 
                 case XML_CDATA_SECTION_NODE:
-                    $data = new DOMCharacterData();
-                    $data->appendData( $child->data );
-                    $docbook->appendChild( $data );
+//                    $data = new DOMCharacterData();
+//                    $data->appendData( $child->data );
+//                    $docbook->appendChild( $data );
                     break;
 
                 case XML_ENTITY_NODE:
-                    // @TODO: Implement
+                    // Seems not required, as entities in the source document
+                    // are automatically transformed back to their text
+                    // targets.
                     break;
 
                 case XML_COMMENT_NODE:
+                    // Ignore comments
+                    break;
+
                     $comment = new DOMElement( 'comment', $child->data );
                     $docbook->appendChild( $comment );
                     break;

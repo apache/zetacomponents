@@ -7,21 +7,6 @@
     <section>
       <title><anchor id="comments"/>Comments</title>
       <para>Different types of comments</para>
-      <comment>This is a comment</comment>
-      <comment>_so: is this!
-
-</comment>
-      <comment>[and] this!
-
-</comment>
-      <comment>this:: too!
-
-</comment>
-      <comment>|even| this:: !
-
-</comment>
-      <comment>|or this| foo:: !</comment>
-      <comment>|and even this is a comment.</comment>
       <para>End of comments.</para>
     </section>
   </section>

@@ -88,7 +88,7 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         }
 
         return self::$badTestDocuments;
-        return array_slice( self::$badTestDocuments, 0, 27 );
+        return array_slice( self::$badTestDocuments, 6, 1 );
     }
 
     /**
@@ -217,6 +217,11 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         }
 
         $document = new ezcDocumentXhtml();
+        $document->setFilters( array(
+            new ezcDocumentXhtmlElementFilter(),
+            new ezcDocumentXhtmlMetadataFilter(),
+            new ezcDocumentXhtmlContentLocatorFilter(),
+        ) );
         $document->loadFile( $from );
 
         $docbook = $document->getAsDocbook();

@@ -105,6 +105,7 @@ return array(
     'ezcDocumentRstXhtmlBodyVisitor'                => 'Document/document/rst/visitor/xhtml_body.php',
     'ezcDocumentXhtml'                              => 'Document/document/xml/xhtml.php',
     'ezcDocumentXhtmlBlockquoteElementFilter'       => 'Document/document/xml/xhtml/filter/element/blockquote.php',
+    'ezcDocumentXhtmlContentLocatorFilter'          => 'Document/document/xml/xhtml/filter/content_locator.php',
     'ezcDocumentXhtmlDefinitionListElementFilter'   => 'Document/document/xml/xhtml/filter/element/definitionlist.php',
     'ezcDocumentXhtmlDomElement'                    => 'Document/document/xml/xhtml/element.php',
     'ezcDocumentXhtmlElementFilter'                 => 'Document/document/xml/xhtml/filter/element.php',

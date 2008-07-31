@@ -37,7 +37,8 @@ class ezcDocumentXhtmlLinkElementFilter extends ezcDocumentXhtmlElementBaseFilte
                 'id' => $element->getAttribute( 'name' ),
             ) );
         }
-        elseif ( $element->hasAttribute( 'href' ) )
+        elseif ( $element->hasAttribute( 'href' ) &&
+                 $element->getAttribute( 'href' ) )
         {
             // The element is a reference, but still may be internal or
             // external
