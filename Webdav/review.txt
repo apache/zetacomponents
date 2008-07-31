@@ -38,3 +38,48 @@ Why in Webdav the order is different?
 - In the structs folder the class variables are defined after the constructor.
 
 - In the requests folder the @copyright and @license is used 2 times.
+
+
+Review Alexandru 31-07-2008
+---------------------------
+
+- Some typos in the code and comments:
+
+/src/properties/resourcetype.php
+  TYPE_RESSOURCE -> TYPE_RESOURCE
+
+/src/transport.php
+  retreiveBody -> retrieveBody
+
+/src/path_factories/basic.php
+  collectionPathes -> collectionPaths
+
+/src/path_factories/automatic.php
+  collectionPathes -> collectionPaths
+  + collectionPathes is not defined as a class variable
+
+/src/structs/collection.php
+  childs -> children
+
+several files:
+  pathes -> paths !!!
+  ressource -> resource
+  instanciate -> instantiate
+  powerfull -> powerful
+  childs -> children
+  @throws appear multiple times with the same exception (eg. __get)
+
+- Some guidelines issues:
+
+/src/options/backend_file_options.php
+  useMimeExts -> useMimeExtensions
+
+/src/server.php
+  properties are not documented (even if read-only)
+  constructor is protected, but docblock says private
+
+/src/backends/simple.php
+  var_dump leftover
+
+/src/structs/display_information*.php
+  class variables appear after the methods definitions
