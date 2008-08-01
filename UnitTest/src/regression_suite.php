@@ -4,15 +4,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Feed
- * @subpackage Tests
+ * @package UnitTest
  */
 
 /**
- * @package Feed
- * @subpackage Tests
+ * @package UnitTest
  */
-class ezcFeedRegressionSuite extends PHPUnit_Framework_TestSuite
+class ezcTestRegressionSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct( $theClass = '', $name = '' )
     {
@@ -74,20 +72,20 @@ class ezcFeedRegressionSuite extends PHPUnit_Framework_TestSuite
         }
 
         $names = array();
-
-        if ( $theClass->getName() !== 'ezcFeedRegressionTest'
-             && !$theClass->isSubclassOf( 'ezcFeedRegressionTest' ) )
+/*
+        if ( $theClass->getName() !== 'ezcTestRegressionTest'
+             && !$theClass->isSubclassOf( 'ezcTestRegressionTest' ) )
         {
             $this->addTest(
                 new PHPUnit_Framework_Warning(
                     sprintf(
-                        'Class "%s" is not a subclass of ezcFeedRegressionTest.',
+                        'Class "%s" is not a subclass of ezcTestRegressionTest.',
                         $theClass->getName()
                         )
                     )
                 );
         }
-
+*/
         $mainTest = $theClass->newInstance();
         $files = $mainTest->getFiles();
 

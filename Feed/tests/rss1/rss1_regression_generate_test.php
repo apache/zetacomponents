@@ -8,9 +8,8 @@
  * @subpackage Tests
  */
 
-include_once( 'Feed/tests/test.php' );
-
-include_once( 'Feed/tests/regression_suite.php' );
+include_once( 'UnitTest/src/regression_suite.php' );
+include_once( 'UnitTest/src/regression_test.php' );
 include_once( 'Feed/tests/regression_test.php' );
 
 /**
@@ -31,7 +30,7 @@ class ezcFeedRss1RegressionGenerateTest extends ezcFeedRegressionTest
 
     public static function suite()
     {
-        return new ezcFeedRegressionSuite( __CLASS__ );
+        return new ezcTestRegressionSuite( __CLASS__ );
     }
 
     protected function cleanForCompare( $text )

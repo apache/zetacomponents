@@ -22,7 +22,7 @@ include_once ("custom_blocks/links.php");
 include_once ("custom_blocks/cblock.php");
 include_once ("custom_blocks/sha1.php");
 include_once ("override.php");
-include_once ("regression_suite.php");
+include_once ("UnitTest/src/regression_suite.php");
 
 class ezcTemplateRegressionTest extends ezcTestCase
 {
@@ -146,7 +146,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTemplateTestRegressionSuite( __CLASS__ );
+         return new ezcTestRegressionSuite( __CLASS__ );
     }
 
     private function removeTags( $str )
