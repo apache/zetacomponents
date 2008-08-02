@@ -74,12 +74,12 @@ several files:
 /src/options/backend_file_options.php
   useMimeExts -> useMimeExtensions
 
-/src/server.php
-  properties are not documented (even if read-only)
-  constructor is protected, but docblock says private
+[x] /src/server.php
+    properties are not documented (even if read-only)
+    constructor is protected, but docblock says private
 
-/src/backends/simple.php
-  var_dump leftover
+[x] /src/backends/simple.php
+    var_dump leftover
 
-/src/structs/display_information*.php
-  class variables appear after the methods definitions
+[x] /src/structs/display_information*.php
+    class variables appear after the methods definitions

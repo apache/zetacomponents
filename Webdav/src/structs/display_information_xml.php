@@ -18,22 +18,6 @@
  */
 class ezcWebdavXmlDisplayInformation extends ezcWebdavDisplayInformation
 {
-    
-    /**
-     * Creates a new struct.
-     * 
-     * This display information must be created with DOMDocument $body.
-     *
-     * @param ezcWebdavResponse $response 
-     * @param DOMDocument $body 
-     * @return void
-     */
-    public function __construct( ezcWebdavResponse $response, DOMDOcument $body )
-    {
-        $this->response = $response;
-        $this->body     = $body;
-    }
-
     /**
      * Response object to extract headers from.
      * 
@@ -49,6 +33,21 @@ class ezcWebdavXmlDisplayInformation extends ezcWebdavDisplayInformation
      * @var DOMDocument|string|null
      */
     public $body;
+    
+    /**
+     * Creates a new struct.
+     * 
+     * This display information must be created with DOMDocument $body.
+     *
+     * @param ezcWebdavResponse $response 
+     * @param DOMDocument $body 
+     * @return void
+     */
+    public function __construct( ezcWebdavResponse $response, DOMDOcument $body )
+    {
+        $this->response = $response;
+        $this->body     = $body;
+    }
 }
 
 ?>

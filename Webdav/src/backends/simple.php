@@ -983,7 +983,6 @@ abstract class ezcWebdavSimpleBackend
         // implementation and  not be generated guessing what may fit.
         if ( count( $deletion ) > 0 )
         {
-            var_dump( $deletion );
             return new ezcWebdavMultistatusResponse(
                 $deletion
             );

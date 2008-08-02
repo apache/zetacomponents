@@ -18,6 +18,12 @@
  */
 class ezcWebdavEmptyDisplayInformation extends ezcWebdavDisplayInformation
 {
+    /**
+     * Response object to extract headers from.
+     * 
+     * @var ezcWebdavResponse
+     */
+    public $response;
     
     /**
      * Creates a new struct.
@@ -29,13 +35,6 @@ class ezcWebdavEmptyDisplayInformation extends ezcWebdavDisplayInformation
     {
         $this->response = $response;
     }
-
-    /**
-     * Response object to extract headers from.
-     * 
-     * @var ezcWebdavResponse
-     */
-    public $response;
 }
 
 ?>

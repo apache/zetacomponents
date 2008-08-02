@@ -18,6 +18,22 @@
  */
 abstract class ezcWebdavDisplayInformation
 {
+    /**
+     * Response object to extract headers from.
+     * 
+     * @var ezcWebdavResponse
+     */
+    public $response;
+
+    /**
+     * Representation of the response body.
+     *
+     * The concrete data type of this property is defined in the extending
+     * classes.
+     * 
+     * @var DOMDocument|sring|null
+     */
+    public $body;
     
     /**
      * Creates a new display information.
@@ -36,23 +52,6 @@ abstract class ezcWebdavDisplayInformation
         $this->response = $response;
         $this->body     = $body;
     }
-
-    /**
-     * Response object to extract headers from.
-     * 
-     * @var ezcWebdavResponse
-     */
-    public $response;
-
-    /**
-     * Representation of the response body.
-     *
-     * The concrete data type of this property is defined in the extending
-     * classes.
-     * 
-     * @var DOMDocument|sring|null
-     */
-    public $body;
 }
 
 ?>

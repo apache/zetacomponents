@@ -18,6 +18,19 @@
  */
 class ezcWebdavStringDisplayInformation extends ezcWebdavDisplayInformation
 {
+    /**
+     * Response object to extract headers from.
+     * 
+     * @var ezcWebdavResponse
+     */
+    public $response;
+
+    /**
+     * Representation of the response body.
+     * 
+     * @var string
+     */
+    public $body;
     
     /**
      * Creates a new display information object.
@@ -33,20 +46,6 @@ class ezcWebdavStringDisplayInformation extends ezcWebdavDisplayInformation
         $this->response = $response;
         $this->body     = $body;
     }
-
-    /**
-     * Response object to extract headers from.
-     * 
-     * @var ezcWebdavResponse
-     */
-    public $response;
-
-    /**
-     * Representation of the response body.
-     * 
-     * @var string
-     */
-    public $body;
 }
 
 ?>

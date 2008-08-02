@@ -46,6 +46,32 @@
  * @property ezcWebdavServerConfigurationManager $configurations
  *           Webdav server configuration manager, which holds and dispatches
  *           configurations that fit for a certain client.
+ * @property-read ezcWebdavBackend $backend
+ *                The backend given to {@link ezcWebdavServer->handle()}. Null
+ *                before handle() was called.
+ * @property-read ezcWebdavPluginRegistry $pluginRegistry
+ *                The internal plugin registry. Can be accessed to register and
+ *                remove plugins.
+ * @property-read ezcWebdavPathFactory $pathFactory
+ *                The path factory object used to translate between URIs and
+ *                local pathes. Configured by the {@link
+ *                ezcWebdavServerConfigurationManager} when the {@link
+ *                ezcWebdavServer::handle()} method is run}.
+ * @property-read ezcWebdavXmlTool $xmlTool
+ *                The XML tool object used for XML related operations in the
+ *                server and transport level. Configured by the {@link
+ *                ezcWebdavServerConfigurationManager} when the {@link
+ *                ezcWebdavServer::handle()} method is run}.
+ * @property-read ezcWebdavPropertyHandler $propertyHandler
+ *                The property handler object used to parse and serialize
+ *                WebDAV properties on the transport level. Configured by the
+ *                {@link ezcWebdavServerConfigurationManager} when the {@link
+ *                ezcWebdavServer::handle()} method is run}.
+ * @property-read ezcWebdavTransport $transport
+ *                The transport layer object used to parse and serialize WebDAV
+ *                requests and responses. Configured by the {@link
+ *                ezcWebdavServerConfigurationManager} when the {@link
+ *                ezcWebdavServer::handle()} method is run}.
  *
  * @version //autogentag//
  * @package Webdav
@@ -70,7 +96,7 @@ class ezcWebdavServer
     /**
      * Creates a new instance.
      *
-     * The constructor is private due to singleton reasons. Use {@link
+     * The constructor is protected due to singleton reasons. Use {@link
      * getInstance()} and then use the properties of the server to adjust its
      * configuration.
      * 
