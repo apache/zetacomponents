@@ -418,9 +418,7 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
-        return new ezcWebdavMultistatusResponse(
-            $responses
-        );
+        return new ezcWebdavMultistatusResponse( $responses );
     }
 
     /**
@@ -468,9 +466,7 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
-        return new ezcWebdavMultistatusResponse(
-            $responses
-        );
+        return new ezcWebdavMultistatusResponse( $responses );
     }
 
     /**
@@ -505,9 +501,7 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
-        return new ezcWebdavMultistatusResponse(
-            $responses
-        );
+        return new ezcWebdavMultistatusResponse( $responses );
     }
     
     /**
@@ -872,9 +866,7 @@ abstract class ezcWebdavSimpleBackend
         }
 
         // Send proper response on success
-        return new ezcWebdavMultistatusResponse(
-            $errors
-        );
+        return new ezcWebdavMultistatusResponse( $errors );
     }
 
     /**
@@ -946,9 +938,7 @@ abstract class ezcWebdavSimpleBackend
             $replaced = true;
             if ( count( $delteErrors = $this->performDelete( $dest ) ) > 0 )
             {
-                return new ezcWebdavMultistatusResponse(
-                    $delteErrors
-                );
+                return new ezcWebdavMultistatusResponse( $delteErrors );
             }
         }
 
@@ -968,9 +958,7 @@ abstract class ezcWebdavSimpleBackend
         {
             // We need a multistatus response, because some errors occured for some
             // of the resources.
-            return new ezcWebdavMultistatusResponse(
-                $errors
-            );
+            return new ezcWebdavMultistatusResponse( $errors );
         }
 
         // Delete the source, COPY has been successful
@@ -983,9 +971,7 @@ abstract class ezcWebdavSimpleBackend
         // implementation and  not be generated guessing what may fit.
         if ( count( $deletion ) > 0 )
         {
-            return new ezcWebdavMultistatusResponse(
-                $deletion
-            );
+            return new ezcWebdavMultistatusResponse( $deletion );
         }
 
         // Send proper response on success
