@@ -1,0 +1,61 @@
+Index: design-1.1.txt
+===================================================================
+--- design-1.1.txt	(revision 8654)
++++ design-1.1.txt	(working copy)
+@@ -90,6 +90,10 @@
+ This mechanism will be implemented generically in ezcWebdavSimpleBackend to
+ allow other extending backends to use it.
+ 
++.. kn:
++   Maybe provide a special method for this, so the ETag generation can be
++   easily exchanged by other backends?
++
+ ===============
+ Header handling
+ ===============
+@@ -115,6 +119,10 @@
+ combination is undefined per RFC and we will ignore it on the transport level
+ already.
+ 
++.. kn:
++   maybe you should check with common clients first, what behaviour is expected
++   by them in this case?
++
+ Both headers can contain a list of weak/non-weak entity tags or the "*" value,
+ to indicate that the resource must simply exists, no matter in which state. To
+ represent this in PHP, the parsed headers will be represented either as an
+@@ -1092,6 +1100,34 @@
+ through the ArrayAccess interface. The keys used to query the object are
+ resource paths (not URIs!).
+ 
++.. kn:
++   Lighttpd does not do any real parsing of those headers, but just does some
++   very simple extractions - this seems to work with all clients so far - you
++   might want to check their source.
++
++Both headers can contain a list of weak/non-weak entity tags or the "*" value,
++to indicate that the resource must simply exists, no matter in which state. To
++represent this in PHP, the parsed headers will be represented either as an
++array of string values or as the boolean value true. The headers will be parsed
++into every request object automatically, if they are set.
++
++.. Note::
++   The section `Common concerns`_ defines the realization of the If header,
++   which is similar to If-Match and If-None-Match. It could be useful to
++   combine their representations in the Webdav infrastructure. A decision on
++   this will be made during realization.
++
++The back end layer must take responsibility for interpreting the parsed headers
++and their values.
++
++In addition ezcWebdavHeaderHandler must take care of serializing the ETag
++header, if this one is present in a response object. Since the ETag header may
++only contain the string value of an entity tag this mechanism is already
++implemented in the current response processing.
++
++Back end layer
++==============
++
+ An ezcWebdavIfHeaderList object will return an array of
+ ezcWebdavIfHeaderListItem objects on read access through ArrayAccess. This
+ array represents the OR concatenation of the items. The item class realizes the
