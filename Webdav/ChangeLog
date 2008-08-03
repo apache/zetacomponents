@@ -1,10 +1,16 @@
-1.1 - [RELEASEDATE]
+1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13313: Webdav does now correctly identify recent Nautilus
   version.
 - Fixed issue #13389: ezcWebdavBasicPathFactory does now perform sanity checks
   on the given base URI during construction.
+- Fixed documentation.
+- Renamed ezcWebdavResourceTypeProperty::TYPE_RESSOURCE to
+  ezcWebdavResourceTypeProperty::TYPE_RESOURCE as required by review.
+  ezcWebdavResourceTypeProperty::TYPE_RESSOURCE is still kept for BC reasons.
+- Renamed ezcWebdavTransport->retreiveBody() to
+  ezcWebdavTransport->retrieveBody().
 
 1.0 - Monday 17 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
