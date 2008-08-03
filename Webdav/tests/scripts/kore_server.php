@@ -34,7 +34,7 @@ file_put_contents( $logDir . 'request_body.xml',   $GLOBALS['EZC_WEBDAV_REQUEST_
 // Mock transport to make important stuff accessible
 class mockedTransport extends ezcWebdavMicrosoftCompatibleTransport
 {
-    protected function retreiveBody()
+    protected function retrieveBody()
     {
         return $GLOBALS['EZC_WEBDAV_REQUEST_BODY'];
     }

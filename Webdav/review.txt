@@ -50,8 +50,10 @@ Review Alexandru 31-07-2008
 
 # TS: Kept the old constant for BC reasons.
 
-/src/transport.php
-  retreiveBody -> retrieveBody
+[x] /src/transport.php
+    retreiveBody -> retrieveBody
+
+# TS: Kept old method for BC reasons, calling the new method only.
 
 /src/path_factories/basic.php
   collectionPathes -> collectionPaths

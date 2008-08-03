@@ -2,7 +2,7 @@
 
 class ezcWebdavTransportTestMock extends ezcWebdavTransport
 {
-    protected function retreiveBody()
+    protected function retrieveBody()
     {
         return $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'];
     }

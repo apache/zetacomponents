@@ -152,7 +152,7 @@ class ezcWebdavTransport
      * the base of the WebDAV repository.
      *
      * The retrieval of the request body is performed by the {@link
-     * retreiveBody()} method, the request method from {@link
+     * retrieveBody()} method, the request method from {@link
      * $_SERVER['REQUEST_METHOD']}. The latter one is mapped through the
      * {@link self::$parsingMap} attribute to a local object method.
      *
@@ -171,7 +171,7 @@ class ezcWebdavTransport
      */
     public final function parseRequest( $uri )
     {
-        $body = $this->retreiveBody();
+        $body = $this->retrieveBody();
         $path = $this->retrievePath( $uri );
 
         if ( isset( self::$parsingMap[$_SERVER['REQUEST_METHOD']] )  )
@@ -324,6 +324,22 @@ class ezcWebdavTransport
     /**
      * Returns the body content of the request.
      *
+     * This method is only kept for BC reasons. Please refer to {@link
+     * retrieveBody()}.
+     * 
+     * @return string The request body.
+     *
+     * @apichange This method will be removed in the next major version. Please
+     *            use {@link retrieveBody()} instead.
+     */
+    protected function retreiveBody()
+    {
+        return $this->retrieveBody();
+    }
+
+    /**
+     * Returns the body content of the request.
+     *
      * This method mainly exists for unit testing purpose. It reads the request
      * body and returns the contents as a string. This method can also be
      * usefull to be overriden during inheritence to filter the body of
@@ -331,7 +347,7 @@ class ezcWebdavTransport
      * 
      * @return string The request body.
      */
-    protected function retreiveBody()
+    protected function retrieveBody()
     {
         $body = '';
         $in   = fopen( 'php://input', 'r' );

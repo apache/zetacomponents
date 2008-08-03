@@ -151,9 +151,9 @@ class ezcWebdavClientTestGenerator
              * 
              * @return void
              */
-            protected function retreiveBody()
+            protected function retrieveBody()
             {
-                $GLOBALS["EZC_WEBDAV_REQUEST_BODY"] = parent::retreiveBody();
+                $GLOBALS["EZC_WEBDAV_REQUEST_BODY"] = parent::retrieveBody();
                 return $GLOBALS["EZC_WEBDAV_REQUEST_BODY"];
             }
         
