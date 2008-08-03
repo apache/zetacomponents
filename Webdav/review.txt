@@ -60,7 +60,7 @@ Review Alexandru 31-07-2008
 
 /src/path_factories/automatic.php
   collectionPathes -> collectionPaths
-  + collectionPathes is not defined as a class variable
+  [x] + collectionPathes is not defined as a class variable
 
 # TS: I think we should keep these 2 as they are, since emulating the BC using
 # interceptors would lead to reference issues.

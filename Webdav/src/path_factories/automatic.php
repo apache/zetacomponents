@@ -30,6 +30,16 @@
 class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
 {
     /**
+     * Caches pathes that are a collection.
+     *
+     * Those will get a '/' appended on re-serialization. Works only if they
+     * had been unserialized before.
+     *
+     * @var array(string=>bool)
+     */
+    protected $collectionPathes = array();
+
+    /**
      * Base path on the server.
      *
      * Auto-detected during __construct().
