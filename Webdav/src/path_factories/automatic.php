@@ -13,7 +13,7 @@
  * An object of this class is meant to be used in {@link
  * ezcWebdavTransportOptions} as the $pathFactory property. The instance of
  * {@link ezcWebdavTransport} utilizes the path factory to translate between
- * external pathes/URIs and internal path representations.
+ * external paths/URIs and internal path representations.
  *
  * An instance of this class examines several server variables like
  * <ul>
@@ -30,7 +30,7 @@
 class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
 {
     /**
-     * Caches pathes that are a collection.
+     * Caches paths that are a collection.
      *
      * Those will get a '/' appended on re-serialization. Works only if they
      * had been unserialized before.
@@ -57,7 +57,7 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
      * Creates a new path factory to be used in {@link
      * ezcWebdavServerConfiguration}. This path factory automatically detects
      * information from the running web server and automatically determines the
-     * suitable values for parsing pathes and generating URIs.
+     * suitable values for parsing paths and generating URIs.
      *
      * @return void
      */

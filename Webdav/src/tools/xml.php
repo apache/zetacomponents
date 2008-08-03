@@ -55,7 +55,7 @@ class ezcWebdavXmlTool
      * Creates a new XML tool.
      *
      * Creates an new XML tool instance. If not $namespaceRegistry is provided,
-     * the default {@link ezcWebdavNamespaceRegistry} will be instanciated and
+     * the default {@link ezcWebdavNamespaceRegistry} will be instantiated and
      * used. The registry can be accessed through the $namespaceRegistry
      * property.
      * 

@@ -42,7 +42,7 @@ class ezcWebdavFileBackend
     protected $options;
 
     /**
-     * Root directory to serve content from. All pathes are seen relatively to this one.
+     * Root directory to serve content from. All paths are seen relatively to this one.
      * 
      * @var string
      */
@@ -349,7 +349,7 @@ class ezcWebdavFileBackend
     protected function getPropertyStoragePath( $path )
     {
         // Get storage path for properties depending on the type of the
-        // ressource.
+        // resource.
         $storagePath = realpath( $this->root . dirname( $path ) ) 
             . '/' . $this->options->propertyStoragePath . '/'
             . basename( $path ) . '.xml';
@@ -368,7 +368,7 @@ class ezcWebdavFileBackend
      * Returns the property storage for a resource.
      *
      * Returns the {@link ezcWebdavPropertyStorage} instance containing the
-     * properties for the ressource identified by $path.
+     * properties for the resource identified by $path.
      * 
      * @param string $path 
      * @return ezcWebdavBasicPropertyStorage
@@ -898,7 +898,7 @@ class ezcWebdavFileBackend
             $file = $path . '/' . basename( $file );
             if ( is_dir( $this->root . $file ) )
             {
-                // Add collection without any childs
+                // Add collection without any children
                 $contents[] = new ezcWebdavCollection( $file );
             }
             else

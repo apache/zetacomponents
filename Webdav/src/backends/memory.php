@@ -707,7 +707,7 @@ class ezcWebdavMemoryBackend
         {
             if ( is_array( $this->content[$child] ) )
             {
-                // Add collection without any childs
+                // Add collection without any children
                 $contents[] = new ezcWebdavCollection(
                     $child
                 );

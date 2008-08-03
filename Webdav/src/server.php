@@ -54,7 +54,7 @@
  *                remove plugins.
  * @property-read ezcWebdavPathFactory $pathFactory
  *                The path factory object used to translate between URIs and
- *                local pathes. Configured by the {@link
+ *                local paths. Configured by the {@link
  *                ezcWebdavServerConfigurationManager} when the {@link
  *                ezcWebdavServer::handle()} method is run}.
  * @property-read ezcWebdavXmlTool $xmlTool
@@ -309,8 +309,6 @@ class ezcWebdavServer
      *
      * Simply returns a given property.
      * 
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property propertys is not an instance of
      * @param string $propertyName The name of the property to get.
      * @return mixed The property value.
      *

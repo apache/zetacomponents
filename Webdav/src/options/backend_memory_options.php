@@ -16,7 +16,7 @@
  * changed.
  *
  * @property string $failForRegexp
- *           Let operation fail for all ressource paths mathing this regular
+ *           Let operation fail for all resource paths mathing this regular
  *           expression. The exact handling of this option depends on the
  *           operation this option is used with.
  * @property int $failingOperations

@@ -13,7 +13,7 @@
  * An object that implements this interface is meant to be used in {@link
  * ezcWebdavServerConfiguration} as the $pathFactory property. The instance of
  * {@link ezcWebdavTransport} utilizes the path factory to translate between
- * external pathes/URIs and pathes that are usable with the a {@link
+ * external paths/URIs and paths that are usable with the a {@link
  * ezcWebdavBackend}.
  *
  * You may want to provide custome implementations for different mappings.

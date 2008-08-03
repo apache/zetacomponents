@@ -16,7 +16,7 @@
  * representing the configurations that are known by the Webdav component by
  * default.
  *
- * You can instanciate more objects of this class to add custom configurations
+ * You can instantiate more objects of this class to add custom configurations
  * and possibly even extend it to support more advanced features.
  *
  * An object of this class can configure the {@link ezcWebdavServer} instances
@@ -30,7 +30,7 @@
  * will match always and therefore always as the last fallback and will make
  * the server act RFC conform.
  *
- * The $transport property represents the class to be instanciated as the
+ * The $transport property represents the class to be instantiated as the
  * transport layer. The default is {@link ezcWebdavTransport}, which is the RFC
  * compliant transport implementation.
  *
@@ -50,7 +50,7 @@
  *           {@link ezcWebdavServer} instance, according to the other
  *           properties.
  * @property string $transportClass
- *           Transport class to instanciate when creating an instance of the
+ *           Transport class to instantiate when creating an instance of the
  *           transport layer configured in this object. 
  * @property ezcWebdavPathFactory $pathFactory
  *           Object used to transform incoming request URIs into request paths,
@@ -88,7 +88,7 @@ class ezcWebdavServerConfiguration
      * All parameters are strings, representing the specific classes to use,
      * exception for $pathFactory, which must be a valid path factory instance.
      * The classes defined in the other parameters will be set as properties
-     * and instanciated when a server configuration is requested through the
+     * and instantiated when a server configuration is requested through the
      * {@link configure()} method, by the {@link
      * ezcWebdavServerConfigurationManager} instance hold in {@link
      * ezcWebdavServer}.
@@ -154,7 +154,7 @@ class ezcWebdavServerConfiguration
     }
 
     /**
-     * Checks the availability of all classes to instanciate.
+     * Checks the availability of all classes to instantiate.
      *
      * This method checks all classes stored in the configuration for existance
      * and validity. If an error is found, an {@link ezcBaseValueException} is
@@ -239,8 +239,6 @@ class ezcWebdavServerConfiguration
      *
      * Simply returns a given property.
      * 
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property propertys is not an instance of
      * @param string $propertyName The name of the property to get.
      * @return mixed The property value.
      *

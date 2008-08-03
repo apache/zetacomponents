@@ -19,14 +19,14 @@
 class ezcWebdavCollection extends ezcBaseStruct
 {
     /**
-     * Path to ressource.
+     * Path to resource.
      * 
      * @var string
      */
     public $path;
 
     /**
-     * Array with children of ressource.
+     * Array with children of resource.
      * 
      * @var array(int=>ezcWebdavCollection|ezcWebdavResource)
      *
@@ -36,7 +36,7 @@ class ezcWebdavCollection extends ezcBaseStruct
     public $childs;
 
     /**
-     * Live properties of ressource.
+     * Live properties of resource.
      * 
      * @var ezcWebdavPropertyStorage
      */
@@ -46,19 +46,19 @@ class ezcWebdavCollection extends ezcBaseStruct
      * Creates a new collection struct.
      *
      * A new collection struct is created, representing the collection
-     * referenced by $path, with the given $liveProperties and $childs
-     * elements.
+     * referenced by $path, with the given $liveProperties and $children
+     * ($childs) elements.
      * 
      * @param string $path 
      * @param ezcWebdavPropertyStorage $liveProperties 
-     * @param array $childs 
+     * @param array $children
      * @return void
      */
-    public function __construct( $path, ezcWebdavPropertyStorage $liveProperties = null, array $childs = array() )
+    public function __construct( $path, ezcWebdavPropertyStorage $liveProperties = null, array $children = array() )
     {
         $this->path = $path;
         $this->liveProperties = $liveProperties;
-        $this->childs = $childs;
+        $this->childs = $children;
     }
 }
 

@@ -303,6 +303,7 @@ class ezcWebdavLockPlugin
 
     /**
      * Sets a property.
+     *
      * This method is called when an property is to be set.
      * 
      * @param string $propertyName The name of the property to set.
@@ -342,10 +343,9 @@ class ezcWebdavLockPlugin
 
     /**
      * Property get access.
+     *
      * Simply returns a given property.
-     * 
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property propertys is not an instance of
+     *
      * @param string $propertyName The name of the property to get.
      * @return mixed The property value.
      *
@@ -367,6 +367,7 @@ class ezcWebdavLockPlugin
     
     /**
      * Returns if a property exists.
+     *
      * Returns true if the property exists in the {@link $properties} array
      * (even if it is null) and false otherwise. 
      *

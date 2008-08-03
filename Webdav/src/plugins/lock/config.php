@@ -12,7 +12,7 @@
 /**
  * Plugin configuration class for the LOCK plugin.
  *
- * To activate (load) the plugin, the user must instanciate this class and
+ * To activate (load) the plugin, the user must instantiate this class and
  * submit the instance to {@link ezcWebdavPluginRegistry::registerPlugin()}.
  * 
  * @package Webdav

@@ -15,7 +15,7 @@
  * A plugin must ship at least one class that extends this base class and will
  * be used by {@link ezcWebdavPluginRegistry} to configure the plugin on load.
  *
- * To activate (load) a plugin, the user must instanciate the plugin specific
+ * To activate (load) a plugin, the user must instantiate the plugin specific
  * defived configuration class and submit the instance to {@link
  * ezcWebdavPluginRegistry::registerPlugin()}.
  * 

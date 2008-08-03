@@ -254,7 +254,7 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
-        // Return collection with contained childs
+        // Return collection with contained children
         return new ezcWebdavGetCollectionResponse(
             new ezcWebdavCollection(
                 $source,
@@ -300,7 +300,7 @@ abstract class ezcWebdavSimpleBackend
         }
         else
         {
-            // Just deliver collection without childs
+            // Just deliver collection without children
             return new ezcWebdavHeadResponse(
                 new ezcWebdavCollection(
                     $source,
@@ -324,7 +324,7 @@ abstract class ezcWebdavSimpleBackend
      */
     protected function getNodes( $source, $depth )
     {
-        // No special handling for plain ressources
+        // No special handling for plain resources
         if ( !$this->isCollection( $source ) )
         {
             return array( new ezcWebdavResource( $source ) );
@@ -343,9 +343,9 @@ abstract class ezcWebdavSimpleBackend
         for ( $i = 0; $i < count( $recurseCollections ); ++$i )
         {
             $source = $recurseCollections[$i];
-            $childs = $this->getCollectionMembers( $source );
+            $children = $this->getCollectionMembers( $source );
 
-            foreach ( $childs as $child )
+            foreach ( $children as $child )
             {
                 $nodes[] = $child;
 

@@ -13,11 +13,11 @@
  * An object of this class is meant to be used in {@link
  * ezcWebdavTransportOptions} as the $pathFactory property. The instance of
  * {@link ezcWebdavTransport} utilizes the path factory to translate between
- * external pathes/URIs and internal path representations.
+ * external paths/URIs and internal path representations.
  *
  * This simple implementation of a path factory expects the base URI it should
  * be working on as the constructor parameter. It will translate all incoming
- * URIs to internal pathes and the other way round based on this URI.
+ * URIs to internal paths and the other way round based on this URI.
  *
  * You may want to provide custome implementations for different mappings. The
  * {@link ezcWebdavAutomaticPathFactory} is a more advanced implementation,
@@ -37,7 +37,7 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
     protected $baseUriParts;
 
     /**
-     * Caches pathes that are a collection.
+     * Caches paths that are a collection.
      *
      * Those will get a '/' appended on re-serialization. Works only if they
      * had been unserialized before.
@@ -52,7 +52,7 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
     /**
      * Creates a new path factory.
      *
-     * Creates a new object to parse URIs to local pathes and vice versa. The
+     * Creates a new object to parse URIs to local paths and vice versa. The
      * URL given as a parameter is used to strip URL and path parts from
      * incoming URIs {@link parseUriToPath()} and to add the specific parts to
      * outgoing ones {@link generateUriFromPath()}.

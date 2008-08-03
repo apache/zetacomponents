@@ -17,7 +17,7 @@
  * handled by a plugin.
  * 
  * To adjust this base transport layer main class to the needs of
- * RFC-2518-inconform client implementations, there is the powerfull
+ * RFC-2518-inconform client implementations, there is the powerful
  * possibility of extending this class and overwriting certain necessary
  * protected methods. The easier way to adjust smaller issues is to replace one
  * of the helper components during construction of via property access.
@@ -34,7 +34,7 @@
  *
  * The {@link ezcWebdavServer->pathFactory} property must be an instance of
  * {@link ezcWebdavPathFactory} and is used to convert between internal WebDAV
- * pathes (resource locations understood by the {@link ezcWebdavBackend}) and
+ * paths (resource locations understood by the {@link ezcWebdavBackend}) and
  * URIs that reference a resource on the web.
  *
  * An instance of this class is by default capable of parsing the follwoing

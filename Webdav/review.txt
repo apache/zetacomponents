@@ -68,13 +68,15 @@ Review Alexandru 31-07-2008
 /src/structs/collection.php
   childs -> children
 
+# TS: Same here.
+
 several files:
-  pathes -> paths !!!
-  ressource -> resource
-  instanciate -> instantiate
-  powerfull -> powerful
-  childs -> children
-  @throws appear multiple times with the same exception (eg. __get)
+[x]  pathes -> paths !!!
+[x]  ressource -> resource
+[x]  instanciate -> instantiate
+[x]  powerfull -> powerful
+[x]  childs -> children
+[x]  @throws appear multiple times with the same exception (eg. __get)
 
 - Some guidelines issues:
 
