@@ -29,6 +29,9 @@ class ezcWebdavCollection extends ezcBaseStruct
      * Array with children of ressource.
      * 
      * @var array(int=>ezcWebdavCollection|ezcWebdavResource)
+     *
+     * @apichange This property will be renamed to $children in the next major
+     *            release.
      */
     public $childs;
 
