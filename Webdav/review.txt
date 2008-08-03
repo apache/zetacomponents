@@ -1,7 +1,7 @@
 Review Alexandru 17-10-2007
 ---------------------------
 
-- The docs folder contains many text files - are they to become pages in the
+[x] The docs folder contains many text files - are they to become pages in the
 online documentation? I think the place to put this temporary text files is
 design or even the root of Webdav. (the root is the place to put TODO anyway)
 
@@ -10,34 +10,50 @@ which are used in ezcWebdavMemoryBackend (and maybe other classes). Is this
 the correct way to do things? I think the constants should be defined
 in ezcWebdavMemoryBackend.
 
-- There is no tutorial.
+# TS: I don't think this is important enough to change it. In fact, the
+# constants are used in the options so why declare them in the class itself?
+
+[x] There is no tutorial.
 
 - ezcWebdavMemoryBackend, ezcWebdavSimpleBackend and maybe other classes have
 the extends and implements on many lines - I thought it was already discussed
 on IRC to have everything on one line.
 
+# TS: Did not notice that. Please clearify and add it to the guidelines so we
+# can make it consistent.
+
 - Sometimes constructors are documented with '@return void'. I thought we
 don't write the '@return void' anymore (for constructors much less).
 
+# TS: Yes, but we did not consider this as an important fix to remove it.
+
 - Some methods don't have code blocks.
 
-- Some classes have the description 'Description missing'.
+[x] Some classes have the description 'Description missing'.
 
 - Instead of array_key_exists( $propertyName, $this->properties ) it can be
 isset( $this->properties[$propertyName] ) (in __isset() methods) for speed.
 
+# TS: No, it cannot. We must use array_key_exists() since we want to work
+# around the problem that isset() returns false for properties that do exist
+# but are null.
+
 - Almost all the components have this order in the docblocks for methods:
+
    - short description
    - detailed description, examples
    - @throws
    - @param
    - @return
 
-Why in Webdav the order is different?
+  Why in Webdav the order is different?
 
-- In the structs folder the class variables are defined after the constructor.
+# TS: This does not really matter. However, I'll try to pay attention to it
+# and fix it if i see it during development.
 
-- In the requests folder the @copyright and @license is used 2 times.
+[x] In the structs folder the class variables are defined after the constructor.
+
+[x] In the requests folder the @copyright and @license is used 2 times.
 
 
 Review Alexandru 31-07-2008
