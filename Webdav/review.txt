@@ -45,8 +45,10 @@ Review Alexandru 31-07-2008
 
 - Some typos in the code and comments:
 
-/src/properties/resourcetype.php
-  TYPE_RESSOURCE -> TYPE_RESOURCE
+[x] /src/properties/resourcetype.php
+    TYPE_RESSOURCE -> TYPE_RESOURCE
+
+# TS: Kept the old constant for BC reasons.
 
 /src/transport.php
   retreiveBody -> retrieveBody
@@ -73,6 +75,8 @@ several files:
 
 /src/options/backend_file_options.php
   useMimeExts -> useMimeExtensions
+
+# TS: Changing this would break BC.
 
 [x] /src/server.php
     properties are not documented (even if read-only)

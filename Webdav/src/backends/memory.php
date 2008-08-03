@@ -217,7 +217,7 @@ class ezcWebdavMemoryBackend
                 new ezcWebdavResourceTypeProperty(
                     ( $isCollection === true ? 
                         ezcWebdavResourceTypeProperty::TYPE_COLLECTION : 
-                        ezcWebdavResourceTypeProperty::TYPE_RESSOURCE
+                        ezcWebdavResourceTypeProperty::TYPE_RESOURCE
                     )
                 )
             );

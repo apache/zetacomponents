@@ -585,7 +585,7 @@ class ezcWebdavFileBackend
                 $property = new ezcWebdavResourceTypeProperty();
                 $property->type = $this->isCollection( $path ) ?
                     ezcWebdavResourceTypeProperty::TYPE_COLLECTION : 
-                    ezcWebdavResourceTypeProperty::TYPE_RESSOURCE;
+                    ezcWebdavResourceTypeProperty::TYPE_RESOURCE;
                 return $property;
 
             case 'supportedlock':

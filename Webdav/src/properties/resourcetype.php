@@ -18,8 +18,28 @@
  */
 class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
 {
-    const TYPE_RESSOURCE = 1;
+    /**
+     * Indicates that a resource is a non-collection.
+     *
+     * @see ezcWebdavResourceTypeProperty::$type
+     */
+    const TYPE_RESOURCE = 1;
 
+    /**
+     * Kept for BC reasons.
+     *
+     * Has the same value as {@link
+     * ezcWebdavResourceTypeProperty::TYPE_RESOURCE}.
+     *
+     * @apichange Will be removed in next major version.
+     */
+    const TYPE_RESSOURCE = self::TYPE_RESOURCE;
+
+    /**
+     * Indicates that a resource is a collection. 
+     *
+     * @see ezcWebdavResourceTypeProperty::$type
+     */
     const TYPE_COLLECTION = 2;
     
     /**
@@ -27,7 +47,7 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
      *
      * The given $type indicates either a collection or non-collection
      * resource ({@link self::TYPE_COLLECTION} or {@link
-     * self::TYPE_RESSOURCE}).
+     * self::TYPE_RESOURCE}).
      * 
      * @param int $type
      * @return void
@@ -62,9 +82,9 @@ class ezcWebdavResourceTypeProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'type':
-                if ( $propertyValue !== self::TYPE_RESSOURCE && $propertyValue !== self::TYPE_COLLECTION && $propertyValue !== null )
+                if ( $propertyValue !== self::TYPE_RESOURCE && $propertyValue !== self::TYPE_COLLECTION && $propertyValue !== null )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavResourceTypeProperty::TYPE_RESSOURCE, ezcWebdavResourceTypeProperty::TYPE_COLLECTION or null' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavResourceTypeProperty::TYPE_RESOURCE, ezcWebdavResourceTypeProperty::TYPE_COLLECTION or null' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
