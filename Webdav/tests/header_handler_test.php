@@ -27,19 +27,6 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
 		return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public static function provideDepthTestSets()
-    {
-        return array(
-            array( '0', ezcWebdavRequest::DEPTH_ZERO ),
-            array( '1', ezcWebdavRequest::DEPTH_ONE ),
-            array( 'infinity', ezcWebdavRequest::DEPTH_INFINITY ),
-            array( '  0    ', ezcWebdavRequest::DEPTH_ZERO ),
-            array( ' 1   ', ezcWebdavRequest::DEPTH_ONE ),
-            array( ' infinity     ', ezcWebdavRequest::DEPTH_INFINITY ),
-            array( 'some misc test', 'some misc test' ),
-        );
-    }
-
     /**
      * testParseDepthHeader 
      * 
@@ -63,19 +50,6 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
             'Value for Depth not parsed correctly.'
         );
 
-    }
-
-    public static function provideIfMatchTestSets()
-    {
-        return array(
-            array( '"Simple tag"', array( 'Simple tag' ) ),
-            array( '"one tag", "another tag", "a third tag"', array( "one tag", "another tag", "a third tag" ) ),
-            array( '"abc", "xyz"', array( 'abc', 'xyz' ) ),
-            array( '"with empty", "", "tag"', array( 'with empty', '', 'tag' ) ),
-            array( '  "with additional"  ,  "characters", ..  "in it"', array( 'with additional', 'characters', 'in it' ) ),
-            array( '*', true ),
-            array( '  * ', true ),
-        );
     }
 
     /**
@@ -180,6 +154,58 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
         );
     }
 
+    /**
+     * testParseHeaders 
+     * 
+     * @param array $serverArr 
+     * @param array $desiredHeaders 
+     * @param array $expectedResult 
+     * @return void
+     *
+     * @dataProvider provideParseHeadersTestSets
+     */
+    public function testParseHeaders( array $serverArr, array $desiredHeaders, array $expectedResult )
+    {
+        $_SERVER = $serverArr;
+        
+        $headerHandler = new ezcWebdavHeaderHandler();
+        $result = $headerHandler->parseHeaders( $desiredHeaders );
+
+        $this->assertEquals(
+            $expectedResult,
+            $result,
+            'Headers not parsed correctly.'
+        );
+    }
+    
+    // Data providers
+
+    public static function provideDepthTestSets()
+    {
+        return array(
+            array( '0', ezcWebdavRequest::DEPTH_ZERO ),
+            array( '1', ezcWebdavRequest::DEPTH_ONE ),
+            array( 'infinity', ezcWebdavRequest::DEPTH_INFINITY ),
+            array( '  0    ', ezcWebdavRequest::DEPTH_ZERO ),
+            array( ' 1   ', ezcWebdavRequest::DEPTH_ONE ),
+            array( ' infinity     ', ezcWebdavRequest::DEPTH_INFINITY ),
+            array( 'some misc test', 'some misc test' ),
+        );
+    }
+
+    public static function provideIfMatchTestSets()
+    {
+        return array(
+            array( '"Simple tag"', array( 'Simple tag' ) ),
+            array( '"one tag", "another tag", "a third tag"', array( "one tag", "another tag", "a third tag" ) ),
+            array( '"abc", "xyz"', array( 'abc', 'xyz' ) ),
+            array( '"with empty", "", "tag"', array( 'with empty', '', 'tag' ) ),
+            array( '  "with additional"  ,  "characters", ..  "in it"', array( 'with additional', 'characters', 'in it' ) ),
+            array( '*', true ),
+            array( '  * ', true ),
+        );
+    }
+
     public static function provideParseHeadersTestSets()
     {
         return array(
@@ -261,30 +287,6 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
                 ),
             ),
         
-        );
-    }
-
-    /**
-     * testParseHeaders 
-     * 
-     * @param array $serverArr 
-     * @param array $desiredHeaders 
-     * @param array $expectedResult 
-     * @return void
-     *
-     * @dataProvider provideParseHeadersTestSets
-     */
-    public function testParseHeaders( array $serverArr, array $desiredHeaders, array $expectedResult )
-    {
-        $_SERVER = $serverArr;
-        
-        $headerHandler = new ezcWebdavHeaderHandler();
-        $result = $headerHandler->parseHeaders( $desiredHeaders );
-
-        $this->assertEquals(
-            $expectedResult,
-            $result,
-            'Headers not parsed correctly.'
         );
     }
 }
