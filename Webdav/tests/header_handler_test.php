@@ -34,6 +34,9 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
             array( '"one tag", "another tag", "a third tag"', array( "one tag", "another tag", "a third tag" ) ),
             array( '"abc", "xyz"', array( 'abc', 'xyz' ) ),
             array( '"with empty", "", "tag"', array( 'with empty', '', 'tag' ) ),
+            array( '  "with additional"  ,  "characters", ..  "in it"', array( 'with additional', 'characters', 'in it' ) ),
+            array( '*', true ),
+            array( '  * ', true ),
         );
     }
 

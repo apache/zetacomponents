@@ -215,6 +215,12 @@ class ezcWebdavHeaderHandler
      */
     protected function parseIfMatchHeader( $value )
     {
+        // Special case
+        if ( trim( $value ) === '*' )
+        {
+            return true;
+        }
+
         $etags  = array();
 
         $index      = 0;
