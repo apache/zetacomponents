@@ -125,6 +125,168 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
             'Value for If-None-Match-Header not parsed correctly.'
         );
     }
+
+    public function testParseHeaderFailure()
+    {
+        $_SERVER = array();
+
+        $headerHandler = new ezcWebdavHeaderHandler();
+
+        try
+        {
+            $headerHandler->parseHeader( 'Some Header' );
+            $this->fail( 'Exception not thrown on request to parse unknown header.' );
+        }
+        catch ( ezcWebdavUnknownHeaderException $e ) {}
+    }
+
+    public function testParseHeaderNotAvailable()
+    {
+        $_SERVER = array();
+
+        $headerHandler = new ezcWebdavHeaderHandler();
+        
+        $this->assertNull(
+            $headerHandler->parseHeader( 'Depth' )
+        );
+    }
+
+    public function testParseHeaderWithAlternatives()
+    {
+        $headerHandler = new ezcWebdavHeaderHandler();
+
+        $_SERVER = array(
+            'HTTP_CONTENT_LENGTH' => 23,
+        );
+        
+        $this->assertEquals(
+            23,
+            $headerHandler->parseHeader( 'Content-Length' )
+        );
+
+        $_SERVER = array(
+            'CONTENT_LENGTH' => 23,
+        );
+        
+        $this->assertEquals(
+            23,
+            $headerHandler->parseHeader( 'Content-Length' )
+        );
+
+        $_SERVER = array();
+        
+        $this->assertNull(
+            $headerHandler->parseHeader( 'Content-Length' )
+        );
+    }
+
+    public static function provideParseHeadersTestSets()
+    {
+        return array(
+            // Set 1
+            array(
+                array(
+                    'HTTP_DEPTH' => 0,
+                ),
+                array(
+                    'Depth',
+                ),
+                array(
+                    'Depth' => ezcWebdavRequest::DEPTH_ZERO,
+                ),
+            ),
+            // Set 2
+            array(
+                array(
+                    'HTTP_DEPTH' => 0,
+                ),
+                array(
+                    'Depth',
+                    'Content-Type',
+                ),
+                array(
+                    'Depth' => ezcWebdavRequest::DEPTH_ZERO,
+                ),
+            ),
+            // Set 3
+            array(
+                array(
+                    'HTTP_DEPTH'      => 1,
+                    'CONTENT_TYPE'    => 'text/plain; charset=utf-8',
+                    'HTTP_LOCK_TOKEN' => 'abc'
+                ),
+                array(
+                    'Depth',
+                ),
+                array(
+                    'Depth' => ezcWebdavRequest::DEPTH_ONE,
+                ),
+            ),
+            // Set 4
+            array(
+                array(
+                    'HTTP_DEPTH'      => 1,
+                    'CONTENT_TYPE'    => 'text/plain; charset=utf-8',
+                    'HTTP_LOCK_TOKEN' => 'abc'
+                ),
+                array(
+                    'Depth',
+                    'Content-Type',
+                    'Lock-Token',
+                ),
+                array(
+                    'Depth'        => ezcWebdavRequest::DEPTH_ONE,
+                    'Content-Type' => 'text/plain; charset=utf-8',
+                    'Lock-Token'   => 'abc'
+                ),
+            ),
+            // Set 4
+            array(
+                array(
+                    'HTTP_DEPTH'      => 1,
+                    'CONTENT_TYPE'    => 'text/plain; charset=utf-8',
+                    'HTTP_LOCK_TOKEN' => 'abc',
+                    'HTTP_IF_MATCH'   => '"foo", "bar", "baz"',
+                ),
+                array(
+                    'Depth',
+                    'Content-Type',
+                    'Lock-Token',
+                ),
+                array(
+                    'Depth'        => ezcWebdavRequest::DEPTH_ONE,
+                    'Content-Type' => 'text/plain; charset=utf-8',
+                    'Lock-Token'   => 'abc',
+                    'If-Match'     => array( 'foo', 'bar', 'baz' ),
+                ),
+            ),
+        
+        );
+    }
+
+    /**
+     * testParseHeaders 
+     * 
+     * @param array $serverArr 
+     * @param array $desiredHeaders 
+     * @param array $expectedResult 
+     * @return void
+     *
+     * @dataProvider provideParseHeadersTestSets
+     */
+    public function testParseHeaders( array $serverArr, array $desiredHeaders, array $expectedResult )
+    {
+        $_SERVER = $serverArr;
+        
+        $headerHandler = new ezcWebdavHeaderHandler();
+        $result = $headerHandler->parseHeaders( $desiredHeaders );
+
+        $this->assertEquals(
+            $expectedResult,
+            $result,
+            'Headers not parsed correctly.'
+        );
+    }
 }
 
 
