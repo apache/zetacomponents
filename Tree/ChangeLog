@@ -1,4 +1,4 @@
-1.1.1 - [RELEASEDATE]
+1.1.1 - Monday 04 August 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed an issue that the autoId property of ezcTree could not be read,
