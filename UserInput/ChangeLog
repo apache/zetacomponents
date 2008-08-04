@@ -1,7 +1,7 @@
 1.4alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented isseu #12057: Change the $propertyValues' visibility from
+- Implemented issue #12057: Change the $propertyValues' visibility from
   private to protected in ezcInputForm.
 
 

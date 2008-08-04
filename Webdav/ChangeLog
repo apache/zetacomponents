@@ -12,6 +12,7 @@
 - Renamed ezcWebdavTransport->retreiveBody() to
   ezcWebdavTransport->retrieveBody().
 
+
 1.0 - Monday 17 December 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
