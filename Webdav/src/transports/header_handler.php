@@ -218,9 +218,16 @@ class ezcWebdavHeaderHandler
 
     /**
      * Parses the If-Match and If-None-Match headers.
+     *
+     *
+     * We do not pay attention to weak entity tags (prefixed by W\), since our
+     * backends don't make use of such tags. If backends want to provide weak
+     * entity tags, they still might do so.
      * 
      * @param string $value 
-     * @return 
+     * @return array
+     *
+     * @todo Do we need to provide support for weak entity tags?
      */
     protected function parseIfMatchHeader( $value )
     {
