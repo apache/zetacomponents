@@ -20,7 +20,7 @@ require_once 'test_case.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavInfrastructureBaseTest extends ezcWebdavTestCase
+class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
 {
     public static function suite()
     {
