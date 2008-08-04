@@ -107,6 +107,15 @@ class ezcWebdavHeaderHandler
                 $resultHeaders[$headerName] = $value;
             }
         }
+
+        // Ignore If-Match and If-None-Match if both are set
+        // @TODO: RFC conform, also clients conform?
+        if ( isset( $resultHeaders['If-Match'] ) && isset( $resultHeaders['If-None-Match'] ) )
+        {
+            unset( $resultHeaders['If-Match'] );
+            unset( $resultHeaders['If-None-Match'] );
+        }
+
         return $resultHeaders;
     }
 

@@ -286,7 +286,26 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
                     'If-Match'     => array( 'foo', 'bar', 'baz' ),
                 ),
             ),
-        
+            // Set 5
+            array(
+                array(
+                    'HTTP_DEPTH'      => 1,
+                    'CONTENT_TYPE'    => 'text/plain; charset=utf-8',
+                    'HTTP_LOCK_TOKEN' => 'abc',
+                    'HTTP_IF_MATCH'   => '"foo", "bar", "baz"',
+                    'HTTP_IF_NONE_MATCH'   => '"bar"',
+                ),
+                array(
+                    'Depth',
+                    'Content-Type',
+                    'Lock-Token',
+                ),
+                array(
+                    'Depth'        => ezcWebdavRequest::DEPTH_ONE,
+                    'Content-Type' => 'text/plain; charset=utf-8',
+                    'Lock-Token'   => 'abc',
+                ),
+            ),
         );
     }
 }
