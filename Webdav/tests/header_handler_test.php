@@ -27,6 +27,44 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
 		return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
+    public static function provideDepthTestSets()
+    {
+        return array(
+            array( '0', ezcWebdavRequest::DEPTH_ZERO ),
+            array( '1', ezcWebdavRequest::DEPTH_ONE ),
+            array( 'infinity', ezcWebdavRequest::DEPTH_INFINITY ),
+            array( '  0    ', ezcWebdavRequest::DEPTH_ZERO ),
+            array( ' 1   ', ezcWebdavRequest::DEPTH_ONE ),
+            array( ' infinity     ', ezcWebdavRequest::DEPTH_INFINITY ),
+            array( 'some misc test', 'some misc test' ),
+        );
+    }
+
+    /**
+     * testParseDepthHeader 
+     * 
+     * @param mixed $headerContent 
+     * @param mixed $expectedValue 
+     * @return void
+     *
+     * @dataProvider provideDepthTestSets
+     */
+    public function testParseDepthHeader( $headerContent, $expectedValue )
+    {
+        $_SERVER               = array();
+        $_SERVER['HTTP_DEPTH'] = $headerContent;
+
+        $headerHandler = new ezcWebdavHeaderHandler();
+        $value = $headerHandler->parseHeader( 'Depth' );
+
+        $this->assertEquals(
+            $expectedValue,
+            $value,
+            'Value for Depth not parsed correctly.'
+        );
+
+    }
+
     public static function provideIfMatchTestSets()
     {
         return array(
