@@ -1045,6 +1045,36 @@ abstract class ezcWebdavSimpleBackend
             $collection
         );
     }
+
+    /**
+     * Returns the etag representing the current state of $path.
+     * 
+     * Calculates and returns the ETag for the resource represented by $path.
+     * The ETag is calculated from the $path itself and the following
+     * properties, which are concatenated and md5 hashed:
+     *
+     * <ul>
+     *  <li>getcontentlength</li>
+     *  <li>getlastmodified</li>
+     * </ul>
+     *
+     * This method can be overwritten in custom backend implementations to
+     * access the information needed directly without using the way around
+     * properties.
+     *
+     * Custom backend implementations are encouraged to use the same mechanism
+     * (or this method itself) to determine and generate ETags.
+     * 
+     * @param mixed $path 
+     * @return void
+     */
+    protected function getETag( $path )
+    {
+        $contentLength = $this->getProperty( $path, 'getcontentlength' )->length;
+        $lastModified  = $this->getProperty( $path, 'getlastmodified' )->date->format( 'c' );
+
+        return md5( $path . $contentLength . $lastModified );
+    }
 }
 
 ?>

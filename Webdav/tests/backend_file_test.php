@@ -2153,6 +2153,17 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             20
         );
     }
+
+    public function testETagGeneration()
+    {
+        $backendDir = $this->tempDir . 'backend/';
+        $backend = new ezcWebdavFileBackend( $backendDir );
+
+        $this->assertEquals(
+            md5( '/resource' . filesize( $backendDir . 'resource' ) . filemtime( $backendDir . 'resource' ) ),
+            $backend->getProperty( '/resource', 'getetag' )->etag 
+        );
+    }
 }
 
 ?>

@@ -549,9 +549,7 @@ class ezcWebdavFileBackend
         {
             case 'getcontentlength':
                 $property = new ezcWebdavGetContentLengthProperty();
-                $property->length = ( $this->isCollection( $path ) ?
-                    ezcWebdavGetContentLengthProperty::COLLECTION :
-                    (string) filesize( $this->root . $path ) );
+                $property->length = $this->getContentLength( $path );
                 return $property;
 
             case 'getlastmodified':
@@ -577,8 +575,7 @@ class ezcWebdavFileBackend
 
             case 'getetag':
                 $property = new ezcWebdavGetEtagProperty();
-                // @TODO: Use proper etag hashing stuff
-                $property->etag = md5( $path . filemtime( $this->root . $path ) );
+                $property->etag = $this->getETag( $path );
                 return $property;
 
             case 'resourcetype':
@@ -601,6 +598,56 @@ class ezcWebdavFileBackend
                 $properties = $storage->getAllProperties();
                 return $properties[$namespace][$name];
         }
+    }
+
+    /**
+     * Returns the content length.
+     *
+     * Returns the content length (filesize) of the resource identified by
+     * $path. 
+     *
+     * @param string $path
+     * @return string The content length.
+     */
+    private function getContentLength( $path )
+    {
+        $length = ezcWebdavGetContentLengthProperty::COLLECTION;
+        if ( !$this->isCollection( $path ) )
+        {
+            $length = (string) filesize( $this->root . $path );
+        }
+        return $length;
+    }
+
+    /**
+     * Returns the etag representing the current state of $path.
+     * 
+     * Calculates and returns the ETag for the resource represented by $path.
+     * The ETag is calculated from the $path itself and the following
+     * properties, which are concatenated and md5 hashed:
+     *
+     * <ul>
+     *  <li>getcontentlength</li>
+     *  <li>getlastmodified</li>
+     * </ul>
+     *
+     * This method can be overwritten in custom backend implementations to
+     * access the information needed directly without using the way around
+     * properties.
+     *
+     * Custom backend implementations are encouraged to use the same mechanism
+     * (or this method itself) to determine and generate ETags.
+     * 
+     * @param mixed $path 
+     * @return void
+     */
+    protected function getETag( $path )
+    {
+        return md5(
+            $path
+            . $this->getContentLength( $path )
+            . (string) filemtime( $this->root . $path )
+        );
     }
 
     /**
