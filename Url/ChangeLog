@@ -1,4 +1,4 @@
-1.2.2 - [RELEASEDATE]
+1.2.2 - Monday 04 August 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13235: ezcUrlTools::getCurrentUrl() no longer duplicates port
