@@ -40,6 +40,12 @@ class ezcWebdavHeaderHandler
         'Destination'    => array( 
             'HTTP_DESTINATION',
         ),
+        'If-Match'        => array(
+            'HTTP_IF_MATCH'
+        ),
+        'If-None-Match'        => array(
+            'HTTP_IF_NONE_MATCH'
+        ),
         'Lock-Token'     => array(
             'HTTP_LOCK_TOKEN',
         ),
@@ -55,22 +61,44 @@ class ezcWebdavHeaderHandler
     );
 
     /**
+     * List of headers that should be attempted to parse for every request.
+     * 
+     * @var array(string)
+     */
+    protected $defaultHeaders = array(
+        'If-Match',
+        'If-None-Match',
+    );
+
+    /**
      * Returns an array with the given headers.
      *
      * Checks for the availability of headers in $headerNamess, given as an
-     * array of header names, and parses them according to their format. 
+     * array of header names, and parses them according to their format.
+     *
+     * By default, this method parses an additional set of default headers
+     * (e.g. If-Match and If-None-Match). This can be avoided by setting the
+     * optional $defaultHeaders parameter to false.
      *
      * The returned array can be used with {@link ezcWebdavRequest->setHeaders()}.
      * 
      * @param array(string) $headerNames 
      * @return array(string=>mixed)
+     * @param bool $defaultHeaders
      *
      * @throws ezcWebdavUnknownHeaderException
      *         if a header requested in $headerNames is not known in {@link
      *         $headerNames}.
      */
-    public function parseHeaders( array $headerNames )
+    public function parseHeaders( array $headerNames, $defaultHeaders = true )
     {
+        if ( $defaultHeaders )
+        {
+            $headerNames = array_unique(
+                array_merge( $headerNames, $this->defaultHeaders )
+            );
+        }
+
         $resultHeaders = array();
         foreach ( $headerNames as $headerName )
         {
@@ -127,27 +155,99 @@ class ezcWebdavHeaderHandler
         switch ( $headerName )
         {
             case 'Depth':
-                switch ( trim( $value ) )
-                {
-                    case '0':
-                        $value = ezcWebdavRequest::DEPTH_ZERO;
-                        break;
-                    case '1':
-                        $value = ezcWebdavRequest::DEPTH_ONE;
-                        break;
-                    case 'infinity':
-                        $value = ezcWebdavRequest::DEPTH_INFINITY;
-                        break;
-                    // No default. Header stays as is, if not matched
-                }
+                $value = $this->parseDepthHeader( $value );
                 break;
             case 'Destination':
-                $value = ezcWebdavServer::getInstance()->pathFactory->parseUriToPath( $value );
+                $value = ezcWebdavServer::getInstance()
+                    ->pathFactory
+                    ->parseUriToPath( $value );
+                break;
+            case 'If-Match':
+            case 'If-None-Match':
+                $value = $this->parseIfMatchHeader( $value );
                 break;
             default:
                 // @TODO Add plugin hook
         }
         return $value;
+    }
+
+    /**
+     * Parses the Depth header.
+     *
+     * Parses the values '0', '1' and 'infinity' into the corresponding
+     * constants:
+     *
+     * <ul>
+     *  <li>{@linkezcWebdavRequest::DEPTH_ZERO}</li>
+     *  <li>{@linkezcWebdavRequest::DEPTH_ONE}</li>
+     *  <li>{@linkezcWebdavRequest::DEPTH_INFINITY}</li>
+     * </ul>
+     *
+     * If the header contains a different value it is left as is.
+     * 
+     * @param string $value 
+     * @return int|string
+     */
+    protected function parseDepthHeader( $value )
+    {
+        switch ( trim( $value ) )
+        {
+            case '0':
+                $value = ezcWebdavRequest::DEPTH_ZERO;
+                break;
+            case '1':
+                $value = ezcWebdavRequest::DEPTH_ONE;
+                break;
+            case 'infinity':
+                $value = ezcWebdavRequest::DEPTH_INFINITY;
+                break;
+            // No default. Header stays as is, if not matched
+        }
+        return $value;
+    }
+
+    /**
+     * Parses the If-Match and If-None-Match headers.
+     * 
+     * @param string $value 
+     * @return 
+     */
+    protected function parseIfMatchHeader( $value )
+    {
+        $etags  = array();
+
+        $index      = 0;
+        $length     = strlen( $value );
+        $inTag      = false;
+        $currentTag = '';
+
+        while ( $index < $length )
+        {
+            if ( !$inTag )
+            {
+                if ( $value[$index] === '"' )
+                {
+                    $inTag = true;
+                }
+            }
+            else
+            {
+                if ( $value[$index] === '"' )
+                {
+                    $etags[]    = $currentTag;
+                    $currentTag = '';
+                    $inTag      = false;
+                }
+                else
+                {
+                    $currentTag .= $value[$index];
+                }
+            }
+            ++$index;
+        }
+
+        return $etags;
     }
 }
 
