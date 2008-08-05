@@ -242,6 +242,12 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
+        // Verify If-[None-]Match headers
+        if ( ( $res = $this->checkIfMatchHeaders( $request, $source ) ) !== null )
+        {
+            return $res;
+        }
+
         if ( !$this->isCollection( $source ) )
         {
             // Just deliver file
@@ -286,6 +292,13 @@ abstract class ezcWebdavSimpleBackend
                 ezcWebdavResponse::STATUS_404,
                 $source
             );
+        }
+        
+        // Verify If-[None-]Match headers
+        // Does not make much sense for HEAD requests, but does not hurt anyway
+        if ( ( $res = $this->checkIfMatchHeaders( $request, $source ) ) !== null )
+        {
+            return $res;
         }
 
         if ( !$this->isCollection( $source ) )
@@ -534,6 +547,18 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
+        // Verify If-[None-]Match headers
+        // @TODO: Does this make sense for PROPFIND requests?
+        $res = $this->checkIfMatchHeadersRecursive(
+            $request,
+            $source,
+            $request->getHeader( 'Depth' )
+        );
+        if ( $res !== null )
+        {
+            return $res;
+        }
+
         // Check the exact type of propfind request and dispatch to
         // corresponding method.
         switch ( true )
@@ -678,6 +703,16 @@ abstract class ezcWebdavSimpleBackend
                 )
             );
         }
+        
+        // Verify If-[None-]Match headers.
+        // Done in this place to ensure that PROPPATCH would succeed otherwise.
+        // Reset of properties to orgiginal state is performed if ETag check
+        // fails.
+        if ( ( $res = $this->checkIfMatchHeaders( $request, $source ) ) !== null )
+        {
+            $this->resetProperties( $source, $propertyBackup );
+            return $res;
+        }
 
         return new ezcWebdavPropPatchResponse(
             $node
@@ -719,8 +754,7 @@ abstract class ezcWebdavSimpleBackend
 
         // Check if resource to be updated or created does not exists already
         // AND is a collection
-        if ( $this->nodeExists( $source ) &&
-             $this->isCollection( $source ) )
+        if ( $this->nodeExists( $source ) && $this->isCollection( $source ) )
         {
             return new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
@@ -730,6 +764,12 @@ abstract class ezcWebdavSimpleBackend
 
         // @TODO: RFC2616 Section 9.6 PUT requires us to send 501 on all
         // Content-* we don't support.
+
+        // Verify If-[None-]Match headers
+        if ( $this->nodeExists( $source ) && ( $res = $this->checkIfMatchHeaders( $request, $source ) ) !== null )
+        {
+            return $res;
+        }
 
         // Everything is OK, create or update resource.
         if ( !$this->nodeExists( $source ) )
@@ -766,6 +806,18 @@ abstract class ezcWebdavSimpleBackend
                 ezcWebdavResponse::STATUS_404,
                 $source
             );
+        }
+
+        // Verify If-[None-]Match headers
+        // @TODO: Does this make sense for PROPFIND requests?
+        $res = $this->checkIfMatchHeadersRecursive(
+            $request,
+            $source,
+            ezcWebdavRequest::DEPTH_INFINITY
+        );
+        if ( $res !== null )
+        {
+            return $res;
         }
 
         // Delete
@@ -840,6 +892,25 @@ abstract class ezcWebdavSimpleBackend
                 ezcWebdavResponse::STATUS_409,
                 $dest
             );
+        }
+
+        // Verify If-[None-]Match headers on the $source
+        $res = $this->checkIfMatchHeadersRecursive(
+            $request,
+            $source,
+            $request->getHeader( 'Depth' )
+        );
+        if ( $res !== null )
+        {
+            return $res;
+        }
+        
+        // Verify If-[None-]Match headers on the $dest if it exists
+        if ( $this->nodeExists( $dest ) &&
+             ( $res = $this->checkIfMatchHeaders( $request, $dest ) ) !== null
+           )
+        {
+            return $res;
         }
 
         // The destination resource should be deleted if it exists and the
@@ -928,6 +999,26 @@ abstract class ezcWebdavSimpleBackend
                 ezcWebdavResponse::STATUS_409,
                 $dest
             );
+        }
+        
+        // Verify If-[None-]Match headers on the $source
+        $res = $this->checkIfMatchHeadersRecursive(
+            $request,
+            $source,
+            // We move, not copy!
+            ezcWebdavRequest::DEPTH_INFINITY
+        );
+        if ( $res !== null )
+        {
+            return $res;
+        }
+        
+        // Verify If-[None-]Match headers on the $dest if it exists
+        if ( $this->nodeExists( $dest ) &&
+             ( $res = $this->checkIfMatchHeaders( $request, $dest ) ) !== null
+           )
+        {
+            return $res;
         }
 
         // The destination resource should be deleted if it exists and the
@@ -1025,6 +1116,8 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
+        // No sense in performing an ETag check here.
+
         // As the handling of request bodies is not described in RFC 2518, we
         // skip their handling and always return a 415 error.
         if ( $request->body )
@@ -1074,6 +1167,158 @@ abstract class ezcWebdavSimpleBackend
         $lastModified  = $this->getProperty( $path, 'getlastmodified' )->date->format( 'c' );
 
         return md5( $path . $contentLength . $lastModified );
+    }
+
+    /**
+     * Checks If-[Match-]Headers recursively on $path with $depth.
+     *
+     * Performs a recursive check using {@link checkIfMatchHeaders()} on $path.
+     * $depth can be any of the {@link ezcWebdavRequest} DEPTH_* constants.
+     *
+     * Returns {@link ezcWebdavErrorResponse} if any ETag check failed, null if
+     * everything went allright.
+     * 
+     * @param ezcWebdavRequest $req 
+     * @param string $path 
+     * @param int $depth 
+     * @return ezcWebdavErrorResponse|null
+     */
+    private function checkIfMatchHeadersRecursive( ezcWebdavRequest $req, $path, $depth )
+    {
+        // Stop checking if non-collection is reached or depth is 0.
+        if ( !$this->isCollection( $path ) || $depth === ezcWebdavRequest::DEPTH_ZERO )
+        {
+            return $this->checkIfMatchHeaders( $req, $path );
+        }
+
+        // $path is a collection, depth is > 0: Recurse.
+        $newDepth = $depth === ezcWebdavRequest::DEPTH_ONE
+            ? ezcWebdavRequest::DEPTH_ZERO
+            : ezcWebdavRequest::DEPTH_INFINITY;
+
+        foreach ( $this->getCollectionMembers( $path ) as $member )
+        {
+            // If-[None-]Match header check produced error.
+            if ( ( $res = $this->checkIfMatchHeadersRecursive( $req, $member->path, $newDepth ) ) !== null )
+            {
+                return $res;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Checks the If-Match and If-None-Match headers.
+     *
+     * Checks if the If-Match and If-None-Match headers (potentially) provided
+     * by $req are valid for the resource identified by $path.
+     *
+     * Returns null if everything is alright, ezcWebdavErrorResponse if any
+     * ETag check failed.
+     * 
+     * @param ezcWebdavRequest $req 
+     * @param string $path 
+     * @return ezcWebdavErrorResponse|null
+     */
+    protected function checkIfMatchHeaders( ezcWebdavRequest $req, $path )
+    {
+        if ( $this->isCollection( $path ) )
+        {
+            // @TODO: No ETag checks on collections so far. Would this make sense?
+            return null;
+        }
+
+        if ( ( $res = $this->checkIfMatchHeader( $req, $path ) ) !== null )
+        {
+            return $res;
+        }
+        if ( ( $res = $this->checkIfNoneMatchHeader( $req, $path ) ) !== null )
+        {
+            return $res;
+        }
+        // return null;
+    }
+
+    /**
+     * Checks the If-Match-Header on $path, if present in $req.
+     *
+     * Returns ezcWebdavErrorResponse on failure, otherwise null.
+     * 
+     * @param ezcWebdavRequest $req 
+     * @param string $path 
+     * @return ezcWebdavErrorResponse|null
+     */
+    private function checkIfMatchHeader( ezcWebdavRequest $req, $path )
+    {
+        if ( ( $matches = $req->getHeader( 'If-Match' ) ) !== null )
+        {
+            $etag = $this->getETag( $path );
+            if ( $this->checkMatchHeader( $matches, $etag ) === false )
+            {
+                return new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_412,
+                    $path,
+                    'If-Match header check failed.'
+                );
+            }
+        }
+        // return null;
+    }
+
+    /**
+     * Checks the If-Match-Header on $path, if present in $req.
+     *
+     * Returns ezcWebdavErrorResponse on failure, otherwise null.
+     * 
+     * @param ezcWebdavRequest $req 
+     * @param string $path 
+     * @return ezcWebdavErrorResponse|null
+     */
+    private function checkIfNoneMatchHeader( ezcWebdavRequest $req, $path )
+    {
+        if ( ( $matches = $req->getHeader( 'If-None-Match' ) ) !== null )
+        {
+            $etag = $this->getETag( $path );
+            if ( $this->checkMatchHeader( $matches, $etag ) === true )
+            {
+                return new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_412,
+                    $path,
+                    'If-None-Match header check failed.'
+                );
+            }
+        }
+        // return null;
+    }
+
+    /**
+     * Checks the If-[None-]Match header values against an $etag.
+     *
+     * Returns in any of the ETags given in $matches euqlauls to $etag.
+     *
+     * This is used in {@link checkIfMatchHeader()} and {@link
+     * checkIfNoneMatchHeader()}. The {@link checkIfMatchHeader()} method
+     * expects true as a good result, while {@link checkIfNoneMatchHeader()}
+     * desires false.
+     * 
+     * @param array(string) $matches 
+     * @param string $etag 
+     * @return bool
+     */
+    private function checkMatchHeader( $matches, $etag )
+    {
+        if ( $matches === true )
+        {
+            return true;
+        }
+        foreach ( $matches as $testEtag )
+        {
+            if ( $etag === $testEtag )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

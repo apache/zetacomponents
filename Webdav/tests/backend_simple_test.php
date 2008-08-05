@@ -1,0 +1,503 @@
+<?php
+/**
+ * Basic test cases for the simple backend.
+ *
+ * @package Webdav
+ * @subpackage Tests
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Reqiuire base test
+ */
+require_once 'test_case.php';
+
+/**
+ * Tests for ezcWebdavSimpleBackend class.
+ *
+ * This test suite takes the {@link ezcWebdavFileBackend} class to test
+ * functionality that is globally implemented in {@link
+ * ezcWebdavSimpleBackend}.
+ * 
+ * @package Webdav
+ * @subpackage Tests
+ */
+class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
+{
+    protected $tempDir;
+
+    protected $oldTimezone;
+
+	public static function suite()
+	{
+		return new PHPUnit_Framework_TestSuite( __CLASS__ );
+	}
+
+    protected function recursiveTouch( $source, $time )
+    {
+        $dh = opendir( $source );
+        while( $file = readdir( $dh ) )
+        {
+            if ( ( $file === '.' ) ||
+                ( $file === '..' ) )
+            {
+                continue;
+            }
+
+            if ( is_dir( $path = $source . '/' . $file ) )
+            {
+                touch( $path, $time, $time );
+                $this->recursiveTouch( $path, $time );
+            }
+            else
+            {
+                touch( $path, $time, $time );
+            }
+        }
+    }
+
+    /**
+    * Recursively copy a file or directory.
+    *
+    * Recursively copy a file or directory in $source to the given
+    * destination. If a depth is given, the operation will stop, if the given
+    * recursion depth is reached. A depth of -1 means no limit, while a depth
+    * of 0 means, that only the current file or directory will be copied,
+    * without any recursion.
+    *
+    * You may optionally define modes used to create files and directories.
+    *
+    * @throws ezcBaseFileNotFoundException
+    *      If the $sourceDir directory is not a directory or does not exist.
+    * @throws ezcBaseFilePermissionException
+    *      If the $sourceDir directory could not be opened for reading, or the
+    *      destination is not writeable.
+    *
+    * @param string $source
+    * @param string $destination
+    * @param int $depth
+    * @param int $dirMode
+    * @param int $fileMode
+    * @return void
+    */
+    static protected function copyRecursive( $source, $destination, $depth = -1, $dirMode = 0775, $fileMode = 0664 )
+    {
+        // Check if source file exists at all.
+        if ( !is_file( $source ) && !is_dir( $source ) )
+        {
+            throw new ezcBaseFileNotFoundException( $source );
+        }
+
+        // Destination file should NOT exist
+        if ( is_file( $destination ) || is_dir( $destination ) )
+        {
+            throw new ezcBaseFilePermissionException( $destination, ezcBaseFileException::WRITE );
+        }
+
+        // Skip non readable files in source directory
+        if ( !is_readable( $source ) )
+        {
+            return;
+        }
+
+        // Copy
+        if ( is_dir( $source ) )
+        {
+            mkdir( $destination );
+            // To ignore umask, umask() should not be changed with
+            // multithreaded servers...
+            chmod( $destination, $dirMode );
+        }
+        elseif ( is_file( $source ) )
+        {
+            copy( $source, $destination );
+            chmod( $destination, $fileMode );
+        }
+
+        if ( ( $depth === 0 ) ||
+            ( !is_dir( $source ) ) )
+        {
+            // Do not recurse (any more)
+            return;
+        }
+
+        // Recurse
+        //
+        // Read directory using glob(), to get a pre-sorted result.
+        $files = glob( $source . '/*' );
+        foreach ( $files as $fullName )
+        {
+            $file = basename( $fullName );
+
+            if ( empty( $file ) )
+            {
+                continue;
+            }
+
+            self::copyRecursive(
+                $source . '/' . $file,
+                $destination . '/' . $file,
+                $depth - 1, $dirMode, $fileMode
+            );
+        }
+    }
+
+    protected function compareResponse( $test, ezcWebdavResponse $response )
+    {
+        $dataDir = dirname( __FILE__ ) . '/data/responses/file';
+
+        if ( !is_file( $file = $dataDir . '/' . $test . '.ser' ) )
+        {
+            file_put_contents( $file, serialize( $response ) );
+            return $this->markTestSkipped( 'Reponse serialized. Please check generated response.' );
+        }
+
+        $this->assertEquals(
+            $response,
+            unserialize( file_get_contents( $file ) ),
+            'Response does not equal serialzed response.',
+            20
+        );
+    }
+
+    public function setUp()
+    {
+        static $i = 0;
+
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d', ++$i ) ) . '/';
+        
+        self::copyRecursive( 
+            dirname( __FILE__ ) . '/data/backend_file', 
+            $this->tempDir . 'backend/'
+        );
+
+        // Remove SVN directories from temporary backend
+        $svnDirs = ezcFile::findRecursive(
+            $this->tempDir . 'backend/',
+            array( '(/\.svn/entries$)' )
+        );
+
+        foreach ( $svnDirs as $dir )
+        {
+            ezcFile::removeRecursive( dirname( $dir ) );
+        }
+
+        // Explicitely set mtime and ctime
+        $this->recursiveTouch(
+            $this->tempDir . 'backend/',
+            // Change this once 64bit systems are common, or we reached year 2038
+            2147483647
+        );
+
+        // Store current timezone and switch to UTC for test
+        $this->oldTimezone = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
+    }
+
+    public function tearDown()
+    {
+        // Reset old timezone
+        date_default_timezone_set( $this->oldTimezone );
+
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
+    }
+
+    public function testGetResourceWithValidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( $etag ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavGetResourceResponse(
+                new ezcWebdavResource(
+                    $testPath,
+                    $backend->getAllProperties( $testPath ),
+                    "Some other contents...\n"
+                )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testGetResourceWithMultipleAndValidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( 'sometag', $etag, 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavGetResourceResponse(
+                new ezcWebdavResource(
+                    $testPath,
+                    $backend->getAllProperties( $testPath ),
+                    "Some other contents...\n"
+                )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+ 
+    public function testGetResourceWithInvalidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( 'someinvalidetag' ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_412,
+                    $testPath,
+                    'If-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testGetResourceWithMultipleInvalidETags()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( 'sometag', 'some other tag', 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_412,
+                    $testPath,
+                    'If-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testGetResourceFailureBeforeInvalidETagsMatch()
+    {
+        $testPath = '/collection/notexistent.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( 'sometag', 'some other tag', 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_404,
+                    $testPath
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testGetCollectionWithValidETag()
+    {
+        $testPath = '/collection';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( $etag ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavGetCollectionResponse(
+                new ezcWebdavCollection(
+                    $testPath,
+                    $backend->getAllProperties( $testPath ),
+                    array(
+                        new ezcWebdavCollection(
+                            '/collection/deep_collection'
+                        ),
+                        new ezcWebdavResource(
+                            '/collection/test.txt'
+                        ),
+                    )
+                )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testGetCollectionWithMultipleAndValidETag()
+    {
+        $testPath = '/collection';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( 'sometag', $etag, 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavGetCollectionResponse(
+                new ezcWebdavCollection(
+                    $testPath,
+                    $backend->getAllProperties( $testPath ),
+                    array(
+                        new ezcWebdavCollection(
+                            '/collection/deep_collection'
+                        ),
+                        new ezcWebdavResource(
+                            '/collection/test.txt'
+                        ),
+                    )
+                )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testGetCollectionWithInvalidETag()
+    {
+        $testPath = '/collection';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( 'someinvalidetag' ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        // Collection ETags are ignored on purpose!
+        $this->assertEquals(
+            new ezcWebdavGetCollectionResponse(
+                new ezcWebdavCollection(
+                    $testPath,
+                    $backend->getAllProperties( $testPath ),
+                    array(
+                        new ezcWebdavCollection(
+                            '/collection/deep_collection'
+                        ),
+                        new ezcWebdavResource(
+                            '/collection/test.txt'
+                        ),
+                    )
+                )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testGetCollectionWithMultipleInvalidETags()
+    {
+        $testPath = '/collection';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( 'sometag', 'some other tag', 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        // Collection ETags are ignored on purpose!
+        $this->assertEquals(
+            new ezcWebdavGetCollectionResponse(
+                new ezcWebdavCollection(
+                    $testPath,
+                    $backend->getAllProperties( $testPath ),
+                    array(
+                        new ezcWebdavCollection(
+                            '/collection/deep_collection'
+                        ),
+                        new ezcWebdavResource(
+                            '/collection/test.txt'
+                        ),
+                    )
+                )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+}
+
+?>

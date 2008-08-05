@@ -12,6 +12,7 @@
 /**
  * Require test suites.
  */
+require_once 'backend_simple_test.php';
 require_once 'backend_memory_test.php';
 require_once 'backend_file_test.php';
 require_once 'backend_file_options_test.php';
@@ -132,6 +133,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavOptionsResponseTest::suite() );
         $this->addTest( ezcWebdavResponseTest::suite() );
 
+        $this->addTest( ezcWebdavSimpleBackendTest::suite() );
         $this->addTest( ezcWebdavMemoryBackendTest::suite() );
         $this->addTest( ezcWebdavFileBackendTest::suite() );
         $this->addTest( ezcWebdavFileBackendOptionsTestCase::suite() );
