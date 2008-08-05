@@ -294,13 +294,6 @@ abstract class ezcWebdavSimpleBackend
             );
         }
         
-        // Verify If-[None-]Match headers
-        // Does not make much sense for HEAD requests, but does not hurt anyway
-        if ( ( $res = $this->checkIfMatchHeaders( $request, $source ) ) !== null )
-        {
-            return $res;
-        }
-
         if ( !$this->isCollection( $source ) )
         {
             // Just deliver file without contents
