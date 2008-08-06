@@ -11,38 +11,38 @@ class ezcWebdavClientTestRfcSetup extends ezcWebdavClientTestSetup
         $testSetName = basename( $testSetName );
         switch( $testSetName )
         {
-            case 'propfind_propname':
+            case '014_propfind_propname':
             case 'lockdiscovery':
             case 'supportedlock':
-            case 'propfind_allprop':
-            case 'delete':
+            case '012_propfind_allprop':
+            case '005_delete':
                 $customPathFactory = self::getFooBarSetup1( $test );
                 break;
-            case 'propfind_prop':
+            case '013_propfind_prop':
                 $customPathFactory = self::getFooBarSetup2( $test );
                 break;
-            case 'proppatch':
+            case '015_proppatch':
                 $customPathFactory = self::getFooBarSetup3( $test );
                 break;
-            case 'copy_collection':
+            case '002_copy_collection':
                 $customPathFactory = self::getFooBarSetup4( $test );
                 break;
-            case 'move_collection':
+            case '009_move_collection':
                 $customPathFactory = self::getFooBarSetup5( $test );
                 break;
-            case 'copy_success':
-            case 'copy':
-            case 'copy_overwrite':
-            case 'options':
-            case 'get_collection':
-            case 'get_resource':
-            case 'put_resource':
+            case '004_copy_success':
+            case '001_copy':
+            case '003_copy_overwrite':
+            case '011_options':
+            case '006_get_collection':
+            case '007_get_resource':
+            case '016_put_resource':
                 $customPathFactory = self::getIcsUciSetup1( $test );
                 break;
-            case 'move_resource':
+            case '010_move_resource':
                 $customPathFactory = self::getIcsUciSetup2( $test );
                 break;
-            case 'mkcol':
+            case '008_mkcol':
                 $customPathFactory = self::getServerOrgSetup( $test );
                 break;
             default:

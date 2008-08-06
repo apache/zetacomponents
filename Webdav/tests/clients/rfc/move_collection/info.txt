@@ -1,1 +1,0 @@
-Test information generated from RFC 2518 on http://ietf.org/rfc/rfc2518.txt

@@ -1,1 +1,0 @@
-Test case created manually after information found in http://ietf.org/rfc/rfc2518.txt.
