@@ -1,3 +1,11 @@
+1.5.2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed an issue in ezcBaseFile::removeRecursive, where the parent directory
+  could not be written to. We now make sure nothing is deleted until we're sure
+  everything can be deleted.
+
+
 1.5.1 - Monday 04 August 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

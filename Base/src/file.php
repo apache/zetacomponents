@@ -173,6 +173,13 @@ class ezcBaseFile
         {
             throw new ezcBaseFilePermissionException( $directory, ezcBaseFileException::READ );
         }
+        // check if we can remove the dir
+        $parentDir = realpath( $directory . DIRECTORY_SEPARATOR . '..' );
+        if ( !is_writable( $parentDir ) )
+        {
+            throw new ezcBaseFilePermissionException( $parentDir, ezcBaseFileException::WRITE );
+        }
+        // loop over contents
         while ( ( $entry = $d->read() ) !== false )
         {
             if ( $entry == '.' || $entry == '..' )

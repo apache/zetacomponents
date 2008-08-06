@@ -25,6 +25,11 @@ class ezcBaseFileRemoveRecursiveTest extends ezcTestCase
         mkdir( $this->tempDir . '/dir4' );
         mkdir( $this->tempDir . '/dir5' );
         mkdir( $this->tempDir . '/dir6' );
+        mkdir( $this->tempDir . '/dir7' );
+        mkdir( $this->tempDir . '/dir7/dir1' );
+        mkdir( $this->tempDir . '/dir8' );
+        mkdir( $this->tempDir . '/dir8/dir1' );
+        mkdir( $this->tempDir . '/dir8/dir1/dir1' );
         file_put_contents( $this->tempDir . '/dir1/file1.txt', 'test' );
         file_put_contents( $this->tempDir . '/dir1/file2.txt', 'test' );
         file_put_contents( $this->tempDir . '/dir1/.file3.txt', 'test' );
@@ -39,30 +44,37 @@ class ezcBaseFileRemoveRecursiveTest extends ezcTestCase
         file_put_contents( $this->tempDir . '/dir5/file2.txt', 'test' );
         file_put_contents( $this->tempDir . '/dir6/file1.txt', 'test' );
         file_put_contents( $this->tempDir . '/dir6/file2.txt', 'test' );
+        file_put_contents( $this->tempDir . '/dir7/dir1/file1.txt', 'test' );
+        file_put_contents( $this->tempDir . '/dir8/dir1/file1.txt', 'test' );
+        file_put_contents( $this->tempDir . '/dir8/dir1/dir1/file1.txt', 'test' );
         chmod( $this->tempDir . '/dir4/file1.txt', 0 );
         chmod( $this->tempDir . '/dir5', 0 );
         chmod( $this->tempDir . '/dir6', 0400 );
+        chmod( $this->tempDir . '/dir7', 0500 );
+        chmod( $this->tempDir . '/dir8/dir1', 0500 );
     }
 
     protected function tearDown()
     {
         chmod( $this->tempDir . '/dir5', 0700 );
         chmod( $this->tempDir . '/dir6', 0700 );
+        chmod( $this->tempDir . '/dir7', 0700 );
+        chmod( $this->tempDir . '/dir8/dir1', 0700 );
         $this->removeTempDir();
     }
 
     public function testRecursive1()
     {
-        self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
         ezcBaseFile::removeRecursive( $this->tempDir . '/dir1' );
-        self::assertEquals( 9, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
         ezcBaseFile::removeRecursive( $this->tempDir . '/dir2' );
-        self::assertEquals( 4, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 7, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
     }
 
     public function testRecursive2()
     {
-        self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
         try
         {
             ezcBaseFile::removeRecursive( $this->tempDir . '/dir3' );
@@ -71,12 +83,12 @@ class ezcBaseFileRemoveRecursiveTest extends ezcTestCase
         {
             self::assertEquals( "The directory file '{$this->tempDir}/dir3' could not be found.", $e->getMessage() );
         }
-        self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
     }
 
     public function testRecursive3()
     {
-        self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
         try
         {
             ezcBaseFile::removeRecursive( $this->tempDir . '/dir4' );
@@ -85,12 +97,12 @@ class ezcBaseFileRemoveRecursiveTest extends ezcTestCase
         {
             self::assertEquals( "The file '{$this->tempDir}/dir5' can not be opened for reading.", $e->getMessage() );
         }
-        self::assertEquals( 10, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 13, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
     }
 
     public function testRecursive4()
     {
-        self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
         try
         {
             ezcBaseFile::removeRecursive( $this->tempDir . '/dir5' );
@@ -99,12 +111,12 @@ class ezcBaseFileRemoveRecursiveTest extends ezcTestCase
         {
             self::assertEquals( "The file '{$this->tempDir}/dir5' can not be opened for reading.", $e->getMessage() );
         }
-        self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
     }
 
     public function testRecursive5()
     {
-        self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
         try
         {
             ezcBaseFile::removeRecursive( $this->tempDir . '/dir6' );
@@ -115,12 +127,26 @@ class ezcBaseFileRemoveRecursiveTest extends ezcTestCase
             self::assertEquals(
                 1,
                 preg_match(
-                    "(The file '{$this->tempDir}/dir6/file[12].txt' can not be removed.)",
+                    "(The file '{$this->tempDir}/dir6/file[15].txt' can not be removed.)",
                     $e->getMessage()
                 )
             );
         }
-        self::assertEquals( 12, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+    }
+
+    public function testRecursiveNotWritableParent()
+    {
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
+        try
+        {
+            ezcBaseFile::removeRecursive( $this->tempDir . '/dir7/dir1' );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            self::assertEquals( "The file '{$this->tempDir}/dir7' can not be opened for writing.", $e->getMessage() );
+        }
+        self::assertEquals( 15, count( ezcBaseFile::findRecursive( $this->tempDir ) ) );
     }
 
     public static function suite()
