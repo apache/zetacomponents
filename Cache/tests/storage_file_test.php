@@ -584,7 +584,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
         }
         catch ( ezcBaseFilePermissionException $e ) 
         {
-            self::assertEquals( "The file '$temp' can not be opened for writing.", $e->getMessage() );
+            self::assertEquals( "The file '$temp/ID-.cache' can not be removed. (Could not unlink cache file.)", $e->getMessage() );
         }
 
         chmod( $storage->getLocation(), 0777 );

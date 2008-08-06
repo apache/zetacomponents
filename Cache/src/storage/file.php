@@ -492,7 +492,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      */
     public function reset()
     {
-        $files = glob( "{$this->properties['location']}*", GLOB_NOSORT );
+        $files = glob( "{$this->properties['location']}*" );
         foreach ( $files as $file )
         {
             if ( is_dir( $file ) )
