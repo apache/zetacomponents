@@ -582,7 +582,10 @@ class ezcCacheStorageFileTest extends ezcTestCase
             $storage->reset();
             $this->fail( 'Exception not thrown on non-successful delete.' );
         }
-        catch ( ezcBaseFilePermissionException $e ) {}
+        catch ( ezcBaseFilePermissionException $e ) 
+        {
+            self::assertEquals( "The file '$temp' can not be opened for writing.", $e->getMessage() );
+        }
 
         chmod( $storage->getLocation(), 0777 );
         chmod( $storage->getLocation() . '/Some', 0777 );

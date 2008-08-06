@@ -99,7 +99,7 @@ class ezcCacheStackOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'configurator':
-                if ( $propertyValue !== null && ( !class_exists( $propertyValue )
+                if ( $propertyValue !== null && ( !is_string( $propertyValue ) || ( !class_exists( $propertyValue ) )
                      || !in_array( 'ezcCacheStackConfigurator', class_implements( $propertyValue ) ) ) )
                 {
                     throw new ezcBaseValueException(
@@ -120,7 +120,7 @@ class ezcCacheStackOptions extends ezcBaseOptions
                 }
                 break;
             case 'replacementStrategy':
-                if ( !class_exists( $propertyValue ) || !in_array( 'ezcCacheStackReplacementStrategy', class_implements( $propertyValue ) ) )
+                if ( !is_string( $propertyValue ) || !class_exists( $propertyValue ) || !in_array( 'ezcCacheStackReplacementStrategy', class_implements( $propertyValue ) ) )
                 {
                     throw new ezcBaseValueException(
                         $propertyName,
