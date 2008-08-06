@@ -237,6 +237,7 @@ class ezcUrlToolsTest extends ezcTestCase
      */
     public function testGetCurrentUrlServer( $data )
     {
+        $oldSERVER = $_SERVER;
         $_SERVER = array();
 
         foreach ( self::$serverMapping as $key => $mapping )
@@ -248,8 +249,9 @@ class ezcUrlToolsTest extends ezcTestCase
         }
 
         $expected = $data[4];
-
-        $this->assertEquals( $expected, ezcUrlTools::getCurrentUrl(), "Failed building URL " . $data[4] );
+        $returned = ezcUrlTools::getCurrentUrl();
+        $_SERVER = $oldSERVER;
+        $this->assertEquals( $expected, $returned, "Failed building URL " . $data[4] );
     }
 
     /**
