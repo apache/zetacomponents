@@ -52,9 +52,9 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         // Reset the backend at start of the suite
 
-        foreach ( glob( $this->dataDir . '/*', GLOB_ONLYDIR ) as $testSetDir )
+        foreach ( glob( $this->dataDir . '/*request_server.php' ) as $testSetFile )
         {
-            $this->testSets[] = $testSetDir;
+            $this->testSets[] = substr( $testSetFile, 0, -19 );
         }
     }
 
@@ -99,26 +99,19 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             'SERVER_NAME'     => 'webdav',
         );
 
-        // Request test
-        if ( file_exists( ( $requestDir = "{$testSetName}/request" ) ) === false )
-        {
-            throw new PHPUnit_Framework_ExpectationFailedException( "No test data found for '$requestDir'." );
-        }
+        $requestFileName  = $testSetName . '_request';
+        $responseFileName = $testSetName . '_response';
+
         // Settings
         $request = array();
-        $request['server'] = array_merge( $serverBase, $this->getFileContent( $requestDir, 'server' ) );
-        $request['body']   = $this->getFileContent( $requestDir, 'body' );
+        $request['server'] = array_merge( $serverBase, $this->getFileContent( $requestFileName, 'server' ) );
+        $request['body']   = $this->getFileContent( $requestFileName, 'body' );
 
-        // Response test
-        if ( file_exists( ( $responseDir = "{$testSetName}/response" ) ) === true && $requestObject instanceof ezcWebdavRequest && $this->setupClass !== null )
-        {
-            throw new PHPUnit_Framework_ExpectationFailedException( "No test data found for '$requestDir'." );
-        }
         // Settings
         $response = array();
-        $response['headers'] = $this->getFileContent( $responseDir, 'headers' );
-        $response['body']    = $this->getFileContent( $responseDir, 'body' );
-        $response['status']  = trim( $this->getFileContent( $responseDir, 'status' ) );
+        $response['headers'] = $this->getFileContent( $responseFileName, 'headers' );
+        $response['body']    = $this->getFileContent( $responseFileName, 'body' );
+        $response['status']  = trim( $this->getFileContent( $responseFileName, 'status' ) );
         
         // Optionally set a body.
         $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = ( $request['body'] !== false ? $request['body'] : '' );
@@ -165,10 +158,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         );
     }
 
-    protected function getFileContent( $dir, $file )
+    protected function getFileContent( $filePrefix, $file )
     {
         // No file exists
-        if ( count( $files = glob( "{$dir}/{$file}.*" ) ) < 1 )
+        if ( count( $files = glob( "{$filePrefix}_{$file}.*" ) ) < 1 )
         {
             return false;
         }
