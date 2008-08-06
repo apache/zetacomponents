@@ -20,7 +20,7 @@ class ezcTestRegressionTest extends ezcTestCase
      */
     const SORT_MODE = 'name';
 
-    protected $files;
+    protected $files = array();
     protected $currentFile;
 
     public function __construct()
@@ -59,6 +59,11 @@ class ezcTestRegressionTest extends ezcTestCase
     {
         $extensionLength = strlen( $onlyWithExtension );
         $path = opendir( $dir );
+
+        if ( $path === false )
+        {
+            return;
+        }
 
         while ( false !== ( $file = readdir( $path ) ) )
         {
