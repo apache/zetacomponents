@@ -40,6 +40,9 @@ class ezcWebdavErrorResponse extends ezcWebdavResponse
     {
         parent::__construct( $status );
 
+        // Initialize property
+        $this->properties['requestUri'] = null;
+
         if ( $requestUri !== null )
         {
             $this->requestUri = $requestUri;
