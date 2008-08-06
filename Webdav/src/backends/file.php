@@ -806,7 +806,12 @@ class ezcWebdavFileBackend
         // destination directories.
         if ( !is_writeable( dirname( $source ) ) )
         {
-            return array( $source );
+            return array(
+                new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_403,
+                    substr( $source, strlen( $this->root ) )
+                ),
+            );
         }
 
         if ( is_file( $source ) )
@@ -851,12 +856,12 @@ class ezcWebdavFileBackend
     {
         $errors = $this->checkDeleteRecursive( $this->root . $path );
 
-        // If an error will occur return the proper status
+        // If an error will occur return the proper status. We return
+        // multistatus in any case.
         if ( count( $errors ) )
         {
-            return new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_403,
-                $path
+            return new ezcWebdavMultistatusResponse(
+                $errors
             );
         }
 

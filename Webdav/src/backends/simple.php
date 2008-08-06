@@ -161,11 +161,11 @@ abstract class ezcWebdavSimpleBackend
      * Deletes everything below a path.
      *
      * Deletes the resource identified by $path recursively. Returns an
-     * instance of {@link ezcWebdavErrorResponse} if the deletion failed, and
-     * null on success.
+     * instance of {@link ezcWebdavMultistatusResponse} if the deletion failed,
+     * and null on success.
      * 
      * @param string $path 
-     * @return ezcWebdavErrorResponse
+     * @return ezcWebdavMultitstatusResponse|null
      */
     abstract protected function performDelete( $path );
 
@@ -819,6 +819,7 @@ abstract class ezcWebdavSimpleBackend
         $deletion = $this->performDelete( $source );
         if ( $deletion !== null )
         {
+            // ezcWebdavMultistatusResponse
             return $deletion;
         }
 

@@ -1088,6 +1088,47 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         chmod ( $this->tempDir . 'backend/collection', 0777 );
     }
 
+    public function testResourceDeleteFailure()
+    {
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/collection/test.txt' ),
+            'Expected existing file.'
+        );
+
+        chmod ( $this->tempDir . 'backend/collection', 0555 );
+
+        // @TODO: This can be removed with the latest PHPUnit release, but for
+        // now we need it, or the is_file() call on backend/collection/test.txt
+        // will return a wrong cached result.
+        clearstatcache();
+
+        $request = new ezcWebdavDeleteRequest( '/collection/test.txt' );
+        $request->validateHeaders();
+        $response = $backend->delete( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavMultistatusResponse(
+                new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_403,
+                    '/collection/test.txt'
+                )
+            ),
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/resource' ),
+            'Expected still existing file.'
+        );
+
+        chmod ( $this->tempDir . 'backend/collection', 0777 );
+    }
+
     public function testMakeCollectionOnExistingCollection()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
