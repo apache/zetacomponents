@@ -680,19 +680,21 @@ abstract class ezcWebdavSimpleBackend
             $this->resetProperties( $source, $propertyBackup );
 
             // Create response
-            return new ezcWebdavPropPatchResponse(
-                $node,
-                new ezcWebdavPropStatResponse(
-                    $errors[ezcWebdavResponse::STATUS_403],
-                    ezcWebdavResponse::STATUS_403
-                ),
-                new ezcWebdavPropStatResponse(
-                    $errors[ezcWebdavResponse::STATUS_409],
-                    ezcWebdavResponse::STATUS_409
-                ),
-                new ezcWebdavPropStatResponse(
-                    $errors[ezcWebdavResponse::STATUS_424],
-                    ezcWebdavResponse::STATUS_424
+            return new ezcWebdavMultistatusResponse(
+                new ezcWebdavPropPatchResponse(
+                    $node,
+                    new ezcWebdavPropStatResponse(
+                        $errors[ezcWebdavResponse::STATUS_403],
+                        ezcWebdavResponse::STATUS_403
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $errors[ezcWebdavResponse::STATUS_409],
+                        ezcWebdavResponse::STATUS_409
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $errors[ezcWebdavResponse::STATUS_424],
+                        ezcWebdavResponse::STATUS_424
+                    )
                 )
             );
         }

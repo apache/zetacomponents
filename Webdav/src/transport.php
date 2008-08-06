@@ -1108,7 +1108,11 @@ class ezcWebdavTransport
      */
     protected function processPropPatchResponse( ezcWebdavPropPatchResponse $response )
     {
-        return new ezcWebdavEmptyDisplayInformation( $response );
+        if ( count( $response->responses ) === 0 )
+        {
+            return new ezcWebdavEmptyDisplayInformation( $response );
+        }
+        return $this->processPropFindResponse( $response );
     }
 
     /**

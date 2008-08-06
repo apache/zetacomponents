@@ -2490,19 +2490,21 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $depError->rewind();
 
         $this->assertEquals(
-            new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' ),
-                new ezcWebdavPropStatResponse(
-                    $failed,
-                    ezcWebdavResponse::STATUS_403
-                ),
-                new ezcWebdavPropStatResponse(
-                    new ezcWebdavBasicPropertyStorage,
-                    ezcWebdavResponse::STATUS_409
-                ),
-                new ezcWebdavPropStatResponse(
-                    $depError,
-                    ezcWebdavResponse::STATUS_424
+            new ezcWebdavMultistatusResponse(
+                new ezcWebdavPropPatchResponse(
+                    new ezcWebdavResource( '/foo' ),
+                    new ezcWebdavPropStatResponse(
+                        $failed,
+                        ezcWebdavResponse::STATUS_403
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        new ezcWebdavBasicPropertyStorage,
+                        ezcWebdavResponse::STATUS_409
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $depError,
+                        ezcWebdavResponse::STATUS_424
+                    )
                 )
             ),
             $response,
@@ -2692,19 +2694,21 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $failed->rewind();
         $depError->rewind();
         $this->assertEquals(
-            new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' ),
-                new ezcWebdavPropStatResponse(
-                    $failed,
-                    ezcWebdavResponse::STATUS_403
-                ),
-                new ezcWebdavPropStatResponse(
-                    new ezcWebdavBasicPropertyStorage,
-                    ezcWebdavResponse::STATUS_409
-                ),
-                new ezcWebdavPropStatResponse(
-                    $depError,
-                    ezcWebdavResponse::STATUS_424
+            new ezcWebdavMultistatusResponse(
+                new ezcWebdavPropPatchResponse(
+                    new ezcWebdavResource( '/foo' ),
+                    new ezcWebdavPropStatResponse(
+                        $failed,
+                        ezcWebdavResponse::STATUS_403
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        new ezcWebdavBasicPropertyStorage,
+                        ezcWebdavResponse::STATUS_409
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $depError,
+                        ezcWebdavResponse::STATUS_424
+                    )
                 )
             ),
             $response,
@@ -2915,19 +2919,21 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $failed->rewind();
         $depError->rewind();
         $this->assertEquals(
-            new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' ),
-                new ezcWebdavPropStatResponse(
-                    $failed,
-                    ezcWebdavResponse::STATUS_403
-                ),
-                new ezcWebdavPropStatResponse(
-                    new ezcWebdavBasicPropertyStorage,
-                    ezcWebdavResponse::STATUS_409
-                ),
-                new ezcWebdavPropStatResponse(
-                    $depError,
-                    ezcWebdavResponse::STATUS_424
+            new ezcWebdavMultistatusResponse(
+                new ezcWebdavPropPatchResponse(
+                    new ezcWebdavResource( '/foo' ),
+                    new ezcWebdavPropStatResponse(
+                        $failed,
+                        ezcWebdavResponse::STATUS_403
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        new ezcWebdavBasicPropertyStorage,
+                        ezcWebdavResponse::STATUS_409
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $depError,
+                        ezcWebdavResponse::STATUS_424
+                    )
                 )
             ),
             $response,
@@ -3004,19 +3010,21 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $failed->rewind();
         $depError->rewind();
         $this->assertEquals(
-            new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' ),
-                new ezcWebdavPropStatResponse(
-                    new ezcWebdavBasicPropertyStorage,
-                    ezcWebdavResponse::STATUS_403
-                ),
-                new ezcWebdavPropStatResponse(
-                    $failed,
-                    ezcWebdavResponse::STATUS_409
-                ),
-                new ezcWebdavPropStatResponse(
-                    $depError,
-                    ezcWebdavResponse::STATUS_424
+            new ezcWebdavMultistatusResponse(
+                new ezcWebdavPropPatchResponse(
+                    new ezcWebdavResource( '/foo' ),
+                    new ezcWebdavPropStatResponse(
+                        new ezcWebdavBasicPropertyStorage,
+                        ezcWebdavResponse::STATUS_403
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $failed,
+                        ezcWebdavResponse::STATUS_409
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $depError,
+                        ezcWebdavResponse::STATUS_424
+                    )
                 )
             ),
             $response,

@@ -1776,19 +1776,21 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $failed->rewind();
 
         $this->assertEquals(
-            new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/resource' ),
-                new ezcWebdavPropStatResponse(
-                    $failed,
-                    ezcWebdavResponse::STATUS_403
-                ),
-                new ezcWebdavPropStatResponse(
-                    new ezcWebdavBasicPropertyStorage(),
-                    ezcWebdavResponse::STATUS_409
-                ),
-                new ezcWebdavPropStatResponse(
-                    new ezcWebdavBasicPropertyStorage(),
-                    ezcWebdavResponse::STATUS_424
+            new ezcWebdavMultistatusResponse(
+                new ezcWebdavPropPatchResponse(
+                    new ezcWebdavResource( '/resource' ),
+                    new ezcWebdavPropStatResponse(
+                        $failed,
+                        ezcWebdavResponse::STATUS_403
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        new ezcWebdavBasicPropertyStorage(),
+                        ezcWebdavResponse::STATUS_409
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        new ezcWebdavBasicPropertyStorage(),
+                        ezcWebdavResponse::STATUS_424
+                    )
                 )
             ),
             $response,
@@ -2132,19 +2134,21 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $failed->rewind();
         $depError->rewind();
         $this->assertEquals(
-            new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/resource' ),
-                new ezcWebdavPropStatResponse(
-                    $failed,
-                    ezcWebdavResponse::STATUS_403
-                ),
-                new ezcWebdavPropStatResponse(
-                    new ezcWebdavBasicPropertyStorage(),
-                    ezcWebdavResponse::STATUS_409
-                ),
-                new ezcWebdavPropStatResponse(
-                    $depError,
-                    ezcWebdavResponse::STATUS_424
+            new ezcWebdavMultistatusResponse(
+                new ezcWebdavPropPatchResponse(
+                    new ezcWebdavResource( '/resource' ),
+                    new ezcWebdavPropStatResponse(
+                        $failed,
+                        ezcWebdavResponse::STATUS_403
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        new ezcWebdavBasicPropertyStorage(),
+                        ezcWebdavResponse::STATUS_409
+                    ),
+                    new ezcWebdavPropStatResponse(
+                        $depError,
+                        ezcWebdavResponse::STATUS_424
+                    )
                 )
             ),
             $response,
