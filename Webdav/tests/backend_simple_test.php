@@ -1192,6 +1192,74 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             20
         );
     }
+
+    public function testMakeCollectionWithValidETag()
+    {
+        $testDest       = "/collection/new_collection";
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        // Initialize all property directories
+        $req = new ezcWebdavPropFindRequest( '' );
+        $req->allProp = true;
+        $req->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
+        $req->validateHeaders();
+        $backend->propFind( $req );
+
+        $eTag = $backend->getProperty( '/collection', 'getetag' )->etag;
+
+        $req = new ezcWebdavMakeCollectionRequest(
+            $testDest
+        );
+        $req->setHeader( 'If-Match', array( $eTag ) );
+        $req->validateHeaders();
+
+        $res = $backend->makeCollection( $req );
+
+        $this->assertEquals(
+            new ezcWebdavMakeCollectionResponse(),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testMakeCollectionWithInvalidETag()
+    {
+        $testDest       = "/collection/new_collection";
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        // Initialize all property directories
+        $req = new ezcWebdavPropFindRequest( '' );
+        $req->allProp = true;
+        $req->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
+        $req->validateHeaders();
+        $backend->propFind( $req );
+
+        $eTag = $backend->getProperty( '/collection', 'getetag' )->etag;
+
+        $req = new ezcWebdavMakeCollectionRequest(
+            $testDest
+        );
+        $req->setHeader( 'If-None-Match', array( $eTag ) );
+        $req->validateHeaders();
+
+        $res = $backend->makeCollection( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                '/collection',
+                'If-None-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
 }
 
 ?>
