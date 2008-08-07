@@ -1,0 +1,1 @@
+../PersistentObjectDatabaseSchemaTiein/src/persistent_object_autoload.php
