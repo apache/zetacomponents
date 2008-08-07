@@ -65,20 +65,13 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
         {
             // Ignore tables, which again contain tables, as these most
             // probably contain the website content somehow.
-            if ( $xpath->query( '
-                    *[local-name() = "tr"]//*[local-name() = "table"] |
-                    *[local-name() = "tbody"]//*[local-name() = "table"] |
-                    *[local-name() = "thead"]//*[local-name() = "table"]', $table->parentNode )->length > 0 )
+            if ( $xpath->query( './/*[local-name() = "table"]', $table )->length > 0 )
             {
                 continue;
             }
 
             // Extract all cells from the table and check what they contain
-            $cells = $xpath->query( '
-                *[local-name() = "tr"]//*[local-name() = "td"] |
-                *[local-name() = "tr"]//*[local-name() = "th"] |
-                *[local-name() = "tbody"]//*[local-name() = "td"] |
-                *[local-name() = "tbody"]//*[local-name() = "th"]', $table );
+            $cells = $xpath->query( './/*[local-name() = "td"] | .//*[local-name() = "th"]', $table );
             $cellCount = $cells->length;
             $cellContentCount = 0;
 
@@ -98,10 +91,7 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
             // Tables with only one column are most probably also used only for
             // layout. We remove them, too.
             // @TODO: Make this configurable.
-            if ( $xpath->query( '
-                *[local-name() = "tr"] |
-                *[local-name() = "tbody"]//*[local-name() = "tr"] |
-                *[local-name() = "thead"]//*[local-name() = "tr"]', $table )->length >= $cellCount )
+            if ( $xpath->query( './/*[local-name() = "tr"]', $table )->length >= $cellCount )
             {
                 $table->parentNode->removeChild( $table );
                 continue;
