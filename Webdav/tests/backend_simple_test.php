@@ -268,6 +268,37 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             20
         );
     }
+
+    public function testGetResourceIfNoneMatchMultipleInvalidETags()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-None-Match', array( 'sometag', 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavGetResourceResponse(
+                new ezcWebdavResource(
+                    $testPath,
+                    $backend->getAllProperties( $testPath ),
+                    "Some other contents...\n"
+                )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
  
     public function testGetResourceWithInvalidETag()
     {
@@ -315,6 +346,62 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
                     ezcWebdavResponse::STATUS_412,
                     $testPath,
                     'If-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testGetResourceIfNoneMatchFailure()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-None-Match', array( 'sometag', $etag, 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_412,
+                    $testPath,
+                    'If-None-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testGetResourceIfNoneMatchFailureStar()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $req = new ezcWebdavGetRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-None-Match', true );
+        $req->validateHeaders();
+
+        $res = $backend->get( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_412,
+                    $testPath,
+                    'If-None-Match header check failed.'
             ),
             $res,
             'Expected response does not match real response.',
@@ -491,6 +578,160 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
                         ),
                     )
                 )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropfindResourceWithValidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavPropFindRequest(
+            $testPath
+        );
+        $req->allProp = true;
+        $req->validateHeaders();
+
+        // Create fake response without If-Match
+        $fakeRes = $backend->propFind( $req );
+
+        // Ensure no error occurred
+        $this->assertType(
+            'ezcWebdavMultistatusResponse',
+            $fakeRes,
+            'Generation of expected response failed.'
+        );
+        
+        $req->setHeader( 'If-Match', array( $etag ) );
+        $req->validateHeaders();
+
+        $res = $backend->propFind( $req );
+
+        $this->assertEquals(
+            $fakeRes,
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPropfindResourceWithInvalidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $req = new ezcWebdavPropFindRequest(
+            $testPath
+        );
+        $req->allProp = true;
+        $req->setHeader( 'If-Match', array( 'sometag' ) );
+        $req->validateHeaders();
+
+        $res = $backend->propFind( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                $testPath,
+                'If-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testProppatchResourceWithValidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+        
+        // Properties to patch
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( 
+            $p1 = new ezcWebdavGetContentTypeProperty( 'text/xml' ),
+            ezcWebdavPropPatchRequest::SET
+        );
+        $newProperties->attach( 
+            $p2 = new ezcWebdavDeadProperty(
+                'foo:',
+                'bar',
+                "<?xml version=\"1.0\"?>\n<bar xmlns=\"foo:\">some content</bar>\n"
+            ), 
+            ezcWebdavPropPatchRequest::SET
+        );
+
+        $req = new ezcWebdavProppatchRequest(
+            $testPath
+        );
+        $req->updates = $newProperties;
+        $req->setHeader( 'If-Match', array( 'abc23', $etag, 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->propPatch( $req );
+
+        $this->assertEquals(
+            new ezcWebdavPropPatchResponse( 
+                new ezcWebdavResource( $testPath )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testProppatchResourceWithInvalidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+        
+        // Properties to patch
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( 
+            $p1 = new ezcWebdavGetContentTypeProperty( 'text/xml' ),
+            ezcWebdavPropPatchRequest::SET
+        );
+        $newProperties->attach( 
+            $p2 = new ezcWebdavDeadProperty(
+                'foo:',
+                'bar',
+                "<?xml version=\"1.0\"?>\n<bar xmlns=\"foo:\">some content</bar>\n"
+            ), 
+            ezcWebdavPropPatchRequest::SET
+        );
+
+        $req = new ezcWebdavProppatchRequest(
+            $testPath
+        );
+        $req->updates = $newProperties;
+        $req->setHeader( 'If-None-Match', array( 'abc23', $etag, 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->propPatch( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                $testPath,
+                'If-None-Match header check failed.'
             ),
             $res,
             'Expected response does not match real response.',
