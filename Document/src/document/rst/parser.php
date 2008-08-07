@@ -201,10 +201,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * @var array
      */
     protected $reductions = array(
+        // Also for ezcDocumentRstNode::SECTION, since the constants point to
+        // the same value.
         ezcDocumentRstNode::DOCUMENT            => array( 
-            'reduceSection',
-        ),
-        ezcDocumentRstNode::SECTION             => array(
             'reduceList',
             'reduceSection',
         ),
