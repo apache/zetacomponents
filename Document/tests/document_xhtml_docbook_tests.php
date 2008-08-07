@@ -244,6 +244,42 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
     }
+
+    public function testXpathFilter()
+    {
+        $from = dirname( __FILE__ ) . '/files/xhtml/xpath/s_004_detect_url_in_texts.html';
+        $to   = dirname( __FILE__ ) . '/files/xhtml/xpath/s_004_detect_url_in_texts.xml';
+
+        $document = new ezcDocumentXhtml();
+        $document->setFilters( array(
+            new ezcDocumentXhtmlXpathFilter(
+                '//div[@class = "content"]'
+            ),
+            new ezcDocumentXhtmlElementFilter(),
+            new ezcDocumentXhtmlMetadataFilter(),
+        ) );
+        $document->loadFile( $from );
+
+        $docbook = $document->getAsDocbook();
+        $xml = $docbook->save();
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'xpath_filter' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml );
+
+        // We need a proper XSD first, the current one does not accept legal
+        // XML.
+//        $this->checkDocbook( $docbook->getDomDocument() );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
+        );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
+    }
 }
 
 ?>

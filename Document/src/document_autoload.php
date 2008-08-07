@@ -125,5 +125,6 @@ return array(
     'ezcDocumentXhtmlTableCellElementFilter'        => 'Document/document/xml/xhtml/filter/element/tablecell.php',
     'ezcDocumentXhtmlTableElementFilter'            => 'Document/document/xml/xhtml/filter/element/table.php',
     'ezcDocumentXhtmlTextToParagraphFilter'         => 'Document/document/xml/xhtml/filter/element/text.php',
+    'ezcDocumentXhtmlXpathFilter'                   => 'Document/document/xml/xhtml/filter/xpath.php',
 );
 ?>
