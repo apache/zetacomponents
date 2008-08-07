@@ -797,6 +797,116 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             20
         );
     }
+
+    public function testDeleteResourceWithValidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavDeleteRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( 'abc23', $etag, 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->delete( $req );
+
+        $this->assertEquals(
+            new ezcWebdavDeleteResponse(),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testDeleteResourceWithInvalidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        $etag = $backend->getProperty( $testPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavDeleteRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-None-Match', array( 'abc23', $etag, 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->delete( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                $testPath,
+                'If-None-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testDeleteCollectionWithValidETag()
+    {
+        $testPath = '/collection/deep_collection';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        $collectionEtag = $backend->getProperty( $testPath, 'getetag' )->etag;
+        $resourceEtag = $backend->getProperty( $testPath . '/deep_test.txt', 'getetag' )->etag;
+
+        $req = new ezcWebdavDeleteRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-Match', array( 'abc23', $collectionEtag, $resourceEtag ) );
+        $req->validateHeaders();
+
+        $res = $backend->delete( $req );
+
+        $this->assertEquals(
+            new ezcWebdavDeleteResponse(),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testDeleteCollectionWithInvalidETag()
+    {
+        $testPath = '/collection/deep_collection';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        $collectionEtag = $backend->getProperty( $testPath, 'getetag' )->etag;
+        $resourceEtag = $backend->getProperty( $testPath . '/deep_test.txt', 'getetag' )->etag;
+
+        $req = new ezcWebdavDeleteRequest(
+            $testPath
+        );
+        $req->setHeader( 'If-None-Match', array( 'abc23', $resourceEtag ) );
+        $req->validateHeaders();
+
+        $res = $backend->delete( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                "$testPath/deep_test.txt",
+                'If-None-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
 }
 
 ?>
