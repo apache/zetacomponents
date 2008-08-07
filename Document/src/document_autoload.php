@@ -124,6 +124,7 @@ return array(
     'ezcDocumentXhtmlStrongElementFilter'           => 'Document/document/xml/xhtml/filter/element/strong.php',
     'ezcDocumentXhtmlTableCellElementFilter'        => 'Document/document/xml/xhtml/filter/element/tablecell.php',
     'ezcDocumentXhtmlTableElementFilter'            => 'Document/document/xml/xhtml/filter/element/table.php',
+    'ezcDocumentXhtmlTablesFilter'                  => 'Document/document/xml/xhtml/filter/tables.php',
     'ezcDocumentXhtmlTextToParagraphFilter'         => 'Document/document/xml/xhtml/filter/element/text.php',
     'ezcDocumentXhtmlXpathFilter'                   => 'Document/document/xml/xhtml/filter/xpath.php',
 );

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<article xmlns="http://docbook.org/ns/docbook">
+  <section>
+    <secinfo>
+      <title>Kickfire beschleunigt MySQL - Golem.de</title>
+    </secinfo>
+    <section>
+      <title>
+        <para>&#13;
+20 Millionen US-Dollar für Datenbank-Appliances&#13;
+20 Millionen US-Dollar für Datenbank-Appliances</para>
+      </title>
+      <para>Mit seinen Datenbank-Appliances für MySQL verspricht Kickfire, Abfragen auf große Datenbanken enorm zu beschleunigen. Dafür sorgt unter anderem ein spezieller SQL-Chip, der in den Geräten zum Einsatz kommt. Zum Ausbau des Geschäfts erhielt Kickfire jetzt 20 Millionen US-Dollar Risikokapital.</para>
+      <ulink url="http://ad.doubleclick.net/jump/golem/artikel;kw=wirtschaft,apps,mysql,datenbank,entscheider;tile=3;sz=300x250;ord=1217494358?">
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="http://ad.doubleclick.net/ad/golem/artikel;kw=wirtschaft,apps,mysql,datenbank,entscheider;tile=3;sz=300x250;ord=1217494358?"/>
+          </imageobject>
+          <textobject>
+            <phrase/>
+          </textobject>
+        </inlinemediaobject>
+      </ulink>
+      <para>Kickfire hat eine zweite Finanzierungsrunde abgeschlossen. Unter der Führung von Pinnacle Ventures investierten auch Accel Partners, Greylock Partners und der Mayfield Fund, die schon in der ersten Runde dabei waren. Mit dem Geld sollen vor allem Vertrieb und Marketing ausgebaut werden.&#13;
+</para>
+      <table>
+        <row>
+          <entry>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="http://www.golem.de/0807/61430-kf_prod.jpg"/>
+              </imageobject>
+              <textobject>
+                <phrase>Kickfire-Appliance</phrase>
+              </textobject>
+            </mediaobject>
+          </entry>
+        </row>
+      </table>
+      <para>&#13;
+Das Unternehmen bietet einen Datenbank-Appliance an, der auf Linux &#13;
+und MySQL basiert. Dieser arbeitet mit einem speziellen SQL-Chip, der mit großem On-Board-Speicher von bis zu 256 GByte ausgestattet ist, auf den dieser ohne Umweg über Register oder Cache zugreifen kann. Die Daten werden dabei spaltenweise in komprimierter Form abgelegt, was die zu übertragende Datenmenge bei Abfragen um bis zu 95 Prozent reduzieren soll. Zudem werden automatisch Indizes angelegt und es kommt ein auf den SQL-Chip optimierter Query-Optimierer zum Einsatz.&#13;&#13;
+
+</para>
+      <para>&#13;
+Damit erreicht des Kickfire-Modell 2400 im TPC-H-Benchmark&#13;
+54,895 QphH@300GB (Abfragen pro Stunde bei einer 300 GByte großen Datenbank) bei einem Preis von 0,89 US-Dollar je QphH@300GB. Die Gesamtkosten für ein entsprechendes System sollen betrachtet über einen Zeitraum von drei Jahren bei knapp 49.000 US-Dollar liegen.&#13;
+</para>
+      <para><ulink url="/sonstiges/impressum.html">(ji)</ulink>  &#13;
+&#13;
+&#13;
+Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests angefordert werden können.  &#13;
+&#13;
+&#13;
+Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests angefordert werden können.</para>
+      <ulink url="http://ad.doubleclick.net/jump/golem/artikel;kw=wirtschaft,apps,mysql,datenbank,entscheider;tile=4;sz=480x60;ord=1217494358?">
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="http://ad.doubleclick.net/ad/golem/artikel;kw=wirtschaft,apps,mysql,datenbank,entscheider;tile=4;sz=480x60;ord=1217494358?"/>
+          </imageobject>
+          <textobject>
+            <phrase/>
+          </textobject>
+        </inlinemediaobject>
+      </ulink>
+      <table>
+        <row>
+          <entry>
+            <section>
+              <title>Links zum Artikel</title>
+              <para>
+                <ulink url="http://www.kickfire.com">Kickfire (.com)</ulink>
+              </para>
+              <table>
+                <tbody>
+                  <row>
+                    <entry>Mehr zum Thema</entry>
+                    <entry>
+                      <ulink url="http://www.golem.de/0402/29672.html">RSS</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://www.golem.de/0402/29672.html">ATOM</ulink>
+                    </entry>
+                  </row>
+                </tbody>
+                <tbody>
+                  <row>
+                    <entry>Alle News</entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=RSS2.0">2.0</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=ATOM1.0">1.0</ulink>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <ulink url="/specials/mysql/">MySQL</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=RSS2.0&amp;amp;ms=mysql">2.0</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=ATOM1.0&amp;amp;ms=mysql">1.0</ulink>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <ulink url="/specials/datenbank/">Datenbank</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=RSS2.0&amp;amp;ms=datenbank">2.0</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=ATOM1.0&amp;amp;ms=datenbank">1.0</ulink>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <ulink url="/specials/serverapps/">Server-Applikationen</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=RSS2.0&amp;amp;ms=serverapps">2.0</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=ATOM1.0&amp;amp;ms=serverapps">1.0</ulink>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <ulink url="/desktop-applikationen/">Applikationen</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=RSS2.0&amp;amp;tp=apps">2.0</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=ATOM1.0&amp;amp;tp=apps">1.0</ulink>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <ulink url="/wirtschaft/">Wirtschaft</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=RSS2.0&amp;amp;tp=wirtschaft">2.0</ulink>
+                    </entry>
+                    <entry>
+                      <ulink url="http://rss.golem.de/rss.php?feed=ATOM1.0&amp;amp;tp=wirtschaft">1.0</ulink>
+                    </entry>
+                  </row>
+                </tbody>
+              </table>
+            </section>
+          </entry>
+          <entry>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="/_img/no.gif" width="12" depth="2"/>
+              </imageobject>
+              <textobject>
+                <phrase/>
+              </textobject>
+            </mediaobject>
+          </entry>
+          <entry>
+            <section>
+              <title>Bookmarks:</title>
+              <ulink url="http://ads.golem.de/nl.php?id=bm_mrwong&amp;amp;qsa=1&amp;amp;action=addurl&amp;amp;bm_url=http%3A%2F%2Fwww.golem.de%2F0807%2F61430.html&amp;amp;bm_description=Kickfire+beschleunigt+MySQL">
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="/_img/link_wong.png" width="16" depth="16"/>
+                  </imageobject>
+                  <textobject>
+                    <phrase>Artikel bei Mister Wong ablegen</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </ulink>
+              <ulink url="http://ads.golem.de/nl.php?id=bm_yigg&amp;amp;qsa=1&amp;amp;exturl=http%3A%2F%2Fwww.golem.de%2F0807%2F61430.html&amp;amp;exttitle=Kickfire+beschleunigt+MySQL">
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="/_img/link_yigg.png" width="16" depth="16"/>
+                  </imageobject>
+                  <textobject>
+                    <phrase>Artikel bei Yigg ablegen</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </ulink>
+              <ulink url="http://ads.golem.de/nl.php?id=bm_linkarena&amp;amp;qsa=1&amp;amp;url=http%3A%2F%2Fwww.golem.de%2F0807%2F61430.html&amp;amp;title=Kickfire+beschleunigt+MySQL">
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="/_img/link_linkarena.png" width="16" depth="16"/>
+                  </imageobject>
+                  <textobject>
+                    <phrase>Artikel bei Linkarena ablegen</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </ulink>
+              <ulink url="http://ads.golem.de/nl.php?id=bm_google&amp;amp;qsa=1&amp;amp;op=add&amp;amp;hl=de&amp;amp;bkmk=http%3A%2F%2Fwww.golem.de%2F0807%2F61430.html&amp;amp;title=Kickfire+beschleunigt+MySQL">
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="/_img/link_google.png" width="16" depth="16"/>
+                  </imageobject>
+                  <textobject>
+                    <phrase>Artikel bei Google ablegen</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </ulink>
+              <ulink url="http://ads.golem.de/nl.php?id=bm_delicious&amp;amp;qsa=1&amp;amp;url=http%3A%2F%2Fwww.golem.de%2F0807%2F61430.html&amp;amp;title=Kickfire+beschleunigt+MySQL">
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="/_img/link_delicious.png" width="16" depth="16"/>
+                  </imageobject>
+                  <textobject>
+                    <phrase>Artikel bei del.icio.us ablegen</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </ulink>
+              <ulink url="http://ads.golem.de/nl.php?id=bm_webnews&amp;amp;qsa=1&amp;amp;url=http%3A%2F%2Fwww.golem.de%2F0807%2F61430.html&amp;amp;title=Kickfire+beschleunigt+MySQL">
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="/_img/link_webnews.png" width="16" depth="16"/>
+                  </imageobject>
+                  <textobject>
+                    <phrase>Artikel bei Webnews ablegen</phrase>
+                  </textobject>
+                </inlinemediaobject>
+              </ulink>
+            </section>
+            <section>
+              <title>Verwandte Artikel</title>
+              <para>
+                <ulink url="http://www.golem.de/0807/61290.html">Sun bietet Web-Stack für Unternehmen an</ulink>
+              </para>
+              <para>
+                <ulink url="http://www.golem.de/0807/61257.html">Drizzle will MySQL für Web-Applikationen neu erfinden</ulink>
+              </para>
+              <para>
+                <ulink url="http://www.golem.de/0807/61131.html">MySQL 5.1 fast fertig - oder doch nicht?</ulink>
+              </para>
+              <para>
+                <ulink url="http://www.golem.de/0807/61100.html">Freie Replikationserweiterung für PostgreSQL</ulink>
+              </para>
+              <para>
+                <ulink url="http://www.golem.de/0807/60814.html">SAP-Chef Kagermann: "Oracle ist gut für uns"</ulink>
+              </para>
+            </section>
+          </entry>
+        </row>
+      </table>
+      <section>
+        <title> </title>
+        <para><ulink url="http://www.golem.de/audio-video/">Audio/Video</ulink> | <ulink url="http://www.golem.de/desktop-applikationen/">Desktop-Applikationen</ulink> | <ulink url="http://www.golem.de/foto/">Foto</ulink> | <ulink url="http://www.golem.de/games/">Games</ulink> | <ulink url="http://www.golem.de/handy/">Handy</ulink> | <ulink url="http://www.golem.de/internet/">Internet</ulink> | <ulink url="http://www.golem.de/mobil/">Mobil</ulink> | <ulink url="http://www.golem.de/oss/">OSS</ulink> | <ulink url="http://www.golem.de/pc-hardware/">PC-Hardware</ulink> | <ulink url="http://www.golem.de/politik-recht/">Politik/Recht</ulink> | <ulink url="http://www.golem.de/security/">Security</ulink> | <ulink url="http://www.golem.de/software-entwicklung/">Software-Entwicklung</ulink> | <ulink url="http://www.golem.de/wirtschaft/">Wirtschaft</ulink> | <ulink url="http://www.golem.de/wissenschaft/">Wissenschaft</ulink></para>
+        <para><ulink url="http://www.golem.de/ticker/">Ticker</ulink> | <ulink url="http://www.golem.de/0402/29672.html">RSS</ulink> | <ulink url="http://forum.golem.de">Forum</ulink> | <ulink url="http://www.golem.de/0407/32162.html">Zusatz-Dienste</ulink> | <ulink url="http://markt.golem.de">Markt</ulink> | <ulink url="http://jobs.golem.de">Jobs</ulink> | <ulink url="http://events.golem.de">IT-Events</ulink></para>
+        <para><ulink url="http://www.golem.de">Home</ulink> | <ulink url="http://www.golem.de/sonstiges/impressum.html">Impressum</ulink> | <ulink url="http://www.golem.de/sonstiges/werbung.html">Werbung</ulink> | <ulink url="http://www.golem.de/microsite/freugol/index.html">Freunde</ulink></para>
+        <para>
+Copyright © 1997 - 2008 <ulink url="http://www.golem.de">Golem.de</ulink>. Alle Rechte vorbehalten.
+</para>
+        <para> </para>
+      </section>
+    </section>
+  </section>
+</article>
