@@ -528,19 +528,10 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
 
         // Collection ETags are ignored on purpose!
         $this->assertEquals(
-            new ezcWebdavGetCollectionResponse(
-                new ezcWebdavCollection(
-                    $testPath,
-                    $backend->getAllProperties( $testPath ),
-                    array(
-                        new ezcWebdavCollection(
-                            '/collection/deep_collection'
-                        ),
-                        new ezcWebdavResource(
-                            '/collection/test.txt'
-                        ),
-                    )
-                )
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                '/collection',
+                'If-Match header check failed.'
             ),
             $res,
             'Expected response does not match real response.',
@@ -565,19 +556,10 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
 
         // Collection ETags are ignored on purpose!
         $this->assertEquals(
-            new ezcWebdavGetCollectionResponse(
-                new ezcWebdavCollection(
-                    $testPath,
-                    $backend->getAllProperties( $testPath ),
-                    array(
-                        new ezcWebdavCollection(
-                            '/collection/deep_collection'
-                        ),
-                        new ezcWebdavResource(
-                            '/collection/test.txt'
-                        ),
-                    )
-                )
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                '/collection',
+                'If-Match header check failed.'
             ),
             $res,
             'Expected response does not match real response.',
@@ -857,9 +839,11 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
         $testPath = '/collection/deep_collection';
 
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        clearstatcache();
         
-        $collectionEtag = $backend->getProperty( $testPath, 'getetag' )->etag;
+        // Needs to determine resource tag first, since .ezc property dir is created.
         $resourceEtag = $backend->getProperty( $testPath . '/deep_test.txt', 'getetag' )->etag;
+        $collectionEtag = $backend->getProperty( $testPath, 'getetag' )->etag;
 
         $req = new ezcWebdavDeleteRequest(
             $testPath
@@ -899,6 +883,156 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_412,
                 "$testPath/deep_test.txt",
+                'If-None-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testCopyResourceWithValidETag()
+    {
+        $testSourcePath = '/collection/';
+        $testSource     = "$testSourcePath/test.txt";
+        $testDestPath   = "$testSourcePath/deep_collection";
+        $testDest       = "$testDestPath/test.txt";
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        $sourceEtag = $backend->getProperty( $testSource, 'getetag' )->etag;
+        $destEtag = $backend->getProperty( $testDestPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavCopyRequest(
+            $testSource, $testDest
+        );
+        $req->setHeader( 'If-Match', array( 'abc23', $sourceEtag, $destEtag ) );
+        $req->validateHeaders();
+
+        $res = $backend->copy( $req );
+
+        $this->assertEquals(
+            new ezcWebdavCopyResponse( false ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testCopyResourceWithInvalidETag()
+    {
+        $testSourcePath = '/collection';
+        $testSource     = "$testSourcePath/test.txt";
+        $testDestPath   = "$testSourcePath/deep_collection";
+        $testDest       = "$testDestPath/test.txt";
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        $sourceEtag = $backend->getProperty( $testSource, 'getetag' )->etag;
+        $destEtag = $backend->getProperty( $testDestPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavCopyRequest(
+            $testSource, $testDest
+        );
+        $req->setHeader( 'If-Match', array( 'abc23', $sourceEtag ) );
+        $req->validateHeaders();
+
+        $res = $backend->copy( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                $testDestPath,
+                'If-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testCopyCollectionWithValidETag()
+    {
+        $testSourcePath = '/collection';
+        $testSource     = "$testSourcePath/deep_collection";
+        $testDestPath   = $testSourcePath;
+        $testDest       = "$testDestPath/copied_collection";
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        // Initialize all property directories
+        $req = new ezcWebdavPropFindRequest( $testSource );
+        $req->allProp = true;
+        $req->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
+        $req->validateHeaders();
+        $backend->propFind( $req );
+
+        $eTags = array();
+       
+        // Retrieve source etags
+        $req = new ezcWebdavPropFindRequest( $testSource );
+        $req->prop = new ezcWebdavBasicPropertyStorage();
+        $req->prop->attach( new ezcWebdavGetEtagProperty() );
+        $req->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
+        $req->validateHeaders();
+        $res = $backend->propFind( $req );
+        foreach ( $res->responses as $propFind )
+        {
+            $eTags[] = $propFind->responses[0]->storage->get( 'getetag' )->etag;
+        }
+
+        $eTags[] = $backend->getProperty( $testDestPath, 'getetag' )->etag;
+
+        $req = new ezcWebdavCopyRequest(
+            $testSource, $testDest
+        );
+        $req->setHeader( 'If-Match', $eTags );
+        $req->validateHeaders();
+
+        $res = $backend->copy( $req );
+
+        $this->assertEquals(
+            new ezcWebdavCopyResponse( false ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testCopyCollectionWithInvalidETag()
+    {
+        $testSourcePath = '/collection';
+        $testSource     = "$testSourcePath/deep_collection";
+        $testDestPath   = $testSourcePath;
+        $testDest       = "$testDestPath/copied_collection";
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        // Initialize all property directories
+        $req = new ezcWebdavPropFindRequest( $testSource );
+        $req->allProp = true;
+        $req->setHeader( 'Depth', ezcWebdavRequest::DEPTH_INFINITY );
+        $req->validateHeaders();
+        $backend->propFind( $req );
+
+        $eTag = $backend->getProperty( $testDestPath, 'getetag' )->etag;
+        
+        $req = new ezcWebdavCopyRequest(
+            $testSource, $testDest
+        );
+        $req->setHeader( 'If-None-Match', array( 'abc23', $eTag ) );
+        $req->validateHeaders();
+
+        $res = $backend->copy( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                '/collection',
                 'If-None-Match header check failed.'
             ),
             $res,

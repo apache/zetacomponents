@@ -646,7 +646,7 @@ class ezcWebdavFileBackend
         return md5(
             $path
             . $this->getContentLength( $path )
-            . (string) filemtime( $this->root . $path )
+            . date( 'c', filemtime( $this->root . $path ) )
         );
     }
 

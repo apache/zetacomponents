@@ -882,7 +882,7 @@ abstract class ezcWebdavSimpleBackend
 
         // Check if the destination parent directory already exists, otherwise
         // bail out.
-        if ( !$this->nodeExists( dirname( $dest ) ) )
+        if ( !$this->nodeExists( $destDir = dirname( $dest ) ) )
         {
             return new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
@@ -905,6 +905,12 @@ abstract class ezcWebdavSimpleBackend
         if ( $this->nodeExists( $dest ) &&
              ( $res = $this->checkIfMatchHeaders( $request, $dest ) ) !== null
            )
+        {
+            return $res;
+        }
+        // Verify If-[None-]Match headers on the on $dests parent dir, if it
+        // does not exist
+        elseif ( ( $res = $this->checkIfMatchHeaders( $request, $destDir ) ) !== null )
         {
             return $res;
         }
@@ -1187,6 +1193,12 @@ abstract class ezcWebdavSimpleBackend
             return $this->checkIfMatchHeaders( $req, $path );
         }
 
+        // Check collection ETag
+        if ( ( $res = $this->checkIfMatchHeaders( $req, $path ) ) !== null )
+        {
+            return $res;
+        }
+
         // $path is a collection, depth is > 0: Recurse.
         $newDepth = $depth === ezcWebdavRequest::DEPTH_ONE
             ? ezcWebdavRequest::DEPTH_ZERO
@@ -1218,12 +1230,6 @@ abstract class ezcWebdavSimpleBackend
      */
     protected function checkIfMatchHeaders( ezcWebdavRequest $req, $path )
     {
-        if ( $this->isCollection( $path ) )
-        {
-            // @TODO: No ETag checks on collections so far. Would this make sense?
-            return null;
-        }
-
         if ( ( $res = $this->checkIfMatchHeader( $req, $path ) ) !== null )
         {
             return $res;
