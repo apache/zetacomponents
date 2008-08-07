@@ -739,6 +739,64 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             20
         );
     }
+
+    public function testPutResourceWithValidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        $req = new ezcWebdavPutRequest(
+            $testPath,
+            "Some new text to PUT into test.txt.\n"
+        );
+        $req->setHeader( 'Content-Length', strlen( $req->body ) );
+        $req->setHeader( 'Content-Type', 'text/plain; charset=utf8' );
+        $req->setHeader( 'If-None-Match', array( 'abc23', 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->put( $req );
+
+        $this->assertEquals(
+            new ezcWebdavPutResponse( 
+                new ezcWebdavResource( $testPath )
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
+
+    public function testPutResourceWithInvalidETag()
+    {
+        $testPath = '/collection/test.txt';
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        
+        $req = new ezcWebdavPutRequest(
+            $testPath,
+            "Some new text to PUT into test.txt.\n"
+        );
+        $req->setHeader( 'Content-Length', strlen( $req->body ) );
+        $req->setHeader( 'Content-Type', 'text/plain; charset=utf8' );
+        $req->setHeader( 'If-Match', array( 'abc23', 'foobar' ) );
+        $req->validateHeaders();
+
+        $res = $backend->put( $req );
+
+        $this->assertEquals(
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_412,
+                $testPath,
+                'If-Match header check failed.'
+            ),
+            $res,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+    }
 }
 
 ?>
