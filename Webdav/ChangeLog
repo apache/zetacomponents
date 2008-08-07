@@ -1,4 +1,4 @@
-1.1alpha1 - [RELEASEDATE]
+1.0.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13462: The backend methods DELETE and PROPPATCH do now return
