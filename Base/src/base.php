@@ -273,7 +273,7 @@ class ezcBase
         // We need the full path to the fileName. The method file_exists() doesn't
         // automatically check the (php.ini) library paths. Therefore:
         // file_exists( "ezc/autoload/$fileName" ) doesn't work.
-        if ( file_exists( "$autoloadDir$fileName" ) )
+        if ( $prefix === 'ezc' && file_exists( "$autoloadDir$fileName" ) )
         {
             $array = require( "$autoloadDir$fileName" );
 

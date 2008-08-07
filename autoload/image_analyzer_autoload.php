@@ -1,1 +1,0 @@
-../ImageAnalysis/src/image_analyzer_autoload.php
