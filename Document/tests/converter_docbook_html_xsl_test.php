@@ -86,6 +86,13 @@ class ezcDocumentConverterDocbookToHtmlXsltTests extends ezcTestCase
             $created instanceof ezcDocumentXhtml
         );
 
+        // Replace creator string in generated document, as this may change too
+        // often for proper testing.
+        $dom = $created->getDomDocument();
+        $xpath = new DOMXPath( $dom );
+        $generator = $xpath->query( '//meta[@name = "generator"]' )->item( 0 );
+        $generator->setAttribute( 'content', 'DocBook XSL Stylesheets' );
+
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'docbook_html_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $created->getDomDocument()->saveXml() );

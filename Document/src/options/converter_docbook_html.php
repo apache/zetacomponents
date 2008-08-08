@@ -12,8 +12,14 @@
 /**
  * Class containing the basic options for the ezcDocumentEzp3Xml class
  *
- * @property array $xslt
+ * @property string $xslt
  *           Path to XSLT, which should be used for the conversion.
+ * @property array $parameters
+ *           List of aparameters for the XSLT transformation. Parameters are
+ *           given as array, with the structure array( 'namespace' => array(
+ *           'option' => 'value' ) ), where namespace may also be an empty
+ *           string. For a reference of parameters of the default XSLT, see
+ *           here: http://docbook.sourceforge.net/release/xsl/current/doc/html/
  *
  * @package Document
  * @version //autogen//
@@ -31,7 +37,12 @@ class ezcDocumentDocbookToHtmlXsltConverterOptions extends ezcDocumentConverterO
      */
     public function __construct( array $options = array() )
     {
-        $this->xslt = 'http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl';
+        $this->xslt       = 'http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl';
+        $this->parameters = array(
+            '' => array(
+                'make.valid.html' => '1',
+            ),
+        );
 
         parent::__construct( $options );
     }
@@ -53,6 +64,15 @@ class ezcDocumentDocbookToHtmlXsltConverterOptions extends ezcDocumentConverterO
         {
             case 'xslt':
                 $this->properties[$name] = (string) $value;
+                break;
+
+            case 'parameters':
+                if ( !is_array( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'array' );
+                }
+
+                $this->properties[$name] = $value;
                 break;
 
             default:

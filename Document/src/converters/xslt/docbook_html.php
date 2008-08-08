@@ -35,6 +35,7 @@ class ezcDocumentDocbookToHtmlXsltConverter extends ezcDocumentXsltConverter
 
         // Define the conversion file to use.
         parent::__construct( $this->options->xslt );
+        $this->setParameters( $this->options->parameters );
     }
 
     /**
