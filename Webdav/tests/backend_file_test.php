@@ -2205,7 +2205,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $backend = new ezcWebdavFileBackend( $backendDir );
 
         $this->assertEquals(
-            md5( '/resource' . filesize( $backendDir . 'resource' ) . filemtime( $backendDir . 'resource' ) ),
+            md5( '/resource' . filesize( $backendDir . 'resource' ) . date( 'c', filemtime( $backendDir . 'resource' ) ) ),
             $backend->getProperty( '/resource', 'getetag' )->etag 
         );
     }
