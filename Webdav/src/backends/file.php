@@ -176,6 +176,12 @@ class ezcWebdavFileBackend
      *
      * @param bool $readOnly
      * @return void
+     *
+     * @todo The locking mechanism affects the ETag of the base collection. The
+     *       ETag is different on each request, which might result in problems
+     *       for clients that make extensive use of If-* headers. No client is
+     *       known so far, if problems occur here we need to find a solution
+     *       for this.
      */
     protected function acquireLock( $readOnly = false )
     {
