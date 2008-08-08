@@ -62,9 +62,6 @@ class ezcDocumentConverterDocbookToHtmlXsltTests extends ezcTestCase
     }
 
     /**
-     * @TODO: We should test this in more fine steps, then just testing one
-     * single big document.
-     *
      * @dataProvider getTestDocuments
      */
     public function testLoadXmlDocumentFromFile( $from, $to )
