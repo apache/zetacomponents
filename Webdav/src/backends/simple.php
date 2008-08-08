@@ -995,7 +995,7 @@ abstract class ezcWebdavSimpleBackend
 
         // Check if the destination parent directory already exists, otherwise
         // bail out.
-        if ( !$this->nodeExists( dirname( $dest ) ) )
+        if ( !$this->nodeExists( $destDir = dirname( $dest ) ) )
         {
             return new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_409,
@@ -1019,6 +1019,12 @@ abstract class ezcWebdavSimpleBackend
         if ( $this->nodeExists( $dest ) &&
              ( $res = $this->checkIfMatchHeaders( $request, $dest ) ) !== null
            )
+        {
+            return $res;
+        }
+        // Verify If-[None-]Match headers on the on $dests parent dir, if it
+        // does not exist
+        elseif ( ( $res = $this->checkIfMatchHeaders( $request, $destDir ) ) !== null )
         {
             return $res;
         }
@@ -1110,7 +1116,7 @@ abstract class ezcWebdavSimpleBackend
 
         // If the parent node exists, but is a resource, which obviously can
         // not accept any members, throw a 403 error.
-        if ( !$this->isCollection( dirname( $collection ) ) )
+        if ( !$this->isCollection( $destDir = dirname( $collection ) ) )
         {
             return new ezcWebdavErrorResponse(
                 ezcWebdavResponse::STATUS_403,
@@ -1118,7 +1124,11 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
-        // No sense in performing an ETag check here.
+        // Verify If-[None-]Match headers on the on $dests parent dir
+        if ( ( $res = $this->checkIfMatchHeaders( $request, $destDir ) ) !== null )
+        {
+            return $res;
+        }
 
         // As the handling of request bodies is not described in RFC 2518, we
         // skip their handling and always return a 415 error.
