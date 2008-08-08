@@ -25,19 +25,18 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
     protected $xslt;
 
     /**
+     * Parameters for the XSLT
+     * 
+     * @var array
+     */
+    protected $parameters = array();
+
+    /**
      * XSLT processor created from the defined XSLT file.
      * 
      * @var XSLTProcessor
      */
     protected $xsltProcessor = null;
-
-    /**
-     * Array with custom inline tags, as a storage for static calls from the
-     * template.
-     *
-     * @var array
-     */
-    protected static $customInlineTags;
 
     /**
      * Construct converter
@@ -55,12 +54,33 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
             throw new ezcBaseExtensionNotFoundException( 'xsl' );
         }
 
-        if ( !file_exists( $xslt ) || !is_readable( $xslt ) )
-        {
-            throw new ezcBaseFileNotFoundException( $xslt );
-        }
-
         $this->xslt = $xslt;
+    }
+
+    /**
+     * Set parameters
+     *
+     * Set parameters for the XSLT stylesheet. The parameters array should have
+     * the following structure:
+     *
+     * <code>
+     *  array(
+     *      'namespace' => array(
+     *          'option' => 'value',
+     *          ...
+     *      ),
+     *      ...
+     *  )
+     * </code>
+     *
+     * Where namespace may be an empty string.
+     * 
+     * @param array $parameters 
+     * @return void
+     */
+    public function setParameters( array $parameters )
+    {
+        $this->parameters = $parameters;
     }
 
     /**
@@ -83,9 +103,48 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
             $this->xsltProcessor->importStyleSheet( $stylesheet );
         }
 
+        // Set provided parameters.
+        foreach ( $this->parameters as $namespace => $parameters )
+        {
+            foreach ( $parameters as $option => $value )
+            {
+                $this->xsltProcessor->setParameter( $namespace, $option, $value );
+            }
+        }
+
+        // We want to handle the occured errors ourselves.
+        $oldErrorHandling = libxml_use_internal_errors( true );
+
         // Transform input document
-        return $this->xsltProcessor->transformToDoc( $doc->getDomDocument() );
+        $dom = $this->xsltProcessor->transformToDoc( $doc->getDomDocument() );
+
+        // @TODO: Handle the ocured errors somehow.
+        libxml_use_internal_errors( $oldErrorHandling );
+
+        // Reset parameters, so they are not automatically applied to the next
+        // traansformation.
+        foreach ( $this->parameters as $namespace => $parameters )
+        {
+            foreach ( $parameters as $option => $value )
+            {
+                $this->xsltProcessor->removeParameter( $namespace, $option );
+            }
+        }
+
+        // Build document from transformation and return that.
+        return $this->buildDocument( $dom );
     }
+
+    /**
+     * Build document
+     *
+     * Build document of appropriate type from the DOMDocument, created by the
+     * XSLT transformation.
+     * 
+     * @param DOMDocument $document 
+     * @return ezcDocumentXmlBase
+     */
+    abstract protected function buildDocument( DOMDocument $document );
 }
 
 ?>

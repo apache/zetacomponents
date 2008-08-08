@@ -17,6 +17,13 @@
  */
 class ezcDocumentEzp3ToEzp4Converter extends ezcDocumentXsltConverter
 {
+    /**
+     * Array with custom inline tags, as a storage for static calls from the
+     * template.
+     *
+     * @var array
+     */
+    protected static $customInlineTags;
 
     /**
      * Construct new document
@@ -61,7 +68,21 @@ class ezcDocumentEzp3ToEzp4Converter extends ezcDocumentXsltConverter
         // Transform input document
         $document = $this->xsltProcessor->transformToDoc( $doc->getDomDocument() );
 
-        // Create destination document from DOMDocument
+        // Build document from transformation and return that.
+        return $this->buildDocument( $document );
+    }
+
+    /**
+     * Build document
+     *
+     * Build document of appropriate type from the DOMDocument, created by the
+     * XSLT transformation.
+     * 
+     * @param DOMDocument $document 
+     * @return ezcDocumentXmlBase
+     */
+    protected function buildDocument( DOMDocument $document )
+    {
         $dest = new ezcDocumentEzp4Xml();
         $dest->loadDomDocument( $document );
         return $dest;

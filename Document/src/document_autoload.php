@@ -39,6 +39,8 @@ return array(
     'ezcDocumentXsltConverter'                      => 'Document/converters/xslt.php',
     'ezcDocumentDocbook'                            => 'Document/document/xml/docbook.php',
     'ezcDocumentDocbookOptions'                     => 'Document/options/document_docbook.php',
+    'ezcDocumentDocbookToHtmlXsltConverter'         => 'Document/converters/xslt/docbook_html.php',
+    'ezcDocumentDocbookToHtmlXsltConverterOptions'  => 'Document/options/converter_docbook_html.php',
     'ezcDocumentEzp3ToEzp4Converter'                => 'Document/converters/xslt/ezp3_ezp4.php',
     'ezcDocumentEzp3ToEzp4ConverterOptions'         => 'Document/options/converter_ezp3_ezp4.php',
     'ezcDocumentEzp3Xml'                            => 'Document/document/xml/ezp3.php',

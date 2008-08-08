@@ -28,6 +28,7 @@ require 'document_xhtml_docbook_tests.php';
 
 require 'converter_options_ezp3_ezp4_test.php';
 require 'converter_ezp3_ezp4_test.php';
+require 'converter_docbook_html_xsl_test.php';
 
 class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 {
@@ -53,6 +54,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDocumentConverterOptionsEzp3ToEzp4Tests::suite() );
         $this->addTest( ezcDocumentConverterEzp3ToEzp4Tests::suite() );
+        $this->addTest( ezcDocumentConverterDocbookToHtmlXsltTests::suite() );
     }
 }
 
