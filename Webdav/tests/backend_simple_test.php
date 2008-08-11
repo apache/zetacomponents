@@ -840,10 +840,21 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
 
         $res = $backend->put( $req );
 
+        $expectedRes = new ezcWebdavPutResponse( 
+            new ezcWebdavResource( $testPath )
+        );
+
+        // Assert ETag header was set (new resource, not sure what ETag will look like)
+        $this->assertNotNull(
+            $res->getHeader( 'ETag' ),
+            'ETag header not set.'
+        );
+
+        // Add ETag header to expected response to allow following assertion.
+        $expectedRes->setHeader( 'ETag', $res->getHeader( 'ETag' ) );
+
         $this->assertEquals(
-            new ezcWebdavPutResponse( 
-                new ezcWebdavResource( $testPath )
-            ),
+            $expectedRes,
             $res,
             'Expected response does not match real response.',
             0,

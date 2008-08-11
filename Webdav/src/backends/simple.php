@@ -789,10 +789,15 @@ abstract class ezcWebdavSimpleBackend
         }
         $this->setResourceContents( $source, $request->body );
 
-        // Return success response
-        return new ezcWebdavPutResponse(
+        $res = new ezcWebdavPutResponse(
             $source
         );
+
+        // Add ETag header
+        $res->setHeader( 'ETag', $this->getETag( $source ) );
+
+        // Deliver response
+        return $res;
     }
 
     /**

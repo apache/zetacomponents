@@ -649,6 +649,7 @@ class ezcWebdavFileBackend
      */
     protected function getETag( $path )
     {
+        clearstatcache();
         return md5(
             $path
             . $this->getContentLength( $path )

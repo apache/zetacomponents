@@ -302,7 +302,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceHead()
     {
-        $backend = new ezcWebdavMemoryBackend( false );
+        $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -314,12 +314,15 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->head( $request );
 
+        $expectedResponse = new ezcWebdavHeadResponse(
+            new ezcWebdavResource(
+                '/foo', $backend->initializeProperties( '/foo' )
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', 'e9b6f4541c34489fe74a994915ed9518' );
+
         $this->assertEquals(
-            new ezcWebdavHeadResponse(
-                new ezcWebdavResource(
-                    '/foo', new ezcWebdavBasicPropertyStorage()
-                )
-            ),
+            $expectedResponse,
             $response,
             'Expected response does not match real response.',
             0,
@@ -329,7 +332,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testCollectionHead()
     {
-        $backend = new ezcWebdavMemoryBackend( false );
+        $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -340,13 +343,16 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $request = new ezcWebdavHeadRequest( '/bar' );
         $request->validateHeaders();
         $response = $backend->head( $request );
+        
+        $expectedResponse = new ezcWebdavHeadResponse(
+            new ezcWebdavCollection(
+                '/bar', $backend->initializeProperties( '/bar', true )
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', '31c538d234b12421c5cd7e5e97e34ab2' );
 
         $this->assertEquals(
-            new ezcWebdavHeadResponse(
-                new ezcWebdavCollection(
-                    '/bar', new ezcWebdavBasicPropertyStorage()
-                )
-            ),
+            $expectedResponse,
             $response,
             'Expected response does not match real response.',
             0,
@@ -382,7 +388,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceGet()
     {
-        $backend = new ezcWebdavMemoryBackend( false );
+        $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -394,12 +400,15 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->get( $request );
 
+        $expectedResponse = new ezcWebdavGetResourceResponse(
+            new ezcWebdavResource(
+                '/foo', $backend->initializeProperties( '/foo' ), 'bar'
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', 'e9b6f4541c34489fe74a994915ed9518' );
+
         $this->assertEquals(
-            new ezcWebdavGetResourceResponse(
-                new ezcWebdavResource(
-                    '/foo', new ezcWebdavBasicPropertyStorage(), 'bar'
-                )
-            ),
+            $expectedResponse,
             $response,
             'Expected response does not match real response.',
             0,
@@ -476,14 +485,17 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->get( $request );
 
+        $expectedResponse = new ezcWebdavGetResourceResponse(
+            new ezcWebdavResource(
+                '/foo', 
+                $propertyStorage,
+                'bar'
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', 'e9b6f4541c34489fe74a994915ed9518' );
+
         $this->assertEquals(
-            new ezcWebdavGetResourceResponse(
-                new ezcWebdavResource(
-                    '/foo', 
-                    $propertyStorage,
-                    'bar'
-                )
-            ),
+            $expectedResponse,
             $response,
             'Expected response does not match real response.',
             0,
@@ -493,7 +505,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testCollectionGet()
     {
-        $backend = new ezcWebdavMemoryBackend( false );
+        $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -508,19 +520,22 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->get( $request );
 
-        $this->assertEquals(
-            new ezcWebdavGetCollectionResponse(
-                new ezcWebdavCollection(
-                    '/bar', new ezcWebdavBasicPropertyStorage(), array(
-                        new ezcWebdavResource(
-                            '/bar/blubb'
-                        ),
-                        new ezcWebdavCollection(
-                            '/bar/blah'
-                        ),
-                    )
+        $expectedResponse = new ezcWebdavGetCollectionResponse(
+            new ezcWebdavCollection(
+                '/bar', $backend->initializeProperties( '/bar', true ), array(
+                    new ezcWebdavResource(
+                        '/bar/blubb'
+                    ),
+                    new ezcWebdavCollection(
+                        '/bar/blah'
+                    ),
                 )
-            ),
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', '31c538d234b12421c5cd7e5e97e34ab2' );
+
+        $this->assertEquals(
+            $expectedResponse,
             $response,
             'Expected response does not match real response.',
             0,
@@ -530,7 +545,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceDeepGet()
     {
-        $backend = new ezcWebdavMemoryBackend( false );
+        $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -545,14 +560,17 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->get( $request );
 
+        $expectedResponse = new ezcWebdavGetResourceResponse(
+            new ezcWebdavResource(
+                '/bar/blah/fumdiidudel.txt', 
+                $backend->initializeProperties( '/bar/blah/fumdiidudel.txt' ), 
+                'Willst du an \'was Rundes denken, denk\' an einen Plastikball. Willst du \'was gesundes schenken, schenke einen Plastikball. Plastikball, Plastikball, ...'
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', '4cea4bd577814d08ea2a8dd8c2f68748' );
+
         $this->assertEquals(
-            new ezcWebdavGetResourceResponse(
-                new ezcWebdavResource(
-                    '/bar/blah/fumdiidudel.txt', 
-                    new ezcWebdavBasicPropertyStorage(), 
-                    'Willst du an \'was Rundes denken, denk\' an einen Plastikball. Willst du \'was gesundes schenken, schenke einen Plastikball. Plastikball, Plastikball, ...'
-                )
-            ),
+            $expectedResponse,
             $response,
             'Expected response does not match real response.',
             0,
@@ -1522,7 +1540,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPutOnExistingCollection()
     {
-        $backend = new ezcWebdavMemoryBackend( false );
+        $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1606,7 +1624,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPut()
     {
-        $backend = new ezcWebdavMemoryBackend( false );
+        $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1620,10 +1638,13 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->put( $request );
 
+        $expectedResponse = new ezcWebdavPutResponse(
+            '/bar/foo'
+        );
+        $expectedResponse->setHeader( 'ETag', '93ac3897d0a4147674e1fa586e8e4bbe' );
+
         $this->assertEquals(
-            new ezcWebdavPutResponse(
-                '/bar/foo'
-            ),
+            $expectedResponse,
             $response,
             'Expected response does not match real response.',
             0,
@@ -1651,7 +1672,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPutOnExistingRessource()
     {
-        $backend = new ezcWebdavMemoryBackend( false );
+        $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
             'bar' => array(
@@ -1665,10 +1686,13 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->put( $request );
 
+        $expectedResponse = new ezcWebdavPutResponse(
+            '/foo'
+        );
+        $expectedResponse->setHeader( 'ETag', 'e9b6f4541c34489fe74a994915ed9518' );
+
         $this->assertEquals(
-            new ezcWebdavPutResponse(
-                '/foo'
-            ),
+            $expectedResponse,
             $response,
             'Expected response does not match real response.',
             0,

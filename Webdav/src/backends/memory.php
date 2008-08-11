@@ -165,8 +165,10 @@ class ezcWebdavMemoryBackend
      * @param string $name
      * @param bool $isCollection
      * @return array
+     *
+     * @access protected
      */
-    protected function initializeProperties( $name, $isCollection = false )
+    public function initializeProperties( $name, $isCollection = false )
     {
         if ( $this->fakeLiveProperties )
         {

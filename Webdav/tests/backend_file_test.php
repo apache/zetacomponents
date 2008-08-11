@@ -273,14 +273,17 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->head( $request );
 
+        $expectedResponse = new ezcWebdavHeadResponse(
+            new ezcWebdavResource(
+                '/resource', 
+                $backend->getAllProperties( '/resource' )
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', $backend->getProperty( '/resource', 'getetag' )->etag );
+
         $this->assertEquals(
+            $expectedResponse,
             $response,
-            new ezcWebdavHeadResponse(
-                new ezcWebdavResource(
-                    '/resource', 
-                    $backend->getAllProperties( '/resource' )
-                )
-            ),
             'Expected response does not match real response.',
             0,
             20
@@ -295,14 +298,17 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->head( $request );
 
+        $expectedResponse = new ezcWebdavHeadResponse(
+            new ezcWebdavCollection(
+                '/collection',
+                $backend->getAllProperties( '/collection' )
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', $backend->getProperty( '/collection', 'getetag' )->etag );
+
         $this->assertEquals(
+            $expectedResponse,
             $response,
-            new ezcWebdavHeadResponse(
-                new ezcWebdavCollection(
-                    '/collection',
-                    $backend->getAllProperties( '/collection' )
-                )
-            ),
             'Expected response does not match real response.',
             0,
             20
@@ -336,16 +342,19 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request = new ezcWebdavGetRequest( '/resource' );
         $request->validateHeaders();
         $response = $backend->get( $request );
+        
+        $expectedResponse = new ezcWebdavGetResourceResponse(
+            new ezcWebdavResource(
+                '/resource', 
+                $backend->getAllProperties( '/resource' ),
+                "Some webdav contents.\n"
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', $backend->getProperty( '/resource', 'getetag' )->etag );
 
         $this->assertEquals(
+            $expectedResponse,
             $response,
-            new ezcWebdavGetResourceResponse(
-                new ezcWebdavResource(
-                    '/resource', 
-                    $backend->getAllProperties( '/resource' ),
-                    "Some webdav contents.\n"
-                )
-            ),
             'Expected response does not match real response.',
             0,
             20
@@ -380,22 +389,25 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->get( $request );
 
-        $this->assertEquals(
-            $response,
-            new ezcWebdavGetCollectionResponse(
-                new ezcWebdavCollection(
-                    '/collection',
-                    $backend->getAllProperties( '/collection' ),
-                    array(
-                        new ezcWebdavCollection(
-                            '/collection/deep_collection'
-                        ),
-                        new ezcWebdavResource(
-                            '/collection/test.txt'
-                        ),
-                    )
+        $expectedResponse = new ezcWebdavGetCollectionResponse(
+            new ezcWebdavCollection(
+                '/collection',
+                $backend->getAllProperties( '/collection' ),
+                array(
+                    new ezcWebdavCollection(
+                        '/collection/deep_collection'
+                    ),
+                    new ezcWebdavResource(
+                        '/collection/test.txt'
+                    ),
                 )
-            ),
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', $backend->getProperty( '/collection', 'getetag' )->etag );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
             'Expected response does not match real response.',
             0,
             20
@@ -410,15 +422,18 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->get( $request );
 
+        $expectedResponse = new ezcWebdavGetResourceResponse(
+            new ezcWebdavResource(
+                '/collection/deep_collection/deep_test.txt',
+                $backend->getAllProperties( '/collection/deep_collection/deep_test.txt' ),
+                "=========\nTest file\n=========\n\nAnd again some randome contents...\n"
+            )
+        );
+        $expectedResponse->setHeader( 'ETag', $backend->getProperty( '/collection/deep_collection/deep_test.txt', 'getetag' )->etag );
+
         $this->assertEquals(
+            $expectedResponse,
             $response,
-            new ezcWebdavGetResourceResponse(
-                new ezcWebdavResource(
-                    '/collection/deep_collection/deep_test.txt',
-                    $backend->getAllProperties( '/collection/deep_collection/deep_test.txt' ),
-                    "=========\nTest file\n=========\n\nAnd again some randome contents...\n"
-                )
-            ),
             'Expected response does not match real response.',
             0,
             20
@@ -1340,11 +1355,14 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         $request->validateHeaders();
         $response = $backend->put( $request );
 
+        $expectedResponse = new ezcWebdavPutResponse(
+            '/collection/new_resource'
+        );
+        $expectedResponse->setHeader( 'ETag', $backend->getProperty( '/collection/new_resource', 'getetag' )->etag );
+
         $this->assertEquals(
+            $expectedResponse,
             $response,
-            new ezcWebdavPutResponse(
-                '/collection/new_resource'
-            ),
             'Expected response does not match real response.',
             0,
             20
@@ -1381,15 +1399,18 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         );
 
         $request = new ezcWebdavPutRequest( '/resource', 'some content' );
-        $request->setHeader( 'Content-Length', 23 );
+        $request->setHeader( 'Content-Length', strlen( $request->body ) );
         $request->validateHeaders();
         $response = $backend->put( $request );
+        
+        $expectedResponse = new ezcWebdavPutResponse(
+            '/resource'
+        );
+        $expectedResponse->setHeader( 'ETag', $backend->getProperty( '/resource', 'getetag' )->etag );
 
         $this->assertEquals(
+            $expectedResponse,
             $response,
-            new ezcWebdavPutResponse(
-                '/resource'
-            ),
             'Expected response does not match real response.',
             0,
             20
