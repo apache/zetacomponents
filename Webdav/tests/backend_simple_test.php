@@ -35,6 +35,55 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
 		return new PHPUnit_Framework_TestSuite( __CLASS__ );
 	}
 
+    public function setUp()
+    {
+        static $i = 0;
+
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d', ++$i ) ) . '/';
+        
+        self::copyRecursive( 
+            dirname( __FILE__ ) . '/data/backend_file', 
+            $this->tempDir . 'backend/'
+        );
+
+        // Remove SVN directories from temporary backend
+        $svnDirs = ezcFile::findRecursive(
+            $this->tempDir . 'backend/',
+            array( '(/\.svn/entries$)' )
+        );
+
+        foreach ( $svnDirs as $dir )
+        {
+            ezcFile::removeRecursive( dirname( $dir ) );
+        }
+
+        // Explicitely set mtime and ctime
+        $this->recursiveTouch(
+            $this->tempDir . 'backend/',
+            // Change this once 64bit systems are common, or we reached year 2038
+            2147483647
+        );
+
+        // Store current timezone and switch to UTC for test
+        $this->oldTimezone = date_default_timezone_get();
+        date_default_timezone_set( 'UTC' );
+    }
+
+    public function tearDown()
+    {
+        // Reset old timezone
+        date_default_timezone_set( $this->oldTimezone );
+
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
+    }
+
+    // ******************************
+    // Tool methods
+    // ******************************
+
     protected function recursiveTouch( $source, $time )
     {
         $dh = opendir( $source );
@@ -162,50 +211,9 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
         );
     }
 
-    public function setUp()
-    {
-        static $i = 0;
-
-        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d', ++$i ) ) . '/';
-        
-        self::copyRecursive( 
-            dirname( __FILE__ ) . '/data/backend_file', 
-            $this->tempDir . 'backend/'
-        );
-
-        // Remove SVN directories from temporary backend
-        $svnDirs = ezcFile::findRecursive(
-            $this->tempDir . 'backend/',
-            array( '(/\.svn/entries$)' )
-        );
-
-        foreach ( $svnDirs as $dir )
-        {
-            ezcFile::removeRecursive( dirname( $dir ) );
-        }
-
-        // Explicitely set mtime and ctime
-        $this->recursiveTouch(
-            $this->tempDir . 'backend/',
-            // Change this once 64bit systems are common, or we reached year 2038
-            2147483647
-        );
-
-        // Store current timezone and switch to UTC for test
-        $this->oldTimezone = date_default_timezone_get();
-        date_default_timezone_set( 'UTC' );
-    }
-
-    public function tearDown()
-    {
-        // Reset old timezone
-        date_default_timezone_set( $this->oldTimezone );
-
-        if ( !$this->hasFailed() )
-        {
-            $this->removeTempDir();
-        }
-    }
+    // ******************************
+    // GET request tests
+    // ******************************
 
     public function testGetResourceWithValidETag()
     {
@@ -568,6 +576,10 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
         );
     }
 
+    // ******************************
+    // PROPFIND request tests
+    // ******************************
+
     public function testPropfindResourceWithValidETag()
     {
         $testPath = '/collection/test.txt';
@@ -633,6 +645,10 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             20
         );
     }
+
+    // ******************************
+    // PROPPATCH request tests
+    // ******************************
 
     public function testProppatchResourceWithValidETag()
     {
@@ -722,6 +738,10 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
         );
     }
 
+    // ******************************
+    // PUT request tests
+    // ******************************
+
     public function testPutResourceWithValidETag()
     {
         $testPath = '/collection/test.txt';
@@ -779,6 +799,10 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             20
         );
     }
+
+    // ******************************
+    // DELETE request tests
+    // ******************************
 
     public function testDeleteResourceWithValidETag()
     {
@@ -891,6 +915,10 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             20
         );
     }
+
+    // ******************************
+    // COPY request tests
+    // ******************************
 
     public function testCopyResourceWithValidETag()
     {
@@ -1041,7 +1069,10 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             20
         );
     }
-    // Move
+
+    // ******************************
+    // MOVE request tests
+    // ******************************
 
     public function testMoveResourceWithValidETag()
     {
@@ -1192,6 +1223,10 @@ class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
             20
         );
     }
+
+    // ******************************
+    // MKCOL request tests
+    // ******************************
 
     public function testMakeCollectionWithValidETag()
     {
