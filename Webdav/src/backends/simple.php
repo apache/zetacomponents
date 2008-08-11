@@ -247,11 +247,12 @@ abstract class ezcWebdavSimpleBackend
         {
             return $res;
         }
-
+        
+        $res = null; // Init
         if ( !$this->isCollection( $source ) )
         {
             // Just deliver file
-            return new ezcWebdavGetResourceResponse(
+            $res = new ezcWebdavGetResourceResponse(
                 new ezcWebdavResource(
                     $source,
                     $this->getAllProperties( $source ),
@@ -259,15 +260,23 @@ abstract class ezcWebdavSimpleBackend
                 )
             );
         }
+        else
+        {
+            // Return collection with contained children
+            $res = new ezcWebdavGetCollectionResponse(
+                new ezcWebdavCollection(
+                    $source,
+                    $this->getAllProperties( $source ),
+                    $this->getCollectionMembers( $source )
+                )
+            );
+        }
+        
+        // Add ETag header
+        $res->setHeader( 'ETag', $this->getETag( $source ) );
 
-        // Return collection with contained children
-        return new ezcWebdavGetCollectionResponse(
-            new ezcWebdavCollection(
-                $source,
-                $this->getAllProperties( $source ),
-                $this->getCollectionMembers( $source )
-            )
-        );
+        // Deliver response
+        return $res;
     }
 
     /**
@@ -294,10 +303,11 @@ abstract class ezcWebdavSimpleBackend
             );
         }
         
+        $res = null; // Init
         if ( !$this->isCollection( $source ) )
         {
             // Just deliver file without contents
-            return new ezcWebdavHeadResponse(
+            $res = new ezcWebdavHeadResponse(
                 new ezcWebdavResource(
                     $source,
                     $this->getAllProperties( $source )
@@ -307,13 +317,19 @@ abstract class ezcWebdavSimpleBackend
         else
         {
             // Just deliver collection without children
-            return new ezcWebdavHeadResponse(
+            $res = new ezcWebdavHeadResponse(
                 new ezcWebdavCollection(
                     $source,
                     $this->getAllProperties( $source )
                 )
             );
         }
+
+        // Add ETag header
+        $res->setHeader( 'ETag', $this->getETag( $source ) );
+
+        // Deliver response
+        return $res;
     }
 
     /**
