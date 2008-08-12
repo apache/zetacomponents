@@ -46,6 +46,14 @@
  * @property ezcWebdavServerConfigurationManager $configurations
  *           Webdav server configuration manager, which holds and dispatches
  *           configurations that fit for a certain client.
+ * @property ezcWebdavAuth $auth
+ *           The central authentication mechanism for the WebDAV server. This
+ *           instance will be used to perform authentication and authorization
+ *           on every incoming request. The default is an instance of {@link
+ *           ezcWebdavNoAuth}, which does not provide any authorization or
+ *           authentication. Plugins might require an extended interface to be
+ *           implemented.
+ *
  * @property-read ezcWebdavBackend $backend
  *                The backend given to {@link ezcWebdavServer->handle()}. Null
  *                before handle() was called.
@@ -251,8 +259,9 @@ class ezcWebdavServer
     {
         unset( $this->properties['configurations'] );
         unset( $this->properties['pluginRegistry'] );
-        $this->properties['configurations']  = new ezcWebdavServerConfigurationManager();
-        $this->properties['pluginRegistry']  = new ezcWebdavPluginRegistry();
+        $this->properties['configurations'] = new ezcWebdavServerConfigurationManager();
+        $this->properties['pluginRegistry'] = new ezcWebdavPluginRegistry();
+        $this->properties['auth']           = new ezcWebdavNoAuth();
 
         $this->properties['transport']       = null;
         $this->properties['backend']         = null;
@@ -287,6 +296,12 @@ class ezcWebdavServer
                 if ( !( $propertyValue instanceof ezcWebdavServerConfigurationManager ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavServerConfigurationManager' );
+                }
+                break;
+            case 'auth':
+                if ( !( $propertyValue instanceof ezcWebdavAuth ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavAuth' );
                 }
                 break;
             case 'backend':

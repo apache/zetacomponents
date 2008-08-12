@@ -46,14 +46,15 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
             array(
-                'transport'       => null,
-                'backend'         => null,
                 'configurations'  => new ezcWebdavServerConfigurationManager(),
                 'pluginRegistry'  => new ezcWebdavPluginRegistry(),
+                'auth'            => new ezcWebdavNoAuth(),
+                'transport'       => null,
+                'backend'         => null,
+                'pathFactory'     => null,
                 'xmlTool'         => null,
                 'propertyHandler' => null,
                 'headerHandler'   => null,
-                'pathFactory'     => null,
             ),
             'properties',
             $srv
@@ -69,6 +70,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
             'backend'         => null,
             'configurations'  => new ezcWebdavServerConfigurationManager(),
             'pluginRegistry'  => new ezcWebdavPluginRegistry(),
+            'auth'            => new ezcWebdavNoAuth(),
             'xmlTool'         => null,
             'propertyHandler' => null,
             'headerHandler'   => null,
@@ -108,14 +110,15 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
             'configurations' => new ezcWebdavServerConfigurationManager(),
         );
         $checkValues = array(
-            'backend'         => null,
             'configurations'  => new ezcWebdavServerConfigurationManager(),
             'pluginRegistry'  => new ezcWebdavPluginRegistry(),
+            'auth'            => new ezcWebdavNoAuth(),
+            'transport'       => null,
+            'backend'         => null,
+            'pathFactory'     => null,
             'xmlTool'         => null,
             'propertyHandler' => null,
             'headerHandler'   => null,
-            'pathFactory'     => null,
-            'transport'       => null,
         );
 
         foreach( $setValues as $property => $value )
