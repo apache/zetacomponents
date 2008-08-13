@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <secinfo>
+    <sectioninfo>
       <abstract>Personal homepage of Kore Nordmann. Contains information about his mainly PHP related projects with some political rants in his blog.</abstract>
       <author>Kore Nordmann</author>
       <date>Thu, 29 Nov 2007 11:56:05 +0100</date>
@@ -10,7 +10,7 @@
       <date>Thu, 29 Nov 2007 11:56:05 +0100</date>
       <copyright>CC by-sa</copyright>
       <title>Image_3D performance - Kore Nordmann - PHP / Projects / Politics</title>
-    </secinfo>
+    </sectioninfo>
     <section>
       <title>Image_3D performance</title>
       <para>The <ulink url="http://www.zend.com/de/products/zend_guard">ZendGuard</ulink>

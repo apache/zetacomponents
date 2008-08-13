@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <secinfo>
+    <sectioninfo>
       <title>Test with badly formatted HTML</title>
-    </secinfo>
+    </sectioninfo>
     <section>
       <title>Some random text</title>
       <para>

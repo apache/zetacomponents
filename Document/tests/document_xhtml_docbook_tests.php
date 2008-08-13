@@ -250,7 +250,7 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         $xml = $docbook->save();
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'xtml_bad_' ) . '/';
+        $tempDir = $this->createTempDir( 'xhtml_bad_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
         // We need a proper XSD first, the current one does not accept legal
@@ -286,7 +286,7 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         $xml = $docbook->save();
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'xpath_filter' ) . '/';
+        $tempDir = $this->createTempDir( 'xpath_filter_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
         // We need a proper XSD first, the current one does not accept legal
@@ -326,7 +326,7 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         $xml = $docbook->save();
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'xtml_bad_' ) . '/';
+        $tempDir = $this->createTempDir( 'xhtml_table_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
         // We need a proper XSD first, the current one does not accept legal

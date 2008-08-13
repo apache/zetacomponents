@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <secinfo>
+    <sectioninfo>
       <title>Title references</title>
-    </secinfo>
+    </sectioninfo>
     <section>
       <title><anchor id="title_references"/>Title references</title>
       <para>The text contains references to the <link linked="subtitle">Subtitle</link> and even to the document title: <link linked="title_references">Title references</link>.</para>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <secinfo>
+    <sectioninfo>
       <title>Blockquotes</title>
-    </secinfo>
+    </sectioninfo>
     <section>
       <title><anchor id="blockquotes"/>Blockquotes</title>
       <para>This is an ordinary paragraph, introducing a block quote.</para>

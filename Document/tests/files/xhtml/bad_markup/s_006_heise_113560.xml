@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <secinfo>
+    <sectioninfo>
       <title>heise online -
 30.07.08 -
 Kernel-Log: 2.6.25.13 korrigiert SicherheitslÃ¼cke, Probleme rund um ACPI</title>
       <date>2008-07-30T14:15:44</date>
       <abstract>2.6.25.13 korrigiert eine SicherheitslÃ¼cke im PPP-Code, ohne dass die Kernel-Entwickler explizit darauf hinweisen; ACPI-Probleme bereiten derweil Anwendern und Entwicklern Schwierigkeiten, die bereits zu GerÃ¼chten Ã¼ber Blockaden durch Foxconn fÃ¼hrten.</abstract>
-    </secinfo>
+    </sectioninfo>
     <section>
       <title>
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <secinfo>
+    <sectioninfo>
       <title>Line blocks</title>
-    </secinfo>
+    </sectioninfo>
     <section>
       <title><anchor id="line_blocks"/>Line blocks</title>
       <literallayout class="Normal">Lend us a couple of bob till Thursday.

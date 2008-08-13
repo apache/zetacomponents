@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <secinfo>
+    <sectioninfo>
       <title>Main Title</title>
-    </secinfo>
+    </sectioninfo>
     <section>
       <title><anchor id="main_title"/>Main Title</title>
       <para>Hello world</para>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <secinfo>
+    <sectioninfo>
       <title>Embedded URLs</title>
-    </secinfo>
+    </sectioninfo>
     <section>
       <title><anchor id="embedded_urls"/>Embedded URLs</title>
       <para>See the <ulink url="http://www.python.org">Python home page</ulink> for info.</para>

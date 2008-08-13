@@ -33,7 +33,7 @@ class ezcDocumentXhtmlElementMappingFilter extends ezcDocumentXhtmlElementBaseFi
         'dt'         => 'term',
         'dd'         => 'listitem',
         'em'         => 'emphasis',
-        'head'       => 'secinfo',
+        'head'       => 'sectioninfo',
         'hr'         => 'beginpage',
         'html'       => 'section',
         'i'          => 'emphasis',

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
-    <secinfo>
+    <sectioninfo>
       <abstract>Personal homepage of Kore Nordmann. Contains information about his mainly PHP related projects with some political rants in his blog.</abstract>
       <author>Kore Nordmann</author>
       <date>Sat, 28 Jun 2008 21:17:31 +0200</date>
@@ -10,7 +10,7 @@
       <date>Sat, 28 Jun 2008 21:17:31 +0200</date>
       <copyright>CC by-sa</copyright>
       <title>Blog - Kore Nordmann - PHP / Projects / Politics</title>
-    </secinfo>
+    </sectioninfo>
     <section>
       <title>
         <ulink url="/">
