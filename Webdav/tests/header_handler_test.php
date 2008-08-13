@@ -28,6 +28,31 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
     }
 
     /**
+     * testParseAuthorizationHeader 
+     * 
+     * @param mixed $headerContent 
+     * @param mixed $expectedValue 
+     * @return void
+     *
+     * @dataProvider provideAuthorizationHeaderSets
+     */
+    public function testParseAuthorizationHeader( $headerContent, $expectedValue )
+    {
+        $_SERVER                       = array();
+        $_SERVER['HTTP_AUTHORIZATION'] = $headerContent;
+
+        $headerHandler = new ezcWebdavHeaderHandler();
+        $value = $headerHandler->parseHeader( 'Authorization' );
+
+        $this->assertEquals(
+            $expectedValue,
+            $value,
+            'Value for Authorization not parsed correctly.'
+        );
+
+    }
+
+    /**
      * testParseDepthHeader 
      * 
      * @param mixed $headerContent 
@@ -179,6 +204,15 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
     }
     
     // Data providers
+
+    public static function provideAuthorizationHeaderSets()
+    {
+        return array(
+            array( 'Basic Zm9vOmJhcg==', array( 'user' => 'foo', 'pass' => 'bar' ) ),
+            array( 'Basic     dXNlcjpwYXNz   ', array( 'user' => 'user', 'pass' => 'pass' ) ),
+            array( 'Basic dXNlcjpwYXNzd2l0aDppbml0', array( 'user' => 'user', 'pass' => 'passwith:init' ) ),
+        );
+    }
 
     public static function provideDepthTestSets()
     {

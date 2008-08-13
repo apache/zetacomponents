@@ -27,6 +27,9 @@ class ezcWebdavHeaderHandler
      * @var array(string=>string)
      */
     protected $headerMap = array(
+        'Authorization' => array(
+            'HTTP_AUTHORIZATION',
+        ),
         'Content-Length' => array( 
             'HTTP_CONTENT_LENGTH',
             'CONTENT_LENGTH',
@@ -66,6 +69,7 @@ class ezcWebdavHeaderHandler
      * @var array(string)
      */
     protected $defaultHeaders = array(
+        'Authorization',
         'If-Match',
         'If-None-Match',
     );
@@ -163,6 +167,9 @@ class ezcWebdavHeaderHandler
     {
         switch ( $headerName )
         {
+            case 'Authorization':
+                $value = $this->parseAuthorizationHeader( $value );
+                break;
             case 'Depth':
                 $value = $this->parseDepthHeader( $value );
                 break;
@@ -179,6 +186,49 @@ class ezcWebdavHeaderHandler
                 // @TODO Add plugin hook
         }
         return $value;
+    }
+
+    /**
+     * Parses the Authorization header.
+     *
+     * Takes the string value of the Authorization header and parses it
+     * according to the Basic authentication scheme. The return value is an
+     * array of the following structure:
+     *
+     * <code>
+     * array(
+     *      'user' => <username>,
+     *      'pass' => <password>,
+     * )
+     * </code>
+     *
+     * In case the header is provided but does not contain a parseable value,
+     * the user and pass fields are null.
+     *
+     * @TODO We currently only support Basic auth. Digest auth should be
+     *       supported in future. Maybe through a plugin?
+     * @param string $value 
+     * @return array(string)
+     */
+    protected function parseAuthorizationHeader( $value )
+    {
+        $res = array(
+            'user' => null,
+            'pass' => null,
+        );
+
+        if ( substr( $value, 0, 5 ) === 'Basic' )
+        {
+            // e.g. "Basic dXNlcjpwYXNz"
+            $credentials = explode( ':', base64_decode( trim( substr( $value, 6 ) ) ), 2 );
+            if ( count( $credentials ) > 1 )
+            {
+                $res['user'] = $credentials[0];
+                $res['pass'] = $credentials[1];
+            }
+        }
+
+        return $res;
     }
 
     /**
