@@ -94,6 +94,42 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         );
     }
 
+    public function testHtmlOutput()
+    {
+        $from = dirname( __FILE__ ) . '/files/rst/xhtml/s_003_simple_text.txt';
+        $to   = dirname( __FILE__ ) . '/files/rst/xhtml/s_003_simple_text_no_xml.html';
+
+        $document = new ezcDocumentRst();
+        $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+
+        $document->registerDirective( 'my_custom_directive', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'user', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'book', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'function', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'replace', 'ezcDocumentTestDummyXhtmlDirective' );
+
+        $document->loadFile( $from );
+
+        $docbook = $document->getAsXhtml();
+        $xml = $docbook->save();
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'html_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml );
+
+        // ext/DOM seem inable to handle the  official docbook XSD file.
+        $this->checkXhtml( $docbook->getDomDocument() );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
+        );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
+    }
+
     /**
      * @dataProvider getTestDocuments
      */
@@ -116,7 +152,7 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         $document->loadFile( $from );
 
         $docbook = $document->getAsXhtml();
-        $xml = $docbook->save();
+        $xml = $docbook->getDomDocument()->saveXml();
 
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'html_' ) . '/';

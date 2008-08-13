@@ -228,6 +228,18 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
     {
         // @TODO: Implement
     }
+
+    /**
+     * Return document as string
+     * 
+     * Serialize the document to a string an return it.
+     *
+     * @return string
+     */
+    public function save()
+    {
+        return $this->document->saveHtml();
+    }
 }
 
 ?>
