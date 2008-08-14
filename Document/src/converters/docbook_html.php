@@ -63,6 +63,8 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'warning'           => 'visitSpecialParagraphs',
         'important'         => 'visitSpecialParagraphs',
         'caution'           => 'visitSpecialParagraphs',
+        'literallayout'     => 'visitWithMapper',
+        'footnote'          => 'visitFootnote',
     );
 
     /**
@@ -74,10 +76,11 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      * @var array
      */
     protected $mapping = array(
-        'literal'      => 'code',
-        'itemizedlist' => 'ul',
-        'orderedlist'  => 'ol',
-        'listitem'     => 'li',
+        'literal'       => 'code',
+        'itemizedlist'  => 'ul',
+        'orderedlist'   => 'ol',
+        'listitem'      => 'li',
+        'literallayout' => 'pre',
     );
 
 
@@ -101,6 +104,21 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      * @var int
      */
     protected $level = 0;
+
+    /**
+     * Array for footnotes aggregated during the processing of the document.
+     * Will be rendered at the end of the HTML document.
+     * 
+     * @var array
+     */
+    protected $footnotes = array();
+
+    /**
+     * Autoincrementing number for footnotes.
+     * 
+     * @var int
+     */
+    protected $footnoteNumber = 0;
 
     /**
      * Construct converter
@@ -144,6 +162,7 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         $root->appendChild( $body );
 
         $this->visitChilds( $doc->getDomDocument(), $body );
+        $this->appendFootnotes( $body );
 
         $html = new ezcDocumentXhtml();
         $html->setDomDocument( $this->html );
@@ -190,6 +209,32 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
                     }
                     break;
             }
+        }
+    }
+
+    protected function appendFootnotes( DOMElement $root )
+    {
+        if ( !count( $this->footnotes ) )
+        {
+            // Do not do anything, if there aren't any footnotes.
+            return;
+        }
+
+        $footnoteContainer = $this->html->createElement( 'ul' );
+        $footnoteContainer->setAttribute( 'class', 'footnotes' );
+        $root->appendChild( $footnoteContainer );
+
+        foreach ( $this->footnotes as $nr => $element )
+        {
+            $li = $this->html->createElement( 'li' );
+            $footnoteContainer->appendChild( $li );
+
+            $reference = $this->html->createElement( 'a', $nr );
+            $reference->setAttribute( 'name', 'footnote_' . $nr );
+            $li->appendChild( $reference );
+
+            // Visit actual footnote contents and append to the footnote.
+            $this->visitChilds( $element, $li );
         }
     }
 
@@ -483,6 +528,19 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         $root->appendChild( $image );
     }
 
+    /**
+     * Visit special paragraphs
+     *
+     * Transform the paragraphs with special annotations like <note> and
+     * <caution> to paragraphs inside the HTML document with a class
+     * representing the meaning of the docbook elements. The mapping which is
+     * used inside this method is used throughout the document comoponent and
+     * compatible with the RTS mapping.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
     protected function visitSpecialParagraphs( DOMElement $element, DOMElement $root )
     {
         $types = array(
@@ -498,6 +556,28 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         $paragraph->setAttribute( 'class', $type );
         $root->appendChild( $paragraph );
         $this->visitChilds( $element, $paragraph );
+    }
+
+    /**
+     * Visit footnotes
+     *
+     * Footnotes in docbook are emebdded at the position, the reference should
+     * occur. We store the contents, to be rendered at the end of the HTML
+     * document, and only render a number referencing the actual footnote at
+     * the position of the footnote in the docbook document.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitFootnote( DOMElement $element, DOMElement $root )
+    {
+        $this->footnotes[++$this->footnoteNumber] = $element->cloneNode( true );
+
+        $footnoteReference = $this->html->createElement( 'a', $this->footnoteNumber );
+        $footnoteReference->setAttribute( 'class', 'footnote' );
+        $footnoteReference->setAttribute( 'href', '#footnote_' . $this->footnoteNumber );
+        $root->appendChild( $footnoteReference );
     }
 }
 
