@@ -49,6 +49,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
                 'configurations'  => new ezcWebdavServerConfigurationManager(),
                 'pluginRegistry'  => new ezcWebdavPluginRegistry(),
                 'auth'            => new ezcWebdavNoAuth(),
+                'options'         => new ezcWebdavServerOptions(),
                 'transport'       => null,
                 'backend'         => null,
                 'pathFactory'     => null,
@@ -71,6 +72,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
             'configurations'  => new ezcWebdavServerConfigurationManager(),
             'pluginRegistry'  => new ezcWebdavPluginRegistry(),
             'auth'            => new ezcWebdavNoAuth(),
+            'options'         => new ezcWebdavServerOptions(),
             'xmlTool'         => null,
             'propertyHandler' => null,
             'headerHandler'   => null,
@@ -108,11 +110,13 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         $setValues = array(
             'configurations' => new ezcWebdavServerConfigurationManager(),
+            'options'         => new ezcWebdavServerOptions(),
         );
         $checkValues = array(
             'configurations'  => new ezcWebdavServerConfigurationManager(),
             'pluginRegistry'  => new ezcWebdavPluginRegistry(),
             'auth'            => new ezcWebdavNoAuth(),
+            'options'         => new ezcWebdavServerOptions(),
             'transport'       => null,
             'backend'         => null,
             'pathFactory'     => null,
@@ -156,6 +160,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
 
         $invalidValues = array(
             'configurations' => $typicalFails, 
+            'options'        => $typicalFails,
         );
 
         foreach ( $invalidValues as $propertyName => $propertyValues )
@@ -200,6 +205,8 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
             'xmlTool',
             'propertyHandler',
             'pathFactory',
+            'auth',
+            'options',
         );
 
         foreach( $properties as $propertyName )

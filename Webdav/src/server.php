@@ -102,13 +102,6 @@ class ezcWebdavServer
     protected $properties = array();
 
     /**
-     * Object to perform authorization for RFC 2518 basic requests.
-     * 
-     * @var ezcWebdavAuthorizer
-     */
-    private $authorizer;
-
-    /**
      * Creates a new instance.
      *
      * The constructor is protected due to singleton reasons. Use {@link
@@ -276,6 +269,7 @@ class ezcWebdavServer
         $this->properties['configurations'] = new ezcWebdavServerConfigurationManager();
         $this->properties['pluginRegistry'] = new ezcWebdavPluginRegistry();
         $this->properties['auth']           = new ezcWebdavNoAuth();
+        $this->properties['options']        = new ezcWebdavServerOptions();
 
         $this->properties['transport']       = null;
         $this->properties['backend']         = null;
@@ -316,6 +310,12 @@ class ezcWebdavServer
                 if ( !( $propertyValue instanceof ezcWebdavAuth ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavAuth' );
+                }
+                break;
+            case 'options':
+                if ( !( $propertyValue instanceof ezcWebdavServerOptions ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavServerOptions' );
                 }
                 break;
             case 'backend':
