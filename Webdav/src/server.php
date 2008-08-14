@@ -102,6 +102,13 @@ class ezcWebdavServer
     protected $properties = array();
 
     /**
+     * Object to perform authorization for RFC 2518 basic requests.
+     * 
+     * @var ezcWebdavAuthorizer
+     */
+    private $authorizer;
+
+    /**
      * Creates a new instance.
      *
      * The constructor is protected due to singleton reasons. Use {@link
@@ -186,7 +193,7 @@ class ezcWebdavServer
         if ( $request instanceof ezcWebdavRequest )
         {
             // Plugin hook receivedRequest
-            ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+            $pluginRes = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
                 __CLASS__,
                 'receivedRequest',
                 new ezcWebdavPluginParameters(
@@ -195,7 +202,14 @@ class ezcWebdavServer
                     )
                 )
             );
-            $response = $this->backend->performRequest( $request );
+            if ( is_object( $pluginRes ) && $pluginRes instanceof ezcWebdavResponse )
+            {
+                $response = $pluginRes;
+            }
+            else
+            {
+                $response = $this->backend->performRequest( $request );
+            }
         }
         else
         {
