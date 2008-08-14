@@ -58,6 +58,11 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'itemizedlist'      => 'visitWithMapper',
         'orderedlist'       => 'visitWithMapper',
         'listitem'          => 'visitWithMapper',
+        'note'              => 'visitSpecialParagraphs',
+        'tip'               => 'visitSpecialParagraphs',
+        'warning'           => 'visitSpecialParagraphs',
+        'important'         => 'visitSpecialParagraphs',
+        'caution'           => 'visitSpecialParagraphs',
     );
 
     /**
@@ -433,12 +438,66 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      */
     protected function visitMediaObject( DOMElement $element, DOMElement $root )
     {
-        /*
-        $link = $this->html->createElement( 'a' );
-        $link->setAttribute( 'name', $element->getAttribute( 'id' ) );
-        $root->appendChild( $link );
-        $this->visitChilds( $element, $link );
-        */
+        // Get image resource
+        $resource = $element->getElementsBytagName( 'imagedata' )->item( 0 );
+        
+        $image = $this->html->createElement( 'img' );
+
+        // Transform attributes
+        $attributes = array(
+            'width'   => 'width',
+            'depth'   => 'height',
+            'fileref' => 'src',
+        );
+        foreach ( $attributes as $src => $dst )
+        {
+            if ( $resource->hasAttribute( $src ) )
+            {
+                $image->setAttribute( $dst, htmlspecialchars( $resource->getAttribute( $src ) ) );
+            }
+        }
+
+        // Check if the image has a description
+        if ( ( $textobject = $element->getElementsBytagName( 'textobject' ) ) &&
+               ( $textobject->length > 0 ) )
+        {
+            $image->setAttribute( 'alt', htmlspecialchars( trim( $textobject->item( 0 )->textContent ) ) );
+        }
+
+        // Check if the image has additional description assigned. In such a
+        // case we wrap the image and the text inside another block.
+        if ( ( $textobject = $element->getElementsBytagName( 'caption' ) ) &&
+               ( $textobject->length > 0 ) )
+        {
+            $textobject = $textobject->item( 0 );
+            $wrapper = $this->html->createElement( 'div' );
+            $wrapper->setAttribute( 'class', 'image' );
+            $wrapper->appendChild( $image );
+
+            // Decorate the childs of the caption node recursively, as it might
+            // contain additional markup.
+            $this->visitChilds( $textobject, $wrapper );
+            $image = $wrapper;
+        }
+
+        $root->appendChild( $image );
+    }
+
+    protected function visitSpecialParagraphs( DOMElement $element, DOMElement $root )
+    {
+        $types = array(
+            'note'      => 'note',
+            'tip'       => 'notice',
+            'warning'   => 'warning',
+            'important' => 'attention',
+            'caution'   => 'danger',
+        );
+
+        $type = $types[$element->tagName];
+        $paragraph = $this->html->createElement( 'p' );
+        $paragraph->setAttribute( 'class', $type );
+        $root->appendChild( $paragraph );
+        $this->visitChilds( $element, $paragraph );
     }
 }
 
