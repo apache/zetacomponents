@@ -58,6 +58,7 @@ require_once 'response_test.php';
 require_once 'server_test.php';
 require_once 'server_configuration_test.php';
 require_once 'server_configuration_manager_test.php';
+require_once 'server_options_test.php';
 
 require_once 'auth_no_test.php';
 
@@ -91,6 +92,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Webdav' );
 
         $this->addTest( ezcWebdavBasicServerTest::suite() );
+        $this->addTest( ezcWebdavServerOptionsTest::suite() );
         
         $this->addTest( ezcWebdavHeaderHandlerTest::suite() );
         $this->addTest( ezcWebdavTransportTest::suite() );

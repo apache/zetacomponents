@@ -109,6 +109,7 @@ return array(
     'ezcWebdavServer'                                 => 'Webdav/server.php',
     'ezcWebdavServerConfiguration'                    => 'Webdav/server_configuration.php',
     'ezcWebdavServerConfigurationManager'             => 'Webdav/server_configuration_manager.php',
+    'ezcWebdavServerOptions'                          => 'Webdav/options/server.php',
     'ezcWebdavSourceProperty'                         => 'Webdav/properties/source.php',
     'ezcWebdavSourcePropertyLink'                     => 'Webdav/properties/source_link.php',
     'ezcWebdavStringDisplayInformation'               => 'Webdav/structs/display_information_string.php',
