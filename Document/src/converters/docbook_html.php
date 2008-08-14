@@ -55,6 +55,9 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'inlinemediaobject' => 'visitMediaObject',
         'mediaobject'       => 'visitMediaObject',
         'blockquote'        => 'visitBlockquote',
+        'itemizedlist'      => 'visitWithMapper',
+        'orderedlist'       => 'visitWithMapper',
+        'listitem'          => 'visitWithMapper',
     );
 
     /**
@@ -66,7 +69,10 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      * @var array
      */
     protected $mapping = array(
-        'literal' => 'code',
+        'literal'      => 'code',
+        'itemizedlist' => 'ul',
+        'orderedlist'  => 'ol',
+        'listitem'     => 'li',
     );
 
 
