@@ -42,7 +42,7 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         }
 
 //        return self::$testDocuments;
-        return array_slice( self::$testDocuments, 0, 14 );
+        return array_slice( self::$testDocuments, 0, 17 );
     }
 
     /**
@@ -59,6 +59,42 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         $doc->loadFile( $from );
 
         $converter = new ezcDocumentDocbookToHtmlConverter();
+        $created = $converter->convert( $doc );
+
+        $this->assertTrue(
+            $created instanceof ezcDocumentXhtml
+        );
+
+        // Replace creator string in generated document, as this may change too
+        // often for proper testing.
+        $dom = $created->getDomDocument();
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'docbook_html_custom_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $created->getDomDocument()->saveXml() );
+
+        $dest = new DOMDocument();
+        $dest->load( $to );
+
+        $this->assertEquals(
+            $dest,
+            $created->getDomDocument()
+        );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
+    }
+
+    public function testDublinCoreMetadata()
+    {
+        $from = dirname( __FILE__ ) . '/files/xhtml/docbook_custom/s_021_field_list.xml';
+        $to   = dirname( __FILE__ ) . '/files/xhtml/docbook_custom/s_021_field_list_dc.html';
+
+        $doc = new ezcDocumentDocbook();
+        $doc->loadFile( $from );
+
+        $converter = new ezcDocumentDocbookToHtmlConverter();
+        $converter->options->dublinCoreMetadata = true;
         $created = $converter->convert( $doc );
 
         $this->assertTrue(

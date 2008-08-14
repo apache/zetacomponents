@@ -12,14 +12,8 @@
 /**
  * Class containing the basic options for the ezcDocumentEzp3Xml class
  *
- * @property string $xslt
- *           Path to XSLT, which should be used for the conversion.
- * @property array $parameters
- *           List of aparameters for the XSLT transformation. Parameters are
- *           given as array, with the structure array( 'namespace' => array(
- *           'option' => 'value' ) ), where namespace may also be an empty
- *           string. For a reference of parameters of the default XSLT, see
- *           here: http://docbook.sourceforge.net/release/xsl/current/doc/html/
+ * @property bool $dublinCoreMetadata
+ *           Use the dublincore meta element names for metadata in HTML.
  *
  * @package Document
  * @version //autogen//
@@ -37,13 +31,7 @@ class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentConverterOptio
      */
     public function __construct( array $options = array() )
     {
-        /*
-        $this->xslt       = 'http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl';
-        $this->parameters = array(
-            '' => array(
-                'make.valid.html' => '1',
-            ),
-        ); // */
+        $this->dublinCoreMetadata = false;
 
         parent::__construct( $options );
     }
@@ -63,15 +51,10 @@ class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentConverterOptio
     {
         switch ( $name )
         {
-            /*
-            case 'xslt':
-                $this->properties[$name] = (string) $value;
-                break;
-
-            case 'parameters':
-                if ( !is_array( $value ) )
+            case 'dublinCoreMetadata':
+                if ( !is_bool( $value ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'array' );
+                    throw new ezcBaseValueException( $name, $value, 'boolean' );
                 }
 
                 $this->properties[$name] = $value;

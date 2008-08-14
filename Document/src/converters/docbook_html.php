@@ -65,6 +65,8 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'caution'           => 'visitSpecialParagraphs',
         'literallayout'     => 'visitWithMapper',
         'footnote'          => 'visitFootnote',
+        'comment'           => 'visitComment',
+        'beginpage'         => 'visitWithMapper',
     );
 
     /**
@@ -81,6 +83,7 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'orderedlist'   => 'ol',
         'listitem'      => 'li',
         'literallayout' => 'pre',
+        'beginpage'     => 'hr',
     );
 
 
@@ -119,6 +122,42 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      * @var int
      */
     protected $footnoteNumber = 0;
+
+    /**
+     * Element name mapping for meta information in the docbook document to
+     * HTML meta element names.
+     *
+     * @TODO: Complete list.
+     * 
+     * @var array
+     */
+    protected $headerMapping = array(
+        'abstract'    => 'description',
+        'releaseinfo' => 'version',
+        'pubdate'     => 'date',
+        'date'        => 'date',
+        'author'      => 'author',
+        'publisher'   => 'author',
+    );
+
+    /**
+     * Element name mapping for meta information in the docbook document to
+     * HTML meta element names, using the dublin core extensions for meta
+     * elements.
+     *
+     * @TODO: Complete list.
+     * 
+     * @var array
+     */
+    protected $dcHeaderMapping = array(
+        'abstract'  => 'dc.description',
+        'pubdate'   => 'dc.date',
+        'date'      => 'dc.date',
+        'author'    => 'dc.creator',
+        'publisher' => 'dc.publisher',
+        'contrib'   => 'dc.contributor',
+        'copyright' => 'dc.rights',
+    );
 
     /**
      * Construct converter
@@ -272,7 +311,22 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      */
     protected function visitHead( DOMElement $element, DOMElement $root )
     {
-        // @TODO: Implement
+        $headerMapping = $this->options->dublinCoreMetadata ? $this->dcHeaderMapping : $this->headerMapping;
+       
+        foreach ( $headerMapping as $tagName => $metaName )
+        {
+            if ( ( $nodes = $element->getElementsBytagName( $tagName ) ) &&
+                 ( $nodes->length > 0 ) )
+            {
+                foreach ( $nodes as $node )
+                {
+                    $meta = $this->html->createElement( 'meta' );
+                    $meta->setAttribute( 'name', $metaName );
+                    $meta->setAttribute( 'content', htmlspecialchars( trim( $node->textContent ) ) );
+                    $this->head->appendChild( $meta );
+                }
+            }
+        }
     }
 
     /**
@@ -578,6 +632,21 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         $footnoteReference->setAttribute( 'class', 'footnote' );
         $footnoteReference->setAttribute( 'href', '#footnote_' . $this->footnoteNumber );
         $root->appendChild( $footnoteReference );
+    }
+
+    /**
+     * Visit docbook comment
+     *
+     * Transform docbook comments into HTML ( / XML ) comments.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitComment( DOMElement $element, DOMElement $root )
+    {
+        $comment = new DOMComment( htmlspecialchars( $element->textContent ) );
+        $root->appendChild( $comment );
     }
 }
 
