@@ -69,6 +69,11 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'beginpage'         => 'visitWithMapper',
         'variablelist'      => 'visitWithMapper',
         'varlistentry'      => 'visitDefinitionListEntries',
+        'entry'             => 'visitTableCells',
+        'table'             => 'visitWithMapper',
+        'tbody'             => 'visitWithMapper',
+        'thead'             => 'visitWithMapper',
+        'row'               => 'visitWithMapper',
     );
 
     /**
@@ -80,12 +85,16 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      * @var array
      */
     protected $mapping = array(
-        'literal'       => 'code',
-        'itemizedlist'  => 'ul',
-        'orderedlist'   => 'ol',
-        'listitem'      => 'li',
-        'beginpage'     => 'hr',
-        'variablelist'  => 'dl',
+        'literal'      => 'code',
+        'itemizedlist' => 'ul',
+        'orderedlist'  => 'ol',
+        'listitem'     => 'li',
+        'beginpage'    => 'hr',
+        'variablelist' => 'dl',
+        'table'        => 'table',
+        'tbody'        => 'tbody',
+        'thead'        => 'thead',
+        'row'          => 'tr',
     );
 
 
@@ -720,6 +729,29 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
 
             $root->appendChild( $paragraph );
         }
+    }
+
+    /**
+     * Visit table cells
+     *
+     * Table cells are quite trivial to transform, but some attributes need to
+     * be converted, like rowspan.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitTableCells( DOMElement $element, DOMElement $root )
+    {
+        $cell = $this->html->createElement( 'td' );
+
+        if ( $element->hasAttribute( 'morerows' ) )
+        {
+            $cell->setAttribute( 'rowspan', $element->getAttribute( 'morerows' ) + 1 );
+        }
+
+        $root->appendChild( $cell );
+        $this->visitChilds( $element, $cell );
     }
 }
 
