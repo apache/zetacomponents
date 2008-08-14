@@ -24,26 +24,71 @@
  */
 class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
 {
+    /**
+     * Element callbacks
+     *
+     * Array with local method names assigned to the names of the docbook
+     * elements, defining the respective visitor for the docbook elements.;
+     * 
+     * @var array
+     */
     protected $visitorCallback = array(
-        'sect1info'   => 'visitHead',
-        'sect2info'   => 'visitHead',
-        'sect3info'   => 'visitHead',
-        'sect4info'   => 'visitHead',
-        'sect5info'   => 'visitHead',
-        'sectioninfo' => 'visitHead',
-        'sect1'       => 'visitSection',
-        'sect2'       => 'visitSection',
-        'sect3'       => 'visitSection',
-        'sect4'       => 'visitSection',
-        'sect5'       => 'visitSection',
-        'section'     => 'visitSection',
-        'title'       => 'visitTitle',
+        'sect1info'         => 'visitHead',
+        'sect2info'         => 'visitHead',
+        'sect3info'         => 'visitHead',
+        'sect4info'         => 'visitHead',
+        'sect5info'         => 'visitHead',
+        'sectioninfo'       => 'visitHead',
+        'sect1'             => 'visitSection',
+        'sect2'             => 'visitSection',
+        'sect3'             => 'visitSection',
+        'sect4'             => 'visitSection',
+        'sect5'             => 'visitSection',
+        'section'           => 'visitSection',
+        'title'             => 'visitTitle',
+        'para'              => 'visitParagraph',
+        'emphasis'          => 'visitEmphasis',
+        'literal'           => 'visitWithMapper',
+        'ulink'             => 'visitExternalLink',
+        'link'              => 'visitInternalLink',
+        'anchor'            => 'visitLinkTarget',
+        'inlinemediaobject' => 'visitMediaObject',
+        'mediaobject'       => 'visitMediaObject',
+        'blockquote'        => 'visitBlockquote',
     );
 
+    /**
+     * Mapping of element names.
+     *
+     * Element tag name mapping for elements, which just require trivial
+     * mapping used by the visitWithMapper() method.
+     * 
+     * @var array
+     */
+    protected $mapping = array(
+        'literal' => 'code',
+    );
+
+
+    /**
+     * Reference to the HTML document node
+     * 
+     * @var DOMDocument
+     */
     protected $html;
 
+    /**
+     * Reference to the HTML header section
+     * 
+     * @var DOMElement
+     */
     protected $head;
 
+    /**
+     * Current level of indentation in the docbook document.
+     * 
+     * @var int
+     */
     protected $level = 0;
 
     /**
@@ -138,6 +183,27 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
     }
 
     /**
+     * Simple mapping visito method
+     *
+     * Special visitor for elements which just need trivial mapping of element
+     * tag names. It ignores all attributes of the input element and just
+     * converts the tag name.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitWithMapper( DOMElement $element, DOMElement $root )
+    {
+        if ( isset( $this->mapping[$element->tagName] ) )
+        {
+            $new = $this->html->createElement( $this->mapping[$element->tagName] );
+            $root->appendChild( $new );
+            $this->visitChilds( $element, $new );
+        }
+    }
+
+    /**
      * Visit docbook sectioninfo elements
      *
      * The sectioninfo elements contain metadata about the document or
@@ -207,6 +273,166 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         }
         $root->appendChild( $header );
         $this->visitChilds( $element, $header );
+    }
+
+    /**
+     * Visit paragraphs
+     *
+     * Visit docbook paragraphs and transform them into HTML paragraphs.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitParagraph( DOMElement $element, DOMElement $root )
+    {
+        // Create common HTML headers
+        $paragraph = $this->html->createElement( 'p' );
+        $root->appendChild( $paragraph );
+        $this->visitChilds( $element, $paragraph );
+    }
+
+    /**
+     * Visit emphasis
+     *
+     * Emphasis markup is used to emphasize text inside a paragraph and is
+     * rendered, depending on the assigned role, as strong or em tags in HTML.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitEmphasis( DOMElement $element, DOMElement $root )
+    {
+        if ( $element->hasAttribute( 'role' ) &&
+             ( $element->getAttribute( 'role' ) === 'strong' ) )
+        {
+            $emphasis = $this->html->createElement( 'strong' );
+        }
+        else
+        {
+            $emphasis = $this->html->createElement( 'em' );
+        }
+
+        $root->appendChild( $emphasis );
+        $this->visitChilds( $element, $emphasis );
+    }
+
+    /**
+     * Visit external links
+     *
+     * Transform external docbook links (<ulink>) to common HTML links.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitExternalLink( DOMElement $element, DOMElement $root )
+    {
+        $link = $this->html->createElement( 'a' );
+        $link->setAttribute( 'href', $element->getAttribute( 'url' ) );
+        $root->appendChild( $link );
+        $this->visitChilds( $element, $link );
+    }
+
+    /**
+     * Visit internal links. 
+     *
+     * Internal links are transformed into local links in HTML, where the name
+     * of the target is prefixed with a number sign.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitInternalLink( DOMElement $element, DOMElement $root )
+    {
+        $link = $this->html->createElement( 'a' );
+        $link->setAttribute( 'href', '#' . $element->getAttribute( 'url' ) );
+        $root->appendChild( $link );
+        $this->visitChilds( $element, $link );
+    }
+
+    /**
+     * Visit anchor elements
+     *
+     * Anchor elements are manually added targets inside paragraphs, which are
+     * transformed to HTML <a> element targets.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitLinkTarget( DOMElement $element, DOMElement $root )
+    {
+        $link = $this->html->createElement( 'a' );
+        $link->setAttribute( 'name', $element->getAttribute( 'id' ) );
+        $root->appendChild( $link );
+        $this->visitChilds( $element, $link );
+    }
+
+    /**
+     * Visit blockquotes
+     *
+     * Visit blockquotes and transform them their respective HTML elements,
+     * including custom markup for attributions, as there is no defined element
+     * in HTML for them.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitBlockquote( DOMElement $element, DOMElement $root )
+    {
+        $quote = $this->html->createElement( 'blockquote' );
+        $root->appendChild( $quote );
+        
+        // Locate optional attribution elements, and transform them below the
+        // recursive quote visiting.
+        $xpath = new DOMXPath( $element->ownerDocument );
+        $attributionNodes = $xpath->query( '*[local-name() = "attribution"]', $element );
+        $attributions = array();
+        foreach ( $attributionNodes as $node )
+        {
+            $attributions[] = $node->cloneNode( true );
+            $node->parentNode->removeChild( $node );
+        }
+
+        // Recursively decorate blockquote, after all attribution nodes are
+        // removed
+        $this->visitChilds( $element, $quote );
+
+        // Append attribution nodes, if any
+        foreach ( $attributions as $attribution )
+        {
+            $div = $this->html->createElement( 'div' );
+            $div->setAttribute( 'class', 'attribution' );
+            $quote->appendChild( $div );
+
+            $cite = $this->html->createElement( 'cite' );
+            $div->appendChild( $cite );
+            $this->visitChilds( $this->html->importNode( $attribution, true ), $cite );
+        }
+    }
+
+    /**
+     * Visit anchor elements
+     *
+     * Anchor elements are manually added targets inside paragraphs, which are
+     * transformed to HTML <a> element targets.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitMediaObject( DOMElement $element, DOMElement $root )
+    {
+        /*
+        $link = $this->html->createElement( 'a' );
+        $link->setAttribute( 'name', $element->getAttribute( 'id' ) );
+        $root->appendChild( $link );
+        $this->visitChilds( $element, $link );
+        */
     }
 }
 
