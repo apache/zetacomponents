@@ -292,11 +292,11 @@ Users will have to implement this feature on their own.
 ezcWebdavRequest
 ----------------
 
-The abstract request class will be enhanced by a new property
-$pathesToAuthorize. This property might contain an arbitrary number of paths,
-assigned to ezcWebdavAuth::ACCESS_* constants. Each of the paths provided here
-will be checked in the server for authorization through the servers
-ezcWebdavAuth instance.
+The abstract request class will be enhanced by a method getPathsToAuthorize().
+This will return an array containing an arbitrary number of paths, assigned to
+ezcWebdavAuth::ACCESS_* constants. Each of the paths provided here will be
+checked in the server for authorization through the servers ezcWebdavAuth
+instance.
 
 Using this mechanism, custom request objects (e.g. provided by plugins) do not
 need to be authorized manually.
