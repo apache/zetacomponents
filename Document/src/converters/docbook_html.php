@@ -67,6 +67,8 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'footnote'          => 'visitFootnote',
         'comment'           => 'visitComment',
         'beginpage'         => 'visitWithMapper',
+        'variablelist'      => 'visitWithMapper',
+        'varlistentry'      => 'visitDefinitionListEntries',
     );
 
     /**
@@ -84,6 +86,7 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'listitem'      => 'li',
         'literallayout' => 'pre',
         'beginpage'     => 'hr',
+        'variablelist'  => 'dl',
     );
 
 
@@ -647,6 +650,32 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
     {
         $comment = new DOMComment( htmlspecialchars( $element->textContent ) );
         $root->appendChild( $comment );
+    }
+
+    /**
+     * Visit definition list entries
+     *
+     * Definition list entries are encapsulated in docbook, while the HTML
+     * variant only consists of a list of terms and their description. This
+     * method transforms the elements accordingly.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitDefinitionListEntries( DOMElement $element, DOMElement $root )
+    {
+        foreach ( $element->childNodes as $child )
+        {
+            if ( ( $child->nodeType === XML_ELEMENT_NODE ) &&
+                 ( ( $child->tagName === 'term' ) || 
+                   ( $child->tagName === 'listitem' ) ) )
+            {
+                $node = $this->html->createElement( $child->tagName === 'term' ? 'dt' : 'dd' );
+                $root->appendChild( $node );
+                $this->visitChilds( $child, $node );
+            }
+        }
     }
 }
 
