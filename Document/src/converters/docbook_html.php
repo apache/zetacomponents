@@ -469,7 +469,7 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
     protected function visitInternalLink( DOMElement $element, DOMElement $root )
     {
         $link = $this->html->createElement( 'a' );
-        $link->setAttribute( 'href', '#' . $element->getAttribute( 'url' ) );
+        $link->setAttribute( 'href', '#' . $element->getAttribute( 'linked' ) );
         $root->appendChild( $link );
         $this->visitChilds( $element, $link );
     }
