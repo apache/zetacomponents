@@ -289,6 +289,18 @@ Users will have to implement this feature on their own.
    authentication. However, those can only be abstract, since the user still
    needs to implement the authorization part on his own.
 
+ezcWebdavRequest
+----------------
+
+The abstract request class will be enhanced by a new property
+$pathesToAuthorize. This property might contain an arbitrary number of paths,
+assigned to ezcWebdavAuth::ACCESS_* constants. Each of the paths provided here
+will be checked in the server for authorization through the servers
+ezcWebdavAuth instance.
+
+Using this mechanism, custom request objects (e.g. provided by plugins) do not
+need to be authorized manually.
+
 Integration
 ===========
 
@@ -301,11 +313,10 @@ layer. The auth process will work as follows:
    - In case the authentication fails, cancel request processing and return 401
      (Unauthorized).
 
-3. Authenticate user on basis of abstract request data (including affected
-   pathes.
+3. Authorize user on basis of abstract request data.
 
-   - In case the authorization fails, cancel request processing and return 401
-     (Unauthorized).
+   - In case any of the pathes to authorize fails, cancel request processing
+     and return 401 (Unauthorized).
 
 4. Go on with normal request processing (plugins, backend).
 
