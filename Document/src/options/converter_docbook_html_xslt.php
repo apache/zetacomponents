@@ -24,7 +24,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentConverterOptions
+class ezcDocumentDocbookToHtmlXsltConverterOptions extends ezcDocumentConverterOptions
 {
     /**
      * Constructs an object with the specified values.
@@ -37,13 +37,12 @@ class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentConverterOptio
      */
     public function __construct( array $options = array() )
     {
-        /*
         $this->xslt       = 'http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl';
         $this->parameters = array(
             '' => array(
                 'make.valid.html' => '1',
             ),
-        ); // */
+        );
 
         parent::__construct( $options );
     }
@@ -63,7 +62,6 @@ class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentConverterOptio
     {
         switch ( $name )
         {
-            /*
             case 'xslt':
                 $this->properties[$name] = (string) $value;
                 break;
@@ -76,7 +74,6 @@ class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentConverterOptio
 
                 $this->properties[$name] = $value;
                 break;
-            // */
 
             default:
                 parent::__set( $name, $value );
