@@ -69,7 +69,7 @@ abstract class ezcWebdavRequest
     {
         $this->properties['requestUri'] = $requestUri;
         $this->pathsToAuthorize = array(
-            $requestUri = ezcWebdavAuth::ACCESS_READ,
+            $requestUri => ezcWebdavAuth::ACCESS_READ,
         );
     }
 

@@ -34,6 +34,8 @@ class ezcWebdavPutRequest extends ezcWebdavRequest
     {
         // Set from constructor values
         parent::__construct( $requestUri );
+        
+        $this->pathsToAuthorize[$requestUri]  = ezcWebdavAuth::ACCESS_WRITE;
 
         // Create properties
         $this->properties['body'] = (string) $body;

@@ -52,6 +52,31 @@ class ezcWebdavPropPatchRequestTest extends ezcWebdavRequestTestCase
             ),
         );
     }
+
+    public function testPathsToAuthorize()
+    {
+        $req = $this->getObject();
+
+        if ( !( $req instanceof ezcWebdavRequest ) )
+        {
+            $this->markTestSkipped( 'Not a request object.' );
+        }
+
+        $this->assertType(
+            'array',
+            ( $paths = $req->getPathsToAuthorize() )
+        );
+
+        $this->assertEquals(
+            1,
+            count( $paths )
+        );
+
+        $this->assertEquals(
+            ezcWebdavAuth::ACCESS_WRITE,
+            $paths[$req->requestUri]
+        );
+    }
 }
 
 ?>

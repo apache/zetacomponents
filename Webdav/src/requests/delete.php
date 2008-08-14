@@ -17,6 +17,20 @@
  */
 class ezcWebdavDeleteRequest extends ezcWebdavRequest
 {
+    /**
+     * Creates a new request object.
+     *
+     * Creates a new request object that refers to the given $requestUri, which
+     * is a path understandable by the {@link ezcWebdavBackend}.
+     * 
+     * @param string $requestUri 
+     * @return void
+     */
+    public function __construct( $requestUri )
+    {
+        parent::__construct( $requestUri );
+        $this->pathsToAuthorize[$requestUri] = ezcWebdavAuth::ACCESS_WRITE;
+    }
 }
 
 ?>

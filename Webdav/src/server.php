@@ -182,6 +182,17 @@ class ezcWebdavServer
 
         // Parse request into request object
         $request = $this->transport->parseRequest( $uri );
+
+        // Perform authentication / authorization on the given request,
+        // if it is known by the server.
+        if ( $request instanceof ezcWebdavRequest )
+        {
+            $res = $this->auth( $request );
+            if ( $res !== null )
+            {
+                $request = $res;
+            }
+        }
         
         if ( $request instanceof ezcWebdavRequest )
         {
@@ -206,7 +217,7 @@ class ezcWebdavServer
         }
         else
         {
-            // The transport layer already issued an error.
+            // The transport layer or auth mechanism already issued an error.
             $response = $request;
         }
 
@@ -277,6 +288,62 @@ class ezcWebdavServer
         $this->properties['xmlTool']         = null;
         $this->properties['propertyHandler'] = null;
         $this->properties['headerHandler']   = null;
+    }
+
+    /**
+     * Performs authentication and authorization. 
+     * 
+     * @param ezcWebdavRequest $req 
+     * @return ezcWebdavErrorResponse|null
+     */
+    private function auth( ezcWebdavRequest $req )
+    {
+        // Determine credentials
+        $creds = $req->getHeader( 'Authorization' );
+        if ( $creds === null )
+        {
+            $creds = array( 'user' => '', 'pass' => '' );
+        }
+
+        // Authenticate user
+        if ( !$this->properties['auth']->authenticate( $creds['user'], $creds['pass'] ) )
+        {
+            // Return basic 401 error
+            return $this->createUnauthorizedResponse();
+        }
+
+        $pathes = array(
+            $req->requestUri => ezcWebdavAuth::ACCESS_READ,
+        );
+        switch ( get_class( $req ) )
+        {
+            case 'ezcWebdavCopyRequest':
+                $pathes[$req->getHeader( 'Destination' )] = ezcWebdavAuth::ACCESS_WRITE;
+                break;
+            case 'ezcWebdavDeleteRequest':
+            case 'ezcWebdavMakeCollectionRequest':
+                $pathes[$req->requestUri] = ezcWebdavAuth::ACCESS_WRITE;
+                break;
+            case 'ezcWebdavGetRequest':
+            case 'ezcWebdavHeadRequest':
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Creates an ezcWebdavErrorResponse to indicate unauthorized access.
+     *
+     * Creates a {@link ezcWebdavErrorResponse} object with status code {@link
+     * ezcWebdavResponse::STATUS_401} and a corresponding WWW-Authenticate
+     * header using the $realm define in {@link ezcWebdavServerOptions}.
+     * 
+     * @return ezcWebdavErrorResponse
+     */
+    private function createUnauthorizedResponse()
+    {
+        $res = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_401 );
+        $res->setHeader( 'WWW-Authenticate', "Basic realm={$this->options->realm}" );
     }
 
     /**
