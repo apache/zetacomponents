@@ -63,7 +63,7 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'warning'           => 'visitSpecialParagraphs',
         'important'         => 'visitSpecialParagraphs',
         'caution'           => 'visitSpecialParagraphs',
-        'literallayout'     => 'visitWithMapper',
+        'literallayout'     => 'visitLiteralLayout',
         'footnote'          => 'visitFootnote',
         'comment'           => 'visitComment',
         'beginpage'         => 'visitWithMapper',
@@ -84,7 +84,6 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         'itemizedlist'  => 'ul',
         'orderedlist'   => 'ol',
         'listitem'      => 'li',
-        'literallayout' => 'pre',
         'beginpage'     => 'hr',
         'variablelist'  => 'dl',
     );
@@ -675,6 +674,51 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
                 $root->appendChild( $node );
                 $this->visitChilds( $child, $node );
             }
+        }
+    }
+
+    /**
+     * Visit literallayout elements
+     *
+     * Literallayout elements are used for code blocks in docbook, where
+     * normally some fixed width font is used, but also for poems or simliarly
+     * formatted texts. In HTML those are represented by entirely different
+     * structures. Code blocks will be transformed into <pre> elements, while
+     * poem like texts will be handled by a <p> element, in which each line is
+     * seperated by <br> elements.
+     * 
+     * @param DOMElement $element 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function visitLiteralLayout( DOMElement $element, DOMElement $root )
+    {
+        if ( !$element->hasAttribute( 'class' ) ||
+             ( $element->getAttribute( 'class' ) !== 'Normal' ) )
+        {
+            // This is "just" a code block
+            $code = $this->html->createElement( 'pre' );
+            $root->appendChild( $code );
+            $this->visitChilds( $element, $code );
+        }
+        else
+        {
+            $paragraph = $this->html->createElement( 'p' );
+            $paragraph->setAttribute( 'class', 'lineblock' );
+
+            $textLines = preg_split( '(\r\n|\r|\n)', $element->textContent );
+            foreach ( $textLines as $line )
+            {
+                // Replace space by non-breaking spaces, as this is how it is
+                // supposed to be rendered.
+                $line = new DOMText( str_replace( ' ', "\xc2\xa0", $line ) );
+                $paragraph->appendChild( $line );
+
+                $break = $this->html->createElement( 'br' );
+                $paragraph->appendChild( $break );
+            }
+
+            $root->appendChild( $paragraph );
         }
     }
 }
