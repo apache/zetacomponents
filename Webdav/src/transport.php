@@ -558,7 +558,12 @@ class ezcWebdavTransport
      */
     protected function parseGetRequest( $path, $body )
     {
-        return new ezcWebdavGetRequest( $path );
+        $req = new ezcWebdavGetRequest( $path );
+        $req->setHeaders(
+            // Parse default headers
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders()
+        );
+        return $req;
     }
 
     // PUT
@@ -608,7 +613,12 @@ class ezcWebdavTransport
      */
     protected function parseHeadRequest( $path, $body )
     {
-        return new ezcWebdavHeadRequest( $path );
+        $req = new ezcWebdavHeadRequest( $path );
+        $req->setHeaders(
+            // Parse default headers
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders()
+        );
+        return $req;
     }
 
     // COPY
@@ -798,7 +808,12 @@ class ezcWebdavTransport
      */
     protected function parseDeleteRequest( $path, $body )
     {
-        return new ezcWebdavDeleteRequest( $path );
+        $req = new ezcWebdavDeleteRequest( $path );
+        $req->setHeaders(
+            // Parse default headers
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders()
+        );
+        return $req;
     }
 
     // MKCOL
@@ -819,7 +834,12 @@ class ezcWebdavTransport
      */
     protected function parseMakeCollectionRequest( $path, $body )
     {
-        return new ezcWebdavMakeCollectionRequest( $path, ( trim( $body ) === '' ? null : $body ) );
+        $req = new ezcWebdavMakeCollectionRequest( $path, ( trim( $body ) === '' ? null : $body ) );
+        $req->setHeaders(
+            // Parse default headers
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders()
+        );
+        return $req;
     }
     
     // OPTIONS
@@ -840,7 +860,12 @@ class ezcWebdavTransport
      */
     protected function parseOptionsRequest( $path, $body )
     {
-        return new ezcWebdavOptionsRequest( $path, ( trim( $body ) === '' ? null : $body ) );
+        $req = new ezcWebdavOptionsRequest( $path, ( trim( $body ) === '' ? null : $body ) );
+        $req->setHeaders(
+            // Parse default headers
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders()
+        );
+        return $req;
     }
 
     // PROPFIND
@@ -1000,6 +1025,11 @@ class ezcWebdavTransport
                 "Property extraction produced value exception: '{$e->getMessage()}'."
             );
         }
+        
+        $request->setHeaders(
+            // Parse default headers
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders()
+        );
 
         return $request;
     }
