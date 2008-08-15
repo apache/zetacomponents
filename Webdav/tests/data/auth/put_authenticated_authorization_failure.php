@@ -18,6 +18,7 @@ return array(
             'WWW-Authenticate' => 'Basic realm="eZ Components WebDAV"',
             'Server'           => 'eZComponents/dev/ezcWebdavTransportTestMock',
             'Content-Type'     => 'text/plain; charset="utf-8"',
+            'Content-Length'   => '21',
         ),
         'body' => 'Authorization failed.',
     ),

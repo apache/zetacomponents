@@ -1231,8 +1231,6 @@ class ezcWebdavTransport
      */
     protected function processErrorResponse( ezcWebdavErrorResponse $response, $xml = false )
     {
-        // @TODO We should include the error description into the response body
-        // if no $xml output is required.
         $res = new ezcWebdavEmptyDisplayInformation( $response );
         if ( $xml === true )
         {
@@ -1261,6 +1259,7 @@ class ezcWebdavTransport
         {
             // User $responseDescription as body
             $response->setHeader( 'Content-Type', 'text/plain; charset="utf-8"' );
+            $response->setHeader( 'Content-Length', (string) strlen( $response->responseDescription ) );
             $res = new ezcWebdavStringDisplayInformation( $response, $response->responseDescription );
         }
         return $res;
