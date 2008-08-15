@@ -94,7 +94,7 @@ class ezcWebdavHeaderHandler
      *         if a header requested in $headerNames is not known in {@link
      *         $headerNames}.
      */
-    public function parseHeaders( array $headerNames, $defaultHeaders = true )
+    public function parseHeaders( array $headerNames = array(), $defaultHeaders = true )
     {
         if ( $defaultHeaders )
         {

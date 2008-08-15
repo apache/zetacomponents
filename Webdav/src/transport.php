@@ -1257,6 +1257,12 @@ class ezcWebdavTransport
             }
             $res = new ezcWebdavXmlDisplayInformation( $response, $dom );
         }
+        elseif ( $response->responseDescription !== null )
+        {
+            // User $responseDescription as body
+            $response->setHeader( 'Content-Type', 'text/plain; charset="utf-8"' );
+            $res = new ezcWebdavStringDisplayInformation( $response, $response->responseDescription );
+        }
         return $res;
     }
 
