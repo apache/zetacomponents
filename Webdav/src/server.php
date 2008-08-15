@@ -309,26 +309,18 @@ class ezcWebdavServer
         if ( !$this->properties['auth']->authenticate( $creds['user'], $creds['pass'] ) )
         {
             // Return basic 401 error
-            return $this->createUnauthorizedResponse();
+            return $this->createUnauthorizedResponse( $req->requestUri, 'Authentication failed.' );
         }
 
-        $pathes = array(
-            $req->requestUri => ezcWebdavAuth::ACCESS_READ,
-        );
-        switch ( get_class( $req ) )
+        foreach ( $req->getPathsToAuthorize() as $path => $permission )
         {
-            case 'ezcWebdavCopyRequest':
-                $pathes[$req->getHeader( 'Destination' )] = ezcWebdavAuth::ACCESS_WRITE;
-                break;
-            case 'ezcWebdavDeleteRequest':
-            case 'ezcWebdavMakeCollectionRequest':
-                $pathes[$req->requestUri] = ezcWebdavAuth::ACCESS_WRITE;
-                break;
-            case 'ezcWebdavGetRequest':
-            case 'ezcWebdavHeadRequest':
-            default:
-                break;
+            if ( !$this->properties['auth']->authorize( $creds['user'], $path, $permission ) )
+            {
+                return $this->createUnauthorizedResponse( $req->requestUri, 'Authorization failed.' );
+            }
         }
+
+        return null;
     }
 
     /**
@@ -336,14 +328,19 @@ class ezcWebdavServer
      *
      * Creates a {@link ezcWebdavErrorResponse} object with status code {@link
      * ezcWebdavResponse::STATUS_401} and a corresponding WWW-Authenticate
-     * header using the $realm define in {@link ezcWebdavServerOptions}.
+     * header using the $realm define in {@link ezcWebdavServerOptions}. The
+     * $uri and $desc parameters are used to create the error response.
+     *
+     * @param string $uri
+     * @param string $desc 
      * 
      * @return ezcWebdavErrorResponse
      */
-    private function createUnauthorizedResponse()
+    private function createUnauthorizedResponse( $uri, $desc )
     {
-        $res = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_401 );
-        $res->setHeader( 'WWW-Authenticate', "Basic realm={$this->options->realm}" );
+        $res = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_401, $uri, $desc );
+        $res->setHeader( 'WWW-Authenticate', 'Basic realm="' . $this->options->realm . '"' );
+        return $res;
     }
 
     /**
