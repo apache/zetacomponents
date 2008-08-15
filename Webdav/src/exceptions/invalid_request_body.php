@@ -26,7 +26,7 @@ class ezcWebdavInvalidRequestBodyException extends ezcWebdavBadRequestException
     public function __construct( $method, $reason = null )
     {
         parent::__construct(
-            "The HTTP request body received for HTTP metho '$method' was invalid." . ( $reason !== null ? " Reason: $reason" : '' )
+            "The HTTP request body received for HTTP method '$method' was invalid." . ( $reason !== null ? " Reason: $reason" : '' )
         );
     }
 }
