@@ -1231,6 +1231,8 @@ class ezcWebdavTransport
      */
     protected function processErrorResponse( ezcWebdavErrorResponse $response, $xml = false )
     {
+        // @TODO We should include the error description into the response body
+        // if no $xml output is required.
         $res = new ezcWebdavEmptyDisplayInformation( $response );
         if ( $xml === true )
         {
