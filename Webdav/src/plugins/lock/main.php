@@ -77,7 +77,7 @@ class ezcWebdavLockPlugin
      */
     public function handleResponse( ezcWebdavPluginParameters $params )
     {
-        // @TODO anything to do here?
+        // @todo anything to do here?
     }
 
     /**
@@ -298,7 +298,7 @@ class ezcWebdavLockPlugin
      */
     public function generatedResponse( ezcWebdavPluginParameters $params )
     {
-        // @TODO: Anything to do here?
+        // @todo: Anything to do here?
     }
 
     /**

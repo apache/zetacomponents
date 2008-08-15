@@ -86,7 +86,7 @@ class ezcWebdavLockPluginTransport
             );
         }
 
-        // @TODO is the following not restrictive enough?
+        // @todo is the following not restrictive enough?
         $request->lockInfo = new ezcWebdavRequestLockInfoContent(
             ( $lockScopeElements->item( 0 )->firstChild->localName === 'exclusive'
                 ? ezcWebdavLockRequest::SCOPE_EXCLUSIVE

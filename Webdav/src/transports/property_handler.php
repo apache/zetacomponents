@@ -313,7 +313,7 @@ class ezcWebdavPropertyHandler
                 break;
             case 'getcontenttype':
                 $property = new ezcWebdavGetContentTypeProperty();
-                // @TODO: Should this throw an exception, if the match fails?
+                // @todo: Should this throw an exception, if the match fails?
                 // Currently, the property stays empty and the backend needs to handle this
                 if ( !empty( $domElement->nodeValue ) 
                   && preg_match( self::GETCONTENTTYPE_REGEX, $domElement->nodeValue, $matches ) > 0 )

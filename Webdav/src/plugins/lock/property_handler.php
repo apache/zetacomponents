@@ -120,7 +120,7 @@ class ezcWebdavLockPluginPropertyHandler
                     $activelock->owner = $currentElement->textContent;
                     break;
                 case 'timeout':
-                    // @TODO Need to check for special values here!
+                    // @todo Need to check for special values here!
                     $activelock->timeout = new ezcWebdavDateTime( $currentElement->nodeValue );
                     break;
                 case 'locktoken':

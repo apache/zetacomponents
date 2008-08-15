@@ -557,7 +557,7 @@ abstract class ezcWebdavSimpleBackend
         }
 
         // Verify If-[None-]Match headers
-        // @TODO: Does this make sense for PROPFIND requests?
+        // @todo: Does this make sense for PROPFIND requests?
         $res = $this->checkIfMatchHeadersRecursive(
             $request,
             $source,
@@ -661,7 +661,7 @@ abstract class ezcWebdavSimpleBackend
                     {
                         // If update failed, we assume the access has been denied.
                         // 
-                        // @TODO: This assumptions is not particular correct.
+                        // @todo: This assumptions is not particular correct.
                         // In case of live properties, which were tried to
                         // update a 409 error would be correct.
                         $errors[ezcWebdavResponse::STATUS_403]->attach( $property );
@@ -773,7 +773,7 @@ abstract class ezcWebdavSimpleBackend
             );
         }
 
-        // @TODO: RFC2616 Section 9.6 PUT requires us to send 501 on all
+        // @todo: RFC2616 Section 9.6 PUT requires us to send 501 on all
         // Content-* we don't support.
 
         // Verify If-[None-]Match headers
@@ -825,7 +825,7 @@ abstract class ezcWebdavSimpleBackend
         }
 
         // Verify If-[None-]Match headers
-        // @TODO: Does this make sense for PROPFIND requests?
+        // @todo: Does this make sense for PROPFIND requests?
         $res = $this->checkIfMatchHeadersRecursive(
             $request,
             $source,
@@ -947,7 +947,7 @@ abstract class ezcWebdavSimpleBackend
 
         // All checks are passed, we can actuall copy now.
         // 
-        // @TODO: handle keepalive setting somehow - even the RFC is quite
+        // @todo: handle keepalive setting somehow - even the RFC is quite
         // vague how to handle them exactly.
         $errors = $this->performCopy( $source, $dest, $request->getHeader( 'Depth' ) );
 
@@ -1066,7 +1066,7 @@ abstract class ezcWebdavSimpleBackend
         // 
         // MOVEd contents should always be copied using infinity depth.
         // 
-        // @TODO: handle keepalive setting somehow - even the RFC is quite
+        // @todo: handle keepalive setting somehow - even the RFC is quite
         // vague how to handle them exactly.
         $errors = $this->performCopy( $source, $dest, ezcWebdavRequest::DEPTH_INFINITY );
 
@@ -1087,7 +1087,7 @@ abstract class ezcWebdavSimpleBackend
         // If deletion failed, this has again been caused by the automatic
         // error causing facilities of the backend. Send 423 by choice.
         // 
-        // @TODO: The error generated here should depend on the actual backend
+        // @todo: The error generated here should depend on the actual backend
         // implementation and  not be generated guessing what may fit.
         if ( count( $deletion ) > 0 )
         {

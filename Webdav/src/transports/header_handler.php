@@ -113,7 +113,7 @@ class ezcWebdavHeaderHandler
         }
 
         // Ignore If-Match and If-None-Match if both are set
-        // @TODO: RFC conform, also clients conform?
+        // @todo: RFC conform, also clients conform?
         if ( isset( $resultHeaders['If-Match'] ) && isset( $resultHeaders['If-None-Match'] ) )
         {
             unset( $resultHeaders['If-Match'] );
@@ -183,7 +183,7 @@ class ezcWebdavHeaderHandler
                 $value = $this->parseIfMatchHeader( $value );
                 break;
             default:
-                // @TODO Add plugin hook
+                // @todo Add plugin hook
         }
         return $value;
     }
@@ -205,7 +205,7 @@ class ezcWebdavHeaderHandler
      * In case the header is provided but does not contain a parseable value,
      * the user and pass fields are null.
      *
-     * @TODO We currently only support Basic auth. Digest auth should be
+     * @todo We currently only support Basic auth. Digest auth should be
      *       supported in future. Maybe through a plugin?
      * @param string $value 
      * @return array(string)

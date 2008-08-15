@@ -994,7 +994,7 @@ class ezcWebdavTransport
         try
         {
 
-            // @TODO:
+            // @todo:
             // This code destroys the original order of the properties, and only
             // preserves the property order in set or remove groups. This violates
             // the webdav RFC section "8.2 PROPPATCH". 
@@ -1257,10 +1257,12 @@ class ezcWebdavTransport
         }
         elseif ( $response->responseDescription !== null )
         {
+            /*
             // User $responseDescription as body
             $response->setHeader( 'Content-Type', 'text/plain; charset="utf-8"' );
             $response->setHeader( 'Content-Length', (string) strlen( $response->responseDescription ) );
             $res = new ezcWebdavStringDisplayInformation( $response, $response->responseDescription );
+            */
         }
         return $res;
     }

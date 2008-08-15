@@ -1,46 +1,65 @@
 TODO
 ====
 
-- ezcWebdavDateTime is a temporary solution for the issue that DateTime is
-  currently not correctly serializable. Will this be fixed? We just need it for
-  testing, though.
+Prio 1
+------
 
-- Add test for mime type file info extensions
+- In certain cases (e.g. eZ Publish integration) the lock plugin must offer a
+  public API to its locks. How should we handle this?
+
+Prio 2
+------
 
 - URL encoding, UTF-8 and other charsets?
 
+  - Tested on Linux. Tests for Windows still needed.
+
+- Windows' case-insensitivity with filenames must be checked!
+  
+- When a resource is created, clients may provide the getcreationdate
+  property (and other date properties), to keep the original dates in tact.  We
+  currently don't support this at all, it seems, and some (Windows) clients
+  seem to provide invalid dates. At least, an attendee described that he got
+  1970-01-01 after uploading a file to mod_webdav.
+
+Prio 3
+------
+
+- Add test for mime type file info extensions
+
 - Client initial request to deeper URLs for IE?
 
-- Some DAV clients request logs exactly after the time they requested the lock
+
+- Some DAV clients request locks exactly after the time they requested the lock
   to last. If the request now takes too much time, it may result in an error,
   since the lock is already gone.
 
-- Some information was provided by the attendees of "Webdav with eZ Components"
-  at the IPC2007:
-  - When a resource is created, clients may provide the getcreationdate
-	property (and other date properties), to keep the original dates in tact.
-	We currently don't support this at all, it seems, and some (Windows)
-	clients seem to provide invalid dates. At least, an attendee described that
-	he got 1970-01-01 after uploading a file to mod_webdav.
-  - Windows' case-insensitivity with filenames must be checked!
-  - Charsets different to UTF-8 must be checked. How do we support them? Do we
-	convert everything that is plain text to UTF-8 for storing? Do we need to
-	overwrite php.ini settings to always send UTF-8? Do we simply store the
-	charset provided and set correct headers on GET? Especially important is to
-	check German and other languages Umlauts.
+  - We should add a certain amount of time before purging.
 
 Inline todos
 ============
 
-Grepped on Mon Nov 26 13:03:57 CET 2007.
+Grepped on Fri Aug 15 15:26:57 CET 2008.
 
-Webdav/src/tools/xml.php:     * @todo This should throw an exception if loading of the XML fails!
+Webdav/src/transports/property_handler.php:                // @todo: Should this throw an exception, if the match fails?
+Webdav/src/transports/header_handler.php:        // @todo: RFC conform, also clients conform?
+Webdav/src/transports/header_handler.php:                // @todo Add plugin hook
+Webdav/src/transports/header_handler.php:     * @todo We currently only support Basic auth. Digest auth should be
+Webdav/src/transports/header_handler.php:     * @todo Do we need to provide support for weak entity tags?
+Webdav/src/backends/simple.php:        // @todo: Does this make sense for PROPFIND requests?
+Webdav/src/backends/simple.php:                        // @todo: This assumptions is not particular correct.
+Webdav/src/backends/simple.php:        // @todo: RFC2616 Section 9.6 PUT requires us to send 501 on all
+Webdav/src/backends/simple.php:        // @todo: Does this make sense for PROPFIND requests?
+Webdav/src/backends/simple.php:        // @todo: handle keepalive setting somehow - even the RFC is quite
+Webdav/src/backends/simple.php:        // @todo: handle keepalive setting somehow - even the RFC is quite
+Webdav/src/backends/simple.php:        // @todo: The error generated here should depend on the actual backend
+Webdav/src/backends/file.php:     * @todo The locking mechanism affects the ETag of the base collection. The
+Webdav/src/transport.php:            // @todo:
 Webdav/src/transport.php:     * @todo We should possibly offer an ezcWebdavTemplateTiein, which brings
-Webdav/src/transport.php:     * @todo Do we need to set more headers here?
-Webdav/src/transport.php:     * @todo Do we need to set more headers here?
+Webdav/src/plugins/lock/transport.php:        // @todo is the following not restrictive enough?
+Webdav/src/plugins/lock/property_handler.php:                    // @todo Need to check for special values here!
+Webdav/src/plugins/lock/main.php:        // @todo anything to do here?
 Webdav/src/plugins/lock/main.php:     * @todo Tie in Authentication to authenticate for locking
 Webdav/src/plugins/lock/main.php:     * @todo A mechanism to determine authorization?
-Webdav/src/path_factories/basic.php:     * @todo This is a temporary hack to satisfy memory backend and RFC.
-Webdav/src/path_factories/basic.php:            // @todo This is a cleanup for the memory backend
+Webdav/src/plugins/lock/main.php:        // @todo: Anything to do here?
 Webdav/src/path_factories/basic.php:            // @todo Some clients first send with / and then discover it is not a resource
-Webdav/src/interfaces/request.php:        // @todo Implement general header checks here.
