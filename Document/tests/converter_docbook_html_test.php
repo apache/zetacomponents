@@ -65,20 +65,13 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
             $created instanceof ezcDocumentXhtml
         );
 
-        // Replace creator string in generated document, as this may change too
-        // often for proper testing.
-        $dom = $created->getDomDocument();
-
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'docbook_html_custom_' ) . '/';
-        file_put_contents( $tempDir . basename( $to ), $created->getDomDocument()->saveXml() );
-
-        $dest = new DOMDocument();
-        $dest->load( $to );
+        file_put_contents( $tempDir . basename( $to ), $xml = $created->save() );
 
         $this->assertEquals(
-            $dest,
-            $created->getDomDocument()
+            file_get_contents( $to ),
+            $xml
         );
 
         // Remove tempdir, when nothing failed.
@@ -101,20 +94,46 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
             $created instanceof ezcDocumentXhtml
         );
 
-        // Replace creator string in generated document, as this may change too
-        // often for proper testing.
-        $dom = $created->getDomDocument();
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'docbook_html_custom_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml = $created->save() );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml
+        );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
+    }
+
+    public function testWithStylesheets()
+    {
+        $from = dirname( __FILE__ ) . '/files/xhtml/docbook_custom/s_021_field_list.xml';
+        $to   = dirname( __FILE__ ) . '/files/xhtml/docbook_custom/s_021_field_list_stylesheets.html';
+
+        $doc = new ezcDocumentDocbook();
+        $doc->loadFile( $from );
+
+        $converter = new ezcDocumentDocbookToHtmlConverter();
+        $converter->options->dublinCoreMetadata = true;
+        $converter->options->styleSheets = array( 
+            'foo.css',
+            'http://example.org/bar.css',
+        );
+        $created = $converter->convert( $doc );
+
+        $this->assertTrue(
+            $created instanceof ezcDocumentXhtml
+        );
 
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'docbook_html_custom_' ) . '/';
-        file_put_contents( $tempDir . basename( $to ), $created->getDomDocument()->saveXml() );
-
-        $dest = new DOMDocument();
-        $dest->load( $to );
+        file_put_contents( $tempDir . basename( $to ), $xml = $created->save() );
 
         $this->assertEquals(
-            $dest,
-            $created->getDomDocument()
+            file_get_contents( $to ),
+            $xml
         );
 
         // Remove tempdir, when nothing failed.

@@ -203,10 +203,19 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         $this->head = $this->html->createElement( 'head' );
         $root->appendChild( $this->head );
 
+        // Append generator
         $generator = $this->html->createElement( 'meta' );
         $generator->setAttribute( 'name', 'generator' );
         $generator->setAttribute( 'content', 'eZ Components; http://ezcomponents.org' );
         $this->head->appendChild( $generator );
+
+        // Set content type and encoding
+        $type = $this->html->createElement( 'meta' );
+        $type->setAttribute( 'http-equiv', 'Content-Type' );
+        $type->setAttribute( 'content', 'text/html; charset=utf-8' );
+        $this->head->appendChild( $type );
+
+        $this->addStylesheets( $this->head );
 
         $body = $this->html->createElement( 'body' );
         $root->appendChild( $body );
@@ -262,6 +271,44 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         }
     }
 
+    /**
+     * Add stylesheets to header
+     * 
+     * @param DOMElement $head 
+     * @return void
+     */
+    protected function addStylesheets( DOMElement $head )
+    {
+        if ( $this->options->styleSheets !== null )
+        {
+            foreach ( $this->options->styleSheets as $styleSheet )
+            {
+                $link = $this->html->createElement( 'link' );
+                $link->setAttribute( 'rel', 'Stylesheet' );
+                $link->setAttribute( 'type', 'text/css' );
+                $link->setAttribute( 'href', htmlspecialchars( $styleSheet ) );
+                $head->appendChild( $link );
+            }
+        }
+        else
+        {
+            $style = $this->html->createElement( 'style', htmlspecialchars( $this->options->styleSheet ) );
+            $style->setAttribute( 'type', 'text/css' );
+            $head->appendChild( $style );
+        }
+    }
+
+    /**
+     * Append footnotes
+     *
+     * Append the footnotes to the end of the document. The footnotes are
+     * embedded directly in the text in docbook, aggregated during the
+     * processing of the document, and displayed at the bottom of the HTML
+     * document.
+     * 
+     * @param DOMElement $root 
+     * @return void
+     */
     protected function appendFootnotes( DOMElement $root )
     {
         if ( !count( $this->footnotes ) )
