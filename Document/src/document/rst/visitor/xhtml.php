@@ -102,6 +102,93 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     protected $depth = 0;
 
     /**
+     * HTML rendering options
+     * 
+     * @var ezcDocumentHtmlConverterOptions
+     */
+    protected $options;
+
+    /**
+     * Create visitor from RST document handler.
+     * 
+     * @param ezcDocumentRst $document 
+     * @param string $path
+     * @return void
+     */
+    public function __construct( ezcDocumentRst $document, $path )
+    {
+        $this->options = new ezcDocumentHtmlConverterOptions();
+        parent::__construct( $document, $path );
+    }
+
+    /**
+     * Property get access.
+     * Simply returns a given option.
+     * 
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     * @param string $propertyName The name of the option to get.
+     * @return mixed The option value.
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     */
+    public function __get( $propertyName )
+    {
+        if ( $propertyName === 'options' );
+        {
+            return $this->options;
+        }
+
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+    
+    /**
+     * Sets an option.
+     * This method is called when an option is set.
+     * 
+     * @param string $propertyName  The name of the option to set.
+     * @param mixed $propertyValue The option value.
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBaseValueException
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        if ( $propertyName === 'options' )
+        {
+            if ( $propertyValue instanceof ezcDocumentHtmlConverterOptions )
+            {
+                return $this->options = $propertyValue;
+            }
+            else
+            {
+                throw new ezcBaseValueException( $name, $value, 'ezcDocumentHtmlConverterOptions' );
+            }
+        }
+
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Returns if a option exists.
+     * 
+     * @param string $propertyName Option name to check for.
+     * @return bool Whether the option exists.
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return ( $propertyName === 'options' );
+    }
+
+    /**
      * Docarate RST AST
      *
      * Visit the RST abstract syntax tree.
@@ -115,7 +202,6 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
         // Create article from AST
         $this->document = new DOMDocument();
-        $this->document->formatOutput = true;
 
         $root = $this->document->createElementNs( 'http://www.w3.org/1999/xhtml', 'html' );
         $this->document->appendChild( $root );
@@ -123,10 +209,19 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         $this->head = $this->document->createElement( 'head' );
         $root->appendChild( $this->head );
 
+        // Append generator
         $generator = $this->document->createElement( 'meta' );
         $generator->setAttribute( 'name', 'generator' );
         $generator->setAttribute( 'content', 'eZ Components; http://ezcomponents.org' );
         $this->head->appendChild( $generator );
+
+        // Set content type and encoding
+        $type = $this->document->createElement( 'meta' );
+        $type->setAttribute( 'http-equiv', 'Content-Type' );
+        $type->setAttribute( 'content', 'text/html; charset=utf-8' );
+        $this->head->appendChild( $type );
+
+        $this->addStylesheets( $this->head );
 
         $body = $this->document->createElement( 'body' );
         $root->appendChild( $body );
@@ -219,6 +314,33 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     }
 
     /**
+     * Add stylesheets to header
+     * 
+     * @param DOMElement $head 
+     * @return void
+     */
+    protected function addStylesheets( DOMElement $head )
+    {
+        if ( $this->options->styleSheets !== null )
+        {
+            foreach ( $this->options->styleSheets as $styleSheet )
+            {
+                $link = $this->document->createElement( 'link' );
+                $link->setAttribute( 'rel', 'Stylesheet' );
+                $link->setAttribute( 'type', 'text/css' );
+                $link->setAttribute( 'href', htmlspecialchars( $styleSheet ) );
+                $head->appendChild( $link );
+            }
+        }
+        else
+        {
+            $style = $this->document->createElement( 'style', htmlspecialchars( $this->options->styleSheet ) );
+            $style->setAttribute( 'type', 'text/css' );
+            $head->appendChild( $style );
+        }
+    }
+
+    /**
      * Visit section node
      * 
      * @param DOMNode $root 
@@ -251,7 +373,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
         foreach ( $node->title->nodes as $child )
         {
-            $this->visitNode( $reference, $child );
+            $this->visitNode( $header, $child );
         }
 
         foreach ( $node->nodes as $child )

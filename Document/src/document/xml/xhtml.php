@@ -238,7 +238,16 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
      */
     public function save()
     {
-        return $this->document->saveHtml();
+        $source = $this->document->saveXml( $this->document, LIBXML_NOEMPTYTAG );
+
+        // Append DOCTYPE to document, as this is not possible using the DOM
+        // API we do this with a regular expression hack.
+        return preg_replace( 
+            '(^<\\?xml[^>]*>(?:\r\n|\r|\n)?)', 
+            ( $this->options->xmlHeader ? "\\0" : '' ) .
+            ( $this->options->doctype ? $this->options->doctype . "\n" : '' ),
+            $source
+        );
     }
 }
 

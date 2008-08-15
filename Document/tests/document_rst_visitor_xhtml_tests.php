@@ -44,7 +44,7 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         }
 
         return self::$testDocuments;
-        return array_slice( self::$testDocuments, -1, 1 );
+        return array_slice( self::$testDocuments, -7, 1 );
     }
 
     /**
@@ -94,7 +94,7 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         );
     }
 
-    public function testHtmlOutput()
+    public function testDifferentDoctypeXml()
     {
         $from = dirname( __FILE__ ) . '/files/rst/xhtml/s_003_simple_text.txt';
         $to   = dirname( __FILE__ ) . '/files/rst/xhtml/s_003_simple_text_no_xml.html';
@@ -110,15 +110,59 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
 
         $document->loadFile( $from );
 
-        $docbook = $document->getAsXhtml();
-        $xml = $docbook->save();
+        $html = $document->getAsXhtml();
+        $html->options->xmlHeader = true;
+        $html->options->doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
+        $xml = $html->save();
 
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'html_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
         // ext/DOM seem inable to handle the  official docbook XSD file.
-        $this->checkXhtml( $docbook->getDomDocument() );
+        $this->checkXhtml( $html->getDomDocument() );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
+        );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
+    }
+
+    public function testDocumentWithStylesheets()
+    {
+        $from = dirname( __FILE__ ) . '/files/rst/xhtml/s_003_simple_text.txt';
+        $to   = dirname( __FILE__ ) . '/files/rst/xhtml/s_003_simple_text_stylesheets.html';
+
+        $document = new ezcDocumentRst();
+        $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+        $document->options->xhtmlVisitorOptions->styleSheets = array(
+            'foo.css',
+            'http://example.org/bar.css',
+        );
+
+        $document->registerDirective( 'my_custom_directive', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'user', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'book', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'function', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'replace', 'ezcDocumentTestDummyXhtmlDirective' );
+
+        $document->loadFile( $from );
+
+        $html = $document->getAsXhtml();
+        $html->options->xmlHeader = true;
+        $html->options->doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
+        $xml = $html->save();
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'html_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml );
+
+        // ext/DOM seem inable to handle the  official docbook XSD file.
+        $this->checkXhtml( $html->getDomDocument() );
 
         $this->assertEquals(
             file_get_contents( $to ),
@@ -151,15 +195,15 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
 
         $document->loadFile( $from );
 
-        $docbook = $document->getAsXhtml();
-        $xml = $docbook->getDomDocument()->saveXml();
+        $html = $document->getAsXhtml();
+        $xml = $html->save();
 
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'html_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
         // ext/DOM seem inable to handle the  official docbook XSD file.
-        $this->checkXhtml( $docbook->getDomDocument() );
+        $this->checkXhtml( $html->getDomDocument() );
 
         $this->assertEquals(
             file_get_contents( $to ),

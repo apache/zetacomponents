@@ -179,8 +179,9 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion
         $document = new ezcDocumentXhtml();
 
         $visitorClass = $this->options->xhtmlVisitor;
-
         $visitor = new $visitorClass( $this, $this->path );
+        $visitor->options = $this->options->xhtmlVisitorOptions;
+
         $document->setDomDocument(
             $visitor->visit( $this->ast, $this->path )
         );

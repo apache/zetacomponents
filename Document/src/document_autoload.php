@@ -50,6 +50,7 @@ return array(
     'ezcDocumentEzp4Xml'                            => 'Document/document/xml/ezp4.php',
     'ezcDocumentEzp4XmlOptions'                     => 'Document/options/document_ezp4.php',
     'ezcDocumentHtmlConversion'                     => 'Document/interfaces/conversions/html.php',
+    'ezcDocumentHtmlConverterOptions'               => 'Document/options/html_rendering.php',
     'ezcDocumentManager'                            => 'Document/document_manager.php',
     'ezcDocumentParserOptions'                      => 'Document/options/document_parser.php',
     'ezcDocumentRelaxNgValidator'                   => 'Document/validator/realxng.php',

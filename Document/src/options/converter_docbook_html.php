@@ -12,13 +12,10 @@
 /**
  * Class containing the basic options for the ezcDocumentEzp3Xml class
  *
- * @property bool $dublinCoreMetadata
- *           Use the dublincore meta element names for metadata in HTML.
- *
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentConverterOptions
+class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentHtmlConverterOptions
 {
     /**
      * Constructs an object with the specified values.
@@ -31,8 +28,6 @@ class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentConverterOptio
      */
     public function __construct( array $options = array() )
     {
-        $this->dublinCoreMetadata = false;
-
         parent::__construct( $options );
     }
 
@@ -51,16 +46,6 @@ class ezcDocumentDocbookToHtmlConverterOptions extends ezcDocumentConverterOptio
     {
         switch ( $name )
         {
-            case 'dublinCoreMetadata':
-                if ( !is_bool( $value ) )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'boolean' );
-                }
-
-                $this->properties[$name] = $value;
-                break;
-            // */
-
             default:
                 parent::__set( $name, $value );
         }

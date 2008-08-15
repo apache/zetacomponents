@@ -11,8 +11,11 @@
 /**
  * Class containing the basic options for the ezcDocumentXhtml class
  *
- * @property bool $indentXml
- *           Indent XML on output
+ * @property bool $xmlHeader
+ *           Add the typical XML header to document
+ * @property string $doctype
+ *           Doctype of the document, defaults to the doctype for XHtml 1.0
+ *           Transistional
  *
  * @package Document
  * @version //autogen//
@@ -30,9 +33,8 @@ class ezcDocumentXhtmlOptions extends ezcDocumentXmlOptions
      */
     public function __construct( array $options = array() )
     {
-        /* More to come ...
-        $this->indentXml    = false;
-        */
+        $this->xmlHeader = false;
+        $this->doctype   = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
 
         parent::__construct( $options );
 
@@ -56,8 +58,7 @@ class ezcDocumentXhtmlOptions extends ezcDocumentXmlOptions
     {
         switch ( $name )
         {
-        /* More to come ...
-            case 'indentXml':
+            case 'xmlHeader':
                 if ( !is_bool( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'bool' );
@@ -65,7 +66,10 @@ class ezcDocumentXhtmlOptions extends ezcDocumentXmlOptions
 
                 $this->properties[$name] = (bool) $value;
                 break;
-        */
+
+            case 'doctype':
+                $this->properties[$name] = (string) $value;
+                break;
 
             default:
                 parent::__set( $name, $value );

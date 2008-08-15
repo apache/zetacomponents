@@ -1,6 +1,7 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentRst class
+ * File containing the options class for the
+ * ezcDocumentDocbookToHtmlXsltConverterOptions class
  *
  * @package Document
  * @version //autogen//
@@ -9,18 +10,22 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentRst
+ * Class containing the basic options for the ezcDocumentEzp3Xml class
  *
- * @property string $xhtmlVisitor
- *           Classname of the XHTML visitor to use.
- * @property string $xhtmlVisitorOptions
- *           Options class conatining the options of the XHtml visitor.
- * 
- * @apichange@
+ * @property bool $dublinCoreMetadata
+ *           Use the dublincore meta element names for metadata in HTML.
+ * @property array $styleSheets
+ *           Array of stylesheet URLs to embed in the HTML header, if there is
+ *           one.
+ * @property string $styleSheet
+ *           Stylesheet to embed in the HTML header, if the property
+ *           $stylesheets has not been set. This property contains the default
+ *           stylesheet for HTML output.
+ *
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentRstOptions extends ezcDocumentOptions
+class ezcDocumentHtmlConverterOptions extends ezcDocumentConverterOptions
 {
     /**
      * Constructs an object with the specified values.
@@ -33,8 +38,9 @@ class ezcDocumentRstOptions extends ezcDocumentOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['xhtmlVisitor']        = 'ezcDocumentRstXhtmlVisitor';
-        $this->properties['xhtmlVisitorOptions'] = new ezcDocumentHtmlConverterOptions();
+        $this->dublinCoreMetadata = false;
+        $this->styleSheets        = null;
+        $this->styleSheet         = file_get_contents( dirname( __FILE__ ) . '/data/html_style.css' );
 
         parent::__construct( $options );
     }
@@ -54,23 +60,27 @@ class ezcDocumentRstOptions extends ezcDocumentOptions
     {
         switch ( $name )
         {
-            case 'xhtmlVisitor':
-                if ( !is_string( $value ) )
+            case 'dublinCoreMetadata':
+                if ( !is_bool( $value ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'classname' );
+                    throw new ezcBaseValueException( $name, $value, 'boolean' );
                 }
 
                 $this->properties[$name] = $value;
                 break;
 
-            case 'xhtmlVisitorOptions':
-                if ( !is_object( $value ) &&
-                     ( $value instanceof ezcDocumentHtmlConverterOptions ) )
+            case 'styleSheets':
+                if ( !is_array( $value ) &&
+                     !is_null( $value ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentHtmlConverterOptions' );
+                    throw new ezcBaseValueException( $name, $value, 'null OR array( URL )' );
                 }
 
                 $this->properties[$name] = $value;
+                break;
+
+            case 'styleSheet':
+                $this->properties[$name] = (string) $value;
                 break;
 
             default:

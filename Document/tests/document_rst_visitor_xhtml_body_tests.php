@@ -69,8 +69,9 @@ class ezcDocumentRstXhtmlBodyVisitorTests extends ezcTestCase
 
         $document->loadFile( $from );
 
-        $docbook = $document->getAsXhtml();
-        $xml = $docbook->getDomDocument()->saveXml();
+        $html = $document->getAsXhtml();
+        $html->options->doctype = '';
+        $xml = $html->save();
 
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'html_body_' ) . '/';
