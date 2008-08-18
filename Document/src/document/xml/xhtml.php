@@ -244,8 +244,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
         // API we do this with a regular expression hack.
         return preg_replace( 
             '(^<\\?xml[^>]*>(?:\r\n|\r|\n)?)', 
-            ( $this->options->xmlHeader ? "\\0" : '' ) .
-            ( $this->options->doctype ? $this->options->doctype . "\n" : '' ),
+            ( $this->options->xmlHeader ? "\\0" : '' ),
             $source
         );
     }

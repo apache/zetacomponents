@@ -76,10 +76,10 @@ class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective implements 
 
             // Get docbook DOM tree from the parsed file
             $docbook = $doc->getAsDocbook();
-            $tree = $docbook->getDomDocument();
+            $dom = $docbook->getDomDocument();
 
             // Import and add the complete parsed document.
-            $article = $tree->firstChild;
+            $article = $dom->getElementsByTagName( 'article' )->item( 0 );
             foreach ( $article->childNodes as $child )
             {
                 $imported = $document->importNode( $child, true );

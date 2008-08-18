@@ -112,7 +112,6 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
 
         $html = $document->getAsXhtml();
         $html->options->xmlHeader = true;
-        $html->options->doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
         $xml = $html->save();
 
         // Store test file, to have something to compare on failure
@@ -154,7 +153,6 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
 
         $html = $document->getAsXhtml();
         $html->options->xmlHeader = true;
-        $html->options->doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
         $xml = $html->save();
 
         // Store test file, to have something to compare on failure

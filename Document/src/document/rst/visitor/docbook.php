@@ -97,7 +97,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         parent::visit( $ast );
 
         // Create article from AST
-        $this->document = new DOMDocument();
+        $imp = new DOMImplementation();
+        $dtd = $imp->createDocumentType( 'article', '-//OASIS//DTD DocBook XML V4.5//EN', 'http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd' );
+        $this->document = $imp->createDocument( 'http://docbook.org/ns/docbook', '', $dtd );
         $this->document->formatOutput = true;
 
 //        $root = $this->document->createElement( 'article' );

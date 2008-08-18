@@ -44,7 +44,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         }
 
         return self::$testDocuments;
-        return array_slice( self::$testDocuments, -1, 1 );
+        return array_slice( self::$testDocuments, 0, 1 );
     }
 
     /**
@@ -63,7 +63,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         $document->loadXml( $xml );
 
         $oldSetting = libxml_use_internal_errors( true );
-        $document->schemaValidate( __DIR__ . '/files/schemas/docbook.xsd' );
+        $document->schemaValidate( dirname( __FILE__ ) . '/files/schemas/docbook/docbook.xsd' );
 
         // Severity types of XML errors
         $errorTypes = array(
