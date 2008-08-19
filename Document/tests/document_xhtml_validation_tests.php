@@ -67,7 +67,7 @@ class ezcDocumentXhtmlValidationTests extends ezcTestCase
         );
 
         $this->assertTrue( 
-            $errors[0]->getLibXmlError() instanceof LibXMLError,
+            $errors[0]->getOriginalError() instanceof LibXMLError,
             'Expected an array of LibXMLError objects to be returned'
         );
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentXmlBase class
+ * File containing the ezcDocumentValidationError class
  *
  * @package Document
  * @version //autogen//
@@ -9,8 +9,9 @@
  */
 
 /**
- * Wrapper for DOM error structures, encapsulating document validation errors.
- * Implementing a __toString method for the error messages.
+ * Unifies different errors into a single structure for all kinds of validation
+ * errors. The validation error message can be fetched using the __toString()
+ * method, while the original error is still be available, fi required.
  * 
  * @package Document
  * @version //autogen//
@@ -18,40 +19,49 @@
 class ezcDocumentValidationError
 {
     /**
-     * Original LibXMLError.
+     * Original error object
      * 
-     * @var LibXMLError
+     * @var mixed
      */
     protected $error;
+
+    /**
+     * Transformed error message.
+     * 
+     * @var string
+     */
+    protected $message;
 
     /**
      * textual mapping for libxml error types.
      * 
      * @var array
      */
-    protected $errorTypes = array(
+    protected static $errorTypes = array(
         LIBXML_ERR_WARNING => 'Warning',
         LIBXML_ERR_ERROR   => 'Error',
         LIBXML_ERR_FATAL   => 'Fatal error',
     );
 
     /**
-     * Create validation error from LibXMLError
+     * Create validation error object
      * 
-     * @param LibXMLError $error 
+     * @param string $message 
+     * @param mixed $error 
      * @return void
      */
-    public function __construct( LibXMLError $error )
+    protected function __construct( $message, $error = null )
     {
-        $this->error = $error;
+        $this->message = $message;
+        $this->error   = $error;
     }
 
     /**
-     * Get original libXml error object
+     * Get original error object
      * 
-     * @return LibXMLError
+     * @return mixed
      */
-    public function getLibXmlError()
+    public function getOriginalError()
     {
         return $this->error;
     }
@@ -63,11 +73,41 @@ class ezcDocumentValidationError
      */
     public function __toString()
     {
-        return sprintf( "%s in %d:%d: %s.",
-            $this->errorTypes[$this->error->level],
-            $this->error->line,
-            $this->error->column,
-            trim( $this->error->message )
+        return $this->message;
+    }
+
+    /**
+     * Create from LibXmlError
+     *
+     * Create a validation error object from a LibXmlError error object.
+     * 
+     * @param LibXMLError $error 
+     * @return ezcDocumentValidationError
+     */
+    public static function createFromLibXmlError( LibXMLError $error )
+    {
+        return new ezcDocumentValidationError(
+            sprintf( "%s in %d:%d: %s.",
+                self::$errorTypes[$error->level],
+                $error->line,
+                $error->column,
+                trim( $error->message )
+            ),
+            $error
+        );
+    }
+
+    /**
+     * Create validation error from Exception
+     * 
+     * @param Exception $e 
+     * @return ezcDocumentValidationError
+     */
+    public static function createFromException( Exception $e )
+    {
+        return new ezcDocumentValidationError(
+            $e->getMessage(),
+            $e
         );
     }
 }

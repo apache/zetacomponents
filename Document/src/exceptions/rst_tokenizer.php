@@ -12,6 +12,9 @@
  * Exception thrown, when the RST tokenizer could not tokenize a character
  * sequence.
  *
+ * This should never been thrown, but it is hard to prove that there is nothing
+ * which is not matched by the regualr expressions above.
+ *
  * @package Document
  * @version //autogentag//
  */

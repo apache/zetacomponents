@@ -65,13 +65,7 @@ abstract class ezcDocumentParser
         }
 
         // For lower error level settings, just aggregate errors
-        $this->properties['errors'][] = array(
-            'level'    => $level,
-            'message'  => $message,
-            'file'     => $file,
-            'line'     => $line,
-            'position' => $position,
-        );
+        $this->properties['errors'][] = new ezcDocumentParserException( $level, $message, $file, $line, $position );
     }
 
     /**

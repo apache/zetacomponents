@@ -186,6 +186,10 @@ class ezcDocumentRstTokenizer
             // None of the token definitions matched the input string. We throw
             // an exception with the position of the content in the input
             // string and the contents we could not match.
+            //
+            // This should never been thrown, but it is hard to prove that
+            // there is nothing which is not matched by the regualr expressions
+            // above.
             throw new ezcDocumentRstTokenizerException(
                 $line,
                 $position,

@@ -94,6 +94,13 @@ abstract class ezcDocumentRstVisitor
     protected $footnoteCounter = array( 0 );
 
     /**
+     * Aggregated minor errors during document processing.
+     * 
+     * @var array
+     */
+    protected $errors = array();
+
+    /**
      * Unused reference target
      */
     const UNUSED    = 1;
@@ -140,6 +147,25 @@ abstract class ezcDocumentRstVisitor
         {
             throw new ezcDocumentVisitException( $level, $message, $file, $line, $position );
         }
+        else
+        {
+            // If the error should not been reported, we aggregate it to maybe
+            // display it later.
+            $this->errors[] = new ezcDocumentVisitException( $level, $message, $file, $line, $position );
+        }
+    }
+
+    /**
+     * Return list of errors occured during visiting the document.
+     *
+     * May be an empty array, if on errors occured, or a list of
+     * ezcDocumentVisitException objects.
+     * 
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 
     /**

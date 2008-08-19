@@ -307,7 +307,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
         $errors = array();
         foreach ( $xmlErrors as $error )
         {
-            $errors[] = new ezcDocumentValidationError( $error );
+            $errors[] = ezcDocumentValidationError::createFromLibXmlError( $error );
         }
         libxml_clear_errors();
         libxml_use_internal_errors( $oldSetting );

@@ -28,6 +28,8 @@ require 'document_rst_parser_tests.php';
 require 'document_rst_visitor_docbook_tests.php';
 require 'document_rst_visitor_xhtml_tests.php';
 require 'document_rst_visitor_xhtml_body_tests.php';
+require 'document_rst_validation_tests.php';
+
 require 'document_xhtml_docbook_tests.php';
 require 'document_xhtml_validation_tests.php';
 
@@ -59,6 +61,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentRstDocbookVisitorTests::suite() );
         $this->addTest( ezcDocumentRstXhtmlVisitorTests::suite() );
         $this->addTest( ezcDocumentRstXhtmlBodyVisitorTests::suite() );
+        $this->addTest( ezcDocumentRstValidationTests::suite() );
 
         $this->addTest( ezcDocumentXhtmlDocbookTests::suite() );
         $this->addTest( ezcDocumentXhtmlValidationTests::suite() );

@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion
+class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, ezcDocumentValidation
 {
     /**
      * Registered directives
@@ -187,6 +187,97 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion
         );
 
         return $document;
+    }
+
+    /**
+     * Validate the input file
+     *
+     * Validate the input file against the specification of the current
+     * document format.
+     *
+     * Returns true, if the validation succeded, and an array with
+     * ezcDocumentValidationError objects otherwise.
+     * 
+     * @param string $file
+     * @return mixed
+     */
+    public function validateFile( $file )
+    {
+        return $this->validateString( file_get_contents( $file ) );
+    }
+
+    /**
+     * Validate the input string
+     *
+     * Validate the input string against the specification of the current
+     * document format.
+     *
+     * Returns true, if the validation succeded, and an array with
+     * ezcDocumentValidationError objects otherwise.
+     * 
+     * @param string $string
+     * @return mixed
+     */
+    public function validateString( $string )
+    {
+        $tokenizer = new ezcDocumentRstTokenizer();
+        $parser    = new ezcDocumentRstParser();
+        // Only halt on parse errors, and collect all other errors.
+        $parser->options->errorReporting = E_PARSE;
+
+        $errors = array();
+        $ast    = null;
+        try
+        {
+            // Try to parse the document and keep the parse tree for evetual
+            // checking for decoration errors
+            $ast = $parser->parse( $tokenizer->tokenizeString( $string ) );
+        }
+        catch ( ezcDocumentParserException $e )
+        {
+            $errors[] = $e;
+        }
+
+        // Get errors and notices from parsed document
+        $errors = array_merge( $errors, $parser->errors );
+
+        // If we had no parse error until now, we also try to decorate the
+        // document, which may leed to another class of errors.
+        if ( $ast !== null )
+        {
+            $oldErrorReporting = $this->options->errorReporting;
+            $this->options->errorReporting = E_PARSE;
+            try
+            {
+                $visitor = new ezcDocumentRstDocbookVisitor( $this, $this->path );
+                $visitor->visit( $ast, $this->path );
+
+                // Get errors and notices from parsed document
+                $errors = array_merge( $errors, $visitor->getErrors() );
+            }
+            catch ( ezcDocumentVisitException $e )
+            {
+                $errors[] = $e;
+            }
+
+            // Reset error reporting
+            $this->options->errorReporting = $oldErrorReporting;
+        }
+
+        if ( count( $errors ) === 0 )
+        {
+            // If no problem could be found, jsut return true
+            return true;
+        }
+        else
+        {
+            // Transform aggregated errors into validation errors
+            foreach ( $errors as $nr => $error )
+            {
+                $errors[$nr] = ezcDocumentValidationError::createFromException( $error );
+            }
+            return $errors;
+        }
     }
 
     /**
