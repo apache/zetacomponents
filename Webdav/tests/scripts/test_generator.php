@@ -236,6 +236,8 @@ class ezcWebdavClientTestGenerator
      */
     public function run()
     {
+        $GLOBALS['EZC_WEBDAV_ERROR']  = array();
+        set_error_handler( array( $this, 'handleErrors' ) );
         try
         {
             $this->server->handle( $this->backend );
@@ -244,6 +246,23 @@ class ezcWebdavClientTestGenerator
         {
             $this->exceptions[] = $e;
         }
+        restore_error_handler();
+    }
+
+    public function handleErrors( $errNo, $errStr, $errFile, $errLine, $errContext )
+    {
+        ob_start();
+        debug_print_backtrace();
+        $backtrace = ob_get_clean();
+
+        $GLOBALS['EZC_WEBDAV_ERROR'][] = array(
+            'no'        => $errNo,
+            'string'    => $errStr,
+            'file'      => $errFile,
+            'line'      => $errLine,
+            'context'   => $errContext,
+            'backtrace' => $backtrace,
+        );
     }
 
     /**
@@ -261,8 +280,15 @@ class ezcWebdavClientTestGenerator
         if ( count( $this->exceptions ) > 0 )
         {
             file_put_contents(
-                "{$this->logFileBase}/error.php",
+                "{$this->logFileBase}_exception.php",
                 "<?php\n\nreturn " . var_export( $this->exceptions, true ) . ";\n\n?>"
+            );
+        }
+        if ( count( $GLOBALS['EZC_WEBDAV_ERROR'] ) )
+        {
+            file_put_contents(
+                "{$this->logFileBase}_error.php",
+                "<?php\n\nreturn " . var_export( $GLOBALS['EZC_WEBDAV_ERROR'], true ) . ";\n\n?>"
             );
         }
         file_put_contents( $this->backendFile, serialize( $this->backend ) );

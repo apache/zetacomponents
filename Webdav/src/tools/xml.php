@@ -64,6 +64,9 @@ class ezcWebdavXmlTool
      */
     public function __construct( ezcWebdavNamespaceRegistry $namespaceRegistry = null )
     {
+        // Make libxml not throw any warnings / notices.
+        libxml_use_internal_errors( true );
+
         // Initialize properties
         $this->properties['namespaceRegistry'] = null;
 
@@ -86,7 +89,7 @@ class ezcWebdavXmlTool
         $dom = new DOMDocument( self::XML_VERSION, self::XML_ENCODING );
         if ( $content !== null )
         {
-            if ( !@$dom->loadXML(
+            if ( trim( $content ) === '' || !$dom->loadXML(
                     $content,
                     LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS
                  )
