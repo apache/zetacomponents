@@ -1,4 +1,10 @@
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta name="generator" content="eZ Components; http://ezcomponents.org"></meta><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta><style type="text/css">body {
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator" content="eZ Components; http://ezcomponents.org" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+<![CDATA[body {
 	background-color: #ffffff;
 	color: #2e3436;
 	font-family: sans-serif;
@@ -110,4 +116,27 @@ p.danger {
 	padding: .2em;
 	border: 2px solid #a40000;
 }
-</style><title>Complex footnotes</title></head><body><a name="complex_footnotes"></a><h1>Complex footnotes</h1><p><a class="footnote" href="#footnote_1">1</a> will be "2" (manually numbered), <a class="footnote" href="#footnote_2">2</a> will be "3" (anonymous auto-numbered), and <a class="footnote" href="#footnote_3">3</a> will be "1" (labeled auto-numbered).</p><ul class="footnotes"><li><a name="footnote_1">1</a><p>This footnote is labeled manually, so its number is fixed.</p></li><li><a name="footnote_2">2</a><p>This footnote will be labeled "3".  It is the second auto-numbered footnote, but footnote label "2" is already used.</p></li><li><a name="footnote_3">3</a><p>This autonumber-labeled footnote will be labeled "1". It is the first auto-numbered footnote and no other footnote with label "1" exists.  The order of the footnotes is used to determine numbering, not the order of the footnote references.</p></li></ul></body></html>
+]]>
+    </style>
+    <title>Complex footnotes</title>
+  </head>
+  <body>
+    <a name="complex_footnotes" id="complex_footnotes"></a>
+    <h1>Complex footnotes</h1>
+    <p><a class="footnote" href="#footnote_1">1</a> will be "2" (manually numbered), <a class="footnote" href="#footnote_2">2</a> will be "3" (anonymous auto-numbered), and <a class="footnote" href="#footnote_3">3</a> will be "1" (labeled auto-numbered).</p>
+    <ul class="footnotes">
+      <li>
+        <a name="footnote_1" id="footnote_1">1</a>
+        <p>This footnote is labeled manually, so its number is fixed.</p>
+      </li>
+      <li>
+        <a name="footnote_2" id="footnote_2">2</a>
+        <p>This footnote will be labeled "3".  It is the second auto-numbered footnote, but footnote label "2" is already used.</p>
+      </li>
+      <li>
+        <a name="footnote_3" id="footnote_3">3</a>
+        <p>This autonumber-labeled footnote will be labeled "1". It is the first auto-numbered footnote and no other footnote with label "1" exists.  The order of the footnotes is used to determine numbering, not the order of the footnote references.</p>
+      </li>
+    </ul>
+  </body>
+</html>

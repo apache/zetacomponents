@@ -195,7 +195,10 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      */
     public function convert( $doc )
     {
-        $this->html = new DOMDocument();
+        $imp = new DOMImplementation();
+        $dtd = $imp->createDocumentType( 'html', '-//W3C//DTD XHTML 1.0 Transitional//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd' );
+        $this->html = $imp->createDocument( 'http://www.w3.org/1999/xhtml', '', $dtd );
+        $this->html->formatOutput = true;
 
         $root = $this->html->createElementNs( 'http://www.w3.org/1999/xhtml', 'html' );
         $this->html->appendChild( $root );
@@ -222,6 +225,16 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
 
         $this->visitChilds( $doc->getDomDocument(), $body );
         $this->appendFootnotes( $body );
+
+        // Ensure a title is set in the document header, as this is required by
+        // XHtml
+        $xpath = new DOMXPath( $this->html );
+        $title = $xpath->query( '/*[local-name() = "html"]/*[local-name() = "head"]/*[local-name() = "title"]' );
+        if ( $title->length < 1 )
+        {
+            $title = $this->html->createElement( 'title', 'Empty document' );
+            $this->head->appendChild( $title );
+        }
 
         $html = new ezcDocumentXhtml();
         $html->setDomDocument( $this->html );
@@ -292,9 +305,12 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
         }
         else
         {
-            $style = $this->html->createElement( 'style', htmlspecialchars( $this->options->styleSheet ) );
+            $style = $this->html->createElement( 'style' );
             $style->setAttribute( 'type', 'text/css' );
             $head->appendChild( $style );
+            
+            $cdata = $this->html->createCDATASection( $this->options->styleSheet );
+            $style->appendChild( $cdata );
         }
     }
 
@@ -454,10 +470,17 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      */
     protected function visitParagraph( DOMElement $element, DOMElement $root )
     {
-        // Create common HTML headers
-        $paragraph = $this->html->createElement( 'p' );
-        $root->appendChild( $paragraph );
-        $this->visitChilds( $element, $paragraph );
+        // Do not stack paragraphs
+        if ( $root->tagName !== 'p' )
+        {
+            $paragraph = $this->html->createElement( 'p' );
+            $root->appendChild( $paragraph );
+            $this->visitChilds( $element, $paragraph );
+        }
+        else
+        {
+            $this->visitChilds( $element, $root );
+        }
     }
 
     /**
@@ -498,7 +521,7 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
     protected function visitExternalLink( DOMElement $element, DOMElement $root )
     {
         $link = $this->html->createElement( 'a' );
-        $link->setAttribute( 'href', $element->getAttribute( 'url' ) );
+        $link->setAttribute( 'href', urlencode( $element->getAttribute( 'url' ) ) );
         $root->appendChild( $link );
         $this->visitChilds( $element, $link );
     }
@@ -577,9 +600,9 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
             $div->setAttribute( 'class', 'attribution' );
             $quote->appendChild( $div );
 
-            $cite = $this->html->createElement( 'cite' );
+            $cite = $this->html->createElement( 'cite', htmlspecialchars( $attribution->textContent ) );
             $div->appendChild( $cite );
-            $this->visitChilds( $this->html->importNode( $attribution, true ), $cite );
+//            $this->visitChilds( $this->html->importNode( $attribution, true ), $cite );
         }
     }
 
@@ -619,6 +642,11 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
                ( $textobject->length > 0 ) )
         {
             $image->setAttribute( 'alt', htmlspecialchars( trim( $textobject->item( 0 )->textContent ) ) );
+        }
+        else
+        {
+            // Always set some alt value, as this is required by XHtml
+            $image->setAttribute( 'alt', htmlspecialchars( $resource->getAttribute( 'src' ) ) );
         }
 
         // Check if the image has additional description assigned. In such a

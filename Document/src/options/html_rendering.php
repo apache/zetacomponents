@@ -14,6 +14,8 @@
  *
  * @property bool $dublinCoreMetadata
  *           Use the dublincore meta element names for metadata in HTML.
+ * @property bool $formatOutput
+ *           Indent the XHtml output
  * @property array $styleSheets
  *           Array of stylesheet URLs to embed in the HTML header, if there is
  *           one.
@@ -39,6 +41,7 @@ class ezcDocumentHtmlConverterOptions extends ezcDocumentConverterOptions
     public function __construct( array $options = array() )
     {
         $this->dublinCoreMetadata = false;
+        $this->formatOutput       = false;
         $this->styleSheets        = null;
         $this->styleSheet         = file_get_contents( dirname( __FILE__ ) . '/data/html_style.css' );
 
@@ -60,6 +63,7 @@ class ezcDocumentHtmlConverterOptions extends ezcDocumentConverterOptions
     {
         switch ( $name )
         {
+            case 'formatOutput':
             case 'dublinCoreMetadata':
                 if ( !is_bool( $value ) )
                 {

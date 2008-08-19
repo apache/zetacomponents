@@ -42,7 +42,7 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         }
 
         return self::$testDocuments;
-        return array_slice( self::$testDocuments, 0, 24 );
+        return array_slice( self::$testDocuments, 3, 1 );
     }
 
     /**
@@ -59,6 +59,7 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         $doc->loadFile( $from );
 
         $converter = new ezcDocumentDocbookToHtmlConverter();
+        $converter->options->formatOutput = true;
         $created = $converter->convert( $doc );
 
         $this->assertTrue(
@@ -68,6 +69,11 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'docbook_html_custom_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml = $created->save() );
+
+        $this->assertTrue(
+            ( $errors = $created->validateString( $xml ) ) === true,
+            ( is_array( $errors ) ? implode( PHP_EOL, $errors ) : 'Expected true' )
+        );
 
         $this->assertEquals(
             file_get_contents( $to ),
@@ -87,6 +93,7 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         $doc->loadFile( $from );
 
         $converter = new ezcDocumentDocbookToHtmlConverter();
+        $converter->options->formatOutput       = true;
         $converter->options->dublinCoreMetadata = true;
         $created = $converter->convert( $doc );
 
@@ -97,6 +104,11 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'docbook_html_custom_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml = $created->save() );
+
+        $this->assertTrue(
+            ( $errors = $created->validateString( $xml ) ) === true,
+            ( is_array( $errors ) ? implode( PHP_EOL, $errors ) : 'Expected true' )
+        );
 
         $this->assertEquals(
             file_get_contents( $to ),
@@ -116,6 +128,7 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         $doc->loadFile( $from );
 
         $converter = new ezcDocumentDocbookToHtmlConverter();
+        $converter->options->formatOutput       = true;
         $converter->options->dublinCoreMetadata = true;
         $converter->options->styleSheets = array( 
             'foo.css',
