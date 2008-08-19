@@ -64,9 +64,6 @@ class ezcWebdavXmlTool
      */
     public function __construct( ezcWebdavNamespaceRegistry $namespaceRegistry = null )
     {
-        // Make libxml not throw any warnings / notices.
-        libxml_use_internal_errors( true );
-
         // Initialize properties
         $this->properties['namespaceRegistry'] = null;
 
@@ -86,6 +83,9 @@ class ezcWebdavXmlTool
      */
     public function createDomDocument( $content = null )
     {
+        // Make libxml not throw any warnings / notices.
+        $oldErrorLevel = libxml_use_internal_errors( true );
+
         $dom = new DOMDocument( self::XML_VERSION, self::XML_ENCODING );
         if ( $content !== null )
         {
@@ -95,9 +95,13 @@ class ezcWebdavXmlTool
                  )
             )
             {
-                return false;
+                $dom = false;
             }
         }
+        
+        // Reset old libxml error state
+        $oldErrorLevel = libxml_use_internal_errors( $oldErrorLevel );
+        
         return $dom;
     }
 
