@@ -175,7 +175,7 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      *
      * Construct converter from XSLT file, which is used for the actual
      * 
-     * @param string $xslt 
+     * @param ezcDocumentDocbookToHtmlConverterOptions $options
      * @return void
      */
     public function __construct( ezcDocumentDocbookToHtmlConverterOptions $options = null )

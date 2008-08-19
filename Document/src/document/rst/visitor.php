@@ -428,7 +428,6 @@ abstract class ezcDocumentRstVisitor
                 {
                     // This is a direct reference to an external URL, just add
                     // to the list of named external references.
-#                    var_dump( $this->tokenListToString( $node->name ), trim( $this->nodeToString( $node ) ) );
                     $this->namedExternalReferences[$this->calculateId( $this->tokenListToString( $node->name ) )] = 
                         trim( $this->nodeToString( $node ) );
                 }
@@ -508,9 +507,10 @@ abstract class ezcDocumentRstVisitor
      * even if there are duplicates, so that they still can be referenced in
      * some way.
      *
-     * @param string $string
-     * @param bool $force
-     * @return string
+     * @param string $string 
+     * @param ezcDocumentRstNode $node 
+     * @param bool $force 
+     * @return void
      */
     public function hasReferenceTarget( $string, ezcDocumentRstNode $node = null, $force = false )
     {

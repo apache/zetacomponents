@@ -125,7 +125,7 @@ class ezcDocumentXhtmlContentLocatorFilter extends ezcDocumentXhtmlBaseFilter
                     break;
 
                 case XML_TEXT_NODE:
-                    $textLength += strlen( trim ( $child->wholeText ) );
+                    $textLength += strlen( trim( $child->wholeText ) );
                     break;
             }
         }

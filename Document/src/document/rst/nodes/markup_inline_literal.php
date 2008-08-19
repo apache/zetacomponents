@@ -22,7 +22,6 @@ class ezcDocumentRstMarkupInlineLiteralNode extends ezcDocumentRstNode
      * Construct RST document node
      * 
      * @param ezcDocumentRstToken $token
-     * @param bool $open
      * @return void
      */
     public function __construct( ezcDocumentRstToken $token )

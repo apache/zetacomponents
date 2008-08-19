@@ -1782,7 +1782,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             if ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE )
             {
                 // Remove whitespaces used for indentation in literal blocks
-                $minIndentation = min ( strlen( $literalToken->content ), $minIndentation );
+                $minIndentation = min( strlen( $literalToken->content ), $minIndentation );
                 /* DEBUG
                 echo "  -> Minimum indentation: $minIndentation.\n";
                 // /DEBUG */
@@ -1943,7 +1943,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
             // Update minimum indentation
             $whitespace = array_shift( $tokens );
-            $minIndentation = min ( strlen( $whitespace->content ), $minIndentation );
+            $minIndentation = min( strlen( $whitespace->content ), $minIndentation );
 
             // Read all further nodes until the next newline, and check for
             // indentation again then.

@@ -76,6 +76,7 @@ class ezcDocumentXhtmlFootnoteElementFilter extends ezcDocumentXhtmlElementBaseF
      *
      * Extract footnotes from the given XHtml document.
      * 
+     * @param DOMElement $element 
      * @return void
      */
     protected function extractFootnotes( DOMElement $element )

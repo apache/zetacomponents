@@ -30,7 +30,7 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
      * Construct converter from XSLT file, which is used for the actual
      * conversion.
      * 
-     * @param string $xslt 
+     * @param ezcDocumentXsltConverterOptions $options
      * @return void
      */
     public function __construct( ezcDocumentXsltConverterOptions $options = null )
