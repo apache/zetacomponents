@@ -22,6 +22,8 @@ define( 'LOG_DIR', PWD . '/log' );
  */
 define( 'TMP_DIR', PWD . '/tmp' );
 
+require_once 'Webdav/tests/scripts/test_generator_auth.php';
+
 /**
  * Generator class for client test suites.
  *
@@ -84,7 +86,7 @@ class ezcWebdavClientTestGenerator
      * 
      * @var string
      */
-    protected $logDir;
+    protected $logFileBase;
 
     /**
      * Backend used.
@@ -179,7 +181,7 @@ class ezcWebdavClientTestGenerator
      * This method checks if a backend has been stored from a previous request,
      * restores this one or retrieves the default on. It then initializes a
      * server using {@link initServer()} and retrieves and stores the current
-     * and next test number to set the {$logDir}.
+     * and next test number to set the {$logFileBase}.
      * 
      * @param string $baseUri Base URI, if server is not in doc root.
      * @return void
@@ -211,7 +213,7 @@ class ezcWebdavClientTestGenerator
             : 1
         );
         // The captured data will be stored here.
-        $this->logDir = sprintf( '%s/%03s_%s',
+        $this->logFileBase = sprintf( '%s/%03s_%s',
             LOG_DIR,
             $testNo,
             strtr(
@@ -247,53 +249,43 @@ class ezcWebdavClientTestGenerator
     /**
      * Stores captured data.
      *
-     * Stores all captured data to the $logDir.
+     * Stores all captured data to the $logFileBase.
      * 
      * @return void
      */
     public function store()
     {
-        if ( !file_exists( $this->logDir ) )
-        {
-            mkdir( $this->logDir );
-        }
-        if ( !file_exists( ( $requestLogDir = "{$this->logDir}/request" ) ) )
-        {
-            mkdir( $requestLogDir );
-        }
-        if ( !file_exists( ( $responseLogDir = "{$this->logDir}/response" ) ) )
-        {
-            mkdir( $responseLogDir );
-        }
+        $requestLogFileBase  = "{$this->logFileBase}_request";
+        $responseLogFileBase = "{$this->logFileBase}_response";
 
         if ( count( $this->exceptions ) > 0 )
         {
             file_put_contents(
-                "{$this->logDir}/error.php",
+                "{$this->logFileBase}/error.php",
                 "<?php\n\nreturn " . var_export( $this->exceptions, true ) . ";\n\n?>"
             );
         }
         file_put_contents( $this->backendFile, serialize( $this->backend ) );
 
         file_put_contents(
-            "{$requestLogDir}/server.php",
+            "{$requestLogFileBase}_server.php",
             "<?php\n\nreturn " . var_export( $_SERVER, true ) . ";\n\n?>"
         );
         file_put_contents(
-            "{$requestLogDir}/body.xml",
+            "{$requestLogFileBase}_body.xml",
             $GLOBALS['EZC_WEBDAV_REQUEST_BODY']
         );
 
         file_put_contents(
-            "{$responseLogDir}/headers.php",
+            "{$responseLogFileBase}_headers.php",
             "<?php\n\nreturn " . var_export( $GLOBALS['EZC_WEBDAV_RESPONSE_HEADERS'], true ) . ";\n\n?>"
         );
         file_put_contents(
-            "{$responseLogDir}/body.xml",
+            "{$responseLogFileBase}_body.xml",
             $GLOBALS['EZC_WEBDAV_RESPONSE_BODY']
         );
         file_put_contents(
-            "{$responseLogDir}/status.txt",
+            "{$responseLogFileBase}_status.txt",
             $GLOBALS['EZC_WEBDAV_RESPONSE_STATUS']
         );
     }
@@ -356,6 +348,8 @@ class ezcWebdavClientTestGenerator
             $this->server->configurations[$id]->transportClass  = $mockClass;
             $this->server->configurations[$id]->pathFactory     = $pathFactory;
         }
+
+        $this->server->auth = new ezcWebdavClientTestGeneratorAuth();
     }
 }
 
