@@ -180,9 +180,11 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentConverter
      */
     public function __construct( ezcDocumentDocbookToHtmlConverterOptions $options = null )
     {
-        $this->options = ( $options === null ?
-            new ezcDocumentDocbookToHtmlConverterOptions() :
-            $options );
+        parent::__construct( 
+            $options === null ?
+                new ezcDocumentDocbookToHtmlConverterOptions() :
+                $options
+        );
     }
 
     /**

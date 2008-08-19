@@ -111,9 +111,9 @@ abstract class ezcDocumentParser
         switch ( $name )
         {
             case 'options':
-                if ( !( $value instanceof ezcDocumentParserBaseOptions ) )
+                if ( !( $value instanceof ezcDocumentParserOptions ) )
                 {
-                    throw new ezcBaseValueException( 'options', $value, 'instanceof ezcDocumentParserBaseOptions' );
+                    throw new ezcBaseValueException( 'options', $value, 'instanceof ezcDocumentParserOptions' );
                 }
 
                 $this->options = $value;

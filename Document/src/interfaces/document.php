@@ -164,9 +164,9 @@ abstract class ezcDocument
         switch ( $name )
         {
             case 'options':
-                if ( !( $value instanceof ezcDocumentBaseOptions ) )
+                if ( !( $value instanceof ezcDocumentOptions ) )
                 {
-                    throw new ezcBaseValueException( 'options', $value, 'instanceof ezcDocumentBaseOptions' );
+                    throw new ezcBaseValueException( 'options', $value, 'instanceof ezcDocumentOptions' );
                 }
 
                 $this->options = $value;

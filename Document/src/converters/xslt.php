@@ -18,20 +18,6 @@
 abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
 {
     /**
-     * Path to XSLT transformation file
-     * 
-     * @var string
-     */
-    protected $xslt;
-
-    /**
-     * Parameters for the XSLT
-     * 
-     * @var array
-     */
-    protected $parameters = array();
-
-    /**
      * XSLT processor created from the defined XSLT file.
      * 
      * @var XSLTProcessor
@@ -47,40 +33,18 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
      * @param string $xslt 
      * @return void
      */
-    public function __construct( $xslt )
+    public function __construct( ezcDocumentXsltConverterOptions $options = null )
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'xsl' ) )
         {
             throw new ezcBaseExtensionNotFoundException( 'xsl' );
         }
 
-        $this->xslt = $xslt;
-    }
-
-    /**
-     * Set parameters
-     *
-     * Set parameters for the XSLT stylesheet. The parameters array should have
-     * the following structure:
-     *
-     * <code>
-     *  array(
-     *      'namespace' => array(
-     *          'option' => 'value',
-     *          ...
-     *      ),
-     *      ...
-     *  )
-     * </code>
-     *
-     * Where namespace may be an empty string.
-     * 
-     * @param array $parameters 
-     * @return void
-     */
-    public function setParameters( array $parameters )
-    {
-        $this->parameters = $parameters;
+        parent::__construct( 
+            $options === null ?
+                new ezcDocumentXsltConverterOptions() :
+                $options
+        );
     }
 
     /**
@@ -97,14 +61,14 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
         if ( $this->xsltProcessor === null )
         {
             $stylesheet = new DOMDocument();
-            $stylesheet->load( $this->xslt );
+            $stylesheet->load( $this->options->xslt );
 
             $this->xsltProcessor = new XSLTProcessor();
             $this->xsltProcessor->importStyleSheet( $stylesheet );
         }
 
         // Set provided parameters.
-        foreach ( $this->parameters as $namespace => $parameters )
+        foreach ( $this->options->parameters as $namespace => $parameters )
         {
             foreach ( $parameters as $option => $value )
             {
@@ -123,7 +87,7 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
 
         // Reset parameters, so they are not automatically applied to the next
         // traansformation.
-        foreach ( $this->parameters as $namespace => $parameters )
+        foreach ( $this->options->parameters as $namespace => $parameters )
         {
             foreach ( $parameters as $option => $value )
             {

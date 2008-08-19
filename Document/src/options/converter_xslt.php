@@ -1,6 +1,7 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentEzp3Xml class
+ * File containing the options class for the
+ * ezcDocumentDocbookToHtmlXsltConverterOptions class
  *
  * @package Document
  * @version //autogen//
@@ -11,13 +12,18 @@
 /**
  * Class containing the basic options for the ezcDocumentEzp3Xml class
  *
- * @property array $customInlineTags
- *           Array with custom inline tags
+ * @property string $xslt
+ *           Path to XSLT, which should be used for the conversion.
+ * @property array $parameters
+ *           List of aparameters for the XSLT transformation. Parameters are
+ *           given as array, with the structure array( 'namespace' => array(
+ *           'option' => 'value' ) ), where namespace may also be an empty
+ *           string.
  *
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentEzp3ToEzp4ConverterOptions extends ezcDocumentXsltConverterOptions
+class ezcDocumentXsltConverterOptions extends ezcDocumentConverterOptions
 {
     /**
      * Constructs an object with the specified values.
@@ -30,10 +36,17 @@ class ezcDocumentEzp3ToEzp4ConverterOptions extends ezcDocumentXsltConverterOpti
      */
     public function __construct( array $options = array() )
     {
-        parent::__construct( $options );
+        if ( !isset( $this->properties['xslt'] ) )
+        {
+            $this->xslt = null;
+        }
 
-        $this->customInlineTags = array();
-        $this->xslt             = dirname( __FILE__ ) . '/../converters/xslt/ezp3_ezp4.xsl';
+        if ( !isset( $this->properties['parameters'] ) )
+        {
+            $this->parameters = array();
+        }
+
+        parent::__construct( $options );
     }
 
     /**
@@ -51,7 +64,11 @@ class ezcDocumentEzp3ToEzp4ConverterOptions extends ezcDocumentXsltConverterOpti
     {
         switch ( $name )
         {
-            case 'customInlineTags':
+            case 'xslt':
+                $this->properties[$name] = (string) $value;
+                break;
+
+            case 'parameters':
                 if ( !is_array( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'array' );

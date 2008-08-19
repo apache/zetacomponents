@@ -21,7 +21,6 @@
  */
 class ezcDocumentDocbookToHtmlXsltConverter extends ezcDocumentXsltConverter
 {
-
     /**
      * Construct new document
      *
@@ -29,13 +28,11 @@ class ezcDocumentDocbookToHtmlXsltConverter extends ezcDocumentXsltConverter
      */
     public function __construct( ezcDocumentDocbookToHtmlXsltConverterOptions $options = null )
     {
-        $this->options = ( $options === null ?
-            new ezcDocumentDocbookToHtmlXsltConverterOptions() :
-            $options );
-
-        // Define the conversion file to use.
-        parent::__construct( $this->options->xslt );
-        $this->setParameters( $this->options->parameters );
+        parent::__construct( 
+            $options === null ?
+                new ezcDocumentDocbookToHtmlXsltConverterOptions() :
+                $options
+        );
     }
 
     /**

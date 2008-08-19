@@ -38,6 +38,7 @@ return array(
     'ezcDocumentXmlBase'                            => 'Document/document/xml_base.php',
     'ezcDocumentXmlOptions'                         => 'Document/options/document_xml.php',
     'ezcDocumentXsltConverter'                      => 'Document/converters/xslt.php',
+    'ezcDocumentXsltConverterOptions'               => 'Document/options/converter_xslt.php',
     'ezcDocumentDocbook'                            => 'Document/document/xml/docbook.php',
     'ezcDocumentDocbookOptions'                     => 'Document/options/document_docbook.php',
     'ezcDocumentDocbookToHtmlConverter'             => 'Document/converters/docbook_html.php',

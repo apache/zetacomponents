@@ -32,12 +32,11 @@ class ezcDocumentEzp3ToEzp4Converter extends ezcDocumentXsltConverter
      */
     public function __construct( ezcDocumentEzp3ToEzp4ConverterOptions $options = null )
     {
-        $this->options = ( $options === null ?
-            new ezcDocumentEzp3ToEzp4ConverterOptions() :
-            $options );
-
-        // Define the conversion file to use.
-        parent::__construct( dirname( __FILE__ ) . '/ezp3_ezp4.xsl' );
+        parent::__construct( 
+            $options === null ?
+                new ezcDocumentEzp3ToEzp4ConverterOptions() :
+                $options
+        );
     }
 
     /**
@@ -54,7 +53,7 @@ class ezcDocumentEzp3ToEzp4Converter extends ezcDocumentXsltConverter
         if ( $this->xsltProcessor === null )
         {
             $stylesheet = new DOMDocument();
-            $stylesheet->load( $this->xslt );
+            $stylesheet->load( $this->options->xslt );
 
             $this->xsltProcessor = new XSLTProcessor();
             $this->xsltProcessor->importStyleSheet( $stylesheet );

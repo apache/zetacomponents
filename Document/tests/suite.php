@@ -17,6 +17,10 @@
 // require_once 'convert_ezp3_test.php';
 // require_once 'convert_xhtml_test.php';
 
+require 'document_test.php';
+require 'converter_test.php';
+require 'parser_test.php';
+
 require 'document_options_xml_base_test.php';
 require 'document_xml_base_test.php';
 require 'document_rst_tokenizer_tests.php';
@@ -43,6 +47,10 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
     {
         parent::__construct();
         $this->setName( "Document" );
+
+        $this->addTest( ezcDocumentDocumentTests::suite() );
+        $this->addTest( ezcDocumentParserTests::suite() );
+        $this->addTest( ezcDocumentConverterTests::suite() );
 
         $this->addTest( ezcDocumentOptionsXmlBaseTests::suite() );
         $this->addTest( ezcDocumentXmlBaseTests::suite() );
