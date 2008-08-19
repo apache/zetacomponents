@@ -47,53 +47,6 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         return array_slice( self::$testDocuments, -7, 1 );
     }
 
-    /**
-     * Check docbook for validity
-     *
-     * Check the provided docbook document, that it is valid docbook XML.
-     * 
-     * @param DOMDocument $document
-     * @return void
-     */
-    protected function checkXhtml( DOMDocument $document )
-    {
-        // Reload document to reassign elements to namespaces.
-        $xml = $document->saveXml();
-        $document = new DOMDocument();
-        $document->loadXml( $xml );
-
-        $oldSetting = libxml_use_internal_errors( true );
-        $document->schemaValidate( dirname( __FILE__ ) . '/files/schemas/xhtml1-strict.xsd' );
-
-        // Severity types of XML errors
-        $errorTypes = array(
-            LIBXML_ERR_WARNING => 'Warning',
-            LIBXML_ERR_ERROR   => 'Error',
-            LIBXML_ERR_FATAL   => 'Fatal error',
-        );
-
-        // Get all errors
-        $xmlErrors = libxml_get_errors();
-        $errors = array();
-        foreach ( $xmlErrors as $error )
-        {
-            $errors[] = sprintf( "%s in %d:%d: %s.",
-                $errorTypes[$error->level],
-                $error->line,
-                $error->column,
-                str_replace( '{http://www.w3.org/1999/xhtml}', 'xhtml:', trim( $error->message ) )
-            );
-        }
-        libxml_clear_errors();
-        libxml_use_internal_errors( $oldSetting );
-
-        $this->assertEquals(
-            array(),
-            $errors,
-            'Xhtml document is not valid.'
-        );
-    }
-
     public function testDifferentDoctypeXml()
     {
         $from = dirname( __FILE__ ) . '/files/rst/xhtml/s_003_simple_text.txt';
@@ -118,8 +71,10 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         $tempDir = $this->createTempDir( 'html_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
-        // ext/DOM seem inable to handle the  official docbook XSD file.
-        $this->checkXhtml( $html->getDomDocument() );
+        $this->assertTrue(
+            ( $errors = $html->validateString( $xml ) ) === true,
+            ( is_array( $errors ) ? implode( PHP_EOL, $errors ) : 'Expected true' )
+        );
 
         $this->assertEquals(
             file_get_contents( $to ),
@@ -159,8 +114,10 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         $tempDir = $this->createTempDir( 'html_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
-        // ext/DOM seem inable to handle the  official docbook XSD file.
-        $this->checkXhtml( $html->getDomDocument() );
+        $this->assertTrue(
+            ( $errors = $html->validateString( $xml ) ) === true,
+            ( is_array( $errors ) ? implode( PHP_EOL, $errors ) : 'Expected true' )
+        );
 
         $this->assertEquals(
             file_get_contents( $to ),
@@ -200,8 +157,10 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         $tempDir = $this->createTempDir( 'html_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
-        // ext/DOM seem inable to handle the  official docbook XSD file.
-        $this->checkXhtml( $html->getDomDocument() );
+        $this->assertTrue(
+            ( $errors = $html->validateString( $xml ) ) === true,
+            ( is_array( $errors ) ? implode( PHP_EOL, $errors ) : 'Expected true' )
+        );
 
         $this->assertEquals(
             file_get_contents( $to ),
