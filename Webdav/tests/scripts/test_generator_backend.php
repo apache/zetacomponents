@@ -10,7 +10,6 @@ $backend->addContents(
                 'file.xml' => "<?xml?>\n<content/>",
             ),
         ),
-        /*
         'secure_collection' => array(
             'file.txt'  => 'Some text content.',
             'subdir' => array(
@@ -18,7 +17,6 @@ $backend->addContents(
                 'file.xml' => "<?xml?>\n<content/>",
             ),
         ),
-        */
         'file.xml' => "<?xml ?>\n<content/>",
         'file.bin' => "\0§\"$%&",
     )
@@ -54,7 +52,7 @@ $backend->setProperty(
         'application/octet-stream', 'utf-8'
     )
 );
-/*
+
 $backend->setProperty(
     '/secure_collection/file.txt',
     new ezcWebdavGetContentTypeProperty(
@@ -73,7 +71,7 @@ $backend->setProperty(
         'text/xml', 'utf-8'
     )
 );
-*/
+
 return $backend;
 
 ?>
