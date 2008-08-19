@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentXhtml extends ezcDocumentXmlBase
+class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidation
 {
     /**
      * Array with filter objects for the input HTML document.
@@ -247,6 +247,72 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase
             ( $this->options->xmlHeader ? "\\0" : '' ),
             $source
         );
+    }
+
+    /**
+     * Validate the input file
+     *
+     * Validate the input file against the specification of the current
+     * document format.
+     *
+     * Returns true, if the validation succeded, and an array with
+     * ezcDocumentValidationError objects otherwise.
+     * 
+     * @param string $file
+     * @return mixed
+     */
+    public function validateFile( $file )
+    {
+        $oldSetting = libxml_use_internal_errors( true );
+        libxml_clear_errors();
+        $document = new DOMDocument();
+        $document->load( $file );
+        $document->schemaValidate( dirname( __FILE__ ) . '/xhtml/schema/xhtml1-transitional.xsd' );
+
+        // Get all errors
+        $xmlErrors = libxml_get_errors();
+        $errors = array();
+        foreach ( $xmlErrors as $error )
+        {
+            $errors[] = new ezcDocumentValidationError( $error );
+        }
+        libxml_clear_errors();
+        libxml_use_internal_errors( $oldSetting );
+
+        return ( count( $errors ) ? $errors : true );
+    }
+
+    /**
+     * Validate the input string
+     *
+     * Validate the input string against the specification of the current
+     * document format.
+     *
+     * Returns true, if the validation succeded, and an array with
+     * ezcDocumentValidationError objects otherwise.
+     * 
+     * @param string $string
+     * @return mixed
+     */
+    public function validateString( $string )
+    {
+        $oldSetting = libxml_use_internal_errors( true );
+        libxml_clear_errors();
+        $document = new DOMDocument();
+        $document->loadXml( $string );
+        $document->schemaValidate( dirname( __FILE__ ) . '/xhtml/schema/xhtml1-transitional.xsd' );
+
+        // Get all errors
+        $xmlErrors = libxml_get_errors();
+        $errors = array();
+        foreach ( $xmlErrors as $error )
+        {
+            $errors[] = new ezcDocumentValidationError( $error );
+        }
+        libxml_clear_errors();
+        libxml_use_internal_errors( $oldSetting );
+
+        return ( count( $errors ) ? $errors : true );
     }
 }
 
