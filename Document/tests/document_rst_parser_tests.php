@@ -24,6 +24,47 @@ class ezcDocumentRstParserTests extends ezcTestCase
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
+    public function testParserOptionsXhtmlVisitor()
+    {
+        $options = new ezcDocumentRstOptions();
+        $options->xhtmlVisitor = 'foo';
+
+        try
+        {
+            $options->errorReporting = 0;
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expected */ }
+    }
+
+    public function testParserOptionsXhtmlVisitorOptions()
+    {
+        $options = new ezcDocumentRstOptions();
+        $options->xhtmlVisitorOptions = new ezcDocumentHtmlConverterOptions();
+
+        try
+        {
+            $options->errorReporting = 0;
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expected */ }
+    }
+
+    public function testParserOptionsUnknownOption()
+    {
+        $options = new ezcDocumentRstOptions();
+
+        try
+        {
+            $options->notExistingOption = 0;
+            $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        { /* Expected */ }
+    }
+
     public static function getTestDocuments()
     {
         if ( self::$testDocuments === null )

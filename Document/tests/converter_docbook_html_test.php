@@ -24,6 +24,62 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
+    public function testHtmlConverterOptionsFormatOutput()
+    {
+        $options = new ezcDocumentHtmlConverterOptions();
+        $options->formatOutput = false;
+
+        try
+        {
+            $options->formatOutput = 0;
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expected */ }
+    }
+
+    public function testHtmlConverterOptionsDublinCoreMetadata()
+    {
+        $options = new ezcDocumentHtmlConverterOptions();
+        $options->dublinCoreMetadata = false;
+
+        try
+        {
+            $options->dublinCoreMetadata = 0;
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expected */ }
+    }
+
+    public function testHtmlConverterOptionsStyleSheets()
+    {
+        $options = new ezcDocumentHtmlConverterOptions();
+        $options->styleSheets = array( 'url' );
+        $options->styleSheets = null;
+
+        try
+        {
+            $options->styleSheets = 0;
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expected */ }
+    }
+
+    public function testHtmlConverterOptionsUnknownOption()
+    {
+        $options = new ezcDocumentHtmlConverterOptions();
+
+        try
+        {
+            $options->notExistingOption = 0;
+            $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        { /* Expected */ }
+    }
+
     public static function getTestDocuments()
     {
         if ( self::$testDocuments === null )

@@ -89,6 +89,41 @@ class ezcDocumentParserTests extends ezcTestCase
         $this->assertTrue( isset( $document->options ) );
         $this->assertFalse( isset( $document->notExistingOption ) );
     }
+
+    public function testParserOptionsErrorReporting()
+    {
+        $options = new ezcDocumentParserOptions();
+        $options->errorReporting = E_PARSE;
+
+        try
+        {
+            $options->errorReporting = 0;
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expected */ }
+
+        try
+        {
+            $options->errorReporting = false;
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expected */ }
+    }
+
+    public function testParserOptionsUnknownOption()
+    {
+        $options = new ezcDocumentParserOptions();
+
+        try
+        {
+            $options->notExistingOption = 0;
+            $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        { /* Expected */ }
+    }
 }
 
 ?>
