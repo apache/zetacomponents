@@ -4,6 +4,8 @@ TODO
 Prio 1
 ------
 
+- PROPFIND, COPY, MOVE and DELETE requests can perform recursive operations in
+  the backend. How can we handle these?
 - In certain cases (e.g. eZ Publish integration) the lock plugin must offer a
   public API to its locks. How should we handle this?
 
