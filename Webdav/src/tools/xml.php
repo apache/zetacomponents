@@ -86,7 +86,7 @@ class ezcWebdavXmlTool
         $dom = new DOMDocument( self::XML_VERSION, self::XML_ENCODING );
         if ( $content !== null )
         {
-            if ( !$dom->loadXML(
+            if ( !@$dom->loadXML(
                     $content,
                     LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS
                  )

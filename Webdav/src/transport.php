@@ -988,34 +988,22 @@ class ezcWebdavTransport
             );
         }
 
-        $setElements    = $dom->documentElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'set' );
-        $removeElements = $dom->documentElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'remove' );
- 
+        $propElements = $dom->documentElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'prop' );
+
         try
         {
-
-            // @todo:
-            // This code destroys the original order of the properties, and only
-            // preserves the property order in set or remove groups. This violates
-            // the webdav RFC section "8.2 PROPPATCH". 
-            // 
-            // @See http://tools.ietf.org/html/rfc2518#page-31
-            for ( $i = 0; $i < $setElements->length; ++$i )
+            foreach ( $propElements as $propElement )
             {
-                ezcWebdavServer::getInstance()->propertyHandler->extractProperties(
-                    $setElements->item( $i )->firstChild->childNodes,
-                    $request->updates,
-                    ezcWebdavPropPatchRequest::SET
-                );
-            }
-            
-            for ( $i = 0; $i < $removeElements->length; ++$i )
-            {
-                ezcWebdavServer::getInstance()->propertyHandler->extractProperties(
-                    $removeElements->item( $i )->firstChild->childNodes,
-                    $request->updates,
-                    ezcWebdavPropPatchRequest::REMOVE
-                );
+                if ( $propElement->hasChildNodes() )
+                {
+                    ezcWebdavServer::getInstance()->propertyHandler->extractProperties(
+                        $propElement->childNodes,
+                        $request->updates,
+                        $propElement->parentNode->localName === 'remove'
+                            ? ezcWebdavPropPatchRequest::REMOVE
+                            : ezcWebdavPropPatchRequest::SET
+                    );
+                }
             }
         }
         catch ( ezcBaseValueException $e )
@@ -1257,12 +1245,10 @@ class ezcWebdavTransport
         }
         elseif ( $response->responseDescription !== null )
         {
-            /*
             // User $responseDescription as body
             $response->setHeader( 'Content-Type', 'text/plain; charset="utf-8"' );
             $response->setHeader( 'Content-Length', (string) strlen( $response->responseDescription ) );
             $res = new ezcWebdavStringDisplayInformation( $response, $response->responseDescription );
-            */
         }
         return $res;
     }

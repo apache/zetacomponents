@@ -259,6 +259,11 @@ class ezcWebdavPropertyHandler
         $propDom    = new DOMDocument();
         $copiedNode = $propDom->importNode( $domElement, true );
         $propDom->appendChild( $copiedNode );
+
+        if ( trim( $domElement->namespaceURI ) === '' )
+        {
+            throw new ezcWebdavInvalidRequestBodyException( 'PROP*', 'Empty namespace URI.' );
+        }
         
         return new ezcWebdavDeadProperty(
             $domElement->namespaceURI,
