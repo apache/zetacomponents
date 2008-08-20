@@ -6,6 +6,9 @@ Prio 1
 
 - PROPFIND, COPY, MOVE and DELETE requests can perform recursive operations in
   the backend. How can we handle these?
+- The current authentication implementation does only offer Basic auth, while
+  Digest auth is highly recommendet. How can we add this properly to the
+  ezcWebdavAuth interface?
 - In certain cases (e.g. eZ Publish integration) the lock plugin must offer a
   public API to its locks. How should we handle this?
 
