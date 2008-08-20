@@ -10,6 +10,15 @@
  */
 /**
  * Provides a genereic matrix class with basic math operations
+ * 
+ * The matrix class is used for internal matrix calculations, and it should not
+ * be required to be used by end users. It offers the common arithmetics
+ * operations, and a __toString mechanism for debugging.
+ * 
+ * Beside this it implements more complex matrix algorithms to solve non linear
+ * equatations using the Gauss-Newton algorithm and LR decomposition using the
+ * Cholesky-Crout algorithm. These algorithms are required by the average
+ * polynom calculation in the ezcGraphDataSetAveragePolynom class.
  *
  * @version //autogentag//
  * @package Graph

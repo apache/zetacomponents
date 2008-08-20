@@ -7,8 +7,37 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Provides a class for generic operations on polynoms
+ *
+ * This class is mainly used for internal representation of polynoms in the 
+ * average dataset ezcGraphDataSetAveragePolynom.
+ *
+ * It provides only very basic mechanisms to work with polynoms, like adding of
+ * polynomes and evaluating the polynom with a given number, to calculate a 
+ * point in the chart for a given value on the x axis.
+ *
+ * Beside this the __toString implementation may be used to echo the polynoms
+ * calculated by the least squares mechanism in the above mentioned average
+ * datasets. The class does not provide any options to customize the output.
+ *
+ * The class can be used like:
+ * 
+ * <code>
+ *  // Equivalent to: x^2 + .5
+ *  $polynom = new ezcGraphPolynom( array( 2 => 1, 0 => .5 ) );
+ *  
+ *  // Calculate result for x = 1, echos: 1.5
+ *  echo $polynom->evaluate( 1 ), PHP_EOL;
+ *  
+ *  // Build the sum with another polynom
+ *  $polynom->add( new ezcGraphPolynom( array( 1 => 1 ) ) );
+ *  
+ *  // Print polynom, echos:
+ *  // x^2 + x + 5.00e-1
+ *  echo $polynom, PHP_EOL;
+ * </code>
  *
  * @version //autogentag//
  * @package Graph
