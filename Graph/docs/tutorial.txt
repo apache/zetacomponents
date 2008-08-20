@@ -449,8 +449,7 @@ Chart elements
 ==============
 
 The chart elements all extend ezcGraphChartElement. Each of the elements can be
-configured independently. A default chart consists of
-the following elements:
+configured independently. A default chart consists of the following elements:
 
 - title
 - background
@@ -474,7 +473,16 @@ for each chart element.
 The solution is that you can modify the global font configuration by
 accessing $graph->options->font. This takes effect on all chart elements
 unless you intentionally access the font configuration of an individual chart
-element. The following section shows an example of this.
+element. The following example shows how this works.
+
+.. include:: tutorial/tutorial_chart_font_configuration.php
+   :literal:
+
+The output of the example shows, that all texts are using a serif font, while
+the title still stays with the default sans-serif font.
+
+.. image:: img/tutorial_chart_font_configuration.svg.png
+   :alt:   Font configuration in pie chart
 
 The chart title
 ---------------

@@ -9,8 +9,19 @@
  * @access private
  */
 /**
- * Class defining transformations like scaling and rotation by a 
- * 3x3 transformation matrix for |R^2
+ * Class defining transformations
+ *
+ * Three dimensional matrices (3x3) may be used to specify transformation of
+ * points, vectors and complexer structures in a two dimensional cartesian
+ * coordinate system. For more details have a look here:
+ * http://en.wikipedia.org/wiki/Transformation_matrix
+ *
+ * There are some classes extending this basic tranformation class, to
+ * give you more convinient access to the creation of such transformation
+ * matrices, which are:
+ * 
+ * - ezcGraphRotation (rotations of objects)
+ * - ezcGraphTranslation (moving of objects)
  *
  * @version //autogentag//
  * @package Graph

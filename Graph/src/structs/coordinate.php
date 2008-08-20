@@ -10,6 +10,12 @@
 /**
  * Represents coordinates in two dimensional catesian coordinate system.
  *
+ * Coordinates are used to represent the location of objects on the drawing
+ * plane. They are simple structs conatining the two coordinate values required
+ * in a two dimensional cartesian coordinate system. The class ezcGraphVector
+ * extends the Coordinate class and provides additional methods like rotations,
+ * simple arithmetic operations etc.
+ *
  * @version //autogentag//
  * @package Graph
  */

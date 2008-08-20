@@ -10,6 +10,16 @@
 /**
  * Class containing the basic options for renderers.
  *
+ * Renderer options are used to define the general appearance of charts beside
+ * the palettes. The renderer transforms chart primitives (like the legend, or
+ * one pie slice) into image primitives, which are then rendered by the
+ * drivers. The way this transformation is done, and which effects are also
+ * rendered is specified by the values in this option class. 
+ *
+ * The example below shows some basic bar rendering options, which are
+ * available in all renderers. You mya want to check the tutorial sections
+ * about the renderer, which show example output for more renderer options.
+ *
  * <code>
  *   $wikidata = include 'tutorial_wikipedia_data.php';
  *   
@@ -31,6 +41,21 @@
  *   
  *   $graph->render( 400, 150, 'tutorial_bar_chart_options.svg' );
  * </code>
+ *
+ * For additional options, which are special to some chart type you may
+ * also want to check the option classes for the repective chart type you
+ * are using and the elements of the chart. The chart type dependant option
+ * classes are:
+ *
+ * - ezcGraphLineChartOptions
+ * - ezcGraphPieChartOptions
+ * - ezcGraphRadarChartOptions
+ *
+ * There may be additional options dependant on the renderer you are using.
+ * You may want to check the extensions of this class:
+ *
+ * - ezcGraphRenderer2dOptions
+ * - ezcGraphRenderer3dOptions
  *
  * @property float $maxLabelHeight
  *           Percent of chart height used as maximum height for pie chart 

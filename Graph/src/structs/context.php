@@ -7,8 +7,24 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Struct to represent the context of a renderer operation
+ *
+ * Objects of this class are passed to the renderer, so the renderer is able to
+ * maintain the associations between image primitives and the datpoints. With
+ * this information the renderer build the array returned by the
+ * getElementReferences() method of the ezcGraphRenderer classes. In the
+ * returned array the datapoints are then associated with the identifiers for
+ * the image primitives returned by the respective driver.
+ *
+ * The ezcGraphTools class offers convience methods to handle this data and
+ * enrich your charts with hyperlinks, so you don't need to handle this
+ * yourself.
+ *
+ * The struct contains information about the $dataset and $datapoint the
+ * image primitive is associated with. If the dataset or datapoint has an
+ * URL associated, this URL is also available in the context struct.
  *
  * @version //autogentag//
  * @package Graph

@@ -10,32 +10,37 @@
 /**
  * Class containing the options for font configuration.
  *
- * Global font settings will only affect the font settings of chart elements
- * until they were modified once. Form then on the font configuration of one
- * chart element has been copied and can only be configured independently.
+ * We try to fulfill two goals regarding font configuration. First, there
+ * should be a single point to configure the fonts used for the text areas
+ * in the chart.  On the other hand, it should be possible to configure
+ * the fonts independently for each chart element.
+ *
+ * The solution is that you can modify the global font configuration by
+ * accessing $graph->options->font. This takes effect on all chart
+ * elements unless you intentionally access the font configuration of an
+ * individual chart element. The following example shows, how this works.
  *
  * <code>
- *   $graph = new ezcGraphPieChart();
- *   $graph->palette = new ezcGraphPaletteEzBlue();
- *   $graph->title = 'Access statistics';
- *   
- *   $graph->options->font->name = 'serif';
- *   $graph->options->font->maxFontSize = 12;
- *   
- *   $graph->title->background = '#EEEEEC';
- *   $graph->title->font->name = 'sans-serif';
- *   
- *   $graph->options->font->maxFontSize = 8;
- *   
- *   $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
- *       'Mozilla' => 19113,
- *       'Explorer' => 10917,
- *       'Opera' => 1464,
- *       'Safari' => 652,
- *       'Konqueror' => 474,
- *   ) );
- *   
- *   $graph->render( 400, 150, 'tutorial_chart_title.svg' );
+ *  $graph = new ezcGraphPieChart();
+ *  $graph->title = 'Access statistics';
+ *
+ *  // Set the maximum font size to 8 for all chart elements
+ *  $graph->options->font->maxFontSize = 8;
+ *
+ *  // Set the font size for the title independently to 14
+ *  $graph->title->font->maxFontSize = 14;
+ *
+ *  // The following only affects all elements except the // title element,
+ *  // which now has its own font configuration.
+ *  $graph->options->font->name = 'serif';
+ *
+ *  $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
+ *      'Mozilla' => 19113,
+ *      'Explorer' => 10917,
+ *      'Opera' => 1464,
+ *      'Safari' => 652,
+ *      'Konqueror' => 474,
+ *  ) );
  * </code>
  *
  * @property string $name
@@ -47,32 +52,43 @@
  *            - TTF_FONT    Native TTF fonts
  *            - PS_FONT     PostScript Type1 fonts
  *            - FT2_FONT    FreeType 2 fonts
+ *           The type is normally automatically detected when you set the path
+ *           to the font file.
  * @property float $minFontSize
  *           Minimum font size for displayed texts.
  * @property float $maxFontSize
  *           Maximum font size for displayed texts.
  * @property float $minimalUsedFont
- *           The minimal used font size for this element.
+ *           The minimal used font size for the current element group. This
+ *           property is set by the driver to maintain this information and
+ *           should not be used to configure the apperance of the chart. See
+ *           $minFontSize instead.
  * @property ezcGraphColor $color
  *           Font color.
  * @property ezcGraphColor $background
- *           Background color
+ *           Background color. The actual area filled with the background color
+ *           is influenced by the settings $padding and $minimizeBorder.
  * @property ezcGraphColor $border
- *           Border color
+ *           Border color for the text. The distance between the text and
+ *           border is defined by the properties $padding and $minimizeBorder.
  * @property int $borderWidth
- *           Border width
+ *           With of the border. To enable the border you need to set the
+ *           $border property to some color.
  * @property int $padding
- *           Padding between text and border
+ *           Padding between text and border.
  * @property bool $minimizeBorder
  *           Fit the border exactly around the text, or use the complete 
- *           possible space.
+ *           possible space. This setting is only relevant, when a border
+ *           color has been set for the font.
  * @property bool $textShadow
- *           Draw shadow for texts
+ *           Draw shadow for texts. The color of the shadow is defined in
+ *           the property $textShadowColor.
  * @property int $textShadowOffset
- *           Offset for text shadow
+ *           Offset for text shadow. This defines the distance the shadow
+ *           is moved to the bottom left relative from the text position.
  * @property ezcGraphColor $textShadowColor
- *           Color of text shadow. If false the inverse color of the text 
- *           color will be used.
+ *           Color of text shadow. If left at the default value "false""
+ *           the inverse color of the text color will be used.
  *
  * @version //autogentag//
  * @package Graph

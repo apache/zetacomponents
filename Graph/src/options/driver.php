@@ -10,6 +10,15 @@
 /**
  * Class containing the basic driver options.
  *
+ * Most of the options of the driver class, like the width, height and font are
+ * set internally by the driver and not really relevant to the user of driver
+ * classes. You can configure how strings are automatically shortened, together
+ * with the postfix, which is appended to shortened strings, like the following
+ * example shows.
+ *
+ * Configuration options, which special to the actual drivers are configured in
+ * the driver specific extensions of this option class.
+ * 
  * <code>
  *   require_once 'tutorial_autoload.php';
  *   
@@ -25,6 +34,8 @@
  *       'Konqueror' => 474,
  *   ) );
  *
+ *   // Do not shorten strings automatically if they do not fit in the assigned
+ *   // space with the minimum font size.
  *   $graph->driver->options->autoShortenString = false;
  *   
  *   $graph->render( 400, 150, 'tutorial_chart_title.svg' );
@@ -41,9 +52,13 @@
  * @property int $font
  *           Font used in the graph.
  * @property bool $autoShortenString
- *           Automatically shorten string if it does not fit into a box
+ *           Automatically shorten string if it do not fit into the available
+ *           space, even with the minimum font size used. Deactivating this
+ *           setting will result in ezcGraphFontRenderingException exceptions,
+ *           informing you about the actual string which did not fit.
  * @property string $autoShortenStringPostFix
  *           String to append to shortened strings, if there is enough space
+ *           left for the postfix.
  *
  * @version //autogentag//
  * @package Graph

@@ -14,6 +14,10 @@
  * Currently only works with plane rectangular boundings, should be enhanced by
  * rotated rectangular boundings.
  *
+ * This class is only used internally to represent space which is used by
+ * certain obejcts on the drawing plane, or which free space is still
+ * available.
+ *
  * @version //autogentag//
  * @package Graph
  * @access private

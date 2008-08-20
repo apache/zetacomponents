@@ -11,6 +11,13 @@
 /**
  * Represents two dimensional vectors
  *
+ * This class is internally used to represent vectors for geometric calculation
+ * in the two dimensional cartesian coordinate system.
+ *
+ * Vectors are an extension of the basic coordinate class, and add methods to
+ * calculate the length of a vector, perform various operations on angles, like
+ * rotations and the calculation of angles between two vectors.
+ *
  * @version //autogentag//
  * @package Graph
  * @access private

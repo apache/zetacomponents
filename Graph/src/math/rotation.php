@@ -11,6 +11,15 @@
 /**
  * Class to create rotation matrices from given rotation and center point
  *
+ * Three dimensional matrices (3x3) may be used to specify transformation of
+ * points, vectors and complexer structures in a two dimensional cartesian
+ * coordinate system. For more details have a look here:
+ * http://en.wikipedia.org/wiki/Transformation_matrix
+ *
+ * This class implements a convenient interface to create matrixes to rotate
+ * elements. This matrix may be combined with other transformation matrices, as
+ * usual.
+ *
  * @version //autogentag//
  * @package Graph
  * @access private

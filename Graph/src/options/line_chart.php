@@ -10,6 +10,17 @@
 /**
  * Class containing the basic options for line charts.
  *
+ * This class contains basic options relevant for line and bar charts, which
+ * are just an extension of line charts.
+ *
+ * For additional options configuring the apperance of the chart you may also
+ * want to check the option classes to configure the respective renderer you
+ * are using:
+ *
+ * - ezcGraphRendererOptions
+ * - ezcGraphRenderer2dOptions
+ * - ezcGraphRenderer3dOptions
+ *
  * <code>
  *   $graph = new ezcGraphLineChart();
  *   $graph->title = 'Wikipedia articles';

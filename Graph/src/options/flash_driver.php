@@ -10,6 +10,10 @@
 /**
  * Class containing the extended configuration options for the flash driver.
  *
+ * The flash driver can be configured to use a different circle resolution, as
+ * circles are only emulated in the flash driver, and to use a diffrent
+ * compression for the generated SWF files.
+ *
  * <code>
  *   $graph = new ezcGraphPieChart();
  *   $graph->title = 'Access statistics';

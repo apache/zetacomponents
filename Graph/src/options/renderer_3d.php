@@ -10,6 +10,10 @@
 /**
  * Class containing the extended options for the three dimensional renderer.
  *
+ * The three dimensional renderer offers a visually improved rendering compared
+ * with the two dimensional renderer. This results in more options configuring
+ * the three dimensional effeks, shadows and gleams in the chart.
+ *
  * <code>
  *   $graph = new ezcGraphPieChart();
  *   $graph->palette = new ezcGraphPaletteEzRed();
