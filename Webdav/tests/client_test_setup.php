@@ -1,5 +1,7 @@
 <?php
 
+require_once 'scripts/test_generator_auth.php';
+
 class ezcWebdavClientTestSetup
 {
     protected static $mockClassSource = '
@@ -47,6 +49,8 @@ class ezcWebdavClientTestSetup
             $server->configurations[$id]->transportClass = "{$cfg->transportClass}Mock";
             $server->configurations[$id]->pathFactory    = $pathFactory;
         }
+        
+        $server->auth = new ezcWebdavClientTestGeneratorAuth();
 
         return $server;
     }
