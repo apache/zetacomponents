@@ -1,6 +1,6 @@
 <?php
 
-class ezcWebdavTestAuth implements ezcWebdavAuth
+class ezcWebdavTestAuth implements ezcWebdavBasicAuthenticator, ezcWebdavDigestAuthenticator, ezcWebdavAuthorizer
 {
 
     private $permissions = array(
@@ -20,7 +20,7 @@ class ezcWebdavTestAuth implements ezcWebdavAuth
         ),
     );
 
-    public function authenticate( $user, $pass )
+    public function authenticateBasic( $user, $pass )
     {
         switch ( true )
         {
@@ -33,6 +33,12 @@ class ezcWebdavTestAuth implements ezcWebdavAuth
             default:
                 return false;
         }
+    }
+
+    public function authenticateDigest( ezcWebdavDigestAuth $data )
+    {
+        // @todo: Implement
+        return true;
     }
 
     public function authorize( $user, $path, $access = ezcWebdavAuth::ACCESS_READ )

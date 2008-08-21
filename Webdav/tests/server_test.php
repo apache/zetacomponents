@@ -48,7 +48,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
             array(
                 'configurations'  => new ezcWebdavServerConfigurationManager(),
                 'pluginRegistry'  => new ezcWebdavPluginRegistry(),
-                'auth'            => new ezcWebdavNoAuth(),
+                'auth'            => null,
                 'options'         => new ezcWebdavServerOptions(),
                 'transport'       => null,
                 'backend'         => null,
@@ -71,7 +71,7 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
             'backend'         => null,
             'configurations'  => new ezcWebdavServerConfigurationManager(),
             'pluginRegistry'  => new ezcWebdavPluginRegistry(),
-            'auth'            => new ezcWebdavNoAuth(),
+            'auth'            => null,
             'options'         => new ezcWebdavServerOptions(),
             'xmlTool'         => null,
             'propertyHandler' => null,
@@ -108,14 +108,17 @@ class ezcWebdavBasicServerTest extends ezcWebdavTestCase
     {
         $srv = ezcWebdavServer::getInstance();
 
+        $auth = $this->getMock( 'ezcWebdavBasicAuthenticator' );
+
         $setValues = array(
             'configurations' => new ezcWebdavServerConfigurationManager(),
-            'options'         => new ezcWebdavServerOptions(),
+            'options'        => new ezcWebdavServerOptions(),
+            'auth'           => $auth,
         );
         $checkValues = array(
             'configurations'  => new ezcWebdavServerConfigurationManager(),
             'pluginRegistry'  => new ezcWebdavPluginRegistry(),
-            'auth'            => new ezcWebdavNoAuth(),
+            'auth'            => $auth,
             'options'         => new ezcWebdavServerOptions(),
             'transport'       => null,
             'backend'         => null,

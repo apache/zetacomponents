@@ -50,13 +50,6 @@ abstract class ezcWebdavRequest
     private $validated = false;
 
     /**
-     * Pathss that will be authorized in the server.
-     * 
-     * @var array(string=>int)
-     */
-    protected $pathsToAuthorize = array();
-
-    /**
      * Creates a new request object.
      *
      * Creates a new request object that refers to the given $requestUri, which
@@ -150,21 +143,6 @@ abstract class ezcWebdavRequest
         }
 
         return isset( $this->headers[$headerName] ) ? $this->headers[$headerName] : null;
-    }
-
-    /**
-     * Returns an array of paths that need to be authorized.
-     *
-     * This method returns an array of paths affected by this request, assigned
-     * to {@link ezcWebdavAuth::ACCESS_READ} or {@link
-     * ezcWebdavAuth::ACCESS_WRITE}. The given paths will be checked for valid
-     * authorization in {@link ezcWebdavServer}.
-     * 
-     * @return array(string=>int)
-     */
-    public function getPathsToAuthorize()
-    {
-        return $this->pathsToAuthorize;
     }
 
     /**

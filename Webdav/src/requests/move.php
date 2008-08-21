@@ -48,9 +48,6 @@ class ezcWebdavMoveRequest extends ezcWebdavRequest
         parent::__construct( $requestUri );
         $this->headers['Destination'] = $destination;
         
-        $this->pathsToAuthorize[$requestUri]  = ezcWebdavAuth::ACCESS_WRITE;
-        $this->pathsToAuthorize[$destination] = ezcWebdavAuth::ACCESS_WRITE;
-
         // Set header defaults
         $this->headers['Overwrite'] = 'T';
 

@@ -49,10 +49,11 @@
  * @property ezcWebdavAuth $auth
  *           The central authentication mechanism for the WebDAV server. This
  *           instance will be used to perform authentication and authorization
- *           on every incoming request. The default is an instance of {@link
- *           ezcWebdavNoAuth}, which does not provide any authorization or
- *           authentication. Plugins might require an extended interface to be
- *           implemented.
+ *           on every incoming request. A valid property value is an object
+ *           that at least implements {@link ezcWebdavBasicAuthenticator} or
+ *           {@link ezcWebdavDigestAuthenticator} or both. In addition {@link
+ *           ezcWebdavAuthorizer} may be implemented. The default is null,
+ *           indicating that no authentication/authorization is provided.
  *
  * @property-read ezcWebdavBackend $backend
  *                The backend given to {@link ezcWebdavServer->handle()}. Null
@@ -185,9 +186,9 @@ class ezcWebdavServer
 
         // Perform authentication / authorization on the given request,
         // if it is known by the server.
-        if ( $request instanceof ezcWebdavRequest )
+        if ( $request instanceof ezcWebdavRequest && is_object( $this->properties['auth'] ) )
         {
-            $res = $this->auth( $request );
+            $res = $this->authenticate( $request );
             if ( $res !== null )
             {
                 $request = $res;
@@ -279,7 +280,7 @@ class ezcWebdavServer
         unset( $this->properties['pluginRegistry'] );
         $this->properties['configurations'] = new ezcWebdavServerConfigurationManager();
         $this->properties['pluginRegistry'] = new ezcWebdavPluginRegistry();
-        $this->properties['auth']           = new ezcWebdavNoAuth();
+        $this->properties['auth']           = null;
         $this->properties['options']        = new ezcWebdavServerOptions();
 
         $this->properties['transport']       = null;
@@ -296,8 +297,10 @@ class ezcWebdavServer
      * @param ezcWebdavRequest $req 
      * @return ezcWebdavErrorResponse|null
      */
-    private function auth( ezcWebdavRequest $req )
+    private function authenticate( ezcWebdavRequest $req )
     {
+        /*
+         * TODO: Rewrite!
         // Determine credentials
         $creds = $req->getHeader( 'Authorization' );
         if ( $creds === null )
@@ -319,6 +322,7 @@ class ezcWebdavServer
                 return $this->createUnauthorizedResponse( $req->requestUri, 'Authorization failed.' );
             }
         }
+        */
 
         return null;
     }
@@ -371,9 +375,9 @@ class ezcWebdavServer
                 }
                 break;
             case 'auth':
-                if ( !( $propertyValue instanceof ezcWebdavAuth ) )
+                if ( $propertyValue !== null && !( $propertyValue instanceof ezcWebdavBasicAuthenticator ) && !( $propertyValue instanceof ezcWebdavDigestAuthenticator ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavAuth' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavBasicAuthenticator and/or ezcWebdavDigestAuthenticator' );
                 }
                 break;
             case 'options':

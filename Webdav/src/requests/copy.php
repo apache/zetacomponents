@@ -50,7 +50,6 @@ class ezcWebdavCopyRequest extends ezcWebdavRequest
         parent::__construct( $requestUri );
 
         $this->headers['Destination'] = $destination;
-        $this->pathsToAuthorize[$destination] = ezcWebdavAuth::ACCESS_WRITE;
 
         // Set header defaults
         $this->headers['Overwrite'] = 'T';
