@@ -175,9 +175,11 @@ Requirements
 
 General requirements for authentication and authorization are:
 
-- Authenticate the user by username and password.
-- Check if the authenticated user has access to the pathes affected by the
-  request.
+- Authenticate the user by username and password or username and password
+  digest.
+- Check if the authenticated user has access to the paths affected by the
+  request. This also includes recursive checks like for COPY, MOVE and PROPFIND
+  requests.
 
 In respect to locking, the following additional requirements must be met:
 
@@ -196,7 +198,7 @@ The authentication / authorization support (in future: short "auth support")
 will be implemented in the Webdav component itself, not as a plugin. The reason
 for this is, that Webdav without auth support does make very little sense.
 Plugins will have access to the auth mechanisms to perform additional checks
-for custom requests. To fulfill the need of independance between the general
+for custom requests. To fulfill the need of independence between the general
 auth support and lock specific auth support, the additional features will be
 defined by an interface in the lock plugin that must be implemented by the
 configured auth mechanism.
@@ -205,42 +207,85 @@ Interfaces
 ==========
 
 The following sections describe interfaces that are implemented in the Webdav
-component itself.
+component itself. The class of an object that is to be assigned to
+ezcWebdavServer->$auth must implement at least 1 of the ezcWebdav*Authenticator
+interfaces.
 
-ezcWebdavAuth
--------------
+ezcWebdavBasicAuthenticator
+---------------------------
 
-This interface must be implemented by a class that acts as the central auth
-instance inside the Webdav component::
+This interface must be implemented by a class that acts as the central
+authentication instance, which supports HTTP Basic authentication style.
+Objects that are assigned to ezcWebdavServer->$auth are strongly recommended to
+implement this interface::
 
     <?php
-    interface ezcWebdavAuth
+    interface ezcWebdavBasicAuthenticator
     {
-        const ACCESS_READ = 1;
-        const ACCESS_WRITE = 2;
-
-        authenticate( string $user, string $password );
-
-        authorize( string $user, string $path, $access = self::ACCESS_READ );
+        authenticateBasic( string $user, string $password );
     }
     ?>
 
-The authenticate() method will be called to authenticate a user. If either of
-the credentials is not provided, an empty string is submitted. Anonymous
-requests are therefore authenticated with empty $user and $password parameters.
-The authorize method receives the $user name again (possibly empty) and a path
-that is affected by the request. The $access parameter defines if the given
-path is affected for reading or writing.
+The authenticate() method will be called to authenticate a user. It receives
+the user name and password, submitted by the client via Basic auth, or empty
+strings, if no auth information was submitted.
 
-ezcWebdavLockAuth
------------------
+ezcWebdavDigestAuthenticator
+----------------------------
+
+In contrast to ezcWebdavBasicAuthenticator, classes which implement this
+interface support HTTP Digest authentication style. Objects that are assigned
+to ezcWebdavServer->$auth are highly recommended to implement this interface::
+
+    <?php
+    interface ezcWebdavBasicAuthenticator
+    {
+        authenticateDigest( ezcWebdavDigestData $data );
+    }
+    ?>
+
+The parameter received by authenticateDigest() is a struct containing all
+Digest information received through the request. This includes the plain text
+user name, the realm and the nonce. All 3 are used to calculate the Digest hash
+for authentication. The algorithm used for calculating digest and checksum
+hashes is always indicated as MD5 to the client, which should act accordingly.
+
+ezcWebdavAuthorizer
+-------------------
+
+This interface must be implemented by auth instances which support
+authentication. Authentication is not mandatory to be implemented, but
+recommended. If the object residing in ezcWebdavServer->$auth does not implement
+the authorizer interface, all users will be allowed to read and write to every
+path. This might also happen, if the interface is implemented, but the back end
+does not support authorization.
+
+::
+
+    interface ezcWebdavAuthorizer
+    {
+        const ACCESS_READ  = 1;
+        const ACCESS_WRITE = 2;
+
+        public function authorize( $username, $path, $access = ezcWebdavAuthorizer::ACCESS_READ );
+    }
+
+The authorize() method will be called by the back end for every $path the
+current request tries to access. This might be a single call (e.g. GET requests)
+or multiple ones (e.g. COPY and PROPFIND). The $access parameter determines,
+which permission is requested by the request. Requests like GET and PROPFIND
+require only ACCESS_READ permissions, while e.g. COPY and PUT require
+ACCESS_WRITE permissions on certain paths.
+
+ezcWebdavLockAuthorizer
+-----------------------
 
 This interface will be provided in the lock plugin and must be implemented by
 the central auth instance to support the lock plugin. If this is not the case
 and the lock plugin is activated, an exception will be thrown. ::
     
     <?php
-    interface ezcWebdavLockAuth extends ezcWebdavAuth
+    interface ezcWebdavLockAuthorizer extends ezcWebdavAuthorizer
     {
         assignLock( string $user, string $lockToken );
         ownsLock( string $user, string $lockToken );
@@ -256,7 +301,7 @@ authentication mechanism must release the lock and return false from
 ownsLock(). The ownsLock() method checks if the given $user is the owner of the
 $lockToken. In case the $lockToken does not exist (maybe because it is
 expired), this method throws an exception. The releaseLock() method removes the
-$lockToken and the assignement of its user.
+$lockToken and the assignment of its user.
 
 A $lockToken might be refreshed, as long as it exists. In case a lock does not
 exist anymore, the refreshLock() method must indicate an exception.
@@ -264,61 +309,50 @@ exist anymore, the refreshLock() method must indicate an exception.
 Classes
 =======
 
-The following basic implementations will be shipped with the Webdav component.
-The implementations are not created to provide real auth facilities, but to
-ensure that Webdav still works without a proper auth implementation, although
-this will be mandatory from 1.1 on.
+No implementations of the interfaces above will officially be shipped with the
+Webdav component. Instead, the ezcWebdavServer->$auth property will be left null
+by default, which will lead to no authentication/authorization at all.
 
-ezcWebdavNoAuth
----------------
+If a user implemented object is assigned to the ezcWebdavServer->$auth property,
+it must at least implement 1 of the ezcWebdav*Authentication interfaces. It may
+also implement the corresponding other one, but this is not mandatory.
 
-This class will implement the ezcWebdavAuth interface. It will simple return
-true to all method calls to indicate success.
+In addition, such an object might implement ezcWebdavAuthorizer. This is highly
+recommended. Back ends which are aware of authorization (like the
+ezcWebdavSimpleBackend) will then perform authorization for the necessary
+operations against the object.
 
-.. note::
-   This does not provide any kind of auth facilities, but only fakes the Webdav
-   component to work. A user must implement his own auth class to realize this
-   feature properly.
-
-No default implementation of the ezcWebdavLockAuth interface will be provided.
-Users will have to implement this feature on their own.
-
-.. note::
-   It might be an idea for the future to implement a WebdavAuthenticationTiein,
-   which supports some of the Authentication filter classes as backends for
-   authentication. However, those can only be abstract, since the user still
-   needs to implement the authorization part on his own.
-
-ezcWebdavRequest
-----------------
-
-The abstract request class will be enhanced by a method getPathsToAuthorize().
-This will return an array containing an arbitrary number of paths, assigned to
-ezcWebdavAuth::ACCESS_* constants. Each of the paths provided here will be
-checked in the server for authorization through the servers ezcWebdavAuth
-instance.
-
-Using this mechanism, custom request objects (e.g. provided by plugins) do not
-need to be authorized manually.
+In case the lock plugin is to be used by the server, the object in
+ezcWebdavServer->$auth must implement the ezcWebdavLockAuthorizer interface
+(and therefore the ezcWebdavAuthorizer interface).
 
 Integration
 ===========
 
 The auth facilities will be implemented in the Webdav component on the server
-layer. The auth process will work as follows:
+and back end layers. This is necessary, since only the back end knows about the
+path structure and can issue authorization requests for recursive requests. In
+addition, some requests must not simply fail, but must return a Multistatus
+response including the error response (PROPFIND).
+
+The server layer will take responsibility on authenticating the user, while the
+back end takes care about authorization. This way authentication does still work
+with back ends that do not support authorization.
+
+The auth process will work as follows:
 
 1. Parse request (transport layer).
-2. Authenticate user on basis of abstract request data.
+2. Authenticate user on basis of abstract request data (server layer).
 
    - In case the authentication fails, cancel request processing and return 401
      (Unauthorized).
 
-3. Authorize user on basis of abstract request data.
+3. Authorize user on basis of abstract request data (back end layer / plugins).
 
-   - In case any of the pathes to authorize fails, cancel request processing
-     and return 401 (Unauthorized).
+   - In case any of the paths to authorize fails, cancel request processing
+     and return 401 (Unauthorized) or react differently, according to the RFC.
 
-4. Go on with normal request processing (plugins, backend).
+4. Go on with normal request processing (plugins, back end).
 
 The ezcWebdavAuth instance used for the auth process is stored in a read/write
 property in ezcWebdavServer. It defaults to eczWebdavNoAuth and can be replaced
