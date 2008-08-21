@@ -238,7 +238,7 @@ interface support HTTP Digest authentication style. Objects that are assigned
 to ezcWebdavServer->$auth are highly recommended to implement this interface::
 
     <?php
-    interface ezcWebdavDigestAuthenticator
+    interface ezcWebdavDigestAuthenticator extends ezcWebdavBasicAuthenticator
     {
         authenticateDigest( ezcWebdavDigestAuth $data );
     }

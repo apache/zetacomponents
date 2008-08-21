@@ -28,7 +28,7 @@
  * @version //autogentag//
  * @package Webdav
  */
-interface ezcWebdavDigestAuthenticator
+interface ezcWebdavDigestAuthenticator extends ezcWebdavBasicAuthenticator
 {
     /**
      * Checks authentication for the given $data.
