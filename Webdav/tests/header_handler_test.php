@@ -215,9 +215,9 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
     public static function provideAuthorizationHeaderSets()
     {
         return array(
-            array( 'Basic Zm9vOmJhcg==', array( 'user' => 'foo', 'pass' => 'bar' ) ),
-            array( 'Basic     dXNlcjpwYXNz   ', array( 'user' => 'user', 'pass' => 'pass' ) ),
-            array( 'Basic dXNlcjpwYXNzd2l0aDppbml0', array( 'user' => 'user', 'pass' => 'passwith:init' ) ),
+            array( 'Basic Zm9vOmJhcg==', new ezcWebdavBasicAuth( 'foo', 'bar' ) ),
+            array( 'Basic     dXNlcjpwYXNz   ', new ezcWebdavBasicAuth( 'user', 'pass' ) ),
+            array( 'Basic dXNlcjpwYXNzd2l0aDppbml0', new ezcWebdavBasicAuth( 'user', 'passwith:init' ) ),
         );
     }
 

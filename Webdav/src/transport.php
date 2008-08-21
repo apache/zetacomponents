@@ -524,7 +524,14 @@ class ezcWebdavTransport
         // Sends HTTP headers
         foreach ( $output->headers as $name => $content )
         {
-            header( "{$name}: {$content}" );
+            $content   = is_array( $content ) ? $content : array( $content );
+            $overwrite = true;
+            foreach ( $content as $contentLine )
+            {
+                header( "{$name}: {$contentLine}", $overwrite );
+                // Append additional values
+                $overwrite = false;
+            }
         }
 
         // Send HTTP status code

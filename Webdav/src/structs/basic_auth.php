@@ -34,6 +34,18 @@ class ezcWebdavBasicAuth extends ezcBaseStruct
      * @var string
      */
     public $password;
+
+    /**
+     * Creates a new basic auth credential struct.
+     * 
+     * @param string $username 
+     * @param string $password 
+     */
+    public function __construct( $username = '', $password = '' )
+    {
+        $this->username = $username;
+        $this->password = $password;
+    }
 }
 
 ?>

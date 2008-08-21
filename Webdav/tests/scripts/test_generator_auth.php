@@ -6,9 +6,9 @@ class ezcWebdavClientTestGeneratorAuth implements ezcWebdavBasicAuthenticator, e
     {
         switch ( true )
         {
-            case ( $data->user === '' && $data->pass === '' ):
-            case ( $data->user === 'foo' && $data->pass === 'bar' ):
-            case ( $data->user === 'some' && $data->pass === 'thing' ):
+            case ( $data->username === '' && $data->password === '' ):
+            case ( $data->username === 'foo' && $data->password === 'bar' ):
+            case ( $data->username === 'some' && $data->password === 'thing' ):
                 return true;
             default:
                 return false;

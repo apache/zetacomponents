@@ -24,10 +24,10 @@ class ezcWebdavTestAuth implements ezcWebdavBasicAuthenticator, ezcWebdavDigestA
     {
         switch ( true )
         {
-            case ( $data->user === 'foo' && $data->pass === 'bar' ):
-            case ( $data->user === 'some' && $data->pass === 'thing' ):
-            case ( $data->user === '23' && $data->pass === '42' ):
-            case ( $data->user === '' && $data->pass === '' ):
+            case ( $data->username === 'foo' && $data->password === 'bar' ):
+            case ( $data->username === 'some' && $data->password === 'thing' ):
+            case ( $data->username === '23' && $data->password === '42' ):
+            case ( $data->username === '' && $data->password === '' ):
                 return true;
 
             default:

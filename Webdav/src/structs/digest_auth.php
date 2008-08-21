@@ -90,6 +90,25 @@ class ezcWebdavDigestAuth extends ezcBaseStruct
      * @var string
      */
     public $response;
+
+    public function __construct(
+        $username = '',
+        $realm = '',
+        $nonce = '',
+        $uri = '',
+        $qualityOfProtection = '',
+        $requestCounter = '',
+        $clientNonce = ''
+    )
+    {
+        $this->username            = $username;
+        $this->realm               = $realm;
+        $this->nonce               = $nonce;
+        $this->uri                 = $uri;
+        $this->qualityOfProtection = $qualityOfProtection;
+        $this->requestCounter      = $requestCounter;
+        $this->clientNonce         = $clientNonce;
+    }
 }
 
 ?>

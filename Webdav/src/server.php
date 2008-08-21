@@ -299,32 +299,29 @@ class ezcWebdavServer
      */
     private function authenticate( ezcWebdavRequest $req )
     {
-        /*
-         * TODO: Rewrite!
-        // Determine credentials
         $creds = $req->getHeader( 'Authorization' );
         if ( $creds === null )
         {
-            $creds = array( 'user' => '', 'pass' => '' );
+            // Empty basic auth === anonymous
+            $creds = new ezcWebdavBasicAuth( '', '' );
         }
 
+        $res = null;
         // Authenticate user
-        if ( !$this->properties['auth']->authenticate( $creds['user'], $creds['pass'] ) )
+        if ( $creds instanceof ezcWebdavBasicAuth && !$this->properties['auth']->authenticateBasic( $creds ) )
         {
-            // Return basic 401 error
-            return $this->createUnauthorizedResponse( $req->requestUri, 'Authentication failed.' );
+            $res = $this->createUnauthorizedResponse( $req->requestUri, 'Basic authentication failed.' );
+        }
+        if ( $creds instanceof ezcWebdavDigestAuth
+             && ( !( $this->properties['auth'] instanceof ezcWebdavDigestAuthenticator )
+                  || !$this->properties['auth']->authenticateDigest( $creds )
+                )
+           )
+        {
+            $res = $this->createUnauthorizedResponse( $req->requestUri, 'Digest authentication failed.' );
         }
 
-        foreach ( $req->getPathsToAuthorize() as $path => $permission )
-        {
-            if ( !$this->properties['auth']->authorize( $creds['user'], $path, $permission ) )
-            {
-                return $this->createUnauthorizedResponse( $req->requestUri, 'Authorization failed.' );
-            }
-        }
-        */
-
-        return null;
+        return $res;
     }
 
     /**
@@ -343,8 +340,35 @@ class ezcWebdavServer
     private function createUnauthorizedResponse( $uri, $desc )
     {
         $res = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_401, $uri, $desc );
-        $res->setHeader( 'WWW-Authenticate', 'Basic realm="' . $this->options->realm . '"' );
+        $wwwAuthHeader = array(
+            'basic' => 'Basic realm="' . $this->options->realm . '"',
+        );
+        if ( $this->properties['auth'] instanceof ezcWebdavDigestAuthenticator )
+        {
+            $wwwAuthHeader['digest'] = 'Digest realm="' .$this->options->realm . '"'
+                . ', nonce="' . $this->getNounce() . '"'
+                . ', algorithm="MD5"';
+            // @todo Do we want an opaque value here, too?
+        }
+        $res->setHeader( 'WWW-Authentication', $wwwAuthHeader );
+
         return $res;
+    }
+
+    /**
+     * Creates a unique, hard to guess nounce value.
+     * 
+     * @return string
+     */
+    private function getNounce()
+    {
+        // This should be random enough that it cannot be guessed easily
+        return md5(
+            $this->options->realm 
+                . ':' . microtime()
+                . ':' . $_SERVER['SERVER_NAME'] 
+                . ':' . uniqid( mt_rand(), true )
+        );
     }
 
     /**
@@ -375,7 +399,9 @@ class ezcWebdavServer
                 }
                 break;
             case 'auth':
-                if ( $propertyValue !== null && !( $propertyValue instanceof ezcWebdavBasicAuthenticator ) && !( $propertyValue instanceof ezcWebdavDigestAuthenticator ) )
+                if ( $propertyValue !== null
+                     && ( !is_object( $propertyValue ) || !( $propertyValue instanceof ezcWebdavBasicAuthenticator ) )
+                   )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavBasicAuthenticator and/or ezcWebdavDigestAuthenticator' );
                 }
