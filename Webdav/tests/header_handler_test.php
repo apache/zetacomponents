@@ -22,9 +22,22 @@ require_once 'test_case.php';
  */
 class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
 {
+    private $oldServer;
+
     public static function suite()
     {
 		return new PHPUnit_Framework_TestSuite( __CLASS__ );
+    }
+
+    public function setUp()
+    {
+        $this->oldServer = $_SERVER;
+        $_SERVER         = array();
+    }
+
+    public function tearDown()
+    {
+        $_SERVER = $this->oldServer;
     }
 
     /**
@@ -38,7 +51,6 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
      */
     public function testParseAuthorizationHeader( $headerContent, $expectedValue )
     {
-        $_SERVER                       = array();
         $_SERVER['HTTP_AUTHORIZATION'] = $headerContent;
 
         $headerHandler = new ezcWebdavHeaderHandler();
@@ -63,7 +75,6 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
      */
     public function testParseDepthHeader( $headerContent, $expectedValue )
     {
-        $_SERVER               = array();
         $_SERVER['HTTP_DEPTH'] = $headerContent;
 
         $headerHandler = new ezcWebdavHeaderHandler();
@@ -88,7 +99,6 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
      */
     public function testParseIfMatchHeaderCorrect( $headerContent, $expectedValue )
     {
-        $_SERVER                  = array();
         $_SERVER['HTTP_IF_MATCH'] = $headerContent;
 
         $headerHandler = new ezcWebdavHeaderHandler();
@@ -112,7 +122,6 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
      */
     public function testParseIfNoneMatchHeaderCorrect( $headerContent, $expectedValue )
     {
-        $_SERVER                       = array();
         $_SERVER['HTTP_IF_NONE_MATCH'] = $headerContent;
 
         $headerHandler = new ezcWebdavHeaderHandler();
@@ -127,8 +136,6 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
 
     public function testParseHeaderFailure()
     {
-        $_SERVER = array();
-
         $headerHandler = new ezcWebdavHeaderHandler();
 
         try

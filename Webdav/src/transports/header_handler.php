@@ -212,20 +212,30 @@ class ezcWebdavHeaderHandler
      */
     protected function parseAuthorizationHeader( $value )
     {
-        $res = array(
-            'user' => null,
-            'pass' => null,
-        );
+        $res = new ezcWebdavBasicAuth( '', '' );
 
         if ( substr( $value, 0, 5 ) === 'Basic' )
         {
             // e.g. "Basic dXNlcjpwYXNz"
-            $credentials = explode( ':', base64_decode( trim( substr( $value, 6 ) ) ), 2 );
+            $credentials = explode(
+                ':',
+                base64_decode(
+                    trim(
+                        substr( $value, 6 )
+                    )
+                ),
+                2
+            );
             if ( count( $credentials ) > 1 )
             {
-                $res['user'] = $credentials[0];
-                $res['pass'] = $credentials[1];
+                // Credentials parsed successfully.
+                $res->username = $credentials[0];
+                $res->password = $credentials[1];
             }
+        }
+        if ( substr( $value, 0, 6 ) === 'Digest' )
+        {
+            // @todo: Parse Digest auth.
         }
 
         return $res;
