@@ -5,29 +5,29 @@ class ezcWebdavTestAuth implements ezcWebdavBasicAuthenticator, ezcWebdavDigestA
 
     private $permissions = array(
         'a' => array(
-            'foo'  => ezcWebdavAuth::ACCESS_READ,
-            'some' => ezcWebdavAuth::ACCESS_WRITE,
+            'foo'  => ezcWebdavAuthorizer::ACCESS_READ,
+            'some' => ezcWebdavAuthorizer::ACCESS_WRITE,
         ),
         'b' => array(
-            'foo'  => ezcWebdavAuth::ACCESS_WRITE,
-            'some' => ezcWebdavAuth::ACCESS_WRITE,
-            ''     => ezcWebdavAuth::ACCESS_WRITE,
+            'foo'  => ezcWebdavAuthorizer::ACCESS_WRITE,
+            'some' => ezcWebdavAuthorizer::ACCESS_WRITE,
+            ''     => ezcWebdavAuthorizer::ACCESS_WRITE,
         ),
         'c' => array(
-            'foo'  => ezcWebdavAuth::ACCESS_READ,
-            'some' => ezcWebdavAuth::ACCESS_READ,
-            ''     => ezcWebdavAuth::ACCESS_READ,
+            'foo'  => ezcWebdavAuthorizer::ACCESS_READ,
+            'some' => ezcWebdavAuthorizer::ACCESS_READ,
+            ''     => ezcWebdavAuthorizer::ACCESS_READ,
         ),
     );
 
-    public function authenticateBasic( $user, $pass )
+    public function authenticateBasic( ezcWebdavBasicAuth $data )
     {
         switch ( true )
         {
-            case ( $user === 'foo' && $pass === 'bar' ):
-            case ( $user === 'some' && $pass === 'thing' ):
-            case ( $user === '23' && $pass === '42' ):
-            case ( $user === '' && $pass === '' ):
+            case ( $data->user === 'foo' && $data->pass === 'bar' ):
+            case ( $data->user === 'some' && $data->pass === 'thing' ):
+            case ( $data->user === '23' && $data->pass === '42' ):
+            case ( $data->user === '' && $data->pass === '' ):
                 return true;
 
             default:
@@ -41,7 +41,7 @@ class ezcWebdavTestAuth implements ezcWebdavBasicAuthenticator, ezcWebdavDigestA
         return true;
     }
 
-    public function authorize( $user, $path, $access = ezcWebdavAuth::ACCESS_READ )
+    public function authorize( $user, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
     {
         $basedir = substr( $path, 1, 1 );
         return ( isset( $this->permissions[$basedir][$user] ) && $this->permissions[$basedir][$user] >= $access );
