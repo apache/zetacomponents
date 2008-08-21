@@ -45,32 +45,5 @@ abstract class ezcWebdavRequestTestCase extends ezcWebdavPropertyTestCase
         $class = new ReflectionClass( $this->className );
         return $class->newInstanceArgs( $this->constructorArguments );
     }
-
-    public function testPathsToAuthorize()
-    {
-        $req = $this->getObject();
-
-        if ( !( $req instanceof ezcWebdavRequest ) )
-        {
-            $this->markTestSkipped( 'Not a request object.' );
-        }
-
-        $paths = $req->getPathsToAuthorize();
-
-        $this->assertType(
-            'array',
-            $paths
-        );
-
-        $this->assertEquals(
-            1,
-            count( $paths )
-        );
-
-        $this->assertEquals(
-            ezcWebdavAuth::ACCESS_READ,
-            $paths[$req->requestUri]
-        );
-    }
 }
 ?>

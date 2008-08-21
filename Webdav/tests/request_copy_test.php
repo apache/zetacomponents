@@ -113,39 +113,6 @@ class ezcWebdavCopyRequestTest extends ezcWebdavRequestTestCase
         }
         catch ( ezcWebdavInvalidHeaderException $e ) {}
     }
-
-    public function testPathsToAuthorize()
-    {
-        $req = $this->getObject();
-
-        if ( !( $req instanceof ezcWebdavRequest ) )
-        {
-            $this->markTestSkipped( 'Not a request object.' );
-            return;
-        }
-
-        $req->validateHeaders();
-
-        $this->assertType(
-            'array',
-            ( $paths = $req->getPathsToAuthorize() )
-        );
-
-        $this->assertEquals(
-            2,
-            count( $paths )
-        );
-
-        $this->assertEquals(
-            ezcWebdavAuth::ACCESS_READ,
-            $paths[$req->requestUri]
-        );
-
-        $this->assertEquals(
-            ezcWebdavAuth::ACCESS_WRITE,
-            $paths[$req->getHeader( 'Destination' )]
-        );
-    }
 }
 
 ?>
