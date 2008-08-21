@@ -222,7 +222,7 @@ implement this interface::
     <?php
     interface ezcWebdavBasicAuthenticator
     {
-        authenticateBasic( string $user, string $password );
+        authenticateBasic( ezcWebdavBasicAuth $data );
     }
     ?>
 

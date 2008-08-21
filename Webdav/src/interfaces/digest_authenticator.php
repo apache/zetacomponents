@@ -23,6 +23,7 @@
  * @see ezcWebdavServer
  * @see ezcWebdavBasicAuthenticator
  * @see ezcWebdavAuthorizer
+ * @see ezcWebdavDigestAuth
  *
  * @version //autogentag//
  * @package Webdav

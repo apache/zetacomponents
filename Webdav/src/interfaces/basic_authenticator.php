@@ -23,6 +23,7 @@
  * @see ezcWebdavServer
  * @see ezcWebdavDigestAuthenticator
  * @see ezcWebdavAuthorizer
+ * @see ezcWebdavBasicAuth
  *
  * @version //autogentag//
  * @package Webdav
@@ -32,17 +33,16 @@ interface ezcWebdavBasicAuthenticator
     /**
      * Checks authentication for the given $user.
      *
-     * This method checks the given $user / $password credentials. Returns true
-     * if the $user was succesfully recognized and the $password is valid for
-     * him, false otherwise. In case no $username and/or $password was provided
-     * in the request, empty strings are provided as the parameters of this
-     * method.
+     * This method checks the given user/password credentials encapsulated in
+     * $data. Returns true if the user was succesfully recognized and the
+     * password is valid for him, false otherwise. In case no username and/or
+     * password was provided in the request, empty strings are provided as the
+     * parameters of this method.
      * 
-     * @param string $user 
-     * @param string $password 
+     * @param ezcWebdavBasicAuth $data
      * @return bool
      */
-    public function authenticateBasic( $user, $password );
+    public function authenticateBasic( ezcWebdavBasicAuth $data );
 }
 
 ?>
