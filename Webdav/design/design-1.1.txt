@@ -240,7 +240,7 @@ to ezcWebdavServer->$auth are highly recommended to implement this interface::
     <?php
     interface ezcWebdavDigestAuthenticator
     {
-        authenticateDigest( ezcWebdavDigestData $data );
+        authenticateDigest( ezcWebdavDigestAuth $data );
     }
     ?>
 
