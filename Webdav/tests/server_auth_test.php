@@ -83,10 +83,7 @@ class ezcWebdavServerAuthTest extends ezcWebdavTestCase
 
         $backend = $this->getBackend();
         
-        ini_set( 'xdebug.collect_return', 1 );
-        xdebug_start_trace( 'trace' . $num );
         ezcWebdavServer::getInstance()->handle( $backend );
-        xdebug_stop_trace();
 
         $this->assertEquals(
             $output['status'],
