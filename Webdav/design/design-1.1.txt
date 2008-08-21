@@ -314,7 +314,7 @@ Webdav component. Instead, the ezcWebdavServer->$auth property will be left null
 by default, which will lead to no authentication/authorization at all.
 
 If a user implemented object is assigned to the ezcWebdavServer->$auth property,
-it must at least implement 1 of the ezcWebdav*Authentication interfaces. It may
+it must at least implement 1 of the ezcWebdav*Authenticator interfaces. It may
 also implement the corresponding other one, but this is not mandatory.
 
 In addition, such an object might implement ezcWebdavAuthorizer. This is highly
@@ -355,10 +355,10 @@ The auth process will work as follows:
 4. Go on with normal request processing (plugins, back end).
 
 The ezcWebdavAuth instance used for the auth process is stored in a read/write
-property in ezcWebdavServer. It defaults to eczWebdavNoAuth and can be replaced
-by an arbitrary object implementing ezcWebdavAuth by the user. Logically this
-should happen before the handle() method is called, but theoretically it is
-possible anytime.
+property in ezcWebdavServer. It defaults to null and can be replaced by an
+arbitrary object implementing ezcWebdavBasicAuthenticator and/or
+ezcWebdavDigestAuthenticator by the user. Logically this should happen before
+the handle() method is called, but theoretically it is possible anytime.
 
 Lock support
 ^^^^^^^^^^^^
