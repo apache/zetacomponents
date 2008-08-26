@@ -12,6 +12,7 @@
  * Handler for storing database schemas and applying differences that uses MySQL as backend.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbSchemaDiffDbWriter
 {
@@ -81,7 +82,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     /**
      * Returns the differences definition in $dbSchema as database specific SQL DDL queries.
      *
-     * @param ezcDbSchema $dbSchema
+     * @param ezcDbSchemaDiff $dbSchemaDiff
      *
      * @return array(string)
      */
@@ -170,7 +171,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      * stored in $this->queries.
      *
      * @param string $tableName
-     * @param string $tableDiff
+     * @param ezcDbSchemaTableDiff $tableDiff
      */
     protected function generateDiffSchemaTableAsSql( $tableName, ezcDbSchemaTableDiff $tableDiff )
     {

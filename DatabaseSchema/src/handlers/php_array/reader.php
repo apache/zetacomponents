@@ -12,6 +12,7 @@
  * Handler that reads database definitions and database difference definitions from a file containing a PHP variable.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaPhpArrayReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFileReader
 {

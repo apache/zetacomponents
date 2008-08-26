@@ -18,6 +18,7 @@ class ezcDbSchemaUnsupportedTypeException extends ezcDbSchemaException
     /**
      * Constructs an ezcDatabaseSchemaUnsupportedTypeException for the type $type.
      *
+     * @param string $dbType
      * @param string $type
      */
     function __construct( $dbType, $type )

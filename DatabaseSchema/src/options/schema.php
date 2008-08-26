@@ -24,6 +24,7 @@
  *                  this class, it needs to extend from the
  *                  ezcDbSchemaIndexField struct.
  *
+ * @version //autogentag//
  * @package DatabaseSchema
  */
 class ezcDbSchemaOptions extends ezcBaseOptions

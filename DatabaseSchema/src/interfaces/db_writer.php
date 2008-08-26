@@ -25,7 +25,7 @@ interface ezcDbSchemaDbWriter extends ezcDbSchemaWriter
      * new definition.
      *
      * @param ezcDbHandler $db
-     * @param ezcDbSchema  $schema
+     * @param ezcDbSchema  $dbSchema
      */
     public function saveToDb( ezcDbHandler $db, ezcDbSchema $dbSchema );
 
@@ -36,7 +36,7 @@ interface ezcDbSchemaDbWriter extends ezcDbSchemaWriter
      * SQL can be used to create tables in an existing database according to
      * the definition.  The SQL queries are returned as an array.
      * 
-     * @param ezcDbSchemaDiff $schemaDiff
+     * @param ezcDbSchema $dbSchema
      * @return array(string)
      */
     public function convertToDDL( ezcDbSchema $dbSchema );

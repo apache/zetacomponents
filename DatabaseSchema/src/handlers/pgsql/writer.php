@@ -12,6 +12,7 @@
  * Handler for storing database schemas and applying differences that uses PostgreSQL as backend.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbSchemaDiffDbWriter
 {
@@ -228,7 +229,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     /**
      * Returns the differences definition in $dbSchema as database specific SQL DDL queries.
      *
-     * @param ezcDbSchema $dbSchema
+     * @param ezcDbSchemaDiff $dbSchemaDiff
      *
      * @return array(string)
      */
@@ -306,7 +307,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      * stored in $this->queries.
      *
      * @param string $tableName
-     * @param string $tableDiff
+     * @param ezcDbSchemaTableDiff $tableDiff
      */
     protected function generateDiffSchemaTableAsSql( $tableName, ezcDbSchemaTableDiff $tableDiff )
     {

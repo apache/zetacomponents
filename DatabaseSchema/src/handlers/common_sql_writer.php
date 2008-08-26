@@ -53,7 +53,7 @@ abstract class ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbS
      * new definition.
      *
      * @param ezcDbHandler $db
-     * @param ezcDbSchema  $schema
+     * @param ezcDbSchema  $dbSchema
      */
     public function saveToDb( ezcDbHandler $db, ezcDbSchema $dbSchema )
     {
@@ -75,7 +75,7 @@ abstract class ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbS
      * SQL can be used to create tables in an existing database according to
      * the definition.  The SQL queries are returned as an array.
      * 
-     * @param ezcDbSchemaDiff $schemaDiff
+     * @param ezcDbSchema $dbSchema
      * @return array(string)
      */
     public function convertToDDL( ezcDbSchema $dbSchema )
@@ -233,7 +233,7 @@ abstract class ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbS
      * stored in $this->queries.
      *
      * @param string $tableName
-     * @param string $tableDiff
+     * @param ezcDbSchemaTableDiff $tableDiff
      */
     protected function generateDiffSchemaTableAsSql( $tableName, ezcDbSchemaTableDiff $tableDiff )
     {

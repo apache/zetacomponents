@@ -163,10 +163,10 @@ class ezcDbSchemaComparator
      * If there are differences this method returns $field2, otherwise the
      * boolean false.
      *
-     * @param ezcDbSchemaTableField $field1
-     * @param ezcDbSchemaTableField $field2
+     * @param ezcDbSchemaField $field1
+     * @param ezcDbSchemaField $field2
      *
-     * @return bool|ezcDbSchemaTableField
+     * @return bool|ezcDbSchemaField
      */
     private static final function diffField( ezcDbSchemaField $field1, ezcDbSchemaField $field2 )
     {

@@ -183,6 +183,7 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcD
     /**
      * Returns whether the type $type is a numeric type
      *
+     * @param string $type
      * @return bool
      */
     private function isNumericType( $type )
@@ -194,6 +195,7 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcD
     /**
      * Returns whether the type $type is a string type
      *
+     * @param string $type
      * @return bool
      */
     private function isStringType( $type )
@@ -205,6 +207,7 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcD
     /**
      * Returns whether the type $type is a blob type
      *
+     * @param string $type
      * @return bool
      */
     private function isBlobType( $type )
@@ -221,7 +224,7 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcD
      * from the database and returns this schema as an array of
      * ezcDbSchemaIndex objects. The key in the array is the index' name.
      *
-     * @param  string
+     * @param  string $tableName
      * @return array(string=>ezcDbSchemaIndex)
      */
     protected function fetchTableIndexes( $tableName )

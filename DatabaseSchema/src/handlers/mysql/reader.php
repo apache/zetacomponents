@@ -185,6 +185,7 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
     /**
      * Returns whether the type $type is a numeric type
      *
+     * @param string $type
      * @return bool
      */
     private function isNumericType( $type )
@@ -196,6 +197,7 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
     /**
      * Returns whether the type $type is a string type
      *
+     * @param string $type
      * @return bool
      */
     private function isStringType( $type )
@@ -207,6 +209,7 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
     /**
      * Returns whether the type $type is a blob type
      *
+     * @param string $type
      * @return bool
      */
     private function isBlobType( $type )
@@ -223,7 +226,7 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
      * from the database and returns this schema as an array of
      * ezcDbSchemaIndex objects. The key in the array is the index' name.
      *
-     * @param  string
+     * @param  string $tableName
      * @return array(string=>ezcDbSchemaIndex)
      */
     protected function fetchTableIndexes( $tableName )

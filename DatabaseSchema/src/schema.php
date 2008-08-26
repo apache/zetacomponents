@@ -17,8 +17,6 @@
  *
  * A database schema is a definition of all the tables inside a database,
  * including field definitions and indexes.
- * @see ezcDbSchemaTable ezcDbSchemaField ezcDbSchemaIndex 
- * @see ezcDbSchemaIndexField.
  *
  * The available builtin handlers are currently for MySQL, XML files and PHP 
  * arrays.
@@ -46,6 +44,11 @@
  *     $diff = ezcDbSchemaComparator::compareSchemas( $xmlSchema, $dbSchema );
  *     $diff->applyToDb( $db );
  * </code>
+ *
+ * @see ezcDbSchemaTable
+ * @see ezcDbSchemaField
+ * @see ezcDbSchemaIndex 
+ * @see ezcDbSchemaIndexField
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -340,7 +343,7 @@ class ezcDbSchema
     /**
      * Returns an object to represent a table's field in the schema.
      *
-     * @var int $sorting
+     * @param int $sorting
      * @return ezcDbSchemaIndexField or an inherited class
      */
     static public function createNewIndexField( $sorting = null )

@@ -35,7 +35,7 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
     /**
      * Creates a new writer instance
      *
-     * @param boolean $overwrite   Overwrite existsing files?
+     * @param bool    $overwrite   Overwrite existsing files?
      * @param string  $classPrefix Prefix for class names.
      * @return void
      */
@@ -164,11 +164,12 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
 
     /**
      * Writes the PersistentObject defintion for a table.
+     *
      * This method writes the PersistentObject definition for a single database
      * table. It creates a new file in the given directory, named in the format
      * <table_name>.php, writes the start of the definition to it and calls the
-     * @link ezcDbschemaPersistentWriter::writeField() method for each of the database
-     * fields.
+     * {@link ezcDbschemaPersistentWriter::writeField()} method for each of the
+     * database fields.
      *
      * The defition files always contain an object instance $def, which is 
      * returned in the end.

@@ -12,6 +12,7 @@
  * Handler for storing database schemas and applying differences that uses Oracle as backend.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbSchemaDiffDbWriter
 {
@@ -202,7 +203,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     /**
      * Returns the differences definition in $dbSchema as database specific SQL DDL queries.
      *
-     * @param ezcDbSchema $dbSchema
+     * @param ezcDbSchemaDiff $dbSchemaDiff
      *
      * @return array(string)
      */
@@ -332,7 +333,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      * stored in $this->queries.
      *
      * @param string $tableName
-     * @param string $tableDiff
+     * @param ezcDbSchemaTableDiff $tableDiff
      */
     protected function generateDiffSchemaTableAsSql( $tableName, ezcDbSchemaTableDiff $tableDiff )
     {

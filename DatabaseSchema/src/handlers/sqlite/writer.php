@@ -12,6 +12,7 @@
  * Handler for storing database schemas and applying differences that uses SQLite as backend.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter
 {
@@ -178,8 +179,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter
      * @param string          $tableName
      * @param string          $changeFieldName
      * @param string          $changeFieldNewName
-     * @param string          $changeFieldNewType
-     *
+     * @param string          $changeFieldNewDefinition
      */
     private function changeField( ezcDbHandler $db, $tableName, $changeFieldName, $changeFieldNewName, $changeFieldNewDefinition )
     {
@@ -327,7 +327,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter
     /**
      * Returns the differences definition in $dbSchema as database specific SQL DDL queries.
      *
-     * @param ezcDbSchema $dbSchema
+     * @param ezcDbSchemaDiff $dbSchemaDiff
      *
      * @return array(string)
      */
@@ -449,7 +449,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter
      * stored in $this->queries.
      *
      * @param string $tableName
-     * @param string $tableDiff
+     * @param ezcDbSchemaTableDiff $tableDiff
      */
     protected function generateDiffSchemaTableAsSql( $tableName, ezcDbSchemaTableDiff $tableDiff )
     {

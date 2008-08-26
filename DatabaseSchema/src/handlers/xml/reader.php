@@ -235,6 +235,7 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
     /**
      * Opens the XML file $file for parsing
      *
+     * @param string $file
      * @throws ezcBaseFileNotFoundException if the file $file could not be
      *         found.
      * @throws ezcDbSchemaInvalidSchemaException if the XML in the $file is

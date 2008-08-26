@@ -35,7 +35,7 @@ class ezcDbSchemaPersistentClassWriter implements ezcDbSchemaFileWriter
     /**
      * Creates a new writer instance
      *
-     * @param boolean $overwrite   Overwrite existsing files?
+     * @param bool    $overwrite   Overwrite existsing files?
      * @param string  $classPrefix Prefix for class names.
      * @return void
      */
@@ -91,7 +91,8 @@ class ezcDbSchemaPersistentClassWriter implements ezcDbSchemaFileWriter
 
     /**
      * Writes the list of attributes.
-     * 
+     *
+     * @param resource $file
      * @param array $fields 
      * @return void
      */
@@ -111,6 +112,7 @@ class ezcDbSchemaPersistentClassWriter implements ezcDbSchemaFileWriter
     /**
      * Writes the setState() method for the class.
      * 
+     * @param resource $file
      * @return void
      */
     private function writeSetState( $file )
@@ -133,6 +135,7 @@ class ezcDbSchemaPersistentClassWriter implements ezcDbSchemaFileWriter
     /**
      * Writes the getState() method for the class.
      * 
+     * @param resource $file
      * @param array $fields The table fields.
      * @return void
      */

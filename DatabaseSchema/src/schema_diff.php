@@ -25,7 +25,7 @@ class ezcDbSchemaDiff
     /**
      * All changed tables
      *
-     * @var array(string=>array)
+     * @var array(string=>ezcDbSchemaTableDiff)
      */
     public $changedTables;
 

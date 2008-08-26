@@ -24,7 +24,7 @@ class ezcDbSchemaIndexField extends ezcBaseStruct
     /**
      * Constructs an ezcDbSchemaIndexField object.
      *
-     * @var int $sorting
+     * @param int $sorting
      */
     function __construct( $sorting = null )
     {

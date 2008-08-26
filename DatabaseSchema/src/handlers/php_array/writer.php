@@ -45,7 +45,7 @@ class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDif
      * @todo throw exception when file can not be opened
      *
      * @param string      $file
-     * @param ezcDbSchema $schema
+     * @param ezcDbSchema $dbSchema
      */
     public function saveToFile( $file, ezcDbSchema $dbSchema )
     {
@@ -64,7 +64,7 @@ class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDif
      * @todo throw exception when file can not be opened
      *
      * @param string          $file
-     * @param ezcDbSchemaDiff $schemaDiff
+     * @param ezcDbSchemaDiff $dbSchemaDiff
      */
     public function saveDiffToFile( $file, ezcDbSchemaDiff $dbSchemaDiff )
     {
