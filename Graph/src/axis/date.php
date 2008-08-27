@@ -8,13 +8,61 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent date axis. Date axis will try to find a "nice" interval
- * based on the values on the x axis. If non numeric values are given, 
- * ezcGraphChartElementDateAxis will convert them to timestamps using PHPs 
- * strtotime function.
+ * Class to represent date axis.
+ *
+ * Axis elements represent the axis in a bar, line or radar chart. They are
+ * chart elements (ezcGraphChartElement) extending from
+ * ezcGraphChartElementAxis, where additional formatting options can be found.
+ * You should generally use the axis, which matches your input data best, so
+ * that the automatic chart layouting works best. Aavailable axis types are:
+ *
+ * - ezcGraphChartElementDateAxis
+ * - ezcGraphChartElementLabeledAxis
+ * - ezcGraphChartElementLogarithmicalAxis
+ * - ezcGraphChartElementNumericAxis
+ *
+ * Date axis will try to find a "nice" interval based on the values on the x
+ * axis. If non numeric values are given, ezcGraphChartElementDateAxis will
+ * convert them to timestamps using PHPs strtotime function.
  *
  * It is always possible to set start date, end date and the interval manually
  * by yourself.
+ *
+ * The $dateFormat option provides an additional way of formatting the labels
+ * used on the axis. The options from the parent class $formatString and
+ * $labelCallback do still apply.
+ *
+ * You may use a date axis like in the following example:
+ *
+ * <code>
+ *  $graph = new ezcGraphLineChart();
+ *  $graph->options->fillLines = 210;
+ *  $graph->title = 'Concurrent requests';
+ *  $graph->legend = false;
+ *  
+ *  $graph->xAxis = new ezcGraphChartElementDateAxis();
+ *  
+ *  // Add data
+ *  $graph->data['Machine 1'] = new ezcGraphArrayDataSet( array(
+ *      '8:00' => 3241,
+ *      '8:13' => 934,
+ *      '8:24' => 1201,
+ *      '8:27' => 1752,
+ *      '8:51' => 123,
+ *  ) );
+ *  $graph->data['Machine 2'] = new ezcGraphArrayDataSet( array(
+ *      '8:05' => 623,
+ *      '8:12' => 2103,
+ *      '8:33' => 543,
+ *      '8:43' => 2034,
+ *      '8:59' => 3410,
+ *  ) );
+ *  
+ *  $graph->data['Machine 1']->symbol = ezcGraph::BULLET;
+ *  $graph->data['Machine 2']->symbol = ezcGraph::BULLET;
+ *  
+ *  $graph->render( 400, 150, 'tutorial_axis_datetime.svg' );
+ * </code>
  *
  * @property float $startDate
  *           Starting date used to display on axis.

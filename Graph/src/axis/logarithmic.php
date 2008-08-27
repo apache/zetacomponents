@@ -8,17 +8,55 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a numeric axis. The axis tries to calculate "nice" start
- * and end values for the axis scale. The used interval is considered as nice, 
- * if it is equal to [1,2,5] * 10^x with x in [.., -1, 0, 1, ..].
+ * Class to represent a logarithmic axis.
  *
- * The start and end value are the next bigger / smaller multiple of the 
- * intervall compared to the maximum / minimum axis value.
+ * Axis elements represent the axis in a bar, line or radar chart. They are
+ * chart elements (ezcGraphChartElement) extending from
+ * ezcGraphChartElementAxis, where additional formatting options can be found.
+ * You should generally use the axis, which matches your input data best, so
+ * that the automatic chart layouting works best. Aavailable axis types are:
  *
- * @property float $min
- *           Minimum value of displayed scale on axis.
- * @property float $max
- *           Maximum value of displayed scale on axis.
+ * - ezcGraphChartElementDateAxis
+ * - ezcGraphChartElementLabeledAxis
+ * - ezcGraphChartElementLogarithmicalAxis
+ * - ezcGraphChartElementNumericAxis
+ *
+ * Logarithmic axis are normally used to display very large or small values.
+ * Logarithmic axis can not be used for value spans including zero, so you
+ * should either pass only positive or only negative values to the chart.
+ *
+ * By default the axis uses a base of 10 for scaling, you may assign any other
+ * base to the $base property of the chart. With a base of 10 the steps on the
+ * axis may, for example, be at: 1, 10, 100, 1000, 10000, ...
+ *
+ * The logarithmic axis may be used like:
+ *
+ * <code>
+ *  $graph = new ezcGraphLineChart();
+ *  $graph->title = 'The power of x';
+ *  $graph->legend->position = ezcGraph::BOTTOM;
+ *  
+ *  $graph->xAxis = new ezcGraphChartElementNumericAxis();
+ *  $graph->yAxis = new ezcGraphChartElementLogarithmicalAxis();
+ *  
+ *  $graph->data['x^2'] = new ezcGraphNumericDataSet( 
+ *      -10, 10,
+ *      create_function( '$x', 'return pow( $x, 2 ) + 1;' )
+ *  );
+ *  
+ *  $graph->data['x^4'] = new ezcGraphNumericDataSet( 
+ *      -10, 10,
+ *      create_function( '$x', 'return pow( $x, 4 ) + 1;' )
+ *  );
+ *  
+ *  $graph->data['x^6'] = new ezcGraphNumericDataSet( 
+ *      -10, 10,
+ *      create_function( '$x', 'return pow( $x, 6 ) + 1;' )
+ *  );
+ *  
+ *  $graph->render( 400, 250, 'tutorial_axis_logarithmic.svg' );
+ * </code>
+ *
  * @property float $base
  *           Base for logarithmical scaling.
  * @property string $logarithmicalFormatString

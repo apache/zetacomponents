@@ -8,8 +8,57 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a labeled axis. Values on the x axis are considered as 
- * strings and used in the given order.
+ * Class to represent a labeled axis.
+ *
+ * Axis elements represent the axis in a bar, line or radar chart. They are
+ * chart elements (ezcGraphChartElement) extending from
+ * ezcGraphChartElementAxis, where additional formatting options can be found.
+ * You should generally use the axis, which matches your input data best, so
+ * that the automatic chart layouting works best. Aavailable axis types are:
+ *
+ * - ezcGraphChartElementDateAxis
+ * - ezcGraphChartElementLabeledAxis
+ * - ezcGraphChartElementLogarithmicalAxis
+ * - ezcGraphChartElementNumericAxis
+ *
+ * The labeled axis will accept any values and converts them to strings. The
+ * labeled axis does not know about any special meanings of values and
+ * maintains the order of the given labels with equidistant spaces between all
+ * values. If your data has a special meaning, like a set of numbers or dates,
+ * use one of the other more appropriate axis.
+ *
+ * Because it is not always possible to fit all labels in a chart you may
+ * define the count of labels drawn using the $labelCount option. For all other
+ * labels only a small step will be rendered.
+ *
+ * The labeled axis may be used like:
+ *
+ * <code>
+ *  $graph = new ezcGraphLineChart();
+ *  $graph->options->fillLines = 210;
+ *  $graph->options->font->maxFontSize = 10;
+ *  $graph->title = 'Error level colors';
+ *  $graph->legend = false;
+ *  
+ *  $graph->yAxis = new ezcGraphChartElementLabeledAxis();
+ *  $graph->yAxis->axisLabelRenderer->showZeroValue = true;
+ *  
+ *  $graph->yAxis->label = 'Color';
+ *  $graph->xAxis->label = 'Error level';
+ *  
+ *  // Add data
+ *  $graph->data['colors'] = new ezcGraphArrayDataSet(
+ *      array(
+ *          'info' => 'blue',
+ *          'notice' => 'green',
+ *          'warning' => 'orange',
+ *          'error' => 'red',
+ *          'fatal' => 'red',
+ *      )
+ *  );
+ *  
+ *  $graph->render( 400, 150, 'tutorial_axis_labeled.svg' );
+ * </code>
  *
  * @property float $labelCount
  *           Define count of displayed labels on the axis

@@ -8,17 +8,75 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a numeric axis. The axis tries to calculate "nice" start
- * and end values for the axis scale. The used interval is considered as nice, 
- * if it is equal to [1,2,5] * 10^x with x in [.., -1, 0, 1, ..].
+ * Class to represent a numeric axis.
+ *
+ * Axis elements represent the axis in a bar, line or radar chart. They are
+ * chart elements (ezcGraphChartElement) extending from
+ * ezcGraphChartElementAxis, where additional formatting options can be found.
+ * You should generally use the axis, which matches your input data best, so
+ * that the automatic chart layouting works best. Aavailable axis types are:
+ *
+ * - ezcGraphChartElementDateAxis
+ * - ezcGraphChartElementLabeledAxis
+ * - ezcGraphChartElementLogarithmicalAxis
+ * - ezcGraphChartElementNumericAxis
+ *
+ * The axis tries to calculate "nice" start and end values for the axis scale.
+ * The used interval is considered as nice, if it is equal to [1,2,5] * 10^x
+ * with x in [.., -1, 0, 1, ..].
  *
  * The start and end value are the next bigger / smaller multiple of the 
  * intervall compared to the maximum / minimum axis value.
+ *
+ * You may specify custom step sizes using the properties $majorStep and
+ * $minorStep. The minimum and maximum values for the axis labels can be
+ * defined using the $min and $max properties. You should be able to set any
+ * subset of these values, and all values not explicitely set will be
+ * calculated automatically.
+ *
+ * This axis should be used for all numeric values except dates. If your data
+ * does span very big number intervals you might want to consider using the
+ * logrithmic axis instead.
+ *
+ * The numeric axis may be used like:
+ *
+ * <code>
+ *  $graph = new ezcGraphLineChart();
+ *  $graph->title = 'Some random data';
+ *  $graph->legend = false;
+ *  
+ *  $graph->xAxis = new ezcGraphChartElementNumericAxis();
+ *  // The y axis is numeric by default.
+ *  
+ *  $graph->xAxis->min = -15;
+ *  $graph->xAxis->max = 15;
+ *  $graph->xAxis->majorStep = 5;
+ *  
+ *  $data = array(
+ *      array(),
+ *      array()
+ *  );
+ *  for ( $i = -10; $i <= 10; $i++ )
+ *  {
+ *      $data[0][$i] = mt_rand( -23, 59 );
+ *      $data[1][$i] = mt_rand( -23, 59 );
+ *  }
+ *  
+ *  // Add data
+ *  $graph->data['random blue'] = new ezcGraphArrayDataSet( $data[0] );
+ *  $graph->data['random green'] = new ezcGraphArrayDataSet( $data[1] );
+ *  
+ *  $graph->render( 400, 150, 'tutorial_axis_numeric.svg' );
+ * </code>
  *
  * @property float $min
  *           Minimum value of displayed scale on axis.
  * @property float $max
  *           Maximum value of displayed scale on axis.
+ * @property mixed $majorStep
+ *           Labeled major steps displayed on the axis.
+ * @property mixed $minorStep
+ *           Non labeled minor steps on the axis.
  * @property-read float $minValue
  *                Minimum Value to display on this axis.
  * @property-read float $maxValue
