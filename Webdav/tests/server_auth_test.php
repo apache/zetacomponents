@@ -85,6 +85,16 @@ class ezcWebdavServerAuthTest extends ezcWebdavTestCase
         
         ezcWebdavServer::getInstance()->handle( $backend );
 
+        if ( isset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']['WWW-Authenticate'] ) )
+        {
+            // Replace nounce value with standard one, since this should not be predictable
+            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']['WWW-Authenticate']['digest'] = preg_replace(
+                '(nonce="[^"]+")',
+                'nonce="testnonce"',
+                $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']['WWW-Authenticate']['digest']
+            );
+        }
+
         $this->assertEquals(
             $output['status'],
             $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS']

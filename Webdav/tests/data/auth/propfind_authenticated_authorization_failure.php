@@ -16,7 +16,10 @@ return array(
     array(
         'status' => 'HTTP/1.1 401 Unauthorized',
         'headers' => array(
-            'WWW-Authenticate' => 'Basic realm="eZ Components WebDAV"',
+            'WWW-Authenticate' => array(
+                'basic'  => 'Basic realm="eZ Components WebDAV"',
+                'digest' => 'Digest realm="eZ Components WebDAV", nonce="testnonce", algorithm="MD5"',
+            ),
             'Server'           => 'eZComponents/dev/ezcWebdavTransportTestMock',
             'Content-Type'     => 'text/plain; charset="utf-8"',
             'Content-Length'   => '21',
