@@ -310,7 +310,7 @@ class ezcWebdavServer
         // Authenticate user
         if ( $creds instanceof ezcWebdavBasicAuth && !$this->properties['auth']->authenticateBasic( $creds ) )
         {
-            $res = $this->createUnauthorizedResponse( $req->requestUri, 'Basic authentication failed.' );
+            $res = $this->createUnauthorizedResponse( $req->requestUri, 'Authentication failed.' );
         }
         if ( $creds instanceof ezcWebdavDigestAuth
              && ( !( $this->properties['auth'] instanceof ezcWebdavDigestAuthenticator )
@@ -318,7 +318,7 @@ class ezcWebdavServer
                 )
            )
         {
-            $res = $this->createUnauthorizedResponse( $req->requestUri, 'Digest authentication failed.' );
+            $res = $this->createUnauthorizedResponse( $req->requestUri, 'Authentication failed.' );
         }
 
         return $res;
@@ -336,8 +336,10 @@ class ezcWebdavServer
      * @param string $desc 
      * 
      * @return ezcWebdavErrorResponse
+     *
+     * @access private
      */
-    private function createUnauthorizedResponse( $uri, $desc )
+    public function createUnauthorizedResponse( $uri, $desc )
     {
         $res = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_401, $uri, $desc );
         $wwwAuthHeader = array(
@@ -350,7 +352,7 @@ class ezcWebdavServer
                 . ', algorithm="MD5"';
             // @todo Do we want an opaque value here, too?
         }
-        $res->setHeader( 'WWW-Authentication', $wwwAuthHeader );
+        $res->setHeader( 'WWW-Authenticate', $wwwAuthHeader );
 
         return $res;
     }
