@@ -10,6 +10,12 @@
 /**
  * Class for axis properties of datasets
  *
+ * This class is used to store properties for datasets, which should be
+ * validated as objects extending the ezcGraphChartElementAxis class.
+ *
+ * For a basic usage example of those dataset properties take a look at the API
+ * documentation of the ezcGraphDataSetProperty class.
+ *
  * @version //autogentag//
  * @package Graph
  */

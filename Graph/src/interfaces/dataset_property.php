@@ -10,6 +10,36 @@
 /**
  * Abstract class for properties of datasets
  *
+ * This class is used to extends datasets with additional properties, and
+ * stores only non default values for each data point in a data set.
+ * 
+ * The class is extended by property implementations including simple value
+ * validators, like:
+ *
+ * - ezcGraphDataSetAxisProperty
+ * - ezcGraphDataSetBooleanProperty
+ * - ezcGraphDataSetColorProperty
+ * - ezcGraphDataSetIntProperty
+ * - ezcGraphDataSetStringProperty
+ *
+ * The color property can for example be accessed in a chart like:
+ *
+ * <code>
+ *  $graph = new ezcGraphLineChart();
+ *  $graph->data['example'] = new ezcGraphArrayDataSet( array(
+ *      'Foo' => 23,
+ *      'Bar' => 42,
+ *  ) );
+ *
+ *  // Set color for all data points in this data set
+ *  $graph->data['example']->color = '#a40000';
+ *
+ *  // Set different color for one special datapoint
+ *  $graph->data['example']->color['Foo'] = '#2e3436';
+ *
+ *  $graph->render( 400, 200, 'test.svg' );
+ * </code>
+ *
  * @version //autogentag//
  * @package Graph
  */

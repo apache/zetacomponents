@@ -7,9 +7,71 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
- * Class for basic chart elements
+ * Base class for chart elements
+ *
+ * The base class for chart elements. Chart elements can be understood as
+ * widgets or layout container inside the chart. The actual transformation to
+ * images happens inside the renderers. They represent all elements inside the
+ * chart and contain mostly general formatting options, while the renderer
+ * itself might define additional formatting options for some chart elments.
+ *
+ * Important chart elements for example are:
+ *
+ * - Chart title (ezcGraphChartElementText)
+ * - Chart legend (ezcGraphChartElementLegend)
+ * - The axis (ezcGraphChartElementNumericAxis,
+ *   ezcGraphChartElementLogarithmicalAxis, ezcGraphChartElementLabeledAxis,
+ *   ezcGraphChartElementDateAxis)
+ * - ...
  * 
+ * The position of chart elements is defined in the $position property. The
+ * effect this has on the visual representation depends on the actual type of
+ * the chart element.
+ *
+ * Each chart element may be configured with options similar to CSS, used with
+ * HTML to define the general style of the repsective element:
+ *
+ * - $padding & $margin defne the distance of the border from inner elements /
+ *   other chart elements.
+ * - $borderWidth & $border define the style of the border used around the
+ *   chart element
+ * - $background defines the background color of the chart element. As always
+ *   this may be a (semi-) transparent color.
+ *
+ * A typical example with some layout for the chart title element could look
+ * like:
+ *
+ * <code>
+ *  $graph = new ezcGraphPieChart();
+ *  $graph->data['example'] = new ezcGraphArrayDataSet( array(
+ *      'Foo' => 23,
+ *      'Bar' => 42,
+ *  ) );
+ *  
+ *  // Set a title and format the title element
+ *  $graph->title              = 'Example formatted pie chart';
+ *  $graph->title->margin      = 2;
+ *  $graph->title->background  = '#FFFFFF80';
+ *  $graph->title->border      = '#FFFFFF';
+ *  $graph->title->borderWidth = 1;
+ *  $graph->title->margin      = 1;
+ *  $graph->title->padding     = 1;
+ *  
+ *  // Format the legend element
+ *  $graph->legend->margin      = 2;
+ *  $graph->legend->background  = '#FFFFFF80';
+ *  $graph->legend->border      = '#FFFFFF';
+ *  $graph->legend->borderWidth = 1;
+ *  $graph->legend->margin      = 1;
+ *  $graph->legend->padding     = 1;
+ *  
+ *  $graph->background->background = '#888a85';
+ *  
+ *  $graph->render( 400, 250, 'element.svg' );
+ * </code>
+ *
  * @property string $title
  *           Title of chart element.
  * @property ezcGraphColor $background

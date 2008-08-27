@@ -11,6 +11,8 @@
  * Abstract class to render labels and grids on axis. Will be extended to
  * make it possible using different algorithms for rendering axis labels.
  *
+ * Implements basic methods to render the grid and steps on a axis.
+ *
  * @property bool $majorStepCount
  *           Count of major steps.
  * @property bool $minorStepCount
@@ -435,4 +437,5 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
         ezcGraphChartElementAxis $axis
     );
 }
+
 ?>

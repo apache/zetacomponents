@@ -8,8 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Flash can only read non interlaced bitmaps. This exception is thrown for 
- * all other image types.
+ * Flash can only embed JPEGs and PNGs. This exception is thrown for * all
+ * other image types.
  *
  * @package Graph
  * @version //autogentag//

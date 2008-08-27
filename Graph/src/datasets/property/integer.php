@@ -10,6 +10,12 @@
 /**
  * Class for integer properties of datasets
  *
+ * This class is used to store properties for datasets, which should be
+ * validated as integer values.
+ *
+ * For a basic usage example of those dataset properties take a look at the API
+ * documentation of the ezcGraphDataSetProperty class.
+ *
  * @version //autogentag//
  * @package Graph
  */

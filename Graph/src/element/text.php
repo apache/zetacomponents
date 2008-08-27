@@ -10,6 +10,34 @@
 /**
  * Chart element to display texts in a chart
  *
+ * Chart elements can be understood as widgets or layout container inside the
+ * chart. The actual transformation to images happens inside the renderers.
+ * They represent all elements inside the chart and contain mostly general
+ * formatting options, while the renderer itself might define additional
+ * formatting options for some chart elments. You can find more about the
+ * general formatting options for chart elements in the base class
+ * ezcGraphChartElement.
+ *
+ * The text element can only be placed at the top or the bottom of the chart.
+ * Beside the common options it has only one additional option defining the
+ * maximum height used for the text box. The actaully required height is
+ * calculated based on the assigned text size.
+ *
+ * <code>
+ *  $chart = new ezcGraphPieChart();
+ *  $chart->data['example'] = new ezcGraphArrayDataSet( array(
+ *      'Foo' => 23,
+ *      'Bar' => 42,
+ *  ) );
+ *
+ *  $chart->title = 'Some pie chart';
+ *
+ *  // Use at maximum 5% of the chart height for the title.
+ *  $chart->title->maxHeight = .05;
+ *
+ *  $graph->render( 400, 250, 'title.svg' );
+ * </code>
+ *
  * @property float $maxHeight
  *           Maximum percent of bounding used to display the text.
  *

@@ -8,25 +8,44 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Chart element representing the background. In addition to the standard 
- * background and border for chart elements it can draw an image on the chart 
- * background, and optionally repeat it. The position will be used for the 
- * repetition offset.
+ * Chart element representing the background.
+ *
+ * Chart elements can be understood as widgets or layout container inside the
+ * chart. The actual transformation to images happens inside the renderers.
+ * They represent all elements inside the chart and contain mostly general
+ * formatting options, while the renderer itself might define additional
+ * formatting options for some chart elments. You can find more about the
+ * general formatting options for chart elements in the base class
+ * ezcGraphChartElement.
+ *
+ * Additionally to common background and border for chart elements it can draw
+ * an image on the chart background, and optionally repeat it. The position
+ * will be used to define the start of the repetition.
+ *
+ * The repetition effects are modelled similar to the background settings in
+ * CSS. The example shows some common settings:
  *
  * <code>
+ *  $chart = new ezcGraphPieChart();
+ *  $chart->data['example'] = new ezcGraphArrayDataSet( array(
+ *      'Foo' => 23,
+ *      'Bar' => 42,
+ *  ) );
+ *
  *  $chart->background->image = 'background.png';
  *
- *  // Image will be repeated horizontal at the top of the background
+ *  // Image would be repeated horizontal at the top of the background
  *  $chart->background->repeat = ezcGraph::HORIZONTAL;
  *  $chart->background->postion = ezcGraph::TOP;
  *
- *  // Image will be placed once in the center
+ *  // Image would be placed once in the center
  *  $chart->background->repeat = ezcGraph::NO_REPEAT; // default;
  *  $chart->background->position = ezcGraph::CENTER | ezcGraph::MIDDLE;
  *
- *  // Image will be repeated all over
+ *  // Image would be repeated all over the chart, the position is irrelevant
  *  $chart->background->repeat = ezcGraph::HORIZONTAL | ezcGraph::VERTICAL;
- *      // The position is not relevant here.
+ *
+ *  $graph->render( 400, 250, 'legend.svg' );
  * </code>
  *
  * @property string $image

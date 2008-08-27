@@ -10,6 +10,47 @@
 /**
  * Class to represent a legend as a chart element
  *
+ * Chart elements can be understood as widgets or layout container inside the
+ * chart. The actual transformation to images happens inside the renderers.
+ * They represent all elements inside the chart and contain mostly general
+ * formatting options, while the renderer itself might define additional
+ * formatting options for some chart elments. You can find more about the
+ * general formatting options for chart elements in the base class
+ * ezcGraphChartElement.
+ *
+ * The legend chart element is used to display the legend of a chart. It can be
+ * deactivated by setting the legend to false, like:
+ *
+ * <code>
+ *  $chart->legend = false;
+ * </code>
+ *
+ * The position of the legend in the chart can be influenced by the postion
+ * property, set to one of the position constants from the ezcGraph base class,
+ * like ezcGraph::BOTTOM, ezcGraph::LEFT, ezcGraph::RIGHT, ezcGraph::TOP.
+ *
+ * Depending on the position of the legend, either the $portraitSize (RIGHT,
+ * LEFT) or the $landscapeSize (TOP, BOTTOM) defines how much space will be
+ * aqquired for the legend.
+ *
+ * <code>
+ *  $graph = new ezcGraphPieChart();
+ *  $graph->data['example'] = new ezcGraphArrayDataSet( array(
+ *      'Foo' => 23,
+ *      'Bar' => 42,
+ *  ) );
+ *  
+ *  // Format the legend element
+ *  $graph->legend->background    = '#FFFFFF80';
+ *
+ *  // Place at the bottom of the chart, with a height of 5% of the remaining
+ *  // chart space.
+ *  $graph->legend->position      = ezcGraph::BOTTOM;
+ *  $graph->legend->landscapeSize = .05;
+ *  
+ *  $graph->render( 400, 250, 'legend.svg' );
+ * </code>
+ *
  * @property float $portraitSize
  *           Size of a portrait style legend in percent of the size of the 
  *           complete chart.

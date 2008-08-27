@@ -8,7 +8,74 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Basic axis class
+ * Class to represent an axis as a chart element
+ *
+ * Chart elements can be understood as widgets or layout container inside the
+ * chart. The actual transformation to images happens inside the renderers.
+ * They represent all elements inside the chart and contain mostly general
+ * formatting options, while the renderer itself might define additional
+ * formatting options for some chart elments. You can find more about the
+ * general formatting options for chart elements in the base class
+ * ezcGraphChartElement.
+ *
+ * The axis elements are special elements, as the border and background
+ * settings do not apply directly as axis axis are not put inside any boxes.
+ * The border value is reused for the color of the axis itself.
+ *
+ * Generally you should select the axis which matches your data best. By
+ * default a labeled x axis and a numeric y axis are used. If you are using
+ * date or time values on either axis, you should for example use a
+ * ezcGraphChartElementDateAxis. The currently available axis types are:
+ *
+ * - ezcGraphChartElementDateAxis
+ * - ezcGraphChartElementLabeledAxis
+ * - ezcGraphChartElementLogarithmicalAxis
+ * - ezcGraphChartElementNumericAxis
+ *
+ * Beside this there are several option to define the general layout of the
+ * axis labels. The $formatString option may be used to add additional text to
+ * each label on the axis, like a percent sign on the y axis:
+ *
+ * <code>
+ *  $chart->xAxis->formatString = '%s %%';
+ * </code>
+ *
+ * For more complex formatting operations for the label you may assign a custom
+ * formatter function to the property $labelCallback.
+ *
+ * The orientation of labels and their position relatively to the axis ticks is
+ * calcualted and rendered by the ezcGraphAxisLabelRenderer classes. You can
+ * choose between different axis label renderer, or create you own, and assign
+ * an instance of one to the property $axisLabelRenderer. Currently the
+ * available axis label renderers are:
+ * 
+ * - ezcGraphAxisBoxedLabelRenderer
+ *
+ *   Renders grid and labels like commonly used in bar charts, with the label
+ *   between two grid lines.
+ *  
+ * - ezcGraphAxisCenteredLabelRenderer
+ *
+ *   Centers the label right next to a tick. Commonly used for labeled axis.
+ *
+ * - ezcGraphAxisExactLabelRenderer
+ *
+ *   Put the label next to each tick. Commonly used for numeric axis.
+ *
+ * - ezcGraphAxisNoLabelRenderer
+ *
+ *   Renders no labels.
+ *
+ * - ezcGraphAxisRadarLabelRenderer
+ *
+ *   Special label renderer for radar charts.
+ *
+ * - ezcGraphAxisRotatedLabelRenderer
+ *
+ *   Accepts a rotation angle for the texts put at some axis, which might be
+ *   useful for longer textual labels on the axis.
+ *
+ * The label renderer used by default is different depending on the axis type.
  *
  * @property float $nullPosition
  *           The position of the null value.
