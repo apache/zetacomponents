@@ -38,9 +38,9 @@ class ezcGraphColor extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['red'] = 0;
+        $this->properties['red']   = 0;
         $this->properties['green'] = 0;
-        $this->properties['blue'] = 0;
+        $this->properties['blue']  = 0;
         $this->properties['alpha'] = 0;
 
         parent::__construct( $options );
@@ -180,8 +180,29 @@ class ezcGraphColor extends ezcBaseOptions
     }
 
     /**
-     * Tries to detect type of color color definition and returns an
-     * ezcGraphColor object
+     * Tries to parse provided color value
+     *
+     * This method can be used to create a color struct from arbritrary color
+     * representations. The following values are accepted
+     *
+     * - Hexadecimal color definitions, like known from HTML, CSS and SVG
+     *
+     *   Color definitions like #FF0000, with and and without number sign,
+     *   where each pair of bytes is interpreted as a color value for the
+     *   channels RGB(A). These color values may contain up to 4 values, where
+     *   the last value is considered as the alpha channel.
+     *
+     * - Array of integers
+     *
+     *   If an array of integers is provided as input teh value in each channel
+     *   may be in the span [0 - 255] and is assigned to the color channels
+     *   RGB(A). Up to four values are used from the array.
+     * 
+     * - Array of floats
+     *
+     *   If an array of floats is provided as input teh value in each channel
+     *   may be in the span [0 - 1] and is assigned to the color channels
+     *   RGB(A). Up to four values are used from the array.
      * 
      * @param mixed $color Some kind of color definition
      * @return ezcGraphColor
@@ -238,10 +259,10 @@ class ezcGraphColor extends ezcBaseOptions
     public function invert()
     {
         $color = new ezcGraphColor();
-
-        $color->red = 255 - $this->red;
+               
+        $color->red   = 255 - $this->red;
         $color->green = 255 - $this->green;
-        $color->blue = 255 - $this->blue;
+        $color->blue  = 255 - $this->blue;
         $color->alpha = $this->alpha;
 
         return $color;
@@ -257,10 +278,10 @@ class ezcGraphColor extends ezcBaseOptions
     {
         $color = clone $this;
 
-        $value = 1 - $value;
-        $color->red = min( 255, max( 0, (int) round( $this->red * $value ) ) );
+        $value        = 1 - $value;
+        $color->red   = min( 255, max( 0, (int) round( $this->red * $value ) ) );
         $color->green = min( 255, max( 0, (int) round( $this->green * $value ) ) );
-        $color->blue = min( 255, max( 0, (int) round( $this->blue * $value ) ) );
+        $color->blue  = min( 255, max( 0, (int) round( $this->blue * $value ) ) );
 
         return $color;
     }
