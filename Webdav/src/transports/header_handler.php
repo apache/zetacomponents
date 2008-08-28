@@ -214,6 +214,7 @@ class ezcWebdavHeaderHandler
     {
         $res = new ezcWebdavBasicAuth( '', '' );
 
+        // Basic auth
         if ( substr( $value, 0, 5 ) === 'Basic' )
         {
             // e.g. "Basic dXNlcjpwYXNz"
@@ -233,9 +234,42 @@ class ezcWebdavHeaderHandler
                 $res->password = $credentials[1];
             }
         }
+
+        // Digest auth
         if ( substr( $value, 0, 6 ) === 'Digest' )
         {
-            // @todo: Parse Digest auth.
+            // Minimum 6 values, otherwise incorrect
+            if ( preg_match_all( '((\w+)=(?:"([^"]+)"|([A-Za-z0-9]+)))', $value, $matches, PREG_SET_ORDER ) > 5 )
+            {
+                $res = new ezcWebdavDigestAuth();
+                foreach ( $matches as $matchSet )
+                {
+                    switch ( $matchSet[1] )
+                    {
+                        case 'username':
+                        case 'realm':
+                        case 'nonce':
+                        case 'uri':
+                        case 'response':
+                        case 'algorithm':
+                        case 'opaque':
+                            $res->$matchSet[1] = $matchSet[2];
+                            break;
+                        // Ususally clients should not quote qop and nc, however, we check is some do
+                        case 'qop':
+                            $res->qualityOfProtection = !empty( $matchSet[2] ) ? $matchSet[2] : $matchSet[3];
+                            break;
+                        case 'nc':
+                            $res->nonceCount = !empty( $matchSet[2] ) ? $matchSet[2] : $matchSet[3];
+                            break;
+                        case 'cnonce':
+                            $res->clientNonce = $matchSet[2];
+                            break;
+                        // default:
+                        // ignore
+                    }
+                }
+            }
         }
 
         return $res;

@@ -215,9 +215,46 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
     public static function provideAuthorizationHeaderSets()
     {
         return array(
-            array( 'Basic Zm9vOmJhcg==', new ezcWebdavBasicAuth( 'foo', 'bar' ) ),
-            array( 'Basic     dXNlcjpwYXNz   ', new ezcWebdavBasicAuth( 'user', 'pass' ) ),
-            array( 'Basic dXNlcjpwYXNzd2l0aDppbml0', new ezcWebdavBasicAuth( 'user', 'passwith:init' ) ),
+            array(
+                'Basic Zm9vOmJhcg==',
+                new ezcWebdavBasicAuth( 'foo', 'bar' )
+            ),
+            array(
+                'Basic     dXNlcjpwYXNz   ',
+                new ezcWebdavBasicAuth( 'user', 'pass' )
+            ),
+            array(
+                'Basic dXNlcjpwYXNzd2l0aDppbml0',
+                new ezcWebdavBasicAuth( 'user', 'passwith:init' )
+            ),
+            // Simple digest, provided by Litmus
+            array(
+                'Digest username="some", realm="eZ Components WebDAV", nonce="7feee2d8f6681389933bcdcbab789c8c", uri="/secure_collection/litmus/", response="ecde6f7d4bd072df1cb8f338f8a93132", algorithm="MD5"',
+                new ezcWebdavDigestAuth(
+                    'some',
+                    'eZ Components WebDAV',
+                    '7feee2d8f6681389933bcdcbab789c8c',
+                    '/secure_collection/litmus/',
+                    'ecde6f7d4bd072df1cb8f338f8a93132',
+                    'MD5'
+                ),
+            ),
+            // Complex digest, provided by WP
+            array(
+                'Digest username="Mufasa", realm="testrealm@host.com", nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", uri="/dir/index.html", qop=auth, nc=00000001, cnonce="0a4f113b", response="6629fae49393a05397450978507c4ef1", opaque="5ccc069c403ebaf9f0171e9517f40e41"',
+                new ezcWebdavDigestAuth(
+                    'Mufasa',
+                    'testrealm@host.com',
+                    'dcd98b7102dd2f0e8b11d0f600bfb0c093',
+                    '/dir/index.html',
+                    '6629fae49393a05397450978507c4ef1',
+                    'MD5',
+                    'auth',
+                    '00000001',
+                    '0a4f113b',
+                    '5ccc069c403ebaf9f0171e9517f40e41'
+                ),
+            ),
         );
     }
 
