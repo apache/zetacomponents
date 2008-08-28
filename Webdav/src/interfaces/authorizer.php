@@ -44,8 +44,21 @@ interface ezcWebdavAuthorizer
      * </ul>
      *
      * The implementation of this method must only check the given $path, but
-     * MUST not check deeper pathes, since the back end will issue dedicated
-     * calls for such paths.
+     * MUST not check descendant paths, since the back end will issue dedicated
+     * calls for such paths. In contrast, the algoritm MUST ensure, that parent
+     * permission constraints of the given $paths are met.
+     *
+     * Examples:
+     * Permission is rejected for the paths "/a", "/b/beamme" and "/c/connect":
+     *
+     * <code>
+     * <?php
+     * var_dump( $auth->authorize( 'johndoe', '/a' ) ); // false
+     * var_dump( $auth->authorize( 'johndoe', '/b' ) ); // true
+     * var_dump( $auth->authorize( 'johndoe', '/b/beamme' ) ); // false
+     * var_dump( $auth->authorize( 'johndoe', '/c/connect/some/deeper/path' ) ); // false
+     * ?>
+     * </code>
      * 
      * @param string $user 
      * @param string $path 
