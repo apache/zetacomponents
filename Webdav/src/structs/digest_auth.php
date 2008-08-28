@@ -120,7 +120,7 @@ class ezcWebdavDigestAuth extends ezcBaseStruct
         $qualityOfProtection = null,
         $nonceCount = null,
         $clientNonce = null,
-        $opaque = null,
+        $opaque = null
     )
     {
         $this->username            = $username;
@@ -132,7 +132,7 @@ class ezcWebdavDigestAuth extends ezcBaseStruct
         $this->qualityOfProtection = $qualityOfProtection;
         $this->nonceCount          = $nonceCount;
         $this->clientNonce         = $clientNonce;
-        $this->opaque              = $opaque,
+        $this->opaque              = $opaque;
     }
 }
 
