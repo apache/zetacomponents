@@ -49,6 +49,11 @@ class ezcWebdavTestCase extends ezcTestCase
             $_SERVER = $serverBackup;
         }
     }
+
+    protected function setUp()
+    {
+        ezcWebdavServer::getInstance()->reset();
+    }
 }
 
 ?>

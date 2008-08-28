@@ -160,6 +160,8 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         static $i = 0;
 
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d', ++$i ) ) . '/';
@@ -201,6 +203,8 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         {
             $this->removeTempDir();
         }
+
+        parent::tearDown();
     }
 
     public function testFileBackendOptionsInFileBackend()

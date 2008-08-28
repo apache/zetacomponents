@@ -70,6 +70,7 @@ class ezcWebdavTransportTest extends ezcWebdavTestCase
 
     protected function setUp()
     {
+        parent::setUp();
         ezcWebdavServer::getInstance()->init(
             new ezcWebdavBasicPathFactory( 'http://example.com/foo/bar' ),
             new ezcWebdavXmlTool(),
@@ -77,7 +78,6 @@ class ezcWebdavTransportTest extends ezcWebdavTestCase
             new ezcWebdavHeaderHandler(),
             new ezcWebdavMockedTransport()
         );
-        parent::setUp();
     }
 
     protected function tearDown()
