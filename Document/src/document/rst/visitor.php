@@ -355,9 +355,10 @@ abstract class ezcDocumentRstVisitor
         if ( is_numeric( $identifier ) )
         {
             $number = (int) $identifier;
+            $label  = 0;
             if ( $identifier > $this->footnoteCounter[0] )
             {
-                $this->footnoteCounter[$label = 0] = $number;
+                $this->footnoteCounter[$label] = $number;
             }
         }
         elseif ( $identifier[0] === '#' )
@@ -373,12 +374,27 @@ abstract class ezcDocumentRstVisitor
                 $number = ++$this->footnoteCounter[$label];
             }
         }
+        // Footnotes marked with an asterix should actually be rendered with a
+        // number of continiously used symbols. Since docbook does not maintain
+        // any information about those, we just autonumber them for now.
+        elseif ( $identifier[0] === '*' )
+        {
+            $label = '*';
+            
+            if ( !isset( $this->footnoteCounter[$label] ) )
+            {
+                $this->footnoteCounter[$label] = $number = 1;
+            }
+            else
+            {
+                $number = ++$this->footnoteCounter[$label];
+            }
+        }
         else
         {
-            return $this->triggerError(
-                E_WARNING, "Unknown footnote type '{$identifier}'.",
-                null, $node->token->line, $node->token->position
-            );
+            // Everything else is cosidered as citation references.
+            $label  = '#';
+            $number = strtolower( trim( $identifier ) );
         }
 
         // Store footnote for later rendering in footnote array
@@ -460,7 +476,7 @@ abstract class ezcDocumentRstVisitor
                 $child = next( $children );
             }
 
-            if ( count( $stack ) )
+            if ( $child && count( $stack ) )
             {
                 // We found a element, which is not an empty named reference
                 // node, so get the identifier from it and assign it to all
@@ -547,6 +563,11 @@ abstract class ezcDocumentRstVisitor
                 ( $node !== null ? $node->token->line : null ),
                 ( $node !== null ? $node->token->position : null )
             );
+        }
+        elseif ( isset( $this->footnotes['#'][$ref = strtolower( trim( $string ) )] ) )
+        {
+            // We found a citation reference.
+            return $this->footnotes['#'][$ref];
         }
 
         $id = $this->calculateId( $string );
