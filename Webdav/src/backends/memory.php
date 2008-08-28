@@ -686,7 +686,7 @@ class ezcWebdavMemoryBackend
      */
     protected function isCollection( $path )
     {
-        return is_array( $this->content[$path] );
+        return $this->nodeExists( $path ) && is_array( $this->content[$path] );
     }
 
     /**
