@@ -1,25 +1,25 @@
 <?php
 /**
-* ezcImageAnalysisSuite
-*
-* @package ImageAnalysis
-* @subpackage Tests
-* @version //autogentag//
-* @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
-* @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-*/
+ * ezcImageAnalysisSuite
+ *
+ * @package ImageAnalysis
+ * @subpackage Tests
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
 /**
-* Require test suite for ImageAnalyzer class.
-*/
+ * Require test suite for ImageAnalyzer class.
+ */
 require_once 'analyzer_test.php';
 
 /**
-* Test suite for ImageAnalysis package.
-*
-* @package ImageAnalysis
-* @subpackage Tests
-*/
+ * Test suite for ImageAnalysis package.
+ *
+ * @package ImageAnalysis
+ * @subpackage Tests
+ */
 class ezcImageAnalysisSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
