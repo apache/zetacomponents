@@ -174,6 +174,15 @@ class ezcWebdavClientTestGenerator
             }
         }
     ';
+
+    /**
+     * If a copy of the backend should be stored after each request.
+     *
+     * For debugging purposes.
+     * 
+     * @var bool
+     */
+    protected $storeBackends;
     
     /**
      * Creates a new test generator.
@@ -186,8 +195,10 @@ class ezcWebdavClientTestGenerator
      * @param string $baseUri Base URI, if server is not in doc root.
      * @return void
      */
-    public function __construct( $baseUri = '' )
+    public function __construct( $baseUri = '', $storeBackends = false )
     {
+        $this->storeBackends = $storeBackends;
+
         $this->filterServerVars();
 
         // Restore backend from previous request or setup new
@@ -291,7 +302,6 @@ class ezcWebdavClientTestGenerator
                 "<?php\n\nreturn " . var_export( $GLOBALS['EZC_WEBDAV_ERROR'], true ) . ";\n\n?>"
             );
         }
-        file_put_contents( $this->backendFile, serialize( $this->backend ) );
 
         file_put_contents(
             "{$requestLogFileBase}_server.php",
@@ -314,6 +324,16 @@ class ezcWebdavClientTestGenerator
             "{$responseLogFileBase}_status.txt",
             $GLOBALS['EZC_WEBDAV_RESPONSE_STATUS']
         );
+
+        $serBackend = serialize( $this->backend );
+        file_put_contents( $this->backendFile, $serBackend );
+        if ( $this->storeBackends )
+        {
+            file_put_contents(
+                "{$this->logFileBase}_backend.ser",
+                $serBackend
+            );
+        }
     }
 
     /**
