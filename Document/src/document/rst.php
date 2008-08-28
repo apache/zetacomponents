@@ -93,7 +93,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
         $name = strtolower( $name );
         if ( !isset( $this->directives[$name] ) )
         {
-            throw new Exception( $name );
+            throw new ezcDocumentRstMissingDirectiveHandlerException( $name );
         }
 
         return $this->directives[$name];

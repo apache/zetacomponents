@@ -44,7 +44,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         }
 
         return self::$testDocuments;
-        return array_slice( self::$testDocuments, 0, 1 );
+        return array_slice( self::$testDocuments, -1, 1 );
     }
 
     /**
@@ -134,6 +134,50 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
 
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
+    }
+
+    public static function getErrnousTestDocuments()
+    {
+//        return array();
+        return array(
+            array(
+                dirname( __FILE__ ) . '/files/rst/docbook/e_001_missing_directive.txt',
+                'No directive handler registered for directive \'missing_directive_dclaration\'.',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getErrnousTestDocuments
+     */
+    public function testParseErrnousRstFile( $file, $message )
+    {
+        try
+        {
+            $document = new ezcDocumentRst();
+            $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+
+            $document->registerDirective( 'my_custom_directive', 'ezcDocumentTestDummyDirective' );
+            $document->registerDirective( 'user', 'ezcDocumentTestDummyDirective' );
+            $document->registerDirective( 'book', 'ezcDocumentTestDummyDirective' );
+            $document->registerDirective( 'function', 'ezcDocumentTestDummyDirective' );
+            $document->registerDirective( 'replace', 'ezcDocumentTestDummyDirective' );
+
+            $document->loadFile( $file );
+
+            $docbook = $document->getAsDocbook();
+            $xml = $docbook->save();
+            $document = $parser->parse( $tokenizer->tokenizeFile( $file ) );
+            $this->fail( 'Expected some exception.' );
+        }
+        catch ( ezcDocumentException $e )
+        {
+            $this->assertSame(
+                $message,
+                $e->getMessage(),
+                'Different parse error expected.'
+            );
+        }
     }
 }
 
