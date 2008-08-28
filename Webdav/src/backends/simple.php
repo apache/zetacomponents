@@ -1615,6 +1615,8 @@ abstract class ezcWebdavSimpleBackend
      * @param string $path 
      * @param int $access
      * @return bool
+     *
+     * @todo Mark protected as soon as API is final.
      */
     private function isAuthorized( $request, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
     {
@@ -1682,6 +1684,8 @@ abstract class ezcWebdavSimpleBackend
      * @param int $access
      * @param bool $breakOnError
      * @return array
+     *
+     * @todo Mark protected as soon as API is final.
      */
     private function recursiveAuthCheck( ezcWebdavRequest $request, $path, $access = ezcWebdavAuthorizer::ACCESS_WRITE, $breakOnError = false )
     {
@@ -1733,6 +1737,8 @@ abstract class ezcWebdavSimpleBackend
      * 
      * @param string $path 
      * @return ezcWebdavErrorResponse
+     *
+     * @todo Mark protected as soon as API is final.
      */
     private function createUnauthorizedResponse( $path )
     {
