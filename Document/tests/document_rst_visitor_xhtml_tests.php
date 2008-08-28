@@ -44,7 +44,7 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         }
 
         return self::$testDocuments;
-        return array_slice( self::$testDocuments, -7, 1 );
+        return array_slice( self::$testDocuments, 12, 1 );
     }
 
     public function testDifferentDoctypeXml()

@@ -4250,30 +4250,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             19 => 
                             ezcDocumentRstReferenceNode::__set_state(array(
+                               'footnoteType' => 1,
+                               'name' => 
+                              array (
+                                0 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 5,
+                                   'content' => '1',
+                                   'line' => 104,
+                                   'position' => 11,
+                                   'escaped' => false,
+                                )),
+                              ),
                                'target' => false,
                                'line' => 104,
                                'position' => 13,
                                'type' => 43,
                                'nodes' => 
                               array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 104,
-                                   'position' => 11,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 5,
-                                     'content' => '1',
-                                     'line' => 104,
-                                     'position' => 11,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
@@ -4305,30 +4299,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             21 => 
                             ezcDocumentRstReferenceNode::__set_state(array(
+                               'footnoteType' => 2,
+                               'name' => 
+                              array (
+                                0 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 4,
+                                   'content' => '#',
+                                   'line' => 104,
+                                   'position' => 41,
+                                   'escaped' => false,
+                                )),
+                              ),
                                'target' => false,
                                'line' => 104,
                                'position' => 43,
                                'type' => 43,
                                'nodes' => 
                               array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 104,
-                                   'position' => 41,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 4,
-                                     'content' => '#',
-                                     'line' => 104,
-                                     'position' => 41,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
@@ -4360,48 +4348,32 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             23 => 
                             ezcDocumentRstReferenceNode::__set_state(array(
+                               'footnoteType' => 4,
+                               'name' => 
+                              array (
+                                0 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 4,
+                                   'content' => '#',
+                                   'line' => 105,
+                                   'position' => 2,
+                                   'escaped' => false,
+                                )),
+                                1 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 5,
+                                   'content' => 'label',
+                                   'line' => 105,
+                                   'position' => 3,
+                                   'escaped' => false,
+                                )),
+                              ),
                                'target' => false,
                                'line' => 105,
                                'position' => 9,
                                'type' => 43,
                                'nodes' => 
                               array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 105,
-                                   'position' => 2,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 4,
-                                     'content' => '#',
-                                     'line' => 105,
-                                     'position' => 2,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
-                                1 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 105,
-                                   'position' => 3,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 5,
-                                     'content' => 'label',
-                                     'line' => 105,
-                                     'position' => 3,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
@@ -4433,30 +4405,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             25 => 
                             ezcDocumentRstReferenceNode::__set_state(array(
+                               'footnoteType' => 8,
+                               'name' => 
+                              array (
+                                0 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 4,
+                                   'content' => '*',
+                                   'line' => 105,
+                                   'position' => 25,
+                                   'escaped' => false,
+                                )),
+                              ),
                                'target' => false,
                                'line' => 105,
                                'position' => 27,
                                'type' => 43,
                                'nodes' => 
                               array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 105,
-                                   'position' => 25,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 4,
-                                     'content' => '*',
-                                     'line' => 105,
-                                     'position' => 25,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
@@ -4488,30 +4454,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             27 => 
                             ezcDocumentRstReferenceNode::__set_state(array(
+                               'footnoteType' => 16,
+                               'name' => 
+                              array (
+                                0 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 5,
+                                   'content' => 'CIT2002',
+                                   'line' => 105,
+                                   'position' => 53,
+                                   'escaped' => false,
+                                )),
+                              ),
                                'target' => false,
                                'line' => 105,
                                'position' => 61,
                                'type' => 43,
                                'nodes' => 
                               array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 105,
-                                   'position' => 53,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 5,
-                                     'content' => 'CIT2002',
-                                     'line' => 105,
-                                     'position' => 53,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
@@ -14751,6 +14711,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                       ),
                        'number' => NULL,
+                       'footnoteType' => 1,
                        'line' => 333,
                        'position' => 1,
                        'type' => 54,
@@ -14865,6 +14826,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                       ),
                        'number' => NULL,
+                       'footnoteType' => 4,
                        'line' => 338,
                        'position' => 1,
                        'type' => 54,
@@ -14898,30 +14860,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             1 => 
                             ezcDocumentRstReferenceNode::__set_state(array(
+                               'footnoteType' => 1,
+                               'name' => 
+                              array (
+                                0 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 5,
+                                   'content' => '1',
+                                   'line' => 338,
+                                   'position' => 51,
+                                   'escaped' => false,
+                                )),
+                              ),
                                'target' => false,
                                'line' => 338,
                                'position' => 53,
                                'type' => 43,
                                'nodes' => 
                               array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 338,
-                                   'position' => 51,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 5,
-                                     'content' => '1',
-                                     'line' => 338,
-                                     'position' => 51,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
@@ -14953,48 +14909,32 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             3 => 
                             ezcDocumentRstReferenceNode::__set_state(array(
+                               'footnoteType' => 4,
+                               'name' => 
+                              array (
+                                0 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 4,
+                                   'content' => '#',
+                                   'line' => 341,
+                                   'position' => 12,
+                                   'escaped' => false,
+                                )),
+                                1 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 5,
+                                   'content' => 'label',
+                                   'line' => 341,
+                                   'position' => 13,
+                                   'escaped' => false,
+                                )),
+                              ),
                                'target' => false,
                                'line' => 341,
                                'position' => 19,
                                'type' => 43,
                                'nodes' => 
                               array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 341,
-                                   'position' => 12,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 4,
-                                     'content' => '#',
-                                     'line' => 341,
-                                     'position' => 12,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
-                                1 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 341,
-                                   'position' => 13,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 5,
-                                     'content' => 'label',
-                                     'line' => 341,
-                                     'position' => 13,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
@@ -15173,6 +15113,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                       ),
                        'number' => NULL,
+                       'footnoteType' => 2,
                        'line' => 345,
                        'position' => 1,
                        'type' => 54,
@@ -15317,6 +15258,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                       ),
                        'number' => NULL,
+                       'footnoteType' => 8,
                        'line' => 352,
                        'position' => 1,
                        'type' => 54,
@@ -15350,30 +15292,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             1 => 
                             ezcDocumentRstReferenceNode::__set_state(array(
+                               'footnoteType' => 8,
+                               'name' => 
+                              array (
+                                0 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 4,
+                                   'content' => '*',
+                                   'line' => 353,
+                                   'position' => 38,
+                                   'escaped' => false,
+                                )),
+                              ),
                                'target' => false,
                                'line' => 353,
                                'position' => 40,
                                'type' => 43,
                                'nodes' => 
                               array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 353,
-                                   'position' => 38,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 4,
-                                     'content' => '*',
-                                     'line' => 353,
-                                     'position' => 38,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
@@ -15440,6 +15376,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                       ),
                        'number' => NULL,
+                       'footnoteType' => 8,
                        'line' => 355,
                        'position' => 1,
                        'type' => 54,
@@ -15508,6 +15445,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                       ),
                        'number' => NULL,
+                       'footnoteType' => 1,
                        'line' => 357,
                        'position' => 1,
                        'type' => 54,
@@ -15541,30 +15479,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             1 => 
                             ezcDocumentRstReferenceNode::__set_state(array(
+                               'footnoteType' => 1,
+                               'name' => 
+                              array (
+                                0 => 
+                                ezcDocumentRstToken::__set_state(array(
+                                   'type' => 5,
+                                   'content' => '5',
+                                   'line' => 358,
+                                   'position' => 19,
+                                   'escaped' => false,
+                                )),
+                              ),
                                'target' => false,
                                'line' => 358,
                                'position' => 21,
                                'type' => 43,
                                'nodes' => 
                               array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 358,
-                                   'position' => 19,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 5,
-                                     'content' => '5',
-                                     'line' => 358,
-                                     'position' => 19,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
@@ -15705,6 +15637,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                       ),
                        'number' => NULL,
+                       'footnoteType' => 16,
                        'line' => 363,
                        'position' => 1,
                        'type' => 54,
@@ -15787,30 +15720,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                         1 => 
                         ezcDocumentRstReferenceNode::__set_state(array(
+                           'footnoteType' => 16,
+                           'name' => 
+                          array (
+                            0 => 
+                            ezcDocumentRstToken::__set_state(array(
+                               'type' => 5,
+                               'content' => 'CIT2002',
+                               'line' => 366,
+                               'position' => 35,
+                               'escaped' => false,
+                            )),
+                          ),
                            'target' => false,
                            'line' => 366,
                            'position' => 43,
                            'type' => 43,
                            'nodes' => 
                           array (
-                            0 => 
-                            ezcDocumentRstTextLineNode::__set_state(array(
-                               'line' => 366,
-                               'position' => 35,
-                               'type' => 4,
-                               'nodes' => 
-                              array (
-                              ),
-                               'token' => 
-                              ezcDocumentRstToken::__set_state(array(
-                                 'type' => 5,
-                                 'content' => 'CIT2002',
-                                 'line' => 366,
-                                 'position' => 35,
-                                 'escaped' => false,
-                              )),
-                               'identifier' => NULL,
-                            )),
                           ),
                            'token' => 
                           ezcDocumentRstToken::__set_state(array(
@@ -15842,30 +15769,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                         3 => 
                         ezcDocumentRstReferenceNode::__set_state(array(
+                           'footnoteType' => 16,
+                           'name' => 
+                          array (
+                            0 => 
+                            ezcDocumentRstToken::__set_state(array(
+                               'type' => 5,
+                               'content' => 'nonexistent',
+                               'line' => 366,
+                               'position' => 53,
+                               'escaped' => false,
+                            )),
+                          ),
                            'target' => false,
                            'line' => 366,
                            'position' => 65,
                            'type' => 43,
                            'nodes' => 
                           array (
-                            0 => 
-                            ezcDocumentRstTextLineNode::__set_state(array(
-                               'line' => 366,
-                               'position' => 53,
-                               'type' => 4,
-                               'nodes' => 
-                              array (
-                              ),
-                               'token' => 
-                              ezcDocumentRstToken::__set_state(array(
-                                 'type' => 5,
-                                 'content' => 'nonexistent',
-                                 'line' => 366,
-                                 'position' => 53,
-                                 'escaped' => false,
-                              )),
-                               'identifier' => NULL,
-                            )),
                           ),
                            'token' => 
                           ezcDocumentRstToken::__set_state(array(

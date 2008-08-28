@@ -94,6 +94,25 @@ abstract class ezcDocumentRstVisitor
     protected $footnoteCounter = array( 0 );
 
     /**
+     * Foot note symbol signs, as defined at
+     * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#auto-symbol-footnotes
+     * 
+     * @var array
+     */
+    protected $footnoteSymbols = array(
+        "*",
+        "\xE2\x80\xA0",
+        "\xE2\x80\xA1",
+        "\xC2\xA7",
+        "\xC2\xB6",
+        "#",
+        "\xE2\x99\xA0",
+        "\xE2\x99\xA5",
+        "\xE2\x99\xA6",
+        "\xE2\x99\xA3",
+    );
+
+    /**
      * Aggregated minor errors during document processing.
      * 
      * @var array
@@ -186,6 +205,7 @@ abstract class ezcDocumentRstVisitor
         {
             $this->footnoteCounter[$label] = 0;
         }
+        reset( $this->footnoteSymbols );
 
         // Reset duplicate reference counter
         $this->referenceCounter = array();
@@ -352,49 +372,29 @@ abstract class ezcDocumentRstVisitor
     {
         $identifier = $this->tokenListToString( $node->name );
 
-        if ( is_numeric( $identifier ) )
+        switch ( $node->footnoteType )
         {
-            $number = (int) $identifier;
-            $label  = 0;
-            if ( $identifier > $this->footnoteCounter[0] )
-            {
-                $this->footnoteCounter[$label] = $number;
-            }
-        }
-        elseif ( $identifier[0] === '#' )
-        {
-            $label = ( strlen( $identifier ) > 1 ? substr( $identifier, 1 ) : 0 );
-            
-            if ( !isset( $this->footnoteCounter[$label] ) )
-            {
-                $this->footnoteCounter[$label] = $number = 1;
-            }
-            else
-            {
-                $number = ++$this->footnoteCounter[$label];
-            }
-        }
-        // Footnotes marked with an asterix should actually be rendered with a
-        // number of continiously used symbols. Since docbook does not maintain
-        // any information about those, we just autonumber them for now.
-        elseif ( $identifier[0] === '*' )
-        {
-            $label = '*';
-            
-            if ( !isset( $this->footnoteCounter[$label] ) )
-            {
-                $this->footnoteCounter[$label] = $number = 1;
-            }
-            else
-            {
-                $number = ++$this->footnoteCounter[$label];
-            }
-        }
-        else
-        {
-            // Everything else is cosidered as citation references.
-            $label  = '#';
-            $number = strtolower( trim( $identifier ) );
+            case ezcDocumentRstFootnoteNode::NUMBERED:
+                $label  = 0;
+                $number = (int) $identifier;
+                $this->footnoteCounter[0] = max( $number, $this->footnoteCounter[0] );
+                break;
+            case ezcDocumentRstFootnoteNode::AUTO_NUMBERED:
+                $label  = 0;
+                $number = !isset( $this->footnoteCounter[$label] ) ? ( $this->footnoteCounter[$label] = 1 ) : ++$this->footnoteCounter[$label];
+                break;
+            case ezcDocumentRstFootnoteNode::LABELED:
+                $label  = substr( $identifier, 1 );
+                $number = !isset( $this->footnoteCounter[$label] ) ? ( $this->footnoteCounter[$label] = 1 ) : ++$this->footnoteCounter[$label];
+                break;
+            case ezcDocumentRstFootnoteNode::SYMBOL:
+                $label  = '*';
+                $number = next( $this->footnoteSymbols );
+                break;
+            case ezcDocumentRstFootnoteNode::CITATION:
+                $label  = '#';
+                $number = $identifier;
+                break;
         }
 
         // Store footnote for later rendering in footnote array
@@ -513,63 +513,71 @@ abstract class ezcDocumentRstVisitor
     }
 
     /**
+     * Check for internal footnote reference target
+     *
+     * Returns the target name, when an internal reference target exists and
+     * sets it to used, and false otherwise.
+     *
+     * @param string $string 
+     * @param ezcDocumentRstNode $node
+     * @return ezcDocumentRstFootnoteNode
+     */
+    public function hasFootnoteTarget( $string, ezcDocumentRstNode $node )
+    {
+        switch ( $node->footnoteType )
+        {
+            case ezcDocumentRstFootnoteNode::NUMBERED:
+                $label  = 0;
+                $string = (int) $string;
+                $this->footnoteCounter[0] = max( $string, $this->footnoteCounter[0] );
+                break;
+            case ezcDocumentRstFootnoteNode::AUTO_NUMBERED:
+                $label  = 0;
+                $string = ++$this->footnoteCounter[$label];
+                break;
+            case ezcDocumentRstFootnoteNode::LABELED:
+                $label  = substr( $string, 1 );
+                $string = ++$this->footnoteCounter[$label];
+                break;
+            case ezcDocumentRstFootnoteNode::SYMBOL:
+                $label  = '*';
+                $string = next( $this->footnoteSymbols );
+                break;
+            case ezcDocumentRstFootnoteNode::CITATION:
+                $label  = '#';
+                break;
+        }
+
+        if ( isset( $this->footnotes[$label][$string] ) )
+        {
+            return $this->footnotes[$label][$string];
+        }
+
+        return $this->triggerError(
+            E_WARNING, "Unknown reference target '{$string}'.", null,
+            ( $node !== null ? $node->token->line : null ),
+            ( $node !== null ? $node->token->position : null )
+        );
+    }
+
+    /**
      * Check for internal reference target
      *
      * Returns the target name, when an internal reference target exists and
      * sets it to used, and false otherwise. For duplicate reference targets
      * and missing reference targets an error will be triggered.
      *
-     * An optional second parameter may enforce the fetching of the reference,
+     * An optional third parameter may enforce the fetching of the reference,
      * even if there are duplicates, so that they still can be referenced in
      * some way.
      *
      * @param string $string 
      * @param ezcDocumentRstNode $node 
      * @param bool $force 
-     * @return void
+     * @return string
      */
     public function hasReferenceTarget( $string, ezcDocumentRstNode $node = null, $force = false )
     {
-        // Check if the target name is a footnote reference
-        if ( is_numeric( $string ) )
-        {
-            // We found a labelless footnote
-            if ( isset( $this->footnotes[0][$number = (int) $string] ) )
-            {
-                $this->footnoteCounter[0] = $number;
-                return $this->footnotes[0][$number];
-            }
-
-            return $this->triggerError(
-                E_WARNING, "Unknown reference target '{$string}'.", null,
-                ( $node !== null ? $node->token->line : null ),
-                ( $node !== null ? $node->token->position : null )
-            );
-        }
-        elseif ( ( strlen( $string ) > 0 ) &&
-                 ( $string[0] === '#' ) )
-        {
-            // We found a (labeled) autonumbered footnote.
-            $label = ( strlen( $string ) > 1 ? substr( $string, 1 ) : 0 );
-            $number = ++$this->footnoteCounter[$label];
-
-            if ( isset( $this->footnotes[$label][$number] ) )
-            {
-                return $this->footnotes[$label][$number];
-            }
-
-            return $this->triggerError(
-                E_WARNING, "Unknown reference target '{$string}'.", null,
-                ( $node !== null ? $node->token->line : null ),
-                ( $node !== null ? $node->token->position : null )
-            );
-        }
-        elseif ( isset( $this->footnotes['#'][$ref = strtolower( trim( $string ) )] ) )
-        {
-            // We found a citation reference.
-            return $this->footnotes['#'][$ref];
-        }
-
         $id = $this->calculateId( $string );
         if ( isset( $this->references[$id] ) &&
              ( $this->references[$id] !== self::DUBLICATE ) )

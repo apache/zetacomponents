@@ -518,30 +518,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             15 => 
             ezcDocumentRstReferenceNode::__set_state(array(
+               'footnoteType' => 1,
+               'name' => 
+              array (
+                0 => 
+                ezcDocumentRstToken::__set_state(array(
+                   'type' => 5,
+                   'content' => '1',
+                   'line' => 7,
+                   'position' => 52,
+                   'escaped' => false,
+                )),
+              ),
                'target' => false,
                'line' => 7,
                'position' => 54,
                'type' => 43,
                'nodes' => 
               array (
-                0 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 7,
-                   'position' => 52,
-                   'type' => 4,
-                   'nodes' => 
-                  array (
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 5,
-                     'content' => '1',
-                     'line' => 7,
-                     'position' => 52,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(
@@ -573,30 +567,24 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             17 => 
             ezcDocumentRstReferenceNode::__set_state(array(
+               'footnoteType' => 16,
+               'name' => 
+              array (
+                0 => 
+                ezcDocumentRstToken::__set_state(array(
+                   'type' => 5,
+                   'content' => 'CIT2002',
+                   'line' => 8,
+                   'position' => 3,
+                   'escaped' => false,
+                )),
+              ),
                'target' => false,
                'line' => 8,
                'position' => 11,
                'type' => 43,
                'nodes' => 
               array (
-                0 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
-                   'line' => 8,
-                   'position' => 3,
-                   'type' => 4,
-                   'nodes' => 
-                  array (
-                  ),
-                   'token' => 
-                  ezcDocumentRstToken::__set_state(array(
-                     'type' => 5,
-                     'content' => 'CIT2002',
-                     'line' => 8,
-                     'position' => 3,
-                     'escaped' => false,
-                  )),
-                   'identifier' => NULL,
-                )),
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(

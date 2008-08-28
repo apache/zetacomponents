@@ -26,7 +26,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         'ezcDocumentRstTextLineNode'              => 'visitText',
         'ezcDocumentRstLiteralNode'               => 'visitText',
         'ezcDocumentRstExternalReferenceNode'     => 'visitExternalReference',
-        'ezcDocumentRstReferenceNode'             => 'visitInternalReference',
+        'ezcDocumentRstReferenceNode'             => 'visitInternalFootnoteReference',
         'ezcDocumentRstAnonymousLinkNode'         => 'visitAnonymousReference',
         'ezcDocumentRstMarkupSubstitutionNode'    => 'visitSubstitutionReference',
         'ezcDocumentRstMarkupInterpretedTextNode' => 'visitChildren',
@@ -300,26 +300,23 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function visitInternalReference( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitInternalFootnoteReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $target = $this->hasReferenceTarget( $this->nodeToString( $node ), $node );
+        $identifier = $this->tokenListToString( $node->name );
+        $target = $this->hasFootnoteTarget( $identifier, $node );
 
-        if ( $target instanceof ezcDocumentRstFootnoteNode )
+        switch ( $node->footnoteType )
         {
-            // The displayed label of a footnote may not be specified in
-            // docbook, so we just add the footnote node.
-            $this->visitFootnote( $root, $target );
-        }
-        else
-        {
-            $link = $this->document->createElement( 'link' );
-            $link->setAttribute( 'linked', htmlspecialchars( $target ) );
-            $root->appendChild( $link );
+            case ezcDocumentRstFootnoteNode::CITATION:
+                // This is a citation reference footnote, which should be
+                // visited differently from normal footnotes.
+                $this->visitCitation( $root, $target );
+                break;
 
-            foreach ( $node->nodes as $child )
-            {
-                $this->visitNode( $link, $child );
-            }
+            default:
+                // The displayed label of a footnote may not be specified in
+                // docbook, so we just add the footnote node.
+                $this->visitFootnote( $root, $target );
         }
     }
 
@@ -378,6 +375,24 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         foreach ( $node->nodes as $child )
         {
             $this->visitNode( $root, $child );
+        }
+    }
+
+    /**
+     * Visit citation
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitCitation( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        $footnote = $this->document->createElement( 'citation' );
+        $root->appendChild( $footnote );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $footnote, $child );
         }
     }
 

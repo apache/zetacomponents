@@ -10,7 +10,7 @@
  */
 
 /**
- * The external reference AST node
+ * The internal footnote reference AST node
  * 
  * @package Document
  * @version //autogen//
@@ -19,14 +19,30 @@
 class ezcDocumentRstReferenceNode extends ezcDocumentRstLinkNode
 {
     /**
+     * Type of footnote. May be either a normal footnote, or a citation
+     * reference.
+     * 
+     * @var int
+     */
+    public $footnoteType = ezcDocumentRstFootnoteNode::NUMBERED;
+
+    /**
+     * Tokens containing the footnote name
+     * 
+     * @var array
+     */
+    public $name = array();
+
+    /**
      * Construct RST document node
      * 
      * @param ezcDocumentRstToken $token
      * @return void
      */
-    public function __construct( ezcDocumentRstToken $token )
+    public function __construct( ezcDocumentRstToken $token, $footnoteType = ezcDocumentRstFootnoteNode::NUMBERED )
     {
         parent::__construct( $token, self::REFERENCE );
+        $this->footnoteType = $footnoteType;
     }
 
     /**
@@ -42,7 +58,9 @@ class ezcDocumentRstReferenceNode extends ezcDocumentRstLinkNode
             $properties['token']
         );
 
-        $node->nodes  = $properties['nodes'];
+        $node->name         = $properties['name'];
+        $node->nodes        = $properties['nodes'];
+        $node->footnoteType = $properties['footnoteType'];
         return $node;
     }
 }

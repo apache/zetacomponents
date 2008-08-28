@@ -32,7 +32,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         'ezcDocumentRstBlockquoteNode'            => 'visitBlockquote',
         'ezcDocumentRstBulletListListNode'        => 'visitBulletList',
         'ezcDocumentRstEnumeratedListListNode'    => 'visitEnumeratedList',
-        'ezcDocumentRstReferenceNode'             => 'visitInternalReference',
+        'ezcDocumentRstReferenceNode'             => 'visitInternalFootnoteReference',
         'ezcDocumentRstLineBlockNode'             => 'visitLineBlock',
         'ezcDocumentRstLineBlockLineNode'         => 'visitLineBlockLine',
         'ezcDocumentRstLiteralNode'               => 'visitText',
@@ -451,30 +451,17 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      * @param ezcDocumentRstNode $node 
      * @return void
      */
-    protected function visitInternalReference( DOMNode $root, ezcDocumentRstNode $node )
+    protected function visitInternalFootnoteReference( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $target = $this->hasReferenceTarget( $this->nodeToString( $node ), $node );
+        $identifier = $this->tokenListToString( $node->name );
+        $target = $this->hasFootnoteTarget( $identifier, $node );
 
-        if ( $target instanceof ezcDocumentRstFootnoteNode )
-        {
-            // The displayed label of a footnote may not be specified in
-            // docbook, so we just add the footnote node.
-            $link = $this->document->createElement( 'a', $target->number );
-            $link->setAttribute( 'href', '#' . htmlspecialchars( 'footnote_' . $target->name . '_' . $target->number ) );
-            $link->setAttribute( 'class', 'footnote' );
-            $root->appendChild( $link );
-        }
-        else
-        {
-            $link = $this->document->createElement( 'a' );
-            $link->setAttribute( 'href', '#' . htmlspecialchars( $target ) );
-            $root->appendChild( $link );
-
-            foreach ( $node->nodes as $child )
-            {
-                $this->visitNode( $link, $child );
-            }
-        }
+        // The displayed label of a footnote may not be specified in
+        // docbook, so we just add the footnote node.
+        $link = $this->document->createElement( 'a', $target->number );
+        $link->setAttribute( 'href', '#' . $this->generateFootnoteReferenceLink( $target->name, $target->number ) );
+        $link->setAttribute( 'class', 'footnote' );
+        $root->appendChild( $link );
     }
 
     /**
@@ -621,6 +608,26 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         }
     }
 
+    protected function generateFootnoteReferenceLink( $name, $number )
+    {
+        return '_footnote_' . str_replace(
+            $this->footnoteSymbols,
+            array(
+                'asterisk',
+                'dagger',
+                'double_dagger',
+                'section_mark',
+                'pilcrow',
+                'number_sign',
+                'spade',
+                'heart',
+                'diamond',
+                'club',
+            ),
+            $name . '_' . $number
+        );
+    }
+
     /**
      * Visit footnote
      * 
@@ -634,7 +641,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         $root->appendChild( $footnote );
 
         $link = $this->document->createElement( 'a', $node->number );
-        $link->setAttribute( 'name', htmlspecialchars( 'footnote_' . $node->name . '_' . $node->number ) );
+        $link->setAttribute( 'name', $this->generateFootnoteReferenceLink( $node->name, $node->number ) );
         $footnote->appendChild( $link );
 
         foreach ( $node->nodes as $child )

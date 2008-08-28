@@ -5,6 +5,8 @@ Complex footnotes
 [#]_ will be "3" (anonymous auto-numbered), and
 [#label]_ will be "1" (labeled auto-numbered).
 
+Some[*]_ footnotes[*]_ using[*]_ symbols[*]_.
+
 .. [2] This footnote is labeled manually, so its number is fixed.
 
 .. [#label] This autonumber-labeled footnote will be labeled "1".
@@ -14,4 +16,9 @@ Complex footnotes
 
 .. [#] This footnote will be labeled "3".  It is the second
    auto-numbered footnote, but footnote label "2" is already used.
+
+.. [*] Footnote.
+.. [*] Footnote.
+.. [*] Footnote.
+.. [*] Footnote.
 

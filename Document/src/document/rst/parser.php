@@ -1296,6 +1296,34 @@ class ezcDocumentRstParser extends ezcDocumentParser
     }
 
     /**
+     * Tries to detect footnote type
+     *
+     * The type of the footnote 
+     * 
+     * @param array $name 
+     * @return void
+     */
+    protected function detectFootnoteType( array $name )
+    {
+        $firstToken = reset( $name );
+        switch ( $firstToken->content )
+        {
+            case '*':
+                return ezcDocumentRstFootnoteNode::SYMBOL;
+
+            case '#':
+                return count( $name ) === 1 ?
+                    ezcDocumentRstFootnoteNode::AUTO_NUMBERED :
+                    ezcDocumentRstFootnoteNode::LABELED;
+
+            default:
+                return is_numeric( $firstToken->content ) ?
+                    ezcDocumentRstFootnoteNode::NUMBERED :
+                    ezcDocumentRstFootnoteNode::CITATION;
+        }
+    }
+
+    /**
      * Detect reference
      *
      * As defined at:
@@ -2236,7 +2264,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                         /* DEBUG
                         echo "  -> Footnote target successfully found.\n";
                         // /DEBUG */
-                        $node = new ezcDocumentRstFootnoteNode( $token, array_slice( $name, 1, -1 ) );
+                        $node = new ezcDocumentRstFootnoteNode( $token, $name = array_slice( $name, 1, -1 ), $this->detectFootnotetype( $name ) );
                         // With the name we find the associated contents, which
                         // may span multiple lines, so that this is done by a
                         // seperate method.
@@ -4147,7 +4175,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 // We found the nearest matching open tag. Append all included
                 // stuff as child nodes and add the closing tag to the document
                 // stack.
-                $node->nodes = $childs;
+                $node->name         = $childs;
+                $node->footnoteType = $this->detectFootnotetype( $childs );
                 return $node;
             }
 
@@ -4156,7 +4185,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // /DEBUG */
 
             // Append unusable but inline node to potential child list.
-            array_unshift( $childs, $child );
+            array_unshift( $childs, $child->token );
         }
 
         // We did not find an opening node.
