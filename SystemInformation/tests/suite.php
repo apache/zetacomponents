@@ -1,25 +1,25 @@
 <?php
 /**
-* ezcSystemInfo
-*
-* @package SystemInformation
-* @subpackage Tests
-* @version //autogentag//
-* @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
-* @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-*/
+ * ezcSystemInfo
+ *
+ * @package SystemInformation
+ * @subpackage Tests
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
 /**
-* Require test suite for SystemInformation class.
-*/
+ * Require test suite for SystemInformation class.
+ */
 require_once 'sysinfo_test.php';
 
 /**
-* Test suite for SystemInformation package.
-*
-* @package SystemInformation
-* @subpackage Tests
-*/
+ * Test suite for SystemInformation package.
+ *
+ * @package SystemInformation
+ * @subpackage Tests
+ */
 class ezcSystemInformationSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
